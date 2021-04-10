@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -23,6 +22,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteResonator;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

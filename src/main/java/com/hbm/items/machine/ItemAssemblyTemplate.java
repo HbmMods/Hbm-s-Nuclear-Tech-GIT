@@ -1,28 +1,54 @@
 package com.hbm.items.machine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemAssemblyTemplate extends Item {
+	
+    @SideOnly(Side.CLIENT)
+    protected IIcon hiddenIcon;
 
     public ItemAssemblyTemplate()
     {
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta) {
+    	
+    	ComparableStack stack = AssemblerRecipes.recipeList.get(meta);
+    	
+    	if(AssemblerRecipes.hidden.get(stack) != null)
+    		return this.hiddenIcon;
+    	
+		return this.itemIcon;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg) {
+    	super.registerIcons(reg);
+        this.hiddenIcon = reg.registerIcon(this.iconString + "_secret");
     }
 
     public String getItemStackDisplayName(ItemStack stack)
@@ -84,6 +110,22 @@ public class ItemAssemblyTemplate extends Item {
     	
     	ComparableStack out = AssemblerRecipes.recipeList.get(i);
     	
+    	HashSet<Item> folders = AssemblerRecipes.hidden.get(out);
+    	
+    	if(folders == null)
+    		folders = new HashSet() {{ add(ModItems.template_folder); }};
+    	
+    	String[] names = new String[folders.size()];
+    	
+    	int a = 0;
+    	for(Item folder : folders) {
+    		names[a] = I18nUtil.resolveKey(folder.getUnlocalizedName() + ".name");
+    		a++;
+    	}
+    	
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", String.join(" / ", names)));
+		list.add("");
+    	
     	if(out == null) {
     		list.add("I AM ERROR");
     		return;
@@ -98,11 +140,9 @@ public class ItemAssemblyTemplate extends Item {
     	
     	ItemStack output = out.toStack();
     	
-		list.add("Output:");
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out"));
 		list.add(output.stackSize + "x " + output.getDisplayName());
-		list.add("Inputs:");
-		
-		Random rand = new Random(System.currentTimeMillis() / 1000);
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 		
 		for(Object o : in) {
 			
@@ -115,7 +155,7 @@ public class ItemAssemblyTemplate extends Item {
 				ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
 				
 				if(ores.size() > 0) {
-					ItemStack inStack = ores.get(rand.nextInt(ores.size()));
+					ItemStack inStack = ores.get((int) (Math.abs(System.currentTimeMillis() / 1000) % ores.size()));
 		    		list.add(input.stacksize + "x " + inStack.getDisplayName());
 				} else {
 		    		list.add("I AM ERROR");
@@ -123,8 +163,8 @@ public class ItemAssemblyTemplate extends Item {
 			}
 		}
 		
-		list.add("Production time:");
-    	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_time"));
+    	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " " + I18nUtil.resolveKey("info.template_seconds"));
 	}
 
     /*@Override

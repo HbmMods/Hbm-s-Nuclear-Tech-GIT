@@ -8,11 +8,11 @@ import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTeslaCrab;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

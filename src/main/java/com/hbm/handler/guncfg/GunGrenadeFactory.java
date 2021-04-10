@@ -2,9 +2,11 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -176,7 +178,14 @@ public class GunGrenadeFactory {
 		bullet.ammo = ModItems.ammo_grenade_nuclear;
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
-		bullet.nuke = 15;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
+			}
+		};
 		
 		return bullet;
 	}

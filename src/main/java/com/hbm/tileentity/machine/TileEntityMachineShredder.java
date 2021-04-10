@@ -277,9 +277,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 				
 				for (int outSlot = 9; outSlot < 27; outSlot++)
 				{
-					if (slots[outSlot] != null && slots[outSlot].getItem() == outp.getItem() && slots[outSlot].stackSize + outp.stackSize <= outp.getMaxStackSize()) {
-						
-						System.out.println(outp.getUnlocalizedName() + " is equal to " + slots[outSlot].getUnlocalizedName());
+					if (slots[outSlot] != null && slots[outSlot].getItem() == outp.getItem() && 
+							slots[outSlot].getItemDamage() == outp.getItemDamage() &&
+							slots[outSlot].stackSize + outp.stackSize <= outp.getMaxStackSize()) {
 						
 						slots[outSlot].stackSize += outp.stackSize;
 						slots[inpSlot].stackSize -= 1;

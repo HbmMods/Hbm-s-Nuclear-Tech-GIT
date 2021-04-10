@@ -57,12 +57,12 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			int powerReq = 10000;
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getFill());
-			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()) * 2);
+			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()));
 			convert = Math.min(convert, maxConv);
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
 			
-			if(convert > 0) {
+			if(convert > 0 && plasma.getTankType() != FluidType.NONE) {
 
 				tanks[0].setFill(tanks[0].getFill() - convert);
 				tanks[1].setFill(tanks[1].getFill() - convert);
@@ -165,6 +165,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
+		this.power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "fuel_1");
 		tanks[1].readFromNBT(nbt, "fuel_2");
 		plasma.readFromNBT(nbt, "plasma");
@@ -174,21 +175,10 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "fuel_1");
 		tanks[1].writeToNBT(nbt, "fuel_2");
 		plasma.writeToNBT(nbt, "plasma");
-	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
 	}
 
 	@Override
@@ -266,5 +256,17 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

@@ -40,18 +40,20 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IConsu
 			
 			if(canProcess()) {
 				
-				if(speed == maxSpeed) {
+				if(speed >= maxSpeed) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 7.5F, true, true);
 					return;
 				}
 				
-				power -= consumption;
-				time += speed;
-				
 				if(time >= maxTime) {
 					process();
 					time = 0;
+				}
+				
+				if(canProcess()) {
+					power -= consumption;
+					time += speed * 2;
 				}
 			}
 			
@@ -122,6 +124,26 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IConsu
 		
 		return false;
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i == 0 && FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		return this.isItemValidForSlot(i, itemStack);
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 1;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? new int[] { 1 } : new int[] { 0 };
+	}
 	
 	public long getPowerScaled(int i) {
 		return (power * i) / maxPower;
@@ -161,5 +183,20 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IConsu
 	public long getMaxPower() {
 		return maxPower;
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		power = nbt.getLong("power");
+		speed = nbt.getInteger("speed");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
 
+		nbt.setLong("power", power);
+		nbt.setInteger("speed", speed);
+	}
 }

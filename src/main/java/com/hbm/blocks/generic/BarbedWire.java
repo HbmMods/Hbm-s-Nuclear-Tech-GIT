@@ -1,10 +1,11 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -80,10 +81,12 @@ public class BarbedWire extends Block {
     {
         return null;
     }
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
     public int getRenderType()
     {
-        return 334083;
+        return renderID;
     }
 
     public boolean renderAsNormalBlock()

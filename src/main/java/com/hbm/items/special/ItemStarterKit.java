@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,6 +15,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -453,6 +455,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_cloud, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pink_cloud, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_smart, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_stunning, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mirv, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_breach, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_burst, 16));
@@ -463,6 +466,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lemon, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gascan, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mk2, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lunatic, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_aschrab, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuke, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuclear, 16));
@@ -571,7 +575,7 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.stealth_boy)
 		{
-			player.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30 * 20, 0, true));
+			player.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30 * 20, 1, true));
 		}
 		
 		if(this == ModItems.euphemium_kit)
@@ -600,6 +604,23 @@ public class ItemStarterKit extends Item {
 			giveHaz(world, player, 2);
 		}
 		
+		if (this == ModItems.pack_fdd)
+		{
+			player.inventory.addItemStackToInventory(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd, 10));
+		}
+		if (this == ModItems.lunar_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_helmet));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_plate));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_legs));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_boots));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lunatic, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.can_luna, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_starmetal, 32));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystal_starmetal, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pancake, 8));
+		}
+		
 		if(this == ModItems.letter && world.isRemote)
 		{
 			if(player.getUniqueID().toString().equals(Library.a20)) {
@@ -613,6 +634,19 @@ public class ItemStarterKit extends Item {
 		stack.stackSize--;
 		return stack;
 		
+	}
+	
+	@Override
+	public EnumRarity getRarity(ItemStack stack)
+	{
+		if (this == ModItems.lunar_kit)
+		{
+			return EnumRarity.rare;
+		}
+		else
+		{
+			return EnumRarity.common;
+		}
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -634,7 +668,8 @@ public class ItemStarterKit extends Item {
     			this == ModItems.t45_kit ||
     			this == ModItems.grenade_kit ||
     			this == ModItems.missile_kit ||
-    			this == ModItems.multi_kit) {
+    			this == ModItems.multi_kit ||
+    			this == ModItems.lunar_kit) {
     		list.add("Please empty inventory before opening!");
     	}
     	if(this == ModItems.nuke_starter_kit ||
@@ -650,6 +685,10 @@ public class ItemStarterKit extends Item {
     			this == ModItems.solinium_kit ||
     			this == ModItems.hazmat_kit) {
     		list.add("Armor will be displaced by hazmat suit.");
+    	}
+    	if (this == ModItems.pack_fdd)
+    	{
+    		list.add("What a bargain!");
     	}
     }
 

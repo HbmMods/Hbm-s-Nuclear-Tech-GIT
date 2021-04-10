@@ -16,6 +16,7 @@ import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -492,7 +493,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public boolean hasFuse() {
-		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && slots[38].getItemDamage() < slots[38].getMaxDamage();
+		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemCapacitor.getDura(slots[38]) > 0;
 	}
 	
 	@Override
@@ -554,7 +555,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 			//Only damages filter when heat is present (thus waste being created)
 			if (heatList > 0) {
-				slots[38].setItemDamage(slots[38].getItemDamage() + 1);
+				ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
 			}
 
 			heatList *= heatMultiplier;
@@ -578,21 +579,6 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tank.unloadTank(36, 39, slots);
-			
-			if(slots[36] != null && slots[36].getItem() == ModItems.titanium_filter && slots[36].getItemDamage() + 100 <= slots[36].getMaxDamage())
-			{
-				if(tank.getFill() - 10 >= 0)
-				{
-					tank.setFill(tank.getFill() - 10);
-					slots[36].setItemDamage(slots[36].getItemDamage() + 100);
-				} else {
-					if(tank.getFill() > 0)
-					{
-						tank.setFill(0);
-						slots[36].setItemDamage(slots[36].getItemDamage() + 100);
-					}
-				}
-			}
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}

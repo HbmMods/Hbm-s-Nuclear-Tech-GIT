@@ -2,13 +2,13 @@
 {
   "modid": "hbm",
   "name": "Hbm's Nuclear Tech",
-  "description": "A mod that adds weapons, nuclear themed stuff and machines",
-  "version":"1.0.27-3365",
+  "description": "A mod that adds weapons, nuclear themed stuff and machines; UFFR's port: Supercomputer, data storage mediums, TWR placeholder, desh stamps?!?!, some kind of pseudo-internet",
+  "version":"1.0.27-3822a",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
   "authorList": ["HbMinecraft"],
-  "credits": "rodolphito, Tamaized, grangerave, Hoboy, HBM",
+  "credits": "rodolphito, grangerave, Hoboy, Doctor17, Drillgon200, HBM, UFFR",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

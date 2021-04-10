@@ -64,7 +64,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_assembler.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_assembler.png";
 	}
 	
 	@Override

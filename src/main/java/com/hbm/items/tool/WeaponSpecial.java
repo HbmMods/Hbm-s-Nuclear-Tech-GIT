@@ -7,16 +7,15 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -65,37 +64,6 @@ public class WeaponSpecial extends ItemSword {
         	world.playSoundAtEntity(entity, "hbm:weapon.bonk", 3.0F, 1.0F);
 		}
 
-		if(this == ModItems.pch) {
-
-        	world.playSoundAtEntity(entity, "hbm:weapon.bodysplat", 10.0F, 1.0F);
-        	
-			if(entity instanceof EntityHorse) {
-				
-				for(int i = 0; i < 10; i++) {
-					EntityHorse horse = (EntityHorse) ((EntityHorse) entity).createChild((EntityHorse)entity);
-					horse.setPositionAndRotation(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-					horse.setGrowingAge(-24000);
-					world.spawnEntityInWorld(horse);
-				}
-				
-				return false;
-			}
-			
-			if (!world.isRemote)
-        	{
-        		entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 20, 0));
-        	}
-			
-			Vec3 vec = entityPlayer.getLookVec();
-			double dX = vec.xCoord * 10;
-			double dY = vec.yCoord * 10;
-			double dZ = vec.zCoord * 10;
-
-			entity.motionX += dX;
-			entity.motionY += dY;
-			entity.motionZ += dZ;
-		}
-
 		if(this == ModItems.bottle_opener) {
 			if (!world.isRemote)
         	{
@@ -134,10 +102,27 @@ public class WeaponSpecial extends ItemSword {
 		}
     	
 		if(this == ModItems.shimmer_axe) {
-			
 			entity.setHealth(entity.getHealth() / 2);
 			
         	world.playSoundAtEntity(entity, "hbm:weapon.slice", 3.0F, 1.F);
+		}
+    	
+		if(this == ModItems.wood_gavel) {
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+		}
+    	
+		if(this == ModItems.lead_gavel) {
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+        	
+			entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 15 * 20, 4));
+		}
+		
+		if(this == ModItems.diamond_gavel) {
+			
+			float ded = entity.getMaxHealth() / 3;
+			entity.setHealth(entity.getHealth() - ded);
+			
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
 		}
     	
 		if(this == ModItems.wrench) {
@@ -272,9 +257,6 @@ public class WeaponSpecial extends ItemSword {
 			list.add("Even though it says \"+1000000000");
 			list.add("damage\", it's actually \"onehit anything\"");
 		}
-		if(this == ModItems.pch) {
-			list.add("How am I not locked up yet?");
-		}
 		if(this == ModItems.ullapool_caber) {
 			list.add("High-yield Scottish face removal.");
 			list.add("A sober person would throw it...");
@@ -312,6 +294,18 @@ public class WeaponSpecial extends ItemSword {
 			list.add(EnumChatFormatting.AQUA + "Deals crits while the wielder is rocket jumping");
 			list.add(EnumChatFormatting.RED + "20% slower firing speed");
 			list.add(EnumChatFormatting.RED + "No random critical hits");
+		}
+
+		if(this == ModItems.wood_gavel) {
+			list.add("Thunk!");
+		}
+		if(this == ModItems.lead_gavel) {
+			list.add("You are hereby sentenced to lead poisoning.");
+		}
+		if(this == ModItems.diamond_gavel) {
+			list.add("The joke! It makes sense now!!");
+			list.add("");
+			list.add(EnumChatFormatting.BLUE + "Deals as much damage as it needs to.");
 		}
 	}
 

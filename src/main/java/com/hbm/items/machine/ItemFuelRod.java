@@ -2,7 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.items.special.ItemRadioactive;
+import com.hbm.items.special.ItemHazard;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemFuelRod extends ItemRadioactive {
+public class ItemFuelRod extends ItemHazard {
 
 	public int lifeTime;
 	public int heat;

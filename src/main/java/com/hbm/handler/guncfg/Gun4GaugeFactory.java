@@ -9,8 +9,11 @@ import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -21,8 +24,12 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class Gun4GaugeFactory {
 	
@@ -67,6 +74,10 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
 		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
+		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
+		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_VOID);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -121,6 +132,10 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
 		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
+		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
+		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_VOID);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -307,11 +322,155 @@ public class Gun4GaugeFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration getGrenadeCanisterConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_canister;
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.0D;
+		bullet.wear = 15;
+		bullet.explosive = 1F;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.trail = 4;
+		bullet.vPFX = "smoke";
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					if(bullet.ticksExisted > 10) {
+						bullet.setDead();
+						
+						for(int i = 0; i < 50; i++) {
+							
+							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
+							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
+							bullet.worldObj.spawnEntityInWorld(bolt);
+						}
+					}
+				}
+			}
+		};
+		
+		return bullet;
+	}
+
 	public static BulletConfiguration get4GaugeSleekConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
 		bullet.ammo = ModItems.ammo_4gauge_sleek;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get4GaugeClawConfig() {
+		
+		BulletConfiguration bullet = get4GaugeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_claw;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 9;
+		bullet.bulletsMin *= 2;
+		bullet.bulletsMax *= 2;
+		bullet.leadChance = 100;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityLivingBase) {
+					EntityLivingBase living = (EntityLivingBase) hit;
+					float f = living.getHealth();
+					
+					if(f > 0) {
+						f = Math.max(0, f - 2);
+						living.setHealth(f);
+						
+						if(f == 0)
+							living.onDeath(ModDamageSource.causeBulletDamage(bullet, hit));
+					}
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get4GaugeVampireConfig() {
+		
+		BulletConfiguration bullet = get4GaugeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_vampire;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 9;
+		bullet.bulletsMin *= 2;
+		bullet.bulletsMax *= 2;
+		bullet.leadChance = 100;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) hit;
+					
+					IExtendedEntityProperties prop = player.getExtendedProperties("WitcheryExtendedPlayer");
+					
+					NBTTagCompound blank = new NBTTagCompound();
+					blank.setTag("WitcheryExtendedPlayer", new NBTTagCompound());
+					
+					if(prop != null) {
+						prop.loadNBTData(blank);
+					}
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get4GaugeVoidConfig() {
+		
+		BulletConfiguration bullet = get4GaugeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_void;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 9;
+		bullet.bulletsMin *= 2;
+		bullet.bulletsMax *= 2;
+		bullet.leadChance = 0;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) hit;
+					
+					player.inventory.dropAllItems();
+					player.worldObj.newExplosion(bullet.shooter, player.posX, player.posY, player.posZ, 5.0F, true, true);
+				}
+			}
+		};
 		
 		return bullet;
 	}

@@ -34,6 +34,8 @@ public class FuelHandler implements IFuelHandler {
 			return 1600;
 		if(fuel.getItem() == ModItems.coke)
 			return 3200;
+		if(fuel.getItem() == ModItems.book_guide)
+			return 800;
 		
 		return 0;
 	}

@@ -2,12 +2,12 @@ package com.hbm.items.bomb;
 
 import java.util.List;
 
-import com.hbm.items.special.ItemRadioactive;
+import com.hbm.items.special.ItemHazard;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class ItemGadget extends ItemRadioactive {
+public class ItemGadget extends ItemHazard {
 	
 	public ItemGadget(float radiation) {
 		super(radiation);

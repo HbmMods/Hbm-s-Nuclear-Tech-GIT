@@ -110,7 +110,7 @@ public class ItemRenderWeaponQuadro implements IItemRenderer {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.quadro_tex);
 			ResourceManager.quadro.renderPart("Launcher");
 			
-			if(ItemGunBase.getMag(item) > 0 || ItemGunBase.getIsReloading(item)) {
+			if(ItemGunBase.getMag(item) > 0 || ItemGunBase.getIsReloading(item) && type != ItemRenderType.INVENTORY) {
 				GL11.glPushMatrix();
 				
 				GL11.glTranslated(0, -1, 0);

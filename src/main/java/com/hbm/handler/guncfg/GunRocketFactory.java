@@ -6,7 +6,9 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -51,6 +53,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
@@ -115,6 +118,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW_LASER);
@@ -138,6 +142,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		config.durability = 500;
@@ -275,7 +280,14 @@ public class GunRocketFactory {
 		bullet.explosive = 0;
 		bullet.incendiary = 0;
 		bullet.trail = 7;
-		bullet.nuke = 25;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 2);
+			}
+		};
 		
 		return bullet;
 	}
@@ -342,6 +354,41 @@ public class GunRocketFactory {
 		bullet.trail = 9;
 		
 		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketCanisterConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_canister;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 2F;
+		bullet.trail = 0;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					if(bullet.ticksExisted > 10) {
+						bullet.setDead();
+						
+						for(int i = 0; i < 50; i++) {
+							
+							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
+							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
+							bullet.worldObj.spawnEntityInWorld(bolt);
+						}
+					}
+				}
+			}
+		};
 		
 		return bullet;
 	}

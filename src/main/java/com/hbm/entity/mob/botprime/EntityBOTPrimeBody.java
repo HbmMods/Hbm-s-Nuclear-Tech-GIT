@@ -4,7 +4,9 @@ import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -18,7 +20,7 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 		this.rangeForParts = 70.0D;
 		this.segmentDistance = 3.5D;
 	    this.maxBodySpeed = 1.4D;
-	    this.targetTasks.addTask(1, new EntityAINearestAttackableTargetNT(this, EntityLivingBase.class, 0, true, false, this.selector, 128.0D));
+	    this.targetTasks.addTask(1, new EntityAINearestAttackableTargetNT(this, EntityPlayer.class, 0, false, false, this.selector, 128.0D));
 	}
 	
 	@Override
@@ -36,16 +38,18 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 		
 		return 100;
 	}
+	
+	@Override
+	public boolean isPotionApplicable(PotionEffect potion) {
+		return false;
+	}
 
 	@Override
 	protected void updateAITasks() {
+		this.updateEntityActionState();
+		this.targetTasks.onUpdateTasks();
 		this.movement.updateMovement();
 		
-		if((this.followed != null) && (getPartNumber() == 0)) {
-			//this.dataWatcher.updateObject(17, Byte.valueOf((byte) (((EntityBallsOTronHead) this.followed).isArmored() ? 1 : 0)));
-		} else if(this.targetedEntity != null) {
-			this.dataWatcher.updateObject(17, Byte.valueOf(this.targetedEntity.getDataWatcher().getWatchableObjectByte(17)));
-		}
 		if(this.didCheck) {
 			if(this.targetedEntity == null || !this.targetedEntity.isEntityAlive()) {
 				setHealth(getHealth() - 1999.0F);
@@ -54,11 +58,12 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, false);
 			}
 		}
-		if((this.followed != null) && (getAttackTarget() != null)) {
+			
+		if(this.followed != null && this.followed.isEntityAlive() && getAttackTarget() != null) {
 			if(canEntityBeSeenThroughNonSolids(getAttackTarget())) {
 				this.attackCounter += 1;
 				if(this.attackCounter == 10) {
-					//useLaser(o(), false);
+					laserAttack(this.getAttackTarget(), false);
 
 					this.attackCounter = -20;
 				}
@@ -69,9 +74,29 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 			this.attackCounter -= 1;
 		}
 		
-        float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(motionY, f3) * 180.0D / Math.PI);
+		if(this.targetedEntity != null) {
+			double dx = targetedEntity.posX - posX;
+			double dy = targetedEntity.posY - posY;
+			double dz = targetedEntity.posZ - posZ;
+	        float f3 = MathHelper.sqrt_double(dx * dx + dz * dz);
+	        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(dx, dz) * 180.0D / Math.PI);
+	        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(dy, f3) * 180.0D / Math.PI);
+		}
+	}
+	
+	@Override
+	public void onUpdate() {
+		
+		super.onUpdate();
+		
+		if(this.targetedEntity != null) {
+			double dx = targetedEntity.posX - posX;
+			double dy = targetedEntity.posY - posY;
+			double dz = targetedEntity.posZ - posZ;
+			float f3 = MathHelper.sqrt_double(dx * dx + dz * dz);
+			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(dx, dz) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(dy, f3) * 180.0D / Math.PI);
+		}
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nbt) {

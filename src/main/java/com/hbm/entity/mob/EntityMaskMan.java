@@ -1,10 +1,14 @@
 package com.hbm.entity.mob;
 
+import java.util.List;
+
 import com.hbm.entity.mob.ai.EntityAIMaskmanCasualApproach;
 import com.hbm.entity.mob.ai.EntityAIMaskmanLasergun;
 import com.hbm.entity.mob.ai.EntityAIMaskmanMinigun;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -19,7 +23,7 @@ import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityMaskMan extends EntityMob implements IBossDisplayData {
+public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadiationImmune {
 
 	public EntityMaskMan(World world) {
 		super(world);
@@ -58,8 +62,10 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
     		amount *= 0.25F;
     	if(source.isExplosion())
     		amount *= 0.5F;
-    	if(amount > 50)
-    		amount = 50;
+    	
+    	if(amount > 50) {
+    		amount = 50 + (amount - 50) * 0.25F;
+    	}
     	
     	return super.attackEntityFrom(source, amount);
     }
@@ -75,9 +81,18 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
         	if(!worldObj.isRemote)
         		worldObj.createExplosion(this, posX, posY + 4, posZ, 2.5F, true);
         }
-        
-        getEntityData().setFloat("hfr_radiation", 0);
     }
+    
+    @Override
+	public void onDeath(DamageSource p_70645_1_) {
+		super.onDeath(p_70645_1_);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(50, 50, 50));
+
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.bossMaskman);
+		}
+	}
     
     public boolean isAIEnabled() {
         return true;

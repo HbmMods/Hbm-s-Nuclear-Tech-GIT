@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionParticle;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -636,8 +635,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		}
 
 		worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
-    	
-        ExplosionParticle.spawnMush(this.worldObj, this.xCoord, this.yCoord - 3, this.zCoord);
         
 		RadiationSavedData data = RadiationSavedData.getData(worldObj);
 		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);

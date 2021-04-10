@@ -2,25 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeTsar extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TsarBomba.obj");
-	private IModelCustom tsarModel;
-    private ResourceLocation tsarTexture;
-	
-	public RenderNukeTsar()
-    {
-		tsarModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		tsarTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TsarBomba.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -41,8 +28,10 @@ public class RenderNukeTsar extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(tsarTexture);
-        tsarModel.renderAll();
+        bindTexture(ResourceManager.bomb_tsar_tex);
+        ResourceManager.bomb_tsar.renderAll();
+        
+        GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
     }

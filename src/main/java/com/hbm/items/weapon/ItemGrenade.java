@@ -29,6 +29,7 @@ import com.hbm.entity.grenade.EntityGrenadeIFSpark;
 import com.hbm.entity.grenade.EntityGrenadeIFSticky;
 import com.hbm.entity.grenade.EntityGrenadeIFToxic;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeLunatic;
 import com.hbm.entity.grenade.EntityGrenadeMIRV;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
@@ -41,9 +42,12 @@ import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
 import com.hbm.entity.grenade.EntityGrenadeShrapnel;
 import com.hbm.entity.grenade.EntityGrenadeSmart;
 import com.hbm.entity.grenade.EntityGrenadeStrong;
+import com.hbm.entity.grenade.EntityGrenadeStunning;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.grenade.EntityWastePearl;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -192,11 +196,22 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_if_spark) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFSpark(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.grenade_stunning)
+			{
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeStunning(p_77659_2_, p_77659_3_));
+			}
 			if (this == ModItems.grenade_if_hopwire) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFHopwire(p_77659_2_, p_77659_3_));
 			}
 			if (this == ModItems.grenade_if_null) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFNull(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.nuclear_waste_pearl) {
+				p_77659_2_.spawnEntityInWorld(new EntityWastePearl(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_lunatic)
+			{
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeLunatic(p_77659_2_, p_77659_3_));
 			}
 		}
 
@@ -206,7 +221,7 @@ public class ItemGrenade extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if (this == ModItems.grenade_schrabidium || this == ModItems.grenade_aschrab || this == ModItems.grenade_cloud) {
+		if (this == ModItems.grenade_schrabidium || this == ModItems.grenade_aschrab || this == ModItems.grenade_cloud || this == ModItems.grenade_lunatic) {
 			return EnumRarity.rare;
 		}
 
@@ -235,6 +250,12 @@ public class ItemGrenade extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
 		list.add("Fuse: " + translateFuse());
+
+		if (this == ModItems.grenade_smart) {
+			list.add("");
+			list.add("\"Why did it not blow up????\"");
+			list.add(EnumChatFormatting.ITALIC + "If it didn't blow up it means it worked.");
+		}
 
 		if (this == ModItems.grenade_if_generic) {
 			list.add("");
@@ -281,6 +302,11 @@ public class ItemGrenade extends Item {
 			//list.add(EnumChatFormatting.ITALIC + "\"31-31-31-31-31-31-31-31-31-31-31-31-31\"");
 			list.add(EnumChatFormatting.ITALIC + "\"We can't rewind, we've gone too far.\"");
 		}
+		if (this == ModItems.grenade_stunning)
+		{
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Stop! Hammer time!\"");
+		}
 		if (this == ModItems.grenade_if_hopwire) {
 			list.add("");
 			list.add(EnumChatFormatting.ITALIC + "\"All I ever wished for was a bike that didn't fall over.\"");
@@ -288,6 +314,18 @@ public class ItemGrenade extends Item {
 		if (this == ModItems.grenade_if_null) {
 			list.add("");
 			list.add(EnumChatFormatting.ITALIC + "java.lang.NullPointerException");
+		}
+		if (this == ModItems.grenade_lunatic)
+		{
+			list.add("");
+			if (MainRegistry.polaroidID == 11)
+			{
+				list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Wash away in a flood of Lunar light\"");
+			}
+			else
+			{
+				list.add(EnumChatFormatting.ITALIC + "\"Here, have some Xanax, you're not you under the influence of DRX.\"");
+			}
 		}
 	}
 	

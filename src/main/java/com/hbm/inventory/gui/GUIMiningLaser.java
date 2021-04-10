@@ -63,7 +63,7 @@ public class GUIMiningLaser extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.laser.hasCustomInventoryName() ? this.laser.getInventoryName() : I18n.format(this.laser.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 4, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		
 		String width = "" + laser.getWidth();

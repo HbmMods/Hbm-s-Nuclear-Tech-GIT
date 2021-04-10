@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.ai.EntityAITaintedCreeperSwell;
 
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -28,7 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityTaintedCreeper extends EntityMob {
+public class EntityTaintedCreeper extends EntityMob implements IRadiationImmune {
 
 	private int lastActiveTime;
 	private int timeSinceIgnited;

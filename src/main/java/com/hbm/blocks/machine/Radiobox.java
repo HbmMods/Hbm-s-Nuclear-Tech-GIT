@@ -1,10 +1,14 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -68,6 +72,16 @@ public class Radiobox extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
+			TileEntityRadiobox box = (TileEntityRadiobox)world.getTileEntity(x, y, z);
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.battery_spark && !box.infinite) {
+				player.getHeldItem().stackSize--;
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.5F, 1.0F);
+				box.infinite = true;
+				box.markDirty();
+				return true;
+			}
+			
 			int meta = world.getBlockMetadata(x, y, z);
 			if(meta <= 5) {
 				world.setBlockMetadataWithNotify(x, y, z, meta + 4, 2);
@@ -143,4 +157,14 @@ public class Radiobox extends BlockContainer {
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
+    public void breakBlock(World world, int x, int y, int z, Block b, int m) {
+    	
+		TileEntityRadiobox box = (TileEntityRadiobox)world.getTileEntity(x, y, z);
+		
+		if(box.infinite) {
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, ItemBattery.getEmptyBattery(ModItems.battery_spark)));
+		}
+		
+        super.breakBlock(world, x, y, z, b, m);
+    }
 }

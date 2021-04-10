@@ -230,7 +230,9 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 								if(slots[2].stackSize <= 0)
 									slots[2] = null;
 								
-								slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+								if (!slots[1].getItem().getUnlocalizedName().toLowerCase().contains("desh"))
+									slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+								
 								if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
 									slots[1] = null;
 	

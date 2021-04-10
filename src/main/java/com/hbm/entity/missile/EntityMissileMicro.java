@@ -3,12 +3,8 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -27,19 +23,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 	public void onImpact() {
 		if(!this.worldObj.isRemote) {
 
-			this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.fatmanRadius, posX, posY, posZ));
-
-			if(MainRegistry.polaroidID == 11)
-				if(rand.nextInt(100) >= 0) {
-					ExplosionParticleB.spawnMush(this.worldObj, (int) this.posX, (int) this.posY - 3, (int) this.posZ);
-				} else {
-					ExplosionParticle.spawnMush(this.worldObj, (int) this.posX, (int) this.posY - 3, (int) this.posZ);
-				}
-			else if(rand.nextInt(100) == 0) {
-				ExplosionParticleB.spawnMush(this.worldObj, (int) this.posX, (int) this.posY - 3, (int) this.posZ);
-			} else {
-				ExplosionParticle.spawnMush(this.worldObj, (int) this.posX, (int) this.posY - 3, (int) this.posZ);
-			}
+			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.high);
 		}
 	}
 
@@ -58,7 +42,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.gun_fatman_ammo, 1);
+		return new ItemStack(ModItems.ammo_nuke_high, 1);
 	}
 
 	@Override

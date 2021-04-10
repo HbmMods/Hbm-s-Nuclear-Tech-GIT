@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -233,7 +232,6 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 		charge = nbt.getShort("charge");
 		heat = nbt.getShort("heat");
 		progress = nbt.getShort("progress");
-		slots = new ItemStack[getSizeInventory()];
 	}
 
 	@Override

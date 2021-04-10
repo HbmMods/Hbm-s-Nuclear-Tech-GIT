@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.hbm.config.ToolConfig;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.*;
 import com.hbm.handler.WeaponAbility;
@@ -115,6 +114,8 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
 				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);
     		}
     	}
+    	
+    	stack.damageItem(2, attacker);
         
         return true;
     }
@@ -292,7 +293,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
     	
     	setAbility(stack, i % this.breakAbility.size());
     	
-    	while(!isAbilityAllowed(getCurrentAbility(stack))) {
+    	while(getCurrentAbility(stack) != null && !getCurrentAbility(stack).isAllowed()) {
     		
     		player.addChatComponentMessage(
     				new ChatComponentText("[Ability ")
@@ -317,30 +318,6 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
         world.playSoundAtEntity(player, "random.orb", 0.25F, getCurrentAbility(stack) == null ? 0.75F : 1.25F);
     	
     	return stack;
-    }
-    
-    //TODO: integrate "isAllowed" into the ability class
-    private boolean isAbilityAllowed(ToolAbility ability) {
-
-    	if(ability instanceof HammerAbility)
-    		return ToolConfig.abilityHammer;
-    	if(ability instanceof RecursionAbility)
-    		return ToolConfig.abilityVein;
-    	if(ability instanceof LuckAbility)
-    		return ToolConfig.abilityLuck;
-    	if(ability instanceof SilkAbility)
-    		return ToolConfig.abilitySilk;
-    	if(ability instanceof SmelterAbility)
-    		return ToolConfig.abilityFurnace;
-    	if(ability instanceof ShredderAbility)
-    		return ToolConfig.abilityShredder;
-    	if(ability instanceof CentrifugeAbility)
-    		return ToolConfig.abilityCentrifuge;
-    	if(ability instanceof CrystallizerAbility)
-    		return ToolConfig.abilityCrystallizer;
-    		
-    	return true;
-    	
     }
     
     private ToolAbility getCurrentAbility(ItemStack stack) {

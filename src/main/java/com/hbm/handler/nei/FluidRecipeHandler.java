@@ -45,7 +45,7 @@ public class FluidRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_fluid.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_fluid.png";
 	}
 	
 	@Override

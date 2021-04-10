@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -29,10 +33,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssembler extends TileEntity implements ISidedInventory, IConsumer {
-
-	private ItemStack slots[];
+public class TileEntityMachineAssembler extends TileEntityMachineBase implements IConsumer {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -43,79 +46,21 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	int consumption = 100;
 	int speed = 100;
 	
+	@SideOnly(Side.CLIENT)
+	public int recipe;
+	
+	private AudioWrapper audio;
+	
 	Random rand = new Random();
 	
-	private String customName;
-	
 	public TileEntityMachineAssembler() {
-		slots = new ItemStack[18];
+		super(18);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
+	public String getName() {
+		return "container.assembler";
 	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-		return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.assembler";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-	
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
-			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
-		}
-	}
-	
-	//You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
@@ -154,55 +99,15 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-		
 		this.power = nbt.getLong("powerTime");
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		this.progress = nbt.getInteger("progress");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
-		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return new int[] { 0 };
-    }
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
+		nbt.setInteger("progress", progress);
 	}
 	
 	public long getPowerScaled(long i) {
@@ -215,47 +120,47 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	
 	@Override
 	public void updateEntity() {
-
-		this.consumption = 100;
-		this.speed = 100;
-		
-		for(int i = 1; i < 4; i++) {
-			ItemStack stack = slots[i];
-			
-			if(stack != null) {
-				if(stack.getItem() == ModItems.upgrade_speed_1) {
-					this.speed -= 25;
-					this.consumption += 300;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_2) {
-					this.speed -= 50;
-					this.consumption += 600;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_3) {
-					this.speed -= 75;
-					this.consumption += 900;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_1) {
-					this.consumption -= 30;
-					this.speed += 5;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_2) {
-					this.consumption -= 60;
-					this.speed += 10;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_3) {
-					this.consumption -= 90;
-					this.speed += 15;
-				}
-			}
-		}
-		
-		if(speed < 25)
-			speed = 25;
-		if(consumption < 10)
-			consumption = 10;
 		
 		if(!worldObj.isRemote) {
+
+			this.consumption = 100;
+			this.speed = 100;
+			
+			for(int i = 1; i < 4; i++) {
+				ItemStack stack = slots[i];
+				
+				if(stack != null) {
+					if(stack.getItem() == ModItems.upgrade_speed_1) {
+						this.speed -= 25;
+						this.consumption += 300;
+					}
+					if(stack.getItem() == ModItems.upgrade_speed_2) {
+						this.speed -= 50;
+						this.consumption += 600;
+					}
+					if(stack.getItem() == ModItems.upgrade_speed_3) {
+						this.speed -= 75;
+						this.consumption += 900;
+					}
+					if(stack.getItem() == ModItems.upgrade_power_1) {
+						this.consumption -= 30;
+						this.speed += 5;
+					}
+					if(stack.getItem() == ModItems.upgrade_power_2) {
+						this.consumption -= 60;
+						this.speed += 10;
+					}
+					if(stack.getItem() == ModItems.upgrade_power_3) {
+						this.consumption -= 90;
+						this.speed += 15;
+					}
+				}
+			}
+			
+			if(speed < 25)
+				speed = 25;
+			if(consumption < 10)
+				consumption = 10;
 
 			isProgressing = false;
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -278,6 +183,9 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 							}
 							
 							removeItems(AssemblerRecipes.getRecipeFromTempate(slots[4]), slots);
+							
+							if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
+								slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
 						}
 						
 						power -= consumption;
@@ -325,12 +233,59 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					if(tryFillAssembler(chest, i))
 						break;
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("progress", progress);
+			data.setInteger("maxProgress", maxProgress);
+			data.setBoolean("isProgressing", isProgressing);
+			data.setInteger("recipe", slots[4] != null ? slots[4].getItemDamage() : -1);
+			this.networkPack(data, 150);
+		} else {
+			
+			float volume = this.getVolume(2);
 
-			PacketDispatcher.wrapper.sendToAllAround(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			if(isProgressing && volume > 0) {
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio.startSound();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
-		
+	}
+	
+    public void onChunkUnload() {
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
+    public void invalidate() {
+    	
+    	super.invalidate();
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
+		this.maxProgress = nbt.getInteger("maxProgress");
+		this.isProgressing = nbt.getBoolean("isProgressing");
+		this.recipe = nbt.getInteger("recipe");
 	}
 	
 	private boolean removeItems(List<AStack> stack, ItemStack[] array) {
@@ -508,7 +463,9 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		}
 		
 		return false;
-	}public boolean tryFillAssembler(IInventory inventory, int slot) {
+	}
+	
+	public boolean tryFillAssembler(IInventory inventory, int slot) {
 		
 		if(AssemblerRecipes.getOutputFromTempate(slots[4]) == null || AssemblerRecipes.getRecipeFromTempate(slots[4]) == null)
 			return false;
@@ -609,13 +566,24 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(2, 1, 2);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	public int countMufflers() {
+		
+		int count = 0;
+
+		for(int x = xCoord - 1; x <= xCoord + 1; x++)
+			for(int z = zCoord - 1; z <= zCoord + 1; z++)
+				if(worldObj.getBlock(x, yCoord - 1, z) == ModBlocks.muffler)
+					count++;
+		
+		return count;
 	}
 }

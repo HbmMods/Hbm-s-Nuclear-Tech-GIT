@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.CyclotronRecipes;
 import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.lib.RefStrings;
 
@@ -55,13 +55,13 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_cyclotron.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_cyclotron.png";
 	}
 	
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("cyclotronProcessing")) && getClass() == CyclotronRecipeHandler.class) {
-			Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
+			Map<Object[], Object> recipes = CyclotronRecipes.getRecipes();
 			for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));
 			}
@@ -72,7 +72,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
+		Map<Object[], Object> recipes = CyclotronRecipes.getRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue(), result))
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));
@@ -90,7 +90,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
+		Map<Object[], Object> recipes = CyclotronRecipes.getRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[0]) || NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[1]))
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));				
@@ -109,7 +109,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
         
         transferRects.add(new RecipeTransferRect(new Rectangle(83 - 3 + 16 - 52, 5 + 18 + 1, 24, 18), "cyclotronProcessing"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(61 - 4, 26 - 10, 36, 36), "cyclotronProcessing"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(47, 15, 36, 36), "cyclotronProcessing"));
         guiGui.add(GUIMachineCyclotron.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);

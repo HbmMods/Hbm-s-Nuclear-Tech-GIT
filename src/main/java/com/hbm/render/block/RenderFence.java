@@ -1,6 +1,7 @@
 package com.hbm.render.block;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMetalFence;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -79,7 +80,7 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334082;
+		return BlockMetalFence.renderID;
 	}
 
 }

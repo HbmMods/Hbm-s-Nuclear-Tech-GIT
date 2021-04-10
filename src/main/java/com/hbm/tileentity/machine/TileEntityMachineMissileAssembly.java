@@ -241,7 +241,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 			ItemMissile part = (ItemMissile)slots[3].getItem();
 			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
 			
-			if(part.top == fuselage.bottom)
+			if(part.top == fuselage.bottom && part.type == PartType.FINS)
 				return 1;
 		}
 		

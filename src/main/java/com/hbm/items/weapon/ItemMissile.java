@@ -85,7 +85,8 @@ public class ItemMissile extends Item {
 		BALEFIRE,
 		SCHRAB,
 		TAINT,
-		CLOUD
+		CLOUD,
+		TURBINE
 	}
 	
 	public enum FuelType {
@@ -268,6 +269,8 @@ public class ItemMissile extends Item {
 			return EnumChatFormatting.DARK_PURPLE + "Taint";
 		case CLOUD:
 			return EnumChatFormatting.LIGHT_PURPLE + "Cloud";
+		case TURBINE:
+			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + "Turbine";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

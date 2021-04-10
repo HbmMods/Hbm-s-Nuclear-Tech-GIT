@@ -43,17 +43,20 @@ public class CrystallizerRecipes {
 		recipes.put("oreSchrabidium", new ItemStack(ModItems.crystal_schrabidium));
 		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
 		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
+		recipes.put("oreRareEarth", new ItemStack(ModItems.crystal_rare));
+		recipes.put("oreCobalt", new ItemStack(ModItems.crystal_cobalt));
 		
-		recipes.put(new ComparableStack(ModBlocks.ore_rare), new ItemStack(ModItems.crystal_rare));
 		recipes.put(new ComparableStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.crystal_phosphorus));
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new ItemStack(ModItems.crystal_trixite));
 		recipes.put(new ComparableStack(ModBlocks.gravel_diamond), new ItemStack(ModItems.crystal_diamond));
 		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack(ModItems.crystal_schraranium));
+		recipes.put(new ComparableStack(ModBlocks.sand_quartz), new ItemStack(ModItems.silicon_lump));
 		
 		recipes.put("sand", new ItemStack(ModItems.ingot_fiberglass));
 		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));
 		recipes.put(new ComparableStack(ModBlocks.gravel_obsidian), new ItemStack(ModBlocks.brick_obsidian));
 		recipes.put("blockRedstone", new ItemStack(ModItems.nugget_mercury));
+		recipes.put(new ComparableStack(Items.rotten_flesh), new ItemStack(Items.leather));
 		
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));
@@ -61,6 +64,8 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.powder_semtex_mix), new ItemStack(ModItems.ingot_semtex));
 		recipes.put(new ComparableStack(ModItems.powder_desh_ready), new ItemStack(ModItems.ingot_desh));
 		recipes.put(new ComparableStack(ModItems.powder_meteorite), new ItemStack(ModItems.fragment_meteorite, 1));
+		
+		recipes.put(new ComparableStack(ModItems.meteorite_sword_treated), new ItemStack(ModItems.meteorite_sword_etched, 1));
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {

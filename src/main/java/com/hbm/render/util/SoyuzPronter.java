@@ -91,7 +91,14 @@ public class SoyuzPronter {
 			this.boosterside = boosterside;
 		}
 	}
-
+	
+	/* TODO
+	 * int list = GL11.glGenLists(1);
+     * GL11.glNewList(list, GL11.GL_COMPILE);
+     * //Render
+     * GL11.glEndList();
+     * GL11.glCallList(list);
+	 */
 	
 	public static void prontSoyuz(int type) {
 		

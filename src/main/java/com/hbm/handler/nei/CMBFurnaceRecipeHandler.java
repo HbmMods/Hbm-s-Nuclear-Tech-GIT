@@ -54,7 +54,7 @@ public class CMBFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_cmb.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_cmb.png";
 	}
 	
 	@Override

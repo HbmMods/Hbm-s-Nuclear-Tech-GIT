@@ -3,6 +3,7 @@ package com.hbm.entity.effect;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.explosion.ExplosionNukeGeneric;
 
@@ -17,6 +18,7 @@ import net.minecraft.world.World;
 public class EntityBlackHole extends Entity {
 	
 	Random rand = new Random();
+	EntityBalefire bf = new EntityBalefire(worldObj);
 
 	public EntityBlackHole(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -33,7 +35,11 @@ public class EntityBlackHole extends Entity {
 	public void onUpdate() {
 		
 		float size = this.dataWatcher.getWatchableObjectFloat(16);
-		
+		int disYield = (int)Math.ceil(size) * 10;
+		bf.posX = this.posX;
+		bf.posY = this.posY;
+		bf.posZ = this.posZ;
+
 		for(int k = 0; k < size * 5; k++) {
 			double phi = rand.nextDouble() * (Math.PI * 2);
 			double costheta = rand.nextDouble() * 2 - 1;
@@ -71,9 +77,8 @@ public class EntityBlackHole extends Entity {
 				}
 			}
 		}
-
+		worldObj.func_147480_a((int)posX, (int)posY, (int)posZ, false);
 		ExplosionNukeGeneric.succ(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 15));
-		
 		if(!worldObj.isRemote && ExplosionNukeGeneric.dedify(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 2))) {
 			this.setDead();
 			int r = (int)Math.ceil(size);
@@ -94,8 +99,10 @@ public class EntityBlackHole extends Entity {
 					}
 				}
 			}
-			
 			worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 5.0F, true);
+			bf.destructionRange = disYield + 25;
+			worldObj.spawnEntityInWorld(bf);
+			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, posX, posY, posZ, (disYield + 25) * 1.5F, 1000));
 		}
 	}
 

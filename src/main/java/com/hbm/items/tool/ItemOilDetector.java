@@ -4,10 +4,13 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemOilDetector extends Item {
@@ -15,8 +18,8 @@ public class ItemOilDetector extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Right click to scan for oil.");
-		list.add("Scanner can only detect larger deposits!");
+		list.add(I18n.format(this.getUnlocalizedName() + ".desc1"));
+		list.add(I18n.format(this.getUnlocalizedName() + ".desc2"));
 	}
 
 	@Override
@@ -73,14 +76,14 @@ public class ItemOilDetector extends Item {
 		if(direct)
 			oil = true;
 		
-		if(world.isRemote)
-		{
-			if(oil) {
-				player.addChatMessage(new ChatComponentText("Oil deposit detected!"));
-				if(direct)
-					player.addChatMessage(new ChatComponentText("Oil deposit directly below!"));
+		if(!world.isRemote) {
+			
+			if(direct) {
+				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".bullseye").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+			} else if(oil) {
+				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".detected").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
 			} else {
-				player.addChatMessage(new ChatComponentText("No oil detected."));
+				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".noOil").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 			}
 		}
 

@@ -9,9 +9,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.ArmorUtil;
 
 public class ArmorEuphemium extends ItemArmor {
 	

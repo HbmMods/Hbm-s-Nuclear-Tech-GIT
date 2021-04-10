@@ -23,12 +23,16 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy.png");
 	private static ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMaster.png");
 	private static ResourceLocation mek = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMek.png");
-	private static ResourceLocation god_tm = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeGodTM.png");
 	private static ResourceLocation zippy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeZippySqrl.png");
 	private static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTest.png");
 	private static ResourceLocation schrabby = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSchrabbyAlt.png");
 	private static ResourceLocation swiggs = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSweatySwiggs.png");
+	private static ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
+	private static ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
 	private static ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
+	private static ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
+	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
+	private static ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -80,9 +84,6 @@ public class RenderAccessoryUtility {
 		if(uuid.equals(Library.Steelcourage)) {
 			return mek;
 		}
-		if(uuid.equals(Library.GOD___TM)) {
-			return god_tm;
-		}
 		if(uuid.equals(Library.ZippySqrl)) {
 			return zippy;
 		}
@@ -91,6 +92,21 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.SweatySwiggs)) {
 			return swiggs;
+		}
+		if(uuid.equals(Library.Doctor17) || uuid.equals(Library.Doctor17PH)) {
+			return doctor17;
+		}
+		if(uuid.equals(Library.ShimmeringBlaze)) {
+			return shimmeringblaze;
+		}
+		if(uuid.equals(Library.FifeMiner)) {
+			return leftnugget;
+		}
+		if(uuid.equals(Library.lag_add)) {
+			return rightnugget;
+		}
+		if(uuid.equals(Library.Tankish)) {
+			return tankish;
 		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;

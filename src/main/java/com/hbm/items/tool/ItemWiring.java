@@ -37,11 +37,15 @@ public class ItemWiring extends Item {
 					int y1 = stack.stackTagCompound.getInteger("y");
 					int z1 = stack.stackTagCompound.getInteger("z");
 
-					if (world.getTileEntity(x1, y1, z1) != null
-							&& world.getTileEntity(x1, y1, z1) instanceof TileEntityPylonRedWire && this.isLengthValid(x, y, z, x1, y1, z1, 25)) {
+					if (world.getTileEntity(x1, y1, z1) != null && world.getTileEntity(x1, y1, z1) instanceof TileEntityPylonRedWire && this.isLengthValid(x, y, z, x1, y1, z1, 25)) {
 
-						((TileEntityPylonRedWire) te).connected.add((TileEntityPylonRedWire) world.getTileEntity(x1, y1, z1));
-						((TileEntityPylonRedWire) world.getTileEntity(x1, y1, z1)).connected.add(((TileEntityPylonRedWire) te));
+						TileEntityPylonRedWire first = (TileEntityPylonRedWire) world.getTileEntity(x1, y1, z1);
+						TileEntityPylonRedWire second = ((TileEntityPylonRedWire) te);
+						
+						first.connected.add(second);
+						second.connected.add(first);
+						first.markDirty();
+						second.markDirty();
 
 						if (world.isRemote)
 							player.addChatMessage(

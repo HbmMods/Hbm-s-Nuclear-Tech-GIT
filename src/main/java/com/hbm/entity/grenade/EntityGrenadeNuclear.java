@@ -1,9 +1,6 @@
 package com.hbm.entity.grenade;
 
-import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
@@ -29,13 +26,8 @@ public class EntityGrenadeNuclear extends EntityGrenadeBouncyBase {
 
 		if(!this.worldObj.isRemote) {
 			this.setDead();
-
-			this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.nukaRadius, posX, posY, posZ));
-			if(rand.nextInt(100) == 0) {
-				ExplosionParticleB.spawnMush(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
-			} else {
-				ExplosionParticle.spawnMush(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
-			}
+			
+			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.tots);
 		}
 	}
 

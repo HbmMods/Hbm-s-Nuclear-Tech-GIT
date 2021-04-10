@@ -1,9 +1,9 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

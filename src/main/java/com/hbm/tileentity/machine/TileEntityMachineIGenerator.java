@@ -3,614 +3,417 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
+import com.google.common.collect.HashBiMap;
+import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.LoopedSoundPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEIGeneratorPacket;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
+import scala.actors.threadpool.Arrays;
 
-public class TileEntityMachineIGenerator extends TileEntity implements ISidedInventory, ISource {
-
-	private ItemStack slots[];
-
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource, IFluidAcceptor {
+	
 	public long power;
+	public static final long maxPower = 1000000;
+	public int lastBurnTime;
+	public int burnTime;
+	public int temperature;
+	public static final int maxTemperature = 1000;
 	public int torque;
-	public int heat;
-	public int water;
-	public int lubricant;
-	public int fuel;
-	public int burn;
-	public int soundCycle = 0;
+	public static final int maxTorque = 10000;
+	public float limiter = 0.0F; /// 0 - 1 ///
+	
+	public static final int animSpeed = 50;
+
+	@SideOnly(Side.CLIENT)
 	public float rotation;
-	public static final long maxPower = 100000;
-	public static final int maxTorque = 2500;
-	public static final int maxHeat = 7500;
-	public static final int maxWater = 10000;
-	public static final int maxLubricant = 10000;
-	public static final int maxFuel = 50000;
+	@SideOnly(Side.CLIENT)
+	public float prevRotation;
+	
+	public IGenRTG[] pellets = new IGenRTG[12];
+	public FluidTank[] tanks;
+	
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 0, 0 };
-	private static final int[] slots_side = new int[] { 0 };
-
-	private String customName;
-
 	public TileEntityMachineIGenerator() {
-		slots = new ItemStack[16];
+		super(15);
+		tanks = new FluidTank[3];
+		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
+		tanks[1] = new FluidTank(FluidType.HEATINGOIL, 16000, 1);
+		tanks[2] = new FluidTank(FluidType.LUBRICANT, 2000, 2);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.iGenerator";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (slots[i] != null) {
-			if (slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-
-		this.power = nbt.getLong("power");
-		this.torque = nbt.getInteger("torque");
-		this.heat = nbt.getInteger("heat");
-		this.water = nbt.getInteger("water");
-		this.lubricant = nbt.getInteger("lubricant");
-		this.fuel = nbt.getInteger("fuel");
-		this.burn = nbt.getInteger("burn");
-		slots = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if (b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setLong("power", power);
-		nbt.setInteger("torque", torque);
-		nbt.setInteger("heat", heat);
-		nbt.setInteger("water", water);
-		nbt.setInteger("lubricant", lubricant);
-		nbt.setInteger("fuel", fuel);
-		nbt.setInteger("burn", burn);
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
+	public String getName() {
+		return "container.iGenerator";
 	}
 
 	@Override
 	public void updateEntity() {
 		
-		if (!worldObj.isRemote) {
+		if(!worldObj.isRemote) {
 			
 			age++;
-			if(age >= 20)
-			{
+			if (age >= 20) {
 				age = 0;
 			}
-			
-			if(age == 9 || age == 19)
+
+			if (age == 9 || age == 19)
 				ffgeuaInit();
-			
-			rotation += (this.torque / 100F);
 
-			if(burn > 0) {
-				burn--;
-				
-				if(heat + 10 <= maxHeat)
-					heat += 10;
-			}
+			tanks[0].loadTank(7, 8, slots);
+			tanks[1].loadTank(9, 10, slots);
+			tanks[1].setType(11, 12, slots);
+			tanks[2].loadTank(13, 14, slots);
 			
-			if(water > 0) {
-				
-				if(heat >= 8) {
-				
-					heat -= 8;
-					torque += 10;
-					water--;
-				}
-			} else {
-
-				if(heat >= 4) {
-
-					heat -= 4;
-					torque += 5;
-				}
-			}
-
-			heat += (5 * this.canLocateRTG());
+			loadFuel();
+			pelletAction();
 			
-			heat += (3 * this.canLocateWeakRTG());
-			
-			for(int i = 0; i < this.canLocateThermalElement(); i++) {
-				if(heat >= 10) {
-					heat -= 10;
-					
-					if(power + 10 <= maxPower) {
-						power += 10;
-					}
-				}
+			if(burnTime > 0) {
+				burnTime --;
+				temperature += 100;
 			}
 			
-			this.power += this.torque;
+			fuelAction();
 			
-			if(power > maxPower)
-				power = maxPower;
+			if(temperature > maxTemperature)
+				temperature = maxTemperature;
 			
-			if(torque > 0) {
-				if(lubricant > 0 ) {
-					torque--;
-					lubricant--;
-				} else {
-					torque -= 5;
-				}
+			int displayHeat = temperature;
+			
+			rtgAction();
+			
+			rotorAction();
+			generatorAction();
+			
+			this.power = Library.chargeItemsFromTE(slots, 6, power, maxPower);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			int[] rtgs = new int[pellets.length];
+			
+			for(int i = 0; i < pellets.length; i++) {
+				if(pellets[i] != null)
+					rtgs[i] = pellets[i].ordinal();
+				else
+					rtgs[i] = -1;
 			}
 			
-			if(torque < 0)
-				torque = 0;
+			data.setIntArray("rtgs", rtgs);
+			data.setInteger("temp", displayHeat);
+			data.setInteger("torque", torque);
+			data.setInteger("power", (int)power);
+			data.setShort("burn", (short) burnTime);
+			data.setShort("lastBurn", (short) lastBurnTime);
+			data.setFloat("dial", limiter);
+			this.networkPack(data, 250);
 			
-			if(torque > maxTorque && this.hasLimiter())
-				torque = maxTorque;
+			for(int i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
+		} else {
 			
-			if(torque > maxTorque) {
-				worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.air);
-			}
-
-			if(this.getHeatScaled(100) < 90) {
-				
-				if(fuel > 0) {
-					fuel --;
-					if(heat + 10 <= maxHeat)
-						heat += 10;
-				}
-				
-				doSolidFuelTask();
-			}
-			doFuelTask();
-			doLubeTask();
-			doWaterTask();
-			doBatteryTask();
-		}
-		
-		if(!worldObj.isRemote) {
-			PacketDispatcher.wrapper.sendToAllAround(new TEIGeneratorPacket(xCoord, yCoord, zCoord, rotation, torque), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-		}
-	}
-	
-	public void doFuelTask() {
-
-		if (slots[13] != null && slots[13].getItem() == ModItems.canister_fuel && fuel + 625 <= maxFuel) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				fuel += 625;
+			this.prevRotation = this.rotation;
+			
+			this.rotation += this.torque * animSpeed / maxTorque;
+			
+			if(this.rotation >= 360) {
+				this.rotation -= 360;
+				this.prevRotation -= 360;
 			}
 		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.canister_smear && fuel + 200 <= maxFuel) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				fuel += 200;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.canister_reoil && fuel + 350 <= maxFuel) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				fuel += 350;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.canister_petroil && fuel + 500 <= maxFuel) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				fuel += 500;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == Item.getItemFromBlock(ModBlocks.red_barrel) && fuel + 5000 <= maxFuel) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == ModItems.tank_steel
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(ModItems.tank_steel);
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				fuel += 5000;
-			}
-		}
-		
-		if (slots[13] != null && slots[13].getItem() == ModItems.fluid_barrel_infinite) {
-			this.fuel = TileEntityMachineIGenerator.maxFuel;
-			this.lubricant = TileEntityMachineIGenerator.maxLubricant;
-			this.water = TileEntityMachineIGenerator.maxWater;
-		}
-	}
-	
-	public void doLubeTask() {
-		
-		if (slots[13] != null && slots[13].getItem() == ModItems.canister_canola && lubricant + 625 <= maxLubricant) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				lubricant += 625;
-			}
-		}
-	}
-	
-	public void doWaterTask() {
-
-		if (slots[13] != null && slots[13].getItem() == Items.water_bucket && water + 625 <= maxWater) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				water += 625;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.rod_water && water + 625 <= maxWater) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				water += 625;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.rod_dual_water && water + 1250 <= maxWater) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				water += 1250;
-			}
-		}
-		if (slots[13] != null && slots[13].getItem() == ModItems.rod_quad_water && water + 2500 <= maxWater) {
-			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
-					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
-				if (slots[14] == null)
-					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
-				else
-					slots[14].stackSize++;
-
-				slots[13].stackSize--;
-				if (slots[13].stackSize <= 0)
-					slots[13] = null;
-
-				water += 2500;
-			}
-		}
-		
-		if (slots[13] != null && slots[13].getItem() == ModItems.inf_water)
-			this.water = TileEntityMachineIGenerator.maxWater;
-	}
-	
-	public void doSolidFuelTask() {
-		if(slots[12] != null && slots[12].getItem() == Items.coal && burn <= 0)
-		{
-			slots[12].stackSize -= 1;
-			burn = 200;
-			if(slots[12].stackSize == 0)
-			{
-				slots[12] = null;
-			}
-		}
-		if(slots[12] != null && slots[12].getItem() == ModItems.powder_coal && burn <= 0)
-		{
-			slots[12].stackSize -= 1;
-			burn = 200;
-			if(slots[12].stackSize == 0)
-			{
-				slots[12] = null;
-			}
-		}
-		if(slots[12] != null && slots[12].getItem() == Item.getItemFromBlock(Blocks.coal_block) && burn <= 0)
-		{
-			slots[12].stackSize -= 1;
-			burn = 2000;
-			if(slots[12].stackSize == 0)
-			{
-				slots[12] = null;
-			}
-		}
-	}
-	
-	public void doBatteryTask() {
-		power = Library.chargeItemsFromTE(slots, 15, power, maxPower);
-	}
-
-	public int canLocateThermalElement() {
-		
-		int thermo = 0;
-		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null && slots[i].getItem() == ModItems.thermo_element)
-				thermo ++;
-		}
-		
-		return thermo;
-	}
-
-	public int canLocateRTG() {
-		
-		int rtg = 0;
-		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null && slots[i].getItem() == ModItems.pellet_rtg)
-				rtg ++;
-		}
-		
-		return rtg;
-	}
-
-	public int canLocateWeakRTG() {
-		
-		int rtg = 0;
-		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null && slots[i].getItem() == ModItems.pellet_rtg_weak)
-				rtg ++;
-		}
-		
-		return rtg;
-	}
-
-	public boolean hasLimiter() {
-		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null && slots[i].getItem() == ModItems.limiter)
-				return true;
-		}
-		
-		return false;
-	}
-	
-	public int getFuelScaled(int i) {
-		return (fuel * i) / maxFuel;
-	}
-	
-	public int getLubeScaled(int i) {
-		return (lubricant * i) / maxLubricant;
-	}
-	
-	public int getWaterScaled(int i) {
-		return (water * i) / maxWater;
-	}
-	
-	public int getHeatScaled(int i) {
-		return (heat * i) / maxHeat;
-	}
-	
-	public int getTorqueScaled(int i) {
-		return (torque * i) / maxTorque;
-	}
-	
-	public long getPowerScaled(long i) {
-		return (power * i) / maxPower;
 	}
 
 	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
+	public void networkUnpack(NBTTagCompound nbt) {
+
+		int[] rtgs = nbt.getIntArray("rtgs");
 		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
+		if(rtgs != null) {
+			for(int i = 0; i < pellets.length; i++) {
+				
+				int pellet = rtgs[i];
+				if(pellet >= 0 && pellet < IGenRTG.values().length) {
+					pellets[i] = IGenRTG.values()[pellet];
+				} else {
+					pellets[i] = null;
+				}
+			}
+		}
+
+		this.temperature = nbt.getInteger("temp");
+		this.torque = nbt.getInteger("torque");
+		this.power = nbt.getInteger("power");
+		this.burnTime = nbt.getShort("burn");
+		this.lastBurnTime = nbt.getShort("lastBurn");
+		
+		if(ignoreNext <= 0) {
+			this.limiter = nbt.getFloat("dial");
+		} else {
+			ignoreNext--;
+		}
+	}
+
+	@Override
+	public void handleButtonPacket(int value, int meta) {
+
+		if(meta == 0)
+			pushPellet();
+		if(meta == 1)
+			popPellet();
+		if(meta == 2)
+			setDialByAngle(value);
+	}
+	
+	/**
+	 * Checks for solid fuel and burns it
+	 */
+	private void loadFuel() {
+		
+		if(this.burnTime <= 0 && slots[0] != null) {
+			
+			int time = TileEntityFurnace.getItemBurnTime(slots[0]) / 2;
+			
+			if(time > 0) {
+				
+				if(slots[0].getItem().hasContainerItem(slots[0]) && slots[0].stackSize == 1) {
+					slots[0] = slots[0].getItem().getContainerItem(slots[0]);
+				} else {
+					this.decrStackSize(0, 1);
+				}
+				
+				this.burnTime = time;
+				this.lastBurnTime = time;
+				
+				this.markDirty();
+			}
+		}
+	}
+	
+	/**
+	 * Creates heat from RTG pellets
+	 */
+	private void pelletAction() {
+		
+		for(int i = 0; i < pellets.length; i++) {
+			if(pellets[i] != null)
+				this.temperature += pellets[i].heat;
+		}
+	}
+	
+	/**
+	 * Burns liquid fuel
+	 */
+	private void fuelAction() {
+		
+		int heat = getHeatFromFuel(tanks[1].getTankType());
+		
+		int maxBurn = 2;
+		
+		if(tanks[1].getFill() > 0) {
+			
+			int burn = Math.min(maxBurn, tanks[1].getFill());
+			
+			tanks[1].setFill(tanks[1].getFill() - burn);
+			temperature += heat * burn;
+		}
+	}
+	
+	public int getHeatFromFuel(FluidType type) {
+		
+		switch(type) {
+		case SMEAR: 		return 75;
+		case HEATINGOIL: 	return 150;
+		case DIESEL: 		return 225;
+		case KEROSENE: 		return 300;
+		case RECLAIMED: 	return 100;
+		case PETROIL: 		return 125;
+		case BIOFUEL: 		return 200;
+		case NITAN: 		return 2500;
+		default: 			return 0;
+		}
+	}
+	
+	/**
+	 * does the thing with the thermo elements
+	 */
+	private void rtgAction() {
+		
+		int rtg = 0;
+		
+		for(int i = 3; i <= 5; i++) {
+			
+			if(slots[i] != null && slots[i].getItem() == ModItems.thermo_element)
+				rtg += 15;
+		}
+		
+		int pow = Math.min(this.temperature, rtg);
+		
+		this.temperature -= pow;
+		this.power += pow;
+		
+		if(power > maxPower)
+			power = maxPower;
+	}
+
+	/**
+	 * Turns heat into rotational energy
+	 */
+	private void rotorAction() {
+		
+		int conversion = getConversion();
+		
+		if(temperature > 10 && tanks[0].getFill() > 0)
+			tanks[0].setFill(tanks[0].getFill() - 1);
+		
+		if(torque > 10 && tanks[2].getFill() > 0 && worldObj.rand.nextInt(2) == 0)
+			tanks[2].setFill(tanks[2].getFill() - 1);
+		
+		this.torque += conversion * (tanks[0].getFill() > 0 ? 1.5 : 1);
+		this.temperature -= conversion;
+		
+		if(torque > maxTorque)
+			worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true);
+	}
+	
+	/**
+	 * Do the power stuff
+	 */
+	private void generatorAction() {
+		
+		double balanceFactor = 0.025D;
+		
+		this.power += this.torque * balanceFactor;
+		torque -= getBrake();
+		
+		if(power > maxPower)
+			power = maxPower;
+	}
+	
+	public int getBrake() {
+		return (int) Math.ceil(torque * 0.1 * (tanks[2].getFill() > 0 ? 0.5 : 1));
+	}
+	
+	public int getConversion() {
+		return (int) (temperature * limiter);
+	}
+	
+	/**
+	 * Adds a pellet onto the pile
+	 */
+	private void pushPellet() {
+		
+		if(pellets[11] != null)
+			return;
+		
+		if(slots[1] != null) {
+			
+			IGenRTG pellet = IGenRTG.getPellet(slots[1].getItem());
+			
+			if(pellet != null) {
+				
+				for(int i = 0; i < pellets.length; i++) {
+					
+					if(pellets[i] == null) {
+						pellets[i] = pellet;
+						this.decrStackSize(1, 1);
+						
+						this.markDirty();
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Removes a pellet from the bottom of the pile
+	 */
+	private void popPellet() {
+		
+		if(slots[2] != null)
+			return;
+		
+		if(pellets[0] == null)
+			return;
+		
+		//i don't feel like adding null checks because they won't trigger anyway
+		slots[2] = new ItemStack(this.rtgPellets.inverse().get(pellets[0]));
+		
+		for(int i = 0; i < pellets.length - 1; i++) {
+			pellets[i] = pellets[i + 1];
+		}
+		
+		pellets[pellets.length - 1] = null;
+		
+		this.markDirty();
+	}
+	
+	public double getSolidGauge() {
+		return (double) burnTime / (double) lastBurnTime;
+	}
+	
+	public double getPowerGauge() {
+		return (double) power / (double) maxPower;
+	}
+	
+	public double getTempGauge() {
+		return (double) temperature / (double) maxTemperature;
+	}
+	
+	public double getTorqueGauge() {
+		return (double) torque / (double) maxTorque;
+	}
+	
+	public float getAngleFromDial() {
+		return (45F + limiter * 270F) % 360F;
+	}
+	
+	int ignoreNext = 0;
+	public void setDialByAngle(float angle) {
+		this.limiter = (angle - 45F) / 270F;
+		ignoreNext = 5;
 	}
 
 	@Override
 	public void ffgeuaInit() {
-		int i = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-		if(i == 5) {
-			ffgeua(this.xCoord + 3, this.yCoord, this.zCoord, getTact());
-			ffgeua(this.xCoord - 4, this.yCoord, this.zCoord, getTact());
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		
+		int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
+		
+		boolean tact = this.getTact();
+		
+		for(int iy = 0; iy <= 1; iy++) {
+			for(int ix = -rot[4]; ix <= rot[5]; ix++) {
+				for(int iz = -rot[2]; iz <= rot[3]; iz++) {
+					
+					if(ix == -rot[4] || ix == rot[5] || iz == -rot[2] || iz == rot[3]) {
+						
+						ffgeua(xCoord + dir.offsetX * 2 + ix, yCoord + iy, zCoord + dir.offsetZ * 2 + iz, tact);
+					}
+				}
+			}
 		}
-		if(i == 3) {
-			ffgeua(this.xCoord, this.yCoord, this.zCoord + 3, getTact());
-			ffgeua(this.xCoord, this.yCoord, this.zCoord - 4, getTact());
-		}
-		if(i == 4) {
-			ffgeua(this.xCoord + 4, this.yCoord, this.zCoord, getTact());
-			ffgeua(this.xCoord - 3, this.yCoord, this.zCoord, getTact());
-		}
-		if(i == 2) {
-			ffgeua(this.xCoord, this.yCoord, this.zCoord + 4, getTact());
-			ffgeua(this.xCoord, this.yCoord, this.zCoord - 3, getTact());
-		}
+	}
+
+	@Override
+	public void ffgeua(int x, int y, int z, boolean newTact) {
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
@@ -620,6 +423,131 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		}
 
 		return false;
+	}
+
+	@Override
+	public long getSPower() {
+		return this.power;
+	}
+
+	@Override
+	public void setSPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public List<IConsumer> getList() {
+		return this.list;
+	}
+
+	@Override
+	public void clearList() {
+		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		
+		if(type == FluidType.WATER)
+			tanks[0].setFill(fill);
+		else if(type == FluidType.LUBRICANT)
+			tanks[2].setFill(fill);
+		else if(tanks[1].getTankType() == type)
+			tanks[1].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tanks[index].setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		return Arrays.asList(tanks);
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		
+		for(int i = 0; i < 3; i++)
+			if(tanks[i].getTankType() == type)
+				return tanks[i].getFill();
+		
+		return 0;
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		
+		for(int i = 0; i < 3; i++)
+			if(tanks[i].getTankType() == type)
+				return tanks[i].getMaxFill();
+		
+		return 0;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		for(int i = 0; i < pellets.length; i++) {
+			
+			short s = nbt.getShort("pellet" + i);
+			
+			if(s >= 0 && s < IGenRTG.values().length) {
+				pellets[i] = IGenRTG.values()[s];
+			} else {
+				pellets[i] = null;
+			}
+		}
+
+		this.burnTime = nbt.getInteger("burn");
+		this.lastBurnTime = nbt.getInteger("lastBurn");
+		this.limiter = nbt.getFloat("limiter");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		for(int i = 0; i < pellets.length; i++) {
+			
+			if(pellets[i] != null) {
+				nbt.setShort("pellet" + i, (short) pellets[i].ordinal());
+			} else {
+				nbt.setShort("pellet" + i, (short)-1);
+			}
+		}
+
+		nbt.setInteger("burn", burnTime);
+		nbt.setInteger("lastBurn", lastBurnTime);
+		nbt.setFloat("limiter", limiter);
+	}
+	
+	private static HashBiMap<Item, IGenRTG> rtgPellets = HashBiMap.create();
+	
+	public static enum IGenRTG {
+		PLUTONIUM(ModItems.pellet_rtg, 0, 5),
+		URANIUM(ModItems.pellet_rtg_weak, 9, 3),
+		POLONIUM(ModItems.pellet_rtg_polonium, 18, 25);
+		
+		public int offset;
+		public int heat;
+		
+		private IGenRTG(Item item, int offset, int heat) {
+			rtgPellets.put(item, this);
+			this.offset = offset;
+			this.heat = heat;
+		}
+		
+		public static IGenRTG getPellet(Item item) {
+			return rtgPellets.get(item);
+		}
 	}
 	
 	@Override
@@ -633,25 +561,4 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	{
 		return 65536.0D;
 	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
-	}
-
 }

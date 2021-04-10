@@ -8,6 +8,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.mob.EntityRADBeast;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -15,17 +17,17 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelM65 extends ModelBiped {
 	// fields
-	ModelRenderer mask;
-	ModelRenderer Shape1;
-	ModelRenderer Shape2;
-	ModelRenderer Shape3;
-	ModelRenderer Shape4;
-	ModelRenderer Shape5;
-	ModelRenderer Shape6;
-	ModelRenderer Shape7;
-	ModelRenderer Shape8;
-	ModelRenderer Shape9;
-	ModelRenderer Shape10;
+	public ModelRenderer mask;
+	public ModelRenderer Shape1;
+	public ModelRenderer Shape2;
+	public ModelRenderer Shape3;
+	public ModelRenderer Shape4;
+	public ModelRenderer Shape5;
+	public ModelRenderer Shape6;
+	public ModelRenderer Shape7;
+	public ModelRenderer Shape8;
+	public ModelRenderer Shape9;
+	public ModelRenderer Shape10;
 
 	public ModelM65() {
 		textureWidth = 32;

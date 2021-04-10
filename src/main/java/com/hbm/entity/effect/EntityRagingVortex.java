@@ -1,11 +1,15 @@
 package com.hbm.entity.effect;
 
+import com.hbm.entity.logic.EntityBalefire;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityRagingVortex extends EntityBlackHole {
 	
 	int timer = 0;
+	EntityBalefire bf = new EntityBalefire(worldObj);
+	int disYield;
 
 	public EntityRagingVortex(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -16,6 +20,7 @@ public class EntityRagingVortex extends EntityBlackHole {
 	public EntityRagingVortex(World world, float size) {
 		super(world);
 		this.dataWatcher.updateObject(16, size);
+		disYield = (int)Math.ceil(size) * 10;
 	}
 	
 	@Override
@@ -38,6 +43,9 @@ public class EntityRagingVortex extends EntityBlackHole {
 		this.dataWatcher.updateObject(16, this.dataWatcher.getWatchableObjectFloat(16) - pulse - dec);
 		if(this.dataWatcher.getWatchableObjectFloat(16) <= 0) {
 			this.setDead();
+			bf.destructionRange = disYield;
+			worldObj.spawnEntityInWorld(bf);
+			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, posX, posY, posZ, this.disYield * 1.5F, 1000));
 			return;
 		}
 		

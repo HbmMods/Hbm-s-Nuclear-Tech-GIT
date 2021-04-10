@@ -2,25 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeGadget extends TileEntitySpecialRenderer {
-
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TheGadget3.obj");
-	private IModelCustom gadgetModel;
-    private ResourceLocation gadgetTexture;
-	
-	public RenderNukeGadget()
-    {
-		gadgetModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_tex.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -41,8 +28,10 @@ public class RenderNukeGadget extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(gadgetTexture);
-        gadgetModel.renderAll();
+        bindTexture(ResourceManager.bomb_gadget_tex);
+        ResourceManager.bomb_gadget.renderAll();
+        
+        GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
     }

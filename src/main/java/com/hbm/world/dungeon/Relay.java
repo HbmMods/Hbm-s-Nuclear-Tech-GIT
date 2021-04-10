@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -15,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -649,7 +651,12 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 4, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 10, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 0, z + 10, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10), 8);
+		WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10), 8);
+		
+		if(world.rand.nextInt(5) == 0) {
+			((TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10)).setInventorySlotContents(11, new ItemStack(ModItems.morning_glory));
+		}
+		
 		world.setBlock(x + 7, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 10, ModBlocks.fence_metal, 0, 3);
@@ -659,7 +666,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 10, y + 0, z + 11, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 12, Library.getRandomConcrete(), 0, 3);
 		//world.setBlock(x + 4, y + 0, z + 12, Blocks.iron_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 4, y + 0, z + 12, 0, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 4, y + 0, z + 12, 0, Blocks.iron_door);
 		world.setBlock(x + 7, y + 0, z + 12, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 12, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 12, ModBlocks.fence_metal, 0, 3);

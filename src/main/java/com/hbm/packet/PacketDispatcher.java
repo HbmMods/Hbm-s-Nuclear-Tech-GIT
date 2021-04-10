@@ -19,8 +19,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEPylonSenderPacket.Handler.class, TEPylonSenderPacket.class, i++, Side.CLIENT);
 		//Resets connection list in client-sided pole rendering
 		wrapper.registerMessage(TEPylonDestructorPacket.Handler.class, TEPylonDestructorPacket.class, i++, Side.CLIENT);
-		//Flywheel rotation for industrial generator rendering
-		wrapper.registerMessage(TEIGeneratorPacket.Handler.class, TEIGeneratorPacket.class, i++, Side.CLIENT);
 		//Machine type for marker rendering
 		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, i++, Side.CLIENT);
 		//Mining drill rotation for rendering
@@ -72,7 +70,7 @@ public class PacketDispatcher {
 		//Packet to send block break particles
 		wrapper.registerMessage(ParticleBurstPacket.Handler.class, ParticleBurstPacket.class, i++, Side.CLIENT);
 		//Packet to send chunk radiation info to individual players
-		wrapper.registerMessage(RadSurveyPacket.Handler.class, RadSurveyPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(ExtPropPacket.Handler.class, ExtPropPacket.class, i++, Side.CLIENT);
 		//Entity sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedEntitySoundPacket.Handler.class, LoopedEntitySoundPacket.class, i++, Side.CLIENT);
 		//Entity sound packet that keeps client and server separated
@@ -97,6 +95,10 @@ public class PacketDispatcher {
 		wrapper.registerMessage(GunAnimationPacket.Handler.class, GunAnimationPacket.class, i++, Side.CLIENT);
 		//Sends a funi text to display like a music disc announcement
 		wrapper.registerMessage(PlayerInformPacket.Handler.class, PlayerInformPacket.class, i++, Side.CLIENT);
+		//Universal keybind packet
+		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
+		//Packet to send NBT data from clients to serverside TEs
+		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
 	}
 	
 }

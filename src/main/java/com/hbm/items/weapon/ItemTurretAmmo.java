@@ -1,6 +1,6 @@
 package com.hbm.items.weapon;
 
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.tileentity.turret.TileEntityTurretBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

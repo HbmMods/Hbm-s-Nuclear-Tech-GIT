@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -40,5 +42,38 @@ public class ExplosionHurtUtil {
 			ContaminationUtil.applyRadData(entity, rad);
 		}
 	}
-
+	public static void doDigamma(World world, double x, double y, double z, float outer, float inner, double radius)
+	{
+		List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
+		
+		for (EntityLivingBase entity : entityList)
+		{
+			Vec3 vec = Vec3.createVectorHelper(x - entity.posX, y - entity.posY, z - entity.posZ);
+			double dist = vec.lengthVector();
+			if (dist > radius)
+				continue;
+			
+			double interpolation = 1 - (dist / radius);
+			float rad = (float) (outer + (inner - outer) * interpolation);
+			
+			ContaminationUtil.applyDigammaData(entity, rad);
+		}
+	}
+	public static void doStun(World world, double x, double y, double z, double radius)
+	{
+		List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
+		
+		for (EntityLivingBase entity : entityList)
+		{
+			Vec3 vec = Vec3.createVectorHelper(x - entity.posX, y - entity.posY, z - entity.posZ);
+			double dist = vec.lengthVector();
+			if (dist > radius)
+				continue;
+			
+			//double interpolation = 1 - (dist / radius);
+			//float rad = (float) (outer + (inner - outer) * interpolation);
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 20));
+			entity.addPotionEffect(new PotionEffect(Potion.jump.id, 200, 128));
+		}
+	}
 }

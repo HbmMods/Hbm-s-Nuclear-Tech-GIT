@@ -2,25 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeCustom extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/LilBoy1.obj");
-	private IModelCustom boyModel;
-    private ResourceLocation boyTexture;
-	
-	public RenderNukeCustom()
-    {
-		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/CustomNuke.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -45,10 +32,10 @@ public class RenderNukeCustom extends TileEntitySpecialRenderer {
 	        GL11.glTranslated(-2.0D, 0.0D, 0.0D); break;
 		}
 
-        bindTexture(boyTexture);
-        boyModel.renderAll();
+        bindTexture(ResourceManager.bomb_custom_tex);
+        ResourceManager.bomb_boy.renderAll();
         
-        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
     }

@@ -67,7 +67,7 @@ public class JungleDungeonRoom extends CellularDungeonRoom {
 								
 								if(world.getBlock(x + 1 + a, y - 1, z + 1 + b) == Blocks.air) {
 									if(bl == ModBlocks.brick_jungle || bl == ModBlocks.brick_jungle_cracked || bl == ModBlocks.brick_jungle_lava || bl == ModBlocks.brick_jungle_trap) {
-										world.setBlockToAir(x + 1 + a, y, z + 1 + b);
+										world.setBlock(x + 1 + a, y, z + 1 + b, ModBlocks.brick_jungle_fragile);
 										punched = true;
 									}
 								}

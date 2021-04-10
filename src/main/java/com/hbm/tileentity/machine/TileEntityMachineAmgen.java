@@ -18,7 +18,7 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 
 	public List<IConsumer> list = new ArrayList();
 	public long power;
-	public long maxPower = 100;
+	public long maxPower = 500;
 	boolean tact = false;
 	
 	@Override
@@ -47,6 +47,8 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 					power += 100;
 				} else if(b == ModBlocks.geysir_vapor) {
 					power += 50;
+				} else if(b == ModBlocks.geysir_nether) {
+					power += 500;
 				} else if(b == Blocks.lava) {
 					power += 100;
 					

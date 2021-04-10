@@ -22,7 +22,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	private ItemStack slots[];
 	
 	public int heat;
-	public final int heatMax = 75;
+	public final int heatMax = 150;
 	public long power;
 	public final long powerMax = 90000;
 	public int age = 0;
@@ -228,8 +228,21 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 						heat += 5;
 					if(slots[i].getItem() == ModItems.pellet_rtg_weak)
 						heat += 3;
+					if(slots[i].getItem() == ModItems.pellet_rtg_polonium)
+						heat += 25;
+					
+					if(slots[i].getItem() == ModItems.pellet_rtg_gold) {
+						
+						if(worldObj.rand.nextInt(60*60*20) == 0)
+							slots[i] = null;
+						else
+							heat += 150;
+					}
 				}
 			}
+			
+			if(heat > heatMax)
+				heat = heatMax;
 			
 			power += heat;
 			if(power > powerMax)

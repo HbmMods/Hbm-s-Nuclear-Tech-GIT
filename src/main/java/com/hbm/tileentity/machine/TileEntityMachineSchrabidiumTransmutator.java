@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -25,34 +27,13 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	private static final int[] slots_bottom = new int[] { 1, 2 };
 	private static final int[] slots_side = new int[] { 3, 2 };
 
-	private String customName;
-
 	public TileEntityMachineSchrabidiumTransmutator() {
 		super(4);
 	}
 
 	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machine_schrabidium_transmutator";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
 	public String getName() {
-		return getInventoryName();
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
+		return "container.machine_schrabidium_transmutator";
 	}
 
 	@Override
@@ -96,8 +77,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		if (i == 2 && stack.getItem() != null && stack.getItem() == ModItems.redcoil_capacitor
-				&& stack.getItemDamage() == stack.getMaxDamage()) {
+		
+		if (i == 2 && stack.getItem() != null && stack.getItem() == ModItems.redcoil_capacitor && ItemCapacitor.getDura(stack) <= 0) {
 			return true;
 		}
 
@@ -124,8 +105,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	public boolean canProcess() {
 		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
-				&& slots[2].getItemDamage() < slots[2].getMaxDamage()
-				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schraranium
+				&& ItemCapacitor.getDura(slots[2]) > 0
+				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()
 						&& slots[1].stackSize < slots[1].getMaxStackSize()))) {
 			return true;
 		}
@@ -150,12 +131,12 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			}
 
 			if (slots[1] == null) {
-				slots[1] = new ItemStack(ModItems.ingot_schraranium);
+				slots[1] = new ItemStack(VersatileConfig.getTransmutatorItem());
 			} else {
 				slots[1].stackSize++;
 			}
 			if (slots[2] != null) {
-				slots[2].setItemDamage(slots[2].getItemDamage() + 1);
+				ItemCapacitor.setDura(slots[2], ItemCapacitor.getDura(slots[2]) - 1);
 			}
 
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,

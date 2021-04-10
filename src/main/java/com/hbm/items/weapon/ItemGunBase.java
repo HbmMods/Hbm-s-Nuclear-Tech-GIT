@@ -6,22 +6,24 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.config.WeaponConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
-import com.hbm.main.MainRegistry;
+import com.hbm.interfaces.IItemHUD;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,8 +35,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBase extends Item implements IHoldableWeapon {
+public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 
 	public GunConfiguration mainConfig;
 	public GunConfiguration altConfig;
@@ -100,7 +104,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			
 			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(Keyboard.KEY_R) && getMag(stack) < mainConfig.ammoCap) {
+				if(Keyboard.isKeyDown(Keyboard.KEY_R) && (getMag(stack) < mainConfig.ammoCap || (mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);
@@ -126,7 +130,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
-			useUpAmmo(player, stack, true);
 		}
 		
 		if(getIsReloading(stack) && isCurrentItem) {
@@ -138,26 +141,25 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 		if(main && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
-			
-			if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
-				return getBeltSize(player, getBeltType(player, stack, main)) > 0;
-				
-			} else {
-				return getMag(stack) > 0;
-			}
+			return hasAmmo(stack, player, main);
 		}
 		
 		if(!main && altConfig != null && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
-
-			if(altConfig.reloadType == mainConfig.RELOAD_NONE) {
-				return getBeltSize(player, getBeltType(player, stack, main)) > 0;
-				
-			} else {
-				return getMag(stack) > 0;
-			}
+			
+			return hasAmmo(stack, player, false);
 		}
 		
 		return false;
+	}
+	
+	public boolean hasAmmo(ItemStack stack, EntityPlayer player, boolean main) {
+		
+		if(mainConfig.reloadType == mainConfig.RELOAD_NONE || !main) {
+			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
+			
+		} else {
+			return getMag(stack) > 0;
+		}
 	}
 	
 	//called every time the gun shoots successfully, calls spawnProjectile(), sets item wear
@@ -174,6 +176,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
+			
+			if(!hasAmmo(stack, player, true))
+				break;
+			
 			if(config.bulletsMax > config.bulletsMin)
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
@@ -181,9 +187,21 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
 			
-			setItemWear(stack, getItemWear(stack) + config.wear);
+			useUpAmmo(player, stack, true);
+			player.inventoryContainer.detectAndSendChanges();
+			
+			int wear = (int) Math.ceil(config.wear / (1F + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack)));
+			setItemWear(stack, getItemWear(stack) + wear);
 		}
+		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
+
+		if(player.getDisplayName().equals("Vic4Games")) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", "justTilt");
+			nbt.setInteger("time", mainConfig.rateOfFire + 1);
+			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
+		}
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -197,6 +215,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
+			
 			if(config.bulletsMax > config.bulletsMin)
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
@@ -228,13 +247,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);
-			useUpAmmo(player, stack, main);
+			//useUpAmmo(player, stack, main);
+			//player.inventoryContainer.detectAndSendChanges();
 		}
 		
 		if(!main && altConfig != null && tryShoot(stack, world, player, main)) {
 			altFire(stack, world, player);
 			setDelay(stack, altConfig.rateOfFire);
-			useUpAmmo(player, stack, main);
+			//useUpAmmo(player, stack, main);
+			//player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 	
@@ -414,6 +435,20 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
 
+		if(player.isSneaking() && mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0) {
+			
+			if(this.getMag(stack) == mainConfig.ammoCap) {
+				this.setMag(stack, 0);
+				this.resetAmmoType(stack, world, player);
+				player.playSound("block.pistonOut", 1.0F, 1.0F);
+			}
+			
+			return;
+		}
+		
+		if(this.getMag(stack) == mainConfig.ammoCap)
+			return;
+
 		if(getIsReloading(stack))
 			return;
 		
@@ -469,44 +504,70 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
 		
-		if(mainConfig.ammoCap > 0)
-			list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
-		else
-			list.add("Ammo: Belt");
-		
-		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
-		
-		if(altConfig != null && altConfig.ammoCap == 0) {
-			Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
-			if(ammo != ammo2)
-				list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
+			if(mainConfig.ammoCap > 0)
+				list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
+			else
+				list.add("Ammo: Belt");
+			
+			list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
+			
+			if(altConfig != null && altConfig.ammoCap == 0) {
+				Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
+				if(ammo != ammo2)
+					list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
+			}
+			if (mainConfig.damage != "" || mainConfig.damage != null)
+			{
+				list.add("Damage: " + mainConfig.damage);
+			}
+			int dura = mainConfig.durability - getItemWear(stack);
+			
+			if(dura < 0)
+				dura = 0;
+			
+			list.add("Durability: " + dura + " / " + mainConfig.durability);
+			
+			//if(MainRegistry.enableDebugMode) {
+				list.add("");
+				list.add("Name: " + mainConfig.name);
+				list.add("Manufacturer: " + mainConfig.manufacturer);
+			//}
+			
+			if(!mainConfig.comment.isEmpty()) {
+				list.add("");
+				for(String s : mainConfig.comment)
+					list.add(EnumChatFormatting.ITALIC + s);
+			}
+			
+			if(GeneralConfig.enableExtendedLogging) {
+				list.add("");
+				list.add("Type: " + getMagType(stack));
+				list.add("Is Reloading: " + getIsReloading(stack));
+				list.add("Reload Cycle: " + getReloadCycle(stack));
+				list.add("RoF Cooldown: " + getDelay(stack));
+			}
+			if (!mainConfig.advLore.isEmpty() || !mainConfig.advFuncLore.isEmpty())
+				list.add("");
+			
+			if (!mainConfig.advLore.isEmpty())
+				list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+			
+			if (!mainConfig.advFuncLore.isEmpty())
+				list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+	
+		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		{
+			list.clear();
+			list.add(EnumChatFormatting.YELLOW + "-- Lore --");
+			for (String s : mainConfig.advLore)
+				list.add(s);
 		}
-		
-		int dura = mainConfig.durability - getItemWear(stack);
-		
-		if(dura < 0)
-			dura = 0;
-		
-		list.add("Durability: " + dura + " / " + mainConfig.durability);
-		
-		//if(MainRegistry.enableDebugMode) {
-			list.add("");
-			list.add("Name: " + mainConfig.name);
-			list.add("Manufacturer: " + mainConfig.manufacturer);
-		//}
-		
-		if(!mainConfig.comment.isEmpty()) {
-			list.add("");
-			for(String s : mainConfig.comment)
-				list.add(EnumChatFormatting.ITALIC + s);
-		}
-		
-		if(GeneralConfig.enableExtendedLogging) {
-			list.add("");
-			list.add("Type: " + getMagType(stack));
-			list.add("Is Reloading: " + getIsReloading(stack));
-			list.add("Reload Cycle: " + getReloadCycle(stack));
-			list.add("RoF Cooldown: " + getDelay(stack));
+		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+		{
+			list.clear();
+			list.add(EnumChatFormatting.YELLOW + "-- Function --");
+			for (String s : mainConfig.advFuncLore)
+				list.add(s);
 		}
 	}
 	
@@ -576,13 +637,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
 			return;
 
-		for(int k = 0; k < config.roundsPerCycle; k++) {
-			if(config.reloadType != mainConfig.RELOAD_NONE) {
-				setMag(stack, getMag(stack) - 1);
-			} else {
-				player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
-				player.inventoryContainer.detectAndSendChanges();
-			}
+		if(config.reloadType != mainConfig.RELOAD_NONE) {
+			setMag(stack, getMag(stack) - 1);
+		} else {
+			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
 		}
 	}
 	
@@ -704,4 +762,50 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		return mainConfig.crosshair;
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
+		
+		ItemGunBase gun = ((ItemGunBase)stack.getItem());
+		GunConfiguration gcfg = gun.mainConfig;
+		
+		if(type == ElementType.HOTBAR) {
+			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
+			
+			Item ammo = bcfg.ammo;
+			int count = ItemGunBase.getMag(stack);
+			int max = gcfg.ammoCap;
+			boolean showammo = gcfg.showAmmo;
+			
+			if(gcfg.reloadType == GunConfiguration.RELOAD_NONE) {
+				ammo = ItemGunBase.getBeltType(player, stack, true);
+				count = ItemGunBase.getBeltSize(player, ammo);
+				max = -1;
+			}
+			
+			int dura = ItemGunBase.getItemWear(stack) * 50 / gcfg.durability;
+			
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura, showammo);
+			
+			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
+				Item oldAmmo = ammo;
+				ammo = ItemGunBase.getBeltType(player, stack, false);
+				
+				if(ammo != oldAmmo) {
+					count = ItemGunBase.getBeltSize(player, ammo);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+				}
+			}
+		}
+		
+		if(type == ElementType.CROSSHAIRS && GeneralConfig.enableCrosshairs) {
+
+			event.setCanceled(true);
+			
+			if(!(gcfg.hasSights && player.isSneaking()))
+				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
+			else
+				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
+		}
+	}
 }

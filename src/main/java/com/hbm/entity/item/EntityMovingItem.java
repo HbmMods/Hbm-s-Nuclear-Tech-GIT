@@ -48,8 +48,8 @@ public class EntityMovingItem extends Entity {
     public boolean attackEntityFrom(DamageSource source, float amount) {
     	
     	if(!worldObj.isRemote) {
-			worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, this.getItemStack()));
 	    	this.setDead();
+			worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, this.getItemStack()));
     	}
     	return true;
     }
@@ -80,7 +80,12 @@ public class EntityMovingItem extends Entity {
     		
     		if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ)) != ModBlocks.conveyor) {
     			this.setDead();
-    			worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, this.getItemStack()));
+    			EntityItem item = new EntityItem(worldObj, posX, posY, posZ, this.getItemStack());
+    			item.motionX = this.motionX * 3;
+    			item.motionY = 0.1;
+    			item.motionZ = this.motionZ * 3;
+    			item.velocityChanged = true;
+    			worldObj.spawnEntityInWorld(item);
     			return;
     		}
     	}
@@ -104,9 +109,15 @@ public class EntityMovingItem extends Entity {
         		motionX = -speed * dir.offsetX;
         		motionY = -speed * dir.offsetY;
         		motionZ = -speed * dir.offsetZ;
+        		
+        		this.velocityChanged = true;
     		}
+
+    		this.lastTickPosX = this.prevPosX = this.posX;
+    		this.lastTickPosY = this.prevPosY = this.posY;
+    		this.lastTickPosZ = this.prevPosZ = this.posZ;
     		
-    		this.moveEntity(motionX, motionY, motionZ);
+    		this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
     		schedule--;
     	}
     }

@@ -17,7 +17,23 @@ public class WorldConfig {
 	public static int leadSpawn = 6;
 	public static int berylliumSpawn = 6;
 	public static int ligniteSpawn = 2;
-	public static int asbestosSpawn = 2;
+	public static int asbestosSpawn = 4;
+	public static int rareSpawn = 6;
+	public static int cobaltSpawn = 6;
+	public static int lithiumSpawn = 6;
+	public static int oilcoalSpawn = 128;
+	public static int gassshaleSpawn = 5;
+	public static int gasbubbleSpawn = 64;
+
+	public static int netherUraniumuSpawn = 8;
+	public static int netherTungstenSpawn = 10;
+	public static int netherSulfurSpawn = 26;
+	public static int netherPhosphorusSpawn = 24;
+	public static int netherCoalSpawn = 24;
+	public static int netherPlutoniumSpawn = 8;
+	public static int netherCobaltSpawn = 8;
+
+	public static int endTikiteSpawn = 8;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -37,6 +53,9 @@ public class WorldConfig {
 	public static int geyserVapor = 500;
 	public static int meteorStructure = 15000;
 	public static int capsuleStructure = 100;
+	public static int arcticStructure = 500;
+	public static int jungleStructure = 2000;
+	public static int pyramidStructure = 2000;
 
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -50,19 +69,35 @@ public class WorldConfig {
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_OREGEN = "02_ores";
-		uraniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.00_uraniumSpawnrate", "Ammount of uranium ore veins per chunk", 7);
-		titaniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.01_titaniumSpawnrate", "Ammount of titanium ore veins per chunk", 8);
-		sulfurSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.02_sulfurSpawnrate", "Ammount of sulfur ore veins per chunk", 5);
-		aluminiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.03_aluminiumSpawnrate", "Ammount of aluminium ore veins per chunk", 7);
-		copperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.04_copperSpawnrate", "Ammount of copper ore veins per chunk", 12);
-		fluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.05_fluoriteSpawnrate", "Ammount of fluorite ore veins per chunk", 6);
-		niterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.06_niterSpawnrate", "Ammount of niter ore veins per chunk", 6);
-		tungstenSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.07_tungstenSpawnrate", "Ammount of tungsten ore veins per chunk", 10);
-		leadSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.08_leadSpawnrate", "Ammount of lead ore veins per chunk", 6);
-		berylliumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.09_berylliumSpawnrate", "Ammount of beryllium ore veins per chunk", 6);
-		thoriumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.10_thoriumSpawnrate", "Ammount of thorium ore veins per chunk", 7);
-		ligniteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.11_ligniteSpawnrate", "Ammount of lignite ore veins per chunk", 2);
-		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Ammount of asbestos ore veins per chunk", 2);
+		uraniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.00_uraniumSpawnrate", "Amount of uranium ore veins per chunk", 7);
+		titaniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.01_titaniumSpawnrate", "Amount of titanium ore veins per chunk", 8);
+		sulfurSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.02_sulfurSpawnrate", "Amount of sulfur ore veins per chunk", 5);
+		aluminiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.03_aluminiumSpawnrate", "Amount of aluminium ore veins per chunk", 7);
+		copperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.04_copperSpawnrate", "Amount of copper ore veins per chunk", 12);
+		fluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.05_fluoriteSpawnrate", "Amount of fluorite ore veins per chunk", 6);
+		niterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.06_niterSpawnrate", "Amount of niter ore veins per chunk", 6);
+		tungstenSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.07_tungstenSpawnrate", "Amount of tungsten ore veins per chunk", 10);
+		leadSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.08_leadSpawnrate", "Amount of lead ore veins per chunk", 6);
+		berylliumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.09_berylliumSpawnrate", "Amount of beryllium ore veins per chunk", 6);
+		thoriumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.10_thoriumSpawnrate", "Amount of thorium ore veins per chunk", 7);
+		ligniteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.11_ligniteSpawnrate", "Amount of lignite ore veins per chunk", 2);
+		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Amount of asbestos ore veins per chunk", 2);
+		lithiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.13_lithiumSpawnRate", "Amount of schist lithium ore veins per chunk", 6);
+		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Amount of rare earth ore veins per chunk", 6);
+		oilcoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.15_oilCoalSpawnRate", "Spawns an oily coal vein every nTH chunk", 128);
+		gassshaleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.16_gasShaleSpawnRate", "Amount of oil shale veins per chunk", 5);
+		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 64);
+		cobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cobaltSpawnrate", "Amount of cobalt ore veins per chunk", 10);
+		
+		netherUraniumuSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N00_uraniumSpawnrate", "Amount of nether uranium per chunk", 8);
+		netherTungstenSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N01_tungstenSpawnrate", "Amount of nether tungsten per chunk", 10);
+		netherSulfurSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N02_sulfurSpawnrate", "Amount of nether sulfur per chunk", 26);
+		netherPhosphorusSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N03_phosphorusSpawnrate", "Amount of nether phosphorus per chunk", 24);
+		netherCoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N04_coalSpawnrate", "Amount of nether coal per chunk", 24);
+		netherPlutoniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N05_plutoniumSpawnrate", "Amount of nether plutonium per chunk, if enabled", 8);
+		netherCobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N06_cobaltSpawnRate", "Amount of nether cobalt per chunk", 8);
+		
+		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
 
 		final String CATEGORY_DUNGEON = "04_dungeons";
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);
@@ -87,6 +122,9 @@ public class WorldConfig {
 		geyserVapor = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", "Spawn vapor geyser on every nTH chunk", 500);
 		meteorStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
+		arcticStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.22_arcticVaultSpawn", "Spawn artic code vault on every nTH chunk", 500);
+		jungleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.23_jungleDungeonSpawn", "Spawn jungle dungeon on every nTH chunk", 2000);
+		pyramidStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.24_pyramidSpawn", "Spawn pyramid on every nTH chunk", 2000);
 
 		final String CATEGORY_METEOR = "05_meteors";
 		Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
@@ -99,28 +137,30 @@ public class WorldConfig {
 		propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
 		meteorShowerDuration = propMeteorShowerDuration.getInt();
 
-		radioStructure = CommonConfig.setDef(radioStructure, 1000);
-		antennaStructure = CommonConfig.setDef(antennaStructure, 1000);
-		atomStructure = CommonConfig.setDef(atomStructure, 1000);
-		vertibirdStructure = CommonConfig.setDef(vertibirdStructure, 1000);
-		dungeonStructure = CommonConfig.setDef(dungeonStructure, 1000);
-		relayStructure = CommonConfig.setDef(relayStructure, 1000);
-		satelliteStructure = CommonConfig.setDef(satelliteStructure, 1000);
-		bunkerStructure = CommonConfig.setDef(bunkerStructure, 1000);
-		siloStructure = CommonConfig.setDef(siloStructure, 1000);
-		factoryStructure = CommonConfig.setDef(factoryStructure, 1000);
-		dudStructure = CommonConfig.setDef(dudStructure, 1000);
-		spaceshipStructure = CommonConfig.setDef(spaceshipStructure, 1000);
-		barrelStructure = CommonConfig.setDef(barrelStructure, 1000);
-		geyserWater = CommonConfig.setDef(geyserWater, 1000);
-		geyserChlorine = CommonConfig.setDef(geyserChlorine, 1000);
-		geyserVapor = CommonConfig.setDef(geyserVapor, 1000);
-		broadcaster = CommonConfig.setDef(broadcaster, 1000);
-		minefreq = CommonConfig.setDef(minefreq, 1000);
-		radfreq = CommonConfig.setDef(radfreq, 1000);
-		vaultfreq = CommonConfig.setDef(vaultfreq, 1000);
-		meteorStructure = CommonConfig.setDef(meteorStructure, 15000);
-		capsuleStructure = CommonConfig.setDef(capsuleStructure, 100);
+		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
+		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
+		atomStructure = CommonConfig.setDefZero(atomStructure, 1000);
+		vertibirdStructure = CommonConfig.setDefZero(vertibirdStructure, 1000);
+		dungeonStructure = CommonConfig.setDefZero(dungeonStructure, 1000);
+		relayStructure = CommonConfig.setDefZero(relayStructure, 1000);
+		satelliteStructure = CommonConfig.setDefZero(satelliteStructure, 1000);
+		bunkerStructure = CommonConfig.setDefZero(bunkerStructure, 1000);
+		siloStructure = CommonConfig.setDefZero(siloStructure, 1000);
+		factoryStructure = CommonConfig.setDefZero(factoryStructure, 1000);
+		dudStructure = CommonConfig.setDefZero(dudStructure, 1000);
+		spaceshipStructure = CommonConfig.setDefZero(spaceshipStructure, 1000);
+		barrelStructure = CommonConfig.setDefZero(barrelStructure, 1000);
+		geyserWater = CommonConfig.setDefZero(geyserWater, 1000);
+		geyserChlorine = CommonConfig.setDefZero(geyserChlorine, 1000);
+		geyserVapor = CommonConfig.setDefZero(geyserVapor, 1000);
+		broadcaster = CommonConfig.setDefZero(broadcaster, 1000);
+		minefreq = CommonConfig.setDefZero(minefreq, 1000);
+		radfreq = CommonConfig.setDefZero(radfreq, 1000);
+		vaultfreq = CommonConfig.setDefZero(vaultfreq, 1000);
+		meteorStructure = CommonConfig.setDefZero(meteorStructure, 15000);
+		jungleStructure = CommonConfig.setDefZero(jungleStructure, 1000);
+		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
+		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
 		
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);

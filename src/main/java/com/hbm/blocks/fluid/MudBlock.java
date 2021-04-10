@@ -3,9 +3,10 @@ package com.hbm.blocks.fluid;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.ArmorUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

@@ -129,7 +129,7 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         boolean bounce = false;
         Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         Vec3 vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
+        MovingObjectPosition movingobjectposition = this.worldObj.func_147447_a(vec3, vec31, false, true, false);
 
         if (movingobjectposition != null)
         {

@@ -31,7 +31,7 @@ public class GunConfiguration {
 	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	//whether ot not to disable crosshais when sneaking
+	//whether to not to disable crosshais when sneaking
 	public boolean hasSights;
 	
 	//how long the reload animation will play
@@ -53,6 +53,13 @@ public class GunConfiguration {
 	public int reloadType;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
+	//whether the ammo count should be displayed
+	public boolean showAmmo = true;
+	
+	// Just experimenting here ~ UFFR
+	public String damage = "";
+	public List<String> advLore = new ArrayList();
+	public List<String> advFuncLore = new ArrayList();
 	
 	public String name = "";
 	public String manufacturer = "";

@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.generic.DecoPoleTop;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
@@ -65,7 +66,6 @@ public class RenderAntennaTop implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334084;
+		return DecoPoleTop.renderID;
 	}
-
 }

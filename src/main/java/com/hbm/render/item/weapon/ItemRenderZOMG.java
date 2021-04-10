@@ -32,7 +32,7 @@ public class ItemRenderZOMG implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return false;
+		return helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION;
 	}
 
 	@Override
@@ -42,16 +42,15 @@ public class ItemRenderZOMG implements IItemRenderer {
 			GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelZOMG.png"));
-				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(-150.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
-				//GL11.glScalef(2.0F, 2.0F, 2.0F);
-				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				GL11.glTranslatef(-0.4F, -0.1F, -0.1F);
+				GL11.glScalef(0.75F, 0.75F, 0.75F);
+				GL11.glTranslatef(-0.4F, -0.5F, -0.1F);
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
+			
 		case EQUIPPED:
-		case ENTITY:
 			GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelZOMG.png"));
@@ -63,6 +62,17 @@ public class ItemRenderZOMG implements IItemRenderer {
 				GL11.glTranslatef(0.5F, -0.2F, 0.0F);
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				GL11.glTranslatef(-0.4F, -0.1F, -0.1F);
+				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			GL11.glPopMatrix();
+			break;
+			
+		case ENTITY:
+			GL11.glPushMatrix();
+				GL11.glEnable(GL11.GL_CULL_FACE);
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelZOMG.png"));
+				GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glScalef(1.5F, 1.5F, 1.5F);
+				GL11.glTranslatef(0F, -0.5F, 0F);
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 		default: break;

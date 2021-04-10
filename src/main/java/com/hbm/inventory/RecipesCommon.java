@@ -77,8 +77,8 @@ public class RecipesCommon {
 	
 	public static class ComparableStack extends AStack {
 
-		Item item;
-		int meta;
+		public Item item;
+		public int meta;
 		
 		public ComparableStack(ItemStack stack) {
 			this.item = stack.getItem();

@@ -88,18 +88,21 @@ public class BulletConfiguration {
 
 	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
-	public static final int STYLE_FLECHETTE = 1;
-	public static final int STYLE_PELLET = 2;
-	public static final int STYLE_BOLT = 3;
-	public static final int STYLE_FOLLY = 4;
-	public static final int STYLE_ROCKET = 5;
-	public static final int STYLE_STINGER = 6;
-	public static final int STYLE_NUKE = 7;
-	public static final int STYLE_MIRV = 8;
-	public static final int STYLE_GRENADE = 9;
-	public static final int STYLE_BF = 10;
-	public static final int STYLE_ORB = 11;
-	public static final int STYLE_METEOR = 12;
+	public static final int STYLE_PISTOL = 1;
+	public static final int STYLE_FLECHETTE = 2;
+	public static final int STYLE_PELLET = 3;
+	public static final int STYLE_BOLT = 4;
+	public static final int STYLE_FOLLY = 5;
+	public static final int STYLE_ROCKET = 6;
+	public static final int STYLE_STINGER = 7;
+	public static final int STYLE_NUKE = 8;
+	public static final int STYLE_MIRV = 9;
+	public static final int STYLE_GRENADE = 10;
+	public static final int STYLE_BF = 11;
+	public static final int STYLE_ORB = 12;
+	public static final int STYLE_METEOR = 13;
+	public static final int STYLE_APDS = 14;
+	public static final int STYLE_BLADE = 15;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;
@@ -110,6 +113,8 @@ public class BulletConfiguration {
 	public static final int BOLT_LACUNAE = 0;
 	public static final int BOLT_NIGHTMARE = 1;
 	public static final int BOLT_LASER = 2;
+	public static final int BOLT_ZOMG = 3;
+	public static final int BOLT_WORM = 4;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		
@@ -130,5 +135,23 @@ public class BulletConfiguration {
 		this.doesRicochet = false;
 		return this;
 	}
-
+	
+	public BulletConfiguration setToHoming(Item ammo) {
+		
+		this.ammo = ammo;
+		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
+		this.dmgMin *= 1.5F;
+		this.dmgMax *= 1.5F;
+		this.wear *= 0.5;
+		this.doesRicochet = false;
+		this.doesPenetrate = false;
+		this.vPFX = "greendust";
+		return this;
+	}
+	
+	public BulletConfiguration accuracyMod(float mod) {
+		
+		this.spread *= mod;
+		return this;
+	}
 }

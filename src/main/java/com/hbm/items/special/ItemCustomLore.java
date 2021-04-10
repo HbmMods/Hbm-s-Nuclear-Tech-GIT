@@ -1,10 +1,15 @@
 package com.hbm.items.special;
 
 import java.util.List;
+import java.util.Random;
 
-import com.hbm.handler.ArmorUtil;
+import org.lwjgl.input.Keyboard;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,9 +21,35 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item {
 	
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	EnumRarity rarity;
+	public String basicLore = null;
+	
+	public ItemCustomLore() {}
+	
+	public ItemCustomLore(String lore)
 	{
+		this.basicLore = lore;
+	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		String unloc = this.getUnlocalizedName() + ".desc";
+		String loc = I18nUtil.resolveKey(unloc);
+		
+		if(!unloc.equals(loc)) {
+			
+			String[] locs = loc.split("\\$");
+			
+			for(String s : locs) {
+				list.add(s);
+			}
+		}
+		if (basicLore != null)
+		{
+			list.add(basicLore);
+		}
+				
 		if(this == ModItems.flame_pony)
 		{
 			//list.add("Blue horse beats yellow horse, look it up!");
@@ -59,6 +90,22 @@ public class ItemCustomLore extends Item {
 				list.add("Meh.");
 			else
 				list.add("Cheaper and weaker pellet, now with more U238!");
+		}
+
+		if(this == ModItems.pellet_rtg_polonium)
+		{
+			if(MainRegistry.polaroidID == 11)
+				list.add("Polonium 4 U and me.");
+			else
+				list.add("More powderful RTG pellet, made from finest polonium!");
+		}
+
+		if(this == ModItems.pellet_rtg_gold)
+		{
+			if(MainRegistry.polaroidID == 11)
+				list.add("it's that spicy gold");
+			else
+				list.add("Made from a rare, highly unstable gold isotope.");
 		}
 
 		if(this == ModItems.pellet_cluster)
@@ -109,7 +156,7 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.nugget_euphemium)
 		{
 			list.add("A small piece of a pink metal.");
-			list.add("It's properties are still unknown,");
+			list.add("Its properties are still unknown,");
 			list.add("DEAL WITH IT carefully.");
 		}
 		
@@ -135,6 +182,8 @@ public class ItemCustomLore extends Item {
 			list.add("use up it's fuel. Removing the fuse");
 			list.add("from a reactor will instantly shut");
 			list.add("it down.");
+			list.add("");
+			list.add(EnumChatFormatting.STRIKETHROUGH + "jk, it's" + EnumChatFormatting.ITALIC + "almost" + EnumChatFormatting.RESET + EnumChatFormatting.STRIKETHROUGH + "useless now");
 		}
 		
 		if(this == ModItems.rod_lithium)
@@ -227,8 +276,9 @@ public class ItemCustomLore extends Item {
 		
 		if(this == ModItems.pellet_coolant)
 		{
-			list.add("Required for cyclotron operation.");
-			list.add("Do NOT operate cyclotron without it!");
+			/*list.add("Required for cyclotron operation.");
+			list.add("Do NOT operate cyclotron without it!");*/
+			list.add("Deprecated item");
 		}
 		
 		if(this == ModItems.entanglement_kit)
@@ -351,14 +401,25 @@ public class ItemCustomLore extends Item {
 			list.add("Doubles as a crappy lander!");
 		}
 		
-		if(this == ModItems.egg_balefire)
-		{
-			list.add("What kind of bird lays a radioactive egg?");
-		}
-		
 		if(this == ModItems.ingot_schraranium)
 		{
-			list.add("Made from uranium in a schrabidium transmutator");
+			if(GeneralConfig.enableBabyMode)
+				list.add("shut up peer please for the love of god shut up i can't stand it any longer shut up shut up shut up shut up shut up");
+			else
+				list.add("Made from uranium in a schrabidium transmutator");
+		}
+		
+		if(this == ModItems.mech_key)
+		{
+			list.add("It pulses with power.");
+		}
+		
+		if(this == ModItems.nugget_mox_fuel) {
+			list.add("Moxie says: " + EnumChatFormatting.BOLD + "TAX EVASION.");
+		}
+		
+		if(this == ModItems.billet_mox_fuel) {
+			list.add(EnumChatFormatting.ITALIC + "Pocket-Moxie!");
 		}
 	}
 
@@ -373,7 +434,8 @@ public class ItemCustomLore extends Item {
     			this == ModItems.powder_caesium || this == ModItems.powder_strontium || 
     			this == ModItems.powder_cobalt || this == ModItems.powder_bromine || 
     			this == ModItems.powder_niobium || this == ModItems.powder_tennessine || 
-    			this == ModItems.powder_cerium || this == ModItems.powder_euphemium)
+    			this == ModItems.powder_cerium || this == ModItems.powder_euphemium || 
+    			this == ModItems.circuit_targeting_tier6 || this == ModItems.powder_spark_mix)
     	{
     		return EnumRarity.epic;
     	}
@@ -384,7 +446,10 @@ public class ItemCustomLore extends Item {
     			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
     			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 
     			this == ModItems.gun_revolver_schrabidium_ammo || this == ModItems.ingot_saturnite || 
-    			this == ModItems.plate_saturnite)
+    			this == ModItems.plate_saturnite || this == ModItems.ingot_schrabidate || 
+    			this == ModItems.powder_schrabidate || this == ModItems.ingot_schraranium || 
+    			this == ModItems.crystal_schraranium || this == ModItems.circuit_targeting_tier5 || 
+    			this == ModItems.powder_nitan_mix)
     	{
     		return EnumRarity.rare;
     	}
@@ -399,13 +464,12 @@ public class ItemCustomLore extends Item {
     			this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || 
     			this == ModItems.powder_australium || this == ModItems.powder_weidanium || 
     			this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || 
-    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium ||
-    			this == ModItems.coin_maskman)
+    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
     	{
     		return EnumRarity.uncommon;
     	}
     	
-		return EnumRarity.common;
+		return this.rarity != null ? rarity : EnumRarity.common;
     }
 
     @Override
@@ -424,5 +488,9 @@ public class ItemCustomLore extends Item {
     	
     	return false;
     }
-
+    
+    public ItemCustomLore setRarity(EnumRarity rarity) {
+    	this.rarity = rarity;
+		return this;
+    }
 }

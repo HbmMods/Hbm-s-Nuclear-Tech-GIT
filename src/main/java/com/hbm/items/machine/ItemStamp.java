@@ -18,23 +18,33 @@ public class ItemStamp extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		if(this == ModItems.stamp_iron_circuit ||
+				this == ModItems.stamp_iron_disc ||
 				this == ModItems.stamp_iron_plate ||
 				this == ModItems.stamp_iron_wire ||
 				this == ModItems.stamp_obsidian_circuit ||
+				this == ModItems.stamp_obsidian_disc ||
 				this == ModItems.stamp_obsidian_plate ||
 				this == ModItems.stamp_obsidian_wire ||
 				this == ModItems.stamp_schrabidium_circuit ||
+				this == ModItems.stamp_schrabidium_disc ||
 				this == ModItems.stamp_schrabidium_plate ||
 				this == ModItems.stamp_schrabidium_wire ||
 				this == ModItems.stamp_steel_circuit ||
+				this == ModItems.stamp_steel_disc ||
 				this == ModItems.stamp_steel_plate ||
 				this == ModItems.stamp_steel_wire ||
 				this == ModItems.stamp_titanium_circuit ||
+				this == ModItems.stamp_titanium_disc ||
 				this == ModItems.stamp_titanium_plate ||
 				this == ModItems.stamp_titanium_wire ||
 				this == ModItems.stamp_stone_circuit ||
+				this == ModItems.stamp_stone_disc ||
 				this == ModItems.stamp_stone_plate ||
-				this == ModItems.stamp_stone_wire)
+				this == ModItems.stamp_stone_wire ||
+				this == ModItems.stamp_desh_circuit ||
+				this == ModItems.stamp_desh_disc ||
+				this == ModItems.stamp_desh_plate ||
+				this == ModItems.stamp_desh_wire)
 		list.add("[CREATED USING TEMPLATE FOLDER]");
 	}
 

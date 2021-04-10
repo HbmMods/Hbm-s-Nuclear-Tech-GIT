@@ -15,7 +15,7 @@ public class DecoSteelPoles extends Block {
 	
 	@Override
 	public int getRenderType(){
-		return 334079;
+		return DecoTapeRecorder.renderID;
 	}
 	
 	@Override

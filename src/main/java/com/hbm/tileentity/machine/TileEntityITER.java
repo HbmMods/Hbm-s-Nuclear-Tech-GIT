@@ -16,10 +16,12 @@ import com.hbm.inventory.FusionRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -95,7 +97,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					
 					int chance = FusionRecipes.getByproductChance(plasma.getTankType());
 					
-					if(chance > 0 && worldObj.rand.nextInt() == 0)
+					if(chance > 0 && worldObj.rand.nextInt(chance) == 0)
 						produceByproduct();
 				}
 				
@@ -103,8 +105,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					
 					ItemFusionShield.setShieldDamage(slots[3], ItemFusionShield.getShieldDamage(slots[3]) + 1);
 					
-					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage)
+					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage) {
 						slots[3] = null;
+						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.shutdown", 5F, 1F);
+						this.isOn = false;
+						this.markDirty();
+					}
 				}
 				
 				int prod = FusionRecipes.getSteamProduction(plasma.getTankType());
@@ -180,6 +186,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		
 		BreederRecipe out = BreederRecipes.getOutput(slots[1]);
 		
+		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_irradiated)
+			out = new BreederRecipe(ModItems.meteorite_sword_fused, 1);
+		
+		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_fused)
+			out = new BreederRecipe(ModItems.meteorite_sword_baleful, 4);
+		
 		if(out == null) {
 			this.progress = 0;
 			return;
@@ -214,6 +226,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 2, 4 };
 	}
 	
 	private void produceByproduct() {
@@ -453,5 +475,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		worldObj.setBlock(xCoord, yCoord - 2, zCoord, ModBlocks.struct_iter_core);
 		
 		MachineITER.drop = true;
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 10, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achMeltdown);
+		}
 	}
 }

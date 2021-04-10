@@ -18,6 +18,7 @@ public class EntityBalefire extends Entity {
 	public ExplosionBalefire exp;
 	public int speed = 1;
 	public boolean did = false;
+	public boolean mute = false;
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -25,6 +26,7 @@ public class EntityBalefire extends Entity {
 		destructionRange = nbt.getInteger("destructionRange");
 		speed = nbt.getInteger("speed");
 		did = nbt.getBoolean("did");
+		mute = nbt.getBoolean("mute");
 		
     	
 		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
@@ -40,6 +42,7 @@ public class EntityBalefire extends Entity {
 		nbt.setInteger("destructionRange", destructionRange);
 		nbt.setInteger("speed", speed);
 		nbt.setBoolean("did", did);
+		nbt.setBoolean("mute", mute);
     	
 		if(exp != null)
 			exp.saveToNbt(nbt, "exp_");
@@ -76,13 +79,15 @@ public class EntityBalefire extends Entity {
         	}
         }
         
-    	if(rand.nextInt(5) == 0)
+    	if(!mute && rand.nextInt(5) == 0)
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
         	
-        if(!flag)
-        {
-        	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-        	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
+        if(!flag) {
+        	
+        	if(!mute)
+        		this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
+        	
+        	ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
         }
         
         age++;
@@ -90,4 +95,9 @@ public class EntityBalefire extends Entity {
 
 	@Override
 	protected void entityInit() { }
+	
+	public EntityBalefire mute() {
+		this.mute = true;
+		return this;
+	}
 }

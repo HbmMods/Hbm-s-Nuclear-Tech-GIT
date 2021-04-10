@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
-import com.hbm.calc.VectorUtil;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -14,15 +13,17 @@ import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
+import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -321,7 +322,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
                 		vel.normalize();
 
                 		boolean lRic = rand.nextInt(100) < config.LBRC;
-                		double angle = Math.abs(VectorUtil.getCrossAngle(vel, face) - 90);
+                		double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
                 		
                 		if(hRic || (angle <= config.ricochetAngle && lRic)) {
                         	switch(movement.sideHit) {
@@ -376,9 +377,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
         /// SPECIAL UPDATE BEHAVIOR ///
         if(this.config.bUpdate != null)
         	this.config.bUpdate.behaveUpdate(this);
-        
-        if(this.config.style == BulletConfiguration.STYLE_ROCKET && !worldObj.isRemote)
-    		this.worldObj.spawnEntityInWorld(new EntityTSmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));
 
 		float f2;
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -407,7 +405,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			
 			double motion = Math.min(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector(), 0.1);
 			
-			for(double d = 0; d < 1; d += 1 / motion) {
+			for(double d = 0; d < motion; d += 0.0625) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vanillaExt");
@@ -493,21 +491,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ));
-	    	
-    	    if(MainRegistry.polaroidID == 11) {
-    	    	if(rand.nextInt(100) >= 0) {
-    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	}
-    	    } else {
-    	    	if(rand.nextInt(100) == 0) {
-    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	}
-    	    }
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ).mute());
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}
 		
 		if(config.destroysBlocks && !worldObj.isRemote) {

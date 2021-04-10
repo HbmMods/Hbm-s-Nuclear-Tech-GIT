@@ -3,14 +3,10 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 
 import net.minecraft.block.Block;
@@ -175,19 +171,9 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
 			}
 			if (this == ModBlocks.mine_fat) {
+				
 
-    	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.fatmanRadius, x + 0.5, y + 0.5, z + 0.5));
-    	    	
-        	    if(MainRegistry.polaroidID == 11) {
-        	    	ExplosionParticleB.spawnMush(world, x + 0.5, y - 3, z + 0.5);
-        	    } else {
-        	    	if(rand.nextInt(100) == 0)
-        	    	{
-        	    		ExplosionParticleB.spawnMush(world, x + 0.5, y - 3, z + 0.5);
-        	    	} else {
-        	    		ExplosionParticle.spawnMush(world, x + 0.5, y - 3, z + 0.5);
-        	    	}
-        	    }
+				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.medium);
 			}
 		}
 	}

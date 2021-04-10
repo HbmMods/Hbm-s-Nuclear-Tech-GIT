@@ -60,10 +60,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	public TileEntityMachineChemplant() {
 		slots = new ItemStack[21];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.NONE, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.NONE, 16000, 1);
-		tanks[2] = new FluidTank(FluidType.NONE, 16000, 2);
-		tanks[3] = new FluidTank(FluidType.NONE, 16000, 3);
+		tanks[0] = new FluidTank(FluidType.NONE, 24000, 0);
+		tanks[1] = new FluidTank(FluidType.NONE, 24000, 1);
+		tanks[2] = new FluidTank(FluidType.NONE, 24000, 2);
+		tanks[3] = new FluidTank(FluidType.NONE, 24000, 3);
 	}
 
 	@Override
@@ -301,6 +301,12 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			
 			tanks[0].loadTank(17, 19, slots);
 			tanks[1].loadTank(18, 20, slots);
+			
+			if(slots[17] != null && !(slots[17].getItem() == ModItems.fluid_barrel_infinite || slots[17].getItem() == ModItems.inf_water))
+				tanks[0].unloadTank(17, 19, slots);
+			if(slots[18] != null && !(slots[18].getItem() == ModItems.fluid_barrel_infinite || slots[18].getItem() == ModItems.inf_water))
+				tanks[1].unloadTank(18, 20, slots);
+			
 			tanks[2].unloadTank(9, 11, slots);
 			tanks[3].unloadTank(10, 12, slots);
 			
@@ -329,6 +335,9 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 							removeItems(MachineRecipes.getChemInputFromTempate(slots[4]), slots);
 							removeFluids(inputs);
+							
+							if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_machined)
+								slots[0] = new ItemStack(ModItems.meteorite_sword_treated);
 						}
 						
 						power -= consumption;

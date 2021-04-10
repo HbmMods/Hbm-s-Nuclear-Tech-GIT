@@ -21,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class EntityEMP extends Entity {
 	
 	List<int[]> machines;
-	int life = 2 * 60 * 20;
+	int life = 10 * 60 * 20;
 
 	public EntityEMP(World p_i1582_1_) {
 		super(p_i1582_1_);

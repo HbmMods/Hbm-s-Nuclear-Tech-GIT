@@ -12,11 +12,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineFluidTank extends Container {
 	
 	private TileEntityMachineFluidTank diFurnace;
-	private int power;
 	
 	public ContainerMachineFluidTank(InventoryPlayer invPlayer, TileEntityMachineFluidTank tedf) {
-		power = 0;
-		
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
@@ -25,7 +22,6 @@ public class ContainerMachineFluidTank extends Container {
 		this.addSlotToContainer(new Slot(tedf, 3, 53 - 18, 53));
 		this.addSlotToContainer(new Slot(tedf, 4, 125, 17));
 		this.addSlotToContainer(new Slot(tedf, 5, 125, 53));
-		this.addSlotToContainer(new Slot(tedf, 6, 152, 17));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -57,13 +53,13 @@ public class ContainerMachineFluidTank extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 6) {
-				if (!this.mergeItemStack(var5, 7, this.inventorySlots.size(), true))
+            if (par2 <= 5) {
+				if (!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 6, false))
+			else if (!this.mergeItemStack(var5, 0, 5, false))
 			{
 				return null;
 			}

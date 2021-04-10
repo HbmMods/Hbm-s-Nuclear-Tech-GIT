@@ -95,10 +95,9 @@ public class Gun12GaugeFactory {
 						)
 				);
 		
-		config.name = "???";
-		config.manufacturer = "???";
-		config.comment.add("but bOB WhY iS TExtURE no woRk");
-		config.comment.add("hoW do I cRAFT PleasE HElp");
+		config.name = "Double-Barreled Combat Shotgun";
+		config.manufacturer = "Union Aerospace Corporation";
+		config.comment.add("God-damned ARCH-VILES!");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);

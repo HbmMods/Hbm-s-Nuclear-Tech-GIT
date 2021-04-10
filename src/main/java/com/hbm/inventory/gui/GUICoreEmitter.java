@@ -56,13 +56,14 @@ public class GUICoreEmitter extends GuiInfoContainer {
 	}
 	
 	protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
-        this.field.mouseClicked(x, y, i);
+		super.mouseClicked(x, y, i);
+
+		this.field.mouseClicked(x, y, i);
 
     	if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
     		
     		if(NumberUtils.isNumber(field.getText())) {
-    			int j = MathHelper.clamp_int(Integer.parseInt(field.getText()), 1, 100);
+    			int j = MathHelper.clamp_int((int)Double.parseDouble(field.getText()), 1, 100);
     			field.setText(j + "");
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 	    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(emitter.xCoord, emitter.yCoord, emitter.zCoord, j, 0));

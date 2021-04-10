@@ -9,11 +9,14 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderSparks;
 import com.hbm.tileentity.machine.TileEntityCore;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class RenderCore extends TileEntitySpecialRenderer {
@@ -28,10 +31,19 @@ public class RenderCore extends TileEntitySpecialRenderer {
         
         TileEntityCore core = (TileEntityCore)tileEntity;
         
-        if(core.heat == 0)
+        if(core.heat == 0) {
         	renderStandby(x, y, z);
-        else
-        	renderOrb(core, x, y, z);
+        } else {
+    		
+        	GL11.glPushMatrix();
+    		GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+    		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+    		GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
+    		GL11.glTranslated(-0.5, -0.5, -0.5);
+    		
+    		renderOrb(core, 0, 0, 0);
+        	GL11.glPopMatrix();
+        }
     }
     
     public void renderStandby(double x, double y, double z) {
@@ -109,6 +121,8 @@ public class RenderCore extends TileEntitySpecialRenderer {
     }
     
     public void renderVoid(TileEntity tile, double x, double y, double z) {
+        
+        TileEntityCore core = (TileEntityCore)tile;
 
 		World world = tile.getWorldObj();
         GL11.glPushMatrix();
@@ -155,14 +169,14 @@ public class RenderCore extends TileEntitySpecialRenderer {
 			}
 
 			GL11.glTranslatef(random.nextFloat() * (1 - f7), random.nextFloat() * (1 - f7), random.nextFloat() * (1 - f7));
-			float scale = 0.9F;
+			float scale = 0.8F;
             GL11.glScalef(scale, scale, scale);
             float ang = 360 / end;
             GL11.glRotatef(ang * i + ang * random.nextFloat(), 0.0F, 0.0F, 1.0F);
 
-			float f11 = (float) random.nextDouble() * 0.5F + 0.9F;
-			float f12 = (float) random.nextDouble() * 0.5F + 0.1F;
-			float f13 = (float) random.nextDouble() * 0.5F + 0.9F;
+			float f11 = (float) random.nextDouble() * 0.5F + 0.4F;
+			float f12 = (float) random.nextDouble() * 0.5F + 0.4F;
+			float f13 = (float) random.nextDouble() * 0.5F + 2F;
 			if (i == 0) {
 				f13 = 1.0F;
 				f12 = 1.0F;
@@ -178,25 +192,35 @@ public class RenderCore extends TileEntitySpecialRenderer {
 			GL11.glTexGen(GL11.GL_Q, GL11.GL_EYE_PLANE, this.func_147525_a(0, 1, 0, 0));
 
 			GL11.glRotatef(180, 0, 0, 1);
-			tessellator.startDrawingQuads();
-			tessellator.setColorOpaque_F(f11, f12, f13);
-			tessellator.setBrightness(0xF000F0);
-			tessellator.addVertex(x + 0.0, y + 0.0, z + 1.0);
-			tessellator.addVertex(x + 0.0, y + 0.0, z + 0.0);
-			tessellator.addVertex(x + 1.0, y + 0.0, z + 0.0);
-			tessellator.addVertex(x + 1.0, y + 0.0, z + 1.0);
-			tessellator.draw();
+			
+			int tot = core.tanks[0].getMaxFill() + core.tanks[1].getMaxFill();
+			int fill = core.tanks[0].getFill() + core.tanks[1].getFill();
+			
+			float s = 2.25F * fill / tot + 0.5F;
 
-			tessellator.startDrawingQuads();
-			tessellator.setColorOpaque_F(f11, f12, f13);
-			tessellator.setBrightness(0xF000F0);
-			tessellator.addVertex(x + 1.0, y + 1.0, z + 1.0);
-			tessellator.addVertex(x + 1.0, y + 1.0, z + 0.0);
-			tessellator.addVertex(x + 0.0, y + 1.0, z + 0.0);
-			tessellator.addVertex(x + 0.0, y + 1.0, z + 1.0);
-			tessellator.draw();
+			int count = 32;
+			
+			for(int j = 0; j < count; j++) {
+				
+				Vec3 vec = Vec3.createVectorHelper(s, 0, 0);
+				
+				
+				tessellator.startDrawing(GL11.GL_TRIANGLES);
+				tessellator.setColorOpaque_F(f11, f12, f13);
+				tessellator.setBrightness(0xF000F0);
 
-			GL11.glTexGen(GL11.GL_S, GL11.GL_EYE_PLANE, this.func_147525_a(0, 1, 0, 0));
+				vec.rotateAroundY((float) Math.PI * 2F / count * j - 0.0025F);
+				
+				tessellator.addVertex(x + 0.5 + vec.xCoord, y + 1.0, z + 0.5 + vec.zCoord);
+				
+				vec.rotateAroundY((float) Math.PI * 2F / count + 0.005F);
+				tessellator.addVertex(x + 0.5 + vec.xCoord, y + 1.0, z + 0.5 + vec.zCoord);
+				tessellator.addVertex(x + 0.5, y + 1.0, z + 0.5);
+				
+				tessellator.draw();
+			}
+
+			/*GL11.glTexGen(GL11.GL_S, GL11.GL_EYE_PLANE, this.func_147525_a(0, 1, 0, 0));
 			GL11.glTexGen(GL11.GL_T, GL11.GL_EYE_PLANE, this.func_147525_a(1, 0, 0, 0));
 			GL11.glTexGen(GL11.GL_R, GL11.GL_EYE_PLANE, this.func_147525_a(0, 0, 0, 1));
 			GL11.glTexGen(GL11.GL_Q, GL11.GL_EYE_PLANE, this.func_147525_a(0, 0, 1, 0));
@@ -236,7 +260,7 @@ public class RenderCore extends TileEntitySpecialRenderer {
 			tessellator.addVertex(x + 1.0, y + 1.0, z + 0.0);
 			tessellator.addVertex(x + 1.0, y + 1.0, z + 1.0);
 			tessellator.addVertex(x + 1.0, y + 0.0, z + 1.0);
-			tessellator.draw();
+			tessellator.draw();*/
 		}
 
 		GL11.glPopMatrix();

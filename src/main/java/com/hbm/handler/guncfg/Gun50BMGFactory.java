@@ -51,6 +51,7 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
 		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
 		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
 		return config;
@@ -85,6 +86,7 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
 		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
 		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
 		return config;

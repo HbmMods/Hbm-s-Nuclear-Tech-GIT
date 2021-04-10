@@ -9,6 +9,7 @@ import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
 
@@ -32,6 +33,8 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radaway;
 	public static HbmPotion telekinesis;
 	public static HbmPotion phosphorus;
+	public static HbmPotion stability;
+	public static HbmPotion potionsickness;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -47,6 +50,8 @@ public class HbmPotion extends Potion {
 		radaway = registerPotion(PotionConfig.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
 		telekinesis = registerPotion(PotionConfig.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
 		phosphorus = registerPotion(PotionConfig.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
+		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
+		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -112,12 +117,8 @@ public class HbmPotion extends Potion {
 			ContaminationUtil.applyRadData(entity, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
-
-			float rad = entity.getEntityData().getFloat("hfr_radiation");
-			rad -= (level + 1);
-			if(rad < 0) rad = 0;
 			
-			entity.getEntityData().setFloat("hfr_radiation", rad);
+			HbmLivingProps.incrementRadiation(entity, -(level + 1));
 			
 		}
 		if(this == bang) {

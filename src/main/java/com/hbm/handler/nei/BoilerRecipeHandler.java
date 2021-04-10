@@ -52,7 +52,7 @@ public class BoilerRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_boiler.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_boiler.png";
 	}
 
     @Override

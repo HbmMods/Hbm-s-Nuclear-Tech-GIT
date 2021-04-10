@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityCloudSolinium;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
@@ -151,7 +152,7 @@ public class NukeSolinium extends BlockContainer implements IBomb {
     	
     		world.spawnEntityInWorld(entity);
     		
-    		EntityCloudSolinium cloud = new EntityCloudSolinium(world, r);
+    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, r);
     		cloud.posX = x;
     		cloud.posY = y;
     		cloud.posZ = z;

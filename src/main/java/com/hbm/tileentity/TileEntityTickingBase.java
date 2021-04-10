@@ -32,4 +32,6 @@ public abstract class TileEntityTickingBase extends TileEntity  {
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) { }
+	
+	public void handleButtonPacket(int value, int meta) { }
 }

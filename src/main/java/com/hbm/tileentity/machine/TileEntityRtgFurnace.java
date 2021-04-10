@@ -101,15 +101,14 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean isLoaded() {
-		if(slots[1] != null && slots[2] != null && slots[3] != null)
-		{
-			if(slots[1].getItem() == ModItems.pellet_rtg && slots[2].getItem() == ModItems.pellet_rtg && slots[3].getItem() == ModItems.pellet_rtg)
-			{
-				return true;
-			}
+		
+		for(int i = 1; i <= 3; i++) {
+			
+			if(!(slots[i] != null && (slots[i].getItem() == ModItems.pellet_rtg || slots[i].getItem() == ModItems.pellet_rtg_polonium)))
+				return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 	@Override

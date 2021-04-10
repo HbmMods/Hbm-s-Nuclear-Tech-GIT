@@ -281,24 +281,24 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(ent.entry == EnumEntryType.ADD) {
 				
 				switch(ent.type) {
-				case TNT: tnt += ent.value; break;
-				case NUKE: nuke += ent.value; break;
-				case HYDRO: hydro += ent.value; break;
-				case AMAT: amat += ent.value; break;
-				case DIRTY: dirty += ent.value; break;
-				case SCHRAB: schrab += ent.value; break;
-				case EUPH: euph += ent.value; break;
+				case TNT: tnt += ent.value * stack.stackSize; break;
+				case NUKE: nuke += ent.value * stack.stackSize; break;
+				case HYDRO: hydro += ent.value * stack.stackSize; break;
+				case AMAT: amat += ent.value * stack.stackSize; break;
+				case DIRTY: dirty += ent.value * stack.stackSize; break;
+				case SCHRAB: schrab += ent.value * stack.stackSize; break;
+				case EUPH: euph += ent.value * stack.stackSize; break;
 				}
 				
 			} else if(ent.entry == EnumEntryType.MULT) {
 				
 				switch(ent.type) {
-				case TNT: tntMod *= ent.value; break;
-				case NUKE: nukeMod *= ent.value; break;
-				case HYDRO: hydroMod *= ent.value; break;
-				case AMAT: amatMod *= ent.value; break;
-				case DIRTY: dirtyMod *= ent.value; break;
-				case SCHRAB: schrabMod *= ent.value; break;
+				case TNT: tntMod *= ent.value * stack.stackSize; break;
+				case NUKE: nukeMod *= ent.value * stack.stackSize; break;
+				case HYDRO: hydroMod *= ent.value * stack.stackSize; break;
+				case AMAT: amatMod *= ent.value * stack.stackSize; break;
+				case DIRTY: dirtyMod *= ent.value * stack.stackSize; break;
+				case SCHRAB: schrabMod *= ent.value * stack.stackSize; break;
 				}
 			}
 		}

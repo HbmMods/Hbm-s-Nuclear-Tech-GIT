@@ -3,10 +3,9 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.config.BombConfig;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.handler.ArmorUtil;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -16,6 +15,8 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
+import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -189,6 +190,7 @@ public class BulletConfigFactory {
 		bullet.explosive = 5.0F;
 		bullet.style = BulletConfiguration.STYLE_ROCKET;
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		bullet.vPFX = "smoke";
 		
 		return bullet;
 	}
@@ -219,6 +221,31 @@ public class BulletConfigFactory {
 		return bullet;
 	}
 	
+	public static BulletConfiguration standardShellConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 3.0F;
+		bullet.spread = 0.005F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.gravity = 0.005D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = true;
+		bullet.ricochetAngle = 10;
+		bullet.HBRC = 2;
+		bullet.LBRC = 100;
+		bullet.bounceMod = 0.8;
+		bullet.doesPenetrate = false;
+		bullet.doesBreakGlass = false;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		bullet.vPFX = "smoke";
+		
+		return bullet;
+	}
+	
 	public static BulletConfiguration standardNukeConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
@@ -239,11 +266,36 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 1.0;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = false;
-		bullet.nuke = BombConfig.fatmanRadius;
 		bullet.style = BulletConfiguration.STYLE_NUKE;
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
 		
 		return bullet;
+	}
+	
+	/*
+	 * Sizes:
+	 * 0 - safe
+	 * 1 - tot
+	 * 2 - small
+	 * 3 - medium
+	 * 4 - big
+	 */
+	public static void nuclearExplosion(EntityBulletBase bullet, int x, int y, int z, int size) {
+		
+		if(!bullet.worldObj.isRemote) {
+
+			double posX = bullet.posX;
+			double posY = bullet.posY + 0.5;
+			double posZ = bullet.posZ;
+			
+			if(y >= 0) {
+				posX = x + 0.5;
+				posY = y + 1.5;
+				posZ = z + 0.5;
+			}
+			
+			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+		}
 	}
 	
 	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion) {
@@ -303,12 +355,15 @@ public class BulletConfigFactory {
 							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);
 							PotionEffect eff1 = new PotionEffect(Potion.digSlowdown.id, duration, 2, true);
 							PotionEffect eff2 = new PotionEffect(Potion.weakness.id, duration, 4, true);
+							PotionEffect eff3 = new PotionEffect(Potion.wither.id, (int)Math.ceil(duration * 0.1), 0, true);
 							eff0.getCurativeItems().clear();
 							eff1.getCurativeItems().clear();
 							eff2.getCurativeItems().clear();
+							eff3.getCurativeItems().clear();
 							((EntityLivingBase)e).addPotionEffect(eff0);
 							((EntityLivingBase)e).addPotionEffect(eff1);
 							((EntityLivingBase)e).addPotionEffect(eff2);
+							((EntityLivingBase)e).addPotionEffect(eff3);
 						}
 					}
 				}
@@ -358,6 +413,76 @@ public class BulletConfigFactory {
 				bullet.motionZ = vec.zCoord * speed;
 			}
 			
+		};
+		
+		return onUpdate;
+	}
+	
+	public static IBulletUpdateBehavior getHomingBehavior(final double range, final double angle) {
+		
+		IBulletUpdateBehavior onUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget")) == null) {
+					chooseTarget(bullet);
+				}
+				
+				Entity target = bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget"));
+				
+				if(target != null) {
+					
+					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
+					delta = delta.normalize();
+					
+					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
+
+					bullet.motionX = delta.xCoord * vel;
+					bullet.motionY = delta.yCoord * vel;
+					bullet.motionZ = delta.zCoord * vel;
+				}
+			}
+			
+			private void chooseTarget(EntityBulletBase bullet) {
+				
+				List<EntityLivingBase> entities = bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(range, range, range));
+				
+				Vec3 mot = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+				
+				EntityLivingBase target = null;
+				double targetAngle = angle;
+				
+				for(EntityLivingBase e : entities) {
+					
+					if(!e.isEntityAlive() || e == bullet.shooter)
+						continue;
+					
+					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
+					
+					if(bullet.worldObj.func_147447_a(Vec3.createVectorHelper(bullet.posX, bullet.posY, bullet.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.height / 2, e.posZ), false, true, false) != null)
+						continue;
+					
+					double dist = e.getDistanceSqToEntity(bullet);
+					
+					if(dist < range * range) {
+						
+						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
+					
+						if(deltaAngle < targetAngle) {
+							target = e;
+							targetAngle = deltaAngle;
+						}
+					}
+				}
+				
+				if(target != null) {
+					bullet.getEntityData().setInteger("homingTarget", target.getEntityId());
+				}
+			}
 		};
 		
 		return onUpdate;

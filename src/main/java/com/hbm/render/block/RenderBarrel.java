@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
@@ -64,6 +65,6 @@ public class RenderBarrel implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334081;
+		return BlockFluidBarrel.renderID;
 	}
 }

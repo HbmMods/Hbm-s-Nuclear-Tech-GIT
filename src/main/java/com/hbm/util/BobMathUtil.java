@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import net.minecraft.util.Vec3;
+
 public class BobMathUtil {
 	
 	public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
@@ -9,10 +11,25 @@ public class BobMathUtil {
 		
 		double result = Math.toDegrees(Math.cos(upper / lower));
 		
-		if(result <= 180)
+		if(result >= 180)
 			result -= 180;
 		
 		return result;
+	}
+	
+	public static double getCrossAngle(Vec3 vel, Vec3 rel) {
+		
+		vel.normalize();
+		rel.normalize();
+
+		double vecProd = rel.xCoord * vel.xCoord + rel.yCoord * vel.yCoord + rel.zCoord * vel.zCoord;
+		double bot = rel.lengthVector() * vel.lengthVector();
+		double angle = Math.acos(vecProd / bot) * 180 / Math.PI;
+		
+		if(angle >= 180)
+			angle -= 180;
+		
+		return angle;
 	}
 
 }
