@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import net.minecraft.tileentity.TileEntity;
+public class TileEntityRBMKControl extends TileEntityRBMKActiveBase {
 
-public class TileEntityRBMKControl extends TileEntity {
+	@Override
+	public String getName() {
+		return "container.rbmkControl";
+	}
 
 }

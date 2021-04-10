@@ -14,17 +14,17 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemRBMKRod extends ItemHazard {
 	
-	String fullName = "";				//full name of the fuel rod
-	double funcStart;					//starting point of the linear reactivity function
-	double funcEnd;						//endpoint of the function
-	double xGen = 0.5D;;				//multiplier for xenon production
-	double xBurn = 50D;					//divider for xenon burnup
-	double heat = 1D;					//heat produced per outFlux
-	double yield;						//total potential inFlux the rod can take in its lifetime
-	double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
-	double diffusion = 1D;				//the speed at which the core heats the hull
-	public NType nType = NType.SLOW;	//neutronType, the most efficient neutron type for fission
-	public NType rType = NType.FAST;	//releaseType, the type of neutrons released by this fuel
+	public String fullName = "";			//full name of the fuel rod
+	public double funcStart;				//starting point of the linear reactivity function
+	public double funcEnd;					//endpoint of the function
+	public double xGen = 0.5D;;				//multiplier for xenon production
+	public double xBurn = 50D;				//divider for xenon burnup
+	public double heat = 1D;				//heat produced per outFlux
+	public double yield;					//total potential inFlux the rod can take in its lifetime
+	public double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
+	public double diffusion = 1D;			//the speed at which the core heats the hull
+	public NType nType = NType.SLOW;		//neutronType, the most efficient neutron type for fission
+	public NType rType = NType.FAST;		//releaseType, the type of neutrons released by this fuel
 	
 	/*   _____
 	 * ,I I I I,

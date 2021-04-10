@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.items.machine.ItemRBMKRod;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -32,7 +33,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Override
 	public void updateEntity() {
 		
-		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+		if(!worldObj.isRemote && slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			
 			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 			
@@ -109,6 +110,36 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					break;
 				}
 			}
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.fluxFast = nbt.getDouble("fluxFast");
+		this.fluxSlow = nbt.getDouble("fluxSlow");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setDouble("fluxFast", this.fluxFast);
+		nbt.setDouble("fluxSlow", this.fluxSlow);
+	}
+	
+	public void getDiagData(NBTTagCompound nbt) {
+		this.writeToNBT(nbt);
+
+		
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			
+			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+
+			nbt.setString("f_yield", rod.getYield(slots[0]) + " / " + rod.yield + " (" + (rod.getEnrichment(slots[0]) * 100) + "%)");
+			nbt.setString("f_xenon", rod.getPoison(slots[0]) + "%");
+			nbt.setString("f_heat", rod.getCoreHeat(slots[0]) + " / " + rod.getHullHeat(slots[0])  + " / " + rod.meltingPoint);
 		}
 	}
 }

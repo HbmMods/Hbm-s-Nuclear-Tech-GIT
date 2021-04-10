@@ -16,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntity implements ISidedInventory {
+public abstract class TileEntityMachineBase extends TileEntity implements ISidedInventory, INBTPacketReceiver {
 
 	public ItemStack slots[];
 	

@@ -13,21 +13,25 @@ public class RBMKRod extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRBMKRod();
+		
+		if(meta >= this.offset)
+			return new TileEntityRBMKRod();
+		
+		return null;
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
-			int[] pos = this.findCore(world, x, y, z);
 			
+		} else if(!player.isSneaking()) {
+			int[] pos = this.findCore(world, x, y, z);
+
 			if(pos == null)
 				return false;
-			
+
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rbmk_rod, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {

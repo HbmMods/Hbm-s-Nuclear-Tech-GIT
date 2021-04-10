@@ -11,20 +11,17 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
-public class TileEntityRBMKBoiler extends TileEntityRBMKActiveBase implements IFluidAcceptor, IFluidSource, IControlReceiver {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver {
 	
 	public FluidTank feed;
 	public FluidTank steam;
 	public List<IFluidAcceptor> list = new ArrayList();
 	
 	public TileEntityRBMKBoiler() {
-		super();
+		super(0);
 
 		feed = new FluidTank(FluidType.WATER, 10000, 0);
 		steam = new FluidTank(FluidType.STEAM, 1000000, 1);

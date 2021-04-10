@@ -44,6 +44,7 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.I18nUtil;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
@@ -103,6 +104,11 @@ public class ModEventHandlerClient {
 					RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 				}
 			}
+		}
+
+		/// DODD DIAG HOOK FOR RBMK
+		if(event.type == ElementType.CROSSHAIRS) {
+			TileEntityRBMKBase.diagnosticPrintHook(event);
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

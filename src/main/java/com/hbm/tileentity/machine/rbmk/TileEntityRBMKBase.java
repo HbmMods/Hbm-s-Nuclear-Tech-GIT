@@ -1,10 +1,30 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Sets;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.packet.NBTPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.util.I18nUtil;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -12,7 +32,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityRBMKBase extends TileEntity {
+public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver {
 	
 	public double heat;
 
@@ -44,8 +64,15 @@ public abstract class TileEntityRBMKBase extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		moveHeat();
-		coolPassively();
+		
+		if(!worldObj.isRemote) {
+			moveHeat();
+			coolPassively();
+			
+			NBTTagCompound data = new NBTTagCompound();
+			this.writeToNBT(data);
+			this.networkPack(data, 10);
+		}
 	}
 	
 	public static final ForgeDirection[] heatDirs = new ForgeDirection[] {
@@ -99,7 +126,11 @@ public abstract class TileEntityRBMKBase extends TileEntity {
 	 * TODO: add faster passive cooling based on temperature (blackbody radiation has an exponent of 4!)
 	 */
 	private void coolPassively() {
+		
 		this.heat -= this.passiveCooling();
+		
+		if(heat < 0)
+			heat = 0D;
 	}
 	
 	@Override
@@ -114,5 +145,79 @@ public abstract class TileEntityRBMKBase extends TileEntity {
 		super.writeToNBT(nbt);
 		
 		nbt.setDouble("heat", this.heat);
+	}
+	
+	public void networkPack(NBTTagCompound nbt, int range) {
+
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		
+		this.readFromNBT(nbt);
+	}
+	
+	public void getDiagData(NBTTagCompound nbt) {
+		this.writeToNBT(nbt);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void diagnosticPrintHook(RenderGameOverlayEvent.Pre event) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		World world = mc.theWorld;
+		MovingObjectPosition mop = mc.objectMouseOver;
+		ScaledResolution resolution = event.resolution;
+		
+		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof RBMKBase) {
+			
+			RBMKBase rbmk = (RBMKBase)world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			int[] pos = rbmk.findCore(world, mop.blockX, mop.blockY, mop.blockZ);
+			
+			if(pos == null)
+				return;
+			
+			TileEntityRBMKBase te = (TileEntityRBMKBase)world.getTileEntity(pos[0], pos[1], pos[2]);
+			NBTTagCompound flush = new NBTTagCompound();
+			te.getDiagData(flush);
+			Set<String> keys = flush.func_150296_c();
+			
+			GL11.glPushMatrix();
+			
+			int pX = resolution.getScaledWidth() / 2 + 8;
+			int pZ = resolution.getScaledHeight() / 2;
+			
+			List<String> exceptions = new ArrayList();
+			exceptions.add("x");
+			exceptions.add("y");
+			exceptions.add("z");
+			exceptions.add("items");
+			exceptions.add("id");
+
+			String title = "Dump of Ordered Data Diagnostic (DODD)";
+			mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);
+			mc.fontRenderer.drawString(title, pX, pZ - 20, 0x00FF00);
+			
+			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX, pZ - 10, 0xFFFFFF);
+			
+			String[] ents = new String[keys.size()];
+			keys.toArray(ents);
+			Arrays.sort(ents);
+			
+			for(String key : ents) {
+				
+				if(exceptions.contains(key))
+					continue;
+				
+				mc.fontRenderer.drawString(key + ": " + flush.getTag(key), pX, pZ, 0xFFFFFF);
+				pZ += 10;
+			}
+
+			GL11.glDisable(GL11.GL_BLEND);
+
+			GL11.glPopMatrix();
+			Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+		}
 	}
 }
