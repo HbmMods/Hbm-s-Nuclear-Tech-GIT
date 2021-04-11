@@ -788,13 +788,21 @@ item.factory_core_advanced.name=Энергетический кластер ус
 container.factoryAdvanced=Усовершенствованная фабрика
 
 tile.reactor_element.name=Реакторная камера
-tile.reactor_control.name=Контрольные стержни
+tile.reactor_control.name=Регулирующие стержни
 tile.reactor_hatch.name=Люк доступа реактора
 tile.reactor_ejector.name=Выталкиватель отходов реактора
 tile.reactor_inserter.name=Автоматический заправщик реактора
 tile.reactor_conductor.name=Бойлер реактора
 tile.reactor_computer.name=Контроллер реактора 
 container.reactorLarge=Большой ядерный реактор
+tile.rbmk_absorber.name=Борный поглотитель нейтронов РБМК
+tile.rbmk_blank.name=Структурная опора РБМК
+tile.rbmk_boiler.name=Паровой канал РБМК
+tile.rbmk_control.name=Регулирующие стержни РБМК
+tile.rbmk_control_auto.name=Автоматические регулирующие стержни РБМК
+tile.rbmk_moderator.name=Графитовый замедлитель РБМК
+tile.rbmk_reflector.name=Карбид-вольфрамовый отражатель нейтронов РБМК
+tile.rbmk_rod.name=Топливные стержни РБМК
 
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_center.name=Центральный элемент магнита
@@ -806,7 +814,7 @@ tile.plasma.name=Плазма
 container.fusionMultiblock=Большой термоядерный реактор
 
 tile.watz_element.name=Камера реакции Watz
-tile.watz_control.name=Упрочнённые контрольные стержни
+tile.watz_control.name=Упрочнённые регулирующие стержни
 tile.watz_cooler.name=Суперохладитель реактора Watz
 tile.watz_end.name=Стабилизатор реактора Watz
 tile.watz_hatch.name=Люк доступа к реактору Watz
@@ -1169,6 +1177,8 @@ tile.block_cobalt.name=Кобальтовый блок
 tile.block_lithium.name=Литиевый блок
 tile.block_white_phosphorus.name=Блок белого фосфора
 tile.block_red_phosphorus.name=Блок красного фосфора
+tile.block_actinium.name=Блок актиния
+tile.block_lanthanium.name=Блок лантания
 
 tile.block_u233.name=Блок урана-233
 tile.block_u235.name=Блок урана-235
