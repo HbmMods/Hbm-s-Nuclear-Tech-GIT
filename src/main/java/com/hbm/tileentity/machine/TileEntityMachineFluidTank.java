@@ -53,7 +53,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			tank.loadTank(2, 3, slots);
 			tank.setType(0, 1, slots);
 			
-			if(tank.getTankType().isAntimatter()) {
+			if(tank.getTankType().isAntimatter() && tank.getFill() > 0) {
 				worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 			}

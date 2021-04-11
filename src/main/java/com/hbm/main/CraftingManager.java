@@ -12,6 +12,7 @@ import com.hbm.crafting.PowderRecipes;
 import com.hbm.crafting.RodRecipes;
 import com.hbm.crafting.ToolRecipes;
 import com.hbm.crafting.WeaponRecipes;
+import com.hbm.crafting.handlers.TestCraftingHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -45,6 +46,9 @@ public class CraftingManager {
 		WeaponRecipes.register();
 		ConsumableRecipes.register();
 		PowderRecipes.register();
+		
+
+		GameRegistry.addRecipe(new TestCraftingHandler(new ItemStack(ModItems.lignite), new ItemStack(ModItems.powder_coal, 3)));
 	}
 
 	public static void AddCraftingRec() {
