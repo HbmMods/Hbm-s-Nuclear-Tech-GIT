@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Sets;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -198,8 +197,9 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			String title = "Dump of Ordered Data Diagnostic (DODD)";
 			mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);
 			mc.fontRenderer.drawString(title, pX, pZ - 20, 0x00FF00);
-			
-			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX, pZ - 10, 0xFFFFFF);
+
+			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX + 1, pZ - 9, 0x606000);
+			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX, pZ - 10, 0xffff00);
 			
 			String[] ents = new String[keys.size()];
 			keys.toArray(ents);

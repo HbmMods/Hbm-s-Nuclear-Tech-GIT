@@ -15,9 +15,9 @@ import net.minecraft.util.EnumChatFormatting;
 public class ItemRBMKRod extends ItemHazard {
 	
 	public String fullName = "";			//full name of the fuel rod
-	public double funcStart;				//starting point of the linear reactivity function
 	public double funcEnd;					//endpoint of the function
-	public double xGen = 0.5D;;				//multiplier for xenon production
+	public double selfRate;					//self-inflicted flux from self-igniting fuels
+	public double xGen = 0.5D;				//multiplier for xenon production
 	public double xBurn = 50D;				//divider for xenon burnup
 	public double heat = 1D;				//heat produced per outFlux
 	public double yield;					//total potential inFlux the rod can take in its lifetime
@@ -60,9 +60,13 @@ public class ItemRBMKRod extends ItemHazard {
 		return this;
 	}
 
-	public ItemRBMKRod setStats(double funcStart, double funcEnd) {
-		this.funcStart = funcStart;
+	public ItemRBMKRod setStats(double funcStart) {
+		return setStats(funcEnd, 0);
+	}
+
+	public ItemRBMKRod setStats(double funcEnd, double selfRate) {
 		this.funcEnd = funcEnd;
+		this.selfRate = selfRate;
 		return this;
 	}
 
@@ -83,7 +87,9 @@ public class ItemRBMKRod extends ItemHazard {
 	 */
 	public double burn(ItemStack stack, double inFlux) {
 		
-		inFlux *= getPoisonLevel(stack);
+		inFlux += selfRate;
+		
+		inFlux *= (1D - getPoisonLevel(stack));
 		
 		double xenon = getPoison(stack);
 		xenon += xenonGenFunc(inFlux);
@@ -104,6 +110,14 @@ public class ItemRBMKRod extends ItemHazard {
 		setYield(stack, y);
 		
 		//TODO: core heatup
+
+		/*System.out.println("=== FUEL SUMMARY REPORT ===");
+		System.out.println("I AM " + this.getUnlocalizedName());
+		System.out.println("I RECEIVE " + inFlux);
+		System.out.println("I HAVE " + xenon);
+		System.out.println("I CREATE " + outFlux);
+		System.out.println("I YIELD " + y);
+		System.out.println("=== END OF REPORT ===");*/
 		
 		return outFlux;
 	}
@@ -130,7 +144,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double flux) {
-		return funcStart + (funcEnd - funcStart) * flux / 100D; //goodness gracious i guessed the right formula on the first try!
+		return funcEnd * flux / 100D; //goodness gracious i guessed the right formula on the first try!
 	}
 	
 	/**
@@ -172,15 +186,15 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		list.add(EnumChatFormatting.ITALIC + this.fullName);
 		
-		if(funcStart > 0) {
+		if(selfRate > 0) {
 			list.add(EnumChatFormatting.RED + "Self-igniting");
 		}
 
-		list.add(EnumChatFormatting.GREEN + "Depletion: " + (100D - ((getYield(stack) * 1000D / yield) / 10D)) + "%");
-		list.add(EnumChatFormatting.DARK_PURPLE + "Xenon poison: " + ((getPoison(stack) * 10D) / 10D) + "%");
+		list.add(EnumChatFormatting.GREEN + "Depletion: " + ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%");
+		list.add(EnumChatFormatting.DARK_PURPLE + "Xenon poison: " + ((getPoison(stack) * 100D) / 100D) + "%");
 		list.add(EnumChatFormatting.BLUE + "Splits with: " + nType.localized);
 		list.add(EnumChatFormatting.BLUE + "Splits into: " + rType.localized);
-		list.add(EnumChatFormatting.YELLOW + "Flux function: " + EnumChatFormatting.WHITE + "" + funcStart + " + " + (funcEnd - funcStart) + " * x");
+		list.add(EnumChatFormatting.YELLOW + "Flux function: " + EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : ""));
 		list.add(EnumChatFormatting.YELLOW + "Xenon gen function: " + EnumChatFormatting.WHITE + "x * " + xGen);
 		list.add(EnumChatFormatting.YELLOW + "Xenon burn function: " + EnumChatFormatting.WHITE + "x² * " + xBurn);
 		list.add(EnumChatFormatting.GOLD + "Heat per tick at full power: " + heat + "°C");

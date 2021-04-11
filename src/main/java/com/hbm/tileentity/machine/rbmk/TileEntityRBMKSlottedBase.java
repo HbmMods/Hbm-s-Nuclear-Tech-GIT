@@ -144,6 +144,7 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 	}
 
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 	}
 
 	public void handleButtonPacket(int value, int meta) {

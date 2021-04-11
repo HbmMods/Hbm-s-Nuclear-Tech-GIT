@@ -26,6 +26,12 @@ public class MineralRecipes {
 		RecipesCommon.add9To1(ModItems.ingot_schraranium, ModBlocks.block_schraranium);
 		RecipesCommon.add1To9(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
 		
+		RecipesCommon.add9To1(ModItems.ingot_lanthanium, ModBlocks.block_lanthanium);
+		RecipesCommon.add1To9(ModBlocks.block_lanthanium, ModItems.ingot_lanthanium);
+		
+		RecipesCommon.add9To1(ModItems.ingot_actinium, ModBlocks.block_actinium);
+		RecipesCommon.add1To9(ModBlocks.block_actinium, ModItems.ingot_actinium);
+		
 		RecipesCommon.add9To1(ModItems.ingot_schrabidate, ModBlocks.block_schrabidate);
 		RecipesCommon.add1To9(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
 		

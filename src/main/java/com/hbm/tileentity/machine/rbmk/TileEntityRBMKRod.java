@@ -32,20 +32,30 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote && slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+
+		if(!worldObj.isRemote) {
 			
-			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+			super.updateEntity();
 			
-			double fluxIn = fluxFromType(rod.nType);
-			
-			double fluxOut = rod.burn(slots[0], fluxIn);
-			NType rType = rod.rType;
-			
-			spreadFlux(rType, fluxOut);
+			if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+				
+				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+				
+				double fluxIn = fluxFromType(rod.nType);
+				double fluxOut = rod.burn(slots[0], fluxIn);
+				NType rType = rod.rType;
+				
+				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
+				this.fluxFast = 0;
+				this.fluxSlow = 0;
+				
+				spreadFlux(rType, fluxOut);
+			} else {
+
+				this.fluxFast = 0;
+				this.fluxSlow = 0;
+			}
 		}
-		
-		super.updateEntity();
 	}
 	
 	/**
@@ -131,7 +141,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	public void getDiagData(NBTTagCompound nbt) {
 		this.writeToNBT(nbt);
-
 		
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			
