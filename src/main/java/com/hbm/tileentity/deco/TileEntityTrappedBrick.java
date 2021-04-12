@@ -113,26 +113,28 @@ public class TileEntityTrappedBrick extends TileEntity {
 		switch(trap) {
 		case FALLING_ROCKS:
 			detector = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 3, zCoord - 1, xCoord + 2, yCoord, zCoord + 2);
-			break;
+			return;
 			
 		case PILLAR: 
 			detector = AxisAlignedBB.getBoundingBox(xCoord + 0.2, yCoord - 3, zCoord + 0.2, xCoord + 0.8, yCoord, zCoord + 0.8);
-			break;
+			return;
 			
 		case ARROW:
 		case FLAMING_ARROW:
 		case POISON_DART:
 			setDetectorDirectional();
-			break;
+			return;
 			
 		case ZOMBIE:
 			detector = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord + 1, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
-			break;
+			return;
 			
 		case SPIDERS:
 			detector = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 3, zCoord - 1, xCoord + 2, yCoord, zCoord + 2);
-			break;
+			return;
 		}
+		
+		detector = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
 	
 	private void setDetectorDirectional() {

@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -186,14 +187,49 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		list.add(EnumChatFormatting.ITALIC + this.fullName);
 		
-		if(selfRate > 0) {
-			list.add(EnumChatFormatting.RED + "Self-igniting");
+		if(this == ModItems.rbmk_fuel_drx) {
+			
+			if(selfRate > 0) {
+				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.source"));
+			}
+			
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmx.depletion", ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%"));
+			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmx.xenon", ((getPoison(stack) * 100D) / 100D) + "%"));
+			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsWith", I18nUtil.resolveKey(nType.unlocalized + ".x")));
+			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsInto", I18nUtil.resolveKey(rType.unlocalized + ".x")));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "")));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "°C/t"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "m"));
+			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmx.melt", meltingPoint + "m"));
+			
+		} else {
+			
+			if(selfRate > 0) {
+				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.source"));
+			}
+			
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmk.depletion", ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%"));
+			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmk.xenon", ((getPoison(stack) * 100D) / 100D) + "%"));
+			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsWith", I18nUtil.resolveKey(nType.unlocalized)));
+			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsInto", I18nUtil.resolveKey(rType.unlocalized)));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "")));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "°C/t"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C"));
+			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmk.melt", meltingPoint + "°C"));
 		}
 
-		list.add(EnumChatFormatting.GREEN + "Depletion: " + ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%");
+		/*list.add(EnumChatFormatting.GREEN + "Depletion: " + ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%");
 		list.add(EnumChatFormatting.DARK_PURPLE + "Xenon poison: " + ((getPoison(stack) * 100D) / 100D) + "%");
-		list.add(EnumChatFormatting.BLUE + "Splits with: " + nType.localized);
-		list.add(EnumChatFormatting.BLUE + "Splits into: " + rType.localized);
+		list.add(EnumChatFormatting.BLUE + "Splits with: " + nType.unlocalized);
+		list.add(EnumChatFormatting.BLUE + "Splits into: " + rType.unlocalized);
 		list.add(EnumChatFormatting.YELLOW + "Flux function: " + EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : ""));
 		list.add(EnumChatFormatting.YELLOW + "Xenon gen function: " + EnumChatFormatting.WHITE + "x * " + xGen);
 		list.add(EnumChatFormatting.YELLOW + "Xenon burn function: " + EnumChatFormatting.WHITE + "x² * " + xBurn);
@@ -201,7 +237,7 @@ public class ItemRBMKRod extends ItemHazard {
 		list.add(EnumChatFormatting.GOLD + "Diffusion: " + diffusion + "°C/t");
 		list.add(EnumChatFormatting.RED + "Skin temp: " + ((int)(getHullHeat(stack) * 10D) / 10D) + "°C");
 		list.add(EnumChatFormatting.RED + "Core temp: " + ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C");
-		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");
+		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");*/
 		
 		super.addInformation(stack, player, list, bool);
 	}

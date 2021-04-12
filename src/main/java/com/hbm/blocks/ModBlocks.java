@@ -1563,6 +1563,7 @@ public class ModBlocks {
 		rbmk_reflector = new RBMKReflector().setBlockName("rbmk_reflector").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_reflector");
 		rbmk_absorber = new RBMKAbsorber().setBlockName("rbmk_absorber").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_absorber");
 		rbmk_moderator = new RBMKModerator().setBlockName("rbmk_moderator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_moderator");
+		rbmk_console = new RBMKConsole().setBlockName("rbmk_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_console");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -2214,6 +2215,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_reflector, rbmk_reflector.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_absorber, rbmk_absorber.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_moderator, rbmk_moderator.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		//GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());

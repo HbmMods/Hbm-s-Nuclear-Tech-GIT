@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;

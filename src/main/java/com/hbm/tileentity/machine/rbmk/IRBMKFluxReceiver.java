@@ -3,14 +3,14 @@ package com.hbm.tileentity.machine.rbmk;
 public interface IRBMKFluxReceiver {
 	
 	public enum NType {
-		FAST("Fast Neutrons"),
-		SLOW("Slow Neutrons"),
-		ANY("All Neutrons");	//not to be used for reactor flux calculation, only for the fuel designation
+		FAST("trait.rbmk.neutron.fast"),
+		SLOW("trait.rbmk.neutron.slow"),
+		ANY("trait.rbmk.neutron.any");	//not to be used for reactor flux calculation, only for the fuel designation
 		
-		public String localized;
+		public String unlocalized;
 		
 		private NType(String loc) {
-			this.localized = loc;
+			this.unlocalized = loc;
 		}
 	}
 	
