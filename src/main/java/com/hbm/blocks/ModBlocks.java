@@ -851,6 +851,7 @@ public class ModBlocks {
 	public static Block rbmk_console;
 	public static final int guiID_rbmk_rod = 113;
 	public static final int guiID_rbmk_boiler = 114;
+	public static final int guiID_rbmk_control = 115;
 
 	public static Block book_guide;
 

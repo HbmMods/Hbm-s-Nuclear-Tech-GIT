@@ -35,12 +35,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public void fillFluidInit(FluidType type) {
 		
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord + 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord + 5, this.zCoord, getTact(), type);
 	}
 
 	@Override

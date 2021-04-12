@@ -78,15 +78,6 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
-		}
-	}
-
-	@Override
 	public void openInventory() {
 	}
 

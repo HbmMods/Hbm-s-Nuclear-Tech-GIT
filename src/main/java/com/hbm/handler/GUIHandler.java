@@ -799,6 +799,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_rbmk_control: {
+			if(entity instanceof TileEntityRBMKControl) {
+				return new ContainerRBMKControl(player.inventory, (TileEntityRBMKControl) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1582,6 +1589,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rbmk_boiler: {
 			if(entity instanceof TileEntityRBMKBoiler) {
 				return new GUIRBMKBoiler(player.inventory, (TileEntityRBMKBoiler) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_rbmk_control: {
+			if(entity instanceof TileEntityRBMKControl) {
+				return new GUIRBMKControl(player.inventory, (TileEntityRBMKControl) entity);
 			}
 			return null;
 		}
