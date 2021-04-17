@@ -31,6 +31,17 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public String getName() {
 		return "container.rbmkBoiler";
 	}
+	
+	@Override
+	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+		}
+		
+		super.updateEntity();
+	}
 
 	@Override
 	public void fillFluidInit(FluidType type) {
@@ -138,6 +149,17 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		//TODO: compression toggles
+		
+		if(data.hasKey("compression")) {
+			
+			switch(steam.getTankType()) {
+			case STEAM: steam.setTankType(FluidType.HOTSTEAM); steam.setFill(steam.getFill() / 10); break;
+			case HOTSTEAM: steam.setTankType(FluidType.SUPERHOTSTEAM); steam.setFill(steam.getFill() / 10); break;
+			case SUPERHOTSTEAM: steam.setTankType(FluidType.ULTRAHOTSTEAM); steam.setFill(steam.getFill() / 10); break;
+			case ULTRAHOTSTEAM: steam.setTankType(FluidType.STEAM); steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); break;
+			}
+			
+			this.markDirty();
+		}
 	}
 }
