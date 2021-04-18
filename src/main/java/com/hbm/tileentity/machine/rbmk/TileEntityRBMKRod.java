@@ -91,6 +91,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		for(ForgeDirection dir : fluxDirs) {
 			
 			NType stream = type;
+			double flux = fluxOut;
 			
 			for(int i = 1; i <= range; i++) {
 			
@@ -99,8 +100,19 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				//burn baby burn
 				if(te instanceof TileEntityRBMKRod) {
 					TileEntityRBMKRod rod = (TileEntityRBMKRod)te;
-					rod.receiveFlux(stream, fluxOut);
+					rod.receiveFlux(stream, flux);
 					break;
+				}
+				
+				//set neutrons to slow
+				if(te instanceof TileEntityRBMKControl) {
+					TileEntityRBMKControl control = (TileEntityRBMKControl)te;
+					
+					if(control.level == 0.0D)
+						break;
+					
+					flux *= control.level;
+					continue;
 				}
 				
 				//set neutrons to slow
@@ -111,7 +123,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				
 				//return the neutrons back to this with no further action required
 				if(te instanceof TileEntityRBMKReflector) {
-					this.receiveFlux(stream, fluxOut);
+					this.receiveFlux(stream, flux);
 					break;
 				}
 				

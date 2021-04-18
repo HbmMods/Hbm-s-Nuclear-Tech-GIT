@@ -90,11 +90,12 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		inFlux += selfRate;
 		
-		inFlux *= (1D - getPoisonLevel(stack));
-		
 		double xenon = getPoison(stack);
-		xenon += xenonGenFunc(inFlux);
 		xenon -= xenonBurnFunc(inFlux);
+		
+		inFlux *= (1D - getPoisonLevel(stack));
+
+		xenon += xenonGenFunc(inFlux);
 		
 		if(xenon < 0D) xenon = 0D;
 		if(xenon > 100D) xenon = 100D;
@@ -193,7 +194,7 @@ public class ItemRBMKRod extends ItemHazard {
 				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.source"));
 			}
 			
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmx.depletion", ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%"));
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmx.depletion", ((int)(((yield - getYield(stack)) / yield) * 1000)) / 1000D + "%"));
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmx.xenon", ((getPoison(stack) * 100D) / 100D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsWith", I18nUtil.resolveKey(nType.unlocalized + ".x")));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsInto", I18nUtil.resolveKey(rType.unlocalized + ".x")));
@@ -212,7 +213,7 @@ public class ItemRBMKRod extends ItemHazard {
 				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.source"));
 			}
 			
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmk.depletion", ((int)(((yield - getYield(stack)) / yield) * 10000)) / 10000D + "%"));
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("trait.rbmk.depletion", ((int)(((yield - getYield(stack)) / yield) * 1000D)) / 1000D + "%"));
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmk.xenon", ((getPoison(stack) * 100D) / 100D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsWith", I18nUtil.resolveKey(nType.unlocalized)));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsInto", I18nUtil.resolveKey(rType.unlocalized)));

@@ -9,7 +9,10 @@ public class RBMKBlank extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRBMKBlank();
+		
+		if(meta >= this.offset)
+			return new TileEntityRBMKBlank();
+		return null;
 	}
 	
 	@Override

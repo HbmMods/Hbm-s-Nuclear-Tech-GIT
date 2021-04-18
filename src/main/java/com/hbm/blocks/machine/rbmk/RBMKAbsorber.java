@@ -9,7 +9,10 @@ public class RBMKAbsorber extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRBMKAbsorber();
+
+		if(meta >= this.offset)
+			return new TileEntityRBMKAbsorber();
+		return null;
 	}
 	
 	@Override

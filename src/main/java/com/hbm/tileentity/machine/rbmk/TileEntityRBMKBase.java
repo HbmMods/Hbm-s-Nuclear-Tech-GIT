@@ -2,11 +2,13 @@ package com.hbm.tileentity.machine.rbmk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -19,8 +21,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -218,6 +222,92 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 
 			GL11.glPopMatrix();
 			Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+		}
+	}
+	
+	public void onOverheat() {
+		
+		for(int i = 0; i < 4; i++) {
+			worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.lava);
+		}
+	}
+	
+	public void onMelt(int reduce) {
+
+		reduce = MathHelper.clamp_int(reduce, 1, 3);
+		
+		if(worldObj.rand.nextInt(3) == 0)
+			reduce++;
+		
+		for(int i = 3; i >= 0; i--) {
+			
+			if(i <= 4 - reduce) {
+				
+				if(reduce > 1 && i == 4 - reduce && worldObj.rand.nextInt(3) == 0)
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
+				else
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris);
+				
+			} else {
+				worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
+			}
+			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
+		}
+	}
+	
+	public static HashSet<TileEntityRBMKBase> columns = new HashSet();
+	
+	public void meltdown() {
+		
+		columns.clear();
+		getFF(xCoord, yCoord, zCoord);
+		
+		int minX = xCoord;
+		int maxX = xCoord;
+		int minZ = zCoord;
+		int maxZ = zCoord;
+		
+		//set meltdown bounds
+		for(TileEntityRBMKBase rbmk : columns) {
+
+			if(rbmk.xCoord < minX)
+				minX = rbmk.xCoord;
+			if(rbmk.xCoord > maxX)
+				maxX = rbmk.xCoord;
+			if(rbmk.zCoord < minZ)
+				minZ = rbmk.zCoord;
+			if(rbmk.zCoord > maxZ)
+				maxZ = rbmk.zCoord;
+		}
+		
+		for(TileEntityRBMKBase rbmk : columns) {
+
+			int distFromMinX = rbmk.xCoord - minX;
+			int distFromMaxX = maxX - rbmk.xCoord;
+			int distFromMinZ = rbmk.zCoord - minZ;
+			int distFromMaxZ = maxZ - rbmk.zCoord;
+			
+			int minDist = Math.min(distFromMinX, Math.min(distFromMaxX, Math.min(distFromMinZ, distFromMaxZ)));
+			
+			rbmk.onMelt(minDist + 1);
+		}
+	}
+	
+	private void getFF(int x, int y, int z) {
+		
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+		
+		if(te instanceof TileEntityRBMKBase) {
+			
+			TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
+			
+			if(!columns.contains(rbmk)) {
+				columns.add(rbmk);
+				getFF(x + 1, y, z);
+				getFF(x - 1, y, z);
+				getFF(x, y, z + 1);
+				getFF(x, y, z - 1);
+			}
 		}
 	}
 }

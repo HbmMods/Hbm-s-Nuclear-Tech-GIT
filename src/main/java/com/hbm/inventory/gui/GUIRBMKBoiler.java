@@ -16,7 +16,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIRBMKBoiler extends GuiContainer {
+public class GUIRBMKBoiler extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_boiler.png");
 	private TileEntityRBMKBoiler boiler;
@@ -27,6 +27,15 @@ public class GUIRBMKBoiler extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 186;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+
+		boiler.feed.renderTankInfo(this, mouseX, mouseY, guiLeft + 126, guiTop + 24, 16, 56);
+		boiler.steam.renderTankInfo(this, mouseX, mouseY, guiLeft + 89, guiTop + 39, 8, 28);
 	}
 
 	@Override
@@ -55,6 +64,16 @@ public class GUIRBMKBoiler extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int i = boiler.feed.getFill() * 58 / boiler.feed.getMaxFill();
+		drawTexturedModalRect(guiLeft + 126, guiTop + 82 - i, 176, 58 - i, 14, i);
+		
+		int j = boiler.feed.getFill() * 22 / boiler.feed.getMaxFill();
+
+		if(j > 0) j++;
+		if(j > 22) j++;
+		
+		drawTexturedModalRect(guiLeft + 91, guiTop + 65 - j, 190, 24 - j, 4, j);
 		
 		switch(boiler.steam.getTankType()) {
 		case STEAM: drawTexturedModalRect(guiLeft + 36, guiTop + 24, 194, 0, 14, 58); break;

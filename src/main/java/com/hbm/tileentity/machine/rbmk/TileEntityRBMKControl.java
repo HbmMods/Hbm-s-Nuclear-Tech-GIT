@@ -2,12 +2,17 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.interfaces.IControlReceiver;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 public class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements IControlReceiver {
 
+	@SideOnly(Side.CLIENT)
+	public double lastLevel;
 	public double level;
 	public static final double speed = 0.00277D; // it takes around 18 seconds for the thing to fully extend
 	public double targetLevel;
@@ -30,7 +35,11 @@ public class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements 
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		if(worldObj.isRemote) {
+			
+			this.lastLevel = this.level;
+		
+		} else {
 			
 			if(level < targetLevel) {
 				
@@ -96,6 +105,17 @@ public class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements 
 		
 		if(color != null)
 			nbt.setInteger("color", color.ordinal());
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 10, zCoord + 1);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 	
 	public static enum RBMKColor {

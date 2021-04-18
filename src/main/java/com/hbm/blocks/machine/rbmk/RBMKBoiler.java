@@ -16,7 +16,6 @@ public class RBMKBoiler extends RBMKBase {
 		
 		if(meta >= this.offset)
 			return new TileEntityRBMKBoiler();
-		
 		return null;
 	}
 	

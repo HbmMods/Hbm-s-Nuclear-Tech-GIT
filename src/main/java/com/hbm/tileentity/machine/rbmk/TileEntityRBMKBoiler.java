@@ -147,6 +147,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
 
+	@SuppressWarnings("incomplete-switch") //shut the up
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		

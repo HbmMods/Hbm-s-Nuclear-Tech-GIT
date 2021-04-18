@@ -9,7 +9,10 @@ public class RBMKControlAuto extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRBMKControl();
+		
+		if(meta >= this.offset)
+			return new TileEntityRBMKControl();
+		return null;
 	}
 	
 	@Override

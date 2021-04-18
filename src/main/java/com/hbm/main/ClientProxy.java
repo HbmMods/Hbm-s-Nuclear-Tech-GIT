@@ -207,6 +207,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITERStruct.class, new RenderITERMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlasmaStruct.class, new RenderPlasmaMultiblock());
 		//RBMK
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKControl.class, new RenderRBMKControlRod());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKConsole.class, new RenderRBMKConsole());
 		//ITER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITER.class, new RenderITER());
@@ -540,6 +541,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderRBMKRod());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKReflector());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKControl());
+		RenderingRegistry.registerBlockHandler(new RenderPribris());
 	}
 	
 	@Override
@@ -1233,6 +1235,12 @@ public class ClientProxy extends ServerProxy {
 		if("rift".equals(type)) {
 			
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRift(man, world, x, y, z));
+		}
+		
+		if("rbmkflame".equals(type)) {
+			
+			int maxAge = data.getInteger("maxAge");
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKFlame(man, world, x, y, z, maxAge));
 		}
 		
 		if("anim".equals(type)) {

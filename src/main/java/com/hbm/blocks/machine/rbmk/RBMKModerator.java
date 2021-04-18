@@ -9,7 +9,10 @@ public class RBMKModerator extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRBMKModerator();
+		
+		if(meta >= this.offset)
+			return new TileEntityRBMKModerator();
+		return null;
 	}
 	
 	@Override

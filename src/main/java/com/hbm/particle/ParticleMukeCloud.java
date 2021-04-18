@@ -113,10 +113,10 @@ public class ParticleMukeCloud extends EntityFX {
 		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY);
 		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
 
-		tess.addVertexWithUV((double) (pX - x * this.particleScale - tx * this.particleScale), (double) (pY - y * this.particleScale), (double) (pZ - z * this.particleScale - tz * this.particleScale), uMax, vMax);
-		tess.addVertexWithUV((double) (pX - x * this.particleScale + tx * this.particleScale), (double) (pY + y * this.particleScale), (double) (pZ - z * this.particleScale + tz * this.particleScale), uMax, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale + tx * this.particleScale), (double) (pY + y * this.particleScale), (double) (pZ + z * this.particleScale + tz * this.particleScale), uMin, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale - tx * this.particleScale), (double) (pY - y * this.particleScale), (double) (pZ + z * this.particleScale - tz * this.particleScale), uMin, vMax);
+		tess.addVertexWithUV((double) (pX - x * this.particleScale - tx * this.particleScale), (double) (pY - 1 * this.particleScale), (double) (pZ - z * this.particleScale - tz * this.particleScale), uMax, vMax);
+		tess.addVertexWithUV((double) (pX - x * this.particleScale + tx * this.particleScale), (double) (pY + 1 * this.particleScale), (double) (pZ - z * this.particleScale + tz * this.particleScale), uMax, vMin);
+		tess.addVertexWithUV((double) (pX + x * this.particleScale + tx * this.particleScale), (double) (pY + 1 * this.particleScale), (double) (pZ + z * this.particleScale + tz * this.particleScale), uMin, vMin);
+		tess.addVertexWithUV((double) (pX + x * this.particleScale - tx * this.particleScale), (double) (pY - 1 * this.particleScale), (double) (pZ + z * this.particleScale - tz * this.particleScale), uMin, vMax);
 		
 		tess.draw();
 		

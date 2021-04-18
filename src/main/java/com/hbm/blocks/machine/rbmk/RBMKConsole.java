@@ -2,10 +2,8 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.BlockMachineBase;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -24,7 +22,7 @@ public class RBMKConsole extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 
-		if(meta >= 12)
+		if(meta >= this.offset)
 			return new TileEntityRBMKConsole();
 		
 		return null;
