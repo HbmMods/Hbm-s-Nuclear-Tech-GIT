@@ -858,6 +858,7 @@ public class ModBlocks {
 	public static final int guiID_rbmk_control = 115;
 	public static final int guiID_rbmk_console = 116;
 	public static Block pribris;
+	public static Block pribris_burning;
 
 	public static Block book_guide;
 
@@ -1579,6 +1580,7 @@ public class ModBlocks {
 		rbmk_moderator = new RBMKModerator().setBlockName("rbmk_moderator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_moderator");
 		rbmk_console = new RBMKConsole().setBlockName("rbmk_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_console");
 		pribris = new RBMKDebris().setBlockName("pribris").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris");
+		pribris_burning = new RBMKDebrisBurning().setBlockName("pribris_burning").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_burning");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -2240,7 +2242,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_moderator, rbmk_moderator.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris, pribris.getUnlocalizedName());
-		//GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
+		GameRegistry.registerBlock(pribris_burning, pribris_burning.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());

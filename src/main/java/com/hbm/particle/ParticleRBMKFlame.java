@@ -6,9 +6,7 @@ import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -26,6 +24,7 @@ public class ParticleRBMKFlame extends EntityFX {
 		super(world, x, y, z);
 		this.theRenderEngine = texman;
 		this.particleMaxAge = maxAge;
+		this.particleScale = rand.nextFloat() + 1F;
 	}
 
 	public int getFXLayer() {
@@ -70,8 +69,8 @@ public class ParticleRBMKFlame extends EntityFX {
 		if(this.particleAge > this.particleMaxAge - 20) {
 			this.particleAlpha = (this.particleMaxAge - this.particleAge) / 20F;
 		}
-		
-		this.particleScale = 1;
+
+		this.particleAlpha *= 0.5F;
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
 

@@ -111,7 +111,9 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		setYield(stack, y);
 		
-		//TODO: core heatup
+		double coreHeat = this.getCoreHeat(stack);
+		coreHeat += outFlux * heat;
+		this.setCoreHeat(stack, coreHeat);
 
 		/*System.out.println("=== FUEL SUMMARY REPORT ===");
 		System.out.println("I AM " + this.getUnlocalizedName());
@@ -129,7 +131,19 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param stack
 	 */
 	public void updateHeat(ItemStack stack) {
-		//TODO
+		
+		//TODO: use exponentials so the heat function isn't linear (to allow very spicy core temperatures)
+		double coreHeat = this.getCoreHeat(stack);
+		double hullHeat = this.getHullHeat(stack);
+		
+		if(coreHeat > hullHeat) {
+			
+			coreHeat -= this.diffusion;
+			hullHeat += this.diffusion;
+			
+			this.setCoreHeat(stack, coreHeat);
+			this.setHullHeat(stack, hullHeat);
+		}
 	}
 	
 	/**
@@ -137,8 +151,19 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param stack
 	 * @return
 	 */
-	public double provideHeat(ItemStack stack) {
-		return 0; //TODO
+	public double provideHeat(ItemStack stack, double heat) {
+		
+		double hullHeat = this.getHullHeat(stack);
+		
+		if(hullHeat <= heat)
+			return 0;
+		
+		double ret = (hullHeat - heat) / 2; //TODO: replace this with an euler func that employs our old buddy diffusion
+		
+		hullHeat -= ret;
+		this.setHullHeat(stack, hullHeat);
+		
+		return ret;
 	}
 	
 	/**

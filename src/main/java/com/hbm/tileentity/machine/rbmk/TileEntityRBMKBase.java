@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -243,10 +245,17 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			if(i <= 4 - reduce) {
 				
-				if(reduce > 1 && i == 4 - reduce && worldObj.rand.nextInt(3) == 0)
-					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
-				else
+				if(reduce > 1 && i == 4 - reduce) {
+					
+					if(worldObj.rand.nextInt(3) == 0) {
+						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
+					} else {
+						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris_burning);
+					}
+					
+				} else {
 					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris);
+				}
 				
 			} else {
 				worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
@@ -291,6 +300,16 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			rbmk.onMelt(minDist + 1);
 		}
+		
+		int smallDim = Math.min(maxX - minX, maxZ - minZ);
+		int avgX = minX + (maxX - minX) / 2;
+		int avgZ = minZ + (maxZ - minZ) / 2;
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "rbmkmush");
+		data.setFloat("scale", smallDim);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, avgX + 0.5, yCoord + 1, avgZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,avgX + 0.5, yCoord + 1, avgZ + 0.5, 250));
+		MainRegistry.proxy.effectNT(data);
 	}
 	
 	private void getFF(int x, int y, int z) {

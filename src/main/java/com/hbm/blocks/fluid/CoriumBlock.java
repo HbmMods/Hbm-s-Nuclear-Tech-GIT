@@ -79,4 +79,10 @@ public class CoriumBlock extends BlockFluidClassic {
 			world.setBlock(x, y, z, ModBlocks.block_corium);
 		}
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass() {
+		return 0;
+	}
 }

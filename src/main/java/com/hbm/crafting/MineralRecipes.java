@@ -55,6 +55,9 @@ public class MineralRecipes {
 		RecipesCommon.add1To9(ModBlocks.block_pu_mix, ModItems.ingot_pu_mix);
 		RecipesCommon.add9To1(ModItems.nugget_pu_mix, ModItems.ingot_pu_mix);
 		RecipesCommon.add1To9(ModItems.ingot_pu_mix, ModItems.nugget_pu_mix);
+		
+		RecipesCommon.add9To1(ModItems.nugget_neptunium_fuel, ModItems.ingot_neptunium_fuel);
+		RecipesCommon.add1To9(ModItems.ingot_neptunium_fuel, ModItems.nugget_neptunium_fuel);
 
 		RecipesCommon.addBillet(ModItems.billet_uranium, ModItems.nugget_uranium, "nuggetUranium");
 		RecipesCommon.addBillet(ModItems.billet_u233, ModItems.nugget_u233, "nuggetUranium233", "tinyU233");
@@ -66,33 +69,38 @@ public class MineralRecipes {
 		RecipesCommon.addBillet(ModItems.billet_pu239, ModItems.nugget_pu239, "nuggetPlutonium239", "tinyPu239");
 		RecipesCommon.addBillet(ModItems.billet_pu240, ModItems.nugget_pu240, "nuggetPlutonium240", "tinyPu240");
 		RecipesCommon.addBillet(ModItems.billet_pu_mix, ModItems.nugget_pu_mix);
-		RecipesCommon.addBillet(ModItems.billet_neptunium, ModItems.nugget_neptunium, "nuggetNeptunium");
+		RecipesCommon.addBillet(ModItems.billet_neptunium, ModItems.nugget_neptunium, "nuggetNeptunium237", "tinyNp237");
 		RecipesCommon.addBillet(ModItems.billet_polonium, ModItems.nugget_polonium, "nuggetPolonium");
 		RecipesCommon.addBillet(ModItems.billet_schrabidium, ModItems.nugget_schrabidium);
 		RecipesCommon.addBillet(ModItems.billet_solinium, ModItems.nugget_solinium);
 		RecipesCommon.addBillet(ModItems.billet_uranium_fuel, ModItems.nugget_uranium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_thorium_fuel, ModItems.nugget_thorium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_plutonium_fuel, ModItems.nugget_plutonium_fuel);
+		RecipesCommon.addBillet(ModItems.billet_neptunium_fuel, ModItems.nugget_neptunium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_mox_fuel, ModItems.nugget_mox_fuel);
 		RecipesCommon.addBillet(ModItems.billet_schrabidium_fuel, ModItems.nugget_schrabidium_fuel);
 
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_thorium_fuel, 2), new Object[] { ModItems.billet_th232, ModItems.billet_th232, ModItems.billet_u233 });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_thorium_fuel, 3), new Object[] { ModItems.billet_th232, ModItems.billet_th232, ModItems.billet_u233 });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_thorium_fuel, 1), new Object[] { "nuggetThorium232", "nuggetThorium232", "nuggetThorium232", "nuggetThorium232", "nuggetUranium233", "nuggetUranium233" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_thorium_fuel, 1), new Object[] { "tinyTh232", "tinyTh232", "tinyTh232", "tinyTh232", "tinyU233", "tinyU233" }));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_uranium_fuel, 2), new Object[] { ModItems.billet_u238, ModItems.billet_u238, ModItems.billet_u233 });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_uranium_fuel, 3), new Object[] { ModItems.billet_u238, ModItems.billet_u238, ModItems.billet_u233 });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_uranium_fuel, 1), new Object[] { "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium233", "nuggetUranium233" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_uranium_fuel, 1), new Object[] { "tinyU238", "tinyU238", "tinyU238", "tinyU238", "tinyU233", "tinyU233" }));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_uranium_fuel, 2), new Object[] { ModItems.billet_u238, ModItems.billet_u238, ModItems.billet_u235 });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_uranium_fuel, 3), new Object[] { ModItems.billet_u238, ModItems.billet_u238, ModItems.billet_u235 });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_uranium_fuel, 1), new Object[] { "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium235", "nuggetUranium235" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_uranium_fuel, 1), new Object[] { "tinyU238", "tinyU238", "tinyU238", "tinyU238", "tinyU235", "tinyU235" }));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_plutonium_fuel, 2), new Object[] { ModItems.billet_u238, ModItems.billet_pu_mix, ModItems.billet_pu_mix });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_plutonium_fuel, 3), new Object[] { ModItems.billet_u238, ModItems.billet_pu_mix, ModItems.billet_pu_mix });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_plutonium_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "nuggetUranium238", "nuggetUranium238" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_plutonium_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "tinyU238", "tinyU238" }));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_mox_fuel, 2), new Object[] { ModItems.billet_u238, ModItems.billet_u235, ModItems.billet_pu_mix });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_neptunium_fuel, 3), new Object[] { ModItems.billet_u238, ModItems.billet_u238, ModItems.billet_neptunium });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_neptunium_fuel, 1), new Object[] { "nuggetNeptunium", "nuggetNeptunium", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_neptunium_fuel, 1), new Object[] { "tinyNp237", "tinyNp237", "tinyU238", "tinyU238", "tinyU238", "tinyU238" }));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_mox_fuel, 3), new Object[] { ModItems.billet_u238, ModItems.billet_u235, ModItems.billet_pu_mix });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "nuggetUranium238", "nuggetUranium238", "nuggetUranium235", "nuggetUranium235" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "tinyU238", "tinyU238", "tinyU235", "tinyU235" }));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_schrabidium_fuel, 2), new Object[] { ModItems.billet_schrabidium, ModItems.billet_neptunium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium });
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 1), new Object[] { ModItems.nugget_schrabidium, ModItems.nugget_schrabidium, "nuggetNeptunium", "nuggetNeptunium", ModItems.nugget_beryllium, ModItems.nugget_beryllium }));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 3), new Object[] { ModItems.billet_schrabidium, ModItems.billet_neptunium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 1), new Object[] { ModItems.nugget_schrabidium, ModItems.nugget_schrabidium, "nuggetNeptunium237", "nuggetNeptunium237", ModItems.nugget_beryllium, ModItems.nugget_beryllium }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 1), new Object[] { ModItems.nugget_schrabidium, ModItems.nugget_schrabidium, "tinyNp237", "tinyNp237", ModItems.nugget_beryllium, ModItems.nugget_beryllium }));
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_uranium, 2), new Object[] { ModItems.billet_uranium, ModItems.billet_uranium, ModItems.billet_uranium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_u233, 2), new Object[] { ModItems.billet_u233, ModItems.billet_u233, ModItems.billet_u233 });
@@ -104,6 +112,7 @@ public class MineralRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_pu240, 2), new Object[] { ModItems.billet_pu240, ModItems.billet_pu240, ModItems.billet_pu240 });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_pu_mix, 2), new Object[] { ModItems.billet_pu_mix, ModItems.billet_pu_mix, ModItems.billet_pu_mix });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_neptunium, 2), new Object[] { ModItems.billet_neptunium, ModItems.billet_neptunium, ModItems.billet_neptunium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_neptunium_fuel, 2), new Object[] { ModItems.billet_neptunium_fuel, ModItems.billet_neptunium_fuel, ModItems.billet_neptunium_fuel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_polonium, 2), new Object[] { ModItems.billet_polonium, ModItems.billet_polonium, ModItems.billet_polonium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_schrabidium, 2), new Object[] { ModItems.billet_schrabidium, ModItems.billet_schrabidium, ModItems.billet_schrabidium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_solinium, 2), new Object[] { ModItems.billet_solinium, ModItems.billet_solinium, ModItems.billet_solinium });

@@ -903,6 +903,7 @@ public class ModItems {
 	public static Item rbmk_fuel_thmeu;
 	public static Item rbmk_fuel_lep;
 	public static Item rbmk_fuel_mep;
+	public static Item rbmk_fuel_men;
 	public static Item rbmk_fuel_mox;
 	public static Item rbmk_fuel_les;
 	public static Item rbmk_fuel_mes;
@@ -1548,6 +1549,7 @@ public class ModItems {
 	public static Item pancake;
 	public static Item nugget;
 	public static Item peas;
+	public static Item marshmallow;
 
 	public static Item med_ipecac;
 	public static Item med_ptsd;
@@ -3129,28 +3131,31 @@ public class ModItems {
 
 		rbmk_lid = new Item().setUnlocalizedName("rbmk_lid").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid");
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
-		rbmk_fuel_meu = new ItemRBMKRod("Medium Enriched Uranium")
+		rbmk_fuel_meu = new ItemRBMKRod("Medium Enriched Uranium-235")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_meu").setTextureName(RefStrings.MODID + ":rbmk_fuel_meu");
 		rbmk_fuel_thmeu = new ItemRBMKRod("Thorium with MEU Driver Fuel")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_thmeu").setTextureName(RefStrings.MODID + ":rbmk_fuel_thmeu");
-		rbmk_fuel_lep = new ItemRBMKRod("Low Enriched Plutonium")
+		rbmk_fuel_lep = new ItemRBMKRod("Low Enriched Plutonium-239")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_lep").setTextureName(RefStrings.MODID + ":rbmk_fuel_lep");
-		rbmk_fuel_mep = new ItemRBMKRod("Medium Enriched Plutonium")
+		rbmk_fuel_mep = new ItemRBMKRod("Medium Enriched Plutonium-239")
 				.setYield(100000000D)
 				.setStats(100, 20).setUnlocalizedName("rbmk_fuel_mep").setTextureName(RefStrings.MODID + ":rbmk_fuel_mep");
+		rbmk_fuel_men = new ItemRBMKRod("Medium Enriched Neptunium-237")
+				.setYield(100000000D)
+				.setStats(100, 20).setUnlocalizedName("rbmk_fuel_men").setTextureName(RefStrings.MODID + ":rbmk_fuel_men");
 		rbmk_fuel_mox = new ItemRBMKRod("Mixed LEU & LEP Oxide")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_mox").setTextureName(RefStrings.MODID + ":rbmk_fuel_mox");
-		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium")
+		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium-236")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_les").setTextureName(RefStrings.MODID + ":rbmk_fuel_les");
-		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium")
+		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium-236")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_mes").setTextureName(RefStrings.MODID + ":rbmk_fuel_mes");
-		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium")
+		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium-236")
 				.setYield(100000000D)
 				.setStats(100).setUnlocalizedName("rbmk_fuel_hes").setTextureName(RefStrings.MODID + ":rbmk_fuel_hes");
 		rbmk_fuel_leaus = new ItemRBMKRod("Low Enriched Australium (Tasmanite)")
@@ -3765,6 +3770,7 @@ public class ModItems {
 		pancake = new ItemPancake(20, 20, false).setUnlocalizedName("pancake").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pancake");
 		nugget = new ItemLemon(200, 200, false).setUnlocalizedName("nugget").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":nugget");
 		peas = new ItemPeas().setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
+		marshmallow = new Item().setUnlocalizedName("marshmallow").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":marshmallow");
 
 		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		reacher = new Item().setUnlocalizedName("reacher").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":reacher");
@@ -5812,6 +5818,7 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_thmeu, rbmk_fuel_thmeu.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_lep, rbmk_fuel_lep.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mep, rbmk_fuel_mep.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_men, rbmk_fuel_men.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mox, rbmk_fuel_mox.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_les, rbmk_fuel_les.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mes, rbmk_fuel_mes.getUnlocalizedName());
@@ -6565,6 +6572,7 @@ public class ModItems {
 		GameRegistry.registerItem(pancake, pancake.getUnlocalizedName());
 		GameRegistry.registerItem(nugget, nugget.getUnlocalizedName());
 		GameRegistry.registerItem(peas, peas.getUnlocalizedName());
+		GameRegistry.registerItem(marshmallow, marshmallow.getUnlocalizedName());
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		GameRegistry.registerItem(canteen_13, canteen_13.getUnlocalizedName());

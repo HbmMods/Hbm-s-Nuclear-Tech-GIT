@@ -1238,9 +1238,13 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("rbmkflame".equals(type)) {
-			
 			int maxAge = data.getInteger("maxAge");
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKFlame(man, world, x, y, z, maxAge));
+		}
+		
+		if("rbmkmush".equals(type)) {
+			float scale = data.getFloat("scale");
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, scale));
 		}
 		
 		if("anim".equals(type)) {
