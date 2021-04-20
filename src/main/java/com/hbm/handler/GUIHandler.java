@@ -801,8 +801,15 @@ public class GUIHandler implements IGuiHandler {
 		}
 
 		case ModBlocks.guiID_rbmk_control: {
-			if(entity instanceof TileEntityRBMKControl) {
-				return new ContainerRBMKControl(player.inventory, (TileEntityRBMKControl) entity);
+			if(entity instanceof TileEntityRBMKControlManual) {
+				return new ContainerRBMKControl(player.inventory, (TileEntityRBMKControlManual) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_rbmk_control_auto: {
+			if(entity instanceof TileEntityRBMKControlAuto) {
+				return new ContainerRBMKControlAuto(player.inventory, (TileEntityRBMKControlAuto) entity);
 			}
 			return null;
 		}
@@ -1594,8 +1601,15 @@ public class GUIHandler implements IGuiHandler {
 		}
 
 		case ModBlocks.guiID_rbmk_control: {
-			if(entity instanceof TileEntityRBMKControl) {
-				return new GUIRBMKControl(player.inventory, (TileEntityRBMKControl) entity);
+			if(entity instanceof TileEntityRBMKControlManual) {
+				return new GUIRBMKControl(player.inventory, (TileEntityRBMKControlManual) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_rbmk_control_auto: {
+			if(entity instanceof TileEntityRBMKControlAuto) {
+				return new GUIRBMKControlAuto(player.inventory, (TileEntityRBMKControlAuto) entity);
 			}
 			return null;
 		}

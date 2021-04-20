@@ -2,11 +2,11 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerRBMKControl;
+import com.hbm.inventory.container.ContainerRBMKControlAuto;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -15,13 +15,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIRBMKControl extends GuiInfoContainer {
+public class GUIRBMKControlAuto extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_control.png");
-	private TileEntityRBMKControlManual rod;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_control_auto.png");
+	private TileEntityRBMKControlAuto rod;
 
-	public GUIRBMKControl(InventoryPlayer invPlayer, TileEntityRBMKControlManual tedf) {
-		super(new ContainerRBMKControl(invPlayer, tedf));
+	public GUIRBMKControlAuto(InventoryPlayer invPlayer, TileEntityRBMKControlAuto tedf) {
+		super(new ContainerRBMKControlAuto(invPlayer, tedf));
 		rod = tedf;
 		
 		this.xSize = 176;
@@ -32,14 +32,14 @@ public class GUIRBMKControl extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 71, guiTop + 29, 16, 56, mouseX, mouseY, new String[]{ (int)(rod.level * 100) + "%" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 124, guiTop + 29, 16, 56, mouseX, mouseY, new String[]{ (int)(rod.level * 100) + "%" } );
 	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 		
-		for(int k = 0; k < 5; k++) {
+		/*for(int k = 0; k < 5; k++) {
 
 			//manual rod control
 			if(guiLeft + 118 <= x && guiLeft + 118 + 30 > x && guiTop + 26 + k * 11 < y && guiTop + 26 + 10 + k * 11 >= y) {
@@ -58,7 +58,7 @@ public class GUIRBMKControl extends GuiInfoContainer {
 				data.setInteger("color", k);
 				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, rod.xCoord, rod.yCoord, rod.zCoord));
 			}
-		}
+		}*/
 	}
 	
 	@Override
@@ -78,12 +78,8 @@ public class GUIRBMKControl extends GuiInfoContainer {
 		int height = (int)(56 * (1D - rod.level));
 		
 		if(height > 0)
-			drawTexturedModalRect(guiLeft + 75, guiTop + 29, 176, 56 - height, 8, height);
+			drawTexturedModalRect(guiLeft + 124, guiTop + 29, 176, 56 - height, 8, height);
 		
-		if(rod.color != null) {
-			int color = rod.color.ordinal();
-
-			drawTexturedModalRect(guiLeft + 28, guiTop + 26 + color * 11, 184, color * 10, 12, 10);
-		}
+		drawTexturedModalRect(guiLeft + 59, guiTop + 27, 184, 0, 26, 19);
 	}
 }

@@ -12,7 +12,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderRBMKControlRod extends TileEntitySpecialRenderer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control.png");
+	private ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control.png");
+	
+	public RenderRBMKControlRod(String texture) {
+		this.texture = new ResourceLocation(texture);
+	}
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float i) {

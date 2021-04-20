@@ -42,7 +42,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	public double heat;
 
 	public boolean hasLid() {
-		return false;
+		return true;
 	}
 	
 	/**

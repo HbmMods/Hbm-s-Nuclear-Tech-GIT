@@ -463,7 +463,8 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityFEL.class, "tileentity_fel");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
-		GameRegistry.registerTileEntity(TileEntityRBMKControl.class, "tileentity_rbmk_control");
+		GameRegistry.registerTileEntity(TileEntityRBMKControlManual.class, "tileentity_rbmk_control");
+		GameRegistry.registerTileEntity(TileEntityRBMKControlAuto.class, "tileentity_rbmk_control_auto");
 		GameRegistry.registerTileEntity(TileEntityRBMKBlank.class, "tileentity_rbmk_blank");
 		GameRegistry.registerTileEntity(TileEntityRBMKBoiler.class, "tileentity_rbmk_boiler");
 		GameRegistry.registerTileEntity(TileEntityRBMKReflector.class, "tileentity_rbmk_reflector");
