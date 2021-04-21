@@ -2,16 +2,12 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
-import com.hbm.world.dungeon.AncientTomb;
-import com.hbm.world.dungeon.Spaceship;
-import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -29,8 +25,16 @@ public class ItemWandD extends Item {
 			
 			int x = pos.blockX;
 			int z = pos.blockZ;
-			int y = world.getHeightValue(x, z);
-
+			//int y = world.getHeightValue(x, z);
+			int y = pos.blockY;
+			
+			EntityBlockSpider spider = new EntityBlockSpider(world);
+			spider.setPosition(x + 0.5, y, z + 0.5);
+			spider.makeBlock(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+			world.setBlockToAir(x, y, z);
+			world.spawnEntityInWorld(spider);
+			
+			
     		/*NBTTagCompound data = new NBTTagCompound();
     		data.setString("type", "rift");
     		data.setDouble("posX", x);
@@ -47,7 +51,7 @@ public class ItemWandD extends Item {
 			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
 			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
 			
-			new AncientTomb().build(world, world.rand, x, y + 10, z);
+			//new AncientTomb().build(world, world.rand, x, y + 10, z);
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

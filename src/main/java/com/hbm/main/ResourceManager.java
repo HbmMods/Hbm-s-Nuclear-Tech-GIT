@@ -238,6 +238,7 @@ public class ResourceManager {
 	public static final IModelCustom teslacrab = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/teslacrab.obj"));
 	public static final IModelCustom taintcrab = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/taintcrab.obj"));
 	public static final IModelCustom maskman = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/maskman.obj"));
+	public static final IModelCustom spider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/blockspider.obj"));
 	
 	//Belt
 	public static final IModelCustom arrow = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/arrow.obj"));
@@ -496,6 +497,7 @@ public class ResourceManager {
 	public static final ResourceLocation taintcrab_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/taintcrab.png");
 	public static final ResourceLocation maskman_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/maskman.png");
 	public static final ResourceLocation iou = new ResourceLocation(RefStrings.MODID, "textures/entity/iou.png");
+	public static final ResourceLocation spider_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/blockspider.png");
 
 	
 	
