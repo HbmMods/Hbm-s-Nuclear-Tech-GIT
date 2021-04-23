@@ -188,7 +188,14 @@ public class ItemDrop extends Item {
 						ExplosionChaos.move(entityItem.worldObj, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ, 25, 0, 75, 0);
 					}
 				}
-
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_micro  && WeaponConfig.dropSing)
+				{
+					if (!entityItem.worldObj.isRemote)
+					{
+						entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 2.0F, true);
+					}
+				}
+				
 				entityItem.setDead();
 				return true;
 			}
@@ -199,6 +206,10 @@ public class ItemDrop extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
+		if (this == ModItems.singularity_micro)
+		{
+			list.add("A wee lad!");
+		}
 		if (this == ModItems.cell_antimatter) {
 			list.add("Warning: Exposure to matter will");
 			list.add("lead to violent annihilation!");

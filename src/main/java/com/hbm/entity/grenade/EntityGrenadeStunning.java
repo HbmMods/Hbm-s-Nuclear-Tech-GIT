@@ -18,6 +18,11 @@ public class EntityGrenadeStunning extends EntityGrenadeBase
 	{
 		super(world, entity);
 	}
+	
+	public EntityGrenadeStunning(World worldIn, double x, double y, double z)
+	{
+		super(worldIn, x, y, z);
+	}
 
 	@Override
 	public void explode()

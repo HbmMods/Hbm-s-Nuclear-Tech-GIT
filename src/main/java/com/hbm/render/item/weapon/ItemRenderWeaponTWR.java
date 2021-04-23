@@ -52,7 +52,7 @@ public class ItemRenderWeaponTWR implements IItemRenderer
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(30.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(0.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(0.0F, -1.0F, -0.6F);
+			GL11.glTranslatef(0.0F, -1.0F, -1.0F);
 			GL11.glScalef(scale1, scale1, scale1);
 			break;
 		case EQUIPPED:// In hand from other's POV

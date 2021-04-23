@@ -378,8 +378,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_beam), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_scaffold });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.chain), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_beam });
 		// UFFR's crap
-		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_flat, 1), new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_meteorite_forged, 'D', ModItems.plate_desh, 'B', ModItems.stamp_schrabidium_flat });// TODO Placeholder recipe and doesn't work
-		
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_flat, 1), new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_meteorite_forged, 'D', ModItems.plate_desh, 'B', ModItems.stamp_schrabidium_flat });// TODO Placeholder recipe
+		GameRegistry.addRecipe(new ShapedOreRecipe(Item.getItemFromBlock(ModBlocks.machine_difurnace_rtg_off), new Object[] {"RLR", "LFL", "RUR", 'R', ModItems.neutron_reflector, 'L', "plateLead", 'F', ModBlocks.machine_difurnace_off, 'U', ModItems.rtg_unit}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_reel, 2), new Object[] { " P ", "TTT", " P ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// TODO Fix
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_disc, 4), new Object[] { " T ", "TPT", " T ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// TODO Fix
 		GameRegistry.addShapelessRecipe(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r, 1), new Object[] { ModItems.storage_magnetic_raw_reel, ModItems.storage_magnetic_raw_reel });

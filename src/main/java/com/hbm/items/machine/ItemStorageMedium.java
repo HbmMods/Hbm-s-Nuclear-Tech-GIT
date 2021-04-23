@@ -45,6 +45,8 @@ public class ItemStorageMedium extends Item
 	public static final long PB = 100000000000000L;
 	public static final long ZB = 100000000000000000L;
 	
+	private static String[] specialLore = new String[] {"Is silence better than the noise?", "An all penetrating gaze", "How dangerous do you think knowledge can be?", "Once lost, now found again, by " + EnumChatFormatting.BOLD + "you", "They called it the " + EnumChatFormatting.ITALIC + "\"Interloper\"", "The price you have to pay is more than mere computational power", "It's calling us, will we answer, or perish into nothingness?", "More than a simple blueprint for a Machine", "Can you hear It?", "They said it was impossible", "" + EnumChatFormatting.OBFUSCATED + "BackgammonProprietyThousand4444", "The design is mostly human, but with clear signs of some other influence. It's not Lunar either", "GATEWAY TO THE OTHER SIDE", "INTERCONNECTED", "ONE OF MANY", "SOMETHING WAS IN BETWEEN", "It was no accident or coincedence you can across this item on your journey", "" + EnumChatFormatting.BOLD + "31"};
+	
 	public ItemStorageMedium(long maxCapacity, long writeRate, long readRate, boolean aux)
 	{
 		this.maxCapacity = maxCapacity;
@@ -171,65 +173,10 @@ public class ItemStorageMedium extends Item
 		// Pros-cons list and lore
 		if (this == ModItems.storage_magnetic_fdd_tainted)
 		{
-			list.add("The item has a curious label:");
+			list.add("The disc has a curious label:");
 			list.add("");
 			// The fate of the world is now (literally) in your hands
-			switch (MainRegistry.polaroidID)
-			{
-				case 1:
-					list.add(EnumChatFormatting.RED + "Is silence better than the noise?");
-					break;
-				case 2:
-					list.add(EnumChatFormatting.RED + "An all penetrating gaze");
-					break;
-				case 3:
-					list.add(EnumChatFormatting.RED + "How dangerous do you think knowledge can be?");
-					break;
-				case 4:
-					list.add(EnumChatFormatting.RED + "Once lost, now found again, by " + EnumChatFormatting.BOLD + "you");
-					break;
-				case 5:
-					list.add(EnumChatFormatting.RED + "They called it the " + EnumChatFormatting.ITALIC + "\"Interloper\"");
-					break;
-				case 6:
-					list.add(EnumChatFormatting.RED + "The price you have to pay is more than mere computational power");
-					break;
-				case 7:
-					list.add(EnumChatFormatting.RED + "It's calling us, will we answer, or perish into nothingness?");
-					break;
-				case 8:
-					list.add(EnumChatFormatting.RED + "More than a simple blueprint for a Machine");
-					break;
-				case 9:
-					list.add(EnumChatFormatting.RED + "Can you hear It?");
-					break;
-				case 10:
-					list.add(EnumChatFormatting.RED + "They said it was impossible");
-					break;
-				case 11:
-					list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "BackgammonProprietyThousand4444");
-					break;
-				case 12:
-					list.add(EnumChatFormatting.RED + "The design is mostly human, but with clear signs of some other influence. It's not Lunar either");
-					break;
-				case 13:
-					list.add(EnumChatFormatting.RED + "GATEWAY TO THE OTHER SIDE");
-					break;
-				case 14:
-					list.add(EnumChatFormatting.RED + "INTERCONNECTED");
-					break;
-				case 15:
-					list.add(EnumChatFormatting.RED + "ONE OF MANY");
-					break;
-				case 16:
-					list.add(EnumChatFormatting.RED + "SOMETHING WAS IN BETWEEN");
-					break;
-				case 17:
-					list.add(EnumChatFormatting.RED + "It was no accident or coincedence you can across this item on your journey");
-					break;
-				case 18:
-					list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + "31");
-			}
+			list.add(EnumChatFormatting.RED + specialLore[MainRegistry.polaroidID - 1]);
 			list.add("...");
 			list.add("It also appears to have a custom housing, it is permanently set to write-protect mode");
 		}

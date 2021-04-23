@@ -308,7 +308,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.watz_conductor, 1), new AStack[] {new OreDictStack("ingotTungsten", 2), new OreDictStack("ingotLead", 2), new OreDictStack("ingotSteel", 2), new ComparableStack(ModItems.wire_red_copper, 6), new ComparableStack(ModItems.wire_magnetized_tungsten, 2), new ComparableStack(ModItems.fuse, 4), },250);
 		makeRecipe(new ComparableStack(ModBlocks.watz_core, 1), new AStack[] {new ComparableStack(ModBlocks.block_meteor, 1), new ComparableStack(ModItems.circuit_gold, 5), new ComparableStack(ModItems.circuit_schrabidium, 2), new ComparableStack(ModItems.wire_magnetized_tungsten, 12), },350);
 		makeRecipe(new ComparableStack(ModBlocks.fwatz_hatch, 1), new AStack[] {new OreDictStack("ingotTungsten", 6), new ComparableStack(ModItems.plate_combine_steel, 4), },250);
-		makeRecipe(new ComparableStack(ModBlocks.fwatz_conductor, 1), new AStack[] {new ComparableStack(ModItems.plate_combine_steel, 10), new ComparableStack(ModItems.coil_magnetized_tungsten, 5), },250);
+		makeRecipe(new ComparableStack(ModBlocks.fwatz_conductor, 1), new AStack[] {new ComparableStack(ModItems.plate_combine_steel, 2), new ComparableStack(ModItems.coil_magnetized_tungsten, 5), },250);
 		makeRecipe(new ComparableStack(ModBlocks.fwatz_computer, 1), new AStack[] {new ComparableStack(ModBlocks.block_meteor, 1), new ComparableStack(ModItems.wire_magnetized_tungsten, 16), new OreDictStack("dustDiamond", 6), new ComparableStack(ModItems.powder_magnetized_tungsten, 6), new OreDictStack("dustDesh", 4), },300);
 		makeRecipe(new ComparableStack(ModBlocks.fwatz_core, 1), new AStack[] {new ComparableStack(ModBlocks.block_meteor, 1), new ComparableStack(ModItems.wire_magnetized_tungsten, 24), new OreDictStack("dustDiamond", 8), new ComparableStack(ModItems.powder_magnetized_tungsten, 12), new OreDictStack("dustDesh", 8), new ComparableStack(ModItems.upgrade_power_3, 1), new ComparableStack(ModItems.upgrade_speed_3, 1), },450);
 		makeRecipe(new ComparableStack(ModBlocks.nuke_gadget, 1), new AStack[] {new ComparableStack(ModItems.sphere_steel, 1), new ComparableStack(ModItems.fins_flat, 2), new ComparableStack(ModItems.pedestal_steel, 1), new ComparableStack(ModItems.circuit_targeting_tier3, 1), new ComparableStack(ModItems.wire_gold, 6), new OreDictStack("dyeGray", 6), },300);
@@ -776,7 +776,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.powder_nitan_mix, 18),// Magic
 						new ComparableStack(ModItems.powder_spark_mix, 8),// Super magic
 						new ComparableStack(ModItems.overfuse, 1),// Idk, probably will remove
-				}, 900);// TODO Placeholder
+				}, 600);// TODO Placeholder
 		makeRecipe(new ComparableStack(ModItems.grenade_lunatic, 2), new AStack[]
 				{
 						new ComparableStack(ModItems.plate_saturnite, 6),
@@ -794,7 +794,23 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.coil_advanced_torus, 1),
 						new ComparableStack(ModItems.wire_advanced_alloy, 4),
 						new ComparableStack(ModItems.circuit_aluminium, 1)
-				}, 50);
+				}, 100);
+		makeRecipe(new ComparableStack(ModBlocks.machine_sing_gen), new AStack[] 
+				{
+						new ComparableStack(ModBlocks.machine_schrabidium_battery, 1),
+						new ComparableStack(ModBlocks.fwatz_conductor, 16),
+						new ComparableStack(ModItems.coil_magnetized_tungsten, 32),
+						//new ComparableStack(ModItems.wire_magnetized_tungsten, 64),
+						new ComparableStack(ModItems.ingot_magnetized_tungsten, 16),
+						new ComparableStack(ModItems.plate_saturnite, 32),
+						new ComparableStack(ModItems.plate_combine_steel, 32),
+						new ComparableStack(ModItems.ingot_saturnite, 32),
+						new ComparableStack(ModItems.ingot_combine_steel, 24),
+						new ComparableStack(ModItems.neutron_reflector, 64),
+						new ComparableStack(ModBlocks.fwatz_core, 1),
+						new ComparableStack(ModItems.circuit_targeting_tier4, 8),
+						new ComparableStack(ModItems.circuit_targeting_tier5, 4)
+				}, 900);
 		
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

@@ -182,7 +182,7 @@ public class GunEnergyFactory {
 		config.advLore.add("the rifle's service life short.");
 		
 		config.advFuncLore.add("While not the most destructive or advanced weapon developed by the Lunarians, its");
-		config.advFuncLore.add("config.advFuncLoretion and capability in its role is without question. It's ability is determined");
+		config.advFuncLore.add("function and capability in its role is without question. It's ability is determined");
 		config.advFuncLore.add("by 3 factors: the ammunition type, the scope, and the delivery method. Upon inspection,");
 		config.advFuncLore.add("there appear to be little to no moving parts beyond the trigger, this is due to the");
 		config.advFuncLore.add("ammunition and delivery method. Instead of firing conventional bullets, it fires");
@@ -417,7 +417,7 @@ public class GunEnergyFactory {
 		bullet.dmgMax = 400000;
 		bullet.dmgMin = 300000;
 		
-		bullet.gravity = 0;
+		bullet.gravity = 0D;
 		bullet.maxAge = 400;
 		
 		bullet.doesRicochet = false;

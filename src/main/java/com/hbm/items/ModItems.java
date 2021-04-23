@@ -216,6 +216,7 @@ public class ModItems {
 	public static Item silicon_lump;
 	public static Item ingot_silicon;
 	public static Item nugget_silicon;
+	public static Item ingot_du_dioxide;
 	
 	public static Item ingot_fiberglass;
 	public static Item ingot_asbestos;
@@ -324,6 +325,7 @@ public class ModItems {
 	public static Item powder_euphemium;
 	public static Item powder_meteorite;
 	public static Item powder_silicon;
+	public static Item powder_du_dioxide;
 
 	public static Item powder_steel_tiny;
 	public static Item powder_lithium_tiny;
@@ -2798,7 +2800,7 @@ public class ModItems {
 		singularity_super_heated = new ItemDrop().setUnlocalizedName("singularity_super_heated").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_5");
 		black_hole = new ItemDrop().setUnlocalizedName("black_hole").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_4");
 		singularity_spark = new ItemDrop().setUnlocalizedName("singularity_spark").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_spark_alt");
-		singularity_micro = new ItemCustomLore("A wee lad!").setUnlocalizedName("singularity_micro").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":singularity_micro");
+		singularity_micro = new ItemDrop().setUnlocalizedName("singularity_micro").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":singularity_micro");
 		pellet_antimatter = new ItemDrop().setUnlocalizedName("pellet_antimatter").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":pellet_antimatter");
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":crystal_xen");
 		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
@@ -6324,6 +6326,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_plasma, grenade_plasma.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_tau, grenade_tau.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_schrabidium, grenade_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_lunatic, grenade_lunatic.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuke, grenade_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_lemon, grenade_lemon.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_gascan, grenade_gascan.getUnlocalizedName());
@@ -6347,7 +6350,6 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_if_hopwire, grenade_if_hopwire.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_if_null, grenade_if_null.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste_pearl, nuclear_waste_pearl.getUnlocalizedName());
-		GameRegistry.registerItem(grenade_lunatic, grenade_lunatic.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ullapool_caber, ullapool_caber.getUnlocalizedName());
 		GameRegistry.registerItem(weaponized_starblaster_cell, weaponized_starblaster_cell.getUnlocalizedName());

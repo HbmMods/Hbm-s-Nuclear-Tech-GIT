@@ -195,6 +195,11 @@ public class MainRegistry {
 	public static Achievement digammaKnow;
 	public static Achievement digammaKauaiMoho;
 	public static Achievement digammaUpOnTop;
+	public static Achievement ego;
+	public static Achievement superego;
+	public static Achievement id;
+	public static Achievement shadow;
+	public static Achievement heartOfDarkness;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -278,6 +283,7 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
+		GameRegistry.registerTileEntity(TileEntityMachineSingGen.class, "tileentity_sing_gen");
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		GameRegistry.registerTileEntity(TileEntityDiFurnace.class, "tilentity_diFurnace");
 		GameRegistry.registerTileEntity(TileEntityTestNuke.class, "tilentity_testnuke");
@@ -891,6 +897,21 @@ public class MainRegistry {
 				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
 			}
 		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_lunatic, new BehaviorProjectileDispense() {
+			
+			protected IProjectile getProjectileEntity(World worldIn, IPosition pos)
+			{
+				return new EntityGrenadeLunatic(worldIn, pos.getX(), pos.getY(), pos.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_stunning, new BehaviorProjectileDispense() {
+			
+			@Override
+			protected IProjectile getProjectileEntity(World worldIn, IPosition pos)
+			{
+				return new EntityGrenadeStunning(worldIn, pos.getX(), pos.getY(), pos.getZ());
+			}
+		});
 	}
 
 	@EventHandler
@@ -938,6 +959,13 @@ public class MainRegistry {
 		digammaKauaiMoho = new Achievement("achievement.digammaKauaiMoho", "digammaKauaiMoho", 4, 8, ModItems.digamma_kauai_moho, digammaKnow).initIndependentStat().registerStat().setSpecial();
 		digammaUpOnTop = new Achievement("achievement.digammaUpOnTop", "digammaUpOnTop", 6, 8, ModItems.digamma_up_on_top, digammaKauaiMoho).initIndependentStat().registerStat().setSpecial();
 
+		// TODO Finish psyche achievements
+		ego = new Achievement("achievement.ego", "ego", -2, 10, ModItems.euphemium_kit, null).initIndependentStat().registerStat();
+		superego = new Achievement("achievement.superego", "superego", 0, 10, ModItems.euphemium_kit, ego).initIndependentStat().registerStat();
+		id = new Achievement("achievement.id", "id", 4, 10, ModItems.euphemium_kit, superego).initIndependentStat().registerStat();
+		shadow = new Achievement("achievement.shadow", "shadow", 6, 10, ModItems.euphemium_kit, id).initIndependentStat().registerStat().setSpecial();
+		heartOfDarkness = new Achievement("achievement.darkness", "darkness", 8, 10, ModItems.euphemium_kit, shadow).initIndependentStat().registerStat().setSpecial();
+		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
 				achImpossible,
@@ -974,7 +1002,12 @@ public class MainRegistry {
 				digammaFeel,
 				digammaKnow,
 				digammaKauaiMoho,
-				digammaUpOnTop
+				digammaUpOnTop,
+				ego,
+				superego,
+				id,
+				shadow,
+				heartOfDarkness
 		}));
 
 		// MUST be initialized AFTER achievements!!
@@ -995,6 +1028,7 @@ public class MainRegistry {
 		HadronRecipes.register();
 		MagicRecipes.register();
 		SILEXRecipes.register();
+		SingGenRecipes.register();
 
 		TileEntityNukeCustom.registerBombItems();
 
