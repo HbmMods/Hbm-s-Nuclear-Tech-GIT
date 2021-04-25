@@ -23,9 +23,11 @@ public class CrystallizerRecipes {
 	
 	public static void register() {
 
+		recipes.put("oreCoal", new ItemStack(ModItems.crystal_coal));
 		recipes.put("oreIron", new ItemStack(ModItems.crystal_iron));
 		recipes.put("oreGold", new ItemStack(ModItems.crystal_gold));
 		recipes.put("oreRedstone", new ItemStack(ModItems.crystal_redstone));
+		recipes.put("oreLapis", new ItemStack(ModItems.crystal_lapis));
 		recipes.put("oreDiamond", new ItemStack(ModItems.crystal_diamond));
 		recipes.put("oreUranium", new ItemStack(ModItems.crystal_uranium));
 		recipes.put("oreThorium", new ItemStack(ModItems.crystal_thorium));
@@ -55,6 +57,7 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModBlocks.gravel_obsidian), new ItemStack(ModBlocks.brick_obsidian));
 		recipes.put("blockRedstone", new ItemStack(ModItems.nugget_mercury));
 		recipes.put(new ComparableStack(Items.rotten_flesh), new ItemStack(Items.leather));
+		recipes.put(new ComparableStack(ModItems.coal_infernal), new ItemStack(ModItems.solid_fuel));
 		
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));

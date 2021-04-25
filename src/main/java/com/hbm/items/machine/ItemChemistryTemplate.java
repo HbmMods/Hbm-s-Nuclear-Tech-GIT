@@ -255,7 +255,7 @@ public class ItemChemistryTemplate extends Item {
         case SOLID_FUEL:
         	return 200;
         case ELECTROLYSIS:
-        	return 400;
+        	return 150;
         case XENON:
         	return 300;
         case XENON_OXY:

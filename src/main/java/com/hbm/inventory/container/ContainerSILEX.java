@@ -60,7 +60,7 @@ public class ContainerSILEX extends Container {
 				if(!this.mergeItemStack(var5, silex.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(var5.getItem() == ModItems.turret_chip) {
+			} else if(var5.getItem() == ModItems.turret_chip) { //did i copy this from turrets? tf is happening lol
 				
 				if(!this.mergeItemStack(var5, 0, 1, false))
 					return null;

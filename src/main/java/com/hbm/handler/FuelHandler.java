@@ -38,6 +38,8 @@ public class FuelHandler implements IFuelHandler {
 			return 800;
 		if(fuel.getItem() == ModItems.coal_infernal)
 			return 4800;
+		if(fuel.getItem() == ModItems.crystal_coal)
+			return 6400;
 		
 		return 0;
 	}

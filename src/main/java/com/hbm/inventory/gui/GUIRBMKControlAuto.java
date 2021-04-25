@@ -73,7 +73,7 @@ public class GUIRBMKControlAuto extends GuiInfoContainer {
 		case QUAD_DOWN: func += " Negative Quadratic"; break;
 		}
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 69, guiTop + 27, 26, 19, mouseX, mouseY, new String[]{ (int)(rod.level * 100) + "%" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 69, guiTop + 27, 26, 19, mouseX, mouseY, new String[]{ func } );
 	}
 
 	@Override

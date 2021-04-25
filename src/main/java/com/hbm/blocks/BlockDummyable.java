@@ -173,10 +173,10 @@ public abstract class BlockDummyable extends BlockContainer {
 			return;
 		}
 
-		//if(!world.isRemote) {
+		if(!world.isRemote) {
 			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 			fillSpace(world, x, y, z, dir, o);
-		//}
+		}
 		y -= getHeightOffset();
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
@@ -234,7 +234,9 @@ public abstract class BlockDummyable extends BlockContainer {
 
 			// TODO: run extensive tests on whether this change doesn't break anything
 			ForgeDirection d = ForgeDirection.getOrientation(i);
-			world.setBlockToAir(x - d.offsetX, y - d.offsetY, z - d.offsetZ);
+			
+			if(world.getBlock(x - d.offsetX, y - d.offsetY, z - d.offsetZ) == this)
+				world.setBlockToAir(x - d.offsetX, y - d.offsetY, z - d.offsetZ);
 			// }
 		}
 

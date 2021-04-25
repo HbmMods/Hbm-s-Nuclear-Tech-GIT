@@ -3,7 +3,6 @@ package com.hbm.world.generator;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 
 import net.minecraft.block.Block;

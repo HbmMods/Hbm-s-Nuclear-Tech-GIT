@@ -198,6 +198,15 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_lignite) {
 			return ModItems.lignite;
 		}
+		if(this == ModBlocks.cluster_depth_iron) {
+			return ModItems.crystal_iron;
+		}
+		if(this == ModBlocks.cluster_depth_titanium) {
+			return ModItems.crystal_titanium;
+		}
+		if(this == ModBlocks.cluster_depth_tungsten) {
+			return ModItems.crystal_tungsten;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
