@@ -70,6 +70,8 @@ public class CoriumBlock extends BlockFluidClassic {
 		entity.setInWeb();
 	}
 	
+	//TODO: slow down solidification, prevent displacement
+	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		

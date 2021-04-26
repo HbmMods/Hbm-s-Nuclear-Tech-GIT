@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.entity.projectile.EntityRBMKDebris;
+import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
@@ -262,10 +264,19 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			}
 			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
 		}
+		
+		for(int i = 0; i < 2; i++) {
+			EntityRBMKDebris debris = new EntityRBMKDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, DebrisType.values()[worldObj.rand.nextInt(DebrisType.values().length)]);
+			debris.motionX = worldObj.rand.nextGaussian() * 0.25D;
+			debris.motionZ = worldObj.rand.nextGaussian() * 0.25D;
+			debris.motionY = 1D + worldObj.rand.nextDouble();
+			worldObj.spawnEntityInWorld(debris);
+		}
 	}
 	
 	public static HashSet<TileEntityRBMKBase> columns = new HashSet();
 	
+	//assumes that !worldObj.isRemote
 	public void meltdown() {
 		
 		columns.clear();
