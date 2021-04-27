@@ -142,6 +142,7 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_LUNATIC);
 		
 		return config;
 	}

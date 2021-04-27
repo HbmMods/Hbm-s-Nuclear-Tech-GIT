@@ -46,7 +46,7 @@ public class ModBlocks {
 	public static Block test_core;
 	public static Block test_charge;
 	public static Block test_machine;
-	public static final int guiID_test_machine = 999;
+	//public static final int guiID_test_machine = 999;
 
 	public static Block ore_uranium;
 	public static Block ore_uranium_scorched;
@@ -455,7 +455,7 @@ public class ModBlocks {
 	public static Block machine_difurnace_rtg_off;
 	public static Block machine_difurnace_rtg_on;
 	public static final int guiID_test_difurnace = 1;
-	public static final int guiID_rtg_difurnace = 2;
+	public static final int guiID_rtg_difurnace = 2001;
 	
 	public static Block machine_centrifuge;
 	public static final int guiID_centrifuge = 5;
@@ -825,6 +825,7 @@ public class ModBlocks {
 	public static final int guiID_waste_drum = 79;
 	
 	public static Block machine_sing_gen;
+	public static final int guiID_sing_gen = 2000;
 
 	public static Block turret_light;
 	public static Block turret_heavy;
@@ -1302,8 +1303,8 @@ public class ModBlocks {
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
-		//machine_difurnace_rtg_off
-		
+		machine_difurnace_rtg_off = new MachineDiFurnaceRTG(false).setBlockName("machine_difurnace_rtg_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_difurnace_rtg_on = new MachineDiFurnaceRTG(true).setBlockName("machine_difurnace_rtg_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(2.0F).setCreativeTab(null);
 		
 		machine_centrifuge = new MachineCentrifuge(Material.iron).setBlockName("machine_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_gascent = new MachineGasCent(Material.iron).setBlockName("machine_gascent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1596,7 +1597,7 @@ public class ModBlocks {
 		machine_selenium = new MachineSeleniumEngine(Material.iron).setBlockName("machine_selenium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_selenium");
 		machine_reactor_small = new MachineReactorSmall(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
 		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_sing_gen = new MachineSingGen(Material.iron).setBlockName("machine_sing_gen").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen");// TODO Finish
+		machine_sing_gen = new MachineSingGen(Material.iron).setBlockName("machine_sing_gen").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_beta");// TODO Finish
 		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
 		machine_boiler_on = new MachineBoiler(true).setBlockName("machine_boiler_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_boiler_on");
 		machine_boiler_electric_off = new MachineBoiler(false).setBlockName("machine_boiler_electric_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_electric_off");
@@ -2155,6 +2156,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_on, machine_difurnace_on.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_difurnace_rtg_off, machine_difurnace_rtg_off.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_difurnace_rtg_on, machine_difurnace_rtg_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_gascent, machine_gascent.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fel, machine_fel.getUnlocalizedName());

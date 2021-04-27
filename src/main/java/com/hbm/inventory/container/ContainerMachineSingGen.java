@@ -17,13 +17,13 @@ public class ContainerMachineSingGen extends Container
 	private TileEntityMachineSingGen tileEntity;
 	/* Shift click items */
 	// Items that go into the corners
-	private Item[] cornerItems = new Item[] {ModItems.nugget_euphemium, ModItems.plate_advanced_alloy, ModItems.plate_combine_steel, ModItems.plate_euphemium, ModItems.plate_dineutronium};	
+	public static Item[] cornerItems = new Item[] {ModItems.nugget_euphemium, ModItems.plate_advanced_alloy, ModItems.plate_combine_steel, ModItems.plate_euphemium, ModItems.plate_dineutronium};	
 	// Items that go into the sides
-	private Item[] sideItems = new Item[] {ModItems.powder_power, ModItems.ingot_magnetized_tungsten, ModItems.powder_spark_mix, ModItems.crystal_xen, ModItems.singularity_counter_resonant, ModItems.singularity_super_heated};
+	public static Item[] sideItems = new Item[] {ModItems.powder_power, ModItems.ingot_magnetized_tungsten, ModItems.powder_spark_mix, ModItems.crystal_xen, ModItems.singularity_counter_resonant, ModItems.singularity_super_heated};
 	// Items that can go anywhere in the outer ring
-	private Item[] anyItems = new Item[] {ModItems.crystal_xen, ModItems.powder_nitan_mix, ModItems.board_copper, ModItems.screwdriver, ModItems.powder_neptunium, ModItems.powder_iodine, ModItems.powder_thorium, ModItems.powder_astatine, ModItems.powder_neodymium, ModItems.powder_caesium, ModItems.powder_strontium, ModItems.powder_bromine, ModItems.powder_cobalt, ModItems.powder_tennessine, ModItems.powder_niobium, ModItems.powder_cerium};
+	public static Item[] anyItems = new Item[] {ModItems.crystal_xen, ModItems.powder_nitan_mix, ModItems.board_copper, ModItems.screwdriver, ModItems.powder_neptunium, ModItems.powder_iodine, ModItems.powder_thorium, ModItems.powder_astatine, ModItems.powder_neodymium, ModItems.powder_caesium, ModItems.powder_strontium, ModItems.powder_bromine, ModItems.powder_cobalt, ModItems.powder_tennessine, ModItems.powder_niobium, ModItems.powder_cerium};
 	// Items that go into the center
-	private Item[] centerItems = new Item[] {Item.getItemFromBlock(ModBlocks.block_schrabidium), ModItems.singularity, ModItems.black_hole};
+	public static Item[] centerItems = new Item[] {Item.getItemFromBlock(ModBlocks.block_schrabidium), ModItems.singularity, ModItems.black_hole};
 
 	public ContainerMachineSingGen(InventoryPlayer invPlayer, TileEntityMachineSingGen tEntity)
 	{

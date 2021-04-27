@@ -1,22 +1,22 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
+import scala.actors.threadpool.Arrays;
+@Spaghetti("Is there a more efficient way of doing this? Probably")
 public class SingGenRecipes
 {
 	public static List<SingGenRecipe> recipes = new ArrayList<SingGenRecipes.SingGenRecipe>();
-
 	/* -- Input Slots --
 	 * 5  9  6
 	 * 11 4  12
@@ -28,45 +28,199 @@ public class SingGenRecipes
 		commonFluid(new ItemStack(ModItems.singularity, 1), ModItems.nugget_euphemium, FluidType.ASCHRAB, Item.getItemFromBlock(ModBlocks.block_schrabidium), 4000);
 		commonStandard(new ItemStack(ModItems.singularity_super_heated, 1), ModItems.plate_advanced_alloy, ModItems.powder_power, ModItems.singularity);
 		commonStandard(new ItemStack(ModItems.singularity_counter_resonant, 1), ModItems.plate_combine_steel, ModItems.ingot_magnetized_tungsten, ModItems.singularity);
-		addRecipe(new ItemStack(ModItems.black_hole, 1), new AStack[] {new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen), new ComparableStack(ModItems.crystal_xen)}, ModItems.singularity, true, false, FluidType.NONE, 0);
-		addRecipe(new ItemStack(ModItems.overfuse, 1), new AStack[] {new ComparableStack(ModItems.screwdriver), new ComparableStack(ModItems.board_copper), new ComparableStack(ModItems.powder_nitan_mix), new ComparableStack(ModItems.powder_nitan_mix), new ComparableStack(ModItems.powder_nitan_mix), new ComparableStack(ModItems.powder_nitan_mix), new ComparableStack(ModItems.powder_nitan_mix)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
-		addRecipe(new ItemStack(ModItems.overfuse, 1), new AStack[] {new ComparableStack(ModItems.screwdriver), new ComparableStack(ModItems.board_copper), new ComparableStack(ModItems.powder_neptunium), new ComparableStack(ModItems.powder_iodine), new ComparableStack(ModItems.powder_thorium), new ComparableStack(ModItems.powder_astatine), new ComparableStack(ModItems.powder_neodymium), new ComparableStack(ModItems.powder_caesium)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
-		addRecipe(new ItemStack(ModItems.overfuse, 1), new AStack[] {new ComparableStack(ModItems.screwdriver), new ComparableStack(ModItems.board_copper), new ComparableStack(ModItems.powder_strontium), new ComparableStack(ModItems.powder_bromine), new ComparableStack(ModItems.powder_cobalt), new ComparableStack(ModItems.powder_tennessine), new ComparableStack(ModItems.powder_niobium), new ComparableStack(ModItems.powder_cerium)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
-		addRecipe(new ItemStack(ModItems.singularity_spark, 1), new AStack[] {new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_super_heated), new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_counter_resonant), new ComparableStack(ModItems.singularity_counter_resonant), new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_super_heated), new ComparableStack(ModItems.plate_dineutronium)}, ModItems.black_hole, true, false, FluidType.NONE, 0);
-		addRecipe(new ItemStack(ModItems.singularity_spark, 1), new AStack[] {new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_counter_resonant), new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_super_heated), new ComparableStack(ModItems.singularity_super_heated), new ComparableStack(ModItems.plate_dineutronium), new ComparableStack(ModItems.singularity_counter_resonant), new ComparableStack(ModItems.plate_dineutronium)}, ModItems.black_hole, true, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.black_hole, 1), new Item[] {(ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen), (ModItems.crystal_xen)}, ModItems.singularity, true, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.overfuse, 1), new Item[] {(ModItems.screwdriver), (ModItems.board_copper), (ModItems.powder_nitan_mix), (ModItems.powder_nitan_mix), (ModItems.powder_nitan_mix), (ModItems.powder_nitan_mix), (ModItems.powder_nitan_mix), (ModItems.powder_nitan_mix)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.overfuse, 1), new Item[] {(ModItems.screwdriver), (ModItems.board_copper), (ModItems.powder_neptunium), (ModItems.powder_iodine), (ModItems.powder_thorium), (ModItems.powder_astatine), (ModItems.powder_neodymium), (ModItems.powder_caesium)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.overfuse, 1), new Item[] {(ModItems.screwdriver), (ModItems.board_copper), (ModItems.powder_strontium), (ModItems.powder_bromine), (ModItems.powder_cobalt), (ModItems.powder_tennessine), (ModItems.powder_niobium), (ModItems.powder_cerium)}, ModItems.black_hole, false, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.singularity_spark, 1), new Item[] {(ModItems.plate_dineutronium), (ModItems.singularity_super_heated), (ModItems.plate_dineutronium), (ModItems.singularity_counter_resonant), (ModItems.singularity_counter_resonant), (ModItems.plate_dineutronium), (ModItems.singularity_super_heated), (ModItems.plate_dineutronium)}, ModItems.black_hole, true, false, FluidType.NONE, 0);
+		addRecipe(new ItemStack(ModItems.singularity_spark, 1), new Item[] {(ModItems.plate_dineutronium), (ModItems.singularity_counter_resonant), (ModItems.plate_dineutronium), (ModItems.singularity_super_heated), (ModItems.singularity_super_heated), (ModItems.plate_dineutronium), (ModItems.singularity_counter_resonant), (ModItems.plate_dineutronium)}, ModItems.black_hole, true, false, FluidType.NONE, 0);
 		commonFluid(new ItemStack(ModItems.ams_core_sing, 1), ModItems.plate_euphemium, FluidType.ASCHRAB, ModItems.singularity, 4000);
 		commonStandard(new ItemStack(ModItems.ams_core_wormhole, 1), ModItems.plate_dineutronium, ModItems.powder_spark_mix, ModItems.singularity);
 		commonFluid(new ItemStack(ModItems.ams_core_eyeofharmony, 1), ModItems.plate_dalekanium, FluidType.LAVA, ModItems.black_hole, 64000);
-		addRecipe(new ItemStack(ModItems.singularity_micro, 8), new AStack[] {new ComparableStack(ModItems.nugget_euphemium), null, new ComparableStack(ModItems.nugget_euphemium), null, null, new ComparableStack(ModItems.nugget_euphemium), null, new ComparableStack(ModItems.nugget_euphemium)}, ModItems.billet_schrabidium, true, true, FluidType.ASCHRAB, 1000);
-		addRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new AStack[] {new ComparableStack(ModBlocks.block_starmetal), new ComparableStack(ModItems.powder_spark_mix), new ComparableStack(ModBlocks.block_starmetal), new ComparableStack(ModItems.powder_spark_mix), new ComparableStack(ModItems.powder_spark_mix), new ComparableStack(ModBlocks.block_starmetal), new ComparableStack(ModItems.powder_spark_mix), new ComparableStack(ModBlocks.block_starmetal)}, Item.getItemFromBlock(ModBlocks.block_schrabidate), true, false, FluidType.ASCHRAB, 4000);
+		addRecipe(new ItemStack(ModItems.singularity_micro, 8), new Item[] {(ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium), null, null, (ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium)}, ModItems.billet_schrabidium, true, true, FluidType.ASCHRAB, 1000);
+		addRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new Item[] {Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal)}, Item.getItemFromBlock(ModBlocks.block_schrabidate), true, false, FluidType.ASCHRAB, 4000);
 	}
 	public static void commonStandard(ItemStack output, Item containmentItem, Item modifierItem, Item centerItem)
 	{
-		addRecipe(output, new AStack[] {new ComparableStack(containmentItem), new ComparableStack(modifierItem), new ComparableStack(containmentItem), new ComparableStack(modifierItem), new ComparableStack(modifierItem), new ComparableStack(containmentItem), new ComparableStack (modifierItem), new ComparableStack(containmentItem)}, centerItem, true, false, FluidType.NONE, 0);
+		addRecipe(output, new Item[] {containmentItem, modifierItem, containmentItem, modifierItem, modifierItem, containmentItem,  modifierItem, containmentItem}, centerItem, true, false, FluidType.NONE, 0);
 	}
 	public static void commonFluid(ItemStack output, Item containmentItem, FluidType fluid, Item centerItem, int fluidAmount)
 	{
-		addRecipe(output, new AStack[] {new ComparableStack(containmentItem), null, new ComparableStack(containmentItem), null, null, new ComparableStack(containmentItem), null, new ComparableStack(containmentItem)}, centerItem, true, false, FluidType.NONE, 0);
+		addRecipe(output, new Item[] {containmentItem, null, containmentItem, null, null, containmentItem, null, containmentItem}, centerItem, true, false, fluid, fluidAmount);
 	}
-	public static void addRecipe(ItemStack output, AStack[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
+	public static void addRecipe(ItemStack output, Item[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
 	{
+		if (inputRing.length != 8)
+		{
+			throw new IllegalArgumentException("Recipe ring input must be exactly 8! Recipe output: " + output.getItem().getUnlocalizedName());
+		}
 		recipes.add(new SingGenRecipe(output, inputRing, inputCenter, shaped, keepRing, fluid, fluidAmount));
 	}
-	public int getIntFromItem(Item itemIn)
+	public static List<Item> getRingItems(Integer[] ringIn)
 	{
-		return itemIn.hashCode();
+		List<Item> ringItems = new ArrayList<Item>();
+		for (int itemIn : ringIn)
+		{
+			if (itemIn != -1)
+			{
+				ringItems.add(Item.getItemById(itemIn));
+			}
+			else
+			{
+				ringItems.add(null);
+			}
+		}
+		return ringItems;
+	}
+	public static List<Item> getRingItems(List<Integer> ringIn)
+	{
+		List<Item> ringItems = new ArrayList<Item>();
+		for (int itemIn : ringIn)
+		{
+			if (itemIn != -1)
+			{
+				ringItems.add(Item.getItemById(itemIn));
+			}
+			else
+			{
+				ringItems.add(null);
+			}
+		}
+		return ringItems;
+	}
+	public static List<Integer> getRingIDs(ItemStack[] ringIn)
+	{
+		List<Integer> ringIDs = new ArrayList<Integer>();
+		for (ItemStack itemIn : ringIn)
+		{
+			if (itemIn != null)
+			{
+				ringIDs.add(Item.getIdFromItem(itemIn.getItem()));
+			}
+			else
+			{
+				ringIDs.add(-1);
+			}
+		}
+		return ringIDs;
+	}
+	public static List<Integer> getRingIDs(Item[] ringIn)
+	{
+		List<Integer> ringIDs = new ArrayList<Integer>();
+		for (Item itemIn : ringIn)
+		{
+			if (itemIn != null)
+			{
+				ringIDs.add(Item.getIdFromItem(itemIn));
+			}
+			else
+			{
+				ringIDs.add(-1);
+			}
+		}
+		return ringIDs;
+	}
+	public static boolean doRingsMatch(Item[] machineRing, Item[] recipeRing, boolean shaped)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			List<Integer> machineRingIDs = getRingIDs(machineRing);
+			List<Integer> recipeRingIDs = getRingIDs(recipeRing);
+
+			if (!shaped)
+			{
+				Collections.sort(machineRingIDs);
+				Collections.sort(recipeRingIDs);
+			}
+			if (shaped)
+			{
+				if (machineRing[i] != recipeRing[i])
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (Item.getItemById(machineRingIDs.get(i)) != Item.getItemById(recipeRingIDs.get(i)))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	public static boolean doRingsMatchDebugMode(Item[] machineRing, Item[] recipeRing, boolean shaped)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			String machineInString;
+			String recipeInString;
+			Item[] machineRingTest = machineRing;
+			Item[] recipeRingTest = recipeRing;
+			List<Integer> machineRingIDs = getRingIDs(machineRingTest);
+			List<Integer> recipeRingIDs = getRingIDs(recipeRingTest);
+			if (!shaped)
+			{
+				Collections.sort(machineRingIDs);
+				Collections.sort(recipeRingIDs);
+			}
+			if (machineRingIDs.get(i) == -1)
+			{
+				machineInString = "<empty>";
+			}
+			else
+			{
+				machineInString = machineRingTest[i].getUnlocalizedName();
+			}
+			if (recipeRingIDs.get(i) == -1)
+			{
+				recipeInString = "<empty>";
+			}
+			else
+			{
+				recipeInString = recipeRingTest[i].getUnlocalizedName();
+			}
+			System.out.println(String.format("Index #%s; Machine in: %s; Recipe in: %s", i, machineInString, recipeInString));
+			if (shaped)
+			{
+				if (recipeRingTest[i] == machineRingTest[i])
+				{
+					System.out.println("Pair matches!");
+				}
+				else
+				{
+					System.out.println("Pair doesn't match");
+				}
+			}
+			else
+			{
+				if (Item.getItemById(machineRingIDs.get(i)) == Item.getItemById(recipeRingIDs.get(i)))
+				{
+					System.out.println("Pair matches!");
+				}
+				else
+				{
+					System.out.println("Pair doesn't match");
+				}
+			}
+		}
+		return false;
+	}
+	public Item[] sortItemArray(Item[] arrayIn)
+	{
+		return (Item[])getRingItems(getRingIDs(arrayIn)).toArray();
 	}
 	public static class SingGenRecipe
 	{
 		public ItemStack output;
-		public AStack[] inputRing;
+		public Item[] inputRing;
 		public Item inputCenter;
 		public boolean shaped;
 		public boolean keepRing;
 		public FluidType fluid;
 		public int fluidAmount;
 		
-		public SingGenRecipe(ItemStack output, AStack[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
+		public SingGenRecipe(ItemStack output, Item[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
 		{
 			this.output = output;
 			this.inputRing = inputRing;

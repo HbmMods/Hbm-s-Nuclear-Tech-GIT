@@ -131,7 +131,7 @@ public class GunEnergyFactory {
 	{
 		GunConfiguration config = new GunConfiguration();
 		Random rand = new Random();
-		int randLore = rand.nextInt(4);
+		int randLore = rand.nextInt(7);
 
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
@@ -147,7 +147,7 @@ public class GunEnergyFactory {
 		config.damage = EnumChatFormatting.BOLD + "As much as it needs";
 		config.crosshair = Crosshair.L_CROSS;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.TWR_RAY);
 		
 		config.name = "Time Warp Rifle";
@@ -156,18 +156,28 @@ public class GunEnergyFactory {
 		switch (randLore)
 		{
 		case 0:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"You can't dodge a bullet that's already hit\"");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"You can't dodge a bullet that's already hit.\"");
 			break;
 		case 1:
-			config.comment.add("\"Where's the exit?\"");
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + EnumChatFormatting.ITALIC + "\"Nowhere\"");
+			config.comment.add("\"Where's the exit!?\"");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + EnumChatFormatting.ITALIC + "\"Nowhere.\"");
 			break;
 		case 2:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"I won't let a fly like you escape\"");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"I'm not about to let a little fly like you get away.\"");
 			break;
 		case 3:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Eclipse, eclipse, under the sky! Shatter into a million shards of light!\"");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Eclipse, eclipse, under the sky!");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Shatter into a million shards of light!\"");
 			break;
+		case 4:
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"One must fall before one must ascend!\"");
+			break;
+		case 5:
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"The entrance, and the exit, are an endless loop.\"");
+			break;
+		case 6:
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Loud, furious...");
+			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "...and signifying nothing as it passes from this world.\"");
 		}
 		// May remove if it defeats the purpose of a semi-obscure reference
 		config.advLore.add("Born from the Lunarian's vastly superior technology, the Time Warp Rifle (TWR)");
@@ -404,7 +414,7 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
-	// TODO Finish
+	// TODO Finish, not technically a bullet, it's supposed to be a ray
 	public static BulletConfiguration getSingConfig()
 	{
 		BulletConfiguration bullet = new BulletConfiguration();
@@ -422,11 +432,11 @@ public class GunEnergyFactory {
 		
 		bullet.doesRicochet = false;
 		bullet.doesPenetrate = true;
-		bullet.isSpectral = true;
+		//bullet.isSpectral = true;
 		bullet.doesBreakGlass = true;
 		bullet.destroysBlocks = false;
 		
-		bullet.instakill = true;
+		//bullet.instakill = true;
 		// TODO Placeholder
 		bullet.style = BulletConfiguration.STYLE_ORB;
 		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;

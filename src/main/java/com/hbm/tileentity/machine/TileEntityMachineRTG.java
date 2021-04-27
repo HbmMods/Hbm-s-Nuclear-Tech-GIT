@@ -234,7 +234,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 					if(slots[i].getItem() == ModItems.pellet_rtg_gold) {
 						
 						if(worldObj.rand.nextInt(60*60*20) == 0)
-							slots[i] = null;
+							slots[i] = new ItemStack(ModItems.nugget_mercury, 2);
 						else
 							heat += 150;
 					}

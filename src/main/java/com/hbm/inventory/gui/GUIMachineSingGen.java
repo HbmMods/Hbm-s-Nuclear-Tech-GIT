@@ -2,9 +2,10 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineSingGen;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemAMSCore;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineSingGen extends GuiInfoContainer
@@ -49,18 +51,23 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		
+		String state = I18n.format("singGen.isRunning." + singGen.isProcessing());
+		String progress = singGen.getProgressPercent() + " %";
+		this.fontRendererObj.drawString(state, ((43 + 72) / 2) - (this.fontRendererObj.getStringWidth(state) / 2) + 4, 116, 0x8080ff);
+		this.fontRendererObj.drawString(progress, ((97 + 132) / 2) - (this.fontRendererObj.getStringWidth(progress) / 2) + 4, 116, 0x8080ff);
 	}
 	
 	//@Override
 	protected void mouseClicked(int x, int y, int i)
 	{
 		super.mouseClicked(x, y, i);
-		if (guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 111 < y && guiTop + 107 + 18 >= y)
+		if (guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 111 < y && guiTop + 111 + 18 >= y)
 		{
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(singGen.xCoord, singGen.yCoord, singGen.zCoord, 0, 0));
 		}
-		if (guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 111 < y && guiTop + 107 + 18 >= y)
+		if (guiLeft + 132 <= x && guiLeft + 132 + 18 > x && guiTop + 111 < y && guiTop + 111 + 18 >= y)
 		{
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(singGen.xCoord, singGen.yCoord, singGen.zCoord, 0, 1));
@@ -81,6 +88,31 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		
 		if (singGen.isProcessing())
 			drawTexturedModalRect(guiLeft + 59, guiTop + 33, 176, 88, 58, 48);
+		
+		if (singGen.currentRecipe != null)
+		{
+			Item out = singGen.currentRecipe.getOutput().getItem();
+			if (out == ModItems.singularity)
+			{
+				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4, 16, 4);
+			}
+			if (out == ModItems.singularity_super_heated)
+			{
+				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 8, 16, 4);
+			}
+			if (out == ModItems.singularity_counter_resonant)
+			{
+				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 12, 16, 4);
+			}
+			if (out == ModItems.black_hole)
+			{
+				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 16, 16, 4);
+			}
+			if (out == ModItems.overfuse || out == ModItems.singularity_spark || out instanceof ItemAMSCore)
+			{
+				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 20, 16, 4);
+			}
+		}
 		
 		switch(singGen.tank.getTankType())
 		{

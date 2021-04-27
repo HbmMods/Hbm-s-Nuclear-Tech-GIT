@@ -615,6 +615,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_legs));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.bj_boots));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lunatic, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_grenade_lunatic, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.can_luna, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_starmetal, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystal_starmetal, 8));

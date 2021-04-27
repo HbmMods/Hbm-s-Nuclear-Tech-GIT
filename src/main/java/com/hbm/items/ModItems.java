@@ -569,6 +569,11 @@ public class ModItems {
 	public static Item stamp_44;
 	public static Item stamp_9;
 	public static Item stamp_50;
+	
+	public static Item stamp_357_desh;
+	public static Item stamp_44_desh;
+	public static Item stamp_9_desh;
+	public static Item stamp_50_desh;
 
 	public static Item blades_gold;
 	public static Item blades_aluminium;
@@ -1317,6 +1322,7 @@ public class ModItems {
 	public static Item ammo_grenade_nuclear;
 	public static Item ammo_grenade_tracer;
 	public static Item ammo_grenade_kampf;
+	public static Item ammo_grenade_lunatic;
 	public static Item ammo_shell;
 	public static Item ammo_shell_explosive;
 	public static Item ammo_shell_apfsds_t;
@@ -2846,6 +2852,11 @@ public class ModItems {
 		stamp_9 = new ItemBlades(512).setUnlocalizedName("stamp_9").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_9");
 		stamp_50 = new ItemBlades(512).setUnlocalizedName("stamp_50").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_50");
 
+		stamp_357_desh = new ItemStamp(0).setUnlocalizedName("stamp_357_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_357_desh"); 
+		stamp_44_desh = new ItemStamp(0).setUnlocalizedName("stamp_44_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_44_desh");
+		stamp_9_desh = new ItemStamp(0).setUnlocalizedName("stamp_9_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_9_desh");
+		stamp_50_desh = new ItemStamp(0).setUnlocalizedName("stamp_50_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_50_desh");
+		
 		blades_aluminium = new ItemBlades(10).setUnlocalizedName("blades_aluminium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_aluminium");
 		blades_gold = new ItemBlades(25).setUnlocalizedName("blades_gold").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_gold");
 		blades_iron = new ItemBlades(35).setUnlocalizedName("blades_iron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_iron");
@@ -3504,6 +3515,7 @@ public class ModItems {
 		ammo_grenade_nuclear = new ItemAmmo().setUnlocalizedName("ammo_grenade_nuclear").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_nuclear");
 		ammo_grenade_tracer = new ItemAmmo().setUnlocalizedName("ammo_grenade_tracer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_tracer");
 		ammo_grenade_kampf = new ItemAmmo().setUnlocalizedName("ammo_grenade_kampf").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_kampf");
+		ammo_grenade_lunatic = new ItemAmmo().setUnlocalizedName("ammo_grenade_lunatic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_lunatic");
 		ammo_shell = new ItemAmmo().setUnlocalizedName("ammo_shell").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell");
 		ammo_shell_explosive = new ItemAmmo().setUnlocalizedName("ammo_shell_explosive").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell_explosive");
 		ammo_shell_apfsds_t = new ItemAmmo().setUnlocalizedName("ammo_shell_apfsds_t").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell_apfsds-t");
@@ -3689,7 +3701,7 @@ public class ModItems {
 		grenade_if_hopwire = new ItemGrenade(7).setUnlocalizedName("grenade_if_hopwire").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_if_hopwire");
 		grenade_if_null = new ItemGrenade(7).setUnlocalizedName("grenade_if_null").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_if_null");
 		
-		grenade_lunatic = new ItemGrenade(5).setUnlocalizedName("grenade_lunatic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_lunatic");
+		grenade_lunatic = new ItemGrenade(5).setUnlocalizedName("grenade_lunatic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_lunatic_alt");
 		
 		grenade_smart = new ItemGrenade(-1).setUnlocalizedName("grenade_smart").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_smart");
 		grenade_mirv = new ItemGrenade(1).setUnlocalizedName("grenade_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_mirv");
@@ -4616,8 +4628,8 @@ public class ModItems {
 		storage_hdd_broken = new ItemCustomLore("That fancy looking SSD is starting to look real nice, isn't it?").setUnlocalizedName("storage_hdd_broken").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":hdd_broken");
 		storage_hdd_dead = new ItemStorageMedium(50 * ItemStorageMedium.TB, 0, 0, false).setFragile(storage_hdd_broken).setUnlocalizedName("storage_hdd_dead").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":hdd_dead");
 		storage_optical_raw = new Item().setUnlocalizedName("storage_optical_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":optical_raw");
-		storage_optical_cd = new ItemStorageMedium(650 * ItemStorageMedium.MB, 2 * ItemStorageMedium.MB, 3 * ItemStorageMedium.MB, true).isExposed(true).setUnlocalizedName("storage_optical_cd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":cd650_mo8_backup");
-		storage_optical_dvd = new ItemStorageMedium((long)(4.7 * ItemStorageMedium.GB), 4 * ItemStorageMedium.MB, 6 * ItemStorageMedium.MB, true).isExposed(true).setUnlocalizedName("storage_optical_dvd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":optical_dvd");
+		storage_optical_cd = new ItemStorageMedium(650 * ItemStorageMedium.MB, (long)(5.54 * ItemStorageMedium.KB), 3 * ItemStorageMedium.MB, true).isExposed(true).setUnlocalizedName("storage_optical_cd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":cd650_mo8_backup");
+		storage_optical_dvd = new ItemStorageMedium((long)(4.7 * ItemStorageMedium.GB), (long)(5.54 * ItemStorageMedium.KB), 6 * ItemStorageMedium.MB, true).isExposed(true).setUnlocalizedName("storage_optical_dvd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":optical_dvd");
 		storage_optical_bd = new ItemStorageMedium(100 * ItemStorageMedium.GB, 6 * ItemStorageMedium.MB, 8 * ItemStorageMedium.MB, true).isExposed(true).setUnlocalizedName("storage_optical_bd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":optical_bd");
 		storage_ssd_raw_tier_1 = new ItemCustomLore("Upgradable").setUnlocalizedName("storage_ssd_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":flash_raw_tier_1");
 		storage_ssd_tier_1 = new ItemStorageMedium(250 * ItemStorageMedium.GB, 25 * ItemStorageMedium.MB, 30 * ItemStorageMedium.MB, false).setUnlocalizedName("storage_ssd").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":flash_ssd_tier_1");
@@ -5489,7 +5501,7 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_schrabidium_wire, stamp_schrabidium_wire.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_schrabidium_circuit, stamp_schrabidium_circuit.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_schrabidium_disc, stamp_schrabidium_disc.getUnlocalizedName());
-		GameRegistry.registerItem(stamp_desh_flat, stamp_desh_flat.getUnlocalizedName());// TODO Fix
+		GameRegistry.registerItem(stamp_desh_flat, stamp_desh_flat.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_plate, stamp_desh_plate.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_wire, stamp_desh_wire.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_circuit, stamp_desh_circuit.getUnlocalizedName());
@@ -5498,6 +5510,10 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_44, stamp_44.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_9, stamp_9.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_50, stamp_50.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_357_desh, stamp_357_desh.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_44_desh, stamp_44_desh.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_9_desh, stamp_9_desh.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_50_desh, stamp_50_desh.getUnlocalizedName());
 		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
@@ -6235,6 +6251,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_grenade_nuclear, ammo_grenade_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_tracer, ammo_grenade_tracer.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_kampf, ammo_grenade_kampf.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade_lunatic, ammo_grenade_lunatic.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell, ammo_shell.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell_explosive, ammo_shell_explosive.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell_apfsds_t, ammo_shell_apfsds_t.getUnlocalizedName());

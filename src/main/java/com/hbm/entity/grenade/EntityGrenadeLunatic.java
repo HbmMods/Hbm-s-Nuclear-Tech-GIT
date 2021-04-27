@@ -41,7 +41,7 @@ public class EntityGrenadeLunatic extends EntityGrenadeBouncyBase
 		explosionEntity.extType = 2;
 		worldObj.spawnEntityInWorld(explosionEntity);
 		
-		EntityCloudFleijaRainbow explosionCloud = new EntityCloudFleijaRainbow(worldObj, 20);
+		EntityCloudFleijaRainbow explosionCloud = new EntityCloudFleijaRainbow(worldObj, 25);
 		explosionCloud.posX = this.posX;
 		explosionCloud.posY = this.posY;
 		explosionCloud.posZ = this.posZ;

@@ -286,6 +286,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityMachineSingGen.class, "tileentity_sing_gen");
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		GameRegistry.registerTileEntity(TileEntityDiFurnace.class, "tilentity_diFurnace");
+		GameRegistry.registerTileEntity(TileEntityMachineDiFurnaceRTG.class, "tileentity_diFurnace_rtg");
 		GameRegistry.registerTileEntity(TileEntityTestNuke.class, "tilentity_testnuke");
 		GameRegistry.registerTileEntity(TileEntityRotationTester.class, "tilentity_rotationtester");
 		GameRegistry.registerTileEntity(TileEntityTestRender.class, "tilentity_testrenderer");

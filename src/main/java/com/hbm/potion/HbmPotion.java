@@ -35,6 +35,8 @@ public class HbmPotion extends Potion {
 	public static HbmPotion phosphorus;
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
+	public static HbmPotion paralysis;
+	public static HbmPotion fragile;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);

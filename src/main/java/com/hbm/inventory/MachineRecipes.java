@@ -120,6 +120,12 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_silicon, 4);
 		}
 		
+		if (mODE(item, new String[] {"sand"}) && mODE(item2, new String[] {"gemCoal", "dustCoal"})
+				|| mODE(item, new String[] {"gemCoal", "dustCoal"}) && mODE(item2, new String[] {"sand"}))
+		{
+			return new ItemStack(ModItems.nugget_silicon, 3);
+		}
+		
 		if(GeneralConfig.enableBabyMode) {
 			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
 					|| item.getItem() == ModItems.canister_empty && mODE(item2, new String[] { "gemCoal", "dustCoal" })) {
@@ -431,7 +437,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.circuit_aluminium);
 		}
 		
-		if(stamp.getItem() == ModItems.stamp_357) {
+		if(stamp.getItem() == ModItems.stamp_357 || stamp.getItem() == ModItems.stamp_357_desh) {
 
 			if(input.getItem() == ModItems.assembly_iron)
 				return new ItemStack(ModItems.gun_revolver_iron_ammo);
@@ -452,13 +458,13 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_revolver_cursed_ammo);
 		}
 		
-		if(stamp.getItem() == ModItems.stamp_44) {
+		if(stamp.getItem() == ModItems.stamp_44 || stamp.getItem() == ModItems.stamp_44_desh) {
 
 			if(input.getItem() == ModItems.assembly_nopip)
 				return new ItemStack(ModItems.ammo_44);
 		}
 		
-		if(stamp.getItem() == ModItems.stamp_9) {
+		if(stamp.getItem() == ModItems.stamp_9 || stamp.getItem() == ModItems.stamp_9_desh) {
 
 			if(input.getItem() == ModItems.assembly_smg)
 				return new ItemStack(ModItems.ammo_9mm);
@@ -472,7 +478,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.ammo_556);
 		}
 		
-		if(stamp.getItem() == ModItems.stamp_50) {
+		if(stamp.getItem() == ModItems.stamp_50 || stamp.getItem() == ModItems.stamp_50_desh) {
 
 			if(input.getItem() == ModItems.assembly_calamity)
 				return new ItemStack(ModItems.ammo_50bmg);
@@ -501,12 +507,16 @@ public class MachineRecipes {
 
 		List<ItemStack> i_stamps_357 = new ArrayList<ItemStack>();
 		i_stamps_357.add(new ItemStack(ModItems.stamp_357));
+		i_stamps_357.add(new ItemStack(ModItems.stamp_357_desh));
 		List<ItemStack> i_stamps_44 = new ArrayList<ItemStack>();
 		i_stamps_44.add(new ItemStack(ModItems.stamp_44));
+		i_stamps_44.add(new ItemStack(ModItems.stamp_44_desh));
 		List<ItemStack> i_stamps_9 = new ArrayList<ItemStack>();
 		i_stamps_9.add(new ItemStack(ModItems.stamp_9));
+		i_stamps_9.add(new ItemStack(ModItems.stamp_9_desh));
 		List<ItemStack> i_stamps_50 = new ArrayList<ItemStack>();
 		i_stamps_50.add(new ItemStack(ModItems.stamp_50));
+		i_stamps_50.add(new ItemStack(ModItems.stamp_50_desh));
 		
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_coal));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_quartz) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_quartz));
@@ -818,6 +828,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.silicon_lump), new ItemStack(ModItems.coke) },
 					getFurnaceOutput(new ItemStack(ModItems.silicon_lump), new ItemStack(ModItems.coke)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(Blocks.sand), new ItemStack(Items.coal) },
+					getFurnaceOutput(new ItemStack(Blocks.sand), new ItemStack(Items.coal)).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },

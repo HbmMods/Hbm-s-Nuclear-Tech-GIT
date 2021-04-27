@@ -407,6 +407,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Increased accuracy");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
+		if (this == ModItems.ammo_grenade_lunatic)
+		{
+			list.add(EnumChatFormatting.BLUE + "+ Lunatic");
+			list.add(EnumChatFormatting.BLUE + "+ Increased range");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
 		
 		//FUEL
 		if(this == ModItems.ammo_fuel_napalm) {

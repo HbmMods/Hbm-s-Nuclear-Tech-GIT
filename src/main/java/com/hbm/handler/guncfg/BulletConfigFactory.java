@@ -3,6 +3,9 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -295,6 +298,29 @@ public class BulletConfigFactory {
 			}
 			
 			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+		}
+	}
+	
+	public static void explosionLunatic(EntityBulletBase bullet, int x, int y, int z, int size) {
+		
+		if(!bullet.worldObj.isRemote) {
+
+			EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(bullet.worldObj);
+			explosionEntity.posX = bullet.posX;
+			explosionEntity.posY = bullet.posY;
+			explosionEntity.posZ = bullet.posZ;
+			explosionEntity.destructionRange = size;
+			explosionEntity.speed = BombConfig.blastSpeed;
+			explosionEntity.coefficient = 1.0F;
+			explosionEntity.waste = false;
+			explosionEntity.extType = 2;
+			bullet.worldObj.spawnEntityInWorld(explosionEntity);
+			
+			EntityCloudFleijaRainbow explosionCloud = new EntityCloudFleijaRainbow(bullet.worldObj, size);
+			explosionCloud.posX = bullet.posX;
+			explosionCloud.posY = bullet.posY;
+			explosionCloud.posZ = bullet.posZ;
+			bullet.worldObj.spawnEntityInWorld(explosionCloud);
 		}
 	}
 	

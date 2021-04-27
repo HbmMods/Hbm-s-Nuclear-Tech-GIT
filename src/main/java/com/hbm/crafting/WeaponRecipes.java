@@ -130,7 +130,7 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action, 1), new Object[] { "PPI", "SWD", 'P', "plateSteel", 'I', ModItems.mechanism_rifle_1, 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_green, 1), new Object[] { "PPI", "SWD", 'P', "plateIron", 'I', ModItems.mechanism_rifle_1, 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_saturnite, 1), new Object[] { "PPI", "SWD", 'P', "plateSaturnite", 'I', ModItems.mechanism_rifle_1, 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_tungsten }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_b92), new Object[] { "DDD", "SSC", "  R", 'D', ModItems.plate_dineutronium, 'S', ModItems.ingot_starmetal, 'S', ModItems.circuit_targeting_tier6, 'R', ModItems.gun_revolver_schrabidium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_b92), new Object[] { "DDD", "SSC", "  R", 'D', ModItems.plate_dineutronium, 'S', ModItems.ingot_starmetal, 'C', ModItems.circuit_targeting_tier6, 'R', ModItems.gun_revolver_schrabidium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_b93), new Object[] { "PCE", "SEB", "PCE", 'P', ModItems.plate_dineutronium, 'C', ModItems.weaponized_starblaster_cell, 'E', ModItems.component_emitter, 'B', ModItems.gun_b92, 'S', ModItems.singularity_spark });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_b92_ammo, 1), new Object[] { "PSP", "ESE", "PSP", 'P', "plateSteel", 'S', ModItems.ingot_starmetal, 'E', ModItems.powder_spark_mix }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.weaponized_starblaster_cell, 1), new Object[] { new ItemStack(ModItems.fluid_tank_full, 1, FluidType.ACID.getID()), GunB92Cell.getFullCell(), ModItems.wire_copper });
@@ -312,6 +312,8 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_grenade_nuclear, 2), new Object[] { " P ", "GIG", " P ", 'G', ModItems.ammo_grenade, 'I', ModItems.neutron_reflector, 'P', ModItems.nugget_pu239 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_grenade_finned, 1), new Object[] { "G", "R", 'G', Items.feather, 'R', ModItems.ammo_grenade });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_grenade_kampf, 2), new Object[] { "G", "R", 'G', ModItems.ammo_rocket, 'R', ModItems.ammo_grenade });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ammo_grenade_lunatic, 2), new Object[] {ModItems.grenade_lunatic, ModItems.grenade_lunatic, ModItems.ballistite, ModItems.casing_50, ModItems.primer_50});
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ammo_grenade_lunatic, 2), new Object[] {ModItems.grenade_lunatic, ModItems.grenade_lunatic, ModItems.cordite, ModItems.casing_50, ModItems.primer_50});
 		
 		//240mm Shells
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_shell, 4), new Object[] { " T ", "GHG", "CCC", 'T', Blocks.tnt, 'G', Items.gunpowder, 'H', ModItems.hull_small_steel, 'C', "ingotCopper" }));

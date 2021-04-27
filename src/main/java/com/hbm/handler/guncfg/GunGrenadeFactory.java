@@ -46,6 +46,7 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_LUNATIC);
 		config.durability = 300;
 		
 		return config;
@@ -190,6 +191,24 @@ public class GunGrenadeFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration getGrenadeLunaticConfig()
+	{
+		BulletConfiguration bullet = getGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_lunatic;
+		bullet.velocity = 4;
+		bullet.explosive = 0.0F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+			
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.explosionLunatic(bullet, x, y, z, 25);
+			}
+		};
+		return bullet;
+	}
+	
 	public static BulletConfiguration getGrenadeTracerConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();

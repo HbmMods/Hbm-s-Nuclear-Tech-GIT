@@ -22,10 +22,17 @@ public class GUIHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		switch(ID) {
-		case ModBlocks.guiID_test_machine:
+		case 2000:
 		{
 			if (entity instanceof TileEntityMachineSingGen)
 				return new ContainerMachineSingGen(player.inventory, (TileEntityMachineSingGen) entity);
+			
+			return null;
+		}
+		case ModBlocks.guiID_rtg_difurnace:
+		{
+			if (entity instanceof TileEntityMachineDiFurnaceRTG)
+				return new ContainerMachineDiFurnaceRTG(player.inventory, (TileEntityMachineDiFurnaceRTG) entity);
 			
 			return null;
 		}
@@ -808,11 +815,19 @@ public class GUIHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		switch(ID) {
-		case ModBlocks.guiID_test_machine:
+		case ModBlocks.guiID_sing_gen:
 		{
 			if (entity instanceof TileEntityMachineSingGen)
 			{
 				return new GUIMachineSingGen(player.inventory, (TileEntityMachineSingGen) entity);
+			}
+			return null;
+		}
+		case ModBlocks.guiID_rtg_difurnace:
+		{
+			if (entity instanceof TileEntityMachineDiFurnaceRTG)
+			{
+				return new GUIMachineDiFurnaceRTG(player.inventory, (TileEntityMachineDiFurnaceRTG) entity);
 			}
 			return null;
 		}

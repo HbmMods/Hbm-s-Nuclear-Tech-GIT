@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -13,12 +14,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
+import scala.actors.threadpool.Arrays;
 
 public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IConsumer {
 
@@ -31,7 +34,7 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 	public int item;
 	public int meta;
 	boolean isRetracting = false;
-	
+	private static Item[] deshStamps = new Item[] {ModItems.stamp_desh_circuit, ModItems.stamp_desh_disc, ModItems.stamp_desh_flat, ModItems.stamp_desh_plate, ModItems.stamp_desh_wire, ModItems.stamp_357_desh, ModItems.stamp_44_desh, ModItems.stamp_50_desh, ModItems.stamp_9_desh};
 	private String customName;
 	
 	public TileEntityMachineEPress() {
@@ -229,13 +232,13 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 								slots[2].stackSize--;
 								if(slots[2].stackSize <= 0)
 									slots[2] = null;
-								
-								if (!slots[1].getItem().getUnlocalizedName().toLowerCase().contains("desh"))
+								if (!Arrays.asList(deshStamps).contains(slots[1].getItem()))
+								{
 									slots[1].setItemDamage(slots[1].getItemDamage() + 1);
 								
 								if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
 									slots[1] = null;
-	
+								}
 						        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 							}
 							
