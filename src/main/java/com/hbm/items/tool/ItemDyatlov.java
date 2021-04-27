@@ -26,8 +26,9 @@ public class ItemDyatlov extends Item {
 					TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 					
 					if(te instanceof TileEntityRBMKBase) {
-						
+
 						((TileEntityRBMKBase)te).meltdown();
+						//((TileEntityRBMKBase)te).heat = 100000;
 					}
 				}
 			}

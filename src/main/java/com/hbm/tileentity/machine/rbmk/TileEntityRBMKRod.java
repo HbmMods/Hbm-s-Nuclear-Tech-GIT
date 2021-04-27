@@ -1,9 +1,13 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.items.machine.ItemRBMKRod;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver {
@@ -21,6 +25,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return "container.rbmkRod";
 	}
 
+	@SuppressWarnings("incomplete-switch") //shut the fuck up
 	@Override
 	public void receiveFlux(NType type, double flux) {
 		
@@ -165,5 +170,48 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			nbt.setString("f_xenon", rod.getPoison(slots[0]) + "%");
 			nbt.setString("f_heat", rod.getCoreHeat(slots[0]) + " / " + rod.getHullHeat(slots[0])  + " / " + rod.meltingPoint);
 		}
+	}
+	
+	@Override
+	public void onMelt(int reduce) {
+
+		reduce = MathHelper.clamp_int(reduce, 1, 3);
+		
+		if(worldObj.rand.nextInt(3) == 0)
+			reduce++;
+		
+		for(int i = 3; i >= 0; i--) {
+			
+			if(i <= 4 - reduce) {
+				
+				if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
+					
+				} else {
+					if(reduce > 1 && i == 4 - reduce) {
+						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris_burning);
+						
+					} else {
+						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris);
+					}
+				}
+				
+			} else {
+				worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
+			}
+			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
+		}
+
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			int count = 1 + worldObj.rand.nextInt(3);
+			
+			for(int i = 0; i < count; i++) {
+				spawnDebris(DebrisType.FUEL);
+			}
+		}
+		
+		spawnDebris(DebrisType.ELEMENT);
+		
+		super.onMelt(reduce);
 	}
 }

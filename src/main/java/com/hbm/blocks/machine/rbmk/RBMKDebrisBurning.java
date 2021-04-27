@@ -32,7 +32,7 @@ public class RBMKDebrisBurning extends RBMKDebris {
 				MainRegistry.proxy.effectNT(data);
 			}
 			
-			if(rand.nextInt(50) == 0) {
+			if(rand.nextInt(100) == 0) {
 				world.setBlock(x, y, z, ModBlocks.pribris);
 			} else {
 				world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));

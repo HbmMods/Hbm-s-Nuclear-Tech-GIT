@@ -80,6 +80,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -1135,6 +1136,12 @@ public class MainRegistry {
 		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
 		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
 		PacketDispatcher.registerPackets();
+	}
+	
+	//yes kids, this is where we would usually register commands
+	@EventHandler
+	public void serverStart(FMLServerStartingEvent event) {
+		RBMKDials.createDials(event.getServer().getEntityWorld());
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {

@@ -61,7 +61,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	 * @return
 	 */
 	public double passiveCooling() {
-		return 5D;
+		return RBMKDials.getPassiveCooling(worldObj); //default: 5.0D
 	}
 	
 	//necessary checks to figure out whether players are close enough to ensure that the reactor can be safely used
@@ -78,8 +78,12 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			NBTTagCompound data = new NBTTagCompound();
 			this.writeToNBT(data);
-			this.networkPack(data, 10);
+			this.networkPack(data, trackingRange());
 		}
+	}
+	
+	public int trackingRange() {
+		return 25;
 	}
 	
 	public static final ForgeDirection[] heatDirs = new ForgeDirection[] {
@@ -95,7 +99,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	private void moveHeat() {
 		
 		List<TileEntityRBMKBase> rec = new ArrayList();
-		double req = 0;
+		rec.add(this);
+		double heatTot = this.heat;
 		
 		for(ForgeDirection dir : heatDirs) {
 			
@@ -103,28 +108,22 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			if(te instanceof TileEntityRBMKBase) {
 				TileEntityRBMKBase base = (TileEntityRBMKBase) te;
-				
-				if(base.heat < this.heat) {
-					rec.add(base);
-					
-					req += (this.heat - base.heat) / 2D;
-				}
+				rec.add(base);
+				heatTot += base.heat;
 			}
 		}
 		
-		if(rec.size() > 0) {
+		int members = rec.size();
+		double stepSize = 0.2D;
+		
+		if(members > 1) {
 			
-			double max = req / rec.size();
+			double targetHeat = heatTot / (double)members;
 			
-			for(TileEntityRBMKBase base : rec) {
-				
-				double move = (this.heat - base.heat) / 2D;
-				
-				if(move > max)
-					move = max;
-				
-				base.heat += move;
-				this.heat -= move;
+			for(TileEntityRBMKBase rbmk : rec) {
+				double delta = targetHeat - rbmk.heat;
+				rbmk.heat += delta * stepSize;
+				rbmk.markDirty();
 			}
 		}
 	}
@@ -238,7 +237,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	public void onMelt(int reduce) {
 
-		reduce = MathHelper.clamp_int(reduce, 1, 3);
+		/*reduce = MathHelper.clamp_int(reduce, 1, 3);
 		
 		if(worldObj.rand.nextInt(3) == 0)
 			reduce++;
@@ -271,7 +270,19 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			debris.motionZ = worldObj.rand.nextGaussian() * 0.25D;
 			debris.motionY = 1D + worldObj.rand.nextDouble();
 			worldObj.spawnEntityInWorld(debris);
-		}
+		}*/
+		
+		if(this.hasLid())
+			spawnDebris(DebrisType.LID);
+	}
+	
+	protected void spawnDebris(DebrisType type) {
+
+		EntityRBMKDebris debris = new EntityRBMKDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, type);
+		debris.motionX = worldObj.rand.nextGaussian() * 0.25D;
+		debris.motionZ = worldObj.rand.nextGaussian() * 0.25D;
+		debris.motionY = 1D + worldObj.rand.nextDouble();
+		worldObj.spawnEntityInWorld(debris);
 	}
 	
 	public static HashSet<TileEntityRBMKBase> columns = new HashSet();
