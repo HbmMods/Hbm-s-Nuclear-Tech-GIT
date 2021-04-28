@@ -6,12 +6,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 
 public class ItemRBMKRod extends ItemHazard {
 	
@@ -61,7 +63,7 @@ public class ItemRBMKRod extends ItemHazard {
 		return this;
 	}
 
-	public ItemRBMKRod setStats(double funcStart) {
+	public ItemRBMKRod setStats(double funcEnd) {
 		return setStats(funcEnd, 0);
 	}
 
@@ -130,16 +132,17 @@ public class ItemRBMKRod extends ItemHazard {
 	 * Heat up the core based on the outFlux, then move some heat to the hull
 	 * @param stack
 	 */
-	public void updateHeat(ItemStack stack) {
+	public void updateHeat(World world, ItemStack stack) {
 		
-		//TODO: use exponentials so the heat function isn't linear (to allow very spicy core temperatures)
 		double coreHeat = this.getCoreHeat(stack);
 		double hullHeat = this.getHullHeat(stack);
 		
 		if(coreHeat > hullHeat) {
 			
-			coreHeat -= this.diffusion;
-			hullHeat += this.diffusion;
+			double mid = (coreHeat - hullHeat) / 2D;
+			
+			coreHeat -= mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world);
+			hullHeat += mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world);
 			
 			this.setCoreHeat(stack, coreHeat);
 			this.setHullHeat(stack, hullHeat);
@@ -151,14 +154,16 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param stack
 	 * @return
 	 */
-	public double provideHeat(ItemStack stack, double heat) {
+	public double provideHeat(World world, ItemStack stack, double heat) {
 		
 		double hullHeat = this.getHullHeat(stack);
 		
 		if(hullHeat <= heat)
 			return 0;
 		
-		double ret = (hullHeat - heat) / 2; //TODO: replace this with an euler func that employs our old buddy diffusion
+		double ret = (hullHeat - heat) / 2;
+		
+		ret *= RBMKDials.getFuelHeatProvision(world);
 		
 		hullHeat -= ret;
 		this.setHullHeat(stack, hullHeat);
@@ -227,7 +232,7 @@ public class ItemRBMKRod extends ItemHazard {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "°C/t"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "m"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmx.melt", meltingPoint + "m"));
@@ -246,7 +251,7 @@ public class ItemRBMKRod extends ItemHazard {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "°C/t"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmk.melt", meltingPoint + "°C"));

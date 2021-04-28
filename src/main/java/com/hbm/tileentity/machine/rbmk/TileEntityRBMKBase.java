@@ -114,7 +114,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 		
 		int members = rec.size();
-		double stepSize = 0.2D;
+		double stepSize = RBMKDials.getColumnHeatFlow(worldObj);
 		
 		if(members > 1) {
 			
@@ -128,9 +128,6 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 	}
 	
-	/**
-	 * TODO: add faster passive cooling based on temperature (blackbody radiation has an exponent of 4!)
-	 */
 	private void coolPassively() {
 		
 		this.heat -= this.passiveCooling();

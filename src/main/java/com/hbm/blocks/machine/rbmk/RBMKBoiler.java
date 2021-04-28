@@ -1,13 +1,13 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RBMKBoiler extends RBMKBase {
 
@@ -16,6 +16,10 @@ public class RBMKBoiler extends RBMKBase {
 		
 		if(meta >= this.offset)
 			return new TileEntityRBMKBoiler();
+		
+		if(hasExtra(meta))
+			return new TileEntityProxyCombo(false, false, true);
+		
 		return null;
 	}
 	
@@ -27,5 +31,11 @@ public class RBMKBoiler extends RBMKBase {
 	@Override
 	public int getRenderType(){
 		return this.renderIDControl;
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		this.makeExtra(world, x, y + 3, z);
 	}
 }

@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
@@ -10,6 +11,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -40,9 +42,11 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 				GL11.glTranslated(0, 1, 0);
 		}
 
-		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
-		tessellator.draw();
+		if(block != ModBlocks.rbmk_boiler) {
+			tessellator.startDrawingQuads();
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
+			tessellator.draw();
+		}
 
 		GL11.glPopMatrix();
 	}
@@ -63,14 +67,11 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Column", iicon, tessellator, 0, true);
 		
-		/*if(world.getBlock(x, y + 1, z) == Blocks.air) {
+		if(block == ModBlocks.rbmk_boiler && world.getBlock(x, y + 1, z) == Blocks.air) {
 			//tessellator.addTranslation(0, 0.125F, 0);
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
 			//tessellator.addTranslation(0, -0.125F, 0);
-		}*/
-		
-		//if(world.getBlock(x, y + 1, z) == Blocks.air)
-		//	ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_element, "Lid", ModBlocks.rbmk_rod.getIcon(0, 0), tessellator, 0, true);
+		}
 		
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 

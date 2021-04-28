@@ -47,11 +47,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 				
 				double fluxIn = fluxFromType(rod.nType);
+				//System.out.println(fluxIn + " - " + this.fluxFast + " - " + this.fluxSlow);
 				double fluxOut = rod.burn(slots[0], fluxIn);
 				NType rType = rod.rType;
 				
-				rod.updateHeat(slots[0]);
-				this.heat += rod.provideHeat(slots[0], heat);
+				rod.updateHeat(worldObj, slots[0]);
+				this.heat += rod.provideHeat(worldObj, slots[0], heat);
 				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
