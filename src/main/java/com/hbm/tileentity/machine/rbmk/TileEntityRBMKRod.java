@@ -54,6 +54,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				rod.updateHeat(worldObj, slots[0]);
 				this.heat += rod.provideHeat(worldObj, slots[0], heat);
 				
+				if(this.heat > this.maxHeat()) {
+					this.meltdown();
+					return;
+				}
+				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
@@ -181,11 +186,14 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(worldObj.rand.nextInt(3) == 0)
 			reduce++;
 		
+		boolean corium = slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod;
+		slots[0] = null;
+		
 		for(int i = 3; i >= 0; i--) {
 			
 			if(i <= 4 - reduce) {
 				
-				if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+				if(corium) {
 					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
 					
 				} else {
@@ -203,7 +211,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
 		}
 
-		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+		if(corium) {
 			int count = 1 + worldObj.rand.nextInt(3);
 			
 			for(int i = 0; i < count; i++) {

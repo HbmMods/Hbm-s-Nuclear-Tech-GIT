@@ -1,7 +1,9 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -10,8 +12,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class RBMKBase extends BlockDummyable {
 
@@ -68,6 +70,20 @@ public abstract class RBMKBase extends BlockDummyable {
 		}
 		
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY + height, z + this.maxZ);
+	}
+
+	@Override
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		return MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(world), x, y, z, dir);
+	}
+
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(world), this, dir);
+	}
+	
+	public int[] getDimensions(World world) {
+		return new int[] {RBMKDials.getColumnHeight(world), 0, 0, 0, 0, 0};
 	}
 
 	public static int renderIDRods = RenderingRegistry.getNextAvailableRenderId();

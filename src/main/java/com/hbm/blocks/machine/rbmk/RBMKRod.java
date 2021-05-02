@@ -2,6 +2,7 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyInventory;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +37,6 @@ public class RBMKRod extends RBMKBase {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		this.makeExtra(world, x, y + 3, z);
+		this.makeExtra(world, x, y + RBMKDials.getColumnHeight(world), z);
 	}
 }

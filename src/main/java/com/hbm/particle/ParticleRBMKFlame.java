@@ -91,6 +91,7 @@ public class ParticleRBMKFlame extends EntityFX {
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 	}
 	

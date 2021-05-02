@@ -158,6 +158,17 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		double hullHeat = this.getHullHeat(stack);
 		
+		//metldown! the hull melts so the entire structure stops making sense
+		//hull and core heats are instantly equalized into 33% of their sum each,
+		//the rest is sent to the component which is always fatal
+		if(hullHeat > this.meltingPoint) {
+			double coreHeat = this.getCoreHeat(stack);
+			double avg = (heat + hullHeat + coreHeat) / 3D;
+			this.setCoreHeat(stack, avg);
+			this.setHullHeat(stack, avg);
+			return avg;
+		}
+		
 		if(hullHeat <= heat)
 			return 0;
 		

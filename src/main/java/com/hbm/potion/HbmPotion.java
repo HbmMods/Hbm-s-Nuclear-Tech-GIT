@@ -156,24 +156,34 @@ public class HbmPotion extends Potion {
 	public boolean isReady(int par1, int par2) {
 
 		if(this == taint) {
-
-	        return par1 % 2 == 0;
+			return par1 % 2 == 0;
 		}
+		
 		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus) {
-			
 			return true;
 		}
+		
 		if(this == bang) {
-
 			return par1 <= 10;
 		}
+		
 		if(this == lead) {
-
 			int k = 60;
-	        return k > 0 ? par1 % k == 0 : true;
+			return k > 0 ? par1 % k == 0 : true;
 		}
 		
 		return false;
 	}
-
+	
+	public static boolean getIsBadEffect(Potion potion) {
+		
+		try {
+			Field isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K");
+			boolean ret = isBadEffect.getBoolean(potion);
+			return ret;
+			
+		} catch (Exception x) {
+			return false;
+		}
+	}
 }

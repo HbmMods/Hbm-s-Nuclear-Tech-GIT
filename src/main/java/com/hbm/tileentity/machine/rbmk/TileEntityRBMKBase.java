@@ -22,13 +22,13 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -69,6 +69,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		return true;
 	}
 	
+	public int trackingRange() {
+		return 25;
+	}
+	
 	@Override
 	public void updateEntity() {
 		
@@ -80,10 +84,6 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			this.writeToNBT(data);
 			this.networkPack(data, trackingRange());
 		}
-	}
-	
-	public int trackingRange() {
-		return 25;
 	}
 	
 	public static final ForgeDirection[] heatDirs = new ForgeDirection[] {
@@ -278,7 +278,14 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		EntityRBMKDebris debris = new EntityRBMKDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, type);
 		debris.motionX = worldObj.rand.nextGaussian() * 0.25D;
 		debris.motionZ = worldObj.rand.nextGaussian() * 0.25D;
-		debris.motionY = 1D + worldObj.rand.nextDouble();
+		debris.motionY = 0.25D + worldObj.rand.nextDouble() * 1.25D;
+		
+		if(type == DebrisType.LID) {
+			debris.motionX *= 0.5D;
+			debris.motionY += 0.5D;
+			debris.motionZ *= 0.5D;
+		}
+		
 		worldObj.spawnEntityInWorld(debris);
 	}
 	
@@ -320,6 +327,25 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			rbmk.onMelt(minDist + 1);
 		}
 		
+		for(TileEntityRBMKBase rbmk : columns) {
+			
+			if(rbmk instanceof TileEntityRBMKRod && worldObj.getBlock(rbmk.xCoord, rbmk.yCoord, rbmk.zCoord) == ModBlocks.corium_block) {
+				
+				for(int x = rbmk.xCoord - 1; x <= rbmk.xCoord + 1; x ++) {
+					for(int y = rbmk.yCoord - 1; y <= rbmk.yCoord + 1; y ++) {
+						for(int z = rbmk.zCoord - 1; z <= rbmk.zCoord + 1; z ++) {
+							
+							Block b = worldObj.getBlock(x, y, z);
+							
+							if(worldObj.rand.nextInt(3) == 0 && (b == ModBlocks.pribris || b == ModBlocks.pribris_burning)) {
+								worldObj.setBlock(x, y, z, ModBlocks.pribris_radiating);
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		int smallDim = Math.min(maxX - minX, maxZ - minZ);
 		int avgX = minX + (maxX - minX) / 2;
 		int avgZ = minZ + (maxZ - minZ) / 2;
@@ -329,6 +355,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		data.setFloat("scale", smallDim);
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, avgX + 0.5, yCoord + 1, avgZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,avgX + 0.5, yCoord + 1, avgZ + 0.5, 250));
 		MainRegistry.proxy.effectNT(data);
+		
+		worldObj.playSoundEffect(avgX + 0.5, yCoord + 1, avgZ + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);
 	}
 	
 	private void getFF(int x, int y, int z) {

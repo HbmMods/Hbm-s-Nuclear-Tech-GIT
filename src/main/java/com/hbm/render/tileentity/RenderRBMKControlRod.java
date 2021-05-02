@@ -22,12 +22,24 @@ public class RenderRBMKControlRod extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float i) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y + 3, z + 0.5);
+		
+		TileEntityRBMKControl control = (TileEntityRBMKControl)te;
+		
+		int offset = 1;
+		
+		for(int o = 1; o < 16; o++) {
+			
+			if(te.getWorldObj().getBlock(te.xCoord, te.yCoord + o, te.zCoord) == te.getBlockType()) {
+				offset = o;
+			} else {
+				break;
+			}
+		}
+		
+		GL11.glTranslated(x + 0.5, y + offset, z + 0.5);
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
-		TileEntityRBMKControl control = (TileEntityRBMKControl)te;
 		
 		bindTexture(texture);
 		
