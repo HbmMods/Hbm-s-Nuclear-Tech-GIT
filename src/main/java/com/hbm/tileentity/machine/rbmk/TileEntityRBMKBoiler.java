@@ -42,15 +42,54 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(!worldObj.isRemote) {
 			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			double heatCap = this.getHeatFromSteam(steam.getTankType());
+			double heatProvided = this.heat - heatCap;
+			
+			if(heatProvided > 0) {
+				int waterUsed = (int)Math.floor(heatProvided / RBMKDials.getBoilerHeatConsumption(worldObj));
+				waterUsed = Math.min(waterUsed, feed.getFill());
+				feed.setFill(feed.getFill() - waterUsed);
+				int steamProduced = (int)Math.floor((waterUsed * 100) / getFactorFromSteam(steam.getTankType()));
+				steam.setFill(steam.getFill() + steamProduced);
+				
+				if(steam.getFill() > steam.getMaxFill()) {
+					steam.setFill(steam.getMaxFill());
+				}
+			}
+			
+			fillFluidInit(steam.getTankType());
 		}
 		
 		super.updateEntity();
+	}
+	
+	public double getHeatFromSteam(FluidType type) {
+		
+		switch(type) {
+		case STEAM: return 100D;
+		case HOTSTEAM: return 300D;
+		case SUPERHOTSTEAM: return 450D;
+		case ULTRAHOTSTEAM: return 600D;
+		default: return 0D;
+		}
+	}
+	
+	public double getFactorFromSteam(FluidType type) {
+		
+		switch(type) {
+		case STEAM: return 1D;
+		case HOTSTEAM: return 10D;
+		case SUPERHOTSTEAM: return 100D;
+		case ULTRAHOTSTEAM: return 1000D;
+		default: return 0D;
+		}
 	}
 
 	@Override
 	public void fillFluidInit(FluidType type) {
 		
-		fillFluid(this.xCoord, this.yCoord + 5, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
 	}
 
 	@Override

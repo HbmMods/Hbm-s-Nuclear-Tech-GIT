@@ -132,8 +132,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		
 		this.heat -= this.passiveCooling();
 		
-		if(heat < 0)
-			heat = 0D;
+		if(heat < 20)
+			heat = 20D;
 	}
 	
 	@Override

@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
-import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;

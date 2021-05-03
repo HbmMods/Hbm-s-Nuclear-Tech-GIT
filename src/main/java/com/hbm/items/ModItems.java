@@ -1966,6 +1966,8 @@ public class ModItems {
 	public static Item scrumpy;
 	public static Item wild_p;
 	public static Item fabsols_vodka;
+	public static Item injector_5htp;
+	public static Item injector_knife;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -2965,6 +2967,8 @@ public class ModItems {
 		scrumpy = new ItemModRevive(1).setUnlocalizedName("scrumpy").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":scrumpy");
 		wild_p = new ItemModRevive(3).setUnlocalizedName("wild_p").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":wild_p");
 		fabsols_vodka = new ItemModRevive(9999).setUnlocalizedName("fabsols_vodka").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":fabsols_vodka");
+		injector_5htp = new ItemModAuto().setUnlocalizedName("injector_5htp").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":injector_5htp");
+		injector_knife = new ItemModAuto().setUnlocalizedName("injector_knife").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":injector_knife");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -6718,6 +6722,8 @@ public class ModItems {
 		GameRegistry.registerItem(scrumpy, scrumpy.getUnlocalizedName());
 		GameRegistry.registerItem(wild_p, wild_p.getUnlocalizedName());
 		GameRegistry.registerItem(fabsols_vodka, fabsols_vodka.getUnlocalizedName());
+		GameRegistry.registerItem(injector_5htp, injector_5htp.getUnlocalizedName());
+		GameRegistry.registerItem(injector_knife, injector_knife.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

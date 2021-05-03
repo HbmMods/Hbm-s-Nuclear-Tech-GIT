@@ -59,7 +59,7 @@ public class RenderRBMKRod implements ISimpleBlockRenderingHandler {
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_element, "Column", iicon, tessellator, 0, true);
 		
-		if(world.getBlock(x, y + 1, z) == Blocks.air)
+		if(world.getBlock(x, y + 1, z) != block)
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_element, "Lid", iicon, tessellator, 0, true);
 		
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);

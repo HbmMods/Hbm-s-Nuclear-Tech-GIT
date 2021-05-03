@@ -68,7 +68,8 @@ public class BlockGrate extends Block {
 
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
-		return side == ForgeDirection.UP;
+		int meta = world.getBlockMetadata(x, y, z);
+		return (side == ForgeDirection.UP && meta == 7) || (side == ForgeDirection.DOWN && meta == 0);
 	}
 
 	@Override
