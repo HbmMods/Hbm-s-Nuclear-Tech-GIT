@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerRBMKControlAuto;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto;
@@ -68,12 +67,21 @@ public class GUIRBMKControlAuto extends GuiInfoContainer {
 		String func = "Function: ";
 		
 		switch(rod.function) {
-		case LINEAR: func += " Linear"; break;
-		case QUAD_UP: func += " Quadratic"; break;
-		case QUAD_DOWN: func += " Negative Quadratic"; break;
+		case LINEAR: func += "Linear"; break;
+		case QUAD_UP: func += "Quadratic"; break;
+		case QUAD_DOWN: func += "Inverse Quadratic"; break;
 		}
-		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 69, guiTop + 27, 26, 19, mouseX, mouseY, new String[]{ func } );
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 26, 28, 19, mouseX, mouseY, new String[]{ func } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 48, 22, 10, mouseX, mouseY, new String[]{ "Select linear interpolation" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 59, 22, 10, mouseX, mouseY, new String[]{ "Select quadratic interpolation" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 70, 22, 10, mouseX, mouseY, new String[]{ "Select inverse quadratic interpolation" } );
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 26, 30, 10, mouseX, mouseY, new String[]{ "Level at max heat", "Should be smaller than level at min heat" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 37, 30, 10, mouseX, mouseY, new String[]{ "Level at min heat", "Should be larger than level at min heat" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 48, 30, 10, mouseX, mouseY, new String[]{ "Max heat", "Must be larger than min heat" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 59, 30, 10, mouseX, mouseY, new String[]{ "Min heat", "Must be smaller than max heat" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 30, 10, mouseX, mouseY, new String[]{ "Save parameters" } );
 	}
 
 	@Override

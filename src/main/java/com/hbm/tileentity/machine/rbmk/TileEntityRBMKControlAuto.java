@@ -5,6 +5,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements IControlReceiver {
@@ -32,34 +33,27 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 			
 			double fauxLevel = 0;
 			
-			if(this.heat < heatLower) {
-				fauxLevel = this.levelLower;
-				
-			} else if(this.heat > heatUpper) {
-				fauxLevel = this.levelUpper;
-				
-			} else {
-				
-				switch(this.function) {
-				case LINEAR:
-					//my brain hasn't been this challenged since my math finals in '19
-					fauxLevel = (this.heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.heatLower;
-					break;
-					
-				//TODO: all this bullshit
-				case QUAD_UP:
+			//TODO: there's some chaos that needs limiting
 
-					//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-					//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-					//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-					//this.targetLevel = Math.pow((this.heat - this.heatLower) / 100, 2) * (this.levelUpper - this.levelLower) + this.levelLower;
-					break;
-				case QUAD_DOWN:
-					break;
-				}
+			switch(this.function) {
+			case LINEAR:
+				// my brain hasn't been this challenged since my math finals in
+				// '19
+				fauxLevel = (this.heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.levelLower;
+				break;
+
+			case QUAD_UP:
+				// so this is how we roll, huh?
+				fauxLevel = Math.pow((this.heat - this.heatLower) / (this.heatUpper - this.heatLower), 2) * (this.levelUpper - this.levelLower) + this.levelLower;
+				break;
+			case QUAD_DOWN:
+				// sometimes my genius is almost frightening
+				fauxLevel = Math.pow((this.heat - this.heatUpper) / (this.heatLower - this.heatUpper), 2) * (this.levelLower - this.levelUpper) + this.levelUpper;
+				break;
 			}
 			
 			this.targetLevel = fauxLevel * 0.01D;
+			this.targetLevel = MathHelper.clamp_double(this.targetLevel, 0D, 1D);
 		}
 		
 		super.updateEntity();

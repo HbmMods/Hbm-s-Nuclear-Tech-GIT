@@ -10,7 +10,6 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -59,6 +58,7 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
+	@SuppressWarnings("incomplete-switch") //shut up
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -68,7 +68,7 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 		int i = boiler.feed.getFill() * 58 / boiler.feed.getMaxFill();
 		drawTexturedModalRect(guiLeft + 126, guiTop + 82 - i, 176, 58 - i, 14, i);
 		
-		int j = boiler.feed.getFill() * 22 / boiler.feed.getMaxFill();
+		int j = boiler.feed.getFill() * 22 / boiler.steam.getMaxFill();
 
 		if(j > 0) j++;
 		if(j > 22) j++;
