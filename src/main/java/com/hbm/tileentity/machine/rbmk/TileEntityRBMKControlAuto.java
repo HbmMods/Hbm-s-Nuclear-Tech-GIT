@@ -32,24 +32,34 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		if(!worldObj.isRemote) {
 			
 			double fauxLevel = 0;
+
+			double lowerBound = Math.min(this.heatLower, this.heatUpper);
+			double upperBound = Math.max(this.heatLower, this.heatUpper);
 			
-			//TODO: there's some chaos that needs limiting
-
-			switch(this.function) {
-			case LINEAR:
-				// my brain hasn't been this challenged since my math finals in
-				// '19
-				fauxLevel = (this.heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.levelLower;
-				break;
-
-			case QUAD_UP:
-				// so this is how we roll, huh?
-				fauxLevel = Math.pow((this.heat - this.heatLower) / (this.heatUpper - this.heatLower), 2) * (this.levelUpper - this.levelLower) + this.levelLower;
-				break;
-			case QUAD_DOWN:
-				// sometimes my genius is almost frightening
-				fauxLevel = Math.pow((this.heat - this.heatUpper) / (this.heatLower - this.heatUpper), 2) * (this.levelLower - this.levelUpper) + this.levelUpper;
-				break;
+			if(this.heat < lowerBound) {
+				fauxLevel = this.levelLower;
+				
+			} else if(this.heat > upperBound) {
+				fauxLevel = this.levelUpper;
+				
+			} else {
+	
+				switch(this.function) {
+				case LINEAR:
+					// my brain hasn't been this challenged since my math finals in
+					// '19
+					fauxLevel = (this.heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.levelLower;
+					break;
+	
+				case QUAD_UP:
+					// so this is how we roll, huh?
+					fauxLevel = Math.pow((this.heat - this.heatLower) / (this.heatUpper - this.heatLower), 2) * (this.levelUpper - this.levelLower) + this.levelLower;
+					break;
+				case QUAD_DOWN:
+					// sometimes my genius is almost frightening
+					fauxLevel = Math.pow((this.heat - this.heatUpper) / (this.heatLower - this.heatUpper), 2) * (this.levelLower - this.levelUpper) + this.levelUpper;
+					break;
+				}
 			}
 			
 			this.targetLevel = fauxLevel * 0.01D;

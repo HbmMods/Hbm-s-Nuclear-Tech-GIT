@@ -113,6 +113,8 @@ public class ModItems {
 	public static Item nugget_solinium;
 	public static Item ingot_phosphorus;
 	public static Item ingot_semtex;
+	public static Item ingot_boron;
+	public static Item ingot_graphite;
 
 	public static Item ingot_australium;
 	public static Item ingot_weidanium;
@@ -1019,6 +1021,7 @@ public class ModItems {
 	public static Item digamma_diagnostic;
 	public static Item survey_scanner;
 	public static Item mirror_tool;
+	public static Item rbmk_tool;
 
 	public static Item template_folder;
 	public static Item journal_pip;
@@ -2296,6 +2299,8 @@ public class ModItems {
 		ingot_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.ingot).addFire(15).toItem().setUnlocalizedName("ingot_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_au198");
 		ingot_titanium = new Item().setUnlocalizedName("ingot_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_titanium");
 		ingot_cobalt = new Item().setUnlocalizedName("ingot_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cobalt");
+		ingot_boron = new Item().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_boron");
+		ingot_graphite = new Item().setUnlocalizedName("ingot_graphite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_graphite");
 		sulfur = new Item().setUnlocalizedName("sulfur").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sulfur");
 
 		ingot_uranium_fuel = new ItemHazard(ItemHazard.uf * ItemHazard.ingot).setUnlocalizedName("ingot_uranium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_uranium_fuel");
@@ -4036,6 +4041,7 @@ public class ModItems {
 		digamma_diagnostic = new ItemDigammaDiagnostic().setUnlocalizedName("digamma_diagnostic").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":digamma_diagnostic");
 		survey_scanner = new ItemSurveyScanner().setUnlocalizedName("survey_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":survey_scanner");
 		mirror_tool = new ItemMirrorTool().setUnlocalizedName("mirror_tool").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":mirror_tool");
+		rbmk_tool = new ItemRBMKTool().setUnlocalizedName("rbmk_tool").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":rbmk_tool");
 
 		key = new ItemKey().setUnlocalizedName("key").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key");
 		key_red = new ItemCustomLore().setUnlocalizedName("key_red").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":key_red");
@@ -4865,6 +4871,8 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_beryllium, ingot_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_cobalt, ingot_cobalt.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dura_steel, ingot_dura_steel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_polymer, ingot_polymer.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schraranium, ingot_schraranium.getUnlocalizedName());
@@ -5891,6 +5899,7 @@ public class ModItems {
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(survey_scanner, survey_scanner.getUnlocalizedName());
 		GameRegistry.registerItem(mirror_tool, mirror_tool.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_tool, rbmk_tool.getUnlocalizedName());
 		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
 		GameRegistry.registerItem(digamma_diagnostic, digamma_diagnostic.getUnlocalizedName());
 		GameRegistry.registerItem(containment_box, containment_box.getUnlocalizedName());

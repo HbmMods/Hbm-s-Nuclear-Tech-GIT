@@ -4,7 +4,6 @@ import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

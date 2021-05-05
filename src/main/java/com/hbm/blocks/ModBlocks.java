@@ -867,7 +867,7 @@ public class ModBlocks {
 	public static final int guiID_rbmk_boiler = 114;
 	public static final int guiID_rbmk_control = 115;
 	public static final int guiID_rbmk_control_auto = 116;
-	public static final int guiID_rbmk_console = 17;
+	public static final int guiID_rbmk_console = 117;
 	public static Block pribris;
 	public static Block pribris_burning;
 	public static Block pribris_radiating;
