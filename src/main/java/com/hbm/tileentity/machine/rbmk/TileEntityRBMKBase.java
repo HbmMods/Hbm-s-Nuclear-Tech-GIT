@@ -17,6 +17,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -375,5 +376,11 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 				getFF(x, y, z - 1);
 			}
 		}
+	}
+	
+	public abstract ColumnType getConsoleType();
+	
+	public NBTTagCompound getNBTForConsole() {
+		return null;
 	}
 }

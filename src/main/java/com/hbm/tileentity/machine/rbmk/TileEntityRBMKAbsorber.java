@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
@@ -41,5 +42,10 @@ public class TileEntityRBMKAbsorber extends TileEntityRBMKBase {
 		}
 		
 		super.onMelt(reduce);
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.ABSORBER;
 	}
 }

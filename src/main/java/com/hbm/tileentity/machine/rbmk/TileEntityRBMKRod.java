@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.items.machine.ItemRBMKRod;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -222,5 +223,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		spawnDebris(DebrisType.ELEMENT);
 		
 		super.onMelt(reduce);
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.FUEL;
 	}
 }

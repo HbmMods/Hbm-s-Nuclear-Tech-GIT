@@ -53,10 +53,11 @@ public class ItemRBMKTool extends Item {
 				
 				int[] pos = ((BlockDummyable)b).findCore(world, x, y, z);
 				
-				TileEntityRBMKConsole mirror = (TileEntityRBMKConsole)world.getTileEntity(pos[0], pos[1], pos[2]);
+				TileEntityRBMKConsole console = (TileEntityRBMKConsole)world.getTileEntity(pos[0], pos[1], pos[2]);
 				int tx = stack.stackTagCompound.getInteger("posX");
 				int ty = stack.stackTagCompound.getInteger("posY");
 				int tz = stack.stackTagCompound.getInteger("posZ");
+				console.setTarget(tx, ty, tz);
 			}
 			
 			return true;

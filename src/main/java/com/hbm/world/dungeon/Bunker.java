@@ -38,35 +38,6 @@ public class Bunker extends WorldGenerator
 		};
 	}
 
-	public boolean LocationIsValidSpawn(World world, int x, int y, int z)
- {
-
-		Block checkBlock = world.getBlock(x, y - 1, z);
-		Block blockAbove = world.getBlock(x, y , z);
-		Block blockBelow = world.getBlock(x, y - 2, z);
-
-		for (Block i : GetValidSpawnBlocks())
-		{
-			if (blockAbove != Blocks.air)
-			{
-				return false;
-			}
-			if (checkBlock == i)
-			{
-				return true;
-			}
-			else if (checkBlock == Blocks.snow_layer && blockBelow == i)
-			{
-				return true;
-			}
-			else if (checkBlock.getMaterial() == Material.plants && blockBelow == i)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z)
 	{
@@ -84,10 +55,6 @@ public class Bunker extends WorldGenerator
 	public boolean generate_r0(World world, Random rand, int x, int y, int z)
 	{
 		y += 1;
-		if(!LocationIsValidSpawn(world, x, y, z) || !LocationIsValidSpawn(world, x + 3, y, z) || !LocationIsValidSpawn(world, x + 3, y, z + 5) || !LocationIsValidSpawn(world, x, y, z + 5))
-		{
-			return false;
-		}
 
 		for(int i = 0; i < 11; i++)
 		{

@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,5 +67,10 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		GREEN,
 		BLUE,
 		PURPLE
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.CONTROL;
 	}
 }

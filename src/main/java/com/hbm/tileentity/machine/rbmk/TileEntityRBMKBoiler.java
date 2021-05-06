@@ -11,6 +11,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -241,5 +242,10 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		
 		super.onMelt(reduce);
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.BOILER;
 	}
 }

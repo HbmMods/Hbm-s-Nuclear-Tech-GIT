@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -119,5 +120,10 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		LINEAR,
 		QUAD_UP,
 		QUAD_DOWN
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.CONTROL_AUTO;
 	}
 }
