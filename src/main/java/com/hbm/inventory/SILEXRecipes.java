@@ -42,6 +42,11 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
 				);
 		
+		recipes.put(new ComparableStack(ModItems.ingot_australium), new SILEXRecipe(900, 100)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_lesser), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_greater), 1))
+				);
+		
 		recipes.put(new ComparableStack(ModItems.crystal_schraranium), new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))

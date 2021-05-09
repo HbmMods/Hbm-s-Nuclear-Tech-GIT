@@ -101,6 +101,11 @@ public class RecipesCommon {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_quad_empty, billet, billet, billet, billet });
 		GameRegistry.addShapelessRecipe(new ItemStack(billet, 4), new Object[] { out });
 	}
+	
+	//Fill rods with 6 nuggets
+	public static void addRBMKRod(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
+	}
 
 	//Sword
 	public static void addSword(Item ingot, Item sword) {

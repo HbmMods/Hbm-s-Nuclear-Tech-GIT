@@ -161,7 +161,21 @@ public class RodRecipes {
 		RecipesCommon.addQuadRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_quad_plutonium_fuel);
 		RecipesCommon.addQuadRodBillet(ModItems.billet_mox_fuel, ModItems.rod_quad_mox_fuel);
 		RecipesCommon.addQuadRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_quad_schrabidium_fuel);
-
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', "ingotZirconium", 'R', ModItems.rod_quad_empty }));
+		RecipesCommon.addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
+		RecipesCommon.addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
+		RecipesCommon.addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
+		RecipesCommon.addRBMKRod(ModItems.billet_pu_mix, ModItems.rbmk_fuel_mep);
+		RecipesCommon.addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
+		RecipesCommon.addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
+		RecipesCommon.addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
+		RecipesCommon.addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
+		RecipesCommon.addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
+		RecipesCommon.addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
+		RecipesCommon.addRBMKRod(ModItems.billet_schrabidium_fuel, ModItems.rbmk_fuel_mes);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
+		
 		//Water rods
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_water, 1), new Object[] { ModItems.rod_empty, Items.water_bucket });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_water, 1), new Object[] { ModItems.rod_dual_empty, Items.water_bucket, Items.water_bucket });

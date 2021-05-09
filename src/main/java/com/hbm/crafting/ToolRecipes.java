@@ -120,6 +120,7 @@ public class ToolRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.geiger), new Object[] { ModItems.geiger_counter });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.digamma_diagnostic), new Object[] { ModItems.geiger_counter, ModItems.billet_polonium, ModItems.ingot_asbestos });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.mirror_tool), new Object[] { " A ", " IA", "I  ", 'A', "ingotAluminum", 'I', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', "ingotLead", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.defuser, 1), new Object[] { " PS", "P P", " P ", 'P', "ingotPolymer", 'S', "plateSteel" }));
 		
 		//Bobmazon

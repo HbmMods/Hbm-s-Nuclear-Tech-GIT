@@ -49,7 +49,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				
 				double fluxIn = fluxFromType(rod.nType);
 				//System.out.println(fluxIn + " - " + this.fluxFast + " - " + this.fluxSlow);
-				double fluxOut = rod.burn(slots[0], fluxIn);
+				double fluxOut = rod.burn(worldObj, slots[0], fluxIn);
 				NType rType = rod.rType;
 				
 				rod.updateHeat(worldObj, slots[0]);
@@ -228,5 +228,21 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Override
 	public ColumnType getConsoleType() {
 		return ColumnType.FUEL;
+	}
+
+	@Override
+	public NBTTagCompound getNBTForConsole() {
+		NBTTagCompound data = new NBTTagCompound();
+		
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			
+			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+			data.setDouble("enrichment", rod.getEnrichment(slots[0]));
+			data.setDouble("xenon", rod.getPoison(slots[0]));
+			data.setDouble("c_heat", rod.getHullHeat(slots[0]));
+			data.setDouble("c_maxHeat", rod.meltingPoint);
+		}
+		
+		return data;
 	}
 }

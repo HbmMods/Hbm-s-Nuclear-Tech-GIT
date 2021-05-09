@@ -34,13 +34,13 @@ public class ItemRBMKRod extends ItemHazard {
 	 * |'-----'|
 	 * |       |
 	 *  '-----'
-	 * 	I I I I
-	 * 	I I I I
-	 * 	I I I I
-	 * 	I I I I
-	 * 	I I I I
-	 * 	I I I I
-	 * 	I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
 	 * |'-----'|
 	 * |       |
 	 *  '-----'
@@ -73,6 +73,11 @@ public class ItemRBMKRod extends ItemHazard {
 		return this;
 	}
 
+	public ItemRBMKRod setMeltingPoint(double meltingPoint) {
+		this.meltingPoint = meltingPoint;
+		return this;
+	}
+
 	public ItemRBMKRod setNeutronTypes(NType nType, NType rType) {
 		this.nType = nType;
 		this.rType = rType;
@@ -88,7 +93,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param inFlux
 	 * @return outFlux
 	 */
-	public double burn(ItemStack stack, double inFlux) {
+	public double burn(World world, ItemStack stack, double inFlux) {
 		
 		inFlux += selfRate;
 		
@@ -104,7 +109,7 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		setPoison(stack, xenon);
 		
-		double outFlux = reactivityFunc(inFlux * getEnrichment(stack));
+		double outFlux = reactivityFunc(inFlux * getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
 		
 		double y = getYield(stack);
 		y -= inFlux;
@@ -187,7 +192,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double flux) {
-		return funcEnd * flux / 100D; //goodness gracious i guessed the right formula on the first try!
+		return Math.log10(flux + 1) * funcEnd / 100D;
 	}
 	
 	/**
@@ -239,7 +244,7 @@ public class ItemRBMKRod extends ItemHazard {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmx.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsWith", I18nUtil.resolveKey(nType.unlocalized + ".x")));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsInto", I18nUtil.resolveKey(rType.unlocalized + ".x")));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "")));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + funcEnd));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
@@ -258,7 +263,7 @@ public class ItemRBMKRod extends ItemHazard {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmk.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsWith", I18nUtil.resolveKey(nType.unlocalized)));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsInto", I18nUtil.resolveKey(rType.unlocalized)));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + "" + funcEnd + " * x" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "")));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + funcEnd));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));

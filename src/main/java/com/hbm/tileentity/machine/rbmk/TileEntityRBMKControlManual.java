@@ -73,4 +73,16 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	public ColumnType getConsoleType() {
 		return ColumnType.CONTROL;
 	}
+
+	@Override
+	public NBTTagCompound getNBTForConsole() {
+		NBTTagCompound data = super.getNBTForConsole();
+		
+		if(this.color != null)
+			data.setShort("color", (short)this.color.ordinal());
+		else
+			data.setShort("color", (short)-1);
+		
+		return data;
+	}
 }

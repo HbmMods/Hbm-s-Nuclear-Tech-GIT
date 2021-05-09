@@ -54,6 +54,8 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float sa326 = 15.0F;
 	public static final float sa327 = 17.5F;
 	public static final float saf = 5.85F;
+	public static final float pobe = 37.5F;
+	public static final float pube = 5.0F;
 
 	public static final float sr = sa326 * 0.1F;
 	public static final float trx = 25.0F;
@@ -72,6 +74,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float rod = 0.5F;
 	public static final float rod_dual = rod * 2;
 	public static final float rod_quad = rod * 4;
+	public static final float rod_rbmk = rod * 8;
 	
 	ItemHazardModule module;
 	

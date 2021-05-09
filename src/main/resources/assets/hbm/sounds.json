@@ -35,6 +35,7 @@
     "block.soyuzReady": {"category": "block", "sounds": [{"name": "block/soyuzReady", "stream": true}]},
 	"block.screm": {"category": "block", "sounds": ["screm/scream1", "screm/scream01", "screm/scream2", "screm/scream02", "screm/scream3", "screm/scream03", "screm/scream4", "screm/scream04", "screm/scream5", "screm/scream05", "screm/scream6", "screm/scream06", "screm/scream7", "screm/scream07", "screm/scream08", "screm/scream09", "screm/scream10", "screm/scream11", "screm/scream12", "screm/scream13", "screm/scream14", "screm/scream15", "screm/scream16", "screm/scream17", "screm/scream18", "screm/scream19", "screm/scream20", "screm/scream21", "screm/scream22", "screm/scream23", "screm/scream24", "screm/scream25"]},
     "block.rbmk_explosion": {"category": "block", "sounds": [{"name": "block/rbmk_explosion", "stream": false}]},
+    "block.rbmk_az5_cover": {"category": "block", "sounds": [{"name": "block/rbmk_az5_cover", "stream": false}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

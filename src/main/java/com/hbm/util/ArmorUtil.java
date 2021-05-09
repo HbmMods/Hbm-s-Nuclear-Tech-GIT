@@ -171,52 +171,43 @@ public class ArmorUtil {
 	
 	public static boolean checkForGasMask(EntityPlayer player) {
 
-		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.gas_mask, 3))
-		{
+		if(checkArmorPiece(player, ModItems.gas_mask, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.gas_mask_m65, 3))
-		{
+		if(checkArmorPiece(player, ModItems.gas_mask_m65, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.t45_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.ajr_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.ajro_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hev_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3)) {
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3)) {
 			return true;
 		}
 		
@@ -260,40 +251,34 @@ public class ArmorUtil {
 	
 	public static boolean checkForGoggles(EntityPlayer player) {
 
-		if(checkArmorPiece(player, ModItems.goggles, 3))
-		{
+		if(checkArmorPiece(player, ModItems.goggles, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
-		{
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.gas_mask, 3))
-		{
+		if(checkArmorPiece(player, ModItems.gas_mask, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.t45_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.ajr_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.bj_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.ajro_helmet, 3)) {
 			return true;
 		}
-		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
-		{
+		if(checkArmorPiece(player, ModItems.bj_helmet, 3)) {
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hev_helmet, 3)) {
 			return true;
 		}
 		

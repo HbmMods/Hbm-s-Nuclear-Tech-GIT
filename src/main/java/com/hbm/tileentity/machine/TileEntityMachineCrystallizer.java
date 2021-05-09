@@ -109,8 +109,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		if(slots[2] == null)
 			slots[2] = result;
-		else if(slots[2].stackSize < slots[2].getMaxStackSize())
-			slots[2].stackSize++;
+		else if(slots[2].stackSize + result.stackSize <= slots[2].getMaxStackSize())
+			slots[2].stackSize += result.stackSize;
 		
 		float freeChance = this.getFreeChance();
 		

@@ -33,7 +33,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 			
 			if(level < targetLevel) {
 				
-				level += speed;
+				level += speed * RBMKDials.getControlSpeed(worldObj);
 				
 				if(level > targetLevel)
 					level = targetLevel;
@@ -41,7 +41,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 			
 			if(level > targetLevel) {
 				
-				level -= speed;
+				level -= speed * RBMKDials.getControlSpeed(worldObj);
 				
 				if(level < targetLevel)
 					level = targetLevel;
@@ -115,5 +115,12 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 		
 		//control rods will not spawn lid projectiles since the lid is already part of the rod projectiles
 		//super.onMelt(reduce);
+	}
+
+	@Override
+	public NBTTagCompound getNBTForConsole() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setDouble("level", this.level);
+		return data;
 	}
 }

@@ -523,6 +523,7 @@ public class ResourceManager {
 	public static final IModelCustom vortex = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/vortex.obj"));
 	public static final IModelCustom thompson = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/thompson.obj"));
 	public static final IModelCustom bolter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bolter.obj"));
+	public static final IModelCustom ff_python = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/python.obj"));
 
 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
@@ -576,6 +577,17 @@ public class ResourceManager {
 	public static final ResourceLocation thompson_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/thompson.png");
 	public static final ResourceLocation bolter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter.png");
 	public static final ResourceLocation bolter_digamma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter_digamma.png");
+
+	public static final ResourceLocation ff_gold = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gold.png");
+	public static final ResourceLocation ff_gun_bright = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gun_bright.png");
+	public static final ResourceLocation ff_gun_dark = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gun_dark.png");
+	public static final ResourceLocation ff_gun_normal = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gun_normal.png");
+	public static final ResourceLocation ff_iron = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/iron.png");
+	public static final ResourceLocation ff_lead = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/lead.png");
+	public static final ResourceLocation ff_saturnite = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/saturnite.png");
+	public static final ResourceLocation ff_schrabidium = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/schrabidium.png");
+	public static final ResourceLocation ff_wood = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/wood.png");
+	public static final ResourceLocation ff_wood_red = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/wood_red.png");
 
 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");

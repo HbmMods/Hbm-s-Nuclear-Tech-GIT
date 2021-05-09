@@ -57,6 +57,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 				if(steam.getFill() > steam.getMaxFill()) {
 					steam.setFill(steam.getMaxFill());
 				}
+				
+				this.heat -= waterUsed * RBMKDials.getBoilerHeatConsumption(worldObj);
 			}
 			
 			fillFluidInit(steam.getTankType());
@@ -89,7 +91,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		
+
 		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
 	}
 
@@ -100,7 +102,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	
 	@Override
 	@Deprecated //why are we still doing this?
-	public boolean getTact() { return false; }
+	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
@@ -247,5 +249,16 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public ColumnType getConsoleType() {
 		return ColumnType.BOILER;
+	}
+
+	@Override
+	public NBTTagCompound getNBTForConsole() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("water", this.feed.getFill());
+		data.setInteger("maxWater", this.feed.getMaxFill());
+		data.setInteger("steam", this.steam.getFill());
+		data.setInteger("maxSteam", this.steam.getMaxFill());
+		data.setShort("type", (short)this.steam.getTankType().ordinal());
+		return data;
 	}
 }

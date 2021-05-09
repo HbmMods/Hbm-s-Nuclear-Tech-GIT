@@ -147,6 +147,7 @@ public class HbmWorldGen implements IWorldGenerator {
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.rareSpawn, 5, 5, 20, ModBlocks.ore_rare);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ligniteSpawn, 24, 35, 25, ModBlocks.ore_lignite);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 16, 16, ModBlocks.ore_asbestos);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cinnebarSpawn, 2, 8, 8, ModBlocks.ore_asbestos);
 
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn, 6, 5, 50, ModBlocks.cluster_iron);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 5, 30, ModBlocks.cluster_titanium);
@@ -158,9 +159,11 @@ public class HbmWorldGen implements IWorldGenerator {
 		if(WorldConfig.gasbubbleSpawn > 0 && rand.nextInt(WorldConfig.gasbubbleSpawn) == 0)
 			DungeonToolbox.generateOre(world, rand, i, j, 1, 32, 30, 10, ModBlocks.gas_flammable);
 
-		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_iron, rand, 16);
-		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_titanium, rand, 16);
-		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_tungsten, rand, 16);
+		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_iron, rand, 24);
+		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_titanium, rand, 32);
+		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_tungsten, rand, 32);
+		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_cinnebar, rand, 16);
+		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_zirconium, rand, 16);
 
 		for (int k = 0; k < 6; k++) {
 			int randPosX = i + rand.nextInt(16);

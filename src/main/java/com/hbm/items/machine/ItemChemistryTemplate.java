@@ -83,6 +83,7 @@ public class ItemChemistryTemplate extends Item {
 		CORDITE,
 		KEVLAR,
 		CONCRETE,
+		CONCRETE_ASBESTOS,
 		SOLID_FUEL,
 		ELECTROLYSIS,
 		XENON,
@@ -251,6 +252,8 @@ public class ItemChemistryTemplate extends Item {
         case KEVLAR:
         	return 40;
         case CONCRETE:
+        	return 100;
+        case CONCRETE_ASBESTOS:
         	return 100;
         case SOLID_FUEL:
         	return 200;

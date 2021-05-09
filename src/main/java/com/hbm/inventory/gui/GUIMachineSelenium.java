@@ -35,6 +35,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 		String[] text = new String[] { "Accepted Fuels:",
 				"  Industrial Oil (50 HE/t)",
 				"  Heating Oil (75 HE/t)",
+				"  Hydrogen (500 HE/t)",
 				"  Diesel (225 HE/t)",
 				"  Kerosene (300 HE/t)",
 				"  Reclaimed Oil (100 HE/t)",

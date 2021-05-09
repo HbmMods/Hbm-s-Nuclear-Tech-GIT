@@ -269,6 +269,8 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			return 50;
 		if(type.name().equals(FluidType.HEATINGOIL.name()))
 			return 75;
+		if(type.name().equals(FluidType.HYDROGEN.name()))
+			return 500;
 		if(type.name().equals(FluidType.DIESEL.name()))
 			return 225;
 		if(type.name().equals(FluidType.KEROSENE.name()))

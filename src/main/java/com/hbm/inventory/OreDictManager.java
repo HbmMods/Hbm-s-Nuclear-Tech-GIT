@@ -62,6 +62,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotStarmetal", ModItems.ingot_starmetal);
 		OreDictionary.registerOre("ingotAsbestos", ModItems.ingot_asbestos);
 		OreDictionary.registerOre("ingotZirconium", ModItems.ingot_zirconium);
+		OreDictionary.registerOre("ingotBoron", ModItems.ingot_boron);
 
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
@@ -101,6 +102,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetCerium", ModItems.fragment_cerium);
 		OreDictionary.registerOre("nuggetLanthanium", ModItems.fragment_lanthanium);
 		OreDictionary.registerOre("nuggetActinium", ModItems.fragment_actinium);
+		OreDictionary.registerOre("nuggetBoron", ModItems.fragment_boron);
 		
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
@@ -148,6 +150,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustAsbestos", ModItems.powder_asbestos);
 		OreDictionary.registerOre("dustPhosphorus", ModItems.powder_fire);
 		OreDictionary.registerOre("dustZirconium", ModItems.powder_zirconium);
+		OreDictionary.registerOre("dustBoron", ModItems.powder_boron);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
@@ -201,6 +204,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreDaffergon", ModBlocks.ore_daffergon);
 		OreDictionary.registerOre("oreVerticium", ModBlocks.ore_verticium);
 		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
+		OreDictionary.registerOre("oreZirconium", ModBlocks.ore_depth_zirconium);
 
 		OreDictionary.registerOre("oreIron", ModBlocks.ore_gneiss_iron);
 		OreDictionary.registerOre("oreGold", ModBlocks.ore_gneiss_gold);
@@ -258,6 +262,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
 		OreDictionary.registerOre("blockAsbestos", ModBlocks.block_asbestos);
 		OreDictionary.registerOre("blockCobalt", ModBlocks.block_cobalt);
+		OreDictionary.registerOre("blockZirconium", ModBlocks.block_zirconium);
+		OreDictionary.registerOre("blockBoron", ModBlocks.block_boron);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockThorium232", ModBlocks.block_thorium);

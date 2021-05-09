@@ -31,7 +31,6 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-		
 
 		boiler.feed.renderTankInfo(this, mouseX, mouseY, guiLeft + 126, guiTop + 24, 16, 56);
 		boiler.steam.renderTankInfo(this, mouseX, mouseY, guiLeft + 89, guiTop + 39, 8, 28);
@@ -68,7 +67,7 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 		int i = boiler.feed.getFill() * 58 / boiler.feed.getMaxFill();
 		drawTexturedModalRect(guiLeft + 126, guiTop + 82 - i, 176, 58 - i, 14, i);
 		
-		int j = boiler.feed.getFill() * 22 / boiler.steam.getMaxFill();
+		int j = boiler.steam.getFill() * 22 / boiler.steam.getMaxFill();
 
 		if(j > 0) j++;
 		if(j > 22) j++;

@@ -155,7 +155,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
 			switch(rand.nextInt(6)) {
 			case 0:
-				return ModItems.fragment_actinium;
+				return ModItems.fragment_boron;
 			case 1:
 				return ModItems.fragment_cerium;
 			case 2:
@@ -207,29 +207,41 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.cluster_depth_tungsten) {
 			return ModItems.crystal_tungsten;
 		}
+		if(this == ModBlocks.ore_cinnebar || this == ModBlocks.ore_depth_cinnebar) {
+			return ModItems.cinnebar;
+		}
+		if(this == ModBlocks.ore_depth_zirconium) {
+			return ModItems.nugget_zirconium;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
 
 	@Override
-	public int quantityDropped(Random p_149745_1_) {
+	public int quantityDropped(Random rand) {
 		if(this == ModBlocks.ore_fluorite) {
-			return 2 + p_149745_1_.nextInt(3);
+			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_niter) {
-			return 2 + p_149745_1_.nextInt(3);
+			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
-			return 2 + p_149745_1_.nextInt(3);
+			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
-			return 4 + p_149745_1_.nextInt(8);
+			return 4 + rand.nextInt(8);
 		}
 		if(this == ModBlocks.block_meteor_broken) {
-			return 1 + p_149745_1_.nextInt(3);
+			return 1 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.block_meteor_treasure) {
-			return 1 + p_149745_1_.nextInt(3);
+			return 1 + rand.nextInt(3);
+		}
+		if(this == ModBlocks.ore_depth_cinnebar) {
+			return 2 + rand.nextInt(3);
+		}
+		if(this == ModBlocks.ore_depth_zirconium) {
+			return 2 + rand.nextInt(2);
 		}
 
 		return 1;
