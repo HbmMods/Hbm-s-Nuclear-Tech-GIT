@@ -25,21 +25,14 @@ public class ContainerRBMKControlAuto extends Container {
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 20));
 		}
 	}
-
+	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
-
-		if(var4 != null && var4.getHasStack()) {
-			return null;
-		}
-
-		return var3;
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
+		return null;
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return rbmk.isUseableByPlayer(player);
+		return true;
 	}
 }

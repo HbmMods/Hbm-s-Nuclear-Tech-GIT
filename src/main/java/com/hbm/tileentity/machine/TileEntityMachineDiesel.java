@@ -141,7 +141,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
 		if(type.name().equals(FluidType.HYDROGEN.name()))
-			return 1000;
+			return 10;
 		if(type.name().equals(FluidType.DIESEL.name()))
 			return 500;
 		if(type.name().equals(FluidType.PETROIL.name()))

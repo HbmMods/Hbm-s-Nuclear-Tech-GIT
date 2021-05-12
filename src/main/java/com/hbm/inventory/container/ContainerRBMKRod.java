@@ -57,6 +57,6 @@ public class ContainerRBMKRod extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return rbmk.isUseableByPlayer(player);
+		return true;
 	}
 }

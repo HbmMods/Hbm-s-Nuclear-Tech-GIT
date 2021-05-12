@@ -295,6 +295,19 @@ public class ModBlocks {
 	public static Block steel_scaffold;
 	public static Block steel_grate;
 
+	public static Block deco_pipe;
+	public static Block deco_pipe_rusted;
+	public static Block deco_pipe_green;
+	public static Block deco_pipe_green_rusted;
+	public static Block deco_pipe_rim;
+	public static Block deco_pipe_rim_rusted;
+	public static Block deco_pipe_rim_green;
+	public static Block deco_pipe_rim_green_rusted;
+	public static Block deco_pipe_quad;
+	public static Block deco_pipe_quad_rusted;
+	public static Block deco_pipe_quad_green;
+	public static Block deco_pipe_quad_green_rusted;
+
 	public static Block broadcaster_pc;
 	public static Block geiger;
 
@@ -1267,6 +1280,19 @@ public class ModBlocks {
 		steel_scaffold = new DecoBlock(Material.iron).setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel");
 		steel_grate = new BlockGrate(Material.iron).setBlockName("steel_grate").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
 		
+		deco_pipe = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 0).setBlockName("deco_pipe").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 0).setBlockName("deco_pipe_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 0).setBlockName("deco_pipe_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 0).setBlockName("deco_pipe_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_rim = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 1).setBlockName("deco_pipe_rim").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_rim_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 1).setBlockName("deco_pipe_rim_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_rim_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 1).setBlockName("deco_pipe_rim_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_rim_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 1).setBlockName("deco_pipe_rim_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_quad = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 2).setBlockName("deco_pipe_quad").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_quad_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 2).setBlockName("deco_pipe_quad_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_quad_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 2).setBlockName("deco_pipe_quad_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_quad_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 2).setBlockName("deco_pipe_quad_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.iron).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
 		geiger = new GeigerCounter(Material.iron).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
 		
@@ -2092,6 +2118,18 @@ public class ModBlocks {
 		GameRegistry.registerBlock(steel_beam, steel_beam.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_scaffold, steel_scaffold.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_grate, steel_grate.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe, deco_pipe.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rusted, deco_pipe_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_green, deco_pipe_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_green_rusted, deco_pipe_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim, deco_pipe_rim.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_rusted, deco_pipe_rim_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_green, deco_pipe_rim_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_green_rusted, deco_pipe_rim_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad, deco_pipe_quad.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_rusted, deco_pipe_quad_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_green, deco_pipe_quad_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_green_rusted, deco_pipe_quad_green_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());

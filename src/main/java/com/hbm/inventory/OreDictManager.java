@@ -145,7 +145,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustNiter", ModItems.niter);
 		OreDictionary.registerOre("dustSaltpeter", ModItems.niter);
 		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
-		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
+		OreDictionary.registerOre("dustNeptunium237", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustPolonium", ModItems.powder_polonium);
 		OreDictionary.registerOre("dustAsbestos", ModItems.powder_asbestos);
 		OreDictionary.registerOre("dustPhosphorus", ModItems.powder_fire);
@@ -270,7 +270,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockUranium233", ModBlocks.block_u233);
 		OreDictionary.registerOre("blockUranium235", ModBlocks.block_u235);
 		OreDictionary.registerOre("blockUranium238", ModBlocks.block_u238);
-		OreDictionary.registerOre("blockNeptunium", ModBlocks.block_neptunium);
+		OreDictionary.registerOre("blockNeptunium237", ModBlocks.block_neptunium);
 		OreDictionary.registerOre("blockPolonium", ModBlocks.block_polonium);
 		OreDictionary.registerOre("blockPlutonium", ModBlocks.block_plutonium);
 		OreDictionary.registerOre("blockPlutonium238", ModBlocks.block_pu238);

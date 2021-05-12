@@ -19,6 +19,8 @@ public abstract class RBMKBase extends BlockDummyable {
 
 	protected RBMKBase() {
 		super(Material.iron);
+		this.setHardness(3F);
+		this.setResistance(30F);
 	}
 
 	@Override

@@ -192,7 +192,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double flux) {
-		return Math.log10(flux + 1) * funcEnd / 100D;
+		return Math.log10(flux + 1) * funcEnd * 0.1D;
 	}
 	
 	/**

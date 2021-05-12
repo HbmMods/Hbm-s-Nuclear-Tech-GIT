@@ -12,48 +12,42 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemCell extends Item {
-	
+
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-    {
-		if(world.getBlock(p_77648_4_, p_77648_5_, p_77648_6_) instanceof BlockCrashedBomb)
-		{
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
+		
+		if(world.getBlock(p_77648_4_, p_77648_5_, p_77648_6_) instanceof BlockCrashedBomb) {
 			Random rand = new Random();
 			int i = rand.nextInt(100);
-			if(i == 0)
-			{
-	            if (!world.isRemote)
-	            {
-	            	((BlockCrashedBomb)world.getBlock(p_77648_4_, p_77648_5_, p_77648_6_)).explode(world, p_77648_4_, p_77648_5_, p_77648_6_);
-	            }
-			} else if(i < 90)
-			{
-	            //if (!world.isRemote)
-	            {
-	            	player.inventory.consumeInventoryItem(ModItems.cell_empty);
+			
+			if(i == 0) {
+				if(!world.isRemote) {
+					((BlockCrashedBomb) world.getBlock(p_77648_4_, p_77648_5_, p_77648_6_)).explode(world, p_77648_4_, p_77648_5_, p_77648_6_);
+				}
+			} else if(i < 90) {
+				if(!world.isRemote) {
+					player.inventory.consumeInventoryItem(ModItems.cell_empty);
 
-	            	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_antimatter)))
-	            	{
-	            		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_antimatter, 1, 0), false);
-	            	}
-	            }
+					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_antimatter))) {
+						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_antimatter, 1, 0), false);
+					}
+				}
 			} else {
-	            //if (!world.isRemote)
-	            {
-	            	player.inventory.consumeInventoryItem(ModItems.cell_empty);
+				if(!world.isRemote) {
+					player.inventory.consumeInventoryItem(ModItems.cell_empty);
 
-	            	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_anti_schrabidium)))
-	            	{
-	            		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_anti_schrabidium, 1, 0), false);
-	            	}
-	            }
+					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_anti_schrabidium))) {
+						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_anti_schrabidium, 1, 0), false);
+					}
+				}
 			}
-			
+
+			player.inventoryContainer.detectAndSendChanges();
 			ContaminationUtil.applyRadDirect(player, 50F);
-			
+
 			return true;
 		}
 		return false;
-    }
+	}
 
 }

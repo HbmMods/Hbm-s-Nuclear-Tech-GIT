@@ -1004,6 +1004,9 @@ public class ResourceManager {
 	public static final IModelCustom spikes = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/spikes.obj"));
 	public static final IModelCustom antenna_top = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/antenna_top.obj"));
 	public static final IModelCustom conservecrate = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/conservecrate.obj"));
+	public static final IModelCustom pipe = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe.obj"));
+	public static final IModelCustom pipe_rim = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_rim.obj"));
+	public static final IModelCustom pipe_quad = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_quad.obj"));
 
 	public static final IModelCustom rbmk_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element.obj"));
 	public static final IModelCustom rbmk_reflector = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_reflector.obj"));

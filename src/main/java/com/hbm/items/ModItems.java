@@ -19,6 +19,7 @@ import com.hbm.items.weapon.ItemMissile.*;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
@@ -3188,6 +3189,7 @@ public class ModItems {
 				.setYield(100000000D)
 				.setStats(100, 20)
 				.setMeltingPoint(2000)
+				.setNeutronTypes(NType.FAST, NType.FAST)
 				.addRadiation(ItemHazard.npf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_men").setTextureName(RefStrings.MODID + ":rbmk_fuel_men");
 		rbmk_fuel_mox = new ItemRBMKRod("Mixed LEU & LEP Oxide")
@@ -3196,19 +3198,19 @@ public class ModItems {
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.mox * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mox").setTextureName(RefStrings.MODID + ":rbmk_fuel_mox");
-		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium-236")
+		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium-326")
 				.setYield(100000000D)
 				.setStats(100)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.saf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_les").setTextureName(RefStrings.MODID + ":rbmk_fuel_les");
-		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium-236")
+		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium-326")
 				.setYield(100000000D)
 				.setStats(100)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.saf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mes").setTextureName(RefStrings.MODID + ":rbmk_fuel_mes");
-		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium-236")
+		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium-326")
 				.setYield(100000000D)
 				.setStats(100)
 				.setMeltingPoint(2000)

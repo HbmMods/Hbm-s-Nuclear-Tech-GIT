@@ -15,19 +15,23 @@ public class RBMKDials {
 	public static final String KEY_BOILER_HEAT_CONSUMPTION = "dialBoilerHeatConsumption";
 	public static final String KEY_CONTROL_SPEED_MOD = "dialControlSpeed";
 	public static final String KEY_REACTIVITY_MOD = "dialReactivityMod";
+	public static final String KEY_SAVE_DIALS = "dialSaveDials";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
-
-		rules.setOrCreateGameRule(KEY_PASSIVE_COOLING, "1.0");
-		rules.setOrCreateGameRule(KEY_COLUMN_HEAT_FLOW, "0.2");
-		rules.setOrCreateGameRule(KEY_FUEL_DIFFUSION_MOD, "0.02");
-		rules.setOrCreateGameRule(KEY_HEAT_PROVISION, "0.2");
-		rules.setOrCreateGameRule(KEY_COLUMN_HEIGHT, "4");
-		rules.setOrCreateGameRule(KEY_PERMANENT_SCRAP, "false");
-		rules.setOrCreateGameRule(KEY_BOILER_HEAT_CONSUMPTION, "0.1");
-		rules.setOrCreateGameRule(KEY_CONTROL_SPEED_MOD, "1.0");
-		rules.setOrCreateGameRule(KEY_REACTIVITY_MOD, "1.0");
+		
+		if(!rules.getGameRuleBooleanValue(KEY_SAVE_DIALS)) {
+			rules.setOrCreateGameRule(KEY_PASSIVE_COOLING, "1.0");
+			rules.setOrCreateGameRule(KEY_COLUMN_HEAT_FLOW, "0.2");
+			rules.setOrCreateGameRule(KEY_FUEL_DIFFUSION_MOD, "0.02");
+			rules.setOrCreateGameRule(KEY_HEAT_PROVISION, "0.2");
+			rules.setOrCreateGameRule(KEY_COLUMN_HEIGHT, "4");
+			rules.setOrCreateGameRule(KEY_PERMANENT_SCRAP, "false");
+			rules.setOrCreateGameRule(KEY_BOILER_HEAT_CONSUMPTION, "0.1");
+			rules.setOrCreateGameRule(KEY_CONTROL_SPEED_MOD, "1.0");
+			rules.setOrCreateGameRule(KEY_REACTIVITY_MOD, "1.0");
+			rules.setOrCreateGameRule(KEY_SAVE_DIALS, "true");
+		}
 	}
 	
 	/**

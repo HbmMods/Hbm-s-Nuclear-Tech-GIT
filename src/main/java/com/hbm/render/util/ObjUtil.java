@@ -19,7 +19,8 @@ public class ObjUtil {
 				tes.setNormal(n.x, n.y, n.z);
 
 				if(shadow) {
-					float brightness = (n.y + 1) * 0.65F;
+					Vec3 normal = Vec3.createVectorHelper(n.x, n.y, n.z);
+					float brightness = ((float)normal.yCoord + 0.7F) * 0.9F - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
 
 					if(brightness < 0.45F)
 						brightness = 0.45F;
@@ -51,6 +52,10 @@ public class ObjUtil {
 	}
 
 	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, boolean shadow) {
+		renderPartWithIcon(model, name, icon, tes, rot, 0, shadow);
+	}
+
+	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
 
 		GroupObject go = null;
 
@@ -65,10 +70,14 @@ public class ObjUtil {
 		for(Face f : go.faces) {
 
 			Vertex n = f.faceNormal;
-			tes.setNormal(n.x, n.y, n.z);
+
+			Vec3 normal = Vec3.createVectorHelper(n.x, n.y, n.z);
+			normal.rotateAroundZ(pitch);
+			normal.rotateAroundY(rot);
+			tes.setNormal((float)normal.xCoord, (float)normal.yCoord, (float)normal.zCoord);
 
 			if(shadow) {
-				float brightness = (n.y + 1) * 0.65F;
+				float brightness = ((float)normal.yCoord + 0.7F) * 0.9F - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
 
 				if(brightness < 0.45F)
 					brightness = 0.45F;
@@ -81,6 +90,7 @@ public class ObjUtil {
 				Vertex v = f.vertices[i];
 
 				Vec3 vec = Vec3.createVectorHelper(v.x, v.y, v.z);
+				vec.rotateAroundZ(pitch);
 				vec.rotateAroundY(rot);
 
 				float x = (float) vec.xCoord;
