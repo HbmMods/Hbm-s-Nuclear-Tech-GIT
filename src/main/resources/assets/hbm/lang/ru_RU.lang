@@ -980,6 +980,8 @@ item.ingot_magnetized_tungsten.name=Намагниченный слиток во
 item.ingot_combine_steel.name=Слиток CMB-стали
 item.plate_combine_steel.name=Пластина CMB-стали 
 item.ingot_zirconium.name=Циркониевый куб
+item.ingot_boron.name=Борный слиток
+item.ingot_graphite.name=Графитовый слиток
 
 item.plate_armor_lunar.name=Лунная обшивка
 item.plate_armor_titanium.name=Титановая обшивка брони
@@ -1098,6 +1100,7 @@ item.nugget_pu238.name=Самородок плутония-238
 item.nugget_pu239.name=Самородок плутония-239
 item.nugget_pu240.name=Самородок плутония-240
 item.nugget_au198.name=Самородок золота-198
+item.nugget_co60.name=Самородок кобальта-60
 
 item.plate_titanium.name=Титановая пластина
 item.plate_aluminium.name=Алюминиевая пластина
@@ -1781,7 +1784,7 @@ item.billet_co60.name=Заготовка кобальта-60
 item.billet_australium_greater.name=Заготовка высшего австралия
 item.billet_australium_lesser.name=Заготовка низшего австралия
 item.billet_neptunium_fuel.name=Заготовка нептуниевого топлива
-item.billet_po210be.name=Заготовка Полоний-210-Бериллиия
+item.billet_po210be.name=Заготовка Полоний-210-Бериллия
 item.billet_pu238be.name=Заготовка Плутоний-210-Бериллия
 
 
