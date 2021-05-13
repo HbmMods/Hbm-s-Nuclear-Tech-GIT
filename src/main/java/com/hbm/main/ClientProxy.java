@@ -44,7 +44,6 @@ import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
-import com.hbm.entity.mob.sodtekhnologiyah.EntityBallsOTronSegment;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -497,7 +496,6 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTeslaCrab.class, new RenderTeslaCrab());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintCrab.class, new RenderTaintCrab());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMaskMan.class, new RenderMaskMan());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityBallsOTronSegment.class, new RenderBalls());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeHead.class, new RenderWormHead());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeBody.class, new RenderWormBody());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuck.class, new RenderDuck(new ModelChicken(), 0.3F));

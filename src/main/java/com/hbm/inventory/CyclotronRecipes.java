@@ -30,10 +30,14 @@ public class CyclotronRecipes {
 
 		/// LITHIUM START ///
 		int liA = 50;
-		
+
+		makeRecipe(lithium, liAmat, "dustLithium", new ItemStack(ModItems.powder_beryllium), liA);
+		makeRecipe(lithium, liAmat, "dustBeryllium", new ItemStack(ModItems.powder_boron), liA);
+		makeRecipe(lithium, liAmat, "dustBoron", new ItemStack(ModItems.powder_coal), liA);
 		makeRecipe(lithium, liAmat, "dustNetherQuartz", new ItemStack(ModItems.powder_fire), liA);
 		makeRecipe(lithium, liAmat, "dustPhosphorus", new ItemStack(ModItems.sulfur), liA);
 		makeRecipe(lithium, liAmat, "dustIron", new ItemStack(ModItems.powder_cobalt), liA);
+		makeRecipe(lithium, liAmat, new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_zirconium), liA);
 		makeRecipe(lithium, liAmat, "dustGold", new ItemStack(ModItems.nugget_mercury), liA);
 		makeRecipe(lithium, liAmat, "dustPolonium", new ItemStack(ModItems.powder_astatine), liA);
 		makeRecipe(lithium, liAmat, "dustLanthanium", new ItemStack(ModItems.powder_cerium), liA);
@@ -45,7 +49,8 @@ public class CyclotronRecipes {
 
 		/// BERYLLIUM START ///
 		int beA = 25;
-		
+
+		makeRecipe(beryllium, beAmat, "dustLithium", new ItemStack(ModItems.powder_boron), beA);
 		makeRecipe(beryllium, beAmat, "dustNetherQuartz", new ItemStack(ModItems.sulfur), beA);
 		makeRecipe(beryllium, beAmat, "dustTitanium", new ItemStack(ModItems.powder_iron), beA);
 		makeRecipe(beryllium, beAmat, "dustCobalt", new ItemStack(ModItems.powder_copper), beA);
@@ -57,7 +62,8 @@ public class CyclotronRecipes {
 		
 		/// CARBON START ///
 		int caA = 10;
-		
+
+		makeRecipe(carbon, caAmat, "dustBoron", new ItemStack(ModItems.powder_aluminium), caA);
 		makeRecipe(carbon, caAmat, "dustSulfur", new ItemStack(ModItems.powder_titanium), caA);
 		makeRecipe(carbon, caAmat, "dustTitanium", new ItemStack(ModItems.powder_cobalt), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);

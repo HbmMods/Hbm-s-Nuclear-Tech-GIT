@@ -9,6 +9,8 @@ import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
 import com.hbm.modules.ItemHazardModule;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -115,7 +117,7 @@ public class ItemModInsert extends ItemArmorMod implements IItemHazard {
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
 		
 		if(!entity.worldObj.isRemote && this == ModItems.insert_polonium) {
-			ContaminationUtil.applyRadDirect(entity, 5);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
 		}
 	}
 	

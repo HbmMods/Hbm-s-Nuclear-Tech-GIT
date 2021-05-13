@@ -11,6 +11,8 @@ import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -29,11 +31,19 @@ public class EntityEffectHandler {
 
 	public static void onUpdate(EntityLivingBase entity) {
 		
-		if(!entity.worldObj.isRemote && entity instanceof EntityPlayerMP) {
-			NBTTagCompound data = new NBTTagCompound();
-			HbmLivingProps props = HbmLivingProps.getData(entity);
-			props.saveNBTData(data);
-			PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
+		if(!entity.worldObj.isRemote) {
+			
+			if(entity.ticksExisted % 20 == 0) {
+				HbmLivingProps.setRadBuf(entity, HbmLivingProps.getRadEnv(entity));
+				HbmLivingProps.setRadEnv(entity, 0);
+			}
+			
+			if(entity instanceof EntityPlayerMP) {
+				NBTTagCompound data = new NBTTagCompound();
+				HbmLivingProps props = HbmLivingProps.getData(entity);
+				props.saveNBTData(data);
+				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
+			}
 		}
 		
 		handleRadiation(entity);
@@ -50,9 +60,6 @@ public class EntityEffectHandler {
 		RadiationSavedData data = RadiationSavedData.getData(world);
 		
 		if(!world.isRemote) {
-			
-			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
-				return;
 			int ix = (int)MathHelper.floor_double(entity.posX);
 			int iy = (int)MathHelper.floor_double(entity.posY);
 			int iz = (int)MathHelper.floor_double(entity.posZ);
@@ -64,13 +71,16 @@ public class EntityEffectHandler {
 				rad = RadiationConfig.hellRad;
 	
 			if(rad > 0) {
-				ContaminationUtil.applyRadData(entity, rad / 20F);
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 			}
 	
 			if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
-	
-				ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.0005F);
+				
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, RadiationConfig.cont * 0.0005F);
 			}
+			
+			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
+				return;
 			
 			Random rand = new Random(entity.getEntityId());
 			

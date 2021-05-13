@@ -56,7 +56,7 @@ public class RBMKConsole extends BlockDummyable {
 			int[] pos = this.findCore(world, x, y, z);
 
 			if(pos == null)
-				return false;
+				return true;
 
 			TileEntityRBMKConsole entity = (TileEntityRBMKConsole) world.getTileEntity(pos[0], pos[1], pos[2]);
 			if(entity != null) {

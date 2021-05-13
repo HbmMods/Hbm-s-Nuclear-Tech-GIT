@@ -2356,7 +2356,7 @@ public class ModItems {
 		plate_paa = new ItemCustomLore().setUnlocalizedName("plate_paa").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_paa");
 		board_copper = new Item().setUnlocalizedName("board_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":board_copper");
 		bolt_dura_steel = new Item().setUnlocalizedName("bolt_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bolt_dura_steel");
-		pipes_steel = new Item().setUnlocalizedName("pipes_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pipes_steel");
+		pipes_steel = new ItemCustomLore().setUnlocalizedName("pipes_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pipes_steel");
 		drill_titanium = new Item().setUnlocalizedName("drill_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":drill_titanium");
 		plate_dalekanium = new Item().setUnlocalizedName("plate_dalekanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_dalekanium");
 		plate_euphemium = new ItemCustomLore().setUnlocalizedName("plate_euphemium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_euphemium");
@@ -2811,7 +2811,7 @@ public class ModItems {
 		cell_puf6 = new Item().setUnlocalizedName("cell_puf6").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_puf6");
 		cell_antimatter = new ItemDrop().setUnlocalizedName("cell_antimatter").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_antimatter");
 		cell_deuterium = new Item().setUnlocalizedName("cell_deuterium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_deuterium");
-		cell_tritium = new ItemHazard(0.5F).setUnlocalizedName("cell_tritium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_tritium");
+		cell_tritium = new ItemHazard(0.001F).setUnlocalizedName("cell_tritium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_tritium");
 		cell_sas3 = new ItemHazard(ItemHazard.sa326 * ItemHazard.ingot, false, true).setUnlocalizedName("cell_sas3").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_sas3");
 		cell_anti_schrabidium = new ItemDrop().setUnlocalizedName("cell_anti_schrabidium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_anti_schrabidium");
 
@@ -3169,50 +3169,50 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_meu").setTextureName(RefStrings.MODID + ":rbmk_fuel_meu");
 		rbmk_fuel_thmeu = new ItemRBMKRod("Thorium with MEU Driver Fuel")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(50)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.thf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_thmeu").setTextureName(RefStrings.MODID + ":rbmk_fuel_thmeu");
 		rbmk_fuel_lep = new ItemRBMKRod("Low Enriched Plutonium-239")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(120)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.puf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_lep").setTextureName(RefStrings.MODID + ":rbmk_fuel_lep");
 		rbmk_fuel_mep = new ItemRBMKRod("Medium Enriched Plutonium-239")
 				.setYield(100000000D)
-				.setStats(100, 20)
+				.setStats(150, 20)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.purg * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mep").setTextureName(RefStrings.MODID + ":rbmk_fuel_mep");
 		rbmk_fuel_men = new ItemRBMKRod("Medium Enriched Neptunium-237")
 				.setYield(100000000D)
-				.setStats(100, 20)
+				.setStats(130)
 				.setMeltingPoint(2000)
 				.setNeutronTypes(NType.FAST, NType.FAST)
 				.addRadiation(ItemHazard.npf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_men").setTextureName(RefStrings.MODID + ":rbmk_fuel_men");
 		rbmk_fuel_mox = new ItemRBMKRod("Mixed LEU & LEP Oxide")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(130)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.mox * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mox").setTextureName(RefStrings.MODID + ":rbmk_fuel_mox");
 		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium-326")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(150)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.saf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_les").setTextureName(RefStrings.MODID + ":rbmk_fuel_les");
 		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium-326")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(200)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.saf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mes").setTextureName(RefStrings.MODID + ":rbmk_fuel_mes");
 		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium-326")
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(250)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.saf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_hes").setTextureName(RefStrings.MODID + ":rbmk_fuel_hes");
@@ -3238,7 +3238,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_pu238be").setTextureName(RefStrings.MODID + ":rbmk_fuel_pu238be");
 		rbmk_fuel_balefire = new ItemRBMKRod("Draconic Flames")
 				.setYield(100000000D)
-				.setStats(60, 35)
+				.setStats(300, 35)
 				.setMeltingPoint(2000)
 				.addRadiation(800000F).toItem()
 				.setUnlocalizedName("rbmk_fuel_balefire").setTextureName(RefStrings.MODID + ":rbmk_fuel_balefire");

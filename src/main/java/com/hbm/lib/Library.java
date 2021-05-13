@@ -152,7 +152,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table) {
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
+				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
 			return true;
 		}
 		

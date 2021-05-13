@@ -30,6 +30,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radiation;
 	private float digamma;
 	private int asbestos;
+	private float radEnv;
+	private float radBuf;
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -67,6 +69,24 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			radiation = 0;
 		
 		data.setRadiation(entity, radiation);
+	}
+	
+	/// RAD ENV ///
+	public static float getRadEnv(EntityLivingBase entity) {
+		return getData(entity).radEnv;
+	}
+	
+	public static void setRadEnv(EntityLivingBase entity, float rad) {
+		getData(entity).radEnv = rad;
+	}
+	
+	/// RAD BUF ///
+	public static float getRadBuf(EntityLivingBase entity) {
+		return getData(entity).radBuf;
+	}
+	
+	public static void setRadBuf(EntityLivingBase entity, float rad) {
+		getData(entity).radBuf = rad;
 	}
 	
 	/// DIGAMA ///

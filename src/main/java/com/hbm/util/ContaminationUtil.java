@@ -43,13 +43,15 @@ public class ContaminationUtil {
 	}
 	
 	/// RADIATION ///
-	public static void applyRadData(Entity e, float f) {
+	private static void applyRadData(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
 
 		if(isRadImmune(e))
 			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
@@ -57,25 +59,23 @@ public class ContaminationUtil {
 		if(e instanceof EntityPlayer && e.ticksExisted < 200)
 			return;
 		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		
 		f *= calculateRadiationMod(entity);
 
 		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
-	public static void applyRadDirect(Entity e, float f) {
+	private static void applyRadDirect(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
 
 		if(isRadImmune(e))
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
 
 		HbmLivingProps.incrementRadiation(entity, f);
 	}
@@ -179,26 +179,15 @@ public class ContaminationUtil {
 		RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
 		Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
 		double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
+		double env = ((int)(HbmLivingProps.getRadBuf(player) * 10D)) / 10D;
 		
-		double res = 100.0D - ((int)(ContaminationUtil.calculateRadiationMod(player) * 10000)) / 100D;
-		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100)) / 100D;
-		
-		String chunkPrefix = "";
+		double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
+		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;
+
+		String chunkPrefix = getPreffixFromRad(rads);
+		String envPrefix = getPreffixFromRad(env);
 		String radPrefix = "";
 		String resPrefix = "" + EnumChatFormatting.WHITE;
-		
-		if(rads == 0)
-			chunkPrefix += EnumChatFormatting.GREEN;
-		else if(rads < 1)
-			chunkPrefix += EnumChatFormatting.YELLOW;
-		else if(rads < 10)
-			chunkPrefix += EnumChatFormatting.GOLD;
-		else if(rads < 100)
-			chunkPrefix += EnumChatFormatting.RED;
-		else if(rads < 1000)
-			chunkPrefix += EnumChatFormatting.DARK_RED;
-		else
-			chunkPrefix += EnumChatFormatting.DARK_GRAY;
 		
 		if(eRad < 200)
 			radPrefix += EnumChatFormatting.GREEN;
@@ -220,8 +209,29 @@ public class ContaminationUtil {
 		//a *functioning* painful mess, nonetheless
 		player.addChatMessage(new ChatComponentText("===== ☢ ").appendSibling(new ChatComponentTranslation("geiger.title")).appendSibling(new ChatComponentText(" ☢ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.chunkRad").appendSibling(new ChatComponentText(" " + chunkPrefix + rads + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.envRad").appendSibling(new ChatComponentText(" " + envPrefix + env + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+	}
+	
+	public static String getPreffixFromRad(double rads) {
+
+		String chunkPrefix = "";
+		
+		if(rads == 0)
+			chunkPrefix += EnumChatFormatting.GREEN;
+		else if(rads < 1)
+			chunkPrefix += EnumChatFormatting.YELLOW;
+		else if(rads < 10)
+			chunkPrefix += EnumChatFormatting.GOLD;
+		else if(rads < 100)
+			chunkPrefix += EnumChatFormatting.RED;
+		else if(rads < 1000)
+			chunkPrefix += EnumChatFormatting.DARK_RED;
+		else
+			chunkPrefix += EnumChatFormatting.DARK_GRAY;
+		
+		return chunkPrefix;
 	}
 	
 	public static void printDiagnosticData(EntityPlayer player) {
@@ -251,12 +261,21 @@ public class ContaminationUtil {
 		HAZMAT2,			//preventable by heavy hazmat
 		DIGAMMA,			//preventable by fau armor or stability
 		DIGAMMA2,			//preventable by robes
-		CREATIVE,			//preventable by creative mode
+		CREATIVE,			//preventable by creative mode, for rad calculation armor piece bonuses still apply
+		RAD_BYPASS,			//same as creaative but fill not apply radiation resistance calculation
 		NONE				//not preventable
 	}
 	
+	/*
+	 * This system is nice but the cont types are a bit confusing. Cont types should have much better names and multiple cont types should be applicable.
+	 */
 	@SuppressWarnings("incomplete-switch") //just shut up
 	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
+		
+		if(hazard == HazardType.RADIATION) {
+			float radEnv = HbmLivingProps.getRadEnv(entity);
+			HbmLivingProps.setRadEnv(entity, radEnv + amount);
+		}
 		
 		if(entity instanceof EntityPlayer) {
 			
@@ -285,7 +304,7 @@ public class ContaminationUtil {
 		
 		switch(hazard) {
 		case MONOXIDE: entity.attackEntityFrom(ModDamageSource.monoxide, amount); break;
-		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * calculateRadiationMod(entity)); break;
+		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
 		case ASBESTOS: HbmLivingProps.incrementAsbestos(entity, (int)amount); break;
 		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
 		}

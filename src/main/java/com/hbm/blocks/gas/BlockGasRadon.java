@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +19,7 @@ public class BlockGasRadon extends BlockGasBase {
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
 		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.applyRadDirect(entity, 0.05F);
+			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.05F);
 		}
 	}
 

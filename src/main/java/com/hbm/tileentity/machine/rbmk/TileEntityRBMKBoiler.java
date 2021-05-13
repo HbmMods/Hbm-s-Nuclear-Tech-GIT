@@ -93,6 +93,25 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public void fillFluidInit(FluidType type) {
 
 		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
+		
+		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
+
+			fillFluid(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord - 1, this.yCoord - 1, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord + 1, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord - 1, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord, getTact(), type);
+		}
+		
+		if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
+
+			fillFluid(this.xCoord + 1, this.yCoord - 2, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord - 1, this.yCoord - 2, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord + 1, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
+		}
 	}
 
 	@Override

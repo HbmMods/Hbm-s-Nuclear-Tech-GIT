@@ -129,7 +129,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 	}
 	
-	private void coolPassively() {
+	protected void coolPassively() {
 		
 		this.heat -= this.passiveCooling();
 		
@@ -137,33 +137,47 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			heat = 20D;
 	}
 	
+	protected static boolean diag = false;
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+		
+		if(!diag) {
+			super.readFromNBT(nbt);
+		}
 		
 		this.heat = nbt.getDouble("heat");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+		
+		if(!diag) {
+			super.writeToNBT(nbt);
+		}
 		
 		nbt.setDouble("heat", this.heat);
 	}
 	
 	public void networkPack(NBTTagCompound nbt, int range) {
 
+		diag = true;
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+		diag = false;
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		
+		diag = true;
 		this.readFromNBT(nbt);
+		diag = false;
 	}
 	
 	public void getDiagData(NBTTagCompound nbt) {
+		diag = true;
 		this.writeToNBT(nbt);
+		diag = false;
 	}
 	
 	@SideOnly(Side.CLIENT)

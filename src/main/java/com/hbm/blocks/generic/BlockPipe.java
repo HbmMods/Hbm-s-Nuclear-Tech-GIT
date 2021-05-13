@@ -1,5 +1,7 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.lib.RefStrings;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,6 +15,11 @@ public class BlockPipe extends Block {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon sideIcon;
+	@SideOnly(Side.CLIENT)
+	public IIcon frameIcon;
+	@SideOnly(Side.CLIENT)
+	public IIcon meshIcon;
+	
 	private String sideString;
 	public int rType = 0; //because registering either new renderer classes or making new block classes is a pain in the ass
 
@@ -27,6 +34,8 @@ public class BlockPipe extends Block {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.sideIcon = iconRegister.registerIcon(sideString);
+		this.frameIcon = iconRegister.registerIcon(RefStrings.MODID + ":pipe_frame");
+		this.meshIcon = iconRegister.registerIcon(RefStrings.MODID + ":pipe_mesh");
 	}
 	
 	@Override

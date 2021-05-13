@@ -7,6 +7,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.WeightedRandomObject;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -44,7 +46,8 @@ public abstract class WeaponAbility {
 		@Override
 		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
 			
-			ContaminationUtil.applyRadData(victim, rad);
+			if(victim instanceof EntityLivingBase)
+				ContaminationUtil.contaminate((EntityLivingBase)victim, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}
 
 		@Override

@@ -7,6 +7,8 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -82,20 +84,20 @@ public class ItemEnergy extends Item {
 				player.heal(4F);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
 				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
-				ContaminationUtil.applyRadDirect(player, 5.0F);
+				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
 			}
 			if(this == ModItems.bottle_cherry) {
 				player.heal(6F);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
 				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
-				ContaminationUtil.applyRadDirect(player, 5.0F);
+				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
 			}
 			if(this == ModItems.bottle_quantum) {
 				player.heal(10F);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
-				ContaminationUtil.applyRadDirect(player, 15.0F);
+				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
 			}
 			if(this == ModItems.bottle2_korl) {
 				player.heal(6);
@@ -127,7 +129,7 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
-				ContaminationUtil.applyRadDirect(player, 5.0F);
+				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
 			}
 			if(this == ModItems.bottle_rad) {
 				player.heal(10F);
@@ -136,7 +138,7 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 120 * 20, 0));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 4));
 				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
-				ContaminationUtil.applyRadDirect(player, 15.0F);
+				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
 			}
 			if(this == ModItems.bottle2_sunset) {
 				player.heal(6);

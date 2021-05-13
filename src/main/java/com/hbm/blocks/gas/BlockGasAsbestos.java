@@ -3,6 +3,8 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +28,7 @@ public class BlockGasAsbestos extends BlockGasBase {
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		
 		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.applyAsbestos(entity, 1);
+			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.ASBESTOS, ContaminationType.GAS, 1);
 		}
 	}
 

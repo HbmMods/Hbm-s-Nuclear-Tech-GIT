@@ -403,6 +403,11 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.billet_mox_fuel) {
 			list.add(EnumChatFormatting.ITALIC + "Pocket-Moxie!");
 		}
+		
+		if(this == ModItems.ingot_lanthanium)
+		{
+			list.add("Or 'Lanthanum' for stupid people.");
+		}
 	}
 
     @Override

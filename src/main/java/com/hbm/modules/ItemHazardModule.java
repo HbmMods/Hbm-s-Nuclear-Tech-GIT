@@ -6,6 +6,8 @@ import com.hbm.inventory.BreederRecipes;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -65,7 +67,7 @@ public class ItemHazardModule {
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
 			
 		if(this.radiation > 0)
-			ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, this.radiation * mod / 20F);
 
 		if(this.digamma > 0)
 			ContaminationUtil.applyDigammaData(entity, this.digamma * mod / 20F);

@@ -40,7 +40,7 @@ public class GUIRBMKRod extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(rod.slots[0] != null) {
+		if(rod.slots[0] != null && rod.slots[0].getItem() instanceof ItemRBMKRod) {
 			drawTexturedModalRect(guiLeft + 34, guiTop + 21, 176, 0, 18, 67);
 			
 			double depletion = 1D - ItemRBMKRod.getEnrichment(rod.slots[0]);

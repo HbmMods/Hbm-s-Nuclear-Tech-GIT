@@ -12,6 +12,8 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -113,8 +115,7 @@ public class HbmPotion extends Potion {
 			}
 		}
 		if(this == radiation) {
-			
-			ContaminationUtil.applyRadData(entity, (float)(level + 1F) * 0.05F);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
 			

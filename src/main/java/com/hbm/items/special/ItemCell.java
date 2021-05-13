@@ -5,6 +5,8 @@ import java.util.Random;
 import com.hbm.blocks.bomb.BlockCrashedBomb;
 import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -43,7 +45,7 @@ public class ItemCell extends Item {
 			}
 
 			player.inventoryContainer.detectAndSendChanges();
-			ContaminationUtil.applyRadDirect(player, 50F);
+			ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.CREATIVE, 50.0F);
 
 			return true;
 		}

@@ -47,6 +47,13 @@ public class RenderPipe implements ISimpleBlockRenderingHandler {
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_quad, "Side", iiconSide, tessellator, 0, false);
 		}
 		
+		if(pipe.rType == 3) {
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_rim, "Top", iiconTop, tessellator, 0, false);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_rim, "Side", iiconSide, tessellator, 0, false);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_frame, "Frame", pipe.frameIcon, tessellator, 0, false);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_frame, "Mesh", pipe.meshIcon, tessellator, 0, false);
+		}
+		
 		tessellator.draw();
 
 		GL11.glPopMatrix();
@@ -95,6 +102,13 @@ public class RenderPipe implements ISimpleBlockRenderingHandler {
 		if(pipe.rType == 2) {
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_quad, "Top", iiconTop, tessellator, rot, pitch, true);
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_quad, "Side", iiconSide, tessellator, rot, pitch, true);
+		}
+
+		if(pipe.rType == 3) {
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_rim, "Top", iiconTop, tessellator, rot, pitch, true);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_rim, "Side", iiconSide, tessellator, rot, pitch, true);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_frame, "Frame", pipe.frameIcon, tessellator, rot, pitch, true);
+			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_frame, "Mesh", pipe.meshIcon, tessellator, rot, pitch, true);
 		}
 		
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);
