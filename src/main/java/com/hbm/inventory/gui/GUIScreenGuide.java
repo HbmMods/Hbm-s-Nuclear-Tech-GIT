@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIIScreenGuide extends GuiScreen {
+public class GUIScreenGuide extends GuiScreen {
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png");
 	private static final ResourceLocation texture_cover = new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book_cover.png");
@@ -32,9 +32,11 @@ public class GUIIScreenGuide extends GuiScreen {
 	int page;
 	int maxPage;
 
-	public GUIIScreenGuide(EntityPlayer player) {
+	public GUIScreenGuide(EntityPlayer player) {
 		
-		type = BookType.values()[player.getHeldItem().getItemDamage()];
+		type = BookType.getType(player.getHeldItem().getItemDamage());
+		
+		System.out.println(type.toString());
 		
 		page = -1;
 		maxPage = (int)Math.ceil(type.pages.size() / 2D) - 1;
@@ -106,13 +108,18 @@ public class GUIIScreenGuide extends GuiScreen {
 		
 		if(this.page < 0) {
 			
-			float scale = 2;
-			String cover = "HOW 2 SEX";
+			float scale = this.type.titleScale;
+			String[] coverLines = I18nUtil.resolveKeyArray(this.type.title);
 			
-			GL11.glPushMatrix();
-			GL11.glScalef(scale, scale, 1F);
-			this.fontRendererObj.drawString(cover, (int)((guiLeft + ((this.xSize / 2) - (this.fontRendererObj.getStringWidth(cover) / 2 * scale))) / scale), (int)((guiTop + 50) / scale), 0xfece00);
-			GL11.glPopMatrix();
+			for(int i = 0; i < coverLines.length; i++) {
+				
+				String cover = coverLines[i];
+				
+				GL11.glPushMatrix();
+				GL11.glScalef(scale, scale, 1F);
+				this.fontRendererObj.drawString(cover, (int)((guiLeft + ((this.xSize / 2) - (this.fontRendererObj.getStringWidth(cover) / 2 * scale))) / scale), (int)((guiTop + 50 + i * 10 * scale) / scale), 0xfece00);
+				GL11.glPopMatrix();
+			}
 			
 			return;
 		}
@@ -165,10 +172,11 @@ public class GUIIScreenGuide extends GuiScreen {
 				if(page.title != null) {
 					
 					float tScale = page.titleScale;
+					String titleLoc = I18nUtil.resolveKey(page.title);
 					
 					GL11.glPushMatrix();
 					GL11.glScalef(1F/tScale, 1F/tScale, 1F);
-					this.fontRendererObj.drawString(page.title, (int)((guiLeft + 20 + i * sideOffset + ((width / 2) - (this.fontRendererObj.getStringWidth(page.title) / 2 / tScale))) * tScale), (int)((guiTop + 20) * tScale), page.titleColor);
+					this.fontRendererObj.drawString(titleLoc, (int)((guiLeft + 20 + i * sideOffset + ((width / 2) - (this.fontRendererObj.getStringWidth(titleLoc) / 2 / tScale))) * tScale), (int)((guiTop + 20) * tScale), page.titleColor);
 					
 					GL11.glPopMatrix();
 				}
@@ -185,7 +193,7 @@ public class GUIIScreenGuide extends GuiScreen {
 					drawImage(guiLeft + 20 + ix + sideOffset * i, guiTop + page.y, page.sizeX, page.sizeY);
 				}
 				
-				String pageLabel = (defacto + 1) + "/" + (maxPage * 2 + 1);
+				String pageLabel = (defacto + 1) + "/" + (this.type.pages.size());
 				this.fontRendererObj.drawString(pageLabel, guiLeft + 44 + i * 185 - i * this.fontRendererObj.getStringWidth(pageLabel), guiTop + 156, 4210752);
 			}
 		}
