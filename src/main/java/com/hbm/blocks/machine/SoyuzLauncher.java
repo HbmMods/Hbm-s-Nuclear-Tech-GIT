@@ -36,6 +36,11 @@ public class SoyuzLauncher extends BlockDummyable {
 		
 		return null;
 	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
