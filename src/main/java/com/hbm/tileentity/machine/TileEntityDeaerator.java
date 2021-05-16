@@ -1,7 +1,21 @@
 package com.hbm.tileentity.machine;
 
-import net.minecraft.tileentity.TileEntity;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-public class TileEntityDeaerator extends TileEntity {
+public class TileEntityDeaerator extends TileEntityMachineBase {
+
+	public TileEntityDeaerator() {
+		super(0);
+	}
+
+	@Override
+	public String getName() {
+		return "container.deaerator";
+	}
+
+	@Override
+	public void updateEntity() {
+		
+	}
 
 }

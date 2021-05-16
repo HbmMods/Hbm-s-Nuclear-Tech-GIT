@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.tool.ItemGuideBook.BookType;
@@ -45,12 +46,14 @@ public class GUIScreenGuide extends GuiScreen {
 		this.ySize = 182;
 	}
 
+	@Override
 	public void initGui() {
 		super.initGui();
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 	}
 
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
@@ -158,10 +161,12 @@ public class GUIScreenGuide extends GuiScreen {
 					}
 				}
 				
+				float titleScale = getOverrideScale(page.titleScale, page.title + ".scale");
+				
 				GL11.glPushMatrix();
 				GL11.glScalef(1F/scale, 1F/scale, 1F);
 				
-				float topOffset = page.title == null ? 0 : 6 / page.titleScale;
+				float topOffset = page.title == null ? 0 : 6 / titleScale;
 				
 				for(int l = 0; l < lines.size(); l++) {
 					this.fontRendererObj.drawString(lines.get(l), (int)((guiLeft + 20 + i * sideOffset) * scale), (int)((guiTop + 30 + topOffset) * scale + (12 * l)), 4210752);
@@ -171,7 +176,7 @@ public class GUIScreenGuide extends GuiScreen {
 				
 				if(page.title != null) {
 					
-					float tScale = page.titleScale;
+					float tScale = titleScale;
 					String titleLoc = I18nUtil.resolveKey(page.title);
 					
 					GL11.glPushMatrix();
@@ -198,7 +203,19 @@ public class GUIScreenGuide extends GuiScreen {
 			}
 		}
 	}
+	
+	private float getOverrideScale(float def, String tag) {
+		
+		String scale = I18nUtil.resolveKey(tag);
+		
+		if(NumberUtils.isNumber(scale)) {
+			return 1F / NumberUtils.toFloat(scale);
+		}
+		
+		return def;
+	}
 
+	@Override
 	protected void mouseClicked(int i, int j, int k) {
 		
 		if(page < 0) {
@@ -218,6 +235,13 @@ public class GUIScreenGuide extends GuiScreen {
 		if(overRight && page < maxPage) {
 			page++;
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+		}
+	}
+
+	@Override
+	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+		if(p_73869_2_ == 1 || p_73869_2_ == Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode()) {
+			Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 	}
 }

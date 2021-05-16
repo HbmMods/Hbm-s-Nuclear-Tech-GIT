@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
@@ -15,6 +16,7 @@ import com.hbm.potion.HbmPotion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -400,17 +402,24 @@ public class ItemSyringe extends Item {
 
 		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
-				entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
-				entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
-				entity.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
-				entity.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
-				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
-				VersatileConfig.applyPotionSickness(entity, 50);
+				
+				if(entity instanceof EntityCow) {
+					
+					entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 40, 0));
+					
+				} else  {
+					entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
+					entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
+					entity.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
+					entity.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
+					VersatileConfig.applyPotionSickness(entity, 50);
+				}
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);

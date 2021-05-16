@@ -3,13 +3,17 @@ package com.hbm.blocks.machine.rbmk;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -60,6 +64,30 @@ public class RBMKConsole extends BlockDummyable {
 
 			TileEntityRBMKConsole entity = (TileEntityRBMKConsole) world.getTileEntity(pos[0], pos[1], pos[2]);
 			if(entity != null) {
+				
+				if(side == 1) {
+					Vec3 vec = Vec3.createVectorHelper(1.375D, 0, 0.75D);
+					
+					switch(entity.getBlockMetadata() - this.offset) {
+					case 2: vec.rotateAroundY((float)Math.toRadians(90)); break;
+					case 3: vec.rotateAroundY((float)Math.toRadians(270)); break;
+					case 4: vec.rotateAroundY((float)Math.toRadians(180)); break;
+					case 5: vec.rotateAroundY((float)Math.toRadians(0)); break;
+					}
+
+					float hX = x + hitX;
+					float hZ = z + hitZ;
+					double rX = entity.xCoord + 0.5D + vec.xCoord;
+					double rZ = entity.zCoord + 0.5D + vec.zCoord;
+					double size = 0.1875D;
+					
+					if(Math.abs(hX - rX) < size && Math.abs(hZ - rZ) < size && !player.inventory.hasItemStack(new ItemStack(ModItems.book_guide, 1, BookType.RBMK.ordinal()))) {
+						player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.RBMK.ordinal()));
+						player.inventoryContainer.detectAndSendChanges();
+						return true;
+					}
+				}
+				
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rbmk_console, world, pos[0], pos[1], pos[2]);
 			}
 			return true;

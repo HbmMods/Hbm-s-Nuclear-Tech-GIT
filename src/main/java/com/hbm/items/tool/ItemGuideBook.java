@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
@@ -37,7 +36,7 @@ public class ItemGuideBook extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
-		for(int i = 0; i < BookType.values().length; i++)
+		for(int i = 1; i < BookType.values().length; i++)
 			list.add(new ItemStack(item, 1, i));
 	}
 	
@@ -82,7 +81,7 @@ public class ItemGuideBook extends Item {
 	public static List<GuidePage> statFacRBMK() {
 		
 		List<GuidePage> pages = new ArrayList();
-		pages.add(new GuidePage("book.rbmk.page1").setScale(2).addTitle("book.rbmk.title1", 0x800000, 1F)
+		pages.add(new GuidePage("book.rbmk.page1").setScale(2F).addTitle("book.rbmk.title1", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk1.png"), 90, 80, 60));
 		pages.add(new GuidePage("book.rbmk.page2").setScale(2F).addTitle("book.rbmk.title2", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk2.png"), 95, 52, 52));
@@ -104,6 +103,15 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk10.png"), 95, 88, 52));
 		pages.add(new GuidePage("book.rbmk.page11").setScale(2F).addTitle("book.rbmk.title11", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk11.png"), 75, 85, 72));
+		pages.add(new GuidePage("book.rbmk.page12").setScale(2F).addTitle("book.rbmk.title12", 0x800000, 1F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk12.png"), 90, 80, 60));
+		pages.add(new GuidePage("book.rbmk.page13").setScale(2F).addTitle("book.rbmk.title13", 0x800000, 1F));
+		pages.add(new GuidePage("book.rbmk.page14").setScale(2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk13.png"), 70, 103, 78));
+		pages.add(new GuidePage("book.rbmk.page15").setScale(2F).addTitle("book.rbmk.title15", 0x800000, 1F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk15.png"), 100, 48, 48));
+		pages.add(new GuidePage("book.rbmk.page16").setScale(2F).addTitle("book.rbmk.title16", 0x800000, 1F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk16.png"), 50, 70, 100));
 		return pages;
 	}
 	

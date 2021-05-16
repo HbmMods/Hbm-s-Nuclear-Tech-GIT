@@ -10,6 +10,7 @@ import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -20,7 +21,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 
@@ -132,6 +135,12 @@ public class HbmPotion extends Potion {
 
 			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.laserBang", 100.0F, 1.0F);
 			ExplosionLarge.spawnParticles(entity.worldObj, entity.posX, entity.posY, entity.posZ, 10);
+			
+			if(entity instanceof EntityCow) {
+				EntityCow cow = (EntityCow) entity;
+				int toDrop = cow.isChild() ? 10 : 3;
+				cow.entityDropItem(new ItemStack(ModItems.cheese, toDrop), 1.0F);
+			}
 		}
 		if(this == lead) {
 			
