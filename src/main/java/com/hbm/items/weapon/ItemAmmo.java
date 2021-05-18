@@ -440,6 +440,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Not incendiary");
 		}
 		
+		//FIRE EXT
+		if(this == ModItems.ammo_fireext_foam) {
+			list.add(EnumChatFormatting.BLUE + "+ Can put out any fire type");
+			list.add(EnumChatFormatting.BLUE + "+ Creates protective foam layer");
+		}
+		
 		//5.56mm
 		if(this == ModItems.ammo_556_phosphorus) {
 			list.add(EnumChatFormatting.BLUE + "+ Induces phosphorus burns");

@@ -2,6 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -9,13 +10,18 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -111,6 +117,36 @@ public class GunEnergyFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ZOMG_BOLT);
+		
+		return config;
+	}
+
+	public static GunConfiguration getExtConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.reloadSoundEnd = false;
+		config.firingDuration = 0;
+		config.ammoCap = 300; //good for 15 seconds of continued spray
+		config.durability = 10000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCLE;
+		config.firingSound = "hbm:weapon.flamethrowerShoot";
+		config.reloadSound = "hbm:weapon.flamerReload";
+		
+		config.name = "PROTEX Fire Exinguisher 6kg";
+		config.manufacturer = "Gloria GmbH";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.FEXT_FOAM);
+		config.config.add(BulletConfigSyncingUtil.FEXT_SAND);
 		
 		return config;
 	}
@@ -271,6 +307,170 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
+	public static BulletConfiguration getFextConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.ammo_fireext;
+		bullet.ammoCount = 300;
+		
+		bullet.velocity = 0.75F;
+		bullet.spread = 0.025F;
+		bullet.wear = 1;
+		bullet.bulletsMin = 2;
+		bullet.bulletsMax = 3;
+		bullet.dmgMin = 0;
+		bullet.dmgMax = 0;
+		bullet.gravity = 0.04D;
+		bullet.maxAge = 100;
+		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
+		bullet.doesBreakGlass = false;
+		bullet.style = BulletConfiguration.STYLE_NONE;
+		bullet.plink = BulletConfiguration.PLINK_NONE;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					boolean fizz = false;
+					
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j <= 1; j++) {
+							for(int k = -1; k <= 1; k++) {
+								
+								if(bullet.worldObj.getBlock(ix + i, iy + j, iz + k) == Blocks.fire) {
+									bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+									fizz = true;
+								}
+							}
+						}
+					}
+					
+					if(fizz)
+						bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(Blocks.water));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+					MainRegistry.proxy.effectNT(data);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getFextFoamConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.ammo_fireext_foam;
+		bullet.ammoCount = 300;
+		
+		bullet.velocity = 0.75F;
+		bullet.spread = 0.025F;
+		bullet.wear = 1;
+		bullet.bulletsMin = 2;
+		bullet.bulletsMax = 3;
+		bullet.dmgMin = 0;
+		bullet.dmgMax = 0;
+		bullet.gravity = 0.04D;
+		bullet.maxAge = 100;
+		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
+		bullet.doesBreakGlass = false;
+		bullet.style = BulletConfiguration.STYLE_NONE;
+		bullet.plink = BulletConfiguration.PLINK_NONE;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					boolean fizz = false;
+					
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j <= 1; j++) {
+							for(int k = -1; k <= 1; k++) {
+								
+								Block b = bullet.worldObj.getBlock(ix + i, iy + j, iz + k);
+								
+								if(b.getMaterial() == Material.fire) {
+									bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+									fizz = true;
+								}
+							}
+						}
+					}
+					
+					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					if(b != ModBlocks.foam_layer && b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.foam_layer);
+					}
+					
+					if(fizz)
+						bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(ModBlocks.block_foam));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+					MainRegistry.proxy.effectNT(data);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
 	public static BulletConfiguration getZOMGBoltConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
@@ -300,7 +500,7 @@ public class GunEnergyFactory {
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
-					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)bullet.posX, (int)bullet.posY, (int)bullet.posZ, 5);
+					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)Math.floor(bullet.posX), (int)Math.floor(bullet.posY), (int)Math.floor(bullet.posZ), 5);
 					bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
     				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
 				}

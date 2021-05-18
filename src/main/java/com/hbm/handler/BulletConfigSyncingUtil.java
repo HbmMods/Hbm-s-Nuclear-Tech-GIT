@@ -137,6 +137,10 @@ public class BulletConfigSyncingUtil {
 	public static int FLAMER_VAPORIZER = i++;
 	public static int FLAMER_GAS = i++;
 
+	public static int FEXT_NORMAL = i++;
+	public static int FEXT_FOAM = i++;
+	public static int FEXT_SAND = i++;
+
 	public static int R556_NORMAL = i++;
 	public static int R556_GOLD = i++;
 	public static int R556_PHOSPHORUS = i++;
@@ -358,6 +362,10 @@ public class BulletConfigSyncingUtil {
 		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
 		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
 		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+		
+		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
+		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
+		configSet.put(FEXT_SAND, GunEnergyFactory.getFlameConfig());
 
 		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
 		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());
