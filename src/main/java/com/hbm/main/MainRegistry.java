@@ -56,6 +56,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.*;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
@@ -1136,6 +1137,8 @@ public class MainRegistry {
 		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
 		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
 		PacketDispatcher.registerPackets();
+
+		MinecraftForge.EVENT_BUS.register(new ChunkRadiationManager());
 	}
 	
 	//yes kids, this is where we would usually register commands

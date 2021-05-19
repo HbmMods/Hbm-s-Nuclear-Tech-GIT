@@ -42,6 +42,7 @@ public class TileEntityTrappedBrick extends TileEntity {
 		}
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	private void trigger() {
 		
 		Trap trap = Trap.get(this.getBlockMetadata());
@@ -106,6 +107,7 @@ public class TileEntityTrappedBrick extends TileEntity {
 		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.brick_jungle);
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	private void setDetector() {
 		
 		Trap trap = Trap.get(this.getBlockMetadata());
