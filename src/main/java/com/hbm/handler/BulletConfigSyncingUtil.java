@@ -365,7 +365,7 @@ public class BulletConfigSyncingUtil {
 		
 		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
 		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
-		configSet.put(FEXT_SAND, GunEnergyFactory.getFlameConfig());
+		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());
 
 		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
 		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());

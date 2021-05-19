@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.RadiationConfig;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.entity.player.EntityPlayer;

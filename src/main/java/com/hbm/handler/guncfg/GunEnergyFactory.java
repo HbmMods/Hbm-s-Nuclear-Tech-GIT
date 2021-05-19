@@ -387,25 +387,10 @@ public class GunEnergyFactory {
 	
 	public static BulletConfiguration getFextFoamConfig() {
 		
-		BulletConfiguration bullet = new BulletConfiguration();
+		BulletConfiguration bullet = getFextConfig();
 		
 		bullet.ammo = ModItems.ammo_fireext_foam;
-		bullet.ammoCount = 300;
-		
-		bullet.velocity = 0.75F;
-		bullet.spread = 0.025F;
-		bullet.wear = 1;
-		bullet.bulletsMin = 2;
-		bullet.bulletsMax = 3;
-		bullet.dmgMin = 0;
-		bullet.dmgMax = 0;
-		bullet.gravity = 0.04D;
-		bullet.maxAge = 100;
-		bullet.doesRicochet = false;
-		bullet.doesPenetrate = true;
-		bullet.doesBreakGlass = false;
-		bullet.style = BulletConfiguration.STYLE_NONE;
-		bullet.plink = BulletConfiguration.PLINK_NONE;
+		bullet.spread = 0.05F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -463,6 +448,61 @@ public class GunEnergyFactory {
 					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
 					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
 					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+					MainRegistry.proxy.effectNT(data);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getFextSandConfig() {
+		
+		BulletConfiguration bullet = getFextConfig();
+		
+		bullet.ammo = ModItems.ammo_fireext_sand;
+		bullet.spread = 0.1F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					if(b != ModBlocks.sand_boron_layer && b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron_layer);
+						
+						if(b.getMaterial() == Material.fire)
+							bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+					}
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(ModBlocks.sand_boron));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.1);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.1);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.1);
 					MainRegistry.proxy.effectNT(data);
 				}
 			}

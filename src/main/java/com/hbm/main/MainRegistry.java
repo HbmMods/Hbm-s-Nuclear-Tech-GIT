@@ -1132,13 +1132,17 @@ public class MainRegistry {
 		if(logger == null)
 			logger = event.getModLog();
 
-		FMLCommonHandler.instance().bus().register(new ModEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ModEventHandler());
-		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
-		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
+		ModEventHandler commonHandler = new ModEventHandler();
+		FMLCommonHandler.instance().bus().register(commonHandler);
+		MinecraftForge.EVENT_BUS.register(commonHandler);
+		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
+		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
+		
 		PacketDispatcher.registerPackets();
 
-		MinecraftForge.EVENT_BUS.register(new ChunkRadiationManager());
+		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
+		MinecraftForge.EVENT_BUS.register(radiationSystem);
+		FMLCommonHandler.instance().bus().register(radiationSystem);
 	}
 	
 	//yes kids, this is where we would usually register commands

@@ -444,6 +444,12 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_fireext_foam) {
 			list.add(EnumChatFormatting.BLUE + "+ Can put out any fire type");
 			list.add(EnumChatFormatting.BLUE + "+ Creates protective foam layer");
+			list.add(EnumChatFormatting.YELLOW + "* Broader spray");
+		}
+		if(this == ModItems.ammo_fireext_sand) {
+			list.add(EnumChatFormatting.BLUE + "+ Creates protective sand layer");
+			list.add(EnumChatFormatting.YELLOW + "* Very broad spray");
+			list.add(EnumChatFormatting.RED + "- No extinguishing AoE");
 		}
 		
 		//5.56mm

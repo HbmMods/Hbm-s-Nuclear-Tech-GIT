@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -16,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.chunk.Chunk;
 
+//TODO: urgent, change all references to this abomination to the new system and then put it to death
 public class RadiationSavedData extends WorldSavedData {
 
 	public HashMap<ChunkCoordIntPair, Float> contamination = new HashMap();
@@ -44,21 +46,27 @@ public class RadiationSavedData extends WorldSavedData {
     
     public void setRadForCoord(int x, int y, float radiation) {
 
-    	ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
+    	ChunkRadiationManager.proxy.setRadiation(this.worldObj, x, 0, y, radiation);
+    	/*ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
     	contamination.put(pair, radiation);
-        this.markDirty();
+        this.markDirty();*/
     	
     }
     
     public float getRadNumFromCoord(int x, int y) {
     	
-    	ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
+    	return ChunkRadiationManager.proxy.getRadiation(this.worldObj, (x << 4) + 8, 0, (y << 4) + 8);
+    	
+    	/*ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
     	Float rad = contamination.get(pair);
     	
-    	return rad == null ? 0 : rad;
+    	return rad == null ? 0 : rad;*/
     }
     
     public void updateSystem() {
+    	
+    	if(true)
+    		return;
     	
     	HashMap<ChunkCoordIntPair, Float> tempList = new HashMap(contamination);
     	contamination.clear();
@@ -183,7 +191,9 @@ public class RadiationSavedData extends WorldSavedData {
 	
 	public static void incrementRad(World worldObj, int x, int z, float rad, float maxRad) {
 		
-		RadiationSavedData data = getData(worldObj);
+    	ChunkRadiationManager.proxy.incrementRad(worldObj, x, 0, z, rad);
+		
+		/*RadiationSavedData data = getData(worldObj);
 		
 		Chunk chunk = worldObj.getChunkFromBlockCoords(x, z);
 		
@@ -192,12 +202,14 @@ public class RadiationSavedData extends WorldSavedData {
 		if(r < maxRad) {
 			
 			data.setRadForCoord(chunk.xPosition, chunk.zPosition, r + rad);
-		}
+		}*/
 	}
 	
 	public static void decrementRad(World worldObj, int x, int z, float rad) {
 		
-		RadiationSavedData data = getData(worldObj);
+    	ChunkRadiationManager.proxy.decrementRad(worldObj, x, 0, z, rad);
+		
+		/*RadiationSavedData data = getData(worldObj);
 		
 		Chunk chunk = worldObj.getChunkFromBlockCoords(x, z);
 		
@@ -209,7 +221,7 @@ public class RadiationSavedData extends WorldSavedData {
 			data.setRadForCoord(chunk.xPosition, chunk.zPosition, r);
 		} else {
 			data.setRadForCoord(chunk.xPosition, chunk.zPosition, 0);
-		}
+		}*/
 	}
 
 }

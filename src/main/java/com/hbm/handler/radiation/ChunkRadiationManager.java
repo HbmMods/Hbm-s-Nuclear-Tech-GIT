@@ -2,14 +2,15 @@ package com.hbm.handler.radiation;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.world.World;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class ChunkRadiationManager {
 	
-	public static ChunkRadiationHandler proxy;
+	public static ChunkRadiationHandler proxy = new ChunkRadiationHandlerSimple();
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load event) {
@@ -36,8 +37,19 @@ public class ChunkRadiationManager {
 		proxy.receiveChunkUnload(event);
 	}
 	
+	int eggTimer = 0;
+	
 	@SubscribeEvent
 	public void updateSystem(TickEvent.ServerTickEvent event) {
 		
+		if(event.side == Side.SERVER && event.phase == Phase.END) {
+			
+			eggTimer++;
+			
+			if(eggTimer >= 20) {
+				proxy.updateSystem();
+				eggTimer = 0;
+			}
+		}
 	}
 }
