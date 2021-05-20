@@ -1214,6 +1214,7 @@ item.gun_euthanasia.name=Euthanasia
 item.gun_euthanasia_ammo.name=Spritze
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_fatman_ammo.name=Miniatombombe (LEGACY)
+item.gun_fireext.name=Feuerlöscher
 item.gun_flamer.name=Herr Topaz
 item.gun_flechette.name=Flechet-Gewehr
 item.gun_folly.name=Prototyp Digamma "Irrsinn"

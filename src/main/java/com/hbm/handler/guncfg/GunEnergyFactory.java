@@ -421,8 +421,18 @@ public class GunEnergyFactory {
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
 					
-					if(b != ModBlocks.foam_layer && b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
-						bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.foam_layer);
+					if(b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						
+						if(b != ModBlocks.foam_layer) {
+							bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.foam_layer);
+						} else {
+							int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+							
+							if(meta < 6)
+								bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+							else
+								bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.block_foam);
+						}
 					}
 					
 					if(fizz)
@@ -476,8 +486,18 @@ public class GunEnergyFactory {
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
 					
-					if(b != ModBlocks.sand_boron_layer && b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
-						bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron_layer);
+					if((b.isReplaceable(bullet.worldObj, ix, iy, iz) || b == ModBlocks.sand_boron_layer) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						
+						if(b != ModBlocks.sand_boron_layer) {
+							bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron_layer);
+						} else {
+							int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+							
+							if(meta < 6)
+								bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+							else
+								bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron);
+						}
 						
 						if(b.getMaterial() == Material.fire)
 							bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
