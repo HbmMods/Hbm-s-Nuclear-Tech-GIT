@@ -1,16 +1,19 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
+import com.hbm.config.BombConfig;
+import com.hbm.config.MachineConfig;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityVortex;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.SingGenRecipes;
 import com.hbm.inventory.SingGenRecipes.SingGenRecipe;
 import com.hbm.inventory.container.ContainerMachineSingGen;
@@ -22,12 +25,12 @@ import api.hbm.energy.IBatteryItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.IFluidContainerItem;
 import scala.actors.threadpool.Arrays;
 
 @Spaghetti("Preemptive")
 public class TileEntityMachineSingGen extends TileEntityMachineBase	implements IFluidAcceptor, IConsumer
 {
+	private Random rand = new Random();
 	public long power;
 	public static final long maxPower = 25000000000L;
 	private static long consumptionRate = (maxPower / 200) / 4;// TODO Placeholder(?)
@@ -176,6 +179,37 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 				else
 				{
 					progress = 0;
+					if ((power < consumptionRate && tank.getFill() > 0 && tank.getTankType().equals(FluidType.ASCHRAB) && (currentRecipe != null && currentRecipe.fluid.equals(FluidType.ASCHRAB)) && !MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.NONE)))
+					{
+						if (rand.nextInt(4) == 0)
+						{
+							EntityVortex bhole = new EntityVortex(getWorldObj(), (tank.getFill() / 4000));
+							bhole.posX = xCoord;
+							bhole.posY = yCoord;
+							bhole.posZ = zCoord;
+							worldObj.spawnEntityInWorld(bhole);
+						}
+						else
+						{
+							int yield = (int)BombConfig.aSchrabRadius * (tank.getFill() / 1000);
+							if (yield > MachineConfig.singGenFailRadius && MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.CAP_CUSTOM))
+								yield = MachineConfig.singGenFailRadius;
+							EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
+							field.posX = xCoord;
+							field.posY = yCoord;
+							field.posZ = zCoord;
+							field.destructionRange = yield;
+							field.speed = 25;
+							field.coefficient = 1.0F;
+							field.waste = false;
+							worldObj.spawnEntityInWorld(field);
+							EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), yield);
+							effect.posX = xCoord;
+							effect.posY = yCoord;
+							effect.posZ = zCoord;
+							worldObj.spawnEntityInWorld(effect);
+						}
+					}
 				}
 			}
 			else

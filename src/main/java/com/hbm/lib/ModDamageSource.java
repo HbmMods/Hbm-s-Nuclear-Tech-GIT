@@ -51,6 +51,8 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource lunar = (new DamageSource("lunar")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource bleed = (new DamageSource("bleed")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource twr = (new DamageSource("twr")).setDamageIsAbsolute().setDamageBypassesArmor();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

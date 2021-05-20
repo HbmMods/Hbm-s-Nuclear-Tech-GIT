@@ -237,8 +237,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5),
-			new WeightedRandomChestContent(ModItems.storage_ssd_raw_tier_1, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.lunar_kit, 0, 1, 1, 1)};
+			new WeightedRandomChestContent(ModItems.storage_ssd_raw_tier_1, 0, 1, 1, 1)};
+			//new WeightedRandomChestContent(ModItems.lunar_kit, 0, 1, 1, 1)};
 
 	private static WeightedRandomChestContent[] powder = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 32, 1),

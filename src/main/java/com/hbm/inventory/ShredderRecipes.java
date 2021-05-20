@@ -78,7 +78,17 @@ public class ShredderRecipes {
 						shredderRecipes.put(new ComparableStack(stack), dust);
 					}
 				}
-			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
+			} 
+			else if(name.length() > 5 && name.substring(0, 5).equals("plate")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new ComparableStack(stack), dust);
+					}
+				}
+			}else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 
 				for(ItemStack stack : matches) {
 					shredderRecipes.put(new ComparableStack(stack), new ItemStack(ModItems.dust));

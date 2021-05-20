@@ -61,6 +61,9 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.machine_nuke_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.reinforced_lamp_on));
+		API.hideItem(new ItemStack(ModBlocks.machine_arc_furnace_on));
+		API.hideItem(new ItemStack(ModBlocks.lamp_tritium_blue_on));
+		API.hideItem(new ItemStack(ModBlocks.lamp_tritium_green_on));
 		API.hideItem(new ItemStack(ModBlocks.statue_elb));
 		API.hideItem(new ItemStack(ModBlocks.statue_elb_g));
 		API.hideItem(new ItemStack(ModBlocks.statue_elb_w));
@@ -75,6 +78,7 @@ public class NEIConfig implements IConfigureNEI {
 			API.hideItem(new ItemStack(ModItems.burnt_bark));
 			API.hideItem(new ItemStack(ModItems.ams_core_thingy));
 			API.hideItem(new ItemStack(ModItems.storage_magnetic_fdd_tainted));
+			API.hideItem(new ItemStack(ModItems.eye));
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_centrifuge));
@@ -119,6 +123,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
+		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_rtg_on));
 
 		API.hideItem(new ItemStack(ModBlocks.pink_log));
 		API.hideItem(new ItemStack(ModBlocks.pink_planks));

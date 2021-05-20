@@ -515,9 +515,11 @@ public class ItemSyringe extends Item {
 
 		if(this == ModItems.euphemium_stopper) {
 			if(!world.isRemote) {
-				entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 30 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 30 * 20, 9));
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60 * 20, 9));
+				entity.addPotionEffect(new PotionEffect(HbmPotion.paralysis.id, 60 * 20, 9));
+				entity.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 60 * 20, 9));
+				//entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30 * 20, 9));
+				//entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 30 * 20, 9));
 			}
 		}
 

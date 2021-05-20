@@ -38,22 +38,22 @@ public class BulletConfiguration {
 	//max age in ticks before despawning
 	public int maxAge;
 
-	//whether the projectile should be able to bounce off of blocks
+	/**whether the projectile should be able to bounce off of blocks**/
 	public boolean doesRicochet;
 	//the maximum angle at which the projectile should bounce
 	public double ricochetAngle;
-	//lower bound ricochet chance (below R angle)
+	/**lower bound ricochet chance (below R angle)**/
 	public int LBRC;
-	//higher bound ricochet chance (above R angle)
+	/**higher bound ricochet chance (above R angle)**/
 	public int HBRC;
-	//how much of the initial velocity is kept after bouncing
+	/**how much of the initial velocity is kept after bouncing**/
 	public double bounceMod;
 
-	//whether or not the bullet should penetrate mobs
+	/**whether or not the bullet should penetrate mobs**/
 	public boolean doesPenetrate;
-	//whether or not the bullet should phase through blocks
+	/**whether or not the bullet should phase through blocks**/
 	public boolean isSpectral;
-	//whether or not the bullet should break glass
+	/**whether or not the bullet should break glass**/
 	public boolean doesBreakGlass;
 	
 	//bullet effects

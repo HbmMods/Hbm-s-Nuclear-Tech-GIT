@@ -44,7 +44,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 				return true;
 			break;
 		case 2:
-			if (stack.getItem() == ModItems.redcoil_capacitor)
+			if (stack.getItem() == ModItems.redcoil_capacitor || stack.getItem() == ModItems.euphemium_capacitor)
 				return true;
 			break;
 		case 3:
@@ -78,7 +78,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		
-		if (i == 2 && stack.getItem() != null && stack.getItem() == ModItems.redcoil_capacitor && ItemCapacitor.getDura(stack) <= 0) {
+		if (i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor || stack.getItem() == ModItems.euphemium_capacitor) && ItemCapacitor.getDura(stack) <= 0) {
 			return true;
 		}
 
@@ -104,8 +104,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
 	public boolean canProcess() {
 		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
-				&& slots[2].getItem() == ModItems.redcoil_capacitor
-				&& ItemCapacitor.getDura(slots[2]) > 0
+				&& (slots[2].getItem() == ModItems.redcoil_capacitor || slots[2].getItem() == ModItems.euphemium_capacitor)
+				&& (ItemCapacitor.getDura(slots[2]) > 0 || slots[2].getItem() == ModItems.euphemium_capacitor)
 				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()
 						&& slots[1].stackSize < slots[1].getMaxStackSize()))) {
 			return true;
@@ -135,7 +135,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			} else {
 				slots[1].stackSize++;
 			}
-			if (slots[2] != null) {
+			if (slots[2] != null && slots[2].getItem() != ModItems.euphemium_capacitor) {
 				ItemCapacitor.setDura(slots[2], ItemCapacitor.getDura(slots[2]) - 1);
 			}
 

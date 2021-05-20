@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineArcFurnace;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -258,9 +259,12 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
         
 		if(itemStack == null)
 		{
+			itemStack = MachineRecipes.getArcFurnaceResult(this.slots[0]);
+		}
+		if (itemStack == null)
+		{
 			return false;
 		}
-		
 		if(slots[1] == null)
 		{
 			return true;
@@ -280,7 +284,10 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 	private void processItem() {
 		if(canProcess()) {
 	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[0]);
-			
+			if (itemStack == null)
+			{
+				itemStack = MachineRecipes.getArcFurnaceResult(slots[0]);
+			}
 			if(slots[1] == null)
 			{
 				slots[1] = itemStack.copy();

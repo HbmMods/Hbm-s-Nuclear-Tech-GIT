@@ -12,5 +12,6 @@ public class ItemBlades extends Item {
 	public ItemBlades(int dura)
 	{
 		this.setMaxDamage(dura);
+		setMaxStackSize(1);
 	}
 }

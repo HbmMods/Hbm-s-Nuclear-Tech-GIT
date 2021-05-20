@@ -104,7 +104,8 @@ public abstract class WeaponAbility {
 				
 				EntityLivingBase living = (EntityLivingBase) victim;
 
-				living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, duration * 20, 4));
+				//living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, duration * 20, 4));
+				living.addPotionEffect(new PotionEffect(HbmPotion.paralysis.id, duration * 20, 4));
 				living.addPotionEffect(new PotionEffect(Potion.weakness.id, duration * 20, 4));
 			}
 		}

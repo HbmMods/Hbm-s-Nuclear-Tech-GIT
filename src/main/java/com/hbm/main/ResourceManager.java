@@ -239,6 +239,9 @@ public class ResourceManager {
 	public static final IModelCustom taintcrab = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/taintcrab.obj"));
 	public static final IModelCustom maskman = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/maskman.obj"));
 	
+	//Satori
+	public static final IModelCustom satori_eye = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/third_eye.obj"));
+	
 	//Belt
 	public static final IModelCustom arrow = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/arrow.obj"));
 	
@@ -718,6 +721,10 @@ public class ResourceManager {
 	public static final IModelCustom mp_w_20 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_w_20.obj"));
 	
 	////Texture Entities
+	
+	//Satori
+	public static final ResourceLocation satori_eye_closed_tex = new ResourceLocation(RefStrings.MODID, "textures/models/misc/ThirdEye.png");
+	public static final ResourceLocation satori_eye_open_tex = new ResourceLocation(RefStrings.MODID, "textures/models/misc/ThirdEye_Open.png");
 	
 	//Blast
 	public static final ResourceLocation fireball = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/fireball.png");

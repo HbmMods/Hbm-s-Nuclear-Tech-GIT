@@ -154,7 +154,8 @@ public class ArmorUtil {
 			"rubber",
 			"hev",
 			"ajr",
-			"spacesuit"
+			"spacesuit",
+			"uranium"
 	};
 	
 	public static boolean isFaradayArmor(ItemStack item) {

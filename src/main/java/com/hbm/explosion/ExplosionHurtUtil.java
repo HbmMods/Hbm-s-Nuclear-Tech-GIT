@@ -2,6 +2,7 @@ package com.hbm.explosion;
 
 import java.util.List;
 
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -72,8 +73,9 @@ public class ExplosionHurtUtil {
 			
 			//double interpolation = 1 - (dist / radius);
 			//float rad = (float) (outer + (inner - outer) * interpolation);
-			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 20));
-			entity.addPotionEffect(new PotionEffect(Potion.jump.id, 200, 128));
+			//entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 20));
+			//entity.addPotionEffect(new PotionEffect(Potion.jump.id, 200, 128));
+			entity.addPotionEffect(new PotionEffect(HbmPotion.paralysis.id, 200, 0));
 		}
 	}
 }

@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBattery extends Item implements IBatteryItem {
-
+	private EnumRarity rarity = EnumRarity.common;
 	private long maxCharge;
 	private long chargeRate;
 	private long dischargeRate;
@@ -43,19 +43,17 @@ public class ItemBattery extends Item implements IBatteryItem {
 		list.add("Charge rate: " + Library.getShortNumber(chargeRate) + "HE/t");
 		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate) + "HE/t");
 	}
-
+	
+	public ItemBattery setRarity(EnumRarity customRarity)
+	{
+		rarity = customRarity;
+		return this;
+	}
+	
 	@Override
-	public EnumRarity getRarity(ItemStack p_77613_1_) {
-
-		if(this == ModItems.battery_schrabidium) {
-			return EnumRarity.rare;
-		}
-
-		if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced || this == ModItems.energy_core || this == ModItems.dynosphere_desh || this == ModItems.dynosphere_schrabidium || this == ModItems.dynosphere_euphemium || this == ModItems.dynosphere_dineutronium) {
-			return EnumRarity.uncommon;
-		}
-
-		return EnumRarity.common;
+	public EnumRarity getRarity(ItemStack p_77613_1_)
+	{
+		return rarity;
 	}
 
 	public void chargeBattery(ItemStack stack, long i) {

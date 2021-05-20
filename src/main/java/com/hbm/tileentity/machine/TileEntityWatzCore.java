@@ -19,7 +19,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -27,11 +26,13 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import scala.actors.threadpool.Arrays;
 
 public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidSource {
 
@@ -57,6 +58,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	
 	private String customName;
 
+	private Item[] validFilters = new Item[] {ModItems.titanium_filter, ModItems.saturnite_filter, ModItems.paa_filter};
+	
 	public TileEntityWatzCore() {
 		slots = new ItemStack[40];
 		tank = new FluidTank(FluidType.WATZ, 64000, 0);
@@ -493,7 +496,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public boolean hasFuse() {
-		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemCapacitor.getDura(slots[38]) > 0;
+		return slots[38] != null && Arrays.asList(validFilters).contains(slots[38].getItem()) && ItemCapacitor.getDura(slots[38]) > 0;
 	}
 	
 	@Override

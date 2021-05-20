@@ -38,6 +38,7 @@ public class HazmatRegistry {
 		double paa = 1.3D; // 95%
 		double liquidator = 2D; // 99%
 
+		double ferro = 1.5D;
 		double t45 = 1D; // 90%
 		double ajr = 1.3D; // 95%
 		double bj = 1D; // 90%
@@ -164,6 +165,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.schrabidium_legs, schrab * legs);
 		HazmatRegistry.registerHazmat(ModItems.schrabidium_boots, schrab * boots);
 
+		registerHazmat(ModItems.ferrouranium_helmet, ferro * helmet);
+		registerHazmat(ModItems.ferrouranium_plate, ferro * chest);
+		registerHazmat(ModItems.ferrouranium_legs, ferro * legs);
+		registerHazmat(ModItems.ferrouranium_boots, ferro * boots);
+		
 		HazmatRegistry.registerHazmat(ModItems.euphemium_helmet, euph * helmet);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_plate, euph * chest);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_legs, euph * legs);

@@ -142,6 +142,18 @@ public class ItemFolderPacket implements IMessage {
 									p.dropPlayerItemWithRandomChoice(stack, true);
 						}
 					}
+					if (stack.getItem() == ModItems.stamp_ferrouranium_plate ||
+							stack.getItem() == ModItems.stamp_ferrouranium_wire ||
+							stack.getItem() == ModItems.stamp_ferrouranium_circuit ||
+							stack.getItem() == ModItems.stamp_ferrouranium_disc)
+					{
+						if (p.inventory.hasItem(ModItems.stamp_ferrouranium_flat))
+						{
+							p.inventory.consumeInventoryItem(ModItems.stamp_ferrouranium_flat);
+							if (!p.inventory.addItemStackToInventory(stack.copy()))
+								p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
 					if(stack.getItem() == ModItems.stamp_schrabidium_plate || 
 							stack.getItem() == ModItems.stamp_schrabidium_wire || 
 							stack.getItem() == ModItems.stamp_schrabidium_circuit ||

@@ -57,7 +57,7 @@ public class BlockCircuit extends Block {
 					dropStack.add(new ItemStack(ModItems.circuit_aluminium, 2));
 					dropStack.add(new ItemStack(ModItems.plate_copper, 4));
 					dropStack.add(new ItemStack(ModItems.wire_copper, 8));
-					dropStack.add(new ItemStack(ModItems.powder_silicon, 4));
+					dropStack.add(new ItemStack(ModItems.wafer_silicon, 4));
 				}
 				if (this == ModBlocks.block_circuit_tier_3)
 				{
@@ -67,7 +67,7 @@ public class BlockCircuit extends Block {
 					dropStack.add(new ItemStack(ModItems.circuit_copper, 2));
 					dropStack.add(new ItemStack(ModItems.plate_polymer, 4));
 					dropStack.add(new ItemStack(ModItems.wire_red_copper, 8));
-					dropStack.add(new ItemStack(ModItems.powder_gold, 4));
+					dropStack.add(new ItemStack(ModItems.wafer_gold, 4));
 				}
 				if (this == ModBlocks.block_circuit_tier_4)
 				{
@@ -77,7 +77,7 @@ public class BlockCircuit extends Block {
 					dropStack.add(new ItemStack(ModItems.circuit_red_copper, 2));
 					dropStack.add(new ItemStack(ModItems.ingot_polymer, 4));
 					dropStack.add(new ItemStack(ModItems.wire_gold, 8));
-					dropStack.add(new ItemStack(ModItems.powder_lapis, 4));
+					dropStack.add(new ItemStack(ModItems.wafer_lapis, 4));
 				}
 				if (this == ModBlocks.block_circuit_tier_5)
 				{
@@ -87,7 +87,7 @@ public class BlockCircuit extends Block {
 					dropStack.add(new ItemStack(ModItems.circuit_gold, 2));
 					dropStack.add(new ItemStack(ModItems.ingot_desh, 4));
 					dropStack.add(new ItemStack(ModItems.wire_schrabidium, 8));
-					dropStack.add(new ItemStack(ModItems.powder_diamond, 4));
+					dropStack.add(new ItemStack(ModItems.wafer_diamond, 4));
 				}
 				if (this == ModBlocks.block_circuit_tier_6)
 				{
@@ -98,7 +98,7 @@ public class BlockCircuit extends Block {
 					dropStack.add(new ItemStack(ModItems.plate_saturnite, 4));
 					dropStack.add(new ItemStack(ModItems.wire_schrabidium, 4));
 					dropStack.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
-					dropStack.add(new ItemStack(ModItems.powder_spark_mix, 2));
+					dropStack.add(new ItemStack(ModItems.wafer_spark, 2));
 					dropStack.add(new ItemStack(ModItems.powder_magic, 6));
 				}
 				dropItems(dropStack, worldIn, x, y, z);

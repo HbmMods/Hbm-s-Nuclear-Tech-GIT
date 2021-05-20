@@ -18,57 +18,62 @@ public class GunConfiguration {
 	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
 	 */
 
-	//amount of ticks between each bullet
+	/**amount of ticks between each bullet**/
 	public int rateOfFire;
-	//amount of bullets fired per delay passed
+	/**amount of bullets fired per delay passed**/
 	public int roundsPerCycle;
-	//0 = normal, 1 = release, 2 = both
+	/**0 = normal, 1 = release, 2 = both**/
 	public int gunMode;
-	//0 = manual, 1 = automatic
+	/**0 = manual, 1 = automatic**/
 	public int firingMode;
-	//weapon won't fire after weapon breaks (main only)
+	/**weapon won't fire after weapon "breaks" (main only)**/
 	public int durability;
 	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	//whether to not to disable crosshais when sneaking
+	/**whether to not to disable crosshais when sneaking**/
 	public boolean hasSights;
 	
-	//how long the reload animation will play
-	//MUST BE GREATER THAN ZERO ! ! !
+	/**how long the reload animation will play;
+	MUST BE GREATER THAN ZERO ! ! !**/
 	public int reloadDuration;
-	//duration of every animation cycle
+	/**duration of every animation cycle**/
 	public int firingDuration;
-	//sound path to the reload sound
+	/**sound path to the reload sound**/
 	public String reloadSound = "";
-	//sound path to the shooting sound
+	/**sound path to the shooting sound**/
 	public String firingSound = "";
 	public float firingPitch = 1.0F;
-	//whether the reload sound should be played at the beginning or at the end of the reload
+	/**whether the reload sound should be played at the beginning or at the end of the reload**/
 	public boolean reloadSoundEnd = true;
 	
-	//how much ammo the clip can hold, 0 if drawn from inventory
+	/**how much ammo the clip can hold, 0 if drawn from inventory**/
 	public int ammoCap;
-	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
+	/**0 does not allow direct reload, 1 is full clip, 2 is single bullet**/
 	public int reloadType;
-	//whether or not the infinity enchantment should work
+	/**whether or not the infinity enchantment should work**/
 	public boolean allowsInfinity;
-	//whether the ammo count should be displayed
+	/**whether the ammo count should be displayed**/
 	public boolean showAmmo = true;
 	
 	// Just experimenting here ~ UFFR
+	/**Custom descriptor about damage, optional**/
 	public String damage = "";
+	/**Extra long comments about the lore of the gun**/
 	public List<String> advLore = new ArrayList();
+	/**Extra long comments about how the gun works**/
 	public List<String> advFuncLore = new ArrayList();
-	
+	/**Official name of the gun**/
 	public String name = "";
+	/**The gun's manufacturer**/
 	public String manufacturer = "";
+	/**Additional comments**/
 	public List<String> comment = new ArrayList();
 
-	//bullet configs for main and alt fire
+	/**bullet configs for main and alt fire**/
 	public List<Integer> config = new ArrayList();
 
-	//crosshair
+	/** Crosshair on screen **/
 	public Crosshair crosshair;
 
 	public static final int MODE_NORMAL = 0;

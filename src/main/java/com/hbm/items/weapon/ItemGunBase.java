@@ -10,8 +10,11 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
+import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
@@ -500,60 +503,61 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	//item mouseover text
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		Item ammo;
+		ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+	
+		if (mainConfig.ammoCap > 0)
+			list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
+		else
+			list.add("Ammo: Belt");
 		
-		Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
+
+		if(altConfig != null && altConfig.ammoCap == 0) {
+			Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
+			if(ammo != ammo2)
+				list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
+		}
+		if (mainConfig.damage != "" || !mainConfig.damage.isEmpty())
+		{
+			list.add("Damage: " + mainConfig.damage);
+		}
+		int dura = mainConfig.durability - getItemWear(stack);
 		
-			if(mainConfig.ammoCap > 0)
-				list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
-			else
-				list.add("Ammo: Belt");
-			
-			list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
-			
-			if(altConfig != null && altConfig.ammoCap == 0) {
-				Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
-				if(ammo != ammo2)
-					list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
-			}
-			if (mainConfig.damage != "" || mainConfig.damage != null)
-			{
-				list.add("Damage: " + mainConfig.damage);
-			}
-			int dura = mainConfig.durability - getItemWear(stack);
-			
-			if(dura < 0)
-				dura = 0;
-			
-			list.add("Durability: " + dura + " / " + mainConfig.durability);
-			
-			//if(MainRegistry.enableDebugMode) {
-				list.add("");
-				list.add("Name: " + mainConfig.name);
-				list.add("Manufacturer: " + mainConfig.manufacturer);
-			//}
-			
-			if(!mainConfig.comment.isEmpty()) {
-				list.add("");
-				for(String s : mainConfig.comment)
-					list.add(EnumChatFormatting.ITALIC + s);
-			}
-			
-			if(GeneralConfig.enableExtendedLogging) {
-				list.add("");
-				list.add("Type: " + getMagType(stack));
-				list.add("Is Reloading: " + getIsReloading(stack));
-				list.add("Reload Cycle: " + getReloadCycle(stack));
-				list.add("RoF Cooldown: " + getDelay(stack));
-			}
-			if (!mainConfig.advLore.isEmpty() || !mainConfig.advFuncLore.isEmpty())
-				list.add("");
-			
-			if (!mainConfig.advLore.isEmpty())
-				list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
-			
-			if (!mainConfig.advFuncLore.isEmpty())
-				list.add(String.format("%s%sHold <%sLCTRL%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+		if(dura < 0)
+			dura = 0;
+		
+		list.add("Durability: " + dura + " / " + mainConfig.durability);
+		
+		//if(MainRegistry.enableDebugMode) {
+			list.add("");
+			list.add("Name: " + mainConfig.name);
+			list.add("Manufacturer: " + mainConfig.manufacturer);
+		//}
+		
+		if(!mainConfig.comment.isEmpty()) {
+			list.add("");
+			for(String s : mainConfig.comment)
+				list.add(EnumChatFormatting.ITALIC + s);
+		}
+		
+		if(GeneralConfig.enableExtendedLogging) {
+			list.add("");
+			list.add("Type: " + getMagType(stack));
+			list.add("Is Reloading: " + getIsReloading(stack));
+			list.add("Reload Cycle: " + getReloadCycle(stack));
+			list.add("RoF Cooldown: " + getDelay(stack));
+		}
+		if (!mainConfig.advLore.isEmpty() || !mainConfig.advFuncLore.isEmpty())
+			list.add("");
+		
+		if (!mainConfig.advLore.isEmpty())
+			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+		
+		if (!mainConfig.advFuncLore.isEmpty())
+			list.add(String.format("%s%sHold <%sLCTRL%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
 	
 		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 		{
@@ -731,6 +735,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		return readNBT(stack, "magazine");
 	}
 	
+	public static void setGunCharge(ItemStack stack, long i)
+	{
+		writeNBT(stack, "charge", i);
+	}
+	
+	public static long getGunCharge(ItemStack stack)
+	{
+		return readNBTLong(stack, "charge");
+	}
+	
 	/// magazine type (int specified by index in bullet config list) ///
 	public static void setMagType(ItemStack stack, int i) {
 		writeNBT(stack, "magazineType", i);
@@ -749,6 +763,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		stack.stackTagCompound.setInteger(key, value);
 	}
 	
+	public static void writeNBT(ItemStack stack, String key, long value)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.stackTagCompound.setLong(key, value);
+	}
+
 	public static int readNBT(ItemStack stack, String key) {
 		
 		if(!stack.hasTagCompound())
@@ -756,7 +778,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		
 		return stack.stackTagCompound.getInteger(key);
 	}
-
+	
+	public static long readNBTLong(ItemStack stack, String key)
+	{
+		if (!stack.hasTagCompound())
+			return 0;
+		
+		return stack.stackTagCompound.getLong(key);
+	}
+	
 	@Override
 	public Crosshair getCrosshair() {
 		return mainConfig.crosshair;

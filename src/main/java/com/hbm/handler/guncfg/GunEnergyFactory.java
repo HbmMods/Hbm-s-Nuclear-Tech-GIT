@@ -9,6 +9,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunTWR;
@@ -17,6 +18,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -153,32 +155,35 @@ public class GunEnergyFactory {
 		config.name = "Time Warp Rifle";
 		config.manufacturer = "Lunar Defense Corp";
 		//config.comment.add(EnumChatFormatting.ITALIC + "\"Testing\"");
-		switch (randLore)
-		{
-		case 0:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"You can't dodge a bullet that's already hit.\"");
-			break;
-		case 1:
-			config.comment.add("\"Where's the exit!?\"");
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + EnumChatFormatting.ITALIC + "\"Nowhere.\"");
-			break;
-		case 2:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"I'm not about to let a little fly like you get away.\"");
-			break;
-		case 3:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Eclipse, eclipse, under the sky!");
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Shatter into a million shards of light!\"");
-			break;
-		case 4:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"One must fall before one must ascend!\"");
-			break;
-		case 5:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"The entrance, and the exit, are an endless loop.\"");
-			break;
-		case 6:
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Loud, furious...");
-			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "...and signifying nothing as it passes from this world.\"");
-		}
+//		switch (randLore)
+//		{
+//		case 0:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"You can't dodge a bullet that's already hit.\"");
+//			break;
+//		case 1:
+//			config.comment.add("\"Where's the exit!?\"");
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + EnumChatFormatting.ITALIC + "\"Nowhere.\"");
+//			break;
+//		case 2:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"I'm not about to let a little fly like you get away.\"");
+//			break;
+//		case 3:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Eclipse, eclipse, under the sky!");
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Shatter into a million shards of light!\"");
+//			break;
+//		case 4:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"One must fall before one must ascend!\"");
+//			break;
+//		case 5:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"The entrance, and the exit, are an endless loop.\"");
+//			break;
+//		case 6:
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Loud, furious...");
+//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "...and signifying nothing as it passes from this world.\"");
+//		}
+		String[] lore = I18nUtil.resolveKeyArray("item.gun_twr.desc." + randLore);
+		for (String s : lore)
+			config.comment.add(EnumChatFormatting.ITALIC + s);
 		// May remove if it defeats the purpose of a semi-obscure reference
 		config.advLore.add("Born from the Lunarian's vastly superior technology, the Time Warp Rifle (TWR)");
 		config.advLore.add("is no ordinary sniper rifle. It was meant to be a weapon to eliminate targets of");
@@ -208,6 +213,31 @@ public class GunEnergyFactory {
 			config.advFuncLore.add("...");
 			config.advFuncLore.add(EnumChatFormatting.STRIKETHROUGH + "Jk, we have no idea how it works");
 		}
+		return config;
+	}
+	
+	public static GunConfigurationEnergy getTesterConfig()
+	{
+		GunConfigurationEnergy config = new GunConfigurationEnergy();
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.ammoCap = 100000000;
+		config.ammoRate = 100000;
+		config.chargeRate = 1000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.durability = Integer.MAX_VALUE;//h
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = false;
+		config.damage = "Yes";
+		config.crosshair = Crosshair.L_CROSS;
+		config.firingSound = "hbm:weapon.zomgShoot";
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+		config.name = "the pooper shooter";//I am very mature
+		config.manufacturer = "Fisher Price";
+		config.comment.add("Let the pain end");
+		
 		return config;
 	}
 	
@@ -414,13 +444,13 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
-	// TODO Finish, not technically a bullet, it's supposed to be a ray
+	// TODO Finish, not technically a bullet, it's supposed to be a ray, not that it works in its current state anyway
 	public static BulletConfiguration getSingConfig()
 	{
-		BulletConfiguration bullet = new BulletConfiguration();
+		BulletConfiguration bullet = new BulletConfigFactory().standardBulletConfig();
 		
 		bullet.ammo = ModItems.singularity_micro;
-		bullet.velocity = 1.0F;
+		bullet.velocity = 10.0F;
 		bullet.spread = 0.0F;
 		bullet.wear = 1000;
 		
@@ -434,12 +464,16 @@ public class GunEnergyFactory {
 		bullet.doesPenetrate = true;
 		//bullet.isSpectral = true;
 		bullet.doesBreakGlass = true;
-		bullet.destroysBlocks = false;
+		bullet.destroysBlocks = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 60 * 20, 4));
+		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 60 * 20, 4));
 		
 		//bullet.instakill = true;
 		// TODO Placeholder
-		bullet.style = BulletConfiguration.STYLE_ORB;
-		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;
+		//bullet.style = BulletConfiguration.STYLE_ORB;
+		bullet.trail = 1;
 
 		return bullet;
 	}

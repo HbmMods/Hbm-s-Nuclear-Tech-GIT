@@ -194,7 +194,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         		}
         		else if (extType == 2)
         		{
-        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 50 / 20F, 75 / 20F, this.destructionRange);
+        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 25 / 20F, 50 / 20F, this.destructionRange);
         		}
         	} else {
         		switch (extType)

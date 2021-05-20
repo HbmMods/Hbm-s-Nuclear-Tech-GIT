@@ -27,6 +27,7 @@ public class ItemChemistryTemplate extends Item {
 		//CC - Coal Cracking
 		//SF - Solid Fuel Production
 		//BP - Biofuel Production
+		//OD - Optical Disc Curing
 		
 		FP_HEAVYOIL,
 		FP_SMEAR,
@@ -90,7 +91,15 @@ public class ItemChemistryTemplate extends Item {
 		SATURN,
 		BALEFIRE,
 		SCHRABIDIC,
-		SCHRABIDATE;
+		SCHRABIDATE,
+		QUARTZ,
+		ACRYLIC,
+		DU_DIOXIDE,
+		DUCRETE,
+		OD_CD,
+		OD_DVD,
+		OD_BD,
+		OD_5D;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -268,6 +277,22 @@ public class ItemChemistryTemplate extends Item {
         	return 100;
         case SCHRABIDATE:
         	return 600;
+        case QUARTZ:
+        	return 40;
+        case ACRYLIC:
+        	return 150;
+        case DU_DIOXIDE:
+        	return 150;
+        case DUCRETE:
+        	return 200;
+        case OD_CD:
+        	return 200;
+        case OD_DVD:
+        	return 250;
+        case OD_BD:
+        	return 300;
+        case OD_5D:
+        	return 350;
         default:
         	return 100;
         }

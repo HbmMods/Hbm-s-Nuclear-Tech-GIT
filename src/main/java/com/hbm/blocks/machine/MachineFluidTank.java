@@ -25,14 +25,15 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class MachineFluidTank extends BlockContainer implements IMultiblock {
-
-	public MachineFluidTank(Material p_i45386_1_) {
+	private boolean isMagnetic;
+	public MachineFluidTank(Material p_i45386_1_, boolean isMagnetic) {
 		super(p_i45386_1_);
+		this.isMagnetic = isMagnetic;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineFluidTank();
+		return new TileEntityMachineFluidTank(this.isMagnetic);
 	}
 
 	@Override

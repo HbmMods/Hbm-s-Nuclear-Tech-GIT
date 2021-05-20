@@ -100,6 +100,14 @@ public class FluidTank {
 				return;
 			}
 			
+			if (slots[in].getItem() == ModItems.inf_coolant && this.type.name().equals(FluidType.COOLANT.name()))
+			{
+				this.fluid += 100;
+				if (this.fluid > this.maxFluid)
+					this.fluid = this.maxFluid;
+				return;
+			}
+			
 			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
 				return;
 		} else {

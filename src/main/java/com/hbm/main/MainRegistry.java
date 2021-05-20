@@ -107,6 +107,8 @@ public class MainRegistry {
 	public static ToolMaterial tMatElec = EnumHelper.addToolMaterial("HBM_ELEC", 3, 0, 30.0F, 12.0F, 2);
 	public static ToolMaterial tMatDesh = EnumHelper.addToolMaterial("HBM_DESH", 2, 0, 7.5F, 2.0F, 10);
 	public static ToolMaterial tMatCobalt = EnumHelper.addToolMaterial("HBM_COBALT", 3, 750, 9.0F, 2.5F, 15);
+	public static ToolMaterial tMatFerrouranium = EnumHelper.addToolMaterial("HBM_FERROURANIUM", 3, 2500, 20.0F, 7.5F, 10);
+	public static ToolMaterial tMatStaballoy = EnumHelper.addToolMaterial("HBM_STABALLOY", 3, 5000, 25.0F, 10.0F, 15);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -137,6 +139,8 @@ public class MainRegistry {
 	public static ArmorMaterial aMatSecurity = EnumHelper.addArmorMaterial("HBM_SECURITY", 100, new int[] { 3, 8, 6, 3 }, 15);
 	public static ArmorMaterial aMatCobalt = EnumHelper.addArmorMaterial("HBM_COBALT", 70, new int[] { 3, 8, 6, 3 }, 25);
 	public static ArmorMaterial aMatStarmetal = EnumHelper.addArmorMaterial("HBM_STARMETAL", 150, new int[] { 3, 8, 6, 3 }, 100);
+	public static ArmorMaterial aMatFerrouranium = EnumHelper.addArmorMaterial("HBM_FERROURANIUM", 100, new int[] { 3, 8, 6, 3 }, 20);
+	public static ArmorMaterial aMatStaballoy = EnumHelper.addArmorMaterial("HBM_STABALLOY", 150, new int[] { 3, 8, 6, 3 }, 30);
 
 	// Creative Tabs
 	// ingots, nuggets, wires, machine parts
@@ -195,13 +199,14 @@ public class MainRegistry {
 	public static Achievement digammaKnow;
 	public static Achievement digammaKauaiMoho;
 	public static Achievement digammaUpOnTop;
-	public static Achievement ego;
-	public static Achievement superego;
-	public static Achievement id;
-	public static Achievement shadow;
-	public static Achievement heartOfDarkness;
+	public static Achievement psycheEgo;
+	public static Achievement psycheSuperego;
+	public static Achievement psycheId;
+	public static Achievement psycheShadow;
+	public static Achievement psycheHeartOfDarkness;
+	public static Achievement psycheAbyss;
 
-	public static int generalOverride = 0;
+	public static int generalOverride = 11;
 	public static int polaroidID = 1;
 
 	public static int x;
@@ -262,6 +267,8 @@ public class MainRegistry {
 		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
 		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
 		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
+		aMatFerrouranium.customCraftingMaterial = ModItems.ingot_ferrouranium;
+		aMatStaballoy.customCraftingMaterial = ModItems.ingot_staballoy;
 		tMatSchrab.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		tMatHammmer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		tMatChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -271,6 +278,8 @@ public class MainRegistry {
 		tMatCMB.setRepairItem(new ItemStack(ModItems.ingot_combine_steel));
 		enumToolMaterialBottleOpener.setRepairItem(new ItemStack(ModItems.plate_steel));
 		tMatDesh.setRepairItem(new ItemStack(ModItems.ingot_desh));
+		tMatFerrouranium.setRepairItem(new ItemStack(ModItems.ingot_ferrouranium));
+		tMatStaballoy.setRepairItem(new ItemStack(ModItems.ingot_staballoy));
 
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ModItems.armor_polish), 1, 1, 3));
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ModItems.bathwater), 1, 1, 1));
@@ -961,11 +970,12 @@ public class MainRegistry {
 		digammaUpOnTop = new Achievement("achievement.digammaUpOnTop", "digammaUpOnTop", 6, 8, ModItems.digamma_up_on_top, digammaKauaiMoho).initIndependentStat().registerStat().setSpecial();
 
 		// TODO Finish psyche achievements
-		ego = new Achievement("achievement.ego", "ego", -2, 10, ModItems.euphemium_kit, null).initIndependentStat().registerStat();
-		superego = new Achievement("achievement.superego", "superego", 0, 10, ModItems.euphemium_kit, ego).initIndependentStat().registerStat();
-		id = new Achievement("achievement.id", "id", 4, 10, ModItems.euphemium_kit, superego).initIndependentStat().registerStat();
-		shadow = new Achievement("achievement.shadow", "shadow", 6, 10, ModItems.euphemium_kit, id).initIndependentStat().registerStat().setSpecial();
-		heartOfDarkness = new Achievement("achievement.darkness", "darkness", 8, 10, ModItems.euphemium_kit, shadow).initIndependentStat().registerStat().setSpecial();
+		psycheEgo = new Achievement("achievement.psycheEgo", "psycheEgo", -4, 4, ModItems.psyche_ego, null).initIndependentStat().registerStat();
+		psycheSuperego = new Achievement("achievement.psycheSuperego", "psycheSuperego", -4, 6, ModItems.psyche_superego, psycheEgo).initIndependentStat().registerStat();
+		psycheId = new Achievement("achievement.psycheId", "psycheId", -4, 8, ModItems.psyche_id, psycheSuperego).initIndependentStat().registerStat();
+		//psycheShadow = new Achievement("achievement.psycheShadow", "psycheShadow", 4, 10, ModItems.euphemium_kit, psycheId).initIndependentStat().registerStat().setSpecial();
+		psycheHeartOfDarkness = new Achievement("achievement.psycheHeartOfDarkness", "psycheHeartOfDarkness", -4, 10, ModItems.psyche_heart_of_darkness, psycheId).initIndependentStat().registerStat().setSpecial();
+		psycheAbyss = new Achievement("achievement.psycheAbyss", "psycheAbyss", -4, 12, ModItems.psyche_abyss, psycheHeartOfDarkness).initIndependentStat().registerStat().setSpecial();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
@@ -1004,11 +1014,12 @@ public class MainRegistry {
 				digammaKnow,
 				digammaKauaiMoho,
 				digammaUpOnTop,
-				ego,
-				superego,
-				id,
-				shadow,
-				heartOfDarkness
+				psycheEgo,
+				psycheSuperego,
+				psycheId,
+				//psycheShadow,
+				psycheHeartOfDarkness,
+				psycheAbyss
 		}));
 
 		// MUST be initialized AFTER achievements!!
@@ -1030,6 +1041,7 @@ public class MainRegistry {
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		SingGenRecipes.register();
+		MachineRecipes.registerArcFurnaceRecipes();
 
 		TileEntityNukeCustom.registerBombItems();
 

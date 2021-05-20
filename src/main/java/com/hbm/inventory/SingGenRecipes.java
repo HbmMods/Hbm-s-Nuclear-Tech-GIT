@@ -37,41 +37,59 @@ public class SingGenRecipes
 		commonFluid(new ItemStack(ModItems.ams_core_sing, 1), ModItems.plate_euphemium, FluidType.ASCHRAB, ModItems.singularity, 4000);
 		commonStandard(new ItemStack(ModItems.ams_core_wormhole, 1), ModItems.plate_dineutronium, ModItems.powder_spark_mix, ModItems.singularity);
 		commonFluid(new ItemStack(ModItems.ams_core_eyeofharmony, 1), ModItems.plate_dalekanium, FluidType.LAVA, ModItems.black_hole, 64000);
-		addRecipe(new ItemStack(ModItems.singularity_micro, 8), new Item[] {(ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium), null, null, (ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium)}, ModItems.billet_schrabidium, true, true, FluidType.ASCHRAB, 1000);
+		addRecipe(new ItemStack(ModItems.singularity_micro, 8), new Item[] {(ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium), null, null, (ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium)}, ModItems.ingot_schrabidium, true, true, FluidType.ASCHRAB, 1000);
 		addRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new Item[] {Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal)}, Item.getItemFromBlock(ModBlocks.block_schrabidate), true, false, FluidType.ASCHRAB, 4000);
 	}
+	/**
+	 * Standard recipe for upgrading singularities
+	 * @param output - The resultant item output
+	 * @param containmentItem - Item used for upgrading containment, goes in the corners
+	 * @param modifierItem - Item used for modifying the item, goes in the sides
+	 * @param centerItem - Item to be upgraded, goes in the center
+	 */
 	public static void commonStandard(ItemStack output, Item containmentItem, Item modifierItem, Item centerItem)
 	{
 		addRecipe(output, new Item[] {containmentItem, modifierItem, containmentItem, modifierItem, modifierItem, containmentItem,  modifierItem, containmentItem}, centerItem, true, false, FluidType.NONE, 0);
 	}
+	/**
+	 * Standard recipe type
+	 * @param output - The resultant item
+	 * @param containmentItem - Item used for containment of the item, goes in the corners
+	 * @param fluid - The fluid type used, must be Antischrabidium or lava 
+	 * @param centerItem - The item that goes in the center
+	 * @param fluidAmount - The amount of fluid needed, max 64b
+	 */
 	public static void commonFluid(ItemStack output, Item containmentItem, FluidType fluid, Item centerItem, int fluidAmount)
 	{
 		addRecipe(output, new Item[] {containmentItem, null, containmentItem, null, null, containmentItem, null, containmentItem}, centerItem, true, false, fluid, fluidAmount);
 	}
+	/**
+	 * Add a recipe directly
+	 * @param output - The output, may be more than 1
+	 * @param inputRing - The ring of 8 items around the center
+	 * @param inputCenter - The center item
+	 * @param shaped - Does placement of items in the ring matter?
+	 * @param keepRing - Should it not consume the items in the ring?
+	 * @param fluid - Either Antischrabidium or Lava
+	 * @param fluidAmount - Amount of fluid needed, max 64b
+	 */
 	public static void addRecipe(ItemStack output, Item[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
 	{
+		// Error checking
 		if (inputRing.length != 8)
-		{
-			throw new IllegalArgumentException("Recipe ring input must be exactly 8! Recipe output: " + output.getItem().getUnlocalizedName());
-		}
+			throw new IllegalArgumentException("Recipe ring input must be exactly 8! Recipe output: " + output.getItem().getUnlocalizedName() + "; Ring length: " + inputRing.length);// So we know which recipe errored and why
+		if (!(fluid.equals(FluidType.ASCHRAB) || fluid.equals(FluidType.LAVA) || fluid.equals(FluidType.NONE)))
+			throw new IllegalArgumentException("Recipe fluid input must be either antischrabidium, lava, or none! Recipe output: " + output.getItem().getUnlocalizedName() + "; Fluid attempted: " + fluid.getUnlocalizedName());
+		if (fluidAmount > 64000 || fluidAmount < 0)
+			throw new IndexOutOfBoundsException("Recipe fluid input amount out of bounds, must be between 0 and 64000! Recipe output: " + output.getItem().getUnlocalizedName() + "; Fluid amount attempted: " + fluidAmount);
+		
 		recipes.add(new SingGenRecipe(output, inputRing, inputCenter, shaped, keepRing, fluid, fluidAmount));
 	}
-	public static List<Item> getRingItems(Integer[] ringIn)
-	{
-		List<Item> ringItems = new ArrayList<Item>();
-		for (int itemIn : ringIn)
-		{
-			if (itemIn != -1)
-			{
-				ringItems.add(Item.getItemById(itemIn));
-			}
-			else
-			{
-				ringItems.add(null);
-			}
-		}
-		return ringItems;
-	}
+	/**
+	 * Converts a list of item IDs to their item
+	 * @param ringIn - The list of IDs to be converted
+	 * @return The list of items
+	 */
 	public static List<Item> getRingItems(List<Integer> ringIn)
 	{
 		List<Item> ringItems = new ArrayList<Item>();
@@ -88,22 +106,11 @@ public class SingGenRecipes
 		}
 		return ringItems;
 	}
-	public static List<Integer> getRingIDs(ItemStack[] ringIn)
-	{
-		List<Integer> ringIDs = new ArrayList<Integer>();
-		for (ItemStack itemIn : ringIn)
-		{
-			if (itemIn != null)
-			{
-				ringIDs.add(Item.getIdFromItem(itemIn.getItem()));
-			}
-			else
-			{
-				ringIDs.add(-1);
-			}
-		}
-		return ringIDs;
-	}
+	/**
+	 * Converts an array of items to their ID
+	 * @param ringIn - The array of items 
+	 * @return The list of IDs
+	 */
 	public static List<Integer> getRingIDs(Item[] ringIn)
 	{
 		List<Integer> ringIDs = new ArrayList<Integer>();
@@ -120,6 +127,13 @@ public class SingGenRecipes
 		}
 		return ringIDs;
 	}
+	/**
+	 * Check if the ring in the currently checked recipe matches what's in the machine
+	 * @param machineRing - The ring in the machine
+	 * @param recipeRing - The ring in the recipe
+	 * @param shaped - Is it shaped?
+	 * @return If it matches or not (boolean)
+	 */
 	public static boolean doRingsMatch(Item[] machineRing, Item[] recipeRing, boolean shaped)
 	{
 		for (int i = 0; i < 8; i++)
@@ -205,10 +219,6 @@ public class SingGenRecipes
 			}
 		}
 		return false;
-	}
-	public Item[] sortItemArray(Item[] arrayIn)
-	{
-		return (Item[])getRingItems(getRingIDs(arrayIn)).toArray();
 	}
 	public static class SingGenRecipe
 	{

@@ -1,9 +1,17 @@
 package com.hbm.entity.effect;
 
+import org.lwjgl.opengl.GL11;
+
+import com.hbm.entity.grenade.EntityGrenadeStunning;
+import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.render.util.BeamPronter.EnumWaveType;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityEMPBlast extends Entity {
@@ -11,6 +19,8 @@ public class EntityEMPBlast extends Entity {
 	public int maxAge = 100;
 	public int age;
     public float scale = 0;
+    public Entity source;
+    public boolean doBeams = false;
 
 	public EntityEMPBlast(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -49,7 +59,6 @@ public class EntityEMPBlast extends Entity {
     @Override
 	public void onUpdate() {
         this.age++;
-        
         if(this.age >= this.getMaxAge())
         {
     		this.age = 0;

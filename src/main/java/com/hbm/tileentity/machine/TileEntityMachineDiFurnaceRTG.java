@@ -16,7 +16,7 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase
 {
 	public int progress;
 	private int processSpeed = 0;
-	private static int timeRequired = 400;
+	private static int timeRequired = 800;
 	private static final int[] rtgIn = new int[] {3, 4, 5, 6, 7, 8};
 	private String name;
 	
@@ -45,6 +45,10 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase
 			return true;
 		}
 		if (!slots[2].isItemEqual(recipeResult))
+		{
+			return false;
+		}
+		if (slots[2].stackSize + recipeResult.stackSize > getInventoryStackLimit())
 		{
 			return false;
 		}

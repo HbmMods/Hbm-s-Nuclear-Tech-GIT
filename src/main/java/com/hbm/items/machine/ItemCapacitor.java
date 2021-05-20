@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +27,7 @@ public class ItemCapacitor extends Item {
 			list.add("[Needed for Schrabidium Synthesis]");
 			list.add(getDura(itemstack) + "/" + dura);
 		}
-		if (this == ModItems.titanium_filter) {
+		if (this == ModItems.titanium_filter || this == ModItems.saturnite_filter || this == ModItems.paa_filter) {
 			list.add("[Needed for Watz Reaction]");
 			list.add((getDura(itemstack) / 20) + "/" + (dura / 20));
 		}
@@ -79,5 +80,20 @@ public class ItemCapacitor extends Item {
     public double getDurabilityForDisplay(ItemStack stack)
     {
         return 1D - (double)getDura(stack) / (double)dura;
+    }
+    
+    @Override
+    public EnumRarity getRarity(ItemStack p_77613_1_)
+    {
+    	if (this == ModItems.euphemium_capacitor)
+    		return EnumRarity.epic;
+    	
+    	if (this == ModItems.saturnite_filter)
+    		return EnumRarity.rare;
+    	
+    	if (this == ModItems.paa_filter)
+    		return EnumRarity.uncommon;
+    	
+    	return EnumRarity.common;
     }
 }

@@ -2,6 +2,8 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockBreakable;
@@ -17,7 +19,10 @@ public class BlockNTMGlass extends BlockBreakable {
 	}
 	
     public int quantityDropped(Random rand) {
-        return 0;
+        if (this == ModBlocks.glass_quartz)
+        	return 1;
+        else
+        	return 0;
     }
     
     @SideOnly(Side.CLIENT)

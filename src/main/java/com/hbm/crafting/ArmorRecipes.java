@@ -55,6 +55,7 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_legs, 1), new Object[] { "EE ", "EEE", "E E", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_boots, 1), new Object[] { "  E", "E  ", "E E", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.zirconium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_zirconium });
+		basicArmorSet(new Item[] {ModItems.ferrouranium_helmet, ModItems.ferrouranium_plate, ModItems.ferrouranium_legs, ModItems.ferrouranium_boots}, ModItems.ingot_ferrouranium);
 
 		//Power armor
 		GameRegistry.addRecipe(new ItemStack(ModItems.t45_helmet, 1), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
@@ -157,5 +158,18 @@ public class ArmorRecipes {
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_legs, 1), new Object[] { "EEE", "ESE", "EPE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_legs, 'P', ModItems.pellet_charged });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_boots, 1), new Object[] { "EPE", "ESE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_boots, 'P', ModItems.pellet_charged });
 		}
+	}
+	/** Register an armor set using vanilla style recipes
+	 * @param outs - Must be in the order: helmet, chestplate, leggings, then boots
+	 * @param material - The material the set is made of**/
+	public static void basicArmorSet(Item[] outs, Item material)
+	{
+		if (outs.length != 4)
+			throw new IllegalArgumentException("Output array size must be equal to 4!");
+		
+		GameRegistry.addRecipe(new ItemStack(outs[0]), new Object[] { "MMM", "M M", 'M', material });
+		GameRegistry.addRecipe(new ItemStack(outs[1]), new Object[] { "M M", "MMM", "MMM", 'M', material });
+		GameRegistry.addRecipe(new ItemStack(outs[2]), new Object[] { "MMM", "M M", "M M", 'M', material });
+		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "M M", "M M", 'M', material });
 	}
 }

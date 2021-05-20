@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -60,9 +63,29 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				Block b = this.getBlockType();
 				
 				//for when you fill antimatter into a matter tank
-				if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
-					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+				if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter() && tank.getFill() > 0) {
+					if (tank.getTankType().equals(FluidType.ASCHRAB))
+					{
+						EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
+						field.posX = xCoord;
+						field.posY = yCoord;
+						field.posZ = zCoord;
+						field.destructionRange = BombConfig.aSchrabRadius;
+						field.speed = 25;
+						field.coefficient = 1.0F;
+						field.waste = false;
+						worldObj.spawnEntityInWorld(field);
+						EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), BombConfig.aSchrabRadius);
+						effect.posX = xCoord;
+						effect.posY = yCoord;
+						effect.posZ = zCoord;
+						worldObj.spawnEntityInWorld(effect);
+					}
+					else
+					{
+						worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+					}
 				}
 				
 				//for when you fill hot or corrosive liquids into a plastic tank

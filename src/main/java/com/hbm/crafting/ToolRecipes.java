@@ -8,6 +8,7 @@ import com.hbm.items.machine.ItemBattery;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -69,6 +70,7 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_axe, 1), new Object[] { "II", "IB", " S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_axe });
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_shovel, 1), new Object[] { "I", "B", "S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_shovel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_hoe, 1), new Object[] { "II", " B", " S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_hoe });
+		basicToolSet(new Item[] {ModItems.ferrouranium_sword, ModItems.ferrouranium_pickaxe, ModItems.ferrouranium_axe, ModItems.ferrouranium_shovel, ModItems.ferrouranium_hoe}, ModItems.ingot_ferrouranium, ModItems.bolt_dura_steel);
 		
 		//Drax
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.drax, 1), new Object[] { "BDS", "CDC", "FMF", 'B', ModItems.starmetal_pickaxe, 'S', ModItems.starmetal_shovel, 'C', "ingotCobalt", 'F', ModItems.fusion_core, 'D', "ingotDesh", 'M', ModItems.motor_desh }));
@@ -141,5 +143,39 @@ public class ToolRecipes {
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_shovel, 1), new Object[] { "S", "W", "P", 'S', ModItems.blades_schrabidium, 'W', ModItems.desh_shovel, 'P', ModItems.ingot_polymer });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hoe, 1), new Object[] { "IW", " S", " S", 'I', ModItems.ingot_schrabidium, 'W', ModItems.desh_hoe, 'S', ModItems.ingot_polymer });
 		}
+	}
+	/**
+	 * Register a tool set using vanilla style recipes
+	 * @param outs - Must be in the order: sword, pickaxe, axe, shovel, then hoe
+	 * @param headMaterial - The material of the head (ie iron)
+	 * @param handleMaterial - The material oreDict of the handle (vanilla uses sticks)
+	 */
+	public static void basicToolSet(Item[] outs, Item headMaterial, String handleMaterial)
+	{
+		if (outs.length != 5)
+			throw new IllegalArgumentException("Output array must be equal to 5!");
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[0]), new Object[] { "I", "I", "H", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[1]), new Object[] { "III", " H ", " H ", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[2]), new Object[] { "II ", "IH ", " H ", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[3]), new Object[] { "I", "H", "H", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[4]), new Object[] { "II", " H", " H", 'I', headMaterial, 'H', handleMaterial }));
+	}
+	/**
+	 * Register a tool set using vanilla style recipes
+	 * @param outs - Must be in the order: sword, pickaxe, axe, shovel, then hoe
+	 * @param headMaterial - The material of the head (ie iron)
+	 * @param handleMaterial - The material of the handle (vanilla uses sticks)
+	 */
+	public static void basicToolSet(Item[] outs, Item headMaterial, Item handleMaterial)
+	{
+		if (outs.length != 5)
+			throw new IllegalArgumentException("Output array must be equal to 5!");
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[0]), new Object[] { "I", "I", "H", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[1]), new Object[] { "III", " H ", " H ", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[2]), new Object[] { "II ", "IH ", " H ", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[3]), new Object[] { "I", "H", "H", 'I', headMaterial, 'H', handleMaterial }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[4]), new Object[] { "II", " H", " H", 'I', headMaterial, 'H', handleMaterial }));
 	}
 }

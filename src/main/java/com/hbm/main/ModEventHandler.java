@@ -519,6 +519,10 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
 				        	if(event.world.rand.nextInt(700) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
+				        	if(event.world.rand.nextInt(300) == 0)
+				        		entity.addPotionEffect(new PotionEffect(HbmPotion.perforated.id, 5 * 20, 2));
+				        	if(event.world.rand.nextInt(500) == 0)
+				        		entity.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 5 * 20, 2));
 							
 						} else if(eRad >= 600) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -529,6 +533,8 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
 				        	if(event.world.rand.nextInt(500) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
+				        	if(event.world.rand.nextInt(500) == 0)
+				        		entity.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 5 * 20, 1));
 							
 						} else if(eRad >= 400) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -537,12 +543,17 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
+				        	if(event.world.rand.nextInt(300) == 0)
+				        		entity.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 5 * 20, 1));
 				        	
 						} else if(eRad >= 200) {
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
 				        	if(event.world.rand.nextInt(500) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
+				        	if(event.world.rand.nextInt(300) == 0)
+				        		entity.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 2 * 20, 0));
+
 				        	
 				        	if(entity instanceof EntityPlayer)
 				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
@@ -593,7 +604,10 @@ public class ModEventHandler
 				}
 			}
 		}
-		
+		if (event.entityLiving.isPotionActive(HbmPotion.fragile.id))
+		{
+			event.ammount *= event.entityLiving.getActivePotionEffect(HbmPotion.fragile).getAmplifier() + 3;
+		}
 		ArmorFSB.handleHurt(event);
 	}
 	

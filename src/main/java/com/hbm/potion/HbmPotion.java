@@ -18,8 +18,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class HbmPotion extends Potion {
@@ -37,6 +41,9 @@ public class HbmPotion extends Potion {
 	public static HbmPotion potionsickness;
 	public static HbmPotion paralysis;
 	public static HbmPotion fragile;
+	public static HbmPotion unconscious;
+	public static HbmPotion perforated;
+	public static HbmPotion hollow;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -54,6 +61,11 @@ public class HbmPotion extends Potion {
 		phosphorus = registerPotion(PotionConfig.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
+		paralysis = registerPotion(PotionConfig.paralysisID, true, 0x808080, "potion.hbm_paralysis", 7, 1);
+		fragile = registerPotion(PotionConfig.fragileID, true, 0x00FFFF, "potion.hbm_fragile", 6, 1);
+		unconscious = registerPotion(PotionConfig.unconsciousID, false, 0xFF80ED, "potion.hbm_unconscious", 0, 2);
+		perforated = registerPotion(PotionConfig.perforatedID, true, 0xFF0000, "potion.hbm_perforated", 1, 2);
+		hollow = registerPotion(PotionConfig.hollowID, true, 0x000000, "potion.hbm_hollow", 2, 2);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -153,6 +165,35 @@ public class HbmPotion extends Potion {
 			
 			entity.setFire(1);
 		}
+		if (this == paralysis)
+		{
+			//entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("7107DE5E-7CE8-4030-940E-514C1F160890", -entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue(), 1));
+			if (entity.getEntityAttribute(SharedMonsterAttributes.attackDamage) != null)
+			{
+				//entity.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier("22653B89-116E-49DC-9B6B-9971489B5BE5", -entity.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(), 1));
+				func_111184_a(SharedMonsterAttributes.attackDamage, "648D7064-6A60-4F59-8ABE-C2C23A6DD7A9", -100, 2);
+			}
+			func_111184_a(SharedMonsterAttributes.movementSpeed, "7107DE5E-7CE8-4030-940E-514C1F160890", -100, 2);
+			if (entity.motionY > 0)
+			{
+				entity.motionY = -2;
+			}
+		}
+		if (this == perforated)
+		{
+			entity.attackEntityFrom(ModDamageSource.bleed, (level + 3));
+		}
+		if (this == hollow)
+		{
+			if (level > 2)
+			{
+				ContaminationUtil.applyDigammaDirect(entity, (float)(level + 1F) * 0.05F);
+			}
+			else
+			{
+				ContaminationUtil.applyDigammaData(entity, (float)(level + 1F) * 0.025F);
+			}
+		}
 	}
 
 	public boolean isReady(int par1, int par2) {
@@ -161,7 +202,7 @@ public class HbmPotion extends Potion {
 
 	        return par1 % 2 == 0;
 		}
-		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus) {
+		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus || this == paralysis || this == fragile) {
 			
 			return true;
 		}
@@ -174,8 +215,12 @@ public class HbmPotion extends Potion {
 			int k = 60;
 	        return k > 0 ? par1 % k == 0 : true;
 		}
+		if (this == perforated)
+		{
+			int k = 30;
+			return k > 0 ? par1 % k == 0 : true;
+		}
 		
 		return false;
 	}
-
 }
