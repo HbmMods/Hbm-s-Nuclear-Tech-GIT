@@ -2322,7 +2322,6 @@ item.ammo_fuel_gas.name=Бак с газом
 item.ammo_dart.name=Пластиковый дротик (Иссущающий)
 item.ammo_dart_nerf.name=Дротик NERF
 item.ammo_dgk.name=Лента на 200 патронов для CIWS "Говард"
-
 item.folly_shell.name=Оболочка серебряной пули
 item.folly_bullet.name=12.8см Высокоэнергетическая оболочка из звёздного металла
 item.folly_bullet_nuclear.name=12.8см Ядерная оболочка
@@ -2333,12 +2332,16 @@ item.pellet_chlorophyte.name=Хлорофитные гранулы
 item.pellet_mercury.name=Ртутные гранулы
 item.pellet_meteorite.name=Метеоритные гранулы
 item.pellet_claws.name=Острые металлические когти
-
 item.gun_bolter.name=Болтер
 item.gun_bolter_digamma.name=Дигамма пушка
 item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
 item.ammo_75bolt_incendiary.name=Магазин зажигательных болтов .75 (30rnd)
 item.ammo_75bolt_he.name=Магазин фугасных болтов .75 (30rnd)
+
+item.gun_fireext.name=Огнетушитель
+item.ammo_fireext.name=Бак с водой для огнетушителя
+item.ammo_fireext_foam.name=Бак с пеной для огнетушителя
+item.ammo_fireext_sand.name=Бак с песком для огнетушителя
 
 item.cordite.name=Кордит
 item.ballistite.name=Баллистит
