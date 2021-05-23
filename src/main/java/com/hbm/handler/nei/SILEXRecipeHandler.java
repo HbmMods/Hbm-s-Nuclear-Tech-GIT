@@ -33,12 +33,14 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack input;
 		List<PositionedStack> outputs;
 		List<Double> chances;
+		double produced;
 
 		public RecipeSet(Object input, SILEXRecipe recipe) {
 			
 			this.input = new PositionedStack(input, 30, 24);
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
+			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
 			
 			double weight = 0;
 			
@@ -161,11 +163,14 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-		int off = 0;
+		int index = 0;
 		for(Double chance : rec.chances) {
-			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 112, 28 + off - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
-			off += 18;
+			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 112, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
+			index++;
 		}
+		
+		String am = ((int)(rec.produced * 10D) / 10D) + "x";
+		fontRenderer.drawString(am, 70 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
 	}
 
 	@Override

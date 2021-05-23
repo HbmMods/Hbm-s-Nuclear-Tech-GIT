@@ -46,11 +46,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotMagnetizedTungsten", ModItems.ingot_magnetized_tungsten);
 		OreDictionary.registerOre("ingotCMBSteel", ModItems.ingot_combine_steel);
 		OreDictionary.registerOre("ingotAustralium", ModItems.ingot_australium);
-		OreDictionary.registerOre("ingotWeidanium", ModItems.ingot_weidanium);
-		OreDictionary.registerOre("ingotReiium", ModItems.ingot_reiium);
-		OreDictionary.registerOre("ingotUnobtainium", ModItems.ingot_unobtainium);
-		OreDictionary.registerOre("ingotDaffergon", ModItems.ingot_daffergon);
-		OreDictionary.registerOre("ingotVerticium", ModItems.ingot_verticium);
 		OreDictionary.registerOre("ingotDuraSteel", ModItems.ingot_dura_steel);
 		OreDictionary.registerOre("ingotPolymer", ModItems.ingot_polymer);
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
@@ -77,11 +72,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("nuggetPlutonium240", ModItems.nugget_pu240);
 		OreDictionary.registerOre("nuggetAustralium", ModItems.nugget_australium);
-		OreDictionary.registerOre("nuggetWeidanium", ModItems.nugget_weidanium);
-		OreDictionary.registerOre("nuggetReiium", ModItems.nugget_reiium);
-		OreDictionary.registerOre("nuggetUnobtainium", ModItems.nugget_unobtainium);
-		OreDictionary.registerOre("nuggetDaffergon", ModItems.nugget_daffergon);
-		OreDictionary.registerOre("nuggetVerticium", ModItems.nugget_verticium);
 		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
 		OreDictionary.registerOre("nuggetNeptunium237", ModItems.nugget_neptunium);
 		OreDictionary.registerOre("nuggetPolonium", ModItems.nugget_polonium);
@@ -128,11 +118,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustLithium", ModItems.powder_lithium);
 		OreDictionary.registerOre("dustNetherQuartz", ModItems.powder_quartz);
 		OreDictionary.registerOre("dustAustralium", ModItems.powder_australium);
-		OreDictionary.registerOre("dustWeidanium", ModItems.powder_weidanium);
-		OreDictionary.registerOre("dustReiium", ModItems.powder_reiium);
-		OreDictionary.registerOre("dustUnobtainium", ModItems.powder_unobtainium);
-		OreDictionary.registerOre("dustDaffergon", ModItems.powder_daffergon);
-		OreDictionary.registerOre("dustVerticium", ModItems.powder_verticium);
 		OreDictionary.registerOre("dustDuraSteel", ModItems.powder_dura_steel);
 		OreDictionary.registerOre("dustPolymer", ModItems.powder_polymer);
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
@@ -198,11 +183,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
 		OreDictionary.registerOre("oreLignite", ModBlocks.ore_lignite);
 		OreDictionary.registerOre("oreAustralium", ModBlocks.ore_australium);
-		OreDictionary.registerOre("oreWeidanium", ModBlocks.ore_weidanium);
-		OreDictionary.registerOre("oreReiium", ModBlocks.ore_reiium);
-		OreDictionary.registerOre("oreUnobtainium", ModBlocks.ore_unobtainium);
-		OreDictionary.registerOre("oreDaffergon", ModBlocks.ore_daffergon);
-		OreDictionary.registerOre("oreVerticium", ModBlocks.ore_verticium);
 		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
 		OreDictionary.registerOre("oreZirconium", ModBlocks.ore_depth_zirconium);
 

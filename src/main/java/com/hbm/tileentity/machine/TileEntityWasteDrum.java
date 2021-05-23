@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRBMKRod;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
@@ -95,11 +97,17 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 		
 		Item item = itemStack.getItem();
 		
-		return item == ModItems.waste_mox_hot || 
+		if(item == ModItems.waste_mox_hot || 
 				item == ModItems.waste_plutonium_hot || 
 				item == ModItems.waste_schrabidium_hot || 
 				item == ModItems.waste_thorium_hot || 
-				item == ModItems.waste_uranium_hot;
+				item == ModItems.waste_uranium_hot)
+			return true;
+		
+		if(item instanceof ItemRBMKRod)
+			return true;
+		
+		return false;
 	}
 	
 	@Override
@@ -177,11 +185,18 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
 		Item item = itemStack.getItem();
 		
-		return item == ModItems.waste_mox || 
+		if(item == ModItems.waste_mox || 
 				item == ModItems.waste_plutonium || 
 				item == ModItems.waste_schrabidium || 
 				item == ModItems.waste_thorium || 
-				item == ModItems.waste_uranium;
+				item == ModItems.waste_uranium)
+			return true;
+		
+		if(item instanceof ItemRBMKRod) {
+			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -210,10 +225,16 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 				
 				for(int i = 0; i < 12; i++) {
 					
-					if(worldObj.rand.nextInt(r) == 0) {
+					if(slots[i] != null) {
 						
-						if(slots[i] != null) {
+						if(slots[i].getItem() instanceof ItemRBMKRod) {
 							
+							ItemRBMKRod rod = (ItemRBMKRod) slots[i].getItem();
+							rod.updateHeat(worldObj, slots[i], 0.025D);
+							rod.provideHeat(worldObj, slots[i], 20D, 0.025D);
+							
+						} else if(worldObj.rand.nextInt(r) == 0) {
+
 							if(slots[i].getItem() == ModItems.waste_uranium_hot)
 								slots[i] = new ItemStack(ModItems.waste_uranium);
 							else if(slots[i].getItem() == ModItems.waste_plutonium_hot)

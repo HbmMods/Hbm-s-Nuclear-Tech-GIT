@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.entity.mob.EntityHunterChopper;
+import com.hbm.entity.mob.EntityUFO;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.items.ModItems;
 
@@ -108,6 +109,9 @@ public class ItemChopper extends Item {
 		
 		if(this == ModItems.spawn_worm)
 			entity = new EntityBOTPrimeHead(world);
+		
+		if(this == ModItems.spawn_ufo)
+			entity = new EntityUFO(world);
 		
 		if(entity != null) {
 

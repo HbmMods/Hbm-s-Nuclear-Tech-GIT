@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.ai;
 
 import java.util.Collections;
 import java.util.List;

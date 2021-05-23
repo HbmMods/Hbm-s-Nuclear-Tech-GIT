@@ -2,21 +2,27 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemHazard;
 import com.hbm.main.MainRegistry;
+import com.hbm.modules.ItemHazardModule;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.I18nUtil;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRBMKRod extends ItemHazard {
+public class ItemRBMKRod extends Item implements IItemHazard {
 	
+	public ItemRBMKPellet pellet;
 	public String fullName = "";			//full name of the fuel rod
 	public double funcEnd;					//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
@@ -49,7 +55,13 @@ public class ItemRBMKRod extends ItemHazard {
 	 *  i drew a fuel rod yay
 	 */
 
+	public ItemRBMKRod(ItemRBMKPellet pellet) {
+		this(pellet.fullName);
+		this.pellet = pellet;
+	}
+
 	public ItemRBMKRod(String fullName) {
+		this.module = new ItemHazardModule();
 		
 		this.fullName = fullName;
 		
@@ -137,7 +149,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * Heat up the core based on the outFlux, then move some heat to the hull
 	 * @param stack
 	 */
-	public void updateHeat(World world, ItemStack stack) {
+	public void updateHeat(World world, ItemStack stack, double mod) {
 		
 		double coreHeat = this.getCoreHeat(stack);
 		double hullHeat = this.getHullHeat(stack);
@@ -146,8 +158,8 @@ public class ItemRBMKRod extends ItemHazard {
 			
 			double mid = (coreHeat - hullHeat) / 2D;
 			
-			coreHeat -= mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world);
-			hullHeat += mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world);
+			coreHeat -= mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
+			hullHeat += mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
 			
 			this.setCoreHeat(stack, coreHeat);
 			this.setHullHeat(stack, hullHeat);
@@ -159,7 +171,7 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param stack
 	 * @return
 	 */
-	public double provideHeat(World world, ItemStack stack, double heat) {
+	public double provideHeat(World world, ItemStack stack, double heat, double mod) {
 		
 		double hullHeat = this.getHullHeat(stack);
 		
@@ -179,7 +191,7 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		double ret = (hullHeat - heat) / 2;
 		
-		ret *= RBMKDials.getFuelHeatProvision(world);
+		ret *= RBMKDials.getFuelHeatProvision(world) * mod;
 		
 		hullHeat -= ret;
 		this.setHullHeat(stack, hullHeat);
@@ -287,6 +299,38 @@ public class ItemRBMKRod extends ItemHazard {
 		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");*/
 		
 		super.addInformation(stack, player, list, bool);
+		updateModule(stack);
+		this.module.addInformation(stack, player, list, bool);
+	}
+	
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+		
+		if(entity instanceof EntityLivingBase) {
+			updateModule(stack);
+			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
+		}
+	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem item) {
+		
+		super.onEntityItemUpdate(item);
+		updateModule(item.getEntityItem());
+		return this.module.onEntityItemUpdate(item);
+	}
+	
+	ItemHazardModule module;
+
+	@Override
+	public ItemHazardModule getModule() {
+		return this.module;
+	}
+	
+	private void updateModule(ItemStack stack) {
+		
+		float mod = (float)(1 + (1 - this.getEnrichment(stack)) * 24 + this.getPoisonLevel(stack) * 100);
+		this.module.setMod(mod);
 	}
 	
 	/*  __    __   ____     ________

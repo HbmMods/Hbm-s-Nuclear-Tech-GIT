@@ -10,7 +10,10 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.BobMathUtil;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -219,6 +222,90 @@ public class GunNPCFactory {
 		bullet.leadChance = 0;
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketUFOConfig() {
+		
+		BulletConfiguration bullet = GunRocketFactory.getRocketConfig();
+		
+		bullet.vPFX = "reddust";
+		bullet.destroysBlocks = false;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+			
+			double angle = 90;
+			double range = 100;
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget")) == null) {
+					chooseTarget(bullet);
+				}
+				
+				Entity target = bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget"));
+				
+				if(target != null) {
+					
+					if(bullet.getDistanceSqToEntity(target) < 5) {
+						bullet.worldObj.newExplosion(bullet.shooter, bullet.posX, bullet.posY, bullet.posZ, 4F, true, false);
+						bullet.setDead();
+						return;
+					}
+					
+					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
+					delta = delta.normalize();
+					
+					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
+
+					bullet.motionX = delta.xCoord * vel;
+					bullet.motionY = delta.yCoord * vel;
+					bullet.motionZ = delta.zCoord * vel;
+				}
+			}
+			
+			private void chooseTarget(EntityBulletBase bullet) {
+				
+				List<EntityLivingBase> entities = bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(range, range, range));
+				
+				Vec3 mot = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+				
+				EntityLivingBase target = null;
+				double targetAngle = angle;
+				
+				for(EntityLivingBase e : entities) {
+					
+					if(!e.isEntityAlive() || e == bullet.shooter)
+						continue;
+					
+					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
+					
+					if(bullet.worldObj.func_147447_a(Vec3.createVectorHelper(bullet.posX, bullet.posY, bullet.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.height / 2, e.posZ), false, true, false) != null)
+						continue;
+					
+					double dist = e.getDistanceSqToEntity(bullet);
+					
+					if(dist < range * range) {
+						
+						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
+					
+						if(deltaAngle < targetAngle) {
+							target = e;
+							targetAngle = deltaAngle;
+						}
+					}
+				}
+				
+				if(target != null) {
+					bullet.getEntityData().setInteger("homingTarget", target.getEntityId());
+				}
+			}
+		};
 		
 		return bullet;
 	}

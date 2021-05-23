@@ -52,7 +52,6 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
-import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -74,6 +73,7 @@ import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -84,6 +84,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
@@ -106,24 +107,31 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-public class ModEventHandler
-{	
+public class ModEventHandler {
+	
 	public static int meteorShower = 0;
 	static Random rand = new Random();
 	
 	@SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		
-        if(!event.player.worldObj.isRemote) {
-        	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
-        	
-        	if(HTTPHandler.newVersion) {
-        		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + HTTPHandler.versionNumber + " is available!"));
-        	}
-        	
-        	if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
-        		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP)event.player);
-        }
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+
+		if(!event.player.worldObj.isRemote) {
+			event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+
+			if(HTTPHandler.newVersion) {
+				event.player.addChatMessage(
+						new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available!")
+						.setChatStyle(new ChatStyle()
+								.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+								.setUnderlined(true)
+								.setColor(EnumChatFormatting.YELLOW)
+								)
+						);
+			}
+
+			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP) event.player);
+		}
 	}
 	
 	@SubscribeEvent

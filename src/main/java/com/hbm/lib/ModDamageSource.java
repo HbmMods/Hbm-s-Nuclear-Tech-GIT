@@ -71,7 +71,7 @@ public class ModDamageSource extends DamageSource {
     {
         return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
     }
-    public static DamageSource causeCombineDamage(EntityCombineBall p_76353_0_, Entity p_76353_1_)
+    public static DamageSource causeCombineDamage(Entity p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("cmb", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
     }

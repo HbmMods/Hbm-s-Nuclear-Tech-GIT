@@ -392,5 +392,4 @@ public class GunRocketFactory {
 		
 		return bullet;
 	}
-
 }

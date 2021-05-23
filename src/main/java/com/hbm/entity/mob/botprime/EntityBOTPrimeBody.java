@@ -1,6 +1,6 @@
 package com.hbm.entity.mob.botprime;
 
-import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
+import com.hbm.entity.mob.ai.EntityAINearestAttackableTargetNT;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

@@ -36,6 +36,12 @@ public class ItemHazardModule {
 	boolean hydro;
 	float explosive;
 	
+	float tempMod = 1F;
+	
+	public void setMod(float tempMod) {
+		this.tempMod = tempMod;
+	}
+	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
 	}
@@ -66,11 +72,11 @@ public class ItemHazardModule {
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
 			
-		if(this.radiation > 0)
-			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, this.radiation * mod / 20F);
+		if(this.radiation * tempMod > 0)
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, this.radiation * tempMod * mod / 20F);
 
-		if(this.digamma > 0)
-			ContaminationUtil.applyDigammaData(entity, this.digamma * mod / 20F);
+		if(this.digamma * tempMod > 0)
+			ContaminationUtil.applyDigammaData(entity, this.digamma * tempMod * mod / 20F);
 
 		if(this.fire > 0)
 			entity.setFire(this.fire);
@@ -111,9 +117,9 @@ public class ItemHazardModule {
 	
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
-		if(this.radiation > 0) {
+		if(this.radiation * tempMod > 0) {
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
-			String rad = "" + (Math.floor(radiation * 1000) / 1000);
+			String rad = "" + (Math.floor(radiation * tempMod * 1000) / 1000);
 			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
 		}
 		
@@ -137,8 +143,8 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.explosive") + "]");
 		}
 		
-		if(this.digamma > 0) {
-			float d = ((int) (digamma * 10000F)) / 10F;
+		if(this.digamma * tempMod > 0) {
+			float d = ((int) (digamma * tempMod * 10000F)) / 10F;
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
 		}

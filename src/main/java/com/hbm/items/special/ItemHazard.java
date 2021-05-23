@@ -16,6 +16,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//CO60		             5a		α	030.00Rad/s	Spicy
 	//I181		           192h		α	150.00Rad/s	2 much spice :(
+	//XE135		             9h		α	aaaaaaaaaaaaaaaa
 	//CS137		            30a		α	020.00Rad/s	Spicy
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
 	//AT209		             5h		α	like 2k or sth idk bruv
@@ -31,6 +32,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	public static final float co60 = 30.0F;
 	public static final float i131 = 150.0F;
+	public static final float xe135 = 1250.0F;
 	public static final float cs137 = 20.0F;
 	public static final float au198 = 500.0F;
 	public static final float at209 = 2000.0F;
@@ -67,6 +69,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float nugget = 0.1F;
 	public static final float ingot = 1.0F;
 	public static final float powder = ingot;
+	public static final float powder_tiny = nugget;
 	public static final float block = 10.0F;
 	public static final float crystal = block;
 	public static final float billet = 0.5F;

@@ -2,9 +2,13 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -36,8 +40,17 @@ public class ItemRenderFireExt implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
-
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_tex);
+		
+		int magType = ItemGunBase.getMagType(item);
+		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
+		Item ammo = BulletConfigSyncingUtil.pullConfig(config).ammo;
+		
+		if(ammo == ModItems.ammo_fireext_foam)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_foam_tex);
+		else if(ammo == ModItems.ammo_fireext_sand)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_sand_tex);
+		else
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_tex);
 		
 		switch(type) {
 		

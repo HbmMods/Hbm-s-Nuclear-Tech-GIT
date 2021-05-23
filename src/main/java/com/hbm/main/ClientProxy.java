@@ -504,6 +504,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFBI.class, new RenderFBI());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRADBeast.class, new RenderRADBeast());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBlockSpider.class, new RenderBlockSpider());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityUFO.class, new RenderUFO());
 	    //"particles"
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.smoke1, ModItems.smoke2, ModItems.smoke3, ModItems.smoke4, ModItems.smoke5, ModItems.smoke6, ModItems.smoke7, ModItems.smoke8 }));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.b_smoke1, ModItems.b_smoke2, ModItems.b_smoke3, ModItems.b_smoke4, ModItems.b_smoke5, ModItems.b_smoke6, ModItems.b_smoke7, ModItems.b_smoke8 }));
@@ -1150,6 +1151,12 @@ public class ClientProxy extends ServerProxy {
 				player.maxHurtTime = 15;
 			}
 			player.attackedAtYaw = 0F;
+		}
+		
+		if("ufo".equals(type)) {
+
+			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, 0, 0, 0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
 		}
 		
 		if("justTilt".equals(type)) {

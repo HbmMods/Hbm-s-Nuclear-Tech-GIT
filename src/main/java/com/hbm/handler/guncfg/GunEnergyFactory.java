@@ -137,7 +137,7 @@ public class GunEnergyFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
-		config.firingSound = "hbm:weapon.flamethrowerShoot";
+		config.firingSound = "hbm:weapon.extinguisher";
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
 		config.name = "PROTEX Fire Exinguisher 6kg";

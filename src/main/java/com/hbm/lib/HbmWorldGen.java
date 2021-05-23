@@ -165,24 +165,6 @@ public class HbmWorldGen implements IWorldGenerator {
 		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_cinnebar, rand, 16);
 		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_zirconium, rand, 16);
 
-		for (int k = 0; k < 6; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(35);
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= 50 && randPosX >= -50 && randPosZ <= 50 && randPosZ >= -50)
-				(new WorldGenMinable(ModBlocks.ore_reiium, 12)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-
-		for (int k = 0; k < 80; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(128);
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= 250 && randPosX >= 150 && randPosZ <= 250 && randPosZ >= 150)
-				(new WorldGenMinable(ModBlocks.ore_unobtainium, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-
 		for (int k = 0; k < rand.nextInt(4); k++) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(15) + 15;
@@ -190,33 +172,6 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			if(randPosX <= -350 && randPosX >= -450 && randPosZ <= -350 && randPosZ >= -450)
 				(new WorldGenMinable(ModBlocks.ore_australium, 50)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-
-		for (int k = 0; k < 12; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(25);
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= 50 && randPosX >= -50 && randPosZ <= 350 && randPosZ >= 250)
-				(new WorldGenMinable(ModBlocks.ore_weidanium, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-
-		for (int k = 0; k < 24; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(10);
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= 450 && randPosX >= 350 && randPosZ <= -150 && randPosZ >= -250)
-				(new WorldGenMinable(ModBlocks.ore_daffergon, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-
-		for (int k = 0; k < 12; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(25) + 25;
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= -250 && randPosX >= -350 && randPosZ <= 250 && randPosZ >= 150)
-				(new WorldGenMinable(ModBlocks.ore_verticium, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
 		if (GeneralConfig.enableDungeons) {

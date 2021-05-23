@@ -52,8 +52,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				double fluxOut = rod.burn(worldObj, slots[0], fluxIn);
 				NType rType = rod.rType;
 				
-				rod.updateHeat(worldObj, slots[0]);
-				this.heat += rod.provideHeat(worldObj, slots[0], heat);
+				rod.updateHeat(worldObj, slots[0], 1.0D);
+				this.heat += rod.provideHeat(worldObj, slots[0], heat, 1.0D);
 				
 				if(this.heat > this.maxHeat()) {
 					this.meltdown();

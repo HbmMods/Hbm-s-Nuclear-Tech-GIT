@@ -487,5 +487,4 @@ public class BulletConfigFactory {
 		
 		return onUpdate;
 	}
-
 }
