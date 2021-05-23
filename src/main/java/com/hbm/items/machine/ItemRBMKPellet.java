@@ -42,13 +42,17 @@ public class ItemRBMKPellet extends Item implements IItemHazard {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon[] enrichmentOverlays = new IIcon[5];
+	private IIcon[] enrichmentOverlays;
+	
+	@SideOnly(Side.CLIENT)
 	private IIcon xenonOverlay;
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister p_94581_1_) {
 		super.registerIcons(p_94581_1_);
+		
+		this.enrichmentOverlays = new IIcon[5];
 		
 		for(int i = 0; i < enrichmentOverlays.length; i++) {
 			enrichmentOverlays[i] = p_94581_1_.registerIcon("hbm:rbmk_pellet_overlay_e" + i);
