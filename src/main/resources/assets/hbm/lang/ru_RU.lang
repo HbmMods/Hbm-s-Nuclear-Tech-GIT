@@ -1888,7 +1888,7 @@ item.rbmk_pellet_mox.name=МОКС топливная пеллета
 item.rbmk_pellet_po210be.name=Полоний-210-Бериллиевая пеллета
 item.rbmk_pellet_pu238be.name=Плутоний-238-Бериллиевая пеллета
 item.rbmk_pellet_thmeu.name=Торий-урановая топливная пеллета
-item.rbmk_pellet_ueu.name=Урановая топливная пеллета
+item.rbmk_pellet_ueu.name=Необогащенная урановая топливная пеллета
 
 item.rod_uranium_fuel_depleted.name=Топливный стержень с обеднённым ураном
 item.rod_dual_uranium_fuel_depleted.name=Сдвоенный топливный стержень с обеднённым ураном
@@ -2081,7 +2081,7 @@ item.rbmk_fuel_balefire_gold.name=Флэшголд-топливный стерж
 item.rbmk_fuel_drx.name=§cДигамма топливный стержень РБМК§r
 item.rbmk_fuel_heaus.name=Высокообогащенный австралиевый топливный стержень РБМК
 item.rbmk_fuel_leaus.name=Низкообогащенный австралиевый топливный стержень РБМК
-item.rbmk_fuel_ueu.name=Урановый топливный стержень РБМК
+item.rbmk_fuel_ueu.name=Необогащенный урановый топливный стержень РБМК
 item.rbmk_lid.name=Покрывающая панель РБМК
 
 item.rod_water.name=Стержень с водой
