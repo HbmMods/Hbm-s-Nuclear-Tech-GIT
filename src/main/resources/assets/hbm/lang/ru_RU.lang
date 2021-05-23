@@ -749,6 +749,8 @@ tile.crate_tungsten.name=Вольфрамовый ящик
 tile.safe.name=Сейф
 container.safe=Сейф
 tile.sand_polonium.name=Полониевый песок
+tile.sand_boron.name=Борный песок
+tile.sand_boron_layer.name=Слой борного песка
 tile.machine_press.name=Пресс
 container.press=Пресс
 tile.machine_epress.name=Электрический пресс
@@ -1414,6 +1416,22 @@ tile.lamp_tritium_green_off.name=Зелёная тритиевая лампа
 tile.lamp_tritium_green_on.name=Зелёная тритиевая лампа
 tile.reinforced_stone.name=Уплотненный камень
 tile.concrete_smooth.name=Бетон
+tile.concrete_colored.black.name=Черный бетон
+tile.concrete_colored.blue.name=Синий бетон
+tile.concrete_colored.brown.name=Коричневый бетон
+tile.concrete_colored.cyan.name=Бирюзовый бетон
+tile.concrete_colored.gray.name=Серый бетон
+tile.concrete_colored.green.name=Зелёный бетон
+tile.concrete_colored.lightBlue.name=Светло-синий бетон
+tile.concrete_colored.lime.name=Лаймовый бетон
+tile.concrete_colored.magenta.name=Пурпурный бетон
+tile.concrete_colored.orange.name=Оранжевый бетон
+tile.concrete_colored.pink.name=Розовый бетон
+tile.concrete_colored.purple.name=Фиолетовый бетон
+tile.concrete_colored.red.name=Красный бетон
+tile.concrete_colored.silver.name=Светло-серый бетон
+tile.concrete_colored.white.name=Белый бетон
+tile.concrete_colored.yellow.name=Жёлтый бетон
 tile.concrete_asbestos.name=Асбестобетон
 tile.concrete.name=Бетонная плитка
 tile.concrete_pillar.name=Арматурный железобетонный столб
@@ -1479,6 +1497,7 @@ tile.fence_metal.name=Проволочная сетка
 tile.sand_uranium.name=Урановый песок
 tile.glass_uranium.name=Урановое стекло
 tile.glass_trinitite.name=Тринититовое стекло
+tile.glass_boron.name=Борное стекло
 
 tile.seal_frame.name=Рама люка пусковой щахты
 tile.seal_controller.name=Открыватель дюка пусковой щахты
@@ -1575,6 +1594,8 @@ item.powder_au198.name=Порошок золота-198
 item.powder_co60.name=Порошок кобальта-60
 item.powder_cs137.name=Порошок цезия-137
 item.powder_i131.name=Порошок иода-131
+item.powder_xe135.name=Порошок ксенона-135
+item.powder_xe135_tiny.name=Кучка порошка ксенона-135
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -1849,7 +1870,25 @@ item.billet_australium_lesser.name=Заготовка низшего австр�
 item.billet_neptunium_fuel.name=Заготовка нептуниевого топлива
 item.billet_po210be.name=Заготовка Полоний-210-Бериллия
 item.billet_pu238be.name=Заготовка Плутоний-210-Бериллия
+item.billet_balefire_gold.name=Заготовка флэшголда
 
+item.rbmk_pellet_balefire.name=Жар-топливная пеллета
+item.rbmk_pellet_balefire_gold.name=Флэшголд-топливная пеллета
+item.rbmk_pellet_drx.name=§cДигамма топливная пеллета§r
+item.rbmk_pellet_heaus.name=Высокообогащенная австралиевая топливная пеллета
+item.rbmk_pellet_hes.name=Высокообогащенная шрабидиевая топливная пеллета
+item.rbmk_pellet_leaus.name=Низкообогащенная австралиевая топливная пеллета
+item.rbmk_pellet_lep.name=Низкообогащенная плутониевая топливная пеллета
+item.rbmk_pellet_les.name=Низкообогащенная шрабидиевая топливная пеллета
+item.rbmk_pellet_men.name=Среднеобогащенная нептуниевая топливная пеллета
+item.rbmk_pellet_mep.name=Среднеобогащенная плутониевая топливная пеллета
+item.rbmk_pellet_mes.name=Среднеобогащенная шрабидиевая топливная пеллета
+item.rbmk_pellet_meu.name=Среднеобогащенная урановая топливная пеллета
+item.rbmk_pellet_mox.name=МОКС топливная пеллета
+item.rbmk_pellet_po210be.name=Полоний-210-Бериллиевая пеллета
+item.rbmk_pellet_pu238be.name=Плутоний-238-Бериллиевая пеллета
+item.rbmk_pellet_thmeu.name=Торий-урановая топливная пеллета
+item.rbmk_pellet_ueu.name=Урановая топливная пеллета
 
 item.rod_uranium_fuel_depleted.name=Топливный стержень с обеднённым ураном
 item.rod_dual_uranium_fuel_depleted.name=Сдвоенный топливный стержень с обеднённым ураном
@@ -2038,9 +2077,11 @@ item.rbmk_fuel_po210be.name=Полоний-210-Бериллевый источн
 item.rbmk_fuel_pu238be.name=Плутоний-238-Бериллевый источник нейтронов РБМК
 item.rbmk_fuel_thmeu.name=Ториево-урановый среднеобогащённый топливный стержень РБМК
 item.rbmk_fuel_balefire.name=Жар-топливный стержень РБМК
+item.rbmk_fuel_balefire_gold.name=Флэшголд-топливный стержень РБМК
 item.rbmk_fuel_drx.name=§cДигамма топливный стержень РБМК§r
 item.rbmk_fuel_heaus.name=Высокообогащенный австралиевый топливный стержень РБМК
 item.rbmk_fuel_leaus.name=Низкообогащенный австралиевый топливный стержень РБМК
+item.rbmk_fuel_ueu.name=Урановый топливный стержень РБМК
 item.rbmk_lid.name=Покрывающая панель РБМК
 
 item.rod_water.name=Стержень с водой
@@ -2322,7 +2363,6 @@ item.ammo_fuel_gas.name=Бак с газом
 item.ammo_dart.name=Пластиковый дротик (Иссущающий)
 item.ammo_dart_nerf.name=Дротик NERF
 item.ammo_dgk.name=Лента на 200 патронов для CIWS "Говард"
-
 item.folly_shell.name=Оболочка серебряной пули
 item.folly_bullet.name=12.8см Высокоэнергетическая оболочка из звёздного металла
 item.folly_bullet_nuclear.name=12.8см Ядерная оболочка
@@ -2333,12 +2373,16 @@ item.pellet_chlorophyte.name=Хлорофитные гранулы
 item.pellet_mercury.name=Ртутные гранулы
 item.pellet_meteorite.name=Метеоритные гранулы
 item.pellet_claws.name=Острые металлические когти
-
 item.gun_bolter.name=Болтер
 item.gun_bolter_digamma.name=Дигамма пушка
 item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
 item.ammo_75bolt_incendiary.name=Магазин зажигательных болтов .75 (30rnd)
 item.ammo_75bolt_he.name=Магазин фугасных болтов .75 (30rnd)
+
+item.gun_fireext.name=Огнетушитель
+item.ammo_fireext.name=Бак с водой для огнетушителя
+item.ammo_fireext_foam.name=Бак с пеной для огнетушителя
+item.ammo_fireext_sand.name=Бак с песком для огнетушителя
 
 item.cordite.name=Кордит
 item.ballistite.name=Баллистит
@@ -2459,6 +2503,7 @@ entity.entity_ntm_fbi.name=Агент ФБР
 entity.entity_ntm_radiation_blaze.name=Элементаль Расплавления
 entity.hbm.entity_balls_o_tron.name=Баллс-О-Трон Прайм
 entity.hbm.entity_balls_o_tron_seg.name=Баллс-О-Трон Сегмент
+entity.entity_ntm_ufo.name=Марсианский корабль вторжения
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
@@ -2811,6 +2856,7 @@ item.hev_plate.name=Нагрудник H.E.V Модели IV
 item.hev_helmet.name=Шлем H.E.V Модели IV
 item.hev_legs.name=Поножи H.E.V Модели IV
 item.hev_battery.name=Батарея костюма
+tile.hev_battery.name=Батарея костюма
 
 tile.mush.name=Светящийся гриб
 tile.waste_mycelium.name=Светящийся мицелий
@@ -3311,6 +3357,8 @@ item.crystal_charred.name=Обугленный кристалл
 item.ingot_lanthanium.name=Полустабильный слиток лантана
 item.ingot_actinium.name=Полустабильный слиток актиния
 
+tile.block_foam.name=Пена
+tile.foam_layer.name=Слой пены
 tile.dummy_block.name=Блок-пустышка
 tile.dummy_port.name=Блок-пустышка (Розетка)
 
