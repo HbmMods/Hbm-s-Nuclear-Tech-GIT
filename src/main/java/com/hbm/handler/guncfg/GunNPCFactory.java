@@ -4,14 +4,18 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -232,6 +236,7 @@ public class GunNPCFactory {
 		
 		bullet.vPFX = "reddust";
 		bullet.destroysBlocks = false;
+		bullet.explosive = 0F;
 		
 		bullet.bUpdate = new IBulletUpdateBehavior() {
 			
@@ -253,7 +258,7 @@ public class GunNPCFactory {
 				if(target != null) {
 					
 					if(bullet.getDistanceSqToEntity(target) < 5) {
-						bullet.worldObj.newExplosion(bullet.shooter, bullet.posX, bullet.posY, bullet.posZ, 4F, true, false);
+						bullet.getConfig().bImpact.behaveBlockHit(bullet, -1, -1, -1);
 						bullet.setDead();
 						return;
 					}
@@ -303,6 +308,30 @@ public class GunNPCFactory {
 				
 				if(target != null) {
 					bullet.getEntityData().setInteger("homingTarget", target.getEntityId());
+				}
+			}
+		};
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+
+				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F + bullet.worldObj.rand.nextFloat() * 0.2F);
+				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "fireworks.blast", 5.0F, 0.5F);
+				ExplosionNukeGeneric.dealDamage(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 10, 50);
+				
+				for(int i = 0; i < 3; i++) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "plasmablast");
+					data.setFloat("r", 0.0F);
+					data.setFloat("g", 0.75F);
+					data.setFloat("b", 1.0F);
+					data.setFloat("pitch", -30F + 30F * i);
+					data.setFloat("yaw", bullet.worldObj.rand.nextFloat() * 180F);
+					data.setFloat("scale", 5F);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ),
+							new TargetPoint(bullet.worldObj.provider.dimensionId, bullet.posX, bullet.posY, bullet.posZ, 100));
 				}
 			}
 		};

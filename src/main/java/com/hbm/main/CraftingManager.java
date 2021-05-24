@@ -698,8 +698,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_lunar, 1), new Object[] { "NPN", "PIP", "NPN", 'N', ModItems.wire_magnetized_tungsten, 'P', "plateDenseLead", 'I', ModItems.ingot_starmetal }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_fau, 1), new Object[] { "MDM", "DYD", "MDM", 'M', ModItems.ingot_meteorite_forged, 'D', "ingotDesh", 'Y', ModItems.billet_yharonite }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_dnt, 1), new Object[] { "FDF", "DSD", "FDF", 'F', ModItems.plate_armor_fau, 'D', ModItems.plate_dineutronium, 'S', ModItems.particle_sparkticle }));
-		
+
 		GameRegistry.addRecipe(new ItemStack(ModItems.mech_key, 1), new Object[] { "MCM", "MKM", "MMM", 'M', ModItems.ingot_meteorite_forged, 'C', ModItems.coin_maskman, 'K', ModItems.key });
+		GameRegistry.addRecipe(new ItemStack(ModItems.spawn_ufo, 1), new Object[] { "MMM", "DCD", "MMM", 'M', ModItems.ingot_meteorite, 'D', ModItems.ingot_dineutronium, 'C', ModItems.coin_worm });
 
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.hadron_coil_alloy, 1), new Object[] { "WWW", "WCW", "WWW", 'W', ModItems.wire_advanced_alloy, 'C', ModBlocks.fusion_conductor });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.hadron_coil_gold, 1), new Object[] { "GGG", "GCG", "GGG", 'G', ModItems.coil_gold, 'C', ModBlocks.hadron_coil_alloy });

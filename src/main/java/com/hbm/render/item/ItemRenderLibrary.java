@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.tileentity.RenderDemonLamp;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -936,6 +937,18 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.rbmk_console_tex);
 				ResourceManager.rbmk_console.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.lamp_demon), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(8, 8, 8);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(RenderDemonLamp.tex);
+				RenderDemonLamp.demon_lamp.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 	}

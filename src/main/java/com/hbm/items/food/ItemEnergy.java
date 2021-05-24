@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
@@ -147,6 +148,16 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
 			}
+			if(this == ModItems.coffee) {
+				player.heal(10);
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+			}
+			if(this == ModItems.coffee_radium) {
+				player.heal(10);
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+				HbmLivingProps.incrementRadiation(player, 500F);
+				player.triggerAchievement(MainRegistry.achRadium);
+			}
 		}
 
 		if(!player.capabilities.isCreativeMode && this != ModItems.chocolate_milk) {
@@ -247,7 +258,10 @@ public class ItemEnergy extends Item {
 		if(VersatileConfig.hasPotionSickness(p_77659_3_))
 			return p_77659_1_;
 
-		if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk || this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen))
+		if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge ||
+				this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk ||
+				this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen ||
+				this == ModItems.coffee || this == ModItems.coffee_radium))
 			if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 

@@ -6,7 +6,9 @@ import java.util.List;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ContaminationUtil;
@@ -15,6 +17,8 @@ import com.hbm.util.ContaminationUtil.HazardType;
 
 import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +27,9 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
@@ -50,6 +56,11 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		this.ignoreFrustumCheck = true;
 		this.deathTime = -30;
 	}
+
+	@Override
+	protected boolean canDespawn() {
+		return false;
+	}
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -60,7 +71,7 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		boolean hit = super.attackEntityFrom(source, amount);
 		
 		if(hit)
-			hurtCooldown = 8;
+			hurtCooldown = 5;
 		
 		return hit;
 	}
@@ -97,9 +108,10 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 			this.target = null;
 		}
 		
-		if(this.target == null && this.scanCooldown <= 0) {
+		if(this.scanCooldown <= 0) {
 			List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, this.boundingBox.expand(100, 50, 100));
 			this.secondaries.clear();
+			this.target = null;
 			
 			for(Entity entity : entities) {
 				
@@ -107,6 +119,12 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 					continue;
 				
 				if(entity instanceof EntityPlayer) {
+					
+					if(((EntityPlayer)entity).capabilities.isCreativeMode)
+						continue;
+					
+					if(((EntityPlayer)entity).isPotionActive(Potion.invisibility.id))
+						continue;
 					
 					if(this.target == null) {
 						this.target = entity;
@@ -117,10 +135,13 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 					}
 				}
 				
-				if(entity instanceof EntityLivingBase && this.getDistanceSqToEntity(entity) < 50 * 50 && this.canEntityBeSeen(entity) && entity != this.target) {
+				if(entity instanceof EntityLivingBase && this.getDistanceSqToEntity(entity) < 100 * 100 && this.canEntityBeSeen(entity) && entity != this.target) {
 					this.secondaries.add(entity);
 				}
 			}
+			
+			if(this.target == null && !this.secondaries.isEmpty())
+				this.target = this.secondaries.get(rand.nextInt(this.secondaries.size()));
 			
 			this.scanCooldown = 50;
 		}
@@ -149,15 +170,19 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 				this.setBeam(false);
 			}
 
-			double dist = Math.abs(this.target.posX - this.posX) + Math.abs(this.target.posZ - this.posZ);
-			if(dist < 25)
-				this.beamTimer = 30;
+			if(this.target != null) {
+				double dist = Math.abs(this.target.posX - this.posX) + Math.abs(this.target.posZ - this.posZ);
+				if(dist < 25)
+					this.beamTimer = 30;
+			}
 			
 			if(beamTimer > 0) {
 				this.beamTimer--;
 				
-				if(!this.getBeam())
+				if(!this.getBeam()) {
+					worldObj.playSoundAtEntity(this, "hbm:entity.ufoBeam", 10.0F, 1.0F);
 					this.setBeam(true);
+				}
 
 				int ix = (int)Math.floor(this.posX);
 				int iz = (int)Math.floor(this.posZ);
@@ -186,8 +211,8 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 					
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "ufo");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, iy + 0.5, posZ),  new TargetPoint(dimension, posX, iy + 0.5, posZ, 50));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX + this.motionX * 0.5, iy + 0.5, posZ + this.motionZ * 0.5),  new TargetPoint(dimension, posX + this.motionX * 0.5, iy + 0.5, posZ + this.motionZ * 0.5, 50));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, iy + 0.5, posZ),  new TargetPoint(dimension, posX, iy + 0.5, posZ, 150));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX + this.motionX * 0.5, iy + 0.5, posZ + this.motionZ * 0.5),  new TargetPoint(dimension, posX + this.motionX * 0.5, iy + 0.5, posZ + this.motionZ * 0.5, 150));
 				}
 			}
 			
@@ -197,7 +222,12 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 					
 					if(!this.secondaries.isEmpty()){
 						Entity e = this.secondaries.get(rand.nextInt(this.secondaries.size()));
-						laserAttack(e);
+						
+						if(!e.isEntityAlive())
+							this.secondaries.remove(e);
+						else
+							laserAttack(e);
+						
 					} else if(this.target != null) {
 						laserAttack(this.target);
 					}
@@ -213,7 +243,12 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 					
 					if(!this.secondaries.isEmpty()){
 						Entity e = this.secondaries.get(rand.nextInt(this.secondaries.size()));
-						rocketAttack(e);
+						
+						if(!e.isEntityAlive())
+							this.secondaries.remove(e);
+						else
+							rocketAttack(e);
+						
 					} else if(this.target != null) {
 						rocketAttack(this.target);
 					}
@@ -238,7 +273,7 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 			double deltaZ = this.getZ() - this.posZ;
 			Vec3 delta = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
 			double len = delta.lengthVector();
-			double speed = 5D;
+			double speed = this.target instanceof EntityPlayer ? 5D : 2D;
 			
 			if(len > 5) {
 				if(isCourseTraversable(this.getX(), this.getY(), this.getZ(), len)) {
@@ -259,9 +294,20 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		
 		this.motionY -= 0.05D;
 		
+		if(this.deathTime == -10) {
+			worldObj.playSoundAtEntity(this, "hbm:entity.chopperDamage", 10.0F, 1.0F);
+		}
+		
 		if(this.deathTime == 19 && !worldObj.isRemote) {
 			worldObj.newExplosion(this, posX, posY, posZ, 10F, true, true);
 			ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, ExplosionNukeSmall.medium);
+			
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
+
+			for(EntityPlayer player : players) {
+				player.triggerAchievement(MainRegistry.bossUFO);
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_ufo));
+			}
 		}
 		
 		super.onDeathUpdate();
@@ -383,5 +429,11 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 
 	public int getZ() {
 		return this.dataWatcher.getWatchableObjectInt(19);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 500000;
 	}
 }

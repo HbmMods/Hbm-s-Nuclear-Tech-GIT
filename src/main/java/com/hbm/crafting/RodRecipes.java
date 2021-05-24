@@ -158,6 +158,7 @@ public class RodRecipes {
 		RecipesCommon.addQuadRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_quad_schrabidium_fuel);
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', "ingotZirconium", 'R', ModItems.rod_quad_empty }));
+		RecipesCommon.addRBMKRod(ModItems.billet_uranium, ModItems.rbmk_fuel_ueu);
 		RecipesCommon.addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
 		RecipesCommon.addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
 		RecipesCommon.addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);

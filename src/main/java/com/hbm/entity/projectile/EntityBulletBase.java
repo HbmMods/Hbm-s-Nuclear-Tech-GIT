@@ -47,6 +47,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	private BulletConfiguration config;
 	public EntityLivingBase shooter;
 	public float overrideDamage;
+	
+	public BulletConfiguration getConfig() {
+		return config;
+	}
 
 	public EntityBulletBase(World world) {
 		super(world);

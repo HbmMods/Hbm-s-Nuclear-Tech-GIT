@@ -23,7 +23,7 @@ public class RBMKDials {
 		if(!rules.getGameRuleBooleanValue(KEY_SAVE_DIALS)) {
 			rules.setOrCreateGameRule(KEY_PASSIVE_COOLING, "1.0");
 			rules.setOrCreateGameRule(KEY_COLUMN_HEAT_FLOW, "0.2");
-			rules.setOrCreateGameRule(KEY_FUEL_DIFFUSION_MOD, "0.02");
+			rules.setOrCreateGameRule(KEY_FUEL_DIFFUSION_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_HEAT_PROVISION, "0.2");
 			rules.setOrCreateGameRule(KEY_COLUMN_HEIGHT, "4");
 			rules.setOrCreateGameRule(KEY_PERMANENT_SCRAP, "false");

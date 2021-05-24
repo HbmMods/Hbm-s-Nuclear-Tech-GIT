@@ -110,8 +110,11 @@ public class ItemChopper extends Item {
 		if(this == ModItems.spawn_worm)
 			entity = new EntityBOTPrimeHead(world);
 		
-		if(this == ModItems.spawn_ufo)
+		if(this == ModItems.spawn_ufo) {
 			entity = new EntityUFO(world);
+			((EntityUFO)entity).scanCooldown = 100;
+			y += 35;
+		}
 		
 		if(entity != null) {
 

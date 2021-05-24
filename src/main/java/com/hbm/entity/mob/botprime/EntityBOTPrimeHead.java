@@ -140,7 +140,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
 
 		for(EntityPlayer player : players) {
-			player.triggerAchievement(MainRegistry.bossMaskman);
+			player.triggerAchievement(MainRegistry.bossWorm);
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_worm));
 		}
 	}

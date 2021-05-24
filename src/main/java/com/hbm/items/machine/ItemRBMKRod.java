@@ -31,7 +31,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	public double heat = 1D;				//heat produced per outFlux
 	public double yield;					//total potential inFlux the rod can take in its lifetime
 	public double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
-	public double diffusion = 1D;			//the speed at which the core heats the hull
+	public double diffusion = 0.02D;		//the speed at which the core heats the hull
 	public NType nType = NType.SLOW;		//neutronType, the most efficient neutron type for fission
 	public NType rType = NType.FAST;		//releaseType, the type of neutrons released by this fuel
 	
@@ -85,6 +85,16 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		return this;
 	}
 
+	public ItemRBMKRod setHeat(double heat) {
+		this.heat = heat;
+		return this;
+	}
+
+	public ItemRBMKRod setDiffusion(double diffusion) {
+		this.diffusion = diffusion;
+		return this;
+	}
+
 	public ItemRBMKRod setMeltingPoint(double meltingPoint) {
 		this.meltingPoint = meltingPoint;
 		return this;
@@ -133,14 +143,6 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		double coreHeat = this.getCoreHeat(stack);
 		coreHeat += outFlux * heat;
 		this.setCoreHeat(stack, coreHeat);
-
-		/*System.out.println("=== FUEL SUMMARY REPORT ===");
-		System.out.println("I AM " + this.getUnlocalizedName());
-		System.out.println("I RECEIVE " + inFlux);
-		System.out.println("I HAVE " + xenon);
-		System.out.println("I CREATE " + outFlux);
-		System.out.println("I YIELD " + y);
-		System.out.println("=== END OF REPORT ===");*/
 		
 		return outFlux;
 	}
@@ -205,6 +207,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	 */
 	public double reactivityFunc(double flux) {
 		return Math.log10(flux + 1) * funcEnd * 0.1D;
+		//TODO: alternate functions for NU and THMEU, peaking at 25%
 	}
 	
 	/**

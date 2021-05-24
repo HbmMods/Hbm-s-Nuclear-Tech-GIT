@@ -37,7 +37,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
 		public RecipeSet(Object input, SILEXRecipe recipe) {
 			
-			this.input = new PositionedStack(input, 30, 24);
+			this.input = new PositionedStack(input, 12, 24);
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
 			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
@@ -48,13 +48,25 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				weight += obj.itemWeight;
 			}
 			
-			int off = 0;
+			int sep = outputs.size() > 3 ? 3 : 2;
 			
-			for(WeightedRandomObject obj : recipe.outputs) {
-				outputs.add(new PositionedStack(obj.asStack(), 93, 24 + off - 9 * ((recipe.outputs.size() + 1) / 2)));
+			for(int i = 0; i < recipe.outputs.size(); i++) {
+				
+				WeightedRandomObject obj = recipe.outputs.get(i);
+				
+				if(i < sep) {
+					outputs.add(new PositionedStack(obj.asStack(), 68, 24 + i * 18 - 9 * ((Math.min(recipe.outputs.size(), sep) + 1) / 2)));
+				} else {
+					outputs.add(new PositionedStack(obj.asStack(), 116, 24 + (i - sep) * 18 - 9 * ((Math.min(recipe.outputs.size() - sep, sep)) / 2)));
+				}
+				
 				chances.add(100 * obj.itemWeight / weight);
-				off += 18;
 			}
+			
+			/*for(WeightedRandomObject obj : recipe.outputs) {
+				outputs.add(new PositionedStack(obj.asStack(), 65, 24 + off - 9 * ((recipe.outputs.size()) / 2) + 1));
+				off += 18;
+			}*/
 		}
 
 		@Override
@@ -149,7 +161,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-		transferRects.add(new RecipeTransferRect(new Rectangle(60, 34 - 11, 24, 18), "silex"));
+		transferRects.add(new RecipeTransferRect(new Rectangle(42, 34 - 11, 24, 18), "silex"));
 		transferRectsGui.add(new RecipeTransferRect(new Rectangle(39, 60, 60, 50), "silex"));
 		guiGui.add(GUISILEX.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
@@ -163,14 +175,23 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-		int index = 0;
+		/*int index = 0;
 		for(Double chance : rec.chances) {
-			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 112, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
+			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 84, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
 			index++;
+		}*/
+		
+		for(int i = 0; i < rec.chances.size(); i++) {
+			
+			double chance = rec.chances.get(i);
+			
+			PositionedStack sta = rec.outputs.get(i);
+			
+			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", sta.relx + 18, sta.rely + 4, 0x404040);
 		}
 		
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
-		fontRenderer.drawString(am, 70 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
+		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
 	}
 
 	@Override

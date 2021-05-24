@@ -21,6 +21,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
 	//AT209		             5h		α	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
+	//RA226		         1,600a		α	010.00Rad/s
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
@@ -37,6 +38,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float au198 = 500.0F;
 	public static final float at209 = 2000.0F;
 	public static final float po210 = 75.0F;
+	public static final float ra226 = 10.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
 	public static final float u = 0.35F;

@@ -60,7 +60,8 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
 				);
-		
+
+		itemTranslation.put(new ComparableStack(ModItems.powder_lapis), new ComparableStack(Items.dye, 1, 4));
 		recipes.put(new ComparableStack(Items.dye, 1, 4), new SILEXRecipe(100, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.sulfur), 4))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium), 3))
@@ -77,15 +78,22 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 8 - 2 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 1 + 2 * i)) );
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_fuel_balefire_gold, 1, i), new SILEXRecipe(600, 100)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire_gold, 1, i), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 9 - 2 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_balefire), 1 + 2 * i)) );
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_fuel_balefire_gold, 1, i + 5), new SILEXRecipe(600, 100)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire_gold, 1, i + 5), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 8 - 2 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_balefire), 1 + 2 * i)) );
 		}
+		
+		recipes.put(new ComparableStack(ModItems.fallout, 1), new SILEXRecipe(100, 100)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust), 90))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_co60), 6))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 1))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_ra226), 3))
+				);
 	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {

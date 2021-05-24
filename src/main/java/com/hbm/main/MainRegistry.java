@@ -180,6 +180,7 @@ public class MainRegistry {
 	public static Achievement achStratum;
 	public static Achievement achMeltdown;
 	public static Achievement achOmega12;
+	public static Achievement achRadium;
 	public static Achievement bobMetalworks;
 	public static Achievement bobAssembly;
 	public static Achievement bobChemistry;
@@ -193,6 +194,7 @@ public class MainRegistry {
 	public static Achievement bossMeltdown;
 	public static Achievement bossMaskman;
 	public static Achievement bossWorm;
+	public static Achievement bossUFO;
 	public static Achievement digammaSee;
 	public static Achievement digammaFeel;
 	public static Achievement digammaKnow;
@@ -463,6 +465,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityTurretHoward.class, "tileentity_turret_howard");
 		GameRegistry.registerTileEntity(TileEntitySILEX.class, "tileentity_silex");
 		GameRegistry.registerTileEntity(TileEntityFEL.class, "tileentity_fel");
+		GameRegistry.registerTileEntity(TileEntityDemonLamp.class, "tileentity_demonlamp");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKControlManual.class, "tileentity_rbmk_control");
@@ -626,6 +629,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 152, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityBlockSpider.class, "entity_taintcrawler", 153, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityRBMKDebris.class, "entity_rbmk_debris", 154, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityUFO.class, "entity_ntm_ufo", 155, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -638,7 +642,6 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityQuackos.class, "entity_elder_one", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
 		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
-		EntityRegistry.registerGlobalEntityID(EntityUFO.class, "entity_ntm_ufo", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x2D722D);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
@@ -926,6 +929,7 @@ public class MainRegistry {
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 		achMeltdown = new Achievement("achievement.meltdown", "meltdown", -4, 0, new ItemStack(ModBlocks.iter), null).initIndependentStat().setSpecial().registerStat();
 		achOmega12 = new Achievement("achievement.omega12", "omega12", -4, 2, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
+		achRadium = new Achievement("achievement.radium", "radium", 0, 2, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
 
 		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 2, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
 		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 2, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
@@ -942,6 +946,7 @@ public class MainRegistry {
 		bossMeltdown = new Achievement("achievement.bossMeltdown", "bossMeltdown", 9, -1, ModItems.coin_radiation, bossCreeper).initIndependentStat().registerStat();
 		bossMaskman = new Achievement("achievement.bossMaskman", "bossMaskman", 9, 1, ModItems.coin_maskman, bossCreeper).initIndependentStat().registerStat();
 		bossWorm = new Achievement("achievement.bossWorm", "bossWorm", 11, 1, ModItems.coin_worm, bossMaskman).initIndependentStat().registerStat().setSpecial();
+		bossUFO = new Achievement("achievement.bossUFO", "bossUFO", 13, 1, ModItems.coin_ufo, bossWorm).initIndependentStat().registerStat().setSpecial();
 
 		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
 		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
@@ -969,6 +974,7 @@ public class MainRegistry {
 				achStratum,
 				achMeltdown,
 				achOmega12,
+				achRadium,
 				bobMetalworks,
 				bobAssembly,
 				bobChemistry,
@@ -984,6 +990,7 @@ public class MainRegistry {
 				bossMeltdown,
 				bossMaskman,
 				bossWorm,
+				bossUFO,
 				digammaSee,
 				digammaFeel,
 				digammaKnow,
