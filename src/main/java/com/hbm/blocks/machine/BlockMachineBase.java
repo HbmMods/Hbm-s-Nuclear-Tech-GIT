@@ -21,7 +21,7 @@ public abstract class BlockMachineBase extends BlockContainer {
 	int guiID = -1;
 	protected boolean rotatable = false;
 
-	protected BlockMachineBase(Material mat, int guiID) {
+	public BlockMachineBase(Material mat, int guiID) {
 		super(mat);
 		this.guiID = guiID;
 	}

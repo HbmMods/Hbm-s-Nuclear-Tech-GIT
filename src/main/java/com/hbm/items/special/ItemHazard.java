@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//CO60		             5a		α	030.00Rad/s	Spicy
+	//TC99		       211,000a		α	002.75Rad/s	Spicy
 	//I181		           192h		α	150.00Rad/s	2 much spice :(
 	//XE135		             9h		α	aaaaaaaaaaaaaaaa
 	//CS137		            30a		α	020.00Rad/s	Spicy
@@ -32,6 +33,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//PU240		         6,600a		α	007.50Rad/s
 
 	public static final float co60 = 30.0F;
+	public static final float tc99 = 2.75F;
 	public static final float i131 = 150.0F;
 	public static final float xe135 = 1250.0F;
 	public static final float cs137 = 20.0F;
