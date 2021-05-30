@@ -79,8 +79,12 @@ achievement.digammaSee.desc=в бездну.
 achievement.digammaSee=Страх видения
 achievement.digammaKauaiMoho.desc=Все ужасно, вот тебе горячий шоколад.
 achievement.digammaKauaiMoho=Пой, пой мне песню Кауаи Мохо.
-achievement.diigammaUpOnTop.desc=Дредноут, обшитый железом.
-achievement.diigammaUpOnTop=На самом верху
+achievement.digammaUpOnTop.desc=Я делаю то, что хочу, но безответственно.
+achievement.digammaUpOnTop=Восхищайся мной, Любуйся моим домом
+achievement.bossUFO.desc=Эй, что у нас тут? Огромный космический корабль, приближающийся к блок-кораблю?
+achievement.bossUFO=Ayy Lmao
+achievement.radium.desc=ТЫ УВОЛЕН ЗА ТО, ЧТО ПОДСЫПАЛ РАДИЙ В МОЙ КОФЕ!
+achievement.radium=МИСТЕР НЕВЕРОЯТНЫЙ
 
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
@@ -922,6 +926,8 @@ tile.machine_rtg_purple.name=Генератор аннигиляции анти�
 
 tile.machine_waste_drum.name=Бочка с отработанным топливом
 container.wasteDrum=Бочка с отработанным топливом
+container.storageDrum=Бочка для захоронения ядерных отходов
+tile.machine_storage_drum.name=Бочка для захоронения ядерных отходов
 
 tile.machine_spp_bottom.name=Генератор потенциала ZPE (низ)
 tile.machine_spp_top.name=Генератор потенциала ZPE (верх)
@@ -1141,6 +1147,8 @@ item.nugget_pu239.name=Самородок плутония-239
 item.nugget_pu240.name=Самородок плутония-240
 item.nugget_au198.name=Самородок золота-198
 item.nugget_co60.name=Самородок кобальта-60
+item.nugget_ra226.name=Самородок радия-226
+item.nugget_technetium.name=Самородок технеция-99
 
 item.plate_titanium.name=Титановая пластина
 item.plate_aluminium.name=Алюминиевая пластина
@@ -1414,6 +1422,7 @@ tile.lamp_tritium_blue_off.name=Синяя тритиевая лампа
 tile.lamp_tritium_blue_on.name=Синяя тритиевая лампа
 tile.lamp_tritium_green_off.name=Зелёная тритиевая лампа
 tile.lamp_tritium_green_on.name=Зелёная тритиевая лампа
+tile.lamp_demon.name=Лампа из заряда-демона
 tile.reinforced_stone.name=Уплотненный камень
 tile.concrete_smooth.name=Бетон
 tile.concrete_colored.black.name=Черный бетон
@@ -2482,6 +2491,7 @@ item.coin_maskman.name=Монета Маскмена
 item.coin_creeper.name=Монета Ядерного крипера
 item.coin_radiation.name=Монета Радиации
 item.coin_worm.name=Монета Баллс-О-Трон
+item.coin_ufo.name=Монета НЛО
 item.ink.name=林 чернила
 item.medal_liquidator.name=Медаль Ликвидатора
 item.stealth_boy.name=Стелс-Бой
@@ -2503,7 +2513,7 @@ entity.entity_ntm_fbi.name=Агент ФБР
 entity.entity_ntm_radiation_blaze.name=Элементаль Расплавления
 entity.hbm.entity_balls_o_tron.name=Баллс-О-Трон Прайм
 entity.hbm.entity_balls_o_tron_seg.name=Баллс-О-Трон Сегмент
-entity.entity_ntm_ufo.name=Марсианский корабль вторжения
+entity.hbm.entity_ntm_ufo.name=Марсианский корабль вторжения
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
@@ -3182,6 +3192,8 @@ item.can_key.name=Винтовой ключ
 item.nugget.name=Куриный наггетс
 item.marshmallow.name=Зефир на палочке
 item.cheese.name=Сыр
+item.coffee.name=Кофе
+item.coffee_radium.name=Кофе с радием
 
 item.canteen_13.name=Фляжка Убежища 13
 item.canteen_vodka.name=Стильная фляга
@@ -3347,11 +3359,9 @@ item.book_secret.name=3-596-50802-9
 item.book_of_.name=Книга Вагонов
 item.book_guide.name=Руководство
 item.burnt_bark.name=Обожженная кора
-
 item.loot_10.name=Ящик с запчастями от Ракеты 10-го размера
 item.loot_15.name=Ящик с запчастями от Ракеты 15-го размера
 item.loot_misc.name=Общий ящик с запчастями от Ракеты
-
 item.crystal_horn.name=Кристалльный рог
 item.crystal_charred.name=Обугленный кристалл
 item.ingot_lanthanium.name=Полустабильный слиток лантана
@@ -3364,20 +3374,18 @@ tile.dummy_port.name=Блок-пустышка (Розетка)
 
 item.chopper.name=Вертолёт-охотник
 item.spawn_worm.name=Баллс-О-Трон Прайм
+item.spawn_ufo.name=Марсианский корабль вторжения
 
+item.undefined.name=Undefined
 item.nothing.name=Ничего
-
 tile.crystal_virus.name=Тёмный кристалл
 tile.crystal_hardened.name=Закаленный темный кристалл
 tile.crystal_pulsar.name=Пульсирующий кристалл
-
 tile.taint.name=Порча
 tile.residue.name=Облачный осадок
 item.powder_cloud.name=Облачный осадок
-
 tile.cheater_virus.name=Охлаждённый Эвфемий
 tile.cheater_virus_seed.name=Нестабильный блок шрабидата эвфемия
-
 item.mysteryshovel.name=Непрочная лопата
 tile.ntm_dirt.name=Грязь
 item.beta.name=БЕТА-ФУНКЦИИ
