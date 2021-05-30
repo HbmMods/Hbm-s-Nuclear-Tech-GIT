@@ -24,6 +24,10 @@ public class RecipesCommon {
 		add1To9(new ItemStack(one), new ItemStack(nine, 9));
 	}
 
+	public static void add1To9SameMeta(Item one, Item nine, int meta) {
+		add1To9(new ItemStack(one, 1, meta), new ItemStack(nine, 9, meta));
+	}
+
 	public static void add1To9(ItemStack one, ItemStack nine) {
 		GameRegistry.addRecipe(nine, new Object[] { "#", '#', one });
 	}
@@ -35,6 +39,10 @@ public class RecipesCommon {
 
 	public static void add9To1(Item nine, Item one) {
 		add9To1(new ItemStack(nine), new ItemStack(one));
+	}
+
+	public static void add9To1SameMeta(Item nine, Item one, int meta) {
+		add9To1(new ItemStack(nine, 1, meta), new ItemStack(one, 1, meta));
 	}
 
 	public static void add9To1(ItemStack nine, ItemStack one) {

@@ -29,6 +29,8 @@ public class GeneralConfig {
 	public static boolean enableCrosshairs = true;
 	public static boolean enableBabyMode = false;
 	
+	public static boolean enable528 = false;
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_GENERAL = "01_general";
@@ -56,5 +58,10 @@ public class GeneralConfig {
 		enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false).getBoolean(false);
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true).getBoolean(true);
 		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
+
+		final String CATEGORY_528 = "528";
+		enable528 = config.get(CATEGORY_528, "enable528Mode", false).getBoolean(false);
+		
+		if(enable528) enableBabyMode = false;
 	}
 }

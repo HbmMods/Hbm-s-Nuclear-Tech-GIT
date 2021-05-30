@@ -2,6 +2,8 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemWasteLong;
+import com.hbm.items.special.ItemWasteShort;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
@@ -52,14 +54,19 @@ public class MineralRecipes {
 		RecipesCommon.add9To1(ModItems.powder_xe135_tiny, ModItems.powder_xe135);
 		RecipesCommon.add1To9(ModItems.powder_xe135, ModItems.powder_xe135_tiny);
 
-		RecipesCommon.add9To1(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long);
-		RecipesCommon.add1To9(ModItems.nuclear_waste_long, ModItems.nuclear_waste_long_tiny);
-		RecipesCommon.add9To1(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted);
-		RecipesCommon.add1To9(ModItems.nuclear_waste_long_depleted, ModItems.nuclear_waste_long_depleted_tiny);
-		RecipesCommon.add9To1(ModItems.nuclear_waste_short_tiny, ModItems.nuclear_waste_short);
-		RecipesCommon.add1To9(ModItems.nuclear_waste_short, ModItems.nuclear_waste_short_tiny);
-		RecipesCommon.add9To1(ModItems.nuclear_waste_short_depleted_tiny, ModItems.nuclear_waste_short_depleted);
-		RecipesCommon.add1To9(ModItems.nuclear_waste_short_depleted, ModItems.nuclear_waste_short_depleted_tiny);
+		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
+			RecipesCommon.add9To1SameMeta(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long, i);
+			RecipesCommon.add1To9SameMeta(ModItems.nuclear_waste_long, ModItems.nuclear_waste_long_tiny, i);
+			RecipesCommon.add9To1SameMeta(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted, i);
+			RecipesCommon.add1To9SameMeta(ModItems.nuclear_waste_long_depleted, ModItems.nuclear_waste_long_depleted_tiny, i);
+		}
+
+		for(int i = 0; i < ItemWasteShort.WasteClass.values().length; i++) {
+			RecipesCommon.add9To1SameMeta(ModItems.nuclear_waste_short_tiny, ModItems.nuclear_waste_short, i);
+			RecipesCommon.add1To9SameMeta(ModItems.nuclear_waste_short, ModItems.nuclear_waste_short_tiny, i);
+			RecipesCommon.add9To1SameMeta(ModItems.nuclear_waste_short_depleted_tiny, ModItems.nuclear_waste_short_depleted, i);
+			RecipesCommon.add1To9SameMeta(ModItems.nuclear_waste_short_depleted, ModItems.nuclear_waste_short_depleted_tiny, i);
+		}
 		
 		RecipesCommon.add9To1(ModItems.fallout, ModBlocks.block_fallout);
 		RecipesCommon.add1To9(ModBlocks.block_fallout, ModItems.fallout);

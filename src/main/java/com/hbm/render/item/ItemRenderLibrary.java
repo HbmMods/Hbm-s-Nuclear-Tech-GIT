@@ -951,6 +951,17 @@ public class ItemRenderLibrary {
 				RenderDemonLamp.demon_lamp.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_storage_drum), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glScaled(2, 2, 2);
+				bindTexture(ResourceManager.waste_drum_tex);
+				ResourceManager.waste_drum.renderAll();
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

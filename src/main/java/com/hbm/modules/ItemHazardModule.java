@@ -28,15 +28,15 @@ public class ItemHazardModule {
 	 * -it makes the system truly centralized and I don't have to add new cases to 5 different classes when adding a new hazard
 	 */
 
-	float radiation;
-	float digamma;
-	int fire;
-	boolean blinding;
-	boolean asbestos;
-	boolean hydro;
-	float explosive;
+	public float radiation;
+	public float digamma;
+	public int fire;
+	public boolean blinding;
+	public boolean asbestos;
+	public boolean hydro;
+	public float explosive;
 	
-	float tempMod = 1F;
+	public float tempMod = 1F;
 	
 	public void setMod(float tempMod) {
 		this.tempMod = tempMod;

@@ -41,7 +41,6 @@ public class CraftingManager {
 		ConsumableRecipes.register();
 		PowderRecipes.register();
 		
-
 		GameRegistry.addRecipe(new TestCraftingHandler(new ItemStack(ModItems.lignite), new ItemStack(ModItems.powder_coal, 1)));
 		GameRegistry.addRecipe(new RBMKFuelCraftingHandler());
 	}
@@ -754,6 +753,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.ladder_cobalt, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', "ingotCobalt" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.ladder_steel, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.ladder_tungsten, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', "ingotTungsten" }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_storage_drum), new Object[] { "LLL", "L#L", "LLL", 'L', "plateLead", '#', ModItems.tank_steel }));
 
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.deco_pipe, 6), new Object[] { "PPP", 'P', ModItems.hull_small_steel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.deco_pipe, 1), new Object[] { ModBlocks.deco_pipe_rim });

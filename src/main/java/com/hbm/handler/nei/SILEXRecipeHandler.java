@@ -48,7 +48,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				weight += obj.itemWeight;
 			}
 			
-			int sep = outputs.size() > 3 ? 3 : 2;
+			int sep = recipe.outputs.size() > 4 ? 3 : 2;
 			
 			for(int i = 0; i < recipe.outputs.size(); i++) {
 				
@@ -57,7 +57,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				if(i < sep) {
 					outputs.add(new PositionedStack(obj.asStack(), 68, 24 + i * 18 - 9 * ((Math.min(recipe.outputs.size(), sep) + 1) / 2)));
 				} else {
-					outputs.add(new PositionedStack(obj.asStack(), 116, 24 + (i - sep) * 18 - 9 * ((Math.min(recipe.outputs.size() - sep, sep)) / 2)));
+					outputs.add(new PositionedStack(obj.asStack(), 116, 24 + (i - sep) * 18 - 9 * ((Math.min(recipe.outputs.size() - sep, sep) + 1) / 2)));
 				}
 				
 				chances.add(100 * obj.itemWeight / weight);

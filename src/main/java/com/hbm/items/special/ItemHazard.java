@@ -14,15 +14,15 @@ import net.minecraft.world.World;
 
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
-	//CO60		             5a		α	030.00Rad/s	Spicy
-	//TC99		       211,000a		α	002.75Rad/s	Spicy
-	//I181		           192h		α	150.00Rad/s	2 much spice :(
-	//XE135		             9h		α	aaaaaaaaaaaaaaaa
-	//CS137		            30a		α	020.00Rad/s	Spicy
-	//AU192		            64h		α	500.00Rad/s	2 much spice :(
-	//AT209		             5h		α	like 2k or sth idk bruv
+	//CO60		             5a		β−	030.00Rad/s	Spicy
+	//TC99		       211,000a		β−	002.75Rad/s	Spicy
+	//I181		           192h		β−	150.00Rad/s	2 much spice :(
+	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
+	//CS137		            30a		β−	020.00Rad/s	Spicy
+	//AU192		            64h		β−	500.00Rad/s	2 much spice :(
+	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
-	//RA226		         1,600a		α	010.00Rad/s
+	//RA226		         1,600a		α	007.50Rad/s
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
@@ -31,6 +31,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//PU238		            88a		α	010.00Rad/s	Spicy
 	//PU239		        24,000a		α	005.00Rad/s
 	//PU240		         6,600a		α	007.50Rad/s
+	//PU241		            14a		β−	025.00Rad/s	Spicy
 
 	public static final float co60 = 30.0F;
 	public static final float tc99 = 2.75F;
@@ -40,7 +41,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float au198 = 500.0F;
 	public static final float at209 = 2000.0F;
 	public static final float po210 = 75.0F;
-	public static final float ra226 = 10.0F;
+	public static final float ra226 = 7.5F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
 	public static final float u = 0.35F;
@@ -55,6 +56,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float pu238 = 10.0F;
 	public static final float pu239 = 5.0F;
 	public static final float pu240 = 7.5F;
+	public static final float pu241 = 25.0F;
 	public static final float puf = 4.25F;
 	public static final float mox = 2.5F;
 	public static final float sa326 = 15.0F;

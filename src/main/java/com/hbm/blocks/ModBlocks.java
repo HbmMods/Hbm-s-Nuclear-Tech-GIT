@@ -876,7 +876,7 @@ public class ModBlocks {
 	public static Block machine_waste_drum;
 	public static final int guiID_waste_drum = 79;
 	public static Block machine_storage_drum;
-	public static final int guiID_storage_drum = 79;
+	public static final int guiID_storage_drum = 118;
 
 	public static Block turret_light;
 	public static Block turret_heavy;
