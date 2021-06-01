@@ -49,6 +49,14 @@ public class ItemFluidIcon extends Item {
 		
 		return stack.copy();
 	}
+	
+	public static int getQuantity(ItemStack stack) {
+		
+		if(!stack.hasTagCompound())
+			return 0;
+		
+		return stack.getTagCompound().getInteger("fill");
+	}
 
     public String getItemStackDisplayName(ItemStack stack)
     {

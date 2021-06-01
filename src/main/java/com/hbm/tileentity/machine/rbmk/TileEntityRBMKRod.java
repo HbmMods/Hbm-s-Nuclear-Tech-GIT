@@ -115,8 +115,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				//burn baby burn
 				if(te instanceof TileEntityRBMKRod) {
 					TileEntityRBMKRod rod = (TileEntityRBMKRod)te;
-					rod.receiveFlux(stream, flux);
-					break;
+					
+					if(rod.getStackInSlot(0) != null && rod.getStackInSlot(0).getItem() instanceof ItemRBMKRod) {
+						rod.receiveFlux(stream, flux);
+						break;
+					}
 				}
 				
 				//set neutrons to slow

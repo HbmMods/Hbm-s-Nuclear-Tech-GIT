@@ -217,7 +217,7 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(az5Lid) {
-			drawTexturedModalRect(guiLeft + 30, guiTop + 138, 90, 172, 28, 28);
+			drawTexturedModalRect(guiLeft + 30, guiTop + 138, 110, 172, 28, 28);
 		}
 		
 		int bX = 86;

@@ -2932,6 +2932,7 @@ tile.rbmk_control.name=RBMK Steuerstäbe
 tile.rbmk_control_auto.name=RBMK Automatische Steuerstäbe
 tile.rbmk_loader.name=RBMK-Dampfadapter
 tile.rbmk_moderator.name=RBMK Graphitmoderator
+tile.rbmk_outgasser.name=RBMK Bestrahlungskanal
 tile.rbmk_reflector.name=RBMK Wolframcarbid-Moderator
 tile.rbmk_rod.name=RBMK Brennstäbe
 tile.reactor_computer.name=Reaktorsteuerung

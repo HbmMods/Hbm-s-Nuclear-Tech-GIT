@@ -908,12 +908,14 @@ public class ModBlocks {
 	public static Block rbmk_reflector;
 	public static Block rbmk_absorber;
 	public static Block rbmk_moderator;
+	public static Block rbmk_outgasser;
 	public static Block rbmk_console;
 	public static final int guiID_rbmk_rod = 113;
 	public static final int guiID_rbmk_boiler = 114;
 	public static final int guiID_rbmk_control = 115;
 	public static final int guiID_rbmk_control_auto = 116;
 	public static final int guiID_rbmk_console = 117;
+	public static final int guiID_rbmk_outgasser = 119;
 	public static Block rbmk_loader;
 	public static Block pribris;
 	public static Block pribris_burning;
@@ -1700,6 +1702,7 @@ public class ModBlocks {
 		rbmk_reflector = new RBMKReflector().setBlockName("rbmk_reflector").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_reflector");
 		rbmk_absorber = new RBMKAbsorber().setBlockName("rbmk_absorber").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_absorber");
 		rbmk_moderator = new RBMKModerator().setBlockName("rbmk_moderator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_moderator");
+		rbmk_outgasser = new RBMKOutgasser().setBlockName("rbmk_outgasser").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_outgasser");
 		rbmk_console = new RBMKConsole().setBlockName("rbmk_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_console");
 		rbmk_loader = new BlockGeneric(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		pribris = new RBMKDebris().setBlockName("pribris").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris");
@@ -2419,6 +2422,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_reflector, rbmk_reflector.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_absorber, rbmk_absorber.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_moderator, rbmk_moderator.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_outgasser, rbmk_outgasser.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_loader, rbmk_loader.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris, pribris.getUnlocalizedName());
