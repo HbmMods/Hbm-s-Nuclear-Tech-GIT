@@ -54,7 +54,7 @@ public class RecipesCommon {
 		for(String o : ore)
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', o }));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(nugget, 6), new Object[] { billet });
+		addBillet(billet, nugget);
 	}
 
 	public static void addBillet(Item billet, Item nugget) {

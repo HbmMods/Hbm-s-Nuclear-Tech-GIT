@@ -408,6 +408,13 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Or 'Lanthanum' for stupid people.");
 		}
+		
+		if(this == ModItems.ingot_bismuth)
+		{
+			list.add("\"Bismuth acts as post-RBMK gate, similar to Technetium");
+			list.add("with the difference that Technetium is also available");
+			list.add("from PWRs.\" <- THAT is what I needed to hear.");
+		}
 	}
 
     @Override
@@ -454,7 +461,7 @@ public class ItemCustomLore extends Item {
     		return EnumRarity.uncommon;
     	}
     	
-		return this.rarity != null ? rarity : EnumRarity.common;
+		return this.rarity != null ? rarity : super.getRarity(p_77613_1_);
     }
 
     @Override

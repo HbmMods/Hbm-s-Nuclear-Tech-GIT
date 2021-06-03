@@ -16,6 +16,7 @@ public class RBMKDials {
 	public static final String KEY_CONTROL_SPEED_MOD = "dialControlSpeed";
 	public static final String KEY_REACTIVITY_MOD = "dialReactivityMod";
 	public static final String KEY_SAVE_DIALS = "dialSaveDials";
+	public static final String KEY_OUTGASSER_MOD = "dialOutgasserSpeedMod";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -31,6 +32,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_CONTROL_SPEED_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_REACTIVITY_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_SAVE_DIALS, "true");
+			rules.setOrCreateGameRule(KEY_OUTGASSER_MOD, "1.0");
 		}
 	}
 	
@@ -113,6 +115,15 @@ public class RBMKDials {
 	 */
 	public static double getReactivityMod(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REACTIVITY_MOD), 1.0D), 0.0D);
+	}
+	
+	/**
+	 * A multiplier for how much flux the rods give out.
+	 * @param world
+	 * @return
+	 */
+	public static double getOutgasserMod(World world) {
+		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_OUTGASSER_MOD), 1.0D), 0.0D);
 	}
 	
 	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?

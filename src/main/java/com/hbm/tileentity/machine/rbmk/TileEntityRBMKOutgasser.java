@@ -9,17 +9,12 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.RecipesCommon;
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -48,7 +43,13 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			
 			if(worldObj.getTotalWorldTime() % 10 == 0)
 				fillFluidInit(gas.getTankType());
+			
+			if(!canProcess()) {
+				this.progress = 0;
+			}
 		}
+		
+		super.updateEntity();
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(type == NType.FAST)
 				flux *= 0.2D;
 			
-			progress += flux;
+			progress += flux * RBMKDials.getOutgasserMod(worldObj);
 			
 			if(progress > duration) {
 				process();
@@ -71,6 +72,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	private static HashMap<Object, ItemStack> recipes = new HashMap();
 	
 	static {
+		recipes.put("blockLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.TRITIUM.ordinal()), 10000));
 		recipes.put("ingotLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.TRITIUM.ordinal()), 1000));
 		recipes.put("dustLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.TRITIUM.ordinal()), 1000));
 		recipes.put(new ComparableStack(ModItems.powder_lithium_tiny), ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.TRITIUM.ordinal()), 100));
@@ -123,6 +125,8 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	private void process() {
 		
 		ItemStack output = getOutput(slots[0]);
+		this.decrStackSize(0, 1);
+		this.progress = 0;
 		
 		if(output.getItem() == ModItems.fluid_icon) {
 			gas.setFill(gas.getFill() + ItemFluidIcon.getQuantity(output));
@@ -233,7 +237,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		this.heat = nbt.getDouble("progress");
+		this.progress = nbt.getDouble("progress");
 		this.gas.readFromNBT(nbt, "gas");
 	}
 	

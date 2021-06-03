@@ -121,6 +121,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 						break;
 					}
 				}
+				if(te instanceof IRBMKFluxReceiver) {
+					IRBMKFluxReceiver rod = (IRBMKFluxReceiver)te;
+					rod.receiveFlux(stream, flux);
+					break;
+				}
 				
 				//set neutrons to slow
 				if(te instanceof TileEntityRBMKControl) {

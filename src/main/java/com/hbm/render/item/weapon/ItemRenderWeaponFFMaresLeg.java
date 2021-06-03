@@ -6,11 +6,10 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 	
@@ -46,6 +45,8 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
 		double lever = 0;
 		
@@ -56,9 +57,17 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 			double s0 = 1.25D;
 			GL11.glTranslated(0.75, 0.5, 0);
 			GL11.glScaled(s0, s0, s0);
-			GL11.glRotated(100, 0, -1, 0);
-			GL11.glRotated(-5, 0, 1, 0);
-			GL11.glRotated(20, 1, 0, 0);
+			
+			if(!player.isSneaking()) {
+				GL11.glRotated(100, 0, -1, 0);
+				GL11.glRotated(-5, 0, 1, 0);
+				GL11.glRotated(20, 1, 0, 0);
+			} else {
+				GL11.glRotated(97.5, 0, -1, 0);
+				GL11.glTranslated(-0.71, 0.375, 0);
+				GL11.glRotated(25, 1, 0, 0);
+				GL11.glRotated(1, 0, 1, 0);
+			}
 
 			double[] recoil = HbmAnimations.getRelevantTransformation("LEVER_RECOIL");
 			GL11.glTranslated(0, 0, recoil[0] * 0.5);

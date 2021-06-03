@@ -268,6 +268,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_titanium, 2), 8),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_tungsten, 2), 7),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_coal, 4), 15),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_uranium, 2), 5),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium, 1), 5),
@@ -290,6 +291,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_plutonium, 1), 3),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_trixite, 1), 1),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_starmetal, 1), 1),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_lithium, 2), 4)
 	};
 	
 	private void addToInv(ItemStack stack) {

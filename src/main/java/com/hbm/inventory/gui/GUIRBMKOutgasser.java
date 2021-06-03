@@ -7,12 +7,11 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKOutgasser;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIRBMKOutgasser extends GuiContainer {
+public class GUIRBMKOutgasser extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_outgasser.png");
 	private TileEntityRBMKOutgasser rod;
@@ -23,6 +22,13 @@ public class GUIRBMKOutgasser extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 186;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		rod.gas.renderTankInfo(this, mouseX, mouseY, guiLeft + 112, guiTop + 21, 16, 48);
 	}
 	
 	@Override
@@ -38,5 +44,11 @@ public class GUIRBMKOutgasser extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int progress = (int) (rod.progress * 13 / rod.duration);
+		drawTexturedModalRect(guiLeft + 82, guiTop + 50, 176, 0, progress, 6);
+		
+		int gas = (int) (rod.gas.getFill() * 42 / rod.gas.getMaxFill());
+		drawTexturedModalRect(guiLeft + 115, guiTop + 66 - gas, 188, 42 - gas, 10, gas);
 	}
 }
