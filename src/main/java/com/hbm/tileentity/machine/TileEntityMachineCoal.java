@@ -14,10 +14,10 @@ import java.util.List;
 
 import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -29,7 +29,7 @@ import com.hbm.packet.PacketDispatcher;
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
@@ -37,7 +37,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public int burnTime;
 	public static final long maxPower = 100000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public FluidTank tank;
 	
 	private static final int[] slots_top = new int[] {1};
@@ -342,7 +342,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

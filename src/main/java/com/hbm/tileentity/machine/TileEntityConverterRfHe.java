@@ -3,8 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -13,11 +13,11 @@ import cofh.api.energy.IEnergyHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntityMachineBase implements ISource, IEnergyHandler {
+public class TileEntityConverterRfHe extends TileEntityMachineBase implements IEnergySource, IEnergyHandler {
 	
 	public long power;
 	public long maxPower = 500000000;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public boolean tact;
 	public EnergyStorage storage = new EnergyStorage(2000000000, 2000000000, 2000000000);
 	
@@ -130,7 +130,7 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

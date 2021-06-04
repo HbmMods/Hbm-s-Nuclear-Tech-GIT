@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -37,7 +37,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IEnergyConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
 

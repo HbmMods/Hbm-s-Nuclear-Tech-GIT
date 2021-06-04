@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -14,7 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IConsumer {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyConsumer {
 
 	public long power;
 	public static final long maxPower = 2500000000L;

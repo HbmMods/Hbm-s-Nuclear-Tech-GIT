@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.calc.Location;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cofh.api.energy.EnergyStorage;
@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntityMachineBase implements IConsumer, IEnergyHandler {
+public class TileEntityConverterHeRf extends TileEntityMachineBase implements IEnergyConsumer, IEnergyHandler {
 	
 	public TileEntityConverterHeRf() {
 		super(0);

@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 	

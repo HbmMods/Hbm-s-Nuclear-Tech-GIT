@@ -3,8 +3,8 @@ package com.hbm.entity.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ParticleBurstPacket;
 
@@ -82,9 +82,9 @@ public class EntityEMP extends Entity {
 	private void add(int x, int y, int z) {
 		TileEntity te = worldObj.getTileEntity(x, y, z);
 		
-		if (te != null && te instanceof ISource) {
+		if (te != null && te instanceof IEnergySource) {
 			machines.add(new int[] { x, y, z });
-		} else if (te != null && te instanceof IConsumer) {
+		} else if (te != null && te instanceof IEnergyConsumer) {
 			machines.add(new int[] { x, y, z });
 		} else if (te != null && te instanceof IEnergyProvider) {
 			machines.add(new int[] { x, y, z });
@@ -97,14 +97,14 @@ public class EntityEMP extends Entity {
 		
 		boolean flag = false;
 		
-		if (te != null && te instanceof ISource) {
+		if (te != null && te instanceof IEnergySource) {
 			
-			((ISource)te).setSPower(0);
+			((IEnergySource)te).setSPower(0);
 			flag = true;
 		}
-		if (te != null && te instanceof IConsumer) {
+		if (te != null && te instanceof IEnergyConsumer) {
 			
-			((IConsumer)te).setPower(0);
+			((IEnergyConsumer)te).setPower(0);
 			flag = true;
 		}
 		if (te != null && te instanceof IEnergyProvider) {

@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 	

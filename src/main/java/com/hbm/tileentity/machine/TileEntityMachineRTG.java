@@ -2,8 +2,8 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineRTG extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineRTG extends TileEntity implements ISidedInventory, IEnergySource {
 
 	private ItemStack slots[];
 	
@@ -26,7 +26,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	public long power;
 	public final long powerMax = 90000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 0 };
@@ -289,7 +289,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

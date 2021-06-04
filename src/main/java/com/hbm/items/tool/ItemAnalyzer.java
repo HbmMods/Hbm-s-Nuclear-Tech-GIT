@@ -2,10 +2,10 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.machine.TileEntityDummy;
@@ -71,14 +71,14 @@ public class ItemAnalyzer extends Item {
 							"Slots: " + ((IInventory)te).getSizeInventory()));
 				}
 				
-				if(te instanceof IConsumer) {
+				if(te instanceof IEnergyConsumer) {
 					
 					player.addChatMessage(new ChatComponentText(
-							"Electricity: " + ((IConsumer)te).getPower() + " HE"));
-				} else if(te instanceof ISource) {
+							"Electricity: " + ((IEnergyConsumer)te).getPower() + " HE"));
+				} else if(te instanceof IEnergySource) {
 					
 					player.addChatMessage(new ChatComponentText(
-							"Electricity: " + ((ISource)te).getSPower() + " HE"));
+							"Electricity: " + ((IEnergySource)te).getSPower() + " HE"));
 				}
 				
 				if(te instanceof IFluidContainer) {

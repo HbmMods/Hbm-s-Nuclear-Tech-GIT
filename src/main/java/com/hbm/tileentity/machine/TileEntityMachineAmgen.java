@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -14,9 +14,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 
-public class TileEntityMachineAmgen extends TileEntity implements ISource {
+public class TileEntityMachineAmgen extends TileEntity implements IEnergySource {
 
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public long power;
 	public long maxPower = 500;
 	boolean tact = false;
@@ -122,7 +122,7 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

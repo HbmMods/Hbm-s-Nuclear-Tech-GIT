@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
@@ -14,7 +14,7 @@ import api.hbm.energy.IBatteryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyConsumer {
 
 	public long power = 0;
 	public int process = 0;

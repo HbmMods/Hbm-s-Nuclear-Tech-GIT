@@ -6,10 +6,10 @@ import java.util.List;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
@@ -37,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import scala.util.Random;
 
-public class TileEntityAMSBase extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -54,7 +54,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public int mode = 0;
 	public boolean locked = false;
 	public FluidTank[] tanks;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public int color = -1;
 	
 	Random rand = new Random();
@@ -649,7 +649,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

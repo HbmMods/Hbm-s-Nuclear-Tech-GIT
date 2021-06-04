@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -27,7 +27,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IEnergyConsumer {
 
 	public long power;
 	public int warning;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.ILaserable;
 import com.hbm.inventory.FluidTank;
@@ -22,7 +22,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, ILaserable {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyConsumer, IFluidAcceptor, ILaserable {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;

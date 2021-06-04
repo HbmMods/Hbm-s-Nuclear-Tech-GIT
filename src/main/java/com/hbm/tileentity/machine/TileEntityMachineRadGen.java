@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRadGen extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineRadGen extends TileEntity implements ISidedInventory, IEnergySource {
 
 	private ItemStack slots[];
 
@@ -37,7 +37,7 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 	public static final int maxFuel = 10000;
 	public static final int maxStrength = 1000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 0, 0 };
@@ -450,7 +450,7 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

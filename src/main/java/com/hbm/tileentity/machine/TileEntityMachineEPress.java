@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 

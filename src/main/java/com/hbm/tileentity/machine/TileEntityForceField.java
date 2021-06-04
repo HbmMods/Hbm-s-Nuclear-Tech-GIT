@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
@@ -23,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-public class TileEntityForceField extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityForceField extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 	

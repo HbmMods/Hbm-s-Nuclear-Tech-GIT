@@ -6,7 +6,7 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -36,7 +36,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-public class TileEntityCompactLauncher extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityCompactLauncher extends TileEntity implements ISidedInventory, IEnergyConsumer, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 

@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.lib.Library;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineSPP extends TileEntity implements ISource {
+public class TileEntityMachineSPP extends TileEntity implements IEnergySource {
 	
 	public long power;
 	public static final long maxPower = 100000;
 	public int age = 0;
 	public int gen = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	
 	@Override
 	public void updateEntity() {
@@ -114,7 +114,7 @@ public class TileEntityMachineSPP extends TileEntity implements ISource {
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return this.list;
 	}
 

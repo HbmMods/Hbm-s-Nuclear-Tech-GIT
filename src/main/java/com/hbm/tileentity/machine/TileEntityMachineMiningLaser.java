@@ -7,7 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.CentrifugeRecipes;
@@ -35,7 +35,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer, IFluidSource {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyConsumer, IFluidSource {
 	
 	public long power;
 	public int age = 0;

@@ -8,7 +8,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.inventory.HadronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -28,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHadron extends TileEntityMachineBase implements IConsumer {
+public class TileEntityHadron extends TileEntityMachineBase implements IEnergyConsumer {
 	
 	public long power;
 	public static final long maxPower = 10000000;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.Untested;
 import com.hbm.tileentity.TileEntityTickingBase;
 
@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 @Untested
-public class TileEntityMachineRadar extends TileEntityTickingBase implements IConsumer {
+public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyConsumer {
 
 	public List<Entity> entList = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();

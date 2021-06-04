@@ -1,13 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.BlockHadronPower;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityHadronPower extends TileEntity implements IConsumer {
+public class TileEntityHadronPower extends TileEntity implements IEnergyConsumer {
 
 	public long power;
 

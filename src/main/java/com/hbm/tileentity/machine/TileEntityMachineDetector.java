@@ -1,10 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDetector extends TileEntity implements IConsumer {
+public class TileEntityMachineDetector extends TileEntity implements IEnergyConsumer {
 	
 	long power;
 

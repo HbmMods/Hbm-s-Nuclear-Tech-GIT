@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -25,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineSeleniumEngine extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineSeleniumEngine extends TileEntity implements ISidedInventory, IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -34,7 +34,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	public static final long maxPower = 250000;
 	public long powerCap = 250000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public FluidTank tank;
 	public int pistonCount = 0;
 
@@ -343,7 +343,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

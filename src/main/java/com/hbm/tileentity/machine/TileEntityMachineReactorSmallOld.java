@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
@@ -34,7 +34,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineReactorSmallOld extends TileEntity
-		implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+		implements ISidedInventory, IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -48,7 +48,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 	public final int rodsMax = 100;
 	public boolean retracting = true;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public FluidTank[] tanks;
 
 	private static final int[] slots_top = new int[] { 16 };
@@ -587,7 +587,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

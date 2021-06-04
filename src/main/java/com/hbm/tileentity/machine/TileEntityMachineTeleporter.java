@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineTeleporter extends TileEntity implements IConsumer {
+public class TileEntityMachineTeleporter extends TileEntity implements IEnergyConsumer {
 
 	public long power = 0;
 	public int targetX = 0;

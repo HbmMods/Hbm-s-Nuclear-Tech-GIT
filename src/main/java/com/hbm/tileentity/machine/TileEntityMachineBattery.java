@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.MachineBattery;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConsumer, IEnergySource {
 	
 	public long power = 0;
 	public long maxPower = 1000000;
@@ -32,7 +32,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	private static final int[] slots_bottom = new int[] {0, 1};
 	private static final int[] slots_side = new int[] {1};
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	
 	private String customName;
 	
@@ -265,7 +265,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

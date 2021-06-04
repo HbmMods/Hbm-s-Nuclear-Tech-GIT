@@ -6,7 +6,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -31,13 +30,12 @@ import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.turret.TileEntityTurretBase;
 import com.hbm.util.ArmorUtil;
 
@@ -594,16 +592,16 @@ public class ExplosionNukeGeneric {
 			Block b = world.getBlock(x,y,z);
 			TileEntity te = world.getTileEntity(x, y, z);
 			
-			if (te != null && te instanceof ISource) {
+			if (te != null && te instanceof IEnergySource) {
 				
-				((ISource)te).setSPower(0);
+				((IEnergySource)te).setSPower(0);
 				
 				if(random.nextInt(5) < 1)
 					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
-			if (te != null && te instanceof IConsumer) {
+			if (te != null && te instanceof IEnergyConsumer) {
 				
-				((IConsumer)te).setPower(0);
+				((IEnergyConsumer)te).setPower(0);
 				
 				if(random.nextInt(5) < 1)
 					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);

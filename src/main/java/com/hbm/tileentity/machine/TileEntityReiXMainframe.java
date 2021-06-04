@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.items.ModItems;
 
 import api.hbm.energy.IBatteryItem;
@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityReiXMainframe extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityReiXMainframe extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 	

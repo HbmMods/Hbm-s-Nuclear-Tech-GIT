@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.ILaserable;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -20,12 +20,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISource, IFluidAcceptor, ILaserable {
+public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEnergySource, IFluidAcceptor, ILaserable {
 	
 	public long power;
 	public long joules;
 	public FluidTank tank;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public int age = 0;
 
 	public TileEntityCoreReceiver() {
@@ -120,7 +120,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

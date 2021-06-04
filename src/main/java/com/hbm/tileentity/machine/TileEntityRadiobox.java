@@ -2,19 +2,18 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityRadiobox extends TileEntity implements IConsumer {
+public class TileEntityRadiobox extends TileEntity implements IEnergyConsumer {
 	
 	long power;
 	public static long maxPower = 500000;

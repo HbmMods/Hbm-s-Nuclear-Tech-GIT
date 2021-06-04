@@ -8,7 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -32,7 +32,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidSource {
+public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IEnergyConsumer, IFluidContainer, IFluidSource {
 
 	private ItemStack slots[];
 

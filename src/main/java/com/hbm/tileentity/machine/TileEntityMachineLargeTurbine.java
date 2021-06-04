@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
@@ -23,12 +23,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, ISource {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergySource {
 
 	public long power;
 	public static final long maxPower = 100000000;
 	public int age = 0;
-	public List<IConsumer> list1 = new ArrayList();
+	public List<IEnergyConsumer> list1 = new ArrayList();
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 	
@@ -251,7 +251,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list1;
 	}
 

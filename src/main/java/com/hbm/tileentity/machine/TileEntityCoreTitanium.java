@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFactory;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityCoreTitanium extends TileEntity implements ISidedInventory, IFactory, IConsumer {
+public class TileEntityCoreTitanium extends TileEntity implements ISidedInventory, IFactory, IEnergyConsumer {
 	
 	public int progress = 0;
 	public long power = 0;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -27,7 +27,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import scala.util.Random;
 
-public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory, IEnergyConsumer, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 

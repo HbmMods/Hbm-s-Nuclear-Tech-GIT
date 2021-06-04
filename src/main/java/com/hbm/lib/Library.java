@@ -13,11 +13,11 @@ import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConductor;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyInventory;
@@ -99,8 +99,8 @@ public class Library {
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if((tileentity != null && (tileentity instanceof IConductor ||
-				tileentity instanceof IConsumer ||
-				tileentity instanceof ISource)) ||
+				tileentity instanceof IEnergyConsumer ||
+				tileentity instanceof IEnergySource)) ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
 				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
@@ -163,7 +163,7 @@ public class Library {
 		return false;
 	}
 	
-	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, ISource that) {
+	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, IEnergySource that) {
 		
 		for(UnionOfTileEntitiesAndBooleans union : list)
 		{
@@ -418,7 +418,7 @@ public class Library {
 	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
-	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
+	public static void ffgeua(int x, int y, int z, boolean newTact, IEnergySource that, World worldObj) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 
@@ -625,12 +625,12 @@ public class Library {
 		// -TE is already full
 		// -TE is a battery set to output only
 		// -TE as well as source are transformers of the same frequency
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts) &&
-				tileentity != that && ((IConsumer)tileentity).getPower() < ((IConsumer)tileentity).getMaxPower() &&
+		if(tileentity instanceof IEnergyConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts) &&
+				tileentity != that && ((IEnergyConsumer)tileentity).getPower() < ((IEnergyConsumer)tileentity).getMaxPower() &&
 				!(tileentity instanceof TileEntityMachineTransformer && that instanceof TileEntityMachineTransformer &&
 						((TileEntityMachineTransformer)tileentity).delay == ((TileEntityMachineTransformer)that).delay))
 		{
-			that.getList().add((IConsumer)tileentity);
+			that.getList().add((IEnergyConsumer)tileentity);
 		}
 		
 		if(!newTact)
@@ -639,7 +639,7 @@ public class Library {
 			if(size > 0)
 			{
 				long part = that.getSPower() / size;
-				for(IConsumer consume : that.getList())
+				for(IEnergyConsumer consume : that.getList())
 				{
 					if(consume.getPower() < consume.getMaxPower())
 					{

@@ -3,19 +3,19 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 import com.hbm.lib.Library;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineTransformer extends TileEntity implements ISource, IConsumer {
+public class TileEntityMachineTransformer extends TileEntity implements IEnergySource, IEnergyConsumer {
 
 	public long power;
 	public long maxPower = 10000;
 	public int delay = 1;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	boolean tact;
 	int age;
 	
@@ -102,7 +102,7 @@ public class TileEntityMachineTransformer extends TileEntity implements ISource,
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

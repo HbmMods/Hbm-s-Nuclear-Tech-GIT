@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -18,14 +18,14 @@ import api.hbm.energy.IBatteryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public int soundCycle = 0;
 	public static final long maxPower = 50000;
 	public long powerCap = 50000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	public FluidTank tank;
 
 	private static final int[] slots_top = new int[] { 0 };
@@ -215,7 +215,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

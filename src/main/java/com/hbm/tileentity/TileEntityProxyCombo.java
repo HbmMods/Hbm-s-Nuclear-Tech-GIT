@@ -3,7 +3,7 @@ package com.hbm.tileentity;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 
@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsumer, IFluidAcceptor, ISidedInventory {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyConsumer, IFluidAcceptor, ISidedInventory {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -116,8 +116,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 		if(!power)
 			return;
 		
-		if(getTile() instanceof IConsumer) {
-			((IConsumer)getTile()).setPower(i);
+		if(getTile() instanceof IEnergyConsumer) {
+			((IEnergyConsumer)getTile()).setPower(i);
 		}
 	}
 
@@ -127,8 +127,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IConsumer) {
-			return ((IConsumer)getTile()).getPower();
+		if(getTile() instanceof IEnergyConsumer) {
+			return ((IEnergyConsumer)getTile()).getPower();
 		}
 		
 		return 0;
@@ -140,8 +140,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IConsumer) {
-			return ((IConsumer)getTile()).getMaxPower();
+		if(getTile() instanceof IEnergyConsumer) {
+			return ((IEnergyConsumer)getTile()).getMaxPower();
 		}
 		
 		return 0;

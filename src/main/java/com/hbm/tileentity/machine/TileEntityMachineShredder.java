@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineShredder extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineShredder extends TileEntity implements ISidedInventory, IEnergyConsumer {
 
 	private ItemStack slots[];
 

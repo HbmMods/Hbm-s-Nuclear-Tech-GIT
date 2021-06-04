@@ -1,17 +1,17 @@
 package com.hbm.calc;
 
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.interfaces.Spaghetti;
 
 @Spaghetti("i deserve to be shot for this one")
 public class UnionOfTileEntitiesAndBooleans {
 	
-	public UnionOfTileEntitiesAndBooleans(ISource tileentity, boolean bool)
+	public UnionOfTileEntitiesAndBooleans(IEnergySource tileentity, boolean bool)
 	{
 		source = tileentity;
 		ticked = bool;
 	}
 
-	public ISource source;
+	public IEnergySource source;
 	public boolean ticked = false;
 }

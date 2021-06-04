@@ -11,7 +11,7 @@ import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
@@ -39,7 +39,7 @@ import net.minecraftforge.common.util.FakePlayer;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IConsumer, IControlReceiver {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyConsumer, IControlReceiver {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {

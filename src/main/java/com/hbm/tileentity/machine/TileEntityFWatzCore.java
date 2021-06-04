@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergySource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -27,7 +27,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, IEnergySource, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public final static long maxPower = 10000000000L;
@@ -39,7 +39,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	
 	private ItemStack slots[];
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IEnergyConsumer> list = new ArrayList();
 	
 	private String customName;
 
@@ -410,7 +410,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public List<IConsumer> getList() {
+	public List<IEnergyConsumer> getList() {
 		return list;
 	}
 

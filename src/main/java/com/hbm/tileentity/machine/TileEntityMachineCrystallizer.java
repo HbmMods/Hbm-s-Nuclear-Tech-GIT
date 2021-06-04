@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
+import api.hbm.energy.IEnergyConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.FluidTank;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IConsumer, IFluidAcceptor {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyConsumer, IFluidAcceptor {
 	
 	public long power;
 	public static final long maxPower = 1000000;

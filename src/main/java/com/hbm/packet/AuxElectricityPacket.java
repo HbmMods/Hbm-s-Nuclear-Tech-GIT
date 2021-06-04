@@ -1,7 +1,7 @@
 package com.hbm.packet;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
+import api.hbm.energy.IEnergyConsumer;
+import api.hbm.energy.IEnergySource;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -56,13 +56,13 @@ public class AuxElectricityPacket implements IMessage {
 			try {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
-			if (te != null && te instanceof IConsumer) {
+			if (te != null && te instanceof IEnergyConsumer) {
 					
-				IConsumer gen = (IConsumer) te;
+				IEnergyConsumer gen = (IEnergyConsumer) te;
 				gen.setPower(m.charge);
-			} else if (te != null && te instanceof ISource) {
+			} else if (te != null && te instanceof IEnergySource) {
 					
-				ISource gen = (ISource) te;
+				IEnergySource gen = (IEnergySource) te;
 				gen.setSPower(m.charge);
 			}
 			} catch (Exception x) { }
