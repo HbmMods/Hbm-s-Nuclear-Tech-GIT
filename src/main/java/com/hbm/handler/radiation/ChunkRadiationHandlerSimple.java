@@ -9,6 +9,10 @@ import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
+/**
+ * Most basic implementation of a chunk radiation system: Each chunk has a radiation value which spreads out to its neighbors.
+ * @author hbm
+ */
 public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	
 	private HashMap<World, SimpleRadiationPerWorld> perWorld = new HashMap();
@@ -124,9 +128,6 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 				Float val = radWorld.radiation.get(event.getChunk().getChunkCoordIntPair());
 				float rad = val == null ? 0F : val;
 				event.getData().setFloat(NBT_KEY_CHUNK_RADIATION, rad);
-				
-				if(rad > 0) {
-				}
 			}
 		}
 	}

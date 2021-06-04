@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
@@ -299,7 +300,7 @@ public class ContaminationUtil {
 				return false;
 		}
 		
-		if(hazard == HazardType.RADIATION && isRadImmune(entity))
+		if(hazard == HazardType.RADIATION && (isRadImmune(entity) || !GeneralConfig.enableRads))
 			return false;
 		
 		switch(hazard) {
