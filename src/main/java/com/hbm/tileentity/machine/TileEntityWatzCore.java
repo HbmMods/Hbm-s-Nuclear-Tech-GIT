@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import api.hbm.util.HbmUtils;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -673,7 +672,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
 		
-		HbmUtils.ffgeua(x, y, z, newTact, this, worldObj);
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
