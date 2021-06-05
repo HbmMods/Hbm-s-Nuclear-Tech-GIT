@@ -10,7 +10,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -57,9 +56,6 @@ public class RenderRBMKReflector implements ISimpleBlockRenderingHandler {
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_reflector, "Column", iicon, tessellator, 0, true);
-		
-		if(world.getBlock(x, y + 1, z) != block)
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_element, "Lid", iicon, tessellator, 0, true);
 		
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 

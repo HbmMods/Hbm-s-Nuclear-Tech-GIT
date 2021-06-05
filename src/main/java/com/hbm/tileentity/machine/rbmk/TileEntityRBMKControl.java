@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
 public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
@@ -70,11 +69,6 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 
 		nbt.setDouble("level", this.level);
 		nbt.setDouble("targetLevel", this.targetLevel);
-	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 10, zCoord + 1);
 	}
 	
 	@Override

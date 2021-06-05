@@ -152,6 +152,8 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(i == 3) {
 			dir = ForgeDirection.getOrientation(4);
 		}
+		
+		dir = getDirModified(dir);
 
 		if(!checkRequirement(world, x, y, z, dir, o)) {
 
@@ -182,6 +184,10 @@ public abstract class BlockDummyable extends BlockContainer {
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+	}
+	
+	protected ForgeDirection getDirModified(ForgeDirection dir) {
+		return dir;
 	}
 
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

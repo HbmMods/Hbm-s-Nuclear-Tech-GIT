@@ -33,10 +33,4 @@ public class RBMKBoiler extends RBMKBase {
 	public int getRenderType(){
 		return this.renderIDControl;
 	}
-
-	@Override
-	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		super.fillSpace(world, x, y, z, dir, o);
-		this.makeExtra(world, x, y + RBMKDials.getColumnHeight(world), z);
-	}
 }

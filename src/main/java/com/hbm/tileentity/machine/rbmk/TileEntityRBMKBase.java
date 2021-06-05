@@ -30,6 +30,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -45,7 +46,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	public double heat;
 
 	public boolean hasLid() {
-		return true;
+		return this.getBlockMetadata() != RBMKBase.DIR_NO_LID.ordinal() + RBMKBase.offset;
 	}
 	
 	/**
@@ -284,7 +285,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			worldObj.spawnEntityInWorld(debris);
 		}*/
 		
-		if(this.hasLid())
+		if(this.getBlockMetadata() == RBMKBase.DIR_NORMAL_LID.ordinal() + RBMKBase.offset)
 			spawnDebris(DebrisType.LID);
 	}
 	
@@ -396,5 +397,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	public NBTTagCompound getNBTForConsole() {
 		return null;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 17, zCoord + 1);
 	}
 }

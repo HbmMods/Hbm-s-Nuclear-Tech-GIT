@@ -212,6 +212,13 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKControlManual.class, new RenderRBMKControlRod(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control.png"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKControlAuto.class, new RenderRBMKControlRod(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control_auto.png"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKConsole.class, new RenderRBMKConsole());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKAbsorber.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_absorber"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKBlank.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_blank"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKBoiler.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_boiler"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKModerator.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_moderator"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKOutgasser.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_outgasser"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKReflector.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_reflector"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRod.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element"));
 		//ITER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITER.class, new RenderITER());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePlasmaHeater.class, new RenderPlasmaHeater());

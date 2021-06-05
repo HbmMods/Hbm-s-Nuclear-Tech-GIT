@@ -2,13 +2,11 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKOutgasser;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class RBMKOutgasser extends RBMKBase {
 
@@ -32,11 +30,5 @@ public class RBMKOutgasser extends RBMKBase {
 	@Override
 	public int getRenderType(){
 		return this.renderIDPassive;
-	}
-
-	@Override
-	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		super.fillSpace(world, x, y, z, dir, o);
-		this.makeExtra(world, x, y + RBMKDials.getColumnHeight(world), z);
 	}
 }

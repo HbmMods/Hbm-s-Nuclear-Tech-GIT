@@ -14,8 +14,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver {
 	
 	//amount of "neutron energy" buffered for the next tick to use for the reaction
-	private double fluxFast;
-	private double fluxSlow;
+	public double fluxFast;
+	public double fluxSlow;
+	public boolean hasRod;
 
 	public TileEntityRBMKRod() {
 		super(1);
@@ -65,10 +66,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				this.fluxSlow = 0;
 				
 				spreadFlux(rType, fluxOut);
+				
+				hasRod = true;
+				
 			} else {
 
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
+				
+				hasRod = false;
 			}
 		}
 	}
@@ -164,6 +170,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		this.fluxFast = nbt.getDouble("fluxFast");
 		this.fluxSlow = nbt.getDouble("fluxSlow");
+		this.hasRod = nbt.getBoolean("hasRod");
 	}
 	
 	@Override
@@ -172,6 +179,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		nbt.setDouble("fluxFast", this.fluxFast);
 		nbt.setDouble("fluxSlow", this.fluxSlow);
+		nbt.setBoolean("hasRod", this.hasRod);
 	}
 	
 	public void getDiagData(NBTTagCompound nbt) {

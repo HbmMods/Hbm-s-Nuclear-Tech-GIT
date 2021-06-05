@@ -11,7 +11,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -66,12 +65,6 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Column", iicon, tessellator, 0, true);
-		
-		if(block == ModBlocks.rbmk_boiler && world.getBlock(x, y + 1, z) != block) {
-			//tessellator.addTranslation(0, 0.125F, 0);
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
-			//tessellator.addTranslation(0, -0.125F, 0);
-		}
 		
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 
