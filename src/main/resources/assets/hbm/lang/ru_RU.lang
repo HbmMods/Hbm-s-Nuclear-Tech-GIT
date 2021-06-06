@@ -202,6 +202,21 @@ trait.rbmx.xenon=Свинцовое отравление: %s
 trait.rbmx.xenonBurn=Функция разрушения свинца: %s
 trait.rbmx.xenonGen=Функция создания свинца: %s
 
+rbmk.heat=Температура компонента: %s
+rbmk.boiler.water=Вода: %s / %s
+rbmk.boiler.steam=Пар: %s / %s
+rbmk.boiler.type=Сжатие: %s
+rbmk.control.level=%s
+rbmk.control.red=§cКрасная группа
+rbmk.control.yellow=§eЖёлтая группа
+rbmk.control.green=§aЗелёная группа
+rbmk.control.blue=§1Синяя группа
+rbmk.control.purple=§5Фиолетовая группа
+rbmk.rod.depletion=Обеднение: %s
+rbmk.rod.xenon=Ксеноновое отравление: %s
+rbmk.rod.coreTemp=Температура стержня: %s
+rbmk.rod.skinTemp=Температура оболочки стержня: %s / %s
+
 book.test.cover=HOW 2 SEX
 book.test.page1=Test Page 1
 book.rbmk.cover=Мой первый РБМК:$Основы$строительства реактора$
@@ -754,6 +769,7 @@ tile.safe.name=Сейф
 container.safe=Сейф
 tile.sand_polonium.name=Полониевый песок
 tile.sand_boron.name=Борный песок
+tile.sand_lead.name=Свинцовый песок
 tile.sand_boron_layer.name=Слой борного песка
 tile.machine_press.name=Пресс
 container.press=Пресс
@@ -1296,6 +1312,7 @@ tile.block_lanthanium.name=Блок лантания
 tile.block_boron.name=Блок бора
 tile.block_graphite.name=Блок графита
 tile.block_zirconium.name=Блок циркония
+tile.block_bismuth.name=Блок висмута
 
 tile.block_u233.name=Блок урана-233
 tile.block_u235.name=Блок урана-235
@@ -1518,6 +1535,7 @@ tile.sand_uranium.name=Урановый песок
 tile.glass_uranium.name=Урановое стекло
 tile.glass_trinitite.name=Тринититовое стекло
 tile.glass_boron.name=Борное стекло
+tile.glass_lead.name=Свинцовое стекло
 
 tile.seal_frame.name=Рама люка пусковой щахты
 tile.seal_controller.name=Открыватель дюка пусковой щахты
@@ -1617,6 +1635,7 @@ item.powder_i131.name=Порошок иода-131
 item.powder_i131_tiny.name=Кучка порошка иода-131
 item.powder_xe135.name=Порошок ксенона-135
 item.powder_xe135_tiny.name=Кучка порошка ксенона-135
+item.powder_cs137_tiny.name=Кучка порошка цезия-137
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -1892,6 +1911,7 @@ item.billet_neptunium_fuel.name=Заготовка нептуниевого то
 item.billet_po210be.name=Заготовка Полоний-210-Бериллия
 item.billet_pu238be.name=Заготовка Плутоний-210-Бериллия
 item.billet_balefire_gold.name=Заготовка флэшголда
+item.billet_technetium.name=Заготовка технеция-99
 
 item.rbmk_pellet_balefire.name=Жар-топливная пеллета
 item.rbmk_pellet_balefire_gold.name=Флэшголд-топливная пеллета
@@ -2104,6 +2124,7 @@ item.rbmk_fuel_heaus.name=Высокообогащенный австралие�
 item.rbmk_fuel_leaus.name=Низкообогащенный австралиевый топливный стержень РБМК
 item.rbmk_fuel_ueu.name=Необогащенный урановый топливный стержень РБМК
 item.rbmk_lid.name=Покрывающая панель РБМК
+item.rbmk_lid_glass.name=Стеклянная покрывающая панель РБМК
 
 item.rod_water.name=Стержень с водой
 item.rod_dual_water.name=Сдвоенный стержень с водой
