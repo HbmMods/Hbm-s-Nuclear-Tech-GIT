@@ -50,12 +50,19 @@ public class MineralRecipes {
 		
 		RecipesCommon.add9To1(ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
 		RecipesCommon.add1To9(ModBlocks.block_dineutronium, ModItems.ingot_dineutronium);
-		
+
 		RecipesCommon.add9To1(ModItems.powder_xe135_tiny, ModItems.powder_xe135);
 		RecipesCommon.add1To9(ModItems.powder_xe135, ModItems.powder_xe135_tiny);
+		RecipesCommon.add9To1(ModItems.powder_cs137_tiny, ModItems.powder_cs137);
+		RecipesCommon.add1To9(ModItems.powder_cs137, ModItems.powder_cs137_tiny);
+		RecipesCommon.add9To1(ModItems.powder_i131_tiny, ModItems.powder_i131);
+		RecipesCommon.add1To9(ModItems.powder_i131, ModItems.powder_i131_tiny);
 
 		RecipesCommon.add9To1(ModItems.nugget_technetium, ModItems.ingot_technetium);
 		RecipesCommon.add1To9(ModItems.ingot_technetium, ModItems.nugget_technetium);
+		
+		RecipesCommon.add9To1(ModItems.ingot_bismuth, ModBlocks.block_bismuth);
+		RecipesCommon.add1To9(ModBlocks.block_bismuth, ModItems.ingot_bismuth);
 		RecipesCommon.add9To1(ModItems.nugget_bismuth, ModItems.ingot_bismuth);
 		RecipesCommon.add1To9(ModItems.ingot_bismuth, ModItems.nugget_bismuth);
 
@@ -174,7 +181,7 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_scrap), 1), new Object[] { "###", "###", "###", '#', ModItems.dust });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_beryllium), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_beryllium });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_schrabidium });
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_schrabidium_cluster, 1), new Object[] { "#S#", "S#S", "#S#", '#', ModItems.ingot_schrabidium, 'S', ModItems.ingot_starmetal });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_schrabidium_cluster, 1), new Object[] { "#S#", "SXS", "#S#", '#', ModItems.ingot_schrabidium, 'S', ModItems.ingot_starmetal, 'X', ModItems.ingot_schrabidate });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_euphemium), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_euphemium });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_advanced_alloy), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_advanced_alloy });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_magnetized_tungsten), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_magnetized_tungsten });

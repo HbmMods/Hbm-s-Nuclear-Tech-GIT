@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
@@ -71,20 +70,12 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 			if(index > 0 && index < console.columns.length) {
 				RBMKColumn col = console.columns[index];
 				
-				if(col != null && col.data != null) {
+				if(col != null) {
 					
 					List<String> list = new ArrayList();
-					
-					Set<String> keys = col.data.func_150296_c();
 					list.add(col.type.toString());
-					
-					for(String key : keys) {
-						list.add(key + ": " + col.data.getTag(key));
-					}
-					
-					if(col != null) {
-						this.func_146283_a(list, mouseX, mouseY);
-					}
+					list.addAll(col.getFancyStats());
+					this.func_146283_a(list, mouseX, mouseY);
 				}
 			}
 		}
@@ -247,6 +238,8 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 			case BLANK: break;
 			case MODERATOR: break;
 			case REFLECTOR: break;
+			case OUTGASSER: break;
+			case BREEDER: break;
 			
 			case CONTROL:
 				int color = col.data.getShort("color");

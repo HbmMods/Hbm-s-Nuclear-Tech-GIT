@@ -20,6 +20,10 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 	public TileEntityRBMKControl() {
 		super(0);
 	}
+
+	public boolean hasLid() {
+		return true;
+	}
 	
 	@Override
 	public void updateEntity() {

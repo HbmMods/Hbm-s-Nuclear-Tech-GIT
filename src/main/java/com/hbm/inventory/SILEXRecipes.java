@@ -13,6 +13,7 @@ import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.util.WeightedRandomObject;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -280,6 +281,13 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_co60), 6))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 1))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_ra226), 3))
+				);
+		
+		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250)
+				.addOut(new WeightedRandomObject(new ItemStack(Items.flint), 80))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 5))
 				);
 	}
 	

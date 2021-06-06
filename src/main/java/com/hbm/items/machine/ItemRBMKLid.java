@@ -49,7 +49,6 @@ public class ItemRBMKLid extends Item {
 			
 			world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], meta + RBMKBase.offset, 3);
 			stack.stackSize--;
-			player.inventoryContainer.detectAndSendChanges();
 			
 			return true;
 		}

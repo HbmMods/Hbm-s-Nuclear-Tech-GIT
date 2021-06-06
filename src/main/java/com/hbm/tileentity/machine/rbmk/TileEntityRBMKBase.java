@@ -399,6 +399,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		return null;
 	}
 	
+	public static List<String> getFancyStats(NBTTagCompound nbt) {
+		return null;
+	}
+	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 17, zCoord + 1);

@@ -1,9 +1,14 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -178,6 +184,52 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			} else {
 				this.data = new NBTTagCompound();
 			}
+		}
+
+		@SuppressWarnings("incomplete-switch")
+		@SideOnly(Side.CLIENT)
+		public List<String> getFancyStats() {
+			
+			if(this.data == null)
+				return null;
+			
+			/*
+			 * Making a big switch with the values converted based on type by hand might seem "UnPrOfEsSiOnAl" and a major pain in the ass
+			 * but my only other solution that would not have me do things in multiple places where they shouldn't be involved passing
+			 * classes in the enum and then calling a special method from that class and quite honestly it turned out to be such a crime
+			 * against humanity that I threw the towel. It's not fancy, I get that, please fuck off.
+			 */
+			
+			List<String> stats = new ArrayList();
+			stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.heat", ((int)((this.data.getDouble("heat") * 10D)) / 10D) + "°C"));
+			switch(this.type) {
+			
+			case FUEL:
+				stats.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("rbmk.rod.depletion", ((int)(((1D - this.data.getDouble("enrichment")) * 100000)) / 1000D) + "%"));
+				stats.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("rbmk.rod.xenon", ((int)(((this.data.getDouble("xenon")) * 1000D)) / 1000D) + "%"));
+				stats.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("rbmk.rod.coreTemp", ((int)((this.data.getDouble("c_coreHeat") * 10D)) / 10D) + "°C"));
+				stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey("rbmk.rod.skinTemp", ((int)((this.data.getDouble("c_heat") * 10D)) / 10D) + "°C", ((int)((this.data.getDouble("c_maxHeat") * 10D)) / 10D) + "°C"));
+				break;
+			case BOILER:
+				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("rbmk.boiler.water", this.data.getInteger("water"), this.data.getInteger("maxWater")));
+				stats.add(EnumChatFormatting.WHITE + I18nUtil.resolveKey("rbmk.boiler.steam", this.data.getInteger("steam"), this.data.getInteger("maxSteam")));
+				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", I18nUtil.resolveKey(FluidType.values()[this.data.getShort("type")].getUnlocalizedName())));
+				break;
+			case CONTROL:
+				
+				if(this.data.hasKey("color")) {
+					short col = this.data.getShort("color");
+					
+					if(col >= 0 && col < RBMKColor.values().length)
+						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase()));
+				}
+				
+			case CONTROL_AUTO:
+				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control.level", ((int)((this.data.getDouble("level") * 100D))) + "%"));
+				break;
+			}
+			
+			return stats;
 		}
 	}
 	

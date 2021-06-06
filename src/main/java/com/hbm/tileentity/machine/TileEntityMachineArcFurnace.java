@@ -327,7 +327,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 				
 				power -= 250;
 				
-				if(power > 0)
+				if(power < 0)
 					power = 0;
 				
 				if(this.dualCookTime == processingSpeed)

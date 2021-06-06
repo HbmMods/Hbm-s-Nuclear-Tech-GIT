@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.ModBlocks;
@@ -31,6 +32,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
+import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
@@ -52,6 +54,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -243,6 +246,40 @@ public class ModEventHandler {
 				
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onEntityDeathLast(LivingDeathEvent event) {
+		
+		if(event.entityLiving instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+			
+			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+				
+				ItemStack stack = player.inventory.getStackInSlot(i);
+				
+				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
+					
+					if(stack.stackTagCompound != null) {
+						
+						int x = stack.stackTagCompound.getInteger("x");
+						int y = stack.stackTagCompound.getInteger("y");
+						int z = stack.stackTagCompound.getInteger("z");
+
+						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
+							
+							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
+							
+							if(GeneralConfig.enableExtendedLogging)
+								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
+						}
+						
+						player.inventory.setInventorySlotContents(i, null);
+					}
 				}
 			}
 		}

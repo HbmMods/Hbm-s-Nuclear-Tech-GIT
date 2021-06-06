@@ -1,6 +1,7 @@
 package com.hbm.items.special;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
@@ -415,7 +416,31 @@ public class ItemCustomLore extends Item {
 			list.add("with the difference that Technetium is also available");
 			list.add("from PWRs.\" <- THAT is what I needed to hear.");
 		}
+		
+		if(this == ModItems.undefined) {
+			
+			if(player.worldObj.rand.nextInt(10) == 0) {
+				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
+			} else {
+				Random rand = new Random(System.currentTimeMillis() / 500);
+				
+				if(setSize == 0)
+					setSize = Item.itemRegistry.getKeys().size();
+				
+				int r = rand.nextInt(setSize);
+				
+				Item item = Item.getItemById(r);
+				
+				if(item != null) {
+					list.add(new ItemStack(item).getDisplayName());
+				} else {
+					list.add(EnumChatFormatting.RED + "ERROR #" + r);
+				}
+			}
+		}
 	}
+	
+	static int setSize = 0;
 
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {

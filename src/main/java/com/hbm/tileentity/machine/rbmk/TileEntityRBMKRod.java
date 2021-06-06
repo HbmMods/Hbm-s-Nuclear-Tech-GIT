@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
@@ -42,8 +43,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		if(!worldObj.isRemote) {
 			
-			super.updateEntity();
-			
 			if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 				
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
@@ -68,6 +67,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				spreadFlux(rType, fluxOut);
 				
 				hasRod = true;
+				
+				if(!this.hasLid()) {
+					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) ((this.fluxFast + this.fluxSlow) * 0.05F));
+				}
+				
+				super.updateEntity();
 				
 			} else {
 
@@ -160,6 +165,21 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				if(te instanceof TileEntityRBMKAbsorber) {
 					break;
 				}
+				
+				if(te instanceof TileEntityRBMKBase) {
+					continue;
+				}
+				
+				int limit = RBMKDials.getColumnHeight(worldObj);
+				int hits = 0;
+				for(int h = 0; h <= limit; h++) {
+					
+					if(!worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + h, zCoord + dir.offsetZ * i).isOpaqueCube())
+						hits++;
+				}
+				
+				if(hits > 0)
+					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) (flux * 0.05F * hits / (float)limit));
 			}
 		}
 	}
@@ -256,6 +276,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			data.setDouble("enrichment", rod.getEnrichment(slots[0]));
 			data.setDouble("xenon", rod.getPoison(slots[0]));
 			data.setDouble("c_heat", rod.getHullHeat(slots[0]));
+			data.setDouble("c_coreHeat", rod.getCoreHeat(slots[0]));
 			data.setDouble("c_maxHeat", rod.meltingPoint);
 		}
 		
