@@ -105,6 +105,7 @@ public class MineralRecipes {
 		RecipesCommon.addBillet(ModItems.billet_neptunium, ModItems.nugget_neptunium, "nuggetNeptunium237", "tinyNp237");
 		RecipesCommon.addBillet(ModItems.billet_polonium, ModItems.nugget_polonium, "nuggetPolonium");
 		RecipesCommon.addBillet(ModItems.billet_technetium, ModItems.nugget_technetium, "nuggetTechnetium");
+		RecipesCommon.addBillet(ModItems.billet_au198, ModItems.nugget_au198);
 		RecipesCommon.addBillet(ModItems.billet_schrabidium, ModItems.nugget_schrabidium);
 		RecipesCommon.addBillet(ModItems.billet_solinium, ModItems.nugget_solinium);
 		RecipesCommon.addBillet(ModItems.billet_uranium_fuel, ModItems.nugget_uranium_fuel);

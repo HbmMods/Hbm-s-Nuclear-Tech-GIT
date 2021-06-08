@@ -345,6 +345,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.biomass_compressed);
 			if(input.getItem() == ModItems.powder_lignite)
 				return new ItemStack(ModItems.briquette_lignite);
+			if(input.getItem() == ModItems.coke)
+				return new ItemStack(ModItems.ingot_graphite);
 
 			if(input.getItem() == ModItems.meteorite_sword_reforged)
 				return new ItemStack(ModItems.meteorite_sword_hardened);

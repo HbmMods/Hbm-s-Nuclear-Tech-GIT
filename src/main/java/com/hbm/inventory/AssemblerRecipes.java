@@ -683,7 +683,7 @@ public class AssemblerRecipes {
 		
 		makeRecipe(new ComparableStack(ModBlocks.rbmk_blank, 1), new AStack[] {
 				new ComparableStack(ModBlocks.concrete_asbestos, 4),
-				new OreDictStack("plateSteel", 8),
+				new OreDictStack("plateSteel", 4),
 				new OreDictStack("ingotCopper", 4),
 				new ComparableStack(ModItems.plate_polymer, 4)
 			}, 100);
