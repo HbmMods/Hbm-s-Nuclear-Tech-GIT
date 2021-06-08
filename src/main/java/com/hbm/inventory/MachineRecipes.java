@@ -498,6 +498,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.pellet_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.pellet_coal));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.biomass) }, getPressResultNN(stamps_flat.get(0), ModItems.biomass));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_lignite) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_lignite));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.coke) }, getPressResultNN(stamps_flat.get(0), ModItems.coke));
 
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.iron_ingot) }, getPressResultNN(stamps_plate.get(0), Items.iron_ingot));
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.gold_ingot) }, getPressResultNN(stamps_plate.get(0), Items.gold_ingot));
