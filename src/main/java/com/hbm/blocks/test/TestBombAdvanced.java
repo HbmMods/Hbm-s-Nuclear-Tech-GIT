@@ -1,6 +1,7 @@
 package com.hbm.blocks.test;
 
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionNT;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
@@ -134,6 +135,6 @@ public class TestBombAdvanced extends BlockContainer {
 		}*/
 		
 		world.setBlock(x, y, z, Blocks.air);
-		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.x * 20, x, y, z));
+		world.spawnEntityInWorld(EntityNukeExplosionNT.statFacMKV(world, x + 0.5, y + 0.5, z + 0.5, 50));
 	}
 }
