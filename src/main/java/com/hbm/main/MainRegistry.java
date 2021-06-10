@@ -468,6 +468,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityDemonLamp.class, "tileentity_demonlamp");
 		GameRegistry.registerTileEntity(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		GameRegistry.registerTileEntity(TileEntityDeaerator.class, "tileentity_deaerator");
+		GameRegistry.registerTileEntity(TileEntityChungus.class, "tileentity_chungus");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKControlManual.class, "tileentity_rbmk_control");

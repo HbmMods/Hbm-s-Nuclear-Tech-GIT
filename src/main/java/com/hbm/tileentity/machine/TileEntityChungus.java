@@ -7,14 +7,17 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.packet.NBTPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.INBTPacketReceiver;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,93 +25,64 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, ISource {
+public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFluidSource, ISource, INBTPacketReceiver {
 
 	public long power;
-	public static final long maxPower = 100000000;
-	public int age = 0;
-	public List<IConsumer> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
-	public FluidTank[] tanks;
-	
+	public static final long maxPower = 100000000000L;
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
-
-	public TileEntityMachineLargeTurbine() {
-		super(7);
+	
+	public List<IConsumer> list1 = new ArrayList();
+	public List<IFluidAcceptor> list2 = new ArrayList();
+	
+	public FluidTank[] tanks;
+	
+	public TileEntityChungus() {
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 10240000, 1);
+		tanks[0] = new FluidTank(FluidType.STEAM, 1000000000, 0);
+		tanks[1] = new FluidTank(FluidType.WATER, 1000000000, 1);
 	}
 
-	@Override
-	public String getName() {
-		return "container.machineLargeTurbine";
-	}
-
+	@Untested
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
-			age++;
-			if(age >= 2)
-			{
-				age = 0;
-			}
-			
-			fillFluidInit(tanks[1].getTankType());
-			ffgeuaInit();
-
-			tanks[0].setType(0, 1, slots);
-			tanks[0].loadTank(2, 3, slots);
-			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
-			
-			boolean operational = false;
-			
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
-			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
-			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
-				
-				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 10F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 10% cap
-				int processSteam = tanks[0].getFill() / (Integer)outs[2];										//the maximum amount of cycles depending on steam
-				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];				//the maximum amount of cycles depending on water
-				
-				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
-				
-				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
-				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
-				
-				power += (Integer)outs[3] * cycles;
-				
-				if(power > maxPower)
-					power = maxPower;
-				
-				if(cycles > 0)
-					operational = true;
-			}
+			tanks[1].setTankType((FluidType) outs[0]);
 			
-			tanks[1].unloadTank(5, 6, slots);
+			int processMax = (int) Math.ceil(tanks[0].getFill() / (Integer)outs[2]);				//the maximum amount of cycles total
+			int processSteam = tanks[0].getFill() / (Integer)outs[2];								//the maximum amount of cycles depending on steam
+			int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];		//the maximum amount of cycles depending on water
 			
-			for(int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			int cycles = Math.min(processMax, Math.min(processSteam, processWater));
+			
+			tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
+			tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
+			
+			power += (Integer)outs[3] * cycles;
+			
+			if(power > maxPower)
+				power = maxPower;
+			
+			shouldTurn = cycles > 0;
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
-			data.setBoolean("operational", operational);
-			this.networkPack(data, 50);
+			data.setBoolean("operational", shouldTurn);
+			this.networkPack(data, 150);
+			
 		} else {
 			
 			this.lastRotor = this.rotor;
 			
 			if(shouldTurn) {
 				
-				this.rotor += 15F;
+				this.rotor += 30F;
 				
 				if(this.rotor >= 360) {
 					this.rotor -= 360;
@@ -118,13 +92,14 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		}
 	}
 	
+	public void networkPack(NBTTagCompound nbt, int range) {
+		PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.shouldTurn = data.getBoolean("operational");
-	}
-	
-	public long getPowerScaled(int i) {
-		return (power * i) / maxPower;
 	}
 	
 	@Override
@@ -145,13 +120,11 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
 		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
 	public void ffgeuaInit() {
-		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ffgeua(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, getTact());
 	}
@@ -173,12 +146,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	
 	@Override
 	public boolean getTact() {
-		if(age == 0)
-		{
-			return true;
-		}
-		
-		return false;
+		return worldObj.getTotalWorldTime() % 2 == 0;
 	}
 
 	@Override
