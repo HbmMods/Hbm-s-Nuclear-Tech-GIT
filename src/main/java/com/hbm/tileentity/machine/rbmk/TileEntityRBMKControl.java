@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,9 +21,10 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 	public TileEntityRBMKControl() {
 		super(0);
 	}
-
-	public boolean hasLid() {
-		return true;
+	
+	@Override
+	public boolean isLidRemovable() {
+		return false;
 	}
 	
 	@Override
@@ -54,6 +56,14 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 		super.updateEntity();
 	}
 	
+	public void setTarget(double target) {
+		this.targetLevel = target;
+	}
+	
+	public double getMult() {
+		return this.level;
+	}
+	
 	@Override
 	public int trackingRange() {
 		return 150;
@@ -83,6 +93,8 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 	
 	@Override
 	public void onMelt(int reduce) {
+		
+		RBMKBase.dropLids = false;
 
 		reduce = MathHelper.clamp_int(reduce, 1, 3);
 		
@@ -110,6 +122,8 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 		for(int i = 0; i < count; i++) {
 			spawnDebris(DebrisType.ROD);
 		}
+		
+		RBMKBase.dropLids = true;
 		
 		//control rods will not spawn lid projectiles since the lid is already part of the rod projectiles
 		//super.onMelt(reduce);

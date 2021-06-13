@@ -468,12 +468,23 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.hull_big_steel, 1),
 				new OreDictStack("plateSteel", 12),
 				new ComparableStack(ModItems.turbine_titanium, 3),
-				new ComparableStack(ModItems.rotor_steel, 2),
-				new ComparableStack(ModItems.generator_steel, 2),
+				new ComparableStack(ModItems.generator_steel, 1),
 				new ComparableStack(ModItems.bolt_compound, 3),
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.circuit_aluminium, 1),
 			}, 20);
+		makeRecipe(new ComparableStack(ModBlocks.machine_chungus, 1), new AStack[] {
+				new ComparableStack(ModItems.hull_big_steel, 6),
+				new OreDictStack("plateSteel", 32),
+				new OreDictStack("plateTitanium", 12),
+				new ComparableStack(ModItems.ingot_tcalloy, 16),
+				new ComparableStack(ModItems.turbine_tungsten, 5),
+				new ComparableStack(ModItems.turbine_titanium, 3),
+				new ComparableStack(ModItems.flywheel_beryllium, 1),
+				new ComparableStack(ModItems.generator_steel, 10),
+				new ComparableStack(ModItems.bolt_compound, 16),
+				new ComparableStack(ModItems.pipes_steel, 3)
+			}, 600);
 
 		makeRecipe(new ComparableStack(ModItems.pellet_chlorophyte, 2), new AStack[] {
 				new ComparableStack(ModItems.powder_chlorophyte, 1),
@@ -737,7 +748,7 @@ public class AssemblerRecipes {
 		hidden.put(new ComparableStack(ModItems.missile_soyuz_lander, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 	}
 	
-	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
+	public static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
 		
 		if(out == null || Item.itemRegistry.getNameForObject(out.item) == null) {
 			MainRegistry.logger.error("Canceling assembler registration, item was null!");

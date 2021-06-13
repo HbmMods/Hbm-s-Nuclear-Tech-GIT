@@ -1182,6 +1182,13 @@ public class ClientProxy extends ServerProxy {
 			player.attackedAtYaw = 0F;
 		}
 		
+		if("properJolt".equals(type)) {
+			
+			player.hurtTime = data.getInteger("time");
+			player.maxHurtTime = data.getInteger("maxTime");
+			player.attackedAtYaw = 0F;
+		}
+		
 		if("sweat".equals(type)) {
 			
 			Entity e = world.getEntityByID(data.getInteger("entity"));

@@ -10,10 +10,28 @@ import net.minecraft.util.Vec3;
 public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver {
 
 	public RBMKColor color;
+	public double startingLevel;
 
 	@Override
 	public String getName() {
 		return "container.rbmkControl";
+	}
+
+	@Override
+	public void setTarget(double target) {
+		this.targetLevel = target;
+		this.startingLevel = this.level;
+	}
+	
+	public double getMult() {
+		
+		double surge = 0;
+		
+		if(this.targetLevel < this.startingLevel && this.level != this.targetLevel) {
+			surge = Math.sin(Math.pow(this.level, 15) * Math.PI) * (this.startingLevel - this.targetLevel) * RBMKDials.getSurgeMod(worldObj);
+		}
+		
+		return this.level + surge;
 	}
 
 	@Override
@@ -25,7 +43,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("level")) {
-			this.targetLevel = data.getDouble("level");
+			this.setTarget(data.getDouble("level"));
 		}
 		
 		if(data.hasKey("color")) {

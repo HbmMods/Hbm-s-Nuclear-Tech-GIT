@@ -134,7 +134,7 @@ public class EntityEffectHandler {
 			
 			float digamma = HbmLivingProps.getDigamma(entity);
 			
-			if(digamma == 0)
+			if(digamma < 0.01F)
 				return;
 			
 			int chance = Math.max(10 - (int)(digamma), 1);

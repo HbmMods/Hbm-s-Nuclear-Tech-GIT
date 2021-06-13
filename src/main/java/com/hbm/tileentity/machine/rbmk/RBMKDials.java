@@ -17,6 +17,7 @@ public class RBMKDials {
 	public static final String KEY_REACTIVITY_MOD = "dialReactivityMod";
 	public static final String KEY_SAVE_DIALS = "dialSaveDials";
 	public static final String KEY_OUTGASSER_MOD = "dialOutgasserSpeedMod";
+	public static final String KEV_SURGE_MOD = "dialControlSurgeMod";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -27,19 +28,20 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_FUEL_DIFFUSION_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_HEAT_PROVISION, "0.2");
 			rules.setOrCreateGameRule(KEY_COLUMN_HEIGHT, "4");
-			rules.setOrCreateGameRule(KEY_PERMANENT_SCRAP, "false");
+			rules.setOrCreateGameRule(KEY_PERMANENT_SCRAP, "true");
 			rules.setOrCreateGameRule(KEY_BOILER_HEAT_CONSUMPTION, "0.1");
 			rules.setOrCreateGameRule(KEY_CONTROL_SPEED_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_REACTIVITY_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_SAVE_DIALS, "true");
 			rules.setOrCreateGameRule(KEY_OUTGASSER_MOD, "1.0");
+			rules.setOrCreateGameRule(KEV_SURGE_MOD, "1.0");
 		}
 	}
 	
 	/**
 	 * Returns the amount of heat per tick removed from components passively
 	 * @param world
-	 * @return
+	 * @return >0
 	 */
 	public static double getPassiveCooling(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 5.0D), 0.0D);
@@ -102,7 +104,7 @@ public class RBMKDials {
 	/**
 	 * A multiplier for how quickly the control rods move.
 	 * @param world
-	 * @return
+	 * @return >0
 	 */
 	public static double getControlSpeed(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_CONTROL_SPEED_MOD), 1.0D), 0.0D);
@@ -111,7 +113,7 @@ public class RBMKDials {
 	/**
 	 * A multiplier for how much flux the rods give out.
 	 * @param world
-	 * @return
+	 * @return >0
 	 */
 	public static double getReactivityMod(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REACTIVITY_MOD), 1.0D), 0.0D);
@@ -120,10 +122,19 @@ public class RBMKDials {
 	/**
 	 * A multiplier for how much flux the rods give out.
 	 * @param world
-	 * @return
+	 * @return >0
 	 */
 	public static double getOutgasserMod(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_OUTGASSER_MOD), 1.0D), 0.0D);
+	}
+	
+	/**
+	 * A multiplier for how high the power surge goes when inserting control rods
+	 * @param world
+	 * @return >0
+	 */
+	public static double getSurgeMod(World world) {
+		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEV_SURGE_MOD), 1.0D), 0.0D);
 	}
 	
 	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?

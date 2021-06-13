@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -60,7 +61,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				Block b = this.getBlockType();
 				
 				//for when you fill antimatter into a matter tank
-				if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
+				if(b != ModBlocks.barrel_antimatter && tank.getTankType().traits.contains(FluidTrait.AMAT)) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 				}
@@ -72,7 +73,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				}
 				
 				//for when you fill corrosive liquid into an iron tank
-				if(b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) {
+				if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
+						(b == ModBlocks.barrel_steel && tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2))) {
 					ItemStack[] copy = this.slots.clone();
 					this.slots = new ItemStack[6];
 					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);

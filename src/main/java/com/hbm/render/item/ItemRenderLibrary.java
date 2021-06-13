@@ -962,6 +962,22 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.waste_drum_tex);
 				ResourceManager.waste_drum.renderAll();
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_chungus), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0.5, 0, 0);
+				GL11.glScaled(2.5, 2.5, 2.5);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glRotated(90, 0, 1, 0);
+				bindTexture(ResourceManager.chungus_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.chungus.renderPart("Body");
+				ResourceManager.chungus.renderPart("Lever");
+				ResourceManager.chungus.renderPart("Blades");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

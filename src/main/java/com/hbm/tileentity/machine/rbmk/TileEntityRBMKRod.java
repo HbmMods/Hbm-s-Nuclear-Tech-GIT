@@ -142,10 +142,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				if(te instanceof TileEntityRBMKControl) {
 					TileEntityRBMKControl control = (TileEntityRBMKControl)te;
 					
-					if(control.level == 0.0D)
+					if(control.getMult() == 0.0D)
 						break;
 					
-					flux *= control.level;
+					flux *= control.getMult();
 					continue;
 				}
 				

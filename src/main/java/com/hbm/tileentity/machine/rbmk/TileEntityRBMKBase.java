@@ -46,7 +46,15 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	public double heat;
 
 	public boolean hasLid() {
+		
+		if(!isLidRemovable())
+			return true;
+		
 		return this.getBlockMetadata() != RBMKBase.DIR_NO_LID.ordinal() + RBMKBase.offset;
+	}
+
+	public boolean isLidRemovable() {
+		return true;
 	}
 	
 	/**
@@ -125,8 +133,9 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			for(TileEntityRBMKBase rbmk : rec) {
 				double delta = targetHeat - rbmk.heat;
 				rbmk.heat += delta * stepSize;
-				rbmk.markDirty();
 			}
+			
+			this.markDirty();
 		}
 	}
 	

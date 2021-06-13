@@ -5,6 +5,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityHadronDiode;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 
+import api.hbm.block.IScrewable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -16,8 +17,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHadronDiode extends BlockContainer {
-	
+public class BlockHadronDiode extends BlockContainer implements IScrewable {
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconIn;
 	@SideOnly(Side.CLIENT)
@@ -31,7 +32,7 @@ public class BlockHadronDiode extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityHadronDiode();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -40,13 +41,13 @@ public class BlockHadronDiode extends BlockContainer {
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":hadron_diode");
 	}
 
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-    	
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+
 		TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(x, y, z);
-		
+
 		DiodeConfig conf = diode.getConfig(side);
-		
+
 		switch(conf) {
 		case NONE:
 			return blockIcon;
@@ -56,25 +57,21 @@ public class BlockHadronDiode extends BlockContainer {
 		default:
 			return iconOut;
 		}
-    }
+	}
 	
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fx, float fy, float fz) {
-    	
-    	if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.screwdriver) {
-    		
-    		if(!world.isRemote) {
-    			TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(x, y, z);
-    			int config = diode.getConfig(side).ordinal();
-    			config += 1;
-    			config %= DiodeConfig.values().length;
-    			diode.setConfig(side, config);
-    		}
-			
-			world.markBlockForUpdate(x, y, z);
-
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ) {
+		
+		if(!world.isRemote) {
+			TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(x, y, z);
+			int config = diode.getConfig(side).ordinal();
+			config += 1;
+			config %= DiodeConfig.values().length;
+			diode.setConfig(side, config);
+		}
+		
+		world.markBlockForUpdate(x, y, z);
+		
+		return true;
+	}
 }

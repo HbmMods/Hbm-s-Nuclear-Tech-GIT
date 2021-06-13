@@ -222,8 +222,8 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 15))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long_depleted, 1, ItemWasteLong.WasteClass.URANIUM.ordinal()), new SILEXRecipe(900, 100)
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 75))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 65))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 15))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 20))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.URANIUM.ordinal()), new SILEXRecipe(900, 100)
@@ -235,8 +235,8 @@ public class SILEXRecipes {
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short_depleted, 1, ItemWasteShort.WasteClass.URANIUM.ordinal()), new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_neptunium), 15))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 35))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 25))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 15))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 45))
 				);
 		
@@ -260,8 +260,8 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 25))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long_depleted, 1, ItemWasteLong.WasteClass.THORIUM.ordinal()), new SILEXRecipe(900, 100)
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 85))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 75))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 15))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 10))
 				);
 

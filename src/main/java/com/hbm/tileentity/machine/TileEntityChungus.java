@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -29,7 +30,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 
 	public long power;
 	public static final long maxPower = 100000000000L;
-	private boolean shouldTurn;
+	private int turnTimer;
 	public float rotor;
 	public float lastRotor;
 	
@@ -69,24 +70,43 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 			if(power > maxPower)
 				power = maxPower;
 			
-			shouldTurn = cycles > 0;
+			turnTimer--;
+			
+			if(cycles > 0)
+				turnTimer = 25;
+			
+			this.fillFluidInit(tanks[1].getTankType());
+			this.ffgeuaInit();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
-			data.setBoolean("operational", shouldTurn);
+			data.setInteger("type", tanks[0].getTankType().ordinal());
+			data.setInteger("operational", turnTimer);
 			this.networkPack(data, 150);
 			
 		} else {
 			
 			this.lastRotor = this.rotor;
 			
-			if(shouldTurn) {
+			if(turnTimer > 0) {
 				
-				this.rotor += 30F;
+				this.rotor += 25F;
 				
 				if(this.rotor >= 360) {
 					this.rotor -= 360;
 					this.lastRotor -= 360;
+				}
+				
+				Random rand = worldObj.rand;
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
+				
+				for(int i = 0; i < 10; i++) {
+					worldObj.spawnParticle("cloud",
+							xCoord + 0.5 + dir.offsetX * (rand.nextDouble() + 1.25) + rand.nextGaussian() * side.offsetX * 0.65,
+							yCoord + 2.5 + rand.nextGaussian() * 0.65,
+							zCoord + 0.5 + dir.offsetZ * (rand.nextDouble() + 1.25) + rand.nextGaussian() * side.offsetZ * 0.65,
+							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
 			}
 		}
@@ -99,7 +119,8 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
-		this.shouldTurn = data.getBoolean("operational");
+		this.turnTimer = data.getInteger("operational");
+		this.tanks[0].setTankType(FluidType.values()[data.getInteger("type")]);
 	}
 	
 	@Override
@@ -126,7 +147,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	@Override
 	public void ffgeuaInit() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ffgeua(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, getTact());
+		ffgeua(xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, getTact());
 	}
 
 	@Override
@@ -135,8 +156,8 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		dir = dir.getRotation(ForgeDirection.UP);
 
-		fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * -2, yCoord, zCoord + dir.offsetZ * -2, getTact(), type);
+		fillFluid(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, getTact(), type);
+		fillFluid(xCoord + dir.offsetX * -3, yCoord, zCoord + dir.offsetZ * -3, getTact(), type);
 	}
 
 	@Override

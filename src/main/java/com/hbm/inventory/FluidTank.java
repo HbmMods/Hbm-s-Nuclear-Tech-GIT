@@ -1,6 +1,10 @@
 package com.hbm.inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.gui.GuiInfoContainer;
@@ -235,10 +239,26 @@ public class FluidTank {
 	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
-			if(type.temperature == 0)
-				gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
-			else
-				gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB", EnumChatFormatting.RED + "" + type.temperature + "°C" }, mouseX, mouseY);
+			List<String> list = new ArrayList();
+			list.add(I18n.format(this.type.getUnlocalizedName()));
+			list.add(fluid + "/" + maxFluid + "mB");
+
+			if(type.temperature < 0)
+				list.add(EnumChatFormatting.BLUE + "" + type.temperature + "°C");
+			
+			if(type.temperature > 0)
+				list.add(EnumChatFormatting.RED + "" + type.temperature + "°C");
+			
+			if(type.isAntimatter())
+				list.add(EnumChatFormatting.DARK_RED + "Antimatter");
+			
+			if(type.traits.contains(FluidTrait.CORROSIVE))
+				list.add(EnumChatFormatting.YELLOW + "Corrosive");
+			
+			if(type.traits.contains(FluidTrait.CORROSIVE_2))
+				list.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
+			
+			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
 	}
 	

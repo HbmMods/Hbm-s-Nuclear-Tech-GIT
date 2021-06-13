@@ -123,7 +123,9 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
 					
 					if(te instanceof TileEntityRBMKControlManual) {
-						((TileEntityRBMKControlManual)te).targetLevel = MathHelper.clamp_double(data.getDouble("level"), 0, 1);
+						TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+						rod.startingLevel = rod.level;
+						rod.setTarget(MathHelper.clamp_double(data.getDouble("level"), 0, 1));
 						te.markDirty();
 					}
 				}

@@ -94,6 +94,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_magnetized_tungsten, 1);
 		}
 
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"nuggetTechnetium99", "tinyTc99"})
+				|| mODE(item, new String[] {"nuggetTechnetium99", "tinyTc99"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+			return new ItemStack(ModItems.ingot_tcalloy, 1);
+		}
+
 		if (item.getItem() == ModItems.plate_mixed && mODE(item2, "plateGold")
 				|| mODE(item, "plateGold") && item2.getItem() == ModItems.plate_mixed) {
 			return new ItemStack(ModItems.plate_paa, 2);
@@ -799,6 +804,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium)).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },

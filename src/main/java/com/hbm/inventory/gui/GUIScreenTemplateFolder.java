@@ -63,7 +63,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			// Fluid IDs
 			for(int i = 1; i < FluidType.values().length; i++)
-				allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+				if(!FluidType.values()[i].hasNoContainer())
+					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
 			// Assembly Templates
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null)

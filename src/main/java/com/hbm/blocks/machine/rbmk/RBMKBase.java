@@ -8,6 +8,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
+import api.hbm.block.IScrewable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -20,7 +21,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class RBMKBase extends BlockDummyable {
+public abstract class RBMKBase extends BlockDummyable implements IScrewable {
+	
+	public static boolean dropLids = true;
 
 	protected RBMKBase() {
 		super(Material.iron);
@@ -63,7 +66,6 @@ public abstract class RBMKBase extends BlockDummyable {
 		}
 		
 		if(!player.isSneaking()) {
-
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, gui, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
@@ -123,7 +125,7 @@ public abstract class RBMKBase extends BlockDummyable {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
 		
-		if(!world.isRemote) {
+		if(!world.isRemote && dropLids) {
 			
 			if(i == DIR_NORMAL_LID.ordinal() + offset) {
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5 + RBMKDials.getColumnHeight(world), z + 0.5, new ItemStack(ModItems.rbmk_lid)));
@@ -134,6 +136,40 @@ public abstract class RBMKBase extends BlockDummyable {
 		}
 		
 		super.breakBlock(world, x, y, z, b, i);
+	}
+	
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos != null) {
+			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(te instanceof TileEntityRBMKBase) {
+				
+				TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
+				int i = rbmk.getBlockMetadata();
+				
+				if(rbmk.hasLid() && rbmk.isLidRemovable()) {
+					
+					if(!world.isRemote) {
+						if(i == DIR_NORMAL_LID.ordinal() + offset) {
+							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid)));
+						}
+						if(i == DIR_GLASS_LID.ordinal() + offset) {
+							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid_glass)));
+						}
+						
+						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + this.offset, 3);
+					}
+					
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	public static int renderIDRods = RenderingRegistry.getNextAvailableRenderId();
