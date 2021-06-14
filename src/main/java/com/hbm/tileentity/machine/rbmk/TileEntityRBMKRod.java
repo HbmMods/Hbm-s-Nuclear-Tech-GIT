@@ -60,6 +60,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					return;
 				}
 				
+				if(!this.hasLid()) {
+					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) ((this.fluxFast + this.fluxSlow) * 0.05F));
+				}
+				
+				super.updateEntity();
+				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
@@ -67,12 +73,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				spreadFlux(rType, fluxOut);
 				
 				hasRod = true;
-				
-				if(!this.hasLid()) {
-					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) ((this.fluxFast + this.fluxSlow) * 0.05F));
-				}
-				
-				super.updateEntity();
 				
 			} else {
 

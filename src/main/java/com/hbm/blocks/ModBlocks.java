@@ -905,6 +905,8 @@ public class ModBlocks {
 	public static final int guiID_richard = 108;
 	public static Block turret_howard;
 	public static final int guiID_howard = 112;
+	public static Block turret_maxwell;
+	public static final int guiID_maxwell = 112;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_control;
@@ -1703,6 +1705,7 @@ public class ModBlocks {
 		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":turret_maxwell");
 
 		rbmk_rod = new RBMKRod().setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_control = new RBMKControl().setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
@@ -2282,6 +2285,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_tauon, turret_tauon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_richard, turret_richard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_howard, turret_howard.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_maxwell, turret_maxwell.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
