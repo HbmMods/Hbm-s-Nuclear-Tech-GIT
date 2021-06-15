@@ -208,11 +208,16 @@ public class MainRegistry {
 	public static int y;
 	public static int z;
 	public static long time;
+	
+	public static long startupTime = 0;
 
 	Random rand = new Random();
 
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
+		
+		startupTime = System.currentTimeMillis();
+		
 		if(logger == null)
 			logger = PreEvent.getModLog();
 

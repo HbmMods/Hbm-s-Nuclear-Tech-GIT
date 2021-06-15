@@ -906,7 +906,7 @@ public class ModBlocks {
 	public static Block turret_howard;
 	public static final int guiID_howard = 112;
 	public static Block turret_maxwell;
-	public static final int guiID_maxwell = 112;
+	public static final int guiID_maxwell = 120;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_control;

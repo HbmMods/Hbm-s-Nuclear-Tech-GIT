@@ -28,10 +28,13 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.*;
@@ -1338,6 +1341,29 @@ public class ClientProxy extends ServerProxy {
 				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
 		}
+		
+		if("vanish".equals(type)) {
+			int ent = data.getInteger("ent");
+			this.vanish(ent);
+		}
+	}
+	
+	private HashMap<Integer, Long> vanished = new HashMap();
+	
+	public void vanish(int ent) {
+		vanished.put(ent, System.currentTimeMillis() + 2000);
+	}
+	
+	@Override
+	public boolean isVanished(Entity e) {
+		
+		if(e == null)
+			return false;
+		
+		if(!this.vanished.containsKey(e.getEntityId()))
+			return false;
+		
+		return this.vanished.get(e.getEntityId()) > System.currentTimeMillis();
 	}
 	
 	@Override

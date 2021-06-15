@@ -5,67 +5,73 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
 public class HTTPHandler {
-	
-	public static String capsule = "ERROR         ";
+
+	public static List<String> capsule = new ArrayList();
 	public static boolean newVersion = false;
 	public static String versionNumber = "";
-	
+
 	public static void loadStats() {
-		
+
 		try {
-			
+
 			loadVersion();
 			loadSoyuz();
-	        
-		} catch (IOException e) {
+
+		} catch(IOException e) {
 			MainRegistry.logger.warn("Version checker failed!");
 		}
 	}
-	
+
 	private static void loadVersion() throws IOException {
-		
+
 		URL github = new URL("https://raw.githubusercontent.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/master/src/main/java/com/hbm/lib/RefStrings.java");
-        BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
-		
-        MainRegistry.logger.info("Searching for new versions...");
-        String line;
-        
-        while ((line = in.readLine()) != null) {
-        	
-            if(line.contains("String VERSION")) {
+		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 
-            	int begin = line.indexOf('"');
-            	int end = line.lastIndexOf('"');
-            	
-            	String sub = line.substring(begin + 1, end);
-            	
-            	newVersion = !RefStrings.VERSION.equals(sub);
-            	versionNumber = sub;
-    	        MainRegistry.logger.info("Found version " + sub);
-    	        break;
-            }
-        }
+		MainRegistry.logger.info("Searching for new versions...");
+		String line;
 
-        MainRegistry.logger.info("Version checker ended.");
-        in.close();
+		while((line = in.readLine()) != null) {
+
+			if(line.contains("String VERSION")) {
+
+				int begin = line.indexOf('"');
+				int end = line.lastIndexOf('"');
+
+				String sub = line.substring(begin + 1, end);
+
+				newVersion = !RefStrings.VERSION.equals(sub);
+				versionNumber = sub;
+				MainRegistry.logger.info("Found version " + sub);
+				break;
+			}
+		}
+
+		MainRegistry.logger.info("Version checker ended.");
+		in.close();
 	}
-	
+
 	private static void loadSoyuz() throws IOException {
-		
+
 		URL github = new URL("https://gist.githubusercontent.com/HbmMods/a1cad71d00b6915945a43961d0037a43/raw/soyuz_holo");
-        BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
-        
-        String line = in.readLine();
-        
-        if(line != null)
-        	capsule = line;
-        
-        in.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
+
+		String line;
+
+		while((line = in.readLine()) != null) {
+			capsule.add(line);
+		}
+
+		if(capsule.isEmpty())
+			capsule.add("I AM ERROR");
+
+		in.close();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -8,11 +9,9 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -28,7 +27,6 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
-import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -49,6 +47,7 @@ import com.hbm.util.I18nUtil;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -500,7 +499,8 @@ public class ModEventHandlerClient {
 			
 			GL11.glRotated(System.currentTimeMillis() * 0.025 % 360, 0, -1, 0);
 
-			String msg = HTTPHandler.capsule;
+			int rand = new Random(MainRegistry.startupTime).nextInt(HTTPHandler.capsule.size());
+			String msg = HTTPHandler.capsule.get(rand);
 
 			GL11.glTranslated(0, 3.75, 0);
 			GL11.glRotated(180, 1, 0, 0);
@@ -543,6 +543,13 @@ public class ModEventHandlerClient {
 			if(chestplate.thermal)
 				RenderOverhead.renderThermalSight(event.partialTicks);
 		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void preRenderEventFirst(RenderLivingEvent.Pre event) {
+		
+		if(MainRegistry.proxy.isVanished(event.entity))
+			event.setCanceled(true);
 	}
 	
 	@SubscribeEvent

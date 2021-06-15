@@ -25,4 +25,15 @@ public class EntityDamageUtil {
 			return true;
 		}
 	}
+	
+	public static float getLastDamage(Entity victim) {
+		
+		try {
+			Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
+
+			return lastDamage.getFloat(victim);
+		} catch(Exception x) {
+			return 0F;
+		}
+	}
 }

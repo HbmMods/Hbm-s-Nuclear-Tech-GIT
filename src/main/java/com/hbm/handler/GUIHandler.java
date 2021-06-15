@@ -834,6 +834,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_maxwell: {
+			if(entity instanceof TileEntityTurretMaxwell) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretMaxwell) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1652,6 +1659,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rbmk_outgasser: {
 			if(entity instanceof TileEntityRBMKOutgasser) {
 				return new GUIRBMKOutgasser(player.inventory, (TileEntityRBMKOutgasser) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_maxwell: {
+			if(entity instanceof TileEntityTurretMaxwell) {
+				return new GUITurretMaxwell(player.inventory, (TileEntityTurretMaxwell) entity);
 			}
 			return null;
 		}

@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.sound.AudioWrapper;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -33,5 +34,9 @@ public class ServerProxy {
 	}
 	public EntityPlayer me() {
 		return null;
+	}
+
+	public boolean isVanished(Entity e) {
+		return false;
 	}
 }
