@@ -46,7 +46,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	 *  I I I I
 	 *  I I I I
 	 *  I I I I
-	 *  I I I I
+	 * ,I I I I,
 	 * |'-----'|
 	 * |       |
 	 *  '-----'

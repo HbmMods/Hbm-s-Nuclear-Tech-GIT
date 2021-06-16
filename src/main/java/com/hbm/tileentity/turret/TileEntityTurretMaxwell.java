@@ -123,18 +123,19 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 				float health = this.target instanceof EntityLivingBase ? ((EntityLivingBase)this.target).getMaxHealth() : 20F;
 				int count = Math.min((int)Math.ceil(health / 3D), 250);
 				
-				NBTTagCompound data = new NBTTagCompound();
+				/*NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaburst");
 				data.setInteger("count", count * 4);
 				data.setDouble("motion", 0.1D);
 				data.setString("mode", "blockdust");
 				data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 50));
-
+				*/
+				
 				NBTTagCompound vdat = new NBTTagCompound();
-				vdat.setString("type", "vanish");
+				vdat.setString("type", "giblets");
 				vdat.setInteger("ent", this.target.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 50));
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 150));
 				
 				worldObj.playSoundEffect(this.target.posX, this.target.posY, this.target.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 			}

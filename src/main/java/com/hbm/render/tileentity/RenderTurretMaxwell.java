@@ -10,7 +10,6 @@ import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.turret.TileEntityTurretMaxwell;
 
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
@@ -63,7 +62,7 @@ public class RenderTurretMaxwell extends RenderTurretBase {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDepthMask(false);
 			
-			Tessellator tess = Tessellator.instance;
+			/*Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			Vec3 v = Vec3.createVectorHelper(0, 0.375, 0);
 			for(int i = 0; i < 16; i++) {
@@ -79,7 +78,7 @@ public class RenderTurretMaxwell extends RenderTurretBase {
 				tess.addVertex(0, v.yCoord, v.zCoord);
 			}
 			
-			tess.draw();
+			tess.draw();*/
 
 			GL11.glDepthMask(true);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -88,7 +87,10 @@ public class RenderTurretMaxwell extends RenderTurretBase {
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glShadeModel(GL11.GL_FLAT);
 			
-			BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0x8080ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50) % 360, (int)((turret.lastDist + 1) * 10), 0.4325F, 0, 0);
+			for(int i = 0; i < 8; i++)
+				BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x2020ff, 0x2020ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50 + i * 45) % 360, (int)((turret.lastDist + 1)), 0.375F, 2, 0.05F);
+			
+			//BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0x8080ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50) % 360, (int)((turret.lastDist + 1) * 10), 0.4325F, 0, 0);
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();
 		}

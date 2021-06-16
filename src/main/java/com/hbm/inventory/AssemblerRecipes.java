@@ -681,6 +681,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.mechanism_rifle_2, 2),
 				new ComparableStack(ModBlocks.crate_steel, 1)
 			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_maxwell, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_lithium_battery, 1),
+				new OreDictStack("ingotSteel", 24),
+				new ComparableStack(ModItems.ingot_dura_steel, 6),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.circuit_targeting_tier4, 2),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.mechanism_special, 3),
+				new ComparableStack(ModItems.magnetron, 16),
+				new ComparableStack(ModItems.ingot_tcalloy, 8)
+			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_silex, 1), new AStack[] {
 				new ComparableStack(Blocks.glass, 12),
 				new ComparableStack(ModItems.motor, 2),
@@ -892,7 +903,7 @@ public class AssemblerRecipes {
 			
 			if(array.get(2).getAsJsonPrimitive().isNumber()) {
 				
-				stacksize = Math.min(64, Math.max(1, array.get(2).getAsJsonPrimitive().getAsNumber().intValue()));
+				stacksize = Math.max(1, array.get(2).getAsJsonPrimitive().getAsNumber().intValue());
 				
 			} else {
 				

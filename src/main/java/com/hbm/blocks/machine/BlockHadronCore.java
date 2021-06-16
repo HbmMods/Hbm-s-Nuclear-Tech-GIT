@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityHadron;
@@ -69,6 +70,8 @@ public class BlockHadronCore extends BlockContainer {
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
+			
+			BossSpawnHandler.markFBI(player);
 			
 			TileEntityHadron entity = (TileEntityHadron) world.getTileEntity(x, y, z);
 			if(entity != null) {

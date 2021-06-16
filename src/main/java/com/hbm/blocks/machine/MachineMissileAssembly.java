@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
@@ -48,14 +49,14 @@ public class MachineMissileAssembly extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
+		} else if(!player.isSneaking()) {
+
+			BossSpawnHandler.markFBI(player);
+
 			TileEntityMachineMissileAssembly entity = (TileEntityMachineMissileAssembly) world.getTileEntity(x, y, z);
-			if(entity != null)
-			{
+			if(entity != null) {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_missile_assembly, world, x, y, z);
 			}
 			return true;

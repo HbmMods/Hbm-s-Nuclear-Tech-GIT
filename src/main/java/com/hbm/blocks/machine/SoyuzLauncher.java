@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
@@ -53,6 +54,8 @@ public class SoyuzLauncher extends BlockDummyable {
 			
 			if(pos == null)
 				return false;
+			
+			BossSpawnHandler.markFBI(player);
 			
 			TileEntitySoyuzLauncher entity = (TileEntitySoyuzLauncher) world.getTileEntity(pos[0], pos[1], pos[2]);
 			if(entity != null)

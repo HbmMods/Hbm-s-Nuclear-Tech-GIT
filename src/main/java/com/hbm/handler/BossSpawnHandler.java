@@ -49,18 +49,21 @@ public class BossSpawnHandler {
 				if(world.rand.nextInt(MobConfig.raidChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
-					player.addChatComponentMessage(new ChatComponentText("FBI, OPEN UP!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 					
-					Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
-					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
-					
-					for(int i = 0; i < MobConfig.raidAmount; i++) {
-
-						double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian() * 5;
-						double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian() * 5;
-						double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+					if(player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).getLong("fbiMark") < world.getTotalWorldTime()) {
+						player.addChatComponentMessage(new ChatComponentText("FBI, OPEN UP!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						
-						trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityFBI(world));
+						Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
+						vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
+						
+						for(int i = 0; i < MobConfig.raidAmount; i++) {
+	
+							double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian() * 5;
+							double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian() * 5;
+							double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+							
+							trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityFBI(world));
+						}
 					}
 				}
 			}
@@ -115,4 +118,9 @@ public class BossSpawnHandler {
 		}
 	}
 
+	public static void markFBI(EntityPlayer player) {
+		
+		if(!player.worldObj.isRemote)
+			player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setLong("fbiMark", player.worldObj.getTotalWorldTime() + 20 * 60 * 20);
+	}
 }

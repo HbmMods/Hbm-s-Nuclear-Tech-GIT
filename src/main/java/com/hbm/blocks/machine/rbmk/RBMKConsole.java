@@ -2,6 +2,7 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGuideBook.BookType;
@@ -56,6 +57,8 @@ public class RBMKConsole extends BlockDummyable {
 			return true;
 			
 		} else if(!player.isSneaking()) {
+			
+			BossSpawnHandler.markFBI(player);
 			
 			int[] pos = this.findCore(world, x, y, z);
 
