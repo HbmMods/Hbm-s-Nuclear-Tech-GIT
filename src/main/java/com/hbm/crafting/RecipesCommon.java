@@ -14,6 +14,17 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  * @author hbm
  */
 public class RecipesCommon {
+	
+	//Bundled 1/9 recipes
+	public static void add1To9Pair(Item one, Item nine) {
+		add1To9(new ItemStack(one), new ItemStack(nine, 9));
+		add9To1(new ItemStack(nine), new ItemStack(one));
+	}
+
+	public static void add1To9Pair(Block one, Item nine) {
+		add1To9(new ItemStack(one), new ItemStack(nine, 9));
+		add9To1(new ItemStack(nine), new ItemStack(one));
+	}
 
 	//Decompress one item into nine
 	public static void add1To9(Block one, Item nine) {

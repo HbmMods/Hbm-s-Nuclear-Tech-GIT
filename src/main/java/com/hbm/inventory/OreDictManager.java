@@ -60,6 +60,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotZirconium", ModItems.ingot_zirconium);
 		OreDictionary.registerOre("ingotBoron", ModItems.ingot_boron);
 		OreDictionary.registerOre("ingotTcAlloy", ModItems.ingot_tcalloy);
+		OreDictionary.registerOre("ingotGold198", ModItems.ingot_au198);
 
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
@@ -81,6 +82,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetPolonium", ModItems.nugget_polonium);
 		OreDictionary.registerOre("nuggetSchrabidium", ModItems.nugget_schrabidium);
 		OreDictionary.registerOre("nuggetZirconium", ModItems.nugget_zirconium);
+		OreDictionary.registerOre("nuggetRadium226", ModItems.nugget_ra226);
+		OreDictionary.registerOre("nuggetGol198", ModItems.nugget_au198);
 		OreDictionary.registerOre("tinyU233", ModItems.nugget_u233);
 		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
 		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
@@ -91,6 +94,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("tinyPu241", ModItems.nugget_pu241);
 		OreDictionary.registerOre("tinyNp237", ModItems.nugget_neptunium);
 		OreDictionary.registerOre("tinyTc99", ModItems.nugget_technetium);
+		OreDictionary.registerOre("tinyRa226", ModItems.nugget_ra226);
 
 		OreDictionary.registerOre("nuggetNeodymium", ModItems.fragment_neodymium);
 		OreDictionary.registerOre("nuggetCobalt", ModItems.fragment_cobalt);
@@ -143,6 +147,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustZirconium", ModItems.powder_zirconium);
 		OreDictionary.registerOre("dustBoron", ModItems.powder_boron);
 		OreDictionary.registerOre("dustTcAlloy", ModItems.powder_tcalloy);
+		OreDictionary.registerOre("dustGol198", ModItems.powder_au198);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);

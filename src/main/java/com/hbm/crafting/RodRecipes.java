@@ -167,11 +167,14 @@ public class RodRecipes {
 		RecipesCommon.addRBMKRod(ModItems.billet_pu241, ModItems.rbmk_fuel_hep241);
 		RecipesCommon.addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
 		RecipesCommon.addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
+		RecipesCommon.addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
 		RecipesCommon.addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
 		RecipesCommon.addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
 		RecipesCommon.addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
 		RecipesCommon.addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
+		RecipesCommon.addRBMKRod(ModItems.billet_les, ModItems.rbmk_fuel_les);
 		RecipesCommon.addRBMKRod(ModItems.billet_schrabidium_fuel, ModItems.rbmk_fuel_mes);
+		RecipesCommon.addRBMKRod(ModItems.billet_hes, ModItems.rbmk_fuel_hes);
 		RecipesCommon.addRBMKRod(ModItems.billet_balefire_gold, ModItems.rbmk_fuel_balefire_gold);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
 		

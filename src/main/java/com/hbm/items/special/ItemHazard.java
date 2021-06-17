@@ -63,6 +63,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float sa327 = 17.5F;
 	public static final float saf = 5.85F;
 	public static final float pobe = 37.5F;
+	public static final float rabe = 3.75F;
 	public static final float pube = 5.0F;
 
 	public static final float sr = sa326 * 0.1F;
