@@ -24,8 +24,9 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	
 	public ItemRBMKPellet pellet;
 	public String fullName = "";			//full name of the fuel rod
-	public double funcEnd;					//endpoint of the function
+	public double reactivity;					//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
+	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
 	public double xGen = 0.5D;				//multiplier for xenon production
 	public double xBurn = 50D;				//divider for xenon burnup
 	public double heat = 1D;				//heat produced per outFlux
@@ -80,8 +81,13 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	}
 
 	public ItemRBMKRod setStats(double funcEnd, double selfRate) {
-		this.funcEnd = funcEnd;
+		this.reactivity = funcEnd;
 		this.selfRate = selfRate;
+		return this;
+	}
+
+	public ItemRBMKRod setFunction(EnumBurnFunc func) {
+		this.function = func;
 		return this;
 	}
 
@@ -201,13 +207,59 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		return ret;
 	}
 	
+	public static enum EnumBurnFunc {
+		LOG_TEN(EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"),		//log10(x + 1) * reactivity * 50
+		PLATEU(EnumChatFormatting.GREEN + "SAFE / EULER"),					//(1 - e^(-x/25)) * reactivity * 100
+		ARCH(EnumChatFormatting.YELLOW + "MEDIUM / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
+		SIGMOID(EnumChatFormatting.GREEN + "SAFE / SIGMOID"),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
+		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
+		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
+		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC");		//x^2 / 100 * reactivity
+		
+		public String title = "";
+		
+		private EnumBurnFunc(String title) {
+			this.title = title;
+		}
+	}
+	
 	/**
 	 * @param flux [0;100] ...or at least those are sane levels
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double flux) {
-		return Math.log10(flux + 1) * funcEnd * 0.1D;
-		//TODO: alternate functions for NU and THMEU, peaking at 25%
+		
+		switch(this.function) {
+		case LOG_TEN: return Math.log10(flux + 1) * 0.1D * reactivity;
+		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * 100D * reactivity;
+		case ARCH: return flux - (flux * flux / 1000D) * reactivity;
+		case SIGMOID: return 100D / (1 + Math.pow(Math.E, -(flux - 50D) / 10D)) * reactivity;
+		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity;
+		case LINEAR: return flux * reactivity;
+		case QUADRATIC: return flux * flux / 100D * reactivity;
+		}
+		
+		return 0;
+	}
+	
+	public String getFuncDescription() {
+		
+		String x = "x";
+		
+		if(selfRate > 0)
+			x = "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")";
+		
+		switch(this.function) {
+		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + reactivity;
+		case PLATEU: return "(1 - e^-" + x + " / 25)) * 100 * " + reactivity;
+		case ARCH: return "(" + x + " - " + x + "² / 1000) * " + reactivity;
+		case SIGMOID: return "100 / (1 + e^(-(" + x + " - 50) / 10) * " + reactivity;
+		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity;
+		case LINEAR: return x + " * " + reactivity;
+		case QUADRATIC: return x + "² / 100 * " + reactivity;
+		}
+		
+		return "ERROR";
 	}
 	
 	/**
@@ -259,7 +311,8 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmx.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsWith", I18nUtil.resolveKey(nType.unlocalized + ".x")));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsInto", I18nUtil.resolveKey(rType.unlocalized + ".x")));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + funcEnd));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription()));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
@@ -278,7 +331,8 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmk.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsWith", I18nUtil.resolveKey(nType.unlocalized)));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsInto", I18nUtil.resolveKey(rType.unlocalized)));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + funcEnd));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription()));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
