@@ -72,6 +72,8 @@ public class RecipesCommon {
 			return false;
 		}
 		
+		public abstract boolean matchesRecipe(ItemStack stack);
+		
 		public abstract AStack copy();
 	}
 	
@@ -212,6 +214,24 @@ public class RecipesCommon {
 		public AStack copy() {
 			return new ComparableStack(item, stacksize, meta);
 		}
+
+		@Override
+		public boolean matchesRecipe(ItemStack stack) {
+			
+			if(stack == null)
+				return false;
+			
+			if(stack.getItem() != this.item)
+				return false;
+			
+			if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta)
+				return false;
+			
+			if(stack.stackSize < this.stacksize)
+				return false;
+			
+			return false;
+		}
 	}
 	
 	/*
@@ -300,6 +320,25 @@ public class RecipesCommon {
 		@Override
 		public AStack copy() {
 			return new OreDictStack(name, stacksize);
+		}
+
+		@Override
+		public boolean matchesRecipe(ItemStack stack) {
+			
+			if(stack == null)
+				return false;
+			
+			int[] ids = OreDictionary.getOreIDs(stack);
+			
+			if(ids == null || ids.length == 0)
+				return false;
+			
+			for(int i = 0; i < ids.length; i++) {
+				if(this.name.equals(OreDictionary.getOreName(ids[i])))
+					return true;
+			}
+			
+			return false;
 		}
 	}
 	

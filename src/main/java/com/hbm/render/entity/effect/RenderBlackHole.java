@@ -25,6 +25,7 @@ public class RenderBlackHole extends Render {
 	private IModelCustom blastModel;
 	private ResourceLocation hole = new ResourceLocation(RefStrings.MODID, "textures/models/BlackHole.png");
 	private ResourceLocation swirl = new ResourceLocation(RefStrings.MODID, "textures/entity/bhole.png");
+	private ResourceLocation disc = new ResourceLocation(RefStrings.MODID, "textures/entity/bholeDisc.png");
 
 	public RenderBlackHole() {
 		blastModel = AdvancedModelLoader.loadModel(objTesterModelRL);
@@ -32,87 +33,254 @@ public class RenderBlackHole extends Render {
 
 	@Override
 	public void doRender(Entity entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float interp) {
+		
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 
-		if(entity instanceof EntityBlackHole) {
+		float size = entity.getDataWatcher().getWatchableObjectFloat(16);
+
+		GL11.glScalef(size, size, size);
+
+		bindTexture(hole);
+		blastModel.renderAll();
+
+		if(entity instanceof EntityVortex) {
+			renderSwirl(entity, interp);
+			
+		} else if(entity instanceof EntityRagingVortex) {
+			renderSwirl(entity, interp);
+			renderJets(entity, interp);
+			
+		} else {
+			renderDisc(entity, interp);
+			renderJets(entity, interp);
+		}
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_LIGHTING);
+
+		GL11.glPopMatrix();
+	}
+	
+	private void renderDisc(Entity entity, float interp) {
+		
+		float glow = 0.75F;
+		
+		bindTexture(disc);
+
+		GL11.glPushMatrix();
+		GL11.glRotatef(entity.getEntityId() % 90 - 45, 1, 0, 0);
+		GL11.glRotatef(entity.getEntityId() % 360, 0, 1, 0);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glDepthMask(false);
+		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		
+		Tessellator tess = Tessellator.instance;
+		
+		int count = 16;
+
+		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
+		
+		for(int k = 0; k < 15; k++) {
+			
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-
-			float size = entity.getDataWatcher().getWatchableObjectFloat(16);
-
-			GL11.glScalef(size, size, size);
-
-			bindTexture(hole);
-			blastModel.renderAll();
+			GL11.glRotatef((entity.ticksExisted + interp % 360) * -((float)Math.pow(k + 1, 1.25)), 0, 1, 0);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			double s = 3 - k * 0.175D;
 			
-			renderSwirl(entity, true, interp);
-			
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glEnable(GL11.GL_LIGHTING);
+			for(int j = 0; j < 2; j++) {
+				
+				tess.startDrawingQuads();
+				for(int i = 0; i < count; i++) {
+					
+					if(j == 0)
+						this.setColorFromIteration(tess, k, 1F);
+					else
+						tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+					
+					tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+					this.setColorFromIteration(tess, k, 0F);
+					tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
+					
+					vec.rotateAroundY((float)(Math.PI * 2 / count));
+					this.setColorFromIteration(tess, k, 0F);
+					tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
+					
+					if(j == 0)
+						this.setColorFromIteration(tess, k, 1F);
+					else
+						tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+					
+					tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+				}
+				tess.draw();
+				
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			}
 			
 			GL11.glPopMatrix();
+		}
+		
 
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glPopMatrix();
+	}
+	
+	private void setColorFromIteration(Tessellator tess, int iteration, float alpha) {
+		
+		if(iteration < 5) {
+			float g = 0.125F + iteration * (1F / 10F);
+			tess.setColorRGBA_F(1.0F, g, 0.0F, alpha);
+			return;
+		}
+		
+		if(iteration == 5) {
+			tess.setColorRGBA_F(1.0F, 1.0F, 0.0F, alpha);
+			return;
+		}
+		
+		if(iteration > 5) {
+			
+			int i = iteration - 6;
+			float r = 1.0F - i * (1F / 9F);
+			float g = 1F - i * (1F / 9F);
+			float b = i * (1F / 5F);
+			tess.setColorRGBA_F(r, g, b, alpha);
+			return;
+		}
+		
+		switch(iteration) {
+		case 0: tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, alpha); break;
+		case 1: tess.setColorRGBA_F(1.0F, 0.5F, 0.0F, alpha); break;
+		case 2: tess.setColorRGBA_F(1.0F, 1.0F, 0.0F, alpha); break;
+		case 3: tess.setColorRGBA_F(0.5F, 1.0F, 1.0F, alpha); break;
 		}
 	}
 	
-	private void renderSwirl(Entity entity, boolean hasJet, float interp) {
+	private void renderSwirl(Entity entity, float interp) {
+		
+		float glow = 0.75F;
+		
+		if(entity instanceof EntityRagingVortex)
+			glow = 0.25F;
 		
 		bindTexture(swirl);
 
+		GL11.glPushMatrix();
 		GL11.glRotatef(entity.getEntityId() % 90 - 45, 1, 0, 0);
 		GL11.glRotatef(entity.getEntityId() % 360, 0, 1, 0);
 		GL11.glRotatef((entity.ticksExisted + interp % 360) * -5, 0, 1, 0);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glDepthMask(false);
+		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
 		
 		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
 		
 		double s = 3;
 		int count = 16;
 		
-		for(int i = 0; i < count; i++) {
-
-			tess.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
-			tess.addVertexWithUV(vec.xCoord * 0.9, 0, vec.zCoord * 0.9, 0.5 + vec.xCoord * 0.25 / s * 0.9, 0.5 + vec.zCoord * 0.25 / s * 0.9);
-			this.setColorFull(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+		//swirl, inner part (solid)
+		for(int j = 0; j < 2; j++) {
+			tess.startDrawingQuads();
+			for(int i = 0; i < count; i++) {
+	
+				tess.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
+				tess.addVertexWithUV(vec.xCoord * 0.9, 0, vec.zCoord * 0.9, 0.5 + vec.xCoord * 0.25 / s * 0.9, 0.5 + vec.zCoord * 0.25 / s * 0.9);
+				
+				if(j == 0)
+					this.setColorFull(entity, tess);
+				else
+					tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+				
+				tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+				
+				vec.rotateAroundY((float)(Math.PI * 2 / count));
+				
+				if(j == 0)
+					this.setColorFull(entity, tess);
+				else
+					tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+				
+				tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+				tess.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
+				tess.addVertexWithUV(vec.xCoord * 0.9, 0, vec.zCoord * 0.9, 0.5 + vec.xCoord * 0.25 / s * 0.9, 0.5 + vec.zCoord * 0.25 / s * 0.9);
+			}
 			
-			vec.rotateAroundY((float)(Math.PI * 2 / count));
-			this.setColorFull(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
-			tess.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
-			tess.addVertexWithUV(vec.xCoord * 0.9, 0, vec.zCoord * 0.9, 0.5 + vec.xCoord * 0.25 / s * 0.9, 0.5 + vec.zCoord * 0.25 / s * 0.9);
+			tess.draw();
+			
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		}
 		
-		tess.draw();
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		
-		tess.startDrawingQuads();
+		//swirl, outer part (fade)
+		for(int j = 0; j < 2; j++) {
+			
+			tess.startDrawingQuads();
+			for(int i = 0; i < count; i++) {
+				
+				if(j == 0)
+					this.setColorFull(entity, tess);
+				else
+					tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+				
+				tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+				this.setColorNone(entity, tess);
+				tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
+				
+				vec.rotateAroundY((float)(Math.PI * 2 / count));
+				this.setColorNone(entity, tess);
+				tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
+				
+				if(j == 0)
+					this.setColorFull(entity, tess);
+				else
+					tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, glow);
+				
+				tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
+			}
+			tess.draw();
+			
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		}
+		
 
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		
+		GL11.glPopMatrix();
+	}
+	
+	private void renderJets(Entity entity, float interp) {
+
+		Tessellator tess = Tessellator.instance;
+
+		GL11.glPushMatrix();
+		GL11.glRotatef(entity.getEntityId() % 90 - 45, 1, 0, 0);
+		GL11.glRotatef(entity.getEntityId() % 360, 0, 1, 0);
+		
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glDepthMask(false);
 		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
 		GL11.glEnable(GL11.GL_BLEND);
-		
-		for(int i = 0; i < count; i++) {
-
-			this.setColorFull(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
-			this.setColorNone(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
-			
-			vec.rotateAroundY((float)(Math.PI * 2 / count));
-			this.setColorNone(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s * 2, 0, vec.zCoord * s * 2, 0.5 + vec.xCoord * 0.5, 0.5 + vec.zCoord * 0.5);
-			this.setColorFull(entity, tess);
-			tess.addVertexWithUV(vec.xCoord * s, 0, vec.zCoord * s, 0.5 + vec.xCoord * 0.25, 0.5 + vec.zCoord * 0.25);
-		}
-		
-		tess.draw();
-
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		for(int j = -1; j <= 1; j += 2) {
@@ -132,17 +300,18 @@ public class RenderBlackHole extends Render {
 			
 			tess.draw();
 		}
-
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glPopMatrix();
 	}
 	
 	private void renderFlare(Entity entity) {
-
+		
+		GL11.glPushMatrix();
 		GL11.glScalef(0.2F, 0.2F, 0.2F);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -166,7 +335,6 @@ public class RenderBlackHole extends Render {
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDepthMask(false);
-		GL11.glPushMatrix();
 		
 		for(int i = 0; i < count; i++) {
 			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -188,7 +356,6 @@ public class RenderBlackHole extends Render {
 			tessellator.draw();
 		}
 
-		GL11.glPopMatrix();
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_BLEND);
@@ -197,6 +364,7 @@ public class RenderBlackHole extends Render {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		RenderHelper.enableStandardItemLighting();
+		GL11.glPopMatrix();
 	}
 
 	private void setColorFull(Entity e, Tessellator tessellator) {
