@@ -839,7 +839,6 @@ public class ModBlocks {
 
 	public static Block machine_press;
 	public static final int guiID_machine_press = 53;
-
 	public static Block machine_epress;
 	public static final int guiID_machine_epress = 81;
 
@@ -851,10 +850,8 @@ public class ModBlocks {
 
 	public static Block machine_satlinker;
 	public static final int guiID_satlinker = 64;
-
 	public static Block machine_telelinker;
 	public static final int guiID_telelinker = 68;
-
 	public static Block machine_keyforge;
 	public static final int guiID_keyforge = 67;
 
@@ -883,6 +880,17 @@ public class ModBlocks {
 	public static final int guiID_waste_drum = 79;
 	public static Block machine_storage_drum;
 	public static final int guiID_storage_drum = 118;
+
+	public static Block anvil_iron;
+	public static Block anvil_lead;
+	public static Block anvil_steel;
+	public static Block anvil_meteorite;
+	public static Block anvil_starmetal;
+	public static Block anvil_ferrouranium;
+	public static Block anvil_schrabidate;
+	public static Block anvil_dnt;
+	public static Block anvil_murky;
+	public static final int guiID_anvil = 121;
 
 	public static Block turret_light;
 	public static Block turret_heavy;
@@ -1771,6 +1779,16 @@ public class ModBlocks {
 		machine_turbine = new MachineTurbine(Material.iron).setBlockName("machine_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_turbine");
 		machine_large_turbine = new MachineLargeTurbine(Material.iron).setBlockName("machine_large_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_large_turbine");
 		machine_chungus = new MachineChungus(Material.iron).setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_chungus");
+
+		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
+		anvil_lead = new NTMAnvil(Material.iron, 1).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
+		anvil_steel = new NTMAnvil(Material.iron, 2).setBlockName("anvil_steel").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
+		anvil_meteorite = new NTMAnvil(Material.iron, 3).setBlockName("anvil_meteorite").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_meteorite");
+		anvil_starmetal = new NTMAnvil(Material.iron, 3).setBlockName("anvil_starmetal").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_starmetal");
+		anvil_ferrouranium = new NTMAnvil(Material.iron, 4).setBlockName("anvil_ferrouranium").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_ferrouranium");
+		anvil_schrabidate = new NTMAnvil(Material.iron, 5).setBlockName("anvil_schrabidate").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_schrabidate");
+		anvil_dnt = new NTMAnvil(Material.iron, 6).setBlockName("anvil_dnt").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_dnt");
+		anvil_murky = new NTMAnvil(Material.iron, 1916169).setBlockName("anvil_murky").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
 		
 		machine_deaerator = new MachineDeaerator(Material.iron).setBlockName("machine_deaerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deaerator");
 		
@@ -2370,6 +2388,16 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomber, bomber.getUnlocalizedName());
 		
 		//Machines
+		GameRegistry.registerBlock(anvil_iron, ItemBlockAnvil.class, anvil_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_lead, ItemBlockAnvil.class, anvil_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_steel, ItemBlockAnvil.class, anvil_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_meteorite, ItemBlockAnvil.class, anvil_meteorite.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_starmetal, ItemBlockAnvil.class, anvil_starmetal.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_ferrouranium, ItemBlockAnvil.class, anvil_ferrouranium.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_schrabidate, ItemBlockAnvil.class, anvil_schrabidate.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_dnt, ItemBlockAnvil.class, anvil_dnt.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_murky, ItemBlockAnvil.class, anvil_murky.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());

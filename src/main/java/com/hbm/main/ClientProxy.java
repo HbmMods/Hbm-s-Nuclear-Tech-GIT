@@ -29,12 +29,10 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.*;
@@ -558,6 +556,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderGrate());
 		RenderingRegistry.registerBlockHandler(new RenderPipe());
 		RenderingRegistry.registerBlockHandler(new RenderBattery());
+		RenderingRegistry.registerBlockHandler(new RenderAnvil());
 
 		RenderingRegistry.registerBlockHandler(new RenderRBMKRod());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKReflector());

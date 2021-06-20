@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.NTMAnvil;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
@@ -841,6 +842,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_anvil: {
+			if(world.getBlock(x, y, z) instanceof NTMAnvil) {
+				return new ContainerAnvil(player.inventory);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1666,6 +1674,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_maxwell: {
 			if(entity instanceof TileEntityTurretMaxwell) {
 				return new GUITurretMaxwell(player.inventory, (TileEntityTurretMaxwell) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_anvil: {
+			if(world.getBlock(x, y, z) instanceof NTMAnvil) {
+				return new GUIAnvil(player.inventory);
 			}
 			return null;
 		}

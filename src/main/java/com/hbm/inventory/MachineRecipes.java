@@ -190,18 +190,6 @@ public class MachineRecipes {
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 3));
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 4));
 			return list;
-		case COOLANT:
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 1));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 4));
-			return list;
-		case CRYOGEL:
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_ice), 1));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_ice), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 4));
-			return list;
 		case NITAN:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 1));
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 2));

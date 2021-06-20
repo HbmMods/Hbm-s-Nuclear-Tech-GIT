@@ -235,7 +235,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		case ARCH: return flux - (flux * flux / 1000D) * reactivity;
 		case SIGMOID: return 100D / (1 + Math.pow(Math.E, -(flux - 50D) / 10D)) * reactivity;
 		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity;
-		case LINEAR: return flux * reactivity;
+		case LINEAR: return flux / 100D * reactivity;
 		case QUADRATIC: return flux * flux / 100D * reactivity;
 		}
 		
@@ -255,7 +255,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		case ARCH: return "(" + x + " - " + x + "² / 1000) * " + reactivity;
 		case SIGMOID: return "100 / (1 + e^(-(" + x + " - 50) / 10) * " + reactivity;
 		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity;
-		case LINEAR: return x + " * " + reactivity;
+		case LINEAR: return x + " / 100 * " + reactivity;
 		case QUADRATIC: return x + "² / 100 * " + reactivity;
 		}
 		
