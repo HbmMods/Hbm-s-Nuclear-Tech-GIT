@@ -19,6 +19,10 @@ public class AnvilRecipes {
 				new OreDictStack("ingotSteel"), new OreDictStack("ingotSteel")));
 	}
 	
+	public static List<AnvilSmithingRecipe> getSmithing() {
+		return smithingRecipes;
+	}
+	
 	public static class AnvilSmithingRecipe {
 		
 		int tier;
@@ -40,15 +44,19 @@ public class AnvilRecipes {
 		}
 		
 		public boolean matches(ItemStack left, ItemStack right) {
+			return matchesInt(left, right) != -1;
+		}
+		
+		public int matchesInt(ItemStack left, ItemStack right) {
 			
 			if(doesStackMatch(left, this.left) && doesStackMatch(right, this.right))
-				return true;
+				return 0;
 			
 			if(shapeless) {
-				return doesStackMatch(right, this.left) && doesStackMatch(left, this.right);
+				return doesStackMatch(right, this.left) && doesStackMatch(left, this.right) ? 1 : -1;
 			}
 			
-			return false;
+			return -1;
 		}
 		
 		public boolean doesStackMatch(ItemStack input, AStack recipe) {
@@ -57,6 +65,16 @@ public class AnvilRecipes {
 		
 		public ItemStack getOutput(ItemStack left, ItemStack right) {
 			return output.copy();
+		}
+		
+		public int amountConsumed(int index, boolean mirrored) {
+			
+			if(index == 0)
+				return mirrored ? right.stacksize : left.stacksize;
+			if(index == 1)
+				return mirrored ? left.stacksize : right.stacksize;
+			
+			return 0;
 		}
 	}
 }

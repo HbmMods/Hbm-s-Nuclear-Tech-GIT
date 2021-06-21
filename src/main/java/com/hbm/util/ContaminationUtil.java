@@ -263,7 +263,7 @@ public class ContaminationUtil {
 		DIGAMMA,			//preventable by fau armor or stability
 		DIGAMMA2,			//preventable by robes
 		CREATIVE,			//preventable by creative mode, for rad calculation armor piece bonuses still apply
-		RAD_BYPASS,			//same as creaative but fill not apply radiation resistance calculation
+		RAD_BYPASS,			//same as craative but will not apply radiation resistance calculation
 		NONE				//not preventable
 	}
 	
@@ -289,8 +289,8 @@ public class ContaminationUtil {
 			case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return false; break;
 			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
 			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
-			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; break;
-			case DIGAMMA2: break;
+			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; if(ArmorUtil.checkForDigamma2(player))	return false; break;
+			case DIGAMMA2:			if(ArmorUtil.checkForDigamma2(player))	return false; break;
 			}
 			
 			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)

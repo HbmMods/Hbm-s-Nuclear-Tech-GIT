@@ -1,6 +1,7 @@
 package com.hbm.items.weapon;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.items.ModItems;
 
@@ -364,6 +365,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 			list.add(EnumChatFormatting.RED + "- Non-explosive");
 			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
+		}
+		if(this == ModItems.ammo_rocket_digamma) {
+			
+			if(new Random().nextInt(3) < 2)
+				list.add(EnumChatFormatting.RED + "COVER YOURSELF IN OIL");
+			else
+				list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "COVER YOURSELF IN OIL");
 		}
 		
 		//40mm GRENADES

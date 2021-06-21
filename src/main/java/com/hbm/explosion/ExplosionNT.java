@@ -222,6 +222,29 @@ public class ExplosionNT extends Explosion {
 					}
 
 					block.onBlockExploded(this.worldObj, i, j, k, this);
+					
+					if(block.isNormalCube()) {
+						
+						if(has(ExAttrib.DIGAMMA)) {
+							this.worldObj.setBlock(i, j, k, ModBlocks.ash_digamma);
+							
+							if(this.explosionRNG.nextInt(5) == 0 && this.worldObj.getBlock(i, j + 1, k) == Blocks.air)
+								this.worldObj.setBlock(i, j + 1, k, ModBlocks.fire_digamma);
+							
+						} else if(has(ExAttrib.DIGAMMA_CIRCUIT)) {
+							
+							if(i % 3 == 0 && k % 3 == 0) {
+								this.worldObj.setBlock(i, j, k, ModBlocks.pribris_digamma);
+							} else if((i % 3 == 0 || k % 3 == 0) && this.explosionRNG.nextBoolean()) {
+								this.worldObj.setBlock(i, j, k, ModBlocks.pribris_digamma);
+							} else {
+								this.worldObj.setBlock(i, j, k, ModBlocks.ash_digamma);
+								
+								if(this.explosionRNG.nextInt(5) == 0 && this.worldObj.getBlock(i, j + 1, k) == Blocks.air)
+									this.worldObj.setBlock(i, j + 1, k, ModBlocks.fire_digamma);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -239,7 +262,7 @@ public class ExplosionNT extends Explosion {
 
 				boolean shouldReplace = true;
 
-				if(!has(ExAttrib.ALLMOD))
+				if(!has(ExAttrib.ALLMOD) && !has(ExAttrib.DIGAMMA))
 					shouldReplace = this.explosionRNG.nextInt(3) == 0;
 
 				if(block.getMaterial() == Material.air && block1.func_149730_j() && shouldReplace) {
@@ -271,6 +294,8 @@ public class ExplosionNT extends Explosion {
 	public static enum ExAttrib {
 		FIRE,		//classic vanilla fire explosion
 		BALEFIRE,	//same with but with balefire
+		DIGAMMA,
+		DIGAMMA_CIRCUIT,
 		LAVA,		//again the same thing but lava
 		ALLMOD,		//block placer attributes like fire are applied for all destroyed blocks
 		ALLDROP,	//miner TNT!

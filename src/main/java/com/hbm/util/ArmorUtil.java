@@ -113,6 +113,30 @@ public class ArmorUtil {
 		return false;
 	}
 	
+	public static boolean checkForDigamma2(EntityPlayer player) {
+		
+		if(!checkArmor(player, ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots))
+			return false;
+		
+		if(player.isPotionActive(HbmPotion.stability.id))
+			return true;
+		
+		for(int i = 0; i < 4; i++) {
+			
+			ItemStack armor = player.getCurrentArmor(i);
+			
+			if(armor != null && ArmorModHandler.hasMods(armor)) {
+				
+				ItemStack mods[] = ArmorModHandler.pryMods(armor);
+				
+				if(!(mods[ArmorModHandler.cladding] != null && mods[ArmorModHandler.cladding].getItem() == ModItems.cladding_iron))
+					return false;
+			}
+		}
+		
+		return player.getMaxHealth() < 3;
+	}
+	
 	public static boolean checkForFaraday(EntityPlayer player) {
 		
 		ItemStack[] armor = player.inventory.armorInventory;

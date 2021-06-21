@@ -181,6 +181,7 @@ public class MainRegistry {
 	public static Achievement achMeltdown;
 	public static Achievement achOmega12;
 	public static Achievement achRadium;
+	public static Achievement achSomeWounds;
 	public static Achievement bobMetalworks;
 	public static Achievement bobAssembly;
 	public static Achievement bobChemistry;
@@ -962,6 +963,8 @@ public class MainRegistry {
 		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
 		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 
+		achSomeWounds = new Achievement("achievement.someWounds", "someWounds", -2, 10, ModItems.injector_knife, null).initIndependentStat().registerStat();
+		
 		digammaSee = new Achievement("achievement.digammaSee", "digammaSee", -2, 8, ModItems.digamma_see, null).initIndependentStat().registerStat();
 		digammaFeel = new Achievement("achievement.digammaFeel", "digammaFeel", 0, 8, ModItems.digamma_feel, digammaSee).initIndependentStat().registerStat();
 		digammaKnow = new Achievement("achievement.digammaKnow", "digammaKnow", 2, 8, ModItems.digamma_know, digammaFeel).initIndependentStat().registerStat().setSpecial();
@@ -1002,6 +1005,7 @@ public class MainRegistry {
 				bossMaskman,
 				bossWorm,
 				bossUFO,
+				achSomeWounds,
 				digammaSee,
 				digammaFeel,
 				digammaKnow,
@@ -1027,6 +1031,7 @@ public class MainRegistry {
 		HadronRecipes.register();
 		MagicRecipes.register();
 		SILEXRecipes.register();
+		AnvilRecipes.register();
 
 		TileEntityNukeCustom.registerBombItems();
 

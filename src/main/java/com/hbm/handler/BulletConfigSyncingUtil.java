@@ -48,6 +48,7 @@ public class BulletConfigSyncingUtil {
 	public static int ROCKET_TOXIC = i++;
 	public static int ROCKET_PHOSPHORUS = i++;
 	public static int ROCKET_CANISTER = i++;
+	public static int ROCKET_ERROR = i++;
 
 	public static int GRENADE_NORMAL = i++;
 	public static int GRENADE_HE = i++;
@@ -276,6 +277,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_CHAINSAW, GunRocketFactory.getRocketRPCConfig());
 		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
 		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
+		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
 
 		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
 		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());

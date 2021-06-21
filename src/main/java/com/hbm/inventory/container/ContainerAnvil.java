@@ -1,5 +1,8 @@
 package com.hbm.inventory.container;
 
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.inventory.AnvilRecipes;
+import com.hbm.inventory.AnvilRecipes.AnvilSmithingRecipe;
 import com.hbm.inventory.SlotMachineOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +21,33 @@ public class ContainerAnvil extends Container {
 
 	public ContainerAnvil(InventoryPlayer inventory) {
 
-		this.addSlotToContainer(new Slot(input, 0, 17, 27));
-		this.addSlotToContainer(new Slot(input, 1, 53, 27));
+		this.addSlotToContainer(new SmithingSlot(input, 0, 17, 27));
+		this.addSlotToContainer(new SmithingSlot(input, 1, 53, 27));
 		this.addSlotToContainer(new SlotMachineOutput(output, 0, 89, 27) {
+			
+			@Override
+			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+				super.onPickupFromSlot(player, stack);
+
+				ItemStack left = ContainerAnvil.this.input.getStackInSlot(0);
+				ItemStack right = ContainerAnvil.this.input.getStackInSlot(1);
+				
+				if(left == null || right == null) {
+					return;
+				}
+				
+				for(AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
+					
+					int i = rec.matchesInt(left, right);
+					
+					if(i != -1) {
+						ContainerAnvil.this.input.decrStackSize(0, rec.amountConsumed(0, i == 1));
+						ContainerAnvil.this.input.decrStackSize(1, rec.amountConsumed(1, i == 1));
+						ContainerAnvil.this.updateSmithing();
+						return;
+					}
+				}
+			}
 			
 		});
 		
@@ -71,5 +98,44 @@ public class ContainerAnvil extends Container {
 		}
 
 		return var3;
+	}
+	
+	public class SmithingSlot extends Slot {
+
+		public SmithingSlot(IInventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
+		
+		@Override
+		public void putStack(ItemStack stack) {
+			super.putStack(stack);
+			ContainerAnvil.this.updateSmithing();
+		}
+
+		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+			super.onPickupFromSlot(player, stack);
+			ContainerAnvil.this.updateSmithing();
+		}
+	}
+	
+	private void updateSmithing() {
+
+		ItemStack left = this.input.getStackInSlot(0);
+		ItemStack right = this.input.getStackInSlot(1);
+		
+		if(left == null || right == null) {
+			this.output.setInventorySlotContents(0, null);
+			return;
+		}
+		
+		for(AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
+			
+			if(rec.matches(left, right)) {
+				this.output.setInventorySlotContents(0, rec.getOutput(left, right));
+				return;
+			}
+		}
+		
+		this.output.setInventorySlotContents(0, null);
 	}
 }

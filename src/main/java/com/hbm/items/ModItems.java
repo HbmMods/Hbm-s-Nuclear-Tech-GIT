@@ -1407,6 +1407,7 @@ public class ModItems {
 	public static Item ammo_rocket_sleek;
 	public static Item ammo_rocket_nuclear;
 	public static Item ammo_rocket_rpc;
+	public static Item ammo_rocket_digamma;
 	public static Item ammo_grenade;
 	public static Item ammo_grenade_he;
 	public static Item ammo_grenade_incendiary;
@@ -1873,6 +1874,10 @@ public class ModItems {
 	public static Item dns_legs;
 	public static Item dns_boots;
 	public static Item zirconium_legs;
+	public static Item robes_helmet;
+	public static Item robes_plate;
+	public static Item robes_legs;
+	public static Item robes_boots;
 
 	public static Item australium_iii;
 	public static Item australium_iv;
@@ -3815,6 +3820,7 @@ public class ModItems {
 		ammo_rocket_sleek = new ItemAmmo().setUnlocalizedName("ammo_rocket_sleek").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_sleek");
 		ammo_rocket_nuclear = new ItemAmmo().setUnlocalizedName("ammo_rocket_nuclear").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_nuclear");
 		ammo_rocket_rpc = new ItemAmmo().setUnlocalizedName("ammo_rocket_rpc").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_rpc");
+		ammo_rocket_digamma = new ItemAmmo().setUnlocalizedName("ammo_rocket_digamma").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_digamma");
 		ammo_grenade = new ItemAmmo().setUnlocalizedName("ammo_grenade").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade");
 		ammo_grenade_he = new ItemAmmo().setUnlocalizedName("ammo_grenade_he").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_he");
 		ammo_grenade_incendiary = new ItemAmmo().setUnlocalizedName("ammo_grenade_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_incendiary");
@@ -4410,6 +4416,11 @@ public class ModItems {
 		starmetal_legs = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_legs").setTextureName(RefStrings.MODID + ":starmetal_legs");
 		starmetal_boots = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_boots").setTextureName(RefStrings.MODID + ":starmetal_boots");
 
+		robes_helmet = new ArmorFSB(ArmorMaterial.CHAIN, 7, 0, RefStrings.MODID + ":textures/armor/robes_1.png").setThreshold(1.0F).setUnlocalizedName("robes_helmet").setTextureName(RefStrings.MODID + ":robes_helmet");
+		robes_plate = new ArmorFSB(ArmorMaterial.CHAIN, 7, 1, RefStrings.MODID + ":textures/armor/robes_1.png").cloneStats((ArmorFSB) robes_helmet).setUnlocalizedName("robes_plate").setTextureName(RefStrings.MODID + ":robes_plate");
+		robes_legs = new ArmorFSB(ArmorMaterial.CHAIN, 7, 2, RefStrings.MODID + ":textures/armor/robes_2.png").cloneStats((ArmorFSB) robes_helmet).setUnlocalizedName("robes_legs").setTextureName(RefStrings.MODID + ":robes_legs");
+		robes_boots = new ArmorFSB(ArmorMaterial.CHAIN, 7, 3, RefStrings.MODID + ":textures/armor/robes_1.png").cloneStats((ArmorFSB) robes_helmet).setUnlocalizedName("robes_boots").setTextureName(RefStrings.MODID + ":robes_boots");
+		
 		ArmorMaterial aMatZirconium = EnumHelper.addArmorMaterial("HBM_ZIRCONIUM", 1000, new int[] { 2, 5, 3, 1 }, 100);
 		aMatZirconium.customCraftingMaterial = ModItems.ingot_zirconium;
 		zirconium_legs = new ArmorFSB(aMatZirconium, 7, 2, RefStrings.MODID + ":textures/armor/zirconium_2.png").setMod(0.0F).setUnlocalizedName("zirconium_legs").setTextureName(RefStrings.MODID + ":zirconium_legs");
@@ -6648,6 +6659,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_rocket_sleek, ammo_rocket_sleek.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_nuclear, ammo_rocket_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_rpc, ammo_rocket_rpc.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_rocket_digamma, ammo_rocket_digamma.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade, ammo_grenade.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_he, ammo_grenade_he.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_incendiary, ammo_grenade_incendiary.getUnlocalizedName());
@@ -7249,6 +7261,10 @@ public class ModItems {
 		GameRegistry.registerItem(euphemium_plate, euphemium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_legs, euphemium_legs.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_boots, euphemium_boots.getUnlocalizedName());
+		GameRegistry.registerItem(robes_helmet, robes_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(robes_plate, robes_plate.getUnlocalizedName());
+		GameRegistry.registerItem(robes_legs, robes_legs.getUnlocalizedName());
+		GameRegistry.registerItem(robes_boots, robes_boots.getUnlocalizedName());
 		GameRegistry.registerItem(apple_euphemium, apple_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(watch, watch.getUnlocalizedName());
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());

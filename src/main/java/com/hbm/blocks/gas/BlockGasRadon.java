@@ -19,7 +19,7 @@ public class BlockGasRadon extends BlockGasBase {
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
 		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.05F);
+			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
 		}
 	}
 

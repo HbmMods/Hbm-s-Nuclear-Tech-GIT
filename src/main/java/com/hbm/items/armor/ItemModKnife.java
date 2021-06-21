@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -64,7 +65,7 @@ public class ItemModKnife extends ItemArmorMod {
 					attributeinstance.removeModifier(attributeinstance.getModifier(trigamma_UUID));
 				} catch(Exception ex) { }
 				
-				attributeinstance.applyModifier(new AttributeModifier(trigamma_UUID, "digamma", -(20F - health + 2), 0));
+				attributeinstance.applyModifier(new AttributeModifier(trigamma_UUID, "digamma", -(entity.getMaxHealth() - health + 2), 0));
 				
 				if(entity instanceof EntityPlayerMP) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -76,6 +77,8 @@ public class ItemModKnife extends ItemArmorMod {
 					} else {
 						data.setInteger("time", 0);
 						data.setInteger("maxTime", 0);
+						
+						((EntityPlayer)entity).triggerAchievement(MainRegistry.achSomeWounds);
 					}
 					PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, 0, 0, 0), (EntityPlayerMP)entity);
 				}

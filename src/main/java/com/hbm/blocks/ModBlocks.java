@@ -340,6 +340,8 @@ public class ModBlocks {
 	public static Block glass_uranium;
 	public static Block glass_trinitite;
 	public static Block glass_polonium;
+	
+	public static Block ash_digamma;
 
 	public static Block mush;
 	public static Block mush_block;
@@ -704,6 +706,7 @@ public class ModBlocks {
 	public static final int guiID_fwatz_multiblock = 33;
 
 	public static Block balefire;
+	public static Block fire_digamma;
 
 	public static Block ams_base;
 	public static final int guiID_ams_base = 54;
@@ -936,6 +939,7 @@ public class ModBlocks {
 	public static Block pribris;
 	public static Block pribris_burning;
 	public static Block pribris_radiating;
+	public static Block pribris_digamma;
 
 	public static Block book_guide;
 
@@ -1362,6 +1366,7 @@ public class ModBlocks {
 		
 		fence_metal = new BlockMetalFence(Material.iron).setBlockName("fence_metal").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":fence_metal");
 		
+		ash_digamma = new BlockFalling(Material.sand).setBlockName("ash_digamma").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setResistance(150.0F).setBlockTextureName(RefStrings.MODID + ":ash_digamma");
 		sand_boron = new BlockFalling(Material.sand).setBlockName("sand_boron").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_boron");
 		sand_lead = new BlockFalling(Material.sand).setBlockName("sand_lead").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_lead");
 		sand_uranium = new BlockFalling(Material.sand).setBlockName("sand_uranium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_uranium");
@@ -1641,6 +1646,7 @@ public class ModBlocks {
 		fwatz_plasma = new BlockPlasma(Material.iron).setBlockName("fwatz_plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fwatz_plasma");
 		
 		balefire = new Balefire().setBlockName("balefire").setHardness(0.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":balefire");
+		fire_digamma = new DigammaFlame().setBlockName("fire_digamma").setHardness(0.0F).setResistance(150F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fire_digamma");
 
 		ams_base = new BlockAMSBase(Material.iron).setBlockName("ams_base").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":ams_base");
 		ams_emitter = new BlockAMSEmitter(Material.iron).setBlockName("ams_emitter").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":ams_emitter");
@@ -1729,6 +1735,7 @@ public class ModBlocks {
 		pribris = new RBMKDebris().setBlockName("pribris").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris");
 		pribris_burning = new RBMKDebrisBurning().setBlockName("pribris_burning").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_burning");
 		pribris_radiating = new RBMKDebrisRadiating().setBlockName("pribris_radiating").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_radiating");
+		pribris_digamma = new RBMKDebrisDigamma().setBlockName("pribris_digamma").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_digamma");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -2352,6 +2359,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fence_metal, fence_metal.getUnlocalizedName());
 		
 		//Sands, Glass
+		GameRegistry.registerBlock(ash_digamma, ash_digamma.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_boron, sand_boron.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_lead, sand_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_uranium, sand_uranium.getUnlocalizedName());
@@ -2474,6 +2482,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pribris, pribris.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris_burning, pribris_burning.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris_radiating, pribris_radiating.getUnlocalizedName());
+		GameRegistry.registerBlock(pribris_digamma, pribris_digamma.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
@@ -2638,6 +2647,7 @@ public class ModBlocks {
 		
 		//E
 		GameRegistry.registerBlock(balefire, balefire.getUnlocalizedName());
+		GameRegistry.registerBlock(fire_digamma, fire_digamma.getUnlocalizedName());
 		
 		//AMS
 		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());
