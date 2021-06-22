@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
-import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.entity.effect.EntityQuasar;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
@@ -59,7 +59,7 @@ public class ItemDigamma extends ItemHazard {
 			if(entityItem.onGround) {
 
 				if(WeaponConfig.dropSing) {
-					EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 10F);
+					EntityQuasar bl = new EntityQuasar(entityItem.worldObj, 5F);
 					bl.posX = entityItem.posX;
 					bl.posY = entityItem.posY;
 					bl.posZ = entityItem.posZ;

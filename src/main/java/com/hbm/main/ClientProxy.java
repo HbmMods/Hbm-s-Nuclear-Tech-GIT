@@ -495,8 +495,10 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBlackHole.class, new RenderBlackHole());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityVortex.class, new RenderBlackHole());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRagingVortex.class, new RenderBlackHole());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityQuasar.class, new RenderQuasar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDeathBlast.class, new RenderDeathBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeExplosionAdvanced.class, new RenderSnowball(ModItems.energy_ball));
+	    RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderSpear());
 		//minecarts
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		//items
@@ -717,6 +719,22 @@ public class ClientProxy extends ServerProxy {
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
+
+			if("radialDigamma".equals(mode)) {
+
+				Vec3 vec = Vec3.createVectorHelper(2, 0, 0);
+				vec.rotateAroundY(rand.nextFloat() * (float)Math.PI * 2F);
+				
+				for(int i = 0; i < count; i++) {
+					ParticleDigammaSmoke fx = new ParticleDigammaSmoke(man, world, x, y, z);
+					fx.motionY = 0;
+					fx.motionX = vec.xCoord;
+					fx.motionZ = vec.zCoord;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					
+					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
+				}
+			}
 			
 			if("shock".equals(mode)) {
 				
@@ -731,8 +749,8 @@ public class ClientProxy extends ServerProxy {
 					fx.motionX = vec.xCoord;
 					fx.motionZ = vec.zCoord;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-					
-					vec.rotateAroundY(360 / count);
+
+					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
 				}
 			}
 			

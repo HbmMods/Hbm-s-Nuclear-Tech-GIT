@@ -2,9 +2,8 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -418,7 +417,14 @@ public class GunRocketFactory {
 				if(bullet.worldObj.isRemote)
 					return;
 				
-				for(int i = 0; i < 250; i++) {
+				EntitySpear spear = new EntitySpear(bullet.worldObj);
+				spear.posX = bullet.posX;
+				spear.posZ = bullet.posZ;
+				spear.posY = bullet.posY + 100;
+				
+				bullet.worldObj.spawnEntityInWorld(spear);
+				
+				/*for(int i = 0; i < 250; i++) {
 
 					double ix = bullet.posX + bullet.worldObj.rand.nextGaussian() * 15;
 					double iy = bullet.posY + bullet.worldObj.rand.nextGaussian() * 2;
@@ -432,7 +438,7 @@ public class GunRocketFactory {
 					.addAttrib(ExAttrib.NODROP)
 					.addAttrib(ExAttrib.NOSOUND)
 					.addAttrib(at).explode();
-				}
+				}*/
 			}
 		};
 		

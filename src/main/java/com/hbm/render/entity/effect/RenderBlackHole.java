@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.lib.RefStrings;
@@ -21,11 +20,11 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderBlackHole extends Render {
 
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(RefStrings.MODID, "models/Sphere.obj");
-	private IModelCustom blastModel;
-	private ResourceLocation hole = new ResourceLocation(RefStrings.MODID, "textures/models/BlackHole.png");
-	private ResourceLocation swirl = new ResourceLocation(RefStrings.MODID, "textures/entity/bhole.png");
-	private ResourceLocation disc = new ResourceLocation(RefStrings.MODID, "textures/entity/bholeDisc.png");
+	protected static final ResourceLocation objTesterModelRL = new ResourceLocation(RefStrings.MODID, "models/Sphere.obj");
+	protected IModelCustom blastModel;
+	protected ResourceLocation hole = new ResourceLocation(RefStrings.MODID, "textures/models/BlackHole.png");
+	protected ResourceLocation swirl = new ResourceLocation(RefStrings.MODID, "textures/entity/bhole.png");
+	protected ResourceLocation disc = new ResourceLocation(RefStrings.MODID, "textures/entity/bholeDisc.png");
 
 	public RenderBlackHole() {
 		blastModel = AdvancedModelLoader.loadModel(objTesterModelRL);
@@ -64,11 +63,15 @@ public class RenderBlackHole extends Render {
 		GL11.glPopMatrix();
 	}
 	
-	private void renderDisc(Entity entity, float interp) {
+	protected ResourceLocation discTex() {
+		return this.disc;
+	}
+	
+	protected void renderDisc(Entity entity, float interp) {
 		
 		float glow = 0.75F;
 		
-		bindTexture(disc);
+		bindTexture(discTex());
 
 		GL11.glPushMatrix();
 		GL11.glRotatef(entity.getEntityId() % 90 - 45, 1, 0, 0);
@@ -86,7 +89,7 @@ public class RenderBlackHole extends Render {
 
 		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
 		
-		for(int k = 0; k < 15; k++) {
+		for(int k = 0; k < steps(); k++) {
 			
 			GL11.glPushMatrix();
 			GL11.glRotatef((entity.ticksExisted + interp % 360) * -((float)Math.pow(k + 1, 1.25)), 0, 1, 0);
@@ -135,7 +138,11 @@ public class RenderBlackHole extends Render {
 		GL11.glPopMatrix();
 	}
 	
-	private void setColorFromIteration(Tessellator tess, int iteration, float alpha) {
+	protected int steps() {
+		return 15;
+	}
+	
+	protected void setColorFromIteration(Tessellator tess, int iteration, float alpha) {
 		
 		if(iteration < 5) {
 			float g = 0.125F + iteration * (1F / 10F);
@@ -155,18 +162,10 @@ public class RenderBlackHole extends Render {
 			float g = 1F - i * (1F / 9F);
 			float b = i * (1F / 5F);
 			tess.setColorRGBA_F(r, g, b, alpha);
-			return;
-		}
-		
-		switch(iteration) {
-		case 0: tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, alpha); break;
-		case 1: tess.setColorRGBA_F(1.0F, 0.5F, 0.0F, alpha); break;
-		case 2: tess.setColorRGBA_F(1.0F, 1.0F, 0.0F, alpha); break;
-		case 3: tess.setColorRGBA_F(0.5F, 1.0F, 1.0F, alpha); break;
 		}
 	}
 	
-	private void renderSwirl(Entity entity, float interp) {
+	protected void renderSwirl(Entity entity, float interp) {
 		
 		float glow = 0.75F;
 		
@@ -267,7 +266,7 @@ public class RenderBlackHole extends Render {
 		GL11.glPopMatrix();
 	}
 	
-	private void renderJets(Entity entity, float interp) {
+	protected void renderJets(Entity entity, float interp) {
 
 		Tessellator tess = Tessellator.instance;
 
@@ -309,7 +308,7 @@ public class RenderBlackHole extends Render {
 		GL11.glPopMatrix();
 	}
 	
-	private void renderFlare(Entity entity) {
+	protected void renderFlare(Entity entity) {
 		
 		GL11.glPushMatrix();
 		GL11.glScalef(0.2F, 0.2F, 0.2F);
@@ -367,7 +366,7 @@ public class RenderBlackHole extends Render {
 		GL11.glPopMatrix();
 	}
 
-	private void setColorFull(Entity e, Tessellator tessellator) {
+	protected void setColorFull(Entity e, Tessellator tessellator) {
 
 		if(e instanceof EntityVortex)
 			tessellator.setColorRGBA_I(0x3898b3, (int) (255.0F * (1.0F)));
@@ -379,7 +378,7 @@ public class RenderBlackHole extends Render {
 			tessellator.setColorRGBA_I(0xFFB900, (int) (255.0F * (1.0F)));
 	}
 
-	private void setColorNone(Entity e, Tessellator tessellator) {
+	protected void setColorNone(Entity e, Tessellator tessellator) {
 
 		if(e instanceof EntityVortex)
 			tessellator.setColorRGBA_I(0x3898b3, 0);
