@@ -39,6 +39,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
+import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -171,10 +172,8 @@ public class ModEventHandler {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onEntityDeath(LivingDeathEvent event) {
-		
-		HbmLivingProps.setRadiation(event.entityLiving, 0);
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onEntityDeathFirst(LivingDeathEvent event) {
 		
 		for(int i = 1; i < 5; i++) {
 			
@@ -184,23 +183,42 @@ public class ModEventHandler {
 
 				ItemStack revive = ArmorModHandler.pryMods(stack)[ArmorModHandler.extra];
 				
-				if(revive != null && revive.getItem() instanceof ItemModRevive) {
+				if(revive != null) {
 					
-					revive.setItemDamage(revive.getItemDamage() + 1);
-					
-					if(revive.getItemDamage() >= revive.getMaxDamage()) {
-						ArmorModHandler.removeMod(stack, ArmorModHandler.extra);
-					} else {
-						ArmorModHandler.applyMod(stack, revive);
+					//Classic revive
+					if(revive.getItem() instanceof ItemModRevive) {
+						revive.setItemDamage(revive.getItemDamage() + 1);
+						
+						if(revive.getItemDamage() >= revive.getMaxDamage()) {
+							ArmorModHandler.removeMod(stack, ArmorModHandler.extra);
+						} else {
+							ArmorModHandler.applyMod(stack, revive);
+						}
+						
+						event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
+						event.entityLiving.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 99));
+						event.setCanceled(true);
+						return;
 					}
 					
-					event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
-					event.entityLiving.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 99));
-					event.setCanceled(true);
-					return;
+					//Shackles
+					if(revive.getItem() instanceof ItemModShackles && HbmLivingProps.getRadiation(event.entityLiving) < 1000F) {
+						
+						event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
+						HbmLivingProps.incrementRadiation(event.entityLiving, Math.max(HbmLivingProps.getRadiation(event.entityLiving), 10F));
+						event.setCanceled(true);
+						return;
+					}
 				}
 			}
 		}
+		
+	}
+	
+	@SubscribeEvent
+	public void onEntityDeath(LivingDeathEvent event) {
+		
+		HbmLivingProps.setRadiation(event.entityLiving, 0);
 		
 		if(event.entity.worldObj.isRemote)
 			return;
@@ -286,9 +304,12 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void spawnMob(LivingSpawnEvent event) {
+	public void decorateMob(LivingSpawnEvent event) {
 		EntityLivingBase entity = event.entityLiving;
 		World world = event.world;
+		
+		if(!MobConfig.enableMobGear)
+			return;
 
 		if(entity instanceof EntityZombie) {
 			if(rand.nextInt(64) == 0)

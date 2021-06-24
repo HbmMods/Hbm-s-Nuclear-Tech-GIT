@@ -56,7 +56,7 @@ public class ItemDigamma extends ItemHazard {
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if(entityItem != null) {
 
-			if(entityItem.onGround) {
+			if(entityItem.onGround && !entityItem.worldObj.isRemote) {
 
 				if(WeaponConfig.dropSing) {
 					EntityQuasar bl = new EntityQuasar(entityItem.worldObj, 5F);

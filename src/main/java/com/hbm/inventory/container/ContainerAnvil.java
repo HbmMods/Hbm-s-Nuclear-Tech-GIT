@@ -78,7 +78,14 @@ public class ContainerAnvil extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 2) {
+			if(par2 == 2) {
+				
+				if(!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true)) {
+					return null;
+				}
+				var4.onSlotChange(var5, var3);
+				
+			} else if(par2 <= 1) {
 				if(!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true)) {
 					return null;
 				} else {
@@ -95,6 +102,8 @@ public class ContainerAnvil extends Container {
 			} else {
 				var4.onSlotChanged();
 			}
+
+			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
 
 		return var3;

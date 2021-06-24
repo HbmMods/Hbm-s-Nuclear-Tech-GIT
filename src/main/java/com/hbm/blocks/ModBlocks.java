@@ -890,6 +890,7 @@ public class ModBlocks {
 	public static Block anvil_meteorite;
 	public static Block anvil_starmetal;
 	public static Block anvil_ferrouranium;
+	public static Block anvil_bismuth;
 	public static Block anvil_schrabidate;
 	public static Block anvil_dnt;
 	public static Block anvil_murky;
@@ -1793,8 +1794,9 @@ public class ModBlocks {
 		anvil_meteorite = new NTMAnvil(Material.iron, 3).setBlockName("anvil_meteorite").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_meteorite");
 		anvil_starmetal = new NTMAnvil(Material.iron, 3).setBlockName("anvil_starmetal").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_starmetal");
 		anvil_ferrouranium = new NTMAnvil(Material.iron, 4).setBlockName("anvil_ferrouranium").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_ferrouranium");
-		anvil_schrabidate = new NTMAnvil(Material.iron, 5).setBlockName("anvil_schrabidate").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_schrabidate");
-		anvil_dnt = new NTMAnvil(Material.iron, 6).setBlockName("anvil_dnt").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_dnt");
+		anvil_bismuth = new NTMAnvil(Material.iron, 5).setBlockName("anvil_bismuth").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_bismuth");
+		anvil_schrabidate = new NTMAnvil(Material.iron, 6).setBlockName("anvil_schrabidate").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_schrabidate");
+		anvil_dnt = new NTMAnvil(Material.iron, 7).setBlockName("anvil_dnt").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_dnt");
 		anvil_murky = new NTMAnvil(Material.iron, 1916169).setBlockName("anvil_murky").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
 		
 		machine_deaerator = new MachineDeaerator(Material.iron).setBlockName("machine_deaerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deaerator");
@@ -2402,6 +2404,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(anvil_meteorite, ItemBlockAnvil.class, anvil_meteorite.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_starmetal, ItemBlockAnvil.class, anvil_starmetal.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_ferrouranium, ItemBlockAnvil.class, anvil_ferrouranium.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_bismuth, ItemBlockAnvil.class, anvil_bismuth.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_schrabidate, ItemBlockAnvil.class, anvil_schrabidate.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_dnt, ItemBlockAnvil.class, anvil_dnt.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_murky, ItemBlockAnvil.class, anvil_murky.getUnlocalizedName());

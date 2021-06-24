@@ -21,7 +21,19 @@ public class RenderDemonLamp extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+		GL11.glTranslated(x + 0.5D, y + 0.5D, z + 0.5D);
+		
+		switch(tileEntity.getBlockMetadata()) {
+		case 0: GL11.glRotated(180, 1, 0, 0); break;
+		case 1: break;
+		case 2: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(180, 0, 0, 1); break;
+		case 3: GL11.glRotated(90, 1, 0, 0); break;
+		case 4: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(90, 0, 0, 1); break;
+		case 5: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(270, 0, 0, 1); break;
+		}
+
+		GL11.glTranslated(0, -0.5F, 0);
+		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 

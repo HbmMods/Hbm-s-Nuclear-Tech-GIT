@@ -32,10 +32,11 @@ public class EntityBlackHole extends Entity {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
+		this.noClip = true;
 	}
 
 	public EntityBlackHole(World world, float size) {
-		super(world);
+		this(world);
 		this.dataWatcher.updateObject(16, size);
 	}
 	

@@ -31,6 +31,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -258,8 +259,16 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	}
 	
 	public void onMelt(int reduce) {
+		
+		standardMelt(reduce);
+		
+		if(this.getBlockMetadata() == RBMKBase.DIR_NORMAL_LID.ordinal() + RBMKBase.offset)
+			spawnDebris(DebrisType.LID);
+	}
+	
+	protected void standardMelt(int reduce) {
 
-		/*reduce = MathHelper.clamp_int(reduce, 1, 3);
+		reduce = MathHelper.clamp_int(reduce, 1, RBMKDials.getColumnHeight(worldObj));
 		
 		if(worldObj.rand.nextInt(3) == 0)
 			reduce++;
@@ -269,13 +278,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			if(i <= 4 - reduce) {
 				
 				if(reduce > 1 && i == 4 - reduce) {
-					
-					if(worldObj.rand.nextInt(3) == 0) {
-						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
-					} else {
-						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris_burning);
-					}
-					
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris_burning);
 				} else {
 					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris);
 				}
@@ -285,17 +288,6 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			}
 			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
 		}
-		
-		for(int i = 0; i < 2; i++) {
-			EntityRBMKDebris debris = new EntityRBMKDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, DebrisType.values()[worldObj.rand.nextInt(DebrisType.values().length)]);
-			debris.motionX = worldObj.rand.nextGaussian() * 0.25D;
-			debris.motionZ = worldObj.rand.nextGaussian() * 0.25D;
-			debris.motionY = 1D + worldObj.rand.nextDouble();
-			worldObj.spawnEntityInWorld(debris);
-		}*/
-		
-		if(this.getBlockMetadata() == RBMKBase.DIR_NORMAL_LID.ordinal() + RBMKBase.offset)
-			spawnDebris(DebrisType.LID);
 	}
 	
 	protected void spawnDebris(DebrisType type) {
@@ -318,6 +310,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	//assumes that !worldObj.isRemote
 	public void meltdown() {
+		
+		RBMKBase.dropLids = false;
 		
 		columns.clear();
 		getFF(xCoord, yCoord, zCoord);
@@ -382,6 +376,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		MainRegistry.proxy.effectNT(data);
 		
 		worldObj.playSoundEffect(avgX + 0.5, yCoord + 1, avgZ + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);
+		
+		RBMKBase.dropLids = true;
 	}
 	
 	private void getFF(int x, int y, int z) {

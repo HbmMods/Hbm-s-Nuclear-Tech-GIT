@@ -42,4 +42,9 @@ public class DemonLamp extends BlockContainer implements IItemHazard {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
+
+	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
+		return side;
+	}
 }

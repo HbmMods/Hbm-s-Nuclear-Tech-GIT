@@ -153,7 +153,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			
 			int load = recipe.fluidProduced;
 			
-			if(load <= this.maxFill - this.currentFill && load < tank.getFill()) {
+			if(load <= this.maxFill - this.currentFill && load <= tank.getFill()) {
 				this.currentFill += load;
 				this.current = new ComparableStack(slots[0]).makeSingular();
 				tank.setFill(tank.getFill() - load);
