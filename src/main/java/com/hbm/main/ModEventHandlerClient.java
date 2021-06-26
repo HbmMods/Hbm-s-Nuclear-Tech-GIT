@@ -48,6 +48,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -70,6 +71,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -629,6 +633,24 @@ public class ModEventHandlerClient {
 			}
 		}
 	}
+	
+	/*@SubscribeEvent
+	public void setupFog(RenderFogEvent event) {
+		event.setResult(Result.DENY);
+	}
+	
+	@SubscribeEvent
+	public void thickenFog(FogDensity event) {
+		event.density = 0.05F;
+		event.setCanceled(true);
+	}
+	
+	@SubscribeEvent
+	public void tintFog(FogColors event) {
+		event.red = 0.5F;
+		event.green = 0.0F;
+		event.blue = 0.0F;
+	}*/
 	
 	public static IIcon particleBase;
 

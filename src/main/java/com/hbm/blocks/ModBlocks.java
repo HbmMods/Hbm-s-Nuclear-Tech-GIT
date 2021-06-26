@@ -124,6 +124,11 @@ public class ModBlocks {
 
 	public static Block ore_tikite;
 
+	public static Block crystal_power;
+	public static Block crystal_energy;
+	public static Block crystal_robust;
+	public static Block crystal_trixite;
+
 	public static Block block_thorium;
 	public static Block block_thorium_fuel;
 	public static Block block_uranium;
@@ -1160,6 +1165,11 @@ public class ModBlocks {
 		ore_oil_sand = new BlockFalling(Material.sand).setBlockName("ore_oil_sand").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_sand_alt");
 		
 		ore_tikite = new BlockGeneric(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite_alt");
+
+		crystal_power = new BlockCrystal(Material.glass).setBlockName("crystal_power").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":crystal_power");
+		crystal_energy = new BlockCrystal(Material.glass).setBlockName("crystal_energy").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":crystal_energy");
+		crystal_robust = new BlockCrystal(Material.glass).setBlockName("crystal_robust").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":crystal_robust");
+		crystal_trixite = new BlockCrystal(Material.glass).setBlockName("crystal_trixite").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":crystal_trixite");
 		
 		block_uranium = new BlockHazard().addRadiation(ItemHazard.u * ItemHazard.block).toBlock().setBlockName("block_uranium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium");
 		block_u233 = new BlockHazard().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.u233 * ItemHazard.block).toBlock().setBlockName("block_u233").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_u233");
@@ -2025,6 +2035,12 @@ public class ModBlocks {
 		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
+		
+		//Crystals
+		GameRegistry.registerBlock(crystal_power, crystal_power.getUnlocalizedName());
+		GameRegistry.registerBlock(crystal_energy, crystal_energy.getUnlocalizedName());
+		GameRegistry.registerBlock(crystal_robust, crystal_robust.getUnlocalizedName());
+		GameRegistry.registerBlock(crystal_trixite, crystal_trixite.getUnlocalizedName());
 		
 		//Stone Variants
 		GameRegistry.registerBlock(stone_gneiss, stone_gneiss.getUnlocalizedName());

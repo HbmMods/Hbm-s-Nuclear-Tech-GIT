@@ -148,6 +148,8 @@
     "weapon.cDeploy": {"category": "player", "sounds": [{"name": "weapon/cDeploy", "stream": false}]},
     "weapon.cSwing": {"category": "player", "sounds": [{"name": "weapon/cSwing", "stream": false}]},
     "weapon.extinguisher": {"category": "player", "sounds": [{"name": "weapon/extinguisher", "stream": false}]},
+    
+    "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

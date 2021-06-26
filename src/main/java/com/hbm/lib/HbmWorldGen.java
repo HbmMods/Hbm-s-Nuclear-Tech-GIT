@@ -46,6 +46,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class HbmWorldGen implements IWorldGenerator {
@@ -665,6 +666,16 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateEnd(World world, Random rand, int i, int j) {
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
+
+		for(int k = 0; k < 50; k++){
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int d = 5 + rand.nextInt(60);
+
+			for(int y = d - 5; y <= d; y++)
+				if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y + 1, z).isSideSolid(world, x, y, z, ForgeDirection.DOWN))
+					world.setBlock(x, y, z, ModBlocks.crystal_trixite);
+		}
 	}
 
 }

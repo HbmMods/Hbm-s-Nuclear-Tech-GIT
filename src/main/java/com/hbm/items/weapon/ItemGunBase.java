@@ -33,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -71,11 +72,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				updateServer(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
 			}
 		}
-    	
-    }
+	}
 
 	@SideOnly(Side.CLIENT)
 	protected void updateClient(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
+		
+		if(!world.isRemote)
+			return;
 		
 		boolean clickLeft = Mouse.isButtonDown(0);
 		boolean clickRight = Mouse.isButtonDown(1);
@@ -458,7 +461,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(!mainConfig.reloadSoundEnd)
 			world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 		
-		PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
+		if(!world.isRemote)
+			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
 		
 		setIsReloading(stack, true);
 		resetReloadCycle(stack);

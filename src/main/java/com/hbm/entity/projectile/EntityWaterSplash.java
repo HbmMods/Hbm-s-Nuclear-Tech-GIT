@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -30,19 +31,20 @@ public class EntityWaterSplash extends EntityThrowable {
         super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
     }
     
-    @Override
-    public void onUpdate() {
-    	super.onUpdate();
-		
-    	if(!worldObj.isRemote) {
-    		
-    		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 75));
-    		
-	        if(this.ticksExisted > 80) {
-	        	this.setDead();
-	        }
-    	}
-    }
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+
+		if(!worldObj.isRemote) {
+
+			if(this.ticksExisted > 200) {
+				this.setDead();
+			}
+		} else {
+			
+			MainRegistry.proxy.particleControl(posX, posY, posZ, 0);
+		}
+	}
 
     @Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)

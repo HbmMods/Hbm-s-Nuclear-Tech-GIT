@@ -20,6 +20,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotPlutonium238", ModItems.ingot_pu238);
 		OreDictionary.registerOre("ingotPlutonium239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("ingotPlutonium240", ModItems.ingot_pu240);
+		OreDictionary.registerOre("ingotPlutonium241", ModItems.ingot_pu241);
 		OreDictionary.registerOre("ingotNeptunium237", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotTechnetium99", ModItems.ingot_technetium);
 		OreDictionary.registerOre("U233", ModItems.ingot_u233);
@@ -29,6 +30,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("Pu238", ModItems.ingot_pu238);
 		OreDictionary.registerOre("Pu239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
+		OreDictionary.registerOre("Pu241", ModItems.ingot_pu241);
 		OreDictionary.registerOre("Np237", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotPolonium", ModItems.ingot_polonium);
 		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);

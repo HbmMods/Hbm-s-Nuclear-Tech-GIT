@@ -163,7 +163,7 @@ public class RodRecipes {
 		RecipesCommon.addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
 		RecipesCommon.addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
 		RecipesCommon.addRBMKRod(ModItems.billet_pu_mix, ModItems.rbmk_fuel_mep);
-		RecipesCommon.addRBMKRod(ModItems.billet_pu239, ModItems.rbmk_fuel_hep);
+		RecipesCommon.addRBMKRod(ModItems.billet_pu239, ModItems.rbmk_fuel_hep239);
 		RecipesCommon.addRBMKRod(ModItems.billet_pu241, ModItems.rbmk_fuel_hep241);
 		RecipesCommon.addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
 		RecipesCommon.addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);

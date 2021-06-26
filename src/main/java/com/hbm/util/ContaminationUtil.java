@@ -293,7 +293,7 @@ public class ContaminationUtil {
 			case DIGAMMA2:			if(ArmorUtil.checkForDigamma2(player))	return false; break;
 			}
 			
-			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)
+			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE && cont != ContaminationType.DIGAMMA2)
 				return false;
 			
 			if(player.ticksExisted < 200)

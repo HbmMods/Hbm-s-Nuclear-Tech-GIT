@@ -108,7 +108,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		attributeinstance.applyModifier(new AttributeModifier(digamma_UUID, "digamma", healthMod, 2));
 		
-		if(entity.getHealth() > entity.getMaxHealth()) {
+		if(entity.getHealth() > entity.getMaxHealth() && entity.getMaxHealth() > 0) {
 			entity.setHealth(entity.getMaxHealth());
 		}
 		

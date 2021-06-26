@@ -1038,6 +1038,10 @@ public class ResourceManager {
 	public static final ResourceLocation rbmk_console_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_control.png");
 	public static final IModelCustom hev_battery = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/battery.obj"));
 	public static final IModelCustom anvil = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/anvil.obj"));
+	public static final IModelCustom crystal_power = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_power.obj"));
+	public static final IModelCustom crystal_energy = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_energy.obj"));
+	public static final IModelCustom crystal_robust = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_robust.obj"));
+	public static final IModelCustom crystal_trixite = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_trixite.obj"));
 	
 	//RBMK DEBRIS
 	public static final IModelCustom deb_blank = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/projectiles/deb_blank.obj"));

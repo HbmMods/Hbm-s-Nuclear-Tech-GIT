@@ -137,7 +137,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		setPoison(stack, xenon);
 		
-		double outFlux = reactivityFunc(inFlux * getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
+		double outFlux = reactivityFunc(inFlux, getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
 		
 		double y = getYield(stack);
 		y -= inFlux;
@@ -208,6 +208,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	}
 	
 	public static enum EnumBurnFunc {
+		PASSIVE(EnumChatFormatting.DARK_GREEN + "SAFE / PASSIVE"),			//const, no reactivity
 		LOG_TEN(EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"),		//log10(x + 1) * reactivity * 50
 		PLATEU(EnumChatFormatting.GREEN + "SAFE / EULER"),					//(1 - e^(-x/25)) * reactivity * 100
 		ARCH(EnumChatFormatting.YELLOW + "MEDIUM / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
@@ -227,9 +228,12 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	 * @param flux [0;100] ...or at least those are sane levels
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
-	public double reactivityFunc(double flux) {
+	public double reactivityFunc(double in, double enrichment) {
+		
+		double flux = in * enrichment;
 		
 		switch(this.function) {
+		case PASSIVE: return selfRate * enrichment;
 		case LOG_TEN: return Math.log10(flux + 1) * 0.1D * reactivity;
 		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * 100D * reactivity;
 		case ARCH: return flux - (flux * flux / 1000D) * reactivity;
@@ -250,6 +254,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 			x = "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")";
 		
 		switch(this.function) {
+		case PASSIVE: return EnumChatFormatting.RED + "" + selfRate;
 		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + reactivity;
 		case PLATEU: return "(1 - e^-" + x + " / 25)) * 100 * " + reactivity;
 		case ARCH: return "(" + x + " - " + x + "² / 1000) * " + reactivity;

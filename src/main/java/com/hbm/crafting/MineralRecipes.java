@@ -66,6 +66,10 @@ public class MineralRecipes {
 		RecipesCommon.add1To9Pair(ModItems.ingot_bismuth, ModItems.nugget_bismuth);
 		RecipesCommon.add1To9Pair(ModBlocks.block_bismuth, ModItems.ingot_bismuth);
 
+		RecipesCommon.add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);
+		RecipesCommon.add1To9Pair(ModItems.ingot_am242, ModItems.nugget_am242);
+		RecipesCommon.add1To9Pair(ModItems.ingot_am_mix, ModItems.nugget_am_mix);
+
 		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
 			RecipesCommon.add9To1SameMeta(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long, i);
 			RecipesCommon.add1To9SameMeta(ModItems.nuclear_waste_long, ModItems.nuclear_waste_long_tiny, i);
@@ -103,6 +107,9 @@ public class MineralRecipes {
 		RecipesCommon.addBillet(ModItems.billet_pu240, ModItems.nugget_pu240, "nuggetPlutonium240", "tinyPu240");
 		RecipesCommon.addBillet(ModItems.billet_pu241, ModItems.nugget_pu241, "nuggetPlutonium241", "tinyPu241");
 		RecipesCommon.addBillet(ModItems.billet_pu_mix, ModItems.nugget_pu_mix);
+		RecipesCommon.addBillet(ModItems.billet_am241, ModItems.nugget_am241, "nuggetAmericium241", "tinyAm241");
+		RecipesCommon.addBillet(ModItems.billet_am242, ModItems.nugget_am242, "nuggetAmericium242", "tinyAm242");
+		RecipesCommon.addBillet(ModItems.billet_am_mix, ModItems.nugget_am_mix);
 		RecipesCommon.addBillet(ModItems.billet_neptunium, ModItems.nugget_neptunium, "nuggetNeptunium237", "tinyNp237");
 		RecipesCommon.addBillet(ModItems.billet_polonium, ModItems.nugget_polonium, "nuggetPolonium");
 		RecipesCommon.addBillet(ModItems.billet_technetium, ModItems.nugget_technetium, "nuggetTechnetium");
