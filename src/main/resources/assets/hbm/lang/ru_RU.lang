@@ -1778,6 +1778,7 @@ item.pellet_rtg.name=РИТЭГ-пеллета из плутония-238
 item.pellet_rtg_weak.name=Слабая урановая РИТЭГ-пеллета
 item.pellet_rtg_polonium.name=РИТЭГ-пеллета из полония-210
 item.pellet_rtg_gold.name=РИТЭГ-пеллета из золота-198
+item.pellet_rtg_americium.name=РИТЭГ-пеллета из америция-241
 item.rtg_unit.name=РИТЭГ-элемент
 item.hazmat_cloth.name=Защитная ткань
 item.hazmat_cloth_red.name=Дополнительная защитная ткань
@@ -1941,6 +1942,8 @@ item.billet_am_mix.name=Заготовка америция реакторног
 item.billet_am241.name=Заготовка америция-241
 item.billet_am242.name=Заготовка америция-242
 item.billet_americium_fuel.name=Заготовка америциевого топлива
+item.billet_hes.name=Заготовка высокообогащенного шрабидиевого топлива
+item.billet_les.name=Заготовка низкообогащенного шрабидиевого топлива
 
 item.rbmk_pellet_balefire.name=Жар-топливная пеллета
 item.rbmk_pellet_balefire_gold.name=Флэшголд-топливная пеллета
