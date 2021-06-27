@@ -264,7 +264,7 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_machine_teleporter: {
 			if(entity instanceof TileEntityMachineTeleporter) {
-				return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
+			//	return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
 			}
 			return null;
 		}
@@ -817,7 +817,7 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_rbmk_console: {
 			if(entity instanceof TileEntityRBMKConsole) {
-				return new ContainerRBMKConsole(player.inventory, (TileEntityRBMKConsole) entity);
+			//	return new ContainerRBMKConsole(player.inventory, (TileEntityRBMKConsole) entity);
 			}
 			return null;
 		}

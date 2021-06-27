@@ -230,7 +230,7 @@ public class RecipesCommon {
 			if(stack.stackSize < this.stacksize)
 				return false;
 			
-			return false;
+			return true;
 		}
 	}
 	

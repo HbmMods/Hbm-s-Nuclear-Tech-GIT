@@ -3,10 +3,13 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class AnvilRecipes {
@@ -17,6 +20,25 @@ public class AnvilRecipes {
 		
 		smithingRecipes.add(new AnvilSmithingRecipe(2, new ItemStack(ModItems.plate_steel, 2),
 				new OreDictStack("ingotSteel"), new OreDictStack("ingotSteel")));
+
+		Block[] anvils = new Block[]{ModBlocks.anvil_iron, ModBlocks.anvil_lead};
+		
+		for(Block anvil : anvils) {
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_bismuth, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_bismuth, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_dnt, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_dineutronium, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_ferrouranium, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_u238, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_meteorite, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_meteorite, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_schrabidate, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_schrabidate, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_starmetal, 1),
+					new ComparableStack(anvil), new ComparableStack(ModItems.ingot_starmetal, 10)));
+			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_steel, 1),
+					new ComparableStack(anvil), new OreDictStack("ingotSteel", 10)));
+		}
 	}
 	
 	public static List<AnvilSmithingRecipe> getSmithing() {

@@ -53,10 +53,7 @@ public class RBMKConsole extends BlockDummyable {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(world.isRemote) {
-			return true;
-			
-		} else if(!player.isSneaking()) {
+		if(!player.isSneaking()) {
 			
 			BossSpawnHandler.markFBI(player);
 			
@@ -91,12 +88,13 @@ public class RBMKConsole extends BlockDummyable {
 					}
 				}
 				
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rbmk_console, world, pos[0], pos[1], pos[2]);
+				if(world.isRemote)
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rbmk_console, world, pos[0], pos[1], pos[2]);
 			}
 			return true;
 			
 		} else {
-			return false;
+			return true;
 		}
 	}
 

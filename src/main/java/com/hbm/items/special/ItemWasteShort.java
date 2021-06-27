@@ -44,11 +44,13 @@ public class ItemWasteShort extends ItemHazard {
 	public enum WasteClass {
 
 		//all decayed versions include lead-types and classic nuclear waste
-		URANIUM("Uranium"),				//fresh recycling makes iodine, caesium and technetium, depleted turns into neptunium
+		URANIUM235("Uranium-235"),		//fresh recycling makes iodine, caesium and technetium, depleted turns into neptunium
+		URANIUM233("Uranium-233"),		//fresh recycling makes iodine, caesium and technetium, depleted turns into u235
 		NEPTUNIUM("Neptunium"),			//funny fission fragments + polonium and pu238 and 239 / u235
 		PLUTONIUM239("Plutonium-239"),	//funny fission fragments + pu240 and 241 / u238 (actually u236 but fuck you)
 		PLUTONIUM240("Plutonium-240"),	//funny fission fragments + pu241 / u238  + lead
-		PLUTONIUM241("Plutonium-241");	//funny fission fragments + am241 / 242 / np237 + bismuth
+		PLUTONIUM241("Plutonium-241"),	//funny fission fragments + am241 / 242 / np237 + bismuth
+		AMERICIUM242("Americium-242");	//funny fission fragments + californium / np237 + pu241
 		
 		String name;
 		

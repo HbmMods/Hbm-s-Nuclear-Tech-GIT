@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
@@ -146,6 +148,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 						break;
 					
 					flux *= control.getMult();
+					
 					continue;
 				}
 				
@@ -218,47 +221,44 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Override
 	public void onMelt(int reduce) {
 
-		reduce = MathHelper.clamp_int(reduce, 1, 3);
+		int h = RBMKDials.getColumnHeight(worldObj);
+		reduce = MathHelper.clamp_int(reduce, 1, h);
 		
 		if(worldObj.rand.nextInt(3) == 0)
 			reduce++;
 		
 		boolean corium = slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod;
-		slots[0] = null;
 		
-		for(int i = 3; i >= 0; i--) {
-			
-			if(i <= 4 - reduce) {
-				
-				if(corium) {
-					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
-					
-				} else {
-					if(reduce > 1 && i == 4 - reduce) {
-						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris_burning);
-						
-					} else {
-						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.pribris);
-					}
-				}
-				
-			} else {
-				worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
-			}
-			worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
-		}
+		if(corium && slots[0].getItem() == ModItems.rbmk_fuel_drx) 
+			RBMKBase.digamma = true;
+		
+		slots[0] = null;
 
 		if(corium) {
-			int count = 1 + worldObj.rand.nextInt(3);
+			
+			for(int i = h; i >= 0; i--) {
+				
+				if(i <= h + 1 - reduce) {
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
+				} else {
+					worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
+				}
+				worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
+			}
+			
+			int count = 1 + worldObj.rand.nextInt(RBMKDials.getColumnHeight(worldObj));
 			
 			for(int i = 0; i < count; i++) {
 				spawnDebris(DebrisType.FUEL);
 			}
+		} else {
+			this.standardMelt(reduce);
 		}
 		
 		spawnDebris(DebrisType.ELEMENT);
 		
-		super.onMelt(reduce);
+		if(this.getBlockMetadata() == RBMKBase.DIR_NORMAL_LID.ordinal() + RBMKBase.offset)
+			spawnDebris(DebrisType.LID);
 	}
 
 	@Override

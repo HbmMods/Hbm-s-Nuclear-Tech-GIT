@@ -22,8 +22,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class RBMKBase extends BlockDummyable implements IScrewable {
-	
+
 	public static boolean dropLids = true;
+	public static boolean digamma = false;
 
 	protected RBMKBase() {
 		super(Material.iron);

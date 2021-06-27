@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -216,6 +217,18 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+	
+	@Override
+	public void onMelt(int reduce) {
+		
+		int count = 4 + worldObj.rand.nextInt(2);
+		
+		for(int i = 0; i < count; i++) {
+			spawnDebris(DebrisType.BLANK);
+		}
+		
+		super.onMelt(reduce);
 	}
 
 	@Override

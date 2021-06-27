@@ -44,7 +44,8 @@ public class ItemWasteLong extends ItemHazard {
 	public enum WasteClass {
 
 		//all decayed versions include lead-types and classic nuclear waste
-		URANIUM("Uranium"),			//plutonium 239 and 240, neptunium 237 / -
+		URANIUM235("Uranium-235"),	//plutonium 239 and 240, neptunium 237 / -
+		URANIUM233("Uranium-233"),	//uranium 235, plutonium 239, neptunium 237 / -
 		NEPTUNIUM("Neptunium"),		//plutonium 239 and uranium 238 / -
 		THORIUM("Thorium");			//uranium 233 and uranium 235 / -
 		

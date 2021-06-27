@@ -18,7 +18,6 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class GunRocketFactory {

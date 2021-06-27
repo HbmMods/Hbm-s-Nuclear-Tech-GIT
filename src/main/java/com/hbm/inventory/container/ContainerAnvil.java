@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.AnvilRecipes;
 import com.hbm.inventory.AnvilRecipes.AnvilSmithingRecipe;
 import com.hbm.inventory.SlotMachineOutput;
@@ -18,9 +17,9 @@ public class ContainerAnvil extends Container {
 	
 	public InventoryBasic input = new InventoryBasic("Input", false, 8);
 	public IInventory output = new InventoryCraftResult();
-
+	
 	public ContainerAnvil(InventoryPlayer inventory) {
-
+		
 		this.addSlotToContainer(new SmithingSlot(input, 0, 17, 27));
 		this.addSlotToContainer(new SmithingSlot(input, 1, 53, 27));
 		this.addSlotToContainer(new SlotMachineOutput(output, 0, 89, 27) {
@@ -28,7 +27,7 @@ public class ContainerAnvil extends Container {
 			@Override
 			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 				super.onPickupFromSlot(player, stack);
-
+				
 				ItemStack left = ContainerAnvil.this.input.getStackInSlot(0);
 				ItemStack right = ContainerAnvil.this.input.getStackInSlot(1);
 				
@@ -63,21 +62,21 @@ public class ContainerAnvil extends Container {
 		
 		this.onCraftMatrixChanged(this.input);
 	}
-
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
-
+		
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-
+			
 			if(par2 == 2) {
 				
 				if(!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true)) {
@@ -96,31 +95,50 @@ public class ContainerAnvil extends Container {
 				if(!this.mergeItemStack(var5, 0, 2, false))
 					return null;
 			}
-
+			
 			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
 			} else {
 				var4.onSlotChanged();
 			}
-
+			
 			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
-
+		
 		return var3;
 	}
 	
+	@Override
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
+		
+		if(!player.worldObj.isRemote) {
+			for(int i = 0; i < this.input.getSizeInventory(); ++i) {
+				ItemStack itemstack = this.input.getStackInSlotOnClosing(i);
+				
+				if(itemstack != null) {
+					player.dropPlayerItemWithRandomChoice(itemstack, false);
+				}
+			}
+		}
+	}
+	
 	public class SmithingSlot extends Slot {
-
+		
 		public SmithingSlot(IInventory inventory, int index, int x, int y) {
 			super(inventory, index, x, y);
+		}
+		
+		public void onSlotChanged() {
+			super.onSlotChanged();
+			ContainerAnvil.this.updateSmithing();
 		}
 		
 		@Override
 		public void putStack(ItemStack stack) {
 			super.putStack(stack);
-			ContainerAnvil.this.updateSmithing();
 		}
-
+		
 		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 			super.onPickupFromSlot(player, stack);
 			ContainerAnvil.this.updateSmithing();
@@ -128,7 +146,7 @@ public class ContainerAnvil extends Container {
 	}
 	
 	private void updateSmithing() {
-
+		
 		ItemStack left = this.input.getStackInSlot(0);
 		ItemStack right = this.input.getStackInSlot(1);
 		

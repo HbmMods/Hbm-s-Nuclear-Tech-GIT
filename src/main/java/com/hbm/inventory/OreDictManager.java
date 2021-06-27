@@ -21,6 +21,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotPlutonium239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("ingotPlutonium240", ModItems.ingot_pu240);
 		OreDictionary.registerOre("ingotPlutonium241", ModItems.ingot_pu241);
+		OreDictionary.registerOre("ingotAmericium241", ModItems.ingot_am241);
+		OreDictionary.registerOre("ingotAmericium242", ModItems.ingot_am242);
 		OreDictionary.registerOre("ingotNeptunium237", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotTechnetium99", ModItems.ingot_technetium);
 		OreDictionary.registerOre("U233", ModItems.ingot_u233);
@@ -31,6 +33,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("Pu239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
 		OreDictionary.registerOre("Pu241", ModItems.ingot_pu241);
+		OreDictionary.registerOre("Am241", ModItems.ingot_am241);
+		OreDictionary.registerOre("Am242", ModItems.ingot_am242);
 		OreDictionary.registerOre("Np237", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotPolonium", ModItems.ingot_polonium);
 		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);
@@ -77,6 +81,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("nuggetPlutonium240", ModItems.nugget_pu240);
 		OreDictionary.registerOre("nuggetPlutonium241", ModItems.nugget_pu241);
+		OreDictionary.registerOre("nuggetAmericium241", ModItems.nugget_am241);
+		OreDictionary.registerOre("nuggetAmericium242", ModItems.nugget_am242);
 		OreDictionary.registerOre("nuggetAustralium", ModItems.nugget_australium);
 		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
 		OreDictionary.registerOre("nuggetNeptunium237", ModItems.nugget_neptunium);
@@ -94,6 +100,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("tinyPu239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("tinyPu240", ModItems.nugget_pu240);
 		OreDictionary.registerOre("tinyPu241", ModItems.nugget_pu241);
+		OreDictionary.registerOre("tinyAm241", ModItems.nugget_am241);
+		OreDictionary.registerOre("tinyAm242", ModItems.nugget_am242);
 		OreDictionary.registerOre("tinyNp237", ModItems.nugget_neptunium);
 		OreDictionary.registerOre("tinyTc99", ModItems.nugget_technetium);
 		OreDictionary.registerOre("tinyRa226", ModItems.nugget_ra226);
