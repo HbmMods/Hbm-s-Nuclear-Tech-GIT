@@ -835,6 +835,7 @@ tile.anvil_murky.name=Мрачная наковальня
 tile.anvil_schrabidate.name=Наковальня из шрабидата железа
 tile.anvil_starmetal.name=Наковальня из звёздного металла
 tile.anvil_steel.name=Стальная наковальня
+tile.anvil_bismuth.name=Висмутовая наковальня
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -3441,6 +3442,7 @@ item.chernobylsign.name=Боевой топор из Чернобыльског�
 
 item.letter.name=Экспресс-почта
 item.polaroid.name=Полароид
+item.shackles.name=Оковы
 item.glitch.name=Глюк
 item.book_secret.name=3-596-50802-9
 item.book_of_.name=Книга Вагонов
