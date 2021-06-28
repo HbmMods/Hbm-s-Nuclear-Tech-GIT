@@ -234,13 +234,13 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		switch(this.function) {
 		case PASSIVE: return selfRate * enrichment;
-		case LOG_TEN: return Math.log10(flux + 1) * 0.1D * reactivity;
-		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * 100D * reactivity;
-		case ARCH: return flux - (flux * flux / 1000D) * reactivity;
-		case SIGMOID: return 100D / (1 + Math.pow(Math.E, -(flux - 50D) / 10D)) * reactivity;
-		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity;
+		case LOG_TEN: return Math.log10(flux + 1) * 0.5D * reactivity;
+		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * reactivity;
+		case ARCH: return Math.max(flux - (flux * flux / 100000D) * reactivity, 0D);
+		case SIGMOID: return reactivity / (1 + Math.pow(Math.E, -(flux - 50D) / 10D));
+		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity / 10D;
 		case LINEAR: return flux / 100D * reactivity;
-		case QUADRATIC: return flux * flux / 100D * reactivity;
+		case QUADRATIC: return flux * flux / 10000D * reactivity;
 		}
 		
 		return 0;
@@ -255,13 +255,13 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		switch(this.function) {
 		case PASSIVE: return EnumChatFormatting.RED + "" + selfRate;
-		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * " + reactivity;
-		case PLATEU: return "(1 - e^-" + x + " / 25)) * 100 * " + reactivity;
-		case ARCH: return "(" + x + " - " + x + "² / 1000) * " + reactivity;
-		case SIGMOID: return "100 / (1 + e^(-(" + x + " - 50) / 10) * " + reactivity;
-		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity;
+		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * 0.5 * " + reactivity;
+		case PLATEU: return "(1 - e^-" + x + " / 25)) * " + reactivity;
+		case ARCH: return "(" + x + " - " + x + "² / 100000) * " + reactivity + " [0;∞]";
+		case SIGMOID: return reactivity + " / (1 + e^(-(" + x + " - 50) / 10)";
+		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity + " / 10";
 		case LINEAR: return x + " / 100 * " + reactivity;
-		case QUADRATIC: return x + "² / 100 * " + reactivity;
+		case QUADRATIC: return x + "² / 10000 * " + reactivity;
 		}
 		
 		return "ERROR";
@@ -308,7 +308,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		if(this == ModItems.rbmk_fuel_drx) {
 			
-			if(selfRate > 0) {
+			if(selfRate > 0 || this.function == EnumBurnFunc.SIGMOID) {
 				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.source"));
 			}
 			
@@ -327,8 +327,8 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmx.melt", meltingPoint + "m"));
 			
 		} else {
-			
-			if(selfRate > 0) {
+
+			if(selfRate > 0 || this.function == EnumBurnFunc.SIGMOID) {
 				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.source"));
 			}
 			
