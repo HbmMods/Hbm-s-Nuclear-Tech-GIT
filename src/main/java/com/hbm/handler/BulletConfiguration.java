@@ -14,15 +14,15 @@ import net.minecraft.potion.PotionEffect;
 
 public class BulletConfiguration {
 	
-	//what item this specific configuration consumes
+	/**What item this specific configuration consumes**/
 	public Item ammo;
-	//how many ammo units one item restores
+	/**How many ammo units one item restores, default 1**/
 	public int ammoCount = 1;
-	//how fast the bullet is (in sanics per second, or sps)
+	/**How fast the bullet is (in sanics per second, or sps)**/
 	public float velocity;
-	//spread of bullets in gaussian range
+	/**Spread of bullets in gaussian range**/
 	public float spread;
-	//weapon durability reduced (centered around 10)
+	/**Weapon durability reduced (centered around 10)**/
 	public int wear;
 	//greatest amount of pellets created each shot
 	public int bulletsMin;

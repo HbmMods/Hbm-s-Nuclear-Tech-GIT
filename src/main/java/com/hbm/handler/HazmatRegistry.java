@@ -38,7 +38,7 @@ public class HazmatRegistry {
 		double paa = 1.3D; // 95%
 		double liquidator = 2D; // 99%
 
-		double ferro = 1.5D;
+		double ferro = 1D;
 		double t45 = 1D; // 90%
 		double ajr = 1.3D; // 95%
 		double bj = 1D; // 90%

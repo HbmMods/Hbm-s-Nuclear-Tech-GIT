@@ -74,18 +74,37 @@ public class ContainerMachineSingGen extends Container
 		return tileEntity.isUseableByPlayer(player);
 	}
 	// TODO Finish
-	/*@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index)
-	{
-		ItemStack stack1 = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
+	@Override
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
+    {
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
 		
-		if (slot != null && slot.getHasStack())
+		if (var4 != null && var4.getHasStack())
 		{
-			ItemStack stack2 = slot.getStack();
-			stack1 = stack2.copy();
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
 			
+            if (par2 <= 3) {
+				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
+				{
+					return null;
+				}
+			}
+			else if (!this.mergeItemStack(var5, 0, 3, false))
+			{
+				return null;
+			}
 			
+			if (var5.stackSize == 0)
+			{
+				var4.putStack((ItemStack) null);
+			}
+			else
+			{
+				var4.onSlotChanged();
+			}
 		}
-	}*/
-}
+		
+		return var3;
+    }}

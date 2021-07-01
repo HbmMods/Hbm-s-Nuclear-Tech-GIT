@@ -378,7 +378,10 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_beam), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_scaffold });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.chain), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_beam });
 		// UFFR's crap
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_du_dioxide, 4), new Object[] { "PIP", "ICI", "PIP", 'P', "dustLead", 'I', "ingotUraniumDioxide", 'C', "ingotTungsten" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_gun_raw, 4), new Object[] { "WSW", "SRS", "SSS", 'W', ModItems.wire_magnetized_tungsten, 'S', "plateSchrabidium", 'R', ModItems.ring_starmetal }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_gun_basic), new Object[] { "ECE", "EPE", "ECE", 'E', "ingotActinium", 'P', ModItems.battery_gun_raw, 'C', ModItems.crystal_energy }));// TODO Placeholders
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.battery_gun_enhanced, new Object[] { "NAN", "NBN", "NAN", 'N', ModItems.powder_nitan_mix, 'B', ModItems.battery_gun_basic, 'A', "dustAstatine" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_du_dioxide, 4), new Object[] { "PIP", "ICI", "PIP", 'P', "dustLead", 'I', "ingotUraniumDioxide", 'C', "ingotDeshAlloy" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.bolt_staballoy, 4), new Object[] { "I", "I", 'I', ModItems.ingot_staballoy });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.wafer_gold, new Object[] { "dustGold", ModItems.wafer_silicon }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.wafer_lapis, new Object[] { "dustLapis", ModItems.wafer_silicon }));
@@ -388,16 +391,16 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.clay_ball, 4), new Object[] { ModItems.nugget_silicon, ModItems.nugget_silicon, Items.water_bucket, Blocks.sand });
 		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_chainsteel, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Placeholder recipe
 		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_ferrouranium_flat), new Object[] { " R ", "BBB", "III", 'R', Items.redstone, 'B', Items.brick, 'I', ModItems.ingot_ferrouranium });
-		//GameRegistry.addRecipe(new ShapedOreRecipe(Item.getItemFromBlock(ModBlocks.machine_difurnace_rtg_off), new Object[] {"RLR", "LFL", "RUR", 'R', ModItems.neutron_reflector, 'L', "plateLead", 'F', ModBlocks.machine_difurnace_off, 'U', ModItems.rtg_unit}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] { "CDC", "DLD", "CDC", 'C', Items.clay_ball, 'D', ModBlocks.ducrete_smooth, 'L', "plateLead" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.reinforced_ducrete, 8), new Object[] { "RDR", "DUD", "RDR", 'R', ModBlocks.steel_beam, 'D', ModBlocks.brick_ducrete, 'U', ModItems.ingot_du_dioxide });
-		GameRegistry.addRecipe(new ItemStack(ModItems.wire_glass_insulated, 3), new Object[] { "APA", "WWW", "APA", 'A', ModItems.acrylic, 'P', ModItems.plate_polymer, 'W', ModItems.wire_glass });
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical, 16), new Object[] { "KPK", "WWW", "KPK", 'K', ModItems.plate_kevlar, 'P', ModItems.ingot_polymer, 'W', ModItems.wire_glass_insulated });
-		//GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical_coated, 2), new Object[] { "KWK", "WIW", "KWK", 'K', ModItems.plate_kevlar, 'W', ModBlocks.cable_optical, 'I', ModBlocks.block_insulator });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_reel, 2), new Object[] { " P ", "TTT", " P ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// TODO Fix
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_disc, 4), new Object[] { " T ", "TPT", " T ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// TODO Fix
-		GameRegistry.addShapelessRecipe(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r, 1), new Object[] { ModItems.storage_magnetic_raw_reel, ModItems.storage_magnetic_raw_reel });
-		GameRegistry.addRecipe(new ShapedOreRecipe(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_cassette, 1), new Object[] { "PPP", "RGR", "PPP", 'P', ModItems.plate_polymer, 'R', ModItems.storage_magnetic_r_to_r, 'G', "paneGlass" }));
+//		GameRegistry.addRecipe(new ItemStack(ModItems.wire_glass_insulated, 3), new Object[] { "APA", "WWW", "APA", 'A', ModItems.acrylic, 'P', ModItems.plate_polymer, 'W', ModItems.wire_glass });
+//		GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical, 16), new Object[] { "KPK", "WWW", "KPK", 'K', ModItems.plate_kevlar, 'P', ModItems.ingot_polymer, 'W', ModItems.wire_glass_insulated });
+//		GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical_coated, 2), new Object[] { "KWK", "WIW", "KWK", 'K', ModItems.plate_kevlar, 'W', ModBlocks.cable_optical, 'I', ModBlocks.block_insulator });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_reel, 2), new Object[] { " P ", "TTT", " P ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// FIXME
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_disc, 4), new Object[] { " T ", "TPT", " T ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminium" }));// FIXME
+		GameRegistry.addShapelessRecipe(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r), new Object[] { ModItems.storage_magnetic_raw_reel, ModItems.storage_magnetic_raw_reel });
+		GameRegistry.addRecipe(new ShapedOreRecipe(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_cassette), new Object[] { "PPP", "RGR", "PPP", 'P', ModItems.plate_polymer, 'R', ModItems.storage_magnetic_r_to_r, 'G', "paneGlass" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.billet_sa327be, new Object[] { ModItems.nugget_solinium, ModItems.nugget_solinium, ModItems.nugget_solinium, "nuggetBeryllium", "nuggetBeryllium", "nuggetBeryllium" }));
 		reg2();
 	}
 	

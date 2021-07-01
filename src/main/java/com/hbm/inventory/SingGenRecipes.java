@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnegative;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -39,6 +42,9 @@ public class SingGenRecipes
 		commonFluid(new ItemStack(ModItems.ams_core_eyeofharmony, 1), ModItems.plate_dalekanium, FluidType.LAVA, ModItems.black_hole, 64000);
 		addRecipe(new ItemStack(ModItems.singularity_micro, 8), new Item[] {(ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium), null, null, (ModItems.nugget_euphemium), null, (ModItems.nugget_euphemium)}, ModItems.ingot_schrabidium, true, true, FluidType.ASCHRAB, 1000);
 		addRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new Item[] {Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal), (ModItems.powder_spark_mix), Item.getItemFromBlock(ModBlocks.block_starmetal)}, Item.getItemFromBlock(ModBlocks.block_schrabidate), true, false, FluidType.ASCHRAB, 4000);
+		commonStandard(ItemBattery.getEmptyBattery(ModItems.battery_gun_advanced), ModItems.ingot_schrabidate, ModItems.powder_tennessine, ModItems.battery_gun_enhanced);
+		addRecipe(ItemBattery.getEmptyBattery(ModItems.battery_gun_elite), new Item[] {ModItems.powder_spark_mix, ModItems.plate_dineutronium, ModItems.powder_spark_mix, ModItems.plate_euphemium, ModItems.plate_euphemium, ModItems.powder_spark_mix, ModItems.plate_dineutronium, ModItems.powder_spark_mix}, ModItems.battery_gun_advanced, true, false, FluidType.ASCHRAB, 2000);
+		addRecipe(ItemBattery.getEmptyBattery(ModItems.battery_gun_elite), new Item[] {ModItems.powder_spark_mix, ModItems.plate_euphemium, ModItems.powder_spark_mix, ModItems.plate_dineutronium, ModItems.plate_dineutronium, ModItems.powder_spark_mix, ModItems.plate_euphemium, ModItems.powder_spark_mix}, ModItems.battery_gun_advanced, true, false, FluidType.ASCHRAB, 2000);
 	}
 	/**
 	 * Standard recipe for upgrading singularities
@@ -73,7 +79,7 @@ public class SingGenRecipes
 	 * @param fluid - Either Antischrabidium or Lava
 	 * @param fluidAmount - Amount of fluid needed, max 64b
 	 */
-	public static void addRecipe(ItemStack output, Item[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, int fluidAmount)
+	public static void addRecipe(ItemStack output, Item[] inputRing, Item inputCenter, boolean shaped, boolean keepRing, FluidType fluid, @Nonnegative int fluidAmount)
 	{
 		// Error checking
 		if (inputRing.length != 8)
@@ -163,6 +169,8 @@ public class SingGenRecipes
 		}
 		return true;
 	}
+	@Deprecated
+	/** Currently unused, formerly used for debugging **/
 	public static boolean doRingsMatchDebugMode(Item[] machineRing, Item[] recipeRing, boolean shaped)
 	{
 		for (int i = 0; i < 8; i++)

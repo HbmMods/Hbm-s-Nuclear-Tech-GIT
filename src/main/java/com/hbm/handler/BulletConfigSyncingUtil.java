@@ -209,6 +209,8 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_AMAT = i++;
 
 	public static int TWR_RAY = i++;
+	public static int HLR_NORMAL = i++;
+	public static int HLR_ALT = i++;
 	
 	public static int ZOMG_BOLT = i++;
 
@@ -434,6 +436,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		
 		configSet.put(TWR_RAY, GunEnergyFactory.getSingConfig());
+		configSet.put(HLR_NORMAL, GunEnergyFactory.getHLRDefaultConfig());
+		configSet.put(HLR_ALT, GunEnergyFactory.getHLRAltConfig());
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());		
 

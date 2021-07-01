@@ -9,6 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -88,6 +89,31 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
 		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getLunaticMarksman()
+	{
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 20;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.roundsPerCycle = 1;
+		config.firingSound = "hbm:weapon.schrabidiumShoot";
+		config.ammoCap = 5;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = true;
+		config.durability = 15000;
+		
+		config.name = "1970 Rāhula type Anti-Material Rifle \"Lunatic Marksman Rifle\"";
+		config.manufacturer = "Lunar Defense Corp";
+		config.damage = "15 - 18 (stock)";
+		
+		config.config = HbmCollection.fiftyBMG;
 		
 		return config;
 	}

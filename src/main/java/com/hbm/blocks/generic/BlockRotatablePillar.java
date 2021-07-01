@@ -1,5 +1,7 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.items.block.ItemBlockLore;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockRotatedPillar;
@@ -29,6 +31,23 @@ public class BlockRotatablePillar extends BlockRotatedPillar {
 	@Override
 	protected IIcon getSideIcon(int p_150163_1_) {
 		return iconSide;
+	}
+	public BlockRotatablePillar addEpic()
+	{
+		ItemBlockLore.epicList.add(this);
+		return this;
+	}
+	
+	public BlockRotatablePillar addRare()
+	{
+		ItemBlockLore.rareList.add(this);
+		return this;
+	}
+	
+	public BlockRotatablePillar addUncommon()
+	{
+		ItemBlockLore.uncommonList.add(this);
+		return this;
 	}
 
 }

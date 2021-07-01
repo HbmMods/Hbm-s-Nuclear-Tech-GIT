@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemCustomLore;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
@@ -25,10 +28,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemStorageMedium extends Item
+public class ItemStorageMedium extends ItemCustomLore
 {
-	EnumRarity rarity;
-	boolean hasEffect;
 	private Item dropItem = null;
 	private EnumStorageItemType type;
 	
@@ -61,7 +62,7 @@ public class ItemStorageMedium extends Item
 		this.writeRate = writeRate;
 		this.readRate = readRate;
 		this.aux = aux;
-		this.maxStackSize = 1;
+		setMaxStackSize(0);
 		this.type = type;
 		getProsCons();
 	}
@@ -70,7 +71,6 @@ public class ItemStorageMedium extends Item
 	{
 		for (ProsConsList trait : traits)
 			prosCons.add(trait);
-		Collections.sort(prosCons);
 		return this;
 	}
 	
@@ -101,7 +101,6 @@ public class ItemStorageMedium extends Item
 		}
 		if (this.exposed)
 			prosCons.add(ProsConsList.EXPOSED);
-		Collections.sort(prosCons);
 	}
 	
 	public static enum EnumStorageItemType
@@ -116,11 +115,16 @@ public class ItemStorageMedium extends Item
 	}
 	public static enum EnumStorageItemTraits
 	{
-		//DIRTY,// Prone to errors, makes more of a hassle to use, but easy to fix
-		DAMAGED,// Physically damaged, prone to further corruption, fixable?
-		CORRUPTED_LIGHT,// Data is somewhat corrupted, can be fixed relatively easily
-		CORRUPTED_HEAVY,// Data is very corrupted, requires more effort
-		CORRUPTED_ABSOLUTE;// Corruption is irreversible, just re-format it
+		//DIRTY("dirty"),// Prone to errors, makes more of a hassle to use, but easy to fix
+		DAMAGED("damaged"),// Physically damaged, prone to further corruption, fixable?
+		CORRUPTED_LIGHT("corruptedLight"),// Data is somewhat corrupted, can be fixed relatively easily
+		CORRUPTED_HEAVY("corruptedHeavy"),// Data is very corrupted, requires more effort
+		CORRUPTED_ABSOLUTE("corruptedAbsolute");// Corruption is irreversible, just re-format it
+		public String key;
+		private EnumStorageItemTraits(String string)
+		{
+			key = "trait." + string;
+		}
 	}
 	public static enum ProsConsList
 	{
@@ -130,11 +134,11 @@ public class ItemStorageMedium extends Item
 		CAPACITY_GOOD("pro.capacity1"),
 		COMPACT("pro.compact"),
 		SPEED_GOOD("pro.speed1"),
-		MAGNETIC("neut.magnetic"),
-		MECHANICAL("neut.mechanical"),
-		OPTICAL("neut.optical"),
-		FLASH("neut.flash"),
-		NA("neut.na"),
+		MAGNETIC("neu.magnetic"),
+		MECHANICAL("neu.mechanical"),
+		OPTICAL("neu.optical"),
+		FLASH("neu.flash"),
+		NA("neu.na"),
 		FRAGILE("con.fragile"),
 		SPEED_POOR("con.speed1"),
 		MAGNET("con.magnet"),
@@ -154,9 +158,7 @@ public class ItemStorageMedium extends Item
 		if (stack.getItem() instanceof ItemStorageMedium)
 		{
 			if (stack.hasTagCompound())
-			{
 				stack.stackTagCompound.setLong("used", stack.stackTagCompound.getLong("used") + i);
-			}
 			else
 			{
 				stack.stackTagCompound = new NBTTagCompound();
@@ -170,9 +172,7 @@ public class ItemStorageMedium extends Item
 		if (stack.getItem() instanceof ItemStorageMedium)
 		{
 			if (stack.hasTagCompound())
-			{
 				stack.stackTagCompound.setLong("used", i);
-			}
 			else
 			{
 				stack.stackTagCompound = new NBTTagCompound();
@@ -186,9 +186,7 @@ public class ItemStorageMedium extends Item
 		if (stack.getItem() instanceof ItemStorageMedium)
 		{
 			if (stack.hasTagCompound())
-			{
 				stack.stackTagCompound.setLong("used", stack.stackTagCompound.getLong("used") - i);
-			}
 			else
 			{
 				stack.stackTagCompound = new NBTTagCompound();
@@ -202,9 +200,7 @@ public class ItemStorageMedium extends Item
 		if (stack.getItem() instanceof ItemStorageMedium)
 		{
 			if (stack.hasTagCompound())
-			{
 				return stack.stackTagCompound.getLong("used");
-			}
 			else
 			{
 				stack.stackTagCompound = new NBTTagCompound();
@@ -215,47 +211,20 @@ public class ItemStorageMedium extends Item
 		return 0;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean bool)
 	{
-		String unloc = this.getUnlocalizedName() + ".desc";
-		String loc = I18nUtil.resolveKey(unloc);
-		if (!unloc.equals(loc))
-		{
-			String[] locs = loc.split("\\$");
-			
-			for (String s : locs)
-			{
-				list.add(s);
-			}
-		}
+		super.addInformation(itemStack, player, list, bool);
 		// Auto-generated
-		if (this != ModItems.storage_magnetic_fdd_tainted)
-		{
-			long written = this.maxCapacity;
-			if (itemStack.hasTagCompound())
-			{
-				written = getDataUsed(itemStack);
-			}
-			String capacityPercent = Library.getShortNumber((written * 100) / this.maxCapacity);
-			list.add("Capacity: " + capacityPercent + "%");
-			list.add(String.format("(%s/%sbyte)", Library.getShortNumber(written), Library.getShortNumber(maxCapacity)));
-			list.add(String.format("Write rate: %sbyte/s", Library.getShortNumber(writeRate)));
-			list.add(String.format("Read rate: %sbyte/s", Library.getShortNumber(readRate)));
-		}
-			
-		// Pros-cons list and lore
-		if (this == ModItems.storage_magnetic_fdd_tainted)
-		{
-			list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc19"));
-			list.add("");
-			// The fate of the world is now (literally) in your hands
-			//list.add(EnumChatFormatting.RED + specialLore[MainRegistry.polaroidID - 1]);
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("item.storage_magnetic_fdd_tainted.desc" + MainRegistry.polaroidID));
-			list.add("");
-			list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc20"));
-		}
+		long written = this.maxCapacity;
+		if (itemStack.hasTagCompound())
+			written = getDataUsed(itemStack);
+		
+		String capacityPercent = Library.getShortNumber((written * 100) / this.maxCapacity);
+		list.add("Capacity: " + capacityPercent + "%");
+		list.add(String.format("(%s/%sbyte)", Library.getShortNumber(written), Library.getShortNumber(maxCapacity)));
+		list.add(String.format("Write rate: %sbyte/s", Library.getShortNumber(writeRate)));
+		list.add(String.format("Read rate: %sbyte/s", Library.getShortNumber(readRate)));
 		
 //		for (EnumStorageItemTraits trait : EnumStorageItemTraits.values())
 //		{
@@ -265,84 +234,26 @@ public class ItemStorageMedium extends Item
 //			}
 //		}
 
-		if (this != ModItems.storage_magnetic_fdd_tainted)
+		list.add("");
+		if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view pros/cons list", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+		else
 		{
-			list.add("");
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-			{
-				list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view pros/cons list", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
-			}
-			else
-			{
-				for (ProsConsList trait : prosCons)
-				{
+			// There's probably a better way of doing this, I'll figure it out eventually, but until then, this'll do
+			// Get pros
+			for (ProsConsList trait : prosCons)
+				if (trait.key.substring(0, 3) == "pro")
 					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
-				}
-//				if (this == ModItems.storage_magnetic_r_to_r)
-//				{
-//					list.add(EnumChatFormatting.BLUE + "+ Excellent lifespan");
-//					list.add(EnumChatFormatting.BLUE + "+ Extremely cheap");
-//					list.add(EnumChatFormatting.YELLOW + "* Magnetic medium");
-//					list.add(EnumChatFormatting.RED + "- Fragile");
-//					list.add(EnumChatFormatting.RED + "- Pitiful r/w speed");
-//					list.add(EnumChatFormatting.RED + "- Easily wiped by magnets");
-//					list.add(EnumChatFormatting.RED + "- Exposed to the elements");
-//				}
-//				if (this == ModItems.storage_magnetic_cassette)
-//				{
-//					list.add(EnumChatFormatting.BLUE + "+ Excellent lifespan");
-//					list.add(EnumChatFormatting.BLUE + "+ Extremely cheap");
-//					list.add(EnumChatFormatting.YELLOW + "* Magnetic medium");
-//					list.add(EnumChatFormatting.RED + "- Pitiful r/w speed");
-//					list.add(EnumChatFormatting.RED + "- Easily wiped by magnets");
-//				}
-//				if (this == ModItems.storage_magnetic_fdd)
-//				{
-//					list.add(EnumChatFormatting.BLUE + "+ Excellent lifespan");
-//					list.add(EnumChatFormatting.BLUE + "+ Extremely cheap");
-//					list.add(EnumChatFormatting.BLUE + "+ Very compact");
-//					list.add(EnumChatFormatting.YELLOW + "* Magnetic medium");
-//					list.add(EnumChatFormatting.RED + "- Pitiful storage capacity");
-//					list.add(EnumChatFormatting.RED + "- Easily wiped by magnets");
-//				}
-//				if (this == ModItems.storage_hdd)
-//				{
-//					list.add(EnumChatFormatting.BLUE + "+ Very good capacity");
-//					list.add(EnumChatFormatting.BLUE + "+ Good lifespan");
-//					list.add(EnumChatFormatting.BLUE + "+ Decent r/w speed");
-//					list.add(EnumChatFormatting.YELLOW + "* Magnetic medium");
-//					list.add(EnumChatFormatting.YELLOW + "* Mechanical parts");
-//					list.add(EnumChatFormatting.RED + "- Fragile");
-//					list.add(EnumChatFormatting.RED + "- Vulnerable to magnets");
-//					list.add(EnumChatFormatting.RED + "- Prone to mechanical failure");
-//				}
-//				if (this == ModItems.storage_hdd_dead)
-//				{
-//					list.add("The mechanical parts are damaged, data cannot be read or written, it can be repaired however");
-//				}
-//				if (this == ModItems.storage_optical_bd)
-//				{
-//					list.add(EnumChatFormatting.RED + "- Dumb name");
-//				}
+			// Get neutral
+			for (ProsConsList trait : prosCons)
+				if (trait.key.substring(0, 3) == "neu")
+					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
+			// Get cons
+			for (ProsConsList trait : prosCons)
+				if (trait.key == "con")
+					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
 			}
-		}
-	}
-	
-	public String getTraitTranslation(EnumStorageItemTraits trait)
-	{
-		switch (trait)
-		{
-		/*case DIRTY:
-			return "trait.dirty";*/
-		case CORRUPTED_LIGHT:
-			return "trait.corruptedLight";
-		case CORRUPTED_HEAVY:
-			return "trait.corruptedHeavy";
-		case CORRUPTED_ABSOLUTE:
-			return "trait.corruptedAbsolute";
-		default:
-			return null;
-		}
+		
 	}
 	
 	public long getMaxCapacity()
@@ -357,26 +268,26 @@ public class ItemStorageMedium extends Item
 	{
 		return readRate;
 	}
-	public static ItemStack getBlankMedium(Item item, int count)
+	public static ItemStack getBlankMedium(Item item)
 	{
 		if (item instanceof ItemStorageMedium)
 		{
 			ItemStack stack = new ItemStack(item);
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setLong("used", 0);
-			stack.stackSize = count;
+			stack.stackSize = 1;
 			return stack.copy();
 		}
 		return null;
 	}
-	public static ItemStack getFullMedium(Item item, int count)
+	public static ItemStack getFullMedium(Item item)
 	{
 		if (item instanceof ItemStorageMedium)
 		{
 			ItemStack stack = new ItemStack(item);
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setLong("used", ((ItemStorageMedium) item).getMaxCapacity());
-			stack.stackSize = count;
+			stack.stackSize = 1;
 			return stack.copy();
 		}
 		return new ItemStack(item);
@@ -394,12 +305,9 @@ public class ItemStorageMedium extends Item
 	 * @param item - The broken form
 	 * @return Itself
 	 */
-	public ItemStorageMedium setFragile(Item item)
+	public ItemStorageMedium setFragile(@Nonnull Item item)
 	{
-		if (item != null)
-		{
-			this.dropItem = item;
-		}
+		this.dropItem = item;
 		return this;
 	}
 	/**
@@ -422,41 +330,15 @@ public class ItemStorageMedium extends Item
 		}		
 		return false;
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack stack)
-	{
-		if (this == ModItems.storage_magnetic_fdd_tainted)
-			return true;
-		return false;
-	}
-	
-	@Override
-	public EnumRarity getRarity(ItemStack p_77613_1_)
-	{
-		return this.rarity != null ? rarity : EnumRarity.common;
-	}
-	
-	public ItemStorageMedium setRarity(EnumRarity rarity)
-	{
-		this.rarity = rarity;
-		return this;
-	}
-	
+		
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
 		if (this.writeRate > 0)
 		{
-			list.add(getBlankMedium(item, 1));
-			list.add(getFullMedium(item, 1));
+			list.add(getBlankMedium(item));
+			list.add(getFullMedium(item));
 		}
-	}
-	@Override
-	public Item setMaxStackSize(int p_77625_1_)
-	{
-		return super.setMaxStackSize(1);
 	}
 }

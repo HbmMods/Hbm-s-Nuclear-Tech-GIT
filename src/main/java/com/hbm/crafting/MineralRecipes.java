@@ -84,7 +84,11 @@ public class MineralRecipes {
 		RecipesCommon.addBillet(ModItems.billet_thorium_fuel, ModItems.nugget_thorium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_plutonium_fuel, ModItems.nugget_plutonium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_mox_fuel, ModItems.nugget_mox_fuel);
+		RecipesCommon.addBillet(ModItems.billet_les, ModItems.nugget_les);
 		RecipesCommon.addBillet(ModItems.billet_schrabidium_fuel, ModItems.nugget_schrabidium_fuel);
+		RecipesCommon.addBillet(ModItems.billet_hes, ModItems.nugget_hes);
+		RecipesCommon.billetToIngot(ModItems.billet_hes, ModItems.ingot_hes);
+		RecipesCommon.billetToIngot(ModItems.billet_les, ModItems.ingot_les);
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_thorium_fuel, 2), new Object[] { ModItems.billet_th232, ModItems.billet_th232, ModItems.billet_u233 });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_thorium_fuel, 1), new Object[] { "nuggetThorium232", "nuggetThorium232", "nuggetThorium232", "nuggetThorium232", "nuggetUranium233", "nuggetUranium233" }));

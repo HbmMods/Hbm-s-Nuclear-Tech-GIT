@@ -19,7 +19,9 @@ import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;
@@ -384,7 +386,74 @@ public class Library {
 		
 		return power;
 	}
-	
+	@Untested
+	/**
+	 * Write data to an item storage medium
+	 * @param slots - The machine's inventory
+	 * @param index - Index of the applicable slot in said inventory
+	 * @param curCapacity - Current data capacity of the machine
+	 * @param totCapacity - Total data capacity of the machine
+	 * @return Data remaining after writing to the medium
+	 */
+	public static long writeToMedium(ItemStack[] slots, int index, long curCapacity, long totCapacity)
+	{
+		if (slots[index] != null && slots[index].getItem() instanceof ItemStorageMedium)
+		{
+			ItemStorageMedium medium = (ItemStorageMedium) slots[index].getItem();
+			long max = medium.getMaxCapacity();
+			long cur = medium.getDataUsed(slots[index]);
+			long rate = medium.getWriteSpeed();
+			
+			long toWrite = Math.min(Math.min(curCapacity, rate), max - cur);
+			
+			curCapacity -= toWrite;
+			
+			medium.writeData(slots[index], toWrite);
+		}
+		return curCapacity;
+	}
+	@Untested
+	/**
+	 * Read data from a storage medium
+	 * @param slots - Inventory of the machine
+	 * @param index - Index of the applicable slot in said inventory
+	 * @param curCapacity - Current data capacity of the machine
+	 * @param totCapacity - Total data capacity of the machine
+	 * @return Data capacity after reading from drive
+	 */
+	public static long readFromMedium(ItemStack[] slots, int index, long curCapacity, long totCapacity)
+	{
+		if (slots[index] != null && slots[index].getItem() instanceof ItemStorageMedium)
+		{
+			ItemStorageMedium medium = (ItemStorageMedium) slots[index].getItem();
+			long cur = medium.getDataUsed(slots[index]);
+			long rate = medium.getReadSpeed();
+			
+			long toRead = Math.min(Math.min(totCapacity - curCapacity, rate), cur);
+			curCapacity += toRead;
+		}
+		return curCapacity;
+	}
+	@Untested
+	/**
+	 * Erase data from a storage medium
+	 * @param slots - Inventory of the machine
+	 * @param index - Index of the applicable slot in said inventory
+	 */
+	public static void eraseFromMedium(ItemStack[] slots, int index)
+	{
+		if (slots[index] != null && slots[index].getItem() instanceof ItemStorageMedium)
+		{
+			ItemStorageMedium medium = (ItemStorageMedium) slots[index].getItem();
+			if (medium.getWriteSpeed() == 0)
+				return;
+			long cur = medium.getDataUsed(slots[index]);
+			long rate = medium.getWriteSpeed();
+			
+			long toErase = Math.min(rate, cur);
+			medium.deleteData(slots[index], toErase);
+		}
+	}
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)

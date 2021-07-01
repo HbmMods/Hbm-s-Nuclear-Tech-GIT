@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -19,15 +21,20 @@ import net.minecraft.world.World;
 public class BlockCircuit extends Block {
 
 	public int strength;
-		
-	public BlockCircuit(Material p_i45394_1_, int strength)
+	/**
+	 * Construct a new circuit tier
+	 * @param mat - Material of the block, usually always iron
+	 * @param strength - Calculation strength
+	 */
+	public BlockCircuit(Material mat, int strength)
 	{
-		super(p_i45394_1_);
+		super(mat);
 		setStepSound(soundTypeMetal);
 		this.strength = strength;
 	}
 	
 	// Disassemble
+	@Spaghetti("pain")
 	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z,
 			EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
@@ -39,6 +46,7 @@ public class BlockCircuit extends Block {
 				List<ItemStack> dropStack = new ArrayList<ItemStack>();
 	
 				worldIn.setBlockToAir(x, y, z);
+				//dropStack = AssemblerRecipes.recipes.get(this);
 				if (this == ModBlocks.block_circuit_tier_1)
 				{
 					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
@@ -126,15 +134,13 @@ public class BlockCircuit extends Block {
         for (ItemStack stack : items)
         {
 	        EntityItem entityItem = new EntityItem(world, x + f, y + f1, z + f2, stack);
-	
+	        
 	        float f3 = 0.05F;
 	        entityItem.motionX = (float)rand.nextGaussian() * f3;
 	        entityItem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
 	        entityItem.motionZ = (float)rand.nextGaussian() * f3;
 			if (!world.isRemote)
-			{
 				world.spawnEntityInWorld(entityItem);
-			}
 		}
 	}
 }

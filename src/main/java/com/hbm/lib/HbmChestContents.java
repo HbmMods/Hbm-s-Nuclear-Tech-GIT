@@ -47,7 +47,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.pack_fdd, 0, 1, 2, 5),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r, 1), 1, 1, 3)};
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r), 1, 1, 3)};
 
 	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 3, 4),
@@ -74,8 +74,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r, 1), 1, 3, 10),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_cassette, 1), 1, 3, 8)};
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_r_to_r), 1, 3, 10),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_cassette), 1, 3, 8)};
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
@@ -115,7 +115,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.journal_bj, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.storage_ssd_raw_tier_1, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.storage_hdd_raw, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd, 1), 1, 1, 3)};
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd), 1, 1, 3)};
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -191,12 +191,12 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 1, 2),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_usb, 1), 0, 1, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd, 1), 0, 1, 4),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_dvd, 1), 0, 1, 2),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_bd, 1), 0, 1, 1),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_usb), 0, 1, 1),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd), 0, 1, 4),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_dvd), 0, 1, 2),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_optical_bd), 0, 1, 1),
 			new WeightedRandomChestContent(ModItems.pack_fdd, 0, 2, 5, 5),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd_dead, 1), 1, 1, 1)};
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd_dead), 1, 1, 1)};
 
 	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
@@ -218,8 +218,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 1, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_magnetic_fdd, 2), 1, 2, 4),
-			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_hdd, 1), 1, 1, 1)};
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_magnetic_fdd), 1, 2, 4),
+			new WeightedRandomChestContent(ItemStorageMedium.getBlankMedium(ModItems.storage_hdd), 1, 1, 1)};
 
 	private static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
@@ -267,7 +267,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.grenade_if_incendiary, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.pack_fdd, 0, 1, 7, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_cd, 1), 1, 1, 2)};
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_cd), 1, 1, 2)};
 
 	private static WeightedRandomChestContent[] vault2 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 2, 6, 1),
@@ -284,8 +284,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.clip_uzi, 0, 1, 3, 1),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 12, 16, 1),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 2, 6, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd, 1), 1, 1, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_dvd, 1), 1, 1, 3)};
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd), 1, 1, 1),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_dvd), 1, 1, 3)};
 
 	private static WeightedRandomChestContent[] vault3 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 6, 16, 1),
@@ -306,8 +306,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 18, 32, 1),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1),
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 6, 12, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_bd, 1), 1, 3, 10),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_usb, 1), 1, 2, 8)};
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_bd), 1, 3, 10),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_usb), 1, 2, 8)};
 
 	private static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
@@ -326,9 +326,11 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_schrabidium_cell), 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_bd, 2), 1, 4, 12),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_ssd_tier_1, 1), 1, 2, 3),
-			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd, 2), 1, 3, 9),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_bd), 1, 4, 12),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_optical_bd), 1, 4, 12),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_ssd_tier_1), 1, 2, 3),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd), 1, 3, 9),
+			new WeightedRandomChestContent(ItemStorageMedium.getFullMedium(ModItems.storage_hdd), 1, 3, 9),
 			new WeightedRandomChestContent(ModItems.lunar_kit, 0, 1, 1, 1)};
 	
 	/**

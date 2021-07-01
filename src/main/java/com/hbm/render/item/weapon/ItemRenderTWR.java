@@ -8,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
-public class ItemRenderWeaponTWR implements IItemRenderer
+public class ItemRenderTWR implements IItemRenderer
 {
-	public ItemRenderWeaponTWR() {}
+	public ItemRenderTWR() {}
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)

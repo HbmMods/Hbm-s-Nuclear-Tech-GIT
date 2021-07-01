@@ -182,29 +182,50 @@ public class ContainerWatzCore extends Container {
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
+//		if(i == 0)
+//		{
+//			diFurnace.powerList = j;
+//		}
+//		if(i == 1)
+//		{
+//			diFurnace.heatList = j;
+//		}
+//		if(i == 2)
+//		{
+//			diFurnace.decayMultiplier = j;
+//		}
+//		if(i == 3)
+//		{
+//			diFurnace.powerMultiplier = j;
+//		}
+//		if(i == 4)
+//		{
+//			diFurnace.heatMultiplier = j;
+//		}
+//		if(i == 5)
+//		{
+//			diFurnace.heat = j;
+//		}
+		switch(i)
 		{
+		case 0:
 			diFurnace.powerList = j;
-		}
-		if(i == 1)
-		{
+			break;
+		case 1:
 			diFurnace.heatList = j;
-		}
-		if(i == 2)
-		{
+			break;
+		case 2:
 			diFurnace.decayMultiplier = j;
-		}
-		if(i == 3)
-		{
+			break;
+		case 3:
 			diFurnace.powerMultiplier = j;
-		}
-		if(i == 4)
-		{
+			break;
+		case 4:
 			diFurnace.heatMultiplier = j;
-		}
-		if(i == 5)
-		{
+			break;
+		case 5:
 			diFurnace.heat = j;
+			break;
 		}
 	}
 }

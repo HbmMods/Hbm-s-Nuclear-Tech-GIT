@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.interfaces.IItemHazard;
+import com.hbm.items.block.ItemBlockLore;
 import com.hbm.main.MainRegistry;
 import com.hbm.modules.ItemHazardModule;
 import com.hbm.saveddata.RadiationSavedData;
@@ -147,4 +148,22 @@ public class BlockHazard extends Block implements IItemHazard {
 		FLAMES,
 		LAVAPOP
 	}
+	public BlockHazard addEpic()
+	{
+		ItemBlockLore.epicList.add(this);
+		return this;
+	}
+	
+	public BlockHazard addRare()
+	{
+		ItemBlockLore.rareList.add(this);
+		return this;
+	}
+	
+	public BlockHazard addUncommon()
+	{
+		ItemBlockLore.uncommonList.add(this);
+		return this;
+	}
+
 }

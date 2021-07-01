@@ -8,6 +8,7 @@ import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -39,6 +40,18 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 	@Override
 	public boolean isArmorEnabled(ItemStack stack) {
 		return getCharge(stack) > 0;
+	}
+	
+	public static ItemStack getUnpoweredPiece(Item item)
+	{
+		if (item instanceof ArmorFSBPowered)
+		{
+			ItemStack stack = new ItemStack(item);
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setLong("charge", 0);
+			return stack.copy();
+		}
+		return null;
 	}
 
 	@Override

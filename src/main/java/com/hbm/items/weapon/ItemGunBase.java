@@ -270,7 +270,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	//called on click release (client side, called by update cylce)
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
-	
+	@Deprecated
 	//reload action, if existent
 	protected void reload(ItemStack stack, World world, EntityPlayer player) {
 		
@@ -734,17 +734,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	public static int getMag(ItemStack stack) {
 		return readNBT(stack, "magazine");
 	}
-	
-	public static void setGunCharge(ItemStack stack, long i)
-	{
-		writeNBT(stack, "charge", i);
-	}
-	
-	public static long getGunCharge(ItemStack stack)
-	{
-		return readNBTLong(stack, "charge");
-	}
-	
+		
 	/// magazine type (int specified by index in bullet config list) ///
 	public static void setMagType(ItemStack stack, int i) {
 		writeNBT(stack, "magazineType", i);

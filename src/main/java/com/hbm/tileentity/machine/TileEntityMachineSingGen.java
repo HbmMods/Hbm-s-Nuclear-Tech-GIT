@@ -32,7 +32,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 {
 	private Random rand = new Random();
 	public long power;
-	public static final long maxPower = 25000000000L;
+	public static final long maxPower = 50000000000L;
 	private static long consumptionRate = (maxPower / 200) / 4;// TODO Placeholder(?)
 	private List<IConsumer> consume = new ArrayList();
 	public FluidTank tank;

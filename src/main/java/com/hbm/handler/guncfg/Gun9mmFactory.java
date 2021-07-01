@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun9mmFactory {
@@ -73,7 +74,34 @@ public class Gun9mmFactory {
 		
 		return config;
 	}
-
+	
+	public static GunConfiguration getLLRConfig()
+	{
+		GunConfiguration config = new GunConfiguration();
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.FIRE_AUTO;
+		config.hasSights = true;
+		config.reloadDuration = 10;
+		config.ammoCap = 40;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_SPLIT;
+		config.durability = 10000;
+		config.firingSound = "hbm:weapon.rifleShoot";
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.reloadSoundEnd = false;
+		
+		config.name = "1966 Ānanda type SMG \"Light Lunatic Rifle\"";
+		config.manufacturer = "Lunar Defense Corp";
+		config.damage = "2 - 4 (stock)";
+		config.comment.add("Calling this a rifle is a bit of a misnomer");
+		
+		config.config = HbmCollection.nineMM;
+		
+		return config;
+	}
+	
 	static float inaccuracy = 5;
 	public static BulletConfiguration get9mmConfig() {
 		

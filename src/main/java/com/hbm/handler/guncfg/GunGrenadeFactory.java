@@ -198,6 +198,7 @@ public class GunGrenadeFactory {
 		bullet.ammo = ModItems.ammo_grenade_lunatic;
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
+		bullet.wear = 20;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 			

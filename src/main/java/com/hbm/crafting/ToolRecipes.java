@@ -22,42 +22,29 @@ public class ToolRecipes {
 	public static void register() {
 		
 		//Regular tools
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_sword, 1), new Object[] { "I", "I", "S", 'I', "ingotSteel", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', "ingotSteel", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_axe, 1), new Object[] { "II", "IS", " S", 'I', "ingotSteel", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_shovel, 1), new Object[] { "I", "S", "S", 'I', "ingotSteel", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_hoe, 1), new Object[] { "II", " S", " S", 'I', "ingotSteel", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_titanium, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_titanium, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_titanium, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_titanium, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_titanium, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_cobalt, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_cobalt, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_cobalt, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_cobalt, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_cobalt, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
+		basicToolSet(new Item[] { ModItems.steel_sword, ModItems.steel_pickaxe, ModItems.steel_axe, ModItems.steel_shovel, ModItems.steel_hoe }, ModItems.ingot_steel, Items.stick);
+		basicToolSet(new Item[] { ModItems.titanium_sword, ModItems.titanium_pickaxe, ModItems.titanium_axe, ModItems.titanium_shovel, ModItems.titanium_hoe }, ModItems.ingot_titanium, Items.stick);
+		basicToolSet(new Item[] { ModItems.cobalt_sword, ModItems.cobalt_pickaxe, ModItems.cobalt_axe, ModItems.cobalt_shovel, ModItems.cobalt_hoe }, ModItems.ingot_cobalt, Items.stick);
+		basicToolSet(new Item[] { ModItems.alloy_sword, ModItems.alloy_pickaxe, ModItems.alloy_axe, ModItems.alloy_shovel, ModItems.alloy_hoe }, ModItems.ingot_advanced_alloy, Items.stick);
+		Item[] cmbSet = new Item[] {ModItems.cmb_sword, ModItems.cmb_pickaxe, ModItems.cmb_axe, ModItems.cmb_shovel, ModItems.cmb_hoe};
+		Item[] deshSet = new Item[] {ModItems.desh_sword, ModItems.desh_pickaxe, ModItems.desh_axe, ModItems.desh_shovel, ModItems.desh_hoe};
+		upgradeToolSet2(cmbSet, ModItems.ingot_combine_steel, deshSet, ModItems.bolt_staballoy);
+//		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_combine_steel, 'S', Items.stick });
 		GameRegistry.addRecipe(new ItemStack(ModItems.elec_sword, 1), new Object[] { "RPR", "RPR", " B ", 'P', ModItems.ingot_polymer, 'D', ModItems.ingot_dura_steel, 'R', ModItems.bolt_dura_steel, 'M', ModItems.motor, 'B', ModItems.battery_lithium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.elec_pickaxe, 1), new Object[] { "RDM", " PB", " P ", 'P', ModItems.ingot_polymer, 'D', ModItems.ingot_dura_steel, 'R', ModItems.bolt_dura_steel, 'M', ModItems.motor, 'B', ModItems.battery_lithium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.elec_axe, 1), new Object[] { " DP", "RRM", " PB", 'P', ModItems.ingot_polymer, 'D', ModItems.ingot_dura_steel, 'R', ModItems.bolt_dura_steel, 'M', ModItems.motor, 'B', ModItems.battery_lithium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.elec_shovel, 1), new Object[] { "  P", "RRM", "  B", 'P', ModItems.ingot_polymer, 'D', ModItems.ingot_dura_steel, 'R', ModItems.bolt_dura_steel, 'M', ModItems.motor, 'B', ModItems.battery_lithium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.centri_stick, 1), new Object[] { ModItems.centrifuge_element, ModItems.energy_core, Items.stick });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.smashing_hammer, 1), new Object[] { "STS", "SPS", " P ", 'S', "blockSteel", 'T', "blockTungsten", 'P', "ingotPolymer" }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.desh_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_desh, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.desh_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_desh, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.desh_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_desh, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.desh_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_desh, 'S', Items.stick });
-		GameRegistry.addRecipe(new ItemStack(ModItems.desh_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_desh, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.desh_sword, 1), new Object[] { "I", "I", "S", 'I', ModItems.ingot_desh, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.desh_pickaxe, 1), new Object[] { "III", " S ", " S ", 'I', ModItems.ingot_desh, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.desh_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_desh, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.desh_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_desh, 'S', Items.stick });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.desh_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_desh, 'S', Items.stick });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.meteorite_sword, 1), new Object[] { "  B", "GB ", "SG ", 'B', ModItems.blade_meteorite, 'G', "plateGold", 'S', Items.stick }));
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_decorated_sword, 1), new Object[] { " I ", " I ", "SBS", 'I', ModItems.ingot_cobalt, 'S', ModItems.ingot_meteorite_forged, 'B', ModItems.cobalt_sword });
@@ -70,7 +57,9 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_axe, 1), new Object[] { "II", "IB", " S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_axe });
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_shovel, 1), new Object[] { "I", "B", "S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_shovel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_hoe, 1), new Object[] { "II", " B", " S", 'I', ModItems.ingot_starmetal, 'S', ModItems.ingot_cobalt, 'B', ModItems.cobalt_decorated_hoe });
-		basicToolSet(new Item[] {ModItems.ferrouranium_sword, ModItems.ferrouranium_pickaxe, ModItems.ferrouranium_axe, ModItems.ferrouranium_shovel, ModItems.ferrouranium_hoe}, ModItems.ingot_ferrouranium, ModItems.bolt_dura_steel);
+		Item[] ferrouraniumSet = new Item[] {ModItems.ferrouranium_sword, ModItems.ferrouranium_pickaxe, ModItems.ferrouranium_axe, ModItems.ferrouranium_shovel, ModItems.ferrouranium_hoe};
+		basicToolSet(ferrouraniumSet, ModItems.ingot_ferrouranium, ModItems.bolt_dura_steel);
+		upgradeToolSet2(deshSet, ModItems.ingot_desh, ferrouraniumSet, ModItems.bolt_staballoy);
 		
 		//Drax
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.drax, 1), new Object[] { "BDS", "CDC", "FMF", 'B', ModItems.starmetal_pickaxe, 'S', ModItems.starmetal_shovel, 'C', "ingotCobalt", 'F', ModItems.fusion_core, 'D', "ingotDesh", 'M', ModItems.motor_desh }));
@@ -137,11 +126,11 @@ public class ToolRecipes {
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_schrabidium, 'S', Items.stick });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_schrabidium, 'S', Items.stick });
 		} else {
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_sword, 1), new Object[] { "I", "W", "S", 'I', ModBlocks.block_schrabidium, 'W', ModItems.desh_sword, 'S', ModItems.ingot_polymer });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_pickaxe, 1), new Object[] { "SWS", " P ", " P ", 'S', ModItems.blades_schrabidium, 'W', ModItems.desh_pickaxe, 'P', ModItems.ingot_polymer });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_axe, 1), new Object[] { "SW", "SP", " P", 'S', ModItems.blades_schrabidium, 'W', ModItems.desh_axe, 'P', ModItems.ingot_polymer });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_shovel, 1), new Object[] { "S", "W", "P", 'S', ModItems.blades_schrabidium, 'W', ModItems.desh_shovel, 'P', ModItems.ingot_polymer });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hoe, 1), new Object[] { "IW", " S", " S", 'I', ModItems.ingot_schrabidium, 'W', ModItems.desh_hoe, 'S', ModItems.ingot_polymer });
+			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_sword, 1), new Object[] { "I", "W", "S", 'I', ModBlocks.block_schrabidium, 'W', ModItems.cmb_sword, 'S', ModItems.ingot_polymer });
+			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_pickaxe, 1), new Object[] { "SWS", " P ", " P ", 'S', ModItems.blades_schrabidium, 'W', ModItems.cmb_pickaxe, 'P', ModItems.ingot_polymer });
+			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_axe, 1), new Object[] { "SW", "SP", " P", 'S', ModItems.blades_schrabidium, 'W', ModItems.cmb_axe, 'P', ModItems.ingot_polymer });
+			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_shovel, 1), new Object[] { "S", "W", "P", 'S', ModItems.blades_schrabidium, 'W', ModItems.cmb_shovel, 'P', ModItems.ingot_polymer });
+			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hoe, 1), new Object[] { "IW", " S", " S", 'I', ModItems.ingot_schrabidium, 'W', ModItems.cmb_hoe, 'S', ModItems.ingot_polymer });
 		}
 	}
 	/**
@@ -178,4 +167,45 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[3]), new Object[] { "I", "H", "H", 'I', headMaterial, 'H', handleMaterial }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(outs[4]), new Object[] { "II", " H", " H", 'I', headMaterial, 'H', handleMaterial }));
 	}
+	/**
+	 * Register a tool that's an upgrade to a preexisting one, uses slightly less expensive method
+	 * @param outs - Must be in the order: sword, pickaxe, axe, shovel, then hoe
+	 * @param headMaterial - The material of the head (ie iron)
+	 * @param priorTier - Previous tier tools, same order as before
+	 * @param handleMaterial - The material of the handle (vanilla uses sticks)
+	 */
+	public static void upgradeToolSet1(Item[] outs, Item headMaterial, Item[] priorTier, Item handleMaterial)
+	{
+		if (outs.length != 5)
+			throw new IllegalArgumentException("Output array must be equal to 5!");
+		if (priorTier.length != 5)
+			throw new IllegalArgumentException("Input array must be equal to 5!");
+		
+		GameRegistry.addRecipe(new ItemStack(outs[0]), new Object[] { " I ", " I ", "HPH", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[0] });
+		GameRegistry.addRecipe(new ItemStack(outs[1]), new Object[] { "IPI", " H ", " H ", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[1] });
+		GameRegistry.addRecipe(new ItemStack(outs[2]), new Object[] { "IP", "IH", " H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[2] });
+		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "I", "P", "H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[3] });
+		GameRegistry.addRecipe(new ItemStack(outs[4]), new Object[] { "IP", " H", " H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[4] });
+	}
+	/**
+	 * Register a tool that's an upgrade to a preexisting one, uses slightly more expensive method
+	 * @param outs - Must be in the order: sword, pickaxe, axe, shovel, then hoe
+	 * @param headMaterial - The material of the head (ie iron)
+	 * @param priorTier - Previous tier tools, same order as before
+	 * @param handleMaterial - The material of the handle (vanilla uses sticks)
+	 */
+	public static void upgradeToolSet2(Item[] outs, Item headMaterial, Item[] priorTier, Item handleMaterial)
+	{
+		if (outs.length != 5)
+			throw new IllegalArgumentException("Output array must be equal to 5!");
+		if (priorTier.length != 5)
+			throw new IllegalArgumentException("Input array must be equal to 5!");
+		
+		GameRegistry.addRecipe(new ItemStack(outs[0]), new Object[] { " I ", " I ", "HPH", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[0] });
+		GameRegistry.addRecipe(new ItemStack(outs[1]), new Object[] { "III", "HPH", " H ", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[1] });
+		GameRegistry.addRecipe(new ItemStack(outs[2]), new Object[] { "IIP", "IH", " H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[2] });
+		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "I", "HPH", "H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[3] });
+		GameRegistry.addRecipe(new ItemStack(outs[4]), new Object[] { "II", "HP", " H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[4] });
+	}
+
 }

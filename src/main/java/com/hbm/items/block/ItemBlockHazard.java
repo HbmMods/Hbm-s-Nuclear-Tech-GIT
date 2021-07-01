@@ -13,7 +13,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemBlockHazard extends ItemBlock {
+public class ItemBlockHazard extends ItemBlockLore {
 	
 	ItemHazardModule module;
 

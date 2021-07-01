@@ -46,6 +46,7 @@ public class MachineRecipes {
 		arcFurnaceRecipes.put(ModItems.powder_acrylic, new ItemStack(ModItems.acrylic));
 		arcFurnaceRecipes.put(ModItems.storage_optical_raw, new ItemStack(ModItems.acrylic));
 		arcFurnaceRecipes.put(ModItems.powder_du_dioxide, new ItemStack(ModItems.ingot_du_dioxide));
+		arcFurnaceRecipes.put(ModItems.powder_quartz, new ItemStack(Items.quartz));
 	}
 	
 	public static ItemStack getArcFurnaceResult(ItemStack stackIn)
@@ -147,8 +148,16 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_ferrouranium, 2);
 		
 		if (mODE(item, new String[] {"ingotTitanium", "dustTitanium"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
-				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotIron", "dustIron"}))
+				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotTitanium", "dustTitanium"}))
 			return new ItemStack(ModItems.ingot_staballoy, 2);
+		
+		List<ItemStack> electrum = OreDictionary.getOres("ingotElectrum");
+		if (!electrum.isEmpty() && electrum != null)
+		{
+			if (mODE(item, new String[] {"ingotGold", "dustGold"}) && mODE(item2, new String[] {"ingotSilver", "dustSilver"})
+					|| mODE(item, new String[] {"ingotSilver", "dustSilver"}) && mODE(item2, new String[] {"ingotGold", "dustGold"}))
+				return new ItemStack(electrum.get(0).getItem(), 2);
+		}
 		
 		if(GeneralConfig.enableBabyMode) {
 			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty

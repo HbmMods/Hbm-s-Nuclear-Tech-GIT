@@ -194,7 +194,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         		}
         		else if (extType == 2)
         		{
-        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 25 / 20F, 50 / 20F, this.destructionRange);
+        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 15 / 20F, 45 / 20F, this.destructionRange);
         		}
         	} else {
         		switch (extType)
@@ -202,9 +202,6 @@ public class EntityNukeExplosionMK3 extends Entity {
         		case 1:
         			ExplosionHurtUtil.doRadiation(worldObj, posX, posY, posZ, 15000, 250000, this.destructionRange);
         			break;
-        		/*case 2:
-        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 100, 200, this.destructionRange);
-        			break;*/
         		}
         	}
         	

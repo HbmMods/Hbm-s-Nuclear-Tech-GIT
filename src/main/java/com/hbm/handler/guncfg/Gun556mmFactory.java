@@ -9,6 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -143,6 +144,34 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_LUNATIC);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getMLRConfig()
+	{
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasSights = true;
+		config.reloadDuration = 20;
+		config.ammoCap = 30;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.BOX;
+		config.durability = 50000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.hksShoot";
+		config.reloadSoundEnd = false;
+		
+		config.name = "1966 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
+		config.manufacturer = "Lunar Defense Corp";
+		config.damage = "2 - 4 (stock)";
+		config.comment.add("\"Wait, aren't we supposed to be shinto?\"");
+		
+		config.config.addAll(HbmCollection.NATOAll);
 		
 		return config;
 	}

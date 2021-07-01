@@ -1,8 +1,10 @@
 package com.hbm.modules;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hbm.inventory.BreederRecipes;
+import com.hbm.lib.HbmCollection;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -105,38 +107,46 @@ public class ItemHazardModule {
 		}
 	}
 	
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
-		if(this.radiation > 0) {
-			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		if (this.radiation > 0)
+		{
+			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(HbmCollection.radioactive) + "]");
 			String rad = "" + (Math.floor(radiation * 1000) / 1000);
+			double totalrad = (Math.floor(radiation * 1000) / 1000) * stack.stackSize;
 			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
+			if (stack.stackSize > 1)
+				list.add(String.format("%s%sRAD/s total", EnumChatFormatting.YELLOW, totalrad));
 		}
 		
 		if(this.fire > 0) {
-			list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.hot") + "]");
+			list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey(HbmCollection.hot) + "]");
 		}
 		
 		if(this.blinding) {
-			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
+			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey(HbmCollection.blinding) + "]");
 		}
 		
 		if(this.asbestos) {
-			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey("trait.asbestos") + "]");
+			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey(HbmCollection.asbestos) + "]");
 		}
 		
 		if(this.hydro) {
-			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.hydro") + "]");
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.hydro) + "]");
 		}
 		
 		if(this.explosive > 0) {
-			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.explosive") + "]");
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.explosive) + "]");
 		}
 		
-		if(this.digamma > 0) {
+		if (this.digamma > 0)
+		{
 			float d = ((int) (digamma * 10000F)) / 10F;
-			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
+			float totalDrx = d * stack.stackSize;
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.drx) + "]");
 			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
+			if (stack.stackSize > 1)
+				list.add(String.format("%s%smDRX/s total", EnumChatFormatting.DARK_RED, totalDrx));
 		}
 		
 		int[] breeder = BreederRecipes.getFuelValue(stack);

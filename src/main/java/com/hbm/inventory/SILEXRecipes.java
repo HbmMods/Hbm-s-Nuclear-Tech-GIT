@@ -53,6 +53,12 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
 				);
+		
+		recipes.put("gemEmerald", new SILEXRecipe(100, 100)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_beryllium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_silicon), 6))
+				);
 	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {

@@ -53,6 +53,11 @@ public class RecipesCommon {
 		GameRegistry.addRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', nugget });
 		GameRegistry.addShapelessRecipe(new ItemStack(nugget, 6), new Object[] { billet });
 	}
+	//Craft 3 billets directly into 2 ingots
+	public static void billetToIngot(Item billet, Item ingot)
+	{
+		GameRegistry.addShapelessRecipe(new ItemStack(ingot, 2), new Object[] { billet, billet, billet });
+	}
 	
 	//Fill rods with 6 nuggets
 	public static void addRod(Item nugget, Item out) {

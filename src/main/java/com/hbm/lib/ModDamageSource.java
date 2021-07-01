@@ -1,5 +1,7 @@
 package com.hbm.lib;
 
+import java.util.Random;
+
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityCombineBall;
@@ -16,7 +18,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class ModDamageSource extends DamageSource {
-	
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
 	public static DamageSource acid = (new DamageSource("acid")).setDamageBypassesArmor();
@@ -52,10 +53,17 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource bleed = (new DamageSource("bleed")).setDamageIsAbsolute().setDamageBypassesArmor();
-	public static DamageSource twr = (new DamageSource("twr")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource twr1 = (new DamageSource("twr1")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource twr2 = (new DamageSource("twr2")).setDamageIsAbsolute().setDamageBypassesArmor();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
+	}
+	public static DamageSource causeTWRDamage(Entity e1, Entity e2)
+	{
+		Random rand = new Random();
+		int randMsg = rand.nextInt(1) + 3;
+		return (new EntityDamageSourceIndirect("twr" + randMsg, e1, e2)).setDamageIsAbsolute().setDamageBypassesArmor();
 	}
     public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {

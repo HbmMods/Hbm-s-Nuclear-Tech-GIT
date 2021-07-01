@@ -19,8 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemCustomLore extends Item {
-	
+public class ItemCustomLore extends Item
+{
 	EnumRarity rarity;
 	boolean hasEffect = false;
 	public String basicLore = null;
@@ -29,7 +29,7 @@ public class ItemCustomLore extends Item {
 	public ItemCustomLore() {}
 	/** New item with manually inserted lore
 	 * Allows rarity and shimmer effect
-	 * @param lore - The tooltip to be added, single line only
+	 * @param lore - The tooltip to be added using the localization
 	 */
 	public ItemCustomLore(String lore)
 	{
@@ -37,7 +37,11 @@ public class ItemCustomLore extends Item {
 	}
 	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		if (basicLore != null)
+			list.add(I18nUtil.resolveKey(basicLore));
+
 		String unloc;
 		if (MainRegistry.polaroidID == 11)
 			unloc = this.getUnlocalizedName() + ".desc.11";
@@ -54,14 +58,10 @@ public class ItemCustomLore extends Item {
 			
 			String[] locs = loc.split("\\$");
 			
-			for(String s : locs) {
+			for(String s : locs)
 				list.add(s);
-			}
 		}
-		if (basicLore != null)
-		{
-			list.add(basicLore);
-		}
+		
 		if(this == ModItems.pin)
 		{
 			if(ArmorUtil.checkArmorPiece(player, ModItems.jackt, 2) || ArmorUtil.checkArmorPiece(player, ModItems.jackt2, 2))
@@ -69,12 +69,24 @@ public class ItemCustomLore extends Item {
 			else
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + "desc.10"));
 		}
-		if(this == ModItems.ingot_schraranium)
-		{
+		if (this == ModItems.ingot_schraranium)
 			if(GeneralConfig.enableBabyMode)
 				list.add("shut up peer please for the love of god shut up i can't stand it any longer shut up shut up shut up shut up shut up");
-		}
 				
+	}
+	/**
+	 * Check if the item has a tooltip specified by the localization file
+	 * @param item - The item in question
+	 * @param special - If Polaroid ID #11 applies in this case
+	 * @return Boolean of whether it does or not
+	 */
+	public static boolean getHasLore(Item item, boolean special)
+	{
+		String uloc = item.getUnlocalizedName() + ".desc";
+		if (special)
+			uloc += ".11";
+		String loc = I18nUtil.resolveKey(uloc);
+		return !(uloc == loc);
 	}
 
     @Override

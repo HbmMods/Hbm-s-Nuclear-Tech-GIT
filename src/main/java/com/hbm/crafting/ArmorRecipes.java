@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSBPowered;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -30,26 +31,15 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_boots, 1), new Object[] { "E E", "E E", 'E', "ingotSteel" }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_titanium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_titanium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_titanium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.titanium_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_titanium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_advanced_alloy });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_advanced_alloy });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_advanced_alloy });
-		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_advanced_alloy });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_combine_steel });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_combine_steel });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_combine_steel });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cmb_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_combine_steel });
+		basicArmorSet(new Item[] { ModItems.titanium_helmet, ModItems.titanium_plate, ModItems.titanium_legs, ModItems.titanium_boots }, ModItems.ingot_titanium);
+		basicArmorSet(new Item[] { ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots }, ModItems.ingot_advanced_alloy);
+		basicArmorSet(new Item[] { ModItems.cmb_helmet, ModItems.cmb_plate, ModItems.cmb_legs, ModItems.cmb_boots }, ModItems.ingot_combine_steel);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.security_helmet, 1), new Object[] { "SSS", "IGI", 'S', "plateSteel", 'I', ModItems.plate_polymer, 'G', "paneGlass" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.security_plate, 1), new Object[] { "KWK", "IKI", "WKW", 'K', ModItems.plate_kevlar, 'I', ModItems.ingot_polymer, 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.security_legs, 1), new Object[] { "IWI", "K K", "W W", 'K', ModItems.plate_kevlar, 'I', ModItems.ingot_polymer, 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.security_boots, 1), new Object[] { "P P", "I I", 'P', "plateSteel", 'I', ModItems.plate_polymer }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_cobalt });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_cobalt });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_cobalt });
-		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_cobalt });
+		Item[] cobaltSet = new Item[] { ModItems.cobalt_helmet, ModItems.cobalt_plate, ModItems.cobalt_legs, ModItems.cobalt_boots };
+		basicArmorSet(cobaltSet, ModItems.ingot_cobalt);
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_helmet, 1), new Object[] { "EEE", "EE ", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_plate, 1), new Object[] { "EE ", "EEE", "EEE", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_legs, 1), new Object[] { "EE ", "EEE", "E E", 'E', ModItems.ingot_dineutronium });
@@ -58,31 +48,31 @@ public class ArmorRecipes {
 		basicArmorSet(new Item[] {ModItems.ferrouranium_helmet, ModItems.ferrouranium_plate, ModItems.ferrouranium_legs, ModItems.ferrouranium_boots}, ModItems.ingot_ferrouranium);
 
 		//Power armor
-		GameRegistry.addRecipe(new ItemStack(ModItems.t45_helmet, 1), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
-		GameRegistry.addRecipe(new ItemStack(ModItems.t45_plate, 1), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'T', ModItems.gas_empty, 'B', ModItems.titanium_plate });
-		GameRegistry.addRecipe(new ItemStack(ModItems.t45_legs, 1), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_legs });
-		GameRegistry.addRecipe(new ItemStack(ModItems.t45_boots, 1), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_boots });
-		GameRegistry.addRecipe(new ItemStack(ModItems.ajr_helmet, 1), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_ajr, 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.alloy_helmet });
-		GameRegistry.addRecipe(new ItemStack(ModItems.ajr_plate, 1), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'T', ModItems.gas_empty, 'B', ModItems.alloy_plate });
-		GameRegistry.addRecipe(new ItemStack(ModItems.ajr_legs, 1), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_legs });
-		GameRegistry.addRecipe(new ItemStack(ModItems.ajr_boots, 1), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_boots });
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ajro_helmet, 1), new Object[] { ModItems.ajr_helmet, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ajro_plate, 1), new Object[] { ModItems.ajr_plate, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ajro_legs, 1), new Object[] { ModItems.ajr_legs, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ajro_boots, 1), new Object[] { ModItems.ajr_boots, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.bj_helmet, 1), new Object[] { "SBS", " C ", " I ", 'S', Items.string, 'B', new ItemStack(Blocks.wool, 1, 15), 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_starmetal });
-		GameRegistry.addRecipe(new ItemStack(ModItems.bj_plate, 1), new Object[] { "N N", "MSM", "NCN", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_plate, 'C', ModItems.circuit_targeting_tier5 });
-		GameRegistry.addRecipe(new ItemStack(ModItems.bj_plate_jetpack, 1), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', new ItemStack(ModItems.fluid_tank_full, 1, FluidType.XENON.ordinal()), 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
-		GameRegistry.addRecipe(new ItemStack(ModItems.bj_legs, 1), new Object[] { "MBM", "NSN", "N N", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_legs, 'B', ModBlocks.block_starmetal });
-		GameRegistry.addRecipe(new ItemStack(ModItems.bj_boots, 1), new Object[] { "N N", "BSB", 'N', ModItems.plate_armor_lunar, 'S', ModItems.starmetal_boots, 'B', ModBlocks.block_starmetal });
-		GameRegistry.addRecipe(new ItemStack(ModItems.hev_helmet, 1), new Object[] { "PPC", "PBP", "IFI", 'P', ModItems.plate_armor_hev, 'C', ModItems.circuit_targeting_tier4, 'B', ModItems.titanium_helmet, 'I', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter });
-		GameRegistry.addRecipe(new ItemStack(ModItems.hev_plate, 1), new Object[] { "MPM", "IBI", "PPP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_plate, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
-		GameRegistry.addRecipe(new ItemStack(ModItems.hev_legs, 1), new Object[] { "MPM", "IBI", "P P", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_legs, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
-		GameRegistry.addRecipe(new ItemStack(ModItems.hev_boots, 1), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_boots });
-		GameRegistry.addRecipe(new ItemStack(ModItems.fau_helmet, 1), new Object[] { "PWP", "PBP", "FSF", 'P', ModItems.plate_armor_fau, 'W', new ItemStack(Blocks.wool, 1, 14), 'B', ModItems.starmetal_helmet, 'F', ModItems.gas_mask_filter, 'S', ModItems.pipes_steel });
-		GameRegistry.addRecipe(new ItemStack(ModItems.fau_plate, 1), new Object[] { "MCM", "PBP", "PSP", 'M', ModItems.motor_desh, 'C', ModItems.demon_core_closed, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_plate, 'S', ModBlocks.ancient_scrap });
-		GameRegistry.addRecipe(new ItemStack(ModItems.fau_legs, 1), new Object[] { "MPM", "PBP", "PDP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_legs, 'D', ModItems.billet_polonium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.fau_boots, 1), new Object[] { "PDP", "PBP", 'P', ModItems.plate_armor_fau, 'D', ModItems.billet_polonium, 'B', ModItems.starmetal_boots });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'T', ModItems.gas_empty, 'B', ModItems.titanium_plate });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_legs });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_boots });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_ajr, 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.alloy_helmet });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'T', ModItems.gas_empty, 'B', ModItems.alloy_plate });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_legs });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_boots });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_helmet), new Object[] { ModItems.ajr_helmet, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_plate), new Object[] { ModItems.ajr_plate, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_legs), new Object[] { ModItems.ajr_legs, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_boots), new Object[] { ModItems.ajr_boots, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_helmet), new Object[] { "SBS", " C ", " I ", 'S', Items.string, 'B', new ItemStack(Blocks.wool, 1, 15), 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_starmetal });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_plate), new Object[] { "N N", "MSM", "NCN", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_plate, 'C', ModItems.circuit_targeting_tier5 });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_plate_jetpack), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', ModItems.gas_xenon, 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_legs), new Object[] { "MBM", "NSN", "N N", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_legs, 'B', ModBlocks.block_starmetal });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_boots), new Object[] { "N N", "BSB", 'N', ModItems.plate_armor_lunar, 'S', ModItems.starmetal_boots, 'B', ModBlocks.block_starmetal });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_helmet), new Object[] { "PPC", "PBP", "IFI", 'P', ModItems.plate_armor_hev, 'C', ModItems.circuit_targeting_tier4, 'B', ModItems.titanium_helmet, 'I', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_plate), new Object[] { "MPM", "IBI", "PPP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_plate, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_legs), new Object[] { "MPM", "IBI", "P P", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_legs, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_boots });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_helmet), new Object[] { "PWP", "PBP", "FSF", 'P', ModItems.plate_armor_fau, 'W', new ItemStack(Blocks.wool, 1, 14), 'B', ModItems.starmetal_helmet, 'F', ModItems.gas_mask_filter, 'S', ModItems.pipes_steel });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_plate), new Object[] { "MCM", "PBP", "PSP", 'M', ModItems.motor_desh, 'C', ModItems.demon_core_closed, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_plate, 'S', ModBlocks.ancient_scrap });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_legs), new Object[] { "MPM", "PBP", "PDP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_legs, 'D', ModItems.billet_polonium });
+		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_boots), new Object[] { "PDP", "PBP", 'P', ModItems.plate_armor_fau, 'D', ModItems.billet_polonium, 'B', ModItems.starmetal_boots });
 
 		//Euphemium armor
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });
@@ -140,19 +130,10 @@ public class ArmorRecipes {
 		
 		//Configged
 		if(GeneralConfig.enableBabyMode) {
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_starmetal });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_starmetal });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_starmetal });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_starmetal });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_schrabidium });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_schrabidium });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_schrabidium });
-			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_schrabidium });
+			basicArmorSet(new Item[] { ModItems.starmetal_helmet, ModItems.starmetal_plate, ModItems.starmetal_legs, ModItems.starmetal_boots }, ModItems.ingot_starmetal);
+			basicArmorSet(new Item[] { ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots }, ModItems.ingot_schrabidium);
 		} else {
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_helmet, 1), new Object[] { "EEE", "ECE", 'E', ModItems.ingot_starmetal, 'C', ModItems.cobalt_helmet });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_plate, 1), new Object[] { "ECE", "EEE", "EEE", 'E', ModItems.ingot_starmetal, 'C', ModItems.cobalt_plate });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_legs, 1), new Object[] { "EEE", "ECE", "E E", 'E', ModItems.ingot_starmetal, 'C', ModItems.cobalt_legs });
-			GameRegistry.addRecipe(new ItemStack(ModItems.starmetal_boots, 1), new Object[] { "E E", "ECE", 'E', ModItems.ingot_starmetal, 'C', ModItems.cobalt_boots });
+			upgradeArmorSet(new Item[] { ModItems.starmetal_helmet, ModItems.starmetal_plate, ModItems.starmetal_legs, ModItems.starmetal_boots }, cobaltSet, ModItems.ingot_starmetal);
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_helmet, 1), new Object[] { "EEE", "ESE", " P ", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_helmet, 'P', ModItems.pellet_charged });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_plate, 1), new Object[] { "ESE", "EPE", "EEE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_plate, 'P', ModItems.pellet_charged });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_legs, 1), new Object[] { "EEE", "ESE", "EPE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_legs, 'P', ModItems.pellet_charged });
@@ -171,5 +152,23 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(outs[1]), new Object[] { "M M", "MMM", "MMM", 'M', material });
 		GameRegistry.addRecipe(new ItemStack(outs[2]), new Object[] { "MMM", "M M", "M M", 'M', material });
 		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "M M", "M M", 'M', material });
+	}
+	/**
+	 * Register an upgrade based armor set still using vanilla style recipes
+	 * @param outs - Must be in the order: helmet, chestplate, leggings, then boots
+	 * @param priorTier - Previous tier of armor, must be in the same order as before
+	 * @param material - Material the set is made of
+	 */
+	public static void upgradeArmorSet(Item[] outs, Item[] priorTier, Item material)
+	{
+		if (outs.length != 4)
+			throw new IllegalArgumentException("Output array size must be equal to 4!");
+		if (priorTier.length != 4)
+			throw new IllegalArgumentException("Input array size must be equal to 4!");
+		
+		GameRegistry.addRecipe(new ItemStack(outs[0]), new Object[] { "MMM", "MPM", 'M', material, 'P', priorTier[0] });
+		GameRegistry.addRecipe(new ItemStack(outs[1]), new Object[] { "MPM", "MMM", "MMM", 'M', material, 'P', priorTier[1] });
+		GameRegistry.addRecipe(new ItemStack(outs[2]), new Object[] { "MMM", "MPM", "M M", 'M', material, 'P', priorTier[2] });
+		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "M M", "MPM", 'M', material, 'P', priorTier[3] });
 	}
 }

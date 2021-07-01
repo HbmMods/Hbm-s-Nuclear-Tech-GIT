@@ -1,9 +1,11 @@
 package com.hbm.items.block;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,13 +15,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemBlockLore extends ItemBlock {
-
+	public static List<Block> epicList = new ArrayList<Block>();
+	public static List<Block> rareList = new ArrayList<Block>();
+	public static List<Block> uncommonList = new ArrayList<Block>();
+	
 	public ItemBlockLore(Block p_i45328_1_) {
 		super(p_i45328_1_);
 	}
 	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		String uloc = field_150939_a.getUnlocalizedName() + ".desc";
+		String[] loc = I18nUtil.resolveKeyArray(uloc);
+		if (!uloc.equals(loc[0]))
+			for (String s : loc)
+				list.add(s);
 		
 		if(this.field_150939_a instanceof RedBarrel) {
 			list.add("Static fluid barrel");
@@ -103,14 +114,21 @@ public class ItemBlockLore extends ItemBlock {
 	}
 
 	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-
-		if(this.field_150939_a == ModBlocks.gravel_diamond || this.field_150939_a == ModBlocks.block_saturnite)
+	public EnumRarity getRarity(ItemStack stack)
+	{
+		if (epicList.contains(field_150939_a))
+			return EnumRarity.epic;
+		if (rareList.contains(field_150939_a))
+			return EnumRarity.rare;
+		if (uncommonList.contains(field_150939_a))
+			return EnumRarity.uncommon;
+		
+		if(this.field_150939_a == ModBlocks.gravel_diamond)
 			return EnumRarity.rare;
 		
-		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
-				this.field_150939_a == ModBlocks.plasma || this.field_150939_a == ModBlocks.fwatz_plasma)
-			return EnumRarity.epic;
+//		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
+//				this.field_150939_a == ModBlocks.plasma || this.field_150939_a == ModBlocks.fwatz_plasma)
+//			return EnumRarity.epic;
 
 		return EnumRarity.common;
 	}

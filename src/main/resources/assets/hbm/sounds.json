@@ -59,6 +59,7 @@
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
 	"music.recordVortalCombat": {"category": "record", "sounds": [{"name": "music/recordVortalCombat", "stream": true}]},
+	"music.recordNuclearMissionJam": {"category": "record", "sounds": [{"name": "music/recordNuclearMissionJam", "stream": true}]},
 	"music.transmission": {"category": "record", "sounds": [{"name": "music/recordGlass", "stream": true}]},
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},

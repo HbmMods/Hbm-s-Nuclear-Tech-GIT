@@ -200,12 +200,19 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.ingot_phosphorus),
 				new ItemStack(Blocks.netherrack) });
 		
-		recipes.put(new ComparableStack(ModBlocks.ore_cobalt), new ItemStack[]
+		recipes.put("oreCobalt", new ItemStack[]
 				{
 						new ItemStack(ModItems.powder_cobalt, 1),
 						new ItemStack(ModItems.powder_iron, 1),
 						new ItemStack(ModItems.powder_copper, 1),
 						new ItemStack(Blocks.gravel, 1)
+				});
+		recipes.put(new ComparableStack(ModItems.pellet_solinium_laced), new ItemStack[]
+				{
+					new ItemStack(ModItems.nugget_euphemium, 5),
+					new ItemStack(ModItems.nugget_solinium, 4),
+					new ItemStack(ModItems.ingot_solinium, 3),
+					new ItemStack(ModItems.powder_lead, 1)
 				});
 		
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });
@@ -222,7 +229,7 @@ public class CentrifugeRecipes {
 		recipes.put(new ComparableStack(ModItems.crystal_titanium), new ItemStack[] { new ItemStack(ModItems.powder_titanium, 2), new ItemStack(ModItems.powder_titanium, 2), new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_sulfur), new ItemStack[] { new ItemStack(ModItems.sulfur, 4), new ItemStack(ModItems.sulfur, 4), new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.nugget_mercury, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_niter), new ItemStack[] { new ItemStack(ModItems.niter, 3), new ItemStack(ModItems.niter, 3), new ItemStack(ModItems.niter, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
-		recipes.put(new ComparableStack(ModItems.crystal_copper), new ItemStack[] { new ItemStack(ModItems.powder_copper, 2), new ItemStack(ModItems.powder_copper, 2), new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
+		recipes.put(new ComparableStack(ModItems.crystal_copper), new ItemStack[] { new ItemStack(ModItems.powder_copper, 2), new ItemStack(ModItems.powder_copper, 2), new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.powder_cobalt_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_tungsten), new ItemStack[] { new ItemStack(ModItems.powder_tungsten, 2), new ItemStack(ModItems.powder_tungsten, 2), new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_aluminium), new ItemStack[] { new ItemStack(ModItems.powder_aluminium, 2), new ItemStack(ModItems.powder_aluminium, 2), new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_fluorite), new ItemStack[] { new ItemStack(ModItems.fluorite, 3), new ItemStack(ModItems.fluorite, 3), new ItemStack(ModItems.fluorite, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });

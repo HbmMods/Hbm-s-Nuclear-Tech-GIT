@@ -56,8 +56,11 @@ public class ExplosionHurtUtil {
 			
 			double interpolation = 1 - (dist / radius);
 			float rad = (float) (outer + (inner - outer) * interpolation);
-			
+			int pDuration = (int) (200 * interpolation);
+			if (pDuration < 20)
+				pDuration = 20;
 			ContaminationUtil.applyDigammaData(entity, rad);
+			entity.addPotionEffect(new PotionEffect(HbmPotion.hollow.id, (int) pDuration, 1));
 		}
 	}
 	public static void doStun(World world, double x, double y, double z, double radius)

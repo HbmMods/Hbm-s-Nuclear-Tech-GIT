@@ -2,6 +2,9 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.lib.HbmCollection;
+import com.hbm.util.I18nUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,9 +38,9 @@ public class ItemFusionShield extends Item {
 		long damage = getShieldDamage(stack);
 		int percent = (int) ((maxDamage - damage) * 100 / maxDamage);
 
-		list.add("Durability: " + (maxDamage - damage) + "/" + maxDamage + " (" + percent + "%)");
+		list.add(I18nUtil.resolveKey(HbmCollection.durability, (maxDamage - damage) + "/" + maxDamage + " (" + percent + "%)"));
 		
-		list.add("Melting point: " + EnumChatFormatting.RED + "" + maxTemp + "°C");
+		list.add(I18nUtil.resolveKey(HbmCollection.meltPoint, maxTemp + "°C"));
 	}
 	
 	public static void setShieldDamage(ItemStack stack, long damage) {

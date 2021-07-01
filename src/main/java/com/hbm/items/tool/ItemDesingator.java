@@ -3,6 +3,8 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.bomb.LaunchPad;
+import com.hbm.lib.HbmCollection;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -25,11 +27,12 @@ public class ItemDesingator extends Item {
 	{
 		if(itemstack.stackTagCompound != null)
 		{
-			list.add("Target Coordinates:");
+			list.add(I18nUtil.resolveKey(HbmCollection.tarCoord));
 			list.add("X: " + String.valueOf(itemstack.stackTagCompound.getInteger("xCoord")));
 			list.add("Z: " + String.valueOf(itemstack.stackTagCompound.getInteger("zCoord")));
 		} else {
-			list.add("Please select a target.");
+//			list.add("Please select a target.");
+			list.add(I18nUtil.resolveKey(HbmCollection.noPos));
 		}
 	}
 	
@@ -49,7 +52,7 @@ public class ItemDesingator extends Item {
 			}
 	        if(p_77648_3_.isRemote)
 			{
-	        	p_77648_2_.addChatMessage(new ChatComponentText("Position set!"));
+	        	p_77648_2_.addChatMessage(new ChatComponentText(HbmCollection.posSet));
 			}
 
 	        p_77648_3_.playSoundAtEntity(p_77648_2_, "hbm:item.techBleep", 1.0F, 1.0F);

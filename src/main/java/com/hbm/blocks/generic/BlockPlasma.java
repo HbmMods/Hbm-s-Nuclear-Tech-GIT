@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class BlockPlasma extends Block {
+public class BlockPlasma extends BlockGeneric {
 
 	public BlockPlasma(Material p_i45394_1_) {
 		super(p_i45394_1_);

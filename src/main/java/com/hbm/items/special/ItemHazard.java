@@ -3,18 +3,21 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.interfaces.IItemHazard;
+import com.hbm.main.MainRegistry;
 import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
-	//PO210		           138d		α	025.00Rad/s	Spicy
+	//PO210		           138d		α	075.00Rad/s	Spicy
+	//AC227			    	22y		α	025.00Rad/s Spicy
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
@@ -22,10 +25,12 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//NP237		     2,100,000a		α	002.50Rad/s
 	//PU238		            88a		α	010.00Rad/s	Spicy
 	//PU239		        24,000a		α	005.00Rad/s
-	//PU240		         6,600a		α	007.50Rad/s
+	//PU240		         6,600a		α 	007.50Rad/s
+	//TS294				   51ms		α100000.00Rad/s AAAAAAAAAAAAA
 
-	public static final float au198 = 500.0F;
-	public static final float po210 = 25.0F;
+	public static final float au198 = MainRegistry.polaroidID == 11 ? 567.09F : 500.0F;// is le funi reference I swear
+	public static final float po210 = 75.0F;
+	public static final float ac227 = 25.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
 	public static final float u = 0.35F;
@@ -47,6 +52,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float saf = 5.85F;
 	public static final float hes = ((np237 * 2) + (sa326 * 5)) * 0.1F;
 	public static final float les = ((np237 * 4) + sa326) * 0.1F;
+	public static final float ts294 = 100000;
 
 	public static final float sr = sa326 * 0.1F;
 	public static final float trx = 25.0F;
@@ -114,6 +120,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 		if(blinding) this.module.addBlinding();
 		if(fire) this.module.addFire(5);
 	}
+	@Deprecated
 	public ItemHazard(float radiation, float drx, boolean fire, boolean blinding)
 	{
 		this();
@@ -123,5 +130,11 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 			this.module.addBlinding();
 		if (fire)
 			this.module.addFire(5);
+	}
+	
+	@Override
+	public ItemHazard setRarity(EnumRarity rarity)
+	{
+		return (ItemHazard)super.setRarity(rarity);
 	}
 }

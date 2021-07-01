@@ -525,7 +525,8 @@ public class ResourceManager {
 	public static final IModelCustom thompson = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/thompson.obj"));
 	public static final IModelCustom bolter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bolter.obj"));
 	public static final IModelCustom twr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/time_warp_rifle_final.obj"));
-
+	public static final IModelCustom hlr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/heavy_lunatic_rifle.obj"));
+	
 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
 
@@ -578,6 +579,7 @@ public class ResourceManager {
 	public static final ResourceLocation bolter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter.png");
 	public static final ResourceLocation bolter_digamma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter_digamma.png");
 	public static final ResourceLocation twr_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/twr.png");
+	public static final ResourceLocation hlr_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/HLR_placeholder.png");
 
 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");

@@ -18,6 +18,7 @@ import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
@@ -30,7 +31,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemDrop extends Item {
+public class ItemDrop extends ItemHazard
+{
 
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
@@ -206,65 +208,16 @@ public class ItemDrop extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if (this == ModItems.singularity_micro)
+		super.addInformation(itemstack, player, list, bool);
+		if (this == ModItems.detonator_deadman)
 		{
-			list.add("A wee lad!");
-		}
-		if (this == ModItems.cell_antimatter) {
-			list.add("Warning: Exposure to matter will");
-			list.add("lead to violent annihilation!");
-		}
-		if (this == ModItems.pellet_antimatter) {
-			list.add("Very heavy antimatter cluster.");
-			list.add("Gets rid of black holes.");
-		}
-		if (this == ModItems.cell_anti_schrabidium) {
-			list.add("Warning: Exposure to matter will");
-			list.add("create a fólkvangr field!");
-		}
-		if (this == ModItems.singularity) {
-			list.add("You may be asking:");
-			list.add("\"But HBM, a manifold with an undefined");
-			list.add("state of spacetime? How is this possible?\"");
-			list.add("Long answer short:");
-			list.add("\"I have no idea!\"");
-		}
-		if (this == ModItems.singularity_counter_resonant) {
-			list.add("Nullifies resonance of objects in");
-			list.add("non-euclidean space, creates variable");
-			list.add("gravity well. Spontaneously spawns");
-			list.add("tesseracts. If a tesseract happens to");
-			list.add("appear near you, do not look directly");
-			list.add("at it.");
-		}
-		if (this == ModItems.singularity_super_heated) {
-			list.add("Continuously heats up matter by");
-			list.add("resonating every planck second.");
-			list.add("Tends to catch fire or to create");
-			list.add("small plamsa arcs. Not edible.");
-		}
-		if (this == ModItems.black_hole) {
-			list.add("Contains a regular singularity");
-			list.add("in the center. Large enough to");
-			list.add("stay stable. It's not the end");
-			list.add("of the world as we know it,");
-			list.add("and I don't feel fine.");
-		}
-		if (this == ModItems.detonator_deadman) {
-			list.add("Shift right-click to set position,");
-			list.add("drop to detonate!");
 			if(itemstack.getTagCompound() == null)
-			{
-				list.add("No position set!");
-			} else {
-				list.add("Set pos to " + itemstack.stackTagCompound.getInteger("x") + ", " + itemstack.stackTagCompound.getInteger("y") + ", " + itemstack.stackTagCompound.getInteger("z"));
-			}
+				list.add(I18nUtil.resolveKey(HbmCollection.noPos));
+			else
+				list.add(I18nUtil.resolveKey(HbmCollection.pos, itemstack.stackTagCompound.getInteger("x"), itemstack.stackTagCompound.getInteger("y"), itemstack.stackTagCompound.getInteger("z")));
+
 		}
-		if (this == ModItems.detonator_de) {
-			list.add("Explodes when dropped!");
-		}
-		
-		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.drop") + "]");
+		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.drop) + "]");
 	}
 	
 	@Override
@@ -287,7 +240,7 @@ public class ItemDrop extends Item {
 			
 			if(world.isRemote)
 			{
-				player.addChatMessage(new ChatComponentText("Position set!"));
+				player.addChatMessage(new ChatComponentText(HbmCollection.posSet));
 			}
 			
 	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);

@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,11 +35,11 @@ public class ItemDesingatorManual extends Item {
 	{
 		if(stack.stackTagCompound != null)
 		{
-			list.add("Target Coordinates:");
+			list.add(HbmCollection.tarCoord);
 			list.add("X: " + String.valueOf(stack.stackTagCompound.getInteger("xCoord")));
 			list.add("Z: " + String.valueOf(stack.stackTagCompound.getInteger("zCoord")));
 		} else {
-			list.add("Please select a target.");
+			list.add(HbmCollection.noPos);
 		}
 	}
 }

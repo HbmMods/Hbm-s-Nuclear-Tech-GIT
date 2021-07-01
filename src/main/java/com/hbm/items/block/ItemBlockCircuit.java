@@ -25,22 +25,16 @@ public class ItemBlockCircuit extends ItemBlock
 		list.add("Tier " + Character.toString(stack.getUnlocalizedName().charAt(24)));
 		list.add("Computational Strength: " + ((BlockCircuit)field_150939_a).strength);
 		if (this.field_150939_a == ModBlocks.block_circuit_tier_1)
-		{
 			list.add(EnumChatFormatting.ITALIC + "Cheapo");
-		}
 	}
 	
 	@Override
 	public EnumRarity getRarity(ItemStack stack)
 	{
 		if (this.field_150939_a == ModBlocks.block_circuit_tier_5)
-		{
 			return EnumRarity.rare;
-		}
 		if (this.field_150939_a == ModBlocks.block_circuit_tier_6)
-		{
 			return EnumRarity.epic;
-		}
 		return EnumRarity.common;
 	}
 }

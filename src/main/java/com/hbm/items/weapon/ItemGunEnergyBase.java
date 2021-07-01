@@ -15,7 +15,6 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
-import com.hbm.items.machine.ItemBatteryGun;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
@@ -56,7 +55,6 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		super(main);
 		if (main.ammoRate > main.ammoCap)
 			throw new IllegalArgumentException("Energy consumption rate exceeds energy cap!");
-		
 		mainConfig = main;
 		maxCharge = mainConfig.ammoCap;
 		chargeRate = mainConfig.chargeRate;
@@ -65,7 +63,7 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 	public ItemGunEnergyBase(GunConfigurationEnergy main, GunConfigurationEnergy alt)
 	{
 		super(main, alt);
-		if (main.ammoRate > main.ammoCap)
+		if (main.ammoRate > main.ammoCap || alt.ammoRate > main.ammoCap)
 			throw new IllegalArgumentException("Energy consumption rate exceeds energy cap!");
 		mainConfig = main;
 		altConfig = alt;
@@ -87,6 +85,7 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		GunConfigurationEnergy mainConfigEnergy = (GunConfigurationEnergy)mainConfig;
+		GunConfigurationEnergy altConfigEnergy = (GunConfigurationEnergy)altConfig;
 		long gunChargeMax = mainConfigEnergy.ammoCap;
 		long gunCurrentCharge = getGunCharge(stack);
 		String gunChargeMaxString = Library.getShortNumber(gunChargeMax);
@@ -95,7 +94,7 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		list.add(String.format("Charge: %s / %sHE", gunCurrentChargeString, gunChargeMaxString));
 		list.add(String.format("Charge rate: %sHE/tick", Library.getShortNumber(chargeRate)));
 		list.add(String.format("Ammo: %s / %s", Math.floorDiv(gunCurrentCharge, mainConfigEnergy.ammoRate), Math.floorDiv(gunChargeMax, mainConfigEnergy.ammoRate)));
-		list.add(String.format("Ammo Type: Energy; %sHE per shot", Library.getShortNumber(mainConfigEnergy.ammoRate)));
+		list.add(String.format("Ammo Type: Energy; %sHE per shot%s", Library.getShortNumber(mainConfigEnergy.ammoRate), altConfig != null ? "; " + Library.getShortNumber(altConfigEnergy.ammoRate) + "HE per alt shot" : ""));
 		if (mainConfig.damage != "" || !mainConfig.damage.isEmpty())
 			list.add("Damage: " + mainConfig.damage);
 		
@@ -160,6 +159,14 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 	}
 	
 	@Override
+	protected void altFire(ItemStack stack, World world, EntityPlayer player)
+	{
+		super.altFire(stack, world, player);
+		useUpAmmo(player, stack, false);
+	}
+	
+	// TODO finish, probably should just import the code from gun batteries
+	@Override
 	protected void reload2(ItemStack stack, World world, EntityPlayer player)
 	{
 		if (getReloadCycle(stack) < 0 && stack == player.getHeldItem())
@@ -200,10 +207,8 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 	{
 		Item[] batteryItems = new Item[] {ModItems.battery_gun_basic, ModItems.battery_gun_enhanced, ModItems.battery_gun_advanced, ModItems.battery_gun_elite};
 		for (Item batt : batteryItems)
-		{
 			if (player.inventory.hasItem(batt))
 				return true;
-		}
 		return false;
 	}
 	
@@ -276,6 +281,18 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		}
 		return 0;
 	}
+	
+	public static ItemStack getEmptyGun(Item itemIn)
+	{
+		if (itemIn instanceof ItemGunEnergyBase)
+		{
+			ItemStack stack = new ItemStack(itemIn);
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setLong("charge", 0);
+			return stack.copy();
+		}
+		return null;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -300,6 +317,17 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
 	}
+	
+	public static void setGunCharge(ItemStack stack, long i)
+	{
+		writeNBT(stack, "charge", i);
+	}
+	
+	public static long getGunCharge(ItemStack stack)
+	{
+		return readNBTLong(stack, "charge");
+	}
+
 	
 	@Override
 	public long getMaxCharge()

@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -12,7 +13,6 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemGunTWR;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -27,7 +27,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 
 public class GunEnergyFactory {
-	
+	private static Random rand = new Random();
 	public static GunConfiguration getEMPConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -132,14 +132,13 @@ public class GunEnergyFactory {
 	public static GunConfiguration getTWRConfig()
 	{
 		GunConfiguration config = new GunConfiguration();
-		Random rand = new Random();
 		int randLore = rand.nextInt(7);
 
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.durability = 1000000000;// Lunarian technology world's finest!
+		config.durability = 1000000000;
 		//config.hasSights = false;
 		config.reloadSound = "hbm:weapon.b92Reload";
 		config.firingSound = "hbm:weapon.zomgShoot";
@@ -215,15 +214,55 @@ public class GunEnergyFactory {
 		}
 		return config;
 	}
+	/** Main fire gun mode **/
+	public static GunConfigurationEnergy getHLRMainConfig()
+	{
+		GunConfigurationEnergy config = new GunConfigurationEnergy();
+		int randLore = rand.nextInt(4);
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.ammoCap = 100000000000L;
+		config.ammoRate = 10000000;
+		config.chargeRate = 100000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.durability = 100000000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = false;
+		config.damage = "Main: 15 - 18; Alt: 20 - 25";
+		config.crosshair = Crosshair.L_CROSS;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
+		config.name = "1974 Chang'e type LMG \"Heavy Lunatic Rifle\"";
+		config.manufacturer = "Lunar Defense Corp";
+		String[] lore = I18nUtil.resolveKeyArray("item.gun_hlr.desc." + randLore);
+		for (String s : lore)
+			config.comment.add(EnumChatFormatting.ITALIC + s);
+
+		//config.comment.add(String.format("\"%sDodge%s%s Graze this\"", EnumChatFormatting.STRIKETHROUGH, EnumChatFormatting.RESET, EnumChatFormatting.GRAY));
+
+		return config;
+	}
+	/** Alt fire gun mode **/
+	public static GunConfigurationEnergy getHLRSecondConfig()
+	{
+		GunConfigurationEnergy config = new GunEnergyFactory().getHLRMainConfig();
+		config.ammoRate = 25000000;
+		//config.firingSound = "hbm:weapon.zomgShoot";
+		config.config.clear();
+		config.config.add(BulletConfigSyncingUtil.HLR_ALT);
+		return config;
+	}
 	
 	public static GunConfigurationEnergy getTesterConfig()
 	{
 		GunConfigurationEnergy config = new GunConfigurationEnergy();
 		config.rateOfFire = 1;
 		config.roundsPerCycle = 1;
-		config.ammoCap = 100000000;
+		config.ammoCap = 10000000000L;
 		config.ammoRate = 100000;
-		config.chargeRate = 1000000;
+		config.chargeRate = 100000000;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.durability = Integer.MAX_VALUE;//h
@@ -231,10 +270,10 @@ public class GunEnergyFactory {
 		config.allowsInfinity = false;
 		config.damage = "Yes";
 		config.crosshair = Crosshair.L_CROSS;
-		config.firingSound = "hbm:weapon.zomgShoot";
+		config.firingSound = "hbm:weapon.osiprShoot";
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
-		config.name = "the pooper shooter";//I am very mature
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
+		config.name = "the pooper shooter";//I am very mature (and creative)
 		config.manufacturer = "Fisher Price";
 		config.comment.add("Let the pain end");
 		
@@ -475,6 +514,65 @@ public class GunEnergyFactory {
 		//bullet.style = BulletConfiguration.STYLE_ORB;
 		bullet.trail = 1;
 
+		return bullet;
+	}
+	/** Main fire bullet **/
+	public static BulletConfiguration getHLRDefaultConfig()
+	{
+		BulletConfiguration bullet = new BulletConfigFactory().standardBulletConfig();
+		
+		bullet.ammo = ModItems.nothing;
+		bullet.velocity = 10.0F;
+		bullet.spread = 0.01F;
+		bullet.maxAge = 350;
+		bullet.wear = 10;
+		
+		bullet.dmgMax = 18F;
+		bullet.dmgMin = 15F;
+		
+		bullet.gravity = 0D;
+		bullet.doesRicochet = false;
+		bullet.doesBreakGlass = true;
+		bullet.doesPenetrate = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(new PotionEffect(HbmPotion.hollow.id, 2 * 20));
+		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 5 * 20));
+		
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_LASER;
+		
+		return bullet;
+	}
+	/** Alt fire bullet **/
+	public static BulletConfiguration getHLRAltConfig()
+	{
+		BulletConfiguration bullet = new BulletConfigFactory().standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.nothing;
+		bullet.velocity = 10.0F;
+		bullet.spread = 0.125F;
+		bullet.maxAge = 350;
+		bullet.wear = 25;
+		
+		bullet.dmgMax = 25F;
+		bullet.dmgMin = 20F;
+		bullet.bulletsMax = 18;
+		bullet.bulletsMin = 12;
+		
+		bullet.gravity = 0D;
+		bullet.doesRicochet = false;
+		bullet.doesBreakGlass = true;
+		bullet.doesPenetrate = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(new PotionEffect(HbmPotion.hollow.id, 5 * 20, 1));
+		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 7 * 20, 1));
+		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 3 * 20));
+		
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_LASER;
+		
 		return bullet;
 	}
 }
