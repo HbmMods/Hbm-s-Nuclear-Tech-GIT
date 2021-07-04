@@ -2,15 +2,14 @@ package com.hbm.tileentity.turret;
 
 import java.util.List;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
@@ -58,7 +57,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getDecetorRange() {
-		return 128D;
+		return 64D + this.greenLevel * 3;
 	}
 
 	@Override
@@ -68,7 +67,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 
 	@Override
 	public long getConsumption() {
-		return 5000;
+		return 10000 - this.blueLevel * 300;
 	}
 
 	@Override
@@ -97,10 +96,53 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 			
 			if(beam > 0)
 				beam--;
+		} else {
+			
+			if(checkDelay <= 0) {
+				checkDelay = 20;
+				
+				this.redLevel = 0;
+				this.greenLevel = 0;
+				this.blueLevel = 0;
+				this.blackLevel = 0;
+				this.pinkLevel = 0;
+				
+				for(int i = 1; i < 10; i++) {
+					if(slots[i] != null) {
+						Item item = slots[i].getItem();
+						
+						if(item == ModItems.upgrade_speed_1) redLevel += 1;
+						if(item == ModItems.upgrade_speed_2) redLevel += 2;
+						if(item == ModItems.upgrade_speed_3) redLevel += 3;
+						if(item == ModItems.upgrade_effect_1) greenLevel += 1;
+						if(item == ModItems.upgrade_effect_2) greenLevel += 2;
+						if(item == ModItems.upgrade_effect_3) greenLevel += 3;
+						if(item == ModItems.upgrade_power_1) blueLevel += 1;
+						if(item == ModItems.upgrade_power_2) blueLevel += 2;
+						if(item == ModItems.upgrade_power_3) blueLevel += 3;
+						if(item == ModItems.upgrade_afterburn_1) pinkLevel += 1;
+						if(item == ModItems.upgrade_afterburn_2) pinkLevel += 2;
+						if(item == ModItems.upgrade_afterburn_3) pinkLevel += 3;
+						if(item == ModItems.upgrade_overdrive_1) blackLevel += 1;
+						if(item == ModItems.upgrade_overdrive_2) blackLevel += 2;
+						if(item == ModItems.upgrade_overdrive_3) blackLevel += 3;
+					}
+				}
+			}
+			
+			checkDelay--;
 		}
 		
 		super.updateEntity();
 	}
+	
+	int redLevel;
+	int greenLevel;
+	int blueLevel;
+	int blackLevel;
+	int pinkLevel;
+	
+	int checkDelay;
 
 	@Override
 	public void updateFiringTick() {
@@ -109,29 +151,20 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		
 		if(this.target != null && this.getPower() >= demand) {
 
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, 1F);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
 			
-			for(int i = 1; i <= 10; i *= 10) {
+			if(pinkLevel > 0)
+				this.target.setFire(this.pinkLevel * 3);
+			
+			/*for(int i = 1; i <= 10; i *= 10) {
 				
 				if(EntityDamageUtil.getLastDamage(this.target) < i * 0.5F)
 					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, i * 10F);
 				else
 					break;
-			}
+			}*/
 			
 			if(!this.target.isEntityAlive()) {
-				float health = this.target instanceof EntityLivingBase ? ((EntityLivingBase)this.target).getMaxHealth() : 20F;
-				int count = Math.min((int)Math.ceil(health / 3D), 250);
-				
-				/*NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setInteger("count", count * 4);
-				data.setDouble("motion", 0.1D);
-				data.setString("mode", "blockdust");
-				data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 50));
-				*/
-				
 				NBTTagCompound vdat = new NBTTagCompound();
 				vdat.setString("type", "giblets");
 				vdat.setInteger("ent", this.target.getEntityId());

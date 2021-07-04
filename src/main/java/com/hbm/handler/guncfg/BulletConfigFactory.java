@@ -298,7 +298,7 @@ public class BulletConfigFactory {
 		}
 	}
 	
-	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion) {
+	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
 		
 		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
 
@@ -328,6 +328,12 @@ public class BulletConfigFactory {
 				data.setDouble("motion", motion);
 				
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+				
+				if(bullet.worldObj.rand.nextFloat() < hazeChance) {
+				NBTTagCompound haze = new NBTTagCompound();
+				haze.setString("type", "haze");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(haze, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 150));
+				}
 			}
 		};
 		

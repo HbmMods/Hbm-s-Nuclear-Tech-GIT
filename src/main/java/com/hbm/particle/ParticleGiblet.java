@@ -65,6 +65,7 @@ public class ParticleGiblet extends EntityFX {
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 
 		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		this.theRenderEngine.bindTexture(texture);
 
 		float f10 = this.particleScale * 0.1F;

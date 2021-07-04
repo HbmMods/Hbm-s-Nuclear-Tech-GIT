@@ -293,6 +293,19 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Homing");
 			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
+		if(this == ModItems.ammo_50bmg_flechette) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+		}
+		if(this == ModItems.ammo_50bmg_flechette_am) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.GREEN + "+ Highly Radioactive");
+			list.add(EnumChatFormatting.YELLOW + "* Yes.");
+		}
+		if(this == ModItems.ammo_50bmg_flechette_po) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.GREEN + "+ Highly Radioactive");
+			list.add(EnumChatFormatting.YELLOW + "* Maybe?");
+		}
 		
 		//.50 AE
 		if(this == ModItems.ammo_50ae_ap) {

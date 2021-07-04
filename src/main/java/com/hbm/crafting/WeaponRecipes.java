@@ -257,6 +257,9 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_star, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_50bmg_du, 'A', ModItems.ingot_starmetal });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_chlorophyte, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_50bmg, 'A', ModItems.pellet_chlorophyte });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_sleek, 64), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_50bmg, 'A', ModItems.coin_maskman });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_flechette, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_50bmg, 'A', ModItems.pellet_flechette });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_flechette_am, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_50bmg, 'A', ModItems.nugget_am_mix });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50bmg_flechette_po, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_50bmg, 'A', ModItems.powder_polonium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50ae_ap, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_50ae, 'A', ModItems.ingot_dura_steel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50ae_du, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_50ae, 'A', ModItems.ingot_u238 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_50ae_star, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_50ae_du, 'A', ModItems.ingot_starmetal });

@@ -259,7 +259,7 @@ public class GunEnergyFactory {
 		bullet.maxAge = 200;
 		bullet.vPFX = "smoke";
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25);
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25, 0.1F);
 		
 		return bullet;
 	}
@@ -584,6 +584,13 @@ public class GunEnergyFactory {
 		bullet.destroysBlocks = true;
 		bullet.doesRicochet = false;
 		
+		return bullet;
+	}
+
+	public static BulletConfiguration getTurretConfig() {
+		BulletConfiguration bullet = getFlameConfig();
+		bullet.spread *= 2F;
+		bullet.gravity = 0.0025D;
 		return bullet;
 	}
 }

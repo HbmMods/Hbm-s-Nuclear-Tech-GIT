@@ -24,11 +24,14 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Chemical Plant:");
 			list.add("Delay -25 / Consumption +300");
 			list.add("");
-			list.add("Crystallizer");
+			list.add("Crystallizer:");
 			list.add("Delay -10% / Consumption +1000");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("Speed x2");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Damage +0.25/t");
 		}
 		
 		if(this == ModItems.upgrade_speed_2)
@@ -42,11 +45,14 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Chemical Plant:");
 			list.add("Delay -50 / Consumption +600");
 			list.add("");
-			list.add("Crystallizer");
+			list.add("Crystallizer:");
 			list.add("Delay -20% / Consumption +2000");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("Speed x3");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Damage +0.5/t");
 		}
 		
 		if(this == ModItems.upgrade_speed_3)
@@ -65,6 +71,9 @@ public class ItemMachineUpgrade extends Item {
 			list.add("");
 			list.add("Cyclotron");
 			list.add("Speed x4");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Damage +0.75/t");
 		}
 		
 		if(this == ModItems.upgrade_effect_1)
@@ -72,11 +81,14 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Mining Drill:");
 			list.add("Radius +1 / Consumption +80");
 			list.add("");
-			list.add("Crystallizer");
+			list.add("Crystallizer:");
 			list.add("+5% chance of not consuming an item / Acid consumption +1000mB");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("-50% chance of incrementing overheat counter");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Range +3m");
 		}
 		
 		if(this == ModItems.upgrade_effect_2)
@@ -84,11 +96,14 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Mining Drill:");
 			list.add("Radius +2 / Consumption +160");
 			list.add("");
-			list.add("Crystallizer");
+			list.add("Crystallizer:");
 			list.add("+10% chance of not consuming an item / Acid consumption +2000mB");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("-66% chance of incrementing overheat counter");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Range +6m");
 		}
 		
 		if(this == ModItems.upgrade_effect_3)
@@ -96,11 +111,14 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Mining Drill:");
 			list.add("Radius +3 / Consumption +240");
 			list.add("");
-			list.add("Crystallizer");
+			list.add("Crystallizer:");
 			list.add("+15% chance of not consuming an item / Acid consumption +3000mB");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("-75% chance of incrementing overheat counter");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Range +9m");
 		}
 		
 		if(this == ModItems.upgrade_power_1)
@@ -114,8 +132,12 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Chemical Plant:");
 			list.add("Consumption -30 / Delay +5");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("Consumption -100k");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Consumption -150");
+			list.add("Consumption when firing -1500");
 		}
 		
 		if(this == ModItems.upgrade_power_2)
@@ -129,8 +151,12 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Chemical Plant:");
 			list.add("Consumption -60 / Delay +10");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("Consumption -200k");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Consumption -300");
+			list.add("Consumption when firing -3000");
 		}
 		
 		if(this == ModItems.upgrade_power_3)
@@ -144,8 +170,12 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Chemical Plant:");
 			list.add("Consumption -90 / Delay +15");
 			list.add("");
-			list.add("Cyclotron");
+			list.add("Cyclotron:");
 			list.add("Consumption -300k");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Consumption -450");
+			list.add("Consumption when firing -4500");
 		}
 		
 		if(this == ModItems.upgrade_fortune_1)
@@ -170,18 +200,27 @@ public class ItemMachineUpgrade extends Item {
 		{
 			list.add("Turbofan:");
 			list.add("Production x2 / Consumption x2.5");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Afterburn +3s");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_2)
 		{
 			list.add("Turbofan:");
 			list.add("Production x3 / Consumption x5");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Afterburn +6s");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_3)
 		{
 			list.add("Turbofan:");
 			list.add("Production x4 / Consumption x7.5");
+			list.add("");
+			list.add("Maxwell:");
+			list.add("Afterburn +9s");
 		}
 		
 		if(this == ModItems.upgrade_radius)

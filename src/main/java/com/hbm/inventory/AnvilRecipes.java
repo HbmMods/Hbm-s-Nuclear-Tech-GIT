@@ -39,6 +39,9 @@ public class AnvilRecipes {
 			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_steel, 1),
 					new ComparableStack(anvil), new OreDictStack("ingotSteel", 10)));
 		}
+		
+		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.gun_ar15, 1),
+				new ComparableStack(ModItems.gun_thompson), new ComparableStack(ModItems.pipe_lead)));
 	}
 	
 	public static List<AnvilSmithingRecipe> getSmithing() {

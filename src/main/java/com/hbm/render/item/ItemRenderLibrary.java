@@ -991,6 +991,19 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.turret_maxwell_tex); ResourceManager.turret_maxwell.renderPart("Microwave");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_fritz), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_tex); ResourceManager.turret_chekhov.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_fritz_tex); ResourceManager.turret_fritz.renderPart("Gun");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

@@ -288,11 +288,15 @@ public class OreDictManager {
 		OreDictionary.registerOre("stairWood", ModBlocks.pink_stairs);
 		OreDictionary.registerOre("stairWoodPink", ModBlocks.pink_stairs);
 
+		OreDictionary.registerOre("blockGlass", ModBlocks.glass_boron);
+		OreDictionary.registerOre("blockGlass", ModBlocks.glass_lead);
 		OreDictionary.registerOre("blockGlass", ModBlocks.glass_uranium);
 		OreDictionary.registerOre("blockGlass", ModBlocks.glass_trinitite);
 		OreDictionary.registerOre("blockGlass", ModBlocks.glass_polonium);
+		OreDictionary.registerOre("blockGlass", ModBlocks.glass_ash);
 		OreDictionary.registerOre("blockGlassYellow", ModBlocks.glass_uranium);
 		OreDictionary.registerOre("blockGlassLime", ModBlocks.glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", ModBlocks.glass_polonium);
+		OreDictionary.registerOre("blockGlassBlack", ModBlocks.glass_ash);
 	}
 }

@@ -340,13 +340,13 @@ public class ModBlocks {
 	public static Block sand_lead;
 	public static Block sand_uranium;
 	public static Block sand_polonium;
+	public static Block ash_digamma;
 	public static Block glass_boron;
 	public static Block glass_lead;
 	public static Block glass_uranium;
 	public static Block glass_trinitite;
 	public static Block glass_polonium;
-	
-	public static Block ash_digamma;
+	public static Block glass_ash;
 
 	public static Block mush;
 	public static Block mush_block;
@@ -924,6 +924,8 @@ public class ModBlocks {
 	public static final int guiID_howard = 112;
 	public static Block turret_maxwell;
 	public static final int guiID_maxwell = 120;
+	public static Block turret_fritz;
+	public static final int guiID_fritz = 122;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_control;
@@ -1377,7 +1379,7 @@ public class ModBlocks {
 		
 		fence_metal = new BlockMetalFence(Material.iron).setBlockName("fence_metal").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":fence_metal");
 		
-		ash_digamma = new BlockFalling(Material.sand).setBlockName("ash_digamma").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setResistance(150.0F).setBlockTextureName(RefStrings.MODID + ":ash_digamma");
+		ash_digamma = new BlockAshes(Material.sand).setBlockName("ash_digamma").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setResistance(150.0F).setBlockTextureName(RefStrings.MODID + ":ash_digamma");
 		sand_boron = new BlockFalling(Material.sand).setBlockName("sand_boron").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_boron");
 		sand_lead = new BlockFalling(Material.sand).setBlockName("sand_lead").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_lead");
 		sand_uranium = new BlockFalling(Material.sand).setBlockName("sand_uranium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_uranium");
@@ -1387,6 +1389,7 @@ public class ModBlocks {
 		glass_uranium = new BlockNTMGlass(1, RefStrings.MODID + ":glass_uranium", Material.glass).setBlockName("glass_uranium").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_trinitite = new BlockNTMGlass(1, RefStrings.MODID + ":glass_trinitite", Material.glass).setBlockName("glass_trinitite").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_polonium = new BlockNTMGlass(1, RefStrings.MODID + ":glass_polonium", Material.glass).setBlockName("glass_polonium").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
+		glass_ash = new BlockNTMGlass(1, RefStrings.MODID + ":glass_ash", Material.glass).setBlockName("glass_ash").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(3F);
 
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
@@ -1731,6 +1734,7 @@ public class ModBlocks {
 		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		rbmk_rod = new RBMKRod().setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_control = new RBMKControl().setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
@@ -2329,6 +2333,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_richard, turret_richard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_howard, turret_howard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_maxwell, turret_maxwell.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_fritz, turret_fritz.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
@@ -2387,6 +2392,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(glass_uranium, glass_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_trinitite, glass_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_polonium, glass_polonium.getUnlocalizedName());
+		GameRegistry.registerBlock(glass_ash, glass_ash.getUnlocalizedName());
 		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());

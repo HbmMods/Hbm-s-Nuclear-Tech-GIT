@@ -107,7 +107,7 @@ public class GunGrenadeFactory {
 		bullet.trail = 0;
 		bullet.incendiary = 2;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
 		return bullet;
 	}

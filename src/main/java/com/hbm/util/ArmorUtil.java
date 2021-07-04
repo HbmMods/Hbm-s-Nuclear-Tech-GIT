@@ -278,6 +278,9 @@ public class ArmorUtil {
 		if(checkArmorPiece(player, ModItems.goggles, 3)) {
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.ashglasses, 3)) {
+			return true;
+		}
 		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3)) {
 			return true;
 		}

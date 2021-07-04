@@ -849,6 +849,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_fritz: {
+			if(entity instanceof TileEntityTurretFritz) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretFritz) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1681,6 +1688,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_anvil: {
 			if(world.getBlock(x, y, z) instanceof NTMAnvil) {
 				return new GUIAnvil(player.inventory);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_fritz: {
+			if(entity instanceof TileEntityTurretFritz) {
+				return new GUITurretFritz(player.inventory, (TileEntityTurretFritz) entity);
 			}
 			return null;
 		}

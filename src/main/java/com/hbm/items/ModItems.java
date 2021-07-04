@@ -1400,6 +1400,9 @@ public class ModItems {
 	public static Item ammo_50bmg_du;
 	public static Item ammo_50bmg_star;
 	public static Item ammo_50bmg_chlorophyte;
+	public static Item ammo_50bmg_flechette;
+	public static Item ammo_50bmg_flechette_am;
+	public static Item ammo_50bmg_flechette_po;
 	public static Item ammo_50bmg_sleek;
 	public static Item ammo_75bolt;
 	public static Item ammo_75bolt_incendiary;
@@ -1495,6 +1498,7 @@ public class ModItems {
 	public static Item gun_revolver_nopip_ammo;
 	public static Item gun_deagle;
 	public static Item gun_flechette;
+	public static Item gun_ar15;
 	public static Item gun_calamity;
 	public static Item gun_calamity_dual;
 	public static Item gun_calamity_ammo;
@@ -1803,6 +1807,7 @@ public class ModItems {
 	public static Item euphemium_stopper;
 
 	public static Item goggles;
+	public static Item ashglasses;
 	public static Item gas_mask;
 	public static Item gas_mask_m65;
 	public static Item gas_mask_mono;
@@ -3323,21 +3328,21 @@ public class ModItems {
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
 		rbmk_fuel_ueu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ueu)
 				.setYield(100000000D)
-				.setStats(75)
+				.setStats(15)
 				.setFunction(EnumBurnFunc.PLATEU)
 				.setMeltingPoint(2865)
 				.addRadiation(ItemHazard.u * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_ueu").setTextureName(RefStrings.MODID + ":rbmk_fuel_ueu");
 		rbmk_fuel_meu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_meu)
 				.setYield(100000000D)
-				.setStats(150)
+				.setStats(20)
 				.setFunction(EnumBurnFunc.LOG_TEN)
 				.setMeltingPoint(2865)
 				.addRadiation(ItemHazard.uf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_meu").setTextureName(RefStrings.MODID + ":rbmk_fuel_meu");
 		rbmk_fuel_heu233 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_heu233)
 				.setYield(100000000D)
-				.setStats(215)
+				.setStats(50)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(1.25D)
 				.setMeltingPoint(2865)
@@ -3345,27 +3350,28 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_heu233").setTextureName(RefStrings.MODID + ":rbmk_fuel_heu233");
 		rbmk_fuel_heu235 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_heu235)
 				.setYield(100000000D)
-				.setStats(200)
+				.setStats(40)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setMeltingPoint(2865)
 				.addRadiation(ItemHazard.u233 * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_heu235").setTextureName(RefStrings.MODID + ":rbmk_fuel_heu235");
 		rbmk_fuel_thmeu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_thmeu)
 				.setYield(100000000D)
-				.setStats(75)
-				.setFunction(EnumBurnFunc.LOG_TEN)
+				.setStats(10)
+				.setFunction(EnumBurnFunc.PLATEU)
 				.setMeltingPoint(3350)
 				.addRadiation(ItemHazard.thf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_thmeu").setTextureName(RefStrings.MODID + ":rbmk_fuel_thmeu");
 		rbmk_fuel_lep = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lep)
 				.setYield(100000000D)
-				.setStats(200)
+				.setStats(35)
+				.setFunction(EnumBurnFunc.LOG_TEN)
 				.setMeltingPoint(2744)
 				.addRadiation(ItemHazard.puf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_lep").setTextureName(RefStrings.MODID + ":rbmk_fuel_lep");
 		rbmk_fuel_mep = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mep)
 				.setYield(100000000D)
-				.setStats(215, 20)
+				.setStats(35, 20)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(1.25D)
 				.setMeltingPoint(2744)
@@ -3373,7 +3379,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_mep").setTextureName(RefStrings.MODID + ":rbmk_fuel_mep");
 		rbmk_fuel_hep239 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hep239)
 				.setYield(100000000D)
-				.setStats(250)
+				.setStats(30)
 				.setFunction(EnumBurnFunc.LINEAR)
 				.setHeat(1.5D)
 				.setMeltingPoint(2744)
@@ -3381,7 +3387,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_hep").setTextureName(RefStrings.MODID + ":rbmk_fuel_hep");
 		rbmk_fuel_hep241 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hep241)
 				.setYield(100000000D)
-				.setStats(280)
+				.setStats(40)
 				.setFunction(EnumBurnFunc.LINEAR)
 				.setHeat(1.75D)
 				.setMeltingPoint(2744)
@@ -3389,7 +3395,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_hep241").setTextureName(RefStrings.MODID + ":rbmk_fuel_hep241");
 		rbmk_fuel_lea = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lea)
 				.setYield(100000000D)
-				.setStats(250, 10)
+				.setStats(60, 10)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(1.5D)
 				.setMeltingPoint(2386)
@@ -3397,7 +3403,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_lea").setTextureName(RefStrings.MODID + ":rbmk_fuel_lea");
 		rbmk_fuel_mea = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mea)
 				.setYield(100000000D)
-				.setStats(275, 20)
+				.setStats(0.35D, 20)
 				.setFunction(EnumBurnFunc.ARCH)
 				.setHeat(1.75D)
 				.setMeltingPoint(2386)
@@ -3405,7 +3411,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_mea").setTextureName(RefStrings.MODID + ":rbmk_fuel_mea");
 		rbmk_fuel_hea242 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hea242)
 				.setYield(100000000D)
-				.setStats(300)
+				.setStats(45)
 				.setFunction(EnumBurnFunc.LINEAR)
 				.setHeat(2D)
 				.setMeltingPoint(2386)
@@ -3413,7 +3419,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_hea242").setTextureName(RefStrings.MODID + ":rbmk_fuel_hea242");
 		rbmk_fuel_men = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_men)
 				.setYield(100000000D)
-				.setStats(175)
+				.setStats(45)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setMeltingPoint(2800)
 				.setNeutronTypes(NType.FAST, NType.FAST)
@@ -3421,7 +3427,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_men").setTextureName(RefStrings.MODID + ":rbmk_fuel_men");
 		rbmk_fuel_mox = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mox)
 				.setYield(100000000D)
-				.setStats(130)
+				.setStats(40)
 				.setFunction(EnumBurnFunc.LOG_TEN)
 				.setHeat(1.5D)
 				.setMeltingPoint(2815)
@@ -3429,7 +3435,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_mox").setTextureName(RefStrings.MODID + ":rbmk_fuel_mox");
 		rbmk_fuel_les = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_les)
 				.setYield(100000000D)
-				.setStats(150)
+				.setStats(50)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(1.25D)
 				.setMeltingPoint(2500)
@@ -3437,7 +3443,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_les").setTextureName(RefStrings.MODID + ":rbmk_fuel_les");
 		rbmk_fuel_mes = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mes)
 				.setYield(100000000D)
-				.setStats(200)
+				.setStats(0.75D)
 				.setFunction(EnumBurnFunc.ARCH)
 				.setHeat(1.5D)
 				.setMeltingPoint(2750)
@@ -3445,7 +3451,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_mes").setTextureName(RefStrings.MODID + ":rbmk_fuel_mes");
 		rbmk_fuel_hes = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hes)
 				.setYield(100000000D)
-				.setStats(250)
+				.setStats(90)
 				.setFunction(EnumBurnFunc.LINEAR)
 				.setHeat(1.75D)
 				.setMeltingPoint(3000)
@@ -3453,19 +3459,19 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_hes").setTextureName(RefStrings.MODID + ":rbmk_fuel_hes");
 		rbmk_fuel_leaus = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_leaus)
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(30)
 				.setFunction(EnumBurnFunc.SIGMOID)
 				.setHeat(1.5D)
 				.setMeltingPoint(7029).setUnlocalizedName("rbmk_fuel_leaus").setTextureName(RefStrings.MODID + ":rbmk_fuel_leaus");
 		rbmk_fuel_heaus = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_heaus)
 				.setYield(100000000D)
-				.setStats(100)
+				.setStats(35)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(2D)
 				.setMeltingPoint(5211).setUnlocalizedName("rbmk_fuel_heaus").setTextureName(RefStrings.MODID + ":rbmk_fuel_heaus");
 		rbmk_fuel_po210be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_po210be)
-				.setYield(100000000D)
-				.setStats(20, 40)
+				.setYield(1000000D)
+				.setStats(15, 40)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(0.1D)
 				.setDiffusion(0.05D)
@@ -3474,7 +3480,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_po210be").setTextureName(RefStrings.MODID + ":rbmk_fuel_po210be");
 		rbmk_fuel_ra226be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ra226be)
 				.setYield(100000000D)
-				.setStats(0D, 40)
+				.setStats(0D, 20)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setHeat(0.05D)
 				.setDiffusion(0.5D)
@@ -3482,8 +3488,8 @@ public class ModItems {
 				.addRadiation(ItemHazard.rabe * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_ra226be").setTextureName(RefStrings.MODID + ":rbmk_fuel_ra226be");
 		rbmk_fuel_pu238be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_pu238be)
-				.setYield(100000000D)
-				.setStats(40, 35)
+				.setYield(10000000D)
+				.setStats(10, 50)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(0.1D)
 				.setDiffusion(0.05D)
@@ -3499,7 +3505,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_balefire_gold").setTextureName(RefStrings.MODID + ":rbmk_fuel_balefire_gold");
 		rbmk_fuel_balefire = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_balefire)
 				.setYield(100000000D)
-				.setStats(300, 35)
+				.setStats(100, 35)
 				.setFunction(EnumBurnFunc.LINEAR)
 				.setHeat(3D)
 				.setMeltingPoint(3652)
@@ -3847,6 +3853,9 @@ public class ModItems {
 		ammo_50bmg_du = new ItemAmmo().setUnlocalizedName("ammo_50bmg_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_du");
 		ammo_50bmg_star = new ItemAmmo().setUnlocalizedName("ammo_50bmg_star").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_star");
 		ammo_50bmg_chlorophyte = new ItemAmmo().setUnlocalizedName("ammo_50bmg_chlorophyte").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_chlorophyte");
+		ammo_50bmg_flechette = new ItemAmmo().setUnlocalizedName("ammo_50bmg_flechette").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_flechette");
+		ammo_50bmg_flechette_am = new ItemAmmo().setUnlocalizedName("ammo_50bmg_flechette_am").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_flechette_am");
+		ammo_50bmg_flechette_po = new ItemAmmo().setUnlocalizedName("ammo_50bmg_flechette_po").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_flechette_po");
 		ammo_50bmg_sleek = new ItemAmmo().setUnlocalizedName("ammo_50bmg_sleek").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_sleek");
 		ammo_75bolt = new ItemAmmo().setUnlocalizedName("ammo_75bolt").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(8).setTextureName(RefStrings.MODID + ":ammo_75bolt");
 		ammo_75bolt_incendiary = new ItemAmmo().setUnlocalizedName("ammo_75bolt_incendiary").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(8).setTextureName(RefStrings.MODID + ":ammo_75bolt_incendiary");
@@ -3956,6 +3965,7 @@ public class ModItems {
 		gun_revolver_red = new ItemGunBase(Gun44MagnumFactory.getRedConfig()).setUnlocalizedName("gun_revolver_red").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_red");
 		gun_deagle = new ItemGunBase(Gun50AEFactory.getDeagleConfig()).setUnlocalizedName("gun_deagle").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_deagle");
 		gun_flechette = new ItemGunBase(Gun556mmFactory.getSPIWConfig(), Gun556mmFactory.getGLauncherConfig()).setUnlocalizedName("gun_flechette").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_flechette");
+		gun_ar15 = new ItemGunBase(Gun50BMGFactory.getAR15Config()).setUnlocalizedName("gun_ar15").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_ar15");
 		gun_calamity_ammo = new ItemCustomLore().setUnlocalizedName("gun_calamity_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_calamity_ammo");
 		gun_calamity = new ItemGunBase(Gun50BMGFactory.getCalamityConfig()).setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
 		gun_calamity_dual = new ItemGunBase(Gun50BMGFactory.getSaddleConfig()).setUnlocalizedName("gun_calamity_dual").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity_dual");
@@ -4418,6 +4428,7 @@ public class ModItems {
 		euphemium_boots = new ArmorEuphemium(MainRegistry.aMatEuph, 6, 3).setUnlocalizedName("euphemium_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_boots");
 		
 		goggles = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("goggles").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":goggles");
+		ashglasses = new ArmorAshGlasses(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("ashglasses").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ashglasses");
 		gas_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask");
 		gas_mask_m65 = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask_m65").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask_m65");
 		gas_mask_mono = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask_mono").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask_mono");
@@ -6523,6 +6534,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_red, gun_revolver_red.getUnlocalizedName());
 		GameRegistry.registerItem(gun_deagle, gun_deagle.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flechette, gun_flechette.getUnlocalizedName());
+		GameRegistry.registerItem(gun_ar15, gun_ar15.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity, gun_calamity.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity_dual, gun_calamity_dual.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
@@ -6704,6 +6716,9 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_50bmg_du, ammo_50bmg_du.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg_star, ammo_50bmg_star.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg_chlorophyte, ammo_50bmg_chlorophyte.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_50bmg_flechette, ammo_50bmg_flechette.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_50bmg_flechette_am, ammo_50bmg_flechette_am.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_50bmg_flechette_po, ammo_50bmg_flechette_po.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg_sleek, ammo_50bmg_sleek.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_75bolt, ammo_75bolt.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_75bolt_incendiary, ammo_75bolt_incendiary.getUnlocalizedName());
@@ -7203,6 +7218,7 @@ public class ModItems {
 		
 		//Conventional Armor
 		GameRegistry.registerItem(goggles, goggles.getUnlocalizedName());
+		GameRegistry.registerItem(ashglasses, ashglasses.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask_m65, gas_mask_m65.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask_mono, gas_mask_mono.getUnlocalizedName());

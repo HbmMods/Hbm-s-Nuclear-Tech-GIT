@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
@@ -59,9 +60,12 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -94,6 +98,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -430,6 +435,31 @@ public class ModEventHandler {
 		}
 		
 		EntityEffectHandler.onUpdate(event.entityLiving);
+	}
+
+	public static int currentBrightness = 0;
+	public static int lastBrightness = 0;
+	
+	@SubscribeEvent
+	public void clentTick(ClientTickEvent event) {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if(mc.theWorld == null || mc.thePlayer == null)
+			return;
+		
+		if(event.phase == Phase.START && event.side == Side.CLIENT) {
+			if(BlockAshes.ashes > 256)
+				BlockAshes.ashes = 256;
+			
+			if(BlockAshes.ashes > 0)
+				BlockAshes.ashes -= 2;
+			
+			if(mc.theWorld.getTotalWorldTime() % 20 == 0) {
+				this.lastBrightness = this.currentBrightness;
+				currentBrightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
+			}
+		}
 	}
 	
 	@SubscribeEvent

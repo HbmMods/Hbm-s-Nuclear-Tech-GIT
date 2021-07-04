@@ -692,6 +692,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.magnetron, 16),
 				new ComparableStack(ModItems.ingot_tcalloy, 8)
 			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_fritz, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_dura_steel, 4),
+				new ComparableStack(ModItems.motor, 3),
+				new ComparableStack(ModItems.circuit_targeting_tier3, 1),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.mechanism_launcher_1, 1),
+				new ComparableStack(ModBlocks.barrel_steel, 1)
+			}, 200);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_silex, 1), new AStack[] {
 				new ComparableStack(Blocks.glass, 12),
 				new ComparableStack(ModItems.motor, 2),
