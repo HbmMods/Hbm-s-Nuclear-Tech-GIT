@@ -97,14 +97,15 @@ public class Gun50BMGFactory {
 	{
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 20;
+		config.rateOfFire = 15;
+		config.reloadDuration = 10;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.roundsPerCycle = 1;
 		config.firingSound = "hbm:weapon.schrabidiumShoot";
-		config.ammoCap = 5;
+		config.ammoCap = 6;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.crosshair = Crosshair.L_CLASSIC;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.reloadSoundEnd = true;
 		config.durability = 15000;

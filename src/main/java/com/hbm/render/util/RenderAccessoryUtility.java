@@ -41,7 +41,7 @@ public class RenderAccessoryUtility {
 
 		if(uuid.equals(Library.HbMinecraft)) {
 			
-			if(MainRegistry.polaroidID == 11)
+			if(MainRegistry.isPolaroid11)
 				return hbm;
 			else
 				return hbm2;

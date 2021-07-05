@@ -145,41 +145,14 @@ public class GunEnergyFactory {
 		config.ammoCap = 16;// Subject to change
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = false;
-		config.damage = EnumChatFormatting.BOLD + "As much as it needs";
-		config.crosshair = Crosshair.L_CROSS;
+		config.damage = EnumChatFormatting.BOLD + "A lot";
+		config.crosshair = Crosshair.L_SPLIT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.TWR_RAY);
 		
 		config.name = "Time Warp Rifle";
 		config.manufacturer = "Lunar Defense Corp";
-		//config.comment.add(EnumChatFormatting.ITALIC + "\"Testing\"");
-//		switch (randLore)
-//		{
-//		case 0:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"You can't dodge a bullet that's already hit.\"");
-//			break;
-//		case 1:
-//			config.comment.add("\"Where's the exit!?\"");
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + EnumChatFormatting.ITALIC + "\"Nowhere.\"");
-//			break;
-//		case 2:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"I'm not about to let a little fly like you get away.\"");
-//			break;
-//		case 3:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Eclipse, eclipse, under the sky!");
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Shatter into a million shards of light!\"");
-//			break;
-//		case 4:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"One must fall before one must ascend!\"");
-//			break;
-//		case 5:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"The entrance, and the exit, are an endless loop.\"");
-//			break;
-//		case 6:
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "\"Loud, furious...");
-//			config.comment.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "...and signifying nothing as it passes from this world.\"");
-//		}
 		String[] lore = I18nUtil.resolveKeyArray("item.gun_twr.desc." + randLore);
 		for (String s : lore)
 			config.comment.add(EnumChatFormatting.ITALIC + s);
@@ -207,7 +180,7 @@ public class GunEnergyFactory {
 		config.advFuncLore.add("Finally is the \"Heisenberg Uncertainty Scope\" (nick. Schrödinger's Looking Glass).");
 		config.advFuncLore.add("In layman's terms, it is like a portable Schrödinger's box and it is used to determine");
 		config.advFuncLore.add("the fate of the target to ensure termination or at the very least, delivery.");
-		if (MainRegistry.polaroidID == 11)
+		if (MainRegistry.isPolaroid11)
 		{
 			config.advFuncLore.add("...");
 			config.advFuncLore.add(EnumChatFormatting.STRIKETHROUGH + "Jk, we have no idea how it works");
@@ -229,6 +202,7 @@ public class GunEnergyFactory {
 		config.durability = 100000000;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = false;
+		config.hasSights = true;
 		config.damage = "Main: 15 - 18; Alt: 20 - 25";
 		config.crosshair = Crosshair.L_CROSS;
 		config.firingSound = "hbm:weapon.osiprShoot";
@@ -248,10 +222,35 @@ public class GunEnergyFactory {
 	public static GunConfigurationEnergy getHLRSecondConfig()
 	{
 		GunConfigurationEnergy config = new GunEnergyFactory().getHLRMainConfig();
-		config.ammoRate = 25000000;
+		config.ammoRate = 250000000;
+		config.rateOfFire = 3;
 		//config.firingSound = "hbm:weapon.zomgShoot";
 		config.config.clear();
 		config.config.add(BulletConfigSyncingUtil.HLR_ALT);
+		return config;
+	}
+	
+	public static GunConfigurationEnergy getLunaticConfig()
+	{
+		GunConfigurationEnergy config = new GunConfigurationEnergy();
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 1;
+		config.ammoCap = 100000000L;
+		config.ammoRate = 1000000;
+		config.chargeRate = 1000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = 0;
+		config.durability = 100000;
+		config.allowsInfinity = false;
+		config.hasSights = false;
+		
+		config.damage = "15 - 18";
+		config.crosshair = Crosshair.CLASSIC;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.name = "1958 Lunatic Gun (Revised)";
+		config.manufacturer = "Lunar Defense Corp";
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
 		return config;
 	}
 	
@@ -493,12 +492,13 @@ public class GunEnergyFactory {
 		bullet.spread = 0.0F;
 		bullet.wear = 1000;
 		
-		bullet.dmgMax = 400000;
-		bullet.dmgMin = 300000;
+		bullet.dmgMax = 20000;
+		bullet.dmgMin = 10000;
 		
 		bullet.gravity = 0D;
 		bullet.maxAge = 400;
 		
+		bullet.caustic = 100;
 		bullet.doesRicochet = false;
 		bullet.doesPenetrate = true;
 		//bullet.isSpectral = true;
@@ -514,6 +514,42 @@ public class GunEnergyFactory {
 		//bullet.style = BulletConfiguration.STYLE_ORB;
 		bullet.trail = 1;
 
+		return bullet;
+	}
+	public static BulletConfiguration getRegSingConfig()
+	{
+		BulletConfiguration bullet = GunEnergyFactory.getSingConfig();
+		
+		bullet.ammo = ModItems.singularity;
+		bullet.ammoCount = 100;
+		
+		return bullet;
+	}
+	public static BulletConfiguration getSuperheatedSingConfig()
+	{
+		BulletConfiguration bullet = GunEnergyFactory.getRegSingConfig();
+		
+		bullet.ammo = ModItems.singularity_super_heated;
+		bullet.dmgMax += 40000;
+		bullet.dmgMin += 40000;
+		bullet.incendiary = 100;
+		bullet.effects.add(new PotionEffect(HbmPotion.phosphorus.id, 60 * 20, 4));
+		
+		return bullet;
+	}
+	public static BulletConfiguration getCounterResonantSingConfig()
+	{
+		BulletConfiguration bullet = GunEnergyFactory.getRegSingConfig();
+		
+		bullet.ammo = ModItems.singularity_counter_resonant;
+		bullet.ammoCount = 500;
+		bullet.velocity *= 2;
+		bullet.isSpectral = true;
+		bullet.doesBreakGlass = false;
+		bullet.destroysBlocks = false;
+		bullet.incendiary = 0;
+		bullet.instakill = true;
+		
 		return bullet;
 	}
 	/** Main fire bullet **/

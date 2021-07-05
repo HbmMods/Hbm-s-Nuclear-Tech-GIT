@@ -59,7 +59,7 @@ public class HbmCollection
 	/** MISSILE KIT **/
 	public static ItemStack[] missileKit;
 	/** T45 POWER ARMOR KIT **/
-	public static ItemStack[] t45Kit = new ItemStack[11];
+	public static ItemStack[] t45Kit;
 	/** EUPHEMIUM KIT **/
 	public static ItemStack[] euphemiumKit;
 	/** FLOPPY DISC 10-PACK **/
@@ -77,7 +77,7 @@ public class HbmCollection
 	public static final AmmoItemTrait[] ExplosiveType = new AmmoItemTrait[] {AmmoItemTrait.PRO_EXPLOSIVE, AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.CON_HEAVY_WEAR};
 	public static final AmmoItemTrait[] DUType = new AmmoItemTrait[] {AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_HEAVY_WEAR};
 	public static final AmmoItemTrait[] StarmetalType = new AmmoItemTrait[] {AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.CON_HEAVY_WEAR};
-	public static final AmmoItemTrait[] ChlorophyteType = new AmmoItemTrait[] {AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_PENETRATION};
+	public static final AmmoItemTrait[] ChlorophyteType = new AmmoItemTrait[] {AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_WEAR, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_PENETRATION};
 
 	/// BULLET COLLECTIONS
 	// SHOTGUNS
@@ -134,6 +134,11 @@ public class HbmCollection
 	public static final String hot = "trait.hot";
 	public static final String hydro = "trait.hydro";
 	public static final String radioactive = "trait.radioactive";
+	// BATTERY
+	public static final String charge = "desc.item.battery.charge";
+	public static final String chargePerc = "desc.item.battery.chargePerc";
+	public static final String chargeRate = "desc.item.battery.chargeRate";
+	public static final String dischargeRate = "desc.item.battery.dischargeRate";
 	// SAVED POSITIONS
 	public static final String noPos = "desc.misc.noPos";
 	public static final String pos = "desc.misc.pos";
@@ -141,8 +146,15 @@ public class HbmCollection
 	public static final String tarCoord = "desc.misc.tarCoord";
 	public static final String tarSet = "desc.misc.tarSet";
 	// MISC
+	public static final String capacity = "desc.block.barrel.capacity";
 	public static final String durability = "desc.item.durability";
 	public static final String meltPoint = "desc.misc.meltPoint";
+	public static final String lctrl = "desc.misc.lctrl";
+	public static final String lshift = "desc.misc.lshift";
+	/** LORE HEADING **/
+	public static final String lore = "desc.misc.lore";
+	/** "FUNCTION" HEADING **/
+	public static final String func = "desc.misc.func";
 	/** Do AFTER blocks and items are initialized  **/
 	public static void initKits()
 	{
@@ -429,11 +441,14 @@ public class HbmCollection
 						new ItemStack(ModItems.missile_emp),
 				};
 		// MISC KITS
-		t45Kit[0] = new ItemStack(ModItems.t45_helmet);// FIXME Crashes game, but still technically works
-		t45Kit[1] = new ItemStack(ModItems.t45_plate);
-		t45Kit[2] = new ItemStack(ModItems.t45_legs);
-		t45Kit[3] = new ItemStack(ModItems.t45_boots);
-		Arrays.fill(t45Kit, 4, 10, ItemBattery.getFullBattery(ModItems.fusion_core));
+		t45Kit = new ItemStack[]
+				{
+						new ItemStack(ModItems.t45_helmet),
+						new ItemStack(ModItems.t45_plate),
+						new ItemStack(ModItems.t45_legs),
+						new ItemStack(ModItems.t45_boots),
+						new ItemStack(ModItems.fusion_core, 7)
+				};
 		euphemiumKit = new ItemStack[]
 				{
 						new ItemStack(ModItems.euphemium_helmet),
@@ -444,8 +459,14 @@ public class HbmCollection
 						new ItemStack(ModItems.gun_revolver_cursed),
 						new ItemStack(ModItems.watch),
 				};
-		Arrays.fill(fddPack, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd));// FIXME
-		Arrays.fill(cdPack, ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd));// FIXME
+		ItemStack fdd = ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd);
+		ItemStack cd = ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd);
+		fdd.stackSize = 10;
+		cd.stackSize = 8;
+		fddPack = new ItemStack[] {fdd};
+		cdPack = new ItemStack[] {cd};
+//		Arrays.fill(fddPack, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd));
+//		Arrays.fill(cdPack, ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd));
 		lunarKit = new ItemStack[]
 				{
 						new ItemStack(ModItems.bj_helmet),
@@ -454,7 +475,6 @@ public class HbmCollection
 						new ItemStack(ModItems.bj_boots),
 						new ItemStack(ModItems.grenade_lunatic, 8),
 						new ItemStack(ModItems.ammo_grenade_lunatic, 8),
-						new ItemStack(ModItems.can_luna, 8),
 						new ItemStack(ModItems.ingot_starmetal, 32),
 						new ItemStack(ModItems.crystal_starmetal, 8),
 						new ItemStack(ModItems.pancake, 8),

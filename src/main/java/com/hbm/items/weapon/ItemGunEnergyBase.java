@@ -15,6 +15,7 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
@@ -23,6 +24,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -71,14 +73,11 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		chargeRate = mainConfig.chargeRate;
 		
 	}
-	
+	// FIXME not working anymore
 	@Override
 	public boolean hasAmmo(ItemStack stack, EntityPlayer player, boolean main)
 	{
-		if (main)
-			return getCharge(stack) >= mainConfig.ammoRate;
-		else
-			return getCharge(stack) >= altConfig.ammoRate;
+		return getCharge(stack) >= (main ? mainConfig.ammoRate : altConfig.ammoRate);
 	}
 	
 	@Override
@@ -90,9 +89,8 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		long gunCurrentCharge = getGunCharge(stack);
 		String gunChargeMaxString = Library.getShortNumber(gunChargeMax);
 		String gunCurrentChargeString = Library.getShortNumber(gunCurrentCharge);
-		Item ammo = ModItems.battery_creative;
-		list.add(String.format("Charge: %s / %sHE", gunCurrentChargeString, gunChargeMaxString));
-		list.add(String.format("Charge rate: %sHE/tick", Library.getShortNumber(chargeRate)));
+		list.add(I18nUtil.resolveKey(HbmCollection.charge, gunCurrentChargeString, gunChargeMaxString));
+		list.add(I18nUtil.resolveKey(HbmCollection.chargeRate, Library.getShortNumber(chargeRate)));
 		list.add(String.format("Ammo: %s / %s", Math.floorDiv(gunCurrentCharge, mainConfigEnergy.ammoRate), Math.floorDiv(gunChargeMax, mainConfigEnergy.ammoRate)));
 		list.add(String.format("Ammo Type: Energy; %sHE per shot%s", Library.getShortNumber(mainConfigEnergy.ammoRate), altConfig != null ? "; " + Library.getShortNumber(altConfigEnergy.ammoRate) + "HE per alt shot" : ""));
 		if (mainConfig.damage != "" || !mainConfig.damage.isEmpty())
@@ -102,58 +100,16 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		if (dura < 0)
 			dura = 0;
 		
-		list.add("Durability: " + dura + " / " + mainConfig.durability);
-		list.add("");
-		list.add("Name: " + mainConfig.name);
-		list.add("Manufacturer: " + mainConfig.manufacturer);
-		if (!mainConfig.comment.isEmpty())
-			list.add("");
-			for (String s : mainConfig.comment)
-				list.add(EnumChatFormatting.ITALIC + s);
-		
-		if(GeneralConfig.enableExtendedLogging)
-		{
-			list.add("");
-			list.add("Type: " + getMagType(stack));
-			list.add("Is Reloading: " + getIsReloading(stack));
-			list.add("Reload Cycle: " + getReloadCycle(stack));
-			list.add("RoF Cooldown: " + getDelay(stack));
-		}
-		if (!mainConfig.advLore.isEmpty() || !mainConfig.advFuncLore.isEmpty())
-			list.add("");
-		
-		if (!mainConfig.advLore.isEmpty())
-			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
-		
-		if (!mainConfig.advFuncLore.isEmpty())
-			list.add(String.format("%s%sHold <%sLCTRL%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
-	
-		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-		{
-			list.clear();
-			list.add(EnumChatFormatting.YELLOW + "-- Lore --");
-			for (String s : mainConfig.advLore)
-				list.add(s);
-		}
-		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
-		{
-			list.clear();
-			list.add(EnumChatFormatting.YELLOW + "-- Function --");
-			for (String s : mainConfig.advFuncLore)
-				list.add(s);
-		}
-
+		addAdditionalInformation(stack, list, dura);
 	}
 
 	@Override
 	public void useUpAmmo(EntityPlayer player, ItemStack stack, boolean main)
 	{
-		GunConfigurationEnergy config = mainConfig;
-		if (!main && altConfig == null)
-			return;
+		GunConfigurationEnergy config = (main ? mainConfig : (altConfig != null ? altConfig : null));
 		
-		if (!main)
-			config = altConfig;
+		if (config == null)
+			return;
 		
 		dischargeBattery(stack, config.ammoRate);
 	}
@@ -165,7 +121,7 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		useUpAmmo(player, stack, false);
 	}
 	
-	// TODO finish, probably should just import the code from gun batteries
+	// FIXME finish, probably should just import the code from gun batteries
 	@Override
 	protected void reload2(ItemStack stack, World world, EntityPlayer player)
 	{

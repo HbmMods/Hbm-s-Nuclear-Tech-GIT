@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -23,14 +24,16 @@ public class BlockCircuit extends Block {
 	public int strength;
 	/**
 	 * Construct a new circuit tier
-	 * @param mat - Material of the block, usually always iron
 	 * @param strength - Calculation strength
 	 */
-	public BlockCircuit(Material mat, int strength)
+	public BlockCircuit(int strength)
 	{
-		super(mat);
+		super(Material.iron);
 		setStepSound(soundTypeMetal);
 		this.strength = strength;
+		setCreativeTab(MainRegistry.machineTab);
+		setHardness(10.0F);
+		setResistance(2.5F);
 	}
 	
 	// Disassemble
@@ -123,7 +126,7 @@ public class BlockCircuit extends Block {
 		return true;
 	}
 	
-	public void dropItems(List<ItemStack> items, World world, int x, int y, int z)
+	private void dropItems(List<ItemStack> items, World world, int x, int y, int z)
 	{		
 		Random rand = new Random();
 		

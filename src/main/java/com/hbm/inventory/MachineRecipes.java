@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -49,12 +51,20 @@ public class MachineRecipes {
 		arcFurnaceRecipes.put(ModItems.powder_quartz, new ItemStack(Items.quartz));
 	}
 	
+	public Map<Object, Object> getArcFurnaceRecipes()
+	{
+		Map<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for (Entry<Item, ItemStack> instance : arcFurnaceRecipes.entrySet())
+			recipes.put(instance.getKey(), instance.getValue());
+		
+		return recipes;
+	}
+	
 	public static ItemStack getArcFurnaceResult(ItemStack stackIn)
 	{
 		if (stackIn != null)
-		{
 			return arcFurnaceRecipes.get(stackIn.getItem());
-		}
 		else
 			return null;
 	}

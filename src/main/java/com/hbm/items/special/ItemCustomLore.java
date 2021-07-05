@@ -43,7 +43,7 @@ public class ItemCustomLore extends Item
 			list.add(I18nUtil.resolveKey(basicLore));
 
 		String unloc;
-		if (MainRegistry.polaroidID == 11)
+		if (MainRegistry.isPolaroid11)
 			unloc = this.getUnlocalizedName() + ".desc.11";
 		else
 			unloc = this.getUnlocalizedName() + ".desc";
@@ -86,7 +86,20 @@ public class ItemCustomLore extends Item
 		if (special)
 			uloc += ".11";
 		String loc = I18nUtil.resolveKey(uloc);
-		return !(uloc == loc);
+		return !uloc.equals(loc);
+	}
+	
+	public static boolean getHasLore(Item item)
+	{
+		String uloc = item.getUnlocalizedName();
+		uloc += MainRegistry.isPolaroid11 ? ".desc.11" : ".desc";
+		String loc = I18nUtil.resolveKey(uloc);
+		if (loc.equals(uloc))
+			uloc = item.getUnlocalizedName() + ".desc";
+		else
+			return true;
+		loc = I18nUtil.resolveKey(uloc);
+		return !uloc.equals(loc);
 	}
 
     @Override

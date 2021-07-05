@@ -1,11 +1,18 @@
 package com.hbm.blocks.machine;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityBarrel;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -19,18 +26,115 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFluidBarrel extends BlockContainer {
 	
 	int capacity;
+	public List<String> tooltip = new ArrayList<String>();
+	private BarrelHold maxTier = BarrelHold.NONE;
+	private boolean isLeaky = false;
 
-	public BlockFluidBarrel(Material p_i45386_1_, int capacity) {
+	public BlockFluidBarrel(Material p_i45386_1_, int capacity, BarrelHold maxTier, boolean leaky) {
 		super(p_i45386_1_);
 		this.capacity = capacity;
+		this.maxTier = maxTier;
+		isLeaky = leaky;
+		makeTooltip();
 	}
-
+	
+	public static enum BarrelHold
+	{
+		NONE(""),
+		HOT_FLUID("desc.block.barrel.hotFluid"),
+		ACID("desc.block.barrel.acid"),
+		ACID_STRONG("desc.block.barrel.acidStrong"),
+		ACID_ALT("desc.block.barrel.acidAlt"),
+		ANTIMATTER("desc.block.barrel.antimatter");
+		private String key;
+		private BarrelHold(String string)
+		{
+			key = string;
+		}
+	}
+	
+	private String getLoc(BarrelHold type)
+	{
+		return I18nUtil.resolveKey(type.key);
+	}
+	
+	@Spaghetti("make it end")
+	private void makeTooltip()
+	{
+		final String store = "desc.block.barrel.store";
+		final String cannot = I18nUtil.resolveKey("desc.block.barrel.cannot");
+		final String can = I18nUtil.resolveKey("desc.block.barrel.can");
+		
+		boolean[] boolList = new boolean[5];
+		Arrays.fill(boolList, false);
+		
+		tooltip.add(I18nUtil.resolveKey(HbmCollection.capacity, NumberFormat.getIntegerInstance().format(capacity)));
+		
+		switch(maxTier)
+		{
+		case HOT_FLUID:
+			boolList[0] = true;// Hot fluids
+			boolList[1] = false;// Acids, but poorly
+			boolList[2] = false;// "Acids"
+			boolList[3] = false;// Strong acids
+			boolList[4] = false;// Antimatter
+			break;
+		case ACID_ALT:
+			boolList[0] = true;
+			boolList[1] = true;
+			boolList[2] = false;
+			boolList[3] = false;
+			boolList[4] = false;
+			break;
+		case ACID:
+			boolList[0] = true;
+			boolList[1] = false;
+			boolList[2] = true;
+			boolList[3] = false;
+			boolList[4] = false;
+			break;
+		case ACID_STRONG:
+			boolList[0] = true;
+			boolList[1] = false;
+			boolList[2] = true;
+			boolList[3] = true;
+			boolList[4] = false;
+			break;
+		case ANTIMATTER:
+			boolList[0] = true;
+			boolList[1] = false;
+			boolList[2] = true;
+			boolList[3] = true;
+			boolList[4] = true;
+			break;
+		default:
+			break;
+		}
+		
+		tooltip.add(I18nUtil.resolveKey(store, boolList[0] ? can : cannot, getLoc(BarrelHold.HOT_FLUID)));
+		if (boolList[3])
+			tooltip.add(I18nUtil.resolveKey(store, can, getLoc(BarrelHold.ACID_STRONG)));
+		else if (boolList[2])
+		{
+			tooltip.add(I18nUtil.resolveKey(store, can, getLoc(BarrelHold.ACID)));
+			tooltip.add(I18nUtil.resolveKey(store, isLeaky || boolList[4] ? can : cannot, getLoc(BarrelHold.ACID_STRONG)));
+		}
+		else if (boolList[1])
+			tooltip.add(I18nUtil.resolveKey(store, cannot, getLoc(BarrelHold.ACID_ALT)));
+		else
+			tooltip.add(I18nUtil.resolveKey(store, cannot, getLoc(BarrelHold.ACID)));
+		tooltip.add(I18nUtil.resolveKey(store, boolList[4] ? can : cannot, getLoc(BarrelHold.ANTIMATTER)));
+		if (isLeaky)
+			tooltip.add(I18nUtil.resolveKey("desc.block.barrel.leaky"));
+	}
+	
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityBarrel(capacity);

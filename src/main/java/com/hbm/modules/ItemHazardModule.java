@@ -1,6 +1,7 @@
 package com.hbm.modules;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import com.hbm.inventory.BreederRecipes;
@@ -112,11 +113,13 @@ public class ItemHazardModule {
 		if (this.radiation > 0)
 		{
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(HbmCollection.radioactive) + "]");
-			String rad = "" + (Math.floor(radiation * 1000) / 1000);
+			double rad = (Math.floor(radiation * 1000) / 1000);
 			double totalrad = (Math.floor(radiation * 1000) / 1000) * stack.stackSize;
-			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
+			String radFormatted = NumberFormat.getInstance().format(rad);
+			String totalRadFormatted = NumberFormat.getInstance().format(totalrad);
+			list.add(EnumChatFormatting.YELLOW + (radFormatted + "RAD/s"));
 			if (stack.stackSize > 1)
-				list.add(String.format("%s%sRAD/s total", EnumChatFormatting.YELLOW, totalrad));
+				list.add(String.format("%s%sRAD/s total", EnumChatFormatting.YELLOW, totalRadFormatted));
 		}
 		
 		if(this.fire > 0) {

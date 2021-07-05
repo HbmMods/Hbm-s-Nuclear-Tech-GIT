@@ -49,12 +49,12 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 				if(world.rand.nextInt(10) == 0)
 				{
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getFullMedium(ModItems.storage_magnetic_fdd_tainted, 1));
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getFullMedium(ModItems.storage_magnetic_fdd_tainted));
 				}
 				else
 				{
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(Items.book));
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd, 1));
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd));
 				}
 			}
 			break;

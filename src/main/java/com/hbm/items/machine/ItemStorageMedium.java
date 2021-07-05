@@ -146,10 +146,10 @@ public class ItemStorageMedium extends ItemCustomLore
 		MECHANICAL_BAD("con.mechanical"),
 		CAPACITY_POOR("con.capacity1"),
 		NAME("con.name");
-		public String key;
+		public String key = "storage.desc.";
 		private ProsConsList(String string)
 		{
-			key = string;
+			key += string;
 		}
 	}
 	
@@ -226,14 +226,6 @@ public class ItemStorageMedium extends ItemCustomLore
 		list.add(String.format("Write rate: %sbyte/s", Library.getShortNumber(writeRate)));
 		list.add(String.format("Read rate: %sbyte/s", Library.getShortNumber(readRate)));
 		
-//		for (EnumStorageItemTraits trait : EnumStorageItemTraits.values())
-//		{
-//			if (itemStack.stackTagCompound.getBoolean(trait.toString()))
-//			{
-//				this.traits.add(trait);
-//			}
-//		}
-
 		list.add("");
 		if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view pros/cons list", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
@@ -242,17 +234,17 @@ public class ItemStorageMedium extends ItemCustomLore
 			// There's probably a better way of doing this, I'll figure it out eventually, but until then, this'll do
 			// Get pros
 			for (ProsConsList trait : prosCons)
-				if (trait.key.substring(0, 3) == "pro")
-					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
+				if (trait.key.contains("pro"))
+					list.add(I18nUtil.resolveKey(EnumChatFormatting.BLUE + trait.key));
 			// Get neutral
 			for (ProsConsList trait : prosCons)
-				if (trait.key.substring(0, 3) == "neu")
-					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
+				if (trait.key.contains("neu"))
+					list.add(I18nUtil.resolveKey(EnumChatFormatting.YELLOW + trait.key));
 			// Get cons
 			for (ProsConsList trait : prosCons)
-				if (trait.key == "con")
-					list.add(I18nUtil.resolveKey("storage.desc." + trait.key));
-			}
+				if (trait.key.contains("con"))
+					list.add(I18nUtil.resolveKey(EnumChatFormatting.RED + trait.key));
+		}
 		
 	}
 	

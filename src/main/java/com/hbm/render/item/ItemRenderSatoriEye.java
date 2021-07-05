@@ -40,7 +40,7 @@ public class ItemRenderSatoriEye implements IItemRenderer
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		if (MainRegistry.polaroidID == 11)
+		if (MainRegistry.isPolaroid11)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.satori_eye_open_tex);
 		else
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.satori_eye_closed_tex);

@@ -28,7 +28,7 @@ public class ExplosionNukeSmall {
 			data.setString("type", "tinytot");
 		else
 			data.setString("type", "muke");
-		if(MainRegistry.polaroidID == 11 || world.rand.nextInt(100) == 0)
+		if(MainRegistry.isPolaroid11 || world.rand.nextInt(100) == 0)
 			data.setBoolean("balefire", true);
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 250));
 		world.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);

@@ -5,6 +5,7 @@ import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.machine.*;
+import com.hbm.blocks.machine.BlockFluidBarrel.BarrelHold;
 import com.hbm.blocks.network.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
@@ -15,6 +16,13 @@ import com.hbm.items.special.ItemOreBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretFriendly;
+import com.hbm.tileentity.turret.TileEntityTurretHoward;
+import com.hbm.tileentity.turret.TileEntityTurretJeremy;
+import com.hbm.tileentity.turret.TileEntityTurretRichard;
+import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.tileentity.turret.TileEntityTurretTsukuyomi;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -193,13 +201,21 @@ public class ModBlocks {
 	public static Block block_cap_sunset;
 	public static Block block_cap_star;
 
-	// Circuits, don't know where else they'd go ~ UFFR
+	/// Computer components
+	// CPUs
 	public static Block block_circuit_tier_1;
 	public static Block block_circuit_tier_2;
 	public static Block block_circuit_tier_3;
 	public static Block block_circuit_tier_4;
 	public static Block block_circuit_tier_5;
 	public static Block block_circuit_tier_6;
+	// AUX equipment
+	public static Block computer_hatch;
+	public static Block printer;// Will it be as awful as they are IRL? Probably, but not intentionally.
+	// Data storage blocks
+	public static Block storage_magnetic;// Like the tape drive but they actually do things
+	public static Block storage_aux_fdd;// FDD drive
+	public static Block storage_hdd;
 	
 	public static Block deco_titanium;
 	public static Block deco_red_copper;
@@ -860,6 +876,8 @@ public class ModBlocks {
 	public static final int guiID_richard = 108;
 	public static Block turret_howard;
 	public static final int guiID_howard = 112;
+	public static Block turret_tsukuyomi;
+	public static final int guiID_tsukuyomi = 113;
 
 	public static Block book_guide;
 
@@ -1134,13 +1152,15 @@ public class ModBlocks {
 		block_cap_star = new BlockCap(Material.iron, RefStrings.MODID + ":block_cap_star_top").setStepSound(Block.soundTypeMetal).setBlockName("block_cap_star").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":block_cap_star");
 		
 		// Circuits ~ UFFR
-		block_circuit_tier_1 = new BlockCircuit(Material.iron, 1).setBlockName("block_circuit_tier_1").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_1").setLightLevel(2.5F);
-		block_circuit_tier_2 = new BlockCircuit(Material.iron, 15).setBlockName("block_circuit_tier_2").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_2").setLightLevel(2.5F);
-		block_circuit_tier_3 = new BlockCircuit(Material.iron, 75).setBlockName("block_circuit_tier_3").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_3").setLightLevel(2.5F);
-		block_circuit_tier_4 = new BlockCircuit(Material.iron, 375).setBlockName("block_circuit_tier_4").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_4").setLightLevel(2.5F);
-		block_circuit_tier_5 = new BlockCircuit(Material.iron, 1875).setBlockName("block_circuit_tier_5").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_5").setLightLevel(2.5F);
-		block_circuit_tier_6 = new BlockCircuit(Material.iron, 9375).setBlockName("block_circuit_tier_6").setCreativeTab(MainRegistry.machineTab).setHardness(20.0F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_6").setLightLevel(2.5F);
-				
+		// TODO Finish, numbers are just placeholders too
+		block_circuit_tier_1 = new BlockCircuit(1).setBlockName("block_circuit_tier_1").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_1");
+		block_circuit_tier_2 = new BlockCircuit(15).setBlockName("block_circuit_tier_2").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_2");
+		block_circuit_tier_3 = new BlockCircuit(75).setBlockName("block_circuit_tier_3").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_3");
+		block_circuit_tier_4 = new BlockCircuit(375).setBlockName("block_circuit_tier_4").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_4");
+		block_circuit_tier_5 = new BlockCircuit(1875).setBlockName("block_circuit_tier_5").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_5");
+		block_circuit_tier_6 = new BlockCircuit(9375).setBlockName("block_circuit_tier_6").setBlockTextureName(RefStrings.MODID + ":circuit_block_tier_6");
+		//computer_hatch
+		
 		deco_titanium = new BlockOre(Material.iron).setBlockName("deco_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_titanium");
 		deco_red_copper = new BlockOre(Material.iron).setBlockName("deco_red_copper").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_red_copper");
 		deco_tungsten = new BlockOre(Material.iron).setBlockName("deco_tungsten").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_tungsten");
@@ -1428,11 +1448,11 @@ public class ModBlocks {
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
-		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
-		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
-		barrel_iron = new BlockFluidBarrel(Material.iron, 8000).setBlockName("barrel_iron").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_iron");
-		barrel_steel = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_steel").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_steel");
-		barrel_antimatter = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_antimatter").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_antimatter");
+		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000, BarrelHold.NONE, false).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
+		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000, BarrelHold.ACID, true).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
+		barrel_iron = new BlockFluidBarrel(Material.iron, 8000, BarrelHold.ACID_ALT, false).setBlockName("barrel_iron").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_iron");
+		barrel_steel = new BlockFluidBarrel(Material.iron, 16000, BarrelHold.ACID, false).setBlockName("barrel_steel").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_steel");
+		barrel_antimatter = new BlockFluidBarrel(Material.iron, 16000, BarrelHold.ANTIMATTER, false).setBlockName("barrel_antimatter").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_antimatter");
 
 		machine_transformer = new MachineTransformer(Material.iron, 10000L, 1).setBlockName("machine_transformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer_iron");
 		machine_transformer_dnt = new MachineTransformer(Material.iron, 1000000000000000L, 1).setBlockName("machine_transformer_dnt").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer");
@@ -1569,12 +1589,13 @@ public class ModBlocks {
 		turret_cwis = new TurretCIWS(Material.iron).setBlockName("turret_cwis").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":turret_cwis");
 		turret_cheapo = new TurretCheapo(Material.iron).setBlockName("turret_cheapo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":turret_cheapo");
 		
-		turret_chekhov = new TurretChekhov(Material.iron).setBlockName("turret_chekhov").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_friendly = new TurretFriendly(Material.iron).setBlockName("turret_friendly").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_jeremy = new TurretJeremy(Material.iron).setBlockName("turret_jeremy").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_chekhov = new TurretBaseNT(Material.iron, TileEntityTurretChekhov.class, guiID_chekhov).setBlockName("turret_chekhov").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_friendly = new TurretBaseNT(Material.iron, TileEntityTurretFriendly.class, guiID_friendly).setBlockName("turret_friendly").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_jeremy = new TurretBaseNT(Material.iron, TileEntityTurretJeremy.class, guiID_jeremy).setBlockName("turret_jeremy").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_tauon = new TurretBaseNT(Material.iron, TileEntityTurretTauon.class, guiID_tauon).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_richard = new TurretBaseNT(Material.iron, TileEntityTurretRichard.class, guiID_richard).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_howard = new TurretBaseNT(Material.iron, TileEntityTurretHoward.class, guiID_howard).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_tsukuyomi = new TurretBaseNT(Material.iron, TileEntityTurretTsukuyomi.class, guiID_tsukuyomi).setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -2097,6 +2118,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_tauon, turret_tauon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_richard, turret_richard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_howard, turret_howard.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_tsukuyomi, turret_tsukuyomi.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());

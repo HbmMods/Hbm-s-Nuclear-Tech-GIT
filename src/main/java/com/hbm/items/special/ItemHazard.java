@@ -26,9 +26,9 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//PU238		            88a		α	010.00Rad/s	Spicy
 	//PU239		        24,000a		α	005.00Rad/s
 	//PU240		         6,600a		α 	007.50Rad/s
-	//TS294				   51ms		α100000.00Rad/s AAAAAAAAAAAAA
+	//TS294				   51ms		α500000.00Rad/s AAAAAAAAAAAAA
 
-	public static final float au198 = MainRegistry.polaroidID == 11 ? 567.09F : 500.0F;// is le funi reference I swear
+	public static final float au198 = MainRegistry.isPolaroid11 ? 567.09F : 500.0F;// is le funi reference I swear
 	public static final float po210 = 75.0F;
 	public static final float ac227 = 25.0F;
 	public static final float th232 = 0.1F;

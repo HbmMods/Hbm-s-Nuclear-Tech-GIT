@@ -13,7 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemSpecialFloppy extends ItemStorageMedium
 {
-
+	// It will do something, eventually...
 	public ItemSpecialFloppy()
 	{
 		super((long)2.88, 0, 4000, true, EnumStorageItemType.SINGULARITY);

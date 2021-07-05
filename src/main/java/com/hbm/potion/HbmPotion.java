@@ -167,17 +167,13 @@ public class HbmPotion extends Potion {
 		}
 		if (this == paralysis)
 		{
-			//entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("7107DE5E-7CE8-4030-940E-514C1F160890", -entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue(), 1));
 			if (entity.getEntityAttribute(SharedMonsterAttributes.attackDamage) != null)
-			{
-				//entity.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier("22653B89-116E-49DC-9B6B-9971489B5BE5", -entity.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(), 1));
 				func_111184_a(SharedMonsterAttributes.attackDamage, "648D7064-6A60-4F59-8ABE-C2C23A6DD7A9", -100, 2);
-			}
+			
 			func_111184_a(SharedMonsterAttributes.movementSpeed, "7107DE5E-7CE8-4030-940E-514C1F160890", -100, 2);
+			
 			if (entity.motionY > 0)
-			{
 				entity.motionY = -2;
-			}
 		}
 		if (this == perforated)
 		{

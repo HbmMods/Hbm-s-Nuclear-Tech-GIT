@@ -21,6 +21,7 @@ public class EntityGrenadeFire extends EntityGrenadeBouncyBase
     public EntityGrenadeFire(World p_i1774_1_, EntityLivingBase p_i1774_2_)
     {
         super(p_i1774_1_, p_i1774_2_);
+        shooter = p_i1774_2_;
     }
 
     public EntityGrenadeFire(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemCustomLore;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +18,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemCanteen extends Item {
+public class ItemCanteen extends ItemCustomLore
+{
 
 	public ItemCanteen(int cooldown) {
 
@@ -72,40 +74,5 @@ public class ItemCanteen extends Item {
 
 		return stack;
 	}
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_)
-    {
-    	if(this == ModItems.canteen_13)
-    	{
-			list.add("Cooldown: 1 minute");
-			list.add("Restores 2.5 hearts");
-			list.add("");
-			
-    		if(MainRegistry.polaroidID == 11)
-    			list.add("You sip a sip from your trusty Vault 13 SIPPP");
-    		else
-    			list.add("You take a sip from your trusty Vault 13 canteen.");
-    	}
-    	if(this == ModItems.canteen_vodka)
-    	{
-			list.add("Cooldown: 3 minutes");
-			list.add("Nausea I for 10 seconds");
-			list.add("Strength III for 30 seconds");
-			list.add("");
-			
-    		if(MainRegistry.polaroidID == 11)
-    			//list.add("Why sipp when you can succ?");
-				list.add("Time to get hammered & sickled!");
-    		else
-    			list.add("Smells like disinfectant, tastes like disinfectant.");
-    	}
-    	if(this == ModItems.canteen_fab)
-    	{
-			list.add("Cooldown: 2 minutes");
-			list.add("Engages the fab drive");
-    	}
-    }
 
 }

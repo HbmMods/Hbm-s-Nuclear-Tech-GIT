@@ -22,6 +22,7 @@ import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -401,20 +402,22 @@ public class ModEventHandlerClient {
 				list.add("");
 			
 			if(entry.entry == EnumEntryType.ADD)
-				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+//				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(I18nUtil.resolveKey("desc.nuke.custom.add", entry.value, entry.type));
 
 			if(entry.entry == EnumEntryType.MULT)
-				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+//				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(I18nUtil.resolveKey("desc.nuke.custom.multi", entry.value, entry.type));
 		}
 		
 		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
 			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
 				
-				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
-				
+//				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+//						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+//						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
+				list.add(I18nUtil.resolveKey(HbmCollection.lshift, I18nUtil.resolveKey("desc.item.armorMod.display")));
 			} else {
 				
 				list.add(EnumChatFormatting.YELLOW + "Mods:");

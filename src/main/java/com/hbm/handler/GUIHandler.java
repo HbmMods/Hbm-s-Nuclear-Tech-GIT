@@ -763,6 +763,11 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		
+		case ModBlocks.guiID_tsukuyomi:
+			if (entity instanceof TileEntityTurretTsukuyomi)
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretTsukuyomi)entity);
+			return null;
 
 		case ModBlocks.guiID_tauon: {
 			if(entity instanceof TileEntityTurretTauon) {

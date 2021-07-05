@@ -64,6 +64,7 @@ public class ItemBatteryGun extends ItemBattery implements IBatteryItem
 	}
 	
 	// Could be worse, probably
+	// FIXME often goes over the gun's cap for some reason, don't know how to fix
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{

@@ -130,6 +130,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTauon.class, new RenderTurretTauon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretRichard.class, new RenderTurretRichard());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretHoward.class, new RenderTurretHoward());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTsukuyomi.class, new RenderTurretTsukuyomi());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//cel prime
@@ -334,7 +335,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter_digamma, new ItemRenderWeaponBolter());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_twr, new ItemRenderTWR());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hlr, new ItemRenderHLR());
-		MinecraftForgeClient.registerItemRenderer(ModItems.test_gun, new ItemRenderOSIPR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.test_gun, new ItemRenderUboinik());
 		
 		//Satori
 		MinecraftForgeClient.registerItemRenderer(ModItems.eye, new ItemRenderSatoriEye());

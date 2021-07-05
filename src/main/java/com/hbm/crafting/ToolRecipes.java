@@ -207,5 +207,13 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "I", "HPH", "H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[3] });
 		GameRegistry.addRecipe(new ItemStack(outs[4]), new Object[] { "II", "HP", " H", 'I', headMaterial, 'H', handleMaterial, 'P', priorTier[4] });
 	}
-
+	/**
+	 * Create a new flat stamp
+	 * @param stamp - The stamp itself
+	 * @param mat - Material it's made of
+	 */
+	public static void newStamp(Item stamp, Item mat)
+	{
+		GameRegistry.addRecipe(new ItemStack(stamp), new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', Items.brick, 'M', mat});
+	}
 }

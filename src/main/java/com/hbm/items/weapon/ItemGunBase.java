@@ -14,6 +14,7 @@ import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
@@ -22,6 +23,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -133,6 +135,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
+		}
+		
+		if (altConfig != null && GeneralConfig.enableGuns && altConfig.firingMode == GunConfiguration.FIRE_AUTO && getIsAltDown(stack) && tryShoot(stack, world, player, isCurrentItem))
+		{
+			altFire(stack, world, player);
+			setDelay(stack, altConfig.rateOfFire);
 		}
 		
 		if(getIsReloading(stack) && isCurrentItem) {
@@ -529,20 +537,22 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(dura < 0)
 			dura = 0;
 		
+		addAdditionalInformation(stack, list, dura);
+	}
+	
+	protected void addAdditionalInformation(ItemStack stack, List list, int dura)
+	{
 		list.add("Durability: " + dura + " / " + mainConfig.durability);
 		
-		//if(MainRegistry.enableDebugMode) {
-			list.add("");
-			list.add("Name: " + mainConfig.name);
-			list.add("Manufacturer: " + mainConfig.manufacturer);
-		//}
+		list.add("");
+		list.add("Name: " + mainConfig.name);
+		list.add("Manufacturer: " + mainConfig.manufacturer);
 		
 		if(!mainConfig.comment.isEmpty()) {
 			list.add("");
 			for(String s : mainConfig.comment)
 				list.add(EnumChatFormatting.ITALIC + s);
 		}
-		
 		if(GeneralConfig.enableExtendedLogging) {
 			list.add("");
 			list.add("Type: " + getMagType(stack));
@@ -554,22 +564,26 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			list.add("");
 		
 		if (!mainConfig.advLore.isEmpty())
-			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+			list.add(I18nUtil.resolveKey(HbmCollection.lshift, I18nUtil.resolveKey("desc.item.gun.lore")));
+//			list.add(String.format("%s%sHold <%sLSHIFT%s%s%s> to view in-depth lore", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
 		
 		if (!mainConfig.advFuncLore.isEmpty())
-			list.add(String.format("%s%sHold <%sLCTRL%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
+			list.add(I18nUtil.resolveKey(HbmCollection.lctrl, I18nUtil.resolveKey("desc.item.gun.loreFunc")));
+//			list.add(String.format("%s%sHold <%sLCTRL%s%s%s> to view in-depth functionality", EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC, EnumChatFormatting.YELLOW, EnumChatFormatting.RESET, EnumChatFormatting.DARK_GRAY, EnumChatFormatting.ITALIC));
 	
 		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 		{
 			list.clear();
-			list.add(EnumChatFormatting.YELLOW + "-- Lore --");
+//			list.add(EnumChatFormatting.YELLOW + "-- Lore --");
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(HbmCollection.lore));
 			for (String s : mainConfig.advLore)
 				list.add(s);
 		}
 		if (!mainConfig.advLore.isEmpty() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
 		{
 			list.clear();
-			list.add(EnumChatFormatting.YELLOW + "-- Function --");
+//			list.add(EnumChatFormatting.YELLOW + "-- Function --");
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(HbmCollection.func));
 			for (String s : mainConfig.advFuncLore)
 				list.add(s);
 		}

@@ -3,7 +3,9 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
@@ -37,11 +39,13 @@ public class ItemBattery extends Item implements IBatteryItem {
 			list.add("Energy stored: " + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE");
 		} else {
 			String charge1 = Library.getShortNumber((charge * 100) / this.maxCharge);
-			list.add("Charge: " + charge1 + "%");
+			list.add(I18nUtil.resolveKey(HbmCollection.chargePerc, charge1));
 			list.add("(" + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE)");
 		}
-		list.add("Charge rate: " + Library.getShortNumber(chargeRate) + "HE/t");
-		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate) + "HE/t");
+//		list.add("Charge rate: " + Library.getShortNumber(chargeRate) + "HE/t");
+//		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate) + "HE/t");
+		list.add(I18nUtil.resolveKey(HbmCollection.chargeRate, Library.getShortNumber(chargeRate)));
+		list.add(I18nUtil.resolveKey(HbmCollection.dischargeRate, Library.getShortNumber(dischargeRate)));
 	}
 	
 	public ItemBattery setRarity(EnumRarity customRarity)

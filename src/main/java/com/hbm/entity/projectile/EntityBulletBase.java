@@ -494,7 +494,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ).mute());
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
-			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
+			if(MainRegistry.isPolaroid11|| rand.nextInt(100) == 0) data.setBoolean("balefire", true);
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}

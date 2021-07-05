@@ -152,12 +152,12 @@ public class Gun556mmFactory {
 	{
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 2;
+		config.rateOfFire = 3;
 		config.roundsPerCycle = 1;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.hasSights = true;
 		config.reloadDuration = 20;
-		config.ammoCap = 30;
+		config.ammoCap = 45;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.BOX;

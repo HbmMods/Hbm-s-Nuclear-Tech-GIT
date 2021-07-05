@@ -209,6 +209,7 @@ public class MainRegistry {
 
 	public static int generalOverride = 11;
 	public static int polaroidID = 1;
+	public static boolean isPolaroid11;
 
 	public static int x;
 	public static int y;
@@ -231,6 +232,7 @@ public class MainRegistry {
 			while(polaroidID == 4 || polaroidID == 9)
 				polaroidID = rand.nextInt(18) + 1;
 		}
+		isPolaroid11 = polaroidID == 11 ? true : false;
 
 		loadConfig(PreEvent);
 		HbmPotion.init();

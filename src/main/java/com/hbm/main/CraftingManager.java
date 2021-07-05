@@ -378,7 +378,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_beam), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_scaffold });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.chain), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_beam });
 		// UFFR's crap
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_gun_raw, 4), new Object[] { "WSW", "SRS", "SSS", 'W', ModItems.wire_magnetized_tungsten, 'S', "plateSchrabidium", 'R', ModItems.ring_starmetal }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_gun_raw), new Object[] { "WSW", "SRS", "SSS", 'W', ModItems.wire_magnetized_tungsten, 'S', "plateSchrabidium", 'R', ModItems.ring_starmetal }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_gun_basic), new Object[] { "ECE", "EPE", "ECE", 'E', "ingotActinium", 'P', ModItems.battery_gun_raw, 'C', ModItems.crystal_energy }));// TODO Placeholders
 		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.battery_gun_enhanced, new Object[] { "NAN", "NBN", "NAN", 'N', ModItems.powder_nitan_mix, 'B', ModItems.battery_gun_basic, 'A', "dustAstatine" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_du_dioxide, 4), new Object[] { "PIP", "ICI", "PIP", 'P', "dustLead", 'I', "ingotUraniumDioxide", 'C', "ingotDeshAlloy" }));
@@ -389,8 +389,8 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.wafer_spark), new Object[] { ModItems.powder_spark_mix, ModItems.wafer_silicon });
 		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.inf_coolant, new Object[] { "PPP", "NTN", "PPP", 'P', ModItems.plate_combine_steel, 'N', "blockNiter", 'T', ModItems.inf_water }));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.clay_ball, 4), new Object[] { ModItems.nugget_silicon, ModItems.nugget_silicon, Items.water_bucket, Blocks.sand });
-		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_chainsteel, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Placeholder recipe
-		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_ferrouranium_flat), new Object[] { " R ", "BBB", "III", 'R', Items.redstone, 'B', Items.brick, 'I', ModItems.ingot_ferrouranium });
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_chainsteel, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Is it too balanced?
+		ToolRecipes.newStamp(ModItems.stamp_ferrouranium_flat, ModItems.ingot_ferrouranium);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] { "CDC", "DLD", "CDC", 'C', Items.clay_ball, 'D', ModBlocks.ducrete_smooth, 'L', "plateLead" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.reinforced_ducrete, 8), new Object[] { "RDR", "DUD", "RDR", 'R', ModBlocks.steel_beam, 'D', ModBlocks.brick_ducrete, 'U', ModItems.ingot_du_dioxide });
 //		GameRegistry.addRecipe(new ItemStack(ModItems.wire_glass_insulated, 3), new Object[] { "APA", "WWW", "APA", 'A', ModItems.acrylic, 'P', ModItems.plate_polymer, 'W', ModItems.wire_glass });

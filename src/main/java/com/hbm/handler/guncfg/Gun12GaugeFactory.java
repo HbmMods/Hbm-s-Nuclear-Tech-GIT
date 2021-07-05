@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -106,6 +107,31 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
 		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getBenelliConfig()
+	{
+		GunConfiguration config = new Gun12GaugeFactory().getUboinikConfig();
+		config.gunMode = GunConfiguration.FIRE_MANUAL;
+		config.rateOfFire = 2;
+		config.ammoCap = 8;
+		config.reloadDuration = 10;
+		config.crosshair = Crosshair.CIRCLE;
+		config.hasSights = false;
+		config.durability = 45000;
+		config.allowsInfinity = true;
+		config.firingSound = "hbm:weapon.shottyShoot";
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadType = 2;
+		config.reloadSoundEnd = true;
+		
+		config.name = "Benelli M4 Super 90";
+		config.damage = "1 - 4 per pellet (stock)";
+		config.manufacturer = "Benelli Armi SpA";
+		config.comment.add("Eat your heart out SPAS-12");
+		config.config = HbmCollection.twelveGauge;
 		
 		return config;
 	}
