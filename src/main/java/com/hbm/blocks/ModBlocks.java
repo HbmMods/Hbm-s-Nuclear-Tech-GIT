@@ -69,6 +69,7 @@ public class ModBlocks {
 	public static Block ore_verticium;
 	public static Block ore_rare;
 	public static Block ore_cinnebar;
+	public static Block ore_coltan;
 
 	public static Block ore_nether_coal;
 	public static Block ore_nether_smoldering;
@@ -156,6 +157,8 @@ public class ModBlocks {
 	public static Block block_steel;
 	public static Block block_lead;
 	public static Block block_bismuth;
+	public static Block block_coltan;
+	public static Block block_tantalium;
 	public static Block block_trinitite;
 	public static Block block_waste;
 	public static Block block_waste_painted;
@@ -1161,6 +1164,7 @@ public class ModBlocks {
 		ore_verticium = new BlockGeneric(Material.rock).setBlockName("ore_verticium").setCreativeTab(null).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_verticium");
 		ore_rare = new BlockOre(Material.rock).setBlockName("ore_rare").setCreativeTab(null).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_rare");
 		ore_cinnebar = new BlockOre(Material.rock).setBlockName("ore_cinnebar").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_cinnebar");
+		ore_coltan = new BlockOre(Material.rock).setBlockName("ore_coltan").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_coltan");
 
 		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
@@ -1200,6 +1204,8 @@ public class ModBlocks {
 		block_steel = new BlockGeneric(Material.iron).setBlockName("block_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		block_lead = new BlockGeneric(Material.iron).setBlockName("block_lead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		block_bismuth = new BlockGeneric(Material.iron).setBlockName("block_bismuth").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_bismuth");
+		block_coltan = new BlockGeneric(Material.iron).setBlockName("block_coltan").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_coltan");
+		block_tantalium = new BlockGeneric(Material.iron).setBlockName("block_tantalium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_tantalium");
 		block_trinitite = new BlockHazard().addRadiation(ItemHazard.trn * ItemHazard.block).toBlock().setBlockName("block_trinitite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_trinitite");
 		block_waste = new BlockNuclearWaste().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste");
 		block_waste_painted = new BlockNuclearWaste().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste_painted").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste_painted");
@@ -1985,6 +1991,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_verticium, ItemOreBlock.class, ore_verticium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_rare, ItemOreBlock.class, ore_rare.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_cinnebar, ore_cinnebar.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_coltan, ore_coltan.getUnlocalizedName());
 		
 		//Stone clusters
 		GameRegistry.registerBlock(cluster_iron, ItemBlockCluster.class, cluster_iron.getUnlocalizedName());
@@ -2081,6 +2088,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(block_bismuth, block_bismuth.getUnlocalizedName());
+		GameRegistry.registerBlock(block_coltan, block_coltan.getUnlocalizedName());
+		GameRegistry.registerBlock(block_tantalium, block_tantalium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lithium, ItemBlockHazard.class, block_lithium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_zirconium, block_zirconium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_white_phosphorus, ItemBlockHazard.class, block_white_phosphorus.getUnlocalizedName());

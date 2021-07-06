@@ -229,6 +229,8 @@ public class ModItems {
 	public static Item nugget_lead;
 	public static Item ingot_bismuth;
 	public static Item nugget_bismuth;
+	public static Item ingot_tantalium;
+	public static Item nugget_tantalium;
 	public static Item plate_lead;
 	public static Item nugget_schrabidium;
 	public static Item plate_schrabidium;
@@ -417,6 +419,7 @@ public class ModItems {
 	public static Item fragment_actinium;
 	public static Item fragment_boron;
 	public static Item fragment_meteorite;
+	public static Item fragment_coltan;
 
 	public static Item biomass;
 	public static Item biomass_compressed;
@@ -461,6 +464,8 @@ public class ModItems {
 	public static Item circuit_schrabidium;
 	public static Item circuit_bismuth_raw;
 	public static Item circuit_bismuth;
+	public static Item circuit_tantalium_raw;
+	public static Item circuit_tantalium;
 
 	public static Item mechanism_revolver_1;
 	public static Item mechanism_revolver_2;
@@ -2602,6 +2607,8 @@ public class ModItems {
 		nugget_lead = new Item().setUnlocalizedName("nugget_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_lead");
 		ingot_bismuth = new ItemCustomLore().setUnlocalizedName("ingot_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bismuth");
 		nugget_bismuth = new Item().setUnlocalizedName("nugget_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_bismuth");
+		ingot_tantalium = new Item().setUnlocalizedName("ingot_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_tantalium");
+		nugget_tantalium = new Item().setUnlocalizedName("nugget_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_tantalium");
 		nugget_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.nugget, false, true).setUnlocalizedName("nugget_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium");
 		nugget_beryllium = new Item().setUnlocalizedName("nugget_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_beryllium");
 		hazmat_cloth = new Item().setUnlocalizedName("hazmat_cloth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hazmat_cloth");
@@ -2736,6 +2743,7 @@ public class ModItems {
 		fragment_actinium = new Item().setUnlocalizedName("fragment_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_actinium");
 		fragment_boron = new Item().setUnlocalizedName("fragment_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_boron");
 		fragment_meteorite = new Item().setUnlocalizedName("fragment_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_meteorite");
+		fragment_coltan = new Item().setUnlocalizedName("fragment_coltan").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_coltan");
 		
 		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass");
 		biomass_compressed = new Item().setUnlocalizedName("biomass_compressed").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass_compressed");
@@ -2857,6 +2865,8 @@ public class ModItems {
 		circuit_schrabidium = new ItemCustomLore().setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
 		circuit_bismuth_raw = new Item().setUnlocalizedName("circuit_bismuth_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth_raw");
 		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth");
+		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
+		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium");
 		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
 		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
 		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
@@ -5217,6 +5227,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_tcalloy, ingot_tcalloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth, ingot_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_tantalium, ingot_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_beryllium, ingot_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_cobalt, ingot_cobalt.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
@@ -5455,6 +5466,7 @@ public class ModItems {
 		GameRegistry.registerItem(fragment_actinium, fragment_actinium.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_boron, fragment_boron.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_meteorite, fragment_meteorite.getUnlocalizedName());
+		GameRegistry.registerItem(fragment_coltan, fragment_coltan.getUnlocalizedName());
 		
 		//Things that look like rotten flesh but aren't
 		GameRegistry.registerItem(biomass, biomass.getUnlocalizedName());
@@ -5483,6 +5495,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_ra226, nugget_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_lead, nugget_lead.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_bismuth, nugget_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_tantalium, nugget_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_beryllium, nugget_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_schrabidium, nugget_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_solinium, nugget_solinium.getUnlocalizedName());
@@ -5684,6 +5697,8 @@ public class ModItems {
 		GameRegistry.registerItem(circuit_schrabidium, circuit_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_bismuth_raw, circuit_bismuth_raw.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_bismuth, circuit_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_tantalium_raw, circuit_tantalium_raw.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_tantalium, circuit_tantalium.getUnlocalizedName());
 		
 		//Military Circuits
 		GameRegistry.registerItem(circuit_targeting_tier1, circuit_targeting_tier1.getUnlocalizedName());

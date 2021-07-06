@@ -213,6 +213,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_depth_zirconium) {
 			return ModItems.nugget_zirconium;
 		}
+		if(this == ModBlocks.ore_coltan) {
+			return ModItems.fragment_coltan;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
