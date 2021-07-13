@@ -216,6 +216,20 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			}
 		}
 	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 0 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		
+		if(i == 0)
+			return SILEXRecipes.getOutput(itemStack) != null;
+		
+		return false;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

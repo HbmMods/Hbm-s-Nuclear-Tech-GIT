@@ -91,7 +91,10 @@ public class ItemChemistryTemplate extends Item {
 		SATURN,
 		BALEFIRE,
 		SCHRABIDIC,
-		SCHRABIDATE;
+		SCHRABIDATE,
+		COLTAN_CLEANING,
+		COLTAN_PAIN,
+		COLTAN_CRYSTAL;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -271,6 +274,12 @@ public class ItemChemistryTemplate extends Item {
         	return 100;
         case SCHRABIDATE:
         	return 600;
+        case COLTAN_CLEANING:
+        	return 60;
+        case COLTAN_PAIN:
+        	return 120;
+        case COLTAN_CRYSTAL:
+        	return 80;
         default:
         	return 100;
         }

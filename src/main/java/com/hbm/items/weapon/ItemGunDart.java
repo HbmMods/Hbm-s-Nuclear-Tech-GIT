@@ -2,6 +2,7 @@ package com.hbm.items.weapon;
 
 import com.hbm.handler.GunConfiguration;
 
+import api.hbm.item.IDesignatorItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,9 +10,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemGunDart extends ItemGunBase {
+public class ItemGunDart extends ItemGunBase implements IDesignatorItem {
 
 	public ItemGunDart(GunConfiguration config) {
 		super(config);
@@ -56,5 +58,17 @@ public class ItemGunDart extends ItemGunBase {
 				player.addChatComponentMessage(new ChatComponentText("No Target").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 			}
 		}
+	}
+
+	@Override
+	public boolean isReady(World world, ItemStack stack, int x, int y, int z) {
+		EntityPlayer target = readPlayer(stack);
+		return target != null && target.dimension == world.provider.dimensionId;
+	}
+
+	@Override
+	public Vec3 getCoords(World world, ItemStack stack, int x, int y, int z) {
+		EntityPlayer target = readPlayer(stack);
+		return Vec3.createVectorHelper(target.posX, target.posY, target.posZ);
 	}
 }

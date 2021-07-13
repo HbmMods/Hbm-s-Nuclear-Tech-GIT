@@ -908,7 +908,7 @@ public class Library {
 					{
 						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
 						{
-							that.setFluidFill(that.getFluidFill(type)-part, type);
+							that.setFluidFill(that.getFluidFill(type) - part, type);
 							consume.setFluidFill(consume.getFluidFill(type) + part, type);
 						} else {
 							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
