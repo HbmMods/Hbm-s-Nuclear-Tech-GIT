@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -14,13 +15,14 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIFEL extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fel.png");
 	private TileEntityFEL fel;
-    private GuiTextField field;
+	private GuiTextField field;
 
 	public GUIFEL(InventoryPlayer invPlayer, TileEntityFEL laser) {
 		super(new ContainerFEL(invPlayer, laser));
@@ -32,16 +34,15 @@ public class GUIFEL extends GuiInfoContainer {
 
 	@Override
 	public void initGui() {
-
 		super.initGui();
-
-        Keyboard.enableRepeatEvents(true);
-        this.field = new GuiTextField(this.fontRendererObj, guiLeft + 57, guiTop + 57, 29, 12);
-        this.field.setTextColor(-1);
-        this.field.setDisabledTextColour(-1);
-        this.field.setEnableBackgroundDrawing(false);
-        this.field.setMaxStringLength(3);
-        this.field.setText(String.valueOf(fel.watts));
+		
+		Keyboard.enableRepeatEvents(true);
+		this.field = new GuiTextField(this.fontRendererObj, guiLeft + 57, guiTop + 57, 29, 12);
+		this.field.setTextColor(-1);
+		this.field.setDisabledTextColour(-1);
+		this.field.setEnableBackgroundDrawing(false);
+		this.field.setMaxStringLength(3);
+		this.field.setText(String.valueOf(fel.watts));
 	}
 
 	@Override
@@ -54,12 +55,29 @@ public class GUIFEL extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 43, 18, 9, mouseX, mouseY, new String[] {"UV"});
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 52, 18, 9, mouseX, mouseY, new String[] {"X-Ray"});
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 61, 18, 9, mouseX, mouseY, new String[] {"Gamma Ray"});
+		
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, fel.power, fel.maxPower);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
 		this.field.mouseClicked(x, y, i);
+
+		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
+
+			if(NumberUtils.isNumber(field.getText())) {
+				int j = MathHelper.clamp_int((int) Double.parseDouble(field.getText()), 1, 100);
+				field.setText(j + "");
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, j, 1));
+			}
+		}
+
+		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, 0, 2));
+		}
 		
 		for(int k = 0; k < 6; k++) {
 			
@@ -86,10 +104,26 @@ public class GUIFEL extends GuiInfoContainer {
 
 		if(field.isFocused())
 			drawTexturedModalRect(guiLeft + 53, guiTop + 53, 210, 4, 34, 16);
+
+		if(fel.isOn)
+			drawTexturedModalRect(guiLeft + 97, guiTop + 16, 192, 0, 18, 18);
 		
 		int mode = fel.mode;
 		drawTexturedModalRect(guiLeft + 133, guiTop + 16 + mode * 9, 176, 52 + mode * 9, 18, 9);
 		
-        this.field.drawTextBox();
+		int i = (int) fel.getPowerScaled(52);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
+
+		drawTexturedModalRect(guiLeft + 53, guiTop + 45, 210, 0, fel.watts * 34 / 100, 4);
+		
+		this.field.drawTextBox();
+	}
+	
+	@Override
+	protected void keyTyped(char c, int key) {
+		
+		if(!this.field.textboxKeyTyped(c, key)) {
+			super.keyTyped(c, key);
+		}
 	}
 }

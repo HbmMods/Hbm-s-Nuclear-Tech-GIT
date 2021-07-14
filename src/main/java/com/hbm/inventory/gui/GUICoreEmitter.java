@@ -109,11 +109,12 @@ public class GUICoreEmitter extends GuiInfoContainer {
 		emitter.tank.renderTank(this, guiLeft + 8, guiTop + 69, emitter.tank.getTankType().textureX() * FluidTank.x, emitter.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 	
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
-    {
-        if (this.field.textboxKeyTyped(p_73869_1_, p_73869_2_)) { }
-        else {
-            super.keyTyped(p_73869_1_, p_73869_2_);
-        }
-    }
+	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+		
+		if(this.field.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
+			
+		} else {
+			super.keyTyped(p_73869_1_, p_73869_2_);
+		}
+	}
 }

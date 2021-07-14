@@ -352,6 +352,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.tile_lab_broken, 6), new Object[] { " C " , "C C", " C ", 'C', ModBlocks.tile_lab_cracked });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.asphalt_light, 1), new Object[] { ModBlocks.asphalt, Items.glowstone_dust });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.asphalt, 1), new Object[] { ModBlocks.asphalt_light });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_niter_reinforced, 1), new Object[] { "TCT", "CNC", "TCT", 'T', ModItems.ingot_tcalloy, 'C', ModBlocks.concrete, 'N', ModBlocks.block_niter });
 		
 		for(int i = 0; i < 16; i++) {
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.concrete_colored, 8, i), new Object[] { "CCC", "CDC", "CCC", 'C', ModBlocks.concrete_smooth, 'D', new ItemStack(Items.dye, 1, 15 - i) });

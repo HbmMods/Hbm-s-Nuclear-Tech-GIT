@@ -166,9 +166,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 	}
 
 	protected void mouseClicked(int i, int j, int k) {
-
-		System.out.println(i + " " + j);
-		System.out.println((guiLeft + i) + " " + (guiTop + j));
 		
 		if(i >= guiLeft + 45 && i < guiLeft + 117 && j >= guiTop + 211 && j < guiTop + 223) {
 			this.search.setFocused(true);

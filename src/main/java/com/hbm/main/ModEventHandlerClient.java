@@ -472,20 +472,20 @@ public class ModEventHandlerClient {
 		if(BlockAshes.ashes == 0)
 			return;
 		
+		GL11.glPushMatrix();
+		
 		Minecraft mc = Minecraft.getMinecraft();
 
 		GL11.glRotatef((float)-mc.thePlayer.rotationYaw, 0, 1, 0);
 		GL11.glRotatef((float)(mc.thePlayer.rotationPitch), 1, 0, 0);
 		
 		ScaledResolution resolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-		
-		GL11.glPushMatrix();
 
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		
 		mc.getTextureManager().bindTexture(ashes);
 		
@@ -527,7 +527,6 @@ public class ModEventHandlerClient {
 		
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -553,7 +552,7 @@ public class ModEventHandlerClient {
 
 		Vec3 vec = Vec3.createVectorHelper(x - dx, y - dy, z - dz);
 
-		if(player.worldObj.provider.dimensionId == 0 && vec.lengthVector() < dist) {
+		if(player.worldObj.provider.dimensionId == 0 && vec.lengthVector() < dist && !HTTPHandler.capsule.isEmpty()) {
 
 			GL11.glTranslated(vec.xCoord, vec.yCoord, vec.zCoord);
 
@@ -604,6 +603,8 @@ public class ModEventHandlerClient {
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glPopMatrix();
 			}
+			
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			RenderHelper.disableStandardItemLighting();
 

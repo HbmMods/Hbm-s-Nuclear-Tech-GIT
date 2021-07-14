@@ -68,9 +68,6 @@ public class HTTPHandler {
 			capsule.add(line);
 		}
 
-		if(capsule.isEmpty())
-			capsule.add("I AM ERROR");
-
 		in.close();
 	}
 

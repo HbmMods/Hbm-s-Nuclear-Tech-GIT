@@ -517,7 +517,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			if(tanks[0].getFill() > tanks[0].getMaxFill())
 				tanks[0].setFill(tanks[0].getMaxFill());
 
-		} else if(b == ModBlocks.block_niter) {
+		} else if(b == ModBlocks.block_niter || b == ModBlocks.block_niter_reinforced) {
 			if(tanks[0].getFill() >= 50 && tanks[1].getFill() + 5 <= tanks[1].getMaxFill()) {
 				tanks[0].setFill(tanks[0].getFill() - 50);
 				tanks[1].setFill(tanks[1].getFill() + 5);
