@@ -845,7 +845,7 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_anvil: {
 			if(world.getBlock(x, y, z) instanceof NTMAnvil) {
-				return new ContainerAnvil(player.inventory);
+				return new ContainerAnvil(player.inventory, ((NTMAnvil)world.getBlock(x, y, z)).tier);
 			}
 			return null;
 		}

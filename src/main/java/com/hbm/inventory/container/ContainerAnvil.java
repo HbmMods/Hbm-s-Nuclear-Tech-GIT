@@ -18,7 +18,10 @@ public class ContainerAnvil extends Container {
 	public InventoryBasic input = new InventoryBasic("Input", false, 8);
 	public IInventory output = new InventoryCraftResult();
 	
-	public ContainerAnvil(InventoryPlayer inventory) {
+	public int tier; //because we can't trust these rascals with their packets
+	
+	public ContainerAnvil(InventoryPlayer inventory, int tier) {
+		this.tier = tier;
 		
 		this.addSlotToContainer(new SmithingSlot(input, 0, 17, 27));
 		this.addSlotToContainer(new SmithingSlot(input, 1, 53, 27));

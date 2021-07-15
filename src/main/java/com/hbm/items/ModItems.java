@@ -3488,7 +3488,7 @@ public class ModItems {
 				.setHeat(2D)
 				.setMeltingPoint(5211).setUnlocalizedName("rbmk_fuel_heaus").setTextureName(RefStrings.MODID + ":rbmk_fuel_heaus");
 		rbmk_fuel_po210be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_po210be)
-				.setYield(1000000D)
+				.setYield(25000000D)
 				.setStats(15, 40)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(0.1D)
@@ -3506,7 +3506,7 @@ public class ModItems {
 				.addRadiation(ItemHazard.rabe * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_ra226be").setTextureName(RefStrings.MODID + ":rbmk_fuel_ra226be");
 		rbmk_fuel_pu238be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_pu238be)
-				.setYield(10000000D)
+				.setYield(50000000D)
 				.setStats(10, 50)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setHeat(0.1D)

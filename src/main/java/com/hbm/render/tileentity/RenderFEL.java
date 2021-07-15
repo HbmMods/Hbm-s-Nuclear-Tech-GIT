@@ -42,11 +42,11 @@ public class RenderFEL extends TileEntitySpecialRenderer {
 		
 		switch(fel.mode) {
 		case 0: color = 0x303000; break;
-		case 1: color = 0x400000; break;
+		case 1: color = 0xFF1010; break;
 		case 2: color = Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 1F, 0.3F) & 16777215; break;
-		case 3: color = 0x100040; break;
-		case 4: color = 0x003000; break;
-		case 5: color = 0x306000; break;
+		case 3: color = 0x150560; break;
+		case 4: color = 0x054005; break;
+		case 5: color = 0x156015; break;
 		}
 		
 		int length = 25;

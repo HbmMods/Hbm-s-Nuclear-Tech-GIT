@@ -261,4 +261,19 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		nbt.setDouble("progress", this.progress);
 		this.gas.writeToNBT(nbt, "gas");
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return getOutput(itemStack) != null && i == 0;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 1;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] {0, 1};
+	}
 }

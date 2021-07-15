@@ -99,6 +99,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
 		//Packet to send NBT data from clients to serverside TEs
 		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
+		//Packet to send for anvil recipes to be crafted
+		wrapper.registerMessage(AnvilCraftPacket.Handler.class, AnvilCraftPacket.class, i++, Side.SERVER);
 	}
 	
 }

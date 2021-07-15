@@ -17,7 +17,7 @@ public class RBMKOutgasser extends RBMKBase {
 			return new TileEntityRBMKOutgasser();
 		
 		if(hasExtra(meta))
-			return new TileEntityProxyCombo(false, false, true);
+			return new TileEntityProxyCombo(true, false, true);
 		
 		return null;
 	}

@@ -2,6 +2,9 @@ package com.hbm.util;
 
 import java.util.List;
 
+import com.hbm.inventory.RecipesCommon.AStack;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -184,5 +187,12 @@ public class InventoryUtil {
 			return false;
 		
 		return stack1.getTagCompound().equals(stack2.getTagCompound());
+	}
+	
+	public static boolean doesPlayerHaveAStacks(EntityPlayer player, List<AStack> stacks) {
+		
+		//ItemStack[] inventory TODO
+		
+		return false;
 	}
 }

@@ -82,7 +82,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack("plateGold"),
 				new AnvilOutput(new ItemStack(ModItems.wire_gold, 8))
-		).setTier(1));
+		).setTierRange(1, 4));
 	}
 	
 	public static List<AnvilSmithingRecipe> getSmithing() {
@@ -151,7 +151,8 @@ public class AnvilRecipes {
 	public static class AnvilConstructionRecipe {
 		public List<AStack> input = new ArrayList();
 		public List<AnvilOutput> output = new ArrayList();
-		int tier = 0;
+		int tierLower = 0;
+		int tierUpper = -1;
 		OverlayType overlay = OverlayType.NONE;
 		
 		public AnvilConstructionRecipe(AStack input, AnvilOutput output) {
@@ -179,12 +180,21 @@ public class AnvilRecipes {
 		}
 		
 		public AnvilConstructionRecipe setTier(int tier) {
-			this.tier = tier;
+			this.tierLower = tier;
 			return this;
 		}
 		
-		public int getTier() {
-			return this.tier;
+		public AnvilConstructionRecipe setTierRange(int lower, int upper) {
+			this.tierLower = lower;
+			this.tierUpper = upper;
+			return this;
+		}
+		
+		public boolean isTierValid(int tier) {
+			if(this.tierUpper == -1)
+				return tier >= this.tierLower;
+			
+			return tier >= this.tierLower && tier <= this.tierUpper;
 		}
 		
 		public AnvilConstructionRecipe setOverlay(OverlayType overlay) {
