@@ -238,6 +238,7 @@ public class ItemDrop extends Item {
 			list.add("stay stable. It's not the end");
 			list.add("of the world as we know it,");
 			list.add("and I don't feel fine.");
+			list.add("Possibly edible.");
 		}
 		if (this == ModItems.detonator_deadman) {
 			list.add("Shift right-click to set position,");
