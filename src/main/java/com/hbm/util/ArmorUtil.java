@@ -107,6 +107,9 @@ public class ArmorUtil {
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
 			return true;
 		
+		if(checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots))
+			return true;
+		
 		if(player.isPotionActive(HbmPotion.stability.id))
 			return true; 
 		
@@ -228,6 +231,12 @@ public class ArmorUtil {
 		if(checkArmorPiece(player, ModItems.hev_helmet, 3)) {
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.fau_helmet, 3)) {
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.dns_helmet, 3)) {
+			return true;
+		}
 		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3)) {
 			return true;
 		}
@@ -256,6 +265,12 @@ public class ArmorUtil {
 			return true;
 		
 		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
+			return true;
+		
+		if(checkArmorPiece(player, ModItems.fau_helmet, 3))
+			return true;
+		
+		if(checkArmorPiece(player, ModItems.dns_helmet, 3))
 			return true;
 
 		if(player.isPotionActive(HbmPotion.mutation))
@@ -303,6 +318,12 @@ public class ArmorUtil {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.bj_helmet, 3)) {
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hev_helmet, 3)) {
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.fau_helmet, 3)) {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.hev_helmet, 3)) {

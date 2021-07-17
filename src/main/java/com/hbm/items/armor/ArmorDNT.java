@@ -5,12 +5,9 @@ import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelArmorDNT;
 import com.hbm.util.I18nUtil;
@@ -77,23 +74,10 @@ public class ArmorDNT extends ArmorFSBPowered {
 			player.getAttributeMap().applyAttributeModifiers(multimap);
 		}
 
-		if(world.isRemote) {
-
-			if(player == MainRegistry.proxy.me()) {
-
-				boolean last = props.getKeyPressed(EnumKeybind.JETPACK);
-				boolean current = MainRegistry.proxy.getIsKeyPressed(EnumKeybind.JETPACK);
-
-				if(last != current) {
-					PacketDispatcher.wrapper.sendToServer(new KeybindPacket(EnumKeybind.JETPACK, current));
-					props.setKeyPressed(EnumKeybind.JETPACK, current);
-				}
-			}
-
-		} else {
+		if(!world.isRemote) {
 			
 			/// JET ///
-			if(this.hasFSBArmor(player) && props.getKeyPressed(EnumKeybind.JETPACK) || (!player.onGround && !player.isSneaking())) {
+			if(this.hasFSBArmor(player) && (props.isJetpackActive() || (!player.onGround && !player.isSneaking() && props.enableBackpack))) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "jetpack_dns");
@@ -104,7 +88,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 		if(this.hasFSBArmor(player)) {
 
-			if(props.getKeyPressed(EnumKeybind.JETPACK)) {
+			if(props.isJetpackActive()) {
 
 				if(player.motionY < 0.6D)
 					player.motionY += 0.2D;
@@ -113,7 +97,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.immolatorShoot", 0.125F, 1.5F);
 
-			} else if(!player.isSneaking() && !player.onGround) {
+			} else if(!player.isSneaking() && !player.onGround && props.enableBackpack) {
 				player.fallDistance = 0;
 				
 				if(player.motionY < -1)
@@ -125,6 +109,11 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 				player.motionX *= 1.05D;
 				player.motionZ *= 1.05D;
+				
+				if(player.moveForward != 0) {
+					player.motionX += player.getLookVec().xCoord * 0.25 * player.moveForward;
+					player.motionZ += player.getLookVec().zCoord * 0.25 * player.moveForward;
+				}
 
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.immolatorShoot", 0.125F, 1.5F);
 			}

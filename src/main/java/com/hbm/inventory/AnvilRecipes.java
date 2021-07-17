@@ -10,7 +10,9 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class AnvilRecipes {
@@ -23,10 +25,22 @@ public class AnvilRecipes {
 		registerConstruction();
 	}
 	
+	/*
+	 *      //////  //      //  //  //////  //  //  //  //    //  //////
+	 *     //      ////  ////  //    //    //  //  //  ////  //  //
+	 *    //////  //  //  //  //    //    //////  //  //  ////  //  //
+	 *       //  //      //  //    //    //  //  //  //    //  //  //
+	 *  //////  //      //  //    //    //  //  //  //    //  //////
+	 */
 	public static void registerSmithing() {
 		
-		smithingRecipes.add(new AnvilSmithingRecipe(2, new ItemStack(ModItems.plate_steel, 2), new OreDictStack("ingotSteel"), new OreDictStack("ingotSteel")));
-
+		for(int i = 0; i < 9; i++)
+			smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_steel_dusted, 1, i + 1),
+					new ComparableStack(ModItems.ingot_steel_dusted, 1, i), new ComparableStack(ModItems.ingot_steel_dusted, 1, i)));
+		
+		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_chainsteel, 1),
+				new ComparableStack(ModItems.ingot_steel_dusted, 1, 9), new ComparableStack(ModItems.ingot_steel_dusted, 1, 9)));
+		
 		Block[] anvils = new Block[]{ModBlocks.anvil_iron, ModBlocks.anvil_lead};
 		
 		for(Block anvil : anvils) {
@@ -39,30 +53,105 @@ public class AnvilRecipes {
 			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_steel, 1), new ComparableStack(anvil), new OreDictStack("ingotSteel", 10)));
 		}
 		
+		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_meteorite_forged, 1), new ComparableStack(ModItems.ingot_meteorite), new ComparableStack(ModItems.ingot_meteorite)));
+		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.blade_meteorite, 1), new ComparableStack(ModItems.ingot_meteorite_forged), new ComparableStack(ModItems.ingot_meteorite_forged)));
+		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.meteorite_sword_reforged, 1), new ComparableStack(ModItems.meteorite_sword_seared), new ComparableStack(ModItems.ingot_meteorite_forged)));
 		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.gun_ar15, 1), new ComparableStack(ModItems.gun_thompson), new ComparableStack(ModItems.pipe_lead)));
+		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 	}
 	
+	/*
+	 *      //////  //////  //    //  //////  //////  ////    //  //  //////  //////  //  //////  //    //
+	 *     //      //  //  ////  //  //        //    //  //  //  //  //        //    //  //  //  ////  //
+	 *    //      //  //  //  ////  //////    //    ////    //  //  //        //    //  //  //  //  ////
+	 *   //      //  //  //    //      //    //    //  //  //  //  //        //    //  //  //  //    //
+	 *  //////  //////  //    //  //////    //    //  //  //////  //////    //    //  //////  //    //
+	 */
 	public static void registerConstruction() {
+		registerConstructionRecipes();
+		registerConstructionAmmo();
+		registerConstructionRecycling();
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotIron"), new AnvilOutput(new ItemStack(ModItems.plate_iron))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotGold"), new AnvilOutput(new ItemStack(ModItems.plate_gold))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotCopper"), new AnvilOutput(new ItemStack(ModItems.plate_copper))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotLead"), new AnvilOutput(new ItemStack(ModItems.plate_lead))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotSteel"), new AnvilOutput(new ItemStack(ModItems.plate_steel))).setTier(3));
+	}
+	
+	public static void registerConstructionRecipes() {
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("ingotIron"),
-				new AnvilOutput(new ItemStack(ModItems.plate_iron))
-		).setTier(1));
+				new AStack[] {
+						new OreDictStack("plateCopper", 4)
+				},
+				new AnvilOutput(new ItemStack(ModItems.board_copper))).setTier(1));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("ingotGold"),
-				new AnvilOutput(new ItemStack(ModItems.plate_gold))
-		).setTier(1));
+				new AStack[] {
+						new OreDictStack("plateIron", 2),
+						new ComparableStack(ModItems.coil_copper),
+						new ComparableStack(ModItems.coil_copper_torus)
+				},
+				new AnvilOutput(new ItemStack(ModItems.motor, 2))).setTier(1));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("ingotCopper"),
-				new AnvilOutput(new ItemStack(ModItems.plate_copper))
-		).setTier(1));
+				new AStack[] {
+						new ComparableStack(Blocks.stonebrick, 4),
+						new OreDictStack("ingotIron", 2),
+						new OreDictStack("ingotTungsten", 4),
+						new ComparableStack(ModItems.board_copper, 2)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_difurnace_off))).setTier(1));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("ingotLead"),
-				new AnvilOutput(new ItemStack(ModItems.plate_lead))
-		).setTier(1));
+				new AStack[] {
+						new OreDictStack("blockGlassColorless", 4),
+						new OreDictStack("ingotSteel", 8),
+						new OreDictStack("ingotCopper", 8),
+						new ComparableStack(ModItems.motor, 2),
+						new ComparableStack(ModItems.circuit_aluminium, 1)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_assembler))).setTier(2));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("ingotSteel"),
-				new AnvilOutput(new ItemStack(ModItems.plate_steel))
-		).setTier(1));
+				new AStack[] {
+						new ComparableStack(Items.bone, 16),
+						new ComparableStack(Items.leather, 4),
+						new ComparableStack(Items.feather, 24)
+				},
+				new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
+	}
+	
+	public static void registerConstructionAmmo() {
+		
+		Object[][] recs = new Object[][] {
+			new Object[] {ModItems.ammo_12gauge, ModItems.powder_fire, ModItems.ammo_12gauge_incendiary, 20, 2},
+			new Object[] {ModItems.ammo_12gauge, Item.getItemFromBlock(ModBlocks.gravel_obsidian), ModItems.ammo_12gauge_shrapnel, 20, 2},
+			new Object[] {ModItems.ammo_12gauge, ModItems.ingot_u238, ModItems.ammo_12gauge_du, 20, 3},
+			new Object[] {ModItems.ammo_12gauge, ModItems.coin_maskman, ModItems.ammo_12gauge_sleek, 100, 4},
+			
+			new Object[] {ModItems.ammo_20gauge, ModItems.powder_fire, ModItems.ammo_20gauge_incendiary, 20, 2},
+			new Object[] {ModItems.ammo_20gauge, Item.getItemFromBlock(ModBlocks.gravel_obsidian), ModItems.ammo_20gauge_shrapnel, 20, 2},
+			new Object[] {ModItems.ammo_20gauge, ModItems.powder_poison, ModItems.ammo_20gauge_caustic, 20, 2},
+			new Object[] {ModItems.ammo_20gauge, "dustDiamond", ModItems.ammo_20gauge_shock, 20, 2},
+			new Object[] {ModItems.ammo_20gauge, Item.getItemFromBlock(Blocks.soul_sand), ModItems.ammo_20gauge_wither, 10, 3},
+			new Object[] {ModItems.ammo_20gauge, ModItems.coin_maskman, ModItems.ammo_20gauge_sleek, 100, 4},
+		};
+		
+		for(Object[] objs : recs) {
+			
+			if(objs[1] instanceof Item) {
+				constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] { new ComparableStack((Item)objs[0], (int)objs[3]), new ComparableStack((Item)objs[1], 1) },
+						new AnvilOutput(new ItemStack((Item)objs[2], (int)objs[3]))).setTier((int)objs[4]));
+				
+			} else if(objs[1] instanceof String) {
+				constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] { new ComparableStack((Item)objs[0], (int)objs[3]), new OreDictStack((String)objs[1], 1) },
+						new AnvilOutput(new ItemStack((Item)objs[2], (int)objs[3]))).setTier((int)objs[4]));
+			}
+		}
+	}
+	
+	public static void registerConstructionRecycling() {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.barrel_tcalloy),
 				new AnvilOutput[] {
@@ -72,17 +161,6 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.ingot_tcalloy, 1), 0.25F)
 				}
 		).setTier(3));
-		
-		for(int i = 0; i < 8; i++)
-			constructionRecipes.add(new AnvilConstructionRecipe(
-					new OreDictStack("plateCopper"),
-					new AnvilOutput(new ItemStack(ModItems.wire_copper, 8))
-			).setTier(1));
-		
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack("plateGold"),
-				new AnvilOutput(new ItemStack(ModItems.wire_gold, 8))
-		).setTierRange(1, 4));
 	}
 	
 	public static List<AnvilSmithingRecipe> getSmithing() {
@@ -91,61 +169,6 @@ public class AnvilRecipes {
 	
 	public static List<AnvilConstructionRecipe> getConstruction() {
 		return constructionRecipes;
-	}
-	
-	public static class AnvilSmithingRecipe {
-		
-		int tier;
-		ItemStack output;
-		AStack left;
-		AStack right;
-		boolean shapeless = false;
-		
-		public AnvilSmithingRecipe(int tier, ItemStack out, AStack left, AStack right) {
-			this.tier = tier;
-			this.output = out;
-			this.left = left;
-			this.right = right;
-		}
-		
-		public AnvilSmithingRecipe makeShapeless() {
-			this.shapeless = true;
-			return this;
-		}
-		
-		public boolean matches(ItemStack left, ItemStack right) {
-			return matchesInt(left, right) != -1;
-		}
-		
-		public int matchesInt(ItemStack left, ItemStack right) {
-			
-			if(doesStackMatch(left, this.left) && doesStackMatch(right, this.right))
-				return 0;
-			
-			if(shapeless) {
-				return doesStackMatch(right, this.left) && doesStackMatch(left, this.right) ? 1 : -1;
-			}
-			
-			return -1;
-		}
-		
-		public boolean doesStackMatch(ItemStack input, AStack recipe) {
-			return recipe.matchesRecipe(input);
-		}
-		
-		public ItemStack getOutput(ItemStack left, ItemStack right) {
-			return output.copy();
-		}
-		
-		public int amountConsumed(int index, boolean mirrored) {
-			
-			if(index == 0)
-				return mirrored ? right.stacksize : left.stacksize;
-			if(index == 1)
-				return mirrored ? left.stacksize : right.stacksize;
-			
-			return 0;
-		}
 	}
 	
 	public static class AnvilConstructionRecipe {

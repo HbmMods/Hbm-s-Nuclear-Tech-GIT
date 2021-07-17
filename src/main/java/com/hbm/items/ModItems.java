@@ -735,6 +735,7 @@ public class ModItems {
 	public static Item particle_aschrab;
 	public static Item particle_higgs;
 	public static Item particle_muon;
+	public static Item particle_tachyon;
 	public static Item particle_strange;
 	public static Item particle_dark;
 	public static Item particle_sparkticle;
@@ -1914,6 +1915,8 @@ public class ModItems {
 	public static Item jetpack_break;
 	public static Item jetpack_fly;
 	public static Item jetpack_vector;
+	public static Item wings_limp;
+	public static Item wings_murk;
 	
 	public static Item jackt;
 	public static Item jackt2;
@@ -2979,6 +2982,7 @@ public class ModItems {
 		particle_aschrab = new Item().setUnlocalizedName("particle_aschrab").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aschrab");
 		particle_higgs = new Item().setUnlocalizedName("particle_higgs").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_higgs");
 		particle_muon = new Item().setUnlocalizedName("particle_muon").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_muon");
+		particle_tachyon = new Item().setUnlocalizedName("particle_tachyon").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_tachyon");
 		particle_strange = new Item().setUnlocalizedName("particle_strange").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_strange");
 		particle_dark = new Item().setUnlocalizedName("particle_dark").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_dark");
 		particle_sparkticle = new Item().setUnlocalizedName("particle_sparkticle").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_sparkticle");
@@ -3347,7 +3351,7 @@ public class ModItems {
 		rbmk_fuel_ueu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ueu)
 				.setYield(100000000D)
 				.setStats(15)
-				.setFunction(EnumBurnFunc.PLATEU)
+				.setFunction(EnumBurnFunc.LOG_TEN)
 				.setMeltingPoint(2865)
 				.addRadiation(ItemHazard.u * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_ueu").setTextureName(RefStrings.MODID + ":rbmk_fuel_ueu");
@@ -3516,7 +3520,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_pu238be").setTextureName(RefStrings.MODID + ":rbmk_fuel_pu238be");
 		rbmk_fuel_balefire_gold = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_balefire_gold)
 				.setYield(100000000D)
-				.setStats(10, 50)
+				.setStats(50, 10)
 				.setFunction(EnumBurnFunc.ARCH)
 				.setMeltingPoint(2000)
 				.addRadiation(ItemHazard.au198 * ItemHazard.rod_rbmk).toItem()
@@ -4640,6 +4644,7 @@ public class ModItems {
 		dns_helmet = new ArmorDNT(aMatDNS, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000000, 1000000, 100000, 115)
 				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 9))
 				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 7))
+				.addEffect(new PotionEffect(Potion.jump.id, 20, 2))
 				.setHasGeigerSound(true)
 				.enableVATS(true)
 				.enableThermalSight(true)
@@ -4974,6 +4979,8 @@ public class ModItems {
 		jetpack_break = new JetpackBreak(FluidType.KEROSENE, 12000).setUnlocalizedName("jetpack_break").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
 		jetpack_fly = new JetpackRegular(FluidType.KEROSENE, 12000).setUnlocalizedName("jetpack_fly").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
 		jetpack_vector = new JetpackVectorized(FluidType.KEROSENE, 16000).setUnlocalizedName("jetpack_vector").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_vector");
+		wings_murk = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_murk").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_murk");
+		wings_limp = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_limp").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_limp");
 
 		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_test").setCreativeTab(null).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
@@ -5835,6 +5842,7 @@ public class ModItems {
 		GameRegistry.registerItem(particle_aschrab, particle_aschrab.getUnlocalizedName());
 		GameRegistry.registerItem(particle_higgs, particle_higgs.getUnlocalizedName());
 		GameRegistry.registerItem(particle_muon, particle_muon.getUnlocalizedName());
+		GameRegistry.registerItem(particle_tachyon, particle_tachyon.getUnlocalizedName());
 		GameRegistry.registerItem(particle_strange, particle_strange.getUnlocalizedName());
 		GameRegistry.registerItem(particle_dark, particle_dark.getUnlocalizedName());
 		GameRegistry.registerItem(particle_sparkticle, particle_sparkticle.getUnlocalizedName());
@@ -7390,6 +7398,8 @@ public class ModItems {
 		GameRegistry.registerItem(jetpack_break, jetpack_break.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_vector, jetpack_vector.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_boost, jetpack_boost.getUnlocalizedName());
+		GameRegistry.registerItem(wings_limp, wings_limp.getUnlocalizedName());
+		GameRegistry.registerItem(wings_murk, wings_murk.getUnlocalizedName());
 		//GameRegistry.registerItem(australium_iv, australium_iv.getUnlocalizedName());
 		//GameRegistry.registerItem(australium_v, australium_v.getUnlocalizedName());
 		

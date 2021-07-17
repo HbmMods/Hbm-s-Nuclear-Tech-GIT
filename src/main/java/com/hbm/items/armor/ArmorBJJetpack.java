@@ -3,10 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelArmorBJ;
 import com.hbm.util.I18nUtil;
@@ -49,33 +46,20 @@ public class ArmorBJJetpack extends ArmorBJ {
 		
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
-		if(world.isRemote) {
+		if(!world.isRemote) {
 			
-			if(player == MainRegistry.proxy.me()) {
-				
-				boolean last = props.getKeyPressed(EnumKeybind.JETPACK);
-				boolean current = MainRegistry.proxy.getIsKeyPressed(EnumKeybind.JETPACK);
-				
-				if(last != current) {
-					PacketDispatcher.wrapper.sendToServer(new KeybindPacket(EnumKeybind.JETPACK, current));
-					props.setKeyPressed(EnumKeybind.JETPACK, current);
-				}
-			}
-			
-		} else {
-			
-			if(this.hasFSBArmor(player) && props.getKeyPressed(EnumKeybind.JETPACK)) {
+			if(this.hasFSBArmor(player) && props.isJetpackActive()) {
 
-	    		NBTTagCompound data = new NBTTagCompound();
-	    		data.setString("type", "jetpack_bj");
-	    		data.setInteger("player", player.getEntityId());
-	    		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "jetpack_bj");
+				data.setInteger("player", player.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
 			}
 		}
 
 		if(this.hasFSBArmor(player)) {
 			
-			if(props.getKeyPressed(EnumKeybind.JETPACK)) {
+			if(props.isJetpackActive()) {
 				
 				if(player.motionY < 0.4D)
 					player.motionY += 0.1D;

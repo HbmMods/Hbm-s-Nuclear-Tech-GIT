@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.AnvilRecipes;
-import com.hbm.inventory.AnvilRecipes.AnvilSmithingRecipe;
+import com.hbm.inventory.AnvilSmithingRecipe;
 import com.hbm.inventory.SlotMachineOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +38,7 @@ public class ContainerAnvil extends Container {
 					return;
 				}
 				
-				for(AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
+				for(com.hbm.inventory.AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
 					
 					int i = rec.matchesInt(left, right);
 					
@@ -160,7 +160,7 @@ public class ContainerAnvil extends Container {
 		
 		for(AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
 			
-			if(rec.matches(left, right)) {
+			if(rec.matches(left, right) && rec.tier <= this.tier) {
 				this.output.setInventorySlotContents(0, rec.getOutput(left, right));
 				return;
 			}

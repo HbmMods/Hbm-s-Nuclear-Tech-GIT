@@ -23,13 +23,17 @@ public class ItemGunDart extends ItemGunBase implements IDesignatorItem {
 		
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
-		
+
 		stack.stackTagCompound.setString("player", player.getDisplayName());
+		stack.stackTagCompound.setLong("lease", player.worldObj.getTotalWorldTime() + 60 * 60 * 20);
 	}
 	
-	public static EntityPlayer readPlayer(ItemStack stack) {
+	public static EntityPlayer readPlayer(World world, ItemStack stack) {
 		
 		if(!stack.hasTagCompound())
+			return null;
+		
+		if(stack.stackTagCompound.getLong("lease") < world.getTotalWorldTime())
 			return null;
 		
 		return MinecraftServer.getServer().getConfigurationManager().func_152612_a(stack.stackTagCompound.getString("player"));
@@ -41,7 +45,7 @@ public class ItemGunDart extends ItemGunBase implements IDesignatorItem {
 			super.startAction(stack, world, player, main);
 		} else {
 			
-			EntityPlayer target = readPlayer(stack);
+			EntityPlayer target = readPlayer(world, stack);
 			
 			if(target != null) {
 				
@@ -62,13 +66,13 @@ public class ItemGunDart extends ItemGunBase implements IDesignatorItem {
 
 	@Override
 	public boolean isReady(World world, ItemStack stack, int x, int y, int z) {
-		EntityPlayer target = readPlayer(stack);
+		EntityPlayer target = readPlayer(world, stack);
 		return target != null && target.dimension == world.provider.dimensionId;
 	}
 
 	@Override
 	public Vec3 getCoords(World world, ItemStack stack, int x, int y, int z) {
-		EntityPlayer target = readPlayer(stack);
+		EntityPlayer target = readPlayer(world, stack);
 		return Vec3.createVectorHelper(target.posX, target.posY, target.posZ);
 	}
 }

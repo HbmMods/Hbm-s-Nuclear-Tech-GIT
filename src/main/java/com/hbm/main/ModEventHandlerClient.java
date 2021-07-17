@@ -10,6 +10,7 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
@@ -316,6 +317,9 @@ public class ModEventHandlerClient {
 				((ItemArmorMod)armor.getItem()).modRender(event, armor);
 			}
 		}
+		
+		if(player.getCurrentArmor(2) == null)
+			RenderAccessoryUtility.renderSol(event);
 	}
 
 	@SubscribeEvent
@@ -617,7 +621,7 @@ public class ModEventHandlerClient {
 			ItemStack plate = player.inventory.armorInventory[2];
 			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
 
-			if(chestplate.thermal)
+			if(chestplate.thermal && HbmPlayerProps.getData(player).enableHUD)
 				RenderOverhead.renderThermalSight(event.partialTicks);
 		}
 	}
@@ -681,7 +685,7 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		if(ArmorFSB.hasFSBArmor(player)) {
+		if(ArmorFSB.hasFSBArmor(player) && HbmPlayerProps.getData(player).enableHUD) {
 			ItemStack plate = player.inventory.armorInventory[2];
 			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
 			

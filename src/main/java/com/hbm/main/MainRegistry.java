@@ -1173,6 +1173,10 @@ public class MainRegistry {
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
+		
+		HbmKeybinds.register();
+		HbmKeybinds keyHandler = new HbmKeybinds();
+		FMLCommonHandler.instance().bus().register(keyHandler);
 	}
 	
 	//yes kids, this is where we would usually register commands

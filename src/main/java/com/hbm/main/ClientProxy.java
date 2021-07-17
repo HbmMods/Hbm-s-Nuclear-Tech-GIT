@@ -47,6 +47,7 @@ import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -1439,9 +1440,13 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public boolean getIsKeyPressed(EnumKeybind key) {
-		
+
 		if(key == EnumKeybind.JETPACK)
 			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+		if(key == EnumKeybind.TOGGLE_JETPACK)
+			return HbmKeybinds.jetpackKey.getIsKeyPressed();
+		if(key == EnumKeybind.TOGGLE_HEAD)
+			return HbmKeybinds.hudKey.getIsKeyPressed();
 		
 		return false;
 	}

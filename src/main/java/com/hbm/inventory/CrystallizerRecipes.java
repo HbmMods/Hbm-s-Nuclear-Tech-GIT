@@ -60,6 +60,7 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.coal_infernal), new ItemStack(ModItems.solid_fuel));
 		recipes.put(new ComparableStack(ModItems.cinnebar), new ItemStack(ModItems.nugget_mercury, 3));
 		recipes.put("blockCoal", new ItemStack(ModBlocks.block_graphite));
+		recipes.put(new ComparableStack(ModBlocks.stone_gneiss), new ItemStack(ModItems.powder_lithium));
 		
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));

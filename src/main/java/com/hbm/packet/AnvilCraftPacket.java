@@ -3,6 +3,7 @@ package com.hbm.packet;
 import com.hbm.inventory.AnvilRecipes;
 import com.hbm.inventory.AnvilRecipes.AnvilConstructionRecipe;
 import com.hbm.inventory.container.ContainerAnvil;
+import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -52,6 +53,19 @@ public class AnvilCraftPacket implements IMessage {
 			
 			if(!recipe.isTierValid(anvil.tier)) //player is using the wrong type of anvil -> bad
 				return null;
+			
+			int count = m.mode == 1 ? 64 : 1;
+			
+			for(int i = 0; i < count; i++) {
+				
+				if(InventoryUtil.doesPlayerHaveAStacks(p, recipe.input, true)) {
+					InventoryUtil.giveChanceStacksToPlayer(p, recipe.output);
+				} else {
+					break;
+				}
+			}
+			
+			p.inventoryContainer.detectAndSendChanges();
 			
 			return null;
 		}

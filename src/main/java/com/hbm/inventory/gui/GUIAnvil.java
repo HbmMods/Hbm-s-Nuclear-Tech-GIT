@@ -14,6 +14,8 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerAnvil;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AnvilCraftPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
@@ -134,8 +136,12 @@ public class GUIAnvil extends GuiContainer {
 		}
 		
 		if(guiLeft + 52 <= x && guiLeft + 52 + 18 > x && guiTop + 53 < y && guiTop + 53 + 18 >= y) {
+			
+			if(this.selection == -1)
+				return;
+			
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			//craft
+			PacketDispatcher.wrapper.sendToServer(new AnvilCraftPacket(this.recipes.get(this.selection), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 1 : 0));
 			
 			return;
 		}
@@ -288,6 +294,19 @@ public class GUIAnvil extends GuiContainer {
 		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
 		
 		int slide = MathHelper.clamp_int(this.lastSize - 42, 0, 1000);
+		
+		int mul = 1;
+		while(true) {
+			
+			if(slide >= 51 * mul) {
+				this.drawTexturedModalRect(guiLeft + 125 + 51 * mul, guiTop + 17, 125, 17, 54, 108);
+				mul++;
+				
+			} else {
+				break;
+			}
+		}
+		
 		this.drawTexturedModalRect(guiLeft + 125 + slide, guiTop + 17, 125, 17, 54, 108);
 		
 		if(this.search.isFocused()) {
@@ -352,7 +371,6 @@ public class GUIAnvil extends GuiContainer {
 			}
 			
 			super.keyTyped(c, key);
-			
 		}
 	}
 }

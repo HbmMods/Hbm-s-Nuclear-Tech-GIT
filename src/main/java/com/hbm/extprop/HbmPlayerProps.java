@@ -38,7 +38,22 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		return keysPressed[key.ordinal()];
 	}
 	
+	public boolean isJetpackActive() {
+		return this.enableBackpack && getKeyPressed(EnumKeybind.JETPACK);
+	}
+	
 	public void setKeyPressed(EnumKeybind key, boolean pressed) {
+		
+		if(!getKeyPressed(key) && pressed) {
+			
+			if(key == EnumKeybind.TOGGLE_JETPACK) {
+				this.enableBackpack = !this.enableBackpack;
+			}
+			if(key == EnumKeybind.TOGGLE_HEAD) {
+				this.enableHUD = !this.enableHUD;
+			}
+		}
+		
 		keysPressed[key.ordinal()] = pressed;
 	}
 

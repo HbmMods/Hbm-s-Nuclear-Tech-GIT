@@ -41,7 +41,6 @@ import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
-import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -185,7 +184,7 @@ public class ModEventHandler {
 			ItemStack stack = event.entityLiving.getEquipmentInSlot(i);
 			
 			if(stack != null && stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
-
+				
 				ItemStack revive = ArmorModHandler.pryMods(stack)[ArmorModHandler.extra];
 				
 				if(revive != null) {
@@ -209,8 +208,13 @@ public class ModEventHandler {
 					//Shackles
 					if(revive.getItem() instanceof ItemModShackles && HbmLivingProps.getRadiation(event.entityLiving) < 1000F) {
 						
+						revive.setItemDamage(revive.getItemDamage() + 1);
+						
+						int dmg = revive.getItemDamage();
+						ArmorModHandler.applyMod(stack, revive);
+						
 						event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
-						HbmLivingProps.incrementRadiation(event.entityLiving, Math.max(HbmLivingProps.getRadiation(event.entityLiving), 10F));
+						HbmLivingProps.incrementRadiation(event.entityLiving, dmg * dmg);
 						event.setCanceled(true);
 						return;
 					}
@@ -1067,86 +1071,21 @@ public class ModEventHandler {
 		if(event.left.getItem() instanceof ItemGunBase && event.right.getItem() == Items.enchanted_book) {
 			
 			event.output = event.left.copy();
-
-            Map mapright = EnchantmentHelper.getEnchantments(event.right);
-            Iterator itr = mapright.keySet().iterator();
-
-            while (itr.hasNext()) {
-            	
-            	int i = ((Integer)itr.next()).intValue();
-            	int j = ((Integer)mapright.get(Integer.valueOf(i))).intValue();
-            	Enchantment e = Enchantment.enchantmentsList[i];
-            	
-            	EnchantmentUtil.removeEnchantment(event.output, e);
-            	EnchantmentUtil.addEnchantment(event.output, e, j);
-            }
-            
-            event.cost = 10;
-		}
-		
-		if(event.left.getItem() == ModItems.ingot_meteorite && event.right.getItem() == ModItems.ingot_meteorite &&
-				event.left.stackSize == 1 && event.right.stackSize == 1) {
 			
-			double h1 = ItemHot.getHeat(event.left);
-			double h2 = ItemHot.getHeat(event.right);
+			Map mapright = EnchantmentHelper.getEnchantments(event.right);
+			Iterator itr = mapright.keySet().iterator();
 			
-			if(h1 >= 0.5 && h2 >= 0.5) {
-	            
-				ItemStack out = new ItemStack(ModItems.ingot_meteorite_forged);
-				ItemHot.heatUp(out, (h1 + h2) / 2D);
-				event.output = out;
-	            event.cost = 10;
-			}
-		}
-		
-		if(event.left.getItem() == ModItems.ingot_meteorite_forged && event.right.getItem() == ModItems.ingot_meteorite_forged &&
-				event.left.stackSize == 1 && event.right.stackSize == 1) {
-			
-			double h1 = ItemHot.getHeat(event.left);
-			double h2 = ItemHot.getHeat(event.right);
-			
-			if(h1 >= 0.5 && h2 >= 0.5) {
-	            
-				ItemStack out = new ItemStack(ModItems.blade_meteorite);
-				ItemHot.heatUp(out, (h1 + h2) / 2D);
-				event.output = out;
-	            event.cost = 30;
-			}
-		}
-		
-		if(event.left.getItem() == ModItems.meteorite_sword_seared && event.right.getItem() == ModItems.ingot_meteorite_forged &&
-				event.left.stackSize == 1 && event.right.stackSize == 1) {
-			
-			double h2 = ItemHot.getHeat(event.right);
-			
-			if(h2 >= 0.5) {
-	            
-				ItemStack out = new ItemStack(ModItems.meteorite_sword_reforged);
-				event.output = out;
-	            event.cost = 50;
-			}
-		}
-		
-		if(event.left.getItem() == ModItems.ingot_steel_dusted && event.right.getItem() == ModItems.ingot_steel_dusted &&
-				event.left.stackSize ==  event.right.stackSize) {
-
-			double h1 = ItemHot.getHeat(event.left);
-			double h2 = ItemHot.getHeat(event.right);
-			
-			if(h2 >= 0.5) {
-
-				int i1 = event.left.getItemDamage();
-				int i2 = event.right.getItemDamage();
+			while(itr.hasNext()) {
 				
-				int i3 = Math.min(i1, i2) + 1;
+				int i = ((Integer) itr.next()).intValue();
+				int j = ((Integer) mapright.get(Integer.valueOf(i))).intValue();
+				Enchantment e = Enchantment.enchantmentsList[i];
 				
-				boolean done = i3 >= 10;
-	            
-				ItemStack out = new ItemStack(done ? ModItems.ingot_chainsteel : ModItems.ingot_steel_dusted, event.left.stackSize, done ? 0 : i3);
-				ItemHot.heatUp(out, done ? 1D : (h1 + h2) / 2D);
-				event.output = out;
-	            event.cost = event.left.stackSize;
+				EnchantmentUtil.removeEnchantment(event.output, e);
+				EnchantmentUtil.addEnchantment(event.output, e, j);
 			}
+			
+			event.cost = 10;
 		}
 	}
 }
