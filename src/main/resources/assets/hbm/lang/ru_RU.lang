@@ -221,6 +221,11 @@ rbmk.rod.xenon=Ксеноновое отравление: %s
 rbmk.rod.coreTemp=Температура стержня: %s
 rbmk.rod.skinTemp=Температура оболочки стержня: %s / %s
 
+hbm.key=NTM Hotkeys
+hbm.key.toggleBack=Включить ранец
+hbm.key.toggleHUD=Включить HUD
+hbm.key.reload=Перезарядить
+
 book.test.cover=HOW 2 SEX
 book.test.page1=Test Page 1
 book.rbmk.cover=Мой первый РБМК:$Основы$строительства реактора$
@@ -920,12 +925,14 @@ tile.rbmk_moderator.name=Графитовый замедлитель РБМК
 tile.rbmk_reflector.name=Карбид-вольфрамовый отражатель нейтронов РБМК
 tile.rbmk_outgasser.name=Стержень облучения РБМК
 tile.rbmk_rod.name=Топливные стержни РБМК
+tile.rbmk_rod_reasim.name=Топливные стержни РБМК (РеаСим)
 tile.rbmk_console.name=Консоль РБМК
 container.rbmkBoiler=Паровой канал РБМК
 container.rbmkControl=Регулирующие стержни РБМК
 container.rbmkControlAuto=Автоматические регулирующие стержни РБМК
 container.rbmkOutgasser=Стержень облучения РБМК
 container.rbmkRod=Топливные стержни РБМК
+container.rbmkReaSim=Топливные стержни РБМК (РеаСим)
 
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_center.name=Центральный элемент магнита
@@ -1078,6 +1085,7 @@ item.ingot_zirconium.name=Циркониевый куб
 item.ingot_boron.name=Борный слиток
 item.ingot_graphite.name=Графитовый слиток
 item.ingot_bismuth.name=Слиток висмута
+item.cube_power.name=Куб электрония
 
 item.plate_armor_lunar.name=Лунная обшивка
 item.plate_armor_titanium.name=Титановая обшивка брони
@@ -2679,13 +2687,13 @@ item.jetpack_fly.name=Реактивный ранец
 item.jetpack_break.name=Строительный ранец
 item.jetpack_vector.name=Векторный реактивный ранец
 item.jetpack_tank.name=Резервный топливный бак ранца
+item.wings_limp.name=Хромые крылья
+item.wings_murk.name=Мрачные крылья
 
 item.gun_kit_1.name=Ружейное масло
 item.gun_kit_2.name=Комплект для ремонта оружия
-
 item.chainsaw.name=Бензопила
 item.crowbar.name=Mk.V Устройство Для Вскрытия Ящиков "Лом"
-
 item.wrench.name=Газовый ключ
 item.wrench_flipped.name=Лезвие на гаечном ключе
 item.memespoon.name=§eЗемлекоп
@@ -3366,6 +3374,7 @@ item.particle_strange.name=Капсула со Странным кварком
 item.particle_copper.name=Капсула с ионами меди
 item.particle_lead.name=Капсула с ионами свинца
 item.particle_hydrogen.name=Капсула с ионами водорода
+item.particle_tachyon.name=Капсула с тахионом
 item.particle_digamma.name=§cЧастица Дигамма§r
 
 item.rune_blank.name=Пустая каталитическая матрица
@@ -3421,6 +3430,7 @@ item.digamma_diagnostic.name=Диагностика дигаммы
 tile.geiger.name=Счетчик Гейгера
 tile.glass_polonium.name=Полониевое стекло
 item.survey_scanner.name=Сканер
+item.coltan_tool.name=Колтасс
 item.mirror_tool.name=Инструмент для регулировки зеркал
 item.mirror_tool.linked=Позиция выравнивания установлена!
 item.mirror_tool.desc=Щелкните правой кнопкой мыши по бойлеру, чтобы запомнить его положение.$Нажмите на зеркала, чтобы повернуть их в сторону бойлера
