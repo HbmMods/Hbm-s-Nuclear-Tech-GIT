@@ -933,6 +933,7 @@ public class ModBlocks {
 	public static final int guiID_fritz = 122;
 
 	public static Block rbmk_rod;
+	public static Block rbmk_rod_reasim;
 	public static Block rbmk_control;
 	public static Block rbmk_control_auto;
 	public static Block rbmk_blank;
@@ -1747,6 +1748,7 @@ public class ModBlocks {
 		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		rbmk_rod = new RBMKRod().setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
+		rbmk_rod_reasim = new RBMKRodReaSim().setBlockName("rbmk_rod_reasim").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_reasim");
 		rbmk_control = new RBMKControl().setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
 		rbmk_control_auto = new RBMKControlAuto().setBlockName("rbmk_control_auto").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_auto");
 		rbmk_blank = new RBMKBlank().setBlockName("rbmk_blank").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_blank");
@@ -2509,6 +2511,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(rbmk_rod, rbmk_rod.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_rod_reasim, rbmk_rod_reasim.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control, rbmk_control.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control_auto, rbmk_control_auto.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_blank, rbmk_blank.getUnlocalizedName());

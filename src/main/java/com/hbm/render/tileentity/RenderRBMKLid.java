@@ -6,6 +6,7 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -78,6 +79,8 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 				cherenkov = false;
 			}
 			
+			if(control instanceof TileEntityRBMKBoiler && meta != RBMKBase.DIR_GLASS_LID.ordinal())
+				ResourceManager.rbmk_rods.renderPart("Lid");
 			ResourceManager.rbmk_element.renderPart("Lid");
 			GL11.glPopMatrix();
 		}

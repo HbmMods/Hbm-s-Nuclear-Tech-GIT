@@ -46,7 +46,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class HbmWorldGen implements IWorldGenerator {
@@ -165,6 +164,19 @@ public class HbmWorldGen implements IWorldGenerator {
 		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_tungsten, rand, 32);
 		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_cinnebar, rand, 16);
 		DepthDeposit.generateCondition(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_zirconium, rand, 16);
+
+		Random colRand = new Random(world.getSeed() + 5);
+		int colX = (int) (colRand.nextGaussian() * 1500);
+		int colZ = (int) (colRand.nextGaussian() * 1500);
+		int colRange = 500;
+		for (int k = 0; k < 6; k++) {
+			int randPosX = i + rand.nextInt(16);
+			int randPosY = rand.nextInt(25) + 15;
+			int randPosZ = j + rand.nextInt(16);
+
+			if(randPosX <= colX + colRange && randPosX >= colX - colRange && randPosZ <= colZ + colRange && randPosZ >= colZ - colRange)
+				(new WorldGenMinable(ModBlocks.ore_coltan, 3)).generate(world, rand, randPosX, randPosY, randPosZ);
+		}
 
 		for (int k = 0; k < rand.nextInt(4); k++) {
 			int randPosX = i + rand.nextInt(16);

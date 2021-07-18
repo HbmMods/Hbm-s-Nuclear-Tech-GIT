@@ -733,6 +733,54 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onWingFlop(TickEvent.PlayerTickEvent event) {
+
+		EntityPlayer player = event.player;
+		
+		if(event.phase == TickEvent.Phase.START && player.getUniqueID().toString().equals(Library.SolsticeUnlimitd)) {
+			
+			if(player.getCurrentArmor(2) == null && !player.onGround) {
+				
+				if(player.fallDistance > 0)
+					player.fallDistance = 0;
+				
+				if(player.motionY < -0.4D)
+					player.motionY = -0.4D;
+				
+				HbmPlayerProps props = HbmPlayerProps.getData(player);
+				
+				if(player.getFoodStats().getFoodLevel() > 6) {
+					
+					if(props.isJetpackActive()) {
+						if(player.motionY < 0.4D)
+							player.motionY += 0.15D;
+						
+						if(player.getFoodStats().getSaturationLevel() > 0F)
+							player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
+						else
+							player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
+					}
+				}
+				
+				Vec3 orig = player.getLookVec();
+				Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
+				double mod = props.isJetpackActive() ? 0.25D : 0.125D;
+				
+				if(player.moveForward != 0) {
+					player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
+					player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
+				}
+				
+				if(player.moveStrafing != 0) {
+					look.rotateAroundY((float) Math.PI * 0.5F);
+					player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
+					player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;

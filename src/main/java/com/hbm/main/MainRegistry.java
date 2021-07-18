@@ -85,6 +85,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION)
 public class MainRegistry {
@@ -479,6 +480,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityChungus.class, "tileentity_chungus");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
+		GameRegistry.registerTileEntity(TileEntityRBMKRodReaSim.class, "tileentity_rbmk_rod_reasim");
 		GameRegistry.registerTileEntity(TileEntityRBMKControlManual.class, "tileentity_rbmk_control");
 		GameRegistry.registerTileEntity(TileEntityRBMKControlAuto.class, "tileentity_rbmk_control_auto");
 		GameRegistry.registerTileEntity(TileEntityRBMKBlank.class, "tileentity_rbmk_blank");
@@ -1174,9 +1176,11 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
 		
-		HbmKeybinds.register();
-		HbmKeybinds keyHandler = new HbmKeybinds();
-		FMLCommonHandler.instance().bus().register(keyHandler);
+		if(event.getSide() == Side.CLIENT) {
+			HbmKeybinds.register();
+			HbmKeybinds keyHandler = new HbmKeybinds();
+			FMLCommonHandler.instance().bus().register(keyHandler);
+		}
 	}
 	
 	//yes kids, this is where we would usually register commands

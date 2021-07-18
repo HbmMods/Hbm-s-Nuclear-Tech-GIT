@@ -17,7 +17,11 @@ public class RBMKDials {
 	public static final String KEY_REACTIVITY_MOD = "dialReactivityMod";
 	public static final String KEY_SAVE_DIALS = "dialSaveDials";
 	public static final String KEY_OUTGASSER_MOD = "dialOutgasserSpeedMod";
-	public static final String KEV_SURGE_MOD = "dialControlSurgeMod";
+	public static final String KEY_SURGE_MOD = "dialControlSurgeMod";
+	public static final String KEY_FLUX_RANGE = "dialFluxRange";
+	public static final String KEY_REASIM_RANGE = "dialReasimRange";
+	public static final String KEY_REASIM_COUNT = "dialReasimCount";
+	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -34,7 +38,11 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REACTIVITY_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_SAVE_DIALS, "true");
 			rules.setOrCreateGameRule(KEY_OUTGASSER_MOD, "1.0");
-			rules.setOrCreateGameRule(KEV_SURGE_MOD, "1.0");
+			rules.setOrCreateGameRule(KEY_SURGE_MOD, "1.0");
+			rules.setOrCreateGameRule(KEY_FLUX_RANGE, "5");
+			rules.setOrCreateGameRule(KEY_REASIM_RANGE, "10");
+			rules.setOrCreateGameRule(KEY_REASIM_COUNT, "6");
+			rules.setOrCreateGameRule(KEY_REASIM_MOD, "1.0");
 		}
 	}
 	
@@ -129,12 +137,48 @@ public class RBMKDials {
 	}
 	
 	/**
-	 * A multiplier for how high the power surge goes when inserting control rods
+	 * A multiplier for how high the power surge goes when inserting control rods.
 	 * @param world
 	 * @return >0
 	 */
 	public static double getSurgeMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEV_SURGE_MOD), 1.0D), 0.0D);
+		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_SURGE_MOD), 1.0D), 0.0D);
+	}
+	
+	/**
+	 * Simple integer that decides how far the flux of a normal fuel rod reaches.
+	 * @param world
+	 * @return [1;100]
+	 */
+	public static int getFluxRange(World world) {
+		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_FLUX_RANGE), 5), 1, 100);
+	}
+	
+	/**
+	 * Simple integer that decides how far the flux of a ReaSim fuel rod reaches.
+	 * @param world
+	 * @return [1;100]
+	 */
+	public static int getReaSimRange(World world) {
+		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_RANGE), 10), 1, 100);
+	}
+	
+	/**
+	 * Simple integer that decides how many neutrons are created from ReaSim fuel rods.
+	 * @param world
+	 * @return [1;24]
+	 */
+	public static int getReaSimCount(World world) {
+		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_COUNT), 6), 1, 24);
+	}
+	
+	/**
+	 * Returns a modifier for the outgoing flux of individual streams from the ReaSim fuel rod to compensate for the potentially increased stream count.
+	 * @param world
+	 * @return >0
+	 */
+	public static double getReaSimOutputMod(World world) {
+		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_MOD), 1.0D), 0.0D);
 	}
 	
 	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?

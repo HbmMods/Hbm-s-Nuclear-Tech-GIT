@@ -3,7 +3,9 @@ package com.hbm.entity.particle;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class EntityOrangeFX extends EntityModFX {
@@ -75,10 +77,19 @@ public class EntityOrangeFX extends EntityModFX {
 			if(worldObj.getBlock((int) posX, (int) posY, (int) posZ).getMaterial() != Material.air) {
 				this.setDead();
 				
-				for(int a = -1; a < 2; a++)
-					for(int b = -1; b < 2; b++)
-						for(int c = -1; c < 2; c++)
-							ExplosionNukeGeneric.solinium(worldObj, (int) posX + a, (int) posY + b, (int) posZ + c);
+				for(int a = -1; a < 2; a++) {
+					for(int b = -1; b < 2; b++) {
+						for(int c = -1; c < 2; c++) {
+							
+							Block bl = worldObj.getBlock((int) posX + a, (int) posY + b, (int) posZ + c);
+							if(bl == Blocks.grass) {
+								worldObj.setBlock((int) posX + a, (int) posY + b, (int) posZ + c, Blocks.dirt, 1, 3);
+							} else {
+								ExplosionNukeGeneric.solinium(worldObj, (int) posX + a, (int) posY + b, (int) posZ + c);
+							}
+						}
+					}
+				}
 			}
 		}
 	}

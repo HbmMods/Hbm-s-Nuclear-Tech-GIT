@@ -318,7 +318,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(player.getCurrentArmor(2) == null)
+		if(player.getCurrentArmor(2) == null && player.getUniqueID().toString().equals(Library.SolsticeUnlimitd))
 			RenderAccessoryUtility.renderSol(event);
 	}
 

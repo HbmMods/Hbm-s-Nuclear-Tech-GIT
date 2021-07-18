@@ -51,7 +51,7 @@ public class ModelArmorWings extends ModelArmorBase {
 		double px = 0.0625D;
 
 		double rot = Math.sin((entity.ticksExisted) * 0.2D) * 20;
-		double rot2 = Math.sin((entity.ticksExisted) * 0.2D - Math.PI * 0.5) * 50 + 35;
+		double rot2 = Math.sin((entity.ticksExisted) * 0.2D - Math.PI * 0.5) * 50 + 30;
 		
 		int pivotSideOffset = 1;
 		int pivotFrontOffset = 5;

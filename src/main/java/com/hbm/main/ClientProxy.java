@@ -224,6 +224,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKOutgasser.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_outgasser"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKReflector.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_reflector"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRod.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element"));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRodReaSim.class, new RenderRBMKLid(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element_reasim"));
 		//ITER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITER.class, new RenderITER());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePlasmaHeater.class, new RenderPlasmaHeater());
