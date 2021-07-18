@@ -305,7 +305,7 @@ hbmfluid.plasma_ht=Водородно-Тритиевая-плазма
 hbmfluid.plasma_xm=Ксеноново-Ртутная-плазма
 hbmfluid.plasma_bf=Жар-плазма
 hbmfluid.schrabidic=Шрабидиевая кислота
-
+hbmfluid.pain=Пандемониум(III)Раствор танталита
 
 //Special for 1.12.2 version//
 fluid.hbmsteam=Пар
@@ -827,7 +827,7 @@ tile.turret_fritz.name=Тяжелая огнеметная турель "Фри�
 tile.turret_maxwell.name=Высокоэнергетическая Мазерная турель "Максвелл"
 container.machineSILEX=Камера ЛРИ
 tile.machine_silex.name=Камера лазерного разделения изотопов (SILEX)
-container.anvil=Наковальня
+container.anvil=Наковальня %s уровня
 tile.anvil_dnt.name=Динейтрониевая наковальня
 tile.anvil_ferrouranium.name=Ферроураниевая наковальня
 tile.anvil_iron.name=Железная наковальня
@@ -1036,6 +1036,7 @@ item.ingot_am242.name=Слиток америция-242
 item.ingot_americium_fuel.name=Слиток америциевого топлива
 item.ingot_titanium.name=Титановый слиток
 item.ingot_cobalt.name=Кобальтовый слиток
+item.ingot_tantalium.name=Танталовый слиток
 item.ingot_meteorite.name=Метеоритовый слиток
 item.ingot_meteorite_forged.name=Выкованный метеоритовый слиток
 item.sulfur.name=Сера
@@ -1211,6 +1212,7 @@ item.wire_red_copper.name=Провод из красной меди
 item.neutron_reflector.name=Отражатель нейтронов
 item.nugget_beryllium.name=Бериллиевый самородок
 item.nugget_bismuth.name=Самородок висмута
+item.nugget_tantalium.name=Самородок тантала
 
 item.crystal_iron.name=Кристаллизованное железо
 item.crystal_gold.name=Кристаллизованное золото
@@ -1237,20 +1239,22 @@ item.crystal_starmetal.name=Кристализованный звёздный м
 item.crystal_trixite.name=Кристаллизованный триксит
 item.crystal_coal.name=Кристаллизованный уголь
 item.crystal_lapis.name=Кристализованный лазурит
+item.gem_tantalium.name=Поликристалл тантала
 
 item.wire_aluminium.name=Алюминиевый провод
 item.wire_copper.name=Медный провод
 item.wire_gold.name=Золотой провод
 item.wire_schrabidium.name=Шрабидиевый провод
-
 item.circuit_raw.name=Сборка простой микросхемы
 item.circuit_bismuth_raw.name=Сборка универсального чипсета
+item.circuit_tantalium_raw.name=Сборка платы конденсатора
 item.circuit_aluminium.name=Простая микросхема
 item.circuit_copper.name=Продвинутая микросхема
 item.circuit_red_copper.name=Усовершенствованная микросхема
 item.circuit_gold.name=Разогнанная микросхема
 item.circuit_schrabidium.name=Высокопроизводительная микросхема
 item.circuit_bismuth.name=Универсальный чипсет
+item.circuit_tantalium.name=Плата конденсатора
 item.circuit_targeting_tier1.name=Печатная плата военного класса (Уровень 1)
 item.circuit_targeting_tier2.name=Печатная плата военного класса (Уровень 2)
 item.circuit_targeting_tier3.name=Печатная плата военного класса (Уровень 3)
@@ -1297,6 +1301,7 @@ tile.block_aluminium.name=Алюминиевый блок
 tile.block_copper.name=Медный блок
 tile.block_fluorite.name=Флюоритовый блок
 tile.block_niter.name=Блок селитры
+tile.block_niter_reinforced.name=Укрепленный блок селитры
 tile.block_red_copper.name=Блок красной меди
 tile.block_steel.name=Стальной блок
 tile.block_sulfur.name=Блок серы
@@ -1349,6 +1354,9 @@ tile.block_boron.name=Блок бора
 tile.block_graphite.name=Блок графита
 tile.block_zirconium.name=Блок циркония
 tile.block_bismuth.name=Блок висмута
+tile.block_coltan.name=Блок колтана
+tile.block_tantalium.name=Блок тантала
+tile.block_semtex.name=Блок семтекса
 
 tile.block_u233.name=Блок урана-233
 tile.block_u235.name=Блок урана-235
@@ -1432,6 +1440,7 @@ tile.ore_depth_zirconium.name=Глубинная циркониевая руда
 tile.cluster_iron.name=Железорудный кластер
 tile.cluster_titanium.name=Титановый рудный кластер
 tile.ore_cinnebar.name=Киноварь
+tile.ore_coltan.name=Колтановая руда
 
 tile.deco_titanium.name=Титановый декоративный блок
 tile.deco_red_copper.name=Красномедный декоративный блок
@@ -1674,6 +1683,8 @@ item.powder_i131_tiny.name=Кучка порошка иода-131
 item.powder_xe135.name=Порошок ксенона-135
 item.powder_xe135_tiny.name=Кучка порошка ксенона-135
 item.powder_cs137_tiny.name=Кучка порошка цезия-137
+item.powder_coltan.name=Очищенный танталит
+item.powder_coltan_ore.name=Измельченный Колтан
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -1683,6 +1694,7 @@ item.fragment_lanthanium.name=Лантановый осколок
 item.fragment_actinium.name=Актиниевый осколок
 item.fragment_boron.name=Борный осколок
 item.fragment_meteorite.name=Метеоритный осколок
+item.fragment_coltan.name=Колтан
 
 item.battery_generic.name=Аккумулятор
 item.battery_advanced.name=Продвинутый аккумулятор
@@ -1690,16 +1702,13 @@ item.battery_lithium.name=Литий-ионный аккумулятор
 item.battery_schrabidium.name=Шрабидиевая батарея
 item.battery_spark.name=Спарк-батарея
 item.battery_creative.name=Бесконечная батарейка
-
 item.battery_su.name=Одноразовая батарейка
 item.battery_su_l.name=Большая одноразовая батарейка
 item.battery_trixite.name=Безымянная спарк-батарея
 item.battery_steam.name=Паровой бак для хранения энергии 
 item.battery_steam_large.name=Большой паровой бак для хранения энергии
-
 item.battery_potato.name=Картофельная батарейка
 item.battery_potatos.name=КартошкОС
-
 item.battery_red_cell.name=Энергоячейка из красной пыли
 item.battery_advanced_cell.name=Усовершенствованная энергоячейка
 item.battery_lithium_cell.name=Литий-ионная энергоячейка
