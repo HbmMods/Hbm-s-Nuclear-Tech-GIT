@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.blocks.machine.rbmk.RBMKRod;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
@@ -28,6 +29,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Override
 	public String getName() {
 		return "container.rbmkRod";
+	}
+	
+	@Override
+	public boolean isModerated() {
+		return ((RBMKRod)this.getBlockType()).moderated;
 	}
 
 	@SuppressWarnings("incomplete-switch") //shut the fuck up
@@ -144,6 +150,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			
 			if(!base.hasLid())
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) (flux * 0.05F));
+			
+			if(base.isModerated()) {
+				
+				if(this.stream != NType.SLOW) {
+					//flux *= 0.85D;
+				} else {
+					this.stream = NType.SLOW;
+				}
+			}
 		}
 
 		//burn baby burn

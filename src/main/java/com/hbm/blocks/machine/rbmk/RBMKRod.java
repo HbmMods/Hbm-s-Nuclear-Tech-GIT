@@ -10,6 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class RBMKRod extends RBMKBase {
+	
+	public boolean moderated = false;
+	
+	public RBMKRod(boolean moderated) {
+		super();
+		this.moderated = moderated;
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {

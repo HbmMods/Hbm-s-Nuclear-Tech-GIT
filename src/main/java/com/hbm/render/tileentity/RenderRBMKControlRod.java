@@ -2,6 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControl;
@@ -13,10 +14,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderRBMKControlRod extends TileEntitySpecialRenderer {
 	
 	private ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control.png");
-	
-	public RenderRBMKControlRod(String texture) {
-		this.texture = new ResourceLocation(texture);
-	}
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float i) {
@@ -40,8 +37,13 @@ public class RenderRBMKControlRod extends TileEntitySpecialRenderer {
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
+
 		
-		bindTexture(texture);
+		if(control.getBlockType() instanceof RBMKBase) {
+			bindTexture(((RBMKBase)control.getBlockType()).coverTexture);
+		} else {
+			bindTexture(texture);
+		}
 		
 		double level = control.lastLevel + (control.level - control.lastLevel) * i;
 		

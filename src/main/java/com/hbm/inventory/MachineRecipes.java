@@ -404,6 +404,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.circuit_aluminium);
 			if(input.getItem() == ModItems.circuit_bismuth_raw)
 				return new ItemStack(ModItems.circuit_bismuth);
+			if(input.getItem() == ModItems.circuit_tantalium_raw)
+				return new ItemStack(ModItems.circuit_tantalium);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_357) {
@@ -516,6 +518,7 @@ public class MachineRecipes {
 
 		recipes.put(new Object[] { i_stamps_circuit, new ItemStack(ModItems.circuit_raw) }, getPressResultNN(stamps_circuit.get(0), ModItems.circuit_raw));
 		recipes.put(new Object[] { i_stamps_circuit, new ItemStack(ModItems.circuit_bismuth_raw) }, getPressResultNN(stamps_circuit.get(0), ModItems.circuit_bismuth_raw));
+		recipes.put(new Object[] { i_stamps_circuit, new ItemStack(ModItems.circuit_tantalium_raw) }, getPressResultNN(stamps_circuit.get(0), ModItems.circuit_tantalium_raw));
 
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_iron) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_iron));
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_steel) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_steel));

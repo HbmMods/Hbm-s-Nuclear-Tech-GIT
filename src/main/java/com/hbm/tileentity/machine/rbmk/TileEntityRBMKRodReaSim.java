@@ -1,8 +1,14 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+
 import net.minecraft.util.Vec3;
 
 public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
+	
+	public TileEntityRBMKRodReaSim() {
+		super();
+	}
 
 	@Override
 	public String getName() {
@@ -40,5 +46,10 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 					break;
 			}
 		}
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.FUEL_SIM;
 	}
 }

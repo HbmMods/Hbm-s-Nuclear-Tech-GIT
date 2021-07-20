@@ -9,6 +9,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class RBMKControl extends RBMKBase {
+	
+	public boolean moderated = false;
+	
+	public RBMKControl(boolean moderated) {
+		super();
+		this.moderated = moderated;
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {

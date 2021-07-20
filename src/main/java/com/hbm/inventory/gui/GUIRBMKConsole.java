@@ -250,8 +250,9 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 				int fr = 8 - (int)Math.ceil((col.data.getDouble("level") * 8));
 				drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 1, 24, 183, 2, fr);
 				break;
-				
+
 			case FUEL:
+			case FUEL_SIM:
 				if(col.data.hasKey("c_heat")) {
 					int fh = (int)Math.ceil((col.data.getDouble("c_heat") - 20) * 8 / col.data.getDouble("c_maxHeat"));
 					drawTexturedModalRect(guiLeft + x + 1, guiTop + y + size - fh - 1, 11, 191 - fh, 2, fh);

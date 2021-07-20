@@ -39,7 +39,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		/*if(!worldObj.isRemote) {
 			gas.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(worldObj.getTotalWorldTime() % 10 == 0)
@@ -48,7 +48,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(!canProcess()) {
 				this.progress = 0;
 			}
-		}
+		}*/
 		
 		super.updateEntity();
 	}

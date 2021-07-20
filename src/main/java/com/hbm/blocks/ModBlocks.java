@@ -165,6 +165,7 @@ public class ModBlocks {
 	public static Block block_waste_painted;
 	public static Block ancient_scrap;
 	public static Block block_corium;
+	public static Block block_corium_cobble;
 	public static Block block_scrap;
 	public static Block block_electrical_scrap;
 	public static Block block_beryllium;
@@ -933,8 +934,11 @@ public class ModBlocks {
 	public static final int guiID_fritz = 122;
 
 	public static Block rbmk_rod;
+	public static Block rbmk_rod_mod;
 	public static Block rbmk_rod_reasim;
+	public static Block rbmk_rod_reasim_mod;
 	public static Block rbmk_control;
+	public static Block rbmk_control_mod;
 	public static Block rbmk_control_auto;
 	public static Block rbmk_blank;
 	public static Block rbmk_boiler;
@@ -1215,6 +1219,7 @@ public class ModBlocks {
 		block_waste_painted = new BlockNuclearWaste().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste_painted").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste_painted");
 		ancient_scrap = new BlockOutgas(Material.iron, true, 1, true, true).addRadiation(150F).toBlock().setBlockName("ancient_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":ancient_scrap");
 		block_corium = new BlockOutgas(Material.iron, true, 1, true, true).addRadiation(150F).toBlock().setBlockName("block_corium").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_corium");
+		block_corium_cobble = new BlockOutgas(Material.iron, true, 1, true, true).addRadiation(150F).toBlock().setBlockName("block_corium_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_corium_cobble");
 		block_scrap = new BlockFalling(Material.sand).setBlockName("block_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(2.5F).setResistance(5.0F).setStepSound(Block.soundTypeGravel).setBlockTextureName(RefStrings.MODID + ":block_scrap");
 		block_electrical_scrap = new BlockFalling(Material.iron).setBlockName("block_electrical_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(2.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setBlockTextureName(RefStrings.MODID + ":electrical_scrap_alt2");
 		block_beryllium = new BlockGeneric(Material.iron).setBlockName("block_beryllium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_beryllium");
@@ -1747,9 +1752,12 @@ public class ModBlocks {
 		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
-		rbmk_rod = new RBMKRod().setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
-		rbmk_rod_reasim = new RBMKRodReaSim().setBlockName("rbmk_rod_reasim").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_reasim");
-		rbmk_control = new RBMKControl().setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
+		rbmk_rod = new RBMKRod(false).setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
+		rbmk_rod_mod = new RBMKRod(true).setBlockName("rbmk_rod_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_mod");
+		rbmk_rod_reasim = new RBMKRodReaSim(false).setBlockName("rbmk_rod_reasim").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_reasim");
+		rbmk_rod_reasim_mod = new RBMKRodReaSim(true).setBlockName("rbmk_rod_reasim_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_reasim_mod");
+		rbmk_control = new RBMKControl(false).setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
+		rbmk_control_mod = new RBMKControl(true).setBlockName("rbmk_control_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_mod");
 		rbmk_control_auto = new RBMKControlAuto().setBlockName("rbmk_control_auto").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_auto");
 		rbmk_blank = new RBMKBlank().setBlockName("rbmk_blank").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_blank");
 		rbmk_boiler = new RBMKBoiler().setBlockName("rbmk_boiler").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_boiler");
@@ -1892,7 +1900,7 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(schrabidic_fluid);
 		schrabidic_block = new SchrabidicBlock(schrabidic_fluid, fluidschrabidic.setReplaceable(), ModDamageSource.radiation).setBlockName("schrabidic_block").setResistance(500F);
 
-		corium_fluid = new CoriumFluid().setDensity(6000).setViscosity(500).setLuminosity(10).setTemperature(600).setUnlocalizedName("corium_fluid");
+		corium_fluid = new CoriumFluid().setDensity(600000).setViscosity(12000).setLuminosity(10).setTemperature(1500).setUnlocalizedName("corium_fluid");
 		FluidRegistry.registerFluid(corium_fluid);
 		corium_block = new CoriumBlock(corium_fluid, fluidcorium).setBlockName("corium_block").setResistance(500F);
 
@@ -2116,6 +2124,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_waste_painted, ItemBlockHazard.class, block_waste_painted.getUnlocalizedName());
 		GameRegistry.registerBlock(ancient_scrap, ItemBlockHazard.class, ancient_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_corium, ItemBlockHazard.class, block_corium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_corium_cobble, ItemBlockHazard.class, block_corium_cobble.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schraranium, ItemBlockSchrabidium.class, block_schraranium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium, ItemBlockSchrabidium.class, block_schrabidium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidate, ItemBlockSchrabidium.class, block_schrabidate.getUnlocalizedName());
@@ -2511,8 +2520,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(rbmk_rod, rbmk_rod.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_rod_mod, rbmk_rod_mod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_rod_reasim, rbmk_rod_reasim.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_rod_reasim_mod, rbmk_rod_reasim_mod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control, rbmk_control.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_control_mod, rbmk_control_mod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control_auto, rbmk_control_auto.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_blank, rbmk_blank.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_boiler, rbmk_boiler.getUnlocalizedName());

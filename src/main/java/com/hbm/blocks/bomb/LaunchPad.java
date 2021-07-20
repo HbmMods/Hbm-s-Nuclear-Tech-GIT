@@ -289,7 +289,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
 				MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
 		}
 		
-		if(entity.slots[0].getItem() == ModItems.missile_carrier && entity.power >= 75000) {
+		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_carrier && entity.power >= 75000) {
 			EntityCarrier missile = new EntityCarrier(world);
 			missile.posX = x + 0.5F;
 			missile.posY = y + 1F;
@@ -306,7 +306,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
 			world.playSoundEffect(x, y, z, "hbm:entity.rocketTakeoff", 100.0F, 1.0F);
 		}
 
-		if(entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
+		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
 			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(world);
 			missile.posX = x + 0.5F;
 			missile.posY = y + 0.5F;

@@ -749,10 +749,13 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_absorber, 1), new Object[] { "GGG", "GRG", "GGG", 'G', ModItems.ingot_boron, 'R', ModBlocks.rbmk_blank });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_reflector, 1), new Object[] { "GGG", "GRG", "GGG", 'G', ModItems.neutron_reflector, 'R', ModBlocks.rbmk_blank });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_control, 1), new Object[] { " B ", "GRG", " B ", 'G', ModItems.ingot_graphite, 'B', ModItems.motor, 'R', ModBlocks.rbmk_absorber });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_control_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', ModBlocks.block_graphite, 'R', ModBlocks.rbmk_control, 'B', ModItems.nugget_bismuth });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_control_auto, 1), new Object[] { "C", "R", "C", 'C', ModItems.circuit_targeting_tier1, 'R', ModBlocks.rbmk_control });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_boiler, 1), new Object[] { "CPC", "CRC", "CPC", 'C', ModItems.board_copper, 'P', ModItems.pipes_steel, 'R', ModBlocks.rbmk_blank });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod, 1), new Object[] { "C", "R", "C", 'C', ModItems.hull_small_steel, 'R', ModBlocks.rbmk_blank });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', ModBlocks.block_graphite, 'R', ModBlocks.rbmk_rod, 'B', ModItems.nugget_bismuth });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_rod_reasim, 1), new Object[] { "ZCZ", "ZRZ", "ZCZ", 'C', ModItems.hull_small_steel, 'R', ModBlocks.rbmk_blank, 'Z', "ingotZirconium" }));
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod_reasim_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', ModBlocks.block_graphite, 'R', ModBlocks.rbmk_rod_reasim, 'B', ModItems.ingot_tcalloy });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_outgasser, 1), new Object[] { "GHG", "GRG", "GTG", 'G', ModBlocks.steel_grate, 'H', Blocks.hopper, 'T', ModItems.tank_steel, 'R', ModBlocks.rbmk_blank });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_console, 1), new Object[] { "PPP", "PCP", "PPP", 'C', ModItems.circuit_targeting_tier3, 'P', Items.potato });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_loader, 1), new Object[] { "SCS", "CBC", "SCS", 'S', "plateSteel", 'C', "ingotCopper", 'B', ModItems.tank_steel }));

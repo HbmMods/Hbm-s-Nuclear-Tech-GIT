@@ -407,14 +407,12 @@ public class ItemCustomLore extends Item {
 		
 		if(this == ModItems.ingot_lanthanium)
 		{
-			list.add("Or 'Lanthanum' for stupid people.");
+			list.add("'Lanthanum'");
 		}
 		
-		if(this == ModItems.ingot_bismuth)
+		if(this == ModItems.ingot_tantalium || this == ModItems.nugget_tantalium || this == ModItems.gem_tantalium)
 		{
-			list.add("\"Bismuth acts as post-RBMK gate, similar to Technetium");
-			list.add("with the difference that Technetium is also available");
-			list.add("from PWRs.\" <- THAT is what I needed to hear.");
+			list.add("'Tantalum'");
 		}
 		
 		if(this == ModItems.undefined) {

@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKLid;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -25,11 +27,19 @@ public abstract class RBMKBase extends BlockDummyable implements IScrewable {
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
+	public ResourceLocation coverTexture;
 
 	protected RBMKBase() {
 		super(Material.iron);
 		this.setHardness(3F);
 		this.setResistance(30F);
+	}
+
+	@Override
+	public Block setBlockTextureName(String texture) {
+		this.textureName = texture;
+		this.coverTexture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + (texture.split(":")[1]) + ".png");
+		return this;
 	}
 
 	@Override

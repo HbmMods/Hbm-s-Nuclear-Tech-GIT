@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.blocks.machine.rbmk.RBMKControl;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
@@ -11,10 +12,19 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 
 	public RBMKColor color;
 	public double startingLevel;
+	
+	public TileEntityRBMKControlManual() {
+		super();
+	}
 
 	@Override
 	public String getName() {
 		return "container.rbmkControl";
+	}
+	
+	@Override
+	public boolean isModerated() {
+		return ((RBMKControl)this.getBlockType()).moderated;
 	}
 
 	@Override

@@ -413,6 +413,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 	}
 	
+	public boolean isModerated() {
+		return false;
+	}
+	
 	public abstract ColumnType getConsoleType();
 	
 	public NBTTagCompound getNBTForConsole() {

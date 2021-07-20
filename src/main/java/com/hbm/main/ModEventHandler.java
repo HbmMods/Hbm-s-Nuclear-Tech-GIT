@@ -741,11 +741,13 @@ public class ModEventHandler {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
-				if(player.fallDistance > 0)
-					player.fallDistance = 0;
-				
-				if(player.motionY < -0.4D)
-					player.motionY = -0.4D;
+				if(!player.isSneaking()) {
+					if(player.fallDistance > 0)
+						player.fallDistance = 0;
+					
+					if(player.motionY < -0.4D)
+						player.motionY = -0.4D;
+				}
 				
 				HbmPlayerProps props = HbmPlayerProps.getData(player);
 				
