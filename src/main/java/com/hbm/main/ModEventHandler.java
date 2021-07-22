@@ -737,7 +737,7 @@ public class ModEventHandler {
 
 		EntityPlayer player = event.player;
 		
-		if(event.phase == TickEvent.Phase.START && player.getUniqueID().toString().equals(Library.SolsticeUnlimitd)) {
+		if(event.phase == TickEvent.Phase.START && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))) {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
@@ -756,11 +756,43 @@ public class ModEventHandler {
 					if(props.isJetpackActive()) {
 						if(player.motionY < 0.4D)
 							player.motionY += 0.15D;
+						else
+							player.motionY = 0.55D;
 						
 						if(player.getFoodStats().getSaturationLevel() > 0F)
 							player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
 						else
 							player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
+					} else if(props.enableBackpack && !player.isSneaking()) {
+						
+						if(player.motionY < -1)
+							player.motionY += 0.4D;
+						else if(player.motionY < -0.1)
+							player.motionY += 0.2D;
+						else if(player.motionY < 0)
+							player.motionY = 0;
+						
+						if(player.getFoodStats().getSaturationLevel() > 0F)
+							player.addExhaustion(4F);
+						else
+							player.addExhaustion(0.04F);
+						
+					} else if(props.enableBackpack && player.isSneaking()) {
+						
+						if(player.motionY < -0.08) {
+
+							double mo = player.motionY * -0.4;
+							player.motionY += mo;
+
+							Vec3 vec = player.getLookVec();
+							vec.xCoord *= mo;
+							vec.yCoord *= mo;
+							vec.zCoord *= mo;
+
+							player.motionX += vec.xCoord;
+							player.motionY += vec.yCoord;
+							player.motionZ += vec.zCoord;
+						}
 					}
 				}
 				

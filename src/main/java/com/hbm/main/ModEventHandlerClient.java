@@ -318,7 +318,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(player.getCurrentArmor(2) == null && player.getUniqueID().toString().equals(Library.SolsticeUnlimitd))
+		if(player.getCurrentArmor(2) == null && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd")))
 			RenderAccessoryUtility.renderSol(event);
 	}
 
@@ -491,8 +491,6 @@ public class ModEventHandlerClient {
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		
-		mc.getTextureManager().bindTexture(ashes);
-		
 		int w = resolution.getScaledWidth();
 		int h = resolution.getScaledHeight();
 		double off = System.currentTimeMillis() / -10000D % 10000D;
@@ -513,6 +511,8 @@ public class ModEventHandlerClient {
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)(lX + (cX - lX) * interp) / 1.0F, (float)(lY + (cY - lY) * interp) / 1.0F);
 
 		mc.entityRenderer.enableLightmap((double)event.partialTicks);
+		
+		mc.getTextureManager().bindTexture(ashes);
 		
 		for(int i = 1; i < 3; i++) {
 			

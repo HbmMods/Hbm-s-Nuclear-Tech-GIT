@@ -718,6 +718,7 @@ public class ModBlocks {
 
 	public static Block balefire;
 	public static Block fire_digamma;
+	public static Block digamma_matter;
 
 	public static Block ams_base;
 	public static final int guiID_ams_base = 54;
@@ -1677,6 +1678,7 @@ public class ModBlocks {
 		
 		balefire = new Balefire().setBlockName("balefire").setHardness(0.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":balefire");
 		fire_digamma = new DigammaFlame().setBlockName("fire_digamma").setHardness(0.0F).setResistance(150F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fire_digamma");
+		digamma_matter = new DigammaMatter().setBlockName("digamma_matter").setBlockUnbreakable().setResistance(18000000).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":digamma_matter");
 
 		ams_base = new BlockAMSBase(Material.iron).setBlockName("ams_base").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":ams_base");
 		ams_emitter = new BlockAMSEmitter(Material.iron).setBlockName("ams_emitter").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":ams_emitter");
@@ -2703,6 +2705,7 @@ public class ModBlocks {
 		//E
 		GameRegistry.registerBlock(balefire, balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fire_digamma, fire_digamma.getUnlocalizedName());
+		GameRegistry.registerBlock(digamma_matter, digamma_matter.getUnlocalizedName());
 		
 		//AMS
 		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());

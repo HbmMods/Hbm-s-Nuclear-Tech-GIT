@@ -105,6 +105,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			ForgeDirection.WEST
 	};
 	
+	protected TileEntityRBMKBase[] heatCache = new TileEntityRBMKBase[4];
+	
 	/**
 	 * Moves heat to neighboring parts, if possible, in a relatively fair manner
 	 */
@@ -114,12 +116,27 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		rec.add(this);
 		double heatTot = this.heat;
 		
+		int index = 0;
 		for(ForgeDirection dir : heatDirs) {
 			
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+			if(heatCache[index] != null && heatCache[index].isInvalid())
+				heatCache[index] = null;
 			
-			if(te instanceof TileEntityRBMKBase) {
-				TileEntityRBMKBase base = (TileEntityRBMKBase) te;
+			if(heatCache[index] == null) {
+				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				
+				if(te instanceof TileEntityRBMKBase) {
+					TileEntityRBMKBase base = (TileEntityRBMKBase) te;
+					heatCache[index] = base;
+				}
+			}
+			
+			index++;
+		}
+		
+		for(TileEntityRBMKBase base : heatCache) {
+			
+			if(base != null) {
 				rec.add(base);
 				heatTot += base.heat;
 			}

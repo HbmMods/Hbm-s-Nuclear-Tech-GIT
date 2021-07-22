@@ -51,8 +51,7 @@ import cpw.mods.fml.common.IWorldGenerator;
 public class HbmWorldGen implements IWorldGenerator {
 
 	@Override
-	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
-			IChunkProvider chunkProvider) {
+	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		switch (world.provider.dimensionId) {
 		case -1:
 			generateNether(world, rand, chunkX * 16, chunkZ * 16); break;
@@ -100,7 +99,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateSurface(World world, Random rand, int i, int j) {
 		
-		for(int x = 0; x < 16; x++) {
+		/*for(int x = 0; x < 16; x++) {
 			
 			for(int z = 0; z < 16; z++) {
 				
@@ -122,7 +121,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					}
 				}
 			}
-		}
+		}*/
 
 		DungeonToolbox.generateOre(world, rand, i, j, 25, 6, 30, 10, ModBlocks.ore_gneiss_iron, ModBlocks.stone_gneiss);
 		DungeonToolbox.generateOre(world, rand, i, j, 10, 6, 30, 10, ModBlocks.ore_gneiss_gold, ModBlocks.stone_gneiss);
@@ -175,7 +174,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int randPosZ = j + rand.nextInt(16);
 
 			if(randPosX <= colX + colRange && randPosX >= colX - colRange && randPosZ <= colZ + colRange && randPosZ >= colZ - colRange)
-				(new WorldGenMinable(ModBlocks.ore_coltan, 3)).generate(world, rand, randPosX, randPosY, randPosZ);
+				(new WorldGenMinable(ModBlocks.ore_coltan, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
 		for (int k = 0; k < rand.nextInt(4); k++) {
