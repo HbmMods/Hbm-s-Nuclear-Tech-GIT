@@ -44,14 +44,14 @@ public class ItemCustomLore extends Item
 
 		String unloc;
 		if (MainRegistry.isPolaroid11)
-			unloc = this.getUnlocalizedName() + ".desc.11";
+			unloc = this.getUnlocalizedName(itemstack) + ".desc.11";
 		else
-			unloc = this.getUnlocalizedName() + ".desc";
+			unloc = this.getUnlocalizedName(itemstack) + ".desc";
 		
 		String loc = I18nUtil.resolveKey(unloc);
 		if (unloc.equals(loc))
 		{
-			unloc = this.getUnlocalizedName() + ".desc";
+			unloc = this.getUnlocalizedName(itemstack) + ".desc";
 			loc = I18nUtil.resolveKey(unloc);
 		}
 		if(!unloc.equals(loc)) {

@@ -169,7 +169,7 @@ public class Gun556mmFactory {
 		config.name = "1966 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
 		config.damage = "2 - 4 (stock)";
-		config.comment.add("\"Wait, aren't we supposed to be shinto?\"");
+		config.comment.add("\"May you never reincarnate again\"");
 		
 		config.config.addAll(HbmCollection.NATOAll);
 		

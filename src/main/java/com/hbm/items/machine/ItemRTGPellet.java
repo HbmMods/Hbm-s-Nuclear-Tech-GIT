@@ -1,4 +1,13 @@
-package com.hbm.items.special;
+package com.hbm.items.machine;
+
+import java.util.List;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemHazard;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -7,13 +16,20 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends ItemHazard {
-
-	public ItemRTGPellet(float radiation, boolean fire) {
+public class ItemRTGPellet extends ItemHazard
+{
+	public int heat = 0;
+	public boolean doesDecay = false;
+	public ItemStack decayItem = null;
+	public int decayChance = 0;
+	public ItemRTGPellet(float radiation, boolean fire, int heatIn)
+	{
 		super(radiation, fire);
+		heat = heatIn;
 	}
 	
-	private static final String[] facts = new String[] {
+	private static final String[] facts = new String[]
+		{
 			"One gram of Pu-238 costs $8,000.",
 			"One gram of Pu-238 produces just under half a Watt of decay heat.",
 			"The typical plutonium RTG contains close to eight kilograms of Pu-238.",
@@ -32,10 +48,19 @@ public class ItemRTGPellet extends ItemHazard {
 			"The Manhattan Project referred to refined natural uranium as tuballoy, enriched uranium as oralloy, and depleted uranium as depletalloy."
 	};
 
+	public ItemRTGPellet setDecayItem(@Nonnull ItemStack itemIn, int chance)
+	{
+		doesDecay = true;
+		decayItem = itemIn;
+		decayChance = chance;
+		return this;
+	}
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(!world.isRemote) {
+		if(!world.isRemote && this == ModItems.pellet_rtg)
+		{
 			player.addChatComponentMessage(new ChatComponentText(facts[world.rand.nextInt(facts.length)]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 			world.playSoundAtEntity(player, "random.orb", 1.0F, 1.0F);
 		}
@@ -43,4 +68,14 @@ public class ItemRTGPellet extends ItemHazard {
 		return stack;
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", heat));
+		if (doesDecay)
+			list.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(decayItem.getUnlocalizedName() + ".name")));
+		list.add("");
+		super.addInformation(stack, player, list, bool);
+	}
+	
 }

@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 /**
  * Wrappers for common recipe schemes
@@ -57,6 +58,33 @@ public class RecipesCommon {
 	public static void billetToIngot(Item billet, Item ingot)
 	{
 		GameRegistry.addShapelessRecipe(new ItemStack(ingot, 2), new Object[] { billet, billet, billet });
+	}
+	//2 ingots directly into 3 billets
+	public static void ingotToBillet(Item billet, Item ingot)
+	{
+		GameRegistry.addShapelessRecipe(new ItemStack(billet, 3), new Object[] {ingot, ingot});
+	}
+	
+	public static void ingotToBillet(Item billet, Item ingot, String... ore)
+	{
+		for (String o : ore)
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(billet, 3), new Object[] {o, o}));
+			
+		GameRegistry.addShapelessRecipe(new ItemStack(billet, 3), new Object[] {ingot, ingot});
+	}
+	
+	//Billet all
+	public static void addBilletAll(Item billet, Item ingot, Item nugget)
+	{
+		addBillet(billet, nugget);
+		billetToIngot(billet, ingot);
+		ingotToBillet(billet, ingot);
+	}
+	public static void addBilletAll(Item billet, Item ingot, Item nugget, String[] nuggetOre, String[] ingotOre)
+	{
+		addBillet(billet, nugget, nuggetOre);
+		billetToIngot(billet, ingot);
+		ingotToBillet(billet, ingot);
 	}
 	
 	//Fill rods with 6 nuggets

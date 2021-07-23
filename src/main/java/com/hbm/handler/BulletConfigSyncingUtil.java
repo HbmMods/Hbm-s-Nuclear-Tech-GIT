@@ -97,6 +97,15 @@ public class BulletConfigSyncingUtil {
 	public static int BMG50_STAR = i++;
 	public static int BMG50_PHOSPHORUS = i++;
 	public static int BMG50_SLEEK = i++;
+	
+	public static int BMG50_NORMAL_SPECIAL = i++;
+	public static int BMG50_INCENDIARY_SPECIAL = i++;
+	public static int BMG50_EXPLOSIVE_SPECIAL = i++;
+	public static int BMG50_AP_SPECIAL = i++;
+	public static int BMG50_DU_SPECIAL = i++;
+	public static int BMG50_STAR_SPECIAL = i++;
+	public static int BMG50_PHOSPHORUS_SPECIAL = i++;
+	public static int BMG50_SLEEK_SPECIAL = i++;
 
 	public static int R5_NORMAL = i++;
 	public static int R5_EXPLOSIVE = i++;
@@ -327,6 +336,15 @@ public class BulletConfigSyncingUtil {
 		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
 		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
 		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
+		
+		configSet.put(BMG50_NORMAL_SPECIAL, Gun50BMGFactory.get50BMGSpecialConfig());
+		configSet.put(BMG50_INCENDIARY_SPECIAL, Gun50BMGFactory.get50BMGFireSpecialConfig());
+		configSet.put(BMG50_PHOSPHORUS_SPECIAL, Gun50BMGFactory.get50BMGPhosphorusSpecialConfig());
+		configSet.put(BMG50_EXPLOSIVE_SPECIAL, Gun50BMGFactory.get50BMGExplosiveSpecialConfig());
+		configSet.put(BMG50_AP_SPECIAL, Gun50BMGFactory.get50BMGAPSpecialConfig());
+		configSet.put(BMG50_DU_SPECIAL, Gun50BMGFactory.get50BMGDUSpecialConfig());
+		configSet.put(BMG50_STAR_SPECIAL, Gun50BMGFactory.get50BMGStarSpecialConfig());
+		configSet.put(BMG50_SLEEK_SPECIAL, Gun50BMGFactory.get50BMGSleekSpecialConfig());
 
 		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
 		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());

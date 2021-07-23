@@ -2,6 +2,9 @@ package com.hbm.inventory;
 
 import java.util.List;
 
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -301,6 +304,26 @@ public class RecipesCommon {
 		public AStack copy() {
 			return new OreDictStack(name, stacksize);
 		}
+	}
+	/**
+	 * Converts an ItemStack array to an AStack array
+	 * @param stackIn - The ItemStack to be converted
+	 * @param singularize - If the stack sizes should be made 1
+	 * @return The requested AStack
+	 */
+	public static AStack[] itemStackToAStack(ItemStack[] stackIn, boolean singularize)
+	{
+		AStack[] newStack = new AStack[stackIn.length];
+		
+		for (int i = 0; i < stackIn.length; i++)
+		{
+			if (stackIn[i] != null)
+				newStack[i] = singularize ? new ComparableStack(stackIn[i]).makeSingular() : new ComparableStack(stackIn[i]);
+			else
+				newStack[i] = null;
+		}
+		
+		return newStack;
 	}
 	
 	public static class MetaBlock {

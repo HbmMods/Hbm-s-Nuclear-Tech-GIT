@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnaceRTG;
+import com.hbm.interfaces.IRTGUser;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -11,8 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase
+public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase implements IRTGUser
 {
 	public int progress;
 	private int processSpeed = 0;
@@ -190,6 +192,7 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase
 		this.name = name;
 	}
 	
+	@Deprecated
 	private void updateRTGs()
 	{
 		int newSpeed = 0;
@@ -215,7 +218,8 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase
 	
 	public boolean hasPower()
 	{
-		updateRTGs();
+//		updateRTGs();
+		processSpeed = IRTGUser.super.updateRTGs(slots, rtgIn, getWorldObj());
 		return processSpeed >= 15;
 	}
 	

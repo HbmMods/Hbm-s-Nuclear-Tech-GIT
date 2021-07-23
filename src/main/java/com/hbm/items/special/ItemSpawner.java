@@ -1,6 +1,9 @@
 package com.hbm.items.special;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
@@ -20,7 +23,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class ItemChopper extends Item {
+public class ItemSpawner extends Item
+{
+	Class<? extends EntityLivingBase> entity = null;
+	
+	public ItemSpawner()
+	{super();setMaxStackSize(1);}
+	
+	public ItemSpawner(@Nonnull Class<? extends EntityLivingBase> entityIn)
+	{
+		this();
+		assert entityIn != null : "Class cannot be null!";
+		assert EntityLivingBase.class.isAssignableFrom(entityIn) : "Class must extend EntityLivingBase!";
+		entity = entityIn;
+	}
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
@@ -100,26 +116,36 @@ public class ItemChopper extends Item {
 		}
 	}
 
-	public Entity spawnCreature(World world, int dmg, double x, double y, double z) {
-		Entity entity = null;
+	public Entity spawnCreature(World world, int dmg, double x, double y, double z)
+	{
+		Entity entityToSpawn = null;
+		try
+		{
+			entityToSpawn = entity.getConstructor(World.class).newInstance(world);
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e)
+		{
+			e.printStackTrace();
+		}
 		
-		if(this == ModItems.spawn_chopper)
-			entity = new EntityHunterChopper(world);
+//		if(this == ModItems.spawn_chopper)
+//			entity = new EntityHunterChopper(world);
+//		
+//		if(this == ModItems.spawn_worm)
+//			entity = new EntityBOTPrimeHead(world);
 		
-		if(this == ModItems.spawn_worm)
-			entity = new EntityBOTPrimeHead(world);
-		
-		if(entity != null) {
-
-			EntityLiving entityliving = (EntityLiving) entity;
-			entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
+		if(entityToSpawn != null)
+		{
+			EntityLiving entityliving = (EntityLiving) entityToSpawn;
+			entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
 			entityliving.rotationYawHead = entityliving.rotationYaw;
 			entityliving.renderYawOffset = entityliving.rotationYaw;
 			entityliving.onSpawnWithEgg((IEntityLivingData) null);
-			world.spawnEntityInWorld(entity);
+			world.spawnEntityInWorld(entityToSpawn);
 		}
 
-		return entity;
+		return entityToSpawn;
 	}
 
 	@Override

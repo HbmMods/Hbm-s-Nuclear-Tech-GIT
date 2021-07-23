@@ -184,6 +184,9 @@ public class ModBlocks {
 	public static Block block_actinium;
 	public static Block block_electronium;
 	public static Block block_saturnite;
+	public static Block block_polymer;
+	public static Block block_ferrouranium;
+	public static Block block_staballoy;
 
 	public static Block block_australium;
 	public static Block block_weidanium;
@@ -225,6 +228,10 @@ public class ModBlocks {
 	public static Block deco_lead;
 	public static Block deco_beryllium;
 	public static Block deco_asbestos;
+	
+	public static Block light_incandescent;
+	public static Block light_cfl;
+	public static Block light_led;// Hope you like pain
 
 	public static Block hazmat;
 
@@ -878,6 +885,8 @@ public class ModBlocks {
 	public static final int guiID_howard = 112;
 	public static Block turret_tsukuyomi;
 	public static final int guiID_tsukuyomi = 113;
+	public static Block turret_lunar_oni;
+	public static final int guiID_lunar_oni = 114;
 
 	public static Block book_guide;
 
@@ -1134,6 +1143,9 @@ public class ModBlocks {
 		block_fallout = new BlockHazardFalling().addRadiation(ItemHazard.fo * ItemHazard.block).toBlock().setStepSound(Block.soundTypeGravel).setBlockName("block_fallout").setCreativeTab(MainRegistry.blockTab).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":ash");
 		block_electronium = new BlockElectronium(Material.iron).setBlockName("block_electronium").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":block_electronium");
 		block_saturnite = new BlockGeneric(Material.iron).addRare().setBlockName("block_saturnite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_saturnite");
+		block_polymer = new BlockGeneric(Material.rock).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
+		block_ferrouranium = new BlockGeneric(Material.iron).setBlockName("block_ferrouranium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(15.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_ferrouranium");
+		block_staballoy = new BlockGeneric(Material.iron).setBlockName("block_staballoy").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_staballoy");
 		
 		block_australium = new BlockGeneric(Material.iron).addUncommon().setBlockName("block_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_australium");
 		block_weidanium = new BlockGeneric(Material.iron).addUncommon().setBlockName("block_weidanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_weidanium");
@@ -1596,6 +1608,7 @@ public class ModBlocks {
 		turret_richard = new TurretBaseNT(Material.iron, TileEntityTurretRichard.class, guiID_richard).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretBaseNT(Material.iron, TileEntityTurretHoward.class, guiID_howard).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_tsukuyomi = new TurretBaseNT(Material.iron, TileEntityTurretTsukuyomi.class, guiID_tsukuyomi).setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_lunar_oni = new TestMachine(Material.iron).setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_lunar_oni").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setBlockTextureName(RefStrings.MODID + ":block_steel");// TODO Finish
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -1782,7 +1795,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(test_missile, test_missile.getUnlocalizedName());
 		GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
 		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
-		GameRegistry.registerBlock(test_machine, test_machine.getUnlocalizedName());
+//		GameRegistry.registerBlock(test_machine, test_machine.getUnlocalizedName());
 
 		//Ores
 		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
@@ -1887,6 +1900,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_aluminium, block_aluminium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_fluorite, block_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_beryllium, block_beryllium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
 		GameRegistry.registerBlock(block_cobalt, ItemBlockLore.class, block_cobalt.getUnlocalizedName());
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
@@ -1921,6 +1935,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_desh, block_desh.getUnlocalizedName());
 		GameRegistry.registerBlock(block_dura_steel, block_dura_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_saturnite, ItemBlockLore.class, block_saturnite.getUnlocalizedName());
+		GameRegistry.registerBlock(block_ferrouranium, block_ferrouranium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_staballoy, block_staballoy.getUnlocalizedName());
 		GameRegistry.registerBlock(block_starmetal, block_starmetal.getUnlocalizedName());
 		GameRegistry.registerBlock(block_electronium, block_electronium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_australium, ItemOreBlock.class, block_australium.getUnlocalizedName());
@@ -2118,7 +2134,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_tauon, turret_tauon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_richard, turret_richard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_howard, turret_howard.getUnlocalizedName());
-		GameRegistry.registerBlock(turret_tsukuyomi, turret_tsukuyomi.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_tsukuyomi, ItemBlockLore.class, turret_tsukuyomi.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_lunar_oni, ItemBlockLore.class, turret_lunar_oni.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());

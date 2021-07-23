@@ -492,8 +492,8 @@ public class GunEnergyFactory {
 		bullet.spread = 0.0F;
 		bullet.wear = 1000;
 		
-		bullet.dmgMax = 20000;
-		bullet.dmgMin = 10000;
+		bullet.dmgMax = 200000;
+		bullet.dmgMin = 100000;
 		
 		bullet.gravity = 0D;
 		bullet.maxAge = 400;

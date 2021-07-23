@@ -806,7 +806,8 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.crystal_energy, 1),
 						new ComparableStack(ModBlocks.block_solinium, 1),
 						new ComparableStack(ModItems.circuit_schrabidium, 1),
-						new ComparableStack(ModItems.wire_schrabidium, 4)
+						new ComparableStack(ModItems.wire_schrabidium, 4),
+						new ComparableStack(ModItems.singularity_micro, 2)
 				}, 200);// TODO Placeholder
 		makeRecipe(new ComparableStack(ModItems.grenade_stunning, 2), new AStack[] {new ComparableStack(ModItems.hull_small_aluminium, 1), new ComparableStack(ItemBattery.getFullBattery(ModItems.battery_su_l)), new ComparableStack(ModItems.coil_advanced_torus, 1), new ComparableStack(ModItems.wire_advanced_alloy, 4), new ComparableStack(ModItems.circuit_aluminium, 1)}, 100);
 		makeRecipe(new ComparableStack(ModBlocks.machine_sing_gen), new AStack[] {new ComparableStack(ModBlocks.machine_schrabidium_battery, 2), new ComparableStack(ModBlocks.fwatz_conductor, 36), new ComparableStack(ModItems.coil_magnetized_tungsten, 32), new ComparableStack(ModItems.ingot_magnetized_tungsten, 16), new ComparableStack(ModItems.plate_saturnite, 64), new ComparableStack(ModItems.plate_combine_steel, 32), new ComparableStack(ModItems.ingot_saturnite, 32), new ComparableStack(ModItems.ingot_combine_steel, 24), new ComparableStack(ModItems.ring_starmetal, 24), new ComparableStack(ModBlocks.fwatz_core, 1), new ComparableStack(ModItems.circuit_targeting_tier4, 8), new ComparableStack(ModItems.circuit_targeting_tier5, 4)}, 900);
@@ -826,7 +827,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.plate_combine_steel, 3),
 						new ComparableStack(ModItems.saturnite_filter, 1),
 						new ComparableStack(ModItems.wire_tungsten, 16),
-						new ComparableStack(ModItems.plate_paa, 6),
+						new ComparableStack(ModItems.plate_paa, 12),
 						new OreDictStack("ingotUranium238", 6),
 						new ComparableStack(ModBlocks.glass_quartz, 4)
 				}, 300);
@@ -837,6 +838,55 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.coil_advanced_torus, 12),
 						new ComparableStack(ModItems.wire_advanced_alloy, 32),
 				}, 250);
+		makeRecipe(new ComparableStack(ModItems.robot_skeleton), new AStack[]
+				{
+						new ComparableStack(ModItems.sphere_steel),
+						new ComparableStack(ModItems.circuit_targeting_tier4),
+						new ComparableStack(ModItems.circuit_red_copper, 6),
+						new ComparableStack(ModBlocks.steel_beam, 24),
+						new OreDictStack("ingotTitanium", 20),
+						new OreDictStack("plateTitanium", 14),
+						new ComparableStack(ModItems.motor_desh, 16),
+						new ComparableStack(ModItems.wire_magnetized_tungsten, 64),
+						new ComparableStack(ModItems.ingot_polymer, 12)
+				}, 600);
+		makeRecipe(new ComparableStack(ModItems.spawn_robot), new AStack[]
+				{
+						new ComparableStack(ModItems.robot_skeleton),
+						new ComparableStack(ModItems.plate_armor_du, 24, 3),
+						new ComparableStack(ModBlocks.machine_schrabidium_battery),
+						new ComparableStack(ModItems.circuit_targeting_tier5, 2),
+						new ComparableStack(ModItems.circuit_gold, 2),
+						new ComparableStack(ModItems.plate_du_dioxide, 16),
+						new ComparableStack(ModItems.plate_desh, 32),
+						new ComparableStack(ModItems.ingot_combine_steel, 18),
+						new ComparableStack(ModItems.gas_xenon, 2),
+						new ComparableStack(ModItems.mp_thruster_10_xenon, 2)
+				}, 800);
+		makeRecipe(new ComparableStack(ModBlocks.turret_tsukuyomi), new AStack[]
+				{
+						new ComparableStack(ModItems.circuit_targeting_tier6, 32),
+						new ComparableStack(ModItems.plate_paa, 128),
+						new ComparableStack(ModItems.plate_dineutronium, 192),
+						new ComparableStack(ModBlocks.machine_dineutronium_battery),
+						new ComparableStack(ModItems.billet_yharonite, 64),
+						new ComparableStack(ModItems.component_emitter, 32),
+						new ComparableStack(ModItems.component_limiter, 24),
+						new ComparableStack(ModItems.plate_euphemium, 48),
+						new ComparableStack(ModBlocks.block_electronium, 8)
+				}, 4800);
+		makeRecipe(new ComparableStack(ModBlocks.turret_lunar_oni), new AStack[]
+				{
+						new ComparableStack(ModItems.plate_dineutronium, 128),
+						new ComparableStack(ModItems.plate_paa, 128),
+						new ComparableStack(ModBlocks.hadron_coil_mese, 32),
+						new ComparableStack(ModBlocks.block_circuit_tier_6, 18),
+						new ComparableStack(ModBlocks.machine_dineutronium_battery, 2),
+						new ComparableStack(ModItems.plate_armor_orichalcum, 64),
+						new ComparableStack(ModItems.component_emitter, 20),
+						new ComparableStack(ModItems.component_limiter, 12),
+						new ComparableStack(ModBlocks.machine_transformer_dnt, 8),
+				}, 3200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

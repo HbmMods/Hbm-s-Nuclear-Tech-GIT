@@ -91,27 +91,28 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		
 		if (singGen.currentRecipe != null)
 		{
-			Item out = singGen.currentRecipe.getOutput().getItem();
-			if (out == ModItems.singularity)
-			{
-				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4, 16, 4);
-			}
-			if (out == ModItems.singularity_super_heated)
-			{
-				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 8, 16, 4);
-			}
-			if (out == ModItems.singularity_counter_resonant)
-			{
-				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 12, 16, 4);
-			}
-			if (out == ModItems.black_hole)
-			{
-				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 16, 16, 4);
-			}
-			if (out == ModItems.overfuse || out == ModItems.singularity_spark || out instanceof ItemAMSCore)
-			{
-				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 20, 16, 4);
-			}
+			int lvl = singGen.currentRecipe.getLevel();
+			drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4 * lvl, 16, 4);
+//			switch (lvl)
+//			{
+//			case 1:
+//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4, 16, 4);
+//				break;
+//			case 2:
+//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 8, 16, 4);
+//				break;
+//			case 3:
+//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 12, 16, 4);
+//				break;
+//			case 4:
+//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 16, 16, 4);
+//				break;
+//			case 5:
+//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 20, 16, 4);
+//				break;
+//			default:
+//				break;
+//			}
 		}
 		
 		switch(singGen.tank.getTankType())

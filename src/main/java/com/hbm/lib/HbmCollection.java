@@ -6,14 +6,15 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.items.weapon.ItemAmmo.AmmoItemTrait;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import scala.actors.threadpool.Arrays;
 /** Collection for commonly used data **/
 public class HbmCollection
@@ -155,6 +156,12 @@ public class HbmCollection
 	public static final String lore = "desc.misc.lore";
 	/** "FUNCTION" HEADING **/
 	public static final String func = "desc.misc.func";
+	/// Damage sources that entities can be immune to
+	/** ROBOTS / IN-ORGANIC ENTITIES **/
+	public static final List<String> damageImmuneRobot = Arrays.asList(new String[] {"oxygenSuffocation", "thermal", "lead", "mudPoisoning", "acid", "monoxide", "bleed", "asbestos", "broadcast", "lead", "electricity", "drown", "starve", "wither", "inWall"});
+	/// Potions that entities can be immune to
+	/** ROBOTS / IN-ORGANIC ENTITIES **/
+	public static final List<Integer> potionImmuneRobot = Arrays.asList(new Integer[] {HbmPotion.radiation.id, HbmPotion.lead.id, HbmPotion.phosphorus.id, HbmPotion.potionsickness.id, Potion.harm.id, Potion.heal.id, Potion.hunger.id, Potion.poison.id, Potion.wither.id});
 	/** Do AFTER blocks and items are initialized  **/
 	public static void initKits()
 	{

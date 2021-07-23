@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IRTGUser;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -17,7 +18,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineRTG extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineRTG extends TileEntity implements ISidedInventory, ISource, IRTGUser
+{
 
 	private ItemStack slots[];
 	
@@ -222,24 +224,26 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			
 			heat = 0;
 			
-			for(int i = 0; i < slots.length; i++) {
-				if(slots[i] != null) {
-					if(slots[i].getItem() == ModItems.pellet_rtg)
-						heat += 5;
-					if(slots[i].getItem() == ModItems.pellet_rtg_weak)
-						heat += 3;
-					if(slots[i].getItem() == ModItems.pellet_rtg_polonium)
-						heat += 25;
-					
-					if(slots[i].getItem() == ModItems.pellet_rtg_gold) {
-						
-						if(worldObj.rand.nextInt(60*60*20) == 0)
-							slots[i] = new ItemStack(ModItems.nugget_mercury, 2);
-						else
-							heat += 150;
-					}
-				}
-			}
+			heat = IRTGUser.super.updateRTGs(slots, getWorldObj());
+			
+//			for(int i = 0; i < slots.length; i++) {
+//				if(slots[i] != null) {
+//					if(slots[i].getItem() == ModItems.pellet_rtg)
+//						heat += 5;
+//					if(slots[i].getItem() == ModItems.pellet_rtg_weak)
+//						heat += 3;
+//					if(slots[i].getItem() == ModItems.pellet_rtg_polonium)
+//						heat += 25;
+//					
+//					if(slots[i].getItem() == ModItems.pellet_rtg_gold) {
+//						
+//						if(worldObj.rand.nextInt(60*60*20) == 0)
+//							slots[i] = new ItemStack(ModItems.nugget_mercury, 2);
+//						else
+//							heat += 150;
+//					}
+//				}
+//			}
 			
 			if(heat > heatMax)
 				heat = heatMax;

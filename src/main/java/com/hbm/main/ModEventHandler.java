@@ -793,6 +793,14 @@ public class ModEventHandler
 			else
 				e.player.inventoryContainer.detectAndSendChanges();
 		}
+		
+		if(!e.player.worldObj.isRemote && e.smelting.getItem() == ModItems.ingot_uranium && e.player.getRNG().nextInt(48) == 0)
+		{
+			if(!e.player.inventory.addItemStackToInventory(new ItemStack(ModItems.fragment_actinium)))
+				e.player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.fragment_actinium), false);
+			else
+				e.player.inventoryContainer.detectAndSendChanges();
+		}
 	}
 
 	@SubscribeEvent
@@ -1045,6 +1053,28 @@ public class ModEventHandler
 				boolean done = i3 >= 10;
 	            
 				ItemStack out = new ItemStack(done ? ModItems.ingot_chainsteel : ModItems.ingot_steel_dusted, event.left.stackSize, done ? 0 : i3);
+				ItemHot.heatUp(out, done ? 1D : (h1 + h2) / 2D);
+				event.output = out;
+	            event.cost = event.left.stackSize;
+			}
+		}
+		
+		if(event.left.getItem() == ModItems.ingot_dineutronium_forged && event.right.getItem() == ModItems.ingot_dineutronium_forged &&
+				event.left.stackSize ==  event.right.stackSize)
+		{
+			double h1 = ItemHot.getHeat(event.left);
+			double h2 = ItemHot.getHeat(event.right);
+			
+			if(h2 >= 0.5)
+			{
+				int i1 = event.left.getItemDamage();
+				int i2 = event.right.getItemDamage();
+				
+				int i3 = Math.min(i1, i2) + 1;
+				
+				boolean done = i3 >= 6;
+	            
+				ItemStack out = new ItemStack(done ? ModItems.orichalcum : ModItems.ingot_dineutronium_forged, event.left.stackSize, done ? 0 : i3);
 				ItemHot.heatUp(out, done ? 1D : (h1 + h2) / 2D);
 				event.output = out;
 	            event.cost = event.left.stackSize;

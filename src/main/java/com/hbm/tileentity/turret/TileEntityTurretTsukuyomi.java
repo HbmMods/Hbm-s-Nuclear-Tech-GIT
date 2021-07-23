@@ -52,12 +52,12 @@ public class TileEntityTurretTsukuyomi extends TileEntityTurretBaseNT
 	@Override
 	public long getMaxPower()
 	{
-		return 1000000;
+		return 100000000;
 	}
 	@Override
 	public long getConsumption()
 	{
-		return 2000;
+		return 200000;
 	}
 	int timer;
 	int cooldown;

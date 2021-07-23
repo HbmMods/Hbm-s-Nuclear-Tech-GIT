@@ -10,7 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemHot extends Item {
+public class ItemHot extends ItemCustomLore
+{
 
     @SideOnly(Side.CLIENT)
     public IIcon hotIcon;

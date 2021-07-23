@@ -114,18 +114,44 @@ public class Gun12GaugeFactory {
 	public static GunConfiguration getBenelliConfig()
 	{
 		GunConfiguration config = new Gun12GaugeFactory().getUboinikConfig();
-		config.gunMode = GunConfiguration.FIRE_MANUAL;
-		config.rateOfFire = 2;
+		config.gunMode = 0;
+		config.firingMode = 1;
+		config.rateOfFire = 7;
 		config.ammoCap = 8;
 		config.reloadDuration = 10;
 		config.crosshair = Crosshair.CIRCLE;
 		config.hasSights = false;
-		config.durability = 45000;
+		config.durability = 250000;
 		config.allowsInfinity = true;
 		config.firingSound = "hbm:weapon.shottyShoot";
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.reloadType = 2;
 		config.reloadSoundEnd = true;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(6.25, 0.25, 2.5, 55))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 55))
+						)
+				.addBus("EJECT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(25, 0, 0, 100))
+						)
+				);
+		
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("RELOAD", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(60, 0, -10, 400))
+						.addKeyframe(new BusAnimationKeyframe(60, 125, -10, 200))
+						.addKeyframe(new BusAnimationKeyframe(60, 125, -10, 300))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
+						)
+				.addBus("PUMP", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 900))
+						.addKeyframe(new BusAnimationKeyframe(10, 0, 0, 200))
+						.addKeyframe(new BusAnimationKeyframe())
+						)
+				);
 		
 		config.name = "Benelli M4 Super 90";
 		config.damage = "1 - 4 per pellet (stock)";

@@ -56,6 +56,7 @@ public class ModDamageSource extends DamageSource
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource bleed = (new DamageSource("bleed")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource twr = (new DamageSource("twr" + rand.nextInt(1))).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource light = (new DamageSource("light")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

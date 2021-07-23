@@ -10,9 +10,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 import com.hbm.blocks.machine.MachineRtgFurnace;
+import com.hbm.interfaces.IRTGUser;
 import com.hbm.items.ModItems;
 
-public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory, IRTGUser
+{
 
 	private ItemStack slots[];
 	
@@ -100,15 +102,10 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 		return true;
 	}
 	
-	public boolean isLoaded() {
-		
-		for(int i = 1; i <= 3; i++) {
-			
-			if(!(slots[i] != null && (slots[i].getItem() == ModItems.pellet_rtg || slots[i].getItem() == ModItems.pellet_rtg_polonium)))
-				return false;
-		}
-		
-		return true;
+	public boolean isLoaded()
+	{
+//		return 15 <= IRTGUser.super.updateRTGs(slots, getWorldObj());
+		return 15 <= IRTGUser.super.updateRTGs(slots, slots_side, getWorldObj());
 	}
 	
 	@Override

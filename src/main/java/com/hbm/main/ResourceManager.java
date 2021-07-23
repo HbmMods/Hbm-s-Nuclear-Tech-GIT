@@ -526,6 +526,7 @@ public class ResourceManager {
 	public static final IModelCustom bolter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bolter.obj"));
 	public static final IModelCustom twr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/time_warp_rifle_final.obj"));
 	public static final IModelCustom hlr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/heavy_lunatic_rifle.obj"));
+	public static final IModelCustom benelli = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/benelli.obj"));
 	
 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));

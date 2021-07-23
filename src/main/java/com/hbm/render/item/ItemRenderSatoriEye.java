@@ -7,6 +7,7 @@ import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderSatoriEye implements IItemRenderer
@@ -40,10 +41,9 @@ public class ItemRenderSatoriEye implements IItemRenderer
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		if (MainRegistry.isPolaroid11)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.satori_eye_open_tex);
-		else
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.satori_eye_closed_tex);
+		ResourceLocation tex = MainRegistry.isPolaroid11 ? ResourceManager.satori_eye_open_tex : ResourceManager.satori_eye_closed_tex;
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		
 		float scale1 = 0.1F;
 		float scale2 = 5.0F;

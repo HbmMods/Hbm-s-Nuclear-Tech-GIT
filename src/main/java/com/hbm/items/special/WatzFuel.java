@@ -83,7 +83,7 @@ public class WatzFuel extends ItemHazard {
 //			list.add("Decay multiplier: " + (decayMultiplier >= 1 ? "+" : "") + (Math.round(decayMultiplier * 1000) * .10 - 100) + "%");
 			list.add(I18nUtil.resolveKey("desc.watz.pelDecayMulti", (decayMultiplier >= 1 ? "+" : "") + (Math.round(decayMultiplier * 1000) * .10 - 100)));
 //			list.add("Decays to:        " + I18nUtil.resolveKey(getDecayItem().getUnlocalizedName() + ".name"));
-			list.add(I18nUtil.resolveKey("desc.watz.pelDecay", I18nUtil.resolveKey(getDecayItem().getUnlocalizedName() + ".name") + " x" + getDecayItem().stackSize));
+			list.add(I18nUtil.resolveKey("desc.watz.pelDecay", getDecayItem().getDisplayName() + " x" + getDecayItem().stackSize));
 			
 			super.addInformation(itemstack, player, list, bool);
 		}

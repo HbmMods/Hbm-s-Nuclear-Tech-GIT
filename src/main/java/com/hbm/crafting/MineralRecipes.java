@@ -48,6 +48,15 @@ public class MineralRecipes {
 		RecipesCommon.add1To9(ModBlocks.block_electronium, ModItems.ingot_electronium);
 		RecipesCommon.add9To1(ModItems.ingot_electronium, ModBlocks.block_electronium);
 		
+		RecipesCommon.add1To9(ModBlocks.block_polymer, ModItems.ingot_polymer);
+		RecipesCommon.add9To1(ModItems.ingot_polymer, ModBlocks.block_polymer);
+		
+		RecipesCommon.add1To9(ModBlocks.block_ferrouranium, ModItems.ingot_ferrouranium);
+		RecipesCommon.add9To1(ModItems.ingot_ferrouranium, ModBlocks.block_ferrouranium);
+		
+		RecipesCommon.add1To9(ModBlocks.block_staballoy, ModItems.ingot_staballoy);
+		RecipesCommon.add9To1(ModItems.ingot_staballoy, ModBlocks.block_staballoy);
+		
 		RecipesCommon.add9To1(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long);
 		RecipesCommon.add1To9(ModItems.nuclear_waste_long, ModItems.nuclear_waste_long_tiny);
 		RecipesCommon.add9To1(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted);
@@ -66,6 +75,7 @@ public class MineralRecipes {
 		RecipesCommon.add9To1(ModItems.nugget_pu_mix, ModItems.ingot_pu_mix);
 		RecipesCommon.add1To9(ModItems.ingot_pu_mix, ModItems.nugget_pu_mix);
 
+		RecipesCommon.addBilletAll(ModItems.billet_beryllium, ModItems.ingot_beryllium, ModItems.nugget_beryllium);
 		RecipesCommon.addBillet(ModItems.billet_uranium, ModItems.nugget_uranium, "nuggetUranium");
 		RecipesCommon.addBillet(ModItems.billet_u233, ModItems.nugget_u233, "nuggetUranium233", "tinyU233");
 		RecipesCommon.addBillet(ModItems.billet_u235, ModItems.nugget_u235, "nuggetUranium235", "tinyU235");
@@ -87,6 +97,7 @@ public class MineralRecipes {
 		RecipesCommon.addBillet(ModItems.billet_les, ModItems.nugget_les);
 		RecipesCommon.addBillet(ModItems.billet_schrabidium_fuel, ModItems.nugget_schrabidium_fuel);
 		RecipesCommon.addBillet(ModItems.billet_hes, ModItems.nugget_hes);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_sa327be, 2), new Object[] {ModItems.billet_beryllium, ModItems.billet_solinium});
 		RecipesCommon.billetToIngot(ModItems.billet_hes, ModItems.ingot_hes);
 		RecipesCommon.billetToIngot(ModItems.billet_les, ModItems.ingot_les);
 
@@ -106,6 +117,7 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "nuggetUranium238", "nuggetUranium238", "nuggetUranium235", "nuggetUranium235" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { ModItems.nugget_pu_mix, ModItems.nugget_pu_mix, "tinyU238", "tinyU238", "tinyU235", "tinyU235" }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_schrabidium_fuel, 2), new Object[] { ModItems.billet_schrabidium, ModItems.billet_neptunium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium, ModItems.nugget_beryllium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 3), new Object[] { ModItems.billet_schrabidium, ModItems.billet_neptunium, ModItems.billet_beryllium });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_schrabidium_fuel, 1), new Object[] { ModItems.nugget_schrabidium, ModItems.nugget_schrabidium, "nuggetNeptunium", "nuggetNeptunium", ModItems.nugget_beryllium, ModItems.nugget_beryllium }));
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_uranium, 2), new Object[] { ModItems.billet_uranium, ModItems.billet_uranium, ModItems.billet_uranium });

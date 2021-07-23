@@ -14,6 +14,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.SingGenRecipes;
 import com.hbm.inventory.SingGenRecipes.SingGenRecipe;
 import com.hbm.inventory.container.ContainerMachineSingGen;
@@ -22,7 +23,6 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import scala.actors.threadpool.Arrays;
@@ -41,7 +41,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	private int progress;
 	private static final int[] ringSlots = new int[] {5, 9, 6, 11, 12, 7, 10, 8};
 	
-	private Item[] ringArray = new Item[8];
+	private ItemStack[] ringArray = new ItemStack[8];
 	public SingGenRecipe currentRecipe = null;
 	
 	public TileEntityMachineSingGen()
@@ -65,29 +65,16 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	{
 		return (progress * 100) / 200;
 	}
-	private SingGenRecipe validateRecipe(Item[] ringIn, ItemStack centerIn, FluidType fluidIn, int amountIn)
+	private SingGenRecipe validateRecipe(ItemStack[] ringIn, ItemStack centerIn, FluidType fluidIn, int amountIn)
 	{
 		for (SingGenRecipe recipe : SingGenRecipes.recipes)
 		{
 			//System.out.println(String.format("Checking recipe ring input: %s, Recipe center input: %s", recipe.inputRing, recipe.inputCenter.getUnlocalizedName()));
 			//System.out.println("Is shaped? " + recipe.shaped);
 			//System.out.println("Recipe center input: " + recipe.inputCenter.getUnlocalizedName());
-			if (slots[4] != null)
+			if (centerIn != null && SingGenRecipes.doRingsMatch(ringIn, recipe.aInputRing, recipe.shaped))
 			{
-				//System.out.println("Machine center input: " + slots[4].getItem().getUnlocalizedName());
-			}
-			else
-			{
-				//System.out.println("Machine center input <empty>");
-			}
-			boolean passedRing = false;
-			if (SingGenRecipes.doRingsMatch(ringIn, recipe.inputRing, recipe.shaped))
-			{
-				passedRing = true;
-			}
-			if (centerIn != null && passedRing)
-			{
-				if (recipe.inputCenter.equals(centerIn.getItem()))
+				if (SingGenRecipes.isItemValid(centerIn, recipe.inputCenter))
 				{
 					if (recipe.fluid.equals(fluidIn) && !recipe.fluid.equals(FluidType.NONE))
 					{
@@ -121,7 +108,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 		{
 			if ((tank.getTankType().equals(currentRecipe.fluid) && tank.getFill() >= currentRecipe.fluidAmount) || currentRecipe.fluid == FluidType.NONE)
 			{
-				if (this.getStackInSlot(1) == null || this.getStackInSlot(1).getMaxStackSize() >= this.getStackInSlot(1).stackSize + currentRecipe.output.stackSize)
+				if (this.getStackInSlot(1) == null || this.getStackInSlot(1).getMaxStackSize() >= this.getStackInSlot(1).stackSize + currentRecipe.getOutput().stackSize)
 				{
 					if (power >= consumptionRate)
 					{
@@ -142,7 +129,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			if (this.getStackInSlot(slot) != null)
 			{
 				//System.out.println(String.format("Item in slot #%s is not null, is: %s", slot, this.getStackInSlot(slot).getItem().getUnlocalizedName()));
-				ringArray[index] = this.getStackInSlot(slot).getItem();
+				ringArray[index] = this.getStackInSlot(slot);
 			}
 			else
 			{
@@ -179,37 +166,8 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 				else
 				{
 					progress = 0;
-					if ((power < consumptionRate && tank.getFill() > 0 && tank.getTankType().equals(FluidType.ASCHRAB) && (currentRecipe != null && currentRecipe.fluid.equals(FluidType.ASCHRAB)) && !MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.NONE)))
-					{
-						if (rand.nextInt(4) == 0)
-						{
-							EntityVortex bhole = new EntityVortex(getWorldObj(), (tank.getFill() / 4000));
-							bhole.posX = xCoord;
-							bhole.posY = yCoord;
-							bhole.posZ = zCoord;
-							worldObj.spawnEntityInWorld(bhole);
-						}
-						else
-						{
-							int yield = (int)BombConfig.aSchrabRadius * (tank.getFill() / 1000);
-							if (yield > MachineConfig.singGenFailRadius && MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.CAP_CUSTOM))
-								yield = MachineConfig.singGenFailRadius;
-							EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
-							field.posX = xCoord;
-							field.posY = yCoord;
-							field.posZ = zCoord;
-							field.destructionRange = yield;
-							field.speed = 25;
-							field.coefficient = 1.0F;
-							field.waste = false;
-							worldObj.spawnEntityInWorld(field);
-							EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), yield);
-							effect.posX = xCoord;
-							effect.posY = yCoord;
-							effect.posZ = zCoord;
-							worldObj.spawnEntityInWorld(effect);
-						}
-					}
+					if (consumptionRate > power)
+						attemptFail();
 				}
 			}
 			else
@@ -225,6 +183,47 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			this.networkPack(data, 25);
 		}
 	}
+	/** Called when the machine is on but has no power,
+	 * if the config allows it, may explode with a
+	 * Fölkvangr field with a 3/4 chance (yield also
+	 * determined by config) or collapse into a black hole
+	 * with a 1/4 chance
+	 */
+	private void attemptFail()
+	{
+		if ((power < consumptionRate && tank.getFill() > 0 && tank.getTankType().equals(FluidType.ASCHRAB) && (currentRecipe != null && currentRecipe.fluid.equals(FluidType.ASCHRAB)) && !MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.NONE)))
+		{
+			if (rand.nextInt(4) == 0)
+			{
+				EntityVortex bhole = new EntityVortex(getWorldObj(), (tank.getFill() / 8000));
+				bhole.posX = xCoord;
+				bhole.posY = yCoord;
+				bhole.posZ = zCoord;
+				worldObj.spawnEntityInWorld(bhole);
+			}
+			else
+			{
+				int yield = (int)BombConfig.aSchrabRadius * (tank.getFill() / 1000);
+				if (yield > MachineConfig.singGenFailRadius && MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.CAP_CUSTOM))
+					yield = MachineConfig.singGenFailRadius;
+				EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
+				field.posX = xCoord;
+				field.posY = yCoord;
+				field.posZ = zCoord;
+				field.destructionRange = yield;
+				field.speed = 25;
+				field.coefficient = 1.0F;
+				field.waste = false;
+				worldObj.spawnEntityInWorld(field);
+				EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), yield);
+				effect.posX = xCoord;
+				effect.posY = yCoord;
+				effect.posZ = zCoord;
+				worldObj.spawnEntityInWorld(effect);
+			}
+		}
+	}
+	
 	public void networkUnpack(NBTTagCompound data)
 	{
 		this.isOn = data.getBoolean("isOn");
@@ -241,13 +240,9 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			break;
 		case 1:
 			if (this.tank.getTankType().equals(FluidType.ASCHRAB))
-			{
 				this.tank.setTankType(FluidType.LAVA);
-			}
 			else
-			{
 				this.tank.setTankType(FluidType.ASCHRAB);
-			}
 			break;
 		}
 	}
@@ -257,26 +252,18 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 		if (!currentRecipe.keepRing)
 		{
 			for (int slot : ringSlots)
-			{
 				if (this.getStackInSlot(slot) != null)
-				{
 					this.decrStackSize(slot, 1);
-				}
-			}
 		}
-		this.decrStackSize(4, 1);
+		this.decrStackSize(4, currentRecipe.inputCenter.stacksize);
 		if (currentRecipe.fluid != FluidType.NONE)
-		{
 			tank.setFill(tank.getFill() - currentRecipe.fluidAmount);
-		}
+		
 		if (this.getStackInSlot(1) == null)
-		{
 			this.setInventorySlotContents(1, currentRecipe.getOutput());
-		}
 		else if (this.getStackInSlot(1) != null && slots[1].getItem() == currentRecipe.getOutput().getItem())
-		{
-			this.getStackInSlot(1).stackSize += currentRecipe.output.stackSize;
-		}
+			this.getStackInSlot(1).stackSize += currentRecipe.getOutput().stackSize;
+
 		markDirty();
 	}
 	

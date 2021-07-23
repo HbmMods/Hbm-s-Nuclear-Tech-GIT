@@ -235,15 +235,15 @@ public class ItemStorageMedium extends ItemCustomLore
 			// Get pros
 			for (ProsConsList trait : prosCons)
 				if (trait.key.contains("pro"))
-					list.add(I18nUtil.resolveKey(EnumChatFormatting.BLUE + trait.key));
+					list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(trait.key));
 			// Get neutral
 			for (ProsConsList trait : prosCons)
 				if (trait.key.contains("neu"))
-					list.add(I18nUtil.resolveKey(EnumChatFormatting.YELLOW + trait.key));
+					list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(trait.key));
 			// Get cons
 			for (ProsConsList trait : prosCons)
 				if (trait.key.contains("con"))
-					list.add(I18nUtil.resolveKey(EnumChatFormatting.RED + trait.key));
+					list.add(EnumChatFormatting.RED + I18nUtil.resolveKey(trait.key));
 		}
 		
 	}

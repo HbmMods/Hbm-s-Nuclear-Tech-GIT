@@ -47,9 +47,9 @@ public class ItemRenderHLR implements IItemRenderer
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.hlr_tex);
-		float scale1 = 0.2F;
-		double scale2 = 0.065D;
-		double scale3 = 0.425D;
+		final float scale1 = 0.2F;
+		final double scale2 = 0.065D;
+		final double scale3 = 0.425D;
 		switch (type)
 		{
 		case EQUIPPED_FIRST_PERSON:// In hand from POV

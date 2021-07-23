@@ -12,9 +12,11 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.EnchantmentUtil;
@@ -32,7 +34,7 @@ import net.minecraftforge.oredict.OreDictionary;
 @Spaghetti("everything")
 public class MachineRecipes {
 	
-	public static HashMap<Item, ItemStack> arcFurnaceRecipes = new HashMap<>();
+	public static HashMap<ComparableStack, ItemStack> arcFurnaceRecipes = new HashMap<ComparableStack, ItemStack>();
 	
 	public MachineRecipes() {
 
@@ -44,18 +46,21 @@ public class MachineRecipes {
 
 	public static void registerArcFurnaceRecipes()
 	{
-		arcFurnaceRecipes.put(Item.getItemFromBlock(ModBlocks.sand_quartz), new ItemStack(ModBlocks.glass_quartz));
-		arcFurnaceRecipes.put(ModItems.powder_acrylic, new ItemStack(ModItems.acrylic));
-		arcFurnaceRecipes.put(ModItems.storage_optical_raw, new ItemStack(ModItems.acrylic));
-		arcFurnaceRecipes.put(ModItems.powder_du_dioxide, new ItemStack(ModItems.ingot_du_dioxide));
-		arcFurnaceRecipes.put(ModItems.powder_quartz, new ItemStack(Items.quartz));
+		arcFurnaceRecipes.put(new ComparableStack(ModBlocks.sand_quartz), new ItemStack(ModBlocks.glass_quartz));
+		arcFurnaceRecipes.put(new ComparableStack(ModItems.powder_acrylic), new ItemStack(ModItems.acrylic));
+		arcFurnaceRecipes.put(new ComparableStack(ModItems.storage_optical_raw), new ItemStack(ModItems.acrylic));
+		arcFurnaceRecipes.put(new ComparableStack(ModItems.powder_du_dioxide), new ItemStack(ModItems.ingot_du_dioxide));
+		arcFurnaceRecipes.put(new ComparableStack(ModItems.powder_quartz), new ItemStack(Items.quartz));
+		for (int i = 0; i < 6; i++)
+			arcFurnaceRecipes.put(new ComparableStack(ModItems.ingot_dineutronium_forged, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_dineutronium_forged, 1, i)));
+
 	}
 	
 	public Map<Object, Object> getArcFurnaceRecipes()
 	{
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
-		for (Entry<Item, ItemStack> instance : arcFurnaceRecipes.entrySet())
+		for (Entry<ComparableStack, ItemStack> instance : arcFurnaceRecipes.entrySet())
 			recipes.put(instance.getKey(), instance.getValue());
 		
 		return recipes;
@@ -64,9 +69,12 @@ public class MachineRecipes {
 	public static ItemStack getArcFurnaceResult(ItemStack stackIn)
 	{
 		if (stackIn != null)
-			return arcFurnaceRecipes.get(stackIn.getItem());
-		else
-			return null;
+		{
+			ComparableStack comp = new ComparableStack(stackIn.getItem(), 1, stackIn.getItemDamage());
+			if (arcFurnaceRecipes.containsKey(comp))
+				return arcFurnaceRecipes.get(comp).copy();
+		}
+		return null;
 	}
 	
 	public static ItemStack getFurnaceProcessingResult(ItemStack item, ItemStack item2) {
@@ -168,6 +176,10 @@ public class MachineRecipes {
 					|| mODE(item, new String[] {"ingotSilver", "dustSilver"}) && mODE(item2, new String[] {"ingotGold", "dustGold"}))
 				return new ItemStack(electrum.get(0).getItem(), 2);
 		}
+		
+		if (mODE(item, new String[] {"ingotDineutronium", "dustDineutronium"}) && mODE(item2, new String[] {"ingotCMBSteel", "dustCMBSteel"})
+				|| mODE(item, new String[] {"ingotCMBSteel", "dustCMBSteel"}) && mODE(item2, new String[] {"ingotDineutronium", "dustDineutronium"}))
+			return new ItemStack(ModItems.ingot_dineutronium_forged);
 		
 		if(GeneralConfig.enableBabyMode) {
 			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
@@ -635,7 +647,7 @@ public class MachineRecipes {
 		
 		return recipes;
 	}
-
+	@Deprecated
 	public static ItemStack getCyclotronOutput(ItemStack part, ItemStack item) {
 
 		if(part == null || item == null)
@@ -896,6 +908,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(Items.iron_ingot), new ItemStack(ModItems.ingot_du_dioxide)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_titanium), new ItemStack(ModItems.ingot_du_dioxide) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_titanium), new ItemStack(ModItems.ingot_du_dioxide)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)},
+					getFurnaceOutput(new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },

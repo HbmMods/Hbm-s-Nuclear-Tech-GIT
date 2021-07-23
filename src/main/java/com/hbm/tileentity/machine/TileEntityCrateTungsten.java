@@ -225,6 +225,9 @@ public class TileEntityCrateTungsten extends TileEntityLockableBase implements I
 			if(slots[i].getItem() == ModItems.crucible && slots[i].getItemDamage() > 0 && energy > 10000000)
 				result = new ItemStack(ModItems.crucible, 1, 0);
 			
+			if(slots[i].getItem() == ModItems.orichalcum && slots[i].getItemDamage() == 3 && energy > 10000000)
+				result = new ItemStack(ModItems.orichalcum, 1, 2);
+			
 			int size = slots[i].stackSize;
 			
 			if(result != null && result.stackSize * size <= result.getMaxStackSize()) {

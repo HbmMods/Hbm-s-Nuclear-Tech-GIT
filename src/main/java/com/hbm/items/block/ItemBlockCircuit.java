@@ -12,7 +12,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemBlockCircuit extends ItemBlock
+public class ItemBlockCircuit extends ItemBlockLore
 {
 	public ItemBlockCircuit(Block block)
 	{

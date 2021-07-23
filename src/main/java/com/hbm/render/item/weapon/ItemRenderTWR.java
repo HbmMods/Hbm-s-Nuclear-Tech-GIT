@@ -43,9 +43,9 @@ public class ItemRenderTWR implements IItemRenderer
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.twr_tex);
-		float scale1 = 0.09F;
-		double scale2 = 0.05D;
-		double scale3 = 0.25D;
+		final float scale1 = 0.09F;
+		final double scale2 = 0.05D;
+		final double scale3 = 0.25D;
 		switch (type)
 		{
 		case EQUIPPED_FIRST_PERSON:// In hand from POV

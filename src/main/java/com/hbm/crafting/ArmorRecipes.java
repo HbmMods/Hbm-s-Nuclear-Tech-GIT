@@ -26,13 +26,20 @@ public class ArmorRecipes {
 		//Armor mod table
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_armor_table, 1), new Object[] { "PPP", "TCT", "TST", 'P', "plateSteel", 'T', "ingotTungsten", 'C', Blocks.crafting_table, 'S', "blockSteel" }));
 		
+		// Armor plates
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 0), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.bolt_dura_steel, 'A', ModItems.plate_armor_ajr, 'P', ModItems.plate_du_dioxide});
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 1), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.bolt_staballoy, 'P', new ItemStack(ModItems.plate_armor_du, 1, 0), 'A', ModItems.ingot_du_dioxide });
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 2), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.ingot_staballoy, 'A', new ItemStack(ModItems.plate_armor_du, 1, 1), 'P', ModItems.ingot_ferrouranium});
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 3), new Object[] { "BPB", "PAP", "BPB", 'A', ModItems.ingot_staballoy, 'B', new ItemStack(ModItems.plate_armor_du, 1, 2), 'P', ModItems.plate_combine_steel});
+		
 		//Regular armor
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_helmet, 1), new Object[] { "EEE", "E E", 'E', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_boots, 1), new Object[] { "E E", "E E", 'E', "ingotSteel" }));
 		basicArmorSet(new Item[] { ModItems.titanium_helmet, ModItems.titanium_plate, ModItems.titanium_legs, ModItems.titanium_boots }, ModItems.ingot_titanium);
-		basicArmorSet(new Item[] { ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots }, ModItems.ingot_advanced_alloy);
+		Item[] aAlloySet = new Item[] { ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots };
+		basicArmorSet(aAlloySet, ModItems.ingot_advanced_alloy);
 		basicArmorSet(new Item[] { ModItems.cmb_helmet, ModItems.cmb_plate, ModItems.cmb_legs, ModItems.cmb_boots }, ModItems.ingot_combine_steel);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.security_helmet, 1), new Object[] { "SSS", "IGI", 'S', "plateSteel", 'I', ModItems.plate_polymer, 'G', "paneGlass" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.security_plate, 1), new Object[] { "KWK", "IKI", "WKW", 'K', ModItems.plate_kevlar, 'I', ModItems.ingot_polymer, 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
@@ -45,8 +52,9 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_legs, 1), new Object[] { "EE ", "EEE", "E E", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_boots, 1), new Object[] { "  E", "E  ", "E E", 'E', ModItems.ingot_dineutronium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.zirconium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_zirconium });
-		basicArmorSet(new Item[] {ModItems.ferrouranium_helmet, ModItems.ferrouranium_plate, ModItems.ferrouranium_legs, ModItems.ferrouranium_boots}, ModItems.ingot_ferrouranium);
-
+		Item[] ferrouraniumSet = new Item[] {ModItems.ferrouranium_helmet, ModItems.ferrouranium_plate, ModItems.ferrouranium_legs, ModItems.ferrouranium_boots};
+		upgradeArmorSet(ferrouraniumSet, aAlloySet, ModItems.ingot_ferrouranium);
+		
 		//Power armor
 		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
 		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'T', ModItems.gas_empty, 'B', ModItems.titanium_plate });
