@@ -6,6 +6,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelArmorBJ;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -58,6 +59,8 @@ public class ArmorBJJetpack extends ArmorBJ {
 		}
 
 		if(this.hasFSBArmor(player)) {
+			
+			ArmorUtil.resetFlightTime(player);
 			
 			if(props.isJetpackActive()) {
 				

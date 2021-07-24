@@ -3,6 +3,7 @@ package com.hbm.items.armor;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorWings;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,6 +40,8 @@ public class WingsMurk extends ItemArmor {
 		if(player.onGround)
 			return;
 		
+		ArmorUtil.resetFlightTime(player);
+		
 		if(player.fallDistance > 0)
 			player.fallDistance = 0;
 		
@@ -74,6 +77,8 @@ public class WingsMurk extends ItemArmor {
 
 				if(player.motionY < 0.6D)
 					player.motionY += 0.2D;
+				else
+					player.motionY = 0.8D;
 				
 			} else if(props.enableBackpack && !player.isSneaking()) {
 				

@@ -741,6 +741,8 @@ public class ModEventHandler {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
+				ArmorUtil.resetFlightTime(player);
+				
 				if(!player.isSneaking()) {
 					if(player.fallDistance > 0)
 						player.fallDistance = 0;

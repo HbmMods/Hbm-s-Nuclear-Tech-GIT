@@ -123,6 +123,8 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', "ingotLead", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.defuser, 1), new Object[] { " PS", "P P", " P ", 'P', "ingotPolymer", 'S', "plateSteel" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.coltan_tool, 1), new Object[] { "ACA", "CXC", "ACA", 'A', ModItems.ingot_advanced_alloy, 'C', ModItems.cinnebar, 'X', Items.compass });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.reacher, 1), new Object[] { "BIB", "P P", "B B", 'B', ModItems.bolt_tungsten, 'I', "ingotTungsten", 'P', ModItems.plate_polymer }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.bismuth_tool, 1), new Object[] { "CTC", "BRB", "BTB", 'C', ModItems.coil_advanced_alloy, 'T', ModItems.gem_tantalium, 'B', ModItems.ingot_bismuth, 'R', ModItems.reacher });
 		
 		//Bobmazon
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bobmazon_materials), new Object[] { Items.book, Items.gold_nugget, Items.string });

@@ -2,7 +2,9 @@ package com.hbm.modules;
 
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.BreederRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -71,14 +73,25 @@ public class ItemHazardModule {
 	}
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
+		
+		boolean reacher = false;
+		
+		if(entity instanceof EntityPlayer && !GeneralConfig.enable528)
+			reacher = ((EntityPlayer) entity).inventory.hasItem(ModItems.reacher);
 			
-		if(this.radiation * tempMod > 0)
-			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, this.radiation * tempMod * mod / 20F);
+		if(this.radiation * tempMod > 0) {
+			float rad = this.radiation * tempMod * mod / 20F;
+			
+			if(reacher)
+				rad = (float) Math.min(Math.sqrt(rad), rad); //to prevent radiation from going up when being <1
+			
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
+		}
 
 		if(this.digamma * tempMod > 0)
 			ContaminationUtil.applyDigammaData(entity, this.digamma * tempMod * mod / 20F);
 
-		if(this.fire > 0)
+		if(this.fire > 0 && !reacher)
 			entity.setFire(this.fire);
 
 		if(this.asbestos)

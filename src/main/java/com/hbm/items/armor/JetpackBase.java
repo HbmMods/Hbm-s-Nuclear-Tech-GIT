@@ -6,6 +6,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.render.model.ModelJetPack;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -66,6 +67,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 			return;
 				
 		onArmorTick(entity.worldObj, (EntityPlayer)entity, jetpack);
+		ArmorUtil.resetFlightTime((EntityPlayer)entity);
 		
 		ArmorModHandler.applyMod(armor, jetpack);
 	}

@@ -10,6 +10,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelArmorDNT;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -87,6 +88,8 @@ public class ArmorDNT extends ArmorFSBPowered {
 		}
 
 		if(this.hasFSBArmor(player)) {
+			
+			ArmorUtil.resetFlightTime(player);
 
 			if(props.isJetpackActive()) {
 

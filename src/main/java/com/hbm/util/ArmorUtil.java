@@ -6,9 +6,12 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.NetHandlerPlayServer;
 
 public class ArmorUtil {
 
@@ -341,5 +344,13 @@ public class ArmorUtil {
 	public static boolean checkForFiend2(EntityPlayer player) {
 		
 		return checkArmorPiece(player, ModItems.jackt2, 2) && Library.checkForHeld(player, ModItems.shimmer_axe);
+	}
+	
+	public static void resetFlightTime(EntityPlayer player) {
+		
+		if(player instanceof EntityPlayerMP) {
+			EntityPlayerMP mp = (EntityPlayerMP) player;
+			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, mp.playerNetServerHandler, 0, "floatingTickCount", "field_147365_f");
+		}
 	}
 }

@@ -43,7 +43,7 @@ public class ContainerRBMKOutgasser extends Container {
 				if(!this.mergeItemStack(var5, rbmk.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, rbmk.getSizeInventory(), false)) {
+			} else if(!this.mergeItemStack(var5, 0, 1, false)) {
 				return null;
 			}
 

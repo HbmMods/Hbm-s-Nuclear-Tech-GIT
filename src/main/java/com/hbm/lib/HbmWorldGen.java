@@ -34,8 +34,6 @@ import com.hbm.world.feature.Sellafield;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
@@ -63,65 +61,11 @@ public class HbmWorldGen implements IWorldGenerator {
 			if(GeneralConfig.enableMDOres)
 				generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		}
-
 	}
 	
 	NoiseGeneratorOctaves octaves = new NoiseGeneratorOctaves(new Random(0x706f6e6379756dL), 1);
-	
-	/**
-	 * Fake noise generator "unruh" ("unrest", the motion of a clockwork), using a bunch of layered, scaled and offset
-	 * sine functions to simulate a simple noise generator that runs somewhat efficiently
-	 * @param long the random function seed used for this operation
-	 * @param x the exact x-coord of the height you want
-	 * @param z the exact z-coord of the height you want
-	 * @param scale how much the x/z coords should be amplified
-	 * @param depth the resolution of the operation, higher numbers call more sine functions
-	 * @return the height value
-	 */
-	private double generateUnruh(long seed, int x, int z, double scale, int depth) {
-		
-		scale = 1/scale;
-		
-		double result = 1;
-		
-		Random rand = new Random(seed);
-		
-		for(int i = 0; i < depth; i++) {
-
-			double offsetX = rand.nextDouble() * Math.PI * 2;
-			double offsetZ = rand.nextDouble() * Math.PI * 2;
-			
-			result += Math.sin(x / Math.pow(2, depth) * scale + offsetX) * Math.sin(z / Math.pow(2, depth) * scale + offsetZ);
-		}
-		
-		return result / depth;
-	}
 
 	private void generateSurface(World world, Random rand, int i, int j) {
-		
-		/*for(int x = 0; x < 16; x++) {
-			
-			for(int z = 0; z < 16; z++) {
-				
-				double unruh = Math.abs(generateUnruh(world.getSeed(), i + x, j + z, 4, 4)) * 1.5;
-				double thresh = 0.8D;
-				
-				if(unruh >= thresh) {
-					
-					int span = (int)(Math.floor((unruh - thresh) * 7));
-					
-					for(int s = -span; s <= span; s++) {
-						
-						int y = 35 + s;
-						
-						Block b = world.getBlock(x, y, z);
-						
-						if(b.getMaterial() == Material.rock || b == Blocks.dirt)
-							world.setBlock(i + x, (int) (y), j + z, ModBlocks.stone_gneiss, 0, 2);
-					}
-				}
-			}
-		}*/
 
 		DungeonToolbox.generateOre(world, rand, i, j, 25, 6, 30, 10, ModBlocks.ore_gneiss_iron, ModBlocks.stone_gneiss);
 		DungeonToolbox.generateOre(world, rand, i, j, 10, 6, 30, 10, ModBlocks.ore_gneiss_gold, ModBlocks.stone_gneiss);
@@ -146,7 +90,7 @@ public class HbmWorldGen implements IWorldGenerator {
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.rareSpawn, 5, 5, 20, ModBlocks.ore_rare);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ligniteSpawn, 24, 35, 25, ModBlocks.ore_lignite);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 16, 16, ModBlocks.ore_asbestos);
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cinnebarSpawn, 2, 8, 8, ModBlocks.ore_asbestos);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cinnebarSpawn, 4, 8, 16, ModBlocks.ore_cinnebar);
 
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn, 6, 5, 50, ModBlocks.cluster_iron);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 5, 30, ModBlocks.cluster_titanium);
@@ -168,13 +112,19 @@ public class HbmWorldGen implements IWorldGenerator {
 		int colX = (int) (colRand.nextGaussian() * 1500);
 		int colZ = (int) (colRand.nextGaussian() * 1500);
 		int colRange = 500;
-		for (int k = 0; k < 6; k++) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(25) + 15;
-			int randPosZ = j + rand.nextInt(16);
-
-			if(randPosX <= colX + colRange && randPosX >= colX - colRange && randPosZ <= colZ + colRange && randPosZ >= colZ - colRange)
-				(new WorldGenMinable(ModBlocks.ore_coltan, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
+		
+		for (int k = 0; k < 2; k++) {
+			
+			for(int r = 1; r <= 5; r++) {
+				int randPosX = i + rand.nextInt(16);
+				int randPosY = rand.nextInt(25) + 15;
+				int randPosZ = j + rand.nextInt(16);
+				
+				int range = colRange / r;
+	
+				if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range)
+					(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+			}
 		}
 
 		for (int k = 0; k < rand.nextInt(4); k++) {

@@ -83,7 +83,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 							Float val = radiation.get(newCoord);
 							float rad = val == null ? 0 : val;
 							float newRad = rad + chunk.getValue() * percent;
-							newRad = Math.max(0F, newRad * 0.999F - 0.05F);
+							newRad = Math.max(0F, newRad * 0.99F - 0.05F);
 							radiation.put(newCoord, newRad);
 						}
 					}
