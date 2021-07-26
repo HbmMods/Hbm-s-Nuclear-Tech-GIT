@@ -815,13 +815,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_rbmk_console: {
-			if(entity instanceof TileEntityRBMKConsole) {
-			//	return new ContainerRBMKConsole(player.inventory, (TileEntityRBMKConsole) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_storage_drum: {
 			if(entity instanceof TileEntityStorageDrum) {
 				return new ContainerStorageDrum(player.inventory, (TileEntityStorageDrum) entity);

@@ -216,6 +216,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_coltan) {
 			return ModItems.fragment_coltan;
 		}
+		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
+			return ModItems.fragment_cobalt;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
@@ -245,6 +248,12 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_depth_zirconium) {
 			return 2 + rand.nextInt(2);
+		}
+		if(this == ModBlocks.ore_cobalt) {
+			return 4 + rand.nextInt(6);
+		}
+		if(this == ModBlocks.ore_nether_cobalt) {
+			return 5 + rand.nextInt(8);
 		}
 
 		return 1;

@@ -34,13 +34,6 @@ public class AnvilRecipes {
 	 */
 	public static void registerSmithing() {
 		
-		for(int i = 0; i < 9; i++)
-			smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_steel_dusted, 1, i + 1),
-					new ComparableStack(ModItems.ingot_steel_dusted, 1, i), new ComparableStack(ModItems.ingot_steel_dusted, 1, i)));
-		
-		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_chainsteel, 1),
-				new ComparableStack(ModItems.ingot_steel_dusted, 1, 9), new ComparableStack(ModItems.ingot_steel_dusted, 1, 9)));
-		
 		Block[] anvils = new Block[]{ModBlocks.anvil_iron, ModBlocks.anvil_lead};
 		
 		for(Block anvil : anvils) {
@@ -52,6 +45,13 @@ public class AnvilRecipes {
 			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_starmetal, 1), new ComparableStack(anvil), new ComparableStack(ModItems.ingot_starmetal, 10)));
 			smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModBlocks.anvil_steel, 1), new ComparableStack(anvil), new OreDictStack("ingotSteel", 10)));
 		}
+		
+		for(int i = 0; i < 9; i++)
+			smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_steel_dusted, 1, i + 1),
+					new ComparableStack(ModItems.ingot_steel_dusted, 1, i), new ComparableStack(ModItems.ingot_steel_dusted, 1, i)));
+		
+		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_chainsteel, 1),
+				new ComparableStack(ModItems.ingot_steel_dusted, 1, 9), new ComparableStack(ModItems.ingot_steel_dusted, 1, 9)));
 		
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_meteorite_forged, 1), new ComparableStack(ModItems.ingot_meteorite), new ComparableStack(ModItems.ingot_meteorite)));
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.blade_meteorite, 1), new ComparableStack(ModItems.ingot_meteorite_forged), new ComparableStack(ModItems.ingot_meteorite_forged)));
@@ -174,8 +174,8 @@ public class AnvilRecipes {
 	public static class AnvilConstructionRecipe {
 		public List<AStack> input = new ArrayList();
 		public List<AnvilOutput> output = new ArrayList();
-		int tierLower = 0;
-		int tierUpper = -1;
+		public int tierLower = 0;
+		public int tierUpper = -1;
 		OverlayType overlay = OverlayType.NONE;
 		
 		public AnvilConstructionRecipe(AStack input, AnvilOutput output) {

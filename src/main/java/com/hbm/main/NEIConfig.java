@@ -50,6 +50,10 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new HadronRecipeHandler());
 		API.registerRecipeHandler(new SILEXRecipeHandler());
 		API.registerUsageHandler(new SILEXRecipeHandler());
+		API.registerRecipeHandler(new SmithingRecipeHandler());
+		API.registerUsageHandler(new SmithingRecipeHandler());
+		API.registerRecipeHandler(new AnvilRecipeHandler());
+		API.registerUsageHandler(new AnvilRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

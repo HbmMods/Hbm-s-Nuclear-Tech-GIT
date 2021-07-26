@@ -1,6 +1,7 @@
 package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -8,7 +9,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.container.ContainerRBMKConsole;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -18,16 +18,21 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIRBMKConsole extends GuiInfoContainer {
+public class GUIRBMKConsole extends GuiScreen {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_console.png");
 	private TileEntityRBMKConsole console;
+	protected int guiLeft;
+	protected int guiTop;
+	protected int xSize;
+	protected int ySize;
 	
 	private boolean[] selection = new boolean[15 * 15];
 	private boolean az5Lid = true;
@@ -36,7 +41,7 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 	private GuiTextField field;
 
 	public GUIRBMKConsole(InventoryPlayer invPlayer, TileEntityRBMKConsole tedf) {
-		super(new ContainerRBMKConsole(invPlayer, tedf));
+		super();
 		this.console = tedf;
 		
 		this.xSize = 244;
@@ -54,11 +59,15 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 			this.field.setEnableBackgroundDrawing(false);
 			this.field.setMaxStringLength(3);
 		}
+		
+		this.guiLeft = (this.width - this.xSize) / 2;
+		this.guiTop = (this.height - this.ySize) / 2;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
-		super.drawScreen(mouseX, mouseY, f);
+		this.drawDefaultBackground();
+		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
 		
 		int bX = 86;
 		int bY = 11;
@@ -90,6 +99,12 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select green group" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 39, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select blue group" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select purple group" } );
+	}
+	
+	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String[] text) {
+		
+		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
+			this.func_146283_a(Arrays.asList(text), tPosX, tPosY);
 	}
 
 	@Override
@@ -196,12 +211,7 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1F));
 		}
 	}
-	
-	@Override
-	protected void drawGuiContainerForegroundLayer(int i, int j) {
-	}
 
-	@Override
 	protected void drawGuiContainerBackgroundLayer(float interp, int mX, int mY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -292,6 +302,11 @@ public class GUIRBMKConsole extends GuiInfoContainer {
 
 		if(this.field.textboxKeyTyped(c, i))
 			return;
+		
+		if(i == 1 || i == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+			this.mc.thePlayer.closeScreen();
+			return;
+		}
 		
 		super.keyTyped(c, i);
 	}

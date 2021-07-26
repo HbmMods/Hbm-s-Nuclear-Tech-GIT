@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
+import scala.actors.threadpool.Arrays;
 
 public class RecipesCommon {
 	
@@ -83,6 +84,12 @@ public class RecipesCommon {
 		public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
 		
 		public abstract AStack copy();
+		
+		/**
+		 * Generates either an ItemStack or an ArrayList of ItemStacks
+		 * @return
+		 */
+		public abstract List<ItemStack> extractForNEI();
 	}
 	
 	public static class ComparableStack extends AStack {
@@ -240,6 +247,11 @@ public class RecipesCommon {
 			
 			return true;
 		}
+
+		@Override
+		public List<ItemStack> extractForNEI() {
+			return Arrays.asList(new ItemStack[] {this.toStack()});
+		}
 	}
 	
 	/*
@@ -350,6 +362,17 @@ public class RecipesCommon {
 			}
 			
 			return false;
+		}
+
+		@Override
+		public List<ItemStack> extractForNEI() {
+			
+			List<ItemStack> ores = OreDictionary.getOres(name);
+			
+			for(ItemStack stack : ores)
+				stack.stackSize = this.stacksize;
+			
+			return ores;
 		}
 	}
 	

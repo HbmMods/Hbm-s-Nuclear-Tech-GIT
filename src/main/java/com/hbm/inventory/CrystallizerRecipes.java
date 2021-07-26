@@ -46,6 +46,7 @@ public class CrystallizerRecipes {
 		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
 		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
 		recipes.put("oreRareEarth", new ItemStack(ModItems.crystal_rare));
+		recipes.put("oreCobalt", new ItemStack(ModItems.crystal_cobalt));
 		
 		recipes.put(new ComparableStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.crystal_phosphorus));
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new ItemStack(ModItems.crystal_trixite));
@@ -70,6 +71,14 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.powder_meteorite), new ItemStack(ModItems.fragment_meteorite, 1));
 		
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_treated), new ItemStack(ModItems.meteorite_sword_etched, 1));
+		
+		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
+		
+		if(quartz != null && !quartz.isEmpty()) {
+			ItemStack qItem = quartz.get(0).copy();
+			qItem.stackSize = 6;
+			recipes.put("oreCertusQuartz", qItem);
+		}
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {

@@ -1,5 +1,12 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -8,13 +15,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockSemtex extends Block {
+public class BlockSemtex extends Block implements IBomb {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon topIcon;
@@ -45,22 +54,42 @@ public class BlockSemtex extends Block {
 		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, l, 2);
 	}
 
-	public static int determineOrientation(World p_150071_0_, int p_150071_1_, int p_150071_2_, int p_150071_3_, EntityLivingBase p_150071_4_) {
+	public static int determineOrientation(World world, int x, int y, int z, EntityLivingBase player) {
 
-		if(MathHelper.abs((float) p_150071_4_.posX - (float) p_150071_1_) < 2.0F && MathHelper.abs((float) p_150071_4_.posZ - (float) p_150071_3_) < 2.0F) {
-			double d0 = p_150071_4_.posY + 1.82D - (double) p_150071_4_.yOffset;
+		if(MathHelper.abs((float) player.posX - (float) x) < 2.0F && MathHelper.abs((float) player.posZ - (float) z) < 2.0F) {
+			double d0 = player.posY + 1.82D - (double) player.yOffset;
 			
-			if(d0 - (double) p_150071_2_ > 2.0D) {
+			if(d0 - (double) y > 2.0D) {
 				return 0;
 			}
 			
-			if((double) p_150071_2_ - d0 > 0.0D) {
+			if((double) y - d0 > 0.0D) {
 				return 1;
 			}
 		}
 		
-		int l = MathHelper.floor_double((double) (p_150071_4_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int l = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		
 		return l == 0 ? 3 : (l == 1 ? 4 : (l == 2 ? 2 : (l == 3 ? 5 : 1)));
+	}
+
+	@Override
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
+		this.explode(world, x, y, z);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
+		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			this.explode(world, x, y, z);
+		}
+	}
+
+	@Override
+	public void explode(World world, int x, int y, int z) {
+		if(!world.isRemote) {
+			new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 50).overrideResolution(64).explode();
+			ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
+		}
 	}
 }

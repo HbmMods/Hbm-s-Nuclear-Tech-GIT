@@ -62,6 +62,10 @@ public class TileEntityStorageDrum extends TileEntityMachineBase {
 					if(item == ModItems.nuclear_waste_short_tiny && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
 						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, slots[i].getItemDamage());
 					}
+					
+					if(item == ModItems.nugget_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
+						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, slots[i].getItemDamage());
+					}
 				}
 			}
 			
@@ -113,7 +117,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase {
 		if(item == ModItems.nuclear_waste_long || 
 				item == ModItems.nuclear_waste_long_tiny || 
 				item == ModItems.nuclear_waste_short || 
-				item == ModItems.nuclear_waste_short_tiny)
+				item == ModItems.nuclear_waste_short_tiny || 
+				item == ModItems.nugget_au198)
 			return true;
 		
 		return false;
@@ -132,7 +137,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase {
 		if(item == ModItems.nuclear_waste_long_depleted || 
 				item == ModItems.nuclear_waste_long_depleted_tiny || 
 				item == ModItems.nuclear_waste_short_depleted || 
-				item == ModItems.nuclear_waste_short_depleted_tiny)
+				item == ModItems.nuclear_waste_short_depleted_tiny || 
+				item == ModItems.nugget_mercury)
 			return true;
 		
 		return false;

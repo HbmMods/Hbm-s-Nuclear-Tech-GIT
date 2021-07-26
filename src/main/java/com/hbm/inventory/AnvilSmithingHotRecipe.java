@@ -1,9 +1,12 @@
 package com.hbm.inventory;
 
+import java.util.List;
+
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.special.ItemHot;
 
 import net.minecraft.item.ItemStack;
+import scala.actors.threadpool.Arrays;
 
 public class AnvilSmithingHotRecipe extends AnvilSmithingRecipe {
 
@@ -37,5 +40,23 @@ public class AnvilSmithingHotRecipe extends AnvilSmithingRecipe {
 		}
 		
 		return output.copy();
+	}
+	
+	public List<ItemStack> getLeft() {
+		return Arrays.asList(new ItemStack[] {getHot(left)});
+	}
+	
+	public List<ItemStack> getRight() {
+		return Arrays.asList(new ItemStack[] {getHot(right)});
+	}
+	
+	private ItemStack getHot(AStack stack) {
+		ItemStack first = stack.extractForNEI().get(0);
+		
+		if(first.getItem() instanceof ItemHot) {
+			ItemHot.heatUp(first);
+		}
+		
+		return first;
 	}
 }

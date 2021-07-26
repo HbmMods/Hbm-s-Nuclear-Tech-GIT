@@ -78,6 +78,15 @@ public class ShredderRecipes {
 						shredderRecipes.put(new ComparableStack(stack), dust);
 					}
 				}
+			} else if(name.length() > 7 && name.substring(0, 7).equals("crystal")) {
+				ItemStack dust = getDustByName(name.substring(7));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new ComparableStack(stack), dust);
+					}
+				}
 			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 
 				for(ItemStack stack : matches) {
@@ -179,6 +188,7 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.crystal_trixite, new ItemStack(ModItems.powder_plutonium, 6));
 		ShredderRecipes.setRecipe(ModItems.crystal_lithium, new ItemStack(ModItems.powder_lithium, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_starmetal, new ItemStack(ModItems.powder_dura_steel, 6));
+		ShredderRecipes.setRecipe(ModItems.crystal_cobalt, new ItemStack(ModItems.powder_cobalt, 3));
 
 		ShredderRecipes.setRecipe(ModBlocks.steel_poles, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModBlocks.pole_top, new ItemStack(ModItems.powder_tungsten, 4));

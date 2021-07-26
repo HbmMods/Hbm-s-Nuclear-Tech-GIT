@@ -1,5 +1,7 @@
 package com.hbm.inventory;
 
+import java.util.List;
+
 import com.hbm.inventory.RecipesCommon.AStack;
 
 import net.minecraft.item.ItemStack;
@@ -44,8 +46,20 @@ public class AnvilSmithingRecipe {
 		return recipe.matchesRecipe(input, false);
 	}
 	
-	public ItemStack getOutput(ItemStack left, ItemStack right) {
+	public List<ItemStack> getLeft() {
+		return left.extractForNEI();
+	}
+	
+	public List<ItemStack> getRight() {
+		return right.extractForNEI();
+	}
+	
+	public ItemStack getSimpleOutput() {
 		return output.copy();
+	}
+	
+	public ItemStack getOutput(ItemStack left, ItemStack right) {
+		return getSimpleOutput();
 	}
 	
 	public int amountConsumed(int index, boolean mirrored) {
