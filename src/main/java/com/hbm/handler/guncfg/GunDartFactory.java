@@ -77,7 +77,35 @@ public class GunDartFactory {
 		
 		return config;
 	}
-
+	public static GunConfiguration getMemeConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 10;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasSights = false;
+		config.reloadDuration = 10;
+		config.firingDuration = 0;
+		config.ammoCap = 100;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 8500;
+		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
+		config.firingSound = "hbm:weapon.dartShoot";
+		config.reloadSoundEnd = false;
+		config.showAmmo = true;
+		
+		config.name = "NERF blaster of unknown design";
+		config.manufacturer = "Hasbro";
+		
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
+		
+		return config;
+	}
 	public static BulletConfiguration getGPSConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
