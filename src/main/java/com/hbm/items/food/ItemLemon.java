@@ -42,7 +42,13 @@ public class ItemLemon extends ItemFood {
 			list.add("");
 			list.add("Have some edible dirt.");
 		}
-		
+		if(this == ModItems.bobcorn) {
+			list.add("Made with healthy health chunks");
+			list.add("");
+			list.add("");
+			list.add("Drillgon Inc. will not be liable for");
+			list.add("any adverse effects of this product.");
+		}
 		if(this == ModItems.med_ipecac) {
 			list.add("Bitter juice that will cause your stomach");
 			list.add("to forcefully eject it's contents.");
