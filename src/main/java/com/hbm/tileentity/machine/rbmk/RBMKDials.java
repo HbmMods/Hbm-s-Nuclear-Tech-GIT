@@ -22,6 +22,7 @@ public class RBMKDials {
 	public static final String KEY_REASIM_RANGE = "dialReasimRange";
 	public static final String KEY_REASIM_COUNT = "dialReasimCount";
 	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
+	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -43,6 +44,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_RANGE, "10");
 			rules.setOrCreateGameRule(KEY_REASIM_COUNT, "6");
 			rules.setOrCreateGameRule(KEY_REASIM_MOD, "1.0");
+			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
 		}
 	}
 	
@@ -179,6 +181,15 @@ public class RBMKDials {
 	 */
 	public static double getReaSimOutputMod(World world) {
 		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_MOD), 1.0D), 0.0D);
+	}
+	
+	/**
+	 * Whether or not all components should act like boilers with dedicated in/outlet blocks
+	 * @param world
+	 * @return
+	 */
+	public static boolean getReasimBoilers(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_BOILERS);
 	}
 	
 	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?

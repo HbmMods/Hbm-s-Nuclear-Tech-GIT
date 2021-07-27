@@ -50,18 +50,17 @@ public class GUIRBMKConsole extends GuiScreen {
 	
 	public void initGui() {
 		super.initGui();
-		Keyboard.enableRepeatEvents(true);
-		
-		for(int i = 0; i < 4; i++) {
-			this.field = new GuiTextField(this.fontRendererObj, guiLeft + 9, guiTop + 84, 35, 9);
-			this.field.setTextColor(0x00ff00);
-			this.field.setDisabledTextColour(0x008000);
-			this.field.setEnableBackgroundDrawing(false);
-			this.field.setMaxStringLength(3);
-		}
 		
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
+		
+		Keyboard.enableRepeatEvents(true);
+		
+		this.field = new GuiTextField(this.fontRendererObj, guiLeft + 9, guiTop + 84, 35, 9);
+		this.field.setTextColor(0x00ff00);
+		this.field.setDisabledTextColour(0x008000);
+		this.field.setEnableBackgroundDrawing(false);
+		this.field.setMaxStringLength(3);
 	}
 	
 	@Override
@@ -309,5 +308,10 @@ public class GUIRBMKConsole extends GuiScreen {
 		}
 		
 		super.keyTyped(c, i);
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
 	}
 }

@@ -15,6 +15,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockGasAsbestos extends BlockGasBase {
 
+	public BlockGasAsbestos() {
+		super(0.6F, 0.6F, 0.5F);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {

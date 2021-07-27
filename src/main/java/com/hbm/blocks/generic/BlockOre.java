@@ -219,6 +219,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
+		if(this == ModBlocks.ore_depth_nether_neodymium) {
+			return ModItems.fragment_neodymium;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
@@ -254,6 +257,9 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_nether_cobalt) {
 			return 5 + rand.nextInt(8);
+		}
+		if(this == ModBlocks.ore_depth_nether_neodymium) {
+			return 2 + rand.nextInt(2);
 		}
 
 		return 1;

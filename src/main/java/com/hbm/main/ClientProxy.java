@@ -918,6 +918,15 @@ public class ClientProxy extends ServerProxy {
 
 			if("cloud".equals(data.getString("mode"))) {
 				fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+				
+				if(data.hasKey("r")) {
+					float rng = rand.nextFloat() * 0.1F;
+					fx.setRBGColorF(data.getFloat("r") + rng, data.getFloat("g") + rng, data.getFloat("b") + rng);
+					ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntityCloudFX.class, (EntityCloudFX)fx, 7.5F, "field_70569_a");
+					fx.motionX = 0;
+					fx.motionY = 0;
+					fx.motionZ = 0;
+				}
 			}
 
 			if("reddust".equals(data.getString("mode"))) {

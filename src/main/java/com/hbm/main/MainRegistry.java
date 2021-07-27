@@ -491,6 +491,8 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityRBMKModerator.class, "tileentity_rbmk_moderator");
 		GameRegistry.registerTileEntity(TileEntityRBMKOutgasser.class, "tileentity_rbmk_outgasser");
 		GameRegistry.registerTileEntity(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
+		GameRegistry.registerTileEntity(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
+		GameRegistry.registerTileEntity(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

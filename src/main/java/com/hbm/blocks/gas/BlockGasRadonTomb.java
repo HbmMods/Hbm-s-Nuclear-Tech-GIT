@@ -7,6 +7,8 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -41,6 +43,10 @@ public class BlockGasRadonTomb extends BlockGasBase {
 	 * Leave this place and never come back.
 	 */
 
+	public BlockGasRadonTomb() {
+		super(0.1F, 0.3F, 0.1F);
+	}
+
 	@Override
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
@@ -69,8 +75,17 @@ public class BlockGasRadonTomb extends BlockGasBase {
 		if(!world.isRemote) {
 	
 			if(rand.nextInt(10) == 0) {
-				if(world.getBlock(x, y - 1, z) == Blocks.grass)
-					world.setBlock(x, y - 1, z, ModBlocks.waste_earth);
+				Block b = world.getBlock(x, y - 1, z);
+				
+				if(b == Blocks.grass) {
+					if(rand.nextInt(5) == 0)
+						world.setBlock(x, y - 1, z, Blocks.dirt, 1, 3);
+					else
+						world.setBlock(x, y - 1, z, ModBlocks.waste_earth);
+				}
+				
+				if((b.getMaterial() == Material.grass || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants || b.getMaterial() == Material.vine) && !b.isNormalCube())
+					world.setBlock(x, y - 1, z, Blocks.air);
 			}
 	
 			if(rand.nextInt(600) == 0) {

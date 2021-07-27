@@ -3,24 +3,36 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class BlockGasBase extends Block {
+	
+	float red;
+	float green;
+	float blue;
 
-	public BlockGasBase() {
+	public BlockGasBase(float r, float g, float b) {
 		super(ModBlocks.materialGas);
 		this.setHardness(0.0F);
 		this.setResistance(0.0F);
 		this.lightOpacity = 0;
+		this.red = r;
+		this.green = g;
+		this.blue = b;
 	}
 
 	@Override
@@ -108,5 +120,25 @@ public abstract class BlockGasBase extends Block {
 
 	public ForgeDirection randomHorizontal(World world) {
 		return ForgeDirection.getOrientation(world.rand.nextInt(4) + 2);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
+		
+		EntityPlayer p = MainRegistry.proxy.me();
+		if(ArmorUtil.checkArmorPiece(p, ModItems.ashglasses, 3)) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", "cloud");
+			data.setDouble("posX", x + 0.5);
+			data.setDouble("posY", y + 0.5);
+			data.setDouble("posZ", z + 0.5);
+			data.setFloat("r", red);
+			data.setFloat("g", green);
+			data.setFloat("b", blue);
+			MainRegistry.proxy.effectNT(data);
+		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -13,6 +14,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -98,9 +100,13 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 				e.attackEntityFrom(DamageSource.inFire, 100);
 			}
 			
-			/*if(e instanceof EntityPlayer) {
-				((EntityPlayer) e).addChatComponentMessage(new ChatComponentText("RAD/s: " + (int)eRads).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-			}*/
+			if(e instanceof EntityPlayer && len < 10) {
+				EntityPlayer p = (EntityPlayer) e;
+				
+				if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.marshmallow && p.getHeldItem().getItemDamage() != 1 && p.getRNG().nextInt(100) == 0) {
+					p.getHeldItem().setItemDamage(1);
+				}
+			}
 		}
 	}
 }

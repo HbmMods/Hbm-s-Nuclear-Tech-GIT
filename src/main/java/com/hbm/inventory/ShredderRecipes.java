@@ -7,6 +7,7 @@ import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -44,7 +45,10 @@ public class ShredderRecipes {
 				if(dust != null && dust.getItem() != ModItems.scrap) {
 
 					for(ItemStack stack : matches) {
-						shredderRecipes.put(new ComparableStack(stack), dust);
+						if(stack != null)
+							shredderRecipes.put(new ComparableStack(stack), dust);
+						else
+							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 					}
 				}
 			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
@@ -55,7 +59,10 @@ public class ShredderRecipes {
 					dust.stackSize = 2;
 
 					for(ItemStack stack : matches) {
-						shredderRecipes.put(new ComparableStack(stack), dust);
+						if(stack != null)
+							shredderRecipes.put(new ComparableStack(stack), dust);
+						else
+							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 					}
 				}
 			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
@@ -66,7 +73,10 @@ public class ShredderRecipes {
 					dust.stackSize = 9;
 
 					for(ItemStack stack : matches) {
-						shredderRecipes.put(new ComparableStack(stack), dust);
+						if(stack != null)
+							shredderRecipes.put(new ComparableStack(stack), dust);
+						else
+							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 					}
 				}
 			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
@@ -75,7 +85,10 @@ public class ShredderRecipes {
 				if(dust != null && dust.getItem() != ModItems.scrap) {
 
 					for(ItemStack stack : matches) {
-						shredderRecipes.put(new ComparableStack(stack), dust);
+						if(stack != null)
+							shredderRecipes.put(new ComparableStack(stack), dust);
+						else
+							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 					}
 				}
 			} else if(name.length() > 7 && name.substring(0, 7).equals("crystal")) {
@@ -84,13 +97,19 @@ public class ShredderRecipes {
 				if(dust != null && dust.getItem() != ModItems.scrap) {
 
 					for(ItemStack stack : matches) {
-						shredderRecipes.put(new ComparableStack(stack), dust);
+						if(stack != null)
+							shredderRecipes.put(new ComparableStack(stack), dust);
+						else
+							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 					}
 				}
 			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 
 				for(ItemStack stack : matches) {
-					shredderRecipes.put(new ComparableStack(stack), new ItemStack(ModItems.dust));
+					if(stack != null)
+						shredderRecipes.put(new ComparableStack(stack), new ItemStack(ModItems.dust));
+					else
+						MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
 				}
 			}
 		}

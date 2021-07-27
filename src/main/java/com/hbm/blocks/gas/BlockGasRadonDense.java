@@ -19,6 +19,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockGasRadonDense extends BlockGasBase {
 
+	public BlockGasRadonDense() {
+		super(0.1F, 0.5F, 0.1F);
+	}
+
 	@Override
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		

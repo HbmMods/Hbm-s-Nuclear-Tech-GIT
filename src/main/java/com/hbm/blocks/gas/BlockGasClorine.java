@@ -1,6 +1,5 @@
 package com.hbm.blocks.gas;
 
-
 import java.util.Random;
 
 import com.hbm.util.ArmorUtil;
@@ -18,6 +17,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockGasClorine extends BlockGasBase {
 	
+	public BlockGasClorine() {
+		super(0.7F, 0.8F, 0.6F);
+	}
+
 	@Override
 	public int getRenderType() {
 		return 0;

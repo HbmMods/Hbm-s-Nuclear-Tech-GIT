@@ -318,7 +318,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(player.getCurrentArmor(2) == null && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd")))
+		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility) && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd")))
 			RenderAccessoryUtility.renderSol(event);
 	}
 

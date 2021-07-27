@@ -53,6 +53,7 @@ public class ConsumableRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.loop_stew), new Object[] { ModItems.loops, ModItems.can_smart, Items.bowl });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.coffee), new Object[] { "dustCoal", Items.milk_bucket, Items.potionitem, Items.sugar }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coffee_radium), new Object[] { ModItems.coffee, ModItems.nugget_ra226 });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_smore), new Object[] { Items.wheat, new ItemStack(ModItems.marshmallow, 1, 1), new ItemStack(Items.dye, 1, 3) });
 		
 		//Peas
 		GameRegistry.addRecipe(new ItemStack(ModItems.peas), new Object[] { " S ", "SNS", " S ", 'S', Items.wheat_seeds, 'N', Items.gold_nugget });

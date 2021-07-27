@@ -11,6 +11,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockGasFlammable extends BlockGasBase {
 
+	public BlockGasFlammable() {
+		super(0.8F, 0.8F, 0.2F);
+	}
+
 	@Override
 	public ForgeDirection getFirstDirection(World world, int x, int y, int z) {
 		
