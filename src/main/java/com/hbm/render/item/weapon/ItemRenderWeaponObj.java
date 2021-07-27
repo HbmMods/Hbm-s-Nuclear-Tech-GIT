@@ -25,7 +25,7 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		case INVENTORY:
 			return item.getItem() == ModItems.gun_ks23 || item.getItem() == ModItems.gun_hk69
 					|| item.getItem() == ModItems.gun_flamer || item.getItem() == ModItems.gun_deagle
-					|| item.getItem() == ModItems.gun_flechette || item.getItem() == ModItems.gun_quadro; 
+					|| item.getItem() == ModItems.gun_flechette || item.getItem() == ModItems.gun_quadro|| item.getItem() == ModItems.gun_hydrokar; 
 		default: return false;
 		}
 	}
@@ -58,7 +58,8 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 		if(item.getItem() == ModItems.gun_quadro)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.quadro_tex);
-		
+				if(item.getItem() == ModItems.gun_hydrokar)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.hydrok_tex);
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
@@ -114,7 +115,18 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 					GL11.glTranslatef(0.75F, 0.2F, 0.3F);
 				}
 			}
-
+			if(item.getItem() == ModItems.gun_hydrokar) {
+				
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(1.75F, -0.2F, -0.3F);
+				
+				if(player.isSneaking()) {
+					GL11.glTranslatef(0F, 1.0F, -2.05F);
+					GL11.glRotatef(3.5F, 0.0F, 1.0F, 0.0F);
+				}
+			}
 			if(item.getItem() == ModItems.gun_flechette) {
 				
 				GL11.glRotatef(25F, 0.0F, 0.0F, 1.0F);
@@ -154,7 +166,13 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			break;
 			
 		case EQUIPPED:
-
+			if(item.getItem() == ModItems.gun_hydrokar) {
+				
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(1.75F, -0.2F, -0.3F);
+			}
 			if(item.getItem() == ModItems.gun_hk69) {
 				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
 				GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
@@ -200,7 +218,13 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			break;
 			
 		case ENTITY:
-			
+			if(item.getItem() == ModItems.gun_hydrokar) {
+				
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(1.75F, -0.2F, -0.3F);
+			}
 			if(item.getItem() == ModItems.gun_hk69) {
 				GL11.glTranslatef(0.0F, 0.2F, 0.0F);
 				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
@@ -241,7 +265,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		case INVENTORY:
 
 			GL11.glEnable(GL11.GL_LIGHTING);
-			
 			if(item.getItem() == ModItems.gun_hk69) {
 				GL11.glScaled(7.5, 7.5, -7.5);
 				GL11.glTranslatef(0.85F, 1.2F, 0.0F);
@@ -280,7 +303,12 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(-45F, 0.0F, 0.0F, 1.0F);
 			}
-			
+			if(item.getItem() == ModItems.gun_hydrokar) {
+				GL11.glScaled(1.2, 1.2, -1.2);
+				GL11.glTranslatef(2.5F, 8.0F, 0.0F);
+				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-45F, 0.0F, 0.0F, 1.0F);
+			}
 			if(item.getItem() == ModItems.gun_quadro) {
 				GL11.glScaled(4.5, 4.5, -4.5);
 				GL11.glTranslatef(1.0F, 2.5F, 0.0F);
@@ -317,7 +345,11 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			ResourceManager.flamer.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
-
+		if(item.getItem() == ModItems.gun_hydrokar) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			ResourceManager.hydrok.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
 		if(item.getItem() == ModItems.gun_flechette) {
 			renderFlechette();
 		}
