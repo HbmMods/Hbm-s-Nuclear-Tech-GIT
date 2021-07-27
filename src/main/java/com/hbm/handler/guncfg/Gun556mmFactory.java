@@ -64,7 +64,80 @@ public class Gun556mmFactory {
 		
 		return config;
 	}
-	
+	public static GunConfiguration getJoshuaConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.hasSights = false;
+		config.reloadDuration = 10;
+		config.firingDuration = 0;
+		config.ammoCap = 30;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_BOX;
+		config.durability = 15000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:turret.howard_fire";
+		config.reloadSoundEnd = false;
+		
+		config.name = "Ar-15 Semi-Auto 5.56";
+		config.manufacturer = "Armalite";
+		
+		config.comment.add("chemsburgmer");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.R556_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.R556_TRACER);
+		config.config.add(BulletConfigSyncingUtil.R556_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.R556_AP);
+		config.config.add(BulletConfigSyncingUtil.R556_DU);
+		config.config.add(BulletConfigSyncingUtil.R556_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_R556);
+		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.R556_K);
+				config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE);
+		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_DU);
+		config.config.add(BulletConfigSyncingUtil.CHL_R556_FLECHETTE);
+		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.R556_K);
+		
+		return config;
+	}
+	public static GunConfiguration getHydroKarConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.hasSights = true;
+		config.reloadDuration = 6;
+		config.firingDuration = 0;
+		config.ammoCap = 13;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CROSS;
+		config.durability = 2000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:turret.howard_fire";
+		config.reloadSoundEnd = false;
+		config.name = "Heavily modified Mosing-Nagant";
+		config.manufacturer = "squid?";
+		
+		config.comment.add("why no ammo worK??");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.R556_GOLD);
+		
+		return config;
+	}
 	public static GunConfiguration getSPIWConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
