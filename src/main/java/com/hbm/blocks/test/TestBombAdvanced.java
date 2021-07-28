@@ -135,6 +135,7 @@ public class TestBombAdvanced extends BlockContainer {
 		}*/
 		
 		world.setBlock(x, y, z, Blocks.air);
-		world.spawnEntityInWorld(EntityNukeExplosionNT.statFacMKV(world, x + 0.5, y + 0.5, z + 0.5, 50));
+		world.spawnEntityInWorld(EntityNukeExplosionNT.statFacMKV(world, x + 0.5, y + 0.5, z + 0.5, 100));
+		//world.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(world, 50, x, y, z));
 	}
 }

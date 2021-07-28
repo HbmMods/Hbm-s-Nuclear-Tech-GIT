@@ -2,6 +2,7 @@ package com.hbm.entity.logic;
 
 import com.hbm.explosion.nt.IExplosionLogic;
 import com.hbm.explosion.nt.Mark5;
+import com.hbm.explosion.nt.Mark5Ausf2;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,20 +23,22 @@ public class EntityNukeExplosionNT extends Entity {
 	
 	@Override
 	public void onUpdate() {
-		
-		if(this.explosion == null || this.explosion.isDone()) {
-			System.out.println(this.ticksExisted + " explosion done.");
-			this.setDead();
-			return;
+
+		if(!worldObj.isRemote) {
+			if(this.explosion == null || this.explosion.isDone()) {
+				System.out.println(this.ticksExisted + " explosion done.");
+				this.setDead();
+				return;
+			}
+			
+			this.explosion.updateLogic();
 		}
-		
-		this.explosion.updateLogic();
 	}
 	
 	public static EntityNukeExplosionNT statFacMKV(World world, double x, double y, double z, float power) {
 		EntityNukeExplosionNT essploshun = new EntityNukeExplosionNT(world);
 		essploshun.setPositionAndRotation(x, y, z, 0, 0);
-		essploshun.loadLogic(new Mark5(world, power, (float) x, (float) y, (float) z));
+		essploshun.loadLogic(new Mark5Ausf2(world, power, (float) x, (float) y, (float) z));
 		return essploshun;
 	}
 
