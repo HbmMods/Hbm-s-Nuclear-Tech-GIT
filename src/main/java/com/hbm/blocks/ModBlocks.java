@@ -122,6 +122,16 @@ public class ModBlocks {
 
 	public static Block depth_brick;
 	public static Block depth_tiles;
+	public static Block depth_nether_brick;
+	public static Block depth_nether_tiles;
+
+	public static Block basalt;
+	public static Block basalt_sulfur;
+	public static Block basalt_asbestos;
+	public static Block basalt_smooth;
+	public static Block basalt_brick;
+	public static Block basalt_polished;
+	public static Block basalt_tiles;
 
 	public static Block cluster_iron;
 	public static Block cluster_titanium;
@@ -1032,6 +1042,12 @@ public class ModBlocks {
 	public static Fluid corium_fluid;
 	public static final Material fluidcorium = (new MaterialLiquid(MapColor.brownColor));
 
+	public static Block volcanic_lava_block;
+	public static Fluid volcanic_lava_fluid;
+	public static final Material fluidvolcanic = (new MaterialLiquid(MapColor.redColor));
+	
+	public static Block volcano_core;
+
 	public static Block dummy_block_igenerator;
 	public static Block dummy_port_igenerator;
 	public static Block dummy_block_centrifuge;
@@ -1184,11 +1200,21 @@ public class ModBlocks {
 		cluster_depth_titanium = new BlockOre(Material.rock).setBlockName("cluster_depth_titanium").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cluster_depth_titanium");
 		cluster_depth_tungsten = new BlockOre(Material.rock).setBlockName("cluster_depth_tungsten").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cluster_depth_tungsten");
 
-		depth_brick = new BlockGeneric(Material.rock).setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":depth_brick");
-		depth_tiles = new BlockGeneric(Material.rock).setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
+		depth_brick = new BlockDepth().setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_brick");
+		depth_tiles = new BlockDepth().setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
+		depth_nether_brick = new BlockDepth().setBlockName("depth_nether_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_nether_brick");
+		depth_nether_tiles = new BlockDepth().setBlockName("depth_nether_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_nether_tiles");
 		
 		stone_depth_nether = new BlockDepth().setBlockName("stone_depth_nether").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":stone_depth_nether");
 		ore_depth_nether_neodymium = new BlockOre(Material.rock).setBlockName("ore_depth_nether_neodymium").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_depth_nether_neodymium");
+
+		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
+		basalt_sulfur = new BlockOre(Material.rock).setBlockName("basalt_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_sulfur");
+		basalt_asbestos = new BlockOutgas(Material.rock, true, 5, true).setBlockName("basalt_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_asbestos");
+		basalt_smooth = new BlockGeneric(Material.rock).setBlockName("basalt_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_smooth");
+		basalt_brick = new BlockGeneric(Material.rock).setBlockName("basalt_brick").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_brick");
+		basalt_polished = new BlockGeneric(Material.rock).setBlockName("basalt_polished").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_polished");
+		basalt_tiles = new BlockGeneric(Material.rock).setBlockName("basalt_tiles").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_tiles");
 		
 		ore_australium = new BlockGeneric(Material.rock).setBlockName("ore_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_australium");
 		ore_weidanium = new BlockGeneric(Material.rock).setBlockName("ore_weidanium").setCreativeTab(null).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_weidanium");
@@ -1910,6 +1936,8 @@ public class ModBlocks {
 		absorber_green = new BlockAbsorber(Material.iron, 100F).setBlockName("absorber_green").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_green");
 		absorber_pink = new BlockAbsorber(Material.iron, 10000F).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
 		decon = new BlockDecon(Material.iron).setBlockName("decon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":decon_side");
+		
+		volcano_core = new BlockVolcano().setBlockName("volcano_core").setHardness(15.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_core");
 
 		statue_elb = new DecoBlockAlt(Material.iron).setBlockName("#null").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_g = new DecoBlockAlt(Material.iron).setBlockName("#void").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
@@ -1935,6 +1963,10 @@ public class ModBlocks {
 		corium_fluid = new CoriumFluid().setDensity(600000).setViscosity(12000).setLuminosity(10).setTemperature(1500).setUnlocalizedName("corium_fluid");
 		FluidRegistry.registerFluid(corium_fluid);
 		corium_block = new CoriumBlock(corium_fluid, fluidcorium).setBlockName("corium_block").setResistance(500F);
+
+		volcanic_lava_fluid = new VolcanicFluid().setLuminosity(15).setDensity(3000).setViscosity(3000).setTemperature(1300).setUnlocalizedName("volcanic_lava_fluid");
+		FluidRegistry.registerFluid(volcanic_lava_fluid);
+		volcanic_lava_block = new VolcanicBlock(volcanic_lava_fluid, Material.lava).setBlockName("volcanic_lava_block").setResistance(500F);
 
 		dummy_block_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_block_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_port_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2095,6 +2127,10 @@ public class ModBlocks {
 		//Nether depth ores
 		GameRegistry.registerBlock(ore_depth_nether_neodymium, ItemBlockDepth.class, ore_depth_nether_neodymium.getUnlocalizedName());
 		
+		//Basalt ores
+		GameRegistry.registerBlock(basalt_sulfur, basalt_sulfur.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_asbestos, basalt_asbestos.getUnlocalizedName());
+		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
 		
@@ -2113,6 +2149,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(depth_brick, ItemBlockDepth.class, depth_brick.getUnlocalizedName());
 		GameRegistry.registerBlock(depth_tiles, ItemBlockDepth.class, depth_tiles.getUnlocalizedName());
 		GameRegistry.registerBlock(stone_depth_nether, ItemBlockDepth.class, stone_depth_nether.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_nether_brick, ItemBlockDepth.class, depth_nether_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_nether_tiles, ItemBlockDepth.class, depth_nether_tiles.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt, basalt.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_smooth, basalt_smooth.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_brick, basalt_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_polished, basalt_polished.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_tiles, basalt_tiles.getUnlocalizedName());
 		
 		//Blocks
 		GameRegistry.registerBlock(block_uranium, ItemBlockHazard.class, block_uranium.getUnlocalizedName());
@@ -2750,6 +2793,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(balefire, balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fire_digamma, fire_digamma.getUnlocalizedName());
 		GameRegistry.registerBlock(digamma_matter, digamma_matter.getUnlocalizedName());
+		GameRegistry.registerBlock(volcano_core, volcano_core.getUnlocalizedName());
 		
 		//AMS
 		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());
@@ -2810,6 +2854,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(toxic_block, toxic_block.getUnlocalizedName());
 		GameRegistry.registerBlock(schrabidic_block, schrabidic_block.getUnlocalizedName());
 		GameRegistry.registerBlock(corium_block, corium_block.getUnlocalizedName());
+		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_igenerator, dummy_block_igenerator.getUnlocalizedName());

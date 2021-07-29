@@ -979,8 +979,10 @@ public class ModItems {
 	public static ItemRBMKRod rbmk_fuel_hep241;
 	public static ItemRBMKRod rbmk_fuel_lea;
 	public static ItemRBMKRod rbmk_fuel_mea;
+	public static ItemRBMKRod rbmk_fuel_hea241;
 	public static ItemRBMKRod rbmk_fuel_hea242;
 	public static ItemRBMKRod rbmk_fuel_men;
+	public static ItemRBMKRod rbmk_fuel_hen;
 	public static ItemRBMKRod rbmk_fuel_mox;
 	public static ItemRBMKRod rbmk_fuel_les;
 	public static ItemRBMKRod rbmk_fuel_mes;
@@ -1004,8 +1006,10 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_hep241;
 	public static ItemRBMKPellet rbmk_pellet_lea;
 	public static ItemRBMKPellet rbmk_pellet_mea;
+	public static ItemRBMKPellet rbmk_pellet_hea241;
 	public static ItemRBMKPellet rbmk_pellet_hea242;
 	public static ItemRBMKPellet rbmk_pellet_men;
+	public static ItemRBMKPellet rbmk_pellet_hen;
 	public static ItemRBMKPellet rbmk_pellet_mox;
 	public static ItemRBMKPellet rbmk_pellet_les;
 	public static ItemRBMKPellet rbmk_pellet_mes;
@@ -1159,6 +1163,7 @@ public class ModItems {
 	public static Item missile_drill;
 	public static Item missile_nuclear;
 	public static Item missile_nuclear_cluster;
+	public static Item missile_volcano;
 	public static Item missile_endo;
 	public static Item missile_exo;
 	public static Item missile_doomsday;
@@ -3340,13 +3345,15 @@ public class ModItems {
 		rbmk_pellet_heu235 = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Uranium-235").addRadiation(ItemHazard.uf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_heu235").setTextureName(RefStrings.MODID + ":rbmk_pellet_heu235");
 		rbmk_pellet_thmeu = (ItemRBMKPellet) new ItemRBMKPellet("Thorium with MEU Driver Fuel").addRadiation(ItemHazard.thf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_thmeu").setTextureName(RefStrings.MODID + ":rbmk_pellet_thmeu");
 		rbmk_pellet_lep = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Plutonium-239").addRadiation(ItemHazard.puf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_lep").setTextureName(RefStrings.MODID + ":rbmk_pellet_lep");
-		rbmk_pellet_mep = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Plutonium-239").addRadiation(ItemHazard.purg * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_mep").setTextureName(RefStrings.MODID + ":rbmk_pellet_mep");
+		rbmk_pellet_mep = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Plutonium-239").addRadiation(ItemHazard.npf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_mep").setTextureName(RefStrings.MODID + ":rbmk_pellet_mep");
 		rbmk_pellet_hep239 = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Plutonium-239").addRadiation(ItemHazard.pu239 * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_hep239").setTextureName(RefStrings.MODID + ":rbmk_pellet_hep239");
 		rbmk_pellet_hep241 = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Plutonium-241").addRadiation(ItemHazard.pu241 * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_hep241").setTextureName(RefStrings.MODID + ":rbmk_pellet_hep241");
 		rbmk_pellet_lea = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Americium-242").addRadiation(ItemHazard.amf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_lea").setTextureName(RefStrings.MODID + ":rbmk_pellet_lea");
 		rbmk_pellet_mea = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Americium-242").addRadiation(ItemHazard.amrg * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_mea").setTextureName(RefStrings.MODID + ":rbmk_pellet_mea");
+		rbmk_pellet_hea241 = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Americium-241").addRadiation(ItemHazard.am241 * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_hea241").setTextureName(RefStrings.MODID + ":rbmk_pellet_hea241");
 		rbmk_pellet_hea242 = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Americium-242").addRadiation(ItemHazard.am242 * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_hea242").setTextureName(RefStrings.MODID + ":rbmk_pellet_hea242");
 		rbmk_pellet_men = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Neptunium-237").addRadiation(ItemHazard.npf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_men").setTextureName(RefStrings.MODID + ":rbmk_pellet_men");
+		rbmk_pellet_hen = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Neptunium-237").addRadiation(ItemHazard.np237 * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_hen").setTextureName(RefStrings.MODID + ":rbmk_pellet_hen");
 		rbmk_pellet_mox = (ItemRBMKPellet) new ItemRBMKPellet("Mixed LEU & LEP Oxide").addRadiation(ItemHazard.mox * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_mox").setTextureName(RefStrings.MODID + ":rbmk_pellet_mox");
 		rbmk_pellet_les = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Schrabidium-326").addRadiation(ItemHazard.saf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_les").setTextureName(RefStrings.MODID + ":rbmk_pellet_les");
 		rbmk_pellet_mes = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Schrabidium-326").addRadiation(ItemHazard.saf * ItemHazard.billet).toItem().setUnlocalizedName("rbmk_pellet_mes").setTextureName(RefStrings.MODID + ":rbmk_pellet_mes");
@@ -3392,7 +3399,7 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_heu235").setTextureName(RefStrings.MODID + ":rbmk_fuel_heu235");
 		rbmk_fuel_thmeu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_thmeu)
 				.setYield(100000000D)
-				.setStats(10)
+				.setStats(12)
 				.setFunction(EnumBurnFunc.PLATEU)
 				.setMeltingPoint(3350)
 				.addRadiation(ItemHazard.thf * ItemHazard.rod_rbmk).toItem()
@@ -3444,6 +3451,15 @@ public class ModItems {
 				.setMeltingPoint(2386)
 				.addRadiation(ItemHazard.amrg * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_mea").setTextureName(RefStrings.MODID + ":rbmk_fuel_mea");
+		rbmk_fuel_hea241 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hea241)
+				.setYield(100000000D)
+				.setStats(65, 15)
+				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setHeat(1.75D)
+				.setMeltingPoint(2386)
+				.setNeutronTypes(NType.FAST, NType.FAST)
+				.addRadiation(ItemHazard.am241 * ItemHazard.rod_rbmk).toItem()
+				.setUnlocalizedName("rbmk_fuel_hea241").setTextureName(RefStrings.MODID + ":rbmk_fuel_hea241");
 		rbmk_fuel_hea242 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hea242)
 				.setYield(100000000D)
 				.setStats(45)
@@ -3460,6 +3476,14 @@ public class ModItems {
 				.setNeutronTypes(NType.FAST, NType.FAST)
 				.addRadiation(ItemHazard.npf * ItemHazard.rod_rbmk).toItem()
 				.setUnlocalizedName("rbmk_fuel_men").setTextureName(RefStrings.MODID + ":rbmk_fuel_men");
+		rbmk_fuel_hen = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hen)
+				.setYield(100000000D)
+				.setStats(40)
+				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setMeltingPoint(2800)
+				.setNeutronTypes(NType.FAST, NType.FAST)
+				.addRadiation(ItemHazard.np237 * ItemHazard.rod_rbmk).toItem()
+				.setUnlocalizedName("rbmk_fuel_hen").setTextureName(RefStrings.MODID + ":rbmk_fuel_hen");
 		rbmk_fuel_mox = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mox)
 				.setYield(100000000D)
 				.setStats(40)
@@ -3517,7 +3541,7 @@ public class ModItems {
 				.setYield(100000000D)
 				.setStats(0D, 20)
 				.setFunction(EnumBurnFunc.PASSIVE)
-				.setHeat(0.05D)
+				.setHeat(0.035D)
 				.setDiffusion(0.5D)
 				.setMeltingPoint(700)
 				.addRadiation(ItemHazard.rabe * ItemHazard.rod_rbmk).toItem()
@@ -3647,6 +3671,7 @@ public class ModItems {
 		missile_drill = new Item().setUnlocalizedName("missile_drill").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_drill");
 		missile_nuclear = new Item().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_nuclear");
 		missile_nuclear_cluster = new Item().setUnlocalizedName("missile_nuclear_cluster").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_nuclear_cluster");
+		missile_volcano = new Item().setUnlocalizedName("missile_volcano").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_volcano");
 		missile_endo = new Item().setUnlocalizedName("missile_endo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_endo");
 		missile_exo = new Item().setUnlocalizedName("missile_exo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_exo");
 		missile_doomsday = new Item().setUnlocalizedName("missile_doomsday").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_doomsday");
@@ -6303,8 +6328,10 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_hep241, rbmk_fuel_hep241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_lea, rbmk_fuel_lea.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mea, rbmk_fuel_mea.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_hea241, rbmk_fuel_hea241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_hea242, rbmk_fuel_hea242.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_men, rbmk_fuel_men.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_hen, rbmk_fuel_hen.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mox, rbmk_fuel_mox.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_les, rbmk_fuel_les.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mes, rbmk_fuel_mes.getUnlocalizedName());
@@ -6329,8 +6356,10 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_hep241, rbmk_pellet_hep241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_lea, rbmk_pellet_lea.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_mea, rbmk_pellet_mea.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_hea241, rbmk_pellet_hea241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_hea242, rbmk_pellet_hea242.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_men, rbmk_pellet_men.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_hen, rbmk_pellet_hen.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_mox, rbmk_pellet_mox.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_les, rbmk_pellet_les.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_mes, rbmk_pellet_mes.getUnlocalizedName());
@@ -6424,6 +6453,7 @@ public class ModItems {
 		GameRegistry.registerItem(missile_drill, missile_drill.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear_cluster, missile_nuclear_cluster.getUnlocalizedName());
+		GameRegistry.registerItem(missile_volcano, missile_volcano.getUnlocalizedName());
 		GameRegistry.registerItem(missile_endo, missile_endo.getUnlocalizedName());
 		GameRegistry.registerItem(missile_exo, missile_exo.getUnlocalizedName());
 		GameRegistry.registerItem(missile_doomsday, missile_doomsday.getUnlocalizedName());

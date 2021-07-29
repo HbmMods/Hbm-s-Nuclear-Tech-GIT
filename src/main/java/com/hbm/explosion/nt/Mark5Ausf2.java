@@ -220,7 +220,7 @@ public class Mark5Ausf2 implements IExplosionLogic {
 	private void repopulate() {
 		
 		boolean didYouDoLiterallyAnything = false;
-		this.length += 5;
+		this.length *= 2;
 		
 		double bow = length * Math.PI;
 		int bowCount = (int) Math.ceil(bow * getResolutionMult());

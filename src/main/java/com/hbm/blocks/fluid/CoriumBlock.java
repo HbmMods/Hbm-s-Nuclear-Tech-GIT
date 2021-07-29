@@ -84,7 +84,7 @@ public class CoriumBlock extends BlockFluidClassic {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1F);
 	}
 	
-	//TODO: slow down solidification, prevent displacement
+	//TODO: prevent displacement
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {

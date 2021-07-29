@@ -236,7 +236,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		case PASSIVE: return selfRate * enrichment;
 		case LOG_TEN: return Math.log10(flux + 1) * 0.5D * reactivity;
 		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * reactivity;
-		case ARCH: return Math.max(flux - (flux * flux / 100000D) * reactivity, 0D);
+		case ARCH: return Math.max(flux - (flux * flux / 100000D) / 100D * reactivity, 0D);
 		case SIGMOID: return reactivity / (1 + Math.pow(Math.E, -(flux - 50D) / 10D));
 		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity / 10D;
 		case LINEAR: return flux / 100D * reactivity;
@@ -257,7 +257,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		case PASSIVE: return EnumChatFormatting.RED + "" + selfRate;
 		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * 0.5 * " + reactivity;
 		case PLATEU: return "(1 - e^-" + x + " / 25)) * " + reactivity;
-		case ARCH: return "(" + x + " - " + x + "² / 100000) * " + reactivity + " [0;∞]";
+		case ARCH: return "(" + x + " - " + x + "² / 100000) / 100 * " + reactivity + " [0;∞]";
 		case SIGMOID: return reactivity + " / (1 + e^(-(" + x + " - 50) / 10)";
 		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity + " / 10";
 		case LINEAR: return x + " / 100 * " + reactivity;

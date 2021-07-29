@@ -122,7 +122,8 @@ public class SmithingRecipeHandler extends TemplateRecipeHandler {
 
 		transferRects.add(new RecipeTransferRect(new Rectangle(56, 24, 18, 18), "ntmSmithing"));
 		transferRects.add(new RecipeTransferRect(new Rectangle(92, 24, 18, 18), "ntmSmithing"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(39, 60, 60, 50), "ntmSmithing"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(56 + 9, 24 - 9, 18, 18), "ntmSmithing"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(56 + 9 - 18 * 2, 24 - 9, 18, 18), "ntmSmithing"));
 		guiGui.add(GUIAnvil.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
@@ -130,6 +131,7 @@ public class SmithingRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void drawExtras(int recipe) {
+		loadTransferRects();
 
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
 

@@ -310,6 +310,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
+		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		return bullet;
 	}
@@ -322,6 +323,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 65;
+		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {
 
@@ -348,6 +350,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 40;
+		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {
 

@@ -160,6 +160,8 @@ public class RodRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', "ingotZirconium", 'R', ModItems.rod_quad_empty }));
 		RecipesCommon.addRBMKRod(ModItems.billet_uranium, ModItems.rbmk_fuel_ueu);
 		RecipesCommon.addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
+		RecipesCommon.addRBMKRod(ModItems.billet_u233, ModItems.rbmk_fuel_heu233);
+		RecipesCommon.addRBMKRod(ModItems.billet_u235, ModItems.rbmk_fuel_heu235);
 		RecipesCommon.addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
 		RecipesCommon.addRBMKRod(ModItems.billet_mox_fuel, ModItems.rbmk_fuel_mox);
 		RecipesCommon.addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
@@ -168,8 +170,10 @@ public class RodRecipes {
 		RecipesCommon.addRBMKRod(ModItems.billet_pu241, ModItems.rbmk_fuel_hep241);
 		RecipesCommon.addRBMKRod(ModItems.billet_americium_fuel, ModItems.rbmk_fuel_lea);
 		RecipesCommon.addRBMKRod(ModItems.billet_am_mix, ModItems.rbmk_fuel_mea);
+		RecipesCommon.addRBMKRod(ModItems.billet_am241, ModItems.rbmk_fuel_hea241);
 		RecipesCommon.addRBMKRod(ModItems.billet_am242, ModItems.rbmk_fuel_hea242);
 		RecipesCommon.addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
+		RecipesCommon.addRBMKRod(ModItems.billet_neptunium, ModItems.rbmk_fuel_hen);
 		RecipesCommon.addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
 		RecipesCommon.addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
 		RecipesCommon.addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);

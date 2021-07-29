@@ -378,6 +378,16 @@ public class GunEnergyFactory {
 					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
 					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
 					MainRegistry.proxy.effectNT(data);
+				} else {
+
+					int x = (int)Math.floor(bullet.posX);
+					int y = (int)Math.floor(bullet.posY);
+					int z = (int)Math.floor(bullet.posZ);
+					
+					if(bullet.worldObj.getBlock(x, y, z) == ModBlocks.volcanic_lava_block && bullet.worldObj.getBlockMetadata(x, y, z) == 0) {
+						bullet.worldObj.setBlock(x, y, z, Blocks.obsidian);
+						bullet.setDead();
+					}
 				}
 			}
 		};

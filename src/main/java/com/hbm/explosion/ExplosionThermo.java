@@ -121,6 +121,11 @@ public class ExplosionThermo {
 	public static void freezeDest(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
 		
+		if(block == ModBlocks.volcanic_lava_block)
+		{
+			world.setBlock(x, y, z, Blocks.cobblestone);
+		}
+		
 		if(block == Blocks.grass)
 		{
 			world.setBlock(x, y, z, ModBlocks.frozen_grass);

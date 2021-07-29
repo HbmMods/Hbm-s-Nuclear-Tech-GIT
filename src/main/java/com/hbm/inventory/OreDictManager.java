@@ -242,6 +242,9 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreStarmetal", ModBlocks.ore_meteor_starmetal);
 		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_asbestos);
 
+		OreDictionary.registerOre("oreSulfur", ModBlocks.basalt_sulfur);
+		OreDictionary.registerOre("oreAsbestos", ModBlocks.basalt_asbestos);
+
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);

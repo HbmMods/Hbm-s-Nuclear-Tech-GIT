@@ -49,7 +49,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_niter) {
 			return ModItems.niter;
 		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
 			return ModItems.sulfur;
 		}
 		if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
@@ -192,7 +192,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.deco_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
-		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos) {
+		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos || this == ModBlocks.basalt_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
 		if(this == ModBlocks.ore_lignite) {
@@ -234,7 +234,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_niter) {
 			return 2 + rand.nextInt(3);
 		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
 			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {

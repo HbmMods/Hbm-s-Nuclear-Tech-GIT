@@ -100,7 +100,7 @@ public class ExplosionNT extends Explosion {
 								f1 -= (f3 + 0.3F) * f2;
 							}
 
-							if(f1 > 0.0F && (this.exploder == null || this.exploder.func_145774_a(this, this.worldObj, j1, k1, l1, block, f1))) {
+							if(block != Blocks.air && f1 > 0.0F && (this.exploder == null || this.exploder.func_145774_a(this, this.worldObj, j1, k1, l1, block, f1))) {
 								hashset.add(new ChunkPosition(j1, k1, l1));
 							}
 
@@ -249,7 +249,7 @@ public class ExplosionNT extends Explosion {
 			}
 		}
 
-		if(has(ExAttrib.FIRE) || has(ExAttrib.BALEFIRE) || has(ExAttrib.LAVA)) {
+		if(has(ExAttrib.FIRE) || has(ExAttrib.BALEFIRE) || has(ExAttrib.LAVA) || has(ExAttrib.LAVA_V)) {
 			iterator = this.affectedBlockPositions.iterator();
 
 			while(iterator.hasNext()) {
@@ -272,6 +272,8 @@ public class ExplosionNT extends Explosion {
 						this.worldObj.setBlock(i, j, k, ModBlocks.balefire);
 					else if(has(ExAttrib.LAVA))
 						this.worldObj.setBlock(i, j, k, Blocks.flowing_lava);
+					else if(has(ExAttrib.LAVA_V))
+						this.worldObj.setBlock(i, j, k, ModBlocks.volcanic_lava_block);
 				}
 			}
 		}
@@ -297,6 +299,7 @@ public class ExplosionNT extends Explosion {
 		DIGAMMA,
 		DIGAMMA_CIRCUIT,
 		LAVA,		//again the same thing but lava
+		LAVA_V,		//again the same thing but volcaniclava
 		ALLMOD,		//block placer attributes like fire are applied for all destroyed blocks
 		ALLDROP,	//miner TNT!
 		NODROP,		//the opposite
