@@ -51,7 +51,7 @@ public class EntityMissileVolcano extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return null;
+		return new ItemStack(ModItems.warhead_volcano);
 	}
 
 	@Override

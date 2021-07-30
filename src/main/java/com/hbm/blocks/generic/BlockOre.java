@@ -43,7 +43,7 @@ public class BlockOre extends Block {
 
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
-		if(this == ModBlocks.ore_fluorite) {
+		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
 			return ModItems.fluorite;
 		}
 		if(this == ModBlocks.ore_niter) {
@@ -198,20 +198,8 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_lignite) {
 			return ModItems.lignite;
 		}
-		if(this == ModBlocks.cluster_depth_iron) {
-			return ModItems.crystal_iron;
-		}
-		if(this == ModBlocks.cluster_depth_titanium) {
-			return ModItems.crystal_titanium;
-		}
-		if(this == ModBlocks.cluster_depth_tungsten) {
-			return ModItems.crystal_tungsten;
-		}
-		if(this == ModBlocks.ore_cinnebar || this == ModBlocks.ore_depth_cinnebar) {
+		if(this == ModBlocks.ore_cinnebar) {
 			return ModItems.cinnebar;
-		}
-		if(this == ModBlocks.ore_depth_zirconium) {
-			return ModItems.nugget_zirconium;
 		}
 		if(this == ModBlocks.ore_coltan) {
 			return ModItems.fragment_coltan;
@@ -219,16 +207,13 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
-		if(this == ModBlocks.ore_depth_nether_neodymium) {
-			return ModItems.fragment_neodymium;
-		}
 
 		return Item.getItemFromBlock(this);
 	}
 
 	@Override
 	public int quantityDropped(Random rand) {
-		if(this == ModBlocks.ore_fluorite) {
+		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
 			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_niter) {
@@ -246,20 +231,11 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.block_meteor_treasure) {
 			return 1 + rand.nextInt(3);
 		}
-		if(this == ModBlocks.ore_depth_cinnebar) {
-			return 2 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.ore_depth_zirconium) {
-			return 2 + rand.nextInt(2);
-		}
 		if(this == ModBlocks.ore_cobalt) {
 			return 4 + rand.nextInt(6);
 		}
 		if(this == ModBlocks.ore_nether_cobalt) {
 			return 5 + rand.nextInt(8);
-		}
-		if(this == ModBlocks.ore_depth_nether_neodymium) {
-			return 2 + rand.nextInt(2);
 		}
 
 		return 1;

@@ -88,7 +88,7 @@ public class VolcanicBlock extends BlockFluidClassic {
 				count++;
 		}
 		
-		if(!world.isRemote && ((!this.isSourceBlock(world, x, y, z) && count < 2) || (rand.nextInt(5) == 0) && count < 5) && world.getBlock(x, y - 1, z).isNormalCube()) {
+		if(!world.isRemote && ((!this.isSourceBlock(world, x, y, z) && count < 2) || (rand.nextInt(5) == 0) && count < 5) && world.getBlock(x, y - 1, z) != this) {
 			
 			int r = rand.nextInt(200);
 			
@@ -96,6 +96,8 @@ public class VolcanicBlock extends BlockFluidClassic {
 				world.setBlock(x, y, z, ModBlocks.basalt_sulfur);
 			else if(r == 2)
 				world.setBlock(x, y, z, ModBlocks.basalt_asbestos);
+			else if(r == 3)
+				world.setBlock(x, y, z, ModBlocks.basalt_fluorite);
 			else
 				world.setBlock(x, y, z, ModBlocks.basalt);
 		}
