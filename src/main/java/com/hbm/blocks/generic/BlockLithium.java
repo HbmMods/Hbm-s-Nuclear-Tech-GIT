@@ -11,7 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
-public class BlockLithium extends Block implements IItemHazard {
+public class BlockLithium extends BlockBeaconable implements IItemHazard {
 
 	ItemHazardModule module;
 

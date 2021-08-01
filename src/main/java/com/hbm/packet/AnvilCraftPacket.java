@@ -1,8 +1,10 @@
 package com.hbm.packet;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.AnvilRecipes;
 import com.hbm.inventory.AnvilRecipes.AnvilConstructionRecipe;
 import com.hbm.inventory.container.ContainerAnvil;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -10,6 +12,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 
 public class AnvilCraftPacket implements IMessage {
 
@@ -60,6 +63,12 @@ public class AnvilCraftPacket implements IMessage {
 				
 				if(InventoryUtil.doesPlayerHaveAStacks(p, recipe.input, true)) {
 					InventoryUtil.giveChanceStacksToPlayer(p, recipe.output);
+
+					if(recipe.output.get(0).stack.getItem() == Item.getItemFromBlock(ModBlocks.machine_difurnace_off))
+						p.triggerAchievement(MainRegistry.bobMetalworks);
+					if(recipe.output.get(0).stack.getItem() == Item.getItemFromBlock(ModBlocks.machine_assembler))
+						p.triggerAchievement(MainRegistry.bobAssembly);
+					
 				} else {
 					break;
 				}

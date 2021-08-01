@@ -55,7 +55,9 @@ public class EntityShrapnel extends EntityThrowable {
 				
 				if(!worldObj.isRemote) {
 					if(motionY < -0.2D) {
-						worldObj.setBlock(mop.blockX, mop.blockY + 1, mop.blockZ, ModBlocks.volcanic_lava_block);
+						
+						if(worldObj.getBlock(mop.blockX, mop.blockY + 1, mop.blockZ).isReplaceable(worldObj, mop.blockX, mop.blockY + 1, mop.blockZ))
+							worldObj.setBlock(mop.blockX, mop.blockY + 1, mop.blockZ, ModBlocks.volcanic_lava_block);
 						
 						for(int x = mop.blockX - 1; x <= mop.blockX + 1; x++) {
 							for(int y = mop.blockY; y <= mop.blockY + 2; y++) {

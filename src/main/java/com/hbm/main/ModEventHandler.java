@@ -317,7 +317,7 @@ public class ModEventHandler {
 		EntityLivingBase entity = event.entityLiving;
 		World world = event.world;
 		
-		if(!MobConfig.enableMobGear)
+		if(!MobConfig.enableMobGear || entity.isChild())
 			return;
 
 		if(entity instanceof EntityZombie) {
@@ -737,80 +737,94 @@ public class ModEventHandler {
 
 		EntityPlayer player = event.player;
 		
-		if(event.phase == TickEvent.Phase.START && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))) {
+		if(event.phase == TickEvent.Phase.START) {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
-				ArmorUtil.resetFlightTime(player);
+				boolean isBob = player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
+				boolean isSol = player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd");
 				
-				if(!player.isSneaking()) {
-					if(player.fallDistance > 0)
-						player.fallDistance = 0;
+				if(isBob || isSol) {
 					
-					if(player.motionY < -0.4D)
-						player.motionY = -0.4D;
-				}
-				
-				HbmPlayerProps props = HbmPlayerProps.getData(player);
-				
-				if(player.getFoodStats().getFoodLevel() > 6) {
+					ArmorUtil.resetFlightTime(player);
 					
-					if(props.isJetpackActive()) {
-						if(player.motionY < 0.4D)
-							player.motionY += 0.15D;
-						else
-							player.motionY = 0.55D;
+					if(!player.isSneaking()) {
+						if(player.fallDistance > 0)
+							player.fallDistance = 0;
 						
-						if(player.getFoodStats().getSaturationLevel() > 0F)
-							player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
-						else
-							player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
-					} else if(props.enableBackpack && !player.isSneaking()) {
+						if(player.motionY < -0.4D)
+							player.motionY = -0.4D;
+					}
+					
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					
+					if(isBob || player.getFoodStats().getFoodLevel() > 6) {
 						
-						if(player.motionY < -1)
-							player.motionY += 0.4D;
-						else if(player.motionY < -0.1)
-							player.motionY += 0.2D;
-						else if(player.motionY < 0)
-							player.motionY = 0;
-						
-						if(player.getFoodStats().getSaturationLevel() > 0F)
-							player.addExhaustion(4F);
-						else
-							player.addExhaustion(0.04F);
-						
-					} else if(props.enableBackpack && player.isSneaking()) {
-						
-						if(player.motionY < -0.08) {
+						if(props.isJetpackActive()) {
+							
+							double cap = (isBob ? 0.8D : 0.4D);
+							
+							if(player.motionY < cap)
+								player.motionY += 0.15D;
+							else
+								player.motionY = cap + 0.15D;
+							
+							if(isSol) {
+								if(player.getFoodStats().getSaturationLevel() > 0F)
+									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
+								else
+									player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
+							}
+							
+						} else if(props.enableBackpack && !player.isSneaking()) {
+							
+							if(player.motionY < -1)
+								player.motionY += 0.4D;
+							else if(player.motionY < -0.1)
+								player.motionY += 0.2D;
+							else if(player.motionY < 0)
+								player.motionY = 0;
 
-							double mo = player.motionY * -0.4;
-							player.motionY += mo;
-
-							Vec3 vec = player.getLookVec();
-							vec.xCoord *= mo;
-							vec.yCoord *= mo;
-							vec.zCoord *= mo;
-
-							player.motionX += vec.xCoord;
-							player.motionY += vec.yCoord;
-							player.motionZ += vec.zCoord;
+							if(isSol) {
+								if(player.getFoodStats().getSaturationLevel() > 0F)
+									player.addExhaustion(4F);
+								else
+									player.addExhaustion(0.04F);
+							}
+							
+						} else if(!props.enableBackpack && player.isSneaking()) {
+							
+							if(player.motionY < -0.08) {
+	
+								double mo = player.motionY * (isBob ? -0.6 : -0.4);
+								player.motionY += mo;
+	
+								Vec3 vec = player.getLookVec();
+								vec.xCoord *= mo;
+								vec.yCoord *= mo;
+								vec.zCoord *= mo;
+	
+								player.motionX += vec.xCoord;
+								player.motionY += vec.yCoord;
+								player.motionZ += vec.zCoord;
+							}
 						}
 					}
-				}
-				
-				Vec3 orig = player.getLookVec();
-				Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-				double mod = props.isJetpackActive() ? 0.25D : 0.125D;
-				
-				if(player.moveForward != 0) {
-					player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
-					player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
-				}
-				
-				if(player.moveStrafing != 0) {
-					look.rotateAroundY((float) Math.PI * 0.5F);
-					player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
-					player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
+					
+					Vec3 orig = player.getLookVec();
+					Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
+					double mod = props.enableBackpack ? (isBob ? 0.5D : 0.25D) : 0.125D;
+					
+					if(player.moveForward != 0) {
+						player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
+						player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
+					}
+					
+					if(player.moveStrafing != 0) {
+						look.rotateAroundY((float) Math.PI * 0.5F);
+						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
+						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
+					}
 				}
 			}
 		}

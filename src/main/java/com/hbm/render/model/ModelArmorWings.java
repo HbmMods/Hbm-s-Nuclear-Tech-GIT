@@ -77,12 +77,12 @@ public class ModelArmorWings extends ModelArmorBase {
 			GL11.glRotatef(body.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 		}
 		
-		if(this.type == 0 && entity.onGround) {
+		if(this.type != 1 && entity.onGround) {
 			rot = 20;
 			rot2 = 160;
 		}
 		
-		if(this.type != 0) {
+		if(this.type == 1) {
 			rot = 0;
 			rot2 = 10;
 			
@@ -160,6 +160,10 @@ public class ModelArmorWings extends ModelArmorBase {
 	}
 	
 	protected ResourceLocation getTexture() {
+		
+		if(this.type == 2)
+			return ResourceManager.wings_bob;
+		
 		return ResourceManager.wings_murk;
 	}
 }

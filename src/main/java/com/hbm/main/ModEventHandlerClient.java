@@ -318,8 +318,12 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility) && (player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd")))
-			RenderAccessoryUtility.renderSol(event);
+		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility)) {
+			if(player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))
+				RenderAccessoryUtility.renderSol(event);
+			if(player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
+				RenderAccessoryUtility.renderWings(event);
+		}
 	}
 
 	@SubscribeEvent

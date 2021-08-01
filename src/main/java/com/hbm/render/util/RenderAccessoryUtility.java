@@ -4,6 +4,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelArmorSolstice;
+import com.hbm.render.model.ModelArmorWings;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -127,11 +128,33 @@ public class RenderAccessoryUtility {
 		return null;
 	}
 	
-	private static ModelBiped wingModel;
+	private static ModelBiped solModel;
 	public static void renderSol(RenderPlayerEvent.SetArmorModel event) {
 
+		if(solModel == null)
+			solModel = new ModelArmorSolstice();
+		
+		RenderPlayer renderer = event.renderer;
+		ModelBiped model = renderer.modelArmor;
+		EntityPlayer player = event.entityPlayer;
+
+		solModel.isSneak = model.isSneak;
+		
+		float interp = event.partialRenderTick;
+		float yawHead = player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * interp;
+		float yawOffset = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * interp;
+		float yaw = yawHead - yawOffset;
+		float yawWrapped = MathHelper.wrapAngleTo180_float(yawHead - yawOffset);
+		float pitch = player.rotationPitch;
+		
+		solModel.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
+	}
+	
+	private static ModelBiped wingModel;
+	public static void renderWings(RenderPlayerEvent.SetArmorModel event) {
+
 		if(wingModel == null)
-			wingModel = new ModelArmorSolstice();
+			wingModel = new ModelArmorWings(2);
 		
 		RenderPlayer renderer = event.renderer;
 		ModelBiped model = renderer.modelArmor;

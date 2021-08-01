@@ -137,7 +137,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				(new WorldGenMinable(ModBlocks.ore_australium, 50)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
-		if (GeneralConfig.enableDungeons) {
+		if (GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
 
 			BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 

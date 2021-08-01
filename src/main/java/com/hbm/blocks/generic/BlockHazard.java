@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -22,6 +23,8 @@ public class BlockHazard extends Block implements IItemHazard {
 	private float radIn = 0.0F;
 	private float radMax = 0.0F;
 	private ExtDisplayEffect extEffect = null;
+	
+	private boolean beaconable = false;
 
 	public BlockHazard() {
 		this(Material.iron);
@@ -113,6 +116,16 @@ public class BlockHazard extends Block implements IItemHazard {
 		this.radIn = radiation * 0.1F;
 		this.radMax = radiation;
 		return this;
+	}
+
+	public BlockHazard makeBeaconable() {
+		this.beaconable = true;
+		return this;
+	}
+
+	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+		return beaconable;
 	}
 
 	@Override

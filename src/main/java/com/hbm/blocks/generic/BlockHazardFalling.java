@@ -8,6 +8,7 @@ import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockHazardFalling extends BlockFalling implements IItemHazard {
@@ -17,6 +18,8 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 	private float radIn = 0.0F;
 	private float radMax = 0.0F;
 
+	private boolean beaconable = false;
+
 	public BlockHazardFalling() {
 		this(Material.sand);
 	}
@@ -24,6 +27,16 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 	public BlockHazardFalling(Material mat) {
 		super(mat);
 		this.module = new ItemHazardModule();
+	}
+
+	public BlockHazardFalling makeBeaconable() {
+		this.beaconable  = true;
+		return this;
+	}
+
+	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+		return beaconable;
 	}
 
 	@Override

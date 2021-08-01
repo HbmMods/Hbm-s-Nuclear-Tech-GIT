@@ -243,13 +243,15 @@ public class ExplosionNT extends Explosion {
 								if(this.explosionRNG.nextInt(5) == 0 && this.worldObj.getBlock(i, j + 1, k) == Blocks.air)
 									this.worldObj.setBlock(i, j + 1, k, ModBlocks.fire_digamma);
 							}
+						} else if(has(ExAttrib.LAVA_V)) {
+							this.worldObj.setBlock(i, j, k, ModBlocks.volcanic_lava_block);
 						}
 					}
 				}
 			}
 		}
 
-		if(has(ExAttrib.FIRE) || has(ExAttrib.BALEFIRE) || has(ExAttrib.LAVA) || has(ExAttrib.LAVA_V)) {
+		if(has(ExAttrib.FIRE) || has(ExAttrib.BALEFIRE) || has(ExAttrib.LAVA)) {
 			iterator = this.affectedBlockPositions.iterator();
 
 			while(iterator.hasNext()) {
@@ -272,8 +274,6 @@ public class ExplosionNT extends Explosion {
 						this.worldObj.setBlock(i, j, k, ModBlocks.balefire);
 					else if(has(ExAttrib.LAVA))
 						this.worldObj.setBlock(i, j, k, Blocks.flowing_lava);
-					else if(has(ExAttrib.LAVA_V))
-						this.worldObj.setBlock(i, j, k, ModBlocks.volcanic_lava_block);
 				}
 			}
 		}
