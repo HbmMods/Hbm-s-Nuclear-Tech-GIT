@@ -122,7 +122,9 @@ public class FluidTank {
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
-				slots[out].stackSize++;
+				
+				if(FluidContainerRegistry.getEmptyContainer(slots[in]) != null)
+					slots[out].stackSize++;
 			}
 		}
 	}

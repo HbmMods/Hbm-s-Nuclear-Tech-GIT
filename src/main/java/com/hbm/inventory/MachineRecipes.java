@@ -180,9 +180,9 @@ public class MachineRecipes {
 			return list;
 		case WATZ:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_uranium), 1));
-			list.add(new GasCentOutput(5, new ItemStack(ModItems.powder_lead), 1));
-			list.add(new GasCentOutput(10, new ItemStack(ModItems.dust), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_uranium), 2));
+			list.add(new GasCentOutput(5, new ItemStack(ModItems.powder_lead), 3));
+			list.add(new GasCentOutput(10, new ItemStack(ModItems.dust), 4));
 			return list;
 		case SAS3:
 			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_schrabidium), 1));

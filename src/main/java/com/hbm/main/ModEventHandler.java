@@ -371,11 +371,12 @@ public class ModEventHandler {
 			ItemStack cladding = mods[ArmorModHandler.cladding];
 			
 			if(cladding != null && cladding.getItem() == ModItems.cladding_obsidian) {
-				
-				try {
-					ReflectionHelper.findField(Entity.class, "field_149500_a", "invulnerable").setBoolean(event.entityItem, true);
-				} catch(Exception e) { }
+				ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149500_a", "invulnerable");
 			}
+		}
+		
+		if(yeet.getItem() == ModItems.bismuth_tool) {
+			ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149500_a", "invulnerable");
 		}
 	}
 	
@@ -920,26 +921,24 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
-    public void enteringChunk(EnteringChunk evt)
-    {
-        if(evt.entity instanceof EntityMissileBaseAdvanced)
-        {
-            ((EntityMissileBaseAdvanced)evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
-        }
-        
-        if(evt.entity instanceof EntityMissileCustom)
-        {
-            ((EntityMissileCustom)evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
-        }
-    }
+	public void enteringChunk(EnteringChunk evt) {
+		
+		if(evt.entity instanceof EntityMissileBaseAdvanced) {
+			((EntityMissileBaseAdvanced) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+		}
+
+		if(evt.entity instanceof EntityMissileCustom) {
+			((EntityMissileCustom) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+		}
+	}
 	
 	@SubscribeEvent
-    public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+	public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
 		
 		NBTTagCompound data = new NBTTagCompound();
 		HbmPlayerProps.getData(event.original).saveNBTData(data);
 		HbmPlayerProps.getData(event.entityPlayer).loadNBTData(data);
-    }
+	}
 	
 	@SubscribeEvent
 	public void itemCrafted(PlayerEvent.ItemCraftedEvent e) {
