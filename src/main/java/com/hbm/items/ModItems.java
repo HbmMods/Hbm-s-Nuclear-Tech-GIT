@@ -2470,7 +2470,7 @@ public class ModItems {
 		plate_lead = new Item().setUnlocalizedName("plate_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_lead");
 		ingot_schraranium = new ItemSchraranium(ItemHazard.sr * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_schraranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_schraranium");
 		ingot_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_schrabidium");
-		ingot_schrabidate = new ItemHazard(ItemHazard.sa326 * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_schrabidate").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_schrabidate");
+		ingot_schrabidate = new ItemHazard(ItemHazard.sa326 * 0.1F * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_schrabidate").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_schrabidate");
 		plate_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.ingot, false, true).setUnlocalizedName("plate_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_schrabidium");
 		plate_copper = new Item().setUnlocalizedName("plate_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_copper");
 		plate_gold = new Item().setUnlocalizedName("plate_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_gold");

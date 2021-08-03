@@ -22,6 +22,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
@@ -541,8 +543,16 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return true;
 		}
 		
-		if(targetMobs && e instanceof IMob)
-			return true;
+		if(targetMobs) {
+
+			//never target the ender dragon directly
+			if(e instanceof EntityDragon)
+				return false;
+			if(e instanceof EntityDragonPart)
+				return true;
+			if(e instanceof IMob)
+				return true;
+		}
 		
 		if(targetMachines) {
 

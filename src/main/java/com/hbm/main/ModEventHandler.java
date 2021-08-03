@@ -87,6 +87,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -115,6 +116,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
@@ -1183,6 +1185,21 @@ public class ModEventHandler {
 			}
 			
 			event.cost = 10;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onFoodEaten(PlayerUseItemEvent.Finish event) {
+		
+		ItemStack stack = event.item;
+		
+		if(stack != null && stack.getItem() instanceof ItemFood) {
+			
+			if(stack.hasTagCompound() && stack.getTagCompound().getBoolean("ntmCyanide")) {
+				for(int i = 0; i < 10; i++) {
+					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
+				}
+			}
 		}
 	}
 }

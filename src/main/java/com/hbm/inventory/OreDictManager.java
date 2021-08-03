@@ -68,6 +68,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotTcAlloy", ModItems.ingot_tcalloy);
 		OreDictionary.registerOre("ingotGold198", ModItems.ingot_au198);
 		OreDictionary.registerOre("ingotColtan", ModItems.fragment_coltan);
+		
+		OreDictionary.registerOre("crystalCinnabar", ModItems.cinnebar);
 
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
@@ -241,6 +243,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreLithium", ModBlocks.ore_meteor_lithium);
 		OreDictionary.registerOre("oreStarmetal", ModBlocks.ore_meteor_starmetal);
 		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_asbestos);
+		OreDictionary.registerOre("oreCinnabar", ModBlocks.ore_cinnebar);
 
 		OreDictionary.registerOre("oreSulfur", ModBlocks.basalt_sulfur);
 		OreDictionary.registerOre("oreAsbestos", ModBlocks.basalt_asbestos);

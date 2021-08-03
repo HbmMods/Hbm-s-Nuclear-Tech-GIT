@@ -273,7 +273,7 @@ public class ItemChemistryTemplate extends Item {
         case SCHRABIDIC:
         	return 100;
         case SCHRABIDATE:
-        	return 600;
+        	return 150;
         case COLTAN_CLEANING:
         	return 60;
         case COLTAN_PAIN:

@@ -1,13 +1,18 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFEL extends TileEntityMachineBase {
 	
@@ -32,6 +37,36 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			
+			int range = 50;
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			int length = 5;
+			
+			for(int i = 5; i < range; i++) {
+				
+				length = i;
+
+				int x = xCoord + dir.offsetX * i;
+				int y = yCoord + 1;
+				int z = zCoord + dir.offsetZ * i;
+				
+				Block b = worldObj.getBlock(x, y, z);
+				
+				if(b.getMaterial().isOpaque())
+					continue;
+				
+				if(b == ModBlocks.machine_silex) {
+					
+					TileEntity te = worldObj.getTileEntity(x + dir.offsetX, yCoord, z + dir.offsetZ);
+					
+					if(te instanceof TileEntitySILEX) {
+						TileEntitySILEX silex = (TileEntitySILEX) te;
+						silex.laser += this.watts;
+					}
+				}
+				
+				break;
+			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);

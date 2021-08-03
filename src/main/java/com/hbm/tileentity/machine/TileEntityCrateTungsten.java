@@ -1,14 +1,15 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.ILaserable;
 import com.hbm.items.ModItems;
 
+import api.hbm.block.ILaserable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCrateTungsten extends TileEntityLockableBase implements ISidedInventory, ILaserable {
@@ -209,7 +210,7 @@ public class TileEntityCrateTungsten extends TileEntityLockableBase implements I
 	}
 
 	@Override
-	public void addEnergy(long energy, ForgeDirection dir) {
+	public void addEnergy(World world, int x, int y, int z, long energy, ForgeDirection dir) {
 		heatTimer = 5;
 		
 		for(int i = 0; i < slots.length; i++) {

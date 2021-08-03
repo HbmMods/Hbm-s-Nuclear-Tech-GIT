@@ -25,6 +25,7 @@ import net.minecraft.util.WeightedRandom;
 
 public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor {
 	
+	public int laser = 0;
 	public FluidTank tank;
 	public ComparableStack current;
 	public int currentFill;
