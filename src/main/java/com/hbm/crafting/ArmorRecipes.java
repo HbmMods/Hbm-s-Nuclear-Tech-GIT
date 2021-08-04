@@ -30,7 +30,7 @@ public class ArmorRecipes {
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 0), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.bolt_dura_steel, 'A', ModItems.plate_armor_ajr, 'P', ModItems.plate_du_dioxide});
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 1), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.bolt_staballoy, 'P', new ItemStack(ModItems.plate_armor_du, 1, 0), 'A', ModItems.ingot_du_dioxide });
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 2), new Object[] { "BPB", "PAP", "BPB", 'B', ModItems.ingot_staballoy, 'A', new ItemStack(ModItems.plate_armor_du, 1, 1), 'P', ModItems.ingot_ferrouranium});
-		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 3), new Object[] { "BPB", "PAP", "BPB", 'A', ModItems.ingot_staballoy, 'B', new ItemStack(ModItems.plate_armor_du, 1, 2), 'P', ModItems.plate_combine_steel});
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.plate_armor_du, 1, 3), new Object[] { "BPB", "PAP", "BPB", 'A', ModBlocks.block_staballoy, 'B', new ItemStack(ModItems.plate_armor_du, 1, 2), 'P', ModItems.plate_combine_steel});
 		
 		//Regular armor
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.steel_helmet, 1), new Object[] { "EEE", "E E", 'E', "ingotSteel" }));

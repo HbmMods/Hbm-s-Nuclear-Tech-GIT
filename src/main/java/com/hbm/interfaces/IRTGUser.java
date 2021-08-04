@@ -1,5 +1,7 @@
 package com.hbm.interfaces;
 
+import java.util.List;
+
 import com.hbm.items.machine.ItemRTGPellet;
 
 import net.minecraft.item.ItemStack;
@@ -18,7 +20,6 @@ public interface IRTGUser
 	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
-	@Untested
 	default int updateRTGs(ItemStack[] inventory, int[] rtgIn, World worldIn)
 	{
 		int newHeat = 0;
@@ -42,23 +43,36 @@ public interface IRTGUser
 	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
-	@Untested
 	default int updateRTGs(ItemStack[] inventory, World worldIn)
 	{
 		int newHeat = 0;
-		for (ItemStack stack : inventory)
+		for (int i = 0; i < inventory.length; i++)
 		{
-			if (stack == null)
+			if (inventory[i] == null)
 				continue;
-			if (!(stack.getItem() instanceof ItemRTGPellet))
+			if (!(inventory[i].getItem() instanceof ItemRTGPellet))
 				continue;
-			ItemRTGPellet pellet = (ItemRTGPellet) stack.getItem();
+			ItemRTGPellet pellet = (ItemRTGPellet) inventory[i].getItem();
 			newHeat += pellet.heat;
 			if (pellet.doesDecay)
 				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
-					stack = pellet.decayItem;
+					inventory[i] = pellet.decayItem;
 		}
 		return newHeat;
 	}
-
+	@Untested
+	default int updateRTGs(List<ItemRTGPellet> rtgList, World worldIn)
+	{
+		int newHeat = 0;
+		
+		for (ItemRTGPellet pellet : rtgList)
+		{
+			newHeat += pellet.heat;
+			if (pellet.doesDecay)
+				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
+					rtgList.remove(pellet);
+		}
+		
+		return newHeat;
+	}
 }

@@ -96,7 +96,18 @@ public class Library {
 		
 		return player.getHeldItem().getItem() == item;
 	}
-	
+	public static int getScaledBar(int toScale, int scaleBy, int total)
+	{
+		return (toScale * scaleBy) / total;
+	}
+	public static long getScaledBar(long toScale, int scaleBy, long total)
+	{
+		return (toScale * scaleBy) / total;
+	}
+	public static boolean getButtonBool(int mouseX, int mouseY, int buttonX, int buttonY, int xSize, int ySize, int guiLeft, int guiTop)
+	{
+		return guiLeft + buttonX <= mouseX && guiLeft + buttonX + xSize > mouseX && guiTop + buttonY < mouseY && guiTop + buttonY + ySize >= mouseY;
+	}
 	public static boolean checkCableConnectables(World world, int x, int y, int z)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);

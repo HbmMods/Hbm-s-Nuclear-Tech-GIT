@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.hbm.config.BombConfig;
@@ -14,7 +16,6 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.SingGenRecipes;
 import com.hbm.inventory.SingGenRecipes.SingGenRecipe;
 import com.hbm.inventory.container.ContainerMachineSingGen;
@@ -23,6 +24,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import scala.actors.threadpool.Arrays;
@@ -40,9 +42,10 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	public boolean isOn;
 	private int progress;
 	private static final int[] ringSlots = new int[] {5, 9, 6, 11, 12, 7, 10, 8};
+	private Map<Integer, ItemStack> ring = new HashMap<Integer, ItemStack>(8);
 	
 	private ItemStack[] ringArray = new ItemStack[8];
-	public SingGenRecipe currentRecipe = null;
+	private SingGenRecipe currentRecipe = null;
 	
 	public TileEntityMachineSingGen()
 	{
@@ -52,19 +55,19 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	
 	public boolean isProcessing()
 	{
-		if ((progress > 0 || canProcess()) && isOn)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ((progress > 0 || canProcess()) && isOn);
 	}
 	public int getProgressPercent()
 	{
 		return (progress * 100) / 200;
 	}
+	/** Find and validate a recipe for the current machine layout, if possible
+	 * @param ringIn - The array containing the ring of items obtained from updateRing()
+	 * @param centerIn - The center item
+	 * @param fluidIn - The current fluid type
+	 * @param amountIn - Amount of fluid in the machine
+	 * @return A valid recipe for the current machine input, if it exists, else it returns null 
+	 */
 	private SingGenRecipe validateRecipe(ItemStack[] ringIn, ItemStack centerIn, FluidType fluidIn, int amountIn)
 	{
 		for (SingGenRecipe recipe : SingGenRecipes.recipes)
@@ -72,25 +75,31 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			//System.out.println(String.format("Checking recipe ring input: %s, Recipe center input: %s", recipe.inputRing, recipe.inputCenter.getUnlocalizedName()));
 			//System.out.println("Is shaped? " + recipe.shaped);
 			//System.out.println("Recipe center input: " + recipe.inputCenter.getUnlocalizedName());
-			if (centerIn != null && SingGenRecipes.doRingsMatch(ringIn, recipe.aInputRing, recipe.shaped))
-			{
-				if (SingGenRecipes.isItemValid(centerIn, recipe.inputCenter))
-				{
-					if (recipe.fluid.equals(fluidIn) && !recipe.fluid.equals(FluidType.NONE))
-					{
-						if (recipe.fluidAmount <= amountIn)
-						{
-							//System.out.println(String.format("Recipe outputs: %s, uses fluids", recipe.getOutput().getDisplayName()));
-							return recipe;
-						}
-					}
-					else if (recipe.fluid.equals(FluidType.NONE))
-					{
-						//System.out.println(String.format("Recipe outputs: %s, does not use fluids", recipe.getOutput().getDisplayName()));
-						return recipe;
-					}
-				}
-			}
+//			if (centerIn != null && SingGenRecipes.doRingsMatch(ringIn, recipe.aInputRing, recipe.shaped))
+//			{
+//				if (SingGenRecipes.isItemValid(centerIn, recipe.inputCenter))
+//				{
+//					if (recipe.fluid.equals(fluidIn) && !recipe.fluid.equals(FluidType.NONE))
+//					{
+//						if (recipe.fluidAmount <= amountIn)
+//						{
+//							//System.out.println(String.format("Recipe outputs: %s, uses fluids", recipe.getOutput().getDisplayName()));
+//							return recipe;
+//						}
+//					}
+//					else if (recipe.fluid.equals(FluidType.NONE))
+//					{
+//						//System.out.println(String.format("Recipe outputs: %s, does not use fluids", recipe.getOutput().getDisplayName()));
+//						return recipe;
+//					}
+//				}
+//			}
+//			if (SingGenRecipes.isRecipeValid(getRingArray(), recipe, centerIn, fluidIn) && recipe.fluidAmount <= amountIn)
+//				return recipe;
+			if (SingGenRecipes.isRecipeValid(getRingArray(), recipe, centerIn, fluidIn) && recipe.fluidAmount <= amountIn)
+				return recipe;
+			else
+				continue;
 		}
 		//System.out.println("No valid recipe found");
 		return null;
@@ -123,6 +132,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	private void updateRing()
 	{
 		//System.out.println("Updating machine ring input...");
+		ring.clear();
 		int index = 0;
 		for (int slot : ringSlots)
 		{
@@ -130,16 +140,29 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			{
 				//System.out.println(String.format("Item in slot #%s is not null, is: %s", slot, this.getStackInSlot(slot).getItem().getUnlocalizedName()));
 				ringArray[index] = this.getStackInSlot(slot);
+				ring.put(slot, getStackInSlot(slot));
 			}
 			else
 			{
 				//System.out.println(String.format("Item in slot #%s is null", slot));
 				ringArray[index] = null;
+				ring.put(slot, null);
 			}
 			index++;
 		}
 		//System.out.println(String.format("Ring input: %s", ring));
 	}
+	
+	public Map<Integer, ItemStack> getRingMap()
+	{
+		return ring;
+	}
+	
+	public ItemStack[] getRingArray()
+	{
+		return ringArray.clone();
+	}
+	
 	@Override
 	public void updateEntity()
 	{
@@ -239,10 +262,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 			this.isOn = !this.isOn;
 			break;
 		case 1:
-			if (this.tank.getTankType().equals(FluidType.ASCHRAB))
-				this.tank.setTankType(FluidType.LAVA);
-			else
-				this.tank.setTankType(FluidType.ASCHRAB);
+			this.tank.setTankType(this.tank.getTankType().equals(FluidType.ASCHRAB) ? FluidType.PLASMA_WARP : FluidType.ASCHRAB);
 			break;
 		}
 	}
@@ -290,42 +310,48 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack)
 	{
+		Item itemIn = itemStack.getItem();
 		switch (i)
 		{
 		case 0:
-			if (itemStack.getItem() instanceof IBatteryItem)
+			if (itemIn instanceof IBatteryItem)
 				return true;
 			break;
 		case 1:
 			return false;
 		case 2:
-			if (itemStack.getItem() instanceof ItemFluidTank)
+			if (itemIn instanceof ItemFluidTank)
 				return true;
 			break;
 		case 3:
 			return false;
 		case 4:
-			if (Arrays.asList(ContainerMachineSingGen.centerItems).contains(itemStack.getItem()))
+			if (Arrays.asList(ContainerMachineSingGen.centerItems).contains(itemIn))
 				return true;
 			break;
 		case 5:
 		case 6:
 		case 7:
 		case 8:
-			if (Arrays.asList(ContainerMachineSingGen.cornerItems).contains(itemStack.getItem()))
+			if (Arrays.asList(ContainerMachineSingGen.cornerItems).contains(itemIn))
 				return true;
 			break;
 		case 9:
 		case 10:
 		case 11:
 		case 12:
-			if (Arrays.asList(ContainerMachineSingGen.sideItems).contains(itemStack.getItem()))
+			if (Arrays.asList(ContainerMachineSingGen.sideItems).contains(itemIn))
 				return true;
 			break;
 		default:
-			return true;
+			return false;
 		}
 		return false;
+	}
+	
+	public SingGenRecipe getCurrentRecipe()
+	{
+		return currentRecipe;
 	}
 	
 	@Override
@@ -366,10 +392,8 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	@Override
 	public void setFluidFill(int fill, FluidType type)
 	{
-		if (type.name().equals(tank.getTankType().name()))
-		{
+		if (type.equals(tank.getTankType()))
 			tank.setFill(fill);
-		}
 	}
 
 	@Override

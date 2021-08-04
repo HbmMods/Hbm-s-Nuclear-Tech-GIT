@@ -78,9 +78,9 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glRotated(recoil[0], 1, 0, 0);
 			// Move up for reload
 			GL11.glPushMatrix();
-			GL11.glTranslated(reload[2] / 2, 0, 0);
-			GL11.glRotated(reload[0], 1, 0, 0);
-			GL11.glRotated(reload[1], 0, 0, 1);
+//			GL11.glTranslated(reload[2] / 2, 0, 0);
+//			GL11.glRotated(reload[0], 1, 0, 0);
+//			GL11.glRotated(reload[1], 0, 0, 1);
 			ResourceManager.benelli.renderPart("Body_Cube.002");
 			// Pump new round if empty
 			if (magSize == 0)
@@ -98,7 +98,7 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glTranslatef(-0.0F, -0.2F, -0.65F);
-			GL11.glTranslated(0, recoil[1], recoil[2] * 0.5);
+//			GL11.glTranslated(0, recoil[1], recoil[2] * 0.5);
 			GL11.glRotated(recoil[0], 1, 0, 0);
 			GL11.glScaled(scale2, scale2, scale2);
 			

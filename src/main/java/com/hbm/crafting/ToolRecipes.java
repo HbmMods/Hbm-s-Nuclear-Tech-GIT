@@ -211,9 +211,14 @@ public class ToolRecipes {
 	 * Create a new flat stamp
 	 * @param stamp - The stamp itself
 	 * @param mat - Material it's made of
+	 * @param diamond - Should it use diamonds, if not, uses bricks
 	 */
-	public static void newStamp(Item stamp, Item mat)
+	public static void newStamp(Item stamp, Item mat, boolean diamond)
 	{
-		GameRegistry.addRecipe(new ItemStack(stamp), new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', Items.brick, 'M', mat});
+		GameRegistry.addRecipe(new ItemStack(stamp), new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', diamond ? Items.diamond : Items.brick, 'M', mat});
+	}
+	public static void newStamp(Item stamp, String mat, boolean diamond)
+	{
+		GameRegistry.addRecipe(new ShapedOreRecipe(stamp, new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', diamond ? Items.diamond : Items.brick, 'M', mat}));
 	}
 }

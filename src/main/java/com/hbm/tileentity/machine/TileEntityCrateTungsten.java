@@ -1,6 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
 import com.hbm.interfaces.ILaserable;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +15,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCrateTungsten extends TileEntityLockableBase implements ISidedInventory, ILaserable {
-
+	
 	private ItemStack slots[];
 
 	private String customName;
@@ -227,6 +230,9 @@ public class TileEntityCrateTungsten extends TileEntityLockableBase implements I
 			
 			if(slots[i].getItem() == ModItems.orichalcum && slots[i].getItemDamage() == 3 && energy > 10000000)
 				result = new ItemStack(ModItems.orichalcum, 1, 2);
+//			System.out.println(String.format("Has energy: %s; Slot is: %s; Resulted recipe is: %s", energy, slots[i].getDisplayName(), MachineRecipes.getDFCTransmutation(slots[i])));
+//			if (MachineRecipes.getDFCTransmutation(slots[i]) != null && energy > 10000000)
+//				result = MachineRecipes.getDFCTransmutation(slots[i]);
 			
 			int size = slots[i].stackSize;
 			

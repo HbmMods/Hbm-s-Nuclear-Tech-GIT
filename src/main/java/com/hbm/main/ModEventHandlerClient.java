@@ -28,6 +28,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.util.RenderAccessoryUtility;
@@ -213,8 +214,8 @@ public class ModEventHandlerClient {
 		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
 		
 		PotionEffect invis = player.getActivePotionEffect(Potion.invisibility);
-		
-		if(invis != null && invis.getAmplifier() > 0)
+		PotionEffect subconscious = player.getActivePotionEffect(HbmPotion.unconscious);
+		if((invis != null && invis.getAmplifier() > 0) || subconscious != null)
 			event.setCanceled(true);
 
 		if(player.getDisplayName().toLowerCase().equals("martmn")) {

@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nonnull;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -32,9 +36,14 @@ import net.minecraftforge.oredict.OreDictionary;
 
 //TODO: clean this shit up
 @Spaghetti("everything")
-public class MachineRecipes {
+public class MachineRecipes
+{
 	
-	public static HashMap<ComparableStack, ItemStack> arcFurnaceRecipes = new HashMap<ComparableStack, ItemStack>();
+	private static HashMap<ComparableStack, ItemStack> arcFurnaceRecipes = new HashMap<ComparableStack, ItemStack>();
+	private static HashMap<AStack[], ItemStack> blastFurnaceRecipes = new HashMap<AStack[], ItemStack>();
+	// In an attempt to prevent clutter to the NEI page
+	private static HashMap<ItemStack[], ItemStack> NEIBFurnaceRecipes = new HashMap<ItemStack[], ItemStack>();
+	private static HashMap<ComparableStack, ItemStack> DFCRecipes = new HashMap<ComparableStack, ItemStack>();
 	
 	public MachineRecipes() {
 
@@ -70,7 +79,7 @@ public class MachineRecipes {
 	{
 		if (stackIn != null)
 		{
-			ComparableStack comp = new ComparableStack(stackIn.getItem(), 1, stackIn.getItemDamage());
+			ComparableStack comp = new ComparableStack(stackIn.copy()).makeSingular();
 			if (arcFurnaceRecipes.containsKey(comp))
 				return arcFurnaceRecipes.get(comp).copy();
 		}
@@ -80,7 +89,38 @@ public class MachineRecipes {
 	public static ItemStack getFurnaceProcessingResult(ItemStack item, ItemStack item2) {
 		return getFurnaceOutput(item, item2);
 	}
-
+	
+	public static void registerBlastFurnaceRecipes()
+	{
+		if (GeneralConfig.enableDebugMode)
+			addBFurnaceRecipe("ingotIron", Items.quartz, new ItemStack(ModBlocks.test_render));
+		
+		addBFurnaceRecipe("ingotTungsten", "gemCoal", new ItemStack(ModItems.neutron_reflector, 2));
+		addBFurnaceRecipe("ingotCopper", "ingotLead", new ItemStack(ModItems.neutron_reflector, 4));
+		addBFurnaceRecipe("plateCopper", "plateLead", new ItemStack(ModItems.neutron_reflector));
+		addBFurnaceRecipe("ingotIron", "gemCoal", new ItemStack(ModItems.ingot_steel, 2));
+	}
+	
+	private static void addBFurnaceRecipe(@Nonnull Object item1, @Nonnull Object item2, ItemStack out)
+	{
+		AStack stack1 = null;
+		AStack stack2 = null;
+		if (item1 instanceof ItemStack)
+			stack1 = new ComparableStack((ItemStack)item1);
+		else if (item1 instanceof Item)
+			stack1 = new ComparableStack((Item)item1);
+		else if (item1 instanceof String)
+			stack1 = new OreDictStack((String)item1);
+		if (item2 instanceof ItemStack)
+			stack2 = new ComparableStack((ItemStack)item2);
+		else if (item2 instanceof Item)
+			stack2 = new ComparableStack((Item)item2);
+		else if (item2 instanceof String)
+			stack2 = new OreDictStack((String)item2);
+		
+		blastFurnaceRecipes.put(new AStack[] {stack1, stack2}, out);
+	}
+	
 	public static ItemStack getFurnaceOutput(ItemStack item, ItemStack item2) {
 		
 		if(item == null || item2 == null)
@@ -169,6 +209,10 @@ public class MachineRecipes {
 				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotTitanium", "dustTitanium"}))
 			return new ItemStack(ModItems.ingot_staballoy, 2);
 		
+		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"}))
+			return new ItemStack(ModItems.component_ftl, 1, 4);
+		
 		List<ItemStack> electrum = OreDictionary.getOres("ingotElectrum");
 		if (!electrum.isEmpty() && electrum != null)
 		{
@@ -219,6 +263,33 @@ public class MachineRecipes {
 		}
 
 		return null;
+	}
+	
+	
+	private static enum StampType
+	{
+		FLAT,
+		PLATE,
+		WIRE,
+		CIRCUIT,
+		DISC;
+	}
+
+	private class PressRecipe
+	{
+		public StampType type;
+		public AStack input;
+		private ItemStack output;
+		public PressRecipe(StampType typeIn, AStack stackIn, ItemStack out)
+		{
+			type = typeIn;
+			input = stackIn;
+			output = out;
+		}
+		public ItemStack getOut()
+		{
+			return output.copy();
+		}
 	}
 
 	//bro, i don't care
@@ -910,6 +981,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_titanium), new ItemStack(ModItems.ingot_du_dioxide)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)},
 					getFurnaceOutput(new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.ingot_cobalt) },
+					new ItemStack(ModItems.component_ftl, 1, 4).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
@@ -974,7 +1047,7 @@ public class MachineRecipes {
 		
 		return recipes;
 	}
-
+	@Deprecated
 	public ArrayList<ItemStack> getCentrifugeFuels() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(Items.coal));
@@ -987,7 +1060,7 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(Items.blaze_powder));
 		return fuels;
 	}
-	
+	@Deprecated
 	public Map<Object[], Object> getCyclotronRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
 		Item part = ModItems.part_lithium;
@@ -1594,6 +1667,7 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.blades_steel));
 		fuels.add(new ItemStack(ModItems.blades_titanium));
 		fuels.add(new ItemStack(ModItems.blades_schrabidium));
+		fuels.add(new ItemStack(ModItems.blades_desh));
 		return fuels;
 	}
 	
@@ -2428,5 +2502,27 @@ public class MachineRecipes {
 		}
 		
 		return map;
+	}
+	// FIXME
+	public static void registerDFCRecipes()
+	{
+		DFCRecipes.put(new ComparableStack(ModItems.billet_polonium), new ItemStack(ModItems.billet_yharonite));
+		DFCRecipes.put(new ComparableStack(ModItems.orichalcum, 1, 3), new ItemStack(ModItems.orichalcum, 1, 2));
+		DFCRecipes.put(new ComparableStack(ModItems.crucible, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.crucible, 1, 0));
+	}
+	// FIXME
+	public static ItemStack getDFCTransmutation(ItemStack in)
+	{
+		System.out.println("Recieved stack: " + in.getDisplayName());
+		ComparableStack checker = new ComparableStack(in.copy()).makeSingular();
+		if (DFCRecipes.containsKey(checker))
+		{
+			ItemStack out = DFCRecipes.get(checker);
+			out.stackSize = in.stackSize;
+			System.out.println("Resulted stack is: " + out.getDisplayName());
+			return out.copy();
+		}
+		else
+			return null;
 	}
 }

@@ -3,9 +3,11 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.SingGenRecipes.SingGenRecipe;
 import com.hbm.inventory.container.ContainerMachineSingGen;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemAMSCore;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -62,7 +64,8 @@ public class GUIMachineSingGen extends GuiInfoContainer
 	protected void mouseClicked(int x, int y, int i)
 	{
 		super.mouseClicked(x, y, i);
-		if (guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 111 < y && guiTop + 111 + 18 >= y)
+//		if (guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 111 < y && guiTop + 111 + 18 >= y)
+		if (Library.getButtonBool(x, y, 25, 111, 18, 18, guiLeft, guiTop))
 		{
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(singGen.xCoord, singGen.yCoord, singGen.zCoord, 0, 0));
@@ -82,6 +85,7 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		int pow = singGen.getPowerScaled(88);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 110 - pow, 176, 88 - pow, 16, pow);
+		SingGenRecipe cRecipe = singGen.getCurrentRecipe();
 		
 		if (singGen.isOn)
 			drawTexturedModalRect(guiLeft + 25, guiTop + 111, 192, 0, 18, 18);
@@ -89,30 +93,10 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		if (singGen.isProcessing())
 			drawTexturedModalRect(guiLeft + 59, guiTop + 33, 176, 88, 58, 48);
 		
-		if (singGen.currentRecipe != null)
+		if (cRecipe != null)
 		{
-			int lvl = singGen.currentRecipe.getLevel();
+			int lvl = cRecipe.getLevel();
 			drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4 * lvl, 16, 4);
-//			switch (lvl)
-//			{
-//			case 1:
-//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 4, 16, 4);
-//				break;
-//			case 2:
-//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 8, 16, 4);
-//				break;
-//			case 3:
-//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 12, 16, 4);
-//				break;
-//			case 4:
-//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 16, 16, 4);
-//				break;
-//			case 5:
-//				drawTexturedModalRect(guiLeft + 80, guiTop + 125, 210, 20, 16, 4);
-//				break;
-//			default:
-//				break;
-//			}
 		}
 		
 		switch(singGen.tank.getTankType())
@@ -120,7 +104,7 @@ public class GUIMachineSingGen extends GuiInfoContainer
 		case ASCHRAB:
 			drawTexturedModalRect(guiLeft + 133, guiTop + 111, 226, 0, 18, 18);
 			break;
-		case LAVA:
+		case PLASMA_WARP:
 			drawTexturedModalRect(guiLeft + 133, guiTop + 111, 226, 18, 18, 18);
 		default:
 			break;

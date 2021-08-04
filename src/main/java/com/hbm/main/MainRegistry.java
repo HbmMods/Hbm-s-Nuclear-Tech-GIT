@@ -206,6 +206,7 @@ public class MainRegistry {
 	public static Achievement psycheShadow;
 	public static Achievement psycheHeartOfDarkness;
 	public static Achievement psycheAbyss;
+	public static Achievement warpDrive;
 
 	public static int generalOverride = 11;
 	public static int polaroidID = 1;
@@ -472,6 +473,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityMachineDetector.class, "tileentity_he_detector");
 		GameRegistry.registerTileEntity(TileEntityFireworks.class, "tileentity_firework_box");
 		GameRegistry.registerTileEntity(TileEntityCrateTungsten.class, "tileentity_crate_hot");
+		GameRegistry.registerTileEntity(TileEntityReactorAmat.class, "tileentity_reactor_amat");
 		GameRegistry.registerTileEntity(TileEntityTurretChekhov.class, "tileentity_turret_chekhov");
 		GameRegistry.registerTileEntity(TileEntityTurretJeremy.class, "tileentity_turret_jeremy");
 		GameRegistry.registerTileEntity(TileEntityTurretTauon.class, "tileentity_turret_tauon");
@@ -948,7 +950,8 @@ public class MainRegistry {
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 		achMeltdown = new Achievement("achievement.meltdown", "meltdown", -4, 0, new ItemStack(ModBlocks.iter), null).initIndependentStat().setSpecial().registerStat();
 		achOmega12 = new Achievement("achievement.omega12", "omega12", -4, 2, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
-
+		warpDrive = new Achievement("achievement.warpDrive", "warpDrive", -4, 3, new ItemStack(ModItems.scrumpy), null).initIndependentStat().registerStat();
+		
 		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 2, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
 		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 2, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
 		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 2, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
@@ -999,6 +1002,7 @@ public class MainRegistry {
 				achStratum,
 				achMeltdown,
 				achOmega12,
+				warpDrive,
 				bobMetalworks,
 				bobAssembly,
 				bobChemistry,
@@ -1049,6 +1053,7 @@ public class MainRegistry {
 		SILEXRecipes.register();
 		SingGenRecipes.register();
 		MachineRecipes.registerArcFurnaceRecipes();
+		MachineRecipes.registerDFCRecipes();
 
 		TileEntityNukeCustom.registerBombItems();
 

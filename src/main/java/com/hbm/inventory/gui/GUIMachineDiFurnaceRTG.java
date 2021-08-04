@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineDiFurnaceRTG;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineDiFurnaceRTG;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -30,14 +31,9 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer
 	public void drawScreen(int mouseX, int mouseY, float f)
 	{
 		super.drawScreen(mouseX, mouseY, f);
-		String[] infoText = new String[] {"Accepted Pellets:",
-				"  Pu238 Pellet (+5 heat)",
-				"  Weak U238 Pellet (+1 heat)",
-				"  Po210 Pellet (+25 heat)",
-				"  Au198 Pellet (+150 heat)"
-		};
-		String[] descText = new String[] {"Requires at least 15 heat to process", "The more heat on top of that, the faster it runs", "Gold-198 can decay into Mercury"};
-		String[] heatText = new String[] {String.format("%sCurrent heat level: %s", EnumChatFormatting.YELLOW, bFurnace.getPower())}; 
+		String[] infoText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.pellets");
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.desc");
+		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.heat", bFurnace.getPower());
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, infoText);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, descText);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 36, 18, 16, mouseX, mouseY, heatText);
@@ -49,7 +45,8 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer
 		String name = this.bFurnace.hasCustomInventoryName() ? this.bFurnace.getInventoryName() : I18n.format(this.bFurnace.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);	}
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)

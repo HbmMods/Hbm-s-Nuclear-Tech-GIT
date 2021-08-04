@@ -90,10 +90,10 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.ingot_polymer),
 				new OreDictStack("plateGold")));
 		
-		recipes.add(new MagicRecipe(new ItemStack(ModItems.orichalcum, 1, 1),
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.orichalcum, 1, 6),
 				new OreDictStack("dustAustralium"),
-				new ComparableStack(ModItems.catalyst_ten),
-				new ComparableStack(ModItems.catalyst_ten),
+				new ComparableStack(ModItems.catalyst_rare),
+				new ComparableStack(ModItems.catalyst_rare),
 				new ComparableStack(ModItems.powder_chlorophyte)));
 	}
 	

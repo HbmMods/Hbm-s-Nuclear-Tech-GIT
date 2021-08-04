@@ -810,7 +810,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.singularity_micro, 2)
 				}, 200);// TODO Placeholder
 		makeRecipe(new ComparableStack(ModItems.grenade_stunning, 2), new AStack[] {new ComparableStack(ModItems.hull_small_aluminium, 1), new ComparableStack(ItemBattery.getFullBattery(ModItems.battery_su_l)), new ComparableStack(ModItems.coil_advanced_torus, 1), new ComparableStack(ModItems.wire_advanced_alloy, 4), new ComparableStack(ModItems.circuit_aluminium, 1)}, 100);
-		makeRecipe(new ComparableStack(ModBlocks.machine_sing_gen), new AStack[] {new ComparableStack(ModBlocks.machine_schrabidium_battery, 2), new ComparableStack(ModBlocks.fwatz_conductor, 36), new ComparableStack(ModItems.coil_magnetized_tungsten, 32), new ComparableStack(ModItems.ingot_magnetized_tungsten, 16), new ComparableStack(ModItems.plate_saturnite, 64), new ComparableStack(ModItems.plate_combine_steel, 32), new ComparableStack(ModItems.ingot_saturnite, 32), new ComparableStack(ModItems.ingot_combine_steel, 24), new ComparableStack(ModItems.ring_starmetal, 24), new ComparableStack(ModBlocks.fwatz_core, 1), new ComparableStack(ModItems.circuit_targeting_tier4, 8), new ComparableStack(ModItems.circuit_targeting_tier5, 4)}, 900);
+		makeRecipe(new ComparableStack(ModBlocks.machine_sing_gen), new AStack[] {new ComparableStack(ModBlocks.machine_schrabidium_battery, 2), new ComparableStack(ModBlocks.fwatz_conductor, 42), new ComparableStack(ModItems.coil_magnetized_tungsten, 32), new ComparableStack(ModItems.ingot_magnetized_tungsten, 16), new ComparableStack(ModItems.plate_saturnite, 64), new ComparableStack(ModItems.plate_combine_steel, 32), new ComparableStack(ModItems.ingot_saturnite, 32), new ComparableStack(ModItems.ingot_combine_steel, 24), new ComparableStack(ModItems.ring_starmetal, 24), new ComparableStack(ModBlocks.fwatz_core, 1), new ComparableStack(ModItems.circuit_targeting_tier4, 8), new ComparableStack(ModItems.circuit_targeting_tier5, 4)}, 900);
 		makeRecipe(new ComparableStack(ModBlocks.machine_difurnace_rtg_off, 1), new AStack[] {new ComparableStack(ModBlocks.machine_difurnace_off, 1),new ComparableStack(ModItems.rtg_unit, 3),new OreDictStack("plateLead", 6),new OreDictStack("plateDenseLead", 8),new OreDictStack("plateCopper", 4)}, 150);
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[] {new ComparableStack(ModItems.ingot_euphemium, 3), new ComparableStack(ModItems.rod_euphemium), new ComparableStack(ModItems.redcoil_capacitor, 1), new ComparableStack(ModItems.wire_magnetized_tungsten, 12), new ComparableStack(ModItems.coil_magnetized_tungsten, 16), new ComparableStack(ModBlocks.block_starmetal, 5), new ComparableStack(ModItems.powder_nitan_mix, 18),	new OreDictStack("dustNiobium", 12)}, 250);
 		makeRecipe(new ComparableStack(ModItems.saturnite_filter, 1), new AStack[]
@@ -868,25 +868,41 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_targeting_tier6, 32),
 						new ComparableStack(ModItems.plate_paa, 128),
 						new ComparableStack(ModItems.plate_dineutronium, 192),
-						new ComparableStack(ModBlocks.machine_dineutronium_battery),
+						new ComparableStack(ModBlocks.machine_dineutronium_battery, 2),
 						new ComparableStack(ModItems.billet_yharonite, 64),
 						new ComparableStack(ModItems.component_emitter, 32),
 						new ComparableStack(ModItems.component_limiter, 24),
 						new ComparableStack(ModItems.plate_euphemium, 48),
-						new ComparableStack(ModBlocks.block_electronium, 8)
+						new ComparableStack(ModBlocks.block_electronium, 8),
+						new ComparableStack(ModItems.entanglement_kit, 16),
+						new ComparableStack(ModItems.plate_armor_orichalcum, 24)
 				}, 4800);
 		makeRecipe(new ComparableStack(ModBlocks.turret_lunar_oni), new AStack[]
 				{
-						new ComparableStack(ModItems.plate_dineutronium, 128),
-						new ComparableStack(ModItems.plate_paa, 128),
+						new ComparableStack(ModItems.plate_dineutronium, 64),
+						new ComparableStack(ModItems.plate_paa, 192),
 						new ComparableStack(ModBlocks.hadron_coil_mese, 32),
 						new ComparableStack(ModBlocks.block_circuit_tier_6, 18),
 						new ComparableStack(ModBlocks.machine_dineutronium_battery, 2),
-						new ComparableStack(ModItems.plate_armor_orichalcum, 64),
+						new ComparableStack(ModItems.plate_armor_orichalcum, 12),
 						new ComparableStack(ModItems.component_emitter, 20),
 						new ComparableStack(ModItems.component_limiter, 12),
 						new ComparableStack(ModBlocks.machine_transformer_dnt, 8),
+						new ComparableStack(ModItems.particle_digamma)
 				}, 3200);
+		makeRecipe(new ComparableStack(ModBlocks.machine_amat_reactor), new AStack[]
+				{
+						new ComparableStack(ModBlocks.fwatz_conductor, 24),
+						new ComparableStack(ModBlocks.fwatz_core),
+						new ComparableStack(ModBlocks.fwatz_computer, 4),
+						new ComparableStack(ModItems.plate_combine_steel, 120),
+						new ComparableStack(ModItems.ingot_combine_steel, 48),
+						new ComparableStack(ModItems.plate_desh, 80),
+						new ComparableStack(ModItems.ring_starmetal, 36),
+						new ComparableStack(ModBlocks.block_circuit_tier_5, 6),
+						new ComparableStack(ModBlocks.barrel_antimatter, 2),
+						new ComparableStack(ModBlocks.barrel_steel, 2)
+				}, 1000);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
@@ -930,6 +946,8 @@ public class AssemblerRecipes {
 		hidden.put(new ComparableStack(ModItems.sat_gerald, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 		hidden.put(new ComparableStack(ModItems.missile_soyuz, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 		hidden.put(new ComparableStack(ModItems.missile_soyuz_lander, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModBlocks.turret_tsukuyomi), new HashSet() {{ add(ModItems.journal_lunar); }});
+		hidden.put(new ComparableStack(ModBlocks.turret_lunar_oni), new HashSet() {{ add(ModItems.journal_lunar); }});
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

@@ -17,6 +17,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
 	//PO210		           138d		α	075.00Rad/s	Spicy
+	//AT209		             5h		β+	like 2k or sth idk bruv
 	//AC227			    	22y		α	025.00Rad/s Spicy
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
@@ -30,9 +31,11 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	public static final float au198 = MainRegistry.isPolaroid11 ? 567.09F : 500.0F;// is le funi reference I swear
 	public static final float po210 = 75.0F;
+	public static final float at209 = 2000.0F;
 	public static final float ac227 = 25.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
+	public static final float tha = thf * 4.0F;
 	public static final float u = 0.35F;
 	public static final float u233 = 5.0F;
 	public static final float u235 = 1.0F;

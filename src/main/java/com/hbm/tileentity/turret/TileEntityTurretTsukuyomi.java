@@ -76,7 +76,6 @@ public class TileEntityTurretTsukuyomi extends TileEntityTurretBaseNT
 	@Override
 	public void updateEntity()
 	{
-		super.updateEntity();
 		if (!worldObj.isRemote && ammoCount <= 0)
 		{
 			bulletConf = getFirstConfigLoaded();
@@ -91,6 +90,7 @@ public class TileEntityTurretTsukuyomi extends TileEntityTurretBaseNT
 				ammoCount = bulletConf.ammoCount;
 			}
 		}
+		super.updateEntity();
 	}
 	
 	@Override

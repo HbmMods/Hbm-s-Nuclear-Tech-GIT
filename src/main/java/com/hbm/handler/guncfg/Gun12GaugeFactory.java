@@ -162,6 +162,19 @@ public class Gun12GaugeFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getBenelliModConfig()
+	{
+		GunConfiguration config = Gun12GaugeFactory.getBenelliConfig();
+		
+		config.reloadType = 1;
+		config.ammoCap = 24;
+		config.reloadDuration = 20;
+		config.animations.clear();
+		config.name += " (Drum Magazine Mod)";
+		
+		return config;
+	}
+	
 	public static BulletConfiguration get12GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();

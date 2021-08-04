@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -74,6 +75,20 @@ public class RecipesCommon {
 			
 			return false;
 		}
+		/** Localized names, so we don't have to read hieroglyphics to figure out what it is **/
+		public String getFriendlyName()
+		{
+			return (this instanceof ComparableStack) ? ((ComparableStack)this).getFriendlyName() :
+				(this instanceof OreDictStack) ? ((OreDictStack)this).getFriendlyName() :
+					"?";
+		}
+		/** Generic getter to itemstack **/
+		public ItemStack getStack()
+		{
+			return (this instanceof ComparableStack) ? ((ComparableStack)this).toStack() :
+				(this instanceof OreDictStack) ? ((OreDictStack)this).toStacks().get(0) :
+					new ItemStack(ModItems.nothing).setStackDisplayName("Error occurred when retrieving itemstack");
+		}
 		
 		public abstract AStack copy();
 	}
@@ -126,6 +141,11 @@ public class RecipesCommon {
 		public ComparableStack(Item item, int stacksize, int meta) {
 			this(item, stacksize);
 			this.meta = meta;
+		}
+		
+		public String getFriendlyName()
+		{
+			return toStack().getDisplayName();
 		}
 		
 		public ItemStack toStack() {
@@ -284,6 +304,11 @@ public class RecipesCommon {
 			return OreDictionary.getOres(name);
 		}
 
+		public String getFriendlyName()
+		{
+			return name;
+		}
+		
 		@Override
 		public int compareTo(AStack stack) {
 			

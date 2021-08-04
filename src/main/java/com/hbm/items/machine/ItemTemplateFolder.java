@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemCustomLore;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,8 +11,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemTemplateFolder extends Item {
-
+public class ItemTemplateFolder extends ItemCustomLore
+{
+	public ItemTemplateFolder()
+	{
+		super();
+		setMaxStackSize(1);
+	}
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		

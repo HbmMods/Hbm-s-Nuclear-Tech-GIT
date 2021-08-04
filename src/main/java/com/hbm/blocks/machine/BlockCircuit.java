@@ -6,7 +6,9 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -19,7 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class BlockCircuit extends Block {
+public class BlockCircuit extends Block
+{
 
 	public int strength;
 	/**
@@ -37,95 +40,23 @@ public class BlockCircuit extends Block {
 	}
 	
 	// Disassemble
-	@Spaghetti("pain")
 	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z,
 			EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
-		if (player.isSneaking())
+		if (player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.screwdriver)
 		{
-			if (player.getHeldItem() != null && player.getHeldItem().getItem().equals(ModItems.screwdriver))
-			{
-				List<ItemStack> dropStack = new ArrayList<ItemStack>();
-	
-				worldIn.setBlockToAir(x, y, z);
-				//dropStack = AssemblerRecipes.recipes.get(this);
-				if (this == ModBlocks.block_circuit_tier_1)
-				{
-					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier1, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_aluminium, 2));
-					dropStack.add(new ItemStack(Items.comparator, 2));
-					dropStack.add(new ItemStack(ModItems.plate_steel, 4));
-					dropStack.add(new ItemStack(ModItems.wire_aluminium, 8));
-					dropStack.add(new ItemStack(Items.redstone, 6));
-				}
-				if (this == ModBlocks.block_circuit_tier_2)
-				{
-					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier2, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_copper, 2));
-					dropStack.add(new ItemStack(ModItems.circuit_aluminium, 2));
-					dropStack.add(new ItemStack(ModItems.plate_copper, 4));
-					dropStack.add(new ItemStack(ModItems.wire_copper, 8));
-					dropStack.add(new ItemStack(ModItems.wafer_silicon, 4));
-				}
-				if (this == ModBlocks.block_circuit_tier_3)
-				{
-					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier3, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_red_copper, 2));
-					dropStack.add(new ItemStack(ModItems.circuit_copper, 2));
-					dropStack.add(new ItemStack(ModItems.plate_polymer, 4));
-					dropStack.add(new ItemStack(ModItems.wire_red_copper, 8));
-					dropStack.add(new ItemStack(ModItems.wafer_gold, 4));
-				}
-				if (this == ModBlocks.block_circuit_tier_4)
-				{
-					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier4, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_gold, 2));
-					dropStack.add(new ItemStack(ModItems.circuit_red_copper, 2));
-					dropStack.add(new ItemStack(ModItems.ingot_polymer, 4));
-					dropStack.add(new ItemStack(ModItems.wire_gold, 8));
-					dropStack.add(new ItemStack(ModItems.wafer_lapis, 4));
-				}
-				if (this == ModBlocks.block_circuit_tier_5)
-				{
-					dropStack.add(new ItemStack(ModBlocks.steel_scaffold, 1));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier5, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_schrabidium, 2));
-					dropStack.add(new ItemStack(ModItems.circuit_gold, 2));
-					dropStack.add(new ItemStack(ModItems.ingot_desh, 4));
-					dropStack.add(new ItemStack(ModItems.wire_schrabidium, 8));
-					dropStack.add(new ItemStack(ModItems.wafer_diamond, 4));
-				}
-				if (this == ModBlocks.block_circuit_tier_6)
-				{
-					dropStack.add(new ItemStack(ModBlocks.cmb_brick, 1));
-					dropStack.add(new ItemStack(ModItems.plate_desh, 2));
-					dropStack.add(new ItemStack(ModItems.circuit_targeting_tier6, 6));
-					dropStack.add(new ItemStack(ModItems.circuit_schrabidium, 4));
-					dropStack.add(new ItemStack(ModItems.plate_saturnite, 4));
-					dropStack.add(new ItemStack(ModItems.wire_schrabidium, 4));
-					dropStack.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
-					dropStack.add(new ItemStack(ModItems.wafer_spark, 2));
-					dropStack.add(new ItemStack(ModItems.powder_magic, 6));
-				}
-				dropItems(dropStack, worldIn, x, y, z);
-				return true;
-			}
-			else
-			{
-				if (worldIn.isRemote)
-				{
-					player.addChatMessage(new ChatComponentText("In order to disassemble this supercomputer component without mangling everything, I'll need a more precise tool..."));
-				}
-			}
+			List<ItemStack> dropStack = new ArrayList<ItemStack>();
+			AStack[] toDrop = AssemblerRecipes.recipes.get(new ComparableStack(this));
+			worldIn.setBlockToAir(x, y, z);
+			dropItems(toDrop, worldIn, x, y, z);
+			return true;
 		}
-		return true;
+		else if (worldIn.isRemote && player.getHeldItem() == null)
+			player.addChatMessage(new ChatComponentText("In order to disassemble this supercomputer component without mangling everything, I'll need a more precise tool..."));
+		return super.onBlockActivated(worldIn, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 	}
-	
+	@Deprecated
 	private void dropItems(List<ItemStack> items, World world, int x, int y, int z)
 	{		
 		Random rand = new Random();
@@ -142,6 +73,26 @@ public class BlockCircuit extends Block {
 	        entityItem.motionX = (float)rand.nextGaussian() * f3;
 	        entityItem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
 	        entityItem.motionZ = (float)rand.nextGaussian() * f3;
+			if (!world.isRemote)
+				world.spawnEntityInWorld(entityItem);
+		}
+	}
+	private void dropItems(AStack[] items, World world, int x, int y, int z)
+	{
+		Random rand = new Random();
+		float[] floats = new float[4];
+		for (int i = 0; i < 3; i++)
+			floats[i] = rand.nextFloat() * 0.8F + 0.1F;
+		
+		for (AStack stack : items)
+		{
+			floats[3] = 0.05F;
+			EntityItem entityItem = new EntityItem(world, x + floats[0], y + floats[1], z + floats[2]);
+			entityItem.setEntityItemStack(stack.getStack());
+			
+			entityItem.motionX = (float)rand.nextGaussian() * floats[3];
+			entityItem.motionY = (float)rand.nextGaussian() * floats[3] + 0.2F;
+			entityItem.motionZ = (float)rand.nextGaussian() * floats[3];
 			if (!world.isRemote)
 				world.spawnEntityInWorld(entityItem);
 		}

@@ -22,6 +22,11 @@ public class GUIHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		switch(ID) {
+		case ModBlocks.guiID_amat_reactor:
+			if (entity instanceof TileEntityReactorAmat)
+				return new ContainerReactorAmat(player.inventory, (TileEntityReactorAmat) entity);
+			else
+				return null;
 		case ModBlocks.guiID_sing_gen:
 		{
 			if (entity instanceof TileEntityMachineSingGen)
@@ -820,6 +825,11 @@ public class GUIHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		switch(ID) {
+		case ModBlocks.guiID_amat_reactor:
+			if (entity instanceof TileEntityReactorAmat)
+				return new GUIReactorAmat(player.inventory, (TileEntityReactorAmat)entity);
+			else
+				return null;
 		case ModBlocks.guiID_sing_gen:
 		{
 			if (entity instanceof TileEntityMachineSingGen)
