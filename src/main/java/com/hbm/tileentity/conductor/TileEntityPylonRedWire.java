@@ -46,7 +46,7 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor, IN
 				
 				TileEntity pylon = worldObj.getTileEntity(con[0], con[1], con[2]);
 				
-				if(pylon.isInvalid()) {
+				if(worldObj.blockExists(con[0], con[1], con[2]) && (pylon == null || pylon.isInvalid())) {
 					connected.remove(i);
 					continue;
 				}

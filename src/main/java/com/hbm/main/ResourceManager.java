@@ -181,8 +181,7 @@ public class ResourceManager {
 	public static final IModelCustom forcefield_top = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/forcefield_top.obj"));
 	
 	//Shredder
-	public static final IModelCustom shredder_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shredder_body.obj"));
-	public static final IModelCustom shredder_blade = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shredder_blade.obj"));
+	public static final IModelCustom shredder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/shredder.obj"));
 	
 	//Bombs
 	public static final IModelCustom bomb_gadget = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/TheGadget3.obj"));
@@ -451,6 +450,9 @@ public class ResourceManager {
 	//Forcefield
 	public static final ResourceLocation forcefield_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/forcefield_base.png");
 	public static final ResourceLocation forcefield_top_tex = new ResourceLocation(RefStrings.MODID, "textures/models/forcefield_top.png");
+	
+	//Shredder
+	public static final ResourceLocation shredder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/shredder.png");
 	
 	//Bombs
 	public static final ResourceLocation bomb_gadget_tex = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_tex.png");
