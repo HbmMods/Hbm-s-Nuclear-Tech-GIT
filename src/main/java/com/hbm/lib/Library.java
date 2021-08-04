@@ -601,16 +601,16 @@ public class Library {
 							{
 								((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked = newTact;
 								for(int j = 0; j < ((TileEntityPylonRedWire)tileentity).connected.size(); j++) {
-									TileEntityPylonRedWire pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
+									int[] pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
 									if(pylon != null) {
-										ffgeua(pylon.xCoord + 1, pylon.yCoord, pylon.zCoord, that.getTact(), that, worldObj);
-										ffgeua(pylon.xCoord - 1, pylon.yCoord, pylon.zCoord, that.getTact(), that, worldObj);
-										ffgeua(pylon.xCoord, pylon.yCoord + 1, pylon.zCoord, that.getTact(), that, worldObj);
-										ffgeua(pylon.xCoord, pylon.yCoord - 1, pylon.zCoord, that.getTact(), that, worldObj);
-										ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord + 1, that.getTact(), that, worldObj);
-										ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord - 1, that.getTact(), that, worldObj);
+										ffgeua(pylon[0] + 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0] - 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1] + 1, pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1] - 1, pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1], pylon[2] + 1, that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1], pylon[2] - 1, that.getTact(), that, worldObj);
 										
-										ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord, that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1], pylon[2], that.getTact(), that, worldObj);
 									}
 								}
 							}

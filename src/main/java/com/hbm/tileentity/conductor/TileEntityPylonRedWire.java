@@ -7,9 +7,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
+import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPylonDestructorPacket;
 import com.hbm.packet.TEPylonSenderPacket;
+import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -19,42 +22,75 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-@Spaghetti("Destroy this abomination in holy fire")
-public class TileEntityPylonRedWire extends TileEntity implements IConductor {
+@Untested
+public class TileEntityPylonRedWire extends TileEntity implements IConductor, INBTPacketReceiver {
 	
 	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();
-	public List<TileEntityPylonRedWire> connected = new ArrayList<TileEntityPylonRedWire>();
+	public List<int[]> connected = new ArrayList<int[]>();
 	public boolean scheduleConnectionCheck = false;
 	public int[][] scheduleBuffer;
 	
 	@Override
 	public void updateEntity() {
 		
-		for(int i = connected.size() - 1; i >= 0; i--) {
-			if(connected.size() >= i + 1 && connected.get(i) == null)
-				connected.remove(i);
-		}
-		
-		for(int i = connected.size() - 1; i >= 0; i--) {
-			if(connected.size() >= i + 1 && connected.get(i) != null && 
-					this.worldObj.getBlock(connected.get(i).xCoord, connected.get(i).yCoord, connected.get(i).zCoord) != ModBlocks.red_pylon)
-				connected.remove(i);
-		}
-		
-		if(scheduleConnectionCheck && this.scheduleBuffer != null) {
-			scheduleConnectionCheck = false;
-			this.connected = TileEntityPylonRedWire.convertArrayToList(this.scheduleBuffer, worldObj);
-		}
-		
-		//TODO: use serialized NBT packets for this trash
-		if(!worldObj.isRemote)
-			if(!connected.isEmpty()) {
-				PacketDispatcher.wrapper.sendToAllAround(new TEPylonDestructorPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+		if(!worldObj.isRemote) {
+			
+			for(int i = connected.size() - 1; i >= 0; i--) {
 				
-				for(TileEntityPylonRedWire wire : connected)
-					PacketDispatcher.wrapper.sendToAllAround(new TEPylonSenderPacket(xCoord, yCoord, zCoord,
-						wire.xCoord, wire.yCoord, wire.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+				int[] con = connected.get(i);
+				
+				if(con == null) {
+					connected.remove(i);
+					continue;
+				}
+				
+				TileEntity pylon = worldObj.getTileEntity(con[0], con[1], con[2]);
+				
+				if(pylon.isInvalid()) {
+					connected.remove(i);
+					continue;
+				}
 			}
+			
+			if(scheduleConnectionCheck && this.scheduleBuffer != null) {
+				scheduleConnectionCheck = false;
+				this.connected = convertArrayToList(this.scheduleBuffer, worldObj);
+			}
+			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setInteger("count", this.connected.size());
+	
+				for(int i = 0; i < connected.size(); i++) {
+	
+					int[] pos = connected.get(i);
+					
+					TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+	
+					if(te instanceof TileEntityPylonRedWire) {
+						data.setIntArray("c" + i, new int[] { pos[0], pos[1], pos[2] });
+					}
+				}
+	
+				PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
+			}
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		
+		this.connected.clear();
+		
+		int count = nbt.getInteger("count");
+		
+		for(int i = 0; i < count; i++) {
+			
+			if(nbt.hasKey("c" + i)) {
+				int[] pos = nbt.getIntArray("c" + i);
+				this.connected.add(pos);
+			}
+		}
 	}
 	
 	@Override
@@ -97,28 +133,26 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 		nbt.setIntArray("conZ", conZ);
 	}
 	
-	public static List<TileEntityPylonRedWire> convertArrayToList(int[][] array, World worldObj) {
+	public static List<int[]> convertArrayToList(int[][] array, World worldObj) {
 		
-		List<TileEntityPylonRedWire> list = new ArrayList<TileEntityPylonRedWire>();
+		List<int[]> list = new ArrayList<int[]>();
 		
 		for(int i = 0; i < array.length; i++) {
-			TileEntity te = worldObj.getTileEntity(array[i][0], array[i][1], array[i][2]);
-			if(te != null && te instanceof TileEntityPylonRedWire)
-				list.add((TileEntityPylonRedWire)te);
+			list.add(new int[] {array[i][0], array[i][1], array[i][2]});
 		}
 		
 		return list;
 	}
 	
-	public static int[][] convertListToArray(List<TileEntityPylonRedWire> list) {
+	public static int[][] convertListToArray(List<int[]> list) {
 		
 		int[][] array = new int[list.size()][3];
 		
 		for(int i = 0; i < list.size(); i++) {
-			TileEntity te = list.get(i);
-			array[i][0] = te.xCoord;
-			array[i][1] = te.yCoord;
-			array[i][2] = te.zCoord;
+			int[] pos = list.get(i);
+			array[i][0] = pos[0];
+			array[i][1] = pos[1];
+			array[i][2] = pos[2];
 		}
 		
 		return array;
@@ -128,7 +162,7 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 
 		TileEntity te = worldObj.getTileEntity(x, y, z);
 		if(te != null && te instanceof TileEntityPylonRedWire)
-			this.connected.add((TileEntityPylonRedWire)te);
+			this.connected.add(new int[]{x, y, z});
 	}
 	
 	@Override

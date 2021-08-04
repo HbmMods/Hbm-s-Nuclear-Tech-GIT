@@ -34,11 +34,11 @@ public class RenderPylon extends TileEntitySpecialRenderer {
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
 
-			TileEntityPylonRedWire wire = pyl.connected.get(i);
+			int[] wire = pyl.connected.get(i);
 			
-			float wX = (wire.xCoord - pyl.xCoord) / 2F;
-			float wY = (wire.yCoord - pyl.yCoord) / 2F;
-			float wZ = (wire.zCoord - pyl.zCoord) / 2F;
+			float wX = (wire[0] - pyl.xCoord) / 2F;
+			float wY = (wire[1] - pyl.yCoord) / 2F;
+			float wZ = (wire[2] - pyl.zCoord) / 2F;
 			
 			float count = 10;
 			for(float j = 0; j < count; j++) {
