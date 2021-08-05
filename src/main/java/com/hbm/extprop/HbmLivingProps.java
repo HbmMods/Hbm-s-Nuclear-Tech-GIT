@@ -1,5 +1,7 @@
 package com.hbm.extprop;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
@@ -32,6 +34,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private int asbestos;
 	private float radEnv;
 	private float radBuf;
+	private int bombTimer;
+	private List<ContaminationEffect> contamination = new ArrayList();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -87,6 +91,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void setRadBuf(EntityLivingBase entity, float rad) {
 		getData(entity).radBuf = rad;
+	}
+	
+	/// CONTAMINATION ///
+	public static List<ContaminationEffect> getCont(EntityLivingBase entity) {
+		return getData(entity).contamination;
+	}
+	
+	public static void addCont(EntityLivingBase entity, ContaminationEffect cont) {
+		getData(entity).contamination.add(cont);
 	}
 	
 	/// DIGAMA ///
@@ -160,7 +173,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
 		getData(entity).asbestos = asbestos;
 		
-		if(asbestos >= 30 * 60 * 20) {
+		if(asbestos >= 60 * 60 * 20) {
 			getData(entity).asbestos = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
@@ -168,6 +181,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
 		setAsbestos(entity, getAsbestos(entity) + asbestos);
+	}
+	
+	/// TIME BOMB ///
+	public static int getTimer(EntityLivingBase entity) {
+		return getData(entity).bombTimer;
+	}
+	
+	public static void setTimer(EntityLivingBase entity, int bombTimer) {
+		getData(entity).bombTimer = bombTimer;
 	}
 
 	@Override
@@ -181,6 +203,13 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setFloat("hfr_radiation", radiation);
 		props.setFloat("hfr_digamma", digamma);
 		props.setInteger("hfr_asbestos", asbestos);
+		props.setInteger("hfr_bomb", bombTimer);
+		
+		props.setInteger("hfr_cont_count", this.contamination.size());
+		
+		for(int i = 0; i < this.contamination.size(); i++) {
+			this.contamination.get(i).save(props, i);
+		}
 		
 		nbt.setTag("HbmLivingProps", props);
 	}
@@ -194,6 +223,13 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			radiation = props.getFloat("hfr_radiation");
 			digamma = props.getFloat("hfr_digamma");
 			asbestos = props.getInteger("hfr_asbestos");
+			bombTimer = props.getInteger("hfr_bomb");
+			
+			int cont = props.getInteger("hfr_cont_count");
+			
+			for(int i = 0; i < cont; i++) {
+				this.contamination.add(ContaminationEffect.load(props, i));
+			}
 		}
 	}
 	
@@ -212,6 +248,27 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		public float getRad() {
 			return maxRad * ((float)time / (float)maxTime);
+		}
+		
+		public void save(NBTTagCompound nbt, int index) {
+			NBTTagCompound me = new NBTTagCompound();
+			me.setFloat("maxRad", this.maxRad);
+			me.setInteger("maxTime", this.maxTime);
+			me.setInteger("time", this.time);
+			me.setBoolean("ignoreArmor", ignoreArmor);
+			nbt.setTag("cont_" + index, me);
+		}
+		
+		public static ContaminationEffect load(NBTTagCompound nbt, int index) {
+			NBTTagCompound me = (NBTTagCompound) nbt.getTag("cont_" + index);
+			float maxRad = me.getFloat("maxRad");
+			int maxTime = nbt.getInteger("maxTime");
+			int time = nbt.getInteger("time");
+			boolean ignoreArmor = nbt.getBoolean("ignoreArmor");
+			
+			ContaminationEffect effect = new ContaminationEffect(maxRad, maxTime, ignoreArmor);
+			effect.time = time;
+			return effect;
 		}
 	}
 }

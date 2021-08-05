@@ -26,6 +26,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	private int targetY;
 	private int targetZ;
 	
+	public int[] fluxBuffer = new int[20];
+	
 	//made this one-dimensional because it's a lot easier to serialize
 	public RBMKColumn[] columns = new RBMKColumn[15 * 15];
 
@@ -52,6 +54,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	
 	private void rescan() {
 		
+		double flux = 0;
+		
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {
 				
@@ -67,11 +71,22 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					columns[index].data.setDouble("maxHeat", rbmk.maxHeat());
 					if(rbmk.isModerated()) columns[index].data.setBoolean("moderated", true); //false is the default anyway and not setting it when we don't need to reduces cruft
 					
+					if(te instanceof TileEntityRBMKRod) {
+						TileEntityRBMKRod fuel = (TileEntityRBMKRod) te;
+						flux += fuel.fluxFast + fuel.fluxSlow;
+					}
+					
 				} else {
 					columns[index] = null;
 				}
 			}
 		}
+		
+		for(int i = 0; i < this.fluxBuffer.length - 1; i++) {
+			this.fluxBuffer[i] = this.fluxBuffer[i + 1];
+		}
+		
+		this.fluxBuffer[19] = (int) flux;
 	}
 	
 	private void prepareNetworkPack() {
@@ -85,6 +100,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				data.setShort("type_" + i, (short)this.columns[i].type.ordinal());
 			}
 		}
+		
+		data.setIntArray("flux", this.fluxBuffer);
 		
 		this.networkPack(data, 50);
 	}
@@ -100,6 +117,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				this.columns[i] = new RBMKColumn(ColumnType.values()[data.getShort("type_" + i)], (NBTTagCompound)data.getTag("column_" + i));
 			}
 		}
+		
+		this.fluxBuffer = data.getIntArray("flux");
 	}
 
 	@Override

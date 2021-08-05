@@ -91,8 +91,7 @@ public class GUIRBMKConsole extends GuiScreen {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select all control rods" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 72, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Deselect all" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 8, 76, 60, mouseX, mouseY, new String[]{ "ignore all this for now" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 96, 76, 38, mouseX, mouseY, new String[]{ "and this too" } );
-
+		
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select red group" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 17, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select yellow group" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select green group" } );

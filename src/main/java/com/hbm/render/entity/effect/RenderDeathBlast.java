@@ -83,8 +83,9 @@ public class RenderDeathBlast extends Render {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0);
 		
-		double scale = 15 - 15D * (((double)entity.ticksExisted) / ((double)EntityDeathBlast.maxAge));
+		double scale = 10 - 10D * (((double)entity.ticksExisted) / ((double)EntityDeathBlast.maxAge));
 		double alpha = (((double)entity.ticksExisted) / ((double)EntityDeathBlast.maxAge));
 		
 		if(scale < 0)
@@ -97,15 +98,20 @@ public class RenderDeathBlast extends Render {
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         sphere.renderAll();
 
-        GL11.glColor4d(1.0, 0, 0, alpha);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glScaled(1.5, 1.5, 1.5);
-        sphere.renderAll();
+        GL11.glScaled(1.25, 1.25, 1.25);
+        GL11.glColor4d(1.0, 0, 0, alpha * 0.125);
+        
+        for(int i = 0; i < 8; i++) {
+        	sphere.renderAll();
+            GL11.glScaled(1.05, 1.05, 1.05);
+        }
         
 		GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
         GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
         
         GL11.glPopMatrix();

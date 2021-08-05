@@ -51,6 +51,10 @@ public class ItemPill extends ItemFood {
 			if(this == ModItems.radx) {
 				player.addPotionEffect(new PotionEffect(HbmPotion.radx.id, 3 * 60 * 20, 0));
 			}
+			
+			if(this == ModItems.siox) {
+				HbmLivingProps.setAsbestos(player, 0);
+			}
 
 			if(this == ModItems.xanax) {
 				float digamma = HbmLivingProps.getDigamma(player);
@@ -80,6 +84,9 @@ public class ItemPill extends ItemFood {
 		}
 		if(this == ModItems.radx) {
 			list.add("Increases radiation resistance by 0.2 (37%) for 3 minutes");
+		}
+		if(this == ModItems.siox) {
+			list.add("Reverses mesothelioma with the power of Asbestos!");
 		}
 		if(this == ModItems.xanax) {
 			list.add("Removes 500mDRX");

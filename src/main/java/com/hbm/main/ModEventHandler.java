@@ -240,7 +240,7 @@ public class ModEventHandler {
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
 		
-		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft)) {
+		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 		
@@ -751,13 +751,11 @@ public class ModEventHandler {
 					
 					ArmorUtil.resetFlightTime(player);
 					
-					if(!player.isSneaking()) {
-						if(player.fallDistance > 0)
-							player.fallDistance = 0;
-						
-						if(player.motionY < -0.4D)
-							player.motionY = -0.4D;
-					}
+					if(player.fallDistance > 0)
+						player.fallDistance = 0;
+					
+					if(player.motionY < -0.4D)
+						player.motionY = -0.4D;
 					
 					HbmPlayerProps props = HbmPlayerProps.getData(player);
 					

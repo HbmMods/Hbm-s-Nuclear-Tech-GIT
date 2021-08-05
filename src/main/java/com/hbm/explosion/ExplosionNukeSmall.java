@@ -50,10 +50,6 @@ public class ExplosionNukeSmall {
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 45); break;
 			
 			case 3: new ExplosionNT(world, null, posX, posY, posZ, 20F).addAllAttrib(ExplosionNT.nukeAttribs).overrideResolution(64).explode();
-				/*new ExplosionNT(world, null, posX + 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX - 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX, posY, posZ + 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX, posY, posZ - 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();*/
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 55); break;
 			}
 			

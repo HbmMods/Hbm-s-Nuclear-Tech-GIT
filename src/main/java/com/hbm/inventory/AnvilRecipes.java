@@ -296,18 +296,16 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.circuit_raw),
 				new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModItems.plate_steel, 2)),
-						new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 4)),
+						new AnvilOutput(new ItemStack(ModItems.plate_steel, 1)),
+						new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 1)),
 						new AnvilOutput(new ItemStack(Items.redstone, 1))
 				}
 		).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.circuit_aluminium),
 				new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModItems.plate_steel, 2)),
-						new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 2)),
+						new AnvilOutput(new ItemStack(ModItems.plate_steel, 1)),
 						new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 1), 0.5F),
-						new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 1), 0.25F),
 						new AnvilOutput(new ItemStack(Items.redstone, 1), 0.25F)
 				}
 		).setTier(1));

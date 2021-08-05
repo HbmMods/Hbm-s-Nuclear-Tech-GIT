@@ -799,6 +799,7 @@ public class ModItems {
 	public static Item radaway_strong;
 	public static Item radaway_flush;
 	public static Item radx;
+	public static Item siox;
 	public static Item xanax;
 	public static Item fmn;
 	public static Item five_htp;
@@ -1340,6 +1341,7 @@ public class ModItems {
 	public static Item sat_chip;
 	public static Item sat_interface;
 	public static Item sat_coord;
+	public static Item sat_designator;
 
 	public static Item ammo_12gauge;
 	public static Item ammo_12gauge_incendiary;
@@ -1484,6 +1486,7 @@ public class ModItems {
 	public static Item ammo_fireext_sand;
 	public static Item ammo_cell;
 	public static Item ammo_dart;
+	public static Item ammo_dart_nuclear;
 	public static Item ammo_dart_nerf;
 	
 	public static Item gun_rpg;
@@ -3103,6 +3106,7 @@ public class ModItems {
 		radaway_strong = new ItemSyringe().setUnlocalizedName("radaway_strong").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radaway_strong");
 		radaway_flush = new ItemSyringe().setUnlocalizedName("radaway_flush").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radaway_flush");
 		radx = new ItemPill(0).setUnlocalizedName("radx").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radx");
+		siox = new ItemPill(0).setUnlocalizedName("siox").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":siox");
 		xanax = new ItemPill(0).setUnlocalizedName("xanax").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":xanax_2");
 		fmn = new ItemPill(0).setUnlocalizedName("fmn").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tablet");
 		five_htp = new ItemPill(0).setUnlocalizedName("five_htp").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":5htp");
@@ -3697,6 +3701,7 @@ public class ModItems {
 		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_chip");
 		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_interface");
 		sat_coord = new ItemSatInterface().setUnlocalizedName("sat_coord").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_coord");
+		sat_designator = new ItemSatDesignator().setUnlocalizedName("sat_designator").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_designator");
 
 		mp_thruster_10_kerosene = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(10F)					.setUnlocalizedName("mp_thruster_10_kerosene");
 		mp_thruster_10_kerosene_tec = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(15F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_10_kerosene_tec");
@@ -3990,6 +3995,7 @@ public class ModItems {
 		ammo_fireext_sand = new ItemAmmo().setUnlocalizedName("ammo_fireext_sand").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fireext_sand");
 		ammo_cell = new ItemAmmo().setUnlocalizedName("ammo_cell").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(16).setTextureName(RefStrings.MODID + ":ammo_cell");
 		ammo_dart = new ItemAmmo().setUnlocalizedName("ammo_dart").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(16).setTextureName(RefStrings.MODID + ":ammo_dart");
+		ammo_dart_nuclear = new ItemAmmo().setUnlocalizedName("ammo_dart_nuclear").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(16).setTextureName(RefStrings.MODID + ":ammo_dart_nuclear");
 		ammo_dart_nerf = new ItemAmmo().setUnlocalizedName("ammo_dart_nerf").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(16).setTextureName(RefStrings.MODID + ":ammo_dart_nerf");
 		
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
@@ -6620,6 +6626,7 @@ public class ModItems {
 		GameRegistry.registerItem(sat_chip, sat_chip.getUnlocalizedName());
 		GameRegistry.registerItem(sat_interface, sat_interface.getUnlocalizedName());
 		GameRegistry.registerItem(sat_coord, sat_coord.getUnlocalizedName());
+		GameRegistry.registerItem(sat_designator, sat_designator.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
@@ -6837,6 +6844,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_fireext_sand, ammo_fireext_sand.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_cell, ammo_cell.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_dart, ammo_dart.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_dart_nuclear, ammo_dart_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_dart_nerf, ammo_dart_nerf.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket, ammo_rocket.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_he, ammo_rocket_he.getUnlocalizedName());
@@ -7105,6 +7113,7 @@ public class ModItems {
 		GameRegistry.registerItem(radaway_strong, radaway_strong.getUnlocalizedName());
 		GameRegistry.registerItem(radaway_flush, radaway_flush.getUnlocalizedName());
 		GameRegistry.registerItem(radx, radx.getUnlocalizedName());
+		GameRegistry.registerItem(siox, siox.getUnlocalizedName());
 		GameRegistry.registerItem(pill_iodine, pill_iodine.getUnlocalizedName());
 		GameRegistry.registerItem(xanax, xanax.getUnlocalizedName());
 		GameRegistry.registerItem(fmn, fmn.getUnlocalizedName());

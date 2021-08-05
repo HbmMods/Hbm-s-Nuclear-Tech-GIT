@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.Random;
 
 import com.hbm.config.RadiationConfig;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -38,11 +39,21 @@ public class EntityEffectHandler {
 				HbmLivingProps.setRadEnv(entity, 0);
 			}
 			
+			
 			if(entity instanceof EntityPlayerMP) {
-				NBTTagCompound data = new NBTTagCompound();
 				HbmLivingProps props = HbmLivingProps.getData(entity);
+				NBTTagCompound data = new NBTTagCompound();
 				props.saveNBTData(data);
 				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
+			}
+			
+			int timer = HbmLivingProps.getTimer(entity);
+			if(timer > 0) {
+				HbmLivingProps.setTimer(entity, timer - 1);
+				
+				if(timer == 1) {
+					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.medium);
+				}
 			}
 		}
 		
