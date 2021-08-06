@@ -261,13 +261,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
         	//handle entity collision
         	if(movement.entityHit != null) {
 
-				DamageSource damagesource = null;
-				
-				if (this.shooter == null) {
-					damagesource = ModDamageSource.causeBulletDamage(this, this);
-				} else {
-					damagesource = ModDamageSource.causeBulletDamage(this, shooter);
-				}
+				DamageSource damagesource = this.config.getDamage(this, shooter);
 
     			if(!worldObj.isRemote) {
 	        		if(!config.doesPenetrate)

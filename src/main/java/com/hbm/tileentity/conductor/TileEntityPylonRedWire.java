@@ -22,7 +22,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-@Untested
 public class TileEntityPylonRedWire extends TileEntity implements IConductor, INBTPacketReceiver {
 	
 	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();

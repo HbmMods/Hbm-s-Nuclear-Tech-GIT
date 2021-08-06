@@ -45,12 +45,6 @@ public class BlockDecon extends BlockContainer {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand) {
-		float f = x + 0.5F;
-		float f1 = y + 1.0F;
-		float f2 = z + 0.5F;
-
-		p_149734_1_.spawnParticle("cloud", f, f1, f2, 0.0D, 0.1D, 0.0D);
-	}
+	public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand) { }
 
 }

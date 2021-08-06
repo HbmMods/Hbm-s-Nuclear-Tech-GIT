@@ -12,6 +12,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -181,6 +182,10 @@ public class GunEnergyFactory {
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		bullet.emp = 10;
 		
+		bullet.damageType = ModDamageSource.s_emp;
+		bullet.dmgProj = false;
+		bullet.dmgBypass = true;
+		
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 1));
 		bullet.effects.add(new PotionEffect(Potion.weakness.id, 10 * 20, 4));
@@ -211,6 +216,10 @@ public class GunEnergyFactory {
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		bullet.vPFX = "flame";
 		bullet.incendiary = 10;
+		
+		bullet.damageType = ModDamageSource.s_flamethrower;
+		bullet.dmgProj = false;
+		bullet.dmgFire = true;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -279,6 +288,8 @@ public class GunEnergyFactory {
 		bullet.vPFX = "flame";
 		bullet.incendiary = 0;
 		
+		bullet.dmgBypass = true;
+		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
 		bullet.effects = new ArrayList();
@@ -301,6 +312,8 @@ public class GunEnergyFactory {
 		bullet.dmgMax = 0;
 		bullet.vPFX = "cloud";
 		bullet.incendiary = 0;
+		
+		bullet.dmgFire = false;
 		
 		bullet.bImpact = BulletConfigFactory.getGasEffect(5, 60 * 20);
 		
@@ -557,6 +570,10 @@ public class GunEnergyFactory {
 		bullet.dmgMin = 10000;
 		bullet.dmgMax = 25000;
 		bullet.liveAfterImpact = true;
+		
+		bullet.damageType = ModDamageSource.s_zomg_prefix;
+		bullet.dmgProj = false;
+		bullet.dmgBypass = true;
 
 		bullet.style = bullet.STYLE_BOLT;
 		bullet.trail = bullet.BOLT_ZOMG;

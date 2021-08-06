@@ -19,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-@Untested
 public class TileEntityMachineRadar extends TileEntityTickingBase implements IConsumer {
 
 	public List<Entity> entList = new ArrayList();

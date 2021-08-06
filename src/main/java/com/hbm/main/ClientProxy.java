@@ -970,6 +970,13 @@ public class ClientProxy extends ServerProxy {
 				}
 			}
 
+			if("townaura".equals(data.getString("mode"))) {
+				fx = new EntityAuraFX(world, x, y, z, 0, 0, 0);
+				float color = 0.5F + rand.nextFloat() * 0.5F;
+				fx.setRBGColorF(0.8F * color, 0.9F * color, 1.0F * color);
+				fx.setVelocity(mX, mY, mZ);
+			}
+
 			if("blockdust".equals(data.getString("mode"))) {
 				
 				Block b = Block.getBlockById(data.getInteger("block"));

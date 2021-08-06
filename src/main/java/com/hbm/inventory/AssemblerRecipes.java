@@ -37,7 +37,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-@Untested
 public class AssemblerRecipes {
 
 	public static File config;

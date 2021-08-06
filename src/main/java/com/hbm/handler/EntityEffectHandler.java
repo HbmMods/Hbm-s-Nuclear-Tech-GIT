@@ -1,10 +1,13 @@
 package com.hbm.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -57,8 +60,29 @@ public class EntityEffectHandler {
 			}
 		}
 		
+		handleContamination(entity);
 		handleRadiation(entity);
 		handleDigamma(entity);
+	}
+	
+	private static void handleContamination(EntityLivingBase entity) {
+		
+		if(entity.worldObj.isRemote)
+			return;
+		
+		List<ContaminationEffect> contamination = HbmLivingProps.getCont(entity);
+		List<ContaminationEffect> rem = new ArrayList();
+		
+		for(ContaminationEffect con : contamination) {
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, con.ignoreArmor ? ContaminationType.RAD_BYPASS : ContaminationType.CREATIVE, con.getRad());
+			
+			con.time--;
+			
+			if(con.time <= 0)
+				rem.add(con);
+		}
+		
+		contamination.removeAll(rem);
 	}
 	
 	private static void handleRadiation(EntityLivingBase entity) {
@@ -71,6 +95,7 @@ public class EntityEffectHandler {
 		RadiationSavedData data = RadiationSavedData.getData(world);
 		
 		if(!world.isRemote) {
+			
 			int ix = (int)MathHelper.floor_double(entity.posX);
 			int iy = (int)MathHelper.floor_double(entity.posY);
 			int iz = (int)MathHelper.floor_double(entity.posZ);

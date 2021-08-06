@@ -518,17 +518,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
-
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19) {
-				ffgeuaInit();
-				fillFluidInit(tank.getTankType());
-			}
+		
+		if (this.isStructureValid(this.worldObj)) {
 
 			powerMultiplier = 100;
 			heatMultiplier = 100;
@@ -552,35 +543,48 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					decayPellet(i);
 				}
 			}
-
-			//Only damages filter when heat is present (thus waste being created)
-			if (heatList > 0) {
-				ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
+			
+			if(!worldObj.isRemote) {
+	
+				age++;
+				if (age >= 20) {
+					age = 0;
+				}
+	
+				if (age == 9 || age == 19) {
+					ffgeuaInit();
+					fillFluidInit(tank.getTankType());
+				}
+	
+				//Only damages filter when heat is present (thus waste being created)
+				if (heatList > 0) {
+					ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
+				}
+	
+				heatList *= heatMultiplier;
+				heatList /= 100;
+				heat = heatList;
+	
+				powerList *= powerMultiplier;
+				powerList /= 100;
+				power += powerList;
+	
+				tank.setFill(tank.getFill() + ((decayMultiplier * heat) / 100) / 100);
+				
+				if(power > maxPower)
+					power = maxPower;
+				
+				//Gets rid of 1/4 of the total waste, if at least one access hatch is not occupied
+				if(tank.getFill() > tank.getMaxFill())
+					emptyWaste();
+				
+				power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
+				
+				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+				tank.unloadTank(36, 39, slots);
+	
+				PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			}
-
-			heatList *= heatMultiplier;
-			heatList /= 100;
-			heat = heatList;
-
-			powerList *= powerMultiplier;
-			powerList /= 100;
-			power += powerList;
-
-			tank.setFill(tank.getFill() + ((decayMultiplier * heat) / 100) / 100);
-			
-			if(power > maxPower)
-				power = maxPower;
-			
-			//Gets rid of 1/4 of the total waste, if at least one access hatch is not occupied
-			if(tank.getFill() > tank.getMaxFill())
-				emptyWaste();
-			
-			power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
-			
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			tank.unloadTank(36, 39, slots);
-
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	
