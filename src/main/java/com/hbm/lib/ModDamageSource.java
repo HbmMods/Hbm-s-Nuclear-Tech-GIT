@@ -52,165 +52,150 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
 
+	public static final String s_bullet = "revolverBullet";
+	public static final String s_emplacer = "chopperBullet";
+	public static final String s_tau = "tau";
+	public static final String s_combineball = "cmb";
+	public static final String s_zomg_prefix = "subAtomic";
+	public static final String s_euthanized = "euthanized";
+	public static final String s_emp = "electrified";
+	public static final String s_flamethrower = "flamethrower";
+	public static final String s_immolator = "plasma";
+	public static final String s_cryolator = "ice";
+	public static final String s_laser = "laser";
+
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
 	}
-    public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();
-    }
-    public static DamageSource causeBulletDamage(EntityBulletBase base, Entity ent)
-    {
-        return (new EntityDamageSourceIndirect("revolverBullet", base, ent)).setProjectile();
-    }
-    public static DamageSource causeDisplacementDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("chopperBullet", p_76353_0_, p_76353_1_)).setProjectile();
-    }
-    public static DamageSource causeTauDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeCombineDamage(Entity p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("cmb", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeSubatomicDamage(EntityRainbow p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("subAtomic", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeSubatomicDamage2(EntityRainbow p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("subAtomic2", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeSubatomicDamage3(EntityRainbow p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("subAtomic3", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeSubatomicDamage4(EntityRainbow p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("subAtomic4", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource causeSubatomicDamage5(EntityRainbow p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("subAtomic5", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
-    }
-    public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("euthanized", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    public static DamageSource causeDischargeDamage(EntityDischarge p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("electrified", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    public static DamageSource causeFireDamage(EntityFire p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("flamethrower", p_76353_0_, p_76353_1_)).setFireDamage().setDamageBypassesArmor();
-    }
-    public static DamageSource causePlasmaDamage(EntityPlasmaBeam p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("plasma", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    public static DamageSource causeIceDamage(EntityLN2 p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("ice", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    public static DamageSource causeLaserDamage(EntityLaserBeam p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("laser", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    public static DamageSource causeLaserDamage(EntityMinerBeam p_76353_0_, Entity p_76353_1_)
-    {
-        return (new EntityDamageSourceIndirect("laser", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
-    }
-    
-    public static boolean getIsBullet(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("revolverBullet");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsEmplacer(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("chopperBullet");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsTau(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("tau");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsPoison(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("euthanized");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsCmb(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("cmb");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsSubatomic(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		String s = ((EntityDamageSourceIndirect)source).damageType;
-    		return s.equals("subAtomic") || s.equals("subAtomic2") || s.equals("subAtomic3") || s.equals("subAtomic4") || s.equals("subAtomic5");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsDischarge(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("electrified");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsFire(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("flamethrower");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsPlasma(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("plasma");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsLiquidNitrogen(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("ice");
-    	}
-    	return false;
-    }
-    
-    public static boolean getIsLaser(DamageSource source) {
-    	if(source instanceof EntityDamageSourceIndirect)
-    	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("laser");
-    	}
-    	return false;
-    }
+
+	public static DamageSource causeBulletDamage(EntityBullet ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_bullet, ent, hit)).setProjectile();
+	}
+
+	public static DamageSource causeBulletDamage(Entity base, Entity ent) {
+		return (new EntityDamageSourceIndirect(s_bullet, base, ent)).setProjectile();
+	}
+
+	public static DamageSource causeDisplacementDamage(Entity ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_emplacer, ent, hit)).setProjectile();
+	}
+
+	public static DamageSource causeTauDamage(Entity ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_tau, ent, hit)).setProjectile().setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeCombineDamage(Entity ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_combineball, ent, hit)).setProjectile().setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeSubatomicDamage(Entity ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_zomg_prefix + (ent.worldObj.rand.nextInt(5) + 1), ent, hit)).setProjectile().setDamageBypassesArmor();
+	}
+
+	public static DamageSource euthanized(Entity ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_euthanized, ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeDischargeDamage(EntityDischarge ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_emp, ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeFireDamage(EntityFire ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_flamethrower, ent, hit)).setFireDamage().setDamageBypassesArmor();
+	}
+
+	public static DamageSource causePlasmaDamage(EntityPlasmaBeam ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_immolator, ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeIceDamage(EntityLN2 ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_cryolator, ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeLaserDamage(EntityLaserBeam ent, Entity hit) {
+		return (new EntityDamageSourceIndirect(s_laser, ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static DamageSource causeLaserDamage(EntityMinerBeam ent, Entity hit) {
+		return (new EntityDamageSourceIndirect("s_laser", ent, hit)).setDamageBypassesArmor();
+	}
+
+	public static boolean getIsBullet(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("revolverBullet");
+		}
+		return false;
+	}
+
+	public static boolean getIsEmplacer(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("chopperBullet");
+		}
+		return false;
+	}
+
+	public static boolean getIsTau(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("tau");
+		}
+		return false;
+	}
+
+	public static boolean getIsPoison(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("euthanized");
+		}
+		return false;
+	}
+
+	public static boolean getIsCmb(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("cmb");
+		}
+		return false;
+	}
+
+	public static boolean getIsSubatomic(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			String s = ((EntityDamageSourceIndirect) source).damageType;
+			return s.startsWith("subAtomic");
+		}
+		return false;
+	}
+
+	public static boolean getIsDischarge(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("electrified");
+		}
+		return false;
+	}
+
+	public static boolean getIsFire(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("flamethrower");
+		}
+		return false;
+	}
+
+	public static boolean getIsPlasma(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("plasma");
+		}
+		return false;
+	}
+
+	public static boolean getIsLiquidNitrogen(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("ice");
+		}
+		return false;
+	}
+
+	public static boolean getIsLaser(DamageSource source) {
+		if(source instanceof EntityDamageSourceIndirect) {
+			return ((EntityDamageSourceIndirect) source).damageType.equals("laser");
+		}
+		return false;
+	}
 
 }

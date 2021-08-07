@@ -304,7 +304,6 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		}
 	}
 	
-	@Untested
 	public boolean canProcess() {
 		if(slots[27] != null && slots[28] != null && 
 				this.getGearLeft() > 0 && this.getGearLeft() < 3 && 

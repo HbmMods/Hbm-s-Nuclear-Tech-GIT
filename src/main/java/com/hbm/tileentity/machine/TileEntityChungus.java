@@ -46,7 +46,6 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 		tanks[1] = new FluidTank(FluidType.WATER, 1000000000, 1);
 	}
 
-	@Untested
 	@Override
 	public void updateEntity() {
 		

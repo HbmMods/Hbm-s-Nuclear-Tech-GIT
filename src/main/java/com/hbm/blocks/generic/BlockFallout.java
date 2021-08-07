@@ -3,6 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
 import com.hbm.modules.ItemHazardModule;
@@ -59,7 +61,8 @@ public class BlockFallout extends Block implements IItemHazard {
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
 
 		if(!world.isRemote) {
-			player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
+			//player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
+			HbmLivingProps.addCont(player, new ContaminationEffect(1F, 200, false));
 		}
 	}
 

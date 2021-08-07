@@ -32,7 +32,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-@Untested
 public class NukeCustom extends BlockContainer implements IBomb {
 
 	public TileEntityNukeCustom tetn = new TileEntityNukeCustom();

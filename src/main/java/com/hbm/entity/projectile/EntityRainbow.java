@@ -332,18 +332,7 @@ public class EntityRainbow extends Entity implements IProjectile
                     }
                     else
                     {
-                    	int j = rand.nextInt(5);
-                    	
-                    	if(j == 0)
-                    		damagesource = ModDamageSource.causeSubatomicDamage(this, this.shootingEntity);
-                    	else if(j == 1)
-                    		damagesource = ModDamageSource.causeSubatomicDamage2(this, this.shootingEntity);
-                    	else if(j == 2)
-                    		damagesource = ModDamageSource.causeSubatomicDamage3(this, this.shootingEntity);
-                    	else if(j == 3)
-                    		damagesource = ModDamageSource.causeSubatomicDamage4(this, this.shootingEntity);
-                    	else
-                    		damagesource = ModDamageSource.causeSubatomicDamage5(this, this.shootingEntity);
+                    	damagesource = ModDamageSource.causeSubatomicDamage(this, this.shootingEntity);
                     }
 
                     if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
