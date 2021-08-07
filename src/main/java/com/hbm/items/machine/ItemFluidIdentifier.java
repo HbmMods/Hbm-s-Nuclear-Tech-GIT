@@ -51,7 +51,7 @@ public class ItemFluidIdentifier extends Item {
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		
 		for(int i = 0; i < FluidType.values().length; ++i) {
-			if(!FluidType.values()[i].hasNoContainer()) {
+			if(!FluidType.values()[i].hasNoID()) {
 				list.add(new ItemStack(item, 1, i));
 			}
 		}

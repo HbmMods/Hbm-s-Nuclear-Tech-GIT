@@ -1,8 +1,5 @@
 package com.hbm.inventory;
 
-import java.util.List;
-
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
@@ -37,6 +34,7 @@ public class AnvilSmithingCyanideRecipe extends AnvilSmithingRecipe {
 	public ItemStack getOutput(ItemStack left, ItemStack right) {
 		
 		ItemStack out = left.copy();
+		out.stackSize = 1;
 		if(!out.hasTagCompound())
 			out.stackTagCompound = new NBTTagCompound();
 		

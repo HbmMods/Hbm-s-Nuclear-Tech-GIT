@@ -13,7 +13,8 @@ public class FluidTypeHandler {
 		AMAT,
 		CORROSIVE,
 		CORROSIVE_2,
-		NO_CONTAINER;
+		NO_CONTAINER,
+		NO_ID;
 	}
 	
 	public static enum FluidType {
@@ -77,12 +78,15 @@ public class FluidTypeHandler {
 		
 		MERCURY			(0x808080,	7,	1,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.mercury"),
 		PAIN			(0x938541,	15,	1,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.pain", 300, FluidTrait.CORROSIVE),
+
+		WASTEFLUID		(0x544400,	0,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastefluid", FluidTrait.NO_CONTAINER),
+		WASTEGAS		(0xB8B8B8,	1,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastegas", FluidTrait.NO_CONTAINER),
 		
-		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER),
-		PLASMA_HD		(0xF0ADF4,	9,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_hd", 2500, FluidTrait.NO_CONTAINER),
-		PLASMA_HT		(0xD1ABF2,	10,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_ht", 3000, FluidTrait.NO_CONTAINER),
-		PLASMA_XM		(0xC6A5FF,	11,	1,	2,	0,	4,	1,	EnumSymbol.RADIATION,	"hbmfluid.plasma_xm", 4250, FluidTrait.NO_CONTAINER),
-		PLASMA_BF		(0xA7F1A3,	12,	1,	2,	4,	5,	4,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_bf", 8500, FluidTrait.NO_CONTAINER);
+		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
+		PLASMA_HD		(0xF0ADF4,	9,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_hd", 2500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
+		PLASMA_HT		(0xD1ABF2,	10,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_ht", 3000, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
+		PLASMA_XM		(0xC6A5FF,	11,	1,	2,	0,	4,	1,	EnumSymbol.RADIATION,	"hbmfluid.plasma_xm", 4250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
+		PLASMA_BF		(0xA7F1A3,	12,	1,	2,	4,	5,	4,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_bf", 8500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		
 
 		//Approximate HEX Color of the fluid, used for pipe rendering
@@ -192,6 +196,10 @@ public class FluidTypeHandler {
 		
 		public boolean hasNoContainer() {
 			return this.traits.contains(FluidTrait.NO_CONTAINER);
+		}
+		
+		public boolean hasNoID() {
+			return this.traits.contains(FluidTrait.NO_ID);
 		}
 	};
 }

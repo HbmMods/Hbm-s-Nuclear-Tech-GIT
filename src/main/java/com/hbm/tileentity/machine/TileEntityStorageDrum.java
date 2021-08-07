@@ -1,10 +1,16 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IItemHazard;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -17,12 +23,18 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase {
-	
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidSource {
+
+	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+	public List<IFluidAcceptor> list = new ArrayList();
+	public int age = 0;
 
 	public TileEntityStorageDrum() {
 		super(24);
+		tanks = new FluidTank[2];
+		tanks[0] = new FluidTank(FluidType.WASTEFLUID, 16000, 0);
+		tanks[1] = new FluidTank(FluidType.WASTEGAS, 16000, 1);
 	}
 
 	@Override
@@ -68,6 +80,19 @@ public class TileEntityStorageDrum extends TileEntityMachineBase {
 					}
 				}
 			}
+			
+			age++;
+			
+			if(age >= 20)
+				age -= 20;
+			
+			if(age == 9 || age == 19) {
+				fillFluidInit(tanks[0].getTankType());
+				fillFluidInit(tanks[1].getTankType());
+			}
+
+			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(rad > 0) {
 				radiate(worldObj, xCoord, yCoord, zCoord, rad);
@@ -152,5 +177,74 @@ public class TileEntityStorageDrum extends TileEntityMachineBase {
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return slots_arr;
+	}
+
+	@Override
+	public boolean getTact() {
+		return age < 10;
+	}
+
+	@Override
+	public void fillFluidInit(FluidType type) {
+		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord + 1, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
+	}
+
+	@Override
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		if(type == tanks[0].getTankType())
+			return tanks[0].getFill();
+		else if(type == tanks[1].getTankType())
+			return tanks[1].getFill();
+
+		return 0;
+	}
+
+	@Override
+	public void setFluidFill(int i, FluidType type) {
+		if(type == tanks[0].getTankType())
+			tanks[0].setFill(i);
+		else if(type == tanks[1].getTankType())
+			tanks[1].setFill(i);
+	}
+
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		return this.list;
+	}
+
+	@Override
+	public void clearFluidList(FluidType type) {
+		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+
+		return list;
 	}
 }
