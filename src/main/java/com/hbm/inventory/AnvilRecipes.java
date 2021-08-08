@@ -61,6 +61,7 @@ public class AnvilRecipes {
 		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 
 		smithingRecipes.add(new AnvilSmithingCyanideRecipe());
+		smithingRecipes.add(new AnvilSmithingRenameRecipe());
 	}
 	
 	/*

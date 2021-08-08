@@ -1758,13 +1758,17 @@ public class MachineRecipes {
         case SCHRABIDATE:
 			list.add(new ItemStack(ModItems.powder_iron, 1));
 			break;
-        case COLTAN_CLEANING:
+		case COLTAN_CLEANING:
 			list.add(new ItemStack(ModItems.powder_coltan_ore, 2));
 			list.add(new ItemStack(ModItems.powder_coal, 1));
 			break;
-        case COLTAN_PAIN:
+		case COLTAN_PAIN:
 			list.add(new ItemStack(ModItems.powder_coltan, 1));
 			list.add(new ItemStack(ModItems.fluorite, 1));
+			break;
+		case VIT_LIQUID:
+		case VIT_GAS:
+			list.add(new ItemStack(ModBlocks.sand_lead, 1));
 			break;
 		default:
 			break;
@@ -1997,6 +2001,12 @@ public class MachineRecipes {
 			input[0] = new FluidStack(1000, FluidType.PAIN);
 			input[1] = new FluidStack(500, FluidType.ACID);
         	break;
+		case VIT_LIQUID:
+			input[0] = new FluidStack(1000, FluidType.WASTEFLUID);
+			break;
+		case VIT_GAS:
+			input[0] = new FluidStack(1000, FluidType.WASTEGAS);
+			break;
 		default:
 			break;
 		}
@@ -2137,15 +2147,19 @@ public class MachineRecipes {
         	break;
         case SCHRABIDATE:
 			output[0] = new ItemStack(ModItems.powder_schrabidate, 1);
-        	break;
-        case COLTAN_CLEANING:
+			break;
+		case COLTAN_CLEANING:
 			output[0] = new ItemStack(ModItems.powder_coltan, 1);
 			output[1] = new ItemStack(ModItems.dust, 2);
-        	break;
-        case COLTAN_CRYSTAL:
+			break;
+		case COLTAN_CRYSTAL:
 			output[0] = new ItemStack(ModItems.gem_tantalium, 1);
 			output[1] = new ItemStack(ModItems.dust, 3);
-        	break;
+			break;
+		case VIT_LIQUID:
+		case VIT_GAS:
+			output[0] = new ItemStack(ModItems.nuclear_waste_vitrified, 1);
+			break;
 		default:
 			break;
 		}

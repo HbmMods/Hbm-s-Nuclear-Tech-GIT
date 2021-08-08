@@ -187,6 +187,7 @@ public class ModBlocks {
 	public static Block block_trinitite;
 	public static Block block_waste;
 	public static Block block_waste_painted;
+	public static Block block_waste_vitrified;
 	public static Block ancient_scrap;
 	public static Block block_corium;
 	public static Block block_corium_cobble;
@@ -1289,6 +1290,7 @@ public class ModBlocks {
 		block_trinitite = new BlockHazard().makeBeaconable().addRadiation(ItemHazard.trn * ItemHazard.block).toBlock().setBlockName("block_trinitite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_trinitite");
 		block_waste = new BlockNuclearWaste().makeBeaconable().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste");
 		block_waste_painted = new BlockNuclearWaste().makeBeaconable().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste_painted").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste_painted");
+		block_waste_vitrified = new BlockNuclearWaste().makeBeaconable().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * 0.5F * ItemHazard.block).toBlock().setBlockName("block_waste_vitrified").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste_vitrified");
 		ancient_scrap = new BlockOutgas(Material.iron, true, 1, true, true).addRadiation(150F).toBlock().setBlockName("ancient_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":ancient_scrap");
 		block_corium = new BlockHazard(Material.iron).addRadiation(150F).toBlock().setBlockName("block_corium").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_corium");
 		block_corium_cobble = new BlockOutgas(Material.iron, true, 1, true, true).addRadiation(150F).toBlock().setBlockName("block_corium_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(100.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_corium_cobble");
@@ -2229,6 +2231,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_trinitite, ItemBlockHazard.class, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, ItemBlockHazard.class, block_waste.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste_painted, ItemBlockHazard.class, block_waste_painted.getUnlocalizedName());
+		GameRegistry.registerBlock(block_waste_vitrified, ItemBlockHazard.class, block_waste_vitrified.getUnlocalizedName());
 		GameRegistry.registerBlock(ancient_scrap, ItemBlockHazard.class, ancient_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_corium, ItemBlockHazard.class, block_corium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_corium_cobble, ItemBlockHazard.class, block_corium_cobble.getUnlocalizedName());

@@ -134,6 +134,10 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
 			String rad = "" + (Math.floor(radiation * tempMod * 1000) / 1000);
 			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
+			
+			if(stack.stackSize > 1) {
+				list.add(EnumChatFormatting.YELLOW + "Stack: " + ((Math.floor(radiation * tempMod * 1000 * stack.stackSize) / 1000) + "RAD/s"));
+			}
 		}
 		
 		if(this.fire > 0) {

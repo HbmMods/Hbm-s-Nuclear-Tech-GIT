@@ -755,6 +755,7 @@ public class ModItems {
 	public static Item singularity_spark;
 	public static Item crystal_xen;
 	public static Item inf_water;
+	public static Item inf_water_mk2;
 
 	public static Item canister_empty;
 	public static Item canister_smear;
@@ -1037,6 +1038,8 @@ public class ModItems {
 	public static Item nuclear_waste_short_depleted_tiny;
 	public static Item nuclear_waste;
 	public static Item nuclear_waste_tiny;
+	public static Item nuclear_waste_vitrified;
+	public static Item nuclear_waste_vitrified_tiny;
 	public static Item rod_uranium_fuel_depleted;
 	public static Item rod_dual_uranium_fuel_depleted;
 	public static Item rod_quad_uranium_fuel_depleted;
@@ -2690,7 +2693,7 @@ public class ModItems {
 		powder_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_au198");
 		powder_at209 = new ItemHazard().addRadiation(ItemHazard.at209 * ItemHazard.powder).addFire(15).addBlinding().toItem().setUnlocalizedName("powder_at209").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_at209");
 		powder_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidium");
-		powder_schrabidate = new ItemHazard(ItemHazard.sa326 * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidate").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidate");
+		powder_schrabidate = new ItemHazard(ItemHazard.sa326 * 0.1F * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidate").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidate");
 		powder_aluminium = new Item().setUnlocalizedName("powder_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_aluminium");
 		powder_beryllium = new Item().setUnlocalizedName("powder_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_beryllium");
 		powder_copper = new Item().setUnlocalizedName("powder_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_copper");
@@ -3019,6 +3022,7 @@ public class ModItems {
 		pellet_antimatter = new ItemDrop().setUnlocalizedName("pellet_antimatter").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":pellet_antimatter");
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":crystal_xen");
 		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
+		inf_water_mk2 = new Item().setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
 
 		stamp_stone_flat = new ItemStamp(10).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
 		stamp_stone_plate = new ItemStamp(10).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
@@ -3595,6 +3599,8 @@ public class ModItems {
 		nuclear_waste_short_depleted_tiny = new ItemWasteShort().addRadiation(0.3F).toItem().setUnlocalizedName("nuclear_waste_short_depleted_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_short_depleted_tiny");
 		nuclear_waste = new ItemHazard(15F).setUnlocalizedName("nuclear_waste").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste");
 		nuclear_waste_tiny = new ItemHazard(2F).setUnlocalizedName("nuclear_waste_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_tiny");
+		nuclear_waste_vitrified = new ItemHazard(7.5F).setUnlocalizedName("nuclear_waste_vitrified").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_vitrified");
+		nuclear_waste_vitrified_tiny = new ItemHazard(1F).setUnlocalizedName("nuclear_waste_vitrified_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_vitrified_tiny");
 		waste_uranium = new ItemHazard(15F).setUnlocalizedName("waste_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_uranium");
 		waste_thorium = new ItemHazard(10F).setUnlocalizedName("waste_thorium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_thorium");
 		waste_plutonium = new ItemHazard(15F).setUnlocalizedName("waste_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plutonium");
@@ -5928,6 +5934,7 @@ public class ModItems {
 		
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
+		GameRegistry.registerItem(inf_water_mk2, inf_water_mk2.getUnlocalizedName());
 		
 		//Large Tanks
 		GameRegistry.registerItem(tank_waste, tank_waste.getUnlocalizedName());
@@ -6411,6 +6418,8 @@ public class ModItems {
 		GameRegistry.registerItem(nuclear_waste_short_depleted_tiny, nuclear_waste_short_depleted_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste, nuclear_waste.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste_tiny, nuclear_waste_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_vitrified, nuclear_waste_vitrified.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_vitrified_tiny, nuclear_waste_vitrified_tiny.getUnlocalizedName());
 		
 		//Spawners
 		GameRegistry.registerItem(spawn_chopper, spawn_chopper.getUnlocalizedName());

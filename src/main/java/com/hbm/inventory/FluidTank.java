@@ -104,6 +104,13 @@ public class FluidTank {
 				return;
 			}
 			
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+				this.fluid += 500;
+				if(this.fluid > this.maxFluid)
+					this.fluid = this.maxFluid;
+				return;
+			}
+			
 			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
 				return;
 		} else {
@@ -175,6 +182,13 @@ public class FluidTank {
 			
 			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
 				this.fluid -= 50;
+				if(this.fluid < 0)
+					this.fluid = 0;
+				return;
+			}
+			
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+				this.fluid -= 500;
 				if(this.fluid < 0)
 					this.fluid = 0;
 				return;

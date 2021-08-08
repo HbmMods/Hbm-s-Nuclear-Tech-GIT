@@ -5,11 +5,14 @@ import java.util.List;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemWasteLong;
+import com.hbm.items.special.ItemWasteShort;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
@@ -19,6 +22,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -28,6 +32,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list2 = new ArrayList();
 	public int age = 0;
 
 	public TileEntityStorageDrum() {
@@ -49,6 +54,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			
 			float rad = 0;
 			
+			int liquid = 0;
+			int gas = 0;
+			
 			for(int i = 0; i < 24; i++) {
 				
 				if(slots[i] != null) {
@@ -59,25 +67,52 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 						rad += ((IItemHazard)item).getModule().radiation;
 					}
 					
+					int meta = slots[i].getItemDamage();
+					
 					if(item == ModItems.nuclear_waste_long && worldObj.rand.nextInt(VersatileConfig.getLongDecayChance()) == 0) {
-						slots[i] = new ItemStack(ModItems.nuclear_waste_long_depleted, 1, slots[i].getItemDamage());
+						ItemWasteLong.WasteClass wasteClass = ItemWasteLong.WasteClass.values()[ItemWasteLong.rectify(meta)];
+						liquid += wasteClass.liquid;
+						gas += wasteClass.gas;
+						slots[i] = new ItemStack(ModItems.nuclear_waste_long_depleted, 1, meta);
 					}
 					
 					if(item == ModItems.nuclear_waste_long_tiny && worldObj.rand.nextInt(VersatileConfig.getLongDecayChance() / 10) == 0) {
-						slots[i] = new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, slots[i].getItemDamage());
+						ItemWasteLong.WasteClass wasteClass = ItemWasteLong.WasteClass.values()[ItemWasteLong.rectify(meta)];
+						liquid += wasteClass.liquid / 10;
+						gas += wasteClass.gas / 10;
+						slots[i] = new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, meta);
 					}
 					
 					if(item == ModItems.nuclear_waste_short && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance()) == 0) {
-						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted, 1, slots[i].getItemDamage());
+						ItemWasteShort.WasteClass wasteClass = ItemWasteShort.WasteClass.values()[ItemWasteLong.rectify(meta)];
+						liquid += wasteClass.liquid;
+						gas += wasteClass.gas;
+						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted, 1, meta);
 					}
 					
 					if(item == ModItems.nuclear_waste_short_tiny && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
-						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, slots[i].getItemDamage());
+						ItemWasteShort.WasteClass wasteClass = ItemWasteShort.WasteClass.values()[ItemWasteLong.rectify(meta)];
+						liquid += wasteClass.liquid / 10;
+						gas += wasteClass.gas / 10;
+						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, meta);
 					}
 					
 					if(item == ModItems.nugget_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
-						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, slots[i].getItemDamage());
+						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, meta);
 					}
+				}
+			}
+
+			this.tanks[0].setFill(this.tanks[0].getFill() + liquid);
+			this.tanks[1].setFill(this.tanks[1].getFill() + gas);
+			
+			for(int i = 0; i < 2; i++) {
+				
+				int overflow = Math.max(this.tanks[i].getFill() - this.tanks[i].getMaxFill(), 0);
+				
+				if(overflow > 0) {
+					this.tanks[i].setFill(this.tanks[i].getFill() - overflow);
+					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, overflow * 0.5F);
 				}
 			}
 			
@@ -88,6 +123,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			
 			if(age == 9 || age == 19) {
 				fillFluidInit(tanks[0].getTankType());
+			}
+			if(age == 8 || age == 18) {
 				fillFluidInit(tanks[1].getTankType());
 			}
 
@@ -219,12 +256,20 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return this.list;
+		if(type == tanks[0].getTankType())
+			return list;
+		if(type == tanks[1].getTankType())
+			return list2;
+		
+		return new ArrayList();
 	}
 
 	@Override
 	public void clearFluidList(FluidType type) {
-		this.list.clear();
+		if(type == tanks[0].getTankType())
+			this.list.clear();
+		if(type == tanks[1].getTankType())
+			this.list2.clear();
 	}
 
 	@Override
@@ -246,5 +291,19 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		list.add(tanks[1]);
 
 		return list;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.tanks[0].readFromNBT(nbt, "liquid");
+		this.tanks[1].readFromNBT(nbt, "gas");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		this.tanks[0].writeToNBT(nbt, "liquid");
+		this.tanks[1].writeToNBT(nbt, "gas");
 	}
 }

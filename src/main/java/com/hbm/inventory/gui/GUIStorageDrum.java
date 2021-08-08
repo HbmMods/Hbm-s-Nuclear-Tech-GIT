@@ -25,6 +25,14 @@ public class GUIStorageDrum extends GuiInfoContainer {
 	}
 	
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		drum.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 16, guiTop + 17, 9, 108);
+		drum.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 151, guiTop + 17, 9, 108);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.drum.hasCustomInventoryName() ? this.drum.getInventoryName() : I18n.format(this.drum.getInventoryName());
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
@@ -36,5 +44,10 @@ public class GUIStorageDrum extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		int liquid = drum.tanks[0].getFill() * 106 / drum.tanks[0].getMaxFill();
+		drawTexturedModalRect(guiLeft + 17, guiTop + 124 - liquid, 176, 106 - liquid, 7, liquid);
+		int gas = drum.tanks[1].getFill() * 106 / drum.tanks[1].getMaxFill();
+		drawTexturedModalRect(guiLeft + 152, guiTop + 124 - gas, 183, 106 - gas, 7, gas);
 	}
 }

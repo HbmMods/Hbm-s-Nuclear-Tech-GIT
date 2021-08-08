@@ -69,6 +69,9 @@ public class MineralRecipes {
 		RecipesCommon.add1To9Pair(ModBlocks.block_coltan, ModItems.fragment_coltan);
 		RecipesCommon.add1To9Pair(ModItems.ingot_tantalium, ModItems.nugget_tantalium);
 		RecipesCommon.add1To9Pair(ModBlocks.block_tantalium, ModItems.ingot_tantalium);
+		
+		RecipesCommon.add1To9Pair(ModItems.nuclear_waste_vitrified, ModItems.nuclear_waste_vitrified_tiny);
+		RecipesCommon.add1To9Pair(ModBlocks.block_waste_vitrified, ModItems.nuclear_waste_vitrified);
 
 		RecipesCommon.add1To9Pair(ModItems.ingot_pu241, ModItems.nugget_pu241);
 		RecipesCommon.add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);

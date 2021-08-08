@@ -37,22 +37,26 @@ public class ItemWasteLong extends ItemHazard {
 		super.addInformation(stack, player, list, bool);
 	}
 	
-	private int rectify(int meta) {
+	public static int rectify(int meta) {
 		return Math.abs(meta) % WasteClass.values().length;
 	}
 	
 	public enum WasteClass {
 
 		//all decayed versions include lead-types and classic nuclear waste
-		URANIUM235("Uranium-235"),	//plutonium 239 and 240, neptunium 237 / -
-		URANIUM233("Uranium-233"),	//uranium 235, plutonium 239, neptunium 237 / -
-		NEPTUNIUM("Neptunium"),		//plutonium 239 and uranium 238 / -
-		THORIUM("Thorium");			//uranium 233 and uranium 235 / -
+		URANIUM235("Uranium-235", 0, 0),	//plutonium 239 and 240, neptunium 237 / -
+		URANIUM233("Uranium-233", 0, 50),	//uranium 235, plutonium 239, neptunium 237 / -
+		NEPTUNIUM("Neptunium-237", 0, 100),	//plutonium 239 and uranium 238 / -
+		THORIUM("Thorium-232", 0, 0);		//uranium 233 and uranium 235 / -
 		
-		String name;
+		public String name;
+		public int liquid;
+		public int gas;
 		
-		private WasteClass(String name) {
+		private WasteClass(String name, int liquid, int gas) {
 			this.name = name;
+			this.liquid = liquid;
+			this.gas = gas;
 		}
 	}
 }

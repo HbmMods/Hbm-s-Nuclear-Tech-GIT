@@ -94,7 +94,9 @@ public class ItemChemistryTemplate extends Item {
 		SCHRABIDATE,
 		COLTAN_CLEANING,
 		COLTAN_PAIN,
-		COLTAN_CRYSTAL;
+		COLTAN_CRYSTAL,
+		VIT_LIQUID,
+		VIT_GAS;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -280,6 +282,10 @@ public class ItemChemistryTemplate extends Item {
         	return 120;
         case COLTAN_CRYSTAL:
         	return 80;
+        case VIT_LIQUID:
+        	return 100;
+        case VIT_GAS:
+        	return 100;
         default:
         	return 100;
         }
