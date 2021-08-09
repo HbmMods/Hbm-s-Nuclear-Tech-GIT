@@ -21,7 +21,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -456,7 +455,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.coil_advanced_alloy, 12),
 				new ComparableStack(ModItems.ingot_polymer, 8),
 				new ComparableStack(ModItems.circuit_red_copper, 8),
-				new ComparableStack(ModItems.circuit_bismuth, 3)
+				new ComparableStack(ModItems.circuit_bismuth, 1)
 			}, 600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				new ComparableStack(ModItems.hull_big_steel, 1),
