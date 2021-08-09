@@ -1765,6 +1765,13 @@ public class ModItems {
 	public static Item battery_spark_cell_power;
 	public static Item cube_power;
 
+	public static Item battery_sc_uranium;
+	public static Item battery_sc_technetium;
+	public static Item battery_sc_plutonium;
+	public static Item battery_sc_polonium;
+	public static Item battery_sc_gold;
+	public static Item battery_sc_americium;
+	
 	public static Item battery_su;
 	public static Item battery_su_l;
 	public static Item battery_potato;
@@ -4282,6 +4289,13 @@ public class ModItems {
 		battery_spark_cell_10000 = new ItemBattery(100000000L * 10000L, 200000000, 200000000).setUnlocalizedName("battery_spark_cell_10000").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_spark_cell_10000");
 		battery_spark_cell_power = new ItemBattery(100000000L * 1000000L, 200000000, 200000000).setUnlocalizedName("battery_spark_cell_power").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_spark_cell_power");
 		cube_power = new ItemBattery(1000000000000000000L, 1000000000000000L, 1000000000000000L).setUnlocalizedName("cube_power").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":cube_power");
+		
+		battery_sc_uranium = new ItemSelfcharger(5).setUnlocalizedName("battery_sc_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_uranium");
+		battery_sc_technetium = new ItemSelfcharger(25).setUnlocalizedName("battery_sc_technetium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_technetium");
+		battery_sc_plutonium = new ItemSelfcharger(100).setUnlocalizedName("battery_sc_plutonium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_plutonium");
+		battery_sc_polonium = new ItemSelfcharger(500).setUnlocalizedName("battery_sc_polonium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_polonium");
+		battery_sc_gold = new ItemSelfcharger(2500).setUnlocalizedName("battery_sc_gold").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_gold");
+		battery_sc_americium = new ItemSelfcharger(10000).setUnlocalizedName("battery_sc_americium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_sc_americium");
 
 		battery_potato = new ItemBattery(100, 0, 100).setUnlocalizedName("battery_potato").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_potato");
 		battery_potatos = new ItemPotatos(5000, 0, 100).setUnlocalizedName("battery_potatos").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_potatos");
@@ -6004,6 +6018,12 @@ public class ModItems {
 		GameRegistry.registerItem(battery_potatos, battery_potatos.getUnlocalizedName());
 		GameRegistry.registerItem(battery_steam, battery_steam.getUnlocalizedName());
 		GameRegistry.registerItem(battery_steam_large, battery_steam_large.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_uranium, battery_sc_uranium.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_technetium, battery_sc_technetium.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_plutonium, battery_sc_plutonium.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_polonium, battery_sc_polonium.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_gold, battery_sc_gold.getUnlocalizedName());
+		GameRegistry.registerItem(battery_sc_americium, battery_sc_americium.getUnlocalizedName());
 		GameRegistry.registerItem(hev_battery, hev_battery.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
