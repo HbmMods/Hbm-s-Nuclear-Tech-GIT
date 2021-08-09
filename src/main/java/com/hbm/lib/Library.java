@@ -420,6 +420,7 @@ public class Library {
 	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
+	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -17,7 +18,6 @@ import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -478,8 +478,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				        }*/
 
 						
-						RadiationSavedData data = RadiationSavedData.getData(worldObj);
-						data.incrementRad(worldObj, xCoord, zCoord, 50F, 150F);
+						ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 50F);
 					}
 				}
 				
@@ -636,8 +635,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 
 		worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
         
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000F);
 	}
 
 	@Override

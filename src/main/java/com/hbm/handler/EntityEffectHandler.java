@@ -8,12 +8,12 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
-import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -92,16 +92,13 @@ public class EntityEffectHandler {
 		
 		World world = entity.worldObj;
 		
-		RadiationSavedData data = RadiationSavedData.getData(world);
-		
 		if(!world.isRemote) {
 			
 			int ix = (int)MathHelper.floor_double(entity.posX);
 			int iy = (int)MathHelper.floor_double(entity.posY);
 			int iz = (int)MathHelper.floor_double(entity.posZ);
 	
-			Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
-			float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
 				rad = RadiationConfig.hellRad;

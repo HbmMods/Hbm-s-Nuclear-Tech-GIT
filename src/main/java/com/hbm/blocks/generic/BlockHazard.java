@@ -2,10 +2,10 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.main.MainRegistry;
 import com.hbm.modules.ItemHazardModule;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -132,7 +132,7 @@ public class BlockHazard extends Block implements IItemHazard {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		if(this.radIn > 0) {
-			RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, radIn);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}

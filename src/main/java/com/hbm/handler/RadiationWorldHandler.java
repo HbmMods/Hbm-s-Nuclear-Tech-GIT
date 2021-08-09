@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.RadiationConfig;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.saveddata.RadiationSavedData;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S21PacketChunkData;
@@ -17,9 +15,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.ChunkProviderServer;
 
-public class RadiationWorldHandler {
+@Deprecated //wasn't in use anyway so who cares
+public class RadiationWorldHandler { //TODO: cram all this into the radiation system instance
 
-	public static void handleWorldDestruction(World world) {
+	public static void handleWorldDestruction(World world) { } /*
 
 		if(!(world instanceof WorldServer))
 			return;
@@ -74,6 +73,6 @@ public class RadiationWorldHandler {
 				}
 			}
 		}
-	}
+	}*/
 
 }

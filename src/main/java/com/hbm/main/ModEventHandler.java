@@ -33,6 +33,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.IEquipReceiver;
@@ -49,7 +50,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
-import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
@@ -521,20 +521,9 @@ public class ModEventHandler {
 				AuxSavedData.setThunder(event.world, thunder - 1);
 			
 			if(!event.world.loadedEntityList.isEmpty()) {
-
-				RadiationSavedData data = RadiationSavedData.getData(event.world);
-				
-				if(data.worldObj == null) {
-					data.worldObj = event.world;
-				}
-				
-				if(event.world.getTotalWorldTime() % 20 == 0 && event.phase == Phase.START) {
-					data.updateSystem();
-				}
 				
 				List<Object> oList = new ArrayList<Object>();
 				oList.addAll(event.world.loadedEntityList);
-				
 				
 				/**
 				 *  REMOVE THIS V V V

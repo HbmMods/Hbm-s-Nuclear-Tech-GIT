@@ -6,9 +6,9 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
@@ -84,12 +84,7 @@ public class ItemGeigerCounter extends Item {
 	}
 
 	public static int check(World world, int x, int y, int z) {
-		
-		RadiationSavedData data = RadiationSavedData.getData(world);
-		
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
-		
+		int rads = (int)Math.ceil(ChunkRadiationManager.proxy.getRadiation(world, x, y, z));
 		return rads;
 	}
 
@@ -97,8 +92,8 @@ public class ItemGeigerCounter extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(!world.isRemote) {
-	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-	    	ContaminationUtil.printGeigerData(player);
+			world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+			ContaminationUtil.printGeigerData(player);
 		}
 		
 		return stack;

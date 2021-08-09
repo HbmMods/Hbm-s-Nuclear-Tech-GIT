@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -513,11 +513,7 @@ public class ArmorFSB extends ItemArmor {
 
 	public static int check(World world, int x, int y, int z) {
 
-		RadiationSavedData data = RadiationSavedData.getData(world);
-
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		int rads = (int) Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
-
+		int rads = (int) Math.ceil(ChunkRadiationManager.proxy.getRadiation(world, x, y, z));
 		return rads;
 	}
 

@@ -2,11 +2,10 @@ package com.hbm.explosion;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -67,6 +66,6 @@ public class ExplosionNukeSmall {
 		for(int i = -2; i <= 2; i++)
 			for(int j = -2; j <= 2; j++)
 				if(i + j < 4)
-					RadiationSavedData.incrementRad(world, (int)posX + i * 16, (int)posZ + j * 16, 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod, 1000);
+					ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod);
 	}
 }

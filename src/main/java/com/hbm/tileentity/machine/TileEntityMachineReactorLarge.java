@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -17,7 +18,6 @@ import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -525,12 +525,8 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			if (rods > 0 && coreHeat > 0 && age == 5) {
 
 				float rad = (float)coreHeat / (float)maxCoreHeat * 50F;
-				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				//System.out.println(rad);
 				rad *= checkHull();
-				//System.out.println(rad);
-				
-				data.incrementRad(worldObj, xCoord, zCoord, rad, 50 * 4);
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 			}
 
 			for (int i = 0; i < 3; i++)
@@ -704,11 +700,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			this.slots[i] = null;
 		}
 
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-
 		int rad = (int)(((long)fuel) * 25000L / (fuelBase * 15L));
 		
-		data.incrementRad(worldObj, xCoord, zCoord, rad, 75000);
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 7.5F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);

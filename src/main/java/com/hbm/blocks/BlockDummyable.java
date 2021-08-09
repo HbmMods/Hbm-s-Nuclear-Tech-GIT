@@ -238,7 +238,6 @@ public abstract class BlockDummyable extends BlockContainer {
 
 			// if(pos != null) {
 
-			// TODO: run extensive tests on whether this change doesn't break anything
 			ForgeDirection d = ForgeDirection.getOrientation(i);
 			
 			if(world.getBlock(x - d.offsetX, y - d.offsetY, z - d.offsetZ) == this)

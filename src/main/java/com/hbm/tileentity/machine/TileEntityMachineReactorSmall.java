@@ -8,6 +8,7 @@ import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -17,7 +18,6 @@ import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -414,8 +414,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				 */
 
 				float rad = (float) coreHeat / (float) maxCoreHeat * 50F;
-				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 			}
 
 			for(int i = 0; i < 3; i++)
@@ -707,8 +706,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));

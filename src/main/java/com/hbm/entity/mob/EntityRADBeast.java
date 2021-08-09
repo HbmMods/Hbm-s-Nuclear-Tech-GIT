@@ -2,10 +2,10 @@ package com.hbm.entity.mob;
 
 import java.util.List;
 
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.RadiationSavedData;
 
 import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
@@ -140,8 +140,8 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 			double deltaZ = target.posZ - this.posZ;
 
 			if(this.attackTime == 0 && getEntityToAttack() != null) {
-
-				RadiationSavedData.incrementRad(worldObj, (int) posX, (int) posZ, 150, 1000);
+				
+				ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), 100);
 				target.attackEntityFrom(ModDamageSource.radiation, 16.0F);
 				this.swingItem();
 				this.playLivingSound();

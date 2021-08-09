@@ -5,7 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -49,8 +49,7 @@ public class YellowBarrel extends Block {
 				}
 			}
 		}
-
-		RadiationSavedData.incrementRad(world, x, z, 35, 1500);
+		ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 35);
 	}
 
 	@Override
@@ -99,9 +98,9 @@ public class YellowBarrel extends Block {
 		super.updateTick(world, x, y, z, rand);
 
 		if(this == ModBlocks.yellow_barrel)
-			RadiationSavedData.incrementRad(world, x, z, 5, 75);
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5.0F);
 		else
-			RadiationSavedData.incrementRad(world, x, z, 0.5F, 5);
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 0.5F);
 
 		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}

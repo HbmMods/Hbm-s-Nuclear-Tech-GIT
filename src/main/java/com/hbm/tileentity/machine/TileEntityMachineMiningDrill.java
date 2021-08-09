@@ -41,7 +41,6 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	public float torque;
 	public float rotation;
 	SoundLoopMachine sound;
-	//TODO: clientside-only animations and sound
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};

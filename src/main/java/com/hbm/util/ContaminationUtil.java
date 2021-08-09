@@ -5,9 +5,9 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.RadiationSavedData;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
@@ -177,9 +177,7 @@ public class ContaminationUtil {
 
 		double eRad = ((int)(HbmLivingProps.getRadiation(player) * 10)) / 10D;
 
-		RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-		Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-		double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
+		double rads = ((int)(ChunkRadiationManager.proxy.getRadiation(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ)) * 10)) / 10D;
 		double env = ((int)(HbmLivingProps.getRadBuf(player) * 10D)) / 10D;
 		
 		double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;

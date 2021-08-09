@@ -220,16 +220,20 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 0 };
+		return new int[] { 0, 5, 6, 7, 8, 9, 10 };
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		if(i == 0)
-			return SILEXRecipes.getOutput(itemStack) != null;
+		if(i == 0) return SILEXRecipes.getOutput(itemStack) != null;
 		
 		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot >= 5;
 	}
 	
 	@Override

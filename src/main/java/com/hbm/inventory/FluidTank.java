@@ -126,12 +126,13 @@ public class FluidTank {
 					slots[in] = null;
 			} else if(slots[out] != null && (FluidContainerRegistry.getEmptyContainer(slots[in]) == null || slots[out].getItem() == FluidContainerRegistry.getEmptyContainer(slots[in]).getItem()) && slots[out].stackSize < slots[out].getMaxStackSize()) {
 				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
-				slots[in].stackSize--;
-				if(slots[in].stackSize <= 0)
-					slots[in] = null;
 				
 				if(FluidContainerRegistry.getEmptyContainer(slots[in]) != null)
 					slots[out].stackSize++;
+				
+				slots[in].stackSize--;
+				if(slots[in].stackSize <= 0)
+					slots[in] = null;
 			}
 		}
 	}

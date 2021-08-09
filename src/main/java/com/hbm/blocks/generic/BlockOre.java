@@ -3,10 +3,9 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.RadiationSavedData;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -22,8 +21,7 @@ import net.minecraft.world.World;
 
 public class BlockOre extends Block {
 
-	private float radIn = 0.0F;
-	private float radMax = 0.0F;
+	private float rad = 0.0F;
 
 	public BlockOre(Material mat) {
 		super(mat);
@@ -34,11 +32,11 @@ public class BlockOre extends Block {
 		this.setTickRandomly(tick);
 	}
 
+	@Deprecated() //use hazard module for this
 	public BlockOre(Material mat, float rad, float max) {
 		super(mat);
 		this.setTickRandomly(true);
-		radIn = rad;
-		radMax = max;
+		this.rad = rad;
 	}
 
 	@Override
@@ -316,10 +314,8 @@ public class BlockOre extends Block {
 			return;
 		}
 
-		if(this.radIn > 0) {
-
-			RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
-
+		if(this.rad > 0) {
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, rad);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}
@@ -327,7 +323,7 @@ public class BlockOre extends Block {
 	@Override
 	public int tickRate(World world) {
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			return 20;
 
 		return 100;
@@ -336,7 +332,7 @@ public class BlockOre extends Block {
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}
 
