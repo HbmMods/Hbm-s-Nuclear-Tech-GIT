@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
@@ -24,6 +25,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemSyringe extends Item {
@@ -547,6 +549,12 @@ public class ItemSyringe extends Item {
 			}
 		}
 
+		if(this == ModItems.syringe_mkunicorn) {
+			if(!world.isRemote) {
+				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);;
+			}
+		}
+
 		return false;
 	}
 
@@ -607,6 +615,10 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.gun_kit_2) {
 			list.add("Repairs all weapons in hotbar by 50%");
+		}
+		
+		if(this == ModItems.syringe_mkunicorn) {
+			list.add(EnumChatFormatting.RED + "?");
 		}
 	}
 }

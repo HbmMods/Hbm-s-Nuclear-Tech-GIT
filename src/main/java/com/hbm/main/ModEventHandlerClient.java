@@ -36,6 +36,7 @@ import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
+import com.hbm.render.world.RenderNTMSkybox;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -52,6 +53,8 @@ import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -72,7 +75,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -542,6 +547,26 @@ public class ModEventHandlerClient {
 	}
 	
 	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onClientTickLast(ClientTickEvent event) {
+		
+		if(event.phase == Phase.START) {
+			
+			World world = Minecraft.getMinecraft().theWorld;
+			
+			if(world != null && world.provider instanceof WorldProviderSurface && !RenderNTMSkybox.didLastRender) {
+				
+				IRenderHandler sky = world.provider.getSkyRenderer();
+				if(!(sky instanceof RenderNTMSkybox)) {
+					world.provider.setSkyRenderer(new RenderNTMSkybox(sky));
+				}
+			}
+			
+			RenderNTMSkybox.didLastRender = false;
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 
@@ -633,7 +658,7 @@ public class ModEventHandlerClient {
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 	
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void onRenderDigammaStar(RenderWorldLastEvent event) {
 		
 		World world = Minecraft.getMinecraft().theWorld;

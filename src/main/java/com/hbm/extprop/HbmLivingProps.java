@@ -35,6 +35,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
+	private int contagion;
 	private List<ContaminationEffect> contamination = new ArrayList();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
@@ -191,6 +192,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setTimer(EntityLivingBase entity, int bombTimer) {
 		getData(entity).bombTimer = bombTimer;
 	}
+	
+	/// CONTAGION ///
+	public static int getContagion(EntityLivingBase entity) {
+		return getData(entity).contagion;
+	}
+	
+	public static void setContagion(EntityLivingBase entity, int contageon) {
+		getData(entity).contagion = contageon;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
@@ -204,6 +214,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setFloat("hfr_digamma", digamma);
 		props.setInteger("hfr_asbestos", asbestos);
 		props.setInteger("hfr_bomb", bombTimer);
+		props.setInteger("hfr_contagion", contagion);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -224,6 +235,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			digamma = props.getFloat("hfr_digamma");
 			asbestos = props.getInteger("hfr_asbestos");
 			bombTimer = props.getInteger("hfr_bomb");
+			contagion = props.getInteger("hfr_contagion");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			

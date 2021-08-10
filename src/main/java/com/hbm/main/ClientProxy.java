@@ -77,6 +77,7 @@ import com.hbm.tileentity.turret.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy {
@@ -575,7 +576,9 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerRenderInfo()
 	{
-		MinecraftForge.EVENT_BUS.register(new ModEventHandlerClient());
+		ModEventHandlerClient handler = new ModEventHandlerClient();
+		MinecraftForge.EVENT_BUS.register(handler);
+		FMLCommonHandler.instance().bus().register(handler);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 		

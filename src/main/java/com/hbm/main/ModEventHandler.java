@@ -109,6 +109,7 @@ import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -379,6 +380,27 @@ public class ModEventHandler {
 		
 		if(yeet.getItem() == ModItems.bismuth_tool) {
 			ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149500_a", "invulnerable");
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingDrop(LivingDropsEvent event) {
+		
+		if(!event.entityLiving.worldObj.isRemote) {
+			boolean contaminated = HbmLivingProps.getContagion(event.entityLiving) > 0;
+			
+			if(contaminated) {
+				
+				for(EntityItem item : event.drops) {
+					ItemStack stack = item.getEntityItem();
+					
+					if(!stack.hasTagCompound()) {
+						stack.stackTagCompound = new NBTTagCompound();
+					}
+					
+					stack.stackTagCompound.setBoolean("ntmContagion", true);
+				}
+			}
 		}
 	}
 	
@@ -677,6 +699,9 @@ public class ModEventHandler {
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
 		EntityLivingBase e = event.entityLiving;
+		
+		if(HbmLivingProps.getContagion(e) > 0)
+			event.ammount *= 2F;
 		
 		for(int i = 1; i < 5; i++) {
 			

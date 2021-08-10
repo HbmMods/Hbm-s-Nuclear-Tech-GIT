@@ -20,13 +20,17 @@ import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -59,8 +63,9 @@ public class EntityEffectHandler {
 				}
 			}
 		}
-		
+
 		handleContamination(entity);
+		handleContagion(entity);
 		handleRadiation(entity);
 		handleDigamma(entity);
 	}
@@ -180,6 +185,106 @@ public class EntityEffectHandler {
 				data.setInteger("block", Block.getIdFromBlock(Blocks.soul_sand));
 				data.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		}
+	}
+	
+	private static void handleContagion(EntityLivingBase entity) {
+		
+		World world = entity.worldObj;
+		
+		if(!entity.worldObj.isRemote) {
+			
+			Random rand = entity.getRNG();
+			int minute = 60 * 20;
+			int hour = 60 * minute;
+			
+			int contagion = HbmLivingProps.getContagion(entity);
+			
+			if(entity instanceof EntityPlayer) {
+				
+				EntityPlayer player = (EntityPlayer) entity;
+				int randSlot = rand.nextInt(player.inventory.mainInventory.length);
+				ItemStack stack = player.inventory.getStackInSlot(randSlot);
+				
+				if(rand.nextInt(100) == 0) {
+					stack = player.inventory.armorItemInSlot(rand.nextInt(4));
+				}
+				
+				//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+				if(stack != null && stack.getMaxStackSize() == 1) {
+					
+					if(contagion > 0) {
+						
+						if(!stack.hasTagCompound())
+							stack.stackTagCompound = new NBTTagCompound();
+						
+						stack.stackTagCompound.setBoolean("ntmContagion", true);
+						
+					} else {
+						
+						if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("ntmContagion")) {
+							HbmLivingProps.setContagion(player, 3 * hour);
+						}
+					}
+				}
+			}
+			
+			if(contagion > 0) {
+				HbmLivingProps.setContagion(entity, contagion - 1);
+				
+				//aerial transmission only happens once a second 5 minutes into the contagion
+				if(contagion < (2 * hour + 55 * minute) && contagion % 20 == 0) {
+					
+					double range = entity.isWet() ? 16D : 2D; //avoid rain, just avoid it
+					
+					List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(range, range, range));
+					
+					for(Entity ent : list) {
+						
+						if(ent instanceof EntityLivingBase) {
+							EntityLivingBase living = (EntityLivingBase) ent;
+							if(HbmLivingProps.getContagion(living) <= 0) {
+								HbmLivingProps.setContagion(living, 3 * hour);
+							}
+						}
+						
+						if(ent instanceof EntityItem) {
+							ItemStack stack = ((EntityItem)ent).getEntityItem();
+							
+							if(!stack.hasTagCompound())
+								stack.stackTagCompound = new NBTTagCompound();
+							
+							stack.stackTagCompound.setBoolean("ntmContagion", true);
+						}
+					}
+				}
+				
+				//one hour in, add rare and subtle screen fuckery
+				if(contagion < 2 * hour && rand.nextInt(1000) == 0) {
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 20, 0));
+				}
+				
+				//two hours in, give 'em the full blast
+				if(contagion < 1 * hour && rand.nextInt(100) == 0) {
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 60, 0));
+					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 300, 4));
+				}
+				
+				//T-30 minutes, take damage every 20 seconds
+				if(contagion < 30 * minute && rand.nextInt(400) == 0) {
+					entity.attackEntityFrom(DamageSource.magic, 1F);
+				}
+				
+				//T-5 minutes, take damage every 5 seconds
+				if(contagion < 5 * minute && rand.nextInt(100) == 0) {
+					entity.attackEntityFrom(DamageSource.magic, 2F);
+				}
+				
+				//end of contagion, drop dead
+				if(contagion == 0) {
+					entity.attackEntityFrom(DamageSource.magic, 1000F);
+				}
 			}
 		}
 	}
