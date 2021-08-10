@@ -33,7 +33,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class EntityEffectHandler {
 
@@ -121,25 +120,35 @@ public class EntityEffectHandler {
 				return;
 			
 			Random rand = new Random(entity.getEntityId());
+
+			int r600 = rand.nextInt(600);
+			int r1200 = rand.nextInt(1200);
 			
-			if(HbmLivingProps.getRadiation(entity) > 600 && (world.getTotalWorldTime() + rand.nextInt(600)) % 600 == 0) {
+			if(HbmLivingProps.getRadiation(entity) > 600) {
 				
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setString("type", "bloodvomit");
-				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				if((world.getTotalWorldTime() + r600) % 600 < 20) {
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("type", "bloodvomit");
+					nbt.setInteger("entity", entity.getEntityId());
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+					
+					if((world.getTotalWorldTime() + r600) % 600 == 1) {
+						world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+						entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+					}
+				}
 				
-				world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
-				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
-			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + rand.nextInt(1200)) % 1200 == 0) {
+			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + r1200) % 1200 < 20) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vomit");
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 				
-				world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
-				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+				if((world.getTotalWorldTime() + r1200) % 1200 == 1) {
+					world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+					entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+				}
 			
 			}
 			
@@ -279,6 +288,16 @@ public class EntityEffectHandler {
 				//T-5 minutes, take damage every 5 seconds
 				if(contagion < 5 * minute && rand.nextInt(100) == 0) {
 					entity.attackEntityFrom(DamageSource.magic, 2F);
+				}
+				
+				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20) {
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("type", "bloodvomit");
+					nbt.setInteger("entity", entity.getEntityId());
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+					
+					if((contagion + entity.getEntityId()) % 200 == 19)
+						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:entity.vomit", 1.0F, 1.0F);
 				}
 				
 				//end of contagion, drop dead

@@ -33,7 +33,6 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.IEquipReceiver;
@@ -700,7 +699,7 @@ public class ModEventHandler {
 		
 		EntityLivingBase e = event.entityLiving;
 		
-		if(HbmLivingProps.getContagion(e) > 0)
+		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
 		
 		for(int i = 1; i < 5; i++) {

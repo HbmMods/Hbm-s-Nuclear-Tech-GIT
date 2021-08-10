@@ -551,7 +551,9 @@ public class ItemSyringe extends Item {
 
 		if(this == ModItems.syringe_mkunicorn) {
 			if(!world.isRemote) {
-				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);;
+				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);
+				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
+				stack.stackSize--;
 			}
 		}
 
