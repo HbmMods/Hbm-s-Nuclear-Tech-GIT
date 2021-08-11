@@ -865,17 +865,17 @@ public class AssemblerRecipes {
 				}, 800);
 		makeRecipe(new ComparableStack(ModBlocks.turret_tsukuyomi), new AStack[]
 				{
-						new ComparableStack(ModItems.circuit_targeting_tier6, 32),
-						new ComparableStack(ModItems.plate_paa, 128),
-						new ComparableStack(ModItems.plate_dineutronium, 192),
+						new ComparableStack(ModBlocks.block_circuit_tier_6, 32),
+						new ComparableStack(ModItems.plate_paa, 64),
+						new ComparableStack(ModItems.plate_dineutronium, 128),
 						new ComparableStack(ModBlocks.machine_dineutronium_battery, 2),
-						new ComparableStack(ModItems.billet_yharonite, 64),
 						new ComparableStack(ModItems.component_emitter, 32),
 						new ComparableStack(ModItems.component_limiter, 24),
 						new ComparableStack(ModItems.plate_euphemium, 48),
 						new ComparableStack(ModBlocks.block_electronium, 8),
 						new ComparableStack(ModItems.entanglement_kit, 16),
-						new ComparableStack(ModItems.plate_armor_orichalcum, 24)
+						new ComparableStack(ModItems.plate_armor_orichalcum, 24),
+						new ComparableStack(ModItems.particle_digamma, 4)
 				}, 4800);
 		makeRecipe(new ComparableStack(ModBlocks.turret_lunar_oni), new AStack[]
 				{
@@ -898,7 +898,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.plate_combine_steel, 120),
 						new ComparableStack(ModItems.ingot_combine_steel, 48),
 						new ComparableStack(ModItems.plate_desh, 80),
-						new ComparableStack(ModItems.ring_starmetal, 36),
+						new ComparableStack(ModItems.ring_starmetal, 18),
 						new ComparableStack(ModBlocks.block_circuit_tier_5, 6),
 						new ComparableStack(ModBlocks.barrel_antimatter, 2),
 						new ComparableStack(ModBlocks.barrel_steel, 2)

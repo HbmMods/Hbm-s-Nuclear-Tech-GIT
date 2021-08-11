@@ -71,11 +71,9 @@ public class ItemRenderHLR implements IItemRenderer
 			GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glTranslatef(-0.0F, -0.2F, -1.0F);
-			GL11.glScaled(scale2, scale2, scale2);
+			GL11.glScaled(scale2 - 0.12, scale2, scale2);
 			break;
 		case ENTITY:// Dropped entity
-			//GL11.glRotatef(0.0F, 0.0F, 0.0F, 0.0F);
-			//GL11.glTranslatef(0.0F, 0.0F, 0.0F);
 			GL11.glScaled(0.125D, 0.125D, 0.125D);
 			break;
 		case INVENTORY:// Inventory icon

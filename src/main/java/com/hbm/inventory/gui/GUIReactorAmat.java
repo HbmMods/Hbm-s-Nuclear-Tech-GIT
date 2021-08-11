@@ -60,7 +60,7 @@ public class GUIReactorAmat extends GuiInfoContainer
 	{
 		super.mouseClicked(x, y, i);
 //		boolean powerButton = guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 105 < y && guiTop + 105 + 18 >= y;
-		boolean powerButton = Library.getButtonBool(x, y, 25, 108, 18, 18, guiLeft, guiTop);
+		boolean powerButton = getButtonBool(x, y, 25, 108, 18, 18, guiLeft, guiTop);
 		if (powerButton)
 		{
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
@@ -81,11 +81,11 @@ public class GUIReactorAmat extends GuiInfoContainer
 			drawTexturedModalRect(guiLeft + 115, guiTop + 105, 176, 18, 18, 18);
 		if (reactor.isCoreValid())
 			drawTexturedModalRect(guiLeft + 79, guiTop + 87, 194, 18, 18, 18);
-		int b = Library.getScaledBar(reactor.getBoosterBuffer(), 16, reactor.boosterMax);
+		int b = getScaledBar(reactor.getBoosterBuffer(), 16, reactor.boosterMax);
 		drawTexturedModalRect(guiLeft + 62, guiTop + 104 - b, 176, 17 - b, 3, b);
-		int c = Library.getScaledBar(reactor.getCatalystBuffer(), 16, reactor.catalystMax);
+		int c = getScaledBar(reactor.getCatalystBuffer(), 16, reactor.catalystMax);
 		drawTexturedModalRect(guiLeft + 134, guiTop + 104 - c, 176, 17 - c, 3, c);
-		long e = Library.getScaledBar(reactor.getPower(), 52, reactor.getMaxPower());
+		long e = getScaledBar(reactor.getPower(), 52, reactor.getMaxPower());
 		drawTexturedModalRect(guiLeft + 62, guiTop + 106, 198, 0, (int) e, 16);
 		
 		FluidTank deutTank = reactor.tanks[0];

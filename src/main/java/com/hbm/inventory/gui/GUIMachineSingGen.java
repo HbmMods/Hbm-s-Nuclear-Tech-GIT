@@ -65,7 +65,7 @@ public class GUIMachineSingGen extends GuiInfoContainer
 	{
 		super.mouseClicked(x, y, i);
 //		if (guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 111 < y && guiTop + 111 + 18 >= y)
-		if (Library.getButtonBool(x, y, 25, 111, 18, 18, guiLeft, guiTop))
+		if (getButtonBool(x, y, 25, 111, 18, 18, guiLeft, guiTop))
 		{
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(singGen.xCoord, singGen.yCoord, singGen.zCoord, 0, 0));

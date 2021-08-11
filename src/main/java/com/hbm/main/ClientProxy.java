@@ -130,7 +130,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTauon.class, new RenderTurretTauon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretRichard.class, new RenderTurretRichard());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretHoward.class, new RenderTurretHoward());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTsukuyomi.class, new RenderTurretTsukuyomi());
+//		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTsukuyomi.class, new RenderTurretTsukuyomi());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//cel prime

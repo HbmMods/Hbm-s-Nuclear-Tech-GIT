@@ -96,18 +96,32 @@ public class Library {
 		
 		return player.getHeldItem().getItem() == item;
 	}
-	public static int getScaledBar(int toScale, int scaleBy, int total)
+	@Deprecated
+	public static int stringToHex(String in)
 	{
-		return (toScale * scaleBy) / total;
+		char[] ch = in.toCharArray();
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < ch.length; i++)
+		{
+			String hString = Integer.toHexString(ch[i]);
+			buf.append(hString);
+		}
+		return Integer.parseInt(buf.toString());
 	}
-	public static long getScaledBar(long toScale, int scaleBy, long total)
+	@Deprecated
+	public static String hexToString(Integer in)
 	{
-		return (toScale * scaleBy) / total;
+		String out = new String();
+		char[] ch = in.toString().toCharArray();
+		for (int i = 0; i < ch.length; i += 2)
+		{
+			String s = String.format("%s%s", ch[i], ch[i + 1]);
+			char c = (char)Integer.parseInt(s, 16);
+			out += c;
+		}
+		return out;
 	}
-	public static boolean getButtonBool(int mouseX, int mouseY, int buttonX, int buttonY, int xSize, int ySize, int guiLeft, int guiTop)
-	{
-		return guiLeft + buttonX <= mouseX && guiLeft + buttonX + xSize > mouseX && guiTop + buttonY < mouseY && guiTop + buttonY + ySize >= mouseY;
-	}
+	
 	public static boolean checkCableConnectables(World world, int x, int y, int z)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);

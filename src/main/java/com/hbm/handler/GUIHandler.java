@@ -771,7 +771,7 @@ public class GUIHandler implements IGuiHandler {
 		
 		case ModBlocks.guiID_tsukuyomi:
 			if (entity instanceof TileEntityTurretTsukuyomi)
-				return new ContainerTurretBase(player.inventory, (TileEntityTurretTsukuyomi)entity);
+				return new ContainerTsukuyomi(player.inventory, (TileEntityTurretTsukuyomi)entity);
 			return null;
 
 		case ModBlocks.guiID_tauon: {
@@ -825,6 +825,11 @@ public class GUIHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		switch(ID) {
+		case ModBlocks.guiID_tsukuyomi:
+			if (entity instanceof TileEntityTurretTsukuyomi)
+				return new GUITurretTsukuyomi(player.inventory, (TileEntityTurretTsukuyomi)entity);
+			else
+				return null;
 		case ModBlocks.guiID_amat_reactor:
 			if (entity instanceof TileEntityReactorAmat)
 				return new GUIReactorAmat(player.inventory, (TileEntityReactorAmat)entity);

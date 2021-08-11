@@ -220,7 +220,7 @@ public class BulletConfigSyncingUtil {
 	public static int TWR_RAY = i++;
 	public static int TWR_RAY_LARGE = i++;
 	public static int TWR_RAY_SUPERHEATED = i++;
-	public static int TWR_RAW_COUNTER_RESONANT = i++;
+	public static int TWR_RAY_COUNTER_RESONANT = i++;
 	public static int HLR_NORMAL = i++;
 	public static int HLR_ALT = i++;
 	
@@ -459,7 +459,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(TWR_RAY, GunEnergyFactory.getSingConfig());
 		configSet.put(TWR_RAY_LARGE, GunEnergyFactory.getRegSingConfig());
 		configSet.put(TWR_RAY_SUPERHEATED, GunEnergyFactory.getSuperheatedSingConfig());
-		configSet.put(TWR_RAW_COUNTER_RESONANT, GunEnergyFactory.getCounterResonantSingConfig());
+		configSet.put(TWR_RAY_COUNTER_RESONANT, GunEnergyFactory.getCounterResonantSingConfig());
 		configSet.put(HLR_NORMAL, GunEnergyFactory.getHLRDefaultConfig());
 		configSet.put(HLR_ALT, GunEnergyFactory.getHLRAltConfig());
 

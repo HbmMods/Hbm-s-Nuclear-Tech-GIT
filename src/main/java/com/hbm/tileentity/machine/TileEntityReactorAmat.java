@@ -142,6 +142,12 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 			data.setInteger("plasmaRateBase", plasmaRateBase);
 			data.setInteger("fuelRate", fuelRate);
 			data.setInteger("fuelRateBase", fuelRateBase);
+			if (currBoost != null)
+				data.setIntArray("currBoost", new int[] {Item.getIdFromItem(currBoost.item), currBoost.meta});
+			if (currCat != null)
+				data.setIntArray("currCat", new int[] {Item.getIdFromItem(currCat.item), currCat.meta});
+			if (currCore != null)
+				data.setIntArray("currCore", new int[] {Item.getIdFromItem(currCore.item), currCore.meta});
 			networkPack(data, 50);
 		}
 	}
@@ -295,6 +301,16 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		fuelRateBase = nbt.getInteger("fuelRateBase");
 		plasmaRate = nbt.getInteger("plasmaRate");
 		plasmaRateBase = nbt.getInteger("plasmaRateBase");
+		if (nbt.hasKey("currBoost"))
+		{
+			int[] b = nbt.getIntArray("currBoost");
+			currBoost = new ComparableStack(Item.getItemById(b[0]), 1, b[1]);
+		}
+		if (nbt.hasKey("currCore"))
+		{
+			int [] c = nbt.getIntArray("currCore");
+			currCore = new ComparableStack(Item.getItemById(c[0]), 1, c[1]);
+		}
 //		tanks[0].readFromNBT(nbt, "deutTank");
 //		tanks[1].readFromNBT(nbt, "amatTank");
 //		tanks[2].readFromNBT(nbt, "plasmaTank");
@@ -312,10 +328,13 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		tanks[2].readFromNBT(nbt, "plasmaTank");
 //		int[] sBoost = nbt.getIntArray("currBoost");
 //		int[] sCat = nbt.getIntArray("currCat");
-//		int[] sCore = nbt.getIntArray("currCore");
 //		currBoost = new ComparableStack(Item.getItemById(sBoost[0]), 1, sBoost[1]);
 //		currCat = new ComparableStack(Item.getItemById(sCat[0]), 1, sCat[1]);
-//		currCore = new ComparableStack(Item.getItemById(sCore[0]), 1, sCore[1]);
+		if (nbt.hasKey("currCore"))
+		{
+			int[] sCore = nbt.getIntArray("currCore");
+			currCore = new ComparableStack(Item.getItemById(sCore[0]), 1, sCore[1]);
+		}
 	}
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
@@ -330,7 +349,8 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		tanks[2].writeToNBT(nbt, "plasmaTank");
 //		nbt.setIntArray("currBoost", new int[] {Item.getIdFromItem(currBoost.item), currBoost.meta});
 //		nbt.setIntArray("currCat", new int[] {Item.getIdFromItem(currCat.item), currCat.meta});
-//		nbt.setIntArray("currCore", new int[] {Item.getIdFromItem(currCore.item), currCore.meta});
+		if (currCore != null)
+			nbt.setIntArray("currCore", new int[] {Item.getIdFromItem(currCore.item), currCore.meta});
 	}
 
 	@Override

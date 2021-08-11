@@ -32,7 +32,6 @@ import scala.actors.threadpool.Arrays;
 @Spaghetti("Preemptive")
 public class TileEntityMachineSingGen extends TileEntityMachineBase	implements IFluidAcceptor, IConsumer
 {
-	private Random rand = new Random();
 	public long power;
 	public static final long maxPower = 50000000000L;
 	private static long consumptionRate = (maxPower / 200) / 4;// TODO Placeholder(?)
@@ -216,7 +215,7 @@ public class TileEntityMachineSingGen extends TileEntityMachineBase	implements I
 	{
 		if ((power < consumptionRate && tank.getFill() > 0 && tank.getTankType().equals(FluidType.ASCHRAB) && (currentRecipe != null && currentRecipe.fluid.equals(FluidType.ASCHRAB)) && !MachineConfig.singGenFailType.equals(MachineConfig.EnumSingGenFail.NONE)))
 		{
-			if (rand.nextInt(4) == 0)
+			if (worldObj.rand.nextInt(4) == 0)
 			{
 				EntityVortex bhole = new EntityVortex(getWorldObj(), (tank.getFill() / 8000));
 				bhole.posX = xCoord;

@@ -6,6 +6,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +38,52 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			this.func_146283_a(Arrays.asList(text), tPosX, tPosY);
 	}
-	
+	/**
+	 * Get a scaled number for a display bar
+	 * @param toScale - The number to scale
+	 * @param scaleBy - The size of the display bar
+	 * @param total - Max size of toScale
+	 * @return The scaled number to be used
+	 */
+	public static int getScaledBar(int toScale, int scaleBy, int total)
+	{
+		return (toScale * scaleBy) / total;
+	}
+	/**
+	 * Get a scaled number for a display bar
+	 * @param toScale - The number to scale
+	 * @param scaleBy - The size of the display bar
+	 * @param total - Max size of toScale
+	 * @return The scaled number to be used
+	 */
+	public static long getScaledBar(long toScale, int scaleBy, long total)
+	{
+		return (toScale * scaleBy) / total;
+	}
+	/**
+	 * Check if a button was pressed
+	 * @param mouseX - The mouse's X coord
+	 * @param mouseY - The mouse's Y coord
+	 * @param buttonX - X coord of the button
+	 * @param buttonY - Y coord of the button
+	 * @param xSize - X size of the button
+	 * @param ySize - Y size of the button
+	 * @param guiLeft - Left bound of the GUI
+	 * @param guiTop - Top bound of the GUI
+	 * @return If it was clicked
+	 */
+	public static boolean getButtonBool(int mouseX, int mouseY, int buttonX, int buttonY, int xSize, int ySize, int guiLeft, int guiTop)
+	{
+		return guiLeft + buttonX <= mouseX && guiLeft + buttonX + xSize > mouseX && guiTop + buttonY < mouseY && guiTop + buttonY + ySize >= mouseY;
+	}
+	public static boolean getTextBool(int mouseX, int mouseY, int fX, int fY, int fW, int fH)
+	{
+		return mouseX >= fX && mouseX < fX + fW && mouseY >= fY && mouseY < fY + fH;
+	}
+	public static boolean getTextBool(int mouseX, int mouseY, GuiTextField field, int guiLeft, int guiTop)
+	{
+		return mouseX >= field.xPosition && mouseX < field.xPosition + field.width && mouseY >= field.yPosition && mouseY < field.yPosition + field.height;
+	}
 	public void drawInfoPanel(int x, int y, int width, int height, int type) {
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiUtil);

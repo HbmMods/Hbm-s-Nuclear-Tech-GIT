@@ -63,9 +63,7 @@ public class ItemRenderTWR implements IItemRenderer
 			GL11.glScaled(scale2, scale2, scale2);
 			break;
 		case ENTITY:// Dropped entity
-			//GL11.glRotatef(0.0F, 0.0F, 0.0F, 0.0F);
-			//GL11.glTranslatef(0.0F, 0.0F, 0.0F);
-			GL11.glScaled(0.09D, 0.09D, 0.09D);
+			GL11.glScaled(0.1D, 0.1D, 0.1D);
 			break;
 		case INVENTORY:// Inventory icon
 			GL11.glScaled(scale3, scale3, -scale3);

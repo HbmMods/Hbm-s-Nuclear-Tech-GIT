@@ -50,6 +50,15 @@ public class AuxButtonPacket implements IMessage {
 		this.value = value;
 		this.id = id;
 	}
+	
+	public AuxButtonPacket(TileEntity te, int value, int id)
+	{
+		x = te.xCoord;
+		y = te.yCoord;
+		z = te.zCoord;
+		this.value = value;
+		this.id = id;
+	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
