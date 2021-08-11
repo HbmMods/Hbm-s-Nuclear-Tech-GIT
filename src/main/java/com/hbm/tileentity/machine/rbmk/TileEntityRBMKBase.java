@@ -13,6 +13,7 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
@@ -46,6 +47,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver {
 	
 	public double heat;
+	
+	public int water;
+	public static final int maxWater = 16000;
+	public int steam;
+	public static final int maxSteam = 16000;
 
 	public boolean hasLid() {
 		
@@ -90,12 +96,34 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		
 		if(!worldObj.isRemote) {
 			moveHeat();
+			if(RBMKDials.getReasimBoilers(worldObj)) boilWater();
 			coolPassively();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			this.writeToNBT(data);
 			this.networkPack(data, trackingRange());
 		}
+	}
+	
+	/**
+	 * The ReaSim boiler dial causes all RBMK parts to behave like boilers
+	 */
+	@Untested //none of the new reasim boiler stuff has been tested yet
+	private void boilWater() {
+		
+		if(heat < 100D)
+			return;
+		
+		double heatConsumption = RBMKDials.getBoilerHeatConsumption(worldObj);
+		double availableHeat = (this.heat - 100) / heatConsumption;
+		double availableWater = this.water;
+		double availableSpace = this.maxSteam - this.steam;
+		
+		int processedWater = (int)Math.floor(Math.min(availableHeat, Math.min(availableWater, availableSpace)) * RBMKDials.getReaSimBoilerSpeed(worldObj));
+		
+		this.water -= processedWater;
+		this.steam += processedWater;
+		this.heat -= processedWater * heatConsumption;
 	}
 	
 	public static final ForgeDirection[] heatDirs = new ForgeDirection[] {
@@ -115,6 +143,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		List<TileEntityRBMKBase> rec = new ArrayList();
 		rec.add(this);
 		double heatTot = this.heat;
+		int waterTot = this.water;
+		int steamTot = this.steam;
 		
 		int index = 0;
 		for(ForgeDirection dir : heatDirs) {
@@ -139,6 +169,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			if(base != null) {
 				rec.add(base);
 				heatTot += base.heat;
+				waterTot += base.water;
+				steamTot += base.steam;
 			}
 		}
 		
@@ -149,10 +181,23 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			double targetHeat = heatTot / (double)members;
 			
+			int tWater = waterTot / 5;
+			int rWater = waterTot % 5;
+			int tSteam = steamTot / 5;
+			int rSteam = steamTot % 5;
+			
 			for(TileEntityRBMKBase rbmk : rec) {
 				double delta = targetHeat - rbmk.heat;
 				rbmk.heat += delta * stepSize;
+				
+				//set to the averages, rounded down
+				rbmk.water = tWater;
+				rbmk.steam = tSteam;
 			}
+			
+			//add the modulo to make up for the losses coming from rounding
+			this.water += rWater;
+			this.steam += rSteam;
 			
 			this.markDirty();
 		}
@@ -174,8 +219,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		if(!diag) {
 			super.readFromNBT(nbt);
 		}
-		
+
 		this.heat = nbt.getDouble("heat");
+		this.water = nbt.getInteger("water");
+		this.steam = nbt.getInteger("steam");
 	}
 	
 	@Override
@@ -186,6 +233,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 		
 		nbt.setDouble("heat", this.heat);
+		nbt.setInteger("water", this.water);
+		nbt.setInteger("steam", this.steam);
 	}
 	
 	public void networkPack(NBTTagCompound nbt, int range) {

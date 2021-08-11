@@ -43,6 +43,7 @@ public class CraftingManager {
 		
 		GameRegistry.addRecipe(new TestCraftingHandler(new ItemStack(ModItems.lignite), new ItemStack(ModItems.powder_coal, 1)));
 		GameRegistry.addRecipe(new RBMKFuelCraftingHandler());
+		GameRegistry.addRecipe(new MKUCraftingHandler());
 	}
 
 	public static void AddCraftingRec() {
