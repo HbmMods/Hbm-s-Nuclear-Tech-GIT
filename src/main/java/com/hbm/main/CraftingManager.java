@@ -742,6 +742,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod_reasim_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', ModBlocks.block_graphite, 'R', ModBlocks.rbmk_rod_reasim, 'B', ModItems.ingot_tcalloy });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_outgasser, 1), new Object[] { "GHG", "GRG", "GTG", 'G', ModBlocks.steel_grate, 'H', Blocks.hopper, 'T', ModItems.tank_steel, 'R', ModBlocks.rbmk_blank });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_loader, 1), new Object[] { "SCS", "CBC", "SCS", 'S', "plateSteel", 'C', "ingotCopper", 'B', ModItems.tank_steel }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_steam_inlet, 1), new Object[] { "SCS", "CBC", "SCS", 'S', "ingotSteel", 'C', "plateIron", 'B', ModItems.tank_steel }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_steam_outlet, 1), new Object[] { "SCS", "CBC", "SCS", 'S', "ingotSteel", 'C', "plateCopper", 'B', ModItems.tank_steel }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.ladder_sturdy, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.ladder_iron, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', "ingotIron" }));
