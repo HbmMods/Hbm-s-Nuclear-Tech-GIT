@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemBobmazonPacket;
@@ -50,6 +51,9 @@ public class GUIScreenBobmazon extends GuiScreen {
     		currentPage = 0;
     	if(currentPage > getPageCount())
     		currentPage = getPageCount();
+    	
+    	if(this.player.getHeldItem() != null && this.player.getHeldItem().getItem() == ModItems.bobmazon_hidden && player.getDisplayName().equals("SolsticeUnlimitd"))
+    		this.mc.thePlayer.closeScreen();
     }
     
     public void drawScreen(int mouseX, int mouseY, float f)
