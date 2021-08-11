@@ -3,7 +3,10 @@ package com.hbm.inventory;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.main.MainRegistry;
+
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -166,6 +169,13 @@ public class RecipesCommon {
 		
 		@Override
 		public int hashCode() {
+			
+			if(item == null) {
+				MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
+				Thread.currentThread().dumpStack();
+				item = Items.stick;
+			}
+			
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + Item.itemRegistry.getNameForObject(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled

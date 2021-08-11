@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -39,79 +40,53 @@ public class ShredderRecipes {
 			if(matches == null || matches.isEmpty())
 				continue;
 
-			if(name.length() > 5 && name.substring(0, 5).equals("ingot")) {
-				ItemStack dust = getDustByName(name.substring(5));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-
-					for(ItemStack stack : matches) {
-						if(stack != null)
-							shredderRecipes.put(new ComparableStack(stack), dust);
-						else
-							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
-				ItemStack dust = getDustByName(name.substring(3));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-					
-					dust.stackSize = 2;
-
-					for(ItemStack stack : matches) {
-						if(stack != null)
-							shredderRecipes.put(new ComparableStack(stack), dust);
-						else
-							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-					}
-				}
-			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
-				ItemStack dust = getDustByName(name.substring(5));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-					
-					dust.stackSize = 9;
-
-					for(ItemStack stack : matches) {
-						if(stack != null)
-							shredderRecipes.put(new ComparableStack(stack), dust);
-						else
-							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
-				ItemStack dust = getDustByName(name.substring(3));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-
-					for(ItemStack stack : matches) {
-						if(stack != null)
-							shredderRecipes.put(new ComparableStack(stack), dust);
-						else
-							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-					}
-				}
-			} else if(name.length() > 7 && name.substring(0, 7).equals("crystal")) {
-				ItemStack dust = getDustByName(name.substring(7));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-
-					for(ItemStack stack : matches) {
-						if(stack != null)
-							shredderRecipes.put(new ComparableStack(stack), dust);
-						else
-							MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
-
+			generateRecipes("ingot", name, matches, 1);
+			generateRecipes("ore", name, matches, 2);
+			generateRecipes("block", name, matches, 9);
+			generateRecipes("gem", name, matches, 1);
+			generateRecipes("crystal", name, matches, 1);
+			
+			if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
-					if(stack != null)
-						shredderRecipes.put(new ComparableStack(stack), new ItemStack(ModItems.dust));
-					else
-						MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
+					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
 			}
+		}
+	}
+	
+	@Untested
+	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount) {
+		
+		int len = prefix.length();
+		
+		if(name.length() > len && name.substring(0, len).equals(prefix)) {
+			ItemStack dust = getDustByName(name.substring(len));
+			
+			if(dust != null && dust.getItem() != ModItems.scrap) {
+				
+				dust.stackSize = outCount;
+				
+				for(ItemStack stack : matches) {
+					putIfValid(stack, dust, name);
+				}
+			}
+		}
+	}
+	
+	private static void putIfValid(ItemStack in, ItemStack dust, String name) {
+
+		if(in != null) {
+			
+			if(in.getItem() != null) {
+				shredderRecipes.put(new ComparableStack(in), dust);
+			} else {
+				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
+				Thread.currentThread().dumpStack();
+			}
+			
+		} else {
+			MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
+			Thread.currentThread().dumpStack();
 		}
 	}
 	
