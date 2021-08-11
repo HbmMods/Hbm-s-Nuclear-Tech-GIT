@@ -11,12 +11,18 @@ public interface IPowerNet {
 	
 	public void join(IPowerNet network);
 
-	public IPowerNet subscribe(IEnergyConductor conductor);
-	public void unsubscribe(IEnergyConductor conductor);
+	public IPowerNet joinLink(IEnergyConductor conductor);
+	public void leaveLink(IEnergyConductor conductor);
+
+	public void subscribe(IEnergyConnector connector);
+	public void unsubscribe(IEnergyConnector connector);
+	public boolean isSubscribed(IEnergyConnector connector);
 
 	public void destroy();
 	
 	public boolean isValid();
 	
-	public List<IEnergyConductor> getSubscribers();
+	public List<IEnergyConductor> getLinks();
+	
+	public long transferPower(long power);
 }

@@ -3,6 +3,8 @@ package api.hbm.energy;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.tileentity.TileEntity;
+
 /**
  * Basic IPowerNet implementation. The behavior of this demo might change inbetween releases, but the API remains the same.
  * For more consistency please implement your own IPowerNet.
@@ -11,40 +13,97 @@ import java.util.List;
 public class PowerNet implements IPowerNet {
 	
 	private boolean valid = true;
-	private List<IEnergyConductor> subscribers = new ArrayList();
+	private List<IEnergyConductor> links = new ArrayList();
+	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
 	public void join(IPowerNet network) { }
 
 	@Override
-	public IPowerNet subscribe(IEnergyConductor conductor) {
+	public IPowerNet joinLink(IEnergyConductor conductor) {
 		
 		if(conductor.getPowerNet() != null)
-			conductor.getPowerNet().unsubscribe(conductor);
+			conductor.getPowerNet().leaveLink(conductor);
 		
 		conductor.setPowerNet(this);
-		this.getSubscribers().add(conductor);
+		this.getLinks().add(conductor);
 		return this;
 	}
 
 	@Override
-	public void unsubscribe(IEnergyConductor conductor) {
+	public void leaveLink(IEnergyConductor conductor) {
 		conductor.setPowerNet(null);
-		this.getSubscribers().remove(conductor);
+		this.getLinks().remove(conductor);
 	}
 
 	@Override
-	public List<IEnergyConductor> getSubscribers() {
-		return null;
+	public void subscribe(IEnergyConnector connector) {
+		this.subscribers.add(connector);
+	}
+
+	@Override
+	public void unsubscribe(IEnergyConnector connector) {
+		this.subscribers.remove(connector);
+	}
+
+	@Override
+	public boolean isSubscribed(IEnergyConnector connector) {
+		return this.subscribers.contains(connector);
+	}
+
+	@Override
+	public List<IEnergyConductor> getLinks() {
+		return this.links;
 	}
 	
 	@Override
 	public void destroy() {
 		this.valid = false;
+		
+		for(IEnergyConductor link : this.links) {
+			link.setPowerNet(null);
+		}
+		
+		this.links.clear();
+		this.subscribers.clear();
 	}
 	
 	@Override
 	public boolean isValid() {
 		return this.valid;
+	}
+	
+	@Override
+	public long transferPower(long power) {
+		
+		this.subscribers.removeIf(x -> 
+			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid()
+		);
+		
+		if(this.subscribers.isEmpty())
+			return power;
+		
+		List<Long> weight = new ArrayList();
+		long totalReq = 0;
+		
+		for(IEnergyConnector con : this.subscribers) {
+			long req = Math.max(con.getMaxPower() - con.getPower(), 0);
+			weight.add(req);
+			totalReq += req;
+		}
+		
+		long totalGiven = 0;
+		
+		for(int i = 0; i < this.subscribers.size(); i++) {
+			IEnergyConnector con = this.subscribers.get(i);
+			long req = weight.get(i);
+			double fraction = (double)req / (double)totalReq;
+			
+			long given = (int) Math.floor(fraction * power);
+			
+			totalGiven += (given - con.transferPower(given));
+		}
+		
+		return power - totalGiven;
 	}
 }

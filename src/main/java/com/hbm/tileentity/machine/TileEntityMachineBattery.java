@@ -10,11 +10,15 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyConductor;
+import api.hbm.energy.IEnergyConnector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource, IEnergyConnector {
 	
 	public long power = 0;
 	public long maxPower = 1000000;
@@ -162,10 +166,31 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
-			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 		
 			short mode = (short) this.getRelevantMode();
+			
+			//////////////////////////////////////////////////////////////////////
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				
+				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				
+				if(te instanceof IEnergyConductor) {
+					IEnergyConductor con = (IEnergyConductor) te;
+					
+					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
+						con.getPowerNet().subscribe(this);
+				}
+				
+				if(mode == 1 || mode == 2) {
+					if(te instanceof IEnergyConnector) {
+						IEnergyConnector con = (IEnergyConnector) te;
+						this.power = con.transferPower(this.power);
+					}
+				}
+			}
+			//////////////////////////////////////////////////////////////////////
+			
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 			
 			if(mode == 1 || mode == 2)
 			{
@@ -272,6 +297,29 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+	
+	/*
+	 * SATAN - TECH
+	 */
+	@Override
+	public long transferPower(long power) {
+		
+		this.power += power;
+		
+		if(this.power > this.maxPower) {
+			
+			long overshoot = this.power - this.maxPower;
+			this.power = this.maxPower;
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return true;
 	}
 
 }

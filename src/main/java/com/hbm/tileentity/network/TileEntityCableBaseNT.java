@@ -1,23 +1,26 @@
 package com.hbm.tileentity.network;
 
 import api.hbm.energy.IEnergyConductor;
-import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IPowerNet;
 import api.hbm.energy.PowerNet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCableBaseTN extends TileEntity implements IEnergyConductor {
+public class TileEntityCableBaseNT extends TileEntity implements IEnergyConductor {
 	
 	private IPowerNet network;
 
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
+			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
+			this.setPowerNet(null);
+			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				
-				TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 				
 				if(te instanceof IEnergyConductor) {
 					
@@ -25,15 +28,27 @@ public class TileEntityCableBaseTN extends TileEntity implements IEnergyConducto
 					
 					if(this.getPowerNet() == null) {
 						this.setPowerNet(conductor.getPowerNet());
-					} else if(conductor.getPowerNet() != null) {
+					}
+					
+					if(conductor.getPowerNet() != null) {
 						conductor.getPowerNet().join(this.getPowerNet());
 					}
 				}
 			}
 			
 			if(this.getPowerNet() == null) {
-				this.setPowerNet(new PowerNet().subscribe(this));
+				this.setPowerNet(new PowerNet().joinLink(this));
 			}
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		//TODO: find out why sometimes the power net doesn't dissolve when it definitely should
+		if(this.network != null) {
+			this.network.destroy();
 		}
 	}
 
@@ -42,7 +57,7 @@ public class TileEntityCableBaseTN extends TileEntity implements IEnergyConducto
 	 */
 	@Override
 	public boolean canUpdate() {
-		return network == null;
+		return (this.network == null || !this.network.isValid()) && !this.isInvalid();
 	}
 
 	@Override
@@ -62,17 +77,20 @@ public class TileEntityCableBaseTN extends TileEntity implements IEnergyConducto
 
 	@Override
 	public void setPowerNet(IPowerNet network) {
-		
+		this.network = network;
 	}
 
 	@Override
 	public long transferPower(long power) {
-		return 0;
+		
+		if(this.network == null)
+			return power;
+		
+		return this.network.transferPower(power);
 	}
 
 	@Override
 	public IPowerNet getPowerNet() {
-		return null;
+		return this.network;
 	}
-
 }

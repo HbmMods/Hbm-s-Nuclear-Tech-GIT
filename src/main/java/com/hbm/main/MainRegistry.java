@@ -74,6 +74,7 @@ import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.rbmk.*;
+import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.tileentity.turret.*;
 import com.hbm.world.feature.SchistStratum;
 import com.hbm.world.generator.CellularDungeonFactory;
@@ -480,6 +481,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		GameRegistry.registerTileEntity(TileEntityDeaerator.class, "tileentity_deaerator");
 		GameRegistry.registerTileEntity(TileEntityChungus.class, "tileentity_chungus");
+		GameRegistry.registerTileEntity(TileEntityCableBaseNT.class, "tileentity_ohgod");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKRodReaSim.class, "tileentity_rbmk_rod_reasim");
