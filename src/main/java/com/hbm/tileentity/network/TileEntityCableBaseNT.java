@@ -13,7 +13,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && canUpdate()) {
 			
 			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
 			this.setPowerNet(null);
@@ -26,18 +26,18 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 					
 					IEnergyConductor conductor = (IEnergyConductor) te;
 					
-					if(this.getPowerNet() == null) {
-						this.setPowerNet(conductor.getPowerNet());
+					if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
+						conductor.getPowerNet().joinLink(this);
 					}
 					
-					if(conductor.getPowerNet() != null) {
-						conductor.getPowerNet().join(this.getPowerNet());
+					if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
+						conductor.getPowerNet().joinNetworks(this.getPowerNet());
 					}
 				}
 			}
 			
 			if(this.getPowerNet() == null) {
-				this.setPowerNet(new PowerNet().joinLink(this));
+				new PowerNet().joinLink(this);
 			}
 		}
 	}
@@ -45,10 +45,11 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 	@Override
 	public void invalidate() {
 		super.invalidate();
-
-		//TODO: find out why sometimes the power net doesn't dissolve when it definitely should
-		if(this.network != null) {
-			this.network.destroy();
+		
+		if(!worldObj.isRemote) {
+			if(this.network != null) {
+				this.network.destroy();
+			}
 		}
 	}
 

@@ -1062,6 +1062,7 @@ public class ResourceManager {
 	public static final IModelCustom crystal_energy = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_energy.obj"));
 	public static final IModelCustom crystal_robust = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_robust.obj"));
 	public static final IModelCustom crystal_trixite = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_trixite.obj"));
+	public static final IModelCustom cable_neo = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/cable_neo.obj"));
 	
 	//RBMK DEBRIS
 	public static final IModelCustom deb_blank = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/projectiles/deb_blank.obj"));

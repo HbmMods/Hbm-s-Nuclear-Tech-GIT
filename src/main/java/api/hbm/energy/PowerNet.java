@@ -17,7 +17,23 @@ public class PowerNet implements IPowerNet {
 	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
-	public void join(IPowerNet network) { }
+	public void joinNetworks(IPowerNet network) {
+		
+		if(network == this)
+			return; //wtf?!
+
+		for(IEnergyConductor conductor : network.getLinks()) {
+			conductor.setPowerNet(this);
+			this.getLinks().add(conductor);
+		}
+		network.getLinks().clear();
+		
+		for(IEnergyConnector connector : network.getSubscribers()) {
+			this.subscribe(connector);
+		}
+		
+		network.destroy();
+	}
 
 	@Override
 	public IPowerNet joinLink(IEnergyConductor conductor) {
@@ -55,17 +71,23 @@ public class PowerNet implements IPowerNet {
 	public List<IEnergyConductor> getLinks() {
 		return this.links;
 	}
+
+	@Override
+	public List<IEnergyConnector> getSubscribers() {
+		return this.subscribers;
+	}
 	
 	@Override
 	public void destroy() {
 		this.valid = false;
+		
+		this.subscribers.clear();
 		
 		for(IEnergyConductor link : this.links) {
 			link.setPowerNet(null);
 		}
 		
 		this.links.clear();
-		this.subscribers.clear();
 	}
 	
 	@Override

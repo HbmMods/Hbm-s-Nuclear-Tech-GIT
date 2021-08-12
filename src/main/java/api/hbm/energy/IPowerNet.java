@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IPowerNet {
 	
-	public void join(IPowerNet network);
+	public void joinNetworks(IPowerNet network);
 
 	public IPowerNet joinLink(IEnergyConductor conductor);
 	public void leaveLink(IEnergyConductor conductor);
@@ -21,8 +21,9 @@ public interface IPowerNet {
 	public void destroy();
 	
 	public boolean isValid();
-	
+
 	public List<IEnergyConductor> getLinks();
+	public List<IEnergyConnector> getSubscribers();
 	
 	public long transferPower(long power);
 }
