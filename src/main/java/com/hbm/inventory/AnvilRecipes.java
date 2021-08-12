@@ -102,6 +102,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("dustEmerald"), new AnvilOutput(new ItemStack(Items.emerald))).setTier(3));
 
 		registerConstructionAmmo();
+		registerConstructionUpgrades();
 		registerConstructionRecycling();
 	}
 	
@@ -283,6 +284,34 @@ public class AnvilRecipes {
 		}
 	}
 	
+	public static void registerConstructionUpgrades() {
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_template), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_speed_1), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_speed_2), 3);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_speed_3), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_power_1), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_power_2), 3);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_power_3), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_effect_1), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_effect_2), 3);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_effect_3), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_fortune_1), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_fortune_2), 3);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_fortune_3), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_afterburn_1), 2);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_afterburn_2), 3);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_afterburn_3), 4);
+
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_radius), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_health), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_smelter), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_shredder), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_centrifuge), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_crystallizer), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_nullifier), 4);
+		pullFromAssembler(new ComparableStack(ModItems.upgrade_screm), 4);
+	}
+	
 	public static void registerConstructionRecycling() {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.barrel_tcalloy),
@@ -394,6 +423,15 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1), 0.75F)
 				}
 		).setTier(4));
+	}
+	
+	public static void pullFromAssembler(ComparableStack result, int tier) {
+		
+		AStack[] ingredients = AssemblerRecipes.recipes.get(result);
+		
+		if(ingredients != null) {
+			constructionRecipes.add(new AnvilConstructionRecipe(ingredients, new AnvilOutput(result.toStack())).setTier(tier));
+		}
 	}
 	
 	public static List<AnvilSmithingRecipe> getSmithing() {

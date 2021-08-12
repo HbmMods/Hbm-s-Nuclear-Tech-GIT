@@ -14,8 +14,10 @@ import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.ShredderRecipes;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
@@ -100,11 +102,14 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(isOn) {
 				
-				int cycles = getOverdrive();
-				int speed = getSpeed();
-				int range = getRange();
-				int fortune = getFortune();
-				int consumption = getConsumption() * speed;
+				UpgradeManager.eval(slots, 1, 8);
+				int cycles = 1 + UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+				int speed = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12);
+				int range = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT) * 2, 24);
+				int fortune = Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
+				int consumption = this.consumption
+						- (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 12) / 16)
+						+ (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12) / 16);
 				
 				for(int i = 0; i < cycles; i++) {
 					

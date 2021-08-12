@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class AnvilSmithingRenameRecipe extends AnvilSmithingRecipe {
 	
 	public AnvilSmithingRenameRecipe() {
-		super(0, new ItemStack(Items.iron_sword), new ComparableStack(Items.iron_sword), new ComparableStack(Items.name_tag, 0));
+		super(1, new ItemStack(Items.iron_sword), new ComparableStack(Items.iron_sword), new ComparableStack(Items.name_tag, 0));
 	}
 	
 	@Override

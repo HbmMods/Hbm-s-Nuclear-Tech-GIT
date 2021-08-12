@@ -8,8 +8,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -126,41 +128,18 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			this.consumption = 100;
 			this.speed = 100;
 			
-			for(int i = 1; i < 4; i++) {
-				ItemStack stack = slots[i];
-				
-				if(stack != null) {
-					if(stack.getItem() == ModItems.upgrade_speed_1) {
-						this.speed -= 25;
-						this.consumption += 300;
-					}
-					if(stack.getItem() == ModItems.upgrade_speed_2) {
-						this.speed -= 50;
-						this.consumption += 600;
-					}
-					if(stack.getItem() == ModItems.upgrade_speed_3) {
-						this.speed -= 75;
-						this.consumption += 900;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_1) {
-						this.consumption -= 30;
-						this.speed += 5;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_2) {
-						this.consumption -= 60;
-						this.speed += 10;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_3) {
-						this.consumption -= 90;
-						this.speed += 15;
-					}
-				}
-			}
+			UpgradeManager.eval(slots, 1, 3);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
 			
-			if(speed < 25)
-				speed = 25;
-			if(consumption < 10)
-				consumption = 10;
+			speed -= speedLevel * 25;
+			consumption += speedLevel * 300;
+			speed += powerLevel * 5;
+			consumption -= powerLevel * 30;
+			speed /= (overLevel + 1);
+			consumption *= (overLevel + 1);
 
 			isProgressing = false;
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);

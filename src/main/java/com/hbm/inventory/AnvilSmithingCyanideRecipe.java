@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class AnvilSmithingCyanideRecipe extends AnvilSmithingRecipe {
 	
 	public AnvilSmithingCyanideRecipe() {
-		super(0, new ItemStack(Items.bread), new ComparableStack(Items.bread), new ComparableStack(ModItems.plan_c));
+		super(1, new ItemStack(Items.bread), new ComparableStack(Items.bread), new ComparableStack(ModItems.plan_c));
 		
 		if(!this.output.hasTagCompound())
 			this.output.stackTagCompound = new NBTTagCompound();

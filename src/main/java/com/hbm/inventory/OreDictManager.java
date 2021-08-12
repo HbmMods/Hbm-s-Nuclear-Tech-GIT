@@ -278,6 +278,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockZirconium", ModBlocks.block_zirconium);
 		OreDictionary.registerOre("blockBoron", ModBlocks.block_boron);
 		OreDictionary.registerOre("blockColtan", ModBlocks.block_coltan);
+		OreDictionary.registerOre("blockLithium", ModBlocks.block_lithium);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockThorium232", ModBlocks.block_thorium);

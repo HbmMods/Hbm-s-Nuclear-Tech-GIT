@@ -188,14 +188,14 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		for(int i = 5; i <= 6; i++) {
 
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_1)
-				durationMod -= 0.1F;
+				durationMod -= 0.25F;
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_2)
-				durationMod -= 0.2F;
+				durationMod -= 0.50F;
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_3)
-				durationMod -= 0.3F;
+				durationMod -= 0.75F;
 		}
 		
-		return (int) (duration * Math.max(durationMod, 0.7F));
+		return (int) (duration * Math.max(durationMod, 0.25F));
 	}
 	
 	public int getPowerRequired() {
@@ -222,11 +222,11 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		for(int i = 5; i <= 6; i++) {
 
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_1)
-				cycles += 1;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_2)
 				cycles += 2;
+			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_2)
+				cycles += 4;
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_3)
-				cycles += 3;
+				cycles += 6;
 		}
 		
 		return Math.min(cycles, 4);
