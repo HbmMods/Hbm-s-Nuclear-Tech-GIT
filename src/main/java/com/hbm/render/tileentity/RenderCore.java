@@ -26,57 +26,57 @@ public class RenderCore extends TileEntitySpecialRenderer {
 	private static final Random random = new Random(31100L);
 	FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
 
-    @Override
+	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        
-        TileEntityCore core = (TileEntityCore)tileEntity;
-        
-        if(core.heat == 0) {
-        	renderStandby(x, y, z);
-        } else {
-    		
-        	GL11.glPushMatrix();
-    		GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
-    		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-    		GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
-    		GL11.glTranslated(-0.5, -0.5, -0.5);
-    		
-    		renderOrb(core, 0, 0, 0);
-        	GL11.glPopMatrix();
-        }
-    }
-    
-    public void renderStandby(double x, double y, double z) {
 
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        
-        GL11.glScalef(0.25F, 0.25F, 0.25F);
-        GL11.glColor3f(0.5F, 0.5F, 0.5F);
-        ResourceManager.sphere_uv.renderAll();
-        
+		TileEntityCore core = (TileEntityCore) tileEntity;
+
+		if(core.heat == 0) {
+			renderStandby(x, y, z);
+		} else {
+
+			GL11.glPushMatrix();
+			GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+			/*GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslated(-0.5, -0.5, -0.5);*/
+
+			renderOrb(core, 0, 0, 0);
+			GL11.glPopMatrix();
+		}
+	}
+
+	public void renderStandby(double x, double y, double z) {
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+		GL11.glScalef(0.25F, 0.25F, 0.25F);
+		GL11.glColor3f(0.5F, 0.5F, 0.5F);
+		ResourceManager.sphere_uv.renderAll();
+
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glScalef(1.25F, 1.25F, 1.25F);
-        GL11.glColor3f(0.1F, 0.1F, 0.1F);
-        ResourceManager.sphere_uv.renderAll();
+		GL11.glScalef(1.25F, 1.25F, 1.25F);
+		GL11.glColor3f(0.1F, 0.1F, 0.1F);
+		ResourceManager.sphere_uv.renderAll();
 		GL11.glDisable(GL11.GL_BLEND);
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        
-        if((System.currentTimeMillis() / 100) % 10 == 0) {
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_LIGHTING);
+
+		if((System.currentTimeMillis() / 100) % 10 == 0) {
 			for(int i = 0; i < 3; i++) {
 				RenderSparks.renderSpark((int) System.currentTimeMillis() / 100 + i * 10000, 0, 0, 0, 1.5F, 5, 10, 0xFFFF00, 0xFFFFFF);
 				RenderSparks.renderSpark((int) System.currentTimeMillis() / 50 + i * 10000, 0, 0, 0, 1.5F, 5, 10, 0xFFFF00, 0xFFFFFF);
 			}
-        }
-		
-        GL11.glPopMatrix();
-    }
+		}
+
+		GL11.glPopMatrix();
+	}
     
     public void renderOrb(TileEntityCore tile, double x, double y, double z) {
 
@@ -84,7 +84,12 @@ public class RenderCore extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
 
         int color = tile.color;
-		GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
+
+        float r = ((color & 0xFF0000) >> 16) / 256F;
+        float g = ((color & 0x00FF00) >> 8) / 256F;
+        float b = ((color & 0x0000FF) >> 0) / 256F;
+        float mod = 0.4F;
+		GL11.glColor3f(r * mod, g * mod, b * mod);
 		
 		int tot = tile.tanks[0].getMaxFill() + tile.tanks[1].getMaxFill();
 		int fill = tile.tanks[0].getFill() + tile.tanks[1].getFill();
@@ -96,19 +101,29 @@ public class RenderCore extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		GL11.glScalef(0.25F, 0.25F, 0.25F);
 		ResourceManager.sphere_ruv.renderAll();
-		GL11.glScalef(2F, 2F, 2F);
 		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		
-		for(int i = 6; i <= 10; i++) {
+		double ix = (tile.getWorldObj().getTotalWorldTime() * 0.1D) % (Math.PI * 2D);
+		double t = 0.8F;
+		float pulse = (float) ((1D / t) * Math.atan((t * Math.sin(ix)) / (1 - t * Math.cos(ix))));
+		
+		pulse += 1D;
+		pulse /= 2D;
+		
+		for(int i = 0; i <= 16; i++) {
 
-	        GL11.glPushMatrix();
-			GL11.glScalef(i * 0.1F, i * 0.1F, i * 0.1F);
+			GL11.glPushMatrix();
+			
+			float s = 1F + 0.25F * i;
+			s += (pulse * (20 - i)) * 0.125F;
+			
+			GL11.glScalef(s, s, s);
 			ResourceManager.sphere_ruv.renderAll();
-	        GL11.glPopMatrix();
+			GL11.glPopMatrix();
 		}
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

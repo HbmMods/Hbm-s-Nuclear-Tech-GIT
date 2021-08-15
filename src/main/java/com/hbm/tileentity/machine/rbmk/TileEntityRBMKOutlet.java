@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -23,7 +22,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	public FluidTank steam;
 	
 	public TileEntityRBMKOutlet() {
-		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 128000, 0);
+		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 32000, 0);
 	}
 	
 	@Override
@@ -51,6 +50,8 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 					}
 				}
 			}
+			
+			fillFluidInit(this.steam.getTankType());
 		}
 	}
 	

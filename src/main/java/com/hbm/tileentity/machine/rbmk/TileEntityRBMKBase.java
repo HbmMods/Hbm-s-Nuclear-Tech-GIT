@@ -13,7 +13,6 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
@@ -108,7 +107,6 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	/**
 	 * The ReaSim boiler dial causes all RBMK parts to behave like boilers
 	 */
-	@Untested //none of the new reasim boiler stuff has been tested yet
 	private void boilWater() {
 		
 		if(heat < 100D)
@@ -181,10 +179,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			double targetHeat = heatTot / (double)members;
 			
-			int tWater = waterTot / 5;
-			int rWater = waterTot % 5;
-			int tSteam = steamTot / 5;
-			int rSteam = steamTot % 5;
+			int tWater = waterTot / members;
+			int rWater = waterTot % members;
+			int tSteam = steamTot / members;
+			int rSteam = steamTot % members;
 			
 			for(TileEntityRBMKBase rbmk : rec) {
 				double delta = targetHeat - rbmk.heat;

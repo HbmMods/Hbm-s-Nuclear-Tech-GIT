@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
+import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -28,11 +29,13 @@ public class ItemWandD extends Item {
 			//int y = world.getHeightValue(x, z);
 			int y = pos.blockY;
 			
-			EntityBlockSpider spider = new EntityBlockSpider(world);
+			CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
+			
+			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);
 			spider.makeBlock(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 			world.setBlockToAir(x, y, z);
-			world.spawnEntityInWorld(spider);
+			world.spawnEntityInWorld(spider);*/
 			
 			
     		/*NBTTagCompound data = new NBTTagCompound();

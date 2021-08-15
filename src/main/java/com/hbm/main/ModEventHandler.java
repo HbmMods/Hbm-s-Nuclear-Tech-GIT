@@ -373,12 +373,12 @@ public class ModEventHandler {
 			ItemStack cladding = mods[ArmorModHandler.cladding];
 			
 			if(cladding != null && cladding.getItem() == ModItems.cladding_obsidian) {
-				ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149500_a", "invulnerable");
+				ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149119_a", "field_83001_bt", "field_149500_a", "invulnerable");
 			}
 		}
 		
 		if(yeet.getItem() == ModItems.bismuth_tool) {
-			ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149500_a", "invulnerable");
+			ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149119_a", "field_83001_bt", "field_149500_a", "invulnerable");
 		}
 	}
 	

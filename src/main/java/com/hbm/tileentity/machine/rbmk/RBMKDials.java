@@ -1,11 +1,15 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.config.GeneralConfig;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 public class RBMKDials {
 
+	public static final String KEY_SAVE_DIALS = "dialSaveDials";
+	
 	public static final String KEY_PASSIVE_COOLING = "dialPassiveCooling";
 	public static final String KEY_COLUMN_HEAT_FLOW = "dialColumnHeatFlow";
 	public static final String KEY_FUEL_DIFFUSION_MOD = "dialDiffusionMod";
@@ -15,7 +19,6 @@ public class RBMKDials {
 	public static final String KEY_BOILER_HEAT_CONSUMPTION = "dialBoilerHeatConsumption";
 	public static final String KEY_CONTROL_SPEED_MOD = "dialControlSpeed";
 	public static final String KEY_REACTIVITY_MOD = "dialReactivityMod";
-	public static final String KEY_SAVE_DIALS = "dialSaveDials";
 	public static final String KEY_OUTGASSER_MOD = "dialOutgasserSpeedMod";
 	public static final String KEY_SURGE_MOD = "dialControlSurgeMod";
 	public static final String KEY_FLUX_RANGE = "dialFluxRange";
@@ -46,7 +49,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_COUNT, "6");
 			rules.setOrCreateGameRule(KEY_REASIM_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
-			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.25");
+			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
 		}
 	}
 	
@@ -191,7 +194,7 @@ public class RBMKDials {
 	 * @return
 	 */
 	public static boolean getReasimBoilers(World world) {
-		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_BOILERS);
+		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_BOILERS) || GeneralConfig.enable528;
 	}
 	
 	/**
@@ -200,7 +203,7 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getReaSimBoilerSpeed(World world) {
-		return MathHelper.clamp_double(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 1.0D), 0.0D, 1.0D);
+		return MathHelper.clamp_double(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 0.05D), 0.0D, 1.0D);
 	}
 	
 	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?

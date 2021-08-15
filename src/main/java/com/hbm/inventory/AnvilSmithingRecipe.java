@@ -2,6 +2,7 @@ package com.hbm.inventory;
 
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.RecipesCommon.AStack;
 
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ public class AnvilSmithingRecipe {
 		this.output = out;
 		this.left = left;
 		this.right = right;
+		if(GeneralConfig.enableBabyMode) this.tier = 1;
 	}
 	
 	public AnvilSmithingRecipe makeShapeless() {

@@ -42,9 +42,24 @@ public class ShredderRecipes {
 
 			generateRecipes("ingot", name, matches, 1);
 			generateRecipes("ore", name, matches, 2);
-			generateRecipes("block", name, matches, 9);
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
+			
+			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+					
+					dust.stackSize = 9;
+					
+					if(getIngotOrGemByName(name.substring(5)) == null)
+						dust.stackSize = 4;
+					
+					for(ItemStack stack : matches) {
+						putIfValid(stack, dust, name);
+					}
+				}
+			}
 			
 			if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
@@ -253,6 +268,11 @@ public class ShredderRecipes {
 		}
 	}
 	
+	/**
+	 * Returns scrap when no dust is found, for quickly adding recipes
+	 * @param name
+	 * @return
+	 */
 	public static ItemStack getDustByName(String name) {
 		
 		List<ItemStack> matches = OreDictionary.getOres("dust" + name);
@@ -261,6 +281,26 @@ public class ShredderRecipes {
 			return matches.get(0).copy();
 		
 		return new ItemStack(ModItems.scrap);
+	}
+	
+	/**
+	 * Returns null when no ingot or gem is found, for deciding whether the block shredding output shoiuld be 9 or 4 dusts
+	 * @param name
+	 * @return
+	 */
+	public static ItemStack getIngotOrGemByName(String name) {
+		
+		List<ItemStack> matches = OreDictionary.getOres("ingot" + name);
+		
+		if(matches != null && !matches.isEmpty())
+			return matches.get(0).copy();
+		
+		matches = OreDictionary.getOres("gem" + name);
+		
+		if(matches != null && !matches.isEmpty())
+			return matches.get(0).copy();
+		
+		return null;
 	}
 	
 	public static void setRecipe(Item in, ItemStack out) {

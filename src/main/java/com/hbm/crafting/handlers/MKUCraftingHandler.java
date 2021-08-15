@@ -44,6 +44,10 @@ public class MKUCraftingHandler implements IRecipe {
 	
 	public static void generateRecipe(World world) {
 		Random rand = new Random(world.getSeed());
+		
+		if(lastSeed == world.getSeed() && MKURecipe != null)
+			return;
+		
 		lastSeed = world.getSeed();
 		
 		List<ItemStack> list = Arrays.asList(new ItemStack[] {

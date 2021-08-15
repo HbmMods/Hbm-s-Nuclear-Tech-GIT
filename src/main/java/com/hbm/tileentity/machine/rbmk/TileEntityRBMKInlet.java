@@ -18,7 +18,7 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	public FluidTank water;
 	
 	public TileEntityRBMKInlet() {
-		water = new FluidTank(FluidType.WATER, 128000, 0);
+		water = new FluidTank(FluidType.WATER, 32000, 0);
 	}
 	
 	@Override
