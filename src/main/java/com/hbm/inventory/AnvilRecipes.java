@@ -149,13 +149,14 @@ public class AnvilRecipes {
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_difurnace_off))).setTier(1));
 		
+		int ukModifier = 100;
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack("blockGlassColorless", 4),
-						new OreDictStack("ingotSteel", 8),
-						new OreDictStack("ingotCopper", 8),
-						new ComparableStack(ModItems.motor, 2),
-						new ComparableStack(ModItems.circuit_aluminium, 1)
+						new OreDictStack("blockGlassColorless", 4 * ukModifier),
+						new OreDictStack("ingotSteel", 8 * ukModifier),
+						new OreDictStack("ingotCopper", 8 * ukModifier),
+						new ComparableStack(ModItems.motor, 2 * ukModifier),
+						new ComparableStack(ModItems.circuit_aluminium, 1 * ukModifier)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_assembler))).setTier(2));
 		
