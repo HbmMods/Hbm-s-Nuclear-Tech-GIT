@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.init.Blocks;
@@ -65,7 +64,7 @@ public class ParticleGiblet extends EntityFX {
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 
 		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		this.theRenderEngine.bindTexture(texture);
 
 		float f10 = this.particleScale * 0.1F;
@@ -74,6 +73,8 @@ public class ParticleGiblet extends EntityFX {
 		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
 
 		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 1.0F, 0.0F);
+		tess.setBrightness(240);
 		tess.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 		tess.addVertexWithUV((double) (f11 - x * f10 - tx * f10), (double) (f12 - y * f10), (double) (f13 - z * f10 - tz * f10), (double) 0, (double) 0);
 		tess.addVertexWithUV((double) (f11 - x * f10 + tx * f10), (double) (f12 + y * f10), (double) (f13 - z * f10 + tz * f10), (double) 0, (double) 1);

@@ -145,6 +145,10 @@ public class ModEventHandler {
 								)
 						);
 			}
+			
+			if(event.player.getDisplayName().equals("the_NCR") && System.currentTimeMillis() < 1629649410000L) {
+				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.v1));
+			}
 
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP) event.player);
@@ -300,8 +304,8 @@ public class ModEventHandler {
 			
 			EntityPlayer attacker = (EntityPlayer) ((EntityDamageSource)event.source).getEntity();
 			
-			if(attacker.getDistanceSqToEntity(entity) < 5) {
-				attacker.heal(entity.prevHealth * 2F);
+			if(attacker.getDistanceSqToEntity(entity) < 100) {
+				attacker.heal(entity.getMaxHealth() * 0.25F);
 			}
 		}
 		
@@ -736,7 +740,7 @@ public class ModEventHandler {
 			data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
 			
-			if(attacker.getDistanceSqToEntity(e) < 3) {
+			if(attacker.getDistanceSqToEntity(e) < 25) {
 				attacker.heal(event.ammount * 0.5F);
 			}
 		}
