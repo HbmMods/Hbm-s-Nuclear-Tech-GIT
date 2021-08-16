@@ -208,7 +208,7 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.osiprShoot";
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
-		config.name = "1974 Chang'e type LMG \"Heavy Lunatic Rifle\"";
+		config.name = "1944 Chang'e type LMG \"Heavy Lunatic Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
 		String[] lore = I18nUtil.resolveKeyArray("item.gun_hlr.desc." + randLore);
 		for (String s : lore)

@@ -2,9 +2,10 @@ package com.hbm.blocks.turret;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockGeneric;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.turret.TileEntityTurretTsukuyomi;
+import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
@@ -14,7 +15,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class TurretTsukuyomi extends BlockDummyable
+public class TurretTsukuyomi extends BlockGeneric
 {
 
 	public TurretTsukuyomi()
@@ -26,13 +27,12 @@ public class TurretTsukuyomi extends BlockDummyable
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(World world, int metadata)
 	{
-		if (meta >= 12)
-			return new TileEntityTurretTsukuyomi();
+		if (metadata >= 12)
+			return new TileEntityTsukuyomi();
 		return new TileEntityProxyCombo(true, true, false);
 	}
-	
 	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z,
 			EntityPlayer player, int size, float hitX, float hitY, float hitZ)
@@ -41,17 +41,21 @@ public class TurretTsukuyomi extends BlockDummyable
 			return true;
 		else if (!player.isSneaking())
 		{
-			int[] pos = findCore(worldIn, x, y, z);
-			if (pos == null)
-				return false;
+//			int[] pos = findCore(worldIn, x, y, z);
+//			if (pos == null)
+//				return false;
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_tsukuyomi, worldIn, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_tsukuyomi, worldIn, x, y, z);
 			return true;
 		}
 		else
 			return false;
 	}
-
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return true;
+	}
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_,
 			int p_149719_4_)
@@ -67,16 +71,16 @@ public class TurretTsukuyomi extends BlockDummyable
 		return AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + maxY, z + maxZ);
 	}
 	
-	@Override
-	public int[] getDimensions()
-	{
-		return new int[] { 0, 0, 1, 0, 1, 0 };
-	}
-
-	@Override
-	public int getOffset()
-	{
-		return 0;
-	}
+//	@Override
+//	public int[] getDimensions()
+//	{
+//		return new int[] { 0, 0, 2, 0, 2, 0 };
+//	}
+//
+//	@Override
+//	public int getOffset()
+//	{
+//		return 0;
+//	}
 
 }

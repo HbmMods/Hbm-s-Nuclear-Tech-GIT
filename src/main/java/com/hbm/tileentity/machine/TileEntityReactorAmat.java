@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
@@ -22,34 +25,32 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import scala.actors.threadpool.Arrays;
-
+@Spaghetti("aaaaaa")
 public class TileEntityReactorAmat extends TileEntityMachineBase implements IFluidAcceptor, ISidedInventory, IConsumer, IFluidSource
 {
 	public FluidTank[] tanks = new FluidTank[3];
 	private byte age = 0;
 	private List<IFluidAcceptor> aList = new ArrayList<IFluidAcceptor>();
 	private boolean isOn = false;
+	private boolean isRunning = false;
 	private short boosterLife = 0;
 	public static final short boosterMax = 1200;
 	private short catalystLife = 0;
 	public static final short catalystMax = 20000;
-	private long coreLife = 0;
 	private int fuelRate = 0;
-	private int fuelRateBase = 1;
 	private int plasmaRate = 0;
-	private int plasmaRateBase = 0;
+	private byte delay = -1;
 	private static final int powerRate = 200000;
 	public static final long maxPower = 1000000000L;
 	public long power = 0;
-	private ReactorCatalyst cat;
-	private ComparableStack currCat;
-	private ReactorBooster boost;
-	private ComparableStack currBoost;
-	private ReactorCore core;
-	private ComparableStack currCore;
-	private int heat = 0;
-	public static final int critHeat = 1750;
-	public static final int maxHeat = 2500;
+	private ReactorCatalyst cat = null;
+	private ComparableStack currCat = null;
+	private ReactorBooster boost = null;
+	private ComparableStack currBoost = null;
+	private ReactorCore core = null;
+	private int heat = 20;
+	public static final int critHeat = 4750;
+	public static final int maxHeat = 5250;
 	private static HashMap<ComparableStack,ReactorBooster> boosterMap = new HashMap<ComparableStack, ReactorBooster>();
 	private static HashMap<ComparableStack,ReactorCatalyst> catalystMap = new HashMap<ComparableStack, ReactorCatalyst>();
 	private static HashMap<ComparableStack,ReactorCore> coreMap = new HashMap<ComparableStack, ReactorCore>();
@@ -67,9 +68,10 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		catalystMap.put(new ComparableStack(ModItems.powder_combine_steel), new ReactorCatalyst(12500, 50));
 		catalystMap.put(new ComparableStack(ModItems.powder_schrabidate), new ReactorCatalyst(catalystMax, 100));
 		coreMap.put(new ComparableStack(ModItems.singularity_micro), new ReactorCore((byte)2, (byte)5, 1000000));
-		coreMap.put(new ComparableStack(ModItems.singularity), new ReactorCore((byte)2, (byte)5, 10000000));
-		coreMap.put(new ComparableStack(ModItems.singularity_super_heated), new ReactorCore((byte)1, (byte)15, 10000000));
+		coreMap.put(new ComparableStack(ModItems.singularity), new ReactorCore((byte)2, (byte)5));
+		coreMap.put(new ComparableStack(ModItems.singularity_super_heated), new ReactorCore((byte)1, (byte)15));
 		coreMap.put(new ComparableStack(ModItems.black_hole), new ReactorCore((byte)2, (byte)5));
+		coreMap.put(new ComparableStack(ModItems.overfuse), new ReactorCore((byte)1, (byte)15));
 	}
 
 	public TileEntityReactorAmat()
@@ -103,7 +105,6 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 	@Override
 	public void updateEntity()
 	{
-		// TODO Auto-generated method stub
 		if (!worldObj.isRemote)
 		{
 			age++;
@@ -115,7 +116,6 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].loadTank(2, 3, slots);
 			tanks[1].loadTank(4, 5, slots);
-			markDirty();
 			for (int i = 0; i < 3; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			updateInputs();
@@ -124,33 +124,44 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 				power -= powerRate;
 				if (catalystLife > 0)
 					catalystLife--;
-				if (boosterLife > 0)
+				if (boosterLife > 0 && catalystLife > 0)
 					boosterLife--;
-				if (coreLife > 0)
-					coreLife--;
 			 	decreaseFluidFill(FluidType.DEUTERIUM, fuelRate);
 			 	decreaseFluidFill(FluidType.AMAT, fuelRate);
 			 	increaseFluidFill(FluidType.PLASMA_WARP, plasmaRate);
 			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setBoolean("isOn", isOn);
 			data.setShort("boosterLife", boosterLife);
 			data.setShort("catalystLife", catalystLife);
-			data.setLong("coreLife", coreLife);
 			data.setInteger("plasmaRate", plasmaRate);
-			data.setInteger("plasmaRateBase", plasmaRateBase);
 			data.setInteger("fuelRate", fuelRate);
-			data.setInteger("fuelRateBase", fuelRateBase);
 			if (currBoost != null)
 				data.setIntArray("currBoost", new int[] {Item.getIdFromItem(currBoost.item), currBoost.meta});
 			if (currCat != null)
 				data.setIntArray("currCat", new int[] {Item.getIdFromItem(currCat.item), currCat.meta});
-			if (currCore != null)
-				data.setIntArray("currCore", new int[] {Item.getIdFromItem(currCore.item), currCore.meta});
 			networkPack(data, 50);
+			markDirty();
 		}
 	}
+	
+	private void meltdown()
+	{
+		int yield = 0;
+		yield += (int) (getFluidFill(FluidType.AMAT) / 1000) * 5;
+		yield += (int) (getFluidFill(FluidType.PLASMA_WARP) / 10000) * 5;
+		worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+		EntityBalefire bf = new EntityBalefire(getWorldObj());
+		bf.posX = xCoord;
+		bf.posY = yCoord + 0.5;
+		bf.posZ = zCoord;
+		bf.destructionRange = yield;
+		worldObj.spawnEntityInWorld(bf);
+		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord + 5, zCoord, yield * 1.5F, 1000));
+	}
+	
 	/**
 	 * Check if the reactor has fuel
 	 * @param low - Set if it should determine if it's low on fuel instead
@@ -166,91 +177,129 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 	}
 	public void handleButtonPacket(int value, int meta)
 	{
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "gui.button.press", 1.0F, 1.0F);
 		switch (value)
 		{
 		case 0:
 			isOn = !isOn;
 			break;
+		case 1:
+			isRunning = !isRunning;
+			break;
 		default:
 			break;
 		}
 	}
+	
+	private ComparableStack constructCStack(int slot)
+	{
+		ComparableStack stack;
+		
+		stack = getStackInSlot(slot) == null ? null : new ComparableStack(getStackInSlot(slot)).makeSingular();
+		
+		return stack;
+	}
+	
 	/** Consumes inputs and updates rates **/
 	private void updateInputs()
 	{
-		boolean validCat = slots[7] != null && catalystMap.containsKey(new ComparableStack(getStackInSlot(7)).makeSingular());
-		ReactorCatalyst testCat;
-		boolean validBoost = slots[6] != null && boosterMap.containsKey(new ComparableStack(getStackInSlot(6)).makeSingular());
-		ReactorBooster testBoost;
-		boolean validCore = slots[1] != null && coreMap.containsKey(new ComparableStack(getStackInSlot(1)).makeSingular());
-		ReactorCore testCore;
-		if (slots[6] != null)
-			boost = boosterMap.get(new ComparableStack(getStackInSlot(6)).makeSingular());
 		if (isCoreValid())
-			core = coreMap.get(new ComparableStack(getStackInSlot(1)).makeSingular());
-		if (coreLife == 0 && isCoreValid())
 		{
-			testCore = coreMap.get(new ComparableStack(getStackInSlot(1)).makeSingular());
-			if (core != null && core.equals(testCore) && coreLife == 0)
-			{
-				core = testCore;
-				plasmaRate = core.getPlasmaProduction();
-				plasmaRateBase = core.getPlasmaProduction();
-				fuelRate = core.getFuelConsumption();
-				fuelRateBase = core.getFuelConsumption();
-				if (core.getDoesDecay())
-				{
-					coreLife = core.getMaxLifespan();
+			core = coreMap.get(constructCStack(1));
+			if (core.getDoesDecay())
+				if (worldObj.rand.nextInt((int) core.getMaxLifespan()) == 0)
 					decrStackSize(1, 1);
+			
+			plasmaRate = core.getPlasmaProduction();
+			fuelRate = core.getFuelConsumption();
+		}
+		if (currCat == null)
+		{
+			catalystLife = 0;
+			cat = null;
+			currCat = null;
+			if (getStackInSlot(7) != null && catalystMap.containsKey(constructCStack(7)))
+			{
+				cat = catalystMap.get(constructCStack(7));
+				currCat = constructCStack(7);
+				if (catalystLife + cat.getBuffer() <= catalystMax)
+				{
+					decrStackSize(7, 1);
+					catalystLife += cat.getBuffer();
 				}
 			}
 		}
-		if (validCat)
+		else
 		{
-			testCat = catalystMap.get(new ComparableStack(getStackInSlot(7)).makeSingular());
-			if (cat != null && cat.equals(testCat) && catalystMax >= testCat.getBuffer() + catalystLife)
+			cat = catalystMap.get(currCat);
+			if (catalystLife + cat.getBuffer() <= catalystMax)
 			{
 				decrStackSize(7, 1);
-				cat = testCat;
 				catalystLife += cat.getBuffer();
-				plasmaRate += cat.getPlasmaProduction();
-			}
-			else if (cat == null || catalystLife == 0)
-			{
-				cat = testCat;
-				decrStackSize(7, 1);
-				catalystLife = cat.getBuffer();
-				plasmaRate += cat.getPlasmaProduction();
 			}
 		}
-		if (validBoost)
+		if (currBoost == null)
 		{
-			testBoost = boosterMap.get(new ComparableStack(getStackInSlot(6)).makeSingular());
-			if (catalystLife >= boost.getCatalystConsumption() && boost != null && boost.equals(testBoost) && boosterMax >= testBoost.toBuffer + boosterLife)
+			boosterLife = 0;
+			boost = null;
+			currBoost = null;
+			if (getStackInSlot(6) != null && boosterMap.containsKey(constructCStack(6)))
+			{
+				boost = boosterMap.get(constructCStack(6));
+				currBoost = constructCStack(6);
+				
+				if (boost.getCatalystConsumption() - catalystLife <= catalystLife && boost.getBuffer() + boosterLife <= boosterMax)
+				{
+					decrStackSize(6, 1);
+					boosterLife += boost.getBuffer();
+					catalystLife -= boost.getCatalystConsumption();
+				}
+			}
+		}
+		else
+		{
+			boost = boosterMap.get(currBoost);
+			if (boost.getCatalystConsumption() - catalystLife <= catalystLife && boost.getBuffer() + boosterLife <= boosterMax)
 			{
 				decrStackSize(6, 1);
-				boost = testBoost;
-			 	boosterLife += boost.getBuffer();
+				boosterLife += boost.getBuffer();
 				catalystLife -= boost.getCatalystConsumption();
-				fuelRate += boost.getFuelConsumption();
-				plasmaRate += boost.getPlasmaProduction();
 			}
 		}
-	 	if (catalystLife == 0 && cat != null)
-	 	{
-	 		fuelRate = fuelRateBase;
-	 		plasmaRate = plasmaRateBase;
-	 	}
-	 	else if (boosterLife == 0 && boost != null)
-	 	{
-	 		fuelRate -= boost.getFuelConsumption();
-	 		plasmaRate -= boost.getPlasmaProduction();
-	 	}
+		
+		fuelRate = netFuelConsumption();
+		plasmaRate = netPlasmaProduction();
+	}
+	
+	private int netFuelConsumption()
+	{
+		int net = 0;
+		
+		if (isCoreValid())
+			net += coreMap.get(constructCStack(1)).getFuelConsumption();
+		if (boost != null)
+			net += boost.getFuelConsumption();
+		
+		return net;
+	}
+	
+	private int netPlasmaProduction()
+	{
+		int net = 0;
+		
+		if (isCoreValid())
+			net += coreMap.get(constructCStack(1)).getPlasmaProduction();
+		if (cat != null)
+			net += cat.getPlasmaProduction();
+		if (boost != null)
+			net += boost.getPlasmaProduction();
+		
+		return net;
 	}
 	
 	public boolean isCoreValid()
 	{
-		return getStackInSlot(1) != null ? coreMap.containsKey(new ComparableStack(getStackInSlot(1)).makeSingular()) : coreLife > 0;
+		return getStackInSlot(1) != null ? coreMap.containsKey(constructCStack(1)) : false;
 	}
 	
 	@Override
@@ -296,20 +345,17 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		power = nbt.getLong("power");
 		boosterLife = nbt.getByte("boosterLife");
 		catalystLife = nbt.getShort("catalystLife");
-		coreLife = nbt.getInteger("coreLife");
 		fuelRate = nbt.getInteger("fuelRate");
-		fuelRateBase = nbt.getInteger("fuelRateBase");
 		plasmaRate = nbt.getInteger("plasmaRate");
-		plasmaRateBase = nbt.getInteger("plasmaRateBase");
 		if (nbt.hasKey("currBoost"))
 		{
 			int[] b = nbt.getIntArray("currBoost");
 			currBoost = new ComparableStack(Item.getItemById(b[0]), 1, b[1]);
 		}
-		if (nbt.hasKey("currCore"))
+		if (nbt.hasKey("currCat"))
 		{
-			int [] c = nbt.getIntArray("currCore");
-			currCore = new ComparableStack(Item.getItemById(c[0]), 1, c[1]);
+			int[] c = nbt.getIntArray("currCat");
+			currCat = new ComparableStack(Item.getItemById(c[0]), 1, c[1]);
 		}
 //		tanks[0].readFromNBT(nbt, "deutTank");
 //		tanks[1].readFromNBT(nbt, "amatTank");
@@ -326,14 +372,15 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		tanks[0].readFromNBT(nbt, "deutTank");
 		tanks[1].readFromNBT(nbt, "amatTank");
 		tanks[2].readFromNBT(nbt, "plasmaTank");
-//		int[] sBoost = nbt.getIntArray("currBoost");
-//		int[] sCat = nbt.getIntArray("currCat");
-//		currBoost = new ComparableStack(Item.getItemById(sBoost[0]), 1, sBoost[1]);
-//		currCat = new ComparableStack(Item.getItemById(sCat[0]), 1, sCat[1]);
-		if (nbt.hasKey("currCore"))
+		if (nbt.hasKey("currBoost"))
 		{
-			int[] sCore = nbt.getIntArray("currCore");
-			currCore = new ComparableStack(Item.getItemById(sCore[0]), 1, sCore[1]);
+			int[] sBoost = nbt.getIntArray("currBoost");
+			currBoost = new ComparableStack(Item.getItemById(sBoost[0]), 1, sBoost[1]);
+		}
+		if (nbt.hasKey("currCat"))
+		{
+			int[] sCat = nbt.getIntArray("currCat");
+			currCat = new ComparableStack(Item.getItemById(sCat[0]), 1, sCat[1]);
 		}
 	}
 	@Override
@@ -344,13 +391,15 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		nbt.setLong("power", power);
 		nbt.setShort("boosterLife", boosterLife);
 		nbt.setShort("catalystLife", catalystLife);
+		if (currCat != null)
+			nbt.setIntArray("currCat", new int[] {Item.getIdFromItem(currCat.item), currCat.meta});
+		if (currBoost != null)
+			nbt.setIntArray("currBoost", new int[] {Item.getIdFromItem(currBoost.item), currBoost.meta});
 		tanks[0].writeToNBT(nbt, "deutTank");
 		tanks[1].writeToNBT(nbt, "amatTank");
 		tanks[2].writeToNBT(nbt, "plasmaTank");
 //		nbt.setIntArray("currBoost", new int[] {Item.getIdFromItem(currBoost.item), currBoost.meta});
 //		nbt.setIntArray("currCat", new int[] {Item.getIdFromItem(currCat.item), currCat.meta});
-		if (currCore != null)
-			nbt.setIntArray("currCore", new int[] {Item.getIdFromItem(currCore.item), currCore.meta});
 	}
 
 	@Override
@@ -378,17 +427,9 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 	{
 		return catalystLife;
 	}
-	public int getPlasmaBaseProduction()
-	{
-		return plasmaRateBase;
-	}
 	public int getPlasmaProduction()
 	{
 		return plasmaRate;
-	}
-	public int getFuelBaseConsumption()
-	{
-		return fuelRateBase;
 	}
 	public int getFuelConsumption()
 	{
@@ -473,7 +514,7 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 		private byte fCons;
 		private byte pProd;
 		private boolean decays = false;
-		private long lifespan;
+		private long lifespan = -1;
 		/**
 		 * Add new reactor core
 		 * @param fCons - Fuel consumption in mb/tick
@@ -511,7 +552,7 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 	}
 	public long getCoreLife()
 	{
-		return core != null ? (core.getDoesDecay() ? coreLife : -1) : -1;
+		return coreMap.get(new ComparableStack(getStackInSlot(1)).makeSingular()).getMaxLifespan();
 	}
 	private static byte getIndexFromFType(FluidType type)
 	{

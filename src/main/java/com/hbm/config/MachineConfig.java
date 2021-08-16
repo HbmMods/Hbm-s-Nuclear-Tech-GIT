@@ -10,12 +10,16 @@ public class MachineConfig {
 		NO_CAP;// No cap at all
 	}
 	public static int singGenFailRadius = 100;
+	public static int twrTurretCooldown = 5000;
+	public static int twrTurretChance = 200;
 	public static EnumSingGenFail singGenFailType = EnumSingGenFail.CAP_CUSTOM;
 	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_MACHINE = "09_machines";
 		int singGen = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.00_singGenFail", "When a Watz Super-Compressor fails, what is the radius cap of the potential fölkvangr field? 0 means no fail and -1 means no cap at all", 100);
+		twrTurretCooldown = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.01_twrTurretCooldown", "Duration of the Tsukuyomi platform cooldown (Max 9999)", 5000);
+		twrTurretChance = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.02_twrTurretChance", "Chance to decrement the cooldown of the Tsukuyomi platform each tick", 200);
 		switch(singGen)
 		{
 		case 0:
@@ -30,6 +34,8 @@ public class MachineConfig {
 			singGenFailType = EnumSingGenFail.CAP_CUSTOM;
 			break;
 		}
+		if (twrTurretCooldown > 9999)
+			twrTurretCooldown = 9999;
 	}
 
 }

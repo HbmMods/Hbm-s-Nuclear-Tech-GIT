@@ -15,6 +15,7 @@ import com.hbm.entity.projectile.EntityRainbow;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class ModDamageSource extends DamageSource
@@ -55,7 +56,7 @@ public class ModDamageSource extends DamageSource
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource bleed = (new DamageSource("bleed")).setDamageIsAbsolute().setDamageBypassesArmor();
-	public static DamageSource twr = (new DamageSource("twr" + rand.nextInt(1))).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource twr = (new DamageSource("twr" + rand.nextInt(2))).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource light = (new DamageSource("light")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 
 	public ModDamageSource(String p_i1566_1_) {
@@ -63,8 +64,13 @@ public class ModDamageSource extends DamageSource
 	}
 	public static DamageSource causeTWRDamage(Entity e1, Entity e2)
 	{
-		int randMsg = rand.nextInt(1) + 3;
+		int randMsg = rand.nextInt(2) + 2;
 		return (new EntityDamageSourceIndirect("twr" + randMsg, e1, e2)).setDamageIsAbsolute().setDamageBypassesArmor();
+	}
+	public static DamageSource causeTWRDamage(Entity e1)
+	{
+		int randMsg = rand.nextInt(2);
+		return (new EntityDamageSource("twr" + randMsg, e1)).setDamageBypassesArmor().setDamageIsAbsolute();
 	}
     public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {

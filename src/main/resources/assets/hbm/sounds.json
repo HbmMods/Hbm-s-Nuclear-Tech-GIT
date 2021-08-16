@@ -55,6 +55,9 @@
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
     "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
+    
+    "gui.buttonNo": {"category": "player", "sounds": [{"name": "alarm/buttonNo", "stream": false}]},
+    "gui.buttonYes": {"category": "player", "sounds": [{"name": "alarm/buttonYes", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},

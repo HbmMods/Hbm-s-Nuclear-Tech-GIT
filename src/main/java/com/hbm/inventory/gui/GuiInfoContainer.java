@@ -1,7 +1,12 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import javax.annotation.Nonnegative;
+
+import com.hbm.interfaces.Untested;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 
@@ -9,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiInfoContainer extends GuiContainer {
@@ -127,5 +133,237 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			drawTexturedModalRect(x, y, 24, 32, 16, 16); break;
 		}
 	}
-
+	public class NumberDisplay
+	{
+		/** The display's X coordinate **/
+		private int displayX;
+		/** The display's Y coordinate **/
+		private int displayY;
+		/** The X coordinate of the reference **/
+		private int referenceX;
+		/** The Y coordinate of the reference **/
+		private int referenceY;
+		/** The amount of padding between digits, default 3 **/
+		private int padding = 3;
+		/** Does it blink or not, default false **/
+		private boolean blink = false;
+		/** Max number the display can handle **/
+		private int maxNum;
+		/** Min number the display can handle **/
+		private int minNum;
+		private boolean customBounds = false;
+		/** Does it pad out with zeros **/
+		private boolean pads = false;
+		/** Max number of digits the display has, default 3 **/
+		@Nonnegative
+		private byte digitLength = 3;
+		private int numIn = 0;
+		private char[] toDisp = new char[] {0, 0, 0};
+		@Nonnegative
+		private byte dispOffset = 0;
+		/**
+		 * Construct a new number display
+		 * @param dX - X coordinate of the display
+		 * @param dY - Y coordinate of the display
+		 * @param rX - X coordinate of the reference
+		 * @param rY - Y coordinate of the reference
+		 */
+		public NumberDisplay(int dX, int dY, int rX, int rY) 
+		{
+			displayX = dX;
+			displayY = dY;
+			referenceX = rX;
+			referenceY = rY;
+		}
+		/**
+		 * Draw custom number
+		 * @param num - The char array that has the number
+		 */
+		public void drawNumber(char[] num)
+		{
+			byte gap = (byte) (digitLength - num.length);
+			for (int i = 0; i < num.length; i++)
+			{
+				dispOffset = (byte) ((padding + 6) * (i + gap));
+				drawNumber(num[i]);
+			}
+			if (pads && gap > 0)
+			{
+				for (int i = 0; i < gap; i++)
+				{
+					dispOffset = (byte) ((padding + 6) * i);
+					drawNumber('0');
+				}
+			}
+		}
+		/**
+		 * Draw the previously provided number
+		 */
+		public void drawNumber()
+		{
+			byte gap = (byte) (digitLength - toDisp.length);
+			for (int i = 0; i < toDisp.length; i++)
+			{
+				dispOffset = (byte) ((padding + 6) * (i + gap));
+				drawNumber(toDisp[i]);
+			}
+			
+			if (pads && gap > 0)
+			{
+				for (int i = 0; i < gap; i++)
+				{
+					dispOffset = (byte) ((padding + 6) * i);
+					drawNumber('0');
+				}
+			}
+		}
+		/** Draw a single number (requires dispOffset to be set) **/
+		public void drawNumber(char num)
+		{
+//			System.out.println(num);
+			switch (num)
+			{
+			case '1':
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				break;
+			case '2':
+				drawHorizontal(0);
+				drawVertical(1, 0);
+				drawHorizontal(1);
+				drawVertical(0, 1);
+				drawHorizontal(2);
+				break;
+			case '3':
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				break;
+			case '4':
+				drawVertical(0, 0);
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				drawHorizontal(1);
+				break;
+			case '5':
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(1, 1);
+				break;
+			case '6':
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(0, 1);
+				drawVertical(1, 1);
+				break;
+			case '7':
+				drawHorizontal(0);
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				break;
+			case '8':
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(1, 0);
+				drawVertical(0, 1);
+				drawVertical(1, 1);
+				break;
+			case '9':
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				break;
+			case '0':
+				drawHorizontal(0);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(0, 1);
+				drawVertical(1, 0);
+				drawVertical(1, 1);
+				break;
+			case '-':
+				drawHorizontal(1);
+				break;
+			default:
+				drawHorizontal(0);
+				drawHorizontal(1);
+				drawHorizontal(2);
+				drawVertical(0, 0);
+				drawVertical(0, 1);
+				break;
+			}
+		}
+		
+		private void drawHorizontal(int pos)
+		{
+			byte offset = (byte) (pos * 6);
+			drawTexturedModalRect(guiLeft + displayX + dispOffset + 1, guiTop + displayY + offset, referenceX + 1, referenceY, 5, 1);
+		}
+		
+		private void drawVertical(int posX, int posY)
+		{
+			byte offsetX = (byte) (posX * 5);
+			byte offsetY = (byte) (posY * 6);
+			drawTexturedModalRect(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + 1, referenceX, referenceY + 1, 1, 5);
+		}
+		
+		public void setNumber(int in)
+		{
+			numIn = in;
+			if (customBounds)
+				numIn = MathHelper.clamp_int(in, minNum, maxNum);
+			
+			toDisp = new Integer(numIn).toString().toCharArray();
+		}
+		/** Get the set number **/
+		public Integer getNumber()
+		{
+			return numIn;
+		}
+		/** Make the display blink **/
+		public NumberDisplay setBlinks()
+		{
+			blink = true;
+			return this;
+		}
+		/** Padding between digits, default 3 **/
+		public NumberDisplay setPadding(int p)
+		{
+			padding = p;
+			return this;
+		}
+		/** Max number of digits **/
+		public NumberDisplay setDigitLength(byte l)
+		{
+			digitLength = l;
+			return this;
+		}
+		/** Set custom number bounds **/
+		public NumberDisplay setMaxMin(int max, int min)
+		{
+			if (min > max)
+				throw new IllegalArgumentException("Minimum value is larger than maximum value!");
+			maxNum = max;
+			minNum = min;
+			customBounds = true;
+			return this;
+		}
+		/** Pad out the left side of the number with zeros **/
+		public NumberDisplay setPadNumber()
+		{
+			pads = true;
+			return this;
+		}
+	}
 }

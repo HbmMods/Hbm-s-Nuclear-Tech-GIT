@@ -21,23 +21,24 @@ public class GUIReactorAmat extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/reactors/gui_reactor_amat.png");
 	private TileEntityReactorAmat reactor;
-	
+	private static final int color1 = 0x00ff00;
+	private NumberDisplay disp;
+	private boolean advDisplayOpen = false;
 	public GUIReactorAmat(InventoryPlayer invPlayer, TileEntityReactorAmat te)
 	{
 		super(new ContainerReactorAmat(invPlayer, te));
 		reactor = te;
 		xSize = 175;
 		ySize = 226;
+		disp = new NumberDisplay(29, 20, 218, 18).setMaxMin(100, 0);
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f)
 	{
 		super.drawScreen(mouseX, mouseY, f);
-		String[] info = I18nUtil.resolveKeyArray("desc.gui.reactorAmat.box", reactor.getPlasmaBaseProduction(), reactor.getPlasmaProduction(), reactor.getFuelBaseConsumption(), reactor.getFuelConsumption(), reactor.getBoosterBuffer(), reactor.getCatalystBuffer(), reactor.isCoreValid() ? (reactor.getCoreLife() == -1 ? "∞" : reactor.getCoreLife()) : "N/A");
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 27, guiTop + 15, 49, 35, mouseX, mouseY, info);
-		String[] reactant = new String[] {"Reactant base plasma production: " + reactor.getPlasmaBaseProduction(), "Reactant remaining: " + reactor.getCatalystBuffer()};
-		String[] booster = new String[] {"Post-Booster plasma production: " + reactor.getPlasmaProduction(), "Post-Booster fuel consumption: " + reactor.getFuelConsumption(), "Booster remaining: " + reactor.getBoosterBuffer()};
+		String[] reactant = new String[] {"Reactant remaining: " + reactor.getCatalystBuffer() + "/" + reactor.catalystMax};
+		String[] booster = new String[] {"Post-Booster plasma production: " + reactor.getPlasmaProduction(), "Post-Booster fuel consumption: " + reactor.getFuelConsumption(), "Booster remaining: " + reactor.getBoosterBuffer() + "/" + reactor.boosterMax};
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 62, guiTop + 87, 4, 18, mouseX, mouseY, booster);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 135, guiTop + 87, 4, 18, mouseX, mouseY, reactant);
 		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 103, 52, 16, reactor.power, reactor.getMaxPower());
@@ -53,26 +54,32 @@ public class GUIReactorAmat extends GuiInfoContainer
 		
 		fontRendererObj.drawString(name, xSize / 2 - fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		fontRendererObj.drawString(I18nUtil.resolveKey("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		
+		GL11.glScaled(0.5D, 0.5D, 1D);
+		String[] info = I18nUtil.resolveKeyArray("desc.gui.reactorAmat.box", disp.getNumber(), reactor.getPlasmaProduction(), reactor.getFuelConsumption(), reactor.getBoosterBuffer(), reactor.getCatalystBuffer(), reactor.isCoreValid() ? (reactor.getCoreLife() == -1 ? "∞" : reactor.getCoreLife()) : "N/A");
+		if (advDisplayOpen)
+			for (int i = 0; i < info.length; i++)
+				fontRendererObj.drawString(info[i], 80 * 2, (40 + (i * 5)) * 2, color1);
+		GL11.glScaled(2D, 2D, 1D);
 	}
 	
 	@Override
 	protected void mouseClicked(int x, int y, int i)
 	{
 		super.mouseClicked(x, y, i);
-//		boolean powerButton = guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 105 < y && guiTop + 105 + 18 >= y;
-		boolean powerButton = getButtonBool(x, y, 25, 108, 18, 18, guiLeft, guiTop);
-		if (powerButton)
-		{
-			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(reactor.xCoord, reactor.yCoord, reactor.zCoord, 0, 0));
-		}
+		if (getButtonBool(x, y, 25, 108, 18, 18, guiLeft, guiTop))
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(reactor, 0, 0));
+		if (getButtonBool(x, y, 100, 108, 18, 18, guiLeft, guiTop))
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(reactor, 1, 0));
+		if (getButtonBool(x, y, 142, 86, 8, 19, guiLeft, guiTop))
+			advDisplayOpen = !advDisplayOpen;
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		mc.getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if (reactor.isOn())
@@ -88,14 +95,23 @@ public class GUIReactorAmat extends GuiInfoContainer
 		long e = getScaledBar(reactor.getPower(), 52, reactor.getMaxPower());
 		drawTexturedModalRect(guiLeft + 62, guiTop + 106, 198, 0, (int) e, 16);
 		
+		disp.setNumber(0);
+		disp.drawNumber();
+		
 		FluidTank deutTank = reactor.tanks[0];
-		Minecraft.getMinecraft().getTextureManager().bindTexture(deutTank.getSheet());
+		mc.getTextureManager().bindTexture(deutTank.getSheet());
 		deutTank.renderTank(this, guiLeft + 8, guiTop + 86, deutTank.getTankType().textureX() * FluidTank.x, deutTank.getTankType().textureY() * FluidTank.y, 16, 70);
 		FluidTank amatTank = reactor.tanks[1];
-		Minecraft.getMinecraft().getTextureManager().bindTexture(amatTank.getSheet());
+		mc.getTextureManager().bindTexture(amatTank.getSheet());
 		amatTank.renderTank(this, guiLeft + 151, guiTop + 86, amatTank.getTankType().textureX() * FluidTank.x, amatTank.getTankType().textureY() * FluidTank.y, 16, 70);
 		FluidTank plasmaTank = reactor.tanks[2];
-		Minecraft.getMinecraft().getTextureManager().bindTexture(plasmaTank.getSheet());
+		mc.getTextureManager().bindTexture(plasmaTank.getSheet());
 		plasmaTank.renderTank(this, guiLeft + 80, guiTop + 86, plasmaTank.getTankType().textureX() * FluidTank.x, plasmaTank.getTankType().textureY() * FluidTank.y, 16, 70);
+		mc.getTextureManager().bindTexture(texture);
+		if (advDisplayOpen)
+		{
+			drawTexturedModalRect(guiLeft + 142, guiLeft + 86, 217, 18, 8, 19);
+			drawTexturedModalRect(guiLeft + 83, guiTop + 40, 175, 36, 67, 46);
+		}
 	}
 }

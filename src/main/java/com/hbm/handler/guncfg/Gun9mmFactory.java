@@ -93,7 +93,7 @@ public class Gun9mmFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = false;
 		
-		config.name = "1966 Ānanda type SMG \"Light Lunatic Rifle\"";
+		config.name = "1936 Ānanda type SMG \"Light Lunatic Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
 		config.damage = "2 - 4 (stock)";
 		config.comment.add("Calling this a rifle is a bit of a misnomer");

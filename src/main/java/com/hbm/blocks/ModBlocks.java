@@ -139,6 +139,7 @@ import com.hbm.blocks.turret.TurretLight;
 import com.hbm.blocks.turret.TurretRocket;
 import com.hbm.blocks.turret.TurretSpitfire;
 import com.hbm.blocks.turret.TurretTau;
+import com.hbm.blocks.turret.TurretTsukuyomi;
 import com.hbm.items.block.ItemBlockCircuit;
 import com.hbm.items.block.ItemBlockHazard;
 import com.hbm.items.block.ItemBlockLore;
@@ -159,7 +160,7 @@ import com.hbm.tileentity.turret.TileEntityTurretHoward;
 import com.hbm.tileentity.turret.TileEntityTurretJeremy;
 import com.hbm.tileentity.turret.TileEntityTurretRichard;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
-import com.hbm.tileentity.turret.TileEntityTurretTsukuyomi;
+import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -1749,8 +1750,8 @@ public class ModBlocks {
 		turret_tauon = new TurretBaseNT(Material.iron, TileEntityTurretTauon.class, guiID_tauon).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretBaseNT(Material.iron, TileEntityTurretRichard.class, guiID_richard).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretBaseNT(Material.iron, TileEntityTurretHoward.class, guiID_howard).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_tsukuyomi = new TestMachine(Material.iron).setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");
-		turret_lunar_oni = new BlockGeneric(Material.iron).setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_lunar_oni").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");// TODO Finish
+		turret_tsukuyomi = new TurretTsukuyomi().setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");
+		turret_lunar_oni = new TestMachine(Material.iron).setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_lunar_oni").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");// TODO Finish
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		

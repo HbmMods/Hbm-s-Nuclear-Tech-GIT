@@ -101,6 +101,12 @@ public class ItemCustomLore extends Item
 		loc = I18nUtil.resolveKey(uloc);
 		return !uloc.equals(loc);
 	}
+	
+	public static boolean keyExists(String key)
+	{
+		String loc = I18nUtil.resolveKey(key);
+		return !(loc == key);
+	}
 
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_)

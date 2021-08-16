@@ -5,7 +5,8 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineSingGen;
-import com.hbm.tileentity.turret.TileEntityTurretTsukuyomi;
+import com.hbm.tileentity.turret.TileEntityLunarOni;
+import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
@@ -30,9 +31,9 @@ public class TestMachine extends BlockContainer
 			return true;
 		else if (!player.isSneaking())
 		{
-			TileEntityTurretTsukuyomi te = (TileEntityTurretTsukuyomi) world.getTileEntity(x, y, z);
+			TileEntityLunarOni te = (TileEntityLunarOni) world.getTileEntity(x, y, z);
 			if (te != null)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_tsukuyomi, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_lunar_oni, world, x, y, z);
 			return true;
 		}
 		else
@@ -42,7 +43,7 @@ public class TestMachine extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
 	{
-		return new TileEntityTurretTsukuyomi();
+		return new TileEntityLunarOni();
 	}
 	
 	@Override

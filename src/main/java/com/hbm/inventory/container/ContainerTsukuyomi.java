@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.turret.TileEntityTurretTsukuyomi;
+import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,13 +9,14 @@ import net.minecraft.inventory.Slot;
 
 public class ContainerTsukuyomi extends Container
 {
-	private TileEntityTurretTsukuyomi twr;
+	private TileEntityTsukuyomi twr;
 
-	public ContainerTsukuyomi(InventoryPlayer invPlayer, TileEntityTurretTsukuyomi te)
+	public ContainerTsukuyomi(InventoryPlayer invPlayer, TileEntityTsukuyomi te)
 	{
 		twr = te;
 		addSlotToContainer(new Slot(te, 0, 166, 97));
-		addSlotToContainer(new Slot(te, 1, 128, 43));
+		addSlotToContainer(new Slot(te, 1, 148, 52));
+		addSlotToContainer(new Slot(te, 2, 129, 52));
 		
 		for (int i = 0; i < 3; i++)
 			for(int j = 0; j < 9; j++)

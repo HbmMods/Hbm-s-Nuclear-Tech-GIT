@@ -166,7 +166,7 @@ public class Gun556mmFactory {
 		config.firingSound = "hbm:weapon.hksShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "1966 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
+		config.name = "1936 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
 		config.damage = "2 - 4 (stock)";
 		config.comment.add("\"May you never reincarnate again\"");

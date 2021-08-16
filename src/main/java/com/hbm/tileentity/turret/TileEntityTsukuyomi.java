@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.hbm.config.MachineConfig;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.guncfg.GunEnergyFactory;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -19,41 +21,43 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.I18nUtil;
 
-import cofh.api.energy.EnergyStorage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-
-public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements IConsumer, IControlReceiver
+@Spaghetti("aaaaaa")
+public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsumer, IControlReceiver
 {
+	private static int cooldown = 0;
 	private int ammoCount = 0;
-	private boolean isOn = false;
-	private boolean isReady = false;
+	public boolean isOn = false;
+	public boolean isReady = false;
 	public boolean gotTargets = false;
+	public byte tachyonCount = 0;
+	public boolean hasTachyon = false;
 	public byte index = 0;
 	private long power = 0;
-	public static final long maxPower = 10000000000L;
+	public static final long maxPower = 1000000000000L;
 	private int bulletConf = 0;
 	static List<Integer> configs = new ArrayList<Integer>();
 	public EntityPlayer currPlayer = null;
 	private List<String> targets = new ArrayList<String>(0);
 	private List<EntityPlayer> readyTargets = new ArrayList<EntityPlayer>(0);
-	private static HashMap<BulletConfiguration, Integer> configMap = new HashMap<>();
+	private static HashMap<Item, Integer> configMap = new HashMap<>();
 	static
 	{
 		configs.add(BulletConfigSyncingUtil.TWR_RAY);
 		configs.add(BulletConfigSyncingUtil.TWR_RAY_LARGE);
 		configs.add(BulletConfigSyncingUtil.TWR_RAY_SUPERHEATED);
 		configs.add(BulletConfigSyncingUtil.TWR_RAY_COUNTER_RESONANT);
-		configMap.put(GunEnergyFactory.getSingConfig(), configs.get(0));
-		configMap.put(GunEnergyFactory.getRegSingConfig(), configs.get(1));
-		configMap.put(GunEnergyFactory.getSuperheatedSingConfig(), configs.get(2));
-		configMap.put(GunEnergyFactory.getCounterResonantSingConfig(), configs.get(3));
+		configMap.put(ModItems.singularity_micro, configs.get(0));
+		configMap.put(ModItems.singularity, configs.get(1));
+		configMap.put(ModItems.singularity_super_heated, configs.get(2));
+		configMap.put(ModItems.singularity_counter_resonant, configs.get(3));
 	}
 	
-	public TileEntityTurretTsukuyomi()
+	public TileEntityTsukuyomi()
 	{
-		super(2);
+		super(3);
 	}
 
 	public void updateConfig()
@@ -61,15 +65,8 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		if (slots[1] != null && ammoCount == 0)
 		{
 			Item ammo = slots[1].getItem();
-//			System.out.println(ammo.getUnlocalizedName());
-			if (ammo == ModItems.singularity_micro)
-				bulletConf = configs.get(0);
-			else if (ammo == ModItems.singularity)
-				bulletConf = configs.get(1);
-			else if (ammo == ModItems.singularity_counter_resonant)
-				bulletConf = configs.get(3);
-			else if (ammo == ModItems.singularity_super_heated)
-				bulletConf = configs.get(2);
+			if (configMap.containsKey(ammo))
+				bulletConf = configMap.get(ammo);
 			else
 				bulletConf = 0;
 		}
@@ -78,7 +75,7 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 	public String getAttackResult()
 	{
 		BulletConfiguration config = bulletConf == 0 ? null : BulletConfigSyncingUtil.pullConfig(bulletConf);
-		if (config != null && currPlayer != null)
+		if (config != null && currPlayer != null && isReady)
 		{
 			float pHealth = currPlayer.getHealth();
 			return config.dmgMin > pHealth ? I18nUtil.resolveKey("twr.result.success") :
@@ -96,16 +93,39 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		{
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			updateConfig();
-			currPlayer = gotTargets ? readyTargets.get(index) : null;
 			if (index > targets.size())
 				index = 0;
+			currPlayer = gotTargets ? readyTargets.get(index) : null;
+			
+			hasTachyon = tachyonCount > 0;
+			
+			if (ammoCount > 0 && bulletConf == 0)
+				ammoCount = 0;
+			
+			if (cooldown > 0)
+			{
+				gotTargets = false;
+				isReady = false;
+				isOn = false;
+			}
+			
+			if (worldObj.rand.nextInt(MachineConfig.twrTurretChance) == 0 && cooldown > 0)
+				cooldown--;
+			if (cooldown < 0)
+				cooldown = 0;
 //			System.out.println(gotTargets);
 		}
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("power", power);
 		data.setInteger("ammoCount", ammoCount);
+		data.setBoolean("gotTargets", gotTargets);
+		data.setBoolean("isReady", isReady);
+		data.setBoolean("hasTachyon", hasTachyon);
+		data.setByte("tachyonCount", tachyonCount);
+		data.setBoolean("isOn", isOn);
 		data.setByte("index", index);
+		data.setInteger("cooldown", cooldown);
 		if (currPlayer != null)
 			data.setString("currPlayer", currPlayer.getDisplayName());
 		if (bulletConf != 0)
@@ -122,7 +142,13 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		super.networkUnpack(nbt);
 		power = nbt.getLong("power");
 		ammoCount = nbt.getInteger("ammoCount");
+		gotTargets = nbt.getBoolean("gotTargets");
+		isReady = nbt.getBoolean("isReady");
+		hasTachyon = nbt.getBoolean("hasTachyon");
+		tachyonCount = nbt.getByte("tachyonCount");
+		isOn = nbt.getBoolean("isOn");
 		index = nbt.getByte("index");
+		cooldown = nbt.getInteger("cooldown");
 		if (nbt.hasKey("currPlayer"))
 			currPlayer = worldObj.getPlayerEntityByName(nbt.getString("currPlayer"));
 		if (nbt.hasKey("bullConfig"))
@@ -141,6 +167,11 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 	public void handleButtonPacket(int value, int meta)
 	{
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "gui.button.press", 1.0F, 1.0F);
+		if (cooldown > 0)
+		{
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
+			return;
+		}
 		switch (value)
 		{
 		case 0:
@@ -152,15 +183,41 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 			else
 			{
 				gotTargets = false;
+				isReady = false;
+				if (readyTargets.isEmpty())
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
 				readyTargets.clear();
+				currPlayer = null;
+			}
+			break;
+		case 1:
+			if (gotTargets && !isReady && bulletConf != 0)
+			{
+				isReady = true;
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonYes", 1.0F, 1.0F);
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
+				if (ammoCount == 0)
+				{
+					ammoCount = BulletConfigSyncingUtil.pullConfig(bulletConf).ammoCount;
+					decrStackSize(1, 1);
+				}
+			}
+			else
+			{
+				if (!gotTargets || bulletConf == 0)
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
+				isReady = false;
 			}
 			break;
 		case 2:
-			if (!readyTargets.isEmpty())
+			if (!readyTargets.isEmpty() && isReady && gotTargets && bulletConf != 0 && ammoCount > 0 && power == maxPower)
 			{
-				purify();
+				isOn = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
+				purify();
 			}
+			else
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
 			break;
 		case 3:
 			if (meta == 0)
@@ -196,6 +253,9 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		super.readFromNBT(nbt);
 		ammoCount = nbt.getInteger("ammoCount");
 		power = nbt.getLong("power");
+		tachyonCount = nbt.getByte("tachyonCount");
+		cooldown = nbt.getInteger("cooldown");
+		bulletConf = nbt.getInteger("bullConf");
 		for (int i = 0; i < 16; i++)
 		{
 			if (!nbt.hasKey("player_" + i))
@@ -210,6 +270,9 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		super.writeToNBT(nbt);
 		nbt.setInteger("ammoCount", ammoCount);
 		nbt.setLong("power", power);
+		nbt.setByte("tachyonCount", tachyonCount);
+		nbt.setInteger("cooldown", cooldown);
+		nbt.setInteger("bullConf", bulletConf);
 		if (!targets.isEmpty())
 			for (int i = 0; i < targets.size(); i++)
 				nbt.setString("player_" + i, targets.get(i));
@@ -217,9 +280,15 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 	
 	private void purify()
 	{
+		// TODO Finish
 		BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(bulletConf);
-		for (int i = 0; i < readyTargets.size() - 1; i++)
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(readyTargets.get(i), ModDamageSource.twr, worldObj.rand.nextInt((int) config.dmgMax) + config.dmgMin);
+		for (int i = 0; i < readyTargets.size(); i++)
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(readyTargets.get(i), ModDamageSource.causeTWRDamage(readyTargets.get(i)), worldObj.rand.nextInt((int) config.dmgMax) + config.dmgMin);
+		gotTargets = false;
+		isOn = false;
+		isReady = false;
+		power = 0;
+		cooldown = MachineConfig.twrTurretCooldown;
 		ammoCount -= readyTargets.size();
 	}
 
@@ -254,15 +323,13 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		if (!targets.isEmpty())
 		{
 			readyTargets.clear();
-			for (int i = 0; i < targets.size() - 1; i++)
+			index = 0;
+			for (String t : new ArrayList<>(targets))
 			{
-				if (isPlayerNameValid(targets.get(i)) && isPlayerValid(worldObj.getPlayerEntityByName(targets.get(i))) != -1)
-					readyTargets.add(worldObj.getPlayerEntityByName(targets.get(i)));
+				if (isPlayerNameValid(t) && isPlayerValid(worldObj.getPlayerEntityByName(t)) == worldObj.provider.dimensionId)
+					readyTargets.add(worldObj.getPlayerEntityByName(t));
 				else
-				{
-					targets.remove(i);
-					i -= 2;
-				}
+					targets.remove(t);
 			}
 		}
 		return readyTargets.size();
@@ -290,6 +357,11 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 	public long getMaxPower()
 	{
 		return maxPower;
+	}
+	
+	public int getAmmoCount()
+	{
+		return ammoCount;
 	}
 
 	private class PlayerStats
@@ -321,8 +393,8 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 			try
 			{
 				String s = "";
-				MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-				byte[] bytes = sha256.digest(Integer.toHexString((int) (7 * x * 13 * z * health * dim * hash * super.hashCode() * 31 * exp + worldObj.rand.nextInt())).getBytes());
+				MessageDigest md5 = MessageDigest.getInstance("MD5");
+				byte[] bytes = md5.digest(Integer.toHexString((int) (7 * x * 13 * z * health * dim * hash * super.hashCode() * 31 * exp + worldObj.rand.nextInt())).getBytes());
 				for (byte b : bytes)
 					s += Integer.toString((b & 0xFF) + 256, 16).substring(1);
 				
@@ -351,6 +423,11 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		return targets;
 	}
 	
+	public static int getCooldown()
+	{
+		return cooldown;
+	}
+	
 	@Override
 	public boolean hasPermission(EntityPlayer player)
 	{
@@ -363,6 +440,11 @@ public class TileEntityTurretTsukuyomi extends TileEntityMachineBase implements 
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "gui.button.press", 1.0F, 1.0F);
 //		System.out.println("Got commands");
 		if (data.hasKey("name") && targets.size() <= 15 && !targets.contains(data.getString("name")) && !gotTargets)
-			System.out.println(addPlayer(data.getString("name")));
+		{
+			if (addPlayer(data.getString("name")))
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonYes", 1.0F, 1.0F);
+			else
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
+		}
 	}
 }

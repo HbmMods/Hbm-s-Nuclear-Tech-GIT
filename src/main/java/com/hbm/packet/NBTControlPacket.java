@@ -37,6 +37,11 @@ public class NBTControlPacket implements IMessage {
 			e.printStackTrace();
 		}
 	}
+	
+	public NBTControlPacket(NBTTagCompound nbt, TileEntity te)
+	{
+		this(nbt, te.xCoord, te.yCoord, te.zCoord);
+	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {

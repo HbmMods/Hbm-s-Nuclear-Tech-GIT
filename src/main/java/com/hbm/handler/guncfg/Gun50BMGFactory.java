@@ -110,7 +110,7 @@ public class Gun50BMGFactory {
 		config.reloadSoundEnd = true;
 		config.durability = 15000;
 		
-		config.name = "1970 Rāhula type Anti-Material Rifle \"Lunatic Marksman Rifle\"";
+		config.name = "1909 Rāhula type Anti-Material Rifle \"Lunatic Marksman Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
 		config.damage = "20 - 23 (stock)";
 		config.comment.add("\"You do not spark joy\"");
