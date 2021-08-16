@@ -2115,6 +2115,7 @@ public class ModItems {
 	public static Item injector_5htp;
 	public static Item injector_knife;
 	public static Item medal_liquidator;
+	public static Item v1;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -3182,6 +3183,7 @@ public class ModItems {
 		injector_5htp = new ItemModAuto().setUnlocalizedName("injector_5htp").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":injector_5htp");
 		injector_knife = new ItemModKnife().setUnlocalizedName("injector_knife").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":injector_knife");
 		medal_liquidator = new ItemModMedal().setUnlocalizedName("medal_liquidator").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":medal_liquidator");
+		v1 = new ItemModV1().setUnlocalizedName("v1").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":v1");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -7265,6 +7267,7 @@ public class ModItems {
 		GameRegistry.registerItem(coin_worm, coin_worm.getUnlocalizedName());
 		GameRegistry.registerItem(coin_ufo, coin_ufo.getUnlocalizedName());
 		GameRegistry.registerItem(medal_liquidator, medal_liquidator.getUnlocalizedName());
+		GameRegistry.registerItem(v1, v1.getUnlocalizedName());
 		
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());

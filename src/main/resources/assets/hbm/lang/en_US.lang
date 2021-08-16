@@ -2520,6 +2520,7 @@ item.upgrade_speed_1.name=Speed Upgrade Mk.I
 item.upgrade_speed_2.name=Speed Upgrade Mk.II
 item.upgrade_speed_3.name=Speed Upgrade Mk.III
 item.upgrade_template.name=Machine Upgrade Template
+item.v1.name=V1
 item.wand_d.name=Debug Wand
 item.wand_k.name=Construction Wand
 item.wand_s.name=Structure Wand

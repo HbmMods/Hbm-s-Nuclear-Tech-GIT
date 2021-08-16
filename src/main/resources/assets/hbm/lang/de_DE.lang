@@ -2454,6 +2454,7 @@ item.upgrade_speed_1.name=Geschwindigkeitsupgrade Mk.I
 item.upgrade_speed_2.name=Geschwindigkeitsupgrade Mk.II
 item.upgrade_speed_3.name=Geschwindigkeitsupgrade Mk.III
 item.upgrade_template.name=Maschinenupgrade-Vorlage
+item.v1.name=V1
 item.wand_d.name=Debug-Zauberstab
 item.wand_k.name=Konstruktions-Zauberstab
 item.wand_s.name=Struktur-Zauberstab

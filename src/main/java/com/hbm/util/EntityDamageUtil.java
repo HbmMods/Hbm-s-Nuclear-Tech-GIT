@@ -2,10 +2,16 @@ package com.hbm.util;
 
 import java.lang.reflect.Field;
 
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 
 public class EntityDamageUtil {
 	
@@ -35,5 +41,27 @@ public class EntityDamageUtil {
 		} catch(Exception x) {
 			return 0F;
 		}
+	}
+	
+	public static boolean wasAttackedByV1(DamageSource source) {
+
+		if(source instanceof EntityDamageSource) {
+			Entity attacker = ((EntityDamageSource) source).getEntity();
+			
+			if(attacker instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) attacker;
+				ItemStack chestplate = player.inventory.armorInventory[2];
+				
+				if(chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+					ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
+					
+					if(mods[ArmorModHandler.extra] != null && mods[ArmorModHandler.extra].getItem() == ModItems.v1) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 }

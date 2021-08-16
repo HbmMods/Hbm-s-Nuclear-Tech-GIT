@@ -7,6 +7,9 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.WeightedRandomObject;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
@@ -213,7 +216,7 @@ public abstract class WeaponAbility {
 						data.setDouble("motion", 0.1D);
 						data.setString("mode", "blockdust");
 						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-						PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, living.posX, living.posY + living.height * 0.5, living.posZ), (EntityPlayerMP)player);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, living.posX, living.posY + living.height * 0.5, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
 					}
 					
 					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "hbm:weapon.chainsaw", 0.5F, 1.0F);

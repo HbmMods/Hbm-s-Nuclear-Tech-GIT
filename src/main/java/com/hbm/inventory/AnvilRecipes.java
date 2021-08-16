@@ -149,7 +149,7 @@ public class AnvilRecipes {
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_difurnace_off))).setTier(1));
 		
-		int ukModifier = 100;
+		int ukModifier = 1;
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new OreDictStack("blockGlassColorless", 4 * ukModifier),
