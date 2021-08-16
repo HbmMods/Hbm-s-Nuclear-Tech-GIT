@@ -176,6 +176,14 @@ public class RecipesCommon {
 				item = Items.stick;
 			}
 			
+			String name = Item.itemRegistry.getNameForObject(item);
+			
+			if(name == null) {
+				MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen?");
+				Thread.currentThread().dumpStack();
+				item = Items.stick; //we know sticks have a name, so sure, why not
+			}
+			
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + Item.itemRegistry.getNameForObject(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
