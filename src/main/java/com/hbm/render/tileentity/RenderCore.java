@@ -36,7 +36,7 @@ public class RenderCore extends TileEntitySpecialRenderer {
 		} else {
 
 			GL11.glPushMatrix();
-			GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+			GL11.glTranslated(x, y, z);
 			/*GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
 			GL11.glTranslated(-0.5, -0.5, -0.5);*/
