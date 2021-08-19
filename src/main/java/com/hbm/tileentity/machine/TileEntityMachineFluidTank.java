@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -53,9 +54,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			tank.loadTank(2, 3, slots);
 			tank.setType(0, 1, slots);
 			
-			if(tank.getTankType().isAntimatter() && tank.getFill() > 0) {
-				worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+			if(tank.getFill() > 0) {
+				if(tank.getTankType().isAntimatter()) {
+					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+				}
+				
+				if(tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2)) {
+					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+				}
 			}
 			
 			tank.unloadTank(4, 5, slots);

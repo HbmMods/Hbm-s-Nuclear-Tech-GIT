@@ -1004,6 +1004,28 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.turret_fritz_tex); ResourceManager.turret_fritz.renderPart("Gun");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_bat9000), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.bat9000_tex); ResourceManager.bat9000.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.watz), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.watz_tex); ResourceManager.watz.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

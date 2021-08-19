@@ -281,9 +281,9 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[0].loadTank(17, 19, slots);
 			tanks[1].loadTank(18, 20, slots);
 			
-			if(slots[17] != null && !(slots[17].getItem() == ModItems.fluid_barrel_infinite || slots[17].getItem() == ModItems.inf_water))
+			if(slots[17] != null && !(slots[17].getItem() == ModItems.fluid_barrel_infinite || slots[17].getItem() == ModItems.inf_water || slots[17].getItem() == ModItems.inf_water_mk2))
 				tanks[0].unloadTank(17, 19, slots);
-			if(slots[18] != null && !(slots[18].getItem() == ModItems.fluid_barrel_infinite || slots[18].getItem() == ModItems.inf_water))
+			if(slots[18] != null && !(slots[18].getItem() == ModItems.fluid_barrel_infinite || slots[18].getItem() == ModItems.inf_water || slots[18].getItem() == ModItems.inf_water_mk2))
 				tanks[1].unloadTank(18, 20, slots);
 			
 			tanks[2].unloadTank(9, 11, slots);
