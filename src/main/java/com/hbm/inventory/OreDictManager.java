@@ -1,6 +1,8 @@
 package com.hbm.inventory;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
+import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
@@ -41,7 +43,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotTitanium", ModItems.ingot_titanium);
 		OreDictionary.registerOre("ingotSteel", ModItems.ingot_steel);
 		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
-		OreDictionary.registerOre("ingotRedCopperAlloy", ModItems.ingot_red_copper);
+		OreDictionary.registerOre("ingotMingrade", ModItems.ingot_red_copper);
 		OreDictionary.registerOre("ingotAdvanced", ModItems.ingot_advanced_alloy);
 		OreDictionary.registerOre("ingotAdvancedAlloy", ModItems.ingot_advanced_alloy);
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
@@ -136,7 +138,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustAdvancedAlloy", ModItems.powder_advanced_alloy);
 		OreDictionary.registerOre("dustCMBSteel", ModItems.powder_combine_steel);
 		OreDictionary.registerOre("dustMagnetizedTungsten", ModItems.powder_magnetized_tungsten);
-		OreDictionary.registerOre("dustRedCopperAlloy", ModItems.powder_red_copper);
+		OreDictionary.registerOre("dustMingrade", ModItems.powder_red_copper);
 		OreDictionary.registerOre("dustSteel", ModItems.powder_steel);
 		OreDictionary.registerOre("dustLithium", ModItems.powder_lithium);
 		OreDictionary.registerOre("dustNetherQuartz", ModItems.powder_quartz);
@@ -182,7 +184,7 @@ public class OreDictManager {
 		
 		OreDictionary.registerOre("plateTitanium", ModItems.plate_titanium);
 		OreDictionary.registerOre("plateAluminum", ModItems.plate_aluminium);
-		OreDictionary.registerOre("plateDenseLead", ModItems.neutron_reflector);
+		OreDictionary.registerOre(getReflector(), ModItems.neutron_reflector);
 		OreDictionary.registerOre("plateSteel", ModItems.plate_steel);
 		OreDictionary.registerOre("plateLead", ModItems.plate_lead);
 		OreDictionary.registerOre("plateCopper", ModItems.plate_copper);
@@ -255,7 +257,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockNiter", ModBlocks.block_niter);
 		OreDictionary.registerOre("blockSaltpeter", ModBlocks.block_niter);
 		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
-		OreDictionary.registerOre("blockRedCopperAlloy", ModBlocks.block_red_copper);
+		OreDictionary.registerOre("blockMingrade", ModBlocks.block_red_copper);
 		OreDictionary.registerOre("blockAdvanced", ModBlocks.block_advanced_alloy);
 		OreDictionary.registerOre("blockTungsten", ModBlocks.block_tungsten);
 		OreDictionary.registerOre("blockAluminum", ModBlocks.block_aluminium);
@@ -311,5 +313,10 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassLime", ModBlocks.glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", ModBlocks.glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", ModBlocks.glass_ash);
+	}
+	
+	@Untested
+	public static String getReflector() {
+		return GeneralConfig.enableReflectorCompat ? "plateDenseLead" : "plateTungCar"; //let's just mangle the name into "tungCar" so that it can't conflict with anything ever
 	}
 }

@@ -89,7 +89,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotAluminum"), new AnvilOutput(new ItemStack(ModItems.wire_aluminium, 8))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotCopper"), new AnvilOutput(new ItemStack(ModItems.wire_copper, 8))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotTungsten"), new AnvilOutput(new ItemStack(ModItems.wire_tungsten, 8))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotRedCopperAlloy"), new AnvilOutput(new ItemStack(ModItems.wire_red_copper, 8))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotMingrade"), new AnvilOutput(new ItemStack(ModItems.wire_red_copper, 8))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotAdvancedAlloy"), new AnvilOutput(new ItemStack(ModItems.wire_advanced_alloy, 8))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotGold"), new AnvilOutput(new ItemStack(ModItems.wire_gold, 8))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotSchrabidium"), new AnvilOutput(new ItemStack(ModItems.wire_schrabidium, 8))).setTier(4));
@@ -111,7 +111,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotAluminum", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_aluminium))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotBeryllium", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_beryllium))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotLead", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_lead))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotRedCopperAlloy", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_red_copper))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotMingrade", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_red_copper))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotSteel", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_steel))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotTitanium", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_titanium))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("ingotTungsten", 1), new AnvilOutput(new ItemStack(ModBlocks.deco_tungsten))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
@@ -188,7 +188,7 @@ public class AnvilRecipes {
 				new AStack[] {new ComparableStack(ModItems.plate_advanced_alloy, 4), new ComparableStack(ModItems.plate_armor_titanium, 1), new ComparableStack(ModItems.wire_tungsten, 6)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_hev))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("plateDenseLead", 4), new ComparableStack(ModItems.ingot_starmetal, 1), new ComparableStack(ModItems.wire_magnetized_tungsten, 6)},
+				new AStack[] {new OreDictStack(OreDictManager.getReflector(), 4), new ComparableStack(ModItems.ingot_starmetal, 1), new ComparableStack(ModItems.wire_magnetized_tungsten, 6)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_lunar))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.ingot_meteorite_forged, 4), new OreDictStack("ingotDesh", 1), new ComparableStack(ModItems.billet_yharonite, 1)},

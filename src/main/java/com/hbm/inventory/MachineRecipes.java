@@ -84,8 +84,8 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.canister_napalm, 1);
 		}
 
-		if (mODE(item, new String[] {"ingotRedCopperAlloy", "dustRedCopperAlloy"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})
-				|| mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotRedCopperAlloy", "dustRedCopperAlloy"})) {
+		if (mODE(item, new String[] {"ingotMingrade", "dustMingrade"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})
+				|| mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotMingrade", "dustMingrade"})) {
 			return new ItemStack(ModItems.ingot_advanced_alloy, 2);
 		}
 
@@ -382,9 +382,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.wire_copper, 8);
 			if(mODE(input, "ingotTungsten"))
 				return new ItemStack(ModItems.wire_tungsten, 8);
-			if(mODE(input, "ingotRedCopperAlloy"))
-				return new ItemStack(ModItems.wire_red_copper, 8);
-			if(mODE(input, "ingotRedCopperAlloy"))
+			if(mODE(input, "ingotMingrade"))
 				return new ItemStack(ModItems.wire_red_copper, 8);
 			if(mODE(input, "ingotGold"))
 				return new ItemStack(ModItems.wire_gold, 8);
