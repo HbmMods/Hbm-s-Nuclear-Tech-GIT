@@ -33,6 +33,7 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
@@ -56,6 +57,8 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.imc.IMCCrystallizer;
+import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.*;
 import com.hbm.items.ModItems;
@@ -81,6 +84,8 @@ import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -1023,6 +1028,24 @@ public class MainRegistry {
 		// MUST be initialized AFTER achievements!!
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
+		
+		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
+	}
+	
+	@EventHandler
+	public static void initIMC(IMCEvent event) {
+		
+		ImmutableList<IMCMessage> inbox = event.getMessages(); //tee-hee
+		
+		for(IMCMessage message : inbox) {
+			IMCHandler handler = IMCHandler.getHanlder(message.key);
+			
+			if(handler != null) {
+				handler.process(message);
+			} else {
+				MainRegistry.logger.error("Could not process unknown IMC type \"" + message.key + "\"");
+			}
+		}
 	}
 
 	@EventHandler
