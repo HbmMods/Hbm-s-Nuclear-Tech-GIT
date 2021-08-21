@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -31,6 +32,7 @@ import cpw.mods.fml.common.ModMetadata;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
@@ -75,7 +77,6 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.tileentity.turret.*;
@@ -84,6 +85,7 @@ import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -106,7 +108,7 @@ public class MainRegistry {
 	@Metadata
 	public static ModMetadata meta;
 
-	public static Logger logger;
+	public static Logger logger = LogManager.getLogger("HBM");
 
 	// Tool Materials
 	public static ToolMaterial tMatSchrab = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
@@ -220,8 +222,7 @@ public class MainRegistry {
 		
 		startupTime = System.currentTimeMillis();
 		
-		if(logger == null)
-			logger = PreEvent.getModLog();
+		logger.info("TEST LOG AAAAAAAAAA");
 
 		// Reroll Polaroid
 
@@ -1029,7 +1030,21 @@ public class MainRegistry {
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
 		
-		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
+		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());NBTTagCompound msg0 = new NBTTagCompound();
+		NBTTagCompound ing0 = new NBTTagCompound();
+		new ItemStack(ModItems.alloy_plate).writeToNBT(ing0);
+		msg0.setTag("input", ing0);
+		NBTTagCompound out0 = new NBTTagCompound();
+		new ItemStack(ModItems.ingot_advanced_alloy, 8).writeToNBT(out0);
+		msg0.setTag("output", out0);
+		FMLInterModComms.sendMessage("hbm", "crystallizer", msg0);
+
+		NBTTagCompound msg1 = new NBTTagCompound();
+		msg1.setString("oredict", "plateSteel");
+		NBTTagCompound out1 = new NBTTagCompound();
+		new ItemStack(ModItems.ingot_steel, 1).writeToNBT(out1);
+		msg1.setTag("output", out1);
+		FMLInterModComms.sendMessage("hbm", "crystallizer", msg1);
 	}
 	
 	@EventHandler
@@ -1038,9 +1053,10 @@ public class MainRegistry {
 		ImmutableList<IMCMessage> inbox = event.getMessages(); //tee-hee
 		
 		for(IMCMessage message : inbox) {
-			IMCHandler handler = IMCHandler.getHanlder(message.key);
+			IMCHandler handler = IMCHandler.getHandler(message.key);
 			
 			if(handler != null) {
+				MainRegistry.logger.info("Received IMC of type >" + message.key + "< from " + message.getSender() + "!");
 				handler.process(message);
 			} else {
 				MainRegistry.logger.error("Could not process unknown IMC type \"" + message.key + "\"");

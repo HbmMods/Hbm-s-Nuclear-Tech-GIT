@@ -48,6 +48,7 @@ public class ArmorFSB extends ItemArmor {
 	public List<PotionEffect> effects = new ArrayList();
 	public HashMap<String, Float> resistance = new HashMap();
 	public float blastProtection = -1;
+	public float projectileProtection = -1;
 	public float damageCap = -1;
 	public float damageMod = -1;
 	public float damageThreshold = 0;
@@ -95,6 +96,11 @@ public class ArmorFSB extends ItemArmor {
 
 	public ArmorFSB setBlastProtection(float blastProtection) {
 		this.blastProtection = blastProtection;
+		return this;
+	}
+
+	public ArmorFSB setProjectileProtection(float projectileProtection) {
+		this.projectileProtection = projectileProtection;
 		return this;
 	}
 
@@ -167,6 +173,7 @@ public class ArmorFSB extends ItemArmor {
 		this.damageMod = original.damageMod;
 		this.damageThreshold = original.damageThreshold;
 		this.blastProtection = original.blastProtection;
+		this.projectileProtection = original.projectileProtection;
 		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
 		this.vats = original.vats;
@@ -213,6 +220,11 @@ public class ArmorFSB extends ItemArmor {
 		if(blastProtection != -1) {
 
 			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.blastProtection", blastProtection));
+		}
+
+		if(projectileProtection != -1) {
+
+			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.projectileProtection", projectileProtection));
 		}
 
 		if(damageCap != -1) {
@@ -366,6 +378,10 @@ public class ArmorFSB extends ItemArmor {
 
 					if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
 						event.ammount *= chestplate.blastProtection;
+					}
+
+					if(chestplate.projectileProtection != -1 && event.source.isProjectile()) {
+						event.ammount *= chestplate.projectileProtection;
 					}
 
 					if(chestplate.damageCap != -1) {

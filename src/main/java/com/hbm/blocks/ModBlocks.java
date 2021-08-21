@@ -131,6 +131,7 @@ public class ModBlocks {
 	public static Block basalt_sulfur;
 	public static Block basalt_fluorite;
 	public static Block basalt_asbestos;
+	public static Block basalt_gem;
 	public static Block basalt_smooth;
 	public static Block basalt_brick;
 	public static Block basalt_polished;
@@ -1239,6 +1240,7 @@ public class ModBlocks {
 		basalt_sulfur = new BlockOre(Material.rock).setBlockName("basalt_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_sulfur");
 		basalt_fluorite = new BlockOre(Material.rock).setBlockName("basalt_fluorite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_fluorite");
 		basalt_asbestos = new BlockOutgas(Material.rock, true, 5, true).setBlockName("basalt_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_asbestos");
+		basalt_gem = new BlockCluster(Material.rock).setBlockName("basalt_gem").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_gem");
 		basalt_smooth = new BlockGeneric(Material.rock).setBlockName("basalt_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_smooth");
 		basalt_brick = new BlockGeneric(Material.rock).setBlockName("basalt_brick").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_brick");
 		basalt_polished = new BlockGeneric(Material.rock).setBlockName("basalt_polished").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_polished");
@@ -2166,6 +2168,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(basalt_sulfur, basalt_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_fluorite, basalt_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_asbestos, basalt_asbestos.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_gem, ItemBlockCluster.class, basalt_gem.getUnlocalizedName());
 		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());

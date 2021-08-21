@@ -79,18 +79,25 @@ public class VolcanicBlock extends BlockFluidClassic {
 		
 		super.updateTick(world, x, y, z, rand);
 		
-		int count = 0;
+		int lavaCount = 0;
+		int basaltCount = 0;
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 			
 			if(b == this)
-				count++;
+				lavaCount++;
+			if(b == ModBlocks.basalt) {
+				basaltCount++;
+			}
 		}
 		
-		if(!world.isRemote && ((!this.isSourceBlock(world, x, y, z) && count < 2) || (rand.nextInt(5) == 0) && count < 5) && world.getBlock(x, y - 1, z) != this) {
+		if(!world.isRemote && ((!this.isSourceBlock(world, x, y, z) && lavaCount < 2) || (rand.nextInt(5) == 0) && lavaCount < 5) && world.getBlock(x, y - 1, z) != this) {
 			
 			int r = rand.nextInt(200);
+			
+			Block above = world.getBlock(x, y + 10, z);
+			boolean canMakeGem = lavaCount + basaltCount == 6 && lavaCount < 3 && (above == ModBlocks.basalt || above == ModBlocks.volcanic_lava_block);
 			
 			if(r < 2)
 				world.setBlock(x, y, z, ModBlocks.basalt_sulfur);
@@ -98,6 +105,8 @@ public class VolcanicBlock extends BlockFluidClassic {
 				world.setBlock(x, y, z, ModBlocks.basalt_asbestos);
 			else if(r == 3)
 				world.setBlock(x, y, z, ModBlocks.basalt_fluorite);
+			else if(r < 14 && canMakeGem)
+				world.setBlock(x, y, z, ModBlocks.basalt_gem);
 			else
 				world.setBlock(x, y, z, ModBlocks.basalt);
 		}

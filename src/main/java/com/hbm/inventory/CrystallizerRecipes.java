@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -78,6 +80,12 @@ public class CrystallizerRecipes {
 			ItemStack qItem = quartz.get(0).copy();
 			qItem.stackSize = 6;
 			recipes.put("oreCertusQuartz", qItem);
+		}
+		
+		if(!IMCCrystallizer.buffer.isEmpty()) {
+			recipes.putAll(IMCCrystallizer.buffer);
+			MainRegistry.logger.info("Fetched " + IMCCrystallizer.buffer.size() + " IMC crystallizer recipes!");
+			IMCCrystallizer.buffer.clear();
 		}
 	}
 	

@@ -58,6 +58,8 @@ public class BlockCluster extends Block {
 			return ModItems.crystal_titanium;
 		if(this == ModBlocks.cluster_aluminium)
 			return ModItems.crystal_aluminium;
+		if(this == ModBlocks.basalt_gem)
+			return ModItems.gem_volcanic;
 		
 		return null;
 	}
