@@ -1695,7 +1695,7 @@ public class MachineRecipes {
 			break;
         case UF6:
 			list.add(new ItemStack(ModItems.powder_yellowcake, 1));
-			list.add(new ItemStack(ModItems.fluorite, 3));
+			list.add(new ItemStack(ModItems.fluorite, 1));
 			break;
         case PUF6:
 			list.add(new ItemStack(ModItems.powder_plutonium, 1));

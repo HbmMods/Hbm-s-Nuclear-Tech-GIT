@@ -73,7 +73,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 2) };
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
-			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.chlorine_pinwheel, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier3, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
@@ -282,8 +281,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_revolver_pip, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.clip_revolver_pip, 0, 2, 4, 1),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 18, 32, 1),
-			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1),
-			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 6, 12, 1) };
+			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1) };
 
 	private static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
@@ -294,7 +292,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_b92, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ingot_combine_steel, 0, 16, 28, 1),
-			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 8, 18, 1),
 			new WeightedRandomChestContent(ModItems.man_core, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.boy_kit, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 1),

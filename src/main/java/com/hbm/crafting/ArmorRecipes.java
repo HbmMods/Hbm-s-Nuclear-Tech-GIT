@@ -5,7 +5,6 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;

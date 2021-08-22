@@ -2,7 +2,6 @@ package com.hbm.render.entity.mob;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityUFO;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;

@@ -222,7 +222,7 @@ public class MainRegistry {
 		
 		startupTime = System.currentTimeMillis();
 		
-		logger.info("TEST LOG AAAAAAAAAA");
+		logger.info("Let us celebrate the fact that the logger finally works again!");
 
 		// Reroll Polaroid
 
@@ -483,6 +483,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityCableBaseNT.class, "tileentity_ohgod");
 		GameRegistry.registerTileEntity(TileEntityWatz.class, "tileentity_watz");
 		GameRegistry.registerTileEntity(TileEntityMachineBAT9000.class, "tileentity_bat9000");
+		GameRegistry.registerTileEntity(TileEntityMachineOrbus.class, "tileentity_orbus");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKRodReaSim.class, "tileentity_rbmk_rod_reasim");
