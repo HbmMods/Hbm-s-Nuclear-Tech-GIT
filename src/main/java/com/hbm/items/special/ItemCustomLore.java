@@ -410,7 +410,7 @@ public class ItemCustomLore extends Item {
 			list.add("'Lanthanum'");
 		}
 		
-		if(this == ModItems.ingot_tantalium || this == ModItems.nugget_tantalium || this == ModItems.gem_tantalium)
+		if(this == ModItems.ingot_tantalium || this == ModItems.nugget_tantalium || this == ModItems.gem_tantalium || this == ModItems.powder_tantalium)
 		{
 			list.add("'Tantalum'");
 		}

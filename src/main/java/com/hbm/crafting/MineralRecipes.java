@@ -23,6 +23,8 @@ public class MineralRecipes {
 
 		add1To9Pair(ModItems.powder_coal, ModItems.powder_coal_tiny);
 		
+		add1To9Pair(ModBlocks.sand_gold, ModItems.powder_gold);
+		
 		add1To9Pair(ModBlocks.block_aluminium, ModItems.ingot_aluminium);
 		add1To9Pair(ModBlocks.block_graphite, ModItems.ingot_graphite);
 		add1To9Pair(ModBlocks.block_boron, ModItems.ingot_boron);

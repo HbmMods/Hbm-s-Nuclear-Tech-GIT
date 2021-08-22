@@ -376,6 +376,7 @@ public class ModBlocks {
 	public static Block sand_lead;
 	public static Block sand_uranium;
 	public static Block sand_polonium;
+	public static Block sand_gold;
 	public static Block ash_digamma;
 	public static Block glass_boron;
 	public static Block glass_lead;
@@ -1489,6 +1490,7 @@ public class ModBlocks {
 		sand_lead = new BlockFalling(Material.sand).setBlockName("sand_lead").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_lead");
 		sand_uranium = new BlockFalling(Material.sand).setBlockName("sand_uranium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_uranium");
 		sand_polonium = new BlockFalling(Material.sand).setBlockName("sand_polonium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_polonium");
+		sand_gold = new BlockGoldSand(Material.sand).setBlockName("sand_gold").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_gold");
 		glass_boron = new BlockNTMGlass(0, RefStrings.MODID + ":glass_boron", Material.glass).setBlockName("glass_boron").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_lead = new BlockNTMGlass(0, RefStrings.MODID + ":glass_lead", Material.glass).setBlockName("glass_lead").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_uranium = new BlockNTMGlass(1, RefStrings.MODID + ":glass_uranium", Material.glass).setBlockName("glass_uranium").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
@@ -2546,6 +2548,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sand_lead, sand_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_uranium, sand_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_polonium, sand_polonium.getUnlocalizedName());
+		GameRegistry.registerBlock(sand_gold, sand_gold.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_boron, glass_boron.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_lead, glass_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_uranium, glass_uranium.getUnlocalizedName());

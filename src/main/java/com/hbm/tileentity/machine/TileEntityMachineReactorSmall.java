@@ -821,9 +821,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	
 	public boolean isSubmerged() {
 		
-		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
-				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water &&
-				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
+		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
 				worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).getMaterial() == Material.water;
 	}
 }
