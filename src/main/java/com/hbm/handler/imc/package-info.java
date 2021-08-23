@@ -17,7 +17,6 @@ package com.hbm.handler.imc;
 	
 	[MANDATORY]
 	To set the input, there are two choices:
-	
 	- Set another tag compound like the output called "output". This will make the input a fixed item.
 	- Set a string called "oredict". This will make the input an ore dict entry and allow processing of genericized items.
 	
@@ -40,4 +39,20 @@ package com.hbm.handler.imc;
 		new ItemStack(ModItems.ingot_steel, 1).writeToNBT(out1);
 		msg1.setTag("output", out1);
 		FMLInterModComms.sendMessage("hbm", "crystallizer", msg1);
+	
+	####################### CENTRIFUGE #######################
+	KEY: centrifuge
+	VALUE: NBT
+	
+	[MANDATORY]
+	To set the output, set four tag compound named "output1" to "output4" that hold the itemstack info (set via ItemStack.writeToNBT)
+	Note that the centrifuge will always output four items and does not (yet) support nulls.
+	
+	[MANDATORY]
+	To set the input, there are two choices:
+	- Set another tag compound like the output called "output". This will make the input a fixed item.
+	- Set a string called "oredict". This will make the input an ore dict entry and allow processing of genericized items.
+	
+	EXAMPLES:
+	Refer to the examples of the acidizer, the only difference is the fact that there are four mandatory outputs.
 */

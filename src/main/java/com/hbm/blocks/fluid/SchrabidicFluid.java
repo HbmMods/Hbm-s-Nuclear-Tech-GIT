@@ -13,19 +13,19 @@ public class SchrabidicFluid extends Fluid {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIcon() {
-    	return getStillIcon();
-    }
+	public IIcon getIcon() {
+		return getStillIcon();
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getStillIcon() {
-        return SchrabidicBlock.stillIcon;
-    }
+	public IIcon getStillIcon() {
+		return SchrabidicBlock.stillIcon;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getFlowingIcon() {
-        return SchrabidicBlock.flowingIcon;
-    }
+	public IIcon getFlowingIcon() {
+		return SchrabidicBlock.flowingIcon;
+	}
 }

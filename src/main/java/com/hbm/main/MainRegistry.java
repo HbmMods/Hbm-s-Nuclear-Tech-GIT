@@ -59,6 +59,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -1030,8 +1031,11 @@ public class MainRegistry {
 		// MUST be initialized AFTER achievements!!
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
+
+		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
+		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 		
-		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());NBTTagCompound msg0 = new NBTTagCompound();
+		/*NBTTagCompound msg0 = new NBTTagCompound();
 		NBTTagCompound ing0 = new NBTTagCompound();
 		new ItemStack(ModItems.alloy_plate).writeToNBT(ing0);
 		msg0.setTag("input", ing0);
@@ -1045,7 +1049,7 @@ public class MainRegistry {
 		NBTTagCompound out1 = new NBTTagCompound();
 		new ItemStack(ModItems.ingot_steel, 1).writeToNBT(out1);
 		msg1.setTag("output", out1);
-		FMLInterModComms.sendMessage("hbm", "crystallizer", msg1);
+		FMLInterModComms.sendMessage("hbm", "crystallizer", msg1);*/
 	}
 	
 	@EventHandler
