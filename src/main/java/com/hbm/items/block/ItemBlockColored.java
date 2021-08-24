@@ -7,7 +7,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockColored extends ItemBlock {
+public class ItemBlockColored extends ItemBlockBlastInfo {
 
 	public ItemBlockColored(Block block) {
 		super(block);

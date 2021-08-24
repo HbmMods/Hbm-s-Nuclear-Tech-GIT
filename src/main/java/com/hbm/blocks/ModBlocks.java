@@ -263,8 +263,9 @@ public class ModBlocks {
 	public static Block gravel_diamond;
 	public static Block asphalt;
 	public static Block asphalt_light;
-	
+
 	public static Block reinforced_brick;
+	public static Block reinforced_ducrete;
 	public static Block reinforced_glass;
 	public static Block reinforced_light;
 	public static Block reinforced_sand;
@@ -283,12 +284,15 @@ public class ModBlocks {
 	public static Block concrete_colored;
 	public static Block concrete;
 	public static Block concrete_asbestos;
+	public static Block ducrete_smooth;
+	public static Block ducrete;
 	public static Block concrete_pillar;
 	public static Block brick_concrete;
 	public static Block brick_concrete_mossy;
 	public static Block brick_concrete_cracked;
 	public static Block brick_concrete_broken;
 	public static Block brick_concrete_marked;
+	public static Block brick_ducrete;
 	public static Block brick_obsidian;
 	public static Block brick_light;
 	public static Block brick_compound;
@@ -376,6 +380,7 @@ public class ModBlocks {
 	public static Block sand_lead;
 	public static Block sand_uranium;
 	public static Block sand_polonium;
+	public static Block sand_quartz;
 	public static Block sand_gold;
 	public static Block ash_digamma;
 	public static Block glass_boron;
@@ -384,6 +389,8 @@ public class ModBlocks {
 	public static Block glass_trinitite;
 	public static Block glass_polonium;
 	public static Block glass_ash;
+	public static Block glass_quartz;
+	
 
 	public static Block mush;
 	public static Block mush_block;
@@ -1410,6 +1417,12 @@ public class ModBlocks {
 		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
 		brick_asbestos = new BlockOutgas(Material.rock, true, 5, true).addAsbestos().toBlock().setBlockName("brick_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_asbestos");
 		
+
+		ducrete_smooth = new BlockGeneric(Material.rock).setBlockName("ducrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete");
+		ducrete = new BlockGeneric(Material.rock).setBlockName("ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete_tile");
+		brick_ducrete = new BlockGeneric(Material.rock).setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(12000.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
+		reinforced_ducrete = new BlockGeneric(Material.rock).setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(24000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
+		
 		tile_lab = new BlockOutgas(Material.rock, false, 5, true).setBlockName("tile_lab").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab");
 		tile_lab_cracked = new BlockOutgas(Material.rock, false, 5, true).setBlockName("tile_lab_cracked").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_cracked");
 		tile_lab_broken = new BlockOutgas(Material.rock, true, 5, true).addAsbestos().toBlock().setBlockName("tile_lab_broken").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_broken");
@@ -1490,6 +1503,7 @@ public class ModBlocks {
 		sand_lead = new BlockFalling(Material.sand).setBlockName("sand_lead").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_lead");
 		sand_uranium = new BlockFalling(Material.sand).setBlockName("sand_uranium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_uranium");
 		sand_polonium = new BlockFalling(Material.sand).setBlockName("sand_polonium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_polonium");
+		sand_quartz = new BlockFalling(Material.sand).setBlockName("sand_quartz").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_quartz");
 		sand_gold = new BlockGoldSand(Material.sand).setBlockName("sand_gold").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_gold");
 		glass_boron = new BlockNTMGlass(0, RefStrings.MODID + ":glass_boron", Material.glass).setBlockName("glass_boron").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_lead = new BlockNTMGlass(0, RefStrings.MODID + ":glass_lead", Material.glass).setBlockName("glass_lead").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
@@ -1497,7 +1511,8 @@ public class ModBlocks {
 		glass_trinitite = new BlockNTMGlass(1, RefStrings.MODID + ":glass_trinitite", Material.glass).setBlockName("glass_trinitite").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_polonium = new BlockNTMGlass(1, RefStrings.MODID + ":glass_polonium", Material.glass).setBlockName("glass_polonium").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 		glass_ash = new BlockNTMGlass(1, RefStrings.MODID + ":glass_ash", Material.glass).setBlockName("glass_ash").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(3F);
-
+		glass_quartz = new BlockNTMGlass(0, RefStrings.MODID + ":glass_quartz", Material.packedIce, true).setBlockName("glass_quartz").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGlass).setHardness(1.0F).setResistance(40.0F).setBlockTextureName(RefStrings.MODID + "glass_quartz");
+		
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
 		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
@@ -2306,7 +2321,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_rbmk_smooth, deco_rbmk_smooth.getUnlocalizedName());
 		
 		//Gravel
-		GameRegistry.registerBlock(gravel_obsidian, gravel_obsidian.getUnlocalizedName());
+		GameRegistry.registerBlock(gravel_obsidian, ItemBlockBlastInfo.class, gravel_obsidian.getUnlocalizedName());
 		GameRegistry.registerBlock(gravel_diamond, ItemBlockLore.class, gravel_diamond.getUnlocalizedName());
 		
 		//Lamps
@@ -2317,35 +2332,39 @@ public class ModBlocks {
 		GameRegistry.registerBlock(lamp_demon, ItemBlockHazard.class, lamp_demon.getUnlocalizedName());
 
 		//Reinforced Blocks
-		GameRegistry.registerBlock(asphalt, asphalt.getUnlocalizedName());
-		GameRegistry.registerBlock(asphalt_light, asphalt_light.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_brick, reinforced_brick.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_glass, reinforced_glass.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_light, reinforced_light.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_sand, reinforced_sand.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_lamp_off, reinforced_lamp_off.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_lamp_on, reinforced_lamp_on.getUnlocalizedName());
+		GameRegistry.registerBlock(asphalt, ItemBlockBlastInfo.class, asphalt.getUnlocalizedName());
+		GameRegistry.registerBlock(asphalt_light, ItemBlockBlastInfo.class, asphalt_light.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_brick, ItemBlockBlastInfo.class, reinforced_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_glass, ItemBlockBlastInfo.class, reinforced_glass.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_light, ItemBlockBlastInfo.class, reinforced_light.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_sand, ItemBlockBlastInfo.class, reinforced_sand.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_lamp_off, ItemBlockBlastInfo.class, reinforced_lamp_off.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_lamp_on, ItemBlockBlastInfo.class, reinforced_lamp_on.getUnlocalizedName());
 
 		//Bricks
-		GameRegistry.registerBlock(reinforced_stone, reinforced_stone.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_smooth, concrete_smooth.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_stone, ItemBlockBlastInfo.class, reinforced_stone.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_ducrete, ItemBlockBlastInfo.class, reinforced_ducrete.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_smooth, ItemBlockBlastInfo.class, concrete_smooth.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_colored, ItemBlockColored.class, concrete_colored.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete, concrete.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_asbestos, concrete_asbestos.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_pillar, concrete_pillar.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_concrete, brick_concrete.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_concrete_mossy, brick_concrete_mossy.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_concrete_cracked, brick_concrete_cracked.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_concrete_broken, brick_concrete_broken.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_concrete_marked, brick_concrete_marked.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_obsidian, brick_obsidian.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_compound, brick_compound.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_light, brick_light.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete, ItemBlockBlastInfo.class, concrete.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_asbestos, ItemBlockBlastInfo.class, concrete_asbestos.getUnlocalizedName());
+		GameRegistry.registerBlock(ducrete_smooth, ItemBlockBlastInfo.class, ducrete_smooth.getUnlocalizedName());
+		GameRegistry.registerBlock(ducrete, ItemBlockBlastInfo.class, ducrete.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_pillar, ItemBlockBlastInfo.class, concrete_pillar.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_concrete, ItemBlockBlastInfo.class, brick_concrete.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_concrete_mossy, ItemBlockBlastInfo.class, brick_concrete_mossy.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_concrete_cracked, ItemBlockBlastInfo.class, brick_concrete_cracked.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_concrete_broken, ItemBlockBlastInfo.class, brick_concrete_broken.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_concrete_marked, ItemBlockBlastInfo.class, brick_concrete_marked.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_ducrete, ItemBlockBlastInfo.class, brick_ducrete.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_obsidian, ItemBlockBlastInfo.class, brick_obsidian.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_compound, ItemBlockBlastInfo.class, brick_compound.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_light, ItemBlockBlastInfo.class, brick_light.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_asbestos, ItemBlockHazard.class, brick_asbestos.getUnlocalizedName());
 		
 		//CMB Building Elements
-		GameRegistry.registerBlock(cmb_brick, cmb_brick.getUnlocalizedName());
-		GameRegistry.registerBlock(cmb_brick_reinforced, cmb_brick_reinforced.getUnlocalizedName());
+		GameRegistry.registerBlock(cmb_brick, ItemBlockBlastInfo.class, cmb_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(cmb_brick_reinforced, ItemBlockBlastInfo.class, cmb_brick_reinforced.getUnlocalizedName());
 		
 		//Tiles
 		GameRegistry.registerBlock(tile_lab, ItemBlockHazard.class, tile_lab.getUnlocalizedName());
@@ -2548,6 +2567,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sand_lead, sand_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_uranium, sand_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_polonium, sand_polonium.getUnlocalizedName());
+		GameRegistry.registerBlock(sand_quartz, sand_quartz.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_gold, sand_gold.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_boron, glass_boron.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_lead, glass_lead.getUnlocalizedName());
@@ -2555,6 +2575,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(glass_trinitite, glass_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_polonium, glass_polonium.getUnlocalizedName());
 		GameRegistry.registerBlock(glass_ash, glass_ash.getUnlocalizedName());
+		GameRegistry.registerBlock(glass_quartz, glass_quartz.getUnlocalizedName());
 		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
