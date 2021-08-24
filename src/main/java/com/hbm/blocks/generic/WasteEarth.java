@@ -1,13 +1,9 @@
 package com.hbm.blocks.generic;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,6 +19,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WasteEarth extends Block {
 
@@ -91,8 +89,8 @@ public class WasteEarth extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-
-		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0) {
+		// propagate mushrooms
+		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.isAirBlock(x, y + 1, z) && rand.nextInt(1000) == 0) {
 			Block b0;
 			int count = 0;
 			for(int i = -5; i < 5; i++) {
@@ -110,19 +108,26 @@ public class WasteEarth extends Block {
 		}
 
 		if(this == ModBlocks.waste_mycelium && GeneralConfig.enableMycelium) {
-			for(int i = -1; i < 2; i++) {
-				for(int j = -1; j < 2; j++) {
-					for(int k = -1; k < 2; k++) {
-						Block b0 = world.getBlock(x + i, y + j, z + k);
-						Block b1 = world.getBlock(x + i, y + j + 1, z + k);
-						if(!b1.isOpaqueCube() && (b0 == Blocks.dirt || b0 == Blocks.grass || b0 == Blocks.mycelium || b0 == ModBlocks.waste_earth)) {
-							world.setBlock(x + i, y + j, z + k, ModBlocks.waste_mycelium);
+			if (world.getBlockLightValue(x, y + 1, z) >= 9) {
+				for(int i = -1; i < 2; i++) {
+					for(int j = -1; j < 2; j++) {
+						for(int k = -1; k < 2; k++) {
+							Block b0 = world.getBlock(x + i, y + j, z + k);
+							Block b1 = world.getBlock(x + i, y + j + 1, z + k);
+							if(!b1.isOpaqueCube() &&
+									world.getBlockLightValue(x + i, y + j + 1, z + k) >= 4 &&
+									world.getBlockLightOpacity(x + i, y + j + 1, z + k) <= 2 &&
+									(b0 == Blocks.dirt || b0 == Blocks.grass || b0 == Blocks.mycelium || b0 == ModBlocks.waste_earth)
+							) {
+								world.setBlock(x + i, y + j, z + k, ModBlocks.waste_mycelium);
+							}
 						}
 					}
 				}
 			}
 
-			if(rand.nextInt(10) == 0) {
+			// create new mushrooms
+			if(rand.nextInt(10) == 0 && world.isAirBlock(x, y + 1, z)) {
 				Block b0;
 				int count = 0;
 				for(int i = -5; i < 5; i++) {

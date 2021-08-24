@@ -4,8 +4,7 @@
 /eclipse/
 /lib/
 /.git/
-/.gradle/
 /.settings/
 /.classpath
 /.project
-
+.idea/
