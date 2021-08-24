@@ -9,6 +9,7 @@ import com.hbm.util.EntityDamageUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
@@ -36,11 +37,25 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 
 	@Override
 	public double getDecetorRange() {
-		return 64D;
+		return 16D;
+	}
+
+	@Override
+	public double getDecetorGrace() {
+		return 5D;
+	}
+
+	@Override
+	public boolean hasThermalVision() {
+		return false;
 	}
 	
 	@Override
 	public boolean entityAcceptableTarget(Entity e) { //will fire at any living entity
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return false;
+		
 		return e instanceof EntityLivingBase;
 	}
 

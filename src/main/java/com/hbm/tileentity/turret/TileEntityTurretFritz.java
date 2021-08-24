@@ -106,7 +106,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			for(int i = 1; i < 10; i++) {
 				
 				if(slots[i] != null && slots[i].getItem() == ModItems.ammo_fuel) {
-					if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() <= this.tank.getMaxFill()) {
+					if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
 						this.tank.setFill(this.tank.getFill() + 1000);
 						this.decrStackSize(i, 1);
 					}

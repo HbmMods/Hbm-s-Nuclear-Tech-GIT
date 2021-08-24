@@ -250,6 +250,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		if (victim != null) {
 			movement = new MovingObjectPosition(victim);
+			movement.hitVec.yCoord += victim.height * 0.5D;
 		}
 		
 		/// ZONE 2 END ///
@@ -264,10 +265,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				DamageSource damagesource = this.config.getDamage(this, shooter);
 
     			if(!worldObj.isRemote) {
-	        		if(!config.doesPenetrate)
+	        		if(!config.doesPenetrate) {
+						this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
 	        			onEntityImpact(victim);
-	        		else
+	        		} else {
 	        			onEntityHurt(victim);
+	        		}
     			}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
@@ -292,8 +295,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
         		boolean hRic = rand.nextInt(100) < config.HBRC;
         		boolean doesRic = config.doesRicochet || hRic;
         		
-        		if(!config.isSpectral && !doesRic)
+        		if(!config.isSpectral && !doesRic) {
+					this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
         			this.onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+        		}
         		
         		if(doesRic) {
         			
@@ -342,10 +347,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         	
                         	onRicochet(movement.blockX, movement.blockY, movement.blockZ);
                         	
-                		} else {
-                			if(!worldObj.isRemote)
-                				onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
-                		}
+						} else {
+							if(!worldObj.isRemote) {
+								this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
+								onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+							}
+						}
 
                         this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
                         this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
