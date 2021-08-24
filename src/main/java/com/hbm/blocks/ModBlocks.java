@@ -973,6 +973,7 @@ public class ModBlocks {
 	public static final int guiID_richard = 108;
 	public static Block turret_howard;
 	public static final int guiID_howard = 112;
+	public static Block turret_howard_damaged;
 	public static Block turret_maxwell;
 	public static final int guiID_maxwell = 120;
 	public static Block turret_fritz;
@@ -1857,6 +1858,7 @@ public class ModBlocks {
 		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_howard_damaged = new TurretHowardDamaged(Material.iron).setBlockName("turret_howard_damaged").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
 		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_brandon = new TurretBrandon(Material.iron).setBlockName("turret_brandon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2511,6 +2513,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_tauon, turret_tauon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_richard, turret_richard.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_howard, turret_howard.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_howard_damaged, turret_howard_damaged.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_maxwell, turret_maxwell.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_fritz, turret_fritz.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_brandon, turret_brandon.getUnlocalizedName());

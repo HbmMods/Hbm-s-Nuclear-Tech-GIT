@@ -163,7 +163,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 		}
 		
-		if(this.isOn && hasPower()) {
+		if(isOn() && hasPower()) {
 			
 			if(tPos != null)
 				this.alignTurret();
@@ -181,7 +181,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				this.stattrak++;
 			}
 			
-			if(this.isOn && hasPower()) {
+			if(isOn() && hasPower()) {
 				searchTimer--;
 				
 				this.setPower(this.getPower() - this.getConsumption());
@@ -714,6 +714,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	public boolean hasPower() {
 		return this.getPower() >= this.getConsumption();
+	}
+	
+	public boolean isOn() {
+		return this.isOn;
 	}
 	
 	public void setPower(long i) {
