@@ -109,33 +109,26 @@ public class SchrabidicBlock extends BlockFluidClassic {
 	public int tickRate(World p_149738_1_) {
 		return 15;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass() {
+		return 0;
+	}
 
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 
-			if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).getMaterial() == Material.air) {
+		double ix = x + 0.5F + rand.nextDouble() * 2 - 1D;
+		double iy = y + 0.5F + rand.nextDouble() * 2 - 1D;
+		double iz = z + 0.5F + rand.nextDouble() * 2 - 1D;
 
-				double ix = x + 0.5F + dir.offsetX + rand.nextDouble() * 3 - 1.5D;
-				double iy = y + 0.5F + dir.offsetY + rand.nextDouble() * 3 - 1.5D;
-				double iz = z + 0.5F + dir.offsetZ + rand.nextDouble() * 3 - 1.5D;
-
-				if(dir.offsetX != 0)
-					ix = x + 0.5F + dir.offsetX * 0.5 + rand.nextDouble() * dir.offsetX;
-				if(dir.offsetY != 0)
-					iy = y + 0.5F + dir.offsetY * 0.5 + rand.nextDouble() * dir.offsetY;
-				if(dir.offsetZ != 0)
-					iz = z + 0.5F + dir.offsetZ * 0.5 + rand.nextDouble() * dir.offsetZ;
-
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "schrabfog");
-				data.setDouble("posX", ix);
-				data.setDouble("posY", iy);
-				data.setDouble("posZ", iz);
-				MainRegistry.proxy.effectNT(data);
-			}
-		}
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "schrabfog");
+		data.setDouble("posX", ix);
+		data.setDouble("posY", iy);
+		data.setDouble("posZ", iz);
+		MainRegistry.proxy.effectNT(data);
 	}
 }

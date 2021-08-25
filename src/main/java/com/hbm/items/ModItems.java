@@ -290,6 +290,7 @@ public class ModItems {
 	public static Item plate_armor_fau;
 	public static Item plate_armor_dnt;
 
+	public static Item oil_tar;
 	public static Item solid_fuel;
 	public static Item rocket_fuel;
 
@@ -2598,6 +2599,7 @@ public class ModItems {
 		plate_armor_fau = new Item().setUnlocalizedName("plate_armor_fau").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_fau");
 		plate_armor_dnt = new Item().setUnlocalizedName("plate_armor_dnt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_dnt");
 
+		oil_tar = new Item().setUnlocalizedName("oil_tar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":oil_tar");
 		solid_fuel = new Item().setUnlocalizedName("solid_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel");
 		rocket_fuel = new Item().setUnlocalizedName("rocket_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rocket_fuel");
 		coke = new Item().setUnlocalizedName("coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coke");
@@ -5387,6 +5389,7 @@ public class ModItems {
 		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_zirconium, ingot_zirconium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_semtex, ingot_semtex.getUnlocalizedName());
+		GameRegistry.registerItem(oil_tar, oil_tar.getUnlocalizedName());
 		GameRegistry.registerItem(solid_fuel, solid_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rocket_fuel, rocket_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_fiberglass, ingot_fiberglass.getUnlocalizedName());

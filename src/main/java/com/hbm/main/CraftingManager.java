@@ -363,12 +363,12 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.basalt_tiles, 4), new Object[] { "CC", "CC", 'C', ModBlocks.basalt_brick });
 
 
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_brick), 8), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', ModBlocks.brick_concrete });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_compound), 8), new Object[] { "FBF", "BFB", "FBF", 'F', ModItems.bolt_tungsten, 'B', ModBlocks.reinforced_brick });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_glass), 8), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.glass });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_brick), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', ModBlocks.brick_concrete });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_compound), 4), new Object[] { "FBF", "BTB", "FBF", 'F', ModItems.bolt_tungsten, 'B', ModBlocks.reinforced_brick, 'T', ModItems.oil_tar });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_glass), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.glass });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_light), 1), new Object[] { "FFF", "FBF", "FFF", 'F', Blocks.iron_bars, 'B', Blocks.glowstone });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_lamp_off), 1), new Object[] { "FFF", "FBF", "FFF", 'F', Blocks.iron_bars, 'B', Blocks.redstone_lamp });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_sand), 8), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.sandstone });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_sand), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.sandstone });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_green_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P', ModItems.powder_fire, 'T', ModItems.cell_tritium, '1', "dustSulfur", '2', "dustCopper" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_blue_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P', ModItems.powder_fire, 'T', ModItems.cell_tritium, '1', "dustAluminum", '2', ModItems.powder_strontium }));
@@ -689,6 +689,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.dfc_stabilizer, 1), new Object[] { "SDS", "TXL", "SDS", 'S', ModItems.ingot_starmetal, 'D', ModItems.plate_desh, 'T', ModItems.singularity_spark, 'X', ModItems.magnet_circular, 'L', ModItems.crystal_xen });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barrel_plastic, 1), new Object[] { "IPI", "I I", "IPI", 'I', ModItems.plate_polymer, 'P', "plateAluminum" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barrel_iron, 1), new Object[] { "IPI", "I I", "IPI", 'I', "plateIron", 'P', "ingotIron" }));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.barrel_iron, 1), new Object[] { ModBlocks.barrel_corroded, ModItems.oil_tar });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barrel_steel, 1), new Object[] { "IPI", "I I", "IPI", 'I', "plateSteel", 'P', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barrel_tcalloy, 1), new Object[] { "IPI", "I I", "IPI", 'I', "ingotTcAlloy", 'P', "plateTitanium" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.barrel_antimatter, 1), new Object[] { "IPI", "IPI", "IPI", 'I', ModItems.plate_saturnite, 'P', ModItems.coil_advanced_torus });

@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.UpgradeManager;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -106,7 +105,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		this.radius = 1;
 		this.fortune = 0;
 		
-		UpgradeManager.eval(slots, 10, 13);
+		UpgradeManager.eval(slots, 10, 12);
 		this.radius += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 		this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3) * 80;
 		
@@ -381,7 +380,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 			
 			ItemStack sta = in.extractResource(worldObj, x, y, z, meta, this);
 
-			if(hasSpace(sta)) {
+			if(sta != null && hasSpace(sta)) {
 				this.addItemToInventory(sta);
 			}
 			

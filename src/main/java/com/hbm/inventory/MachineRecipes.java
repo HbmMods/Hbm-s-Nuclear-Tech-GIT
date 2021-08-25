@@ -1631,19 +1631,24 @@ public class MachineRecipes {
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case CC_OIL:
-			list.add(new ItemStack(Items.coal, 10));
+			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_I:
-			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(Items.coal, 6));
+			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_HEATING:
-			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(Items.coal, 6));
+			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_HEAVY:
-			list.add(new ItemStack(Items.coal, 10));
+			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_NAPHTHA:
-			list.add(new ItemStack(Items.coal, 10));
+			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case ASPHALT:
 			list.add(new ItemStack(Blocks.gravel, 2));
@@ -1826,24 +1831,19 @@ public class MachineRecipes {
 			input[1] = new FluidStack(2000, FluidType.STEAM);
 			break;
         case CC_I:
-			input[0] = new FluidStack(800, FluidType.SMEAR);
-			input[1] = new FluidStack(1800, FluidType.WATER);
+			input[0] = new FluidStack(1800, FluidType.WATER);
 			break;
         case CC_OIL:
-			input[0] = new FluidStack(600, FluidType.OIL);
-			input[1] = new FluidStack(1400, FluidType.STEAM);
+			input[0] = new FluidStack(1400, FluidType.STEAM);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
-			input[1] = new FluidStack(2000, FluidType.STEAM);
+			input[0] = new FluidStack(2000, FluidType.STEAM);
 			break;
         case CC_HEAVY:
-			input[0] = new FluidStack(600, FluidType.HEAVYOIL);
-			input[1] = new FluidStack(1400, FluidType.WATER);
+			input[0] = new FluidStack(1400, FluidType.WATER);
 			break;
         case CC_NAPHTHA:
-			input[0] = new FluidStack(1200, FluidType.NAPHTHA);
-			input[1] = new FluidStack(2400, FluidType.STEAM);
+			input[0] = new FluidStack(2400, FluidType.STEAM);
 			break;
         case ASPHALT:
 			input[0] = new FluidStack(1000, FluidType.BITUMEN);
@@ -2048,12 +2048,12 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.circuit_schrabidium, 1);
 			break;
         case SF_OIL:
-			output[0] = new ItemStack(ModItems.solid_fuel, 1);
-			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			output[0] = new ItemStack(ModItems.oil_tar, 1);
+			output[1] = new ItemStack(ModItems.oil_tar, 1);
 			break;
         case SF_HEAVYOIL:
-			output[0] = new ItemStack(ModItems.solid_fuel, 1);
-			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			output[0] = new ItemStack(ModItems.oil_tar, 1);
+			output[1] = new ItemStack(ModItems.oil_tar, 1);
 			break;
         case SF_SMEAR:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);

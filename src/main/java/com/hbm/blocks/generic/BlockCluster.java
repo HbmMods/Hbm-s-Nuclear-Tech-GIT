@@ -73,7 +73,7 @@ public class BlockCluster extends Block implements IDrillInteraction {
 
 	@Override
 	public ItemStack extractResource(World world, int x, int y, int z, int meta, IMiningDrill drill) {
-		return canBreak(world, x, y, z, meta, drill) ? new ItemStack(getDrop()) : null;
+		return drill.getDrillRating() <= 70 ? new ItemStack(getDrop()) : null;
 	}
 
 	@Override
