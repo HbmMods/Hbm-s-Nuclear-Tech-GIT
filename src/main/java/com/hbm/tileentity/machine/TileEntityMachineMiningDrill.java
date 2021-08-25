@@ -4,7 +4,10 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.LoopedSoundPacket;
@@ -13,6 +16,8 @@ import com.hbm.packet.TEDrillPacket;
 import com.hbm.sound.SoundLoopMachine;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.block.IDrillInteraction;
+import api.hbm.block.IMiningDrill;
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -27,7 +32,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer {
+@Spaghetti("if i had a time machine i'd go back to the year 2017 and uppercut myself")
+public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer, IMiningDrill {
 
 	public long power;
 	public int warning;
@@ -100,69 +106,18 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		this.radius = 1;
 		this.fortune = 0;
 		
-		for(int i = 10; i < 13; i++) {
-			ItemStack stack = slots[i];
-			
-			if(stack != null) {
-				if(stack.getItem() == ModItems.upgrade_effect_1) {
-					this.radius += 1;
-					this.consumption += 80;
-				}
-				if(stack.getItem() == ModItems.upgrade_effect_2) {
-					this.radius += 2;
-					this.consumption += 160;
-				}
-				if(stack.getItem() == ModItems.upgrade_effect_3) {
-					this.radius += 3;
-					this.consumption += 240;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_1) {
-					this.timer -= 15;
-					this.consumption += 300;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_2) {
-					this.timer -= 30;
-					this.consumption += 600;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_3) {
-					this.timer -= 45;
-					this.consumption += 900;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_1) {
-					this.consumption -= 30;
-					this.timer += 5;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_2) {
-					this.consumption -= 60;
-					this.timer += 10;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_3) {
-					this.consumption -= 90;
-					this.timer += 15;
-				}
-				if(stack.getItem() == ModItems.upgrade_fortune_1) {
-					this.fortune += 1;
-					this.timer += 15;
-				}
-				if(stack.getItem() == ModItems.upgrade_fortune_2) {
-					this.fortune += 2;
-					this.timer += 30;
-				}
-				if(stack.getItem() == ModItems.upgrade_fortune_3) {
-					this.fortune += 3;
-					this.timer += 45;
-				}
-			}
-		}
+		UpgradeManager.eval(slots, 10, 13);
+		this.radius += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3) * 80;
 		
-		if(timer < 5)
-			timer = 5;
-		if(consumption < 40)
-			consumption = 40;
-		if(radius > 4)
-			radius = 4;
-		if(fortune > 3)
-			fortune = 3;
+		this.timer -= Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 15;
+		this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 300;
+		
+		this.consumption -= Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 30;
+		this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 5;
+		
+		this.fortune += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
+		this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3) * 15;
 		
 		age++;
 		if(age >= timer)
@@ -420,6 +375,20 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		
 		Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
+		
+		if(b instanceof IDrillInteraction) {
+			IDrillInteraction in = (IDrillInteraction) b;
+			
+			ItemStack sta = in.extractResource(worldObj, x, y, z, meta, this);
+
+			if(hasSpace(sta)) {
+				this.addItemToInventory(sta);
+			}
+			
+			if(!in.canBreak(worldObj, x, y, z, meta, this))
+				return true; //true because the block is still there and mining should continue
+		}
+		
 		ItemStack stack = new ItemStack(b.getItemDropped(meta, rand, fortune), b.quantityDropped(meta, fortune, rand), b.damageDropped(meta));
 
 		//yup that worked
@@ -535,5 +504,15 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public DrillType getDrillTier() {
+		return DrillType.INDUSTRIAL;
+	}
+
+	@Override
+	public int getDrillRating() {
+		return 50;
 	}
 }

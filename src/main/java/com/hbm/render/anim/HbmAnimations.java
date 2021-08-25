@@ -49,6 +49,10 @@ public class HbmAnimations {
 		if(stack == null)
 			return null;
 		
+		if(slot < 0 || slot > 8) { //for freak of nature hotbars, probably won't work right but at least it doesn't crash
+			slot = Math.abs(slot) % 9;
+		}
+		
 		if(hotbar[slot] == null)
 			return null;
 		

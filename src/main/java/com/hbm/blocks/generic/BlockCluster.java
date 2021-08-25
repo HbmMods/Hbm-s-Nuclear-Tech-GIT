@@ -5,6 +5,8 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
+import api.hbm.block.IDrillInteraction;
+import api.hbm.block.IMiningDrill;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -14,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockCluster extends Block {
+public class BlockCluster extends Block implements IDrillInteraction {
 
 	public BlockCluster(Material mat) {
 		super(mat);
@@ -62,5 +64,20 @@ public class BlockCluster extends Block {
 			return ModItems.gem_volcanic;
 		
 		return null;
+	}
+
+	@Override
+	public boolean canBreak(World world, int x, int y, int z, int meta, IMiningDrill drill) {
+		return drill.getDrillRating() <= 70 && world.rand.nextFloat() < 0.05;
+	}
+
+	@Override
+	public ItemStack extractResource(World world, int x, int y, int z, int meta, IMiningDrill drill) {
+		return canBreak(world, x, y, z, meta, drill) ? new ItemStack(getDrop()) : null;
+	}
+
+	@Override
+	public float getRelativeHardness(World world, int x, int y, int z, int meta, IMiningDrill drill) {
+		return this.getBlockHardness(world, x, y, z);
 	}
 }
