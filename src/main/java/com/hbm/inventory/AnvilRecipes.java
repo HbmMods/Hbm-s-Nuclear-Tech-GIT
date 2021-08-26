@@ -169,20 +169,20 @@ public class AnvilRecipes {
 				new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("ingotDesh", 2), new OreDictStack("dustPolymer", 2), new ComparableStack(ModItems.ingot_dura_steel, 1)},
+				new AStack[] {new OreDictStack("ingotDesh", 4), new OreDictStack("dustPolymer", 2), new ComparableStack(ModItems.ingot_dura_steel, 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_desh, 4))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("ingotEuphemium", 2), new ComparableStack(ModItems.powder_astatine, 2), new ComparableStack(Items.nether_star, 1)},
+				new AStack[] {new OreDictStack("ingotEuphemium", 4), new ComparableStack(ModItems.powder_astatine, 2), new ComparableStack(ModItems.gem_volcanic, 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_euphemium, 4))).setTier(6));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("ingotDineutronium", 2), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack("ingotDesh", 1)},
+				new AStack[] {new OreDictStack("ingotDineutronium", 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack("ingotDesh", 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_dineutronium, 4))).setTier(7));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("plateTitanium", 4), new OreDictStack("ingotSteel", 1), new ComparableStack(ModItems.bolt_tungsten, 2)},
+				new AStack[] {new OreDictStack("plateTitanium", 2), new OreDictStack("ingotSteel", 1), new ComparableStack(ModItems.bolt_tungsten, 2)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_titanium))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack("plateIron", 4), new ComparableStack(ModItems.plate_saturnite, 4), new ComparableStack(ModItems.plate_armor_titanium, 1)},
+				new AStack[] {new OreDictStack("plateIron", 4), new ComparableStack(ModItems.plate_saturnite, 2), new ComparableStack(ModItems.plate_armor_titanium, 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_ajr))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.plate_advanced_alloy, 4), new ComparableStack(ModItems.plate_armor_titanium, 1), new ComparableStack(ModItems.wire_tungsten, 6)},
@@ -194,7 +194,7 @@ public class AnvilRecipes {
 				new AStack[] {new ComparableStack(ModItems.ingot_meteorite_forged, 4), new OreDictStack("ingotDesh", 1), new ComparableStack(ModItems.billet_yharonite, 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_fau))).setTier(6));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new ComparableStack(ModItems.plate_dineutronium, 4), new ComparableStack(ModItems.particle_sparkticle, 1), new ComparableStack(ModItems.plate_armor_fau, 1)},
+				new AStack[] {new ComparableStack(ModItems.plate_dineutronium, 4), new ComparableStack(ModItems.particle_sparkticle, 1), new ComparableStack(ModItems.plate_armor_fau, 6)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_dnt))).setTier(7));
 		
 	}
@@ -202,74 +202,74 @@ public class AnvilRecipes {
 	public static void registerConstructionAmmo() {
 		
 		Object[][] recs = new Object[][] {
-			new Object[] {ModItems.ammo_12gauge, ModItems.powder_fire, ModItems.ammo_12gauge_incendiary, 20, 2},
-			new Object[] {ModItems.ammo_12gauge, Item.getItemFromBlock(ModBlocks.gravel_obsidian), ModItems.ammo_12gauge_shrapnel, 20, 2},
-			new Object[] {ModItems.ammo_12gauge, ModItems.ingot_u238, ModItems.ammo_12gauge_du, 20, 3},
-			new Object[] {ModItems.ammo_12gauge, ModItems.coin_maskman, ModItems.ammo_12gauge_sleek, 100, 4},
+			{ModItems.ammo_12gauge,	ModItems.powder_fire,								ModItems.ammo_12gauge_incendiary,	20,		2},
+			{ModItems.ammo_12gauge,	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_12gauge_shrapnel,		20,		2},
+			{ModItems.ammo_12gauge,	ModItems.ingot_u238,								ModItems.ammo_12gauge_du,			20,		3},
+			{ModItems.ammo_12gauge,	ModItems.coin_maskman,								ModItems.ammo_12gauge_sleek,		100,	4},
 			
-			new Object[] {ModItems.ammo_20gauge, ModItems.powder_fire, ModItems.ammo_20gauge_incendiary, 20, 2},
-			new Object[] {ModItems.ammo_20gauge, Item.getItemFromBlock(ModBlocks.gravel_obsidian), ModItems.ammo_20gauge_shrapnel, 20, 2},
-			new Object[] {ModItems.ammo_20gauge, ModItems.powder_poison, ModItems.ammo_20gauge_caustic, 20, 2},
-			new Object[] {ModItems.ammo_20gauge, "dustDiamond", ModItems.ammo_20gauge_shock, 20, 2},
-			new Object[] {ModItems.ammo_20gauge, Item.getItemFromBlock(Blocks.soul_sand), ModItems.ammo_20gauge_wither, 10, 3},
-			new Object[] {ModItems.ammo_20gauge, ModItems.coin_maskman, ModItems.ammo_20gauge_sleek, 100, 4},
+			{ModItems.ammo_20gauge,	ModItems.powder_fire,								ModItems.ammo_20gauge_incendiary,	20,		2},
+			{ModItems.ammo_20gauge,	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_20gauge_shrapnel,		20,		2},
+			{ModItems.ammo_20gauge,	ModItems.powder_poison,								ModItems.ammo_20gauge_caustic,		20,		2},
+			{ModItems.ammo_20gauge,	"dustDiamond",										ModItems.ammo_20gauge_shock,		20,		2},
+			{ModItems.ammo_20gauge,	Item.getItemFromBlock(Blocks.soul_sand),			ModItems.ammo_20gauge_wither,		10,		3},
+			{ModItems.ammo_20gauge,	ModItems.coin_maskman,								ModItems.ammo_20gauge_sleek,		100,	4},
 
-			new Object[] {ModItems.ammo_4gauge_flechette, ModItems.ingot_phosphorus, ModItems.ammo_4gauge_flechette_phosphorus, 20, 2},
-			new Object[] {ModItems.ammo_4gauge_explosive, ModItems.egg_balefire_shard, ModItems.ammo_4gauge_balefire, 10, 4},
-			new Object[] {ModItems.ammo_4gauge_explosive, ModItems.ammo_rocket, ModItems.ammo_4gauge_kampf, 4, 2},
-			new Object[] {ModItems.ammo_4gauge_kampf, ModItems.pellet_canister, ModItems.ammo_4gauge_canister, 10, 3},
-			new Object[] {ModItems.ammo_4gauge, ModItems.pellet_claws, ModItems.ammo_4gauge_claw, 4, 5},
-			new Object[] {ModItems.ammo_4gauge, ModItems.toothpicks, ModItems.ammo_4gauge_vampire, 4, 5},
-			new Object[] {ModItems.ammo_4gauge, ModItems.pellet_charged, ModItems.ammo_4gauge_void, 1, 5},
-			new Object[] {ModItems.ammo_4gauge, ModItems.coin_maskman, ModItems.ammo_4gauge_sleek, 100, 4},
+			{ModItems.ammo_4gauge_flechette,	ModItems.ingot_phosphorus,		ModItems.ammo_4gauge_flechette_phosphorus,	20,		2},
+			{ModItems.ammo_4gauge_explosive,	ModItems.egg_balefire_shard,	ModItems.ammo_4gauge_balefire,				10,		4},
+			{ModItems.ammo_4gauge_explosive,	ModItems.ammo_rocket,			ModItems.ammo_4gauge_kampf,					4,		2},
+			{ModItems.ammo_4gauge_kampf,		ModItems.pellet_canister,		ModItems.ammo_4gauge_canister,				10,		3},
+			{ModItems.ammo_4gauge,				ModItems.pellet_claws,			ModItems.ammo_4gauge_claw,					4,		5},
+			{ModItems.ammo_4gauge,				ModItems.toothpicks,			ModItems.ammo_4gauge_vampire,				4,		5},
+			{ModItems.ammo_4gauge,				ModItems.pellet_charged,		ModItems.ammo_4gauge_void,					1,		5},
+			{ModItems.ammo_4gauge,				ModItems.coin_maskman,			ModItems.ammo_4gauge_sleek,					100,	4},
 
-			new Object[] {ModItems.ammo_44, ModItems.ingot_dura_steel, ModItems.ammo_44_ap, 20, 2},
-			new Object[] {ModItems.ammo_44, ModItems.ingot_u238, ModItems.ammo_44_du, 20, 2},
-			new Object[] {ModItems.ammo_44, ModItems.ingot_phosphorus, ModItems.ammo_44_phosphorus, 20, 2},
-			new Object[] {ModItems.ammo_44_du, ModItems.ingot_starmetal, ModItems.ammo_44_star, 10, 3},
-			new Object[] {ModItems.ammo_44, ModItems.pellet_chlorophyte, ModItems.ammo_44_chlorophyte, 10, 3},
+			{ModItems.ammo_44,		ModItems.ingot_dura_steel,		ModItems.ammo_44_ap,			20,	2},
+			{ModItems.ammo_44,		ModItems.ingot_u238,			ModItems.ammo_44_du,			20,	2},
+			{ModItems.ammo_44,		ModItems.ingot_phosphorus,		ModItems.ammo_44_phosphorus,	20,	2},
+			{ModItems.ammo_44_du,	ModItems.ingot_starmetal,		ModItems.ammo_44_star,			10,	3},
+			{ModItems.ammo_44,		ModItems.pellet_chlorophyte,	ModItems.ammo_44_chlorophyte,	10,	3},
 
-			new Object[] {ModItems.ammo_5mm, ModItems.ingot_semtex, ModItems.ammo_5mm_explosive, 20, 2},
-			new Object[] {ModItems.ammo_5mm, ModItems.ingot_u238, ModItems.ammo_5mm_du, 20, 2},
-			new Object[] {ModItems.ammo_5mm, ModItems.ingot_starmetal, ModItems.ammo_5mm_star, 10, 3},
-			new Object[] {ModItems.ammo_5mm, ModItems.pellet_chlorophyte, ModItems.ammo_5mm_chlorophyte, 10, 3},
+			{ModItems.ammo_5mm,	ModItems.ingot_semtex,			ModItems.ammo_5mm_explosive,	20,	2},
+			{ModItems.ammo_5mm,	ModItems.ingot_u238,			ModItems.ammo_5mm_du,			20,	2},
+			{ModItems.ammo_5mm,	ModItems.ingot_starmetal,		ModItems.ammo_5mm_star,			10,	3},
+			{ModItems.ammo_5mm,	ModItems.pellet_chlorophyte,	ModItems.ammo_5mm_chlorophyte,	10,	3},
 
-			new Object[] {ModItems.ammo_9mm, ModItems.ingot_dura_steel, ModItems.ammo_9mm_ap, 20, 2},
-			new Object[] {ModItems.ammo_9mm, ModItems.ingot_u238, ModItems.ammo_9mm_du, 20, 2},
-			new Object[] {ModItems.ammo_9mm, ModItems.pellet_chlorophyte, ModItems.ammo_9mm_chlorophyte, 10, 3},
+			{ModItems.ammo_9mm,	ModItems.ingot_dura_steel,		ModItems.ammo_9mm_ap,			20,	2},
+			{ModItems.ammo_9mm,	ModItems.ingot_u238,			ModItems.ammo_9mm_du,			20,	2},
+			{ModItems.ammo_9mm,	ModItems.pellet_chlorophyte,	ModItems.ammo_9mm_chlorophyte,	10,	3},
 			
-			new Object[] {ModItems.ammo_22lr, ModItems.ingot_dura_steel, ModItems.ammo_22lr_ap, 20, 2},
-			new Object[] {ModItems.ammo_22lr, ModItems.pellet_chlorophyte, ModItems.ammo_22lr_chlorophyte, 10, 3},
+			{ModItems.ammo_22lr,	ModItems.ingot_dura_steel,		ModItems.ammo_22lr_ap,			20,	2},
+			{ModItems.ammo_22lr,	ModItems.pellet_chlorophyte,	ModItems.ammo_22lr_chlorophyte,	10,	3},
 
-			new Object[] {ModItems.ammo_50bmg, ModItems.powder_fire, ModItems.ammo_50bmg_incendiary, 20, 2},
-			new Object[] {ModItems.ammo_50bmg, ModItems.ingot_phosphorus, ModItems.ammo_50bmg_phosphorus, 20, 2},
-			new Object[] {ModItems.ammo_50bmg, ModItems.ingot_semtex, ModItems.ammo_50bmg_explosive, 20, 2},
-			new Object[] {ModItems.ammo_50bmg, ModItems.ingot_dura_steel, ModItems.ammo_50bmg_ap, 20, 2},
-			new Object[] {ModItems.ammo_50bmg, ModItems.ingot_u238, ModItems.ammo_50bmg_du, 20, 2},
-			new Object[] {ModItems.ammo_50bmg_du, ModItems.ingot_starmetal, ModItems.ammo_50bmg_star, 10, 3},
-			new Object[] {ModItems.ammo_50bmg, ModItems.pellet_chlorophyte, ModItems.ammo_50bmg_chlorophyte, 10, 3},
-			new Object[] {ModItems.ammo_50bmg, ModItems.coin_maskman, ModItems.ammo_50bmg_sleek, 100, 4},
-			new Object[] {ModItems.ammo_50bmg_flechette, ModItems.nugget_am_mix, ModItems.ammo_50bmg_flechette_am, 10, 3},
-			new Object[] {ModItems.ammo_50bmg_flechette, ModItems.powder_polonium, ModItems.ammo_50bmg_flechette_po, 20, 3},
+			{ModItems.ammo_50bmg,			ModItems.powder_fire,			ModItems.ammo_50bmg_incendiary,		20,		2},
+			{ModItems.ammo_50bmg,			ModItems.ingot_phosphorus,		ModItems.ammo_50bmg_phosphorus,		20,		2},
+			{ModItems.ammo_50bmg,			ModItems.ingot_semtex,			ModItems.ammo_50bmg_explosive,		20,		2},
+			{ModItems.ammo_50bmg,			ModItems.ingot_dura_steel,		ModItems.ammo_50bmg_ap,				20,		2},
+			{ModItems.ammo_50bmg,			ModItems.ingot_u238,			ModItems.ammo_50bmg_du,				20,		2},
+			{ModItems.ammo_50bmg_du,		ModItems.ingot_starmetal,		ModItems.ammo_50bmg_star,			10,		3},
+			{ModItems.ammo_50bmg,			ModItems.pellet_chlorophyte,	ModItems.ammo_50bmg_chlorophyte,	10,		3},
+			{ModItems.ammo_50bmg,			ModItems.coin_maskman,			ModItems.ammo_50bmg_sleek,			100,	4},
+			{ModItems.ammo_50bmg_flechette,	ModItems.nugget_am_mix,			ModItems.ammo_50bmg_flechette_am,	10,		3},
+			{ModItems.ammo_50bmg_flechette,	ModItems.powder_polonium,		ModItems.ammo_50bmg_flechette_po,	20,		3},
 
-			new Object[] {ModItems.ammo_50ae, ModItems.ingot_dura_steel, ModItems.ammo_50ae_ap, 20, 2},
-			new Object[] {ModItems.ammo_50ae, ModItems.ingot_u238, ModItems.ammo_50ae_du, 20, 2},
-			new Object[] {ModItems.ammo_50ae_du, ModItems.ingot_starmetal, ModItems.ammo_50ae_star, 10, 3},
-			new Object[] {ModItems.ammo_50ae, ModItems.pellet_chlorophyte, ModItems.ammo_50ae_chlorophyte, 10, 3},
+			{ModItems.ammo_50ae,	ModItems.ingot_dura_steel,		ModItems.ammo_50ae_ap,			20,	2},
+			{ModItems.ammo_50ae,	ModItems.ingot_u238,			ModItems.ammo_50ae_du,			20,	2},
+			{ModItems.ammo_50ae_du,	ModItems.ingot_starmetal,		ModItems.ammo_50ae_star,		10,	3},
+			{ModItems.ammo_50ae,	ModItems.pellet_chlorophyte,	ModItems.ammo_50ae_chlorophyte,	10,	3},
 
-			new Object[] {ModItems.ammo_556, ModItems.ingot_phosphorus, ModItems.ammo_556_phosphorus, 20, 2},
-			new Object[] {ModItems.ammo_556, ModItems.ingot_dura_steel, ModItems.ammo_556_ap, 20, 2},
-			new Object[] {ModItems.ammo_556, ModItems.ingot_u238, ModItems.ammo_556_du, 20, 2},
-			new Object[] {ModItems.ammo_556_du, ModItems.ingot_starmetal, ModItems.ammo_556_star, 10, 3},
-			new Object[] {ModItems.ammo_556, ModItems.pellet_chlorophyte, ModItems.ammo_556_chlorophyte, 10, 3},
-			new Object[] {ModItems.ammo_556, ModItems.coin_maskman, ModItems.ammo_556_sleek, 100, 4},
-			new Object[] {ModItems.ammo_556, Items.redstone, ModItems.ammo_556_tracer, 20, 2},
-			new Object[] {ModItems.ammo_556, ModItems.pellet_flechette, ModItems.ammo_556_flechette, 20, 2},
-			new Object[] {ModItems.ammo_556_flechette, ModItems.powder_fire, ModItems.ammo_556_flechette_incendiary, 20, 2},
-			new Object[] {ModItems.ammo_556_flechette, ModItems.ingot_phosphorus, ModItems.ammo_556_flechette_phosphorus, 20, 2},
-			new Object[] {ModItems.ammo_556_flechette, ModItems.ingot_u238, ModItems.ammo_556_flechette_du, 20, 2},
-			new Object[] {ModItems.ammo_556_flechette, ModItems.coin_maskman, ModItems.ammo_556_flechette_sleek, 100, 4},
-			new Object[] {ModItems.ammo_556_flechette, ModItems.pellet_chlorophyte, ModItems.ammo_556_flechette_chlorophyte, 10, 3},
+			{ModItems.ammo_556,				ModItems.ingot_phosphorus,		ModItems.ammo_556_phosphorus,				20,		2},
+			{ModItems.ammo_556,				ModItems.ingot_dura_steel,		ModItems.ammo_556_ap,						20,		2},
+			{ModItems.ammo_556,				ModItems.ingot_u238,			ModItems.ammo_556_du,						20,		2},
+			{ModItems.ammo_556_du,			ModItems.ingot_starmetal,		ModItems.ammo_556_star,						10,		3},
+			{ModItems.ammo_556,				ModItems.pellet_chlorophyte,	ModItems.ammo_556_chlorophyte,				10,		3},
+			{ModItems.ammo_556,				ModItems.coin_maskman,			ModItems.ammo_556_sleek,					100,	4},
+			{ModItems.ammo_556,				Items.redstone,					ModItems.ammo_556_tracer,					20,		2},
+			{ModItems.ammo_556,				ModItems.pellet_flechette,		ModItems.ammo_556_flechette,				20,		2},
+			{ModItems.ammo_556_flechette,	ModItems.powder_fire,			ModItems.ammo_556_flechette_incendiary,		20,		2},
+			{ModItems.ammo_556_flechette,	ModItems.ingot_phosphorus,		ModItems.ammo_556_flechette_phosphorus,		20,		2},
+			{ModItems.ammo_556_flechette,	ModItems.ingot_u238,			ModItems.ammo_556_flechette_du,				20,		2},
+			{ModItems.ammo_556_flechette,	ModItems.coin_maskman,			ModItems.ammo_556_flechette_sleek,			100,	4},
+			{ModItems.ammo_556_flechette,	ModItems.pellet_chlorophyte,	ModItems.ammo_556_flechette_chlorophyte,	10,		3},
 		};
 		
 		for(Object[] objs : recs) {

@@ -170,7 +170,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			short mode = (short) this.getRelevantMode();
 			
 			//////////////////////////////////////////////////////////////////////
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			/*for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				
 				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 				
@@ -199,7 +199,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
 						con.getPowerNet().subscribe(this);
 				}
-			}
+			}*/
 			//////////////////////////////////////////////////////////////////////
 			
 			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;

@@ -107,7 +107,6 @@ public class YellowBarrel extends Block {
 
 	@Override
 	public int tickRate(World world) {
-
 		return 20;
 	}
 

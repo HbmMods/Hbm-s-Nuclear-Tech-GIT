@@ -2,6 +2,8 @@ package com.hbm.items.machine;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
@@ -47,7 +49,11 @@ public class ItemFluidIcon extends Item {
 		
 		stack.getTagCompound().setInteger("fill", i);
 		
-		return stack.copy();
+		return stack;
+	}
+	
+	public static ItemStack make(FluidType fluid, int i) {
+		return addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i);
 	}
 	
 	public static int getQuantity(ItemStack stack) {

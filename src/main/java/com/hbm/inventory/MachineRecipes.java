@@ -1564,40 +1564,6 @@ public class MachineRecipes {
 		return recipes;
 	}
 	
-	public Map<Object, Object[]> getRefineryRecipe() {
-
-		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
-
-		ItemStack oil = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.HOTOIL));
-		oil.stackTagCompound = new NBTTagCompound();
-		oil.stackTagCompound.setInteger("fill", 1000);
-		
-		ItemStack heavy = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.HEAVYOIL));
-		heavy.stackTagCompound = new NBTTagCompound();
-		heavy.stackTagCompound.setInteger("fill", 500);
-		
-		ItemStack naphtha = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.NAPHTHA));
-		naphtha.stackTagCompound = new NBTTagCompound();
-		naphtha.stackTagCompound.setInteger("fill", 250);
-		
-		ItemStack light = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.LIGHTOIL));
-		light.stackTagCompound = new NBTTagCompound();
-		light.stackTagCompound.setInteger("fill", 150);
-		
-		ItemStack petroleum = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.PETROLEUM));
-		petroleum.stackTagCompound = new NBTTagCompound();
-		petroleum.stackTagCompound.setInteger("fill", 100);
-		
-        recipes.put(oil , new ItemStack[] { 
-        		heavy, 
-        		naphtha, 
-        		light, 
-        		petroleum, 
-        		new ItemStack(ModItems.sulfur, 1) });
-		
-		return recipes;
-	}
-	
 	public Map<Object, Object> getBoilerRecipes() {
 
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
@@ -2174,20 +2140,20 @@ public class MachineRecipes {
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case FP_HEAVYOIL:
-			output[0] = new FluidStack(300, FluidType.BITUMEN);
-			output[1] = new FluidStack(700, FluidType.SMEAR);
+			output[0] = new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, FluidType.BITUMEN);
+			output[1] = new FluidStack(RefineryRecipes.heavy_frac_smear * 10, FluidType.SMEAR);
 			break;
         case FP_SMEAR:
-			output[0] = new FluidStack(600, FluidType.HEATINGOIL);
-			output[1] = new FluidStack(400, FluidType.LUBRICANT);
+			output[0] = new FluidStack(RefineryRecipes.smear_frac_heat * 10, FluidType.HEATINGOIL);
+			output[1] = new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidType.LUBRICANT);
 			break;
         case FP_NAPHTHA:
-			output[0] = new FluidStack(400, FluidType.HEATINGOIL);
-			output[1] = new FluidStack(600, FluidType.DIESEL);
+			output[0] = new FluidStack(RefineryRecipes.napth_frac_heat * 10, FluidType.HEATINGOIL);
+			output[1] = new FluidStack(RefineryRecipes.napth_frac_diesel * 10, FluidType.DIESEL);
 			break;
         case FP_LIGHTOIL:
-			output[0] = new FluidStack(400, FluidType.DIESEL);
-			output[1] = new FluidStack(600, FluidType.KEROSENE);
+			output[0] = new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidType.DIESEL);
+			output[1] = new FluidStack(RefineryRecipes.light_frac_kero * 10, FluidType.KEROSENE);
 			break;
         case FR_REOIL:
 			output[0] = new FluidStack(800, FluidType.RECLAIMED);

@@ -486,6 +486,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityWatz.class, "tileentity_watz");
 		GameRegistry.registerTileEntity(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		GameRegistry.registerTileEntity(TileEntityMachineOrbus.class, "tileentity_orbus");
+		GameRegistry.registerTileEntity(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKRodReaSim.class, "tileentity_rbmk_rod_reasim");
@@ -1084,6 +1085,7 @@ public class MainRegistry {
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
+		RefineryRecipes.registerFractions();
 
 		TileEntityNukeCustom.registerBombItems();
 		HazmatRegistry.registerHazmats();

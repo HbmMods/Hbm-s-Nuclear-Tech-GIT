@@ -10,6 +10,7 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -270,10 +271,10 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 			
 			tanks[0].loadTank(1, 2, slots);
 			
-			int ho = 50;
-			int nt = 25;
-			int lo = 15;
-			int pe = 10;
+			int ho = RefineryRecipes.oil_frac_heavy;
+			int nt = RefineryRecipes.oil_frac_naph;
+			int lo = RefineryRecipes.oil_frac_light;
+			int pe = RefineryRecipes.oil_frac_petro;
 			
 			if(power >= 5 && tanks[0].getFill() >= 100 &&
 					tanks[1].getFill() + ho <= tanks[1].getMaxFill() && 
@@ -454,8 +455,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 }
