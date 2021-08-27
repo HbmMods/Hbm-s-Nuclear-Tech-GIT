@@ -388,8 +388,15 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.wafer_diamond, new Object[] { "dustDiamond", ModItems.wafer_silicon }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.wafer_spark), new Object[] { ModItems.powder_spark_mix, ModItems.wafer_silicon });
 		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.inf_coolant, new Object[] { "PPP", "NTN", "PPP", 'P', ModItems.plate_combine_steel, 'N', "blockNiter", 'T', ModItems.inf_water }));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.clay_ball, 4), new Object[] { ModItems.nugget_silicon, ModItems.nugget_silicon, Items.water_bucket, Blocks.sand });
-		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', ModItems.ingot_chainsteel, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Is it too balanced?
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.clay_ball, 4), new Object[] { ModItems.nugget_silicon, ModItems.nugget_silicon, Items.water_bucket, Blocks.dirt });
+		
+		Object item = (GeneralConfig.enableBabyMode ? ModBlocks.block_starmetal : ModItems.ingot_chainsteel);
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Is it too balanced?
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_plate), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_plate });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_wire), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_wire });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_circuit), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_circuit });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_disc), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_disc });
+		
 		ToolRecipes.newStamp(ModItems.stamp_ferrouranium_flat, ModItems.ingot_ferrouranium, true);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] { "CDC", "DLD", "CDC", 'C', Items.clay_ball, 'D', ModBlocks.ducrete_smooth, 'L', "plateLead" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.reinforced_ducrete, 8), new Object[] { "RDR", "DUD", "RDR", 'R', ModBlocks.steel_beam, 'D', ModBlocks.brick_ducrete, 'U', ModItems.ingot_du_dioxide });
@@ -407,6 +414,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.component_ftl, 1, 1), new Object[] { "TBT", "TLT", "TBT", 'T', new ItemStack(ModItems.component_ftl, 1, 0), 'L', "blockLanthanum", 'B', "blockDeshAlloy" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.component_ftl, 1, 2), new Object[] { "SES", "EBE", "SES", 'S', ModItems.ring_starmetal, 'E', ModItems.rod_euphemium, 'B', ModBlocks.block_saturnite });
 		GameRegistry.addRecipe(new ItemStack(ModItems.component_ftl, 1, 3), new Object[] { "AAA", "DCD", "AAA", 'A', new ItemStack(ModItems.component_ftl, 1, 4), 'C', new ItemStack(ModItems.component_ftl, 1, 2), 'D', ModItems.plate_desh });
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.chronometer_player, new Object[] { "TCT", "PGP", " N ", 'T', "plateTitanium", 'P', ModItems.ingot_polymer, 'G', "paneGlass", 'N', Blocks.iron_bars }));
 		reg2();
 	}
 	

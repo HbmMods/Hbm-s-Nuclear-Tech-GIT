@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -311,16 +312,17 @@ public class BulletConfigFactory {
 			explosionEntity.posZ = bullet.posZ;
 			explosionEntity.destructionRange = size;
 			explosionEntity.speed = BombConfig.blastSpeed;
-			explosionEntity.coefficient = 1.0F;
+			explosionEntity.coefficient = 15F;
+			explosionEntity.coefficient2 = 45F;
 			explosionEntity.waste = false;
 			explosionEntity.extType = 2;
 			bullet.worldObj.spawnEntityInWorld(explosionEntity);
 			
-			EntityCloudFleijaRainbow explosionCloud = new EntityCloudFleijaRainbow(bullet.worldObj, size);
-			explosionCloud.posX = bullet.posX;
-			explosionCloud.posY = bullet.posY;
-			explosionCloud.posZ = bullet.posZ;
-			bullet.worldObj.spawnEntityInWorld(explosionCloud);
+			EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
+			cloud.posX = bullet.posX;
+			cloud.posY = bullet.posY;
+			cloud.posZ = bullet.posZ;
+			bullet.worldObj.spawnEntityInWorld(cloud);
 		}
 	}
 	

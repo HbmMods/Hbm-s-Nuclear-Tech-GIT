@@ -301,4 +301,10 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	public void clearList() {
 		this.list.clear();
 	}
+
+	@Override
+	public int getHeat()
+	{
+		return heat;
+	}
 }

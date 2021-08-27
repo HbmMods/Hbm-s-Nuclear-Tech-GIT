@@ -56,7 +56,7 @@ public class ExplosionHurtUtil {
 			
 			double interpolation = 1 - (dist / radius);
 			float rad = (float) (outer + (inner - outer) * interpolation);
-			int pDuration = (int) (200 * interpolation);
+			int pDuration = (int) (100 * interpolation);
 			if (pDuration < 20)
 				pDuration = 20;
 			ContaminationUtil.applyDigammaData(entity, rad);

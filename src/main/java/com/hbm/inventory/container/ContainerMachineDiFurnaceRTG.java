@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachineDiFurnaceRTG;
+import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,10 +11,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineDiFurnaceRTG extends Container
 {
-	private TileEntityMachineDiFurnaceRTG bFurnace;
+	private TileEntityDiFurnaceRTG bFurnace;
 	//private int progress;
 	
-	public ContainerMachineDiFurnaceRTG(InventoryPlayer playerInv, TileEntityMachineDiFurnaceRTG teIn)
+	public ContainerMachineDiFurnaceRTG(InventoryPlayer playerInv, TileEntityDiFurnaceRTG teIn)
 	{
 		bFurnace = teIn;
 		// Input

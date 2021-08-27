@@ -6,17 +6,17 @@ import net.minecraft.block.Block;
 @Untested
 public interface IBlockRadShield
 {
-	public BlockRadShieldModule getModule();
+	public BlockRadShieldModule getShieldModule();
 	
 	public default IBlockRadShield addEMShield(float shield)
 	{
-		getModule().addEMShield(shield);
+		getShieldModule().addEMShield(shield);
 		return this;
 	}
 	
 	public default IBlockRadShield addNeutronShield(float shield)
 	{
-		getModule().addNeutronShield(shield);
+		getShieldModule().addNeutronShield(shield);
 		return this;
 	}
 	

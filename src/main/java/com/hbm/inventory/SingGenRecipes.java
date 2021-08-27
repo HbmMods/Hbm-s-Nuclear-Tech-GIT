@@ -421,5 +421,10 @@ public class SingGenRecipes
 		{
 			return level;
 		}
+		@Override
+		public String toString()
+		{
+			return String.format("Stock toString(): %s; Recipe output: %s; Center input: %s; Ring input: [%s, %s, %s, %s, %s, %s, %s, %s]; Fluid input: %s; Fluid amount: %s; Recipe level: %s", super.toString(), output.getDisplayName(), inputCenter.getFriendlyName(), aInputRing.toString(), fluid.getName(), fluidAmount, level);
+		}
 	}
 }

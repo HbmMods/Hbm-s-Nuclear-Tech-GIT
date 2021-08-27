@@ -903,6 +903,73 @@ public class AssemblerRecipes {
 						new ComparableStack(ModBlocks.barrel_antimatter, 2),
 						new ComparableStack(ModBlocks.barrel_steel, 2)
 				}, 1000);
+		makeRecipe(new ComparableStack(ModItems.betavoltaic_element), new AStack[]
+				{
+						new ComparableStack(ModItems.wafer_gold, 12),
+						new ComparableStack(ModItems.wafer_lapis, 6),
+						new ComparableStack(ModItems.wafer_diamond, 4),
+						new ComparableStack(ModItems.wire_advanced_alloy, 8),
+						new ComparableStack(ModItems.wire_gold, 12),
+						new OreDictStack("plateGold", 2),
+						new OreDictStack("plateLead", 2)
+				}, 250);
+		makeRecipe(new ComparableStack(ModBlocks.atomic_clock), new AStack[]
+				{
+						new OreDictStack("plateAluminum", 24),
+						new ComparableStack(ModItems.plate_saturnite, 18),
+						new ComparableStack(ModItems.magnetron, 16),
+						new ComparableStack(ModBlocks.machine_lithium_battery),
+						new ComparableStack(ModItems.tank_steel, 2),
+						new OreDictStack("dustCaesium", 24),
+						new ComparableStack(ModBlocks.glass_quartz, 2),
+						new ComparableStack(ModItems.circuit_red_copper, 12),
+						new ComparableStack(ModItems.circuit_gold, 5)
+				}, 500);
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 0), new AStack[]
+				{
+						new ComparableStack(ModItems.upgrade_template),
+						new ComparableStack(ModItems.plate_saturnite, 8),
+						new OreDictStack("plateLead", 12),
+						new ComparableStack(ModItems.magnetron, 4),
+						new OreDictStack("dustAluminum", 12),
+						new OreDictStack("dustCaesium", 2),
+						new ComparableStack(ModItems.circuit_targeting_tier4, 3),
+						new ComparableStack(ModItems.wire_red_copper, 16)
+				}, 200);
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 1), new AStack[]
+				{
+						new ComparableStack(ModItems.upgrade_clock, 1, 0),
+						new ComparableStack(ModItems.plate_du_dioxide, 8),
+						new ComparableStack(ModItems.plate_desh, 12),
+						new ComparableStack(ModBlocks.fusion_conductor, 4),
+						new ComparableStack(ModItems.ingot_magnetized_tungsten, 12),
+						new OreDictStack("dustCaesium", 4),
+						new ComparableStack(ModItems.circuit_targeting_tier4, 6),
+						new ComparableStack(ModItems.wire_magnetized_tungsten, 16)
+				}, 250);
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 2), new AStack[]
+				{
+						new ComparableStack(ModItems.upgrade_clock, 1, 1),
+						new ComparableStack(ModItems.plate_desh, 8),
+						new ComparableStack(ModItems.plate_schrabidium, 12),
+						new ComparableStack(ModItems.pellet_charged, 2),
+						new OreDictStack("dustCaesium", 6),
+						new OreDictStack("dustBeryllium", 12),
+						new ComparableStack(ModItems.circuit_targeting_tier5, 4),
+						new ComparableStack(ModItems.wire_schrabidium, 16)
+				}, 300);
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 3), new AStack[]
+				{
+						new ComparableStack(ModItems.upgrade_clock, 1, 2),
+						new ComparableStack(ModItems.plate_euphemium, 8),
+						new ComparableStack(ModItems.ingot_schrabidate, 12),
+						new OreDictStack("dustCaesium", 12),
+						new OreDictStack("dustBeryllium", 18),
+						new OreDictStack("dustStrontium", 24),
+						new OreDictStack("dustThorium", 12),
+						new ComparableStack(ModItems.circuit_targeting_tier6, 3),
+						new ComparableStack(ModItems.fluid_tank_full, 4, FluidType.MERCURY.ordinal()),
+				}, 400);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

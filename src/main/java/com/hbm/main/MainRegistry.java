@@ -300,7 +300,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityMachineSingGen.class, "tileentity_sing_gen");
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		GameRegistry.registerTileEntity(TileEntityDiFurnace.class, "tilentity_diFurnace");
-		GameRegistry.registerTileEntity(TileEntityMachineDiFurnaceRTG.class, "tileentity_diFurnace_rtg");
+		GameRegistry.registerTileEntity(TileEntityDiFurnaceRTG.class, "tileentity_diFurnace_rtg");
 		GameRegistry.registerTileEntity(TileEntityTestNuke.class, "tilentity_testnuke");
 		GameRegistry.registerTileEntity(TileEntityRotationTester.class, "tilentity_rotationtester");
 		GameRegistry.registerTileEntity(TileEntityTestRender.class, "tilentity_testrenderer");
@@ -483,6 +483,8 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntitySILEX.class, "tileentity_silex");
 		GameRegistry.registerTileEntity(TileEntityFEL.class, "tileentity_fel");
 		GameRegistry.registerTileEntity(TileEntityTsukuyomi.class, "tileentity_turret_twr");
+		GameRegistry.registerTileEntity(TileEntityLunarOni.class, "tileentity_lunar_oni");
+		GameRegistry.registerTileEntity(TileEntityAtomicClock.class, "tileentity_atomic_clock");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

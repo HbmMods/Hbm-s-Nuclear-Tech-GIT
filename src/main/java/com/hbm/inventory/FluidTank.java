@@ -16,6 +16,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
@@ -76,6 +77,11 @@ public class FluidTank {
 	public void updateTank(int x, int y, int z, int dim) {
 
 		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, 100));
+	}
+	
+	public void updateTank(TileEntity te)
+	{
+		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId);
 	}
 	
 	//Fills tank from canisters

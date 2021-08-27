@@ -72,6 +72,14 @@ public class ModDamageSource extends DamageSource
 		int randMsg = rand.nextInt(2);
 		return (new EntityDamageSource("twr" + randMsg, e1)).setDamageBypassesArmor().setDamageIsAbsolute();
 	}
+	public static DamageSource causeDamage(Entity e1, String name)
+	{
+		return new EntityDamageSource(name, e1);
+	}
+	public static DamageSource causeDamage(Entity e1, Entity e2, String name)
+	{
+		return new EntityDamageSourceIndirect(name, e1, e2);
+	}
     public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();

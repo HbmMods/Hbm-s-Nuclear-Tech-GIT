@@ -1,5 +1,6 @@
 package com.hbm.config;
 
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.config.Configuration;
 
 public class MachineConfig {
@@ -34,8 +35,7 @@ public class MachineConfig {
 			singGenFailType = EnumSingGenFail.CAP_CUSTOM;
 			break;
 		}
-		if (twrTurretCooldown > 9999)
-			twrTurretCooldown = 9999;
+		twrTurretCooldown = MathHelper.clamp_int(twrTurretCooldown, 0, 9999);
 	}
 
 }

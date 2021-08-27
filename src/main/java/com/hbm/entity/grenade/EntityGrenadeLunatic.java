@@ -3,6 +3,7 @@ package com.hbm.entity.grenade;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
@@ -36,16 +37,17 @@ public class EntityGrenadeLunatic extends EntityGrenadeBouncyBase
 		explosionEntity.posZ = this.posZ;
 		explosionEntity.destructionRange = 25;
 		explosionEntity.speed = BombConfig.blastSpeed;
-		explosionEntity.coefficient = 1.0F;
+		explosionEntity.coefficient = 15F;
+		explosionEntity.coefficient2 = 45F;
 		explosionEntity.waste = false;
 		explosionEntity.extType = 2;
 		worldObj.spawnEntityInWorld(explosionEntity);
 		
-		EntityCloudFleijaRainbow explosionCloud = new EntityCloudFleijaRainbow(worldObj, 25);
-		explosionCloud.posX = this.posX;
-		explosionCloud.posY = this.posY;
-		explosionCloud.posZ = this.posZ;
-		worldObj.spawnEntityInWorld(explosionCloud);
+		EntityCloudTom cloud = new EntityCloudTom(worldObj, 25);
+		cloud.posX = this.posX;
+		cloud.posY = this.posY;
+		cloud.posZ = this.posZ;
+		worldObj.spawnEntityInWorld(cloud);
 		
 		this.setDead();
 	}

@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineDiFurnaceRTG;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachineDiFurnaceRTG;
+import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
@@ -17,9 +17,9 @@ import net.minecraft.util.ResourceLocation;
 public class GUIMachineDiFurnaceRTG extends GuiInfoContainer
 {
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/processing/gui_rtg_difurnace.png");
-	private TileEntityMachineDiFurnaceRTG bFurnace;
+	private TileEntityDiFurnaceRTG bFurnace;
 	
-	public GUIMachineDiFurnaceRTG(InventoryPlayer playerInv, TileEntityMachineDiFurnaceRTG te)
+	public GUIMachineDiFurnaceRTG(InventoryPlayer playerInv, TileEntityDiFurnaceRTG te)
 	{
 		super(new ContainerMachineDiFurnaceRTG(playerInv, te));
 		bFurnace = te;

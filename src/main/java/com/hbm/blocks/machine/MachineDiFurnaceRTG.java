@@ -6,7 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineDiFurnaceRTG;
+import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -128,7 +128,7 @@ public class MachineDiFurnaceRTG extends BlockContainer
 		
 		if(itemStack.hasDisplayName())
 		{
-			((TileEntityMachineDiFurnaceRTG)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+			((TileEntityDiFurnaceRTG)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
 		}
 	}
 	
@@ -140,7 +140,7 @@ public class MachineDiFurnaceRTG extends BlockContainer
 			return true;
 		} else if(!player.isSneaking())
 		{
-			TileEntityMachineDiFurnaceRTG entity = (TileEntityMachineDiFurnaceRTG) world.getTileEntity(x, y, z);
+			TileEntityDiFurnaceRTG entity = (TileEntityDiFurnaceRTG) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_difurnace, world, x, y, z);
@@ -154,7 +154,7 @@ public class MachineDiFurnaceRTG extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
 	{
-		return new TileEntityMachineDiFurnaceRTG();
+		return new TileEntityDiFurnaceRTG();
 	}
 
 	public static void updateBlockState(boolean isProcessing, World world, int x, int y, int z)
@@ -186,7 +186,7 @@ public class MachineDiFurnaceRTG extends BlockContainer
     {
         if (!keepInventory)
         {
-            TileEntityMachineDiFurnaceRTG tileentityfurnace = (TileEntityMachineDiFurnaceRTG)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+            TileEntityDiFurnaceRTG tileentityfurnace = (TileEntityDiFurnaceRTG)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {

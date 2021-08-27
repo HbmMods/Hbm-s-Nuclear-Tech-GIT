@@ -63,7 +63,18 @@ public class FluidTypeHandler {
 		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen"),
 		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen"),
 		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),
+		// Highly corrosive or just corrosive?
+		SALT			(0x00e1ed,	1, 	2, 	2,	4, 	0,	4, 	EnumSymbol.ACID,		"hbmfluid.salt", true, true, false, 220),
+		SALT_U			(0x60f7ff, 	2,	2,	2,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u", true, true, false, 220),
+		SALT_PU			(0x00686d,	3,	2,	2,	4,	0,	5,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu", true, true, false, 220),
+		SAS3_NIT		(0x47dedb, 	4,	2,	2,	4,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit", false, true, false),
 		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", true, true, false, 1500),
+		
+		SALT_U_DP		(0x40a0a5, 	8,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u_dp", true, true, false, 320),
+		SALT_PU_DP		(0x003234,	9,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu_dp", true, true, false, 320),
+		SAS3_DP			(0x319b99,	10,	2,	1,	5,	2,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3_dp", true, true, false, 400),
+		SAS3_NIT_DP		(0x297e7c, 	11,	2,	2,	5,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit_dp", false, true, false, 450),
+		BALEFIRE_DP		(0x136615,	7,	1,	2,	5,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire_dp", true, true, false, 2250),
 		
 		MERCURY			(0x808080,	7,	1,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.mercury"),
 		
@@ -72,7 +83,7 @@ public class FluidTypeHandler {
 		PLASMA_HT		(0xD1ABF2,	10,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_ht", true, false, true, 3000),
 		PLASMA_XM		(0xC6A5FF,	11,	1,	2,	0,	4,	1,	EnumSymbol.RADIATION,	"hbmfluid.plasma_xm", true, false, true, 4250),
 		PLASMA_BF		(0xA7F1A3,	12,	1,	2,	4,	5,	4,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_bf", true, false, true, 8500),
-		PLASMA_WARP		(0x00FFFF,	15,	1,	2,	5,	5,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_warp", true, false, false, 4500);
+		PLASMA_WARP		(0x00FFFF,	15,	1,	2,	5,	5,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_warp", true, false, false, 5500);
 		
 
 		//Approximate HEX Color of the fluid, used for pipe rendering

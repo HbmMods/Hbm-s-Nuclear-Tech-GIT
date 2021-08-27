@@ -3,7 +3,29 @@ package com.hbm.handler;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.hbm.handler.guncfg.*;
+import com.hbm.handler.guncfg.BulletConfigFactory;
+import com.hbm.handler.guncfg.Gun12GaugeFactory;
+import com.hbm.handler.guncfg.Gun20GaugeFactory;
+import com.hbm.handler.guncfg.Gun22LRFactory;
+import com.hbm.handler.guncfg.Gun357MagnumFactory;
+import com.hbm.handler.guncfg.Gun44MagnumFactory;
+import com.hbm.handler.guncfg.Gun4GaugeFactory;
+import com.hbm.handler.guncfg.Gun50AEFactory;
+import com.hbm.handler.guncfg.Gun50BMGFactory;
+import com.hbm.handler.guncfg.Gun556mmFactory;
+import com.hbm.handler.guncfg.Gun5mmFactory;
+import com.hbm.handler.guncfg.Gun75BoltFactory;
+import com.hbm.handler.guncfg.Gun9mmFactory;
+import com.hbm.handler.guncfg.GunCannonFactory;
+import com.hbm.handler.guncfg.GunDGKFactory;
+import com.hbm.handler.guncfg.GunDartFactory;
+import com.hbm.handler.guncfg.GunEnergyFactory;
+import com.hbm.handler.guncfg.GunFatmanFactory;
+import com.hbm.handler.guncfg.GunGaussFactory;
+import com.hbm.handler.guncfg.GunGrenadeFactory;
+import com.hbm.handler.guncfg.GunNPCFactory;
+import com.hbm.handler.guncfg.GunOSIPRFactory;
+import com.hbm.handler.guncfg.GunRocketFactory;
 import com.hbm.items.ModItems;
 
 public class BulletConfigSyncingUtil {

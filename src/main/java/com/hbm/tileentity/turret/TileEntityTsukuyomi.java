@@ -214,6 +214,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			{
 				isOn = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
+				currPlayer = null;
 				purify();
 			}
 			else
@@ -312,7 +313,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 	 */
 	private boolean addPlayer(String name)
 	{
-		if (targets.size() == 15)
+		if (targets.size() == 15 || cooldown > 0)
 			return false;
 		else
 			return targets.add(name);

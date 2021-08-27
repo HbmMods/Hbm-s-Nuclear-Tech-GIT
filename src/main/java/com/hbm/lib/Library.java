@@ -85,6 +85,27 @@ public class Library {
 			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
 			});
 	
+	public static boolean doesUUIDMatch(EntityPlayer player, String ID)
+	{
+		return player.getUniqueID().toString().equals(ID);
+	}
+	/**
+	 * Rescale a number from one range to another
+	 * @param toScale - The integer to scale
+	 * @param oldMin - The current minimum value
+	 * @param oldMax - The current maximum value
+	 * @param newMin - The desired minimum value
+	 * @param newMax - The desired maximum value
+	 * @return The scaled number
+	 */
+	public static double convertScale(double toScale, double oldMin, double oldMax, double newMin, double newMax)
+	{
+		double prevRange = oldMax - oldMin;
+		double newRange = newMax - newMin;
+		return (((toScale - oldMin) * newRange) / prevRange) + newMin;
+	}
+
+	
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
 	public static List<String> superuser = new ArrayList<String>();
@@ -95,31 +116,6 @@ public class Library {
 			return false;
 		
 		return player.getHeldItem().getItem() == item;
-	}
-	@Deprecated
-	public static int stringToHex(String in)
-	{
-		char[] ch = in.toCharArray();
-		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < ch.length; i++)
-		{
-			String hString = Integer.toHexString(ch[i]);
-			buf.append(hString);
-		}
-		return Integer.parseInt(buf.toString());
-	}
-	@Deprecated
-	public static String hexToString(Integer in)
-	{
-		String out = new String();
-		char[] ch = in.toString().toCharArray();
-		for (int i = 0; i < ch.length; i += 2)
-		{
-			String s = String.format("%s%s", ch[i], ch[i + 1]);
-			char c = (char)Integer.parseInt(s, 16);
-			out += c;
-		}
-		return out;
 	}
 	
 	public static boolean checkCableConnectables(World world, int x, int y, int z)

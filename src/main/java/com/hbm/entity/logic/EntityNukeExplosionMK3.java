@@ -121,7 +121,6 @@ public class EntityNukeExplosionMK3 extends Entity {
     @Override
 	public void onUpdate() {
         super.onUpdate();
-        	
         if(!this.did)
         {
     		if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
@@ -194,7 +193,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         		}
         		else if (extType == 2)
         		{
-        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, 15 / 20F, 45 / 20F, this.destructionRange);
+        			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, coefficient / 20F, coefficient2 / 20F, this.destructionRange);
         		}
         	} else {
         		switch (extType)

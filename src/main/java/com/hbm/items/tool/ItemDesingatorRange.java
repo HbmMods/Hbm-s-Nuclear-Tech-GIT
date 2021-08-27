@@ -52,7 +52,7 @@ public class ItemDesingatorRange extends Item {
 			
 			stack.stackTagCompound.setInteger("xCoord", x);
 			stack.stackTagCompound.setInteger("zCoord", z);
-			
+			stack.stackTagCompound.setIntArray("coord", new int[] {x, y, z});
 	        if(world.isRemote)
 			{
 	        	player.addChatMessage(new ChatComponentText(I18nUtil.resolveKey(HbmCollection.tarSet, x, z)));

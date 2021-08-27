@@ -290,4 +290,10 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 			this.markDirty();
 		}
 	}
+
+	@Override
+	public int getHeat()
+	{
+		return IRTGUser.super.updateRTGs(slots, slots_side, getWorldObj());
+	}
 }

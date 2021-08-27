@@ -21,12 +21,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineSingGen extends GuiInfoContainer
+public class GUISingGen extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/machine/gui_sing_gen.png");
 	private TileEntityMachineSingGen singGen;
 	
-	public GUIMachineSingGen(InventoryPlayer invPlayer, TileEntityMachineSingGen tileEntity)
+	public GUISingGen(InventoryPlayer invPlayer, TileEntityMachineSingGen tileEntity)
 	{
 		super(new ContainerMachineSingGen(invPlayer, tileEntity));
 		singGen = tileEntity;

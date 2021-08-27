@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -56,6 +57,11 @@ public class AuxButtonPacket implements IMessage {
 		this(te.xCoord, te.yCoord, te.zCoord, value, id);
 	}
 
+	public AuxButtonPacket(EasyLocation loc, int value, int id)
+	{
+		this((int) loc.posX, (int) loc.posY, (int) loc.posZ, value, id);
+	}
+	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		x = buf.readInt();

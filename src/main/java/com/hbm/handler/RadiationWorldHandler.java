@@ -6,14 +6,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.RadiationConfig;
 import com.hbm.saveddata.RadiationSavedData;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.network.play.server.S21PacketChunkData;
-import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.ChunkProviderServer;
 
 public class RadiationWorldHandler {

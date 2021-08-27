@@ -139,4 +139,11 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 			}
 		}
 	}
+
+	@Override
+	public Block toBlock() {
+		// TODO Auto-generated method stub
+		return IItemHazard.super.toBlock();
+	}
+
 }

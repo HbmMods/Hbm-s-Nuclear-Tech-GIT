@@ -12,6 +12,7 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -32,7 +33,13 @@ public class ItemLaserDetonator extends Item {
 		int y = pos.blockY;
 		int z = pos.blockZ;
 		
-		
+		if (stack.stackTagCompound == null)
+		{
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setIntArray("coord", new int[] {x, y, z});
+		}
+		else
+			stack.stackTagCompound.setIntArray("coord", new int[] {x, y, z});
 	    if(!world.isRemote)
 		{
 	    	if(world.getBlock(x, y, z) instanceof IBomb) {

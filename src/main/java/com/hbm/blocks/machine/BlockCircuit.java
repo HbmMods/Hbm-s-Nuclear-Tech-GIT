@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -38,6 +39,46 @@ public class BlockCircuit extends Block
 		setHardness(10.0F);
 		setResistance(2.5F);
 	}
+	@Untested
+	public int[] getData(World worldIn, int x, int y, int z)
+	{
+		int[] data = new int[2];
+		data[0] = strength;
+		data[1] = 1;
+		int pX = x;
+		int pY = y;
+		int pZ = z;
+		BlockCircuit comp = null;
+		/// Try x axis
+		// Try x axis, positives
+		while (worldIn.getBlock(pX + 1, pY, pZ) instanceof BlockCircuit)
+		{
+			pX++;
+			comp = (BlockCircuit) worldIn.getBlock(pX, pY, pZ);
+			data[0] += comp.strength;
+			data[1]++;
+		}
+		// Try x axis, negatives
+		pX = x;
+		while (worldIn.getBlock(pX - 1, pY, pZ) instanceof BlockCircuit)
+		{
+			pX--;
+			comp = (BlockCircuit) worldIn.getBlock(pX, pY, pZ);
+			data[0] += comp.strength;
+			data[1]++;
+		}
+		return data;
+	}
+	
+	public int getCollectiveStrength(World worldIn, int x, int y, int z)
+	{
+		return getData(worldIn, x, y, z)[0];
+	}
+	
+	public int getCount(World worldIn, int x, int y, int z)
+	{
+		return getData(worldIn, x, y, z)[1];
+	}
 	
 	// Disassemble
 	@Override
@@ -55,27 +96,6 @@ public class BlockCircuit extends Block
 		else if (worldIn.isRemote && player.getHeldItem() == null)
 			player.addChatMessage(new ChatComponentText("In order to disassemble this supercomputer component without mangling everything, I'll need a more precise tool..."));
 		return super.onBlockActivated(worldIn, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
-	}
-	@Deprecated
-	private void dropItems(List<ItemStack> items, World world, int x, int y, int z)
-	{		
-		Random rand = new Random();
-		
-        float f = rand.nextFloat() * 0.8F + 0.1F;
-        float f1 = rand.nextFloat() * 0.8F + 0.1F;
-        float f2 = rand.nextFloat() * 0.8F + 0.1F;
-    	
-        for (ItemStack stack : items)
-        {
-	        EntityItem entityItem = new EntityItem(world, x + f, y + f1, z + f2, stack);
-	        
-	        float f3 = 0.05F;
-	        entityItem.motionX = (float)rand.nextGaussian() * f3;
-	        entityItem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-	        entityItem.motionZ = (float)rand.nextGaussian() * f3;
-			if (!world.isRemote)
-				world.spawnEntityInWorld(entityItem);
-		}
 	}
 	private void dropItems(AStack[] items, World world, int x, int y, int z)
 	{

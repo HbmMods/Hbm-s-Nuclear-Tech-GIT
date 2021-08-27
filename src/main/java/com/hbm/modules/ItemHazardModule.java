@@ -148,6 +148,7 @@ public class ItemHazardModule {
 			float totalDrx = d * stack.stackSize;
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.drx) + "]");
 			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
+			// FIXME
 			if (stack.stackSize > 1)
 				list.add(String.format("%s%smDRX/s total", EnumChatFormatting.DARK_RED, totalDrx));
 		}

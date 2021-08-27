@@ -99,7 +99,11 @@ public class ItemChemistryTemplate extends Item {
 		OD_CD,
 		OD_DVD,
 		OD_BD,
-		OD_5D;
+		OD_5D,
+		LF_BASE,
+		LF_U,
+		LF_PU,
+		LF_SA;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -293,6 +297,10 @@ public class ItemChemistryTemplate extends Item {
         	return 300;
         case OD_5D:
         	return 350;
+        case LF_BASE:
+        	return 400;
+        case LF_U:
+        	return 200;
         default:
         	return 100;
         }

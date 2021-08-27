@@ -13,6 +13,8 @@ import net.minecraft.world.World;
  */
 public interface IRTGUser
 {
+	/** Get the heat provided by the RTGs **/
+	public int getHeat();
 	/**
 	 * Update all of the RTG pellets in a section of a machine
 	 * @param inventory - Total inventory
@@ -60,6 +62,12 @@ public interface IRTGUser
 		}
 		return newHeat;
 	}
+	/**
+	 * Update all of the RTG pellets in a list of a machine
+	 * @param rtgList - The list of RTGs the machine uses
+	 * @param worldIn - The machine's world object
+	 * @return The total heat level
+	 */
 	@Untested
 	default int updateRTGs(List<ItemRTGPellet> rtgList, World worldIn)
 	{
@@ -71,6 +79,52 @@ public interface IRTGUser
 			if (pellet.doesDecay)
 				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
 					rtgList.remove(pellet);
+		}
+		
+		return newHeat;
+	}
+	/**
+	 * Update all of the RTG pellets in a list of a machine and allows for decay items to accumulate
+	 * @param rtgList - The list of RTGs the machine uses
+	 * @param deplList - The list of depleted items
+	 * @param worldIn - The machine's world object
+	 * @return The total heat level
+	 */
+	@Untested
+	default int updateRTGs(List<ItemRTGPellet> rtgList, List<ItemStack> deplList, World worldIn)
+	{
+		int newHeat = 0;
+		
+		for (ItemRTGPellet pellet : rtgList)
+		{
+			newHeat += pellet.heat;
+			if (pellet.doesDecay)
+			{
+				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
+				{
+					rtgList.remove(pellet);
+					boolean alreadyExists = false;
+					int index;
+					for (int i = 0; i < deplList.size(); i++)
+					{
+						if (deplList.get(i).getItem() == pellet.decayItem.getItem() && deplList.get(i).getItemDamage() == pellet.decayItem.getItemDamage() && deplList.get(i).stackSize + pellet.decayItem.stackSize <= 64)
+							alreadyExists = true;
+						else if (deplList.get(i).stackSize + pellet.decayItem.stackSize > 64)
+							continue;
+						
+						if (alreadyExists)
+							break;
+					}
+					if (alreadyExists)
+					{
+						for (int i = 0; i < deplList.size(); i++)
+							if (deplList.get(i).getItem() == pellet.decayItem.getItem() && deplList.get(i).getItemDamage() == pellet.decayItem.getItemDamage() && deplList.get(i).stackSize + pellet.decayItem.stackSize <= 64)
+								deplList.get(i).stackSize += pellet.decayItem.stackSize;
+					}
+					else
+						deplList.add(pellet.decayItem);
+				}
+			}
 		}
 		
 		return newHeat;

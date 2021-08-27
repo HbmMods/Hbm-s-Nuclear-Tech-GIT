@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -35,11 +36,11 @@ public class ItemDesingatorManual extends Item {
 	{
 		if(stack.stackTagCompound != null)
 		{
-			list.add(HbmCollection.tarCoord);
+			list.add(I18nUtil.resolveKey(HbmCollection.tarSet));
 			list.add("X: " + String.valueOf(stack.stackTagCompound.getInteger("xCoord")));
 			list.add("Z: " + String.valueOf(stack.stackTagCompound.getInteger("zCoord")));
 		} else {
-			list.add(HbmCollection.noPos);
+			list.add(I18nUtil.resolveKey(HbmCollection.noPos));
 		}
 	}
 }

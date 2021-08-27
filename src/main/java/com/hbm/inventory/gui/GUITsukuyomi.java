@@ -12,6 +12,8 @@ import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSound;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,14 +21,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import scala.annotation.meta.field;
 
-public class GUITurretTsukuyomi extends GuiInfoContainer
+public class GUITsukuyomi extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/weapon/gui_turret_twr.png");
 	private static final int color1 = 0x00ff00;
 	private TileEntityTsukuyomi twr;
 	private GuiTextField tField;
 	private NumberDisplay disp;
-	public GUITurretTsukuyomi(InventoryPlayer invPlayer, TileEntityTsukuyomi tedf)
+	public GUITsukuyomi(InventoryPlayer invPlayer, TileEntityTsukuyomi tedf)
 	{
 		super(new ContainerTsukuyomi(invPlayer, tedf));
 		twr = tedf;
@@ -108,7 +110,7 @@ public class GUITurretTsukuyomi extends GuiInfoContainer
 	protected void mouseClicked(int mouseX, int mouseY, int i)
 	{
 		super.mouseClicked(mouseX, mouseY, i);
-		tField.setFocused(getTextBool(mouseX, mouseY, tField, guiLeft, guiTop));
+		tField.setFocused(getTextBool(mouseX, mouseY, tField));
 		// Search button
 		if (getButtonBool(mouseX, mouseY, 70, 18, 35, 13, guiLeft, guiTop))
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(twr, 0, 0));
@@ -131,6 +133,7 @@ public class GUITurretTsukuyomi extends GuiInfoContainer
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("name", tField.getText());
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, twr));
+			tField.setText("");
 		}
 		// Remove player from list
 		if (getButtonBool(mouseX, mouseY, 89, 35, 16, 16, guiLeft, guiTop))
@@ -171,7 +174,8 @@ public class GUITurretTsukuyomi extends GuiInfoContainer
 	@Override
 	protected void keyTyped(char c, int i)
 	{
-		if (tField.textboxKeyTyped(c, i)) {}
+		if (tField.textboxKeyTyped(c, i))
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:misc.keyPress"), 1.0F));
 		else
 			super.keyTyped(c, i);
 	}

@@ -313,9 +313,9 @@ public class MachineRecipes
 			return list;
 		case WATZ:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_uranium), 1));
-			list.add(new GasCentOutput(5, new ItemStack(ModItems.powder_lead), 1));
-			list.add(new GasCentOutput(10, new ItemStack(ModItems.dust), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_uranium), 2));
+			list.add(new GasCentOutput(5, new ItemStack(ModItems.powder_lead), 3));
+			list.add(new GasCentOutput(10, new ItemStack(ModItems.dust), 4));
 			return list;
 		case SAS3:
 			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_schrabidium), 1));
@@ -340,6 +340,12 @@ public class MachineRecipes
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 2));
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 3));
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 4));
+			return list;
+		case SALT:
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.powder_aluminium), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_bromine), 2));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_lithium), 3));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.fluorite), 4));
 			return list;
 		}
 		
@@ -1958,6 +1964,16 @@ public class MachineRecipes
         	list.add(new ItemStack(ModItems.storage_optical_raw, 4));
         	list.add(new ItemStack(ModItems.powder_aluminium));
         	break;
+        case LF_BASE:
+        	list.add(new ItemStack(ModItems.powder_aluminium, 2));
+        	list.add(new ItemStack(ModItems.powder_bromine));
+        	list.add(new ItemStack(ModItems.powder_lithium, 3));
+        	list.add(new ItemStack(ModItems.fluorite, 3));
+        	break;
+        case LF_U:
+        	list.add(new ItemStack(ModItems.ingot_u235));
+        	list.add(new ItemStack(ModItems.nugget_beryllium, 3));
+        	break;
 		default:
 			break;
 		}
@@ -2190,6 +2206,13 @@ public class MachineRecipes
     		break;
     	case OD_CD:
     		input[0] = new FluidStack(200, FluidType.LUBRICANT);
+    		break;
+    	case LF_BASE:
+    		input[0] = new FluidStack(8000, FluidType.COOLANT);
+    		input[1] = new FluidStack(1200, FluidType.OXYGEN);
+    		break;
+    	case LF_U:
+    		input[0] = new FluidStack(1000, FluidType.SALT);
     		break;
 		default:
 			break;
@@ -2481,6 +2504,12 @@ public class MachineRecipes
         	break;
         case DU_DIOXIDE:
         	output[0] = new FluidStack(1000, FluidType.WATER);
+        	break;
+        case LF_BASE:
+        	output[0] = new FluidStack(2000, FluidType.SALT);
+        	break;
+        case LF_U:
+        	output[0] = new FluidStack(1000, FluidType.SALT_U);
         	break;
 		default:
 			break;

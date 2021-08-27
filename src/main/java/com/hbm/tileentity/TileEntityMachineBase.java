@@ -1,6 +1,7 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.calc.EasyLocation;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
@@ -23,10 +24,17 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	
 	private String customName;
 	
+	protected EasyLocation coord;
+	
 	public TileEntityMachineBase(int scount) {
 		slots = new ItemStack[scount];
 	}
 
+	public EasyLocation getLocation()
+	{
+		return coord.clone();
+	}
+	
 	@Override
 	public int getSizeInventory() {
 		return slots.length;
@@ -181,6 +189,8 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		coord = new EasyLocation(this);
 	}
 	
 	@Override

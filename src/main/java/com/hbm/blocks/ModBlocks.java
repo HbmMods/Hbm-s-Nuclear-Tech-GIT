@@ -87,6 +87,7 @@ import com.hbm.blocks.generic.BlockPinkLog;
 import com.hbm.blocks.generic.BlockPinkSlab;
 import com.hbm.blocks.generic.BlockPinkStairs;
 import com.hbm.blocks.generic.BlockPlasma;
+import com.hbm.blocks.generic.BlockRadShield;
 import com.hbm.blocks.generic.BlockRotatablePillar;
 import com.hbm.blocks.generic.BlockSmolder;
 import com.hbm.blocks.generic.BlockSpeedy;
@@ -143,6 +144,7 @@ import com.hbm.blocks.turret.TurretTsukuyomi;
 import com.hbm.items.block.ItemBlockCircuit;
 import com.hbm.items.block.ItemBlockHazard;
 import com.hbm.items.block.ItemBlockLore;
+import com.hbm.items.block.ItemBlockRadShield;
 import com.hbm.items.block.ItemBlockSchrabidium;
 import com.hbm.items.block.ItemGlyphBlock;
 import com.hbm.items.block.ItemHadronCoil;
@@ -160,6 +162,7 @@ import com.hbm.tileentity.turret.TileEntityTurretHoward;
 import com.hbm.tileentity.turret.TileEntityTurretJeremy;
 import com.hbm.tileentity.turret.TileEntityTurretRichard;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.tileentity.machine.TileEntityAtomicClock;
 import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -696,6 +699,9 @@ public class ModBlocks {
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
 	public static final int guiID_electric_furnace = 16;
+	
+	public static Block machine_food_synth;
+	public static final int guiID_food_synth = -1;// TODO
 
 	public static Block machine_microwave;
 	public static final int guiID_microwave = 97;
@@ -821,6 +827,7 @@ public class ModBlocks {
 	public static final int guiID_fwatz_multiblock = 33;
 
 	public static Block atomic_clock;
+	public static final int guiID_atomic_clock = 115;
 	
 	public static Block fire_phosphorus;
 	public static Block balefire;
@@ -1245,11 +1252,11 @@ public class ModBlocks {
 		block_niter = new BlockGeneric(Material.iron).setBlockName("block_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_niter");
 		block_copper = new BlockGeneric(Material.iron).setBlockName("block_copper").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		block_red_copper = new BlockGeneric(Material.iron).setBlockName("block_red_copper").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_red_copper");
-		block_tungsten = new BlockGeneric(Material.iron).setBlockName("block_tungsten").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_tungsten");
+		block_tungsten = new BlockRadShield(Material.iron).addEMShield(25.0F).toBlock().setBlockName("block_tungsten").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_tungsten");
 		block_aluminium = new BlockGeneric(Material.iron).setBlockName("block_aluminium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		block_fluorite = new BlockGeneric(Material.iron).setBlockName("block_fluorite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_fluorite");
 		block_steel = new BlockGeneric(Material.iron).setBlockName("block_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		block_lead = new BlockGeneric(Material.iron).setBlockName("block_lead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lead");
+		block_lead = new BlockRadShield(Material.iron).addEMShield(15.0F).toBlock().setBlockName("block_lead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		block_trinitite = new BlockHazard().addRadiation(ItemHazard.trn * ItemHazard.block).toBlock().setBlockName("block_trinitite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_trinitite");
 		block_waste = new BlockNuclearWaste().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste");
 		block_waste_painted = new BlockNuclearWaste().setDisplayEffect(ExtDisplayEffect.RADFOG).addRadiation(ItemHazard.wst * ItemHazard.block).toBlock().setBlockName("block_waste_painted").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste_painted");
@@ -1345,17 +1352,17 @@ public class ModBlocks {
 
 		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
 		concrete_smooth = new BlockGeneric(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
-		ducrete_smooth = new BlockGeneric(Material.rock).setBlockName("ducrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete");
+		ducrete_smooth = new BlockRadShield(Material.rock).addEMShield(50.0F).addNeutronShield(25.0F).toBlock().setBlockName("ducrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete");
 		concrete = new BlockGeneric(Material.rock).setBlockName("concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_tile");
 		concrete_pillar = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":concrete_pillar_top").setBlockName("concrete_pillar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_pillar_side");
 		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		brick_ducrete = new BlockGeneric(Material.rock).setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(12000.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
+		brick_ducrete = new BlockRadShield(Material.rock).addEMShield(100.0F).addNeutronShield(50.0F).toBlock().setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(12000.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
 		brick_concrete_mossy = new BlockGeneric(Material.rock).setBlockName("brick_concrete_mossy").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_mossy");
 		brick_concrete_cracked = new BlockGeneric(Material.rock).setBlockName("brick_concrete_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(2000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_cracked");
 		brick_concrete_broken = new BlockGeneric(Material.rock).setBlockName("brick_concrete_broken").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(1500.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_broken");
 		brick_concrete_marked = new BlockWriting(Material.rock, RefStrings.MODID + ":brick_concrete").setBlockName("brick_concrete_marked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(1500.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_marked");
 		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
-		reinforced_ducrete = new BlockGeneric(Material.rock).setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(24000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
+		reinforced_ducrete = new BlockRadShield(Material.rock).addEMShield(150.0F).addNeutronShield(75.0F).toBlock().setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(24000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
 		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(10000.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
 		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
@@ -1674,7 +1681,7 @@ public class ModBlocks {
 		fwatz_core = new FWatzCore(Material.iron).setBlockName("fwatz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fwatz_core");
 		fwatz_plasma = new BlockPlasma(Material.iron).addEpic().setBlockName("fwatz_plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fwatz_plasma");
 		
-//		atomic_clock
+		atomic_clock = new BlockBasicMachine(Material.iron, TileEntityAtomicClock.class, guiID_atomic_clock).setBlockName("atomic_clock").setHardness(10.0F).setResistance(15.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");
 		
 		fire_phosphorus = new PhosphorusFire().setBlockName("fire_phosphorus").setHardness(0.0F).setLightLevel(1.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fire_phosphorus");
 		balefire = new Balefire().setBlockName("balefire").setHardness(0.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":balefire");
@@ -1750,7 +1757,7 @@ public class ModBlocks {
 		turret_tauon = new TurretBaseNT(Material.iron, TileEntityTurretTauon.class, guiID_tauon).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretBaseNT(Material.iron, TileEntityTurretRichard.class, guiID_richard).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretBaseNT(Material.iron, TileEntityTurretHoward.class, guiID_howard).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_tsukuyomi = new TurretTsukuyomi().setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");
+		turret_tsukuyomi = new TurretTsukuyomi().setBlockName("turret_twr").setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_beta");
 		turret_lunar_oni = new TestMachine(Material.iron).setCreativeTab(MainRegistry.weaponTab).setBlockName("turret_lunar_oni").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");// TODO Finish
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
@@ -2040,14 +2047,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_copper, block_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(block_red_copper, block_red_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(block_advanced_alloy, block_advanced_alloy.getUnlocalizedName());
-		GameRegistry.registerBlock(block_tungsten, block_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(block_tungsten, ItemBlockRadShield.class, block_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(block_aluminium, block_aluminium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_fluorite, block_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_beryllium, block_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
 		GameRegistry.registerBlock(block_cobalt, ItemBlockLore.class, block_cobalt.getUnlocalizedName());
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
-		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(block_lead, ItemBlockRadShield.class, block_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(block_actinium, ItemBlockHazard.class, block_actinium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lanthanum, ItemBlockLore.class, block_lanthanum.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lithium, ItemBlockHazard.class, block_lithium.getUnlocalizedName());
@@ -2141,17 +2148,17 @@ public class ModBlocks {
 		//Bricks
 		GameRegistry.registerBlock(reinforced_stone, reinforced_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_smooth, concrete_smooth.getUnlocalizedName());
-		GameRegistry.registerBlock(ducrete_smooth, ducrete_smooth.getUnlocalizedName());
+		GameRegistry.registerBlock(ducrete_smooth, ItemBlockRadShield.class, ducrete_smooth.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete, concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_pillar, concrete_pillar.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete, brick_concrete.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_ducrete, brick_ducrete.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_ducrete, ItemBlockRadShield.class, brick_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_mossy, brick_concrete_mossy.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_cracked, brick_concrete_cracked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_broken, brick_concrete_broken.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_marked, brick_concrete_marked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_obsidian, brick_obsidian.getUnlocalizedName());
-		GameRegistry.registerBlock(reinforced_ducrete, reinforced_ducrete.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_ducrete, ItemBlockRadShield.class, reinforced_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_compound, brick_compound.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, brick_light.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_asbestos, ItemBlockHazard.class, brick_asbestos.getUnlocalizedName());
@@ -2397,6 +2404,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_amat_reactor, machine_amat_reactor.getUnlocalizedName());
+		GameRegistry.registerBlock(atomic_clock, atomic_clock.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hadron_plating, hadron_plating.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_plating_blue, hadron_plating_blue.getUnlocalizedName());

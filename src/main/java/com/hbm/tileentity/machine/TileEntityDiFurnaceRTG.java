@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase implements IRTGUser
+public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRTGUser
 {
 	public int progress;
 	private int processSpeed = 0;
@@ -22,7 +22,7 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase impleme
 	private static final int[] rtgIn = new int[] {3, 4, 5, 6, 7, 8};
 	private String name;
 	
-	public TileEntityMachineDiFurnaceRTG()
+	public TileEntityDiFurnaceRTG()
 	{
 		super(9);
 	}
@@ -278,6 +278,12 @@ public class TileEntityMachineDiFurnaceRTG extends TileEntityMachineBase impleme
 	public String getName()
 	{
 		return "container.diFurnaceRTG";
+	}
+
+	@Override
+	public int getHeat()
+	{
+		return processSpeed;
 	}
 
 }

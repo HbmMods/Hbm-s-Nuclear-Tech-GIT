@@ -1,11 +1,14 @@
 package com.hbm.inventory.gui;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnegative;
 
+import com.google.common.annotations.Beta;
 import com.hbm.interfaces.Untested;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -16,11 +19,12 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import scala.runtime.DoubleRef;
 
 public abstract class GuiInfoContainer extends GuiContainer {
 	
 	ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
-
+	public static final int color0 = 4210752;
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
@@ -82,11 +86,15 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	{
 		return guiLeft + buttonX <= mouseX && guiLeft + buttonX + xSize > mouseX && guiTop + buttonY < mouseY && guiTop + buttonY + ySize >= mouseY;
 	}
+	public boolean getButtonBool(int mouseX, int mouseY, int buttonX, int buttonY, int xSize, int ySize)
+	{
+		return guiLeft + buttonX <= mouseX && guiLeft + buttonX + xSize > mouseX && guiTop + buttonY < mouseY && guiTop + buttonY + ySize >= mouseY;
+	}
 	public static boolean getTextBool(int mouseX, int mouseY, int fX, int fY, int fW, int fH)
 	{
 		return mouseX >= fX && mouseX < fX + fW && mouseY >= fY && mouseY < fY + fH;
 	}
-	public static boolean getTextBool(int mouseX, int mouseY, GuiTextField field, int guiLeft, int guiTop)
+	public static boolean getTextBool(int mouseX, int mouseY, GuiTextField field)
 	{
 		return mouseX >= field.xPosition && mouseX < field.xPosition + field.width && mouseY >= field.yPosition && mouseY < field.yPosition + field.height;
 	}
@@ -133,6 +141,34 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			drawTexturedModalRect(x, y, 24, 32, 16, 16); break;
 		}
 	}
+	/**
+	 * Turn a string into a byte and remove all non-digit characters
+	 * @param in - The text input
+	 * @return The formatted byte or -1 if invalid
+	 */
+	public static byte validateTextInput(String in)
+	{
+		String formatted = in.replaceAll("\\D", "");
+		return formatted.isEmpty() || formatted.length() == 0 ? -1 : (byte) MathHelper.clamp_int(new Integer(formatted), 0, 100);
+	}
+	/**
+	 * Turn a string into a byte and allow non-digit characters (most likely the negative sign)
+	 * @param in - The text input
+	 * @return The formatted byte or -1 if invalid
+	 */
+	public static byte validateTextInputAllowChars(String in)
+	{
+		try
+		{
+			return (byte) MathHelper.clamp_int(new Byte(in), 0, 100);
+		}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	@Beta
 	public class NumberDisplay
 	{
 		/** The display's X coordinate **/
@@ -144,20 +180,25 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		/** The Y coordinate of the reference **/
 		private int referenceY;
 		/** The amount of padding between digits, default 3 **/
-		private int padding = 3;
+		@Nonnegative
+		private byte padding = 3;
 		/** Does it blink or not, default false **/
 		private boolean blink = false;
 		/** Max number the display can handle **/
-		private int maxNum;
+		private float maxNum;
 		/** Min number the display can handle **/
-		private int minNum;
+		private float minNum;
 		private boolean customBounds = false;
+		// Should it be a decimal number?
+		private boolean isFloat = false;
+		// How many trailing zeros?
+		private byte floatPad = 1;
 		/** Does it pad out with zeros **/
 		private boolean pads = false;
 		/** Max number of digits the display has, default 3 **/
 		@Nonnegative
 		private byte digitLength = 3;
-		private int numIn = 0;
+		private double numIn = 0;
 		private char[] toDisp = new char[] {0, 0, 0};
 		@Nonnegative
 		private byte dispOffset = 0;
@@ -184,41 +225,32 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			byte gap = (byte) (digitLength - num.length);
 			for (int i = 0; i < num.length; i++)
 			{
+				if (num[i] == '.')
+					gap--;
 				dispOffset = (byte) ((padding + 6) * (i + gap));
-				drawNumber(num[i]);
+				drawChar(num[i]);
 			}
-			if (pads && gap > 0)
-			{
-				for (int i = 0; i < gap; i++)
-				{
-					dispOffset = (byte) ((padding + 6) * i);
-					drawNumber('0');
-				}
-			}
+			if (pads)
+				padOut(gap);
 		}
-		/**
-		 * Draw the previously provided number
-		 */
+		/** Draw the previously provided number **/
 		public void drawNumber()
 		{
-			byte gap = (byte) (digitLength - toDisp.length);
-			for (int i = 0; i < toDisp.length; i++)
+			drawNumber(toDisp);
+		}
+		private void padOut(byte gap)
+		{
+			if (gap == 0)
+				return;
+			for (int i = 0; i < gap; i++)
 			{
-				dispOffset = (byte) ((padding + 6) * (i + gap));
-				drawNumber(toDisp[i]);
-			}
-			
-			if (pads && gap > 0)
-			{
-				for (int i = 0; i < gap; i++)
-				{
-					dispOffset = (byte) ((padding + 6) * i);
-					drawNumber('0');
-				}
+				dispOffset = (byte) ((padding + 6) * i);
+				drawChar('0');
 			}
 		}
-		/** Draw a single number (requires dispOffset to be set) **/
-		public void drawNumber(char num)
+		
+		/** Draw a single character (requires dispOffset to be set) **/
+		public void drawChar(char num)
 		{
 //			System.out.println(num);
 			switch (num)
@@ -295,6 +327,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			case '-':
 				drawHorizontal(1);
 				break;
+			case '.':
+				drawPeriod();
+				break;
+			case 'E':
 			default:
 				drawHorizontal(0);
 				drawHorizontal(1);
@@ -311,6 +347,11 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			drawTexturedModalRect(guiLeft + displayX + dispOffset + 1, guiTop + displayY + offset, referenceX + 1, referenceY, 5, 1);
 		}
 		
+		private void drawPeriod()
+		{
+			drawTexturedModalRect(guiLeft + displayX + dispOffset + padding - (int) Math.ceil(padding / 2) + 5, guiTop + displayY + 12, referenceX + 1, referenceY, 1, 1);
+		}
+		
 		private void drawVertical(int posX, int posY)
 		{
 			byte offsetX = (byte) (posX * 5);
@@ -318,18 +359,24 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			drawTexturedModalRect(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + 1, referenceX, referenceY + 1, 1, 5);
 		}
 		
-		public void setNumber(int in)
+		public void setNumber(double in)
 		{
 			numIn = in;
 			if (customBounds)
-				numIn = MathHelper.clamp_int(in, minNum, maxNum);
+				numIn = MathHelper.clamp_double(in, minNum, maxNum);
 			
-			toDisp = new Integer(numIn).toString().toCharArray();
+			toDisp = new Long((int) Math.round(new Double(numIn))).toString().toCharArray();
+			toDisp = truncOrExpand();
 		}
 		/** Get the set number **/
-		public Integer getNumber()
+		public Double getNumber()
 		{
 			return numIn;
+		}
+		/** Get the char array for display **/
+		public char[] getDispNumber()
+		{
+			return toDisp.clone();
 		}
 		/** Make the display blink **/
 		public NumberDisplay setBlinks()
@@ -338,19 +385,20 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			return this;
 		}
 		/** Padding between digits, default 3 **/
-		public NumberDisplay setPadding(int p)
+		public NumberDisplay setPadding(@Nonnegative int p)
 		{
-			padding = p;
+			padding = (byte) p;
 			return this;
 		}
 		/** Max number of digits **/
-		public NumberDisplay setDigitLength(byte l)
+		public NumberDisplay setDigitLength(@Nonnegative byte l)
 		{
 			digitLength = l;
+			toDisp = truncOrExpand();
 			return this;
 		}
 		/** Set custom number bounds **/
-		public NumberDisplay setMaxMin(int max, int min)
+		public NumberDisplay setMaxMin(float max, float min)
 		{
 			if (min > max)
 				throw new IllegalArgumentException("Minimum value is larger than maximum value!");
@@ -364,6 +412,36 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			pads = true;
 			return this;
+		}
+		/** Set the number to be a decimal, default zero trailing is 1 **/
+		public NumberDisplay setFloat()
+		{
+			return setFloat((byte) 1);
+		}
+		/** Set the number to be a decimal with specified zero trailing **/
+		public NumberDisplay setFloat(@Nonnegative byte pad)
+		{
+			floatPad = pad;
+			isFloat = true;
+			BigDecimal bd = new BigDecimal(new Double(numIn).toString());
+			bd = bd.setScale(pad, RoundingMode.HALF_UP);
+			
+			char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
+			
+			if (proc.length == digitLength)
+				toDisp = proc;
+			else
+				toDisp = truncOrExpand();
+			
+			return this;
+		}
+		private char[] truncOrExpand()
+		{
+			char[] out = Arrays.copyOf(toDisp, digitLength);
+			for (int i = 0; i < digitLength; i++)
+				if (out[i] == '\u0000')
+					out[i] = '0';
+			return out.clone();
 		}
 	}
 }
