@@ -487,6 +487,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		GameRegistry.registerTileEntity(TileEntityMachineOrbus.class, "tileentity_orbus");
 		GameRegistry.registerTileEntity(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
+		GameRegistry.registerTileEntity(TileEntitySpacer.class, "tileentity_fraction_spacer");
 
 		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
 		GameRegistry.registerTileEntity(TileEntityRBMKRodReaSim.class, "tileentity_rbmk_rod_reasim");

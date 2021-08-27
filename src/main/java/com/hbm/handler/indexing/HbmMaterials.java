@@ -1,4 +1,4 @@
-package com.hbm.handler;
+package com.hbm.handler.indexing;
 
 import java.util.ArrayList;
 import java.util.Arrays;

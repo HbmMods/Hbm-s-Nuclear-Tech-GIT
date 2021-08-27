@@ -294,8 +294,10 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 				
 				this.power -= 200;
 				
-				if(this.power < 0)
+				if(this.power < 0) {
 					power = 0;
+					this.progress = 0;
+				}
 				
 				if(progress >= processingSpeed) {
 					process();

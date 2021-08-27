@@ -829,8 +829,9 @@ public class ModBlocks {
 
 	public static Block machine_refinery;
 	public static final int guiID_machine_refinery = 43;
-	
+
 	public static Block machine_fraction_tower;
+	public static Block fraction_spacer;
 
 	public static Block machine_boiler_off;
 	public static Block machine_boiler_on;
@@ -1915,6 +1916,7 @@ public class ModBlocks {
 		machine_flare = new MachineGasFlare(Material.iron).setBlockName("machine_flare").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_flare");
 		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
 		machine_fraction_tower = new MachineFractionTower(Material.iron).setBlockName("machine_fraction_tower").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_fraction_tower");
+		fraction_spacer = new FractionSpacer(Material.iron).setBlockName("fraction_spacer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fraction_spacer");
 		machine_drill = new MachineMiningDrill(Material.iron).setBlockName("machine_drill").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_drill");
 		drill_pipe = new BlockNoDrop(Material.iron).setBlockName("drill_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":drill_pipe");
 		machine_mining_laser = new MachineMiningLaser(Material.iron).setBlockName("machine_mining_laser").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_mining_laser");
@@ -2774,6 +2776,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_pumpjack, machine_pumpjack.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_flare, machine_flare.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_refinery, machine_refinery.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_fraction_tower, machine_fraction_tower.getUnlocalizedName());
+		GameRegistry.registerBlock(fraction_spacer, fraction_spacer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_drill, machine_drill.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_mining_laser, ItemBlockLore.class, machine_mining_laser.getUnlocalizedName());
 		GameRegistry.registerBlock(barricade, barricade.getUnlocalizedName());
