@@ -14,8 +14,11 @@ public class FractionSpacer extends BlockDummyable {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntitySpacer();
+	public TileEntity createNewTileEntity(World p_149915_1_, int meta) {
+		
+		if(meta >= 12)
+			return new TileEntitySpacer();
+		return null;
 	}
 
 	@Override

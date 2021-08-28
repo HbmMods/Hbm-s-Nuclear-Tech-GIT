@@ -108,7 +108,13 @@ public class ItemAmmo extends Item {
 	public ItemAmmo(AmmoItemTrait... traits) {
 		this.traits = traits;
 		this.setCreativeTab(MainRegistry.weaponTab);
-		this.setTextureName(RefStrings.MODID + ":"+ this.getUnlocalizedName().substring(5));
+	}
+	
+	@Override
+	public Item setUnlocalizedName(String unlocalizedName) {
+		super.setUnlocalizedName(unlocalizedName);
+		this.setTextureName(RefStrings.MODID + ":"+ unlocalizedName);
+		return this;
 	}
 	
 	public ItemAmmo index(AmmoTrait... traits) {

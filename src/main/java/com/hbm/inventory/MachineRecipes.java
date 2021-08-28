@@ -1597,23 +1597,23 @@ public class MachineRecipes {
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case CC_OIL:
-			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.powder_coal, 8));
 			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_I:
-			list.add(new ItemStack(Items.coal, 6));
+			list.add(new ItemStack(ModItems.powder_coal, 6));
 			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_HEATING:
-			list.add(new ItemStack(Items.coal, 6));
+			list.add(new ItemStack(ModItems.powder_coal, 6));
 			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_HEAVY:
-			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.powder_coal, 8));
 			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case CC_NAPHTHA:
-			list.add(new ItemStack(Items.coal, 8));
+			list.add(new ItemStack(ModItems.powder_coal, 8));
 			list.add(new ItemStack(ModItems.oil_tar, 4));
 			break;
         case ASPHALT:
@@ -1651,7 +1651,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_desh, 1));
 			break;
         case POLYMER:
-			list.add(new ItemStack(Items.coal, 2));
+			list.add(new ItemStack(ModItems.powder_coal, 2));
 			list.add(new ItemStack(ModItems.fluorite, 1));
 			break;
         case DEUTERIUM:
@@ -1707,7 +1707,7 @@ public class MachineRecipes {
         case KEVLAR:
 			list.add(new ItemStack(ModItems.niter, 2));
 			list.add(new ItemStack(Items.brick, 1));
-			list.add(new ItemStack(Items.coal, 1));
+			list.add(new ItemStack(ModItems.powder_coal, 1));
 			break;
         case SOLID_FUEL:
 			list.add(new ItemStack(ModItems.solid_fuel, 2));

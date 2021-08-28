@@ -2,6 +2,7 @@ package com.hbm.render.entity.projectile;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelShrapnel;
 
@@ -27,10 +28,11 @@ public class RenderShrapnel extends Render {
 
 		bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/shrapnel.png"));
 		
-		boolean scale = rocket.getDataWatcher().getWatchableObjectByte(16) == 2;
-		
-		if(scale)
-			GL11.glScaled(3, 3, 3);
+		if(rocket instanceof EntityShrapnel) {
+			if(rocket.getDataWatcher().getWatchableObjectByte(16) == 2) { //scale up lava blobs
+				GL11.glScaled(3, 3, 3);
+			}
+		}
 		
 		mine.renderAll(0.0625F);
 		GL11.glPopMatrix();

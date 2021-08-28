@@ -1042,6 +1042,16 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.watz_tex); ResourceManager.watz.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fraction_tower), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.5, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+			}
+			public void renderCommon() {
+				GL11.glScaled(1, 1, 1);
+				bindTexture(ResourceManager.fraction_tower_tex); ResourceManager.fraction_tower.renderAll();
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

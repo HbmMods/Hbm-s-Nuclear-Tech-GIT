@@ -66,9 +66,9 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 		
 		if(this.tPos != null) {
 			
-			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_fire", 4.0F, 0.9F + worldObj.rand.nextFloat() * 0.3F);
-			
 			if(timer % 4 == 0) {
+				
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_fire", 4.0F, 0.7F + worldObj.rand.nextFloat() * 0.3F);
 				
 				if(worldObj.rand.nextInt(100) + 1 <= WeaponConfig.ciwsHitrate * 0.5)
 					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, 2F + worldObj.rand.nextInt(2));
