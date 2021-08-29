@@ -84,7 +84,7 @@ public class GUILunarOni extends GuiInfoContainer
 		if (getButtonBool(mouseX, mouseY, 109, 59, 35, 13))
 		{
 			NBTTagCompound data = new NBTTagCompound();
-			data.setByte("input", validateTextInput(tField.getText()));
+			data.setByte("input", validateTextInput(tField.getText(), 0, 100).byteValue());
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, luna));
 			tField.setText("");
 		}

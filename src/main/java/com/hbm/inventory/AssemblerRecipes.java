@@ -925,7 +925,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_red_copper, 12),
 						new ComparableStack(ModItems.circuit_gold, 5)
 				}, 500);
-		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 0), new AStack[]
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock_1), new AStack[]
 				{
 						new ComparableStack(ModItems.upgrade_template),
 						new ComparableStack(ModItems.plate_saturnite, 8),
@@ -936,9 +936,9 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_targeting_tier4, 3),
 						new ComparableStack(ModItems.wire_red_copper, 16)
 				}, 200);
-		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 1), new AStack[]
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock_2), new AStack[]
 				{
-						new ComparableStack(ModItems.upgrade_clock, 1, 0),
+						new ComparableStack(ModItems.upgrade_clock_1),
 						new ComparableStack(ModItems.plate_du_dioxide, 8),
 						new ComparableStack(ModItems.plate_desh, 12),
 						new ComparableStack(ModBlocks.fusion_conductor, 4),
@@ -947,9 +947,9 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_targeting_tier4, 6),
 						new ComparableStack(ModItems.wire_magnetized_tungsten, 16)
 				}, 250);
-		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 2), new AStack[]
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock_3), new AStack[]
 				{
-						new ComparableStack(ModItems.upgrade_clock, 1, 1),
+						new ComparableStack(ModItems.upgrade_clock_2),
 						new ComparableStack(ModItems.plate_desh, 8),
 						new ComparableStack(ModItems.plate_schrabidium, 12),
 						new ComparableStack(ModItems.pellet_charged, 2),
@@ -958,9 +958,9 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_targeting_tier5, 4),
 						new ComparableStack(ModItems.wire_schrabidium, 16)
 				}, 300);
-		makeRecipe(new ComparableStack(ModItems.upgrade_clock, 1, 3), new AStack[]
+		makeRecipe(new ComparableStack(ModItems.upgrade_clock_4), new AStack[]
 				{
-						new ComparableStack(ModItems.upgrade_clock, 1, 2),
+						new ComparableStack(ModItems.upgrade_clock_3),
 						new ComparableStack(ModItems.plate_euphemium, 8),
 						new ComparableStack(ModItems.ingot_schrabidate, 12),
 						new OreDictStack("dustCaesium", 12),
@@ -970,6 +970,32 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.circuit_targeting_tier6, 3),
 						new ComparableStack(ModItems.fluid_tank_full, 4, FluidType.MERCURY.ordinal()),
 				}, 400);
+		makeRecipe(new ComparableStack(ModItems.thruster_nuclear_adv), new AStack[]
+				{
+						new ComparableStack(ModItems.thruster_nuclear),
+						new ComparableStack(ModBlocks.reactor_element, 6),
+						new OreDictStack("ingotZirconium", 24),
+						new OreDictStack("plateTitanium", 16),
+						new OreDictStack("plateDenseLead", 48),
+						new ComparableStack(ModItems.plate_desh, 12),
+						new OreDictStack("ingotLead", 12),
+						new ComparableStack(ModItems.hull_big_titanium, 2),
+						new OreDictStack("ingotBeryllium", 6),
+						new ComparableStack(ModItems.circuit_targeting_tier5, 2)
+				}, 800);
+		makeRecipe(new ComparableStack(ModItems.thruster_nuclear_liq), new AStack[]
+				{
+						new ComparableStack(ModItems.thruster_nuclear_adv),
+						new ComparableStack(ModItems.pipes_steel, 6),
+						new ComparableStack(ModItems.ingot_saturnite, 24),
+						new ComparableStack(ModItems.plate_saturnite, 36),
+						new ComparableStack(ModItems.ingot_desh, 16),
+						new ComparableStack(ModItems.tank_steel, 4),
+						new ComparableStack(ModItems.billet_beryllium, 36),
+						new ComparableStack(ModItems.motor_desh, 4),
+						new ComparableStack(ModItems.circuit_targeting_tier4, 4),
+						new ComparableStack(ModItems.circuit_targeting_tier5, 2)
+				}, 1000);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

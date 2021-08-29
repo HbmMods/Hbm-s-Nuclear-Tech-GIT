@@ -17,8 +17,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public EntityPlayer player;
 	
 	// Data
-	private double age;
-	private byte birthday = 0;
+	private double age = 20D;
+	private byte birthday = 1;
 	private boolean hasAscended = false;
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
@@ -108,7 +108,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			if (props.hasKey("birthday"))
 				birthday = props.getByte("birthday");
 			else
-				birthday = 0;
+				birthday = 1;
 			
 			if (props.hasKey("ascended"))
 				hasAscended = props.getBoolean("ascended");

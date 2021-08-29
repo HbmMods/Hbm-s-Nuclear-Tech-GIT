@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,10 +10,12 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TimeSavedData;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 @Beta
@@ -27,8 +27,8 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	public static final long maxPower = 50000000;
 	public static Random rand = new Random();
 	public float time = 0.0F;
-	public byte day = 0;
-	public double year = 2300D;
+	public byte day = 1;
+	public long year = 2300L;
 	public boolean isOn = false;
 	private int[] upgrades = new int[] {0, 0};
 	public TileEntityAtomicClock()
@@ -50,16 +50,13 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 			day = data.getDay();
 			year = data.getYear();
 			
-			BigDecimal bd = new BigDecimal(new Double(time).toString());
-			bd = bd.setScale(4, RoundingMode.HALF_UP);
-//			System.out.println(new Double(bd.doubleValue()).toString().toCharArray());
 		}
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("power", power);
 		data.setFloat("time", time);
 		data.setByte("day", day);
-		data.setDouble("year", year);
+		data.setLong("year", year);
 		networkPack(data, 100);
 	}
 	
@@ -73,11 +70,17 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	{
 		for (int i = 1; i < 5; i++)
 		{
-			if (getStackInSlot(i) == null)
+			if (getStackInSlot(i) == null || !(getStackInSlot(i).getItem() instanceof ItemMachineUpgrade))
 				continue;
 			
-			if (getStackInSlot(i).getItem() == ModItems.upgrade_clock)
-				upgrades[0] += getStackInSlot(i).getItemDamage() != 4 ? getStackInSlot(i).getItemDamage() : 9;
+			if (getStackInSlot(i).getItem() == ModItems.upgrade_clock_1)
+				upgrades[0] += 1;
+			else if (getStackInSlot(i).getItem() == ModItems.upgrade_clock_2)
+				upgrades[0] += 2;
+			else if (getStackInSlot(i).getItem() == ModItems.upgrade_clock_3)
+				upgrades[0] += 3;
+			else if (getStackInSlot(i).getItem() == ModItems.upgrade_clock_4)
+				upgrades[0] += 9;
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_power_1)
 				upgrades[1] -= 1000;
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_power_2)
@@ -100,7 +103,7 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 		power = nbt.getLong("power");
 		time = nbt.getFloat("time");
 		day = nbt.getByte("day");
-		year = nbt.getDouble("year");
+		year = nbt.getLong("year");
 	}
 	
 	@Override
@@ -179,5 +182,14 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	public String getName()
 	{
 		return "container.atomicClock";
+	}
+	
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemStack)
+	{
+		super.setInventorySlotContents(i, itemStack);
+//		System.out.println("Inserted item is: " + (itemStack == null ? "null" : itemStack.getItem().getUnlocalizedName()));
+		if(itemStack != null && i >= 1 && i <= 5 && itemStack.getItem() instanceof ItemMachineUpgrade)
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
 	}
 }

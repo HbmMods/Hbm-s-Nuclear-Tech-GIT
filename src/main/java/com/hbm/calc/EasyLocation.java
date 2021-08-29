@@ -2,10 +2,10 @@ package com.hbm.calc;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class EasyLocation
 {
-
 	public double posX;
 	public double posY;
 	public double posZ;
@@ -19,7 +19,7 @@ public class EasyLocation
 	
 	public EasyLocation(double[] coord)
 	{
-		if (coord.length >= 3)
+		if (coord.length < 3)
 			throw new IllegalArgumentException("Coordinate array length less than 3!");
 		posX = coord[0];
 		posY = coord[1];
@@ -28,7 +28,7 @@ public class EasyLocation
 	
 	public EasyLocation(int[] coord)
 	{
-		if (coord.length >= 3)
+		if (coord.length < 3)
 			throw new IllegalArgumentException("Coordinate array length less than 3!");
 		posX = coord[0];
 		posY = coord[1];
@@ -84,6 +84,17 @@ public class EasyLocation
 		coord[1] = (int) posY;
 		coord[2] = (int) posZ;
 		return coord;
+	}
+	
+	public TileEntity getTEAtCoord(World worldIn)
+	{
+		return worldIn.getTileEntity((int) posX, (int) posY, (int) posZ);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return String.format("posX: %s; posY: %s; posZ: %s", getCoordDouble());
 	}
 	
 	@Override

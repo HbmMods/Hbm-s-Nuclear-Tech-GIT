@@ -182,9 +182,9 @@ public class HbmPotion extends Potion {
 		if (this == hollow)
 		{
 			if (level > 2)
-				ContaminationUtil.applyDigammaDirect(entity, (float)(level + 1F) * 0.05F);
+				ContaminationUtil.applyDigammaDirect(entity, (float)(level + 1F) * 0.5F);
 			else
-				ContaminationUtil.applyDigammaData(entity, (float)(level + 1F) * 0.025F);
+				ContaminationUtil.applyDigammaData(entity, (float)(level + 1F) * 0.25F);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package com.hbm.saveddata;
 
-import codechicken.nei.WorldOverlayRenderer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -10,9 +9,9 @@ public class TimeSavedData extends WorldSavedData
 	private static TimeSavedData currentInstance;
 	private World worldObj;
 	/** Some 300 years into the future initially **/
-	private double year = 2300D;
+	private long year = 2300L;
 	/** 100 days a year **/
-	private byte day = 0;
+	private byte day = 1;
 	/** 10 hours a day **/
 	private float time = 0.0F;
 	// Time Doctor Freeman?
@@ -25,11 +24,22 @@ public class TimeSavedData extends WorldSavedData
 	public TimeSavedData(World worldIn)
 	{
 		super("hbmtimereference");
+		year += worldIn.rand.nextInt(50);
 		worldObj = worldIn;
 		markDirty();
 	}
+	
+	private static byte[] toByteArray(Integer input)
+	{
+		return input.toString().getBytes();
+	}
+	private static byte[] toByteArray(Double input)
+	{
+		return input.toString().getBytes();
+	}
 
-	public double getYear()
+
+	public long getYear()
 	{
 		return year;
 	}
@@ -42,7 +52,7 @@ public class TimeSavedData extends WorldSavedData
 		return time;
 	}
 	
-	public static void setDate(World worldIn, float time, int day, double year, boolean increment)
+	public static void setDate(World worldIn, float time, int day, long year, boolean increment)
 	{
 		TimeSavedData date = getData(worldIn);
 		if (increment)
@@ -51,18 +61,20 @@ public class TimeSavedData extends WorldSavedData
 			date.setDate(time, day, year);
 	}
 	
-	public void setDate(float time, int day, double year)
+	public void setDate(float time, int day, long year)
 	{
 		this.time = time;
 		this.day = (byte) day;
 		this.year = year;
+		markDirty();
 	}
 	
-	public void incrementDate(float time, int day, double year)
+	public void incrementDate(float time, int day, long year)
 	{
 		this.time += time;
 		this.day += day;
 		this.year += year;
+		markDirty();
 	}
 	
 	public static TimeSavedData getData(World worldIn)
@@ -84,7 +96,7 @@ public class TimeSavedData extends WorldSavedData
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		year = nbt.getDouble("year");
+		year = nbt.getLong("year");
 		day = nbt.getByte("day");
 		time = nbt.getFloat("time");
 	}
@@ -92,7 +104,7 @@ public class TimeSavedData extends WorldSavedData
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setDouble("year", year);
+		nbt.setLong("year", year);
 		nbt.setByte("day", day);
 		nbt.setFloat("time", time);
 	}

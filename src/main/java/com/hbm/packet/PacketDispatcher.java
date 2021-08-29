@@ -99,6 +99,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
 		//Packet to send NBT data from clients to serverside TEs
 		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
+		// Packet to send NBT data to classes extending IDataConnector
+		wrapper.registerMessage(NBTInternetDataPacket.Handler.class, NBTInternetDataPacket.class, i++, Side.CLIENT);
 	}
 	
 }

@@ -386,6 +386,8 @@ public class MachineRecipes
 			return 1000;
 		case NITAN:
 			return 500;
+		case SALT:
+			return 200;
 		}
 		
 		return 100;

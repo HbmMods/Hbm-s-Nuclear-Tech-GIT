@@ -23,9 +23,9 @@ public class GUIAtomicClock extends GuiInfoContainer
 		clock = te;
 		xSize = 256;
 		ySize = 187;
-		displays[0] = new NumberDisplay(49, 23, 43, 187).setDigitLength((byte) 6).setMaxMin(9.9999F, 0);
+		displays[0] = new NumberDisplay(49, 23, 43, 187).setDigitLength(6).setMaxMin(9.9999F, 0);
 		displays[1] = new NumberDisplay(101, 23, 43, 187).setMaxMin(100, 0);
-		displays[2] = new NumberDisplay(49, 73, 43, 187).setDigitLength((byte) 28).setPadding(1);
+		displays[2] = new NumberDisplay(49, 73, 43, 187).setDigitLength(28).setPadding(1);
 	}
 	
 	@Override
@@ -34,9 +34,9 @@ public class GUIAtomicClock extends GuiInfoContainer
 		super.drawScreen(mouseX, mouseY, f);
 		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 16, 16, 55, clock.getPower(), clock.getMaxPower());
 		clock.getTanks().get(0).renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 16, 16, 73);
-		final String[] time = new String[] {new Float(displays[0].getNumber()).toString()};
-		final String[] day = new String[] {new Integer(displays[1].getNumber().intValue()).toString()};
-		final String[] year = new String[] {new Integer(displays[2].getNumber().intValue()).toString()};
+		final String[] time = new String[] {String.valueOf(displays[0].getNumber())};
+		final String[] day = new String[] {String.valueOf(displays[1].getNumber().byteValue())};
+		final String[] year = new String[] {String.valueOf(displays[2].getNumber().longValue())};
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 21, 46, 16, mouseX, mouseY, time);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 100, guiTop + 21, 28, 16, mouseX, mouseY, day);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 71, 198, 16, mouseX, mouseY, year);
@@ -70,7 +70,7 @@ public class GUIAtomicClock extends GuiInfoContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		FluidTank cTank = clock.getTanks().get(0);
-		
+//		System.out.println(displays[0].getDispNumber());
 		cTank.renderTank(this, guiLeft + 26, guiTop + 88, cTank.getTankType().textureX() * FluidTank.x, cTank.getTankType().textureY() * FluidTank.y, 16, 73);
 		for (int i = 0; i < 3; i++)
 			displays[i].drawNumber();

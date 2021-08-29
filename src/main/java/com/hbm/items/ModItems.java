@@ -161,6 +161,7 @@ import com.hbm.items.machine.ItemStorageMedium.ProsConsList;
 import com.hbm.items.machine.ItemTemplateFolder;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.items.machine.ItemTurretChip;
+import com.hbm.items.special.Eye;
 import com.hbm.items.special.ItemAMSCore;
 import com.hbm.items.special.ItemBook;
 import com.hbm.items.special.ItemCell;
@@ -486,7 +487,11 @@ public class ModItems {
 	public static Item photo_panel;
 	public static Item sat_base;
 	public static Item thruster_nuclear;
+	public static Item thruster_nuclear_adv;
+	public static Item thruster_nuclear_liq;
 	public static Item component_ftl;
+	public static Item thruster_ftl;
+	public static Item thruster_dfc;
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
@@ -2004,7 +2009,10 @@ public class ModItems {
 	public static Item upgrade_crystallizer;
 	public static Item upgrade_nullifier;
 	public static Item upgrade_screm;
-	public static Item upgrade_clock;
+	public static Item upgrade_clock_1;
+	public static Item upgrade_clock_2;
+	public static Item upgrade_clock_3;
+	public static Item upgrade_clock_4;
 
 	public static Item ingot_euphemium;
 	public static Item nugget_euphemium;
@@ -2712,8 +2720,12 @@ public class ModItems {
 		nugget_solinium = new ItemHazard(ItemHazard.sa327 * ItemHazard.nugget, ItemHazard.sa327_drx * ItemHazard.nugget, false, true).setRarity(EnumRarity.rare).setUnlocalizedName("nugget_solinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_solinium");
 		photo_panel = new Item().setUnlocalizedName("photo_panel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":photo_panel");
 		sat_base = new Item().setUnlocalizedName("sat_base").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sat_base");
-		thruster_nuclear = new Item().setUnlocalizedName("thruster_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear");
+		thruster_nuclear = new ItemCustomLore().setUnlocalizedName("thruster_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear");
+		thruster_nuclear_adv = new ItemCustomLore().setUnlocalizedName("thruster_nuclear_adv").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear_adv");
+		thruster_nuclear_liq = new ItemCustomLore().setUnlocalizedName("thruster_nuclear_liq").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear_liq");
 		component_ftl = new ItemWithSubtypes(5).addCustomNames("tank_hydrogen", "tank_hydrogen_large", "coil_warp", "coil_warp_coated", "ingot_w-co").setCreativeTab(MainRegistry.partsTab);
+		thruster_ftl = new ItemCustomLore().setUnlocalizedName("thruster_ftl").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_ftl");
+		thruster_dfc = new ItemCustomLore().setUnlocalizedName("thruster_dfc").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_dfc");
 		
 		billet_beryllium = new Item().setUnlocalizedName("billet_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_beryllium");
 		billet_uranium = new ItemHazard(ItemHazard.u * ItemHazard.billet).setUnlocalizedName("billet_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_uranium");
@@ -4146,8 +4158,11 @@ public class ModItems {
 		upgrade_crystallizer = new ItemMachineUpgrade().setUnlocalizedName("upgrade_crystallizer").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_crystallizer");
 		upgrade_nullifier = new ItemMachineUpgrade().setUnlocalizedName("upgrade_nullifier").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_nullifier");
 		upgrade_screm = new ItemMachineUpgrade().setUnlocalizedName("upgrade_screm").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_screm");
-		upgrade_clock = new ItemWithSubtypes(4, "upgrade_clock_1", "upgrade_clock_2", "upgrade_clock_3", "upgrade_clock_4").setUnlocalizedName("upgrade_clock").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_clock");
-		
+		upgrade_clock_1 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_clock_1").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_clock_1");
+		upgrade_clock_2 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_clock_2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_clock_2");
+		upgrade_clock_3 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_clock_3").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_clock_3");
+		upgrade_clock_4 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_clock_4").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_clock_4");
+
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
 		wand_d = new ItemWandD().setUnlocalizedName("wand_d").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_d");
@@ -4868,7 +4883,7 @@ public class ModItems {
 		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.isPolaroid11 ? MainRegistry.consumableTab : null).setTextureName(RefStrings.MODID + ":book_secret");
 		book_of_ = new ItemBook().setUnlocalizedName("book_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_of_");
 		burnt_bark = new ItemCustomLore().setUnlocalizedName("burnt_bark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":burnt_bark");
-		eye = new ItemCustomLore().setRarity(EnumRarity.epic).setHasEffect().setUnlocalizedName("eye").setCreativeTab(null).setFull3D();
+		eye = new Eye().setRarity(EnumRarity.epic).setHasEffect().setUnlocalizedName("eye").setCreativeTab(null).setFull3D();
 		
 		initializeItem2();
 		initializeItem3();
@@ -5681,6 +5696,8 @@ public class ModItems {
 		GameRegistry.registerItem(thruster_medium, thruster_medium.getUnlocalizedName());
 		GameRegistry.registerItem(thruster_large, thruster_large.getUnlocalizedName());
 		GameRegistry.registerItem(thruster_nuclear, thruster_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(thruster_nuclear_adv, thruster_nuclear_adv.getUnlocalizedName());
+		GameRegistry.registerItem(thruster_nuclear_liq, thruster_nuclear_liq.getUnlocalizedName());
 		GameRegistry.registerItem(component_ftl, component_ftl.getUnlocalizedName());
 		GameRegistry.registerItem(sat_base, sat_base.getUnlocalizedName());
 		GameRegistry.registerItem(sat_head_mapper, sat_head_mapper.getUnlocalizedName());
@@ -6045,7 +6062,10 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_crystallizer, upgrade_crystallizer.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_nullifier, upgrade_nullifier.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_screm, upgrade_screm.getUnlocalizedName());
-		GameRegistry.registerItem(upgrade_clock, upgrade_clock.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_clock_1, upgrade_clock_1.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_clock_2, upgrade_clock_2.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_clock_3, upgrade_clock_3.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_clock_4, upgrade_clock_4.getUnlocalizedName());
 		
 		//Machine Templates
 		GameRegistry.registerItem(siren_track, siren_track.getUnlocalizedName());

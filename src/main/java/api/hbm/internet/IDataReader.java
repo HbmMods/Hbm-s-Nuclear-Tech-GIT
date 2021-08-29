@@ -1,4 +1,4 @@
-package com.hbm.interfaces;
+package api.hbm.internet;
 
 public interface IDataReader 
 {

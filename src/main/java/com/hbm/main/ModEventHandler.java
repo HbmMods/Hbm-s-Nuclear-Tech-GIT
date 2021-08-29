@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Field;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
-import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -52,10 +53,8 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.TimeDataDials;
 import com.hbm.world.generator.TimedGenerator;
 
-import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -90,7 +89,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -115,7 +113,8 @@ public class ModEventHandler
 	public static int meteorShower = 0;
 	public static int tsukuyomiCooldown = 0;
 	
-	public static double year = 2300D;
+	private static TimeSavedData dateData;
+	public static long year = 2300L;
 	public static byte day = 0;
 	public static int timeInternal = 0;
 	public static float time = 0.0000F;
@@ -123,11 +122,10 @@ public class ModEventHandler
 	static Random rand = new Random();
 	
 	@SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		
-		timeInternal = MathHelper.clamp_int((int) event.player.getEntityWorld().getWorldTime(), 0, 48000);
-		
-		TimeSavedData.getData(event.player.worldObj);
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+	{
+//		TimeDataDials.registerDials(event.player.worldObj);
+//		timeInternal = MathHelper.clamp_int((int) event.player.getEntityWorld().getWorldTime(), 0, 48000);
 		
         if(!event.player.worldObj.isRemote) {
         	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
@@ -384,11 +382,17 @@ public class ModEventHandler
 		//try {
 		/////
 		
-		time = TimeDataDials.getNewTime(event.world);
-		day = TimeDataDials.getNewDay(event.world);
-		year = TimeDataDials.getNewYear(event.world);
+//		time = TimeDataDials.getNewTime(event.world);
+//		day = TimeDataDials.getNewDay(event.world);
+//		year = TimeDataDials.getNewYear(event.world);
 		
 		// Keep track of time and date
+		
+		dateData = TimeSavedData.getData(event.world);
+		year = dateData.getYear();
+		day = dateData.getDay();
+		time = dateData.getTime();
+		
 		if (timeInternal >= 48000)
 		{
 			timeInternal = 0;

@@ -12,6 +12,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityComputerMatrix;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -19,12 +20,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class BlockCircuit extends Block
 {
-
+	private TileEntityComputerMatrix te;
 	public int strength;
 	/**
 	 * Construct a new circuit tier
@@ -39,45 +41,32 @@ public class BlockCircuit extends Block
 		setHardness(10.0F);
 		setResistance(2.5F);
 	}
+	
 	@Untested
-	public int[] getData(World worldIn, int x, int y, int z)
+	public int[] getData()
 	{
 		int[] data = new int[2];
-		data[0] = strength;
-		data[1] = 1;
-		int pX = x;
-		int pY = y;
-		int pZ = z;
-		BlockCircuit comp = null;
-		/// Try x axis
-		// Try x axis, positives
-		while (worldIn.getBlock(pX + 1, pY, pZ) instanceof BlockCircuit)
-		{
-			pX++;
-			comp = (BlockCircuit) worldIn.getBlock(pX, pY, pZ);
-			data[0] += comp.strength;
-			data[1]++;
-		}
-		// Try x axis, negatives
-		pX = x;
-		while (worldIn.getBlock(pX - 1, pY, pZ) instanceof BlockCircuit)
-		{
-			pX--;
-			comp = (BlockCircuit) worldIn.getBlock(pX, pY, pZ);
-			data[0] += comp.strength;
-			data[1]++;
-		}
+		
+		data = te.getNetStats();
+		
 		return data;
 	}
 	
-	public int getCollectiveStrength(World worldIn, int x, int y, int z)
+	public int getCollectiveStrength()
 	{
-		return getData(worldIn, x, y, z)[0];
+		return getData()[0];
 	}
 	
-	public int getCount(World worldIn, int x, int y, int z)
+	public int getCount()
 	{
-		return getData(worldIn, x, y, z)[1];
+		return getData()[1];
+	}
+	
+	@Override
+	public TileEntity createTileEntity(World world, int metadata)
+	{
+		te = new TileEntityComputerMatrix(strength);
+		return te;
 	}
 	
 	// Disassemble
@@ -95,6 +84,9 @@ public class BlockCircuit extends Block
 		}
 		else if (worldIn.isRemote && player.getHeldItem() == null)
 			player.addChatMessage(new ChatComponentText("In order to disassemble this supercomputer component without mangling everything, I'll need a more precise tool..."));
+		else if (worldIn.isRemote && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.plate_aluminium)
+			player.addChatMessage(new ChatComponentText(String.format("Collective strength: %s; Count: %s", getCollectiveStrength(), getCount())));
+
 		return super.onBlockActivated(worldIn, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 	}
 	private void dropItems(AStack[] items, World world, int x, int y, int z)

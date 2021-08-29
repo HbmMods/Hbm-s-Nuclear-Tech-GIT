@@ -1681,7 +1681,7 @@ public class ModBlocks {
 		fwatz_core = new FWatzCore(Material.iron).setBlockName("fwatz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fwatz_core");
 		fwatz_plasma = new BlockPlasma(Material.iron).addEpic().setBlockName("fwatz_plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fwatz_plasma");
 		
-		atomic_clock = new BlockBasicMachine(Material.iron, TileEntityAtomicClock.class, guiID_atomic_clock).setBlockName("atomic_clock").setHardness(10.0F).setResistance(15.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_alpha");
+		atomic_clock = new BlockBasicMachine(Material.iron, TileEntityAtomicClock.class, guiID_atomic_clock).setBlockName("atomic_clock").setHardness(10.0F).setResistance(15.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_sing_gen_beta");
 		
 		fire_phosphorus = new PhosphorusFire().setBlockName("fire_phosphorus").setHardness(0.0F).setLightLevel(1.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fire_phosphorus");
 		balefire = new Balefire().setBlockName("balefire").setHardness(0.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":balefire");

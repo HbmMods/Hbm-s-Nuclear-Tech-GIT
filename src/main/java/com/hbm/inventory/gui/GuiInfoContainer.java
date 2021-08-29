@@ -142,25 +142,36 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		}
 	}
 	/**
-	 * Turn a string into a byte and remove all non-digit characters
+	 * Turn a string into an integer and remove all non-digit characters
 	 * @param in - The text input
-	 * @return The formatted byte or -1 if invalid
+	 * @return The formatted integer or -1 if invalid
 	 */
-	public static byte validateTextInput(String in)
+	public static Integer validateTextInput(String in)
+	{
+		return validateTextInput(in, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static Integer validateTextInput(String in, int min, int max)
 	{
 		String formatted = in.replaceAll("\\D", "");
-		return formatted.isEmpty() || formatted.length() == 0 ? -1 : (byte) MathHelper.clamp_int(new Integer(formatted), 0, 100);
+		return formatted.isEmpty() || formatted.length() == 0 ? -1 : MathHelper.clamp_int(Integer.parseInt(formatted), min, max);
 	}
+	
 	/**
-	 * Turn a string into a byte and allow non-digit characters (most likely the negative sign)
+	 * Turn a string into a integer and allow non-digit characters (most likely the negative sign)
 	 * @param in - The text input
-	 * @return The formatted byte or -1 if invalid
+	 * @return The formatted integer or -1 if invalid
 	 */
-	public static byte validateTextInputAllowChars(String in)
+	public static Integer validateTextInputAllowChars(String in)
+	{
+		return validateTextInputAllowChars(in, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static Integer validateTextInputAllowChars(String in, int min, int max)
 	{
 		try
 		{
-			return (byte) MathHelper.clamp_int(new Byte(in), 0, 100);
+			return MathHelper.clamp_int(Byte.parseByte(in), min, max);
 		}
 		catch (NumberFormatException e)
 		{
@@ -201,7 +212,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		private double numIn = 0;
 		private char[] toDisp = new char[] {0, 0, 0};
 		@Nonnegative
-		private byte dispOffset = 0;
+		private short dispOffset = 0;
 		/**
 		 * Construct a new number display
 		 * @param dX - X coordinate of the display
@@ -222,12 +233,12 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		 */
 		public void drawNumber(char[] num)
 		{
-			byte gap = (byte) (digitLength - num.length);
+			short gap = (short) (digitLength - num.length);
 			for (int i = 0; i < num.length; i++)
 			{
 				if (num[i] == '.')
 					gap--;
-				dispOffset = (byte) ((padding + 6) * (i + gap));
+				dispOffset = (short) ((padding + 6) * (i + gap));
 				drawChar(num[i]);
 			}
 			if (pads)
@@ -238,13 +249,13 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			drawNumber(toDisp);
 		}
-		private void padOut(byte gap)
+		private void padOut(short gap)
 		{
 			if (gap == 0)
 				return;
 			for (int i = 0; i < gap; i++)
 			{
-				dispOffset = (byte) ((padding + 6) * i);
+				dispOffset = (short) ((padding + 6) * i);
 				drawChar('0');
 			}
 		}
@@ -391,9 +402,9 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			return this;
 		}
 		/** Max number of digits **/
-		public NumberDisplay setDigitLength(@Nonnegative byte l)
+		public NumberDisplay setDigitLength(@Nonnegative int l)
 		{
-			digitLength = l;
+			digitLength = (byte) l;
 			toDisp = truncOrExpand();
 			return this;
 		}
@@ -416,17 +427,18 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		/** Set the number to be a decimal, default zero trailing is 1 **/
 		public NumberDisplay setFloat()
 		{
-			return setFloat((byte) 1);
+			return setFloat(1);
 		}
 		/** Set the number to be a decimal with specified zero trailing **/
-		public NumberDisplay setFloat(@Nonnegative byte pad)
+		public NumberDisplay setFloat(@Nonnegative int pad)
 		{
-			floatPad = pad;
+			floatPad = (byte) pad;
 			isFloat = true;
 			BigDecimal bd = new BigDecimal(new Double(numIn).toString());
 			bd = bd.setScale(pad, RoundingMode.HALF_UP);
 			
-			char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
+//			char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
+			char[] proc = bd.toString().toCharArray();
 			
 			if (proc.length == digitLength)
 				toDisp = proc;
@@ -435,13 +447,18 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			
 			return this;
 		}
+		@Beta
 		private char[] truncOrExpand()
 		{
-			char[] out = Arrays.copyOf(toDisp, digitLength);
-			for (int i = 0; i < digitLength; i++)
-				if (out[i] == '\u0000')
-					out[i] = '0';
-			return out.clone();
+			if (isFloat)
+			{
+				char[] out = Arrays.copyOf(toDisp, digitLength);
+				for (int i = 0; i < digitLength; i++)
+					if (out[i] == '\u0000')
+						out[i] = '0';
+				return out.clone();
+			}
+			return toDisp;
 		}
 	}
 }

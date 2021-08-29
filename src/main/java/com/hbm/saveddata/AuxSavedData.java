@@ -80,6 +80,37 @@ public class AuxSavedData extends WorldSavedData {
 	    return data;
 	}
 	
+	public static void setDataPair(World worldIn, String name, int intIn)
+	{
+		AuxSavedData data = getData(worldIn);
+		
+		if (data.data == null || data.data.isEmpty())
+		{
+			data.data = new ArrayList<AuxSavedData.DataPair>();
+			data.data.add(new DataPair(name, intIn));
+		}
+		else
+		{
+			DataPair req = null;
+			
+			for (DataPair pair : data.data)
+			{
+				if (pair.key.equals(name))
+				{
+					req = pair;
+					break;
+				}
+			}
+			
+			if (req == null)
+				data.data.add(new DataPair(name, intIn));
+			else
+				req.value = intIn;
+		}
+		
+		data.markDirty();
+	}
+	
 	public static void setThunder(World world, int dura) {
 		AuxSavedData data = getData(world);
 		
@@ -121,6 +152,20 @@ public class AuxSavedData extends WorldSavedData {
 			}
 		}
 
+		return 0;
+	}
+	
+	public static int getDataPair(World worldIn, String name)
+	{
+		AuxSavedData data = getData(worldIn);
+		
+		if (data == null)
+			return 0;
+		
+		for (DataPair pair : data.data)
+			if (pair.key.equals(name))
+				return pair.value;
+		
 		return 0;
 	}
 }

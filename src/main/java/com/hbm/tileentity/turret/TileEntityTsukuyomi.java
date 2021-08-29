@@ -17,6 +17,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.I18nUtil;
@@ -91,6 +92,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 	{
 		if (!worldObj.isRemote)
 		{
+			cooldown = AuxSavedData.getDataPair(getWorldObj(), "tsukuyomiCooldown");
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			updateConfig();
 			if (index > targets.size())
@@ -113,6 +115,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 				cooldown--;
 			if (cooldown < 0)
 				cooldown = 0;
+			
+			AuxSavedData.setDataPair(getWorldObj(), "tsukuyomiCooldown", cooldown);
 //			System.out.println(gotTargets);
 		}
 		
@@ -139,7 +143,6 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 	@Override
 	public void networkUnpack(NBTTagCompound nbt)
 	{
-		super.networkUnpack(nbt);
 		power = nbt.getLong("power");
 		ammoCount = nbt.getInteger("ammoCount");
 		gotTargets = nbt.getBoolean("gotTargets");
@@ -238,6 +241,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			break;
 		case 4:
 			boolean flag = false;
+			if (targets.isEmpty())
+				break;
 			if (index == targets.size() - 1 && index != 0)
 				flag = true;
 			targets.remove(index);
@@ -255,8 +260,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		ammoCount = nbt.getInteger("ammoCount");
 		power = nbt.getLong("power");
 		tachyonCount = nbt.getByte("tachyonCount");
-		cooldown = nbt.getInteger("cooldown");
 		bulletConf = nbt.getInteger("bullConf");
+		cooldown = AuxSavedData.getDataPair(getWorldObj(), "tsukuyomiCooldown");
 		for (int i = 0; i < 16; i++)
 		{
 			if (!nbt.hasKey("player_" + i))
@@ -272,8 +277,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		nbt.setInteger("ammoCount", ammoCount);
 		nbt.setLong("power", power);
 		nbt.setByte("tachyonCount", tachyonCount);
-		nbt.setInteger("cooldown", cooldown);
 		nbt.setInteger("bullConf", bulletConf);
+		AuxSavedData.setDataPair(getWorldObj(), "tsukuyomiCooldown", cooldown);
 		if (!targets.isEmpty())
 			for (int i = 0; i < targets.size(); i++)
 				nbt.setString("player_" + i, targets.get(i));
