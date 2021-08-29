@@ -93,6 +93,7 @@ armor.hardLanding=Harte Landung
 armor.ignoreLimit=Resistenz ist nicht limitiert
 armor.modifier=Genereller Schadensmodifikator: %s
 armor.nullDamage=Nichtet Schaden von %s
+armor.projectileProtection=Projektilmodifikator: %s
 armor.rocketBoots=Rocket boots
 armor.sprintBoost=Verstärkter Sprint
 armor.thermal=Wärmebildkamera

@@ -93,6 +93,7 @@ armor.hardLanding=Hard Landing
 armor.ignoreLimit=Resistance is not affected by resistance limit
 armor.modifier=General damage modifier of %s
 armor.nullDamage=Nullifies all damage from %s
+armor.projectileProtection=Damage modifier of %s against projectiles
 armor.rocketBoots=Rocket Boots
 armor.sprintBoost=Boosted Sprint
 armor.thermal=Thermal Sight
