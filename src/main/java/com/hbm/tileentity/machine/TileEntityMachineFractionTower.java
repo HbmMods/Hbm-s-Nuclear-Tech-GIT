@@ -13,8 +13,10 @@ import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 import scala.actors.threadpool.Arrays;
 
 public class TileEntityMachineFractionTower extends TileEntity implements IFluidSource, IFluidAcceptor {
@@ -66,6 +68,11 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				fractionate();
+			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				fillFluidInit(tanks[1].getTankType());
+				fillFluidInit(tanks[2].getTankType());
+			}
 		}
 	}
 	
@@ -98,6 +105,22 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	
 	private boolean hasSpace(int left, int right) {
 		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		for(int i = 0; i < 3; i++)
+			tanks[i].readFromNBT(nbt, "tank" + i);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		for(int i = 0; i < 3; i++)
+			tanks[i].writeToNBT(nbt, "tank" + i);
 	}
 
 	@Override
@@ -145,8 +168,11 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		// TODO Auto-generated method stub
 		
+		for(int i = 2; i < 6; i++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, this.getTact(), type);
+		}
 	}
 
 	@Override

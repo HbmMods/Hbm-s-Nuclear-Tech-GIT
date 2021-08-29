@@ -9,6 +9,7 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -30,7 +31,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -282,12 +282,12 @@ public class EntityEffectHandler {
 				
 				//T-30 minutes, take damage every 20 seconds
 				if(contagion < 30 * minute && rand.nextInt(400) == 0) {
-					entity.attackEntityFrom(DamageSource.magic, 1F);
+					entity.attackEntityFrom(ModDamageSource.mku, 1F);
 				}
 				
 				//T-5 minutes, take damage every 5 seconds
 				if(contagion < 5 * minute && rand.nextInt(100) == 0) {
-					entity.attackEntityFrom(DamageSource.magic, 2F);
+					entity.attackEntityFrom(ModDamageSource.mku, 2F);
 				}
 				
 				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20) {
@@ -302,7 +302,7 @@ public class EntityEffectHandler {
 				
 				//end of contagion, drop dead
 				if(contagion == 0) {
-					entity.attackEntityFrom(DamageSource.magic, 1000F);
+					entity.attackEntityFrom(ModDamageSource.mku, 1000F);
 				}
 			}
 		}

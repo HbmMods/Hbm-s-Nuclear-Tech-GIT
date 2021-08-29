@@ -1,19 +1,18 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineFractionTower;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineFractionTower extends BlockDummyable {
 
@@ -26,6 +25,8 @@ public class MachineFractionTower extends BlockDummyable {
 		
 		if(meta >= 12)
 			return new TileEntityMachineFractionTower();
+		if(meta >= extra)
+			return new TileEntityProxyCombo(false, false, true);
 		
 		return null;
 	}
@@ -43,7 +44,7 @@ public class MachineFractionTower extends BlockDummyable {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(!player.isSneaking()) {
+		if(!world.isRemote && !player.isSneaking()) {
 				
 			if(player.getHeldItem() == null || player.getHeldItem().getItem() == ModItems.fluid_identifier) {
 				int[] pos = this.findCore(world, x, y, z);
@@ -60,6 +61,8 @@ public class MachineFractionTower extends BlockDummyable {
 				
 				if(player.getHeldItem() == null) {
 					
+					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "=== FRACTIONING TOWER Y:" + pos[1] + " ==="));
+
 					for(int i = 0; i < frac.tanks.length; i++)
 						player.addChatComponentMessage(new ChatComponentText(frac.tanks[i].getTankType() + ": " + frac.tanks[i].getFill() + "/" + frac.tanks[i].getMaxFill() + "mB"));
 				} else {
@@ -81,5 +84,18 @@ public class MachineFractionTower extends BlockDummyable {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		x = x + dir.offsetX * o;
+		z = z + dir.offsetZ * o;
+
+		this.makeExtra(world, x + 1, y, z);
+		this.makeExtra(world, x - 1, y, z);
+		this.makeExtra(world, x, y, z + 1);
+		this.makeExtra(world, x, y, z - 1);
 	}
 }

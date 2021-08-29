@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineOrbus extends BlockDummyable {
 
@@ -52,6 +53,24 @@ public class MachineOrbus extends BlockDummyable {
 			return true;
 		} else {
 			return true;
+		}
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		x = x + dir.offsetX * o;
+		z = z + dir.offsetZ * o;
+		
+		ForgeDirection d2 = dir.getRotation(ForgeDirection.UP);
+		dir = dir.getOpposite();
+
+		for(int i = 0; i < 5; i += 4) {
+			this.makeExtra(world, x, y + i, z);
+			this.makeExtra(world, x + dir.offsetX, y + i, z + dir.offsetZ);
+			this.makeExtra(world, x + d2.offsetX, y + i, z + d2.offsetZ);
+			this.makeExtra(world, x + dir.offsetX + d2.offsetX, y + i, z + dir.offsetZ + d2.offsetZ);
 		}
 	}
 }

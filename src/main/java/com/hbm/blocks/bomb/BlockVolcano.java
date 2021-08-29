@@ -172,8 +172,12 @@ public class BlockVolcano extends Block {
 
 		if(meta == META_STATIC_EXTINGUISHING)
 			return 0.00003D; //about once every hour
-		if(isGrowing(meta))
-			return 0.014D; //about 500x an hour
+		
+		if(isGrowing(meta)) {
+			
+			if(meta != META_GROWING_ACTIVE || y < 199)
+				return 0.007D; //about 250x an hour
+		}
 		
 		return 0;
 	}

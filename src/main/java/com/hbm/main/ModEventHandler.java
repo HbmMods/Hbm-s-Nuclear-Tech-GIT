@@ -146,10 +146,6 @@ public class ModEventHandler {
 						);
 			}
 			
-			if(event.player.getDisplayName().equals("the_NCR") && System.currentTimeMillis() < 1629649410000L) {
-				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.v1));
-			}
-
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP) event.player);
 		}

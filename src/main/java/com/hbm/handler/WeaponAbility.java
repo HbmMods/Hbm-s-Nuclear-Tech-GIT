@@ -156,6 +156,33 @@ public abstract class WeaponAbility {
 		}
 	}
 	
+	public static class FireAbility extends WeaponAbility {
+		
+		int duration;
+		
+		public FireAbility(int duration) {
+			this.duration = duration;
+		}
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+			
+			if(victim instanceof EntityLivingBase) {
+				victim.setFire(duration);
+			}
+		}
+
+		@Override
+		public String getName() {
+			return "weapon.ability.fire";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (" + duration + ")";
+		}
+	}
+	
 	public static class ChainsawAbility extends WeaponAbility {
 		
 		int divider;

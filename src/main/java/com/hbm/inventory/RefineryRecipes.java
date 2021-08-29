@@ -1,6 +1,5 @@
 package com.hbm.inventory;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Quartet;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class RefineryRecipes {
 
@@ -24,8 +22,8 @@ public class RefineryRecipes {
 	public static final int heavy_frac_smear = 70;
 	public static final int smear_frac_heat = 60;
 	public static final int smear_frac_lube = 40;
-	public static final int napth_frac_heat = 40;
-	public static final int napth_frac_diesel = 60;
+	public static final int napht_frac_heat = 40;
+	public static final int napht_frac_diesel = 60;
 	public static final int light_frac_diesel = 40;
 	public static final int light_frac_kero = 60;
 	
@@ -49,7 +47,7 @@ public class RefineryRecipes {
 	public static void registerFractions() {
 		fractions.put(FluidType.HEAVYOIL, new Quartet(FluidType.BITUMEN, FluidType.SMEAR, heavy_frac_bitu, heavy_frac_smear));
 		fractions.put(FluidType.SMEAR, new Quartet(FluidType.HEATINGOIL, FluidType.LUBRICANT, smear_frac_heat, smear_frac_lube));
-		fractions.put(FluidType.NAPHTHA, new Quartet(FluidType.HEATINGOIL, FluidType.DIESEL, napth_frac_heat, napth_frac_diesel));
+		fractions.put(FluidType.NAPHTHA, new Quartet(FluidType.HEATINGOIL, FluidType.DIESEL, napht_frac_heat, napht_frac_diesel));
 		fractions.put(FluidType.LIGHTOIL, new Quartet(FluidType.DIESEL, FluidType.KEROSENE, light_frac_diesel, light_frac_kero));
 	}
 	

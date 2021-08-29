@@ -1,10 +1,12 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineOrbus extends TileEntityBarrel {
 
@@ -22,14 +24,16 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 3, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 3, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 3, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord - 3, getTact(), type);
-		fillFluid(this.xCoord + 3, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord - 3, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord + 3, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord - 3, this.yCoord, this.zCoord - 1, getTact(), type);
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection d2 = dir.getRotation(ForgeDirection.DOWN);
+
+		for(int i = -1; i < 7; i += 7) {
+			this.fillFluid(xCoord, yCoord + i, zCoord, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + d2.offsetX, yCoord + i, zCoord + d2.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + dir.offsetX + d2.offsetX, yCoord + i, zCoord + dir.offsetZ + d2.offsetZ, this.getTact(), this.tank.getTankType());
+		}
 	}
 	
 	AxisAlignedBB bb = null;

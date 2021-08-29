@@ -15,9 +15,9 @@ public class RenderSpacer extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		bindTexture(ResourceManager.universal);
+		bindTexture(ResourceManager.fraction_spacer_tex);
 		ResourceManager.fraction_spacer.renderAll();
 		
 		GL11.glPopMatrix();

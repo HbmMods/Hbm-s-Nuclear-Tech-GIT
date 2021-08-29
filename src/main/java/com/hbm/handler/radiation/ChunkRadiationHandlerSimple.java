@@ -39,11 +39,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 			if(world.blockExists(x, 0, z)) {
 				
 				ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
-				
-				if(radWorld.radiation.containsKey(coords)) {
-					radWorld.radiation.put(coords, rad);
-				}
-
+				radWorld.radiation.put(coords, rad);
 				world.getChunkFromBlockCoords(x, z).isModified = true;
 			}
 		}
@@ -70,6 +66,9 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 			
 			for(Entry<ChunkCoordIntPair, Float> chunk : buff.entrySet()) {
 				
+				if(chunk.getValue() == 0)
+					continue;
+				
 				ChunkCoordIntPair coord = chunk.getKey();
 				
 				for(int i = -1; i <= 1; i++) {
@@ -85,6 +84,8 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 							float newRad = rad + chunk.getValue() * percent;
 							newRad = Math.max(0F, newRad * 0.99F - 0.05F);
 							radiation.put(newCoord, newRad);
+						} else {
+							radiation.put(newCoord, chunk.getValue() * percent);
 						}
 					}
 				}

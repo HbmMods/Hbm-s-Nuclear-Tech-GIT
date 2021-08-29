@@ -135,4 +135,33 @@ public class VolcanicBlock extends BlockFluidClassic {
 	public int getRenderBlockPass() {
 		return 0;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+
+		double dx;
+		double dy;
+		double dz;
+
+		if(world.getBlock(x, y + 1, z).getMaterial() == Material.air && !world.getBlock(x, y + 1, z).isOpaqueCube()) {
+			if(rand.nextInt(100) == 0) {
+				dx = (double) ((float) x + rand.nextFloat());
+				dy = (double) y + this.maxY;
+				dz = (double) ((float) z + rand.nextFloat());
+				world.spawnParticle("lava", dx, dy, dz, 0.0D, 0.0D, 0.0D);
+				world.playSound(dx, dy, dz, "liquid.lavapop", 0.2F + rand.nextFloat() * 0.2F, 0.9F + rand.nextFloat() * 0.15F, false);
+			}
+
+			if(rand.nextInt(200) == 0) {
+				world.playSound((double) x, (double) y, (double) z, "liquid.lava", 0.2F + rand.nextFloat() * 0.2F, 0.9F + rand.nextFloat() * 0.15F, false);
+			}
+		}
+
+		if(rand.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !world.getBlock(x, y - 2, z).getMaterial().blocksMovement()) {
+			dx = (double) ((float) x + rand.nextFloat());
+			dy = (double) y - 1.05D;
+			dz = (double) ((float) z + rand.nextFloat());
+			world.spawnParticle("dripLava", dx, dy, dz, 0.0D, 0.0D, 0.0D);
+		}
+	}
 }

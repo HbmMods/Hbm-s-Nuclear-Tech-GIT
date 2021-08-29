@@ -2148,8 +2148,8 @@ public class MachineRecipes {
 			output[1] = new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidType.LUBRICANT);
 			break;
         case FP_NAPHTHA:
-			output[0] = new FluidStack(RefineryRecipes.napth_frac_heat * 10, FluidType.HEATINGOIL);
-			output[1] = new FluidStack(RefineryRecipes.napth_frac_diesel * 10, FluidType.DIESEL);
+			output[0] = new FluidStack(RefineryRecipes.napht_frac_heat * 10, FluidType.HEATINGOIL);
+			output[1] = new FluidStack(RefineryRecipes.napht_frac_diesel * 10, FluidType.DIESEL);
 			break;
         case FP_LIGHTOIL:
 			output[0] = new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidType.DIESEL);
