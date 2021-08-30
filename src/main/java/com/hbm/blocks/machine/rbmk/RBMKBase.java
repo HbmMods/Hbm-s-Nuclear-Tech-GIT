@@ -9,7 +9,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
-import api.hbm.block.IScrewable;
+import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -23,7 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class RBMKBase extends BlockDummyable implements IScrewable {
+public abstract class RBMKBase extends BlockDummyable implements IToolable {
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
@@ -150,7 +151,10 @@ public abstract class RBMKBase extends BlockDummyable implements IScrewable {
 	}
 	
 	@Override
-	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ) {
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
 		
 		int[] pos = this.findCore(world, x, y, z);
 		

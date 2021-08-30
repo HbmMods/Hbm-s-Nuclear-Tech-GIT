@@ -5,7 +5,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityHadronDiode;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 
-import api.hbm.block.IScrewable;
+import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -17,7 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHadronDiode extends BlockContainer implements IScrewable {
+public class BlockHadronDiode extends BlockContainer implements IToolable {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconIn;
@@ -60,7 +60,10 @@ public class BlockHadronDiode extends BlockContainer implements IScrewable {
 	}
 	
 	@Override
-	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ) {
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
 		
 		if(!world.isRemote) {
 			TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(x, y, z);
