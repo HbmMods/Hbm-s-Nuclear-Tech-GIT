@@ -28,10 +28,12 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase {
 			
 			int meta = world.getBlockMetadata(x, y, z);
 
-			if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_uranium, ModBlocks.block_graphite_fuel)) return true;
-			if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_source, ModBlocks.block_graphite_source)) return true;
-			if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_boron, ModBlocks.block_graphite_rod)) return true;
-			if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;
+			if(side == meta * 2 || side == meta * 2 + 1) {
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_uranium, ModBlocks.block_graphite_fuel)) return true;
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_source, ModBlocks.block_graphite_source)) return true;
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_boron, ModBlocks.block_graphite_rod)) return true;
+				if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;
+			}
 		}
 		
 		return false;

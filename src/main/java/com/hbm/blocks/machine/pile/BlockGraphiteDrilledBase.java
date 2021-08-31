@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 
 	@SideOnly(Side.CLIENT)
-	private IIcon sideIcon;
+	protected IIcon sideIcon;
 
 	public BlockGraphiteDrilledBase(Material mat, int en, int flam) {
 		super(mat, en, flam);
@@ -34,7 +34,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		
-		int cfg = metadata & 4;
+		int cfg = metadata & 3;
 		
 		if(side == cfg * 2 || side == cfg * 2 + 1)
 			return this.blockIcon;
