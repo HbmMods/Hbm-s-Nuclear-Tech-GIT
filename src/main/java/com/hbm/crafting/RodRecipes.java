@@ -157,6 +157,10 @@ public class RodRecipes {
 		addQuadRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_quad_plutonium_fuel);
 		addQuadRodBillet(ModItems.billet_mox_fuel, ModItems.rod_quad_mox_fuel);
 		addQuadRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_quad_schrabidium_fuel);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pile_rod_uranium, 1), new Object[] { " U ", "PUP", " U ", 'P', "plateIron", 'U', ModItems.billet_uranium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pile_rod_source, 1), new Object[] { " U ", "PUP", " U ", 'P', "plateIron", 'U', ModItems.billet_ra226be }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pile_rod_boron, 1), new Object[] { "B", "W", "B", 'B', "ingotBoron", 'W', "plankWood" }));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', "ingotZirconium", 'R', ModItems.rod_quad_empty }));
 		addRBMKRod(ModItems.billet_uranium, ModItems.rbmk_fuel_ueu);

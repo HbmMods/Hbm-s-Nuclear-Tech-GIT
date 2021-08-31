@@ -975,6 +975,11 @@ public class ModItems {
 	public static Item rod_dual_coolant;
 	public static Item rod_quad_coolant;
 
+	public static Item pile_rod_uranium;
+	public static Item pile_rod_plutonium;
+	public static Item pile_rod_source;
+	public static Item pile_rod_boron;
+	
 	public static Item rbmk_lid;
 	public static Item rbmk_lid_glass;
 	public static Item rbmk_fuel_empty;
@@ -3371,6 +3376,11 @@ public class ModItems {
 		rod_dual_tritium = new ItemHazard(1F).setUnlocalizedName("rod_dual_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_tritium");
 		rod_quad_tritium = new ItemHazard(2F).setUnlocalizedName("rod_quad_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_tritium");
 
+		pile_rod_uranium = new Item().setUnlocalizedName("pile_rod_uranium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_uranium");
+		pile_rod_plutonium = new Item().setUnlocalizedName("pile_rod_plutonium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_plutonium");
+		pile_rod_source = new Item().setUnlocalizedName("pile_rod_source").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_source");
+		pile_rod_boron = new Item().setUnlocalizedName("pile_rod_boron").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_boron");
+		
 		rbmk_lid = new ItemRBMKLid().setUnlocalizedName("rbmk_lid").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid");
 		rbmk_lid_glass = new ItemRBMKLid().setUnlocalizedName("rbmk_lid_glass").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid_glass");
 		
@@ -6388,6 +6398,13 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_waste, rod_dual_waste.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_waste, rod_quad_waste.getUnlocalizedName());
 
+		//Pile parts
+		GameRegistry.registerItem(pile_rod_uranium, pile_rod_uranium.getUnlocalizedName());
+		GameRegistry.registerItem(pile_rod_plutonium, pile_rod_plutonium.getUnlocalizedName());
+		GameRegistry.registerItem(pile_rod_source, pile_rod_source.getUnlocalizedName());
+		GameRegistry.registerItem(pile_rod_boron, pile_rod_boron.getUnlocalizedName());
+		
+		//RBMK parts
 		GameRegistry.registerItem(rbmk_lid, rbmk_lid.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_lid_glass, rbmk_lid_glass.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_empty, rbmk_fuel_empty.getUnlocalizedName());
