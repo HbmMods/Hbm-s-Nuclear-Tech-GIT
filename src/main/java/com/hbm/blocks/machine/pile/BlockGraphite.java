@@ -33,13 +33,8 @@ public class BlockGraphite extends BlockFlammable implements IToolable {
 			world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, side / 2, 3);
 			PacketDispatcher.wrapper.sendToAllAround(new ParticleBurstPacket(x, y, z, Block.getIdFromBlock(this), 0), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, this.stepSound.func_150496_b(), (this.stepSound.getVolume() + 1.0F) / 2.0F, this.stepSound.getPitch() * 0.8F);
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(side);
-			EntityItem dust = new EntityItem(world, x + 0.5D + dir.offsetX * 0.75D, y + 0.5D + dir.offsetY * 0.75D, z + 0.5D + dir.offsetZ * 0.75D, new ItemStack(ModItems.powder_coal));
-			dust.motionX = dir.offsetX * 0.25;
-			dust.motionY = dir.offsetY * 0.25;
-			dust.motionZ = dir.offsetZ * 0.25;
-			world.spawnEntityInWorld(dust);
+
+			BlockGraphiteRod.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.powder_coal));
 		}
 		
 		return true;
