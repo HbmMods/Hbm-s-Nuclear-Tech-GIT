@@ -24,6 +24,32 @@ minecraft {
 	runDir = "eclipse"
 }
 
+// A little hack to fix codechicken's crazy maven structure (at least in 1.7.10)
+eclipse.classpath.file.whenMerged { cp ->
+	// Find all codechicken source jars
+	def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
+	
+	// Remove them from classpath
+	cp.entries.removeAll srcent
+
+	// Map the source entries to their dev counterparts based on basename
+	Map<String, File> srcmap = new HashMap<String, File>()
+	srcent.forEach { entry ->
+		def file = new File(entry.path)
+		srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
+	}
+	
+	// Create file reference factory
+	def fileref = new org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory()
+	
+	// Find all codechicken development jars
+	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
+		File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
+		srcmapping = srcmap.get(srcmapping.getName()) // Transform it using the sourcemap
+		entry.sourcePath = fileref.fromFile(srcmapping) // Set the source path
+	}
+}
+
 repositories {
 	maven {
 		name = 'ModMaven'
@@ -33,8 +59,13 @@ repositories {
 
 dependencies {
 	compile 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
+	
 	compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
+	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
+	
 	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
+	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 }
 
 processResources {
