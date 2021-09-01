@@ -5,15 +5,15 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'com.palantir.gradle.gitversion:gradle-git-version:0.10.0'
 		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
 	}
 }
 
-apply plugin: 'com.palantir.git-version'
 apply plugin: 'forge'
 
-version gitVersion()
+def jsonFile = file('./src/main/resources/mcmod.info')
+def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+version = parsedJson.version
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
 
