@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
@@ -67,6 +68,10 @@ public class EntityEffectHandler {
 		handleContagion(entity);
 		handleRadiation(entity);
 		handleDigamma(entity);
+		
+		if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+			entity.setFire(5);
+		}
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {

@@ -9,7 +9,6 @@ import com.hbm.lib.RefStrings;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -66,17 +65,18 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			
 			for(int i = -1; i <= 1; i += 1) {
 				
-				int ix = x + dir.offsetX * i;
+				//why is XZ switched? i don't know, man
+				int ix = x + dir.offsetZ * i;
 				int iy = y + dir.offsetY * i;
-				int iz = z + dir.offsetZ * i;
+				int iz = z + dir.offsetX * i;
 				
 				while(world.getBlock(ix, iy, iz) == this && world.getBlockMetadata(ix, iy, iz) == oldMeta) {
 					
 					world.setBlockMetadataWithNotify(ix, iy, iz, newMeta, 3);
 					
-					ix += dir.offsetX * i;
+					ix += dir.offsetZ * i;
 					iy += dir.offsetY * i;
-					iz += dir.offsetZ * i;
+					iz += dir.offsetX * i;
 				}
 			}
 			
