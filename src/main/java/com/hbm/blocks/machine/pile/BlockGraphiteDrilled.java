@@ -16,10 +16,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase {
-
-	public BlockGraphiteDrilled(Material mat, int en, int flam) {
-		super(mat, en, flam);
-	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

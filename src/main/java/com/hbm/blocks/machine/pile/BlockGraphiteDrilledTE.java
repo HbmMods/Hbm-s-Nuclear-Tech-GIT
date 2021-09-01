@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 public abstract class BlockGraphiteDrilledTE extends BlockGraphiteDrilledBase implements ITileEntityProvider {
 
-	public BlockGraphiteDrilledTE(Material mat, int en, int flam) {
-		super(mat, en, flam);
+	public BlockGraphiteDrilledTE() {
+		super();
 		this.isBlockContainer = true;
 	}
 	

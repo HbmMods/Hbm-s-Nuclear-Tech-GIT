@@ -1,5 +1,10 @@
 package com.hbm.blocks.machine.pile;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockFlammable;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -9,6 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -19,8 +25,8 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 	@SideOnly(Side.CLIENT)
 	protected IIcon sideIcon;
 
-	public BlockGraphiteDrilledBase(Material mat, int en, int flam) {
-		super(mat, en, flam);
+	public BlockGraphiteDrilledBase() {
+		super(ModBlocks.block_graphite.getMaterial(), ((BlockFlammable) ModBlocks.block_graphite).encouragement, ((BlockFlammable) ModBlocks.block_graphite).flammability);
 	}
 	
 	@Override
@@ -49,5 +55,17 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 		dust.motionY = dir.offsetY * 0.25;
 		dust.motionZ = dir.offsetZ * 0.25;
 		world.spawnEntityInWorld(dust);
+	}
+	
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return null;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
+		ArrayList<ItemStack> drops = new ArrayList();
+		drops.add(new ItemStack(ModItems.ingot_graphite, 8));
+		return drops;
 	}
 }

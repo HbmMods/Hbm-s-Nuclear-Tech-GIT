@@ -1,5 +1,7 @@
 package com.hbm.blocks.machine.pile;
 
+import java.util.ArrayList;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -19,10 +21,6 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon outIcon;
-
-	public BlockGraphiteRod(Material mat, int en, int flam) {
-		super(mat, en, flam);
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -105,5 +103,12 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
+		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, meta, fortune);
+		drops.add(new ItemStack(ModItems.pile_rod_boron));
+		return drops;
 	}
 }

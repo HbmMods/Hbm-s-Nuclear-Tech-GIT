@@ -9,8 +9,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockFlammable extends BlockBase {
 	
-	private int encouragement;
-	private int flammability;
+	public int encouragement;
+	public int flammability;
 
 	public BlockFlammable(Material mat, int en, int flam) {
 		super(mat);
@@ -18,10 +18,12 @@ public class BlockFlammable extends BlockBase {
 		this.flammability = flam;
 	}
 	
+	@Override
 	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
 		return flammability;
 	}
-
+	
+	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
 		return encouragement;
 	}
