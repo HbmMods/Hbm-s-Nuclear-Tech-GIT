@@ -458,6 +458,14 @@ hadron.noresult=No Result.
 hadron.progress=In Progress...
 hadron.success=Completed!
 
+hazard.prot=Protects against hazards:
+hazard.bacteria=Bacteria / Aerosols
+hazard.gasChlorine=Chemical Gas
+hazard.gasInert=Inert Gas / Asphxiants
+hazard.gasMonoxide=Carbon Monoxide
+hazard.particleCoarse=Airborne Particles
+hazard.particleFine=Particulates
+
 hbm.key=NTM Hotkeys
 hbm.key.toggleBack=Toggle Backpack
 hbm.key.toggleHUD=Toggle HUD

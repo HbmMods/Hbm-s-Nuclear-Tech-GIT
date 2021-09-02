@@ -5,6 +5,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,43 +15,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 
 public class ArmorUtil {
-
-	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
-		
-		if(player.inventory.armorInventory[0] != null && 
-				player.inventory.armorInventory[0].getItem() == boots && 
-				player.inventory.armorInventory[1] != null && 
-				player.inventory.armorInventory[1].getItem() == legs && 
-				player.inventory.armorInventory[2] != null && 
-				player.inventory.armorInventory[2].getItem() == plate && 
-				player.inventory.armorInventory[3] != null && 
-				player.inventory.armorInventory[3].getItem() == helmet)
-		{
-			return true;
-		}
-		
-		return false;
+	
+	public static void register() {
+		ArmorRegistry.registerArmor(ModItems.gas_mask, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE);
+		ArmorRegistry.registerArmor(ModItems.gas_mask_m65, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE);
+		ArmorRegistry.registerArmor(ModItems.gas_mask_mono, HazardClass.PARTICLE_COARSE, HazardClass.GAS_MONOXIDE);
 	}
 	
-	public static boolean checkArmorPiece(EntityPlayer player, Item armor, int slot)
-	{
-		if(player.inventory.armorInventory[slot] != null &&
-				player.inventory.armorInventory[slot].getItem() == armor) 
-		{
-			return true;
+	public static boolean checkArmor(EntityPlayer player, Item... armor) {
+		
+		for(int i = 0; i < 4; i++) {
+			if(!checkArmorPiece(player, armor[i], 3 - i))
+				return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
-	public static boolean checkArmorNull(EntityPlayer player, int slot)
-	{
-		if(player.inventory.armorInventory[slot] == null) 
-		{
-			return true;
-		}
-		
-		return false;
+	public static boolean checkArmorPiece(EntityPlayer player, Item armor, int slot) {
+		return !checkArmorNull(player, slot) && player.inventory.armorInventory[slot].getItem() == armor;
+	}
+	
+	public static boolean checkArmorNull(EntityPlayer player, int slot) {
+		return player.inventory.armorInventory[slot] == null;
 	}
 	
 	public static void damageSuit(EntityPlayer player, int slot, int amount) {
