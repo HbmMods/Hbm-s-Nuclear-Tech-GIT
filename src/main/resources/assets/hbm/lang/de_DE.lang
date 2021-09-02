@@ -390,6 +390,14 @@ hadron.noresult=Kein Ergebnis.
 hadron.progress=Verarbeite...
 hadron.success=Abgeschlossen!
 
+hazard.prot=Schützt vor Gefahren:
+hazard.bacteria=Bakterien / Aerosole
+hazard.gasChlorine=Giftgas
+hazard.gasInert=Träge Gase / Strickgas
+hazard.gasMonoxide=Kohlenstoffmonoxid
+hazard.particleCoarse=Partikel
+hazard.particleFine=Feinstaub
+
 hbm.key=NTM Hotkeys
 hbm.key.toggleBack=Rucksack umschalten
 hbm.key.toggleHUD=HUD umschalten

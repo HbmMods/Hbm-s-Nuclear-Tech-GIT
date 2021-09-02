@@ -47,6 +47,8 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
@@ -428,15 +430,23 @@ public class ModEventHandlerClient {
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 		
+		/// HAZMAT INFO ///
+		List<HazardClass> hazInfo = ArmorRegistry.armor.get(stack.getItem());
+		
+		if(hazInfo != null) {
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hazard.prot"));
+			for(HazardClass clazz : hazInfo) {
+				list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey(clazz.lang));
+			}
+		}
+		
+		/// CLADDING (LEGACY) ///
 		double rad = HazmatRegistry.getResistance(stack);
-		
 		rad = ((int)(rad * 1000)) / 1000D;
+		if(rad > 0) list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
 		
-		if(rad > 0)
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
-		
+		/// CUSTOM NUKE ///
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
-		
 		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
 		
 		if(entry != null) {
@@ -451,6 +461,7 @@ public class ModEventHandlerClient {
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
 		
+		/// ARMOR MODS ///
 		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
 			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
@@ -474,7 +485,7 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
-    }
+	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	
