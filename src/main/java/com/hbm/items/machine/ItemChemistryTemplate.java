@@ -2,6 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
@@ -19,6 +20,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemChemistryTemplate extends Item {
 	
+	@Spaghetti("this system is so utterly and horribly fucking retarded i can not believe i haven't been shot for this yet")
 	public enum EnumChemistryTemplate {
 		
 		//FP - Fuel Processing
@@ -96,7 +98,8 @@ public class ItemChemistryTemplate extends Item {
 		COLTAN_PAIN,
 		COLTAN_CRYSTAL,
 		VIT_LIQUID,
-		VIT_GAS;
+		VIT_GAS,
+		TEL;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)

@@ -1739,6 +1739,10 @@ public class MachineRecipes {
 		case VIT_GAS:
 			list.add(new ItemStack(ModBlocks.sand_lead, 1));
 			break;
+		case TEL:
+			list.add(new ItemStack(ModItems.oil_tar, 1));
+			list.add(new ItemStack(ModItems.powder_lead, 1));
+			break;
 		default:
 			break;
 		}
@@ -1971,6 +1975,10 @@ public class MachineRecipes {
 		case VIT_GAS:
 			input[0] = new FluidStack(1000, FluidType.WASTEGAS);
 			break;
+		case TEL:
+			input[0] = new FluidStack(100, FluidType.PETROLEUM);
+			input[1] = new FluidStack(1000, FluidType.STEAM);
+			break;
 		default:
 			break;
 		}
@@ -2123,6 +2131,9 @@ public class MachineRecipes {
 		case VIT_LIQUID:
 		case VIT_GAS:
 			output[0] = new ItemStack(ModItems.nuclear_waste_vitrified, 1);
+			break;
+		case TEL:
+			output[0] = new ItemStack(ModItems.antiknock, 1);
 			break;
 		default:
 			break;

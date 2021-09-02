@@ -424,6 +424,19 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1), 0.75F)
 				}
 		).setTier(4));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_uranium),
+				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_uranium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_plutonium),
+				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_plutonium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_source),
+				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_ra226be, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_boron),
+				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_boron, 3)), new AnvilOutput(new ItemStack(Items.stick, 2))}).setTier(3));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

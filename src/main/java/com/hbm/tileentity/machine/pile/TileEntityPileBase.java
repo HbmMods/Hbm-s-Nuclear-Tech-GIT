@@ -12,9 +12,7 @@ import net.minecraft.util.Vec3;
 public abstract class TileEntityPileBase extends TileEntity {
 
 	@Override
-	public void updateEntity() {
-		
-	}
+	public abstract void updateEntity();
 	
 	protected void castRay(int flux, int range) {
 		

@@ -41,7 +41,7 @@ public class ToolRecipes {
 		addPickaxe(	ModItems.ingot_advanced_alloy, ModItems.alloy_pickaxe);
 		addAxe(		ModItems.ingot_advanced_alloy, ModItems.alloy_axe);
 		addShovel(	ModItems.ingot_advanced_alloy, ModItems.alloy_shovel);
-		addHoe(		ModItems.ingot_advanced_alloy, ModItems.alloy_shovel);
+		addHoe(		ModItems.ingot_advanced_alloy, ModItems.alloy_hoe);
 		addSword(	ModItems.ingot_combine_steel, ModItems.cmb_sword);
 		addPickaxe(	ModItems.ingot_combine_steel, ModItems.cmb_pickaxe);
 		addAxe(		ModItems.ingot_combine_steel, ModItems.cmb_axe);

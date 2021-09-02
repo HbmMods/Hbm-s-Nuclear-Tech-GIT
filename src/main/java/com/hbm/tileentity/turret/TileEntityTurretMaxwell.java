@@ -9,6 +9,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -156,15 +157,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 			if(pinkLevel > 0)
 				this.target.setFire(this.pinkLevel * 3);
 			
-			/*for(int i = 1; i <= 10; i *= 10) {
-				
-				if(EntityDamageUtil.getLastDamage(this.target) < i * 0.5F)
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, i * 10F);
-				else
-					break;
-			}*/
-			
-			if(!this.target.isEntityAlive()) {
+			if(!this.target.isEntityAlive() && this.target instanceof EntityLivingBase) {
 				NBTTagCompound vdat = new NBTTagCompound();
 				vdat.setString("type", "giblets");
 				vdat.setInteger("ent", this.target.getEntityId());

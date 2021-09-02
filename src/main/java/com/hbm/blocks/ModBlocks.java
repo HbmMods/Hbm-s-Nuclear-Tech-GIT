@@ -230,6 +230,7 @@ public class ModBlocks {
 	public static Block block_graphite;
 	public static Block block_graphite_drilled;
 	public static Block block_graphite_fuel;
+	public static Block block_graphite_plutonium;
 	public static Block block_graphite_rod;
 	public static Block block_graphite_source;
 	public static Block block_boron;
@@ -1358,10 +1359,11 @@ public class ModBlocks {
 		block_fallout = new BlockHazardFalling().addRadiation(ItemHazard.fo * ItemHazard.block).toBlock().setStepSound(Block.soundTypeGravel).setBlockName("block_fallout").setCreativeTab(MainRegistry.blockTab).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":ash");
 		block_foam = new BlockGeneric(Material.craftedSnow).setBlockName("block_foam").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSnow).setHardness(0.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":foam");
 		block_graphite = new BlockGraphite(Material.iron, 30, 5).setBlockName("block_graphite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
-		block_graphite_drilled = new BlockGraphiteDrilled().setBlockName("block_graphite_drilled").setCreativeTab(null).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
-		block_graphite_fuel = new BlockGraphiteFuel().setBlockName("block_graphite_fuel").setCreativeTab(null).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
-		block_graphite_rod = new BlockGraphiteRod().setBlockName("block_graphite_rod").setCreativeTab(null).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_graphite_rod_in");
-		block_graphite_source = new BlockGraphiteSource().setBlockName("block_graphite_source").setCreativeTab(null).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
+		block_graphite_drilled = new BlockGraphiteDrilled().setBlockName("block_graphite_drilled");
+		block_graphite_fuel = new BlockGraphiteFuel().setBlockName("block_graphite_fuel");
+		block_graphite_plutonium = new BlockGraphiteSource().setBlockName("block_graphite_plutonium");
+		block_graphite_rod = new BlockGraphiteRod().setBlockName("block_graphite_rod").setBlockTextureName(RefStrings.MODID + ":block_graphite_rod_in");
+		block_graphite_source = new BlockGraphiteSource().setBlockName("block_graphite_source");
 		block_boron = new BlockBeaconable(Material.iron).setBlockName("block_boron").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_boron");
 		block_lanthanium = new BlockBeaconable(Material.iron).setBlockName("block_lanthanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lanthanium");
 		block_actinium = new BlockBeaconable(Material.iron).setBlockName("block_actinium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_actinium");
@@ -2285,6 +2287,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_graphite_drilled, block_graphite_drilled.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_fuel, block_graphite_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_rod, block_graphite_rod.getUnlocalizedName());
+		GameRegistry.registerBlock(block_graphite_plutonium, block_graphite_plutonium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_source, block_graphite_source.getUnlocalizedName());
 		GameRegistry.registerBlock(block_boron, block_boron.getUnlocalizedName());
 		GameRegistry.registerBlock(block_insulator, block_insulator.getUnlocalizedName());

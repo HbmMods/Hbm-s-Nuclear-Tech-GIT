@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.pile.TileEntityPileSource;
 
 import api.hbm.block.IToolable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -23,7 +24,7 @@ public class BlockGraphiteSource extends BlockGraphiteDrilledTE implements ITool
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
-		drops.add(new ItemStack(ModItems.pile_rod_source));
+		drops.add(new ItemStack(whoAmIAgain()));
 		return drops;
 	}
 
@@ -39,10 +40,14 @@ public class BlockGraphiteSource extends BlockGraphiteDrilledTE implements ITool
 			
 			if(side == meta * 2 || side == meta * 2 + 1) {
 				world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta, 3);
-				this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.pile_rod_source));
+				this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(whoAmIAgain()));
 			}
 		}
 		
 		return true;
+	}
+	
+	private Item whoAmIAgain() {
+		return this == ModBlocks.block_graphite_plutonium ? ModItems.pile_rod_plutonium : ModItems.pile_rod_source;
 	}
 }

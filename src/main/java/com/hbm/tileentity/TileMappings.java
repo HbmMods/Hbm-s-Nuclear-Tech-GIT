@@ -11,7 +11,6 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
