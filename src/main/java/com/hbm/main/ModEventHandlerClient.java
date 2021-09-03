@@ -50,11 +50,16 @@ import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
+import api.hbm.item.IButtonReceiver;
+import api.hbm.item.IClickReceiver;
+
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
@@ -68,6 +73,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -338,25 +344,54 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
+		if(player.getHeldItem() != null) {
 			
-			if(event.button == 0)
-				event.setCanceled(true);
+			Item held = player.getHeldItem().getItem();
 			
-			ItemGunBase item = (ItemGunBase)player.getHeldItem().getItem();
-			
-			if(event.button == 0 && !item.m1 && !item.m2) {
-				item.m1 = true;
-				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
-				item.startActionClient(player.getHeldItem(), player.worldObj, player, true);
+			if(held instanceof IClickReceiver) {
+				IClickReceiver rec = (IClickReceiver) held;
+				
+				if(rec.handleMouseInput(player.getHeldItem(), player, event.button, event.buttonstate)) {
+					event.setCanceled(true);
+					return;
+				}
 			}
-			else if(event.button == 1 && !item.m2 && !item.m1) {
-				item.m2 = true;
-				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
-				item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
+			
+			if(held instanceof ItemGunBase) {
+				
+				if(event.button == 0)
+					event.setCanceled(true);
+				
+				ItemGunBase item = (ItemGunBase)player.getHeldItem().getItem();
+				
+				if(event.button == 0 && !item.m1 && !item.m2) {
+					item.m1 = true;
+					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
+					item.startActionClient(player.getHeldItem(), player.worldObj, player, true);
+				}
+				else if(event.button == 1 && !item.m2 && !item.m1) {
+					item.m2 = true;
+					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
+					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
+				}
 			}
 		}
-
+	}
+	
+	@SubscribeEvent
+	public void keyEvent(KeyInputEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(player.getHeldItem() != null) {
+			
+			Item held = player.getHeldItem().getItem();
+			
+			if(held instanceof IButtonReceiver) {
+				IButtonReceiver rec = (IButtonReceiver) held;
+				rec.handleKeyboardInput(player.getHeldItem(), player);
+			}
+		}
 	}
 
 	@Spaghetti("please get this shit out of my face")
