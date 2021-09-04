@@ -466,7 +466,7 @@ public class ModEventHandlerClient {
 		List<String> list = event.toolTip;
 		
 		/// HAZMAT INFO ///
-		List<HazardClass> hazInfo = ArmorRegistry.armor.get(stack.getItem());
+		List<HazardClass> hazInfo = ArmorRegistry.hazardClasses.get(stack.getItem());
 		
 		if(hazInfo != null) {
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hazard.prot"));

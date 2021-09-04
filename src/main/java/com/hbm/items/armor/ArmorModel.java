@@ -8,7 +8,6 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelCloak;
-import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelGoggles;
 import com.hbm.render.model.ModelHat;
 import com.hbm.render.model.ModelM65;
@@ -35,8 +34,6 @@ public class ArmorModel extends ItemArmor {
 	@SideOnly(Side.CLIENT)
 	private ModelGoggles modelGoggles;
 	@SideOnly(Side.CLIENT)
-	private ModelGasMask modelGas;
-	@SideOnly(Side.CLIENT)
 	private ModelCloak modelCloak;
 	@SideOnly(Side.CLIENT)
 	private ModelOxygenMask modelOxy;
@@ -51,58 +48,10 @@ public class ArmorModel extends ItemArmor {
 	private ResourceLocation goggleBlur3 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_3.png");
 	private ResourceLocation goggleBlur4 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_4.png");
 	private ResourceLocation goggleBlur5 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_5.png");
-	private ResourceLocation gasmaskBlur0 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_0.png");
-	private ResourceLocation gasmaskBlur1 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_1.png");
-	private ResourceLocation gasmaskBlur2 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_2.png");
-	private ResourceLocation gasmaskBlur3 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_3.png");
-	private ResourceLocation gasmaskBlur4 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_4.png");
-	private ResourceLocation gasmaskBlur5 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_gasmask_5.png");
 
 	public ArmorModel(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);
 	}
-
-	//there was no reason to override this
-	/*@Override
-	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity) {
-		if (this == ModItems.goggles) {
-			return armorType == 0;
-		}
-		if (this == ModItems.gas_mask) {
-			return armorType == 0;
-		}
-		if (this == ModItems.gas_mask_m65) {
-			return armorType == 0;
-		}
-		if (this == ModItems.gas_mask_mono) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hat) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hazmat_helmet_red) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hazmat_helmet_grey) {
-			return armorType == 0;
-		}
-		if (this == ModItems.oxy_mask) {
-			return armorType == 0;
-		}
-		if (this == ModItems.cape_test) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_radiation) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_gasmask) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_schrabidium) {
-			return armorType == 1;
-		}
-		return armorType == 0;
-	}*/
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -115,15 +64,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelGoggles;
 			}
 		}
-		if (this == ModItems.gas_mask) {
-			if (armorSlot == 0) {
-				if (this.modelGas == null) {
-					this.modelGas = new ModelGasMask();
-				}
-				return this.modelGas;
-			}
-		}
-		if (this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey || this == ModItems.gas_mask_mono) {
+		if (this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
 			if (armorSlot == 0) {
 				if (this.modelM65 == null) {
 					this.modelM65 = new ModelM65();
@@ -163,15 +104,6 @@ public class ArmorModel extends ItemArmor {
 		if (stack.getItem() == ModItems.goggles) {
 			return "hbm:textures/models/Goggles.png";
 		}
-		if (stack.getItem() == ModItems.gas_mask) {
-			return "hbm:textures/models/GasMask.png";
-		}
-		if (stack.getItem() == ModItems.gas_mask_m65) {
-			return "hbm:textures/models/ModelM65.png";
-		}
-		if (stack.getItem() == ModItems.gas_mask_mono) {
-			return "hbm:textures/models/ModelM65Mono.png";
-		}
 		if (stack.getItem() == ModItems.hazmat_helmet_red) {
 			return "hbm:textures/models/ModelHazRed.png";
 		}
@@ -209,7 +141,7 @@ public class ArmorModel extends ItemArmor {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         
-        if(this == ModItems.goggles || this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
+        if(this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
         	switch((int)((double)stack.getItemDamage() / (double)stack.getMaxDamage() * 6D)) {
         	case 0:
             	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0); break;
@@ -225,24 +157,6 @@ public class ArmorModel extends ItemArmor {
             	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5); break;
         	default:
             	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5); break;
-        	}
-        }
-        if(this == ModItems.gas_mask) {
-        	switch((int)((double)stack.getItemDamage() / (double)stack.getMaxDamage() * 6D)) {
-        	case 0:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur0); break;
-        	case 1:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur1); break;
-        	case 2:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur2); break;
-        	case 3:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur3); break;
-        	case 4:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur4); break;
-        	case 5:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur5); break;
-        	default:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(gasmaskBlur5); break;
         	}
         }
         
@@ -270,13 +184,6 @@ public class ArmorModel extends ItemArmor {
 		}
 		if(this == ModItems.cape_schrabidium) {
 			list.add("Avalible for everyone");
-		}
-
-		if(this == ModItems.gas_mask || this == ModItems.gas_mask_m65) {
-			list.add("Protects against most harmful gasses");
-		}
-		if(this == ModItems.gas_mask_mono) {
-			list.add("Protects against carbon monoxide");
 		}
 	}
 }

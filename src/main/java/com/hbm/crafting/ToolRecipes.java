@@ -49,7 +49,7 @@ public class ToolRecipes {
 		addHoe(		ModItems.ingot_combine_steel, ModItems.cmb_hoe);
 		addSword(	"ingotDesh", ModItems.desh_sword);
 		addPickaxe(	"ingotDesh", ModItems.desh_pickaxe);
-		addAxe(		"ingotDesh", ModItems.desh_pickaxe);
+		addAxe(		"ingotDesh", ModItems.desh_axe);
 		addShovel(	"ingotDesh", ModItems.desh_shovel);
 		addHoe(		"ingotDesh", ModItems.desh_hoe);
 		

@@ -8,11 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 public class ArmorRegistry {
+
+	public static HashMap<Item, List<HazardClass>> hazardClasses = new HashMap();
 	
-	public static HashMap<Item, List<HazardClass>> armor = new HashMap();
-	
-	public static void registerArmor(Item item, HazardClass... hazards) {
-		armor.put(item, Arrays.asList(hazards));
+	public static void registerHazard(Item item, HazardClass... hazards) {
+		hazardClasses.put(item, Arrays.asList(hazards));
 	}
 	
 	public static boolean hasProtection(EntityPlayer player, int slot, HazardClass clazz) {
@@ -20,7 +20,7 @@ public class ArmorRegistry {
 		if(ArmorUtil.checkArmorNull(player, slot))
 			return false;
 		
-		List<HazardClass> list = armor.get(player.inventory.armorInventory[slot].getItem());
+		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
 		
 		if(list == null)
 			return false;
@@ -43,12 +43,12 @@ public class ArmorRegistry {
 		}
 	}
 	
-	public static enum ArmorClass {
+	/*public static enum ArmorClass {
 		MASK_FILTERED,
 		MASK_OXY,
 		GOGGLES,
 		HAZMAT_HEAT,
 		HAZMAT_RADIATION,
 		HAZMAT_BIO;
-	}
+	}*/
 }

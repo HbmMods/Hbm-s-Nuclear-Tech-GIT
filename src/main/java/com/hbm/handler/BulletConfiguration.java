@@ -12,7 +12,6 @@ import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.interfaces.Untested;
 import com.hbm.lib.ModDamageSource;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;

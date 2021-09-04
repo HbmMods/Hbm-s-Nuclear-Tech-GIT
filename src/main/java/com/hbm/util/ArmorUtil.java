@@ -17,9 +17,8 @@ import net.minecraft.network.NetHandlerPlayServer;
 public class ArmorUtil {
 	
 	public static void register() {
-		ArmorRegistry.registerArmor(ModItems.gas_mask, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE);
-		ArmorRegistry.registerArmor(ModItems.gas_mask_m65, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE);
-		ArmorRegistry.registerArmor(ModItems.gas_mask_mono, HazardClass.PARTICLE_COARSE, HazardClass.GAS_MONOXIDE);
+		ArmorRegistry.registerHazard(ModItems.gas_mask_filter_mono, HazardClass.PARTICLE_COARSE, HazardClass.GAS_MONOXIDE);
+		ArmorRegistry.registerHazard(ModItems.gas_mask_filter, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA);
 	}
 	
 	public static boolean checkArmor(EntityPlayer player, Item... armor) {

@@ -2,12 +2,16 @@ package com.hbm.main;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.shader.Shader;
+import com.hbm.render.shader.ShaderManager;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class ResourceManager {
+	
+	public static final Shader test_shader = ShaderManager.loadShader(new ResourceLocation(RefStrings.MODID, "shaders/test_shader"));
 
 	//God
 	public static final IModelCustom error = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/error.obj"));

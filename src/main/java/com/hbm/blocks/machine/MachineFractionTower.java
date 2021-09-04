@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -64,7 +65,7 @@ public class MachineFractionTower extends BlockDummyable {
 					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "=== FRACTIONING TOWER Y:" + pos[1] + " ==="));
 
 					for(int i = 0; i < frac.tanks.length; i++)
-						player.addChatComponentMessage(new ChatComponentText(frac.tanks[i].getTankType() + ": " + frac.tanks[i].getFill() + "/" + frac.tanks[i].getMaxFill() + "mB"));
+						player.addChatComponentMessage(new ChatComponentTranslation("hbmfluid." + frac.tanks[i].getTankType().getName().toLowerCase()).appendSibling(new ChatComponentText(": " + frac.tanks[i].getFill() + "/" + frac.tanks[i].getMaxFill() + "mB")));
 				} else {
 					
 					if(world.getTileEntity(pos[0], pos[1] - 3, pos[2]) instanceof TileEntityMachineFractionTower) {
