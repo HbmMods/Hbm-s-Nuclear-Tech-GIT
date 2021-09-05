@@ -50,7 +50,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 				player.addChatComponentMessage(new ChatComponentText("CP1 FUEL ASSEMBLY " + x + " " + y + " " + z).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
 				player.addChatComponentMessage(new ChatComponentText("HEAT: " + pile.heat + "/" + pile.maxHeat).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 				player.addChatComponentMessage(new ChatComponentText("DEPLETION: " + pile.progress + "/" + pile.maxProgress).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
-				player.addChatComponentMessage(new ChatComponentText("FLUX: " + pile.neutrons).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+				player.addChatComponentMessage(new ChatComponentText("FLUX: " + pile.lastNeutrons).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 			}
 		}
 		

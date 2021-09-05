@@ -278,7 +278,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		
         		hullHeat = reactor.hullHeat;
         		coreHeat = reactor.coreHeat;
-        		fuel = reactor.fuel * 100 / Math.min(1, reactor.maxFuel);
+        		fuel = reactor.fuel * 100 / Math.max(1, reactor.maxFuel);
         		water = reactor.tanks[0].getFill();
         		cool = reactor.tanks[1].getFill();
         		steam = reactor.tanks[2].getFill();

@@ -58,6 +58,8 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			
 			world.setBlockMetadataWithNotify(x, y, z, newMeta, 3);
 			
+			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.click", 0.3F, pureMeta == oldMeta ? 0.75F : 0.65F);
+			
 			ForgeDirection dir = ForgeDirection.getOrientation(pureMeta);
 			
 			if(dir == ForgeDirection.UNKNOWN)

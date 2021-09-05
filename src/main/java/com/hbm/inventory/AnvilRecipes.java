@@ -201,6 +201,17 @@ public class AnvilRecipes {
 	
 	public static void registerConstructionAmmo() {
 		
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("plateCopper"), new AnvilOutput(new ItemStack(ModItems.casing_357))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("plateCopper"), new AnvilOutput(new ItemStack(ModItems.casing_44))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("plateCopper"), new AnvilOutput(new ItemStack(ModItems.casing_9))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("plateCopper"), new AnvilOutput(new ItemStack(ModItems.casing_50))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack("plateCopper"), new AnvilOutput(new ItemStack(ModItems.casing_buckshot))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack("plateIron"), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_357))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack("plateIron"), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_44))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack("plateIron"), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_9))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack("plateIron"), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_50))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack("plateIron"), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_buckshot))).setTier(1));
+		
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge,	ModItems.powder_fire,								ModItems.ammo_12gauge_incendiary,	20,		2},
 			{ModItems.ammo_12gauge,	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_12gauge_shrapnel,		20,		2},

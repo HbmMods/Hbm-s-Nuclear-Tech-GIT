@@ -3,10 +3,8 @@ package com.hbm.tileentity.machine.pile;
 import com.hbm.blocks.ModBlocks;
 
 import api.hbm.block.IPileNeutronReceiver;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutronReceiver {
 
@@ -36,12 +34,15 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 	}
 	
 	private void dissipateHeat() {
-		this.heat -= heat * 0.025; //remove 2.5% of the stored heat per tick
+		this.heat -= heat * 0.05; //remove 5% of the stored heat per tick
 	}
 	
 	private void react() {
 		
 		int reaction = (int) (this.neutrons * (1D - ((double)this.heat / (double)this.maxHeat) * 0.5D)); //max heat reduces reaction by 50% due to thermal expansion
+		
+		this.lastNeutrons = this.neutrons;
+		this.neutrons = 0;;
 		
 		this.progress += reaction;
 		
@@ -50,11 +51,8 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		
 		this.heat += reaction;
 		
-		for(int i = 0; i < 6; i++)
-			this.castRay(reaction, 5);
-		
-		this.lastNeutrons = this.neutrons;
-		this.neutrons = 0;
+		for(int i = 0; i < 16; i++)
+			this.castRay((int) Math.max(reaction * 0.25, 1), 5);
 	}
 
 	@Override

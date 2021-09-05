@@ -51,8 +51,13 @@ public abstract class TileEntityPileBase extends TileEntity {
 			TileEntity te = worldObj.getTileEntity(x, y, z);
 			
 			if(te instanceof IPileNeutronReceiver) {
+				
+				//this part throttles neutron efficiency for reactions that are way too close, efficiency reaches 100% after 2.5 meters
+				float mult = Math.min((float)range / 2.5F, 1F);
+				int n = (int)(flux * mult);
+				
 				IPileNeutronReceiver rec = (IPileNeutronReceiver) te;
-				rec.receiveNeutrons(flux);
+				rec.receiveNeutrons(n);
 				return;
 			}
 		}

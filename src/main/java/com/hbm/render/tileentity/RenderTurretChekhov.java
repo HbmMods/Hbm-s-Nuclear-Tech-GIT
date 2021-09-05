@@ -17,8 +17,6 @@ public class RenderTurretChekhov extends RenderTurretBase {
 		TileEntityTurretChekhov turret = (TileEntityTurretChekhov)te;
 		Vec3 pos = turret.getHorizontalOffset();
 		
-		ResourceManager.test_shader.use();
-
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + pos.xCoord, y, z + pos.zCoord);
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -52,7 +50,5 @@ public class RenderTurretChekhov extends RenderTurretBase {
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
-		
-		ResourceManager.test_shader.release();
 	}
 }
