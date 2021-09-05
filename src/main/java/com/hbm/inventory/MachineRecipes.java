@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -203,11 +204,11 @@ public class MachineRecipes
 		
 		if (mODE(item, new String[] {"ingotIron", "dustIron"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
 				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotIron", "dustIron"}))
-			return new ItemStack(ModItems.ingot_ferrouranium, 2);
+			return new ItemStack(ModItems.ingot_ferrouranium);
 		
 		if (mODE(item, new String[] {"ingotTitanium", "dustTitanium"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
 				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotTitanium", "dustTitanium"}))
-			return new ItemStack(ModItems.ingot_staballoy, 2);
+			return new ItemStack(ModItems.ingot_staballoy);
 		
 		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
 				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"}))
@@ -266,13 +267,17 @@ public class MachineRecipes
 	}
 	
 	
-	private static enum StampType
+	public static enum StampType
 	{
 		FLAT,
 		PLATE,
 		WIRE,
 		CIRCUIT,
-		DISC;
+		DISC,
+		THREE_FIFTY_SEVEN,
+		FOURTY_FOUR,
+		FIFTY,
+		NINE;
 	}
 
 	private class PressRecipe
@@ -609,6 +614,8 @@ public class MachineRecipes
 
 			if(input.getItem() == ModItems.assembly_nopip)
 				return new ItemStack(ModItems.ammo_44);
+			if (input.getItem() == ModItems.assembly_45)
+				return new ItemStack(ModItems.ammo_45);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_9 || stamp.getItem() == ModItems.stamp_9_desh) {
@@ -618,7 +625,7 @@ public class MachineRecipes
 			if(input.getItem() == ModItems.assembly_uzi)
 				return new ItemStack(ModItems.ammo_22lr);
 			if(mODE(input, "ingotGold"))
-				return new ItemStack(ModItems.ammo_566_gold);
+				return new ItemStack(ModItems.ammo_566_gold, 32);
 			if(input.getItem() == ModItems.assembly_lacunae)
 				return new ItemStack(ModItems.ammo_5mm);
 			if(input.getItem() == ModItems.assembly_556)
@@ -631,6 +638,10 @@ public class MachineRecipes
 				return new ItemStack(ModItems.ammo_50bmg);
 			if(input.getItem() == ModItems.assembly_actionexpress)
 				return new ItemStack(ModItems.ammo_50ae);
+			if (input.getItem() == ModItems.assembly_luna_sniper)
+				return new ItemStack(ModItems.ammo_luna_sniper);
+			if (input.getItem() == ModItems.assembly_308)
+				return new ItemStack(ModItems.ammo_308);
 		}
 		
 		return null;
@@ -714,6 +725,7 @@ public class MachineRecipes
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_desh) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_desh));
 
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
+		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_45) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_45));
 
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
@@ -723,7 +735,8 @@ public class MachineRecipes
 		
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_actionexpress) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_actionexpress));
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));
-		
+		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_luna_sniper) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_luna_sniper));
+		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_308) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_308));
 		return recipes;
 	}
 	@Deprecated

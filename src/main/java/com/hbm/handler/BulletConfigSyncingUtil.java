@@ -9,12 +9,14 @@ import com.hbm.handler.guncfg.Gun20GaugeFactory;
 import com.hbm.handler.guncfg.Gun22LRFactory;
 import com.hbm.handler.guncfg.Gun357MagnumFactory;
 import com.hbm.handler.guncfg.Gun44MagnumFactory;
+import com.hbm.handler.guncfg.Gun45ACPFactory;
 import com.hbm.handler.guncfg.Gun4GaugeFactory;
 import com.hbm.handler.guncfg.Gun50AEFactory;
 import com.hbm.handler.guncfg.Gun50BMGFactory;
 import com.hbm.handler.guncfg.Gun556mmFactory;
 import com.hbm.handler.guncfg.Gun5mmFactory;
 import com.hbm.handler.guncfg.Gun75BoltFactory;
+import com.hbm.handler.guncfg.Gun762mmConfig;
 import com.hbm.handler.guncfg.Gun9mmFactory;
 import com.hbm.handler.guncfg.GunCannonFactory;
 import com.hbm.handler.guncfg.GunDGKFactory;
@@ -110,6 +112,8 @@ public class BulletConfigSyncingUtil {
 	public static int P9_AP = i++;
 	public static int P9_DU = i++;
 	public static int P9_ROCKET = i++;
+	
+	public static int ACP_45 = i++;
 
 	public static int BMG50_NORMAL = i++;
 	public static int BMG50_INCENDIARY = i++;
@@ -120,15 +124,8 @@ public class BulletConfigSyncingUtil {
 	public static int BMG50_PHOSPHORUS = i++;
 	public static int BMG50_SLEEK = i++;
 	
-	public static int BMG50_NORMAL_SPECIAL = i++;
-	public static int BMG50_INCENDIARY_SPECIAL = i++;
-	public static int BMG50_EXPLOSIVE_SPECIAL = i++;
-	public static int BMG50_AP_SPECIAL = i++;
-	public static int BMG50_DU_SPECIAL = i++;
-	public static int BMG50_STAR_SPECIAL = i++;
-	public static int BMG50_PHOSPHORUS_SPECIAL = i++;
-	public static int BMG50_SLEEK_SPECIAL = i++;
-
+	public static int ROUND_LUNA_SNIPER = i++;
+	
 	public static int R5_NORMAL = i++;
 	public static int R5_EXPLOSIVE = i++;
 	public static int R5_DU = i++;
@@ -183,6 +180,8 @@ public class BulletConfigSyncingUtil {
 	public static int R556_FLECHETTE_DU = i++;
 	public static int R556_FLECHETTE_SLEEK = i++;
 	public static int R556_K = i++;
+	
+	public static int W308 = i++;
 
 	public static int B75_NORMAL = i++;
 	public static int B75_INCENDIARY = i++;
@@ -349,6 +348,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(P9_AP, Gun9mmFactory.get9mmAPConfig());
 		configSet.put(P9_DU, Gun9mmFactory.get9mmDUConfig());
 		configSet.put(P9_ROCKET, Gun9mmFactory.get9mmRocketConfig());
+		
+		configSet.put(ACP_45, Gun45ACPFactory.get45ACPConfig());
 
 		configSet.put(BMG50_NORMAL, Gun50BMGFactory.get50BMGConfig());
 		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());
@@ -359,15 +360,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
 		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
 		
-		configSet.put(BMG50_NORMAL_SPECIAL, Gun50BMGFactory.get50BMGSpecialConfig());
-		configSet.put(BMG50_INCENDIARY_SPECIAL, Gun50BMGFactory.get50BMGFireSpecialConfig());
-		configSet.put(BMG50_PHOSPHORUS_SPECIAL, Gun50BMGFactory.get50BMGPhosphorusSpecialConfig());
-		configSet.put(BMG50_EXPLOSIVE_SPECIAL, Gun50BMGFactory.get50BMGExplosiveSpecialConfig());
-		configSet.put(BMG50_AP_SPECIAL, Gun50BMGFactory.get50BMGAPSpecialConfig());
-		configSet.put(BMG50_DU_SPECIAL, Gun50BMGFactory.get50BMGDUSpecialConfig());
-		configSet.put(BMG50_STAR_SPECIAL, Gun50BMGFactory.get50BMGStarSpecialConfig());
-		configSet.put(BMG50_SLEEK_SPECIAL, Gun50BMGFactory.get50BMGSleekSpecialConfig());
-
+		configSet.put(ROUND_LUNA_SNIPER, Gun50BMGFactory.getLunaticSniperRound());
+		
 		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
 		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());
 		configSet.put(R5_DU, Gun5mmFactory.get5mmDUConfig());
@@ -422,6 +416,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R556_FLECHETTE_DU, Gun556mmFactory.get556FlechetteDUConfig());
 		configSet.put(R556_FLECHETTE_SLEEK, Gun556mmFactory.get556FlechetteSleekConfig());
 		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
+		
+		configSet.put(W308, Gun762mmConfig.get762NATOConfig());
 
 		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
 		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());

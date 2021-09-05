@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.annotations.Beta;
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Untested;
 import com.hbm.tileentity.TileEntityTickingBase;
 
@@ -17,13 +18,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 @Untested
 @Beta
-public class TileEntityComputerMatrix extends TileEntityTickingBase implements IDataConductor
+public class TileEntityComputerMatrix extends TileEntityTickingBase implements IDataConductor, IConsumer
 {
+	private long power = 0;
+	private long powerRate = 100;
+	private long maxPower = 1000000;
 	private int strength = 0;
 	private IInternet network;
 	public TileEntityComputerMatrix(int sIn)
 	{
 		strength = sIn;
+		maxPower = (maxPower * sIn) / 10;
+		powerRate = (powerRate * sIn) / 10;
 	}
 
 	@Override
@@ -149,6 +155,24 @@ public class TileEntityComputerMatrix extends TileEntityTickingBase implements I
 	public void setDataNetwork(IInternet network)
 	{
 		this.network = network;
+	}
+
+	@Override
+	public void setPower(long i)
+	{
+		power = i;
+	}
+
+	@Override
+	public long getPower()
+	{
+		return power;
+	}
+
+	@Override
+	public long getMaxPower()
+	{
+		return maxPower;
 	}
 
 }

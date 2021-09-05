@@ -69,7 +69,7 @@ public class GUITsukuyomi extends GuiInfoContainer
 		final String[] down = I18nUtil.resolveKeyArray("twr.gui.down");
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 89, guiTop + 52, 16, 16, guiLeft + 95, guiTop + 68, down);
 		final String[] ammo = new String[] {disp.getNumber().toString()};
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 134, guiTop + 20, 28, 16, mouseX, mouseY, ammo);
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 126, guiTop + 20, 36, 16, mouseX, mouseY, ammo);
 	}
 	
 	@Override

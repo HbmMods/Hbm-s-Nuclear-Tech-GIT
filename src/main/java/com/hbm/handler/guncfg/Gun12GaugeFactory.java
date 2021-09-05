@@ -116,15 +116,15 @@ public class Gun12GaugeFactory {
 		GunConfiguration config = new Gun12GaugeFactory().getUboinikConfig();
 		config.gunMode = 0;
 		config.firingMode = 1;
-		config.rateOfFire = 7;
+		config.rateOfFire = 5;
 		config.ammoCap = 8;
-		config.reloadDuration = 10;
+		config.reloadDuration = 8;
 		config.crosshair = Crosshair.CIRCLE;
-		config.hasSights = false;
+		config.hasSights = true;
 		config.durability = 250000;
 		config.allowsInfinity = true;
-		config.firingSound = "hbm:weapon.shottyShoot";
-		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.autoshotgunFirePB3";
+		config.reloadSound = "hbm:weapon.shotgunReloadPB3";
 		config.reloadType = 2;
 		config.reloadSoundEnd = true;
 		

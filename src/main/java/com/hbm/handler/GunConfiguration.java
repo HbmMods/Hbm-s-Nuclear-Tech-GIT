@@ -31,7 +31,7 @@ public class GunConfiguration {
 	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	/**whether to not to disable crosshais when sneaking**/
+	/**whether to not to disable crosshairs when sneaking**/
 	public boolean hasSights;
 	
 	/**how long the reload animation will play;

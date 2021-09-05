@@ -8,34 +8,22 @@ import com.hbm.handler.guncfg.Gun9mmFactory;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class TestGun extends ItemGunBase
 {
-
-	public TestGun(GunConfiguration config)
+	private GunConfiguration[] configs;
+	public TestGun(GunConfiguration... config)
 	{
-		super(config);
+		super(config[0]);
 		setHasSubtypes(true);
+		configs = config;
 	}
 	
 	public void setConfig(ItemStack stack)
 	{
-		switch(stack.getItemDamage())
-		{
-		case 1:
-			mainConfig = Gun9mmFactory.getLLRConfig();
-			break;
-		case 2:
-			mainConfig = Gun50BMGFactory.getLunaticMarksman();
-			break;
-		case 3:
-			mainConfig = Gun12GaugeFactory.getBenelliConfig();
-			break;
-		default:
-			mainConfig = Gun556mmFactory.getMLRConfig();
-			break;
-		}
+		mainConfig = configs[MathHelper.clamp_int(stack.getItemDamage(), 0, configs.length)];
 	}
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem)

@@ -1,9 +1,9 @@
 package com.hbm.modules;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.lib.HbmCollection;
 import com.hbm.util.ArmorUtil;
@@ -35,6 +35,12 @@ public class ItemHazardModule {
 	boolean hydro;
 	float explosive;
 	
+	// Custom toxic damage
+	boolean hasCustomTox = false;
+	String toxName;
+	float toxDmg;
+	float toxCap;
+	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
 	}
@@ -61,6 +67,20 @@ public class ItemHazardModule {
 	
 	public void addExplosive(float bang) {
 		this.explosive = bang;
+	}
+	/**
+	 * Experimental custom toxicity handler
+	 * @param name - Name of the toxicity, for both tooltip and damage localization
+	 * @param cap - When the toxicity reaches max and deals damage, lower for sooner, higher for later
+	 * @param damage - How much damage does it deal when it reaches max?
+	 */
+	@Untested
+	public void addCustomToxicity(String name, float cap, float damage)
+	{
+		hasCustomTox = true;
+		toxName = name;
+		toxCap = cap;
+		toxDmg = damage;
 	}
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
@@ -133,6 +153,9 @@ public class ItemHazardModule {
 		if(this.asbestos) {
 			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey(HbmCollection.asbestos) + "]");
 		}
+		
+		if (hasCustomTox)
+			list.add(String.format("%s[%s]", EnumChatFormatting.WHITE, I18nUtil.resolveKey("trait." + toxName)));
 		
 		if(this.hydro) {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.hydro) + "]");

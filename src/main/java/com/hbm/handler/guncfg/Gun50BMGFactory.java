@@ -13,6 +13,10 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -98,35 +102,69 @@ public class Gun50BMGFactory {
 		GunConfiguration config = new GunConfiguration();
 		
 		config.rateOfFire = 15;
-		config.reloadDuration = 10;
+		config.reloadDuration = 40;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.roundsPerCycle = 1;
-		config.firingSound = "hbm:weapon.schrabidiumShoot";
-		config.ammoCap = 6;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.firingSound = "hbm:weapon.heavyShootPB3";
+		config.firingPitch = 0.75F;
+		config.ammoCap = 1;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CLASSIC;
-		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.reloadSoundEnd = true;
-		config.durability = 15000;
+		config.durability = 500000;
 		
 		config.name = "1909 Rāhula type Anti-Material Rifle \"Lunatic Marksman Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
-		config.damage = "20 - 23 (stock)";
+		config.damage = "450 - 500";
 		config.comment.add("\"You do not spark joy\"");
 		
-		config.config.add(BulletConfigSyncingUtil.BMG50_AP_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_DU_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK_SPECIAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_STAR_SPECIAL);
+		config.config = new ArrayList<Integer>(1);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER);
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(-0.45, 0.15, 0, 40))//Moves back and raise slightly
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75)))//Then forward again
+				.addBus("EJECT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30))//Wait
+						.addKeyframe(new BusAnimationKeyframe(50, 0, 0, 120))));//Fly out
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("TILT", new BusAnimationSequence()//Tilt gun and release slide to feed next round
+						.addKeyframe(new BusAnimationKeyframe(45, 20, 0, 500))//Tilt for reload
+						.addKeyframe(new BusAnimationKeyframe(45, 20, -0.2, 1200))//Wait and pull back slide
+						.addKeyframe(new BusAnimationKeyframe(45, 20, 0, 75))//Release slide
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 400)))//Return
+				.addBus("INSERT_ROUND", new BusAnimationSequence()//Insert the new round
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 600))//Wait to tilt
+						.addKeyframe(new BusAnimationKeyframe(-20, -2, 0.75, 400))//Just plop that thing in there
+						.addKeyframe(new BusAnimationKeyframe(20, -2, 0.75, 75))));//Wait for the slide to close
 		
 		return config;
 	}
 
+	public static BulletConfiguration getLunaticSniperRound()
+	{
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_luna_sniper;
+		bullet.spread = 0.0F;
+		bullet.dmgMax = 450F;
+		bullet.dmgMin = 500F;
+		bullet.wear = 2000;
+		bullet.velocity = 100;
+		bullet.doesPenetrate = true;
+		bullet.leadChance = 20;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 30 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 30 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.lead.id, 30 * 20, 1));
+		
+		return bullet;
+	}
+	
 	static float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {
 		
@@ -136,20 +174,6 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 18;
-		
-		return bullet;
-	}
-	
-	public static BulletConfiguration get50BMGSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 5;
-		bullet.dmgMin += 5;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 10));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 15));
 		
 		return bullet;
 	}
@@ -168,20 +192,6 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration get50BMGFireSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGFireConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 5;
-		bullet.dmgMin += 5;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 10));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 15));
-
-		return bullet;
-	}
-
 	public static BulletConfiguration get50BMGPhosphorusConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -217,20 +227,6 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration get50BMGPhosphorusSpecialConfig()
-	{
-		BulletConfiguration bullet = Gun50BMGFactory.get50BMGPhosphorusConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 5;
-		bullet.dmgMin += 5;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 10));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 15));
-
-		return bullet;
-	}
-
 	public static BulletConfiguration get50BMGExplosiveConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -242,20 +238,6 @@ public class Gun50BMGFactory {
 		bullet.wear = 25;
 		bullet.explosive = 1;
 		
-		return bullet;
-	}
-	
-	public static BulletConfiguration get50BMGExplosiveSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGExplosiveConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 5;
-		bullet.dmgMin += 5;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 10));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 15));
-
 		return bullet;
 	}
 
@@ -270,20 +252,6 @@ public class Gun50BMGFactory {
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
-		return bullet;
-	}
-	
-	public static BulletConfiguration get50BMGAPSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGAPConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 10;
-		bullet.dmgMin += 10;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 15, 1));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 20, 1));
-
 		return bullet;
 	}
 
@@ -301,20 +269,6 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration get50BMGDUSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGDUConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 15;
-		bullet.dmgMin += 15;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 20, 2));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 25, 2));
-
-		return bullet;
-	}
-
 	public static BulletConfiguration get50BMGStarConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -329,20 +283,6 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 
-	public static BulletConfiguration get50BMGStarSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGStarConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 20;
-		bullet.dmgMin += 20;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 30, 2));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 35, 2));
-
-		return bullet;
-	}
-	
 	public static BulletConfiguration get50BMGSleekConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -393,17 +333,4 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 
-	public static BulletConfiguration get50BMGSleekSpecialConfig()
-	{
-		BulletConfiguration bullet = get50BMGSleekConfig();
-		
-		bullet.spread = 0;
-		bullet.dmgMax += 20;
-		bullet.dmgMin += 20;
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 30, 2));
-		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 35, 2));
-
-		return bullet;
-	}
 }

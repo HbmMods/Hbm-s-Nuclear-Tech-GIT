@@ -2,6 +2,9 @@ package com.hbm.items.machine;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.lib.HbmCollection;
+import com.hbm.util.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
@@ -10,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 
 public class ItemFluidIcon extends Item {
@@ -38,6 +42,15 @@ public class ItemFluidIcon extends Item {
 		if(stack.hasTagCompound())
 			if(stack.getTagCompound().getInteger("fill") > 0)
 				list.add(stack.getTagCompound().getInteger("fill") + "mB");
+		
+		FluidType fluid = FluidType.getEnum(stack.getItemDamage());
+		String tColor = fluid.temperature > 0 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
+		if (fluid.temperature != 0 || fluid.isHot())
+			list.add(tColor + fluid.temperature + "°C");
+		if (fluid.isAntimatter())
+			list.add(I18nUtil.resolveKey(HbmCollection.antimatter));
+		if (fluid.isCorrosive())
+			list.add(I18nUtil.resolveKey(HbmCollection.corrosive));
 	}
 	
 	public static ItemStack addQuantity(ItemStack stack, int i) {

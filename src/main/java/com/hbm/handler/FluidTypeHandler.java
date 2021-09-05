@@ -63,7 +63,7 @@ public class FluidTypeHandler {
 		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen"),
 		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen"),
 		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),
-		// Highly corrosive or just corrosive?
+		// Make highly corrosive
 		SALT			(0x00e1ed,	1, 	2, 	2,	4, 	0,	4, 	EnumSymbol.ACID,		"hbmfluid.salt", true, true, false, 220),
 		SALT_U			(0x60f7ff, 	2,	2,	2,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u", true, true, false, 220),
 		SALT_PU			(0x00686d,	3,	2,	2,	4,	0,	5,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu", true, true, false, 220),

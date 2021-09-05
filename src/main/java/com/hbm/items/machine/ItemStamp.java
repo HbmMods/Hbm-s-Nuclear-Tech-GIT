@@ -2,17 +2,20 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.inventory.MachineRecipes.StampType;
 import com.hbm.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemStamp extends Item {
-	
-	public ItemStamp(int dura)
+public class ItemStamp extends Item
+{
+	private StampType type = StampType.FLAT;
+	public ItemStamp(int dura, StampType typeIn)
 	{
 		this.setMaxDamage(dura);
 		setMaxStackSize(1);
+		type = typeIn;
 	}
 	
 	@Override
@@ -21,6 +24,11 @@ public class ItemStamp extends Item {
 		String name = this.getUnlocalizedName();
 		if (!name.contains("flat") && !name.contains("9") && !name.contains("44") && !name.contains("357") && !name.contains("50"))
 			list.add("[CREATED USING TEMPLATE FOLDER]");
+	}
+	
+	public StampType getType()
+	{
+		return type;
 	}
 
 }

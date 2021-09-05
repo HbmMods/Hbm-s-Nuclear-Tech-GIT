@@ -28,6 +28,18 @@ public interface IItemHazard {
 		this.getModule().addAsbestos();
 		return this;
 	}
+	/**
+	 * Experimental custom toxicity handler
+	 * @param name - Name of the toxicity, for both tooltip and damage localization
+	 * @param cap - When the toxicity reaches max and deals damage, lower for sooner, higher for later
+	 * @param damage - How much damage does it deal when it reaches max?
+	 */
+	@Untested
+	public default IItemHazard addCustomToxicity(String name, float max, float damage)
+	{
+		getModule().addCustomToxicity(name, max, damage);
+		return this;
+	}
 	
 	public default IItemHazard addBlinding() {
 		this.getModule().addBlinding();

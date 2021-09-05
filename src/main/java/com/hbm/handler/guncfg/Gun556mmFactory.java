@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -152,7 +153,7 @@ public class Gun556mmFactory {
 	{
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 3;
+		config.rateOfFire = 2;
 		config.roundsPerCycle = 1;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.hasSights = true;
@@ -161,17 +162,23 @@ public class Gun556mmFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.BOX;
-		config.durability = 50000;
-		config.reloadSound = GunConfiguration.RSOUND_MAG;
-		config.firingSound = "hbm:weapon.hksShoot";
-		config.reloadSoundEnd = false;
+		config.durability = 500000;
+		config.reloadSound = "hbm:weapon.carbineMagInPB3";
+		config.firingSound = "hbm:weapon.carbineShootPB3";
+		config.reloadSoundEnd = true;
 		
 		config.name = "1936 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
 		config.manufacturer = "Lunar Defense Corp";
-		config.damage = "2 - 4 (stock)";
+		config.damage = "6 - 8 (stock)";
 		config.comment.add("\"May you never reincarnate again\"");
 		
 		config.config.addAll(HbmCollection.NATOAll);
+		
+		config.animations = new HashMap<>();
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(-0.35, 0, 0, 30))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30))));
 		
 		return config;
 	}
@@ -183,8 +190,8 @@ public class Gun556mmFactory {
 		
 		bullet.ammo = ModItems.ammo_556;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 8;
 		
 		return bullet;
 	}
@@ -236,8 +243,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556Config();
 		
 		bullet.ammo = ModItems.ammo_556_ap;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 6;
+		bullet.dmgMin *= 1.5;
+		bullet.dmgMax *= 1.5;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -249,8 +256,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556Config();
 		
 		bullet.ammo = ModItems.ammo_556_du;
-		bullet.dmgMin = 8;
-		bullet.dmgMax = 10;
+		bullet.dmgMin *= 2;
+		bullet.dmgMax *= 2;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -262,8 +269,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556Config();
 		
 		bullet.ammo = ModItems.ammo_556_star;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 20;
+		bullet.dmgMin *= 3.5;
+		bullet.dmgMax *= 3.5;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		
@@ -275,8 +282,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556Config();
 		
 		bullet.ammo = ModItems.ammo_556_sleek;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 20;
+		bullet.dmgMin *= 3.5;
+		bullet.dmgMax *= 3.5;
 		bullet.wear = 10;
 		bullet.leadChance = 100;
 		bullet.doesPenetrate = false;
@@ -334,8 +341,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556Config();
 
 		bullet.ammo = ModItems.ammo_556_flechette;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 10;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
 		bullet.wear = 15;
@@ -390,8 +397,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
 		bullet.ammo = ModItems.ammo_556_flechette_du;
-		bullet.dmgMin = 12;
-		bullet.dmgMax = 16;
+		bullet.dmgMin *= 2;
+		bullet.dmgMax *= 2;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = true;
@@ -404,8 +411,8 @@ public class Gun556mmFactory {
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
 		bullet.ammo = ModItems.ammo_556_flechette_sleek;
-		bullet.dmgMin = 12;
-		bullet.dmgMax = 16;
+		bullet.dmgMin *= 3.5;
+		bullet.dmgMax *= 3.5;
 		bullet.wear = 10;
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = false;

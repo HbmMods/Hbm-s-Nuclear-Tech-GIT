@@ -22,6 +22,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -95,6 +96,21 @@ public class HbmPotion extends Potion {
 		effect.setIconIndex(x, y);
 		
 		return effect;
+	}
+	
+	public static PotionEffect getPotionNoCure(int id, int dura, int level)
+	{
+		PotionEffect potion = new PotionEffect(id, dura, level);
+		potion.getCurativeItems().clear();
+		return potion;
+	}
+	
+	public static PotionEffect getPotionWithCures(int id, int dura, int level, ItemStack...stacks)
+	{
+		PotionEffect potion = new PotionEffect(id, dura, level);
+		for (ItemStack stack : stacks)
+			potion.addCurativeItem(stack);
+		return potion;
 	}
 	
 	@Override

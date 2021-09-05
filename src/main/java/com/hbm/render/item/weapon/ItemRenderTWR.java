@@ -40,8 +40,6 @@ public class ItemRenderTWR implements IItemRenderer
 		
 		//GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.twr_tex);
 		final float scale1 = 0.09F;
 		final double scale2 = 0.05D;
@@ -74,7 +72,6 @@ public class ItemRenderTWR implements IItemRenderer
 		default:
 			break;
 		}
-		GL11.glEnable(GL11.GL_CULL_FACE);
 		ResourceManager.twr.renderAll();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.twr_tex);
 		GL11.glPopMatrix();

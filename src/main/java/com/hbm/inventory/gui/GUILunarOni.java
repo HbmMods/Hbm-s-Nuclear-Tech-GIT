@@ -62,7 +62,7 @@ public class GUILunarOni extends GuiInfoContainer
 		final String[] ele = new String[] {new Float(luna.getElevation()).toString()};
 		final String[] pow = new String[] {new Byte(displays[2].getNumber().byteValue()).toString() + "%"};
 		final String[] purify = I18nUtil.resolveKeyArray("twr.gui.purify");
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 62, guiTop + 24, 37, 16, mouseX, mouseY, dir);
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 67, guiTop + 24, 28, 16, mouseX, mouseY, dir);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 67, guiTop + 49, 28, 16, mouseX, mouseY, ele);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 111, guiTop + 24, 32, 16, mouseX, mouseY, pow);
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 62, guiTop + 92, 35, 16, guiLeft + 85, guiTop + 107, purify);

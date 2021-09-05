@@ -72,10 +72,23 @@ public class ModDamageSource extends DamageSource
 		int randMsg = rand.nextInt(2);
 		return (new EntityDamageSource("twr" + randMsg, e1)).setDamageBypassesArmor().setDamageIsAbsolute();
 	}
+	/**
+	 * Easier to work with and "dynamic" damage type
+	 * @param e1 - Entity to be attacked
+	 * @param name - Name of the damage type, will be used in grabbing to localized death message, supports randomized messages
+	 * @return The requested damage source
+	 */
 	public static DamageSource causeDamage(Entity e1, String name)
 	{
 		return new EntityDamageSource(name, e1);
 	}
+	/**
+	 * Easier to work with and "dynamic" damage type
+	 * @param e1 - Entity to be attacked
+	 * @param e2 - Entity that is credited for the kill
+	 * @param name - Name of the damage type, will be used in grabbing to localized death message, supports randomized messages
+	 * @return The requested damage source
+	 */
 	public static DamageSource causeDamage(Entity e1, Entity e2, String name)
 	{
 		return new EntityDamageSourceIndirect(name, e1, e2);

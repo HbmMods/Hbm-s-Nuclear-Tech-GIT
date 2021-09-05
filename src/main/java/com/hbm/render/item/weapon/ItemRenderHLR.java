@@ -44,8 +44,6 @@ public class ItemRenderHLR implements IItemRenderer
 		
 		//GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.hlr_tex);
 		final float scale1 = 0.2F;
 		final double scale2 = 0.065D;
@@ -85,7 +83,6 @@ public class ItemRenderHLR implements IItemRenderer
 		default:
 			break;
 		}
-		GL11.glEnable(GL11.GL_CULL_FACE);
 		ResourceManager.hlr.renderAll();
 //		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.??);
 		GL11.glPopMatrix();
