@@ -421,6 +421,7 @@ public class ArmorUtil {
 		list.add(EnumChatFormatting.GOLD + "Installed filter:");
 		
 		List<String> lore = new ArrayList();
+		list.add("  " + filter.getDisplayName());
 		filter.getItem().addInformation(filter, player, lore, ext);
 		ForgeEventFactory.onItemTooltip(filter, player, lore, ext);
 		lore.forEach(x -> list.add(EnumChatFormatting.YELLOW + "  " + x));

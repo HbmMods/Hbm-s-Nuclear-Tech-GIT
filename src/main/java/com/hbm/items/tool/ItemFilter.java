@@ -26,7 +26,14 @@ public class ItemFilter extends Item {
 			return stack;
 		
 		ItemStack copy = stack.copy();
-		stack = ArmorUtil.getGasMaskFilter(helmet);
+		ItemStack current = ArmorUtil.getGasMaskFilter(helmet);
+		
+		if(current != null) {
+			stack = current;
+		} else {
+			stack.stackSize = 0;
+		}
+		
 		ArmorUtil.installGasMaskFilter(helmet, copy);
 		
 		world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);

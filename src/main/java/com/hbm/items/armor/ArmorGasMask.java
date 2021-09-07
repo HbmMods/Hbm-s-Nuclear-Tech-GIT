@@ -11,6 +11,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelM65;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.item.IGasMask;
@@ -26,6 +27,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class ArmorGasMask extends ItemArmor implements IGasMask {
@@ -164,7 +166,18 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 	
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
 		ArmorUtil.addGasMaskTooltip(stack, player, list, ext);
+		
+		List<HazardClass> haz = getBlacklist(stack, player);
+		
+		if(!haz.isEmpty()) {
+			list.add(EnumChatFormatting.RED + "Will never protect against:");
+			
+			for(HazardClass clazz : haz) {
+				list.add(EnumChatFormatting.DARK_RED + " -" + I18nUtil.resolveKey(clazz.lang));
+			}
+		}
 	}
 
 	@Override
