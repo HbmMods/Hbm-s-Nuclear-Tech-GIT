@@ -10,10 +10,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 
 public class ItemFleija extends ItemHazard {
-	
-	public ItemFleija(float radiation, boolean blinding) {
-		super(radiation, false, blinding);
-	}
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

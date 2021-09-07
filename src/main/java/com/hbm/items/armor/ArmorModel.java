@@ -64,14 +64,6 @@ public class ArmorModel extends ItemArmor {
 				return this.modelGoggles;
 			}
 		}
-		if (this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
-			if (armorSlot == 0) {
-				if (this.modelM65 == null) {
-					this.modelM65 = new ModelM65();
-				}
-				return this.modelM65;
-			}
-		}
 		if (this == ModItems.oxy_mask) {
 			if (armorSlot == 0) {
 				if (this.modelOxy == null) {
@@ -103,12 +95,6 @@ public class ArmorModel extends ItemArmor {
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 		if (stack.getItem() == ModItems.goggles) {
 			return "hbm:textures/models/Goggles.png";
-		}
-		if (stack.getItem() == ModItems.hazmat_helmet_red) {
-			return "hbm:textures/models/ModelHazRed.png";
-		}
-		if (stack.getItem() == ModItems.hazmat_helmet_grey) {
-			return "hbm:textures/models/ModelHazGrey.png";
 		}
 		if (stack.getItem() == ModItems.oxy_mask) {
 			return null;

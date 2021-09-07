@@ -460,10 +460,13 @@ hadron.progress=In Progress...
 hadron.success=Completed!
 
 hazard.prot=Protects against hazards:
+hazard.noprot=Does NOT protect against:
 hazard.bacteria=Bacteria / Aerosols
+hazard.corrosive=Corrosive Fumes
 hazard.gasChlorine=Chemical Gas
 hazard.gasInert=Inert Gas / Asphxiants
 hazard.gasMonoxide=Carbon Monoxide
+hazard.nerveAgent=Nerve Agent
 hazard.particleCoarse=Airborne Particles
 hazard.particleFine=Particulates
 

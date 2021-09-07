@@ -138,7 +138,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.plate_schrabidium, 2), new AStack[] {new ComparableStack(ModItems.ingot_schrabidium, 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_combine_steel, 2), new AStack[] {new ComparableStack(ModItems.ingot_combine_steel, 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_saturnite, 2), new AStack[] {new ComparableStack(ModItems.ingot_saturnite, 3), },30);
-		makeRecipe(new ComparableStack(ModItems.plate_mixed, 6), new AStack[] {new ComparableStack(ModItems.plate_advanced_alloy, 2), new OreDictStack(OreDictManager.getReflector(), 2), new ComparableStack(ModItems.plate_combine_steel, 1), new OreDictStack("plateLead", 4), },50);
+		makeRecipe(new ComparableStack(ModItems.plate_mixed, 4), new AStack[] {new ComparableStack(ModItems.plate_advanced_alloy, 2), new OreDictStack(OreDictManager.getReflector(), 1), new ComparableStack(ModItems.plate_saturnite, 1) },50);
 		makeRecipe(new ComparableStack(ModItems.wire_aluminium, 6), new AStack[] {new OreDictStack("ingotAluminum", 1), },20);
 		makeRecipe(new ComparableStack(ModItems.wire_copper, 6), new AStack[] {new OreDictStack("ingotCopper", 1), },20);
 		makeRecipe(new ComparableStack(ModItems.wire_tungsten, 6), new AStack[] {new OreDictStack("ingotTungsten", 1), },20);

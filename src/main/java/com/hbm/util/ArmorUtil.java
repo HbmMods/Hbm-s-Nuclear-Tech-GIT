@@ -1,5 +1,8 @@
 package com.hbm.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
@@ -12,9 +15,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ArmorUtil {
+	
+	/*
+	 * The less horrifying part
+	 */
 	
 	public static void register() {
 		ArmorRegistry.registerHazard(ModItems.gas_mask_filter_mono, HazardClass.PARTICLE_COARSE, HazardClass.GAS_MONOXIDE);
@@ -47,12 +57,21 @@ public class ArmorUtil {
 		int j = player.inventory.armorInventory[slot].getItemDamage();
 		player.inventory.armorInventory[slot].setItemDamage(j += amount);
 
-		if(player.inventory.armorInventory[slot].getItemDamage() >= player.inventory.armorInventory[slot].getMaxDamage())
-		{
+		if(player.inventory.armorInventory[slot].getItemDamage() > player.inventory.armorInventory[slot].getMaxDamage())
 			player.inventory.armorInventory[slot] = null;
+	}
+	
+	public static void resetFlightTime(EntityPlayer player) {
+		
+		if(player instanceof EntityPlayerMP) {
+			EntityPlayerMP mp = (EntityPlayerMP) player;
+			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, mp.playerNetServerHandler, 0, "floatingTickCount", "field_147365_f");
 		}
 	}
 	
+	/*
+	 * The more horrifying part
+	 */
 	public static boolean checkForHazmat(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
@@ -185,6 +204,7 @@ public class ArmorUtil {
 		return false;
 	}
 	
+	@Deprecated
 	public static boolean checkForGasMask(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3)) {
@@ -248,6 +268,7 @@ public class ArmorUtil {
 		return false;
 	}
 	
+	@Deprecated
 	public static boolean checkForMonoMask(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.gas_mask_mono, 3))
@@ -332,11 +353,76 @@ public class ArmorUtil {
 		return checkArmorPiece(player, ModItems.jackt2, 2) && Library.checkForHeld(player, ModItems.shimmer_axe);
 	}
 	
-	public static void resetFlightTime(EntityPlayer player) {
+	/*
+	 * Default implementations for IGasMask items
+	 */
+	public static final String FILTERK_KEY = "hfrFilter";
+	
+	public static void installGasMaskFilter(ItemStack mask, ItemStack filter) {
 		
-		if(player instanceof EntityPlayerMP) {
-			EntityPlayerMP mp = (EntityPlayerMP) player;
-			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, mp.playerNetServerHandler, 0, "floatingTickCount", "field_147365_f");
-		}
+		if(mask == null || filter == null)
+			return;
+		
+		if(!mask.hasTagCompound())
+			mask.stackTagCompound = new NBTTagCompound();
+		
+		NBTTagCompound attach = new NBTTagCompound();
+		filter.writeToNBT(attach);
+		
+		mask.stackTagCompound.setTag(FILTERK_KEY, attach);
+	}
+	
+	public static void removeFilter(ItemStack mask) {
+		
+		if(mask == null)
+			return;
+		
+		if(!mask.hasTagCompound())
+			return;
+		
+		mask.stackTagCompound.removeTag(FILTERK_KEY);
+	}
+	
+	public static ItemStack getGasMaskFilter(ItemStack mask) {
+		
+		if(mask == null)
+			return null;
+		
+		if(!mask.hasTagCompound())
+			return null;
+		
+		NBTTagCompound attach = mask.stackTagCompound.getCompoundTag(FILTERK_KEY);
+		ItemStack filter = ItemStack.loadItemStackFromNBT(attach);
+		
+		return filter;
+	}
+	
+	public static void damageGasMaskFilter(ItemStack mask, int damage) {
+		ItemStack filter = getGasMaskFilter(mask);
+		
+		if(filter.getMaxDamage() == 0)
+			return;
+		
+		filter.setItemDamage(filter.getItemDamage() + damage);
+		
+		if(filter.getItemDamage() > filter.getMaxDamage())
+			removeFilter(mask);
+		else
+			installGasMaskFilter(mask, filter);
+	}
+	
+	public static void addGasMaskTooltip(ItemStack mask, EntityPlayer player, List list, boolean ext) {
+		
+		ItemStack filter = getGasMaskFilter(mask);
+		
+		if(filter == null)
+			return;
+		
+		list.add(EnumChatFormatting.GOLD + "Installed filter:");
+		
+		List<String> lore = new ArrayList();
+		filter.getItem().addInformation(filter, player, lore, ext);
+		ForgeEventFactory.onItemTooltip(filter, player, lore, ext);
+		lore.forEach(x -> list.add(EnumChatFormatting.YELLOW + "  " + x));
 	}
 }

@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelM65;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.item.IGasMask;
@@ -140,23 +141,34 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 	public List<HazardClass> getBlacklist(ItemStack stack, EntityPlayer player) {
 		
 		if(this == ModItems.gas_mask_mono) {
-			return Arrays.asList(new HazardClass[] {HazardClass.GAS_CHLORINE, HazardClass.BACTERIA});
+			return Arrays.asList(new HazardClass[] {HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT, HazardClass.BACTERIA});
+		} else {
+			return Arrays.asList(new HazardClass[] {HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT});
 		}
-		
-		return new ArrayList();
 	}
 
 	@Override
 	public ItemStack getFilter(ItemStack stack, EntityPlayer player) {
-		
-		if(stack == null || !(stack.getItem() instanceof IGasMask) || !stack.hasTagCompound())
-			return null;
-		
-		return null;
+		return ArmorUtil.getGasMaskFilter(stack);
 	}
 
 	@Override
-	public void damageFilter(ItemStack stack, EntityPlayer player) {
-		
+	public void installFilter(ItemStack stack, EntityPlayer player, ItemStack filter) {
+		ArmorUtil.installGasMaskFilter(stack, filter);
+	}
+
+	@Override
+	public void damageFilter(ItemStack stack, EntityPlayer player, int damage) {
+		ArmorUtil.damageGasMaskFilter(stack, damage);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		ArmorUtil.addGasMaskTooltip(stack, player, list, ext);
+	}
+
+	@Override
+	public boolean isFilterApplicable(ItemStack stack, EntityPlayer player, ItemStack filter) {
+		return true;
 	}
 }

@@ -392,10 +392,13 @@ hadron.progress=Verarbeite...
 hadron.success=Abgeschlossen!
 
 hazard.prot=Schützt vor Gefahren:
+hazard.noprot=Schützt NICHT vor:
 hazard.bacteria=Bakterien / Aerosole
+hazard.corrosive=Ätzende Dämpfe
 hazard.gasChlorine=Giftgas
 hazard.gasInert=Träge Gase / Strickgas
 hazard.gasMonoxide=Kohlenstoffmonoxid
+hazard.nerveAgent=Nervengift
 hazard.particleCoarse=Partikel
 hazard.particleFine=Feinstaub
 

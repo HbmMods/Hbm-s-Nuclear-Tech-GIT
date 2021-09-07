@@ -255,18 +255,6 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.gas_mask_filter && player.inventory.armorInventory[3] != null && (player.inventory.armorInventory[3].getItem() == ModItems.gas_mask || player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_m65)) {
-			if(!world.isRemote) {
-				if(player.inventory.armorInventory[3].getItemDamage() == 0)
-					return stack;
-
-				player.inventory.armorInventory[3].setItemDamage(0);
-
-				world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);
-				stack.stackSize--;
-			}
-		}
-
 		if(this == ModItems.gas_mask_filter_mono && player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_mono) {
 			if(!world.isRemote) {
 				if(player.inventory.armorInventory[3].getItemDamage() == 0)

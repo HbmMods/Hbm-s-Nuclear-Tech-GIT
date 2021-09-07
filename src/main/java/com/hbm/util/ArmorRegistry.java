@@ -15,6 +15,36 @@ public class ArmorRegistry {
 		hazardClasses.put(item, Arrays.asList(hazards));
 	}
 	
+	public static boolean hasAllProtection(EntityPlayer player, int slot, HazardClass... clazz) {
+		
+		if(ArmorUtil.checkArmorNull(player, slot))
+			return false;
+		
+		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
+		
+		if(list == null)
+			return false;
+		
+		return list.containsAll(Arrays.asList(clazz));
+	}
+	
+	public static boolean hasAnyProtection(EntityPlayer player, int slot, HazardClass... clazz) {
+		
+		if(ArmorUtil.checkArmorNull(player, slot))
+			return false;
+		
+		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
+		
+		if(list == null)
+			return false;
+		
+		for(HazardClass haz : clazz) {
+			if(list.contains(haz)) return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean hasProtection(EntityPlayer player, int slot, HazardClass clazz) {
 		
 		if(ArmorUtil.checkArmorNull(player, slot))
@@ -29,12 +59,15 @@ public class ArmorRegistry {
 	}
 	
 	public static enum HazardClass {
-		GAS_CHLORINE("hazard.gasChlorine"),
-		GAS_MONOXIDE("hazard.gasMonoxide"),
-		GAS_INERT("hazard.gasInert"),
-		PARTICLE_COARSE("hazard.particleCoarse"),
-		PARTICLE_FINE("hazard.particleFine"),
-		BACTERIA("hazard.bacteria");
+		GAS_CHLORINE("hazard.gasChlorine"),				//also attacks eyes -> no half mask
+		GAS_MONOXIDE("hazard.gasMonoxide"),				//only affects lungs
+		GAS_INERT("hazard.gasInert"),					//SA
+		PARTICLE_COARSE("hazard.particleCoarse"),		//only affects lungs
+		PARTICLE_FINE("hazard.particleFine"),			//only affects lungs
+		BACTERIA("hazard.bacteria"),					//no half masks
+		NERVE_AGENT("hazard.nerveAgent"),				//aggressive nerve agent, also attacks skin
+		GAS_CORROSIVE("hazard.corrosive"),				//corrosive substance, also attacks skin
+		LIGHT("hazard.light");
 		
 		public final String lang;
 		

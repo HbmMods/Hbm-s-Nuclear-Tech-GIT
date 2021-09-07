@@ -2122,7 +2122,8 @@ public class MachineRecipes {
 			break;
 		case COLTAN_CLEANING:
 			output[0] = new ItemStack(ModItems.powder_coltan, 1);
-			output[1] = new ItemStack(ModItems.dust, 2);
+			output[1] = new ItemStack(ModItems.powder_niobium, 1);
+			output[2] = new ItemStack(ModItems.dust, 1);
 			break;
 		case COLTAN_CRYSTAL:
 			output[0] = new ItemStack(ModItems.gem_tantalium, 1);

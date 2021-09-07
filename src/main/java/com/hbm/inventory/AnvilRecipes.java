@@ -197,6 +197,8 @@ public class AnvilRecipes {
 				new AStack[] {new ComparableStack(ModItems.plate_dineutronium, 4), new ComparableStack(ModItems.particle_sparkticle, 1), new ComparableStack(ModItems.plate_armor_fau, 6)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_dnt))).setTier(7));
 		
+		pullFromAssembler(new ComparableStack(ModItems.plate_mixed, 4), 3);
+		
 	}
 	
 	public static void registerConstructionAmmo() {
