@@ -11,6 +11,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -31,22 +32,22 @@ public class ArmorUtil {
 		ArmorRegistry.registerHazard(ModItems.gas_mask_filter, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA);
 	}
 	
-	public static boolean checkArmor(EntityPlayer player, Item... armor) {
+	public static boolean checkArmor(EntityLivingBase entity, Item... armor) {
 		
 		for(int i = 0; i < 4; i++) {
-			if(!checkArmorPiece(player, armor[i], 3 - i))
+			if(!checkArmorPiece(entity, armor[i], 3 - i))
 				return false;
 		}
 		
 		return true;
 	}
 	
-	public static boolean checkArmorPiece(EntityPlayer player, Item armor, int slot) {
-		return !checkArmorNull(player, slot) && player.inventory.armorInventory[slot].getItem() == armor;
+	public static boolean checkArmorPiece(EntityLivingBase entity, Item armor, int slot) {
+		return !checkArmorNull(entity, slot) && entity.getEquipmentInSlot(slot + 1).getItem() == armor;
 	}
 	
-	public static boolean checkArmorNull(EntityPlayer player, int slot) {
-		return player.inventory.armorInventory[slot] == null;
+	public static boolean checkArmorNull(EntityLivingBase player, int slot) {
+		return player.getEquipmentInSlot(slot + 1) == null;
 	}
 	
 	public static void damageSuit(EntityPlayer player, int slot, int amount) {

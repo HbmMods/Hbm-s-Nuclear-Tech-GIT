@@ -99,7 +99,8 @@ public class ItemChemistryTemplate extends Item {
 		COLTAN_CRYSTAL,
 		VIT_LIQUID,
 		VIT_GAS,
-		TEL;
+		TEL,
+		GASOLINE;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -289,6 +290,10 @@ public class ItemChemistryTemplate extends Item {
         	return 100;
         case VIT_GAS:
         	return 100;
+        case TEL:
+        	return 40;
+        case GASOLINE:
+        	return 40;
         default:
         	return 100;
         }

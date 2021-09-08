@@ -1743,6 +1743,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.oil_tar, 1));
 			list.add(new ItemStack(ModItems.powder_lead, 1));
 			break;
+		case GASOLINE:
+			list.add(new ItemStack(ModItems.antiknock, 1));
+			break;
 		default:
 			break;
 		}
@@ -1978,6 +1981,9 @@ public class MachineRecipes {
 		case TEL:
 			input[0] = new FluidStack(100, FluidType.PETROLEUM);
 			input[1] = new FluidStack(1000, FluidType.STEAM);
+			break;
+		case GASOLINE:
+			input[0] = new FluidStack(10000, FluidType.PETROIL);
 			break;
 		default:
 			break;
@@ -2273,6 +2279,9 @@ public class MachineRecipes {
         	break;
         case COLTAN_CRYSTAL:
 			output[0] = new FluidStack(250, FluidType.WATER);
+        	break;
+        case GASOLINE:
+			output[0] = new FluidStack(12000, FluidType.GASOLINE);
         	break;
 		default:
 			break;

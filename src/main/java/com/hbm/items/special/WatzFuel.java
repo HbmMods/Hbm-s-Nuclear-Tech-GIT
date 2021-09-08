@@ -26,7 +26,7 @@ public class WatzFuel extends ItemHazard {
 	 */
 	
 	public WatzFuel(float radiation, boolean blinding, int lifeTime, int power, float powerMultiplier, int heat, float heatMultiplier, float decayMultiplier) {
-		super(radiation, false, blinding);
+		super();
 		this.lifeTime = lifeTime * 100;
 		this.power = power/10;
 		this.powerMultiplier = powerMultiplier;
@@ -35,6 +35,10 @@ public class WatzFuel extends ItemHazard {
 		this.decayMultiplier = decayMultiplier;
 		this.setMaxDamage(100);
 		this.canRepair = false;
+		
+		this.addRadiation(radiation);
+		if(blinding)
+			this.addBlinding();
 	}
 	
 	@Override

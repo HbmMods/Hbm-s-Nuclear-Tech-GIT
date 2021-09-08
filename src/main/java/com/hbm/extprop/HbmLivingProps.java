@@ -32,6 +32,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radiation;
 	private float digamma;
 	private int asbestos;
+	private int blacklung;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
@@ -182,6 +183,25 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
 		setAsbestos(entity, getAsbestos(entity) + asbestos);
+	}
+	
+	
+	/// BLACK LUNG DISEASE ///
+	public static int getBlackLung(EntityLivingBase entity) {
+		return getData(entity).blacklung;
+	}
+	
+	public static void setBlackLung(EntityLivingBase entity, int blacklung) {
+		getData(entity).blacklung = blacklung;
+		
+		if(blacklung >= 60 * 60 * 20) {
+			getData(entity).asbestos = 0;
+			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
+		}
+	}
+	
+	public static void incrementBlackLung(EntityLivingBase entity, int blacklung) {
+		setBlackLung(entity, getBlackLung(entity) + blacklung);
 	}
 	
 	/// TIME BOMB ///

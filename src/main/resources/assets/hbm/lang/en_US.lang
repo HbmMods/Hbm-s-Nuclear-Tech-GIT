@@ -487,6 +487,7 @@ hbmfluid.cryogel=Cryogel
 hbmfluid.deuterium=Deuterium
 hbmfluid.diesel=Diesel
 hbmfluid.gas=Natural Gas
+hbmfluid.gasoline=Leaded Gasoline
 hbmfluid.heatingoil=Heating Oil
 hbmfluid.heavyoil=Heavy Oil
 hbmfluid.hotoil=Hot Crude Oil

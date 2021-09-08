@@ -39,22 +39,22 @@ public class ArmorHazmatMask extends ArmorHazmat implements IGasMask {
 	}
 
 	@Override
-	public List<HazardClass> getBlacklist(ItemStack stack, EntityPlayer player) {
+	public List<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity) {
 		return new ArrayList(); // full hood has no restrictions
 	}
 
 	@Override
-	public ItemStack getFilter(ItemStack stack, EntityPlayer player) {
+	public ItemStack getFilter(ItemStack stack, EntityLivingBase entity) {
 		return ArmorUtil.getGasMaskFilter(stack);
 	}
 
 	@Override
-	public void installFilter(ItemStack stack, EntityPlayer player, ItemStack filter) {
+	public void installFilter(ItemStack stack, EntityLivingBase entity, ItemStack filter) {
 		ArmorUtil.installGasMaskFilter(stack, filter);
 	}
 
 	@Override
-	public void damageFilter(ItemStack stack, EntityPlayer player, int damage) {
+	public void damageFilter(ItemStack stack, EntityLivingBase entity, int damage) {
 		ArmorUtil.damageGasMaskFilter(stack, damage);
 	}
 	
@@ -64,7 +64,7 @@ public class ArmorHazmatMask extends ArmorHazmat implements IGasMask {
 	}
 
 	@Override
-	public boolean isFilterApplicable(ItemStack stack, EntityPlayer player, ItemStack filter) {
+	public boolean isFilterApplicable(ItemStack stack, EntityLivingBase entity, ItemStack filter) {
 		return true;
 	}
 }

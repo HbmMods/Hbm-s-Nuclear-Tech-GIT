@@ -8,10 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class ItemGadget extends ItemHazard {
-	
-	public ItemGadget(float radiation) {
-		super(radiation);
-	}
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

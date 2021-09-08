@@ -2,6 +2,9 @@ package com.hbm.blocks.gas;
 
 import java.util.Random;
 
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -32,7 +35,11 @@ public class BlockGasAsbestos extends BlockGasBase {
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		
 		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.ASBESTOS, ContaminationType.GAS, 1);
+			
+			EntityLivingBase living = (EntityLivingBase) entity;
+			
+			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE))
+				HbmLivingProps.incrementAsbestos(living, 1);
 		}
 	}
 

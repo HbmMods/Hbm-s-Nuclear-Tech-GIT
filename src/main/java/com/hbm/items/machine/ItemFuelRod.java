@@ -16,10 +16,14 @@ public class ItemFuelRod extends ItemHazard {
 	public int heat;
 	
 	public ItemFuelRod(float radiation, boolean blinding, int life, int heat) {
-		super(radiation, false, blinding);
+		super();
 		this.lifeTime = life;
 		this.heat = heat;
 		this.canRepair = false;
+		
+		this.addRadiation(radiation);
+		if(blinding)
+			this.addBlinding();
 	}
 	
 	@Override

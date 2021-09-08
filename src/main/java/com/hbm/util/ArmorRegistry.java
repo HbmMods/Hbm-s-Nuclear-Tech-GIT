@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
@@ -15,12 +16,12 @@ public class ArmorRegistry {
 		hazardClasses.put(item, Arrays.asList(hazards));
 	}
 	
-	public static boolean hasAllProtection(EntityPlayer player, int slot, HazardClass... clazz) {
+	public static boolean hasAllProtection(EntityLivingBase entity, int slot, HazardClass... clazz) {
 		
-		if(ArmorUtil.checkArmorNull(player, slot))
+		if(ArmorUtil.checkArmorNull(entity, slot))
 			return false;
 		
-		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
+		List<HazardClass> list = hazardClasses.get(entity.getEquipmentInSlot(slot + 1).getItem());
 		
 		if(list == null)
 			return false;
@@ -28,12 +29,12 @@ public class ArmorRegistry {
 		return list.containsAll(Arrays.asList(clazz));
 	}
 	
-	public static boolean hasAnyProtection(EntityPlayer player, int slot, HazardClass... clazz) {
+	public static boolean hasAnyProtection(EntityLivingBase entity, int slot, HazardClass... clazz) {
 		
-		if(ArmorUtil.checkArmorNull(player, slot))
+		if(ArmorUtil.checkArmorNull(entity, slot))
 			return false;
 		
-		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
+		List<HazardClass> list = hazardClasses.get(entity.getEquipmentInSlot(slot + 1).getItem());
 		
 		if(list == null)
 			return false;
@@ -45,12 +46,12 @@ public class ArmorRegistry {
 		return false;
 	}
 	
-	public static boolean hasProtection(EntityPlayer player, int slot, HazardClass clazz) {
+	public static boolean hasProtection(EntityLivingBase entity, int slot, HazardClass clazz) {
 		
-		if(ArmorUtil.checkArmorNull(player, slot))
+		if(ArmorUtil.checkArmorNull(entity, slot))
 			return false;
 		
-		List<HazardClass> list = hazardClasses.get(player.inventory.armorInventory[slot].getItem());
+		List<HazardClass> list = hazardClasses.get(entity.getEquipmentInSlot(slot + 1).getItem());
 		
 		if(list == null)
 			return false;

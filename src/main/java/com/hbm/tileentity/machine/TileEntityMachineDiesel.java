@@ -148,6 +148,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 			return 300;
 		if(type.name().equals(FluidType.BIOFUEL.name()))
 			return 400;
+		if(type.name().equals(FluidType.GASOLINE.name()))
+			return 1500;
 		if(type.name().equals(FluidType.NITAN.name()))
 			return 5000;
 		return 0;
