@@ -8,11 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 
 public class SiegeTier {
 	
-	private static SiegeTier[] tiers = new SiegeTier[100];
+	public static SiegeTier[] tiers = new SiegeTier[100];
 	private static int nextID = 0;
 	
 	public static SiegeTier DEFAULT_BUFF;

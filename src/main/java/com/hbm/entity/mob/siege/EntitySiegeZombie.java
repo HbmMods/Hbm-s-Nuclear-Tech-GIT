@@ -1,11 +1,98 @@
 package com.hbm.entity.mob.siege;
 
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntitySiegeZombie extends EntityZombie {
+public class EntitySiegeZombie extends EntityMob {
 
 	public EntitySiegeZombie(World world) {
 		super(world);
+		this.getNavigator().setBreakDoors(true);
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		this.tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(5, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.setSize(0.6F, 1.8F);
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float damage) {
+		
+		if(this.isEntityInvulnerable())
+			return false;
+		
+		SiegeTier tier = this.getTier();
+		
+		if(tier.fireProof && source.isFireDamage())
+			return false;
+		
+		if(tier.noFall && source == DamageSource.fall)
+			return false;
+		
+		damage -= tier.dt;
+		
+		if(damage < 0) {
+			worldObj.playSoundAtEntity(this, "random.break", 5F, 1.0F + rand.nextFloat() * 0.5F);
+			return false;
+		}
+		
+		damage *= (1F - tier.dr);
+		
+		return super.attackEntityFrom(source, damage);
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.getDataWatcher().addObject(12, (int) 0);
+	}
+	
+	public void setTier(SiegeTier tier) {
+		this.getDataWatcher().updateObject(12, tier.id);
+
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("Tier Speed Mod", tier.speedMod, 1));
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health);
+		this.setHealth(this.getMaxHealth());
+	}
+	
+	public SiegeTier getTier() {
+		SiegeTier tier = SiegeTier.tiers[this.getDataWatcher().getWatchableObjectInt(12)];
+		return tier != null ? tier : SiegeTier.CLAY;
+	}
+
+	@Override
+	protected boolean isAIEnabled() {
+		return true;
+	}
+
+	@Override
+	protected String getLivingSound() {
+		return "hbm:entity.siegeIdle";
+	}
+
+	@Override
+	protected String getHurtSound() {
+		return "hbm:entity.siegeHurt";
+	}
+
+	@Override
+	protected String getDeathSound() {
+		return "hbm:entity.siegeDeath";
 	}
 }

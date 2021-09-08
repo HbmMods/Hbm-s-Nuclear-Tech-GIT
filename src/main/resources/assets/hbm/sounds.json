@@ -184,6 +184,9 @@
     "entity.vomit": {"category": "player", "sounds": [{"name": "entity/vomit", "stream": false}]},
     "entity.ufoBeam": {"category": "hostile", "sounds": [{"name": "entity/ufoBeamShort", "stream": false}]},
     "entity.ufoBlast": {"category": "hostile", "sounds": [{"name": "entity/ufoBlast", "stream": false}]},
+    "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1", "entity/siegeIdle2"]},
+    "entity.siegeHurt": {"category": "hostile", "sounds": ["entity/siegeHurt1", "entity/siegeHurt2"]},
+    "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
     
     "step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
     "step.iron_jump": {"category": "player", "sounds": [{"name": "footsteps/iron_jump", "stream": false}]},
