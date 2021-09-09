@@ -1,7 +1,10 @@
 package com.hbm.entity.mob.siege;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import com.hbm.items.ModItems;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +17,10 @@ public class SiegeTier {
 	public static SiegeTier[] tiers = new SiegeTier[100];
 	private static int nextID = 0;
 	
+	public static int getLength() {
+		return nextID;
+	}
+	
 	public static SiegeTier DEFAULT_BUFF;
 	public static SiegeTier CLAY;
 	public static SiegeTier IRON;
@@ -25,36 +32,39 @@ public class SiegeTier {
 	public static SiegeTier DNT;
 	
 	public static void registerTiers() {
-		DEFAULT_BUFF =	new SiegeTier(20)	.setDR(0.2F)										.setDMG(2F);
-		CLAY =			new SiegeTier(30)	.setDR(0.2F)										.setDMG(3F);
-		STONE =			new SiegeTier(40)	.setDR(0.3F)	.setDT(1F)				.setFP()	.setDMG(5F);
-		IRON =			new SiegeTier(50)	.setDR(0.3F)	.setDT(2F)				.setFP()	.setDMG(7.5F);
-		SILVER =		new SiegeTier(70)	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(1.5F);
-		GOLD =			new SiegeTier(100)	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(1.5F);
-		DESH =			new SiegeTier(150)	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(1.5F);
-		SCHRAB =		new SiegeTier(250)	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(2F);
-		DNT =			new SiegeTier(500)	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(2F);
+		DEFAULT_BUFF =	new SiegeTier(20, "buff")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 0))	.setDR(0.2F)										.setDMG(2F);
+		CLAY =			new SiegeTier(30, "clay")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 1))	.setDR(0.2F)										.setDMG(3F);
+		STONE =			new SiegeTier(40, "stone")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 2))	.setDR(0.3F)	.setDT(1F)				.setFP()	.setDMG(5F);
+		IRON =			new SiegeTier(50, "iron")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 3))	.setDR(0.3F)	.setDT(2F)				.setFP()	.setDMG(7.5F)					.setFF();
+		SILVER =		new SiegeTier(70, "silver")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 4))	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(1.5F)	.setFF();
+		GOLD =			new SiegeTier(100, "gold")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 5))	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(1.5F)	.setFF();
+		DESH =			new SiegeTier(150, "desh")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 6))	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(1.5F)	.setFF();
+		SCHRAB =		new SiegeTier(250, "schrab")	.addDrop(new ItemStack(ModItems.coin_siege, 1, 7))	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(2F)		.setFF();
+		DNT =			new SiegeTier(500, "dnt")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 8))	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(2F)		.setFF();
 	}
 
 	public int id;
 	public float dt = 0F;
 	public float dr = 0F;
 	public float health = 20F;
+	public String name = "";
 	public float damageMod = 1F;
 	public float speedMod = 1F;
 	public boolean fireProof = false;
 	public boolean noFall = false;
-	public ItemStack dropItem = null;
+	public boolean noFriendlyFire = false;
+	public List<ItemStack> dropItem = new ArrayList();
 	
 	//so this is basically delegates but in java? or like, uh, storing lambdas? i don't know what it is but i feel like playing god. i like it.
 	public Consumer<EntityLivingBase> delegate;
 	
-	public SiegeTier(float baseHealth) {
+	public SiegeTier(float baseHealth, String name) {
 		this.id = nextID;
 		SiegeTier.tiers[this.id] = this;
 		nextID++;
 		
 		this.health = baseHealth;
+		this.name = name;
 	}
 	
 	private SiegeTier setDT(float dt) {
@@ -87,13 +97,17 @@ public class SiegeTier {
 		return this;
 	}
 	
-	private SiegeTier setDrop(Item drop) {
-		this.dropItem = new ItemStack(drop);
+	private SiegeTier setFF() {
+		this.noFriendlyFire = true;
 		return this;
 	}
 	
-	private SiegeTier setDrop(ItemStack drop) {
-		this.dropItem = drop;
+	private SiegeTier addDrop(Item drop) {
+		return addDrop(new ItemStack(drop));
+	}
+	
+	private SiegeTier addDrop(ItemStack drop) {
+		this.dropItem.add(drop);
 		return this;
 	}
 	

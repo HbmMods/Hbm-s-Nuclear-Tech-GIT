@@ -173,6 +173,9 @@ public class ModEventHandler {
 			
 			EntityPlayer player = (EntityPlayer) event.entity;
 			HbmPlayerProps.getData(player); //this already calls the register method if it's null so no further action required
+			
+			if(event.entity == MainRegistry.proxy.me())
+				BlockAshes.ashes = 0;
 		}
 		
 		if(event.entity instanceof EntityLivingBase) {
@@ -1057,6 +1060,10 @@ public class ModEventHandler {
 		if(event.block == ModBlocks.stone_gneiss && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achStratum)) {
 			event.getPlayer().triggerAchievement(MainRegistry.achStratum);
 			event.setExpToDrop(500);
+		}
+		
+		if(event.block == Blocks.coal_ore || event.block == ModBlocks.ore_lignite) {
+			event.world.setBlock(event.x, event.y, event.z, ModBlocks.gas_coal);
 		}
 	}
 	

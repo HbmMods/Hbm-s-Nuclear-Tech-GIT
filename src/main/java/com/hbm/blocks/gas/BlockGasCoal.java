@@ -5,9 +5,6 @@ import java.util.Random;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.ContaminationType;
-import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,10 +13,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockGasAsbestos extends BlockGasBase {
+public class BlockGasCoal extends BlockGasBase {
 
-	public BlockGasAsbestos() {
-		super(0.6F, 0.6F, 0.5F);
+	public BlockGasCoal() {
+		super(0.2F, 0.2F, 0.2F);
 	}
 
 	@Override
@@ -28,7 +25,7 @@ public class BlockGasAsbestos extends BlockGasBase {
 		super.randomDisplayTick(world, x, y, z, rand);
 
 		if(world.rand.nextInt(5) == 0)
-			world.spawnParticle("townaura", x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("smoke", x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -38,8 +35,8 @@ public class BlockGasAsbestos extends BlockGasBase {
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			
-			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_FINE))
-				HbmLivingProps.incrementAsbestos(living, 1);
+			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE))
+				HbmLivingProps.incrementBlackLung(living, 1);
 		}
 	}
 
@@ -60,7 +57,7 @@ public class BlockGasAsbestos extends BlockGasBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if(!world.isRemote && rand.nextInt(50) == 0) {
+		if(!world.isRemote && rand.nextInt(30) == 0) {
 			world.setBlockToAir(x, y, z);
 			return;
 		}

@@ -12,7 +12,10 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 
 public class EntitySiegeZombie extends EntityMob {
@@ -43,6 +46,10 @@ public class EntitySiegeZombie extends EntityMob {
 			return false;
 		
 		if(tier.noFall && source == DamageSource.fall)
+			return false;
+		
+		//noFF can't be harmed by other mobs
+		if(tier.noFriendlyFire && source instanceof EntityDamageSource && !(((EntityDamageSource) source).getEntity() instanceof EntityPlayer))
 			return false;
 		
 		damage -= tier.dt;
@@ -94,5 +101,27 @@ public class EntitySiegeZombie extends EntityMob {
 	@Override
 	protected String getDeathSound() {
 		return "hbm:entity.siegeDeath";
+	}
+
+	@Override
+	protected void dropFewItems(boolean byPlayer, int fortune) {
+		
+		if(byPlayer) {
+			for(ItemStack drop : this.getTier().dropItem) {
+				this.entityDropItem(drop.copy(), 0F);
+			}
+		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("siegeTier", this.getTier().id);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		this.setTier(SiegeTier.tiers[nbt.getInteger("siegeTier")]);
 	}
 }

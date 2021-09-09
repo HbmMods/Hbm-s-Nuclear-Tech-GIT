@@ -71,6 +71,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotGold198", ModItems.ingot_au198);
 		OreDictionary.registerOre("ingotColtan", ModItems.fragment_coltan);
 		OreDictionary.registerOre("ingotTantalum", ModItems.ingot_tantalium);
+		OreDictionary.registerOre("ingotNiobium", ModItems.ingot_niobium);
 		
 		OreDictionary.registerOre("crystalCinnabar", ModItems.cinnebar);
 
