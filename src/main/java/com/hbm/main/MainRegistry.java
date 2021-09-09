@@ -57,6 +57,7 @@ import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
+import com.hbm.entity.mob.siege.EntitySiegeZombie;
 import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
@@ -468,6 +469,7 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityQuackos.class, "entity_elder_one", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
 		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
+		EntityRegistry.registerGlobalEntityID(EntitySiegeZombie.class, "entity_meme_zombie", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 

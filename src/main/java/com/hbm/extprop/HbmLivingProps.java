@@ -32,7 +32,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radiation;
 	private float digamma;
 	private int asbestos;
+	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
+	public static final int maxBlacklung = 60 * 60 * 20;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
@@ -175,7 +177,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
 		getData(entity).asbestos = asbestos;
 		
-		if(asbestos >= 60 * 60 * 20) {
+		if(asbestos >= maxAsbestos) {
 			getData(entity).asbestos = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
@@ -194,7 +196,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setBlackLung(EntityLivingBase entity, int blacklung) {
 		getData(entity).blacklung = blacklung;
 		
-		if(blacklung >= 60 * 60 * 20) {
+		if(blacklung >= maxBlacklung) {
 			getData(entity).asbestos = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
@@ -235,6 +237,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_asbestos", asbestos);
 		props.setInteger("hfr_bomb", bombTimer);
 		props.setInteger("hfr_contagion", contagion);
+		props.setInteger("hfr_blacklung", blacklung);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -256,6 +259,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			asbestos = props.getInteger("hfr_asbestos");
 			bombTimer = props.getInteger("hfr_bomb");
 			contagion = props.getInteger("hfr_contagion");
+			blacklung = props.getInteger("hfr_blacklung");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			

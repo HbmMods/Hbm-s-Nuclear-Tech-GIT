@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.siege;
 
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -68,12 +69,22 @@ public class EntitySiegeZombie extends EntityMob {
 	protected void entityInit() {
 		super.entityInit();
 		this.getDataWatcher().addObject(12, (int) 0);
+		this.getDataWatcher().addObject(13, (byte) 0);
+	}
+
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
 	}
 	
 	public void setTier(SiegeTier tier) {
 		this.getDataWatcher().updateObject(12, tier.id);
 
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("Tier Speed Mod", tier.speedMod, 1));
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier("Tier Damage Mod", tier.damageMod, 1));
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health);
 		this.setHealth(this.getMaxHealth());
 	}
@@ -114,6 +125,15 @@ public class EntitySiegeZombie extends EntityMob {
 	}
 
 	@Override
+	public void onUpdate() {
+		
+		super.onUpdate();
+		if(!worldObj.isRemote) {
+			this.dataWatcher.updateObject(13, (byte)(this.getAttackTarget() != null ? 1 : 0));
+		}
+	}
+
+	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("siegeTier", this.getTier().id);
@@ -123,5 +143,11 @@ public class EntitySiegeZombie extends EntityMob {
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		this.setTier(SiegeTier.tiers[nbt.getInteger("siegeTier")]);
+	}
+
+	@Override
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
+		this.setTier(SiegeTier.tiers[rand.nextInt(SiegeTier.getLength())]);
+		return super.onSpawnWithEgg(data);
 	}
 }

@@ -105,6 +105,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -1063,7 +1064,16 @@ public class ModEventHandler {
 		}
 		
 		if(event.block == Blocks.coal_ore || event.block == ModBlocks.ore_lignite) {
-			event.world.setBlock(event.x, event.y, event.z, ModBlocks.gas_coal);
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+
+				int x = event.x + dir.offsetX;
+				int y = event.y + dir.offsetY;
+				int z = event.z + dir.offsetZ;
+				
+				if(event.world.rand.nextInt(2) == 0 && event.world.getBlock(x, y, z) == Blocks.air)
+					event.world.setBlock(x, y, z, ModBlocks.gas_coal);
+			}
 		}
 	}
 	

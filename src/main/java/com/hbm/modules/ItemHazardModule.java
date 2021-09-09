@@ -3,11 +3,14 @@ package com.hbm.modules;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
@@ -95,7 +98,8 @@ public class ItemHazardModule {
 			entity.setFire(this.fire);
 
 		if(this.asbestos)
-			ContaminationUtil.applyAsbestos(entity, (int) (1 * mod));
+			if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE))
+				HbmLivingProps.incrementAsbestos(entity, (int) (1 * mod));
 
 		if(this.hydro && currentItem) {
 

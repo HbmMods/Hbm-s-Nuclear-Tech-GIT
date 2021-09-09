@@ -23,8 +23,8 @@ public class SiegeTier {
 	
 	public static SiegeTier DEFAULT_BUFF;
 	public static SiegeTier CLAY;
-	public static SiegeTier IRON;
 	public static SiegeTier STONE;
+	public static SiegeTier IRON;
 	public static SiegeTier SILVER;
 	public static SiegeTier GOLD;
 	public static SiegeTier DESH;
@@ -36,11 +36,11 @@ public class SiegeTier {
 		CLAY =			new SiegeTier(30, "clay")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 1))	.setDR(0.2F)										.setDMG(3F);
 		STONE =			new SiegeTier(40, "stone")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 2))	.setDR(0.3F)	.setDT(1F)				.setFP()	.setDMG(5F);
 		IRON =			new SiegeTier(50, "iron")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 3))	.setDR(0.3F)	.setDT(2F)				.setFP()	.setDMG(7.5F)					.setFF();
-		SILVER =		new SiegeTier(70, "silver")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 4))	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(1.5F)	.setFF();
-		GOLD =			new SiegeTier(100, "gold")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 5))	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(1.5F)	.setFF();
-		DESH =			new SiegeTier(150, "desh")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 6))	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(1.5F)	.setFF();
-		SCHRAB =		new SiegeTier(250, "schrab")	.addDrop(new ItemStack(ModItems.coin_siege, 1, 7))	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(2F)		.setFF();
-		DNT =			new SiegeTier(500, "dnt")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 8))	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(2F)		.setFF();
+		SILVER =		new SiegeTier(70, "silver")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 4))	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(0.5F)	.setFF();
+		GOLD =			new SiegeTier(100, "gold")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 5))	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(0.5F)	.setFF();
+		DESH =			new SiegeTier(150, "desh")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 6))	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(0.5F)	.setFF();
+		SCHRAB =		new SiegeTier(250, "schrab")	.addDrop(new ItemStack(ModItems.coin_siege, 1, 7))	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(1F)		.setFF();
+		DNT =			new SiegeTier(500, "dnt")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 8))	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(1F)		.setFF();
 	}
 
 	public int id;
@@ -49,7 +49,7 @@ public class SiegeTier {
 	public float health = 20F;
 	public String name = "";
 	public float damageMod = 1F;
-	public float speedMod = 1F;
+	public float speedMod = 0F;
 	public boolean fireProof = false;
 	public boolean noFall = false;
 	public boolean noFriendlyFire = false;

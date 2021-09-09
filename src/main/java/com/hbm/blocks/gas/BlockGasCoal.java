@@ -23,9 +23,7 @@ public class BlockGasCoal extends BlockGasBase {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
-
-		if(world.rand.nextInt(5) == 0)
-			world.spawnParticle("smoke", x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+		world.spawnParticle("smoke", x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -36,7 +34,7 @@ public class BlockGasCoal extends BlockGasBase {
 			EntityLivingBase living = (EntityLivingBase) entity;
 			
 			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE))
-				HbmLivingProps.incrementBlackLung(living, 1);
+				HbmLivingProps.incrementBlackLung(living, 10);
 		}
 	}
 
@@ -57,7 +55,7 @@ public class BlockGasCoal extends BlockGasBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if(!world.isRemote && rand.nextInt(30) == 0) {
+		if(!world.isRemote && rand.nextInt(20) == 0) {
 			world.setBlockToAir(x, y, z);
 			return;
 		}

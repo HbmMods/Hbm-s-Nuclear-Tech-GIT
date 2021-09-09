@@ -62,16 +62,17 @@ public class EntityEffectHandler {
 					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.medium);
 				}
 			}
+			
+			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+				entity.setFire(5);
+			}
 		}
 
 		handleContamination(entity);
 		handleContagion(entity);
 		handleRadiation(entity);
 		handleDigamma(entity);
-		
-		if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
-			entity.setFire(5);
-		}
+		handleLungDisease(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -133,12 +134,14 @@ public class EntityEffectHandler {
 				
 				if((world.getTotalWorldTime() + r600) % 600 < 20) {
 					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "bloodvomit");
+					nbt.setString("type", "vomit");
+					nbt.setString("mode", "blood");
+					nbt.setInteger("count", 25);
 					nbt.setInteger("entity", entity.getEntityId());
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 					
 					if((world.getTotalWorldTime() + r600) % 600 == 1) {
-						world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+						world.playSoundEffect(ix, iy, iz, "hbm:player.vomit", 1.0F, 1.0F);
 						entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
 					}
 				}
@@ -147,11 +150,13 @@ public class EntityEffectHandler {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vomit");
+				nbt.setString("mode", "normal");
+				nbt.setInteger("count", 15);
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 				
 				if((world.getTotalWorldTime() + r1200) % 1200 == 1) {
-					world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+					world.playSoundEffect(ix, iy, iz, "hbm:player.vomit", 1.0F, 1.0F);
 					entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
 				}
 			
@@ -297,18 +302,77 @@ public class EntityEffectHandler {
 				
 				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20) {
 					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "bloodvomit");
+					nbt.setString("type", "vomit");
+					nbt.setString("mode", "blood");
+					nbt.setInteger("count", 25);
 					nbt.setInteger("entity", entity.getEntityId());
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 					
 					if((contagion + entity.getEntityId()) % 200 == 19)
-						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:entity.vomit", 1.0F, 1.0F);
+						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.vomit", 1.0F, 1.0F);
 				}
 				
 				//end of contagion, drop dead
 				if(contagion == 0) {
 					entity.attackEntityFrom(ModDamageSource.mku, 1000F);
 				}
+			}
+		}
+	}
+	
+	private static void handleLungDisease(EntityLivingBase entity) {
+		
+		if(entity.worldObj.isRemote)
+			return;
+
+		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
+		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
+		
+		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
+		
+		if(!coughs)
+			return;
+
+		boolean coughsCoal = blacklung / HbmLivingProps.maxBlacklung > 0.5D;
+		boolean coughsALotOfCoal = blacklung / HbmLivingProps.maxBlacklung > 0.8D;
+		boolean coughsBlood = asbestos / HbmLivingProps.maxAsbestos > 0.75D || blacklung / HbmLivingProps.maxBlacklung > 0.75D;
+
+		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
+		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
+		
+		double total = 1 - (blacklungDelta * asbestosDelta);
+		
+		int freq = Math.max((int) (1000 - 950 * total), 20);
+		
+		World world = entity.worldObj;
+		
+		if(total > 0.75D) {
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 100, 2));
+		}
+		
+		if(total > 0.95D) {
+			entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
+		}
+		
+		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
+			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
+			
+			if(coughsBlood) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "blood");
+				nbt.setInteger("count", 5);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+			
+			if(coughsCoal) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "smoke");
+				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
