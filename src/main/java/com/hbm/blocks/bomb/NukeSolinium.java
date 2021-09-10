@@ -138,18 +138,7 @@ public class NukeSolinium extends BlockContainer implements IBomb {
 		if (!world.isRemote)
 		{
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-		
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
-    		entity.posX = x;
-    		entity.posY = y;
-    		entity.posZ = z;
-    		entity.destructionRange = r;
-    		entity.speed = BombConfig.blastSpeed;
-    		entity.coefficient = 1.0F;
-    		entity.waste = false;
-    		entity.extType = 1;
-    	
-    		world.spawnEntityInWorld(entity);
+			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, x + 0.5, y + 0.5, z + 0.5, r).makeSol());
     		
     		EntityCloudSolinium cloud = new EntityCloudSolinium(world, r);
     		cloud.posX = x;

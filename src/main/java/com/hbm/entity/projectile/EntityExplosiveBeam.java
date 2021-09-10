@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -468,19 +469,9 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
     
     private void explode() {
     	if(!worldObj.isRemote) {
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ,
-					"random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, 10));
 
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-			entity.posX = this.posX;
-			entity.posY = this.posY;
-			entity.posZ = this.posZ;
-			entity.destructionRange = 10;
-			entity.speed = 25;
-			entity.coefficient = 1.0F;
-			entity.waste = false;
-
-			this.worldObj.spawnEntityInWorld(entity);
     		
     		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 10);
     		cloud.posX = this.posX;

@@ -430,17 +430,7 @@ public class EntityModBeam extends Entity implements IProjectile {
 				ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, 10, true, false, false);
 			} else if(mode == 2) {
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-
-				EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-				entity.posX = this.posX;
-				entity.posY = this.posY;
-				entity.posZ = this.posZ;
-				entity.destructionRange = 10;
-				entity.speed = 25;
-				entity.coefficient = 1.0F;
-				entity.waste = false;
-
-				this.worldObj.spawnEntityInWorld(entity);
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, 10));
 
 				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 10);
 				cloud.posX = this.posX;
@@ -449,17 +439,7 @@ public class EntityModBeam extends Entity implements IProjectile {
 				this.worldObj.spawnEntityInWorld(cloud);
 			} else if(mode == 3) {
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-
-				EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-				entity.posX = this.posX;
-				entity.posY = this.posY;
-				entity.posZ = this.posZ;
-				entity.destructionRange = 20;
-				entity.speed = 25;
-				entity.coefficient = 1.0F;
-				entity.waste = false;
-
-				this.worldObj.spawnEntityInWorld(entity);
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, 20));
 
 				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 20);
 				cloud.posX = this.posX;

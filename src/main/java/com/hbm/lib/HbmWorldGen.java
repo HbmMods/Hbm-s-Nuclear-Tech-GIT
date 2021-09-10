@@ -110,7 +110,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			Random colRand = new Random(world.getSeed() + 5);
 			int colX = (int) (colRand.nextGaussian() * 1500);
 			int colZ = (int) (colRand.nextGaussian() * 1500);
-			int colRange = 500;
+			int colRange = 750;
 			
 			for (int k = 0; k < 2; k++) {
 				
@@ -121,8 +121,10 @@ public class HbmWorldGen implements IWorldGenerator {
 					
 					int range = colRange / r;
 		
-					if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range)
+					if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
+						(new WorldGenMinable(ModBlocks.stone_porous, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 						(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+					}
 				}
 			}
 	

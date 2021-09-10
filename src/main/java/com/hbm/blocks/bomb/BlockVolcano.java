@@ -72,7 +72,7 @@ public class BlockVolcano extends Block {
 		explosion.addAllAttrib(attribs);
 		explosion.explode();
 		
-		ExplosionNT explosion2 = new ExplosionNT(world, null, x + 0.5 + rand.nextGaussian() * 3, rand.nextInt(y), z + 0.5 + rand.nextGaussian() * 3, 10);
+		ExplosionNT explosion2 = new ExplosionNT(world, null, x + 0.5 + rand.nextGaussian() * 3, rand.nextInt(y + 1), z + 0.5 + rand.nextGaussian() * 3, 10);
 		explosion2.addAllAttrib(attribs);
 		explosion2.explode();
 	}

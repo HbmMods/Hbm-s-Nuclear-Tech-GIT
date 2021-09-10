@@ -24,8 +24,13 @@ public interface IItemHazard {
 		return this;
 	}
 	
-	public default IItemHazard addAsbestos() {
-		this.getModule().addAsbestos();
+	public default IItemHazard addAsbestos(int asbestos) {
+		this.getModule().addAsbestos(asbestos);
+		return this;
+	}
+	
+	public default IItemHazard addCoal(int coal) {
+		this.getModule().addCoal(coal);
 		return this;
 	}
 	

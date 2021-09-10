@@ -42,6 +42,7 @@ public class MachineRecipes {
 		return getFurnaceOutput(item, item2);
 	}
 
+	@Spaghetti("i am an affront to god and i desire to be cremated")
 	public static ItemStack getFurnaceOutput(ItemStack item, ItemStack item2) {
 		
 		if(item == null || item2 == null)
@@ -57,16 +58,6 @@ public class MachineRecipes {
 		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, "gemCoal")
 				|| mODE(item, "gemCoal") && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})) {
 			return new ItemStack(ModItems.neutron_reflector, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotLead", "dustLead"}) && mODE(item2, new String[] {"ingotCopper", "dustCopper"})
-				|| mODE(item, new String[] {"ingotCopper", "dustCopper"}) && mODE(item2, new String[] {"ingotLead", "dustLead"})) {
-			return new ItemStack(ModItems.neutron_reflector, 4);
-		}
-
-		if (mODE(item, "plateLead") && mODE(item2, "plateCopper")
-				|| mODE(item, "plateCopper") && mODE(item2, "plateLead")) {
-			return new ItemStack(ModItems.neutron_reflector, 1);
 		}
 
 		if (mODE(item, new String[] {"ingotIron", "dustIron"}) && mODE(item2, new String[] {"gemCoal", "dustCoal"})
@@ -771,10 +762,6 @@ public class MachineRecipes {
 		try {
 			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
 				getFurnaceOutput(new ItemStack(Items.iron_ingot), new ItemStack(Items.coal)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper) },
-					getFurnaceOutput(new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone) },

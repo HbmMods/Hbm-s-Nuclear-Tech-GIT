@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -476,23 +477,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow));
 
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-			entity.posX = this.posX;
-			entity.posY = this.posY;
-			entity.posZ = this.posZ;
-			entity.destructionRange = config.rainbow;
-			entity.speed = 25;
-			entity.coefficient = 1.0F;
-			entity.waste = false;
-
-			this.worldObj.spawnEntityInWorld(entity);
-	    		
-	    	EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
-	    	cloud.posX = this.posX;
-	    	cloud.posY = this.posY;
-	    	cloud.posZ = this.posZ;
-	    	this.worldObj.spawnEntityInWorld(cloud);
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
+			cloud.posX = this.posX;
+			cloud.posY = this.posY;
+			cloud.posZ = this.posZ;
+			this.worldObj.spawnEntityInWorld(cloud);
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {

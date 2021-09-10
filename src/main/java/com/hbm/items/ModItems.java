@@ -2593,8 +2593,8 @@ public class ModItems {
 		ingot_saturnite = new ItemCustomLore().setUnlocalizedName("ingot_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_saturnite");
 		plate_saturnite = new ItemCustomLore().setUnlocalizedName("plate_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_saturnite");
 		ingot_fiberglass = new ItemCustomLore().setUnlocalizedName("ingot_fiberglass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_fiberglass");
-		ingot_asbestos = new ItemHazard().addAsbestos().toItem().setUnlocalizedName("ingot_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_asbestos");
-		powder_asbestos = new ItemHazard().addAsbestos().toItem().setUnlocalizedName("powder_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_asbestos");
+		ingot_asbestos = new ItemHazard().addAsbestos(1).toItem().setUnlocalizedName("ingot_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_asbestos");
+		powder_asbestos = new ItemHazard().addAsbestos(5).toItem().setUnlocalizedName("powder_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_asbestos");
 		ingot_electronium = new ItemCustomLore().setUnlocalizedName("ingot_electronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_electronium");
 		nugget_zirconium = new ItemCustomLore().setUnlocalizedName("nugget_zirconium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_zirconium");
 		nugget_mercury = new ItemCustomLore().setUnlocalizedName("nugget_mercury").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_mercury");
@@ -2622,7 +2622,7 @@ public class ModItems {
 		coke = new Item().setUnlocalizedName("coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coke");
 		lignite = new Item().setUnlocalizedName("lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":lignite");
 		briquette_lignite = new Item().setUnlocalizedName("briquette_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":briquette_lignite");
-		powder_lignite = new Item().setUnlocalizedName("powder_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lignite");
+		powder_lignite = new ItemHazard().addCoal(10).toItem().setUnlocalizedName("powder_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lignite");
 		coal_infernal = new Item().setUnlocalizedName("coal_infernal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coal_infernal");
 		cinnebar = new Item().setUnlocalizedName("cinnebar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cinnebar");
 
@@ -2727,8 +2727,8 @@ public class ModItems {
 		powder_i131_tiny = new ItemHazard().addRadiation(ItemHazard.i131 * ItemHazard.powder_tiny).addFire(15).toItem().setUnlocalizedName("powder_i131_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_i131_tiny");
 		powder_xe135 = new ItemHazard().addRadiation(ItemHazard.xe135 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_xe135").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_xe135");
 		powder_xe135_tiny = new ItemHazard().addRadiation(ItemHazard.xe135 * ItemHazard.powder_tiny).addFire(15).toItem().setUnlocalizedName("powder_xe135_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_xe135_tiny");
-		powder_cs137 = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addFire(5).toItem().setUnlocalizedName("powder_cs137").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137");
-		powder_cs137_tiny = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addFire(5).toItem().setUnlocalizedName("powder_cs137_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137_tiny");
+		powder_cs137 = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addHydroReactivity().addFire(5).toItem().setUnlocalizedName("powder_cs137").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137");
+		powder_cs137_tiny = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addHydroReactivity().addFire(5).toItem().setUnlocalizedName("powder_cs137_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137_tiny");
 		powder_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_au198");
 		powder_at209 = new ItemHazard().addRadiation(ItemHazard.at209 * ItemHazard.powder).addFire(15).addBlinding().toItem().setUnlocalizedName("powder_at209").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_at209");
 		powder_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidium");
@@ -2746,8 +2746,8 @@ public class ModItems {
 		fallout = new ItemHazard().addRadiation(ItemHazard.fo * ItemHazard.powder).toItem().setUnlocalizedName("fallout").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fallout");
 		powder_advanced_alloy = new Item().setUnlocalizedName("powder_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_advanced_alloy");
 		powder_tcalloy = new Item().setUnlocalizedName("powder_tcalloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tcalloy");
-		powder_coal = new Item().setUnlocalizedName("powder_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coal");
-		powder_coal_tiny = new Item().setUnlocalizedName("powder_coal_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coal_tiny");
+		powder_coal = new ItemHazard().addCoal(10).toItem().setUnlocalizedName("powder_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coal");
+		powder_coal_tiny = new ItemHazard().addCoal(1).toItem().setUnlocalizedName("powder_coal_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coal_tiny");
 		powder_combine_steel = new Item().setUnlocalizedName("powder_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_combine_steel");
 		powder_diamond = new Item().setUnlocalizedName("powder_diamond").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_diamond");
 		powder_emerald = new Item().setUnlocalizedName("powder_emerald").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_emerald");
@@ -2765,7 +2765,7 @@ public class ModItems {
 		powder_thorium = new ItemHazard().addRadiation(ItemHazard.th232 * ItemHazard.powder).toItem().setUnlocalizedName("powder_thorium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_thorium");
 		powder_neodymium = new ItemCustomLore().setUnlocalizedName("powder_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_neodymium");
 		powder_astatine = new ItemCustomLore().setUnlocalizedName("powder_astatine").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_astatine");
-		powder_caesium = new ItemCustomLore().setUnlocalizedName("powder_caesium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_caesium");
+		powder_caesium = new ItemHazard().addHydroReactivity().addFire(3).toItem().setUnlocalizedName("powder_caesium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_caesium");
 		powder_australium = new ItemCustomLore().setUnlocalizedName("powder_australium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_australium");
 		powder_weidanium = new ItemCustomLore().setUnlocalizedName("powder_weidanium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_weidanium");
 		powder_reiium = new ItemCustomLore().setUnlocalizedName("powder_reiium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_reiium");
@@ -2805,7 +2805,7 @@ public class ModItems {
 		powder_magic = new Item().setUnlocalizedName("powder_magic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_magic");
 		powder_cloud = new Item().setUnlocalizedName("powder_cloud").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cloud");
 		powder_balefire = new ItemHazard().addRadiation(500F).addFire(5).toItem().setUnlocalizedName("powder_balefire").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_balefire");
-		powder_coltan_ore = new ItemHazard().addAsbestos().toItem().setUnlocalizedName("powder_coltan_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coltan_ore");
+		powder_coltan_ore = new ItemHazard().addAsbestos(3).toItem().setUnlocalizedName("powder_coltan_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coltan_ore");
 		powder_coltan = new Item().setUnlocalizedName("powder_coltan").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coltan");
 
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");

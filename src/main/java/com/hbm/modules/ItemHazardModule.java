@@ -37,7 +37,8 @@ public class ItemHazardModule {
 	public float digamma;
 	public int fire;
 	public boolean blinding;
-	public boolean asbestos;
+	public int asbestos;
+	public int coal;
 	public boolean hydro;
 	public float explosive;
 	
@@ -59,8 +60,12 @@ public class ItemHazardModule {
 		this.fire = fire;
 	}
 	
-	public void addAsbestos() {
-		this.asbestos = true;
+	public void addAsbestos(int asbestos) {
+		this.asbestos = asbestos;
+	}
+	
+	public void addCoal(int coal) {
+		this.coal = coal;
 	}
 	
 	public void addBlinding() {
@@ -97,9 +102,13 @@ public class ItemHazardModule {
 		if(this.fire > 0 && !reacher)
 			entity.setFire(this.fire);
 
-		if(this.asbestos)
+		if(this.asbestos > 0)
 			if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE))
-				HbmLivingProps.incrementAsbestos(entity, (int) (1 * mod));
+				HbmLivingProps.incrementAsbestos(entity, (int) (this.asbestos * mod));
+
+		if(this.coal > 0)
+			if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_COARSE))
+				HbmLivingProps.incrementBlackLung(entity, (int) (this.coal * mod));
 
 		if(this.hydro && currentItem) {
 
@@ -152,8 +161,12 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
 		}
 		
-		if(this.asbestos) {
+		if(this.asbestos > 0) {
 			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey("trait.asbestos") + "]");
+		}
+		
+		if(this.coal > 0) {
+			list.add(EnumChatFormatting.BLACK + "[" + I18nUtil.resolveKey("trait.coal") + "]");
 		}
 		
 		if(this.hydro) {

@@ -106,27 +106,16 @@ public class GunB92 extends Item {
 					
 					setPower(stack, 0);
 					
-			    	if(!world.isRemote) {
-			    		world.playSoundEffect(entity.posX, entity.posY, entity.posZ,
-								"random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+					if(!world.isRemote) {
+						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+						world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, entity.posX, entity.posY, entity.posZ, 50));
 
-						EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(world);
-						exp.posX = entity.posX;
-						exp.posY = entity.posY;
-						exp.posZ = entity.posZ;
-						exp.destructionRange = 50;
-						exp.speed = 25;
-						exp.coefficient = 1.0F;
-						exp.waste = false;
-
-						world.spawnEntityInWorld(exp);
-			    		
-			    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 50);
-			    		cloud.posX = entity.posX;
-			    		cloud.posY = entity.posY;
-			    		cloud.posZ = entity.posZ;
-			    		world.spawnEntityInWorld(cloud);
-			    	}
+						EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 50);
+						cloud.posX = entity.posX;
+						cloud.posY = entity.posY;
+						cloud.posZ = entity.posZ;
+						world.spawnEntityInWorld(cloud);
+					}
 				}
 			}
 		}

@@ -659,16 +659,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "random.explode", 3.0F, 0.75F);
 				} else {
-					EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
-					entity.posX = this.xCoord;
-					entity.posY = this.yCoord;
-					entity.posZ = this.zCoord;
-					entity.destructionRange = BombConfig.fleijaRadius;
-					entity.speed = 25;
-					entity.coefficient = 1.0F;
-					entity.waste = false;
-	    	
-					worldObj.spawnEntityInWorld(entity);
+					worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord, yCoord, zCoord, BombConfig.fleijaRadius));
 				}
 			}
 		}

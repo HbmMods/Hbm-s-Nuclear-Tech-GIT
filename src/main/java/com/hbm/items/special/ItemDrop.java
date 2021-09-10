@@ -98,19 +98,8 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium && WeaponConfig.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-
-						EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(entityItem.worldObj);
-						entity.posX = entityItem.posX;
-						entity.posY = entityItem.posY;
-						entity.posZ = entityItem.posZ;
-						entity.destructionRange = BombConfig.aSchrabRadius;
-						entity.speed = 25;
-						entity.coefficient = 1.0F;
-						entity.waste = false;
-
-						entityItem.worldObj.spawnEntityInWorld(entity);
+						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 100.0F, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+						entityItem.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, BombConfig.aSchrabRadius));
 			    		
 			    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, BombConfig.aSchrabRadius);
 			    		cloud.posX = entityItem.posX;

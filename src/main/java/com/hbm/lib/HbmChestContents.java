@@ -250,7 +250,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] vault2 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 2, 6, 1),
-			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_advanced_cell_4), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_advanced_cell_4, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_desh_mix, 0, 1, 5, 1),
 			new WeightedRandomChestContent(Items.diamond, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.ammo_nuke, 0, 1, 1, 1),
@@ -266,7 +266,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] vault3 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 6, 16, 1),
-			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_lithium), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_lithium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_power, 0, 1, 5, 1),
 			new WeightedRandomChestContent(ModItems.sat_chip, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Items.diamond, 0, 5, 9, 1),
@@ -297,7 +297,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.weaponized_starblaster_cell, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_schrabidium_cell), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1) };
 	
 	/**

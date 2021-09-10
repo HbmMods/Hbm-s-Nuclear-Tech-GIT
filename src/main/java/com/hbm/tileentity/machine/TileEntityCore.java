@@ -54,24 +54,14 @@ public class TileEntityCore extends TileEntityMachineBase {
 				
 				//System.out.println(fill + " * " + mod + " / " + max + " = " + size);
 
-	    		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
-
-				EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(worldObj);
-				exp.posX = xCoord;
-				exp.posY = yCoord;
-				exp.posZ = zCoord;
-				exp.destructionRange = size;
-				exp.speed = 25;
-				exp.coefficient = 1.0F;
-				exp.waste = false;
-
-				worldObj.spawnEntityInWorld(exp);
-	    		
-	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
-	    		cloud.posX = xCoord;
-	    		cloud.posY = yCoord;
-	    		cloud.posZ = zCoord;
-	    		worldObj.spawnEntityInWorld(cloud);
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, size));
+				
+				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
+				cloud.posX = xCoord;
+				cloud.posY = yCoord;
+				cloud.posZ = zCoord;
+				worldObj.spawnEntityInWorld(cloud);
 			}
 			
 			if(slots[0] != null && slots[2] != null && slots[0].getItem() instanceof ItemCatalyst && slots[2].getItem() instanceof ItemCatalyst)
