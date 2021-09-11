@@ -35,6 +35,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation swiggs = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSweatySwiggs.png");
 	private static ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
 	private static ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
+	private static ResourceLocation blaze2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze2.png");
 	private static ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
 	private static ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
 	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
@@ -104,7 +105,11 @@ public class RenderAccessoryUtility {
 			return doctor17;
 		}
 		if(uuid.equals(Library.ShimmeringBlaze)) {
-			return shimmeringblaze;
+			
+			if(MainRegistry.polaroidID == 11)
+				return blaze2;
+			else
+				return shimmeringblaze;
 		}
 		if(uuid.equals(Library.FifeMiner)) {
 			return leftnugget;
