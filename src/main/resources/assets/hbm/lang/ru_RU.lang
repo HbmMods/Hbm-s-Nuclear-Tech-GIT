@@ -151,6 +151,17 @@ armor.rocketBoots=Ракетные ботинки
 armor.sprintBoost=Ускоренный спринт
 armor.projectileProtection=Модификатор урона %s от снарядов
 
+hazard.prot=Защищает от:
+hazard.noprot=НЕ защищает от:
+hazard.bacteria=Бактерий / Аэрозолей
+hazard.corrosive=Едких испарений
+hazard.gasChlorine=Химических газов
+hazard.gasInert=Инертных газов / Удушающих веществ
+hazard.gasMonoxide=Угарного газа
+hazard.nerveAgent=Нервно-паралитических средств
+hazard.particleCoarse=Частиц, находящихся в воздухе
+hazard.particleFine=Твердых частиц
+
 trait.asbestos=Содержит асбест
 trait.blinding=Ослепление
 trait.breeding=Даёт %s операций в реакторе-размножителе
@@ -316,6 +327,7 @@ hbmfluid.plasma_xm=Ксеноново-Ртутная-плазма
 hbmfluid.plasma_bf=Жар-плазма
 hbmfluid.schrabidic=Шрабидиевая кислота
 hbmfluid.pain=Пандемониум(III)Раствор танталита
+hbmfluid.gasoline=Этилированный Бензин
 
 //Special for 1.12.2 version//
 fluid.hbmsteam=Пар
@@ -960,6 +972,11 @@ container.rbmkControlAuto=Автоматические регулирующие 
 container.rbmkOutgasser=Стержень облучения РБМК
 container.rbmkRod=Топливные стержни РБМК
 container.rbmkReaSim=Топливные стержни РБМК (РеаСим)
+tile.block_graphite_drilled.name=Просверленный графит
+tile.block_graphite_fuel.name=Топливо поленницы
+tile.block_graphite_plutonium.name=Куча топлива (Переработанное)
+tile.block_graphite_rod.name=Контрольный стержень поленницы
+tile.block_graphite_source.name=Источник нейтронов поленницы
 
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_center.name=Центральный элемент магнита
@@ -2273,6 +2290,10 @@ item.rbmk_fuel_lea.name=Низкообогащенный америциевый 
 item.rbmk_fuel_mea.name=Среднеобогащенный америциевый топливный стержень РБМК
 item.rbmk_lid.name=Покрывающая панель РБМК
 item.rbmk_lid_glass.name=Стеклянная покрывающая панель РБМК
+item.pile_rod_boron.name=Контрольный стержень "Чикагской поленницы"
+item.pile_rod_plutonium.name=Плутониевый стержень "Чикагской поленницы"
+item.pile_rod_source.name=Радий-226-Бериллевый источник нейтронов "Чикагской поленницы"
+item.pile_rod_uranium.name=Урановый стержень "Чикагской поленницы"
 
 item.rod_water.name=Стержень с водой
 item.rod_dual_water.name=Сдвоенный стержень с водой
@@ -2665,6 +2686,7 @@ item.fmn.name=Таблетка флунитразепама
 item.xanax.name=Препарат "НАКСА" против дигаммы
 item.five_htp.name=Таблетки энтерамина
 item.siox.name=Лекарство от рака "SiOx"
+item.antiknock.name=Антидетонационное средство на основе Тетраэтилсвинца
 item.plan_c.name=План С
 item.med_ipecac.name=Сироп из рвотного корня
 item.med_ptsd.name=Лечение ПТСР
@@ -2685,6 +2707,7 @@ item.ink.name=林 чернила
 item.medal_liquidator.name=Медаль Ликвидатора
 item.stealth_boy.name=Стелс-Бой
 item.meltdown_tool.name=Аппликатор мгновенного расплавления Дятлова
+item.hand_drill.name=Ручная дрель
 
 entity.hbm.entity_bullet.name=Пуля
 entity.hbm.entity_rocket.name=Ракета
