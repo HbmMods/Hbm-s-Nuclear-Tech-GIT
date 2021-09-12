@@ -2,6 +2,8 @@ package com.hbm.blocks.gas;
 
 import java.util.Random;
 
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -33,17 +35,21 @@ public class BlockGasClorine extends BlockGasBase {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
-		if(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)) {
+		
+		if(!(entity instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase entityLiving = (EntityLivingBase) entity;
+		
+		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.GAS_CHLORINE)) {
+			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
 
-			if(world.rand.nextInt(25) == 0)
-				ArmorUtil.damageSuit((EntityPlayer) entity, 3, world.rand.nextInt(2));
-
-		} else if(entity instanceof EntityLivingBase) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 20 * 20, 2));
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 1 * 20, 1));
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 30 * 20, 2));
+		} else {
+			entityLiving.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
+			entityLiving.addPotionEffect(new PotionEffect(Potion.poison.getId(), 20 * 20, 2));
+			entityLiving.addPotionEffect(new PotionEffect(Potion.wither.getId(), 1 * 20, 1));
+			entityLiving.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
+			entityLiving.addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 30 * 20, 2));
 		}
 	}
 

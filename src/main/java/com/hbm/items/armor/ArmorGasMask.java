@@ -72,7 +72,7 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 			}
 		}
 
-		if(this == ModItems.gas_mask_m65 || this == ModItems.gas_mask_mono) {
+		if(this == ModItems.gas_mask_m65 || this == ModItems.gas_mask_olde || this == ModItems.gas_mask_mono) {
 			if(armorSlot == 0) {
 				if(this.modelM65 == null) {
 					this.modelM65 = new ModelM65();
@@ -92,6 +92,9 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 		}
 		if(stack.getItem() == ModItems.gas_mask_m65) {
 			return "hbm:textures/models/ModelM65.png";
+		}
+		if(stack.getItem() == ModItems.gas_mask_olde) {
+			return "hbm:textures/armor/mask_olde.png";
 		}
 		if(stack.getItem() == ModItems.gas_mask_mono) {
 			return "hbm:textures/models/ModelM65Mono.png";
@@ -140,12 +143,12 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 	}
 
 	@Override
-	public List<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity) {
+	public ArrayList<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity) {
 		
 		if(this == ModItems.gas_mask_mono) {
-			return Arrays.asList(new HazardClass[] {HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT, HazardClass.BACTERIA});
+			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT, HazardClass.BACTERIA}));
 		} else {
-			return Arrays.asList(new HazardClass[] {HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT});
+			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT}));
 		}
 	}
 

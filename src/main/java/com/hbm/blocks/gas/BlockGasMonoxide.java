@@ -3,6 +3,9 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.lib.ModDamageSource;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -21,8 +24,15 @@ public class BlockGasMonoxide extends BlockGasBase {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
-		if(entity instanceof EntityLivingBase)
-			ContaminationUtil.contaminate((EntityLivingBase) entity, HazardType.MONOXIDE, ContaminationType.GAS_NON_REACTIVE, 1F);
+		if(!(entity instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase entityLiving = (EntityLivingBase) entity;
+		
+		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.GAS_MONOXIDE))
+			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
+		else
+			entityLiving.attackEntityFrom(ModDamageSource.monoxide, 1);
 	}
 
 	@Override

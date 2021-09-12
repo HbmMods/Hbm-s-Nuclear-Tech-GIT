@@ -469,9 +469,17 @@ public class ModEventHandlerClient {
 		List<HazardClass> hazInfo = ArmorRegistry.hazardClasses.get(stack.getItem());
 		
 		if(hazInfo != null) {
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hazard.prot"));
-			for(HazardClass clazz : hazInfo) {
-				list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey(clazz.lang));
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hazard.prot"));
+				for(HazardClass clazz : hazInfo) {
+					list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey(clazz.lang));
+				}
+			} else {
+				
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display protection info");
 			}
 		}
 		

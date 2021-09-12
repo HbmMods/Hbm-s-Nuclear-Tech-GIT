@@ -13,6 +13,7 @@ import com.hbm.util.ArmorUtil;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelM65 extends ModelBiped {
@@ -132,7 +133,7 @@ public class ModelM65 extends ModelBiped {
 		GL11.glScaled(1.01D, 1.01D, 1.01D);
 		this.mask.render(par7);
 		
-		if(!(entity instanceof EntityPlayer) || ArmorUtil.getGasMaskFilter(((EntityPlayer)entity).getCurrentArmor(3)) != null)
+		if(!(entity instanceof EntityLivingBase) || ArmorUtil.getGasMaskFilterRecursively(((EntityLivingBase)entity).getEquipmentInSlot(4), (EntityLivingBase)entity) != null)
 			this.filter.render(par7);
 		
 		GL11.glPopMatrix();

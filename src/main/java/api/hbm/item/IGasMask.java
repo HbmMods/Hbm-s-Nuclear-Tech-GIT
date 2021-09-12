@@ -1,11 +1,10 @@
 package api.hbm.item;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface IGasMask {
@@ -16,7 +15,7 @@ public interface IGasMask {
 	 * @param entity
 	 * @return an empty list if there's no blacklist
 	 */
-	public List<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity);
+	public ArrayList<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity);
 	
 	/**
 	 * Returns the loaded filter, if there is any

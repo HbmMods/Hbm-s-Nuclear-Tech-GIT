@@ -15,7 +15,8 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
-import com.hbm.util.ArmorUtil;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -355,7 +356,9 @@ public class BulletConfigFactory {
 						
 						if(e instanceof EntityLivingBase) {
 							
-							if(e instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) e))
+							EntityLivingBase entity = (EntityLivingBase) e;
+							
+							if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.GAS_CHLORINE))
 								continue;
 
 							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);
@@ -366,10 +369,10 @@ public class BulletConfigFactory {
 							eff1.getCurativeItems().clear();
 							eff2.getCurativeItems().clear();
 							eff3.getCurativeItems().clear();
-							((EntityLivingBase)e).addPotionEffect(eff0);
-							((EntityLivingBase)e).addPotionEffect(eff1);
-							((EntityLivingBase)e).addPotionEffect(eff2);
-							((EntityLivingBase)e).addPotionEffect(eff3);
+							entity.addPotionEffect(eff0);
+							entity.addPotionEffect(eff1);
+							entity.addPotionEffect(eff2);
+							entity.addPotionEffect(eff3);
 						}
 					}
 				}

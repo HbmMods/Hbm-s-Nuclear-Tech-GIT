@@ -183,7 +183,7 @@
     "entity.megaquacc": {"category": "hostile", "sounds": [{"name": "entity/megaquacc", "stream": false}]},
     "entity.ufoBeam": {"category": "hostile", "sounds": [{"name": "entity/ufoBeamShort", "stream": false}]},
     "entity.ufoBlast": {"category": "hostile", "sounds": [{"name": "entity/ufoBlast", "stream": false}]},
-    "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1", "entity/siegeIdle2"]},
+    "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1"]},
     "entity.siegeHurt": {"category": "hostile", "sounds": ["entity/siegeHurt1", "entity/siegeHurt2"]},
     "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
     

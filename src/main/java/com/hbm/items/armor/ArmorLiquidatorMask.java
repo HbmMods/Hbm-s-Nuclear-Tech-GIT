@@ -3,40 +3,20 @@ package com.hbm.items.armor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.items.ModItems;
-import com.hbm.render.model.ModelM65;
-import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.item.IGasMask;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class ArmorHazmatMask extends ArmorHazmat implements IGasMask {
-	
-	@SideOnly(Side.CLIENT)
-	private ModelM65 modelM65;
+public class ArmorLiquidatorMask extends ArmorLiquidator implements IGasMask {
 
-	public ArmorHazmatMask(ArmorMaterial material, int layer, int slot, String texture) {
+	public ArmorLiquidatorMask(ArmorMaterial material, int layer, int slot, String texture) {
 		super(material, layer, slot, texture);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-
-		if(this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
-			if (this.modelM65 == null) {
-				this.modelM65 = new ModelM65();
-			}
-			return this.modelM65;
-		}
-		
-		return null;
 	}
 
 	@Override

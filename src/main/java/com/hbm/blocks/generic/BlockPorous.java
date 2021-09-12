@@ -39,7 +39,7 @@ public class BlockPorous extends BlockStone {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		ChunkRadiationManager.proxy.decrementRad(world, x, y, z, 10F);
-		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+		//world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}
 	
 	@Override

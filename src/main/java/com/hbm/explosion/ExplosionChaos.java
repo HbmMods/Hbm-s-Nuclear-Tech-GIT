@@ -21,7 +21,9 @@ import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -403,55 +405,8 @@ public class ExplosionChaos {
 
 	public static void pDestruction(World world, int x, int y, int z) {
 
-        EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
-        world.spawnEntityInWorld(entityfallingblock);
-        
-        /*
-		if (Blocks.air.getBlockHardness(world, x, y, z) != Float.POSITIVE_INFINITY) {
-			Block b = world.getBlock(x, y, z);
-			TileEntity t = world.getTileEntity(x, y, z);
-
-			if (b == Blocks.sandstone || b == Blocks.sandstone_stairs)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (t != null && t instanceof ISource)
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
-			else if (t != null && t instanceof IConductor)
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
-			else if (t != null && t instanceof IConsumer)
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
-			else if (b == Blocks.sand)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (b == Blocks.gravel)
-				world.setBlock(x, y, z, Blocks.gravel);
-			else if (b == ModBlocks.gravel_obsidian)
-				world.setBlock(x, y, z, ModBlocks.gravel_obsidian);
-			else if (b == ModBlocks.block_electrical_scrap)
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
-			else if (b == ModBlocks.block_scrap)
-				world.setBlock(x, y, z, ModBlocks.block_scrap);
-			else if (b == ModBlocks.brick_obsidian)
-				world.setBlock(x, y, z, ModBlocks.gravel_obsidian);
-			else if (b.getMaterial() == Material.anvil)
-				world.setBlock(x, y, z, Blocks.gravel);
-			else if (b.getMaterial() == Material.clay)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (b.getMaterial() == Material.grass)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (b.getMaterial() == Material.ground)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (b.getMaterial() == Material.iron)
-				world.setBlock(x, y, z, Blocks.gravel);
-			else if (b.getMaterial() == Material.piston)
-				world.setBlock(x, y, z, Blocks.gravel);
-			else if (b.getMaterial() == Material.rock)
-				world.setBlock(x, y, z, Blocks.gravel);
-			else if (b.getMaterial() == Material.sand)
-				world.setBlock(x, y, z, Blocks.sand);
-			else if (b.getMaterial() == Material.tnt)
-				world.setBlock(x, y, z, ModBlocks.block_scrap);
-			else
-				world.setBlock(x, y, z, Blocks.air);
-		}*/
+		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+		world.spawnEntityInWorld(entityfallingblock);
 	}
 
 	public static void cluster(World world, int x, int y, int z, int count, int gravity) {
@@ -573,190 +528,68 @@ public class ExplosionChaos {
 		}
 	}
 
-	public static void anvil(World world, int x, int y, int z, int count) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntityFallingBlock fragment;
-
-		for (int i = 0; i < count; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-			;
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
+	public static void poison(World world, double x, double y, double z, double range) {
+		
+		List<EntityLivingBase> affected = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range));
+		
+		for(EntityLivingBase entity : affected) {
+			
+			if(entity.getDistance(x, y, z) > range)
+				continue;
+			
+			if(ArmorRegistry.hasAnyProtection(entity, 3, HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE)) {
+				ArmorUtil.damageGasMaskFilter(entity, 1);
+			} else {
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
+				entity.addPotionEffect(new PotionEffect(Potion.poison.getId(), 20 * 20, 2));
+				entity.addPotionEffect(new PotionEffect(Potion.wither.getId(), 1 * 20, 1));
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
+				entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 30 * 20, 2));
 			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			world.setBlock(x, y, z, Blocks.anvil);
-			fragment = new EntityFallingBlock(world, x + 0.5, y + 0.5, z + 0.5, Blocks.anvil);
-			world.setBlock(x, y, z, Blocks.air);
-
-			fragment.motionX = d1;
-			fragment.motionY = d2;
-			fragment.motionZ = d3;
-
-			world.spawnEntityInWorld(fragment);
 		}
 	}
 
-	public static void poison(World world, int x, int y, int z, int bombStartStrength) {
-		float f = bombStartStrength;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = bombStartStrength * 2;
-
-		bombStartStrength *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (d9 < wat) {
-					if (entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)) {
-						ArmorUtil.damageSuit((EntityPlayer)entity, 3, rand.nextInt(2));
-
-					} else if (entity instanceof EntityLivingBase) {
-						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
-						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.poison.getId(), 20 * 20, 2));
-						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.wither.getId(), 1 * 20, 1));
-						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
-						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 30 * 20, 2));
-					}
-				}
-			}
+	public static void pc(World world, double x, double y, double z, double range) {
+		
+		List<EntityLivingBase> affected = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range));
+		
+		for(EntityLivingBase entity : affected) {
+			
+			if(entity.getDistance(x, y, z) > range)
+				continue;
+			
+			ArmorUtil.damageSuit(entity, 0, 25);
+			ArmorUtil.damageSuit(entity, 1, 25);
+			ArmorUtil.damageSuit(entity, 2, 25);
+			ArmorUtil.damageSuit(entity, 3, 25);
+			entity.attackEntityFrom(ModDamageSource.pc, 5);
 		}
-
-		bombStartStrength = (int) f;
 	}
 
-	public static void pc(World world, int x, int y, int z, int bombStartStrength) {
-		float f = bombStartStrength;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = bombStartStrength * 2;
-
-		bombStartStrength *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (d9 < wat) {
-					
-					if (entity instanceof EntityPlayer) {
-						
-						ArmorUtil.damageSuit((EntityPlayer)entity, 0, 25);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 1, 25);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 2, 25);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 3, 25);
-						
-					}
-					
-					entity.attackEntityFrom(ModDamageSource.pc, 5);
-				}
+	public static void c(World world, double x, double y, double z, double range) {
+		
+		List<EntityLivingBase> affected = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range));
+		
+		for(EntityLivingBase entity : affected) {
+			
+			if(entity.getDistance(x, y, z) > range)
+				continue;
+			
+			ArmorUtil.damageSuit(entity, 0, 25);
+			ArmorUtil.damageSuit(entity, 1, 25);
+			ArmorUtil.damageSuit(entity, 2, 25);
+			ArmorUtil.damageSuit(entity, 3, 25);
+			
+			if(ArmorUtil.checkForHazmat(entity))
+				continue;
+			
+			if(entity.isPotionActive(HbmPotion.taint.id)) {
+				entity.removePotionEffect(HbmPotion.taint.id);
+				entity.addPotionEffect(new PotionEffect(HbmPotion.mutation.id, 1 * 60 * 60 * 20, 0, false));
 			}
+			
+			entity.attackEntityFrom(ModDamageSource.cloud, 5);
 		}
-
-		bombStartStrength = (int) f;
-	}
-
-	public static void c(World world, int x, int y, int z, int bombStartStrength) {
-		float f = bombStartStrength;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = bombStartStrength * 2;
-
-		bombStartStrength *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (d9 < wat) {
-					
-					if (entity instanceof EntityPlayer) {
-						
-						ArmorUtil.damageSuit((EntityPlayer)entity, 0, 5);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 1, 5);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 2, 5);
-						ArmorUtil.damageSuit((EntityPlayer)entity, 3, 5);
-						
-					}
-					
-					if (entity instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer) entity)) { } else {
-						
-						if(entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(HbmPotion.taint.id)) {
-							((EntityLivingBase)entity).removePotionEffect(HbmPotion.taint.id);
-							((EntityLivingBase)entity).addPotionEffect(new PotionEffect(HbmPotion.mutation.id, 1 * 60 * 60 * 20, 0, false));
-						} else {
-							entity.attackEntityFrom(ModDamageSource.cloud, 3);
-						}
-					}
-				}
-			}
-		}
-
-		bombStartStrength = (int) f;
 	}
 
 	public static void floater(World world, int x, int y, int z, int radi, int height) {
@@ -925,98 +758,6 @@ public class ExplosionChaos {
 		}
 
 		radius = (int) f;
-	}
-
-	public static void mirv(World world, double x, double y, double z) {
-		double modifier = 2.5;
-		double zeta = Math.sqrt(2) / 2;
-		EntityMIRV mirv1 = new EntityMIRV(world);
-		EntityMIRV mirv2 = new EntityMIRV(world);
-		EntityMIRV mirv3 = new EntityMIRV(world);
-		EntityMIRV mirv4 = new EntityMIRV(world);
-		// double vx1 = rand.nextDouble();
-		// double vy1 = rand.nextDouble() * -1;
-		// double vz1 = Math.sqrt(Math.pow(1, 2) - Math.pow(vx1, 2));
-		double vx1 = 1;
-		double vy1 = rand.nextDouble() * -1;
-		double vz1 = 0;
-
-		mirv1.posX = x;
-		mirv1.posY = y;
-		mirv1.posZ = z;
-		mirv1.motionY = vy1;
-		mirv2.posX = x;
-		mirv2.posY = y;
-		mirv2.posZ = z;
-		mirv2.motionY = vy1;
-		mirv3.posX = x;
-		mirv3.posY = y;
-		mirv3.posZ = z;
-		mirv3.motionY = vy1;
-		mirv4.posX = x;
-		mirv4.posY = y;
-		mirv4.posZ = z;
-		mirv4.motionY = vy1;
-
-		mirv1.motionX = vx1 * modifier;
-		mirv1.motionZ = vz1 * modifier;
-		world.spawnEntityInWorld(mirv1);
-
-		mirv2.motionX = -vz1 * modifier;
-		mirv2.motionZ = vx1 * modifier;
-		world.spawnEntityInWorld(mirv2);
-
-		mirv3.motionX = -vx1 * modifier;
-		mirv3.motionZ = -vz1 * modifier;
-		world.spawnEntityInWorld(mirv3);
-
-		mirv4.motionX = vz1 * modifier;
-		mirv4.motionZ = -vx1 * modifier;
-		world.spawnEntityInWorld(mirv4);
-
-		EntityMIRV mirv5 = new EntityMIRV(world);
-		EntityMIRV mirv6 = new EntityMIRV(world);
-		EntityMIRV mirv7 = new EntityMIRV(world);
-		EntityMIRV mirv8 = new EntityMIRV(world);
-		// double vx2 = vx1 < theta ? vx1 + theta : vx1 - theta;
-		// double vy2 = vy1;
-		// double vz2 = Math.sqrt(Math.pow(1, 2) - Math.pow(vx2, 2));
-		double vx2 = zeta;
-		double vy2 = vy1;
-		double vz2 = zeta;
-
-		mirv5.posX = x;
-		mirv5.posY = y;
-		mirv5.posZ = z;
-		mirv5.motionY = vy2;
-		mirv6.posX = x;
-		mirv6.posY = y;
-		mirv6.posZ = z;
-		mirv6.motionY = vy2;
-		mirv7.posX = x;
-		mirv7.posY = y;
-		mirv7.posZ = z;
-		mirv7.motionY = vy2;
-		mirv8.posX = x;
-		mirv8.posY = y;
-		mirv8.posZ = z;
-		mirv8.motionY = vy2;
-
-		mirv5.motionX = vx2 * modifier;
-		mirv5.motionZ = vz2 * modifier;
-		world.spawnEntityInWorld(mirv5);
-
-		mirv6.motionX = -vz2 * modifier;
-		mirv6.motionZ = vx2 * modifier;
-		world.spawnEntityInWorld(mirv6);
-
-		mirv7.motionX = -vx2 * modifier;
-		mirv7.motionZ = -vz2 * modifier;
-		world.spawnEntityInWorld(mirv7);
-
-		mirv8.motionX = vz2 * modifier;
-		mirv8.motionZ = -vx2 * modifier;
-		world.spawnEntityInWorld(mirv8);
 	}
 
 	public static void plasma(World world, int x, int y, int z, int radius) {

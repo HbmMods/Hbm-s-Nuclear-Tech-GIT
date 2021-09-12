@@ -102,13 +102,19 @@ public class ItemHazardModule {
 		if(this.fire > 0 && !reacher)
 			entity.setFire(this.fire);
 
-		if(this.asbestos > 0)
+		if(this.asbestos > 0) {
 			if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE))
-				HbmLivingProps.incrementAsbestos(entity, (int) (this.asbestos * mod));
+				HbmLivingProps.incrementAsbestos(entity, (int) (this.asbestos * Math.min(mod, 10)));
+			else
+				ArmorUtil.damageGasMaskFilter(entity, (int) (this.asbestos));
+		}
 
-		if(this.coal > 0)
+		if(this.coal > 0) {
 			if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_COARSE))
-				HbmLivingProps.incrementBlackLung(entity, (int) (this.coal * mod));
+				HbmLivingProps.incrementBlackLung(entity, (int) (this.coal * Math.min(mod, 10)));
+			else
+				ArmorUtil.damageGasMaskFilter(entity, (int) (this.coal));
+		}
 
 		if(this.hydro && currentItem) {
 
@@ -136,7 +142,7 @@ public class ItemHazardModule {
 			}
 		}
 
-		if(this.blinding && !(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer) entity))) {
+		if(this.blinding && !ArmorRegistry.hasProtection(entity, 3, HazardClass.LIGHT)) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
 		}
 	}
@@ -166,7 +172,7 @@ public class ItemHazardModule {
 		}
 		
 		if(this.coal > 0) {
-			list.add(EnumChatFormatting.BLACK + "[" + I18nUtil.resolveKey("trait.coal") + "]");
+			list.add(EnumChatFormatting.DARK_GRAY + "[" + I18nUtil.resolveKey("trait.coal") + "]");
 		}
 		
 		if(this.hydro) {

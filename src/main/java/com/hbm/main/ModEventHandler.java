@@ -345,14 +345,14 @@ public class ModEventHandler {
 		EntityLivingBase entity = event.entityLiving;
 		World world = event.world;
 		
-		if(!MobConfig.enableMobGear || entity.isChild())
+		if(!MobConfig.enableMobGear || entity.isChild() || world.isRemote)
 			return;
 
 		if(entity instanceof EntityZombie) {
 			if(rand.nextInt(64) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask, 1, world.rand.nextInt(100)));
+				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_olde, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(256) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(1024) == 0)
@@ -378,13 +378,10 @@ public class ModEventHandler {
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
 		}
 		if(entity instanceof EntitySkeleton) {
-			if(rand.nextInt(16) == 0) {
+			if(rand.nextInt(16) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
-				
-				if(rand.nextInt(32) == 0) {
-					entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.syringe_poison));
-				}
-			}
+			if(rand.nextInt(64) == 0)
+				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
 		}
 	}
 	
@@ -1063,7 +1060,7 @@ public class ModEventHandler {
 			event.setExpToDrop(500);
 		}
 		
-		if(event.block == Blocks.coal_ore || event.block == ModBlocks.ore_lignite) {
+		if(event.block == Blocks.coal_ore || event.block == Blocks.coal_block || event.block == ModBlocks.ore_lignite) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 

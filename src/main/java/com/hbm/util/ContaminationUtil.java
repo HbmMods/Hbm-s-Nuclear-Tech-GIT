@@ -8,6 +8,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
@@ -122,7 +123,9 @@ public class ContaminationUtil {
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
-		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
+		if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.PARTICLE_FINE))
+			ArmorUtil.damageGasMaskFilter(entity, i);
+		else
 			HbmLivingProps.incrementAsbestos(entity, i);
 	}
 	
@@ -245,16 +248,11 @@ public class ContaminationUtil {
 	}
 	
 	public static enum HazardType {
-		MONOXIDE,
 		RADIATION,
-		ASBESTOS,
 		DIGAMMA
 	}
 	
 	public static enum ContaminationType {
-		GAS,				//filterable by gas mask
-		GAS_NON_REACTIVE,	//not filterable by gas mask
-		GOGGLES,			//preventable by goggles
 		FARADAY,			//preventable by metal armor
 		HAZMAT,				//preventable by hazmat
 		HAZMAT2,			//preventable by heavy hazmat
@@ -281,9 +279,6 @@ public class ContaminationUtil {
 			EntityPlayer player = (EntityPlayer)entity;
 			
 			switch(cont) {
-			case GAS:				if(ArmorUtil.checkForGasMask(player))	return false; break;
-			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForMonoMask(player))	return false; break;
-			case GOGGLES:			if(ArmorUtil.checkForGoggles(player))	return false; break;
 			case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return false; break;
 			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
 			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
@@ -302,9 +297,7 @@ public class ContaminationUtil {
 			return false;
 		
 		switch(hazard) {
-		case MONOXIDE: entity.attackEntityFrom(ModDamageSource.monoxide, amount); break;
 		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
-		case ASBESTOS: HbmLivingProps.incrementAsbestos(entity, (int)amount); break;
 		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
 		}
 		

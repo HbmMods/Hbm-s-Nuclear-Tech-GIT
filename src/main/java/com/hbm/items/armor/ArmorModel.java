@@ -118,7 +118,7 @@ public class ArmorModel extends ItemArmor {
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
     	
-    	if(this != ModItems.goggles && this != ModItems.gas_mask && this != ModItems.gas_mask_m65 && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
+    	if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
     		return;
 
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -126,25 +126,29 @@ public class ArmorModel extends ItemArmor {
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
-        
-        if(this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
-        	switch((int)((double)stack.getItemDamage() / (double)stack.getMaxDamage() * 6D)) {
-        	case 0:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0); break;
-        	case 1:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur1); break;
-        	case 2:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur2); break;
-        	case 3:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur3); break;
-        	case 4:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur4); break;
-        	case 5:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5); break;
-        	default:
-            	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5); break;
-        	}
-        }
+		switch((int) ((double) stack.getItemDamage() / (double) stack.getMaxDamage() * 6D)) {
+		case 0:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0);
+			break;
+		case 1:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur1);
+			break;
+		case 2:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur2);
+			break;
+		case 3:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur3);
+			break;
+		case 4:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur4);
+			break;
+		case 5:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5);
+			break;
+		default:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5);
+			break;
+		}
         
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();

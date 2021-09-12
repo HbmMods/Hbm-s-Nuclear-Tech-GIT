@@ -230,6 +230,7 @@ public class TileMappings {
 	
 	private static void putMachines() {
 		//TODO: bring some order into this garbage dump
+		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_larger");
 	}
 	
 	private static void putPile() {

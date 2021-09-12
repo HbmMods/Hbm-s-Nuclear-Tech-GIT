@@ -324,6 +324,19 @@ public class EntityEffectHandler {
 		
 		if(entity.worldObj.isRemote)
 			return;
+		
+		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
+			HbmLivingProps.setBlackLung(entity, 0);
+			HbmLivingProps.setAsbestos(entity, 0);
+			
+			return;
+		} else {
+			
+			int bl = HbmLivingProps.getBlackLung(entity);
+			
+			if(bl > 0 && bl < HbmLivingProps.maxBlacklung * 0.25)
+				HbmLivingProps.setBlackLung(entity, HbmLivingProps.getBlackLung(entity) - 1);
+		}
 
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);

@@ -3,8 +3,12 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
@@ -26,9 +30,16 @@ public class BlockGasRadonDense extends BlockGasBase {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
-		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.GAS, 0.5F);
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));
+		if(!(entity instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase entityLiving = (EntityLivingBase) entity;
+		
+		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.PARTICLE_FINE)) {
+			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
+		} else {
+			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F);
+			entityLiving.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));
 		}
 	}
 

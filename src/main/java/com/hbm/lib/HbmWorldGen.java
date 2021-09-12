@@ -101,6 +101,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			if(WorldConfig.gasbubbleSpawn > 0 && rand.nextInt(WorldConfig.gasbubbleSpawn) == 0)
 				DungeonToolbox.generateOre(world, rand, i, j, 1, 32, 30, 10, ModBlocks.gas_flammable);
 
+			if(WorldConfig.explosivebubbleSpawn > 0 && rand.nextInt(WorldConfig.explosivebubbleSpawn) == 0)
+				DungeonToolbox.generateOre(world, rand, i, j, 1, 32, 30, 10, ModBlocks.gas_explosive);
+
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_iron, rand, 24);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_titanium, rand, 32);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_tungsten, rand, 32);
@@ -122,8 +125,8 @@ public class HbmWorldGen implements IWorldGenerator {
 					int range = colRange / r;
 		
 					if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
-						(new WorldGenMinable(ModBlocks.stone_porous, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 						(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+						//(new WorldGenMinable(ModBlocks.stone_porous, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 					}
 				}
 			}

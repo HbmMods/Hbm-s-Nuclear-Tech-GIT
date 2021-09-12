@@ -54,6 +54,7 @@ public class ItemPill extends ItemFood {
 			
 			if(this == ModItems.siox) {
 				HbmLivingProps.setAsbestos(player, 0);
+				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
 			}
 
 			if(this == ModItems.xanax) {
