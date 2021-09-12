@@ -105,11 +105,7 @@ public class RenderAccessoryUtility {
 			return doctor17;
 		}
 		if(uuid.equals(Library.ShimmeringBlaze)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return blaze2;
-			else
-				return shimmeringblaze;
+			return (MainRegistry.polaroidID == 11 ? blaze2 : shimmeringblaze);
 		}
 		if(uuid.equals(Library.FifeMiner)) {
 			return leftnugget;
