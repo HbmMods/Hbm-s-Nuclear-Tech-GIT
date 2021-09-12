@@ -48,11 +48,7 @@ public class RenderAccessoryUtility {
 		String name = player.getDisplayName();
 
 		if(uuid.equals(Library.HbMinecraft)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return hbm;
-			else
-				return hbm2;
+			return (MainRegistry.polaroidID == 11 ? hbm : hbm2);
 		}
 
 		if(uuid.equals(Library.Drillgon)) {
@@ -74,11 +70,7 @@ public class RenderAccessoryUtility {
 			return ayy;
 		}
 		if(uuid.equals(Library.Dr_Nostalgia)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return nostalgia2;
-			else
-				return nostalgia;
+			return (MainRegistry.polaroidID == 11 ? nostalgia2 : nostalgia);
 		}
 		if(uuid.equals(Library.Samino2)) {
 			return sam;
