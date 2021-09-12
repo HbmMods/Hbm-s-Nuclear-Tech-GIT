@@ -35,6 +35,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation swiggs = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSweatySwiggs.png");
 	private static ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
 	private static ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
+	private static ResourceLocation blaze2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze2.png");
 	private static ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
 	private static ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
 	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
@@ -47,11 +48,7 @@ public class RenderAccessoryUtility {
 		String name = player.getDisplayName();
 
 		if(uuid.equals(Library.HbMinecraft)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return hbm;
-			else
-				return hbm2;
+			return (MainRegistry.polaroidID == 11 ? hbm : hbm2);
 		}
 
 		if(uuid.equals(Library.Drillgon)) {
@@ -73,11 +70,7 @@ public class RenderAccessoryUtility {
 			return ayy;
 		}
 		if(uuid.equals(Library.Dr_Nostalgia)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return nostalgia2;
-			else
-				return nostalgia;
+			return (MainRegistry.polaroidID == 11 ? nostalgia2 : nostalgia);
 		}
 		if(uuid.equals(Library.Samino2)) {
 			return sam;
@@ -104,7 +97,7 @@ public class RenderAccessoryUtility {
 			return doctor17;
 		}
 		if(uuid.equals(Library.ShimmeringBlaze)) {
-			return shimmeringblaze;
+			return (MainRegistry.polaroidID == 11 ? blaze2 : shimmeringblaze);
 		}
 		if(uuid.equals(Library.FifeMiner)) {
 			return leftnugget;
