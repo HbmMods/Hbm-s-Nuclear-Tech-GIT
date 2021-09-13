@@ -32,10 +32,10 @@ public class HazmatRegistry {
 		double alloy = 0.07D; // 15%
 		double cobalt = 0.125D; // 25%
 		
-		double hazYellow = 0.3D; // 50%
-		double hazRed = 0.7D; // 80%
-		double hazGray = 1.3D; // 95%
-		double paa = 1.3D; // 95%
+		double hazYellow = 0.6D; // 50%
+		double hazRed = 1.0D; // 90%
+		double hazGray = 2D; // 99%
+		double paa = 1.7D; // 97%
 		double liquidator = 2D; // 99%
 
 		double t45 = 1D; // 90%

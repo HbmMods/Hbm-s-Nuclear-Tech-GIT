@@ -29,8 +29,15 @@ public class GeneralConfig {
 	public static boolean enableCrosshairs = true;
 	public static boolean enableBabyMode = false;
 	public static boolean enableReflectorCompat = false;
-	
+
 	public static boolean enable528 = false;
+	public static boolean enable528ReasimBoilers = true;
+	public static boolean enable528ColtanDeposit = true;
+	public static boolean enable528ColtanSpawn = false;
+	public static boolean enable528BedrockDeposit = true;
+	public static boolean enable528BedrockSpawn = false;
+	public static int coltanRate = 2;
+	public static int bedrockRate = 50;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -60,9 +67,22 @@ public class GeneralConfig {
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true).getBoolean(true);
 		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
-
+		
 		final String CATEGORY_528 = "528";
-		enable528 = config.get(CATEGORY_528, "enable528Mode", false).getBoolean(false);
+
+		config.addCustomCategoryComment(CATEGORY_528, "CAUTION\n"
+				+ "528 Mode: Please proceed with caution!\n"
+				+ "528-Modus: Lassen Sie Vorsicht walten!\n"
+				+ "способ-528: действовать с осторожностью!");
+		
+		enable528 = CommonConfig.createConfigBool(config, CATEGORY_528, "enable528Mode", "The central toggle for 528 mode.", false);
+		enable528ReasimBoilers = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_forceReasimBoilers", "Keeps the RBMK dial for ReaSim boilers on, preventing use of non-ReaSim boiler columns and forcing the use of steam in-/outlets", true);
+		enable528ColtanDeposit = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableColtanDepsoit", "Enables the coltan deposit. A large amount of coltan will spawn around a single random location in the world.", true);
+		enable528ColtanSpawn = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableColtanSpawning", "Enables coltan ore as a random spawn in the world. Unlike the deposit option, coltan will not just spawn in one central location.", false);
+		enable528BedrockDeposit = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableBedrockDepsoit", "Enables bedrock coltan ores in the coltan deposit. These ores can be drilled to extract infinite coltan, albeit slowly.", true);
+		enable528BedrockSpawn = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableBedrockSpawning", "Enables the bedrock coltan ores as a rare spawn. These will be rarely found anywhere in the world.", false);
+		coltanRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_oreColtanFrequency", "Determines how many coltan ore veins are to be expected in a chunk. These values do not affect the frequency in deposits, and only apply if random coltan spanwing is enabled.", 2);
+		bedrockRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_bedrockColtanFrequency", "Determines how often (1 in X) bedrock coltan ores spawn. Applies for both the bedrock ores in the coltan deposit (if applicable) and the random bedrock ores (if applicable)", 50);
 		
 		if(enable528) enableBabyMode = false;
 	}

@@ -80,7 +80,7 @@ public class MachineChungus extends BlockDummyable {
 						default:
 						case ULTRAHOTSTEAM:
 							entity.tanks[0].setTankType(FluidType.STEAM);
-							entity.tanks[1].setTankType(FluidType.WATER);
+							entity.tanks[1].setTankType(FluidType.SPENTSTEAM);
 							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
 							entity.tanks[1].setFill(0);
 							break;

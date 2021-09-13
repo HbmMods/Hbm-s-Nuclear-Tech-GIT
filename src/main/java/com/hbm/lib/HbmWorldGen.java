@@ -109,11 +109,27 @@ public class HbmWorldGen implements IWorldGenerator {
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.6D, ModBlocks.cluster_depth_tungsten, rand, 32);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_cinnebar, rand, 16);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_zirconium, rand, 16);
+			
+			if(GeneralConfig.enable528ColtanSpawn) {
+				DungeonToolbox.generateOre(world, rand, i, j, GeneralConfig.coltanRate, 4, 15, 40, ModBlocks.ore_coltan);
+			}
 
 			Random colRand = new Random(world.getSeed() + 5);
 			int colX = (int) (colRand.nextGaussian() * 1500);
 			int colZ = (int) (colRand.nextGaussian() * 1500);
 			int colRange = 750;
+			
+			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = rand.nextInt(4) + 1;
+				
+				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
+					if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
+						world.setBlock(x, y, z, ModBlocks.ore_bedrock_coltan);
+					}
+				}
+			}
 			
 			for (int k = 0; k < 2; k++) {
 				
@@ -126,7 +142,6 @@ public class HbmWorldGen implements IWorldGenerator {
 		
 					if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
 						(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
-						//(new WorldGenMinable(ModBlocks.stone_porous, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 					}
 				}
 			}

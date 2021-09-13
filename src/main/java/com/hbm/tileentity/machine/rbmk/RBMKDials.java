@@ -194,7 +194,7 @@ public class RBMKDials {
 	 * @return
 	 */
 	public static boolean getReasimBoilers(World world) {
-		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_BOILERS) || GeneralConfig.enable528;
+		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_BOILERS) || (GeneralConfig.enable528 && GeneralConfig.enable528ReasimBoilers);
 	}
 	
 	/**

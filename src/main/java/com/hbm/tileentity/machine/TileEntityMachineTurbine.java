@@ -45,7 +45,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.STEAM, 64000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 128000, 1);
+		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 128000, 1);
 	}
 
 	@Override

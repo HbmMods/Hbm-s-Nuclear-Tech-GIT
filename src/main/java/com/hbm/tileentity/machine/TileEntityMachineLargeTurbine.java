@@ -40,7 +40,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 10240000, 1);
+		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 10240000, 1);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 import cpw.mods.fml.relauncher.Side;
@@ -39,6 +40,7 @@ public class BlockOre extends Block {
 		this.rad = rad;
 	}
 
+	@Spaghetti("*throws up*")
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
 		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {

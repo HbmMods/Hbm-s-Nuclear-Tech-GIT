@@ -42,7 +42,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 		
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.STEAM, 1000000000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 1000000000, 1);
+		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 1000000000, 1);
 	}
 
 	@Override

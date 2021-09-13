@@ -1,5 +1,7 @@
 package com.hbm.items.tool;
 
+import com.hbm.main.MainRegistry;
+
 import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
 import net.minecraft.block.Block;
@@ -12,8 +14,12 @@ public class ItemTooling extends Item {
 	
 	ToolType type;
 	
-	public ItemTooling(ToolType type) {
+	public ItemTooling(ToolType type, int durability) {
 		this.type = type;
+		this.setMaxStackSize(1);
+		this.setFull3D();
+		this.setCreativeTab(MainRegistry.controlTab);
+		this.setMaxDamage(durability);
 	}
 
 	@Override
@@ -22,7 +28,13 @@ public class ItemTooling extends Item {
 		Block b = world.getBlock(x, y, z);
 		
 		if(b instanceof IToolable) {
-			return ((IToolable)b).onScrew(world, player, x, y, z, side, fX, fY, fZ, this.type);
+			if(((IToolable)b).onScrew(world, player, x, y, z, side, fX, fY, fZ, this.type)) {
+				
+				if(this.getMaxDamage() > 0)
+					stack.damageItem(1, player);
+				
+				return true;
+			}
 		}
 		
 		return false;
