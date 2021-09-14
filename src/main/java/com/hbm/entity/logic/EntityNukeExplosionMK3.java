@@ -105,7 +105,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 		
 	}
 
-	private EntityNukeExplosionMK3(World p_i1582_1_) {
+	public EntityNukeExplosionMK3(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
 
