@@ -86,42 +86,32 @@ public class ItemFolderPacket implements IMessage {
 					if(stack.getItem() == ModItems.stamp_iron_plate || 
 							stack.getItem() == ModItems.stamp_iron_wire || 
 							stack.getItem() == ModItems.stamp_iron_circuit) {
-						if(p.inventory.hasItem(ModItems.stamp_iron_flat)) {
-							tryConvert(p, ModItems.stamp_iron_flat, stack.getItem());
-							return null;
-						}
+						tryConvert(p, ModItems.stamp_iron_flat, stack.getItem());
+						return null;
 					}
 					if(stack.getItem() == ModItems.stamp_steel_plate || 
 							stack.getItem() == ModItems.stamp_steel_wire || 
 							stack.getItem() == ModItems.stamp_steel_circuit) {
-						if(p.inventory.hasItem(ModItems.stamp_steel_flat)) {
-							tryConvert(p, ModItems.stamp_steel_flat, stack.getItem());
-							return null;
-						}
+						tryConvert(p, ModItems.stamp_steel_flat, stack.getItem());
+						return null;
 					}
 					if(stack.getItem() == ModItems.stamp_titanium_plate || 
 							stack.getItem() == ModItems.stamp_titanium_wire || 
 							stack.getItem() == ModItems.stamp_titanium_circuit) {
-						if(p.inventory.hasItem(ModItems.stamp_titanium_flat)) {
-							tryConvert(p, ModItems.stamp_titanium_flat, stack.getItem());
-							return null;
-						}
+						tryConvert(p, ModItems.stamp_titanium_flat, stack.getItem());
+						return null;
 					}
 					if(stack.getItem() == ModItems.stamp_obsidian_plate || 
 							stack.getItem() == ModItems.stamp_obsidian_wire || 
 							stack.getItem() == ModItems.stamp_obsidian_circuit) {
-						if(p.inventory.hasItem(ModItems.stamp_obsidian_flat)) {
-							tryConvert(p, ModItems.stamp_obsidian_flat, stack.getItem());
-							return null;
-						}
+						tryConvert(p, ModItems.stamp_obsidian_flat, stack.getItem());
+						return null;
 					}
 					if(stack.getItem() == ModItems.stamp_schrabidium_plate || 
 							stack.getItem() == ModItems.stamp_schrabidium_wire || 
 							stack.getItem() == ModItems.stamp_schrabidium_circuit) {
-						if(p.inventory.hasItem(ModItems.stamp_schrabidium_flat)) {
-							tryConvert(p, ModItems.stamp_schrabidium_flat, stack.getItem());
-							return null;
-						}
+						tryConvert(p, ModItems.stamp_schrabidium_flat, stack.getItem());
+						return null;
 					}
 			//}
 			
@@ -139,7 +129,7 @@ public class ItemFolderPacket implements IMessage {
 				}
 				
 				if(o instanceof String) {
-					if(InventoryUtil.hasOreDictMatches(player, (String)o, 1))
+					if(!InventoryUtil.hasOreDictMatches(player, (String)o, 1))
 						return;
 				}
 			}
@@ -148,13 +138,11 @@ public class ItemFolderPacket implements IMessage {
 			for(Object o : ingredients) {
 				
 				if(o instanceof Item) {
-					if(!player.inventory.hasItem((Item)o))
-						return;
+					player.inventory.consumeInventoryItem((Item)o);
 				}
 				
 				if(o instanceof String) {
-					if(InventoryUtil.hasOreDictMatches(player, (String)o, 1))
-						return;
+					InventoryUtil.consumeOreDictMatches(player, (String)o, 1);
 				}
 			}
 			
@@ -169,7 +157,7 @@ public class ItemFolderPacket implements IMessage {
 				ItemStack stack = player.inventory.mainInventory[i];
 				
 				if(stack != null && stack.getItem() == target) {
-					stack = new ItemStack(result, stack.stackSize, stack.getItemDamage());
+					player.inventory.mainInventory[i] = new ItemStack(result, stack.stackSize, stack.getItemDamage());
 					return;
 				}
 			}

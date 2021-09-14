@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityTowerLarge;
 
 import net.minecraft.block.material.Material;
@@ -19,6 +20,10 @@ public class MachineTowerLarge extends BlockDummyable {
 		
 		if(meta >= 12)
 			return new TileEntityTowerLarge();
+		
+		if(meta >= 8)
+			return new TileEntityProxyCombo(false, false, true);
+		
 		return null;
 	}
 
@@ -43,8 +48,8 @@ public class MachineTowerLarge extends BlockDummyable {
 			ForgeDirection dr2 = ForgeDirection.getOrientation(i);
 			ForgeDirection rot = dr2.getRotation(ForgeDirection.UP);
 			this.makeExtra(world, x + dr2.offsetX * 4, y, z + dr2.offsetZ * 4);
-			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * 2, y, z + dr2.offsetZ * 4 + rot.offsetZ * 2);
-			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * -2, y, z + dr2.offsetZ * 4 + rot.offsetZ * -2);
+			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * 3, y, z + dr2.offsetZ * 4 + rot.offsetZ * 3);
+			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * -3, y, z + dr2.offsetZ * 4 + rot.offsetZ * -3);
 		}
 	}
 }

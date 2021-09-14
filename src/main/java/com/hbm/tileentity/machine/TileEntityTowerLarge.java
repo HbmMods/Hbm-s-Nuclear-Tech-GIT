@@ -24,8 +24,8 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			fillFluid(xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, getTact(), type);
-			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 2, getTact(), type);
-			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -2, getTact(), type);
+			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, getTact(), type);
+			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, getTact(), type);
 		}
 	}
 	
