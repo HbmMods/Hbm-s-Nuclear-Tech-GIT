@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.AnvilRecipes.AnvilOutput;
@@ -8,6 +9,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 //'t was about time
 public class InventoryUtil {
@@ -271,6 +273,59 @@ public class InventoryUtil {
 			if(out.chance == 1.0F || player.getRNG().nextFloat() < out.chance) {
 				if(!player.inventory.addItemStackToInventory(out.stack.copy())) {
 					player.dropPlayerItemWithRandomChoice(out.stack.copy(), false);
+				}
+			}
+		}
+	}
+	
+	public static boolean hasOreDictMatches(EntityPlayer player, String dict, int count) {
+		return countOreDictMatches(player, dict) >= count;
+	}
+	
+	public static int countOreDictMatches(EntityPlayer player, String dict) {
+		
+		int count = 0;
+		
+		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+			
+			ItemStack stack = player.inventory.mainInventory[i];
+			
+			if(stack != null) {
+				
+				int[] ids = OreDictionary.getOreIDs(stack);
+				List<String> dicts = new ArrayList();
+				
+				for(int id : ids) {
+					if(OreDictionary.getOreName(id).equals(dict)) {
+						count += stack.stackSize;
+						break;
+					}
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+	public static void consumeOreDictMatches(EntityPlayer player, String dict, int count) {
+		
+		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+			
+			ItemStack stack = player.inventory.mainInventory[i];
+			
+			if(stack != null) {
+				
+				int[] ids = OreDictionary.getOreIDs(stack);
+				List<String> dicts = new ArrayList();
+				
+				for(int id : ids) {
+					if(OreDictionary.getOreName(id).equals(dict)) {
+						
+						int toConsume = Math.min(count, stack.stackSize);
+						player.inventory.decrStackSize(i, toConsume);
+						count -= toConsume;
+						break;
+					}
 				}
 			}
 		}

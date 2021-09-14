@@ -98,7 +98,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetSchrabidium", ModItems.nugget_schrabidium);
 		OreDictionary.registerOre("nuggetZirconium", ModItems.nugget_zirconium);
 		OreDictionary.registerOre("nuggetRadium226", ModItems.nugget_ra226);
-		OreDictionary.registerOre("nuggetGol198", ModItems.nugget_au198);
+		OreDictionary.registerOre("nuggetGold198", ModItems.nugget_au198);
 		OreDictionary.registerOre("tinyU233", ModItems.nugget_u233);
 		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
 		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
@@ -196,6 +196,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
 		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
+		OreDictionary.registerOre("plateAdvancedAlloy", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
 		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
@@ -264,6 +265,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
 		OreDictionary.registerOre("blockMingrade", ModBlocks.block_red_copper);
 		OreDictionary.registerOre("blockAdvanced", ModBlocks.block_advanced_alloy);
+		OreDictionary.registerOre("blockAdvancedAlloy", ModBlocks.block_advanced_alloy);
 		OreDictionary.registerOre("blockTungsten", ModBlocks.block_tungsten);
 		OreDictionary.registerOre("blockAluminum", ModBlocks.block_aluminium);
 		OreDictionary.registerOre("blockFluorite", ModBlocks.block_fluorite);

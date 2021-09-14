@@ -91,9 +91,9 @@ public class MineralRecipes {
 		addBillet(ModItems.billet_neptunium, ModItems.nugget_neptunium, "nuggetNeptunium237", "tinyNp237");
 		addBillet(ModItems.billet_polonium, ModItems.nugget_polonium, "nuggetPolonium");
 		addBillet(ModItems.billet_technetium, ModItems.nugget_technetium, "nuggetTechnetium");
-		addBillet(ModItems.billet_au198, ModItems.nugget_au198);
-		addBillet(ModItems.billet_schrabidium, ModItems.nugget_schrabidium);
-		addBillet(ModItems.billet_solinium, ModItems.nugget_solinium);
+		addBillet(ModItems.billet_au198, ModItems.nugget_au198, "nuggetGold198");
+		addBillet(ModItems.billet_schrabidium, ModItems.nugget_schrabidium, "nuggetSchrabidium");
+		addBillet(ModItems.billet_solinium, ModItems.nugget_solinium, "nuggetSolinium");
 		addBillet(ModItems.billet_uranium_fuel, ModItems.nugget_uranium_fuel);
 		addBillet(ModItems.billet_thorium_fuel, ModItems.nugget_thorium_fuel);
 		addBillet(ModItems.billet_plutonium_fuel, ModItems.nugget_plutonium_fuel);
@@ -102,7 +102,7 @@ public class MineralRecipes {
 		addBillet(ModItems.billet_les, ModItems.nugget_les);
 		addBillet(ModItems.billet_schrabidium_fuel, ModItems.nugget_schrabidium_fuel);
 		addBillet(ModItems.billet_hes, ModItems.nugget_hes);
-		addBillet(ModItems.billet_australium, ModItems.nugget_australium);
+		addBillet(ModItems.billet_australium, ModItems.nugget_australium, "nuggetAustralium");
 		addBillet(ModItems.billet_australium_greater, ModItems.nugget_australium_greater);
 		addBillet(ModItems.billet_australium_lesser, ModItems.nugget_australium_lesser);
 
