@@ -864,6 +864,7 @@ public class ModBlocks {
 
 	public static Block machine_chungus;
 	public static Block machine_condenser;
+	public static Block machine_tower_small;
 	public static Block machine_tower_large;
 
 	public static Block machine_deaerator;
@@ -1971,6 +1972,7 @@ public class ModBlocks {
 		machine_large_turbine = new MachineLargeTurbine(Material.iron).setBlockName("machine_large_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_large_turbine");
 		machine_chungus = new MachineChungus(Material.iron).setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_chungus");
 		machine_condenser = new MachineCondenser(Material.iron).setBlockName("machine_condenser").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":condenser");
+		machine_tower_small = new MachineTowerSmall(Material.iron).setBlockName("machine_tower_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_tower_small");
 		machine_tower_large = new MachineTowerLarge(Material.iron).setBlockName("machine_tower_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_tower_large");
 
 		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
@@ -2810,6 +2812,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_large_turbine, machine_large_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chungus, machine_chungus.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_condenser, machine_condenser.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_tower_small, machine_tower_small.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tower_large, machine_tower_large.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deaerator, machine_deaerator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_waste_drum, machine_waste_drum.getUnlocalizedName());

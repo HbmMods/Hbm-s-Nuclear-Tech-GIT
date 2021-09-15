@@ -841,7 +841,7 @@ public class ModEventHandler {
 							else if(player.motionY < 0)
 								player.motionY = 0;
 
-							if(isSol) {
+							if(isSol && !player.onGround) {
 								if(player.getFoodStats().getSaturationLevel() > 0F)
 									player.addExhaustion(4F);
 								else

@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ArmorLiquidatorMask extends ArmorLiquidator implements IGasMask {
 
@@ -47,5 +48,26 @@ public class ArmorLiquidatorMask extends ArmorLiquidator implements IGasMask {
 	@Override
 	public boolean isFilterApplicable(ItemStack stack, EntityLivingBase entity, ItemStack filter) {
 		return true;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(player.isSneaking()) {
+			
+			ItemStack filter = this.getFilter(stack, player);
+			
+			if(filter != null) {
+				ArmorUtil.removeFilter(stack);
+				
+				if(!player.inventory.addItemStackToInventory(filter)) {
+					player.dropPlayerItemWithRandomChoice(filter, true);
+				}
+				
+				return stack;
+			}
+		}
+		
+		return super.onItemRightClick(stack, world, player);
 	}
 }

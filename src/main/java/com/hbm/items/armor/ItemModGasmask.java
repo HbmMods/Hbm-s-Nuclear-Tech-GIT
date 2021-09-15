@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ItemModGasmask extends ItemArmorMod implements IGasMask {
@@ -118,5 +119,24 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 	@Override
 	public boolean isFilterApplicable(ItemStack stack, EntityLivingBase entity, ItemStack filter) {
 		return true;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(player.isSneaking()) {
+			
+			ItemStack filter = this.getFilter(stack, player);
+			
+			if(filter != null) {
+				ArmorUtil.removeFilter(stack);
+				
+				if(!player.inventory.addItemStackToInventory(filter)) {
+					player.dropPlayerItemWithRandomChoice(filter, true);
+				}
+			}
+		}
+		
+		return super.onItemRightClick(stack, world, player);
 	}
 }

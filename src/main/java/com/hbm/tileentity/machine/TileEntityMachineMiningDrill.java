@@ -152,9 +152,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 						ItemStack stack1 = new ItemStack(b1.getItemDropped(meta1, rand, fortune), b1.quantityDropped(meta1, fortune, rand), b1.damageDropped(meta1));
 						
 						if(i == this.yCoord - 1 && worldObj.getBlock(this.xCoord, i, this.zCoord) != ModBlocks.drill_pipe) {
-							if(this.isOreo(this.xCoord, i, this.zCoord) && this.hasSpace(stack)) {
-								//if(stack != null)
-									//this.addItemToInventory(stack);
+							if(this.tryDrill(xCoord, i, zCoord) || worldObj.getBlock(xCoord, i, zCoord).isReplaceable(worldObj, xCoord, i, zCoord)) {
 								worldObj.setBlock(this.xCoord, i, this.zCoord, ModBlocks.drill_pipe);
 								break;
 							} else {

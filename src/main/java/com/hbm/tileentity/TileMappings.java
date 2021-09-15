@@ -229,9 +229,9 @@ public class TileMappings {
 	}
 	
 	private static void putMachines() {
-		//TODO: bring some order into this garbage dump
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
-		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_larger");
+		map.put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
+		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");
 	}
 	
 	private static void putPile() {
