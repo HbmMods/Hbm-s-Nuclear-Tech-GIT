@@ -5,7 +5,6 @@ import com.hbm.inventory.FluidTank;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -22,7 +21,7 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		
 		for(int i = 2; i <= 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, getTact(), type);
+			fillFluid(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, getTact(), type);
 		}
 	}
 	
@@ -33,12 +32,12 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 1,
+					xCoord - 2,
 					yCoord,
-					zCoord - 1,
-					xCoord + 2,
-					yCoord + 13,
-					zCoord + 2
+					zCoord - 2,
+					xCoord + 3,
+					yCoord + 20,
+					zCoord + 3
 					);
 		}
 		

@@ -29,12 +29,12 @@ public class MachineTowerSmall extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {12, 0, 1, 1, 1, 1};
+		return new int[] {18, 0, 2, 2, 2, 2};
 	}
 
 	@Override
 	public int getOffset() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class MachineTowerSmall extends BlockDummyable {
 		
 		for(int i = 2; i <= 6; i++) {
 			ForgeDirection dr2 = ForgeDirection.getOrientation(i);
-			this.makeExtra(world, x + dr2.offsetX, y, z + dr2.offsetZ);
+			this.makeExtra(world, x + dr2.offsetX * 2, y, z + dr2.offsetZ * 2);
 		}
 	}
 }

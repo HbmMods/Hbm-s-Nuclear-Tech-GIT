@@ -48,6 +48,8 @@ private TileEntityMachineMiningDrill nukeBoy;
 		{
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
 		}
+		
+		this.detectAndSendChanges();
 	}
 	
 	@Override
@@ -94,12 +96,10 @@ private TileEntityMachineMiningDrill nukeBoy;
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.warning != this.nukeBoy.warning)
-			{
+		for(int i = 0; i < this.crafters.size(); i++) {
+			ICrafting par1 = (ICrafting) this.crafters.get(i);
+
+			if(this.warning != this.nukeBoy.warning) {
 				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.warning);
 			}
 		}
@@ -109,8 +109,7 @@ private TileEntityMachineMiningDrill nukeBoy;
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 1)
-		{
+		if(i == 1) {
 			nukeBoy.warning = j;
 		}
 	}

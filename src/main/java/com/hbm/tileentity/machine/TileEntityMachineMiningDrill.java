@@ -27,11 +27,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 
-@Spaghetti("if i had a time machine i'd go back to the year 2017 and uppercut myself")
 public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer, IMiningDrill {
 
 	public long power;
@@ -46,11 +43,6 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	public float torque;
 	public float rotation;
 	SoundLoopMachine sound;
-	
-	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2, 0};
-	private static final int[] slots_side = new int[] {0};
-	Random rand = new Random();
 	
 	public TileEntityMachineMiningDrill() {
 		super(13);
@@ -76,22 +68,14 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
-		this.power = nbt.getLong("powerTime");
+		this.power = nbt.getLong("power");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
-		nbt.setLong("powerTime", power);
+		nbt.setLong("power", power);
 	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
 	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
@@ -100,29 +84,30 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	@Override
 	public void updateEntity() {
 		
-		this.consumption = 100;
-		this.timer = 50;
-		this.radius = 1;
-		this.fortune = 0;
-		
-		UpgradeManager.eval(slots, 10, 12);
-		this.radius += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
-		this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3) * 80;
-		
-		this.timer -= Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 15;
-		this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 300;
-		
-		this.consumption -= Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 30;
-		this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 5;
-		
-		this.fortune += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
-		this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3) * 15;
-		
-		age++;
-		if(age >= timer)
-			age -= timer;
-		
 		if(!worldObj.isRemote) {
+			
+			this.consumption = 100;
+			this.timer = 50;
+			this.radius = 1;
+			this.fortune = 0;
+			
+			UpgradeManager.eval(slots, 10, 12);
+			this.radius += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+			this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3) * 80;
+			
+			this.timer -= Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 15;
+			this.consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 300;
+			
+			this.consumption -= Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 30;
+			this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) * 5;
+			
+			this.fortune += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
+			this.timer += Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3) * 15;
+			
+			age++;
+			if(age >= timer)
+				age -= timer;
+			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(power >= consumption) {
@@ -138,48 +123,30 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 					
 					for(int i = this.yCoord - 1; i > this.yCoord - 1 - 100; i--) {
 						
-						if(i <= 5) {
+						if(i <= 3) {
 							//Code 2: The drilling ended
 							warning = 2;
 							break;
 						}
-
-						Block b = worldObj.getBlock(this.xCoord, i, this.zCoord);
-						Block b1 = worldObj.getBlock(this.xCoord, i - 1, this.zCoord);
-						int meta = worldObj.getBlockMetadata(this.xCoord, i, this.zCoord);
-						int meta1 = worldObj.getBlockMetadata(this.xCoord, i - 1, this.zCoord);
-						ItemStack stack = new ItemStack(b.getItemDropped(meta, rand, fortune), b.quantityDropped(meta, fortune, rand), b.damageDropped(meta));
-						ItemStack stack1 = new ItemStack(b1.getItemDropped(meta1, rand, fortune), b1.quantityDropped(meta1, fortune, rand), b1.damageDropped(meta1));
 						
-						if(i == this.yCoord - 1 && worldObj.getBlock(this.xCoord, i, this.zCoord) != ModBlocks.drill_pipe) {
-							if(this.tryDrill(xCoord, i, zCoord) || worldObj.getBlock(xCoord, i, zCoord).isReplaceable(worldObj, xCoord, i, zCoord)) {
-								worldObj.setBlock(this.xCoord, i, this.zCoord, ModBlocks.drill_pipe);
-								break;
-							} else {
-								//Code 2: Drill jammed
-								warning = 1;
-								break;
-							}
-						}
-						
-						if(b1 == ModBlocks.drill_pipe) {
-							continue;
-						} else {
+						if(worldObj.getBlock(xCoord, i, zCoord) != ModBlocks.drill_pipe) {
 							
-							flag = i != this.yCoord - 1;
-							
-							if(!this.drill(this.xCoord, i, this.zCoord, radius)) {
-								if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
-										worldObj.setBlock(this.xCoord, i - 1, this.zCoord, ModBlocks.drill_pipe);
-								} else {
-									//Code 2: Drill jammed
-									warning = 1;
+							if(worldObj.getBlock(xCoord, i, zCoord).isReplaceable(worldObj, xCoord, i, zCoord) || this.tryDrill(xCoord, i, zCoord)) {
+								
+								if(worldObj.getBlock(xCoord, i, zCoord).isReplaceable(worldObj, xCoord, i, zCoord)) {
+									worldObj.setBlock(xCoord, i, zCoord, ModBlocks.drill_pipe);
 								}
-							
+								
+								break;
+								
+							} else {
+								this.warning = 1;
+								break;
 							}
-							
-							break;
 						}
+						
+						if(this.drill(xCoord, i, zCoord, radius))
+							break;
 					}
 				}
 				
@@ -209,35 +176,11 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				//worldObj.setBlock(xCoord - 2, yCoord, zCoord, Blocks.dirt);
 			}
 			
-			if(te != null && te instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te;
+			if(te != null && te instanceof IInventory) {
+				IInventory chest = (IInventory)te;
 				
 				for(int i = 1; i < 10; i++)
 					if(tryFillContainer(chest, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te;
-				
-				for(int i = 1; i < 10; i++)
-					if(tryFillContainer(hopper, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
-				
-				for(int i = 1; i < 10; i++)
-					if(tryFillContainer(hopper, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
-				
-				for(int i = 1; i < 10; i++)
-					if(tryFillContainer(hopper, i))
 						break;
 			}
 			
@@ -386,7 +329,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				return true; //true because the block is still there and mining should continue
 		}
 		
-		ItemStack stack = new ItemStack(b.getItemDropped(meta, rand, fortune), b.quantityDropped(meta, fortune, rand), b.damageDropped(meta));
+		ItemStack stack = new ItemStack(b.getItemDropped(meta, worldObj.rand, fortune), b.quantityDropped(meta, fortune, worldObj.rand), b.damageDropped(meta));
 
 		//yup that worked
 		if(stack != null && stack.getItem() == null) {
