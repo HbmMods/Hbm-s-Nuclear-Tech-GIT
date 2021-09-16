@@ -67,6 +67,7 @@ import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.*;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
@@ -250,6 +251,7 @@ public class MainRegistry {
 		CraftingManager.mainRegistry();
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 		SiegeTier.registerTiers();
+		HazardRegistry.registerItems();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");

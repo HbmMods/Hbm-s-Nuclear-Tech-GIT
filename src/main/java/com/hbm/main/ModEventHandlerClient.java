@@ -14,6 +14,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -528,6 +529,9 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		/// HAZARDS ///
+		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
