@@ -10,6 +10,7 @@ public class HazardRegistry {
 	
 	public static void registerItems() {
 		HazardSystem.register("ingotPlutonium", makeData(RADIATION, ItemHazard.pu * ItemHazard.ingot));
+		//TODO: move all the itemhazard stuff here
 	}
 	
 	private static HazardData makeData() { return new HazardData(); }
