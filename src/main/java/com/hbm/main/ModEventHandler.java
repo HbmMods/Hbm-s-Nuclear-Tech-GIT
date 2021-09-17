@@ -33,6 +33,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.IEquipReceiver;
@@ -486,6 +487,10 @@ public class ModEventHandler {
 		}
 		
 		EntityEffectHandler.onUpdate(event.entityLiving);
+		
+		if(!event.entity.worldObj.isRemote && !(event.entityLiving instanceof EntityPlayer)) {
+			HazardSystem.updateLivingInventory(event.entityLiving);
+		}
 	}
 
 	public static int currentBrightness = 0;
@@ -943,6 +948,10 @@ public class ModEventHandler {
 			}
 			
 			/// PU RADIATION END ///
+
+			/// NEW ITEM SYS START ///
+			HazardSystem.updatePlayerInventory(player);
+			/// NEW ITEM SYS END ///
 		}
 
 		//TODO: rewrite this so it doesn't look like shit

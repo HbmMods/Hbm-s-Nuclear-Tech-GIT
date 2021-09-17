@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.hazard.transformer.HazardTransformerBase;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 
@@ -35,6 +36,10 @@ public class HazardSystem {
 	 * For items that should, for whichever reason, be completely exempt from the hazard system.
 	 */
 	public static final HashSet<ComparableStack> blacklist = new HashSet();
+	/*
+	 * List of hazard transformers, called in order before and after unrolling all the HazardEntries.
+	 */
+	public static final List<HazardTransformerBase> trafos = new ArrayList();
 	
 	/**
 	 * Automatically casts the first parameter and registers it to the HazSys
@@ -109,6 +114,10 @@ public class HazardSystem {
 		
 		List<HazardEntry> entries = new ArrayList();
 		
+		for(HazardTransformerBase trafo : trafos) {
+			trafo.transformPre(stack, entries);
+		}
+		
 		int mutex = 0;
 		
 		for(HazardData data : chronological) {
@@ -120,6 +129,10 @@ public class HazardSystem {
 				entries.addAll(data.entries);
 				mutex = mutex | data.getMutex();
 			}
+		}
+		
+		for(HazardTransformerBase trafo : trafos) {
+			trafo.transformPost(stack, entries);
 		}
 		
 		return entries;
@@ -153,6 +166,17 @@ public class HazardSystem {
 		for(ItemStack stack : player.inventory.armorInventory) {
 			if(stack != null) {
 				applyHazards(stack, player);
+			}
+		}
+	}
+
+	public static void updateLivingInventory(EntityLivingBase entity) {
+		
+		for(int i = 0; i < 5; i++) {
+			ItemStack stack = entity.getEquipmentInSlot(i);
+
+			if(stack != null) {
+				applyHazards(stack, entity);
 			}
 		}
 	}

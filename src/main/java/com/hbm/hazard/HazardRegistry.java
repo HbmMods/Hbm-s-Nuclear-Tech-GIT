@@ -1,5 +1,6 @@
 package com.hbm.hazard;
 
+import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.HazardTypeBase;
 import com.hbm.hazard.type.HazardTypeRadiation;
 import com.hbm.items.special.ItemHazard;
@@ -11,6 +12,9 @@ public class HazardRegistry {
 	public static void registerItems() {
 		HazardSystem.register("ingotPlutonium", makeData(RADIATION, ItemHazard.pu * ItemHazard.ingot));
 		//TODO: move all the itemhazard stuff here
+		
+		//TODO: move this into its own method
+		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
 	}
 	
 	private static HazardData makeData() { return new HazardData(); }
