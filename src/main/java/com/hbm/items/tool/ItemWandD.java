@@ -29,7 +29,16 @@ public class ItemWandD extends Item {
 			//int y = world.getHeightValue(x, z);
 			int y = pos.blockY;
 			
-			CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
+			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
+			
+			for(int i = x - 10; i <= x + 10; i++) {
+				for(int j = y - 10; j <= y + 10; j++) {
+					for(int k = z - 10; k <= z + 10; k++) {
+						
+						world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+					}
+				}
+			}
 			
 			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);

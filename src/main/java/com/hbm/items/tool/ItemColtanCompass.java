@@ -2,6 +2,8 @@ package com.hbm.items.tool;
 
 import java.util.Random;
 
+import com.hbm.main.MainRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -13,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemColtanCompass extends Item {
@@ -28,6 +31,9 @@ public class ItemColtanCompass extends Item {
 				lastX = stack.stackTagCompound.getInteger("colX");
 				lastZ = stack.stackTagCompound.getInteger("colZ");
 				lease = System.currentTimeMillis() + 1000;
+				
+				Vec3 vec = Vec3.createVectorHelper(entity.posX - lastX, 0, entity.posZ - lastZ);
+				MainRegistry.proxy.displayTooltip(((int) vec.lengthVector()) + "m");
 			}
 			
 			if(ItemColtanCompass.this.lease < System.currentTimeMillis()) {

@@ -5,301 +5,104 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictManager {
 	
 	public static void registerOres() {
-		
-		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
-		OreDictionary.registerOre("ingotUranium233", ModItems.ingot_u233);
-		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
-		OreDictionary.registerOre("ingotUranium238", ModItems.ingot_u238);
-		OreDictionary.registerOre("ingotThorium", ModItems.ingot_th232);
-		OreDictionary.registerOre("ingotThorium232", ModItems.ingot_th232);
-		OreDictionary.registerOre("ingotPlutonium", ModItems.ingot_plutonium);
-		OreDictionary.registerOre("ingotPlutonium238", ModItems.ingot_pu238);
-		OreDictionary.registerOre("ingotPlutonium239", ModItems.ingot_pu239);
-		OreDictionary.registerOre("ingotPlutonium240", ModItems.ingot_pu240);
-		OreDictionary.registerOre("ingotPlutonium241", ModItems.ingot_pu241);
-		OreDictionary.registerOre("ingotAmericium241", ModItems.ingot_am241);
-		OreDictionary.registerOre("ingotAmericium242", ModItems.ingot_am242);
-		OreDictionary.registerOre("ingotNeptunium237", ModItems.ingot_neptunium);
-		OreDictionary.registerOre("ingotTechnetium99", ModItems.ingot_technetium);
-		OreDictionary.registerOre("U233", ModItems.ingot_u233);
-		OreDictionary.registerOre("U235", ModItems.ingot_u235);
-		OreDictionary.registerOre("U238", ModItems.ingot_u238);
-		OreDictionary.registerOre("Th232", ModItems.ingot_th232);
-		OreDictionary.registerOre("Pu238", ModItems.ingot_pu238);
-		OreDictionary.registerOre("Pu239", ModItems.ingot_pu239);
-		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
-		OreDictionary.registerOre("Pu241", ModItems.ingot_pu241);
-		OreDictionary.registerOre("Am241", ModItems.ingot_am241);
-		OreDictionary.registerOre("Am242", ModItems.ingot_am242);
-		OreDictionary.registerOre("Np237", ModItems.ingot_neptunium);
-		OreDictionary.registerOre("ingotPolonium", ModItems.ingot_polonium);
-		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);
-		OreDictionary.registerOre("ingotTitanium", ModItems.ingot_titanium);
-		OreDictionary.registerOre("ingotSteel", ModItems.ingot_steel);
-		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
-		OreDictionary.registerOre("ingotMingrade", ModItems.ingot_red_copper);
-		OreDictionary.registerOre("ingotAdvanced", ModItems.ingot_advanced_alloy);
-		OreDictionary.registerOre("ingotAdvancedAlloy", ModItems.ingot_advanced_alloy);
-		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
-		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
-		OreDictionary.registerOre("ingotBeryllium", ModItems.ingot_beryllium);
-		OreDictionary.registerOre("ingotCobalt", ModItems.ingot_cobalt);
-		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
-		OreDictionary.registerOre("ingotLithium", ModItems.lithium);
-		OreDictionary.registerOre("ingotMagnetizedTungsten", ModItems.ingot_magnetized_tungsten);
-		OreDictionary.registerOre("ingotCMBSteel", ModItems.ingot_combine_steel);
-		OreDictionary.registerOre("ingotAustralium", ModItems.ingot_australium);
-		OreDictionary.registerOre("ingotDuraSteel", ModItems.ingot_dura_steel);
-		OreDictionary.registerOre("ingotPolymer", ModItems.ingot_polymer);
-		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
-		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
-		OreDictionary.registerOre("ingotDesh", ModItems.ingot_desh);
-		OreDictionary.registerOre("ingotSaturnite", ModItems.ingot_saturnite);
-		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
-		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
-		OreDictionary.registerOre("ingotStarmetal", ModItems.ingot_starmetal);
-		OreDictionary.registerOre("ingotAsbestos", ModItems.ingot_asbestos);
-		OreDictionary.registerOre("ingotZirconium", ModItems.ingot_zirconium);
-		OreDictionary.registerOre("ingotBoron", ModItems.ingot_boron);
-		OreDictionary.registerOre("ingotTcAlloy", ModItems.ingot_tcalloy);
-		OreDictionary.registerOre("ingotGold198", ModItems.ingot_au198);
-		OreDictionary.registerOre("ingotColtan", ModItems.fragment_coltan);
-		OreDictionary.registerOre("ingotTantalum", ModItems.ingot_tantalium);
-		OreDictionary.registerOre("ingotNiobium", ModItems.ingot_niobium);
-		
-		OreDictionary.registerOre("crystalCinnabar", ModItems.cinnebar);
 
-		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
-		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
-		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
-		OreDictionary.registerOre("nuggetUranium233", ModItems.nugget_u233);
-		OreDictionary.registerOre("nuggetUranium235", ModItems.nugget_u235);
-		OreDictionary.registerOre("nuggetUranium238", ModItems.nugget_u238);
-		OreDictionary.registerOre("nuggetThorium", ModItems.nugget_th232);
-		OreDictionary.registerOre("nuggetThorium232", ModItems.nugget_th232);
-		OreDictionary.registerOre("nuggetPlutonium", ModItems.nugget_plutonium);
-		OreDictionary.registerOre("nuggetPlutonium238", ModItems.nugget_pu238);
-		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
-		OreDictionary.registerOre("nuggetPlutonium240", ModItems.nugget_pu240);
-		OreDictionary.registerOre("nuggetPlutonium241", ModItems.nugget_pu241);
-		OreDictionary.registerOre("nuggetAmericium241", ModItems.nugget_am241);
-		OreDictionary.registerOre("nuggetAmericium242", ModItems.nugget_am242);
-		OreDictionary.registerOre("nuggetAustralium", ModItems.nugget_australium);
-		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
-		OreDictionary.registerOre("nuggetNeptunium237", ModItems.nugget_neptunium);
-		OreDictionary.registerOre("nuggetTechnetium99", ModItems.nugget_technetium);
-		OreDictionary.registerOre("nuggetPolonium", ModItems.nugget_polonium);
-		OreDictionary.registerOre("nuggetSchrabidium", ModItems.nugget_schrabidium);
-		OreDictionary.registerOre("nuggetZirconium", ModItems.nugget_zirconium);
-		OreDictionary.registerOre("nuggetRadium226", ModItems.nugget_ra226);
-		OreDictionary.registerOre("nuggetGold198", ModItems.nugget_au198);
-		OreDictionary.registerOre("tinyU233", ModItems.nugget_u233);
-		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
-		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
-		OreDictionary.registerOre("tinyTh232", ModItems.nugget_th232);
-		OreDictionary.registerOre("tinyPu238", ModItems.nugget_pu238);
-		OreDictionary.registerOre("tinyPu239", ModItems.nugget_pu239);
-		OreDictionary.registerOre("tinyPu240", ModItems.nugget_pu240);
-		OreDictionary.registerOre("tinyPu241", ModItems.nugget_pu241);
-		OreDictionary.registerOre("tinyAm241", ModItems.nugget_am241);
-		OreDictionary.registerOre("tinyAm242", ModItems.nugget_am242);
-		OreDictionary.registerOre("tinyNp237", ModItems.nugget_neptunium);
-		OreDictionary.registerOre("tinyTc99", ModItems.nugget_technetium);
-		OreDictionary.registerOre("tinyRa226", ModItems.nugget_ra226);
-
-		OreDictionary.registerOre("nuggetNeodymium", ModItems.fragment_neodymium);
-		OreDictionary.registerOre("nuggetCobalt", ModItems.fragment_cobalt);
-		OreDictionary.registerOre("nuggetNiobium", ModItems.fragment_niobium);
-		OreDictionary.registerOre("nuggetCerium", ModItems.fragment_cerium);
-		OreDictionary.registerOre("nuggetLanthanium", ModItems.fragment_lanthanium);
-		OreDictionary.registerOre("nuggetActinium", ModItems.fragment_actinium);
-		OreDictionary.registerOre("nuggetBoron", ModItems.fragment_boron);
-		OreDictionary.registerOre("nuggetTantalum", ModItems.nugget_tantalium);
+		new DictFrame("Coal").gem(Items.coal).dustSmall(ModItems.powder_coal_tiny).dust(ModItems.powder_coal);
+		new DictFrame("Iron").plate(ModItems.plate_iron).dust(ModItems.powder_iron).ore(ModBlocks.ore_gneiss_iron);
+		new DictFrame("Gold").plate(ModItems.plate_gold).dust(ModItems.powder_gold).ore(ModBlocks.ore_gneiss_gold);
+		new DictFrame("Lapis").dust(ModItems.powder_lapis);
+		new DictFrame("NetherQuartz").gem(Items.quartz).dust(ModItems.powder_quartz);
+		new DictFrame("Diamond").dust(ModItems.powder_diamond).ore(ModBlocks.gravel_diamond);
+		new DictFrame("Emerald").dust(ModItems.powder_emerald);
 		
-		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
-		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
-		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
-		OreDictionary.registerOre("dustThorium", ModItems.powder_thorium);
-		OreDictionary.registerOre("dustPlutonium", ModItems.powder_plutonium);
-		OreDictionary.registerOre("dustTitanium", ModItems.powder_titanium);
-		OreDictionary.registerOre("dustTungsten", ModItems.powder_tungsten);
-		OreDictionary.registerOre("dustCopper", ModItems.powder_copper);
-		OreDictionary.registerOre("dustBeryllium", ModItems.powder_beryllium);
-		OreDictionary.registerOre("dustAluminum", ModItems.powder_aluminium);
-		OreDictionary.registerOre("dustDiamond", ModItems.powder_diamond);
-		OreDictionary.registerOre("dustEmerald", ModItems.powder_emerald);
-		OreDictionary.registerOre("dustLapis", ModItems.powder_lapis);
-		OreDictionary.registerOre("dustCoal", ModItems.powder_coal);
-		OreDictionary.registerOre("dustLignite", ModItems.powder_lignite);
-		OreDictionary.registerOre("dustAdvanced", ModItems.powder_advanced_alloy);
-		OreDictionary.registerOre("dustAdvancedAlloy", ModItems.powder_advanced_alloy);
-		OreDictionary.registerOre("dustCMBSteel", ModItems.powder_combine_steel);
-		OreDictionary.registerOre("dustMagnetizedTungsten", ModItems.powder_magnetized_tungsten);
-		OreDictionary.registerOre("dustMingrade", ModItems.powder_red_copper);
-		OreDictionary.registerOre("dustSteel", ModItems.powder_steel);
-		OreDictionary.registerOre("dustLithium", ModItems.powder_lithium);
-		OreDictionary.registerOre("dustNetherQuartz", ModItems.powder_quartz);
-		OreDictionary.registerOre("dustAustralium", ModItems.powder_australium);
-		OreDictionary.registerOre("dustDuraSteel", ModItems.powder_dura_steel);
-		OreDictionary.registerOre("dustPolymer", ModItems.powder_polymer);
-		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
-		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
-		OreDictionary.registerOre("dustDesh", ModItems.powder_desh);
-		OreDictionary.registerOre("dustEuphemium", ModItems.powder_euphemium);
-		OreDictionary.registerOre("dustDineutronium", ModItems.powder_dineutronium);
-		OreDictionary.registerOre("dustSchrabidium", ModItems.powder_schrabidium);
-		OreDictionary.registerOre("dustSulfur", ModItems.sulfur);
-		OreDictionary.registerOre("dustNiter", ModItems.niter);
-		OreDictionary.registerOre("dustSaltpeter", ModItems.niter);
-		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
-		OreDictionary.registerOre("dustNeptunium237", ModItems.powder_neptunium);
-		OreDictionary.registerOre("dustPolonium", ModItems.powder_polonium);
-		OreDictionary.registerOre("dustAsbestos", ModItems.powder_asbestos);
-		OreDictionary.registerOre("dustPhosphorus", ModItems.powder_fire);
-		OreDictionary.registerOre("dustZirconium", ModItems.powder_zirconium);
-		OreDictionary.registerOre("dustBoron", ModItems.powder_boron);
-		OreDictionary.registerOre("dustTcAlloy", ModItems.powder_tcalloy);
-		OreDictionary.registerOre("dustGol198", ModItems.powder_au198);
-		OreDictionary.registerOre("dustColtan", ModItems.powder_coltan_ore);
-		OreDictionary.registerOre("dustTantalum", ModItems.powder_tantalium);
+		new DictFrame("Uranium").nugget(ModItems.nugget_uranium).billet(ModItems.billet_uranium).ingot(ModItems.ingot_uranium).dust(ModItems.powder_uranium).block(ModBlocks.block_uranium)
+		.ore(ModBlocks.ore_uranium, ModBlocks.ore_uranium_scorched, ModBlocks.ore_gneiss_uranium, ModBlocks.ore_gneiss_uranium_scorched, ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched, ModBlocks.ore_meteor_uranium);
+		new DictFrame("Uranium233", "U233").nugget(ModItems.nugget_u233).billet(ModItems.billet_u233).ingot(ModItems.ingot_u233).block(ModBlocks.block_u233);
+		new DictFrame("Uranium235", "U235").nugget(ModItems.nugget_u235).billet(ModItems.billet_u235).ingot(ModItems.ingot_u235).block(ModBlocks.block_u235);
+		new DictFrame("Uranium238", "U238").nugget(ModItems.nugget_u238).billet(ModItems.billet_u238).ingot(ModItems.ingot_u238).block(ModBlocks.block_u238);
+		new DictFrame("Thorium232", "Th232").nugget(ModItems.nugget_th232).billet(ModItems.billet_th232).ingot(ModItems.ingot_th232).dust(ModItems.powder_thorium).block(ModBlocks.block_thorium).ore(ModBlocks.ore_thorium, ModBlocks.ore_meteor_thorium);
+		new DictFrame("Plutonium").nugget(ModItems.nugget_plutonium).billet(ModItems.billet_plutonium).ingot(ModItems.ingot_plutonium).dust(ModItems.powder_plutonium).block(ModBlocks.block_plutonium).ore(ModBlocks.ore_nether_plutonium);
+		new DictFrame("Plutonium238", "Pu238").nugget(ModItems.nugget_pu238).billet(ModItems.billet_pu238).ingot(ModItems.ingot_pu238).block(ModBlocks.block_pu238);
+		new DictFrame("Plutonium239", "Pu239").nugget(ModItems.nugget_pu239).billet(ModItems.billet_pu239).ingot(ModItems.ingot_pu239).block(ModBlocks.block_pu239);
+		new DictFrame("Plutonium240", "Pu240").nugget(ModItems.nugget_pu240).billet(ModItems.billet_pu240).ingot(ModItems.ingot_pu240).block(ModBlocks.block_pu240);
+		new DictFrame("Plutonium241", "Pu241").nugget(ModItems.nugget_pu241).billet(ModItems.billet_pu241).ingot(ModItems.ingot_pu241);//.block(ModBlocks.block_pu241);
+		new DictFrame("Americium241", "Am241").nugget(ModItems.nugget_am241).billet(ModItems.billet_am241).ingot(ModItems.ingot_am241);
+		new DictFrame("Americium242", "Am242").nugget(ModItems.nugget_am242).billet(ModItems.billet_am242).ingot(ModItems.ingot_am242);
+		new DictFrame("Neptunium237", "Np237").nugget(ModItems.nugget_neptunium).billet(ModItems.billet_neptunium).ingot(ModItems.ingot_neptunium).dust(ModItems.powder_neptunium).block(ModBlocks.block_neptunium);
+		new DictFrame("Polonium210", "Po210").nugget(ModItems.nugget_polonium).billet(ModItems.billet_polonium).ingot(ModItems.ingot_polonium).dust(ModItems.powder_polonium).block(ModBlocks.block_polonium);
+		new DictFrame("Technetium99", "Tc99").nugget(ModItems.nugget_technetium).billet(ModItems.billet_technetium).ingot(ModItems.ingot_technetium);
+		new DictFrame("Radium226", "Ra226").nugget(ModItems.nugget_ra226);
+		new DictFrame("Cobalt60", "Co60").nugget(ModItems.nugget_co60).billet(ModItems.billet_co60).ingot(ModItems.ingot_co60).dust(ModItems.powder_co60);
+		new DictFrame("Gold198", "Au198").nugget(ModItems.nugget_au198).billet(ModItems.billet_au198).ingot(ModItems.ingot_au198).dust(ModItems.powder_au198);
+		new DictFrame("Titanium").ingot(ModItems.ingot_titanium).dust(ModItems.powder_titanium).plate(ModItems.plate_titanium).block(ModBlocks.block_titanium).ore(ModBlocks.ore_titanium, ModBlocks.ore_meteor_titanium);
+		new DictFrame("Copper").ingot(ModItems.ingot_copper).dust(ModItems.powder_copper).plate(ModItems.plate_copper).block(ModBlocks.block_copper).ore(ModBlocks.ore_copper, ModBlocks.ore_gneiss_copper, ModBlocks.ore_meteor_copper);
+		new DictFrame("Mingrade").ingot(ModItems.ingot_red_copper).dust(ModItems.powder_red_copper).plate(ModItems.plate_advanced_alloy).block(ModBlocks.block_red_copper);
+		new DictFrame("AdvancedAlloy").ingot(ModItems.ingot_advanced_alloy).dust(ModItems.powder_advanced_alloy).block(ModBlocks.block_advanced_alloy);
+		new DictFrame("Tungsten").ingot(ModItems.ingot_tungsten).dust(ModItems.powder_tungsten).block(ModBlocks.block_tungsten).ore(ModBlocks.ore_tungsten, ModBlocks.ore_nether_tungsten, ModBlocks.ore_meteor_tungsten);
+		new DictFrame("Aluminum").ingot(ModItems.ingot_aluminium).dust(ModItems.powder_aluminium).plate(ModItems.plate_aluminium).block(ModBlocks.block_aluminium).ore(ModBlocks.ore_aluminium, ModBlocks.ore_meteor_aluminium);
+		new DictFrame("Steel").ingot(ModItems.ingot_steel).dustSmall(ModItems.powder_steel_tiny).dust(ModItems.powder_steel).plate(ModItems.plate_steel).block(ModBlocks.block_steel);
+		new DictFrame("TcAlloy").ingot(ModItems.ingot_tcalloy).dust(ModItems.powder_tcalloy);
+		new DictFrame("Lead").nugget(ModItems.nugget_lead).ingot(ModItems.ingot_lead).dust(ModItems.powder_lead).plate(ModItems.plate_lead).block(ModBlocks.block_lead).ore(ModBlocks.ore_lead, ModBlocks.ore_meteor_lead);
+		//new DictFrame("Bismuth").nugget(ModItems.nugget_bismuth).ingot(ModItems.ingot_bismuth); THAT'S WHAT YOU THOUGHT!
+		new DictFrame("Tantalum").nugget(ModItems.nugget_tantalium).gem(ModItems.gem_tantalium).ingot(ModItems.ingot_tantalium).dust(ModItems.powder_tantalium).block(ModBlocks.block_tantalium);
+		new DictFrame("Coltan").ingot(ModItems.fragment_coltan).dust(ModItems.powder_coltan_ore).block(ModBlocks.block_coltan).ore(ModBlocks.ore_coltan);
+		new DictFrame("Niobium").nugget(ModItems.fragment_niobium).ingot(ModItems.ingot_niobium).dustSmall(ModItems.powder_niobium_tiny).dust(ModItems.powder_niobium).block(ModBlocks.block_niobium);
+		new DictFrame("Beryllium").nugget(ModItems.nugget_beryllium).ingot(ModItems.ingot_beryllium).dust(ModItems.powder_beryllium).block(ModBlocks.block_beryllium).ore(ModBlocks.ore_beryllium);
+		new DictFrame("Cobalt").nugget(ModItems.fragment_cobalt).ingot(ModItems.ingot_cobalt).dustSmall(ModItems.powder_cobalt_tiny).dust(ModItems.powder_cobalt).block(ModBlocks.block_cobalt).ore(ModBlocks.ore_cobalt, ModBlocks.ore_nether_cobalt);
+		new DictFrame("Boron").nugget(ModItems.fragment_boron).ingot(ModItems.ingot_boron).dustSmall(ModItems.powder_boron_tiny).dust(ModItems.powder_boron).block(ModBlocks.block_boron);
+		new DictFrame("Graphite").ingot(ModItems.ingot_graphite).block(ModBlocks.block_graphite);
+		new DictFrame("DuraSteel").ingot(ModItems.ingot_dura_steel).dust(ModItems.powder_dura_steel).block(ModBlocks.block_dura_steel);
+		new DictFrame("Polymer").ingot(ModItems.ingot_polymer).dust(ModItems.powder_polymer);
+		new DictFrame("Schrabidium").nugget(ModItems.nugget_schrabidium).billet(ModItems.billet_schrabidium).ingot(ModItems.ingot_schrabidium).plate(ModItems.plate_schrabidium).dust(ModItems.powder_schrabidium).block(ModBlocks.block_schrabidium).ore(ModBlocks.ore_schrabidium, ModBlocks.ore_gneiss_schrabidium, ModBlocks.ore_nether_schrabidium);
+		new DictFrame("Schrabidate").ingot(ModItems.ingot_schrabidate).dust(ModItems.powder_schrabidate).block(ModBlocks.block_schrabidate);
+		new DictFrame("MagnetizedTungsten").ingot(ModItems.ingot_magnetized_tungsten).dust(ModItems.powder_magnetized_tungsten).block(ModBlocks.block_magnetized_tungsten);
+		new DictFrame("CMBSteel").ingot(ModItems.ingot_combine_steel).dust(ModItems.powder_combine_steel).block(ModBlocks.block_combine_steel);
+		new DictFrame("Solinium").nugget(ModItems.nugget_solinium).billet(ModItems.billet_solinium).ingot(ModItems.ingot_solinium).block(ModBlocks.block_solinium);
+		new DictFrame("Lanthanum").nugget(ModItems.fragment_lanthanium).ingot(ModItems.ingot_lanthanium).dustSmall(ModItems.powder_lanthanium_tiny).dust(ModItems.powder_lanthanium).block(ModBlocks.block_lanthanium);
+		new DictFrame("Actinium").nugget(ModItems.fragment_actinium).ingot(ModItems.ingot_actinium).dustSmall(ModItems.powder_actinium_tiny).dust(ModItems.powder_actinium).block(ModBlocks.block_actinium);
+		new DictFrame("Desh").nugget(ModItems.nugget_desh).ingot(ModItems.ingot_desh).dust(ModItems.powder_desh).block(ModBlocks.block_desh);
+		new DictFrame("Starmetal").ingot(ModItems.ingot_starmetal).block(ModBlocks.block_starmetal).ore(ModBlocks.ore_meteor_starmetal);
+		new DictFrame("Saturnite").ingot(ModItems.ingot_saturnite).plate(ModItems.plate_saturnite);
+		new DictFrame("Euphemium").nugget(ModItems.nugget_euphemium).ingot(ModItems.ingot_euphemium).dust(ModItems.powder_euphemium).block(ModBlocks.block_euphemium);
+		new DictFrame("Dineutronium").nugget(ModItems.nugget_dineutronium).ingot(ModItems.ingot_dineutronium).dust(ModItems.powder_dineutronium).block(ModBlocks.block_dineutronium);
+		new DictFrame("WhitePhosphorus").ingot(ModItems.ingot_phosphorus).block(ModBlocks.block_white_phosphorus);
+		new DictFrame("RedPhosphorus").dust(ModItems.powder_fire).block(ModBlocks.block_red_phosphorus);
+		new DictFrame("Lithium").ingot(ModItems.lithium).dustSmall(ModItems.powder_lithium_tiny).dust(ModItems.powder_lithium).block(ModBlocks.block_lithium).ore(ModBlocks.ore_gneiss_lithium, ModBlocks.ore_meteor_lithium);
+		new DictFrame("Zirconium").nugget(ModItems.nugget_zirconium).ingot(ModItems.ingot_zirconium).dust(ModItems.powder_zirconium).block(ModBlocks.block_zirconium).ore(ModBlocks.ore_depth_zirconium);
+		new DictFrame("Fiberglass").ingot(ModItems.ingot_fiberglass).block(ModBlocks.block_fiberglass);
+		new DictFrame("Asbestos").ingot(ModItems.ingot_asbestos).dust(ModItems.powder_asbestos).block(ModBlocks.block_asbestos).ore(ModBlocks.ore_asbestos, ModBlocks.ore_gneiss_asbestos, ModBlocks.basalt_asbestos);
+		new DictFrame("Cinnabar").crystal(ModItems.cinnebar).gem(ModItems.cinnebar).ore(ModBlocks.ore_cinnebar, ModBlocks.ore_depth_cinnebar);
+		new DictFrame("Lignite").gem(ModItems.lignite).dust(ModItems.powder_lignite).ore(ModBlocks.ore_lignite);
+		new DictFrame("Sulfur").dust(ModItems.sulfur).block(ModBlocks.block_sulfur).ore(ModBlocks.ore_sulfur, ModBlocks.ore_nether_sulfur, ModBlocks.basalt_sulfur, ModBlocks.ore_meteor_sulfur);
+		new DictFrame("Niter").dust(ModItems.niter).block(ModBlocks.block_niter).ore(ModBlocks.ore_niter);
+		new DictFrame("Fluorite").dust(ModItems.fluorite).block(ModBlocks.block_fluorite).ore(ModBlocks.ore_fluorite, ModBlocks.basalt_fluorite);
+		new DictFrame("Volcanic").gem(ModItems.gem_volcanic).ore(ModBlocks.basalt_gem);
 
-		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
-		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
-		OreDictionary.registerOre("dustThorium", ModItems.powder_thorium);
-		OreDictionary.registerOre("dustAstatine", ModItems.powder_astatine);
-		OreDictionary.registerOre("dustNeodymium", ModItems.powder_neodymium);
-		OreDictionary.registerOre("dustCaesium", ModItems.powder_caesium);
-		OreDictionary.registerOre("dustStrontium", ModItems.powder_strontium);
-		OreDictionary.registerOre("dustCobalt", ModItems.powder_cobalt);
-		OreDictionary.registerOre("dustBromine", ModItems.powder_bromine);
-		OreDictionary.registerOre("dustNiobium", ModItems.powder_niobium);
-		OreDictionary.registerOre("dustTennessine", ModItems.powder_tennessine);
-		OreDictionary.registerOre("dustCerium", ModItems.powder_cerium);
+		new DictFrame("Australium").nugget(ModItems.nugget_australium).billet(ModItems.billet_australium).ingot(ModItems.ingot_australium).dust(ModItems.powder_australium).block(ModBlocks.block_australium).ore(ModBlocks.ore_australium);
+		new DictFrame("Reiium").nugget(ModItems.nugget_reiium).ingot(ModItems.ingot_reiium).dust(ModItems.powder_reiium).block(ModBlocks.block_reiium).ore(ModBlocks.ore_reiium);
+		new DictFrame("Weidanium").nugget(ModItems.nugget_weidanium).ingot(ModItems.ingot_weidanium).dust(ModItems.powder_weidanium).block(ModBlocks.block_weidanium).ore(ModBlocks.ore_weidanium);
+		new DictFrame("Unobtainium").nugget(ModItems.nugget_unobtainium).ingot(ModItems.ingot_unobtainium).dust(ModItems.powder_unobtainium).block(ModBlocks.block_unobtainium).ore(ModBlocks.ore_unobtainium);
+		new DictFrame("Verticium").nugget(ModItems.nugget_verticium).ingot(ModItems.ingot_verticium).dust(ModItems.powder_verticium).block(ModBlocks.block_verticium).ore(ModBlocks.ore_verticium);
+		new DictFrame("Daffergon").nugget(ModItems.nugget_daffergon).ingot(ModItems.ingot_daffergon).dust(ModItems.powder_daffergon).block(ModBlocks.block_daffergon).ore(ModBlocks.ore_daffergon);
 
-		OreDictionary.registerOre("gemCoal", Items.coal);
-		OreDictionary.registerOre("gemLignite", ModItems.lignite);
-		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
-		OreDictionary.registerOre("gemTantalum", ModItems.gem_tantalium);
-		
-		OreDictionary.registerOre("plateTitanium", ModItems.plate_titanium);
-		OreDictionary.registerOre("plateAluminum", ModItems.plate_aluminium);
+		new DictFrame("Neodymium").nugget(ModItems.fragment_neodymium).dustSmall(ModItems.powder_neodymium_tiny).dust(ModItems.powder_neodymium).ore(ModBlocks.ore_depth_nether_neodymium);
+		new DictFrame("Cerium").nugget(ModItems.fragment_cerium).dustSmall(ModItems.powder_cerium_tiny).dust(ModItems.powder_cerium);
+		new DictFrame("Iodine").dust(ModItems.powder_iodine);
+		new DictFrame("Astatine").dust(ModItems.powder_astatine);
+
+		new DictFrame("Iodine131", "I131").dustSmall(ModItems.powder_i131_tiny).dust(ModItems.powder_i131);
+		new DictFrame("Xenon135", "Xe135").dustSmall(ModItems.powder_xe135_tiny).dust(ModItems.powder_xe135);
+		new DictFrame("Caesium137", "Cs137").dustSmall(ModItems.powder_cs137_tiny).dust(ModItems.powder_cs137);
+		new DictFrame("Astatine209", "At209").dust(ModItems.powder_at209);
+
 		OreDictionary.registerOre(getReflector(), ModItems.neutron_reflector);
-		OreDictionary.registerOre("plateSteel", ModItems.plate_steel);
-		OreDictionary.registerOre("plateLead", ModItems.plate_lead);
-		OreDictionary.registerOre("plateCopper", ModItems.plate_copper);
-		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
-		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
-		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
-		OreDictionary.registerOre("plateAdvancedAlloy", ModItems.plate_advanced_alloy);
-		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
-		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
-		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
-
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium_scorched);
-		OreDictionary.registerOre("oreThorium", ModBlocks.ore_thorium);
-		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
-		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_schrabidium);
-		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_sulfur);
-		OreDictionary.registerOre("oreNiter", ModBlocks.ore_niter);
-		OreDictionary.registerOre("oreSaltpeter", ModBlocks.ore_niter);
-		OreDictionary.registerOre("oreCopper", ModBlocks.ore_copper);
-		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_tungsten);
-		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_aluminium);
-		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
-		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
-		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
-		OreDictionary.registerOre("oreLignite", ModBlocks.ore_lignite);
-		OreDictionary.registerOre("oreAustralium", ModBlocks.ore_australium);
-		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
-		OreDictionary.registerOre("oreZirconium", ModBlocks.ore_depth_zirconium);
-		OreDictionary.registerOre("oreColtan", ModBlocks.ore_coltan);
-		OreDictionary.registerOre("oreCobalt", ModBlocks.ore_cobalt);
-
-		OreDictionary.registerOre("oreIron", ModBlocks.ore_gneiss_iron);
-		OreDictionary.registerOre("oreGold", ModBlocks.ore_gneiss_gold);
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_gneiss_uranium);
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_gneiss_uranium_scorched);
-		OreDictionary.registerOre("oreCopper", ModBlocks.ore_gneiss_copper);
-		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_gneiss_asbestos);
-		OreDictionary.registerOre("oreLithium", ModBlocks.ore_gneiss_lithium);
-		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_gneiss_rare);
-		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_gneiss_schrabidium);
-
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium_scorched);
-		OreDictionary.registerOre("orePlutonium", ModBlocks.ore_nether_plutonium);
-		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_nether_tungsten);
-		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_nether_sulfur);
-		OreDictionary.registerOre("oreCobalt", ModBlocks.ore_nether_cobalt);
-		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_nether_schrabidium);
-
-		OreDictionary.registerOre("oreUranium", ModBlocks.ore_meteor_uranium);
-		OreDictionary.registerOre("oreThorium", ModBlocks.ore_meteor_thorium);
-		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_meteor_titanium);
-		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_meteor_sulfur);
-		OreDictionary.registerOre("oreCopper", ModBlocks.ore_meteor_copper);
-		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_meteor_tungsten);
-		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_meteor_aluminium);
-		OreDictionary.registerOre("oreLead", ModBlocks.ore_meteor_lead);
-		OreDictionary.registerOre("oreLithium", ModBlocks.ore_meteor_lithium);
-		OreDictionary.registerOre("oreStarmetal", ModBlocks.ore_meteor_starmetal);
-		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_asbestos);
-		OreDictionary.registerOre("oreCinnabar", ModBlocks.ore_cinnebar);
-
-		OreDictionary.registerOre("oreSulfur", ModBlocks.basalt_sulfur);
-		OreDictionary.registerOre("oreAsbestos", ModBlocks.basalt_asbestos);
-
-		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
-		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
-		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
-		OreDictionary.registerOre("blockSulfur", ModBlocks.block_sulfur);
-		OreDictionary.registerOre("blockNiter", ModBlocks.block_niter);
-		OreDictionary.registerOre("blockSaltpeter", ModBlocks.block_niter);
-		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
-		OreDictionary.registerOre("blockMingrade", ModBlocks.block_red_copper);
-		OreDictionary.registerOre("blockAdvanced", ModBlocks.block_advanced_alloy);
-		OreDictionary.registerOre("blockAdvancedAlloy", ModBlocks.block_advanced_alloy);
-		OreDictionary.registerOre("blockTungsten", ModBlocks.block_tungsten);
-		OreDictionary.registerOre("blockAluminum", ModBlocks.block_aluminium);
-		OreDictionary.registerOre("blockFluorite", ModBlocks.block_fluorite);
-		OreDictionary.registerOre("blockSteel", ModBlocks.block_steel);
-		OreDictionary.registerOre("blockLead", ModBlocks.block_lead);
-		OreDictionary.registerOre("blockBeryllium", ModBlocks.block_beryllium);
-		OreDictionary.registerOre("blockSchrabidium", ModBlocks.block_schrabidium);
-		OreDictionary.registerOre("blockCMBSteel", ModBlocks.block_combine_steel);
-		OreDictionary.registerOre("blockMagnetizedTungsten", ModBlocks.block_magnetized_tungsten);
-		OreDictionary.registerOre("blockAustralium", ModBlocks.block_australium);
-		OreDictionary.registerOre("blockWeidanium", ModBlocks.block_weidanium);
-		OreDictionary.registerOre("blockReiium", ModBlocks.block_reiium);
-		OreDictionary.registerOre("blockUnobtainium", ModBlocks.block_unobtainium);
-		OreDictionary.registerOre("blockDaffergon", ModBlocks.block_daffergon);
-		OreDictionary.registerOre("blockVerticium", ModBlocks.block_verticium);
-		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
-		OreDictionary.registerOre("blockAsbestos", ModBlocks.block_asbestos);
-		OreDictionary.registerOre("blockCobalt", ModBlocks.block_cobalt);
-		OreDictionary.registerOre("blockZirconium", ModBlocks.block_zirconium);
-		OreDictionary.registerOre("blockBoron", ModBlocks.block_boron);
-		OreDictionary.registerOre("blockColtan", ModBlocks.block_coltan);
-		OreDictionary.registerOre("blockLithium", ModBlocks.block_lithium);
-
-		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
-		OreDictionary.registerOre("blockThorium232", ModBlocks.block_thorium);
-		OreDictionary.registerOre("blockUranium233", ModBlocks.block_u233);
-		OreDictionary.registerOre("blockUranium235", ModBlocks.block_u235);
-		OreDictionary.registerOre("blockUranium238", ModBlocks.block_u238);
-		OreDictionary.registerOre("blockNeptunium237", ModBlocks.block_neptunium);
-		OreDictionary.registerOre("blockPolonium", ModBlocks.block_polonium);
-		OreDictionary.registerOre("blockPlutonium", ModBlocks.block_plutonium);
-		OreDictionary.registerOre("blockPlutonium238", ModBlocks.block_pu238);
-		OreDictionary.registerOre("blockPlutonium239", ModBlocks.block_pu239);
-		OreDictionary.registerOre("blockPlutonium240", ModBlocks.block_pu240);
 
 		OreDictionary.registerOre("logWood", ModBlocks.pink_log);
 		OreDictionary.registerOre("logWoodPink", ModBlocks.pink_log);
@@ -325,5 +128,57 @@ public class OreDictManager {
 	@Untested
 	public static String getReflector() {
 		return GeneralConfig.enableReflectorCompat ? "plateDenseLead" : "plateTungCar"; //let's just mangle the name into "tungCar" so that it can't conflict with anything ever
+	}
+	
+	public static class DictFrame {
+		String[] mats;
+		
+		public DictFrame(String... mats) {
+			this.mats = mats;
+		}
+		
+		public DictFrame nugget(Item... nugget) {
+			return makeItem("nugget", nugget).makeItem("tiny", nugget);
+		}
+		public DictFrame ingot(Item... ingot) {
+			return makeItem("ingot", ingot);
+		}
+		public DictFrame dustSmall(Item... dustSmall) {
+			return makeItem("dustSmall", dustSmall);
+		}
+		public DictFrame dust(Item... dust) {
+			return makeItem("dust", dust);
+		}
+		public DictFrame gem(Item... gem) {
+			return makeItem("gem", gem);
+		}
+		public DictFrame crystal(Item... crystal) {
+			return makeItem("crystal", crystal);
+		}
+		public DictFrame plate(Item... plate) {
+			return makeItem("plate", plate);
+		}
+		public DictFrame billet(Item... billet) {
+			return makeItem("billet", billet);
+		}
+		
+		public DictFrame block(Block... block) {
+			return makeBlocks("block", block);
+		}
+		public DictFrame ore(Block... ore) {
+			return makeBlocks("ore", ore);
+		}
+		public DictFrame oreNether(Block... oreNether) {
+			return makeBlocks("oreNether", oreNether);
+		}
+
+		public DictFrame makeItem(String tag, Item... items) {
+			for(String mat : mats) for(Item i : items) OreDictionary.registerOre(tag + mat, i);
+			return this;
+		}
+		public DictFrame makeBlocks(String tag, Block... blocks) {
+			for(String mat : mats) for(Block b : blocks) OreDictionary.registerOre(tag + mat, b);
+			return this;
+		}
 	}
 }

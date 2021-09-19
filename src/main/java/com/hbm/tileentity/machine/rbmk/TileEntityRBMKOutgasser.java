@@ -16,6 +16,8 @@ import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -80,6 +82,9 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		recipes.put("ingotGold", new ItemStack(ModItems.ingot_au198));
 		recipes.put("nuggetGold", new ItemStack(ModItems.nugget_au198));
 		recipes.put("dustGold", new ItemStack(ModItems.powder_au198));
+		recipes.put(new ComparableStack(Blocks.brown_mushroom), new ItemStack(ModBlocks.mush));
+		recipes.put(new ComparableStack(Blocks.red_mushroom), new ItemStack(ModBlocks.mush));
+		recipes.put(new ComparableStack(Items.mushroom_stew), new ItemStack(ModItems.glowing_stew));
 	}
 	
 	private boolean canProcess() {

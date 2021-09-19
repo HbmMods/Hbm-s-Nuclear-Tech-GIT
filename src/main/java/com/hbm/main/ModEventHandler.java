@@ -533,9 +533,7 @@ public class ModEventHandler {
 					
 					if(p != null && p.dimension == 0) {
 						EntityMeteor meteor = new EntityMeteor(event.world);
-						meteor.posX = p.posX + event.world.rand.nextInt(201) - 100;
-						meteor.posY = 384;
-						meteor.posZ = p.posZ + event.world.rand.nextInt(201) - 100;
+						meteor.setPositionAndRotation(p.posX + event.world.rand.nextInt(201) - 100, 384, p.posZ + event.world.rand.nextInt(201) - 100, 0, 0);
 						meteor.motionX = event.world.rand.nextDouble() - 0.5;
 						meteor.motionY = -2.5;
 						meteor.motionZ = event.world.rand.nextDouble() - 0.5;

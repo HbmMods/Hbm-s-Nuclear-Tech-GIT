@@ -1072,6 +1072,30 @@ public class ItemRenderLibrary {
 				GL11.glScaled(1, 1, 1);
 				bindTexture(ResourceManager.fraction_spacer_tex); ResourceManager.fraction_spacer.renderAll();
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_tower_small), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.tower_small_tex); ResourceManager.tower_small.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_tower_large), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(4 * 0.95, 4 * 0.95, 4 * 0.95);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.tower_large_tex); ResourceManager.tower_large.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

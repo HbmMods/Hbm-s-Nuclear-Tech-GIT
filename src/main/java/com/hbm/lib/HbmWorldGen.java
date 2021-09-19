@@ -119,29 +119,33 @@ public class HbmWorldGen implements IWorldGenerator {
 			int colZ = (int) (colRand.nextGaussian() * 1500);
 			int colRange = 750;
 			
-			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) == 0) {
+			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) != 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
-				int y = rand.nextInt(4) + 1;
 				
 				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
-					if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
-						world.setBlock(x, y, z, ModBlocks.ore_bedrock_coltan);
+					
+					for(int y = 6; y >= 0; y--) {
+						if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.bedrock)) {
+							world.setBlock(x, y, z, ModBlocks.ore_bedrock_coltan);
+						}
 					}
 				}
 			}
 			
-			for (int k = 0; k < 2; k++) {
-				
-				for(int r = 1; r <= 5; r++) {
-					int randPosX = i + rand.nextInt(16);
-					int randPosY = rand.nextInt(25) + 15;
-					int randPosZ = j + rand.nextInt(16);
+			if(GeneralConfig.enable528ColtanDeposit) {
+				for (int k = 0; k < 2; k++) {
 					
-					int range = colRange / r;
-		
-					if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
-						(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+					for(int r = 1; r <= 5; r++) {
+						int randPosX = i + rand.nextInt(16);
+						int randPosY = rand.nextInt(25) + 15;
+						int randPosZ = j + rand.nextInt(16);
+						
+						int range = colRange / r;
+			
+						if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
+							(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+						}
 					}
 				}
 			}

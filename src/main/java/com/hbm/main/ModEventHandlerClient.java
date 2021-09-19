@@ -98,6 +98,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ModEventHandlerClient {
 	
@@ -532,6 +533,19 @@ public class ModEventHandlerClient {
 		
 		/// HAZARDS ///
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
+		
+		if(event.showAdvancedItemTooltips) {
+			int ids[] = OreDictionary.getOreIDs(stack);
+			
+			if(ids.length > 0) {
+				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
+				for(int i : ids) {
+					list.add(EnumChatFormatting.AQUA + " -" + OreDictionary.getOreName(i));
+				}
+			} else {
+				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
+			}
+		}
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");

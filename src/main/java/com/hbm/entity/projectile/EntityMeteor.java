@@ -7,30 +7,33 @@ import com.hbm.world.feature.Meteorite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityMeteor extends EntityThrowable {
+public class EntityMeteor extends Entity {
 
 	public EntityMeteor(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
+		this.setSize(4F, 4F);
 	}
 
 	@Override
 	public void onUpdate() {
 
-		this.moveEntity(motionX, motionY, motionZ);
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
 
 		this.motionY -= 0.03;
 		if(motionY < -2.5)
 			motionY = -2.5;
+		
+		this.moveEntity(motionX, motionY, motionZ);
 
-		if(!this.worldObj.isRemote && this.onGround) {
+		if(!this.worldObj.isRemote && this.onGround && this.posY < 260) {
 			
 			worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), true);
 			if(GeneralConfig.enableMeteorTails) {
@@ -62,11 +65,6 @@ public class EntityMeteor extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition p_70184_1_) {
-
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
 		return distance < 500000;
@@ -82,4 +80,13 @@ public class EntityMeteor extends EntityThrowable {
 	public float getBrightness(float p_70013_1_) {
 		return 1.0F;
 	}
+
+	@Override
+	protected void entityInit() { }
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) { }
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) { }
 }

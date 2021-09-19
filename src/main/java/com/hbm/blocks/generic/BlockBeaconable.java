@@ -1,10 +1,11 @@
 package com.hbm.blocks.generic;
 
-import net.minecraft.block.Block;
+import com.hbm.blocks.BlockBase;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockBeaconable extends Block {
+public class BlockBeaconable extends BlockBase {
 
 	public BlockBeaconable(Material mat) {
 		super(mat);

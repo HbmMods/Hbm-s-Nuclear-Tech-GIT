@@ -95,7 +95,7 @@ public class WasteEarth extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-
+		
 		if(this == ModBlocks.waste_mycelium && GeneralConfig.enableMycelium) {
 			for(int i = -1; i < 2; i++) {
 				for(int j = -1; j < 2; j++) {
@@ -115,7 +115,9 @@ public class WasteEarth extends Block {
 			if(GeneralConfig.enableAutoCleanup || (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)) {
 				world.setBlock(x, y, z, Blocks.dirt);
 				
-			} else if(world.getBlock(x, y + 1, z) instanceof BlockMushroom) {
+			}
+			
+			if(world.getBlock(x, y + 1, z) instanceof BlockMushroom) {
 				world.setBlock(x, y + 1, z, ModBlocks.mush);
 			}
 		}

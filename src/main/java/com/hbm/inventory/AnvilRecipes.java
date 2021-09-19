@@ -159,6 +159,22 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.circuit_aluminium, 1 * ukModifier)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_assembler))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModBlocks.brick_concrete, 64),
+						new ComparableStack(Blocks.iron_bars, 128),
+						new ComparableStack(ModBlocks.machine_condenser, 5),
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_tower_small))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModBlocks.concrete_smooth, 128),
+						new ComparableStack(ModBlocks.steel_scaffold, 32),
+						new ComparableStack(ModBlocks.machine_condenser, 25),
+						new ComparableStack(ModItems.pipes_steel, 2)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_tower_large))).setTier(4));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
@@ -262,6 +278,7 @@ public class AnvilRecipes {
 			{ModItems.ammo_50bmg_du,		ModItems.ingot_starmetal,		ModItems.ammo_50bmg_star,			10,		3},
 			{ModItems.ammo_50bmg,			ModItems.pellet_chlorophyte,	ModItems.ammo_50bmg_chlorophyte,	10,		3},
 			{ModItems.ammo_50bmg,			ModItems.coin_maskman,			ModItems.ammo_50bmg_sleek,			100,	4},
+			{ModItems.ammo_50bmg,			ModItems.pellet_flechette,		ModItems.ammo_50bmg_flechette,		20,		2},
 			{ModItems.ammo_50bmg_flechette,	ModItems.nugget_am_mix,			ModItems.ammo_50bmg_flechette_am,	10,		3},
 			{ModItems.ammo_50bmg_flechette,	ModItems.powder_polonium,		ModItems.ammo_50bmg_flechette_po,	20,		3},
 
@@ -449,7 +466,7 @@ public class AnvilRecipes {
 				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_ra226be, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.pile_rod_boron),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_boron, 3)), new AnvilOutput(new ItemStack(Items.stick, 2))}).setTier(3));
+				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)), new AnvilOutput(new ItemStack(Items.stick, 2))}).setTier(3));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {
