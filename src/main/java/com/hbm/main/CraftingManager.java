@@ -813,7 +813,6 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', "ingotSteel", 'I', "plateIron", 'C', ModItems.board_copper }));
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_tower_large), new Object[] { "C C", "C C", "DDD", 'C', ModBlocks.concrete_smooth, 'D', ModBlocks.machine_condenser });
 		
 		if(GeneralConfig.enableBabyMode) {
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

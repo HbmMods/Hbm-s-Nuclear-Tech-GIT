@@ -2,9 +2,11 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -14,6 +16,29 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.SPENTSTEAM, 1000, 0);
 		tanks[1] = new FluidTank(FluidType.WATER, 1000, 1);
+	}
+	
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		
+		if(worldObj.isRemote) {
+			
+			if(this.waterTimer > 0) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 1F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 4F);
+				data.setInteger("life", 250 + worldObj.rand.nextInt(250));
+	
+				data.setDouble("posX", xCoord + 0.5);
+				data.setDouble("posZ", zCoord + 0.5);
+				data.setDouble("posY", yCoord + 18);
+				
+				MainRegistry.proxy.effectNT(data);
+			}
+		}
 	}
 
 	@Override

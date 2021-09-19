@@ -1364,6 +1364,15 @@ public class ClientProxy extends ServerProxy {
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, scale));
 		}
 		
+		if("tower".equals(type)) {
+			ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
+			fx.setLift(data.getFloat("lift"));
+			fx.setBaseScale(data.getFloat("base"));
+			fx.setMaxScale(data.getFloat("max"));
+			fx.setLife(data.getInteger("life"));
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+		}
+		
 		if("anim".equals(type)) {
 			
 			if("crucible".equals(data.getString("mode")) && player.getHeldItem() != null) {

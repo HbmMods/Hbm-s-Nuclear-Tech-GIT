@@ -114,6 +114,18 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			}
 		}
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.tank.readFromNBT(nbt, "diesel");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		this.tank.writeToNBT(nbt, "diesel");
+	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {

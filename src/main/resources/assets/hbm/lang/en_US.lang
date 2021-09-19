@@ -2769,6 +2769,7 @@ tile.block_mox_fuel.name=Block of MOX Fuel
 tile.block_neptunium.name=Block of Neptunium
 tile.block_niter.name=Block of Niter
 tile.block_niter_reinforced.name=Reinforced Block of Niter
+tile.block_niobium.name=Block of Niobium
 tile.block_plutonium.name=Block of Plutonium
 tile.block_plutonium_fuel.name=Block of Plutonium Fuel
 tile.block_polonium.name=Block of Polonium-210

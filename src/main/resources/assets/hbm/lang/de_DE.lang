@@ -2702,6 +2702,7 @@ tile.block_mox_fuel.name=MOX-Kernbrennstoffblock
 tile.block_neptunium.name=Neptuniumblock
 tile.block_niter.name=Salpeterblock
 tile.block_niter_reinforced.name=Sprengsicherer Salpeterblock
+tile.block_niobium.name=Niobblock
 tile.block_plutonium.name=Plutoniumblock
 tile.block_plutonium_fuel.name=Plutoniumkernbrennstoffblock
 tile.block_polonium.name=Polonium-210-Block

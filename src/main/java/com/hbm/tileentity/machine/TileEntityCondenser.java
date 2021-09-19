@@ -21,6 +21,8 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
 	
+	public int waterTimer = 0;
+	
 	public TileEntityCondenser() {
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.SPENTSTEAM, 100, 0);
@@ -37,11 +39,21 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 				age = 0;
 			}
 			
+			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 			tanks[0].setFill(tanks[0].getFill() - convert);
 			tanks[1].setFill(tanks[1].getFill() + convert);
 			
 			fillFluidInit(tanks[1].getTankType());
+			
+		} else {
+			
+			if(tanks[0].getFill() > 0) {
+				this.waterTimer = 20;
+			} else if(this.waterTimer > 0){
+				this.waterTimer--;
+			}
 		}
 	}
 	

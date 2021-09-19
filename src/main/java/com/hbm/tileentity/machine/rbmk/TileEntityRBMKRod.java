@@ -152,12 +152,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) (flux * 0.05F));
 			
 			if(base.isModerated()) {
-				
-				if(this.stream != NType.SLOW) {
-					//flux *= 0.85D;
-				} else {
-					this.stream = NType.SLOW;
-				}
+				this.stream = NType.SLOW;
 			}
 		}
 
