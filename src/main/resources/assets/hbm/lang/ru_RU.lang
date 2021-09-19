@@ -986,6 +986,7 @@ tile.block_graphite_plutonium.name=Куча топлива (Переработа
 tile.block_graphite_rod.name=Контрольный стержень поленницы
 tile.block_graphite_source.name=Источник нейтронов поленницы
 tile.machine_tower_large.name=Градирня
+tile.machine_tower_small.name=Вспомогательная градирня
 
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_center.name=Центральный элемент магнита
@@ -1427,6 +1428,7 @@ tile.block_coltan.name=Блок колтана
 tile.block_tantalium.name=Блок тантала
 tile.block_semtex.name=Блок семтекса
 tile.block_smore.name=Блок с'мора
+tile.block_niobium.name=Блок ниобия
 
 tile.block_u233.name=Блок урана-233
 tile.block_u235.name=Блок урана-235
@@ -1962,6 +1964,7 @@ item.canister_naphtha.name=Канистра тяжелого бензина
 item.canister_lightoil.name=Канистра с лёгкой нефтью
 item.canister_biofuel.name=Канистра с биотопливом
 item.canister_gasoline.name=Канистра с этилированным бензином
+item.canister_gasoline.desc=свинец - это друг$впусти друга в свой кровоток$*достаёт пистолет* живо.
 item.gas_empty.name=Пустой газовый баллон
 item.gas_full.name=Газовый баллон
 item.gas_petroleum.name=Баллон с попутным газом
