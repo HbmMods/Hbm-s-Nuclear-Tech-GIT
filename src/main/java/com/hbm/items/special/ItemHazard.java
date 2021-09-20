@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+@Deprecated
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
