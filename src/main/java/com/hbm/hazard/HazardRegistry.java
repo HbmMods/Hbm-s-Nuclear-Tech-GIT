@@ -1,8 +1,7 @@
 package com.hbm.hazard;
 
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
-import com.hbm.hazard.type.HazardTypeBase;
-import com.hbm.hazard.type.HazardTypeRadiation;
+import com.hbm.hazard.type.*;
 import com.hbm.items.special.ItemHazard;
 
 public class HazardRegistry {
@@ -76,6 +75,8 @@ public class HazardRegistry {
 
 	public static final float nugget = 0.1F;
 	public static final float ingot = 1.0F;
+	public static final float gem = 1.0F;
+	public static final float plate = 1.0F;
 	public static final float powder_mult = 3.0F;
 	public static final float powder = ingot * powder_mult;
 	public static final float powder_tiny = nugget * powder_mult;
@@ -89,9 +90,13 @@ public class HazardRegistry {
 	public static final float rod_rbmk = rod * 8;
 
 	public static final HazardTypeBase RADIATION = new HazardTypeRadiation();
+	public static final HazardTypeBase DIGAMMA = new HazardTypeDigamma();
+	public static final HazardTypeBase HOT = new HazardTypeHot();
+	public static final HazardTypeBase BLINDING = new HazardTypeBlinding();
+	public static final HazardTypeBase ASBESTOS = new HazardTypeAsbestos();
 	
 	public static void registerItems() {
-		HazardSystem.register("ingotPlutonium", makeData(RADIATION, pu * ingot));
+		//HazardSystem.register("ingotPlutonium", makeData(RADIATION, pu * ingot));
 		//TODO: move all the itemhazard stuff here
 		
 		//TODO: move this into its own method
@@ -102,11 +107,4 @@ public class HazardRegistry {
 	private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }
 	private static HazardData makeData(HazardTypeBase hazard, float level) { return new HazardData().addEntry(hazard, level); }
 	private static HazardData makeData(HazardTypeBase hazard, float level, boolean override) { return new HazardData().addEntry(hazard, level, override); }
-	
-	public static void reloadSystem() {
-		HazardSystem.oreMap.clear();
-		HazardSystem.itemMap.clear();
-		HazardSystem.stackMap.clear();
-		registerItems();
-	}
 }

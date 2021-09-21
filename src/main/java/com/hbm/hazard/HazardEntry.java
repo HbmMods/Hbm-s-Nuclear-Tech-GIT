@@ -39,4 +39,14 @@ public class HazardEntry {
 	public HazardTypeBase getType() {
 		return this.type;
 	}
+	
+	public HazardEntry clone() {
+		return clone(1F);
+	}
+	
+	public HazardEntry clone(float mult) {
+		HazardEntry clone = new HazardEntry(type, baseLevel * mult);
+		clone.mods = this.mods;
+		return clone;
+	}
 }

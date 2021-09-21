@@ -23,7 +23,7 @@ public class HazardTypeHot extends HazardTypeBase {
 			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
 		
 		if(!reacher && !target.isWet())
-			target.setFire((int) level);
+			target.setFire((int) Math.ceil(level));
 	}
 
 	@Override

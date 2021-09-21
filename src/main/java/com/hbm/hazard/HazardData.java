@@ -16,7 +16,7 @@ public class HazardData {
 	 * Does the opposite of overrides, if a previous entry collides with this one, this one will yield.
 	 * 
 	 * RESERVED BITS (please keep this up to date)
-	 * -1: base material aliases ("ingotX")
+	 * -1: oredict ("ingotX")
 	 */
 	int mutexBits = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 	
