@@ -490,22 +490,6 @@ public class ModEventHandlerClient {
 		rad = ((int)(rad * 1000)) / 1000D;
 		if(rad > 0) list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
 		
-		/// CUSTOM NUKE ///
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
-		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
-		
-		if(entry != null) {
-			
-			if(!list.isEmpty())
-				list.add("");
-			
-			if(entry.entry == EnumEntryType.ADD)
-				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
-
-			if(entry.entry == EnumEntryType.MULT)
-				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
-		}
-		
 		/// ARMOR MODS ///
 		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
 			
@@ -545,6 +529,22 @@ public class ModEventHandlerClient {
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
 			}
+		}
+		
+		/// CUSTOM NUKE ///
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
+		
+		if(entry != null) {
+			
+			if(!list.isEmpty())
+				list.add("");
+			
+			if(entry.entry == EnumEntryType.ADD)
+				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+
+			if(entry.entry == EnumEntryType.MULT)
+				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
 	}
 	

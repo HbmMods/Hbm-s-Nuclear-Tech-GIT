@@ -83,6 +83,10 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 		if(quart != null) {
 			tanks[1].setTankType(quart.getW());
 			tanks[2].setTankType(quart.getX());
+		} else {
+			tanks[0].setTankType(FluidType.NONE);
+			tanks[1].setTankType(FluidType.NONE);
+			tanks[2].setTankType(FluidType.NONE);
 		}
 	}
 	
