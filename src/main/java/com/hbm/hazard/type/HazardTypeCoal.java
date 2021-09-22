@@ -2,9 +2,12 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.hazard.HazardModifier;
-import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -12,11 +15,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class HazardTypeDigamma extends HazardTypeBase {
+public class HazardTypeCoal extends HazardTypeBase {
 
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
-		ContaminationUtil.applyDigammaData(target, level / 20F);
+		
+		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_COARSE))
+			HbmLivingProps.incrementBlackLung(target, (int) Math.min(level, 10));
+		else
+			ArmorUtil.damageGasMaskFilter(target, (int) level);
 	}
 
 	@Override
@@ -24,16 +31,7 @@ public class HazardTypeDigamma extends HazardTypeBase {
 
 	@Override
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-		
-		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
-		
-		float d = (float)(Math.floor(level * 10000F)) / 10F;
-		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
-		list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
-		
-		if(stack.stackSize > 1) {
-			list.add(EnumChatFormatting.DARK_RED + "Stack: " + ((Math.floor(level * 10000F * stack.stackSize) / 10F) + "mDRX/s"));
-		}
+		list.add(EnumChatFormatting.DARK_GRAY + "[" + I18nUtil.resolveKey("trait.coal") + "]");
 	}
 
 }

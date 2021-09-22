@@ -26,4 +26,6 @@ public abstract class ChunkRadiationHandler {
 	public void receiveChunkLoad(ChunkDataEvent.Load event) { }
 	public void receiveChunkSave(ChunkDataEvent.Save event) { }
 	public void receiveChunkUnload(ChunkEvent.Unload event) { }
+	
+	public void handleWorldDestruction() { }
 }

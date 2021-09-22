@@ -18,6 +18,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.BreederRecipes;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.items.ModItems;
@@ -529,6 +530,15 @@ public class ModEventHandlerClient {
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
 			}
+		}
+		
+		/// BREEDING ///
+		int[] breeder = BreederRecipes.getFuelValue(stack);
+		
+		if(breeder != null) {
+			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
 		
 		/// CUSTOM NUKE ///

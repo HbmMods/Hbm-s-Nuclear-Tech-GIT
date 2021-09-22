@@ -33,7 +33,7 @@ public class HazardEntry {
 	}
 	
 	public void applyHazard(ItemStack stack, EntityLivingBase entity) {
-		type.onUpdate(entity, HazardModifier.evalAllModifiers(stack, entity, baseLevel, mods));
+		type.onUpdate(entity, HazardModifier.evalAllModifiers(stack, entity, baseLevel, mods), stack);
 	}
 	
 	public HazardTypeBase getType() {

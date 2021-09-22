@@ -2,7 +2,6 @@ package com.hbm.hazard;
 
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
-import com.hbm.items.special.ItemHazard;
 
 public class HazardRegistry {
 
@@ -94,6 +93,9 @@ public class HazardRegistry {
 	public static final HazardTypeBase HOT = new HazardTypeHot();
 	public static final HazardTypeBase BLINDING = new HazardTypeBlinding();
 	public static final HazardTypeBase ASBESTOS = new HazardTypeAsbestos();
+	public static final HazardTypeBase COAL = new HazardTypeCoal();
+	public static final HazardTypeBase HYDROACTIVE = new HazardTypeHydroactive();
+	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
 	
 	public static void registerItems() {
 		//HazardSystem.register("ingotPlutonium", makeData(RADIATION, pu * ingot));

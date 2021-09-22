@@ -32,7 +32,6 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
-import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
@@ -696,11 +695,10 @@ public class ModEventHandler {
 				 * REMOVE THIS ^ ^ ^
 				 */
 			}
+			/// RADIATION STUFF END ///
 		}
-		/// RADIATION STUFF END ///
 		
 		if(event.phase == Phase.START) {
-			RadiationWorldHandler.handleWorldDestruction(event.world);
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
 		}

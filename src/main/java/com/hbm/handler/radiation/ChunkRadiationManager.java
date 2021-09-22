@@ -1,5 +1,7 @@
 package com.hbm.handler.radiation;
 
+import com.hbm.config.RadiationConfig;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -49,6 +51,10 @@ public class ChunkRadiationManager {
 			if(eggTimer >= 20) {
 				proxy.updateSystem();
 				eggTimer = 0;
+			}
+			
+			if(RadiationConfig.worldRadEffects) {
+				proxy.handleWorldDestruction();
 			}
 		}
 	}

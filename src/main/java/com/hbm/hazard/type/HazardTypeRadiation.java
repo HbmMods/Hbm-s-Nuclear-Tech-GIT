@@ -13,6 +13,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -20,7 +21,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class HazardTypeRadiation extends HazardTypeBase {
 
 	@Override
-	public void onUpdate(EntityLivingBase target, float level) {
+	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 		
 		boolean reacher = false;
 		
@@ -36,6 +37,9 @@ public class HazardTypeRadiation extends HazardTypeBase {
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}
 	}
+
+	@Override
+	public void updateEntity(EntityItem item, float level) { }
 
 	@Override
 	@SideOnly(Side.CLIENT)
