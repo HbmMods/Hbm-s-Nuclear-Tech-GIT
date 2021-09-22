@@ -11,11 +11,12 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import scala.xml.PrettyPrinter.Item;
 
 @Untested
 public class HazardSystem {
@@ -52,6 +53,8 @@ public class HazardSystem {
 			oreMap.put((String)o, data);
 		if(o instanceof Item)
 			itemMap.put((Item)o, data);
+		if(o instanceof Block)
+			itemMap.put(Item.getItemFromBlock((Block)o), data);
 		if(o instanceof ItemStack)
 			stackMap.put(new ComparableStack((ItemStack)o), data);
 		if(o instanceof ComparableStack)
@@ -156,10 +159,16 @@ public class HazardSystem {
 	 * @param player
 	 */
 	public static void updatePlayerInventory(EntityPlayer player) {
-		
-		for(ItemStack stack : player.inventory.mainInventory) {
+
+		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+			
+			ItemStack stack = player.inventory.mainInventory[i];
 			if(stack != null) {
 				applyHazards(stack, player);
+				
+				if(stack.stackSize == 0) {
+					player.inventory.mainInventory[i] = null;
+				}
 			}
 		}
 		

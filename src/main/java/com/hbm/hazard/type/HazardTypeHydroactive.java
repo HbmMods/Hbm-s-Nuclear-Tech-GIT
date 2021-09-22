@@ -17,7 +17,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 		if(target.isWet()) {
-			stack = null;
+			stack.stackSize = 0;
 			target.worldObj.newExplosion(null, target.posX, target.posY + target.getEyeHeight() - target.getYOffset(), target.posZ, level, false, true);
 		}
 	}

@@ -13,12 +13,15 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.Untested;
+import com.hbm.items.ModItems;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class OreDictManager {
 	
@@ -45,7 +48,7 @@ public class OreDictManager {
 		new DictFrame("Thorium232", "Th232", "Thorium")		.rad(HazardRegistry.th232)				.nugget(nugget_th232)		.billet(billet_th232)		.ingot(ingot_th232)			.dust(powder_thorium)									.block(block_thorium)		.ore(ore_thorium, ore_meteor_thorium);
 		new DictFrame("Plutonium")							.rad(HazardRegistry.pu)					.nugget(nugget_plutonium)	.billet(billet_plutonium)	.ingot(ingot_plutonium)		.dust(powder_plutonium)									.block(block_plutonium)		.ore(ore_nether_plutonium);
 		new DictFrame("PlutoniumRG")						.rad(HazardRegistry.purg)				.nugget(nugget_pu_mix)		.billet(billet_pu_mix)		.ingot(ingot_pu_mix)																.block(block_pu_mix);
-		new DictFrame("Plutonium238", "Pu238")				.rad(HazardRegistry.pu238)				.nugget(nugget_pu238)		.billet(billet_pu238)		.ingot(ingot_pu238)																	.block(block_pu238);
+		new DictFrame("Plutonium238", "Pu238")				.rad(HazardRegistry.pu238).hot(3F)		.nugget(nugget_pu238)		.billet(billet_pu238)		.ingot(ingot_pu238)																	.block(block_pu238);
 		new DictFrame("Plutonium239", "Pu239")				.rad(HazardRegistry.pu239)				.nugget(nugget_pu239)		.billet(billet_pu239)		.ingot(ingot_pu239)																	.block(block_pu239);
 		new DictFrame("Plutonium240", "Pu240")				.rad(HazardRegistry.pu240)				.nugget(nugget_pu240)		.billet(billet_pu240)		.ingot(ingot_pu240)																	.block(block_pu240);
 		new DictFrame("Plutonium241", "Pu241")				.rad(HazardRegistry.pu241)				.nugget(nugget_pu241)		.billet(billet_pu241)		.ingot(ingot_pu241);																//.block(block_pu241);
@@ -53,13 +56,14 @@ public class OreDictManager {
 		new DictFrame("Americium242", "Am242")				.rad(HazardRegistry.am242)				.nugget(nugget_am242)		.billet(billet_am242)		.ingot(ingot_am242);
 		new DictFrame("AmericiumRG")						.rad(HazardRegistry.amrg)				.nugget(nugget_am_mix)		.billet(billet_am_mix)		.ingot(ingot_am_mix);
 		new DictFrame("Neptunium237", "Np237", "Neptunium")	.rad(HazardRegistry.np237)				.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
-		new DictFrame("Polonium210", "Po210")				.rad(HazardRegistry.po210).hot(3)		.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
+		new DictFrame("Polonium210", "Po210", "Polonium")	.rad(HazardRegistry.po210).hot(3)		.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
 		new DictFrame("Technetium99", "Tc99")				.rad(HazardRegistry.tc99)				.nugget(nugget_technetium)	.billet(billet_technetium)	.ingot(ingot_technetium);
 		new DictFrame("Radium226", "Ra226")					.rad(HazardRegistry.ra226)				.nugget(nugget_ra226);
 		new DictFrame("Cobalt60", "Co60")					.rad(HazardRegistry.co60).hot(1)		.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
 		new DictFrame("Gold198", "Au198")					.rad(HazardRegistry.au198).hot(5)		.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
 		new DictFrame("Schrabidium")						.rad(HazardRegistry.sa326).blinding(3F)	.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium);
 		new DictFrame("Solinium")							.rad(HazardRegistry.sa327).blinding(3F)	.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
+		new DictFrame("Schrabidate")						.rad(HazardRegistry.sb)																			.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
 
 		/*
 		 * STABLE
@@ -83,7 +87,6 @@ public class OreDictManager {
 		new DictFrame("Graphite")																	.ingot(ingot_graphite)																												.block(block_graphite);
 		new DictFrame("DuraSteel")																	.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
 		new DictFrame("Polymer")																	.ingot(ingot_polymer)												.dust(powder_polymer);
-		new DictFrame("Schrabidate")																.ingot(ingot_schrabidate)											.dust(powder_schrabidate)										.block(block_schrabidate);
 		new DictFrame("MagnetizedTungsten")															.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		new DictFrame("CMBSteel")																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		new DictFrame("Desh")				.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
@@ -91,7 +94,6 @@ public class OreDictManager {
 		new DictFrame("Saturnite")																	.ingot(ingot_saturnite)																				.plate(plate_saturnite);
 		new DictFrame("Euphemium")			.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		new DictFrame("Dineutronium")		.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
-		new DictFrame("Lithium")																	.ingot(lithium)					.dustSmall(powder_lithium_tiny)		.dust(powder_lithium)											.block(block_lithium)		.ore(ore_gneiss_lithium, ore_meteor_lithium);
 		new DictFrame("Fiberglass")																	.ingot(ingot_fiberglass)																											.block(block_fiberglass);
 		new DictFrame("Asbestos")			.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos);
 
@@ -104,6 +106,11 @@ public class OreDictManager {
 		new DictFrame("Lignite")						.gem(lignite)		.dust(powder_lignite)							.ore(ore_lignite);
 		new DictFrame("Cinnabar")	.crystal(cinnebar)	.gem(cinnebar)														.ore(ore_cinnebar, ore_depth_cinnebar);
 		new DictFrame("Volcanic")						.gem(gem_volcanic)													.ore(basalt_gem);
+		
+		/*
+		 * HAZARDS, MISC
+		 */
+		new DictFrame("Lithium")	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium, ore_meteor_lithium);
 
 		/*
 		 * PHOSPHORUS
@@ -135,14 +142,18 @@ public class OreDictManager {
 		 */
 		new DictFrame("Iodine")		.dust(powder_iodine);
 		new DictFrame("Astatine")	.dust(powder_astatine);
+		new DictFrame("Caesium")	.dust(powder_caesium);
+		new DictFrame("Strontium")	.dust(powder_strontium);
+		new DictFrame("Bromine")	.dust(powder_bromine);
+		new DictFrame("Tennessine")	.dust(powder_tennessine);
 
 		/*
 		 * FISSION FRAGMENTS
 		 */
-		new DictFrame("Iodine131", "I131")		.dustSmall(powder_i131_tiny)	.dust(powder_i131);
-		new DictFrame("Xenon135", "Xe135")		.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
-		new DictFrame("Caesium137", "Cs137")	.dustSmall(powder_cs137_tiny)	.dust(powder_cs137);
-		new DictFrame("Astatine209", "At209")									.dust(powder_at209);
+		new DictFrame("Iodine131", "I131")		.rad(HazardRegistry.i131)	.hot(1F)				.dustSmall(powder_i131_tiny)	.dust(powder_i131);
+		new DictFrame("Xenon135", "Xe135")		.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
+		new DictFrame("Caesium137", "Cs137")	.rad(HazardRegistry.cs137)	.hot(3F)	.hydro(3F)	.dustSmall(powder_cs137_tiny)	.dust(powder_cs137);
+		new DictFrame("Astatine209", "At209")	.rad(HazardRegistry.at209)	.hot(20F)												.dust(powder_at209);
 
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
@@ -211,6 +222,9 @@ public class OreDictManager {
 		}
 		public DictFrame asbestos(float asb) {
 			return this.haz(new HazardEntry(HazardRegistry.ASBESTOS, asb));
+		}
+		public DictFrame hydro(float h) {
+			return this.haz(new HazardEntry(HazardRegistry.HYDROACTIVE, h));
 		}
 		public DictFrame haz(HazardEntry hazard) {
 			hazards.add(hazard);

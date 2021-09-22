@@ -173,9 +173,9 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	@Override
 	public void handleWorldDestruction() {
 		
-		int count = 25;
+		int count = 10;
 		int threshold = 10;
-		int chunks = 2;
+		int chunks = 5;
 		
 		//for all worlds
 		for(Entry<World, SimpleRadiationPerWorld> per : perWorld.entrySet()) {
@@ -186,7 +186,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 			Object[] entries = list.radiation.entrySet().toArray();
 			
 			if(entries.length == 0)
-				return;
+				continue;
 			
 			//chose this many random chunks
 			for(int c = 0; c < chunks; c++) {

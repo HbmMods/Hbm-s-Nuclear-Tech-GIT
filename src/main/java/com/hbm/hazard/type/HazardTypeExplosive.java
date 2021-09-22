@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.hazard.HazardModifier;
 import com.hbm.util.I18nUtil;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 
 		if(!target.worldObj.isRemote && target.isBurning()) {
-			stack = null;
+			stack.stackSize = 0;
 			target.worldObj.newExplosion(null, target.posX, target.posY + target.getEyeHeight() - target.getYOffset(), target.posZ, level, false, true);
 		}
 	}

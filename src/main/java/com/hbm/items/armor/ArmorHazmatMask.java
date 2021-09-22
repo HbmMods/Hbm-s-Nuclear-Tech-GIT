@@ -63,6 +63,8 @@ public class ArmorHazmatMask extends ArmorHazmat implements IGasMask {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		ArmorUtil.addGasMaskTooltip(stack, player, list, ext);
+		
+		super.addInformation(stack, player, list, ext);
 	}
 
 	@Override
