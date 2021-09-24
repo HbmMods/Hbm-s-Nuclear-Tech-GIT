@@ -2,9 +2,8 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IItemHazard;
+import com.hbm.items.special.ItemNuclearWaste;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,17 +19,15 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemRBMKPellet extends Item implements IItemHazard {
+public class ItemRBMKPellet extends ItemNuclearWaste {
 	
 	public String fullName = "";
-	ItemHazardModule module;
 
 	public ItemRBMKPellet(String fullName) {
 		this.fullName = fullName;
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.setCreativeTab(MainRegistry.controlTab);
-		this.module = new ItemHazardModule();
 	}
 
 	@Override
@@ -91,9 +88,6 @@ public class ItemRBMKPellet extends Item implements IItemHazard {
 		
 		if(hasXenon(meta))
 			list.add(EnumChatFormatting.DARK_PURPLE + "High Xenon Poison");
-		
-		updateModule(stack);
-		this.module.addInformation(stack, player, list, bool);
 	}
 
 	@Override
@@ -115,40 +109,5 @@ public class ItemRBMKPellet extends Item implements IItemHazard {
 	
 	private int rectify(int meta) {
 		return Math.abs(meta) % 10;
-	}
-
-	@Override
-	public ItemHazardModule getModule() {
-		return this.module;
-	}
-	
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-		
-		if(entity instanceof EntityLivingBase) {
-			updateModule(stack);
-			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
-		}
-	}
-	
-	@Override
-	public boolean onEntityItemUpdate(EntityItem item) {
-		
-		super.onEntityItemUpdate(item);
-		updateModule(item.getEntityItem());
-		return this.module.onEntityItemUpdate(item);
-	}
-	
-	private void updateModule(ItemStack stack) {
-		
-		int index = stack.getItemDamage() % 5;
-		float mod = (index * index) / 5F;
-		
-		if(stack.getItemDamage() >= 5) {
-			mod *= 10F;
-			mod += 1F;
-		}
-		
-		this.module.setMod(1F + mod);
 	}
 }

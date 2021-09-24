@@ -3,8 +3,8 @@ package com.hbm.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.inventory.AnvilRecipes.AnvilOutput;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

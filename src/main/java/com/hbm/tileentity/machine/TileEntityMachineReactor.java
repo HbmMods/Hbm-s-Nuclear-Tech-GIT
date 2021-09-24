@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.inventory.BreederRecipes;
-import com.hbm.inventory.BreederRecipes.BreederRecipe;
+import com.hbm.inventory.recipes.BreederRecipes;
+import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 

@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;

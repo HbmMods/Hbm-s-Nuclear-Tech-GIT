@@ -1,8 +1,9 @@
-package com.hbm.inventory;
+package com.hbm.inventory.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 

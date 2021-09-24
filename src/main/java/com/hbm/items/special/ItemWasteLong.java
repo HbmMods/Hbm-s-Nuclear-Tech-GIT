@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemWasteLong extends ItemHazard {
+public class ItemWasteLong extends ItemNuclearWaste {
 
 	public ItemWasteLong() {
 		super();

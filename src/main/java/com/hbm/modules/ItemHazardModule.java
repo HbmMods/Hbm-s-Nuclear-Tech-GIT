@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;

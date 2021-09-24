@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.lib.Library;

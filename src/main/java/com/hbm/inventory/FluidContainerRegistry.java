@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 public class FluidContainerRegistry {
 	
 	//TODO: somehow incorporate hashmaps into this
-	static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
+	public static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
 	
 	public static void register() {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));

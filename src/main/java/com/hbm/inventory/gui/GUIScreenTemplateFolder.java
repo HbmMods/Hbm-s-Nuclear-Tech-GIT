@@ -8,8 +8,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.AssemblerRecipes;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;

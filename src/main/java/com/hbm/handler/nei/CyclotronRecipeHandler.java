@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.CyclotronRecipes;
 import com.hbm.inventory.gui.GUIMachineCyclotron;
+import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

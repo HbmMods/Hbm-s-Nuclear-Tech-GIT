@@ -117,6 +117,7 @@ public class ConsumableRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.xanax, 1), new Object[] { ModItems.powder_coal, ModItems.niter, ModItems.powder_bromine });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fmn, 1), new Object[] { ModItems.powder_coal, ModItems.powder_polonium, ModItems.powder_strontium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.five_htp, 1), new Object[] { ModItems.powder_coal, ModItems.powder_euphemium, ModItems.canteen_fab });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.cigarette, 16), new Object[] { "ingotAsbestos", ModItems.oil_tar, "nuggetPolonium210" }));
 		
 		//Med bags
 		GameRegistry.addRecipe(new ItemStack(ModItems.med_bag, 1), new Object[] { "LLL", "SIS", "LLL", 'L', Items.leather, 'S', ModItems.syringe_metal_stimpak, 'I', ModItems.syringe_antidote });

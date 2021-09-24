@@ -1,8 +1,8 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.AnvilRecipes;
-import com.hbm.inventory.AnvilSmithingRecipe;
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
+import com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -38,7 +38,7 @@ public class ContainerAnvil extends Container {
 					return;
 				}
 				
-				for(com.hbm.inventory.AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
+				for(com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
 					
 					int i = rec.matchesInt(left, right);
 					

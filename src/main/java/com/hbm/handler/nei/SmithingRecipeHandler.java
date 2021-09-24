@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.hbm.inventory.AnvilRecipes;
-import com.hbm.inventory.AnvilSmithingRecipe;
 import com.hbm.inventory.gui.GUIAnvil;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
+import com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

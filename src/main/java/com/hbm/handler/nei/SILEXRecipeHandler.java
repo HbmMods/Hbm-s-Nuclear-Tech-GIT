@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.SILEXRecipes;
-import com.hbm.inventory.SILEXRecipes.SILEXRecipe;
 import com.hbm.inventory.gui.GUISILEX;
+import com.hbm.inventory.recipes.SILEXRecipes;
+import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.WeightedRandomObject;
 

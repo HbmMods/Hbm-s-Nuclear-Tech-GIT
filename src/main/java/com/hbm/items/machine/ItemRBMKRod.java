@@ -2,10 +2,8 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.I18nUtil;
@@ -20,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRBMKRod extends Item implements IItemHazard {
+public class ItemRBMKRod extends Item {
 	
 	public ItemRBMKPellet pellet;
 	public String fullName = "";			//full name of the fuel rod
@@ -62,8 +60,6 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 	}
 
 	public ItemRBMKRod(String fullName) {
-		this.module = new ItemHazardModule();
-		
 		this.fullName = fullName;
 		
 		this.setContainerItem(ModItems.rbmk_fuel_empty);
@@ -361,38 +357,6 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");*/
 		
 		super.addInformation(stack, player, list, bool);
-		updateModule(stack);
-		this.module.addInformation(stack, player, list, bool);
-	}
-	
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-		
-		if(entity instanceof EntityLivingBase) {
-			updateModule(stack);
-			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
-		}
-	}
-	
-	@Override
-	public boolean onEntityItemUpdate(EntityItem item) {
-		
-		super.onEntityItemUpdate(item);
-		updateModule(item.getEntityItem());
-		return this.module.onEntityItemUpdate(item);
-	}
-	
-	ItemHazardModule module;
-
-	@Override
-	public ItemHazardModule getModule() {
-		return this.module;
-	}
-	
-	private void updateModule(ItemStack stack) {
-		
-		float mod = (float)(1 + (1 - this.getEnrichment(stack)) * 24 + this.getPoisonLevel(stack) * 100);
-		this.module.setMod(mod);
 	}
 	
 	/*  __    __   ____     ________

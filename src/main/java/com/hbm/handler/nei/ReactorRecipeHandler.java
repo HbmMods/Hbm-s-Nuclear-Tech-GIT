@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.BreederRecipes;
-import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.inventory.gui.GUIMachineReactor;
+import com.hbm.inventory.recipes.BreederRecipes;
+import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
+
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
