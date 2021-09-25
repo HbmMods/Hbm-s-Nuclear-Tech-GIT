@@ -3,6 +3,7 @@ package com.hbm.blocks.test;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockBasicMachine;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -22,11 +23,11 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TestMachine extends BlockContainer implements IBomb
+public class TestMachine extends BlockBasicMachine implements IBomb
 {
-	public TestMachine(Material mat)
+	public TestMachine(Material mat, Class<? extends TileEntity> teClass, int guiID)
 	{
-		super(mat);
+		super(mat, teClass, guiID);
 	}
 	
 	@Override
@@ -36,23 +37,7 @@ public class TestMachine extends BlockContainer implements IBomb
 		if (Library.checkForHeld(player, ModItems.designator_range) || Library.checkForHeld(player, ModItems.detonator_laser))
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(player.getHeldItem().getTagCompound(), x, y, z));
 		
-		if (world.isRemote)
-			return true;
-		else if (!player.isSneaking())
-		{
-			TileEntityLunarOni te = (TileEntityLunarOni) world.getTileEntity(x, y, z);
-			if (te != null)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_lunar_oni, world, x, y, z);
-			return true;
-		}
-		else
-			return false;
-	}
-	
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
-	{
-		return new TileEntityLunarOni();
+		return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
 	}
 	
 	@Override

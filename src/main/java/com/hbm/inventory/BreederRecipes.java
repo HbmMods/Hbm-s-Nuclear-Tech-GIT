@@ -34,9 +34,9 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_quad_plutonium), new BreederRecipe(ModItems.rod_quad_waste, 4));
 		
 		//isotopes
-		recipes.put(new ComparableStack(ModItems.rod_th232), new BreederRecipe(ModItems.rod_u233, 2));
-		recipes.put(new ComparableStack(ModItems.rod_dual_th232), new BreederRecipe(ModItems.rod_dual_u233, 2));
-		recipes.put(new ComparableStack(ModItems.rod_quad_th232), new BreederRecipe(ModItems.rod_quad_u233, 2));
+		recipes.put(new ComparableStack(ModItems.rod_th232), new BreederRecipe(ModItems.rod_tha, 2));
+		recipes.put(new ComparableStack(ModItems.rod_dual_th232), new BreederRecipe(ModItems.rod_dual_tha, 2));
+		recipes.put(new ComparableStack(ModItems.rod_quad_th232), new BreederRecipe(ModItems.rod_quad_tha, 2));
 		recipes.put(new ComparableStack(ModItems.rod_u233), new BreederRecipe(ModItems.rod_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_dual_u233), new BreederRecipe(ModItems.rod_dual_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_quad_u233), new BreederRecipe(ModItems.rod_quad_u235, 2));

@@ -2,6 +2,9 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
@@ -103,13 +106,27 @@ public class ItemChemistryTemplate extends Item {
 		LF_BASE,
 		LF_U,
 		LF_PU,
-		LF_SA;
+		LF_SA,
+		RC_U,
+		RC_PU,
+		ALCOHOL,
+		SARIN;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
 				return EnumChemistryTemplate.values()[i];
 			else
 				return FP_HEAVYOIL;
+		}
+		@CheckForNull
+		@Nullable
+		public static EnumChemistryTemplate getEnum(String name)
+		{
+			for (EnumChemistryTemplate chem : EnumChemistryTemplate.values())
+				if (chem.toString().equals(name))
+					return chem;
+			
+			return null;
 		}
 		
 		public String getName() {
@@ -253,6 +270,7 @@ public class ItemChemistryTemplate extends Item {
         	return 150;
         case SAS3:
         	return 200;
+        case SARIN:
         case DYN_SCHRAB:
         	return 1*60*20;
         case DYN_EUPH:
@@ -284,11 +302,10 @@ public class ItemChemistryTemplate extends Item {
         case QUARTZ:
         	return 40;
         case ACRYLIC:
-        	return 150;
         case DU_DIOXIDE:
         	return 150;
+        case ALCOHOL:
         case DUCRETE:
-        	return 200;
         case OD_CD:
         	return 200;
         case OD_DVD:
@@ -301,6 +318,12 @@ public class ItemChemistryTemplate extends Item {
         	return 400;
         case LF_U:
         	return 200;
+        case LF_PU:
+        case LF_SA:
+        	return 250;
+        case RC_PU:
+        case RC_U:
+        	return 300;
         default:
         	return 100;
         }

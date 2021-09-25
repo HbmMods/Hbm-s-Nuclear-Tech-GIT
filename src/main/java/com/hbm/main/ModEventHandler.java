@@ -113,12 +113,6 @@ public class ModEventHandler
 	public static int meteorShower = 0;
 	public static int tsukuyomiCooldown = 0;
 	
-	private static TimeSavedData dateData;
-	public static long year = 2300L;
-	public static byte day = 0;
-	public static int timeInternal = 0;
-	public static float time = 0.0000F;
-	
 	static Random rand = new Random();
 	
 	@SubscribeEvent
@@ -382,46 +376,8 @@ public class ModEventHandler
 		//try {
 		/////
 		
-//		time = TimeDataDials.getNewTime(event.world);
-//		day = TimeDataDials.getNewDay(event.world);
-//		year = TimeDataDials.getNewYear(event.world);
-		
 		// Keep track of time and date
-		
-		dateData = TimeSavedData.getData(event.world);
-		year = dateData.getYear();
-		day = dateData.getDay();
-		time = dateData.getTime();
-		
-		if (timeInternal >= 48000)
-		{
-			timeInternal = 0;
-			if (day >= 100)
-			{
-				day = 0;
-				year++;
-			}
-			else
-			{
-				day++;
-				for (EntityPlayer p : (List<EntityPlayer>) event.world.playerEntities)
-				{
-					if (HbmPlayerProps.getBirthday(p) == day)
-					{
-						HbmPlayerProps.setAge(p, 1, true);
-						p.addChatMessage(new ChatComponentText(I18nUtil.resolveKey("desc.player.birthday")));
-						String[] msg = HbmPlayerProps.hasAscended(p) ? I18nUtil.resolveKeyArray("desc.player.birthdayAlt") : I18nUtil.resolveKeyArray("desc.player.birhdayMsg");
-						p.addChatMessage(new ChatComponentText(msg[rand.nextInt(msg.length)]));
-					}
-				}
-			}
-		}
-		else
-			timeInternal++;
-		
-		time = (float) Library.convertScale(timeInternal, 0L, 48000L, 0F, 10.0000F);
-		
-		TimeSavedData.setDate(event.world, time, day, year, false);
+		TimeSavedData.updateNormal(event.world);
 		
 		/// METEOR SHOWER START ///
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && GeneralConfig.enableMeteorStrikes) {

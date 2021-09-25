@@ -1,11 +1,12 @@
 package com.hbm.items.block;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.blocks.machine.BlockFluidBarrel;
+import com.hbm.interfaces.IHasLore;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.Block;
@@ -13,12 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 
-public class ItemBlockLore extends ItemBlock {
-	public static List<Block> epicList = new ArrayList<Block>();
-	public static List<Block> rareList = new ArrayList<Block>();
-	public static List<Block> uncommonList = new ArrayList<Block>();
+public class ItemBlockLore extends ItemBlock implements IHasLore
+{
+	public static HashSet<Block> epicList = new HashSet<Block>();
+	public static HashSet<Block> rareList = new HashSet<Block>();
+	public static HashSet<Block> uncommonList = new HashSet<Block>();
 	
 	public ItemBlockLore(Block p_i45328_1_) {
 		super(p_i45328_1_);
@@ -27,11 +28,13 @@ public class ItemBlockLore extends ItemBlock {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		String uloc = field_150939_a.getUnlocalizedName() + ".desc";
-		String[] loc = I18nUtil.resolveKeyArray(uloc);
-		if (!uloc.equals(loc[0]))
-			for (String s : loc)
-				list.add(s);
+//		String uloc = field_150939_a.getUnlocalizedName() + ".desc";
+//		String[] loc = I18nUtil.resolveKeyArray(uloc);
+//		if (!uloc.equals(loc[0]))
+//			for (String s : loc)
+//				list.add(s);
+		
+		standardLore(itemstack, list);
 		
 		if(this.field_150939_a instanceof RedBarrel)
 			list.add(I18nUtil.resolveKey("desc.block.barrel.static"));

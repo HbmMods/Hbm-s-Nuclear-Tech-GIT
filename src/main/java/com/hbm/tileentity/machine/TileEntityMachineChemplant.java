@@ -39,7 +39,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
 
-	private ItemStack slots[];
+	protected ItemStack slots[];
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -523,7 +523,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		return false;
 	}
 	
-	private void setContainers() {
+	protected void setContainers() {
 		
 		if(slots[4] == null || (slots[4] != null && !(slots[4].getItem() instanceof ItemChemistryTemplate))) {
 		} else {

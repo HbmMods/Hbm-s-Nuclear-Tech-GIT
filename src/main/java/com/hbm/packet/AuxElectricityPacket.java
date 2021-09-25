@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 
@@ -30,6 +31,16 @@ public class AuxElectricityPacket implements IMessage {
 		this.y = y;
 		this.z = z;
 		this.charge = charge;
+	}
+	
+	public AuxElectricityPacket(TileEntity te, long charge)
+	{
+		this(te.xCoord, te.yCoord, te.zCoord, charge);
+	}
+	
+	public AuxElectricityPacket(EasyLocation loc, long charge)
+	{
+		this((int) loc.posX, (int) loc.posY, (int) loc.posZ, charge);
 	}
 
 	@Override

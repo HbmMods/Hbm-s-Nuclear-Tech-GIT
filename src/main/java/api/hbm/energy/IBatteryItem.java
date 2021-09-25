@@ -1,5 +1,7 @@
 package api.hbm.energy;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,13 +16,36 @@ public interface IBatteryItem {
     public long getChargeRate();    
     public long getDischargeRate();
     
+    public default String getChargeTagName()
+    {
+    	return "charge";
+    }
+    
+    public static String getChargeTagName(@Nonnull ItemStack stack)
+    {
+    	assert stack.getItem() instanceof IBatteryItem;
+    	return ((IBatteryItem) stack.getItem()).getChargeTagName();
+    }
+    
+    public static long getChargeStatic(ItemStack stack)
+    {
+    	if (stack != null && stack.getItem() instanceof IBatteryItem)
+    	{
+    		final String keyName = getChargeTagName(stack);
+    		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(keyName))
+    			return stack.stackTagCompound.getLong(keyName);
+    	}
+    	return 0;
+    }
+    
     public static ItemStack emptyBattery(ItemStack stack)
     {
     	if (stack != null && stack.getItem() instanceof IBatteryItem)
     	{
+    		final String keyName = getChargeTagName(stack);
     		ItemStack stackOut = stack.copy();
     		stackOut.stackTagCompound = new NBTTagCompound();
-    		stackOut.stackTagCompound.setLong("charge", 0);
+    		stackOut.stackTagCompound.setLong(keyName, 0);
     		return stackOut.copy();
     	}
     	return null;
@@ -28,12 +53,7 @@ public interface IBatteryItem {
     public static ItemStack emptyBattery(Item item)
     {
     	if (item instanceof IBatteryItem)
-    	{
-    		ItemStack stack = new ItemStack(item);
-    		stack.stackTagCompound = new NBTTagCompound();
-    		stack.stackTagCompound.setLong("charge", 0);
-    		return stack.copy();
-    	}
+    		return emptyBattery(new ItemStack(item));
     	else
     		return null;
     }
@@ -42,22 +62,19 @@ public interface IBatteryItem {
     {
     	if (stack != null && stack.getItem() instanceof IBatteryItem)
     	{
+    		final String keyName = getChargeTagName(stack);
     		ItemStack stackOut = stack.copy();
     		stackOut.stackTagCompound = new NBTTagCompound();
-    		stackOut.stackTagCompound.setLong("charge", ((IBatteryItem) stack.getItem()).getMaxCharge());
+    		stackOut.stackTagCompound.setLong(keyName, ((IBatteryItem) stack.getItem()).getMaxCharge());
     		return stackOut.copy();
     	}
-    	return null;
+    	else
+    		return null;
     }
     public static ItemStack fullBattery(Item item)
     {
     	if (item instanceof IBatteryItem)
-    	{
-    		ItemStack stack = new ItemStack(item);
-    		stack.stackTagCompound = new NBTTagCompound();
-    		stack.stackTagCompound.setLong("charge", ((IBatteryItem) item).getMaxCharge());
-    		return stack.copy();
-    	}
+    		return fullBattery(new ItemStack(item));
     	else
     		return null;
     }

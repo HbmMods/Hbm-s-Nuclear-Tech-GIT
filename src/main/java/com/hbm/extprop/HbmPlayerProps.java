@@ -17,8 +17,9 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public EntityPlayer player;
 	
 	// Data
-	private double age = 20D;
+	private long age = 20;
 	private byte birthday = 1;
+	private long birthyear = 2280;
 	private boolean hasAscended = false;
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
@@ -32,6 +33,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		player.registerExtendedProperties(key, new HbmPlayerProps(player));
 		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		props.age = getNewAge();
+		props.birthyear = TimeSavedData.getData(player.worldObj).getYear() - props.age;
 		return props;
 	}
 	
@@ -41,25 +43,27 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		return props != null ? props : registerData(player);
 	}
 	
-	public static double getAge(EntityPlayer player)
+	public static long getAge(EntityPlayer player)
 	{
-		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		return getData(player).age;
 	}
 	
 	public static byte getBirthday(EntityPlayer player)
 	{
-		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		return getData(player).birthday;
+	}
+	
+	public static long getBirthyear(EntityPlayer player)
+	{
+		return getData(player).birthyear;
 	}
 	
 	public static boolean hasAscended(EntityPlayer player)
 	{
-		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		return getData(player).hasAscended;
 	}
 	
-	public static void setAge(EntityPlayer player, double newAge, boolean increment)
+	public static void setAge(EntityPlayer player, long newAge, boolean increment)
 	{
 		if (increment)
 			getData(player).age += newAge;
@@ -75,7 +79,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		keysPressed[key.ordinal()] = pressed;
 	}
 
-	public static double getNewAge()
+	public static long getNewAge()
 	{
 		return 20 + new Random().nextInt(5);
 	}
@@ -89,6 +93,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		NBTTagCompound props = new NBTTagCompound();
 		props.setDouble("age", age);
 		props.setByte("bithday", birthday);
+		props.setLong("birthyear", birthyear);
 		props.setBoolean("ascended", hasAscended);
 		compound.setTag("HbmPlayerProps", props);
 	}
@@ -101,9 +106,14 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		if (props != null)
 		{
 			if (props.hasKey("age"))
-				age = props.getDouble("age");
+				age = props.getLong("age");
 			else
 				age = getNewAge();
+			
+			if (props.hasKey("birthyear"))
+				birthyear = props.getLong("birthyear");
+			else
+				birthyear = player == null ? 2300 - age : TimeSavedData.getData(player.worldObj).getYear() - age;
 			
 			if (props.hasKey("birthday"))
 				birthday = props.getByte("birthday");

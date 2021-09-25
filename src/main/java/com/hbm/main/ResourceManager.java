@@ -529,6 +529,9 @@ public class ResourceManager {
 	public static final IModelCustom benelli = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/benelli_new.obj"));
 	public static final IModelCustom lunatic_sniper = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/Lunatic_Sniper_update.obj"));
 	public static final IModelCustom lunatic = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/medium_lunatic_rifle.obj"));
+	public static final IModelCustom lunatic_smg = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lunatic_smg.obj"));
+	public static final IModelCustom thompson_redux = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/thompson smg final.obj"));
+	public static final IModelCustom uac_pistol = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/UAC pistol.obj"));
 	
 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
@@ -586,6 +589,9 @@ public class ResourceManager {
 	public static final ResourceLocation lunatic_sniper_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Rifle_Texture.png");
 	public static final ResourceLocation benelli_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/benelli_tex.png");
 	public static final ResourceLocation lunatic_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Rifle_Texture_old.png");
+	public static final ResourceLocation lunatic_tex_alt = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Texture_alt.png");
+	public static final ResourceLocation thompson_tex_redux = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/thompson_texture_update.png");
+	public static final ResourceLocation uac_pistol_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/pistol_texture.png");
 
 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");

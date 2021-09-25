@@ -1,13 +1,20 @@
 package com.hbm.interfaces;
 
+import com.google.common.annotations.Beta;
 import com.hbm.modules.ItemHazardModule;
+import com.hbm.modules.ItemHazardModule.CustomToxicity;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumChatFormatting;
 
 public interface IItemHazard {
 	
 	public ItemHazardModule getModule();
+	
+	public static final CustomToxicity BERYLLIUM = new CustomToxicity("beryllium", 1000, 1000, EnumChatFormatting.DARK_GREEN);
+	public static final CustomToxicity HEAVY_METAL = new CustomToxicity("heavyMetal", 1000, 1000, EnumChatFormatting.DARK_BLUE);
+	public static final CustomToxicity CHEMICAL = new CustomToxicity("chemical", 5000, 250, EnumChatFormatting.YELLOW);
 	
 	public default IItemHazard addRadiation(float radiation) {
 		this.getModule().addRadiation(radiation);
@@ -30,14 +37,13 @@ public interface IItemHazard {
 	}
 	/**
 	 * Experimental custom toxicity handler
-	 * @param name - Name of the toxicity, for both tooltip and damage localization
-	 * @param cap - When the toxicity reaches max and deals damage, lower for sooner, higher for later
-	 * @param damage - How much damage does it deal when it reaches max?
+	 * @param tox - The toxicity object
 	 */
 	@Untested
-	public default IItemHazard addCustomToxicity(String name, float max, float damage)
+	@Beta
+	public default IItemHazard addCustomToxicity(CustomToxicity tox)
 	{
-		getModule().addCustomToxicity(name, max, damage);
+		getModule().addCustomToxicity(tox);
 		return this;
 	}
 	

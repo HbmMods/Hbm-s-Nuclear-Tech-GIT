@@ -103,10 +103,10 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glTranslatef(-0.0F, -0.2F, -1.28F);
 //			GL11.glTranslated(0, recoil[1], recoil[2] * 0.5);
 			GL11.glRotated(recoil[0], 1, 0, 0);
-			GL11.glScaled(scale2, scale2, scale2);
+			GL11.glScaled(scale2 - scale2 * 2, scale2, scale2);
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(-eject[0], eject[1], eject[2]);
+			GL11.glTranslated(eject[0], eject[1], eject[2]);
 			ResourceManager.benelli.renderPart(shell);
 			GL11.glPopMatrix();
 			break;

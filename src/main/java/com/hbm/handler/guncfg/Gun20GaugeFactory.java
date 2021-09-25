@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -72,8 +73,8 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 1887";
-		config.manufacturer = "Winchester Repeating Arms Company";
+		config.name = "win1887";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
@@ -99,8 +100,8 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 1887 Inox";
-		config.manufacturer = "Winchester Repeating Arms Company";
+		config.name = "win1887Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
@@ -127,8 +128,8 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 20 Inox";
-		config.manufacturer = "Winchester Repeating Arms Company";
+		config.name = "win20Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
@@ -155,8 +156,8 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 20 Polymer";
-		config.manufacturer = "Winchester Repeating Arms Company";
+		config.name = "win20Poly";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
@@ -183,8 +184,8 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 20 D-25A";
-		config.manufacturer = "Winchester Repeating Arms Company / Big MT";
+		config.name = "win20Satur";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG_FIRE);

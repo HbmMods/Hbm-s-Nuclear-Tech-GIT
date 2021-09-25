@@ -6,6 +6,7 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSBPowered;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -56,31 +57,31 @@ public class ArmorRecipes {
 		upgradeArmorSet(ferrouraniumSet, aAlloySet, ModItems.ingot_ferrouranium);
 		
 		//Power armor
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'T', ModItems.gas_empty, 'B', ModItems.titanium_plate });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_legs });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.t45_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_boots });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_ajr, 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.alloy_helmet });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'T', ModItems.gas_empty, 'B', ModItems.alloy_plate });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_legs });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajr_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_boots });
-		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_helmet), new Object[] { ModItems.ajr_helmet, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_plate), new Object[] { ModItems.ajr_plate, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_legs), new Object[] { ModItems.ajr_legs, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.ajro_boots), new Object[] { ModItems.ajr_boots, "dyeRed", "dyeBlack" }));
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_helmet), new Object[] { "SBS", " C ", " I ", 'S', Items.string, 'B', new ItemStack(Blocks.wool, 1, 15), 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_starmetal });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_plate), new Object[] { "N N", "MSM", "NCN", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_plate, 'C', ModItems.circuit_targeting_tier5 });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_plate_jetpack), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', ModItems.gas_xenon, 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_legs), new Object[] { "MBM", "NSN", "N N", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_legs, 'B', ModBlocks.block_starmetal });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.bj_boots), new Object[] { "N N", "BSB", 'N', ModItems.plate_armor_lunar, 'S', ModItems.starmetal_boots, 'B', ModBlocks.block_starmetal });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_helmet), new Object[] { "PPC", "PBP", "IFI", 'P', ModItems.plate_armor_hev, 'C', ModItems.circuit_targeting_tier4, 'B', ModItems.titanium_helmet, 'I', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_plate), new Object[] { "MPM", "IBI", "PPP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_plate, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_legs), new Object[] { "MPM", "IBI", "P P", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_legs, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.hev_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_boots });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_helmet), new Object[] { "PWP", "PBP", "FSF", 'P', ModItems.plate_armor_fau, 'W', new ItemStack(Blocks.wool, 1, 14), 'B', ModItems.starmetal_helmet, 'F', ModItems.gas_mask_filter, 'S', ModItems.pipes_steel });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_plate), new Object[] { "MCM", "PBP", "PSP", 'M', ModItems.motor_desh, 'C', ModItems.demon_core_closed, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_plate, 'S', ModBlocks.ancient_scrap });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_legs), new Object[] { "MPM", "PBP", "PDP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_legs, 'D', ModItems.billet_polonium });
-		GameRegistry.addRecipe(ArmorFSBPowered.getUnpoweredPiece(ModItems.fau_boots), new Object[] { "PDP", "PBP", 'P', ModItems.plate_armor_fau, 'D', ModItems.billet_polonium, 'B', ModItems.starmetal_boots });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.t45_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.t45_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'T', ModItems.gas_empty, 'B', ModItems.titanium_plate });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.t45_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor, 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_legs });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.t45_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_titanium, 'B', ModItems.titanium_boots });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.ajr_helmet), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_ajr, 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.alloy_helmet });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.ajr_plate), new Object[] { "MPM", "TBT", "PPP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'T', ModItems.gas_empty, 'B', ModItems.alloy_plate });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.ajr_legs), new Object[] { "MPM", "PBP", "P P", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_legs });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.ajr_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_ajr, 'B', ModItems.alloy_boots });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(IBatteryItem.emptyBattery(ModItems.ajro_helmet), new Object[] { ModItems.ajr_helmet, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(IBatteryItem.emptyBattery(ModItems.ajro_plate), new Object[] { ModItems.ajr_plate, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(IBatteryItem.emptyBattery(ModItems.ajro_legs), new Object[] { ModItems.ajr_legs, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(IBatteryItem.emptyBattery(ModItems.ajro_boots), new Object[] { ModItems.ajr_boots, "dyeRed", "dyeBlack" }));
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.bj_helmet), new Object[] { "SBS", " C ", " I ", 'S', Items.string, 'B', new ItemStack(Blocks.wool, 1, 15), 'C', ModItems.circuit_targeting_tier4, 'I', ModItems.ingot_starmetal });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.bj_plate), new Object[] { "N N", "MSM", "NCN", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_plate, 'C', ModItems.circuit_targeting_tier5 });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.bj_plate_jetpack), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', ModItems.gas_xenon, 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.bj_legs), new Object[] { "MBM", "NSN", "N N", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_legs, 'B', ModBlocks.block_starmetal });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.bj_boots), new Object[] { "N N", "BSB", 'N', ModItems.plate_armor_lunar, 'S', ModItems.starmetal_boots, 'B', ModBlocks.block_starmetal });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.hev_helmet), new Object[] { "PPC", "PBP", "IFI", 'P', ModItems.plate_armor_hev, 'C', ModItems.circuit_targeting_tier4, 'B', ModItems.titanium_helmet, 'I', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.hev_plate), new Object[] { "MPM", "IBI", "PPP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_plate, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.hev_legs), new Object[] { "MPM", "IBI", "P P", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_legs, 'I', ModItems.ingot_polymer, 'M', ModItems.motor_desh });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.hev_boots), new Object[] { "P P", "PBP", 'P', ModItems.plate_armor_hev, 'B', ModItems.titanium_boots });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.fau_helmet), new Object[] { "PWP", "PBP", "FSF", 'P', ModItems.plate_armor_fau, 'W', new ItemStack(Blocks.wool, 1, 14), 'B', ModItems.starmetal_helmet, 'F', ModItems.gas_mask_filter, 'S', ModItems.pipes_steel });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.fau_plate), new Object[] { "MCM", "PBP", "PSP", 'M', ModItems.motor_desh, 'C', ModItems.demon_core_closed, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_plate, 'S', ModBlocks.ancient_scrap });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.fau_legs), new Object[] { "MPM", "PBP", "PDP", 'M', ModItems.motor_desh, 'P', ModItems.plate_armor_fau, 'B', ModItems.starmetal_legs, 'D', ModItems.billet_polonium });
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.fau_boots), new Object[] { "PDP", "PBP", 'P', ModItems.plate_armor_fau, 'D', ModItems.billet_polonium, 'B', ModItems.starmetal_boots });
 
 		//Euphemium armor
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });

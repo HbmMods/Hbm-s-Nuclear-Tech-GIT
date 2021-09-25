@@ -1,9 +1,11 @@
 package com.hbm.modules;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import com.hbm.interfaces.Untested;
+import com.google.common.annotations.Beta;
+import com.hbm.config.RadiationConfig;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.lib.HbmCollection;
 import com.hbm.util.ArmorUtil;
@@ -18,6 +20,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemHazardModule {
+	
+	static final NumberFormat basicFormatter = new DecimalFormat("0.###");
+	static final NumberFormat sciNotFormatter = new DecimalFormat("0.###E0");
 	
 	/**
 	 * Dependency injection: It's fun for boys and girls!
@@ -37,9 +42,7 @@ public class ItemHazardModule {
 	
 	// Custom toxic damage
 	boolean hasCustomTox = false;
-	String toxName;
-	float toxDmg;
-	float toxCap;
+	CustomToxicity tox = null;
 	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
@@ -70,22 +73,18 @@ public class ItemHazardModule {
 	}
 	/**
 	 * Experimental custom toxicity handler
-	 * @param name - Name of the toxicity, for both tooltip and damage localization
-	 * @param cap - When the toxicity reaches max and deals damage, lower for sooner, higher for later
-	 * @param damage - How much damage does it deal when it reaches max?
+	 * @param toxIn Pun not intended
 	 */
-	@Untested
-	public void addCustomToxicity(String name, float cap, float damage)
+	@Beta
+	public void addCustomToxicity(CustomToxicity toxIn)
 	{
 		hasCustomTox = true;
-		toxName = name;
-		toxCap = cap;
-		toxDmg = damage;
+		tox = toxIn;
 	}
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
 			
-		if(this.radiation > 0)
+		if(this.radiation > (RadiationConfig.realisticRads ? 0.0001F : 0))
 			ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
 
 		if(this.digamma > 0)
@@ -96,6 +95,9 @@ public class ItemHazardModule {
 
 		if(this.asbestos)
 			ContaminationUtil.applyAsbestos(entity, (int) (1 * mod));
+		
+		if (hasCustomTox)
+			ContaminationUtil.applyCustom(entity, (int) mod, tox);
 
 		if(this.hydro && currentItem) {
 
@@ -134,9 +136,11 @@ public class ItemHazardModule {
 		{
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(HbmCollection.radioactive) + "]");
 			double rad = (Math.floor(radiation * 1000) / 1000);
-			double totalrad = (Math.floor(radiation * 1000) / 1000) * stack.stackSize;
-			String radFormatted = NumberFormat.getInstance().format(rad);
-			String totalRadFormatted = NumberFormat.getInstance().format(totalrad);
+			double totalrad = radiation * stack.stackSize;
+//			System.out.println(radiation);
+//			System.out.println(radiation * stack.stackSize);
+			String radFormatted = rad >= 0.0001F ? basicFormatter.format(rad) : sciNotFormatter.format(radiation);
+			String totalRadFormatted = rad >= 0.0001F ? basicFormatter.format(totalrad) : sciNotFormatter.format(totalrad);
 			list.add(EnumChatFormatting.YELLOW + (radFormatted + "RAD/s"));
 			if (stack.stackSize > 1)
 				list.add(String.format("%s%sRAD/s total", EnumChatFormatting.YELLOW, totalRadFormatted));
@@ -155,7 +159,7 @@ public class ItemHazardModule {
 		}
 		
 		if (hasCustomTox)
-			list.add(String.format("%s[%s]", EnumChatFormatting.WHITE, I18nUtil.resolveKey("trait." + toxName)));
+			list.add(String.format("%s[%s]", tox.format, I18nUtil.resolveKey("trait." + tox.name)));
 		
 		if(this.hydro) {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.hydro) + "]");
@@ -182,6 +186,40 @@ public class ItemHazardModule {
 			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
+		}
+	}
+	
+	public static class CustomToxicity
+	{
+		public String name;
+		public float damage;
+		public float cap;
+		public EnumChatFormatting format = EnumChatFormatting.WHITE;
+		public CustomToxicity(String name, float damage, float cap)
+		{
+			this.name = name;
+			this.damage = damage;
+			this.cap = cap;
+		}
+		public CustomToxicity(String name, float damage, float cap, EnumChatFormatting format)
+		{
+			this(name, damage, cap);
+			this.format = format;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format("Toxicity name: %s; damage at max: %s, cap: %s; formatting code: %s; default string: %s", name, damage, cap, format.getFriendlyName(), super.toString());
+		}
+		
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (!(obj instanceof CustomToxicity))
+				return false;
+			CustomToxicity test = (CustomToxicity) obj;
+			return test.name.equals(name);
 		}
 	}
 }

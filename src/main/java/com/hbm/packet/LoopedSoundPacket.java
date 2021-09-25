@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.sound.SoundLoopAssembler;
 import com.hbm.sound.SoundLoopBroadcaster;
@@ -42,6 +43,16 @@ public class LoopedSoundPacket implements IMessage {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	public LoopedSoundPacket(TileEntity te)
+	{
+		this(te.xCoord, te.yCoord, te.zCoord);
+	}
+	
+	public LoopedSoundPacket(EasyLocation loc)
+	{
+		this((int) loc.posX, (int) loc.posY, (int) loc.posZ);
 	}
 
 	@Override

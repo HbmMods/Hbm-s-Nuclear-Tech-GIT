@@ -13,6 +13,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
+import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
@@ -43,7 +44,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
+public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEquipReceiver
+{
 
 	public GunConfiguration mainConfig;
 	public GunConfiguration altConfig;
@@ -516,37 +518,43 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		Item ammo;
 		ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
 	
-		if (mainConfig.ammoCap > 0)
-			list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
-		else
-			list.add("Ammo: Belt");
+//		if (mainConfig.ammoCap > 0)
+//			list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
+//		else
+//			list.add("Ammo: Belt");
 		
-		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
+		list.add(I18nUtil.resolveKey(HbmCollection.ammo, mainConfig.ammoCap > 0 ? I18nUtil.resolveKey(HbmCollection.ammoMag, getMag(stack), mainConfig.ammoCap) : I18nUtil.resolveKey(HbmCollection.ammoBelt)));
+		
+//		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
+		
+		list.add(I18nUtil.resolveKey(HbmCollection.ammoType, I18nUtil.resolveKey(ammo.getUnlocalizedName() + ".name")));
 
 		if(altConfig != null && altConfig.ammoCap == 0) {
 			Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
 			if(ammo != ammo2)
-				list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
+				list.add(I18nUtil.resolveKey(HbmCollection.altAmmoType, I18nUtil.resolveKey(ammo2.getUnlocalizedName() + ".name")));
+//				list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
 		}
-		if (mainConfig.damage != "" || !mainConfig.damage.isEmpty())
-		{
-			list.add("Damage: " + mainConfig.damage);
-		}
-		int dura = mainConfig.durability - getItemWear(stack);
-		
-		if(dura < 0)
-			dura = 0;
-		
-		addAdditionalInformation(stack, list, dura);
+
+		addAdditionalInformation(stack, list);
 	}
 	
-	protected void addAdditionalInformation(ItemStack stack, List list, int dura)
+	protected void addAdditionalInformation(ItemStack stack, List list)
 	{
-		list.add("Durability: " + dura + " / " + mainConfig.durability);
+		list.add(mainConfig.damage.isEmpty() ? I18nUtil.resolveKey(HbmCollection.gunDamage, BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).dmgMin, BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).dmgMax) : I18nUtil.resolveKey(HbmCollection.gunDamage.concat("Alt"), mainConfig.damage));
+		
+		int dura = mainConfig.durability - getItemWear(stack);
+		
+		if (dura < 0)
+			dura = 0;
+		
+		list.add(I18nUtil.resolveKey(HbmCollection.durability, dura + " / " + mainConfig.durability));
 		
 		list.add("");
-		list.add("Name: " + mainConfig.name);
-		list.add("Manufacturer: " + mainConfig.manufacturer);
+//		list.add("Name: " + mainConfig.name);
+		list.add(I18nUtil.resolveKey(HbmCollection.gunName, I18nUtil.resolveKey("gun.name." + mainConfig.name)));
+//		list.add("Manufacturer: " + mainConfig.manufacturer);
+		list.add(I18nUtil.resolveKey(HbmCollection.gunMaker, I18nUtil.resolveKey(mainConfig.manufacturer.getKey())));
 		
 		if(!mainConfig.comment.isEmpty()) {
 			list.add("");
@@ -841,5 +849,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			else
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
+	}
+
+	@Override
+	public void onEquip(EntityPlayer player)
+	{
+		if (!mainConfig.equipSound.isEmpty())
+			player.playSound(mainConfig.equipSound, 1.0F, 1.0F);
 	}
 }

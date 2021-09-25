@@ -9,6 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -40,8 +41,8 @@ public class Gun12GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shotgunShoot";
 		
-		config.name = "Uboinik Revolving Shotgun";
-		config.manufacturer = "Metro Gunsmiths";
+		config.name = "uboinik";
+		config.manufacturer = EnumGunManufacturer.METRO;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
@@ -96,8 +97,8 @@ public class Gun12GaugeFactory {
 						)
 				);
 		
-		config.name = "Double-Barreled Combat Shotgun";
-		config.manufacturer = "Union Aerospace Corporation";
+		config.name = "supershotty";
+		config.manufacturer = EnumGunManufacturer.UAC;
 		config.comment.add("God-damned ARCH-VILES!");
 		
 		config.config = new ArrayList<Integer>();
@@ -153,9 +154,8 @@ public class Gun12GaugeFactory {
 						)
 				);
 		
-		config.name = "Benelli M4 Super 90";
-		config.damage = "1 - 4 per pellet (stock)";
-		config.manufacturer = "Benelli Armi SpA";
+		config.name = "benelli";
+		config.manufacturer = EnumGunManufacturer.BENELLI;
 		config.comment.add("Eat your heart out SPAS-12");
 		config.config = HbmCollection.twelveGauge;
 		
@@ -164,13 +164,14 @@ public class Gun12GaugeFactory {
 	
 	public static GunConfiguration getBenelliModConfig()
 	{
-		GunConfiguration config = Gun12GaugeFactory.getBenelliConfig();
+		GunConfiguration config = getBenelliConfig();
 		
 		config.reloadType = 1;
 		config.ammoCap = 24;
 		config.reloadDuration = 20;
-		config.animations.clear();
-		config.name += " (Drum Magazine Mod)";
+		config.reloadSound = "hbm:weapon.shotgunDrumPB3";
+		config.reloadSoundEnd = true;
+		config.name += "Drum";
 		
 		return config;
 	}
@@ -180,20 +181,20 @@ public class Gun12GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_12gauge;
-		bullet.dmgMin = 1;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 6;
 		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get12GaugeFireConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		BulletConfiguration bullet = get12GaugeConfig();
 		
 		bullet.ammo = ModItems.ammo_12gauge_incendiary;
 		bullet.wear = 15;
-		bullet.dmgMin = 1;
-		bullet.dmgMax = 4;
+//		bullet.dmgMin = 1;
+//		bullet.dmgMax = 4;
 		bullet.incendiary = 5;
 		
 		return bullet;
@@ -201,12 +202,12 @@ public class Gun12GaugeFactory {
 	
 	public static BulletConfiguration get12GaugeShrapnelConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		BulletConfiguration bullet = get12GaugeConfig();
 		
 		bullet.ammo = ModItems.ammo_12gauge_shrapnel;
 		bullet.wear = 15;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 6;
+		bullet.dmgMin = 4;
+		bullet.dmgMax = 8;
 		bullet.ricochetAngle = 15;
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
@@ -220,8 +221,8 @@ public class Gun12GaugeFactory {
 		
 		bullet.ammo = ModItems.ammo_12gauge_du;
 		bullet.wear = 20;
-		bullet.dmgMin = 3;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 12;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
 		

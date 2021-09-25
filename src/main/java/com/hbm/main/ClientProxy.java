@@ -300,6 +300,7 @@ import com.hbm.render.item.weapon.ItemRenderGavel;
 import com.hbm.render.item.weapon.ItemRenderGunAnim;
 import com.hbm.render.item.weapon.ItemRenderHLR;
 import com.hbm.render.item.weapon.ItemRenderImmolator;
+import com.hbm.render.item.weapon.ItemRenderLLR;
 import com.hbm.render.item.weapon.ItemRenderLunaticSniper;
 import com.hbm.render.item.weapon.ItemRenderMIRVLauncher;
 import com.hbm.render.item.weapon.ItemRenderMLR;
@@ -322,6 +323,8 @@ import com.hbm.render.item.weapon.ItemRenderShim;
 import com.hbm.render.item.weapon.ItemRenderStinger;
 import com.hbm.render.item.weapon.ItemRenderTWR;
 import com.hbm.render.item.weapon.ItemRenderTestBombAdvanced;
+import com.hbm.render.item.weapon.ItemRenderThompsonRedux;
+import com.hbm.render.item.weapon.ItemRenderUACPistol;
 import com.hbm.render.item.weapon.ItemRenderUZI;
 import com.hbm.render.item.weapon.ItemRenderUboinik;
 import com.hbm.render.item.weapon.ItemRenderWeaponBolter;
@@ -748,6 +751,10 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_benelli, new ItemRenderBenelli());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lunatic_marksman, new ItemRenderLunaticSniper());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mlr, new ItemRenderMLR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_llr, new ItemRenderLLR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_thompson_redux, new ItemRenderThompsonRedux());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_benelli_mod, new ItemRenderBenelli());// TODO
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uac_pistol, new ItemRenderUACPistol());
 		MinecraftForgeClient.registerItemRenderer(ModItems.test_gun, new ItemRenderUboinik());
 		
 		//Satori

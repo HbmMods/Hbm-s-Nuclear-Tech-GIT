@@ -87,6 +87,13 @@ public class RecipesCommon {
 		ingotToBillet(billet, ingot);
 	}
 	
+	public static void addRodsAll(Item quad, Item dual, Item single, Item billet)
+	{
+		addRodBilletUnload(billet, single);
+		addDualRodBilletUnload(billet, dual);
+		addQuadRodBilletUnload(billet, quad);
+	}
+	
 	//Fill rods with 6 nuggets
 	public static void addRod(Item nugget, Item out) {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_empty, nugget, nugget, nugget, nugget, nugget, nugget });

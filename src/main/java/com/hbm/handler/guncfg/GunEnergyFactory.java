@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -11,16 +12,25 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.GunConfigurationEnergy;
+import com.hbm.interfaces.IBulletHitBehavior;
+import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -45,8 +55,8 @@ public class GunEnergyFactory {
 		config.crosshair = Crosshair.L_SPLIT;
 		config.firingSound = "hbm:weapon.teslaShoot";
 		
-		config.name = "EMP Orb Projector";
-		config.manufacturer = "MWT Prototype Labs";
+		config.name = "emp";
+		config.manufacturer = EnumGunManufacturer.MWT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_EMP);
@@ -73,8 +83,8 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.flamethrowerShoot";
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
-		config.name = "Heavy Duty Flamer";
-		config.manufacturer = "MWT Prototype Labs";
+		config.name = "topaz";
+		config.manufacturer = EnumGunManufacturer.MWT;
 
 		config.comment.add("Dragon-slaying: Advanced techniques, part 1:");
 		config.comment.add("Try not to get eaten by the dragon.");
@@ -110,8 +120,8 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.zomgShoot";
 		config.reloadSound = "hbm:weapon.b92Reload";
 		
-		config.name = "EMC101 Prismatic Negative Energy Cannon";
-		config.manufacturer = "MWT Prototype Labs";
+		config.name = "zomg";
+		config.manufacturer = EnumGunManufacturer.MWT;
 
 		config.comment.add("Taste the rainbow!");
 		
@@ -141,18 +151,18 @@ public class GunEnergyFactory {
 		config.durability = 1000000000;
 		//config.hasSights = false;
 		config.reloadSound = "hbm:weapon.b92Reload";
-		config.firingSound = "hbm:weapon.zomgShoot";
+		config.firingSound = "hbm:weapon.singFlyby";
 		config.ammoCap = 16;// Subject to change
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = false;
 		config.damage = EnumChatFormatting.BOLD + "A lot";
-		config.crosshair = Crosshair.L_SPLIT;
+		config.crosshair = Crosshair.SPLIT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.TWR_RAY);
 		
-		config.name = "Time Warp Rifle";
-		config.manufacturer = "Lunar Defense Corp";
+		config.name = "lunaTWR";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		String[] lore = I18nUtil.resolveKeyArray("item.gun_twr.desc." + randLore);
 		for (String s : lore)
 			config.comment.add(EnumChatFormatting.ITALIC + s);
@@ -203,18 +213,17 @@ public class GunEnergyFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = false;
 		config.hasSights = true;
-		config.damage = "Main: 15 - 18; Alt: 20 - 25";
 		config.crosshair = Crosshair.L_CROSS;
 		config.firingSound = "hbm:weapon.osiprShoot";
+		config.reloadSound = "hbm:item.battery";
+		config.firingPitch = 1.1F;
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
-		config.name = "1944 Chang'e type LMG \"Heavy Lunatic Rifle\"";
-		config.manufacturer = "Lunar Defense Corp";
+		config.name = "lunaHLR";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		String[] lore = I18nUtil.resolveKeyArray("item.gun_hlr.desc." + randLore);
 		for (String s : lore)
 			config.comment.add(EnumChatFormatting.ITALIC + s);
-
-		//config.comment.add(String.format("\"%sDodge%s%s Graze this\"", EnumChatFormatting.STRIKETHROUGH, EnumChatFormatting.RESET, EnumChatFormatting.GRAY));
 
 		return config;
 	}
@@ -244,11 +253,11 @@ public class GunEnergyFactory {
 		config.allowsInfinity = false;
 		config.hasSights = false;
 		
-		config.damage = "15 - 18";
 		config.crosshair = Crosshair.CLASSIC;
 		config.firingSound = "hbm:weapon.osiprShoot";
-		config.name = "1958 Lunatic Gun (Revised)";
-		config.manufacturer = "Lunar Defense Corp";
+		config.reloadSound = "hbm:item.battery";
+		config.name = "lunaGun";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
 		return config;
@@ -273,7 +282,7 @@ public class GunEnergyFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
 		config.name = "the pooper shooter";//I am very mature (and creative)
-		config.manufacturer = "Fisher Price";
+		config.manufacturer = EnumGunManufacturer.F_PRICE;
 		config.comment.add("Let the pain end");
 		
 		return config;
@@ -518,7 +527,7 @@ public class GunEnergyFactory {
 	}
 	public static BulletConfiguration getRegSingConfig()
 	{
-		BulletConfiguration bullet = GunEnergyFactory.getSingConfig();
+		BulletConfiguration bullet = getSingConfig();
 		
 		bullet.ammo = ModItems.singularity;
 		bullet.ammoCount = 100;
@@ -527,7 +536,7 @@ public class GunEnergyFactory {
 	}
 	public static BulletConfiguration getSuperheatedSingConfig()
 	{
-		BulletConfiguration bullet = GunEnergyFactory.getRegSingConfig();
+		BulletConfiguration bullet = getRegSingConfig();
 		
 		bullet.ammo = ModItems.singularity_super_heated;
 		bullet.dmgMax += 40000;
@@ -539,7 +548,7 @@ public class GunEnergyFactory {
 	}
 	public static BulletConfiguration getCounterResonantSingConfig()
 	{
-		BulletConfiguration bullet = GunEnergyFactory.getRegSingConfig();
+		BulletConfiguration bullet = getRegSingConfig();
 		
 		bullet.ammo = ModItems.singularity_counter_resonant;
 		bullet.ammoCount = 500;
@@ -575,6 +584,20 @@ public class GunEnergyFactory {
 		bullet.effects.add(new PotionEffect(HbmPotion.hollow.id, 2 * 20));
 		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 5 * 20));
 		
+		bullet.bHit = new IBulletHitBehavior()
+		{
+			
+			@Override
+			public void behaveEntityHit(EntityBulletBase bullet, Entity hit)
+			{
+				if (hit instanceof EntityLivingBase)
+					ContaminationUtil.applyDigammaData(hit, 0.0001F);
+			}
+		};
+		
+		bullet.spectralBlocks.addAll(HbmCollection.energyRoundBlock);
+		bullet.spectralMaterials.addAll(HbmCollection.energyRoundMaterial);
+		
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_LASER;
 		
@@ -605,6 +628,20 @@ public class GunEnergyFactory {
 		bullet.effects.add(new PotionEffect(HbmPotion.hollow.id, 5 * 20, 1));
 		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 7 * 20, 1));
 		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 3 * 20));
+		
+		bullet.bHurt = new IBulletHurtBehavior()
+		{
+			
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit)
+			{
+				if (hit instanceof EntityLivingBase)
+					ContaminationUtil.applyDigammaData(hit, 0.0005F);
+			}
+		};
+		
+		bullet.spectralBlocks.addAll(HbmCollection.energyRoundBlock);
+		bullet.spectralMaterials.addAll(HbmCollection.energyRoundMaterial);
 		
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_LASER;

@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -18,7 +20,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-
+@Spaghetti("yet another if statement chain")
 public class ItemEnergy extends Item {
 
 	@Override
@@ -36,7 +38,13 @@ public class ItemEnergy extends Item {
 			}
 			
 			VersatileConfig.applyPotionSickness(player, 5);
-
+			if (this == ModItems.bottle_sr90)
+			{
+				player.addPotionEffect(new PotionEffect(HbmPotion.fragile.id, 30 * 20, 2));
+				player.addPotionEffect(new PotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2)));
+				player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 30 * 20, 2));
+				ContaminationUtil.applyRadDirect(player, 50F);
+			}
 			if(this == ModItems.can_smart) {
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));

@@ -10,6 +10,7 @@ import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -72,8 +73,8 @@ public class Gun75BoltFactory {
 						)
 				);
 		
-		config.name = "Manticora Pattern Boltgun";
-		config.manufacturer = "Cerix Magnus";
+		config.name = "bolter";
+		config.manufacturer = EnumGunManufacturer.CERIX;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.B75_NORMAL);

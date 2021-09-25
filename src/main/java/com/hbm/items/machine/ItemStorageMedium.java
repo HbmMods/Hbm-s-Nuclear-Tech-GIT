@@ -5,16 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.annotations.Beta;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.internet.IDataStorageUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,8 +31,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-
-public class ItemStorageMedium extends ItemCustomLore
+@Beta
+@Spaghetti("Could  be a lot better tbh")
+public class ItemStorageMedium extends ItemCustomLore implements IDataStorageUser
 {
 	private Item dropItem = null;
 	private EnumStorageItemType type;
@@ -260,6 +265,7 @@ public class ItemStorageMedium extends ItemCustomLore
 	{
 		return readRate;
 	}
+	@Deprecated
 	public static ItemStack getBlankMedium(Item item)
 	{
 		if (item instanceof ItemStorageMedium)
@@ -272,6 +278,7 @@ public class ItemStorageMedium extends ItemCustomLore
 		}
 		return null;
 	}
+	@Deprecated
 	public static ItemStack getFullMedium(Item item)
 	{
 		if (item instanceof ItemStorageMedium)
@@ -329,8 +336,22 @@ public class ItemStorageMedium extends ItemCustomLore
 	{
 		if (this.writeRate > 0)
 		{
-			list.add(getBlankMedium(item));
-			list.add(getFullMedium(item));
+			list.add(IDataStorageUser.getBlankMedium(item));
+			list.add(IDataStorageUser.getFullMedium(item));
 		}
+	}
+	// TODO
+	@Override
+	@CheckForNull
+	public NBTTagCompound getStoredData(ItemStack stack)
+	{
+		if (stack != null && stack.getItem() instanceof ItemStorageMedium)
+		{
+			if (stack.hasTagCompound() && !stack.stackTagCompound.getCompoundTag(GROUP_KEY).equals(BLANK))
+				return stack.stackTagCompound.getCompoundTag(GROUP_KEY);
+			else
+				return null;
+		}
+		return null;
 	}
 }

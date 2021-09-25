@@ -14,7 +14,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-
+/**
+ * Class to handle subtype items easier
+ * @author UFFR
+ *
+ */
 public class ItemWithSubtypes extends ItemCustomLore
 {
 	@SideOnly(Side.CLIENT)
@@ -28,9 +32,16 @@ public class ItemWithSubtypes extends ItemCustomLore
 		setSize = size;
 		setHasSubtypes(true);
 	}
+	@Deprecated
 	public ItemWithSubtypes(int size, String... names)
 	{
 		this(size);
+		addCustomNames(names);
+	}
+	// Why didn't I think of this sooner?
+	public ItemWithSubtypes(String...names)
+	{
+		this(names.length);
 		addCustomNames(names);
 	}
 	/**

@@ -72,7 +72,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_higgs),
 				new ItemStack(ModItems.particle_muon),
-				8000,
+				6000,
 				new ItemStack(ModItems.particle_graviton),
 				new ItemStack(ModItems.particle_empty),
 				false));

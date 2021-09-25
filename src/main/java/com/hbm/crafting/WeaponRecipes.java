@@ -217,7 +217,7 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.assembly_nuke, 1), new Object[] { " WP", "SEP", " WP", 'W', ModItems.wire_aluminium, 'P', "plateSteel", 'S', ModItems.hull_small_steel, 'E', ModItems.ingot_semtex }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_dart, 16), new Object[] { "IPI", "ICI", "IPI", 'I', ModItems.plate_polymer, 'P', "plateIron", 'C', new ItemStack(ModItems.fluid_tank_full, 1, FluidType.WATZ.ordinal()) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_dart_nerf, 16), new Object[] { "I", "I", 'I', ModItems.plate_polymer }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.assembly_luna_sniper, 4), new Object[] { " B ", "GCG", "GPG", 'B', ModItems.bolt_staballoy, 'G', ModItems.cordite, 'C', ModItems.casing_50, 'P', ModItems.primer_50});
+		GameRegistry.addRecipe(new ItemStack(ModItems.assembly_luna_sniper, 4), new Object[] { " B ", "GCG", "GPG", 'B', ModItems.bolt_staballoy, 'G', ModItems.powder_nitan_mix, 'C', ModItems.casing_50, 'P', ModItems.powder_power});
 		
 		//Ammo types
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_12gauge_incendiary, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_12gauge, 'A', ModItems.powder_fire });

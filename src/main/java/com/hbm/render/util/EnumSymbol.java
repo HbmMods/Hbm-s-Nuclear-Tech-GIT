@@ -8,7 +8,10 @@ public enum EnumSymbol {
 	ASPHYXIANT(195, 185),
 	CROYGENIC(134, 185),
 	ANTIMATTER(73, 185),
-	OXIDIZER(12, 185);
+	OXIDIZER(12, 185),
+	CHEMICAL(256, 2),
+	BIOHAZARD(256, 63),
+	HOT(256, 124);
 	
 	public int x;
 	public int y;

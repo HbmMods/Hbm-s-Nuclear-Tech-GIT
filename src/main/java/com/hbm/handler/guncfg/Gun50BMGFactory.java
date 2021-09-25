@@ -10,6 +10,7 @@ import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -45,8 +46,8 @@ public class Gun50BMGFactory {
 		config.firingSound = "hbm:weapon.calShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Maxim gun";
-		config.manufacturer = "Hiram Maxim";
+		config.name = "maxim";
+		config.manufacturer = EnumGunManufacturer.MAXIM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
@@ -80,8 +81,8 @@ public class Gun50BMGFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.calShoot";
 		
-		config.name = "Double Maxim gun";
-		config.manufacturer = "???";
+		config.name = "maximDouble";
+		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
@@ -115,9 +116,8 @@ public class Gun50BMGFactory {
 		config.reloadSoundEnd = true;
 		config.durability = 500000;
 		
-		config.name = "1909 Rāhula type Anti-Material Rifle \"Lunatic Marksman Rifle\"";
-		config.manufacturer = "Lunar Defense Corp";
-		config.damage = "450 - 500";
+		config.name = "lunaSniper";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		config.comment.add("\"You do not spark joy\"");
 		
 		config.config = new ArrayList<Integer>(1);
@@ -156,11 +156,23 @@ public class Gun50BMGFactory {
 		bullet.velocity = 100;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 20;
+		bullet.incendiary = 10;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 30 * 20, 2));
 		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 30 * 20, 2));
 		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.lead.id, 30 * 20, 1));
+		
+		bullet.blockDamage = true;
+		bullet.bImpact = new IBulletImpactBehavior()
+		{
+			
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z)
+			{
+				bullet.worldObj.newExplosion(bullet, x, y, z, 10.0F, true, true);
+			}
+		};
 		
 		return bullet;
 	}

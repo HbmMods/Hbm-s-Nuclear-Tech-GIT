@@ -1,5 +1,7 @@
 package com.hbm.tileentity;
 
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.EasyLocation;
 import com.hbm.interfaces.Spaghetti;
@@ -25,6 +27,8 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	private String customName;
 	
 	protected EasyLocation coord;
+	
+	public static final Random rand = new Random();
 	
 	public TileEntityMachineBase(int scount) {
 		slots = new ItemStack[scount];
@@ -190,7 +194,6 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 			}
 		}
 		
-		coord = new EasyLocation(this);
 	}
 	
 	@Override

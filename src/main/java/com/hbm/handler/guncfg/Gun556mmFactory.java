@@ -11,6 +11,7 @@ import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -47,8 +48,8 @@ public class Gun556mmFactory {
 		config.firingSound = "hbm:weapon.hksShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Britannian Standard Issue Assault Rifle";
-		config.manufacturer = "BAE Systems plc";
+		config.name = "baeAR";
+		config.manufacturer = EnumGunManufacturer.BAE;
 		
 		config.comment.add("Why is this gun so sticky?");
 		
@@ -94,8 +95,8 @@ public class Gun556mmFactory {
 						)
 				);
 		
-		config.name = "H&R SPIW";
-		config.manufacturer = "Harrington & Richardson";
+		config.name = "spiw";
+		config.manufacturer = EnumGunManufacturer.H_AND_R;
 		
 		config.comment.add("Launch some flechettes in the breeze");
 		config.comment.add("Find his arms nailed to the trees");
@@ -167,12 +168,12 @@ public class Gun556mmFactory {
 		config.firingSound = "hbm:weapon.carbineShootPB3";
 		config.reloadSoundEnd = true;
 		
-		config.name = "1936 Bishamonten type Assault Rifle \"Medium Lunatic Rifle\"";
-		config.manufacturer = "Lunar Defense Corp";
-		config.damage = "6 - 8 (stock)";
+		config.name = "lunaAR";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		config.comment.add("\"May you never reincarnate again\"");
 		
-		config.config.addAll(HbmCollection.NATOAll);
+		config.config.addAll(HbmCollection.NATO);
+		config.config.addAll(HbmCollection.NATOFlechette);
 		
 		config.animations = new HashMap<>();
 		config.animations.put(AnimType.CYCLE, new BusAnimation()

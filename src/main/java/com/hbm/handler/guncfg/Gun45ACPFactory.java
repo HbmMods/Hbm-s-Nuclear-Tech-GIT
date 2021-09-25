@@ -7,6 +7,11 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun45ACPFactory
@@ -26,13 +31,13 @@ public class Gun45ACPFactory
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_SPLIT;
-		config.durability = 2500;
+		config.durability = 5000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.rifleShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "M1A1 Submachine Gun";
-		config.manufacturer = "Auto-Ordnance Corporation";
+		config.name = "tommy";
+		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.fourtyFiveACP);
@@ -60,11 +65,19 @@ public class Gun45ACPFactory
 		config.firingSound = "hbm:weapon.pistolFirePB3";
 		config.reloadSoundEnd = true;
 		
-		config.name = "UAC .45 Standard Issue Handgun";
-		config.manufacturer = "Union Aerospace Command";
-		config.damage = "6 - 8 (stock)";
+		config.name = "uacPistol";
+		config.manufacturer = EnumGunManufacturer.UAC;
 		
 		config.config.addAll(HbmCollection.fourtyFiveACP);
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("SLIDE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 10))// Wait for hammer
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -3.5, 40))// Slide back
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40)))// Return
+				.addBus("HAMMER", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 10))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40))));
 		
 		return config;
 	}
@@ -90,9 +103,8 @@ public class Gun45ACPFactory
 		config.firingPitch = 1.15F;
 		config.reloadSoundEnd = true;
 		
-		config.name = "UAC Compact Sub-Machine Gun";
-		config.manufacturer = "Union Aerospace Command";
-		config.damage = "6 - 8 (stock)";
+		config.name = "uacSMG";
+		config.manufacturer = EnumGunManufacturer.UAC;
 		
 		config.config.addAll(HbmCollection.fourtyFiveACP);
 		
@@ -106,6 +118,7 @@ public class Gun45ACPFactory
 		bullet.ammo = ModItems.ammo_45;
 		bullet.dmgMax = 8;
 		bullet.dmgMin = 6;
+		bullet.spread /= 2;
 		
 		return bullet;
 	}

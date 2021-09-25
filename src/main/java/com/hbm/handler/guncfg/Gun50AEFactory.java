@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun50AEFactory {
@@ -37,8 +38,8 @@ public class Gun50AEFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "IMI Desert Eagle";
-		config.manufacturer = "Magnum Research / Israel Military Industries";
+		config.name = "deagle";
+		config.manufacturer = EnumGunManufacturer.MAGNUM_R_IMI;
 		
 		config.hasSights = true;
 		config.config = new ArrayList<Integer>();

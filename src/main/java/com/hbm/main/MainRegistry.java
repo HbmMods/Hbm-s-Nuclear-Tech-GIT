@@ -1056,6 +1056,7 @@ public class MainRegistry {
 		SingGenRecipes.register();
 		MachineRecipes.registerArcFurnaceRecipes();
 		MachineRecipes.registerDFCRecipes();
+		ChemPlantRecipesNT.registerChemPlantRecipes();
 
 		TileEntityNukeCustom.registerBombItems();
 
@@ -1090,6 +1091,7 @@ public class MainRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_petroleum), new ItemStack(ModItems.gas_empty), FluidType.PETROLEUM, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_biogas), new ItemStack(ModItems.gas_empty), FluidType.BIOGAS, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_xenon), new ItemStack(ModItems.gas_empty), FluidType.XENON, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_sarin), new ItemStack(ModItems.gas_empty), FluidType.SARIN, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.red_barrel), new ItemStack(ModItems.tank_steel), FluidType.DIESEL, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.pink_barrel), new ItemStack(ModItems.tank_steel), FluidType.KEROSENE, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.lox_barrel), new ItemStack(ModItems.tank_steel), FluidType.OXYGEN, 10000));

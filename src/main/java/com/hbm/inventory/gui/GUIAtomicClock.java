@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerAtomicClock;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityAtomicClock;
 import com.hbm.util.I18nUtil;
 
@@ -37,9 +39,20 @@ public class GUIAtomicClock extends GuiInfoContainer
 		final String[] time = new String[] {String.valueOf(displays[0].getNumber())};
 		final String[] day = new String[] {String.valueOf(displays[1].getNumber().byteValue())};
 		final String[] year = new String[] {String.valueOf(displays[2].getNumber().longValue())};
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 21, 46, 16, mouseX, mouseY, time);
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 100, guiTop + 21, 28, 16, mouseX, mouseY, day);
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 71, 198, 16, mouseX, mouseY, year);
+		if (clock.isOn && clock.getTanks().get(0).getFill() > 0 && clock.getPower() >= clock.consumption)
+		{
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 21, 46, 16, mouseX, mouseY, time);
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 100, guiTop + 21, 28, 16, mouseX, mouseY, day);
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 71, 198, 16, mouseX, mouseY, year);
+		}
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int i)
+	{
+		super.mouseClicked(mouseX, mouseY, i);
+		if (getButtonBool(mouseX, mouseY, 44, 43, 18, 18))
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(clock, 0, 0));
 	}
 	
 	@Override
@@ -69,10 +82,18 @@ public class GUIAtomicClock extends GuiInfoContainer
 		mc.getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
+		int pow = (int) getScaledBar(clock.getPower(), 54, clock.getMaxPower());
+		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - pow, 49, 241 - pow, 16, pow);
+		if (clock.isOn)
+		{
+			drawTexturedModalRect(guiLeft + 44, guiTop + 43, 67, 187, 18, 18);
+			if (clock.getTanks().get(0).getFill() > 0 && clock.getPower() >= clock.consumption)
+				for (int i = 0; i < 3; i++)
+					displays[i].drawNumber();
+		}
 		FluidTank cTank = clock.getTanks().get(0);
+		mc.getTextureManager().bindTexture(cTank.getSheet());
 //		System.out.println(displays[0].getDispNumber());
-		cTank.renderTank(this, guiLeft + 26, guiTop + 88, cTank.getTankType().textureX() * FluidTank.x, cTank.getTankType().textureY() * FluidTank.y, 16, 73);
-		for (int i = 0; i < 3; i++)
-			displays[i].drawNumber();
+		cTank.renderTank(this, guiLeft + 26, guiTop + 89, cTank.getTankType().textureX() * FluidTank.x, cTank.getTankType().textureY() * FluidTank.y, 16, 73);
 	}
 }

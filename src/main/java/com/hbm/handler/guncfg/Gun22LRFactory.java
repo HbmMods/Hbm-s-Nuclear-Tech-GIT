@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun22LRFactory {
@@ -29,8 +30,8 @@ public class Gun22LRFactory {
 		config.firingSound = "hbm:weapon.uziShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "IMI Uzi";
-		config.manufacturer = "Israel Military Industries";
+		config.name = "uzi";
+		config.manufacturer = EnumGunManufacturer.IMI;
 		config.comment.add("Mom, where are my mittens?");
 		
 		config.config = new ArrayList<Integer>();
@@ -47,8 +48,8 @@ public class Gun22LRFactory {
 		
 		config.durability = 4500;
 		
-		config.name = "IMI Uzi D-25A";
-		config.manufacturer = "IMI / Big MT";
+		config.name = "uziSatur";
+		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL_FIRE);

@@ -100,7 +100,7 @@ public class BulletConfigFactory {
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;
-		bullet.bulletsMin = 5;
+		bullet.bulletsMin = 6;
 		bullet.bulletsMax = 8;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;

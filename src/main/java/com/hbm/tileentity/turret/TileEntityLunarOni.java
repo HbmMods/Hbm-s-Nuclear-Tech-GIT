@@ -47,7 +47,6 @@ public class TileEntityLunarOni extends TileEntityMachineBase implements IConsum
 	private EasyLocation loc = null;
 	private boolean bufferQueued = false;
 	private boolean laserOn = false;
-	private final static Set<Block> safeBlocks = Sets.newHashSet(ModBlocks.block_euphemium, ModBlocks.block_dineutronium, ModBlocks.cmb_brick_reinforced);
 	public static enum Mode
 	{
 		/** Off **/
@@ -110,6 +109,17 @@ public class TileEntityLunarOni extends TileEntityMachineBase implements IConsum
 		short airCount = 0;
 		short blockCount = 0;
 		return false;
+	}
+	
+	private void testLaser(EasyLocation target)
+	{
+		List<int[]> blocks = Library.getBlockPosInPath(xCoord, yCoord, zCoord, 25, Vec3.createVectorHelper(target.posX - xCoord, target.posY - yCoord, target.posZ - zCoord));
+		for (int[] blockC: blocks)
+		{
+			EasyLocation currBlock = new EasyLocation(blockC);
+			if (currBlock.getBlockAtCoord(getWorldObj()) == Blocks.air)
+				currBlock.setBlockAtCoord(ModBlocks.block_australium, getWorldObj());
+		}
 	}
 	
 	private void purify()

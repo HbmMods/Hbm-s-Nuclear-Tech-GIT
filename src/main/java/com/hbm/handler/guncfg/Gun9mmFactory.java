@@ -7,6 +7,11 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun9mmFactory {
@@ -30,8 +35,8 @@ public class Gun9mmFactory {
 		config.firingSound = "hbm:weapon.rifleShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Maschinenpistole 40";
-		config.manufacturer = "Erfurter Maschinenfabrik Geipel";
+		config.name = "mp40";
+		config.manufacturer = EnumGunManufacturer.NAZI;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
@@ -62,8 +67,8 @@ public class Gun9mmFactory {
 		config.firingSound = "hbm:weapon.rifleShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "M1A1 Submachine Gun 9mm Mod";
-		config.manufacturer = "Auto-Ordnance Corporation";
+		config.name = "tommy9";
+		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
@@ -90,15 +95,20 @@ public class Gun9mmFactory {
 		config.crosshair = Crosshair.L_SPLIT;
 		config.durability = 40000;
 		config.firingSound = "hbm:weapon.rifleShoot";
+		config.firingPitch = 1.25F;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = false;
 		
-		config.name = "1936 Ānanda type SMG \"Light Lunatic Rifle\"";
-		config.manufacturer = "Lunar Defense Corp";
-		config.damage = "2 - 4 (stock)";
+		config.name = "lunaSMG";
+		config.manufacturer = EnumGunManufacturer.LUNA;
 		config.comment.add("Calling this a rifle is a bit of a misnomer");
 		
 		config.config = HbmCollection.nineMM;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -0.1, 30))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30))));
 		
 		return config;
 	}

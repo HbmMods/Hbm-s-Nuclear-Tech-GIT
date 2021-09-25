@@ -1,15 +1,54 @@
 package com.hbm.inventory;
 
+import java.util.HashMap;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.CheckReturnValue;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class OreDictManager {
-	
-	public static void registerOres() {
-		
+public class OreDictManager
+{
+	public static final HashMap<String, Integer> sizeMap = new HashMap<String, Integer>();
+	static
+	{
+		sizeMap.put("nugget", 1);
+		sizeMap.put("tiny", 1);
+		sizeMap.put("dustSmall", 1);
+		sizeMap.put("dustTiny", 1);
+		sizeMap.put("ingot", 9);
+		sizeMap.put("plate", 9);
+		sizeMap.put("gem", 9);
+		sizeMap.put("dust", 9);
+		sizeMap.put("material", 9);
+		sizeMap.put("block", 81);
+	}
+	public static void registerOres()
+	{
+//		new DictFrame("Uranium").billet(ModItems.billet_uranium).block(ModBlocks.block_uranium).crystal(ModItems.crystal_uranium).dust(ModItems.powder_uranium).ore(ModBlocks.ore_gneiss_uranium, ModBlocks.ore_gneiss_uranium_scorched, ModBlocks.ore_meteor_uranium, ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched, ModBlocks.ore_uranium, ModBlocks.ore_uranium_scorched).oreNether(ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched);
+//		new DictFrame("Uranium233", "Uranium-233", "U233", "U-233").billet(ModItems.billet_u233).block(ModBlocks.block_u233).nugget(ModItems.nugget_u233).ingot(ModItems.ingot_u233);
+//		new DictFrame("Uranium235", "Uranium-235", "U235", "U-235").billet(ModItems.billet_u235).block(ModBlocks.block_u235).nugget(ModItems.nugget_u235).ingot(ModItems.ingot_u235);
+//		new DictFrame("Uranium238", "Uranium-238", "U238", "U-238").billet(ModItems.billet_u238).block(ModBlocks.block_u238).nugget(ModItems.nugget_u238).ingot(ModItems.ingot_u238).dust(ModItems.powder_u238);
+//		new DictFrame("UraniumDioxide", "Uranium238Dioxide").dust(ModItems.powder_du_dioxide).ingot(ModItems.ingot_du_dioxide);
+//		new DictFrame("Thorium", "Thorium-232", "Thorium232", "Th232", "Th-232").billet(ModItems.billet_th232).block(ModBlocks.block_thorium).crystal(ModItems.crystal_thorium).dust(ModItems.powder_thorium).ore(ModBlocks.ore_meteor_thorium, ModBlocks.ore_thorium).ingot(ModItems.ingot_th232);
+//		new DictFrame("Plutonium").billet(ModItems.billet_plutonium).block(ModBlocks.block_plutonium).crystal(ModItems.crystal_plutonium).dust(ModItems.powder_plutonium).ingot(ModItems.ingot_plutonium).nugget(ModItems.nugget_plutonium).ore(ModBlocks.ore_nether_plutonium).oreNether(ModBlocks.ore_nether_plutonium);
+//		new DictFrame("Plutonium238", "Plutonium-238", "Pu238", "Pu-238").billet(ModItems.billet_pu238).block(ModBlocks.block_pu238).nugget(ModItems.nugget_pu238).ingot(ModItems.ingot_pu238);
+//		new DictFrame("Plutonium239", "Plutonium-239", "Pu239", "Pu-239").billet(ModItems.billet_pu239).block(ModBlocks.block_pu239).nugget(ModItems.nugget_pu239).ingot(ModItems.ingot_pu239);
+//		new DictFrame("Plutonium240", "Plutonium-240", "Pu240", "Pu-240").billet(ModItems.billet_pu240).block(ModBlocks.block_pu240).nugget(ModItems.nugget_pu240).ingot(ModItems.ingot_pu240);
+//		new DictFrame("Neptunium237", "Neptunium-237", "Np237", "Np-237").billet(ModItems.billet_neptunium).block(ModBlocks.block_neptunium).nugget(ModItems.nugget_neptunium).ingot(ModItems.ingot_neptunium);
+//		new DictFrame("Schrabidium", "Schrabidium326", "Schrabidium-326", "Sa326", "Sa-326").billet(ModItems.billet_schrabidium).block(ModBlocks.block_schrabidium).crystal(ModItems.crystal_schrabidium).nugget(ModItems.nugget_schrabidium).ingot(ModItems.ingot_schrabidium).ore(ModBlocks.ore_gneiss_schrabidium, ModBlocks.ore_nether_schrabidium, ModBlocks.ore_schrabidium).oreNether(ModBlocks.ore_nether_schrabidium);
+//		new DictFrame("Polonium210", "Polonium-210", "Po210", "Po-210").billet(ModItems.billet_polonium).block(ModBlocks.block_polonium).dust(ModItems.powder_polonium).nugget(ModItems.nugget_polonium).ingot(ModItems.ingot_polonium);
+		new DictFrame("Strontium90", "Sr90").ingot(ModItems.ingot_sr90).dust(ModItems.powder_sr90);
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium233", ModItems.ingot_u233);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
@@ -59,6 +98,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotLanthanum", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
+		OreDictionary.registerOre("ingotActinium227", ModItems.ingot_actinium);
 		OreDictionary.registerOre("ingotDeshAlloy", ModItems.ingot_desh);
 		OreDictionary.registerOre("ingotSaturnite", ModItems.ingot_saturnite);
 		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
@@ -67,6 +107,11 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotAsbestos", ModItems.ingot_asbestos);
 		OreDictionary.registerOre("ingotZirconium", ModItems.ingot_zirconium);
 		OreDictionary.registerOre("ingotSilicon", ModItems.ingot_silicon);
+		OreDictionary.registerOre("ingotNiobium", ModItems.ingot_niobium);
+		OreDictionary.registerOre("ingotNiobiumBeryllium", ModItems.ingot_nbbe);
+		OreDictionary.registerOre("ingotNiobiumSuperalloy", ModItems.ingot_niobium_alloy);
+		OreDictionary.registerOre("ingotTungstenCobalt", new ItemStack(ModItems.component_ftl, 1, 4));
+		OreDictionary.registerOre("ingotNeodymium", ModItems.ingot_neodymium);
 
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
@@ -108,6 +153,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("nuggetCerium", ModItems.fragment_cerium);
 		OreDictionary.registerOre("nuggetLanthanium", ModItems.fragment_lanthanium);
 		OreDictionary.registerOre("nuggetActinium", ModItems.fragment_actinium);
+		OreDictionary.registerOre("nuggetActinium227", ModItems.fragment_actinium);
 		
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
@@ -145,6 +191,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustLanthanum", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
+		OreDictionary.registerOre("dustActinium227", ModItems.powder_actinium);
 		OreDictionary.registerOre("dustDeshAlloy", ModItems.powder_desh);
 		OreDictionary.registerOre("dustEuphemium", ModItems.powder_euphemium);
 		OreDictionary.registerOre("dustDineutronium", ModItems.powder_dineutronium);
@@ -163,6 +210,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustSilicon", ModItems.powder_silicon);
 		OreDictionary.registerOre("dustUranium238", ModItems.powder_u238);
 		OreDictionary.registerOre("dustUraniumDioxide", ModItems.powder_du_dioxide);
+		OreDictionary.registerOre("dustNiobiumBeryllium", ModItems.powder_nbbe);
+		OreDictionary.registerOre("dustNiobiumSuperalloy", ModItems.powder_niobium_alloy);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
@@ -249,6 +298,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_asbestos);
 
 		OreDictionary.registerOre("blockActinium", ModBlocks.block_actinium);
+		OreDictionary.registerOre("blockActinium227", ModBlocks.block_actinium);
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
@@ -319,5 +369,202 @@ public class OreDictManager {
 		
 		OreDictionary.registerOre("blockConcrete", ModBlocks.concrete);
 		OreDictionary.registerOre("blockConcrete", ModBlocks.concrete_smooth);
+		OreDictionary.registerOre("concrete", ModBlocks.concrete);
+		OreDictionary.registerOre("concrete", ModBlocks.concrete_smooth);
+	}
+	@CheckReturnValue
+	public static String getMatFromKey(String key)
+	{
+		for (String prefix : sizeMap.keySet())
+			if (key.startsWith(prefix) && !key.substring(prefix.length()).isEmpty())
+				return key.substring(prefix.length());
+		
+		return new String();
+	}
+	@CheckReturnValue
+	public static String getPrefixFromKey(String key)
+	{
+		for (String prefix : sizeMap.keySet())
+			if (key.startsWith(prefix) && !key.substring(prefix.length()).isEmpty())
+				return prefix;
+		
+		return new String();
+	}
+	
+	public static class MaterialStack
+	{
+		public static final MaterialStack NULL_STACK = nullStack();
+		private String material = new String();
+		private int size = 0;
+		/** Unspecified stack **/
+		protected MaterialStack()
+		{
+		}
+		
+		public MaterialStack(String matIn)
+		{
+			material = matIn;
+		}
+		
+		public MaterialStack(String matIn, int size)
+		{
+			this(matIn);
+			this.size = size;
+		}
+		
+		public MaterialStack(OreDictStack stack)
+		{
+			this(getMatFromKey(stack.name), sizeMap.get(getPrefixFromKey(stack.name)) * stack.stacksize);
+		}
+		public MaterialStack(ComparableStack stack, int multi)
+		{
+			this(stack.getStack().getUnlocalizedName(), stack.stacksize * multi);
+		}
+		public MaterialStack(ComparableStack stack)
+		{
+			this(stack, 1);
+		}
+		@CheckReturnValue
+		@CheckForNull
+		public static MaterialStack materialStackHelper(AStack stack)
+		{
+			if (stack instanceof ComparableStack)
+				return new MaterialStack((ComparableStack) stack);
+			else if (stack instanceof OreDictStack)
+				return new MaterialStack((OreDictStack) stack);
+			else
+				return NULL_STACK;
+		}
+		
+		public boolean isStackApplicable(AStack stack)
+		{
+			if (stack instanceof ComparableStack)
+			{
+				ComparableStack cStack = (ComparableStack) stack;
+				for (String key : cStack.getDictKeys())
+					if (getMatFromKey(key).equals(material))
+						return true;
+			}
+			else if (stack instanceof OreDictStack)
+			{
+				OreDictStack oStack = (OreDictStack) stack;
+				return getMatFromKey(oStack.name).equals(material);
+			}
+			return false;
+		}
+		
+		public int getSize()
+		{
+			return size;
+		}
+		/** Returns the total size of the stack formatted in standard blocks, ingots, and nuggets **/
+		public int[] getAllSizes()
+		{
+			int[] sizes = new int[3];
+			sizes[0] = Math.floorDiv(getSize(), 81);
+			sizes[1] = Math.floorDiv(getSize() - (sizes[0] * 81), 9);
+			sizes[2] = getSize() - ((sizes[0] * 81) + (sizes[1] * 9));
+			return sizes;
+		}
+		
+		public void setSize(int i)
+		{
+			size = i;
+		}
+		public void incrementSize(int i)
+		{
+			size += i;
+		}
+		public void decrementSize(int i)
+		{
+			size -= i;
+			if (size < 0)
+				size = 0;
+		}
+		
+		public static MaterialStack nullStack()
+		{
+			return new MaterialStack();
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format("Material name: %s; Size (in nuggets): %s", material, size);
+		}
+		@Override
+		public MaterialStack clone()
+		{
+			return new MaterialStack(material, size);
+		}
+	}
+	
+	public static class DictFrame
+	{
+		String[] mats;
+		@SafeVarargs
+		public DictFrame(String...mats)
+		{
+			this.mats = mats;
+		}
+		public DictFrame nugget(Item...items)
+		{
+			return makeItems("nugget", items).makeItems("tiny", items);
+		}
+		public DictFrame ingot(Item...items)
+		{
+			return makeItems("ingot", items);
+		}
+		public DictFrame dustSmall(Item...items)
+		{
+			return makeItems("dustSmall", items).makeItems("dustTiny", items);
+		}
+		public DictFrame dust(Item...items)
+		{
+			return makeItems("dust", items);
+		}
+		public DictFrame gem(Item...items)
+		{
+			return makeItems("gem", items);
+		}
+		public DictFrame crystal(Item...items)
+		{
+			return makeItems("crystal", items);
+		}
+		public DictFrame plate(Item...items)
+		{
+			return makeItems("plate", items);
+		}
+		public DictFrame billet(Item...items)
+		{
+			return makeItems("billet", items);
+		}
+		public DictFrame block(Block...blocks)
+		{
+			return makeBlocks("block", blocks);
+		}
+		public DictFrame ore(Block...blocks)
+		{
+			return makeBlocks("ore", blocks);
+		}
+		public DictFrame oreNether(Block...blocks)
+		{
+			return makeBlocks("oreNether", blocks);
+		}
+		
+		public DictFrame makeItems(String tag, Item...items)
+		{
+			for (String mat : mats)
+				for (Item i : items)
+					OreDictionary.registerOre(tag + mat, i);
+			return this;
+		}
+		public DictFrame makeBlocks(String tag, Block...blocks)
+		{
+			for (String mat : mats)
+				for (Block b : blocks)
+					OreDictionary.registerOre(tag + mat, b);
+			return this;
+		}
 	}
 }

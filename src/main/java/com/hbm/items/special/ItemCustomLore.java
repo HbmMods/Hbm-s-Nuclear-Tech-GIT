@@ -6,6 +6,7 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.interfaces.IHasLore;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
@@ -19,11 +20,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemCustomLore extends Item
+public class ItemCustomLore extends Item implements IHasLore
 {
 	EnumRarity rarity;
 	boolean hasEffect = false;
-	public String basicLore = null;
+	public String basicLore = new String();
 	/** New item with custom lore, assumes that it is in the localization file
 	 * Allows rarity and shimmer effect **/
 	public ItemCustomLore() {}
@@ -39,28 +40,29 @@ public class ItemCustomLore extends Item
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if (basicLore != null)
+		if (!basicLore.isEmpty())
 			list.add(I18nUtil.resolveKey(basicLore));
-
-		String unloc;
-		if (MainRegistry.isPolaroid11)
-			unloc = this.getUnlocalizedName(itemstack) + ".desc.11";
-		else
-			unloc = this.getUnlocalizedName(itemstack) + ".desc";
+//		String unloc;
+//		if (MainRegistry.isPolaroid11)
+//			unloc = this.getUnlocalizedName(itemstack) + ".desc.11";
+//		else
+//			unloc = this.getUnlocalizedName(itemstack) + ".desc";
+//		
+//		String loc = I18nUtil.resolveKey(unloc);
+//		if (unloc.equals(loc))
+//		{
+//			unloc = this.getUnlocalizedName(itemstack) + ".desc";
+//			loc = I18nUtil.resolveKey(unloc);
+//		}
+//		if(!unloc.equals(loc)) {
+//			
+//			String[] locs = loc.split("\\$");
+//			
+//			for(String s : locs)
+//				list.add(s);
+//		}
 		
-		String loc = I18nUtil.resolveKey(unloc);
-		if (unloc.equals(loc))
-		{
-			unloc = this.getUnlocalizedName(itemstack) + ".desc";
-			loc = I18nUtil.resolveKey(unloc);
-		}
-		if(!unloc.equals(loc)) {
-			
-			String[] locs = loc.split("\\$");
-			
-			for(String s : locs)
-				list.add(s);
-		}
+		standardLore(itemstack, list);
 		
 		if(this == ModItems.pin)
 		{
@@ -91,15 +93,41 @@ public class ItemCustomLore extends Item
 	
 	public static boolean getHasLore(Item item)
 	{
-		String uloc = item.getUnlocalizedName();
-		uloc += MainRegistry.isPolaroid11 ? ".desc.11" : ".desc";
+		return getHasLore(item.getUnlocalizedName());
+	}
+	
+	public static boolean getHasLore(ItemStack item)
+	{
+		return getHasLore(item.getUnlocalizedName());
+	}
+	
+	public static boolean getHasLore(String ulocIn)
+	{
+		String uloc = ulocIn.concat(MainRegistry.isPolaroid11 ? ".desc.11" : ".desc");
 		String loc = I18nUtil.resolveKey(uloc);
 		if (loc.equals(uloc))
-			uloc = item.getUnlocalizedName() + ".desc";
+			uloc = ulocIn.concat(".desc");
 		else
 			return true;
 		loc = I18nUtil.resolveKey(uloc);
 		return !uloc.equals(loc);
+	}
+	
+	public static String getLoc(ItemStack stack)
+	{
+		String uloc = stack.getUnlocalizedName();
+		if (!getHasLore(uloc))
+			return null;
+		String testKey = uloc.concat(MainRegistry.isPolaroid11 ? ".desc.11" : ".desc");
+		String loc = I18nUtil.resolveKey(testKey);
+		if (!loc.equals(testKey))
+			return loc;
+		else
+		{
+			testKey = uloc.concat(".desc");
+			loc = I18nUtil.resolveKey(testKey);
+			return (loc.equals(testKey) ? null : loc);
+		}
 	}
 	
 	public static boolean keyExists(String key)

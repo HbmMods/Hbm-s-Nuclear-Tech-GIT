@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -40,8 +41,8 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 2000;
 		
-		config.name = "FFI Viper";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiV";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
@@ -56,8 +57,8 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 3500;
 		
-		config.name = "FFI Viper Inox";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiVInox";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
@@ -72,8 +73,8 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 3500;
 		
-		config.name = "FFI Viper D-25A";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffivSatur";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
@@ -88,8 +89,8 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 2000;
 		
-		config.name = "FFI Viper Lead";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiVLead";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
@@ -104,8 +105,8 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "FFI Viper Bling";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffivBling";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
@@ -123,8 +124,8 @@ public class Gun357MagnumFactory {
 		config.durability = 5000;
 		config.firingSound = "hbm:weapon.heavyShoot";
 		
-		config.name = "Britannia Standard Issue Motorized Handgun";
-		config.manufacturer = "BAE Systems plc";
+		config.name = "revolverCursed";
+		config.manufacturer = EnumGunManufacturer.BAE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
@@ -140,8 +141,8 @@ public class Gun357MagnumFactory {
 		config.durability = 7500;
 		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		
-		config.name = "FFI Viper Ultra";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiVUltra";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SCHRABIDIUM_REVOLVER);
@@ -157,8 +158,8 @@ public class Gun357MagnumFactory {
 		config.durability = 4000;
 		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		
-		config.name = "FFI Viper N1";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiVN2";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT_REVOLVER);
@@ -175,8 +176,8 @@ public class Gun357MagnumFactory {
 		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		config.crosshair = Crosshair.NONE;
 		
-		config.name = "FFI Viper N2";
-		config.manufacturer = "FlimFlam Industries";
+		config.name = "ffiVN2";
+		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);

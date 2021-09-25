@@ -1,14 +1,11 @@
 package com.hbm.lib;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
@@ -16,12 +13,15 @@ import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.items.weapon.ItemAmmo.AmmoItemTrait;
 import com.hbm.potion.HbmPotion;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import scala.actors.threadpool.Arrays;
+import net.minecraft.world.World;
 /** Collection for commonly used data **/
 public class HbmCollection
 {
@@ -85,7 +85,24 @@ public class HbmCollection
 	public static final AmmoItemTrait[] DUType = {AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_HEAVY_WEAR};
 	public static final AmmoItemTrait[] StarmetalType = {AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.CON_HEAVY_WEAR};
 	public static final AmmoItemTrait[] ChlorophyteType = {AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_WEAR, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_PENETRATION};
-
+	
+	private static final World worldObj = Minecraft.getMinecraft().theWorld;
+	/// COMMON NUKE TYPES
+	public static final EntityNukeExplosionMK3 folkvangrField = new EntityNukeExplosionMK3(worldObj);
+	static
+	{
+		folkvangrField.destructionRange = BombConfig.aSchrabRadius;
+		folkvangrField.speed = 25;
+		folkvangrField.coefficient = 1.0F;
+		folkvangrField.waste = false;
+	}
+	
+	/// COMMON NUKE CLOUDS
+	public static final EntityCloudFleija folkvangrEffect = new EntityCloudFleija(worldObj, BombConfig.aSchrabRadius);
+	static
+	{
+	}
+	
 	/// BULLET COLLECTIONS
 	// SHOTGUNS
 	/** 12 GAUGE **/
@@ -114,8 +131,6 @@ public class HbmCollection
 	public static final ImmutableList<Integer> NATO = ImmutableList.of(BulletConfigSyncingUtil.R556_NORMAL, BulletConfigSyncingUtil.R556_GOLD, BulletConfigSyncingUtil.R556_TRACER, BulletConfigSyncingUtil.R556_PHOSPHORUS, BulletConfigSyncingUtil.R556_AP, BulletConfigSyncingUtil.R556_DU, BulletConfigSyncingUtil.R556_STAR, BulletConfigSyncingUtil.CHL_R556, BulletConfigSyncingUtil.R556_SLEEK, BulletConfigSyncingUtil.R556_K);
 	/** 5.56MMx45 NATO (FLECHETTE) **/
 	public static final ImmutableList<Integer> NATOFlechette = ImmutableList.of(BulletConfigSyncingUtil.R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY, BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.R556_FLECHETTE_DU, BulletConfigSyncingUtil.CHL_R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK, BulletConfigSyncingUtil.R556_K);
-	/** 5.56MMx45 NATO (ALL) **/
-	public static final ImmutableList<Integer> NATOAll = ImmutableList.of(BulletConfigSyncingUtil.R556_NORMAL, BulletConfigSyncingUtil.R556_GOLD, BulletConfigSyncingUtil.R556_TRACER, BulletConfigSyncingUtil.R556_PHOSPHORUS, BulletConfigSyncingUtil.R556_AP, BulletConfigSyncingUtil.R556_DU, BulletConfigSyncingUtil.R556_STAR, BulletConfigSyncingUtil.CHL_R556, BulletConfigSyncingUtil.R556_SLEEK, BulletConfigSyncingUtil.R556_K, BulletConfigSyncingUtil.R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY, BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.R556_FLECHETTE_DU, BulletConfigSyncingUtil.CHL_R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK);
 	/** 7.62x51mm NATO **/
 	public static final ImmutableList<Integer> threeZeroEight = ImmutableList.of(BulletConfigSyncingUtil.W308);
 	/** 5MM **/
@@ -135,7 +150,120 @@ public class HbmCollection
 	public static final ImmutableList<Integer> grenade = ImmutableList.of(BulletConfigSyncingUtil.GRENADE_NORMAL, BulletConfigSyncingUtil.GRENADE_HE, BulletConfigSyncingUtil.GRENADE_INCENDIARY, BulletConfigSyncingUtil.GRENADE_PHOSPHORUS, BulletConfigSyncingUtil.GRENADE_CHEMICAL, BulletConfigSyncingUtil.GRENADE_CONCUSSION, BulletConfigSyncingUtil.GRENADE_FINNED, BulletConfigSyncingUtil.GRENADE_SLEEK, BulletConfigSyncingUtil.GRENADE_NUCLEAR, BulletConfigSyncingUtil.GRENADE_TRACER, BulletConfigSyncingUtil.GRENADE_KAMPF, BulletConfigSyncingUtil.GRENADE_LUNATIC);
 	/** 84MM ROCKET **/
 	public static final ImmutableList<Integer> rocket = ImmutableList.of(BulletConfigSyncingUtil.ROCKET_NORMAL, BulletConfigSyncingUtil.ROCKET_HE, BulletConfigSyncingUtil.ROCKET_INCENDIARY, BulletConfigSyncingUtil.ROCKET_PHOSPHORUS, BulletConfigSyncingUtil.ROCKET_SHRAPNEL, BulletConfigSyncingUtil.ROCKET_EMP, BulletConfigSyncingUtil.ROCKET_GLARE, BulletConfigSyncingUtil.ROCKET_TOXIC, BulletConfigSyncingUtil.ROCKET_CANISTER, BulletConfigSyncingUtil.ROCKET_SLEEK, BulletConfigSyncingUtil.ROCKET_NUKE, BulletConfigSyncingUtil.ROCKET_CHAINSAW);
+	/// HASH SETS
+	// ENERGY BULLET SPECTRAL-ABLE
+	public static ImmutableSet<Block> energyRoundBlock;
+	public static ImmutableSet<Material> energyRoundMaterial;
+	/// DATA STORAGE TYPES (haven't decided which is better)
+	public static final String RESEARCH_ASSEMBLER = "DATA_RECIPE_ASSEMBLER";
+	public static final String RESEARCH_CHEMPLANT = "DATA_RECIPE_CHEMPLANT";
+	public static final String RECIPE = "DATA_RECIPE";
+	public static final String MESSAGE = "DATA_MESSAGE";
+	public static final String PROGRAM = "DATA_PROGRAM";
+	public static final String COMMAND_TASK = "DATA_COMMAND_TASK";
+	public static enum EnumDataTypes
+	{
+		RESEARCH_ASSEMBLER("DATA_RECIPE_ASSEMBLER"),
+		RESEARCH_CHEMPLANT("DATA_RECIPE_CHEMPLANT"),
+		RECIPE("DATA_RECIPE"),
+		MESSAGE("DATA_MESSAGE"),
+		PROGRAM("DATA_PROGRAM"),
+		COMMAND_TASK("DATA_COMMAND_TASK");
+
+		String key;
+		EnumDataTypes(String keyIn)
+		{
+			key = keyIn;
+		}
+	}
 	/// FREQUENTLY USED TRANSLATION KEYS
+	// GUN MANUFACTURERS
+	public static enum EnumGunManufacturer
+	{
+		/**Auto-Ordnance Corporation**/
+		AUTO_ORDINANCE,
+		/**BAE Systems plc**/
+		BAE,
+		/**Benelli Armi SpA**/
+		BENELLI,
+		/**Black Mesa Research Facility**/
+		BLACK_MESA,
+		/**Cerix Magnus**/
+		CERIX,
+		/**The Universal Union**/
+		COMBINE,
+		/**Cube 2: Sauerbraten**/
+		CUBE,
+		/**Enzinger Union**/
+		ENZINGER,
+		/**Fisher Price**/
+		F_PRICE,
+		/**Fort Strong**/
+		F_STRONG,
+		/**FlimFlam Industries**/
+		FLIMFLAM,
+		/**Heckler & Koch**/
+		H_AND_K,
+		/**Harrington & Richardson**/
+		H_AND_R,
+		/**Hasbro**/
+		HASBRO,
+		/**Ironshod Firearms**/
+		IF,
+		/**Israel Military Industries**/
+		IMI,
+		/**IMI / Big MT**/
+		IMI_BIGMT,
+		/**Magnum Research / Israel Military Industries**/
+		MAGNUM_R_IMI,
+		/**Open Mann Co.**/
+		MANN,
+		/**Hiram Maxim**/
+		MAXIM,
+		/**Metro Gunsmiths**/
+		METRO,
+		/**MWT Prototype Labs**/
+		MWT,
+		/**Erfurter Maschinenfabrik Geipel**/
+		NAZI,
+		/**No manufacturer, just puts "-" **/
+		NONE,
+		/**Lunar Defense Corp**/
+		LUNA,
+		/**Rockwell International Corporation**/
+		ROCKWELL,
+		/**Rockwell International Corporation?**/
+		ROCKWELL_U,
+		/**Saab Bofors Dynamics**/
+		SAAB,
+		/**Tulsky Oruzheiny Zavod**/
+		TULSKY,
+		/**Union Aerospace Command**/
+		UAC,
+		/**Unknown manufacturer, puts "???"**/
+		UNKNOWN,
+		/**Winchester Repeating Arms Company**/
+		WINCHESTER,
+		/**Winchester Repeating Arms Company / Big MT**/
+		WINCHESTER_BIGMT;
+		
+		public String getKey()
+		{
+			return "gun.make." + toString();
+		}
+	}
+	// GUN NAMES
+	// GUN DETAILS
+	public static final String ammo = "desc.item.gun.ammo";
+	public static final String ammoMag = "desc.item.gun.ammoMag";
+	public static final String ammoBelt = "desc.item.gun.ammoBelt";
+	public static final String ammoEnergy = "desc.item.gun.ammoEnergy";
+	public static final String altAmmoEnergy = "desc.item.gun.ammoEnergyAlt";
+	public static final String ammoType = "desc.item.gun.ammoType";
+	public static final String altAmmoType = "desc.item.gun.ammoTypeAlt";
+	public static final String gunName = "desc.item.gun.name";
+	public static final String gunMaker = "desc.item.gun.manufacturer";
+	public static final String gunDamage = "desc.item.gun.damage";
 	// ITEM TRAITS
 	public static final String asbestos = "trait.asbestos";
 	public static final String blinding = "trait.blinding";
@@ -147,8 +275,12 @@ public class HbmCollection
 	public static final String radioactive = "trait.radioactive";
 	// FLUID TRAITS
 	public static final String antimatter = "desc.fTrait.antimatter";
+	public static final String biohazard = "desc.fTrait.biohazard";
+	public static final String chemical = "desc.fTrait.chemical";
 	public static final String corrosive = "desc.fTrait.corrosive1";
 	public static final String corrosiveStrong = "desc.fTrait.corrosive2";
+	public static final String radioactiveFluid = "desc.fTrait.radioactive";
+	public static final String toxicGeneric = "desc.fTrait.toxic";
 	// BATTERY
 	public static final String charge = "desc.item.battery.charge";
 	public static final String chargePerc = "desc.item.battery.chargePerc";
@@ -179,6 +311,9 @@ public class HbmCollection
 	/** Do AFTER blocks and items are initialized  **/
 	public static void initKits()
 	{
+		/// MISC
+		energyRoundBlock = ImmutableSet.of(Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.ice, Blocks.packed_ice, ModBlocks.glass_polonium, ModBlocks.glass_quartz, ModBlocks.glass_trinitite, ModBlocks.glass_uranium, ModBlocks.hadron_analysis_glass, ModBlocks.hadron_plating_glass, ModBlocks.reinforced_glass);	
+		energyRoundMaterial = ImmutableSet.of(Material.glass, Material.ice, Material.packedIce, Material.water, Material.web, Material.fire, ModBlocks.materialGas);
 		/** ARMORS **/
 		// HAZMAT TIERS
 		hazmats = new Item[][]

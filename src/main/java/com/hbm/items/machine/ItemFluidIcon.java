@@ -1,7 +1,12 @@
 package com.hbm.items.machine;
 
+import java.text.NumberFormat;
 import java.util.List;
+
+import com.google.common.collect.ImmutableSet;
+import com.hbm.handler.FluidTypeHandler.FluidHazards;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.HbmCollection;
 import com.hbm.util.I18nUtil;
 
@@ -35,22 +40,33 @@ public class ItemFluidIcon extends Item {
             list.add(new ItemStack(item, 1, i));
         }
     }
-	
+	@Spaghetti("Yikes")
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		if(stack.hasTagCompound())
 			if(stack.getTagCompound().getInteger("fill") > 0)
-				list.add(stack.getTagCompound().getInteger("fill") + "mB");
+				list.add(NumberFormat.getInstance().format(stack.getTagCompound().getInteger("fill")) + "mB");
 		
 		FluidType fluid = FluidType.getEnum(stack.getItemDamage());
-		String tColor = fluid.temperature > 0 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
-		if (fluid.temperature != 0 || fluid.isHot())
-			list.add(tColor + fluid.temperature + "°C");
+		final String tColor = fluid.temperature > 0 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
+		final ImmutableSet<FluidHazards> fHazards = fluid.getHazardSet();
+		if (fluid.temperature != 0 || fHazards.contains(FluidHazards.HOT) || fHazards.contains(FluidHazards.CRYO))
+			list.add(tColor + NumberFormat.getInstance().format(fluid.temperature) + "°C");
 		if (fluid.isAntimatter())
 			list.add(I18nUtil.resolveKey(HbmCollection.antimatter));
-		if (fluid.isCorrosive())
+		if (fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
+			list.add(I18nUtil.resolveKey(HbmCollection.corrosiveStrong));
+		else if (!fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
 			list.add(I18nUtil.resolveKey(HbmCollection.corrosive));
+		if (fHazards.contains(FluidHazards.BIOHAZARD))
+			list.add(I18nUtil.resolveKey(HbmCollection.biohazard));
+		if (fHazards.contains(FluidHazards.CHEMICAL))
+			list.add(I18nUtil.resolveKey(HbmCollection.chemical));
+		if (fHazards.contains(FluidHazards.RADIOACTIVE))
+			list.add(I18nUtil.resolveKey(HbmCollection.radioactiveFluid));
+		if (fHazards.contains(FluidHazards.TOXIC))
+			list.add(I18nUtil.resolveKey(HbmCollection.toxicGeneric));
 	}
 	
 	public static ItemStack addQuantity(ItemStack stack, int i) {

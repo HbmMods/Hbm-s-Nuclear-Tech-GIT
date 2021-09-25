@@ -11,10 +11,12 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.GunConfigurationEnergy;
+import com.hbm.interfaces.IFastChargable;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemBatteryFast;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -45,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, IItemHUD, IBatteryItem
+public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, IItemHUD, IBatteryItem, IFastChargable
 {
 	public GunConfigurationEnergy mainConfig;
 	public GunConfigurationEnergy altConfig;
@@ -91,16 +93,17 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		String gunCurrentChargeString = Library.getShortNumber(gunCurrentCharge);
 		list.add(I18nUtil.resolveKey(HbmCollection.charge, gunCurrentChargeString, gunChargeMaxString));
 		list.add(I18nUtil.resolveKey(HbmCollection.chargeRate, Library.getShortNumber(chargeRate)));
-		list.add(String.format("Ammo: %s / %s", Math.floorDiv(gunCurrentCharge, mainConfigEnergy.ammoRate), Math.floorDiv(gunChargeMax, mainConfigEnergy.ammoRate)));
-		list.add(String.format("Ammo Type: Energy; %sHE per shot%s", Library.getShortNumber(mainConfigEnergy.ammoRate), altConfig != null ? "; " + Library.getShortNumber(altConfigEnergy.ammoRate) + "HE per alt shot" : ""));
-		if (mainConfig.damage != "" || !mainConfig.damage.isEmpty())
-			list.add("Damage: " + mainConfig.damage);
+//		list.add(String.format("Ammo: %s / %s", Math.floorDiv(gunCurrentCharge, mainConfigEnergy.ammoRate), Math.floorDiv(gunChargeMax, mainConfigEnergy.ammoRate)));
 		
-		int dura = mainConfigEnergy.durability - getItemWear(stack);
-		if (dura < 0)
-			dura = 0;
+		list.add(I18nUtil.resolveKey(HbmCollection.ammo, I18nUtil.resolveKey(HbmCollection.ammoMag, Math.floorDiv(gunCurrentCharge, mainConfigEnergy.ammoRate), Math.floorDiv(gunChargeMax, mainConfigEnergy.ammoRate))));
 		
-		addAdditionalInformation(stack, list, dura);
+//		list.add(String.format("Ammo Type: Energy; %sHE per shot%s", Library.getShortNumber(mainConfigEnergy.ammoRate), altConfig != null ? "; " + Library.getShortNumber(altConfigEnergy.ammoRate) + "HE per alt shot" : ""));
+		
+		list.add(I18nUtil.resolveKey(HbmCollection.ammoEnergy, Library.getShortNumber(mainConfigEnergy.ammoRate)));
+		if (altConfig != null)
+			list.add(I18nUtil.resolveKey(HbmCollection.altAmmoEnergy, Library.getShortNumber(altConfigEnergy.ammoRate)));
+		
+		addAdditionalInformation(stack, list);
 	}
 
 	@Override
@@ -120,52 +123,79 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		super.altFire(stack, world, player);
 		useUpAmmo(player, stack, false);
 	}
-	
-	// FIXME finish, probably should just import the code from gun batteries
+	// FIXME
 	@Override
 	protected void reload2(ItemStack stack, World world, EntityPlayer player)
 	{
+		System.out.println("Started reload action");
+		if (getCharge(stack) >= getMaxCharge())
+		{
+			System.out.println("Reload not needed");
+			setIsReloading(stack, false);
+			return;
+		}
 		if (getReloadCycle(stack) < 0 && stack == player.getHeldItem())
 		{
+			System.out.println("Needs reload!");
+			boolean hasReloaded = false;
 			for (ItemStack playerSlot : player.inventory.mainInventory)
 			{
-				ItemBatteryGun battery;
-				if (playerSlot == null)
+				ItemBatteryFast battery;
+				System.out.println("Checking slot...");
+				if (playerSlot == null || !(playerSlot.getItem() instanceof ItemBatteryFast))
 					continue;
-				
-				if (playerSlot.getItem() instanceof ItemBatteryGun)
-				{
-					battery = (ItemBatteryGun)playerSlot.getItem();
-					if (battery.getCharge(playerSlot) == 0)
-						continue;
-					else
-					{
-						long chargeDiff = maxCharge - getCharge(stack);
-						if (chargeDiff >= battery.getCharge(stack))
-						{
-							chargeBattery(stack, battery.getCharge(playerSlot));
-							battery.setCharge(playerSlot, 0);
-						}
-						else
-						{
-							setCharge(stack, maxCharge);
-							battery.dischargeBattery(playerSlot, chargeDiff);
-						}
-			            world.playSoundAtEntity(player, "hbm:item.battery", 1.0F, 1.0F);
-					}
-				}
+				System.out.println("Slot is good!");
+				hasReloaded = fastDischarge(player, stack, playerSlot);
 			}
+			
+			if (getCharge(stack) >= getMaxCharge())
+				setIsReloading(stack, false);
+			else
+				resetReloadCycle(stack);
+			System.out.println("Reload cycle complete");
+			if (hasReloaded && mainConfig.reloadSoundEnd)
+				world.playSoundAtEntity(player, mainConfig.reloadSound.isEmpty() ? "hbm.item.battery" : mainConfig.reloadSound, 1.0F, 1.0F);
 		}
+		else
+			setReloadCycle(stack, getReloadCycle(stack) - 1);
+		
+		if(stack != player.getHeldItem())
+		{
+			setReloadCycle(stack, 0);
+			setIsReloading(stack, false);
+		}
+
 	}
 	
 	@Override
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player)
 	{
-		Item[] batteryItems = new Item[] {ModItems.battery_gun_basic, ModItems.battery_gun_enhanced, ModItems.battery_gun_advanced, ModItems.battery_gun_elite};
-		for (Item batt : batteryItems)
-			if (player.inventory.hasItem(batt))
-				return true;
+		if (getCharge(stack) == getMaxCharge())
+			return false;
+		for (ItemStack playerStack : player.inventory.mainInventory)
+		{
+			if (playerStack == null || !(playerStack.getItem() instanceof ItemBatteryFast))
+				continue;
+			
+			return IBatteryItem.getChargeStatic(playerStack) > 0;
+		}
 		return false;
+	}
+	
+	@Override
+	public void startReloadAction(ItemStack stack, World world, EntityPlayer player)
+	{
+		System.out.println("Trying to start reload cycle");
+		if (getCharge(stack) == getMaxCharge() || getIsReloading(stack))
+			return;
+		
+		if (!mainConfig.reloadSoundEnd)
+			world.playSoundAtEntity(player, mainConfig.reloadSound.isEmpty() ? "hbm:item.battery" : mainConfig.reloadSound, 1.0F, 1.0F);
+		
+		PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
+		
+		setIsReloading(stack, true);
+		resetReloadCycle(stack);
 	}
 	
 	@Override
@@ -237,7 +267,7 @@ public class ItemGunEnergyBase extends ItemGunBase implements IHoldableWeapon, I
 		}
 		return 0;
 	}
-	
+	@Deprecated
 	public static ItemStack getEmptyGun(Item itemIn)
 	{
 		if (itemIn instanceof ItemGunEnergyBase)

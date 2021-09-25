@@ -1,9 +1,8 @@
 package com.hbm.inventory;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -300,7 +299,7 @@ public class RecipesCommon {
 			this.stacksize = stacksize;
 		}
 		
-		public List<ItemStack> toStacks() {
+		public ArrayList<ItemStack> toStacks() {
 			return OreDictionary.getOres(name);
 		}
 

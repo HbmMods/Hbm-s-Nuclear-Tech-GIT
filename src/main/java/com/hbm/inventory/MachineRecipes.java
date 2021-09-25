@@ -41,9 +41,6 @@ public class MachineRecipes
 {
 	
 	private static HashMap<ComparableStack, ItemStack> arcFurnaceRecipes = new HashMap<ComparableStack, ItemStack>();
-	private static HashMap<AStack[], ItemStack> blastFurnaceRecipes = new HashMap<AStack[], ItemStack>();
-	// In an attempt to prevent clutter to the NEI page
-	private static HashMap<ItemStack[], ItemStack> NEIBFurnaceRecipes = new HashMap<ItemStack[], ItemStack>();
 	private static HashMap<ComparableStack, ItemStack> DFCRecipes = new HashMap<ComparableStack, ItemStack>();
 	
 	public MachineRecipes() {
@@ -63,6 +60,7 @@ public class MachineRecipes
 		arcFurnaceRecipes.put(new ComparableStack(ModItems.powder_quartz), new ItemStack(Items.quartz));
 		for (int i = 0; i < 6; i++)
 			arcFurnaceRecipes.put(new ComparableStack(ModItems.ingot_dineutronium_forged, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_dineutronium_forged, 1, i)));
+		arcFurnaceRecipes.put(new ComparableStack(ModItems.powder_niobium_alloy), new ItemStack(ModItems.ingot_niobium_alloy));
 
 	}
 	
@@ -89,37 +87,6 @@ public class MachineRecipes
 	
 	public static ItemStack getFurnaceProcessingResult(ItemStack item, ItemStack item2) {
 		return getFurnaceOutput(item, item2);
-	}
-	
-	public static void registerBlastFurnaceRecipes()
-	{
-		if (GeneralConfig.enableDebugMode)
-			addBFurnaceRecipe("ingotIron", Items.quartz, new ItemStack(ModBlocks.test_render));
-		
-		addBFurnaceRecipe("ingotTungsten", "gemCoal", new ItemStack(ModItems.neutron_reflector, 2));
-		addBFurnaceRecipe("ingotCopper", "ingotLead", new ItemStack(ModItems.neutron_reflector, 4));
-		addBFurnaceRecipe("plateCopper", "plateLead", new ItemStack(ModItems.neutron_reflector));
-		addBFurnaceRecipe("ingotIron", "gemCoal", new ItemStack(ModItems.ingot_steel, 2));
-	}
-	
-	private static void addBFurnaceRecipe(@Nonnull Object item1, @Nonnull Object item2, ItemStack out)
-	{
-		AStack stack1 = null;
-		AStack stack2 = null;
-		if (item1 instanceof ItemStack)
-			stack1 = new ComparableStack((ItemStack)item1);
-		else if (item1 instanceof Item)
-			stack1 = new ComparableStack((Item)item1);
-		else if (item1 instanceof String)
-			stack1 = new OreDictStack((String)item1);
-		if (item2 instanceof ItemStack)
-			stack2 = new ComparableStack((ItemStack)item2);
-		else if (item2 instanceof Item)
-			stack2 = new ComparableStack((Item)item2);
-		else if (item2 instanceof String)
-			stack2 = new OreDictStack((String)item2);
-		
-		blastFurnaceRecipes.put(new AStack[] {stack1, stack2}, out);
 	}
 	
 	public static ItemStack getFurnaceOutput(ItemStack item, ItemStack item2) {
@@ -202,8 +169,8 @@ public class MachineRecipes
 				|| mODE(item, new String[] {"gemCoal", "dustCoal"}) && mODE(item2, new String[] {"sand"}))
 			return new ItemStack(ModItems.nugget_silicon, 3);
 		
-		if (mODE(item, new String[] {"ingotIron", "dustIron"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
-				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotIron", "dustIron"}))
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
+				|| mODE(item, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"}))
 			return new ItemStack(ModItems.ingot_ferrouranium);
 		
 		if (mODE(item, new String[] {"ingotTitanium", "dustTitanium"}) && mODE(item2, new String[] {"ingotUraniumDioxide", "dustUraniumDioxide"})
@@ -213,6 +180,10 @@ public class MachineRecipes
 		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
 				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"}))
 			return new ItemStack(ModItems.component_ftl, 1, 4);
+		
+		if (mODE(item, new String[] {"ingotNiobium", "dustNiobium"}) && mODE(item2, new String[] {"ingotBeryllium", "dustBeryllium"})
+				|| mODE(item, new String[] {"ingotBeryllium", "dustBeryllium"}) && mODE(item2, new String[] {"ingotNiobium", "dustNiobium"}))
+			return new ItemStack(ModItems.ingot_nbbe);
 		
 		List<ItemStack> electrum = OreDictionary.getOres("ingotElectrum");
 		if (!electrum.isEmpty() && electrum != null)
@@ -352,6 +323,25 @@ public class MachineRecipes
 			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_lithium), 3));
 			list.add(new GasCentOutput(3, new ItemStack(ModItems.fluorite), 4));
 			return list;
+		case BALEFIRE_DP:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_balefire), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_balefire), 2));
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nuclear_waste_tiny), 3));
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nuclear_waste_tiny), 4));
+			return list;
+		case SAS3_DP:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_schrabidium), 1));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_solinium), 2));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nuclear_waste_tiny), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 4));
+			return list;
+		case SAS3_NIT_DP:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_schrabidium), 1));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_solinium), 2));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nuclear_waste_tiny), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 4));
+			return list;
+
 		}
 		
 		return null;
@@ -381,8 +371,11 @@ public class MachineRecipes
 			return 100;
 		case PUF6:
 			return 100;
+		case BALEFIRE_DP:
 		case WATZ:
 			return 1000;
+		case SAS3_DP:
+		case SAS3_NIT_DP:
 		case SAS3:
 			return 100;
 		case COOLANT:
@@ -996,14 +989,16 @@ public class MachineRecipes
 					getFurnaceOutput(new ItemStack(ModItems.silicon_lump), new ItemStack(ModItems.coke)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(Blocks.sand), new ItemStack(Items.coal) },
 					getFurnaceOutput(new ItemStack(Blocks.sand), new ItemStack(Items.coal)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(ModItems.ingot_du_dioxide) },
-					getFurnaceOutput(new ItemStack(Items.iron_ingot), new ItemStack(ModItems.ingot_du_dioxide)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_du_dioxide) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_du_dioxide)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_titanium), new ItemStack(ModItems.ingot_du_dioxide) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_titanium), new ItemStack(ModItems.ingot_du_dioxide)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)},
 					getFurnaceOutput(new ItemStack(ModItems.ingot_dineutronium), new ItemStack(ModItems.ingot_combine_steel)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.ingot_cobalt) },
 					new ItemStack(ModItems.component_ftl, 1, 4).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_niobium), new ItemStack(ModItems.ingot_beryllium) },
+					new ItemStack(ModItems.ingot_nbbe).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
@@ -1012,6 +1007,7 @@ public class MachineRecipes
 			
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
+			x.printStackTrace();
 		}
 		return recipes;
 	}
@@ -1989,6 +1985,20 @@ public class MachineRecipes
         	list.add(new ItemStack(ModItems.ingot_u235));
         	list.add(new ItemStack(ModItems.nugget_beryllium, 3));
         	break;
+        case LF_PU:
+        	list.add(new ItemStack(ModItems.ingot_pu239));
+        	list.add(new ItemStack(ModItems.nugget_beryllium, 3));
+        	break;
+        case LF_SA:
+        	list.add(new ItemStack(ModItems.powder_nitan_mix, 4));
+        	break;
+        case ALCOHOL:
+        	list.add(new ItemStack(ModItems.sulfur, 2));
+        	break;
+        case SARIN:
+        	list.add(new ItemStack(ModItems.powder_fire, 4));
+        	list.add(new ItemStack(ModItems.fluorite, 4));
+        	break;
 		default:
 			break;
 		}
@@ -2226,8 +2236,26 @@ public class MachineRecipes
     		input[0] = new FluidStack(8000, FluidType.COOLANT);
     		input[1] = new FluidStack(1200, FluidType.OXYGEN);
     		break;
+    	case LF_PU:
     	case LF_U:
     		input[0] = new FluidStack(1000, FluidType.SALT);
+    		break;
+    	case LF_SA:
+    		input[0] = new FluidStack(1000, FluidType.SAS3);
+    		break;
+    	case RC_U:
+    		input[0] = new FluidStack(1000, FluidType.SALT_U_DP);
+    		break;
+    	case RC_PU:
+    		input[0] = new FluidStack(1000, FluidType.SALT_PU_DP);
+    		break;
+    	case ALCOHOL:
+    		input[0] = new FluidStack(500, FluidType.PETROLEUM);
+    		input[1] = new FluidStack(2000, FluidType.WATER);
+    		break;
+    	case SARIN:
+    		input[0] = new FluidStack(2500, FluidType.ALCOHOL);
+    		input[1] = new FluidStack(4000, FluidType.ACID);
     		break;
 		default:
 			break;
@@ -2388,6 +2416,14 @@ public class MachineRecipes
         	output[2] = new ItemStack(ModItems.storage_optical_cd, 1);
         	output[3] = new ItemStack(ModItems.storage_optical_cd, 1);
         	break;
+        case RC_PU:
+        	output[0] = new ItemStack(ModItems.nugget_pu239);
+        	output[1] = new ItemStack(ModItems.nuclear_waste_tiny, 8);
+        	break;
+        case RC_U:
+        	output[0] = new ItemStack(ModItems.nugget_u235);
+        	output[1] = new ItemStack(ModItems.nuclear_waste_tiny, 8);
+        	break;
 		default:
 			break;
 		}
@@ -2525,6 +2561,22 @@ public class MachineRecipes
         	break;
         case LF_U:
         	output[0] = new FluidStack(1000, FluidType.SALT_U);
+        	break;
+        case LF_PU:
+        	output[0] = new FluidStack(1000, FluidType.SALT_PU);
+        	break;
+        case LF_SA:
+        	output[0] = new FluidStack(1000, FluidType.SAS3_NIT);
+        	break;
+        case RC_PU:
+        case RC_U:
+        	output[0] = new FluidStack(1000, FluidType.SALT);
+        	break;
+        case ALCOHOL:
+        	output[0] = new FluidStack(1000, FluidType.ALCOHOL);
+        	break;
+        case SARIN:
+        	output[0] = new FluidStack(1000, FluidType.SARIN);
         	break;
 		default:
 			break;

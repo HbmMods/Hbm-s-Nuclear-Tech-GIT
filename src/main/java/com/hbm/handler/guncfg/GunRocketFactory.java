@@ -10,6 +10,7 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -39,8 +40,8 @@ public class GunRocketFactory {
 		config.reloadSound = GunConfiguration.RSOUND_LAUNCHER;
 		config.reloadSoundEnd = false;
 		
-		config.name = "Carl Gustav Recoilless Rifle M1";
-		config.manufacturer = "Saab Bofors Dynamics";
+		config.name = "gustav";
+		config.manufacturer = EnumGunManufacturer.SAAB;
 		config.comment.add("Fun fact of the day: Recoilless");
 		config.comment.add("rifles don't actually fire rockets.");
 		
@@ -102,8 +103,8 @@ public class GunRocketFactory {
 						)
 				);
 		
-		config.name = "OpenQuadro Guided Man-Portable Missile Launcher";
-		config.manufacturer = "Open Mann Co.";
+		config.name = "quadro";
+		config.manufacturer = EnumGunManufacturer.MANN;
 		config.comment.add("For the next three hundred years, people who needed to get to the second");
 		config.comment.add("floor used the only method available to them, which was rocket jumping.");
 		config.comment.add("This persisted until 1857, when the young bearded inventor named");
@@ -133,8 +134,8 @@ public class GunRocketFactory {
 		
 		config.reloadDuration = 20;
 		
-		config.name = "M1 Karl-Gerät";
-		config.manufacturer = "???";
+		config.name = "karl";
+		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		config.comment.clear();
 		
 		config.config = new ArrayList<Integer>();
@@ -157,8 +158,8 @@ public class GunRocketFactory {
 		config.reloadDuration = 25;
 		config.hasSights = true;
 		
-		config.name = "Raketenpanzerbüchse 54";
-		config.manufacturer = "Enzinger Union";
+		config.name = "panz";
+		config.manufacturer = EnumGunManufacturer.ENZINGER;
 		config.comment.clear();
 		config.comment.add("Panzer-Shrek");
 		

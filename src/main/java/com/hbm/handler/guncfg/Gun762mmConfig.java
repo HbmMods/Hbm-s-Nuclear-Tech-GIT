@@ -4,6 +4,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun762mmConfig
@@ -30,9 +31,8 @@ public class Gun762mmConfig
 		config.firingPitch = 0.85F;
 		config.reloadSoundEnd = true;
 		
-		config.name = "UAC-30 Designated Marksman Rifle";
-		config.manufacturer = "Union Aerospace Command";
-		config.damage = "10 - 12 (stock)";
+		config.name = "uacDMR";
+		config.manufacturer = EnumGunManufacturer.UAC;
 		
 		config.config.addAll(HbmCollection.threeZeroEight);
 		
@@ -51,7 +51,7 @@ public class Gun762mmConfig
 		config.reloadSound = "hbm:weapon.carbineMagInPB3";
 		config.firingSound = "hbm:weapon.carbineShootPB3";
 		
-		config.name = "UAC-41 Carbine";
+		config.name = "uacCarbine";
 		
 		return config;
 	}
@@ -67,7 +67,7 @@ public class Gun762mmConfig
 		config.firingSound = "hbm:weapon.LMGShootPB3";
 		config.firingPitch = 0.9F;
 		
-		config.name = "UAC-49 Light Machine Gun";
+		config.name = "uacLMG";
 		
 		return config;
 	}

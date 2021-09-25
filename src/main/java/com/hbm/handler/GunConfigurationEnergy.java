@@ -8,4 +8,6 @@ public class GunConfigurationEnergy extends GunConfiguration
 	public long ammoRate;
 	/** Charge rate of the gun, similar to batteries **/
 	public long chargeRate;
+	/** Sound that plays when reloading **/
+	public String reloadSound = "hbm:item.battery";
 }

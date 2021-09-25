@@ -27,7 +27,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
-	private boolean magnetic;
+	private final boolean magnetic;
 	
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();

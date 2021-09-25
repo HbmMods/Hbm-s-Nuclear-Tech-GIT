@@ -55,7 +55,7 @@ public class SILEXRecipes {
 				);
 		
 		recipes.put("gemEmerald", new SILEXRecipe(100, 100)
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_beryllium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_beryllium), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_silicon), 6))
 				);

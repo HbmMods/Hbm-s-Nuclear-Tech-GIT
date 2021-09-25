@@ -19,8 +19,8 @@ public class DiamondPronter {
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		
-		float p = 1F/256F;
-		float s = 1F/139F;
+		final float p = 1F/320F;
+		final float s = 1F/139F;
 		Tessellator tess = Tessellator.instance;
 		GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -96,6 +96,7 @@ public class DiamondPronter {
 			
 			float oY = -33 * s;
 			float oZ = 0;
+			final float pAlt = 1F/320F;
 			
 			int x = symbol.x;
 			int y = symbol.y;

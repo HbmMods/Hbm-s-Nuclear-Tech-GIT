@@ -2,30 +2,35 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import com.hbm.interfaces.IRadioisotopeFuel;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
+import com.hbm.lib.Library;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends ItemHazard
+public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 {
-	public int heat = 0;
-	public boolean doesDecay = false;
-	public ItemStack decayItem = null;
-	public int decayChance = 0;
+	private short heat = 0;
+	private boolean doesDecay = false;
+	private ItemStack decayItem = null;
+	private long lifespan = 0;
 	public ItemRTGPellet(float radiation, boolean fire, int heatIn)
 	{
 		super(radiation, fire);
-		heat = heatIn;
+		heat = (short) heatIn;
+		setMaxStackSize(1);
 	}
 	
 	private static final String[] facts = new String[]
@@ -48,12 +53,37 @@ public class ItemRTGPellet extends ItemHazard
 			"The Manhattan Project referred to refined natural uranium as tuballoy, enriched uranium as oralloy, and depleted uranium as depletalloy."
 	};
 
-	public ItemRTGPellet setDecayItem(@Nonnull ItemStack itemIn, int chance)
+	public ItemRTGPellet setDecays(@Nonnull ItemStack itemIn, long life)
 	{
 		doesDecay = true;
 		decayItem = itemIn;
-		decayChance = chance;
+		lifespan = life;
 		return this;
+	}
+	
+	@Override
+	public long getMaxLifespan()
+	{
+		return lifespan;
+	}
+	
+	@Override
+	public short getPower()
+	{
+		return heat;
+	}
+	
+	@CheckForNull
+	@Override
+	public ItemStack getDecayItem()
+	{
+		return decayItem == null ? null : decayItem.copy();
+	}
+	
+	@Override
+	public boolean getDoesDecay()
+	{
+		return doesDecay;
 	}
 	
 	@Override
@@ -71,11 +101,33 @@ public class ItemRTGPellet extends ItemHazard
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
+		super.addInformation(stack, player, list, bool);
+		list.add("");
 		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", heat));
 		if (doesDecay)
+		{
 			list.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(decayItem.getUnlocalizedName() + ".name")));
-		list.add("");
-		super.addInformation(stack, player, list, bool);
+			list.add(Library.toPercentage(getLifespan(stack), getMaxLifespan()));
+		}
+		if (bool)
+			list.add(String.valueOf(getLifespan(stack)));
 	}
 	
+	@Override
+	public boolean showDurabilityBar(ItemStack stack)
+	{
+		return getDoesDecay() && getLifespan(stack) != getMaxLifespan();
+	}
+	
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack)
+	{
+		return 1D - (double) getLifespan(stack) / getMaxLifespan();
+	}
+	
+	@Override
+	public ItemRTGPellet toItem()
+	{
+		return (ItemRTGPellet) this;
+	}
 }

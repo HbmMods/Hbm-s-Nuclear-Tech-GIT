@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunOSIPRFactory {
@@ -29,8 +30,8 @@ public class GunOSIPRFactory {
 		config.firingSound = "hbm:weapon.osiprShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Overwatch Standard Issue Pulse Rifle";
-		config.manufacturer = "The Universal Union";
+		config.name = "osipr";
+		config.manufacturer = EnumGunManufacturer.COMBINE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_OSIPR);

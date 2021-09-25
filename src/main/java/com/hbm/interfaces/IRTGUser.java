@@ -1,9 +1,10 @@
 package com.hbm.interfaces;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import com.hbm.items.machine.ItemRTGPellet;
+import com.google.common.annotations.Beta;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 /**
@@ -15,6 +16,13 @@ public interface IRTGUser
 {
 	/** Get the heat provided by the RTGs **/
 	public int getHeat();
+	/** Item class that only works in the machine, simply return {@link#IRadioisotopeFuel} to accept all **/
+	public Class getDesiredClass();
+	
+	public default boolean isItemValid(Item itemIn)
+	{
+		return itemIn instanceof IRadioisotopeFuel && getDesiredClass().isAssignableFrom(itemIn.getClass());
+	}
 	/**
 	 * Update all of the RTG pellets in a section of a machine
 	 * @param inventory - Total inventory
@@ -29,18 +37,16 @@ public interface IRTGUser
 		{
 			if (inventory[slot] == null)
 				continue;
-			if (!(inventory[slot].getItem() instanceof ItemRTGPellet))
+			if (!isItemValid(inventory[slot].getItem()))
 				continue;
-			ItemRTGPellet pellet = (ItemRTGPellet) inventory[slot].getItem();
-			newHeat += pellet.heat;
-			if (pellet.doesDecay)
-				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
-					inventory[slot] = pellet.decayItem;
+			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[slot].getItem();
+			newHeat += pellet.getPower();
+			IRadioisotopeFuel.handleDecay(inventory[slot], pellet);
 		}
 		return newHeat;
 	}
 	/**
-	 * Update all of the RTG pellets in a section of a machine
+	 * Update all of the RTG pellets in the entire machine's inventory
 	 * @param inventory - Total inventory
 	 * @param worldIn - The machine's world object
 	 * @return The total heat level
@@ -52,13 +58,11 @@ public interface IRTGUser
 		{
 			if (inventory[i] == null)
 				continue;
-			if (!(inventory[i].getItem() instanceof ItemRTGPellet))
+			if (!isItemValid(inventory[i].getItem()))
 				continue;
-			ItemRTGPellet pellet = (ItemRTGPellet) inventory[i].getItem();
-			newHeat += pellet.heat;
-			if (pellet.doesDecay)
-				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
-					inventory[i] = pellet.decayItem;
+			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[i].getItem();
+			newHeat += pellet.getPower();
+			IRadioisotopeFuel.handleDecay(inventory[i], pellet);
 		}
 		return newHeat;
 	}
@@ -69,16 +73,22 @@ public interface IRTGUser
 	 * @return The total heat level
 	 */
 	@Untested
-	default int updateRTGs(List<ItemRTGPellet> rtgList, World worldIn)
+	@Beta
+	default int updateRTGs(ArrayList<ItemStack> rtgList, World worldIn)
 	{
 		int newHeat = 0;
 		
-		for (ItemRTGPellet pellet : rtgList)
+		for (ItemStack pellet : rtgList)
 		{
-			newHeat += pellet.heat;
-			if (pellet.doesDecay)
-				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
+			final IRadioisotopeFuel fuel = (IRadioisotopeFuel) pellet.getItem();
+			newHeat += fuel.getPower();
+			if (fuel.getDoesDecay())
+			{
+				if (fuel.getLifespan(pellet) <= 0)
 					rtgList.remove(pellet);
+				else
+					fuel.decay(pellet);
+			}
 		}
 		
 		return newHeat;
@@ -91,25 +101,28 @@ public interface IRTGUser
 	 * @return The total heat level
 	 */
 	@Untested
-	default int updateRTGs(List<ItemRTGPellet> rtgList, List<ItemStack> deplList, World worldIn)
+	@Beta
+	default int updateRTGs(ArrayList<ItemStack> rtgList, ArrayList<ItemStack> deplList, World worldIn)
 	{
 		int newHeat = 0;
 		
-		for (ItemRTGPellet pellet : rtgList)
+		for (ItemStack pellet : rtgList)
 		{
-			newHeat += pellet.heat;
-			if (pellet.doesDecay)
+			final IRadioisotopeFuel fuel = (IRadioisotopeFuel) pellet.getItem();
+			newHeat += fuel.getPower();
+			if (fuel.getDoesDecay())
 			{
-				if (worldIn.rand.nextInt(pellet.decayChance) == 0)
+				if (fuel.getLifespan(pellet) <= 0)
 				{
 					rtgList.remove(pellet);
 					boolean alreadyExists = false;
 					int index;
+					final ItemStack decayItem = fuel.getDecayItem();
 					for (int i = 0; i < deplList.size(); i++)
 					{
-						if (deplList.get(i).getItem() == pellet.decayItem.getItem() && deplList.get(i).getItemDamage() == pellet.decayItem.getItemDamage() && deplList.get(i).stackSize + pellet.decayItem.stackSize <= 64)
+						if (deplList.get(i).getItem() == decayItem.getItem() && deplList.get(i).getItemDamage() == decayItem.getItemDamage() && deplList.get(i).stackSize + decayItem.stackSize <= decayItem.getMaxStackSize())
 							alreadyExists = true;
-						else if (deplList.get(i).stackSize + pellet.decayItem.stackSize > 64)
+						else if (deplList.get(i).stackSize + decayItem.stackSize > decayItem.getMaxStackSize())
 							continue;
 						
 						if (alreadyExists)
@@ -118,11 +131,11 @@ public interface IRTGUser
 					if (alreadyExists)
 					{
 						for (int i = 0; i < deplList.size(); i++)
-							if (deplList.get(i).getItem() == pellet.decayItem.getItem() && deplList.get(i).getItemDamage() == pellet.decayItem.getItemDamage() && deplList.get(i).stackSize + pellet.decayItem.stackSize <= 64)
-								deplList.get(i).stackSize += pellet.decayItem.stackSize;
+							if (deplList.get(i).getItem() == decayItem.getItem() && deplList.get(i).getItemDamage() == decayItem.getItemDamage() && deplList.get(i).stackSize + decayItem.stackSize <= decayItem.getMaxStackSize())
+								deplList.get(i).stackSize += decayItem.stackSize;
 					}
 					else
-						deplList.add(pellet.decayItem);
+						deplList.add(fuel.getDecayItem());
 				}
 			}
 		}

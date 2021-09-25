@@ -28,6 +28,11 @@ public class TEChemplantPacket implements IMessage {
 		this.z = z;
 		this.isProgressing = isProgressing;
 	}
+	
+	public TEChemplantPacket(TileEntityMachineChemplant te)
+	{
+		this(te.xCoord, te.yCoord, te.zCoord, te.isProgressing);
+	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {

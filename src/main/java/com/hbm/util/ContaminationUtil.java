@@ -5,9 +5,11 @@ import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.modules.ItemHazardModule.CustomToxicity;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
+import api.hbm.entity.IDigammaImmune;
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -100,8 +102,6 @@ public class ContaminationUtil {
 		
 		return e instanceof EntityNuclearCreeper ||
 				e instanceof EntityMooshroom ||
-				e instanceof EntityZombie ||
-				e instanceof EntitySkeleton ||
 				e instanceof EntityQuackos ||
 				e instanceof EntityOcelot ||
 				e instanceof IRadiationImmune;
@@ -125,6 +125,32 @@ public class ContaminationUtil {
 			HbmLivingProps.incrementAsbestos(entity, i);
 	}
 	
+	/// CUSTOM ///
+	public static void applyCustom(Entity e, int i, CustomToxicity tox)
+	{
+//		System.out.println(tox);
+		if (!isValidTarget(e))
+			return;
+		EntityLivingBase entity = (EntityLivingBase) e;
+		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
+			HbmLivingProps.incrementCustom(entity, tox, i);
+	}
+	
+	public static boolean isValidTarget(Entity e, Class...classes)
+	{
+		if (!(e instanceof EntityLivingBase) || (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode || ((EntityPlayer) e).ticksExisted < 200))
+			return false;
+		
+		if (classes != null)
+		{
+			for (Class c : classes)
+				if (e.getClass().isAssignableFrom(c))
+					return false;
+		}
+		
+		return true;
+	}
+	
 	/// DIGAMMA ///
 	public static void applyDigammaData(Entity e, float f) {
 
@@ -135,6 +161,9 @@ public class ContaminationUtil {
 			return;
 		
 		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
+		if(e instanceof IDigammaImmune)
 			return;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
@@ -151,7 +180,7 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 
-		if(e instanceof IRadiationImmune)
+		if(e instanceof IDigammaImmune)
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
@@ -269,6 +298,8 @@ public class ContaminationUtil {
 			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
 			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; if(player.isPotionActive(HbmPotion.stability.id)) return false; break;
 			case DIGAMMA2: break;
+			default:
+				break;
 			}
 			
 			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)

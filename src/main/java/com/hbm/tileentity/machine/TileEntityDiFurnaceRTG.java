@@ -4,6 +4,7 @@ import com.hbm.blocks.machine.MachineDiFurnaceRTG;
 import com.hbm.interfaces.IRTGUser;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -284,6 +285,12 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 	public int getHeat()
 	{
 		return processSpeed;
+	}
+
+	@Override
+	public Class getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 
 }

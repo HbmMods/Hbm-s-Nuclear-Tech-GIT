@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -25,6 +26,11 @@ public class AuxParticlePacket implements IMessage {
 		this.y = y;
 		this.z = z;
 		this.type = type;
+	}
+	
+	public AuxParticlePacket(EasyLocation loc, int type)
+	{
+		this(loc.posX, loc.posY, loc.posZ, type);
 	}
 
 	@Override

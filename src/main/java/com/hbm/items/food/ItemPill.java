@@ -5,9 +5,14 @@ import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.interfaces.IHasLore;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemCustomLore;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -15,8 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-
-public class ItemPill extends ItemFood {
+@Spaghetti("if statement chain")
+public class ItemPill extends ItemFood implements IHasLore
+{
 
 	public ItemPill(int hunger) {
 		super(hunger, false);
@@ -71,25 +77,9 @@ public class ItemPill extends ItemFood {
 	}
 
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(this == ModItems.pill_iodine) {
-			list.add("Removes negative effects");
-		}
-		if(this == ModItems.plan_c) {
-			list.add("Deadly");
-		}
-		if(this == ModItems.radx) {
-			list.add("Increases radiation resistance by 0.2 (37%) for 3 minutes");
-		}
-		if(this == ModItems.xanax) {
-			list.add("Removes 500mDRX");
-		}
-		if(this == ModItems.fmn) {
-			list.add("Removes all DRX above 2,000mDRX");
-		}
-		if(this == ModItems.five_htp) {
-			list.add("Removes all DRX, Stability for 10 minutes");
-		}
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		standardLore(itemstack, list);
 	}
 
 	@Override

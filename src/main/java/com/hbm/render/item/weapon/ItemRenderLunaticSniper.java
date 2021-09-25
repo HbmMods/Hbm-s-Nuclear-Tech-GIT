@@ -103,7 +103,7 @@ public class ItemRenderLunaticSniper implements IItemRenderer
 			GL11.glRotatef(-50F, 0F, 1F, 0F);
 			GL11.glRotatef(90F, 0F, 0F, 1F);
 			GL11.glTranslatef(0F, -0.25F, -0.76F);
-			GL11.glScalef(scale2 - 0.3F, scale2, scale2);
+			GL11.glScalef(scale2 - scale2 * 2, scale2, scale2);
 			GL11.glPushMatrix();
 			GL11.glTranslated(eject[0] / 2, 0, -5);
 			ResourceManager.lunatic_sniper.renderPart(spentShell);

@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.special.ItemCustomLore;
 import com.hbm.tileentity.machine.TileEntitySolarMirror;
 import com.hbm.util.I18nUtil;
 
@@ -21,7 +22,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemMirrorTool extends Item {
+public class ItemMirrorTool extends ItemCustomLore
+{
 	
 	@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
@@ -64,13 +66,6 @@ public class ItemMirrorTool extends Item {
 		
 		return false;
     }
-
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
-		for(String s : I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc"))
-			list.add(EnumChatFormatting.YELLOW + s);
-	}
 
 	@Override
 	public Multimap getAttributeModifiers(ItemStack stack) {

@@ -9,113 +9,87 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderAccessoryUtility {
 
-	private static ResourceLocation hbm = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm3.png");
-	private static ResourceLocation hbm2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm2.png");
-	private static ResourceLocation drillgon = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDrillgon.png");
-	private static ResourceLocation dafnik = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDafnik.png");
-	private static ResourceLocation lpkukin = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeShield.png");
-	private static ResourceLocation vertice = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVertice_2.png");
-	private static ResourceLocation red = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRed.png");
-	private static ResourceLocation ayy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAyy.png");
-	private static ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia.png");
-	private static ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia2.png");
-	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSam.png");
-	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy.png");
-	private static ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMaster.png");
-	private static ResourceLocation mek = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMek.png");
-	private static ResourceLocation zippy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeZippySqrl.png");
-	private static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTest.png");
-	private static ResourceLocation schrabby = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSchrabbyAlt.png");
-	private static ResourceLocation swiggs = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSweatySwiggs.png");
-	private static ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
-	private static ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
-	private static ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
-	private static ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
-	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
-	private static ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
+	private static final ResourceLocation hbm = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm3.png");
+	private static final ResourceLocation hbm2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm2.png");
+	private static final ResourceLocation drillgon = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDrillgon.png");
+	private static final ResourceLocation dafnik = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDafnik.png");
+	private static final ResourceLocation lpkukin = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeShield.png");
+	private static final ResourceLocation vertice = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVertice_2.png");
+	private static final ResourceLocation red = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRed.png");
+	private static final ResourceLocation ayy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAyy.png");
+	private static final ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia.png");
+	private static final ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia2.png");
+	private static final ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSam.png");
+	private static final ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy.png");
+	private static final ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMaster.png");
+	private static final ResourceLocation mek = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMek.png");
+	private static final ResourceLocation zippy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeZippySqrl.png");
+	private static final ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTest.png");
+	private static final ResourceLocation schrabby = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSchrabbyAlt.png");
+	private static final ResourceLocation swiggs = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSweatySwiggs.png");
+	private static final ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
+	private static final ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
+	private static final ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
+	private static final ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
+	private static final ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
+	private static final ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
 		String uuid = player.getUniqueID().toString();
 		String name = player.getDisplayName();
 
-		if(uuid.equals(Library.HbMinecraft)) {
-			
-			if(MainRegistry.isPolaroid11)
-				return hbm;
-			else
-				return hbm2;
-		}
-
-		if(uuid.equals(Library.Drillgon)) {
+		switch (uuid)
+		{
+		case Library.HbMinecraft:
+			return MainRegistry.isPolaroid11 ? hbm : hbm2;
+		case Library.Drillgon:
 			return drillgon;
-		}
-		if(uuid.equals(Library.Dafnik)) {
+		case Library.Dafnik:
 			return dafnik;
-		}
-		if(uuid.equals(Library.LPkukin)) {
+		case Library.LPkukin:
 			return lpkukin;
-		}
-		if(uuid.equals(Library.LordVertice)) {
+		case Library.LordVertice:
 			return vertice;
-		}
-		if(uuid.equals(Library.CodeRed_)) {
+		case Library.CodeRed_:
 			return red;
-		}
-		if(uuid.equals(Library.dxmaster769)) {
+		case Library.dxmaster769:
 			return ayy;
-		}
-		if(uuid.equals(Library.Dr_Nostalgia)) {
-			
-			if(MainRegistry.polaroidID == 11)
-				return nostalgia2;
-			else
-				return nostalgia;
-		}
-		if(uuid.equals(Library.Samino2)) {
+		case Library.Dr_Nostalgia:
+			return MainRegistry.isPolaroid11 ? nostalgia2 : nostalgia;
+		case Library.Samino2:
 			return sam;
-		}
-		if(uuid.equals(Library.Hoboy03new)) {
+		case Library.Hoboy03new:
 			return hoboy;
-		}
-		if(uuid.equals(Library.Dragon59MC)) {
+		case Library.Dragon59MC:
 			return master;
-		}
-		if(uuid.equals(Library.Steelcourage)) {
+		case Library.Steelcourage:
 			return mek;
-		}
-		if(uuid.equals(Library.ZippySqrl)) {
+		case Library.ZippySqrl:
 			return zippy;
-		}
-		if(uuid.equals(Library.Schrabby)) {
+		case Library.Schrabby:
 			return schrabby;
-		}
-		if(uuid.equals(Library.SweatySwiggs)) {
+		case Library.SweatySwiggs:
 			return swiggs;
-		}
-		if(uuid.equals(Library.Doctor17) || uuid.equals(Library.Doctor17PH)) {
+		case Library.Doctor17:
+		case Library.Doctor17PH:
 			return doctor17;
-		}
-		if(uuid.equals(Library.ShimmeringBlaze)) {
+		case Library.ShimmeringBlaze:
 			return shimmeringblaze;
-		}
-		if(uuid.equals(Library.FifeMiner)) {
+		case Library.FifeMiner:
 			return leftnugget;
-		}
-		if(uuid.equals(Library.lag_add)) {
+		case Library.lag_add:
 			return rightnugget;
-		}
-		if(uuid.equals(Library.Tankish)) {
+		case Library.Tankish:
 			return tankish;
+		default:
+			if (Library.contributors.contains(uuid))
+				return wiki;
+			else if (name.startsWith("Player"))
+				return test;
+			else
+				return null;
 		}
-		if(Library.contributors.contains(uuid)) {
-			return wiki;
-		}
-		if(name.startsWith("Player")) {
-			return test;
-		}
-		
-		return null;
 	}
 
 }

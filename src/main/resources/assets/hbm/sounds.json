@@ -169,6 +169,7 @@
     "weapon.SMGMagInPB3": {"category": "player", "sounds": [{"name": "weapon/DSRAIFIN", "stream": false}]},
     "weapon.LMGMagInPB3": {"category": "player", "sounds": [{"name": "weapon/LMGIN", "stream": false}]},
     "weapon.LMGCockPB3": {"category": "player", "sounds": [{"name": "weapon/LMGCLK", "stream": false}]},
+    "weapon.shotgunDrumPB3": {"category": "player", "sounds": ["weapon/ASGDRM1", "weapon/ASGDRM2"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

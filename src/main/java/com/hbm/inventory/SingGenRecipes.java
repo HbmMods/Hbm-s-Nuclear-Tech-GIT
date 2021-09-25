@@ -22,7 +22,7 @@ import scala.actors.threadpool.Arrays;
 @Spaghetti("Is there a more efficient way of doing this? Probably")
 public class SingGenRecipes
 {
-	public static List<SingGenRecipe> recipes = new ArrayList<SingGenRecipes.SingGenRecipe>();
+	public static final ArrayList<SingGenRecipe> recipes = new ArrayList<SingGenRecipes.SingGenRecipe>();
 	/* -- Input Slots --
 	 * 5  9  6
 	 * 11 4  12

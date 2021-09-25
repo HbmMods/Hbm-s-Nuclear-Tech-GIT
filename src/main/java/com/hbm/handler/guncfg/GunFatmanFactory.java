@@ -12,6 +12,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -39,8 +40,8 @@ public class GunFatmanFactory {
 		config.reloadSound = GunConfiguration.RSOUND_FATMAN;
 		config.reloadSoundEnd = false;
 		
-		config.name = "M-42 Tactical Nuclear Catapult";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
@@ -58,8 +59,8 @@ public class GunFatmanFactory {
 		
 		GunConfiguration config = getFatmanConfig();
 		
-		config.name = "M-42 Experimental MIRV";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42MIRV";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL);
@@ -76,8 +77,8 @@ public class GunFatmanFactory {
 		
 		GunConfiguration config = getFatmanConfig();
 		
-		config.name = "Balefire Egg Launcher";
-		config.manufacturer = "Fort Strong";
+		config.name = "bel";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_AMAT);
@@ -103,8 +104,8 @@ public class GunFatmanFactory {
 		config.reloadSound = GunConfiguration.RSOUND_FATMAN;
 		config.reloadSoundEnd = false;
 		
-		config.name = "M-42 Tactical Nuclear Catapult";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_NORMAL);

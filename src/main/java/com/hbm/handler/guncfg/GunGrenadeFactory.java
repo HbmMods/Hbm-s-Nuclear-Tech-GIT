@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunGrenadeFactory {
@@ -31,8 +32,8 @@ public class GunGrenadeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
 		config.reloadSoundEnd = false;
 		
-		config.name = "Granatpistole HK69";
-		config.manufacturer = "Heckler & Koch";
+		config.name = "gPistol";
+		config.manufacturer = EnumGunManufacturer.H_AND_K;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);

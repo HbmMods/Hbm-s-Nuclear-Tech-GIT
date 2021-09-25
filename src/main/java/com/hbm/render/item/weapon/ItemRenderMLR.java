@@ -69,15 +69,18 @@ public class ItemRenderMLR implements IItemRenderer
 		case EQUIPPED_FIRST_PERSON:// In hand from POV
 			GL11.glRotatef(30F, 0F, 0F, 1F);
 			GL11.glTranslatef(3F, -1F, 0F);
+			// Makes the recoil look better between sneaking and normal
+			byte s = 1;
 			if (player.isSneaking())
 			{
 				GL11.glTranslatef(0F, 0.32F, -0.75F);
 				GL11.glRotatef(-5.05F, 0F, 1F, 0F);
 				GL11.glRotatef(-5F, 0F, 0F, 1F);
+				s = 2;
 			}
 			
 			// Animations
-			GL11.glTranslated(recoil[0] / 2, recoil[1], recoil[2]);
+			GL11.glTranslated(recoil[0] / s, recoil[1], recoil[2]);
 			GL11.glScalef(scale3, scale3, scale3);
 			break;
 		case INVENTORY:

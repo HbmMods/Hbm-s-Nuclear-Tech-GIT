@@ -1,7 +1,9 @@
 package com.hbm.handler;
 
+import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
@@ -9,6 +11,8 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 
@@ -58,6 +62,10 @@ public class BulletConfiguration {
 	
 	//bullet effects
 	public List<PotionEffect> effects;
+	/**Blocks the bullet can pass through**/
+	public HashSet<Block> spectralBlocks = new HashSet<Block>();
+	/**Materials the bullet can pass through**/
+	public HashSet<Material> spectralMaterials = new HashSet<Material>();
 	public int incendiary;
 	public int emp;
 	public boolean blockDamage = true;
@@ -76,7 +84,7 @@ public class BulletConfiguration {
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
 	public IBulletUpdateBehavior bUpdate;
-	
+		
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects

@@ -14,6 +14,7 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -62,8 +63,8 @@ public class Gun4GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.65F;
 		
-		config.name = "KS-23";
-		config.manufacturer = "Tulsky Oruzheiny Zavod";
+		config.name = "ks23";
+		config.manufacturer = EnumGunManufacturer.TULSKY;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
@@ -96,8 +97,8 @@ public class Gun4GaugeFactory {
 		config.firingSound = "hbm:weapon.sauergun";
 		config.firingPitch = 1.0F;
 		
-		config.name = "Sauer Shotgun";
-		config.manufacturer = "Cube 2: Sauerbraten";
+		config.name = "sauer";
+		config.manufacturer = EnumGunManufacturer.CUBE;
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SAUER_RECOIL", new BusAnimationSequence()

@@ -27,6 +27,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -290,11 +291,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
         		
         	//handle block collision
         	} else if(worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ).getMaterial() != Material.air) {
-        		
+        		Block b = worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ);
         		boolean hRic = rand.nextInt(100) < config.HBRC;
         		boolean doesRic = config.doesRicochet || hRic;
-        		
-        		if(!config.isSpectral && !doesRic)
+        		// FIXME
+        		if(!config.isSpectral && !doesRic && (!config.spectralBlocks.contains(b) || !config.spectralMaterials.contains(b.getMaterial())))
         			this.onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
         		
         		if(doesRic) {

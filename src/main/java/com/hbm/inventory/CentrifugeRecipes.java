@@ -210,9 +210,9 @@ public class CentrifugeRecipes {
 		recipes.put(new ComparableStack(ModItems.pellet_solinium_laced), new ItemStack[]
 				{
 					new ItemStack(ModItems.nugget_euphemium, 5),
-					new ItemStack(ModItems.nugget_solinium, 4),
-					new ItemStack(ModItems.powder_combine_steel, 1),
-					new ItemStack(ModItems.powder_lead, 3)
+					new ItemStack(ModItems.nugget_solinium, 31),
+					new ItemStack(ModItems.powder_combine_steel),
+					new ItemStack(ModItems.powder_lead)
 				});
 		
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });

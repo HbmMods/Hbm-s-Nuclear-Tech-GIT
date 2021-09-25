@@ -6,6 +6,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IRTGUser;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -24,9 +25,9 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	private ItemStack slots[];
 	
 	public int heat;
-	public final int heatMax = 150;
+	public static final int heatMax = 150;
 	public long power;
-	public final long powerMax = 90000;
+	public static final long powerMax = 90000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	
@@ -109,7 +110,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		if(itemStack.getItem() != null && (itemStack.getItem() == ModItems.pellet_rtg || itemStack.getItem() == ModItems.pellet_rtg_weak))
+		if(itemStack.getItem() != null && (itemStack.getItem() instanceof ItemRTGPellet))
 			return true;
 		return false;
 	}
@@ -224,7 +225,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			
 			heat = 0;
 			
-			heat = IRTGUser.super.updateRTGs(slots, getWorldObj());
+			heat = updateRTGs(slots, getWorldObj());
 			
 //			for(int i = 0; i < slots.length; i++) {
 //				if(slots[i] != null) {
@@ -306,5 +307,11 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	public int getHeat()
 	{
 		return heat;
+	}
+
+	@Override
+	public Class getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 }

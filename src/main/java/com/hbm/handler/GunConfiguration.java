@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -43,7 +44,10 @@ public class GunConfiguration {
 	public String reloadSound = "";
 	/**sound path to the shooting sound**/
 	public String firingSound = "";
+	/**Pitch of the firing sound**/
 	public float firingPitch = 1.0F;
+	/** Equip sound effect **/
+	public String equipSound = "";
 	/**whether the reload sound should be played at the beginning or at the end of the reload**/
 	public boolean reloadSoundEnd = true;
 	
@@ -63,10 +67,10 @@ public class GunConfiguration {
 	public List<String> advLore = new ArrayList();
 	/**Extra long comments about how the gun works**/
 	public List<String> advFuncLore = new ArrayList();
-	/**Official name of the gun**/
+	/**Localization key for the official name**/
 	public String name = "";
-	/**The gun's manufacturer**/
-	public String manufacturer = "";
+	/**Localization key for the gun's manufacturer**/
+	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	/**Additional comments**/
 	public List<String> comment = new ArrayList();
 

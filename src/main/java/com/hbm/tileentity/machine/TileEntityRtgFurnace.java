@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import com.hbm.blocks.machine.MachineRtgFurnace;
 import com.hbm.interfaces.IRTGUser;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
 
 public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory, IRTGUser
 {
@@ -294,6 +295,12 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	@Override
 	public int getHeat()
 	{
-		return IRTGUser.super.updateRTGs(slots, slots_side, getWorldObj());
+		return updateRTGs(slots, slots_side, getWorldObj());
+	}
+
+	@Override
+	public Class getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 }

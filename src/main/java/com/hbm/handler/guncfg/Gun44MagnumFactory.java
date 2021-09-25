@@ -13,6 +13,8 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -43,6 +45,8 @@ public class Gun44MagnumFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.reloadSoundEnd = false;
 		
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
+		
 		return config;
 	}
 	
@@ -52,18 +56,18 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "IF-18 Horseshoe";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifHorseshoe";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Fallout New Vegas wasn't THAT good.");
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+//		
+//		config.config = new ArrayList<Integer>();
+//		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.M44_AP);
+//		config.config.add(BulletConfigSyncingUtil.M44_DU);
+//		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
+//		config.config.add(BulletConfigSyncingUtil.M44_STAR);
+//		config.config.add(BulletConfigSyncingUtil.CHL_M44);
+//		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -74,8 +78,8 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 4000;
 		
-		config.name = "IF-18 Horseshoe Scoped";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifScope";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
 		
 		config.config = new ArrayList<Integer>();
@@ -98,8 +102,8 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 5;
 		
-		config.name = "IF-18 Horseshoe Vanity";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifVanity";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Alcoholism is cool!");
 		
 		config.config = new ArrayList<Integer>();
@@ -122,8 +126,8 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 6;
 		
-		config.name = "IF-18 Horseshoe Silver Storm";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifStorm";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Our friendship is based on abusive behaviour");
 		config.comment.add("and mutual hate. It's not that complicated.");
 		
@@ -147,22 +151,24 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 64;
 		
-		config.name = "IF-18 Horseshoe Bottomless Pit";
-		config.manufacturer = "Ironshod Firearms R&D";
+		config.name = "ifPit";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Explore the other side");
 		config.comment.add("...from afar!");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.clear();
+		config.config.addAll(HbmCollection.fourtyFourMagAll);
+//		config.config = new ArrayList<Integer>();
+//		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.M44_AP);
+//		config.config.add(BulletConfigSyncingUtil.M44_DU);
+//		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
+//		config.config.add(BulletConfigSyncingUtil.M44_STAR);
+//		config.config.add(BulletConfigSyncingUtil.CHL_M44);
+//		config.config.add(BulletConfigSyncingUtil.M44_PIP);
+//		config.config.add(BulletConfigSyncingUtil.M44_BJ);
+//		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
+//		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}

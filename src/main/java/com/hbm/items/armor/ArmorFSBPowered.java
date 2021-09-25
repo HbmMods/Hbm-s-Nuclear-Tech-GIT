@@ -41,7 +41,7 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 	public boolean isArmorEnabled(ItemStack stack) {
 		return getCharge(stack) > 0;
 	}
-	
+	@Deprecated
 	public static ItemStack getUnpoweredPiece(Item item)
 	{
 		if (item instanceof ArmorFSBPowered)

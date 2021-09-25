@@ -23,13 +23,13 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 {
 	private FluidTank tank = new FluidTank(FluidType.CRYOGEL, 64000, 0);
 	private long power = 0;
-	public static final long powerRate = 1000000;
+	public static final long powerRate = 100000;
 	public static final long maxPower = 50000000;
-	public static Random rand = new Random();
 	public float time = 0.0F;
 	public byte day = 1;
 	public long year = 2300L;
 	public boolean isOn = false;
+	public long consumption = 100000;
 	private int[] upgrades = new int[] {0, 0};
 	public TileEntityAtomicClock()
 	{
@@ -50,6 +50,11 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 			day = data.getDay();
 			year = data.getYear();
 			
+			if (isOn && canOperate())
+			{
+				tank.decrementFill(1);
+				power -= getConsumption();
+			}
 		}
 		
 		NBTTagCompound data = new NBTTagCompound();
@@ -57,12 +62,20 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 		data.setFloat("time", time);
 		data.setByte("day", day);
 		data.setLong("year", year);
+		data.setBoolean("isOn", isOn);
+		data.setLong("consumption", consumption);
 		networkPack(data, 100);
+	}
+	
+	public boolean canOperate()
+	{
+		return tank.getFill() > 0 && power >= getConsumption();
 	}
 	
 	@Override
 	public void handleButtonPacket(int value, int meta)
 	{
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "gui.button.press", 1.0F, 1.0F);
 		isOn = !isOn;
 	}
 	
@@ -82,19 +95,20 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_clock_4)
 				upgrades[0] += 9;
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_power_1)
-				upgrades[1] -= 1000;
+				upgrades[1] -= 10000;
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_power_2)
-				upgrades[1] -= 2500;
+				upgrades[1] -= 25000;
 			else if (getStackInSlot(i).getItem() == ModItems.upgrade_power_3)
-				upgrades[1] -= 5000;
+				upgrades[1] -= 50000;
 		}
 		upgrades[0] = MathHelper.clamp_int(upgrades[0], 0, 9);
-		upgrades[1] = MathHelper.clamp_int(upgrades[1], 0, 3);
+		upgrades[1] = MathHelper.clamp_int(upgrades[1], 0, 50000);
 	}
 	
-	private int getConsumption()
+	public long getConsumption()
 	{
-		return upgrades[1] += powerRate;
+		consumption = powerRate + upgrades[1];
+		return consumption;
 	}
 	
 	@Override
@@ -104,6 +118,8 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 		time = nbt.getFloat("time");
 		day = nbt.getByte("day");
 		year = nbt.getLong("year");
+		isOn = nbt.getBoolean("isOn");
+		consumption = nbt.getLong("consumption");
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
@@ -41,8 +42,8 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 		
-		config.name = "CZ53 Personal Minigun";
-		config.manufacturer = "Rockwell International Corporation";
+		config.name = "cz53";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL;
 		
 		return config;
 	}
@@ -52,8 +53,8 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 15000;
-		config.name = "CZ57 Avenger Minigun";
-		config.manufacturer = "Rockwell International Corporation";
+		config.name = "cz57";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL;
 		
 		return config;
 	}
@@ -63,8 +64,8 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 25000;
-		config.name = "Auntie Lacunae";
-		config.manufacturer = "Rockwell International Corporation?";
+		config.name = "lacunae";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);

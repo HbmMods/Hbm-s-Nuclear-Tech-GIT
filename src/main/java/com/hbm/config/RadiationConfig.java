@@ -13,6 +13,7 @@ public class RadiationConfig {
 	public static int worldRad = 10;
 	public static int worldRadThreshold = 20;
 	public static boolean worldRadEffects = true;
+	public static boolean realisticRads = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -36,7 +37,7 @@ public class RadiationConfig {
 		worldRad = CommonConfig.createConfigInt(config, CATEGORY_NUKE, "6.10_worldRadCount", "How many block operations radiation can perform per tick", 10);
 		worldRadThreshold = CommonConfig.createConfigInt(config, CATEGORY_NUKE, "6.11_worldRadThreshold", "The least amount of RADs required for block modification to happen", 20);
 		worldRadEffects = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.12_worldRadEffects", "Whether high radiation levels should perform changes in the world", true);
-		
+		realisticRads = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.13_realisticRads", "Should use realistic RAD/s (like NuclearCraft)?", false);
 		fogCh = CommonConfig.setDef(fogCh, 20);
 	}
 }

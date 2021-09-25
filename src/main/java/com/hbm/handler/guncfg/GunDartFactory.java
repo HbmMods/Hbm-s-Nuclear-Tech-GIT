@@ -9,6 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
@@ -39,8 +40,8 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "Needle Gun";
-		config.manufacturer = "-";
+		config.name = "dart";
+		config.manufacturer = EnumGunManufacturer.NONE;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_GPS);
@@ -69,8 +70,8 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "NERF blaster of unknown design";
-		config.manufacturer = "Hasbro";
+		config.name = "nerf";
+		config.manufacturer = EnumGunManufacturer.HASBRO;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
