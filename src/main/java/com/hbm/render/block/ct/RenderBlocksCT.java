@@ -1,7 +1,9 @@
 package com.hbm.render.block.ct;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
 
 public class RenderBlocksCT extends RenderBlocks {
 
@@ -39,11 +41,60 @@ public class RenderBlocksCT extends RenderBlocks {
 		
 		this.cc = VertInfo.avg(tl, tr, bl, br);
 	}
+
+	@Override
+	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceXPos(block, x, y, z, icon);
+	}
+
+	@Override
+	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceXNeg(block, x, y, z, icon);
+	}
+
+	@Override
+	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceYPos(block, x, y, z, icon);
+	}
+
+	@Override
+	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceYNeg(block, x, y, z, icon);
+	}
+
+	@Override
+	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceZPos(block, x, y, z, icon);
+	}
+
+	@Override
+	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
+		super.renderFaceZNeg(block, x, y, z, icon);
+	}
 	
-	private void drawFace(double[] ftl, double[] ftr, double[] fbl, double[] fbr) {
-		
+	private void drawFace(double[] ftl, double[] ftr, double[] fbl, double[] fbr, IIcon itl, IIcon itr, IIcon ibl, IIcon ibr) {
+
 		double[] ftc = avgCoords(ftl, ftr);
-		///TODO///
+		double[] fbc = avgCoords(fbl, fbr);
+		double[] fcl = avgCoords(ftl, fbl);
+		double[] fcr = avgCoords(ftr, fbr);
+		double[] fcc = avgCoords(ftc, fbc);
+
+		drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, itl);
+		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, itr);
+		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, ibl);
+		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, ibr);
+	}
+	
+	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
+		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
+		drawVert(ftr, icon.getMinU(), icon.getMaxV(), ntr);
+		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
+		drawVert(fbl, icon.getMaxU(), icon.getMinV(), nbl);
+	}
+	
+	private void drawVert(double[] coord, double u, double v, VertInfo info) {
+		drawVert(coord[0], coord[1], coord[2], u, v, info);
 	}
 	
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {

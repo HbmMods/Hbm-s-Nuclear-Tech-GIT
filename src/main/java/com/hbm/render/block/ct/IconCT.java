@@ -4,7 +4,6 @@ import net.minecraft.util.IIcon;
 
 public class IconCT implements IIcon {
 
-
 	public static final int l = 0;	//left
 	public static final int r = 1;	//right
 	public static final int t = 0;	//top
@@ -43,12 +42,38 @@ public class IconCT implements IIcon {
 	private float minV;
 	private float maxV;
 	
-	
+	/// none of this is going to work because that's just not how icon UV works! ///
 	public IconCT(IIcon parent, int type) {
 		this.parent = parent;
 		this.type = type;
 		
 		int sub = ((type & f) != 0) ? 2 : 4;
+		float len = 1F / sub;
+		
+		float du = 0F;
+		float dv = 0F;
+		
+		//set pos to full block (coarse positioning)
+		if((type & v) > 0 || (type & j) > 0) {
+			du += len * 2;
+		}
+		if((type & h) > 0 || (type & j) > 0) {
+			dv += len * 2;
+		}
+		
+		//set pos to sub-block (fine positioning)
+		if((type & r)  > 0) {
+			du += len;
+		}
+		if((type & b) > 0) {
+			dv += len;
+		}
+
+		minU = du;
+		maxU = du + len;
+		minV = dv;
+		maxV = dv + len;
+		//what moron wrote this
 	}
 
 	@Override
@@ -63,12 +88,12 @@ public class IconCT implements IIcon {
 
 	@Override
 	public float getMinU() {
-		return 0;
+		return this.minU;
 	}
 
 	@Override
 	public float getMaxU() {
-		return 0;
+		return this.maxU;
 	}
 
 	@Override
@@ -83,12 +108,12 @@ public class IconCT implements IIcon {
 
 	@Override
 	public float getInterpolatedU(double interp) {
-		return 0;
+		return (float) (this.minU + (this.maxU - this.minU) * interp / 16D); //why 16 is involved here i do not know, but for some reason the interp range is [0;16]
 	}
 
 	@Override
 	public float getInterpolatedV(double interp) {
-		return 0;
+		return (float) (this.minV + (this.maxV - this.minV) * interp / 16D);
 	}
 
 	@Override
