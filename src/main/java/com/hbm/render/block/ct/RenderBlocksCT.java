@@ -2,11 +2,19 @@ package com.hbm.render.block.ct;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
+import com.hbm.render.block.ct.CTContext.CTFace;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 
+/*
+ * this was the biggest fucking waste of my time and i wish everyone who thought this was a good idea the nastiest fucking diarrhea
+ */
 public class RenderBlocksCT extends RenderBlocks {
 	
 	public static RenderBlocksCT instance = new RenderBlocksCT();
@@ -28,6 +36,10 @@ public class RenderBlocksCT extends RenderBlocks {
 		this.tess = Tessellator.instance;
 	}
 	
+	public void prepWorld(IBlockAccess acc) {
+		this.blockAccess = acc;
+	}
+	
 	private void initSideInfo() {
 		
 		if(!this.enableAO)
@@ -46,39 +58,58 @@ public class RenderBlocksCT extends RenderBlocks {
 		this.cc = VertInfo.avg(tl, tr, bl, br);
 	}
 
-	/*@Override
+	@Override
 	public boolean renderStandardBlock(Block block, int x, int y, int z) {
+		
+		if(this.blockAccess == null) {
+			MainRegistry.logger.error("Tried to call RenderBlocksCT without setting up a world context!");
+			return false;
+		}
+		
 		return super.renderStandardBlock(block, x, y, z);
-	}*/
+	}
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceXPos(block, x, y, z, icon);
+		//super.renderFaceXPos(block, x, y, z, icon);
 	}
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceXNeg(block, x, y, z, icon);
+		//super.renderFaceXNeg(block, x, y, z, icon);
 	}
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceYPos(block, x, y, z, icon);
+		//super.renderFaceYPos(block, x, y, z, icon);
+		
+		initSideInfo();
+		CTFace face = CTContext.faces[1];
+		
+		drawFace(
+				new double[] {x + 0, y + 1, z + 0},
+				new double[] {x + 1, y + 1, z + 0},
+				new double[] {x + 1, y + 1, z + 1},
+				new double[] {x + 0, y + 1, z + 1},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceYNeg(block, x, y, z, icon);
+		//super.renderFaceYNeg(block, x, y, z, icon);
 	}
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceZPos(block, x, y, z, icon);
+		//super.renderFaceZPos(block, x, y, z, icon);
 	}
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		super.renderFaceZNeg(block, x, y, z, icon);
+		//super.renderFaceZNeg(block, x, y, z, icon);
 	}
 	
 	private void drawFace(double[] ftl, double[] ftr, double[] fbl, double[] fbr, IIcon itl, IIcon itr, IIcon ibl, IIcon ibr) {
@@ -89,15 +120,17 @@ public class RenderBlocksCT extends RenderBlocks {
 		double[] fcr = avgCoords(ftr, fbr);
 		double[] fcc = avgCoords(ftc, fbc);
 
-		drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, itl);
-		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, itr);
-		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, ibl);
-		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, ibr);
+		IIcon steel = ModBlocks.block_steel.getIcon(0, 0);
+		drawSubFace(ftl, this.tl, ftr, this.tr, fbl, this.bl, fbr, this.br, steel);
+		/*drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, steel);
+		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, steel);
+		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, steel);
+		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, steel);*/
 	}
 	
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
-		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
 		drawVert(ftr, icon.getMinU(), icon.getMaxV(), ntr);
+		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
 		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
 		drawVert(fbl, icon.getMaxU(), icon.getMinV(), nbl);
 	}
@@ -169,29 +202,29 @@ public class RenderBlocksCT extends RenderBlocks {
 		
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, -1.0F, 0.0F);
-		this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, meta));
+		super.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, meta));
 		tess.draw();
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 1.0F, 0.0F);
-		this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, meta));
+		super.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, meta));
 		tess.draw();
 
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 0.0F, -1.0F);
-		this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, meta));
+		super.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, meta));
 		tess.draw();
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 0.0F, 1.0F);
-		this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, meta));
+		super.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, meta));
 		tess.draw();
 		
 		tess.startDrawingQuads();
 		tess.setNormal(-1.0F, 0.0F, 0.0F);
-		this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, meta));
+		super.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, meta));
 		tess.draw();
 		tess.startDrawingQuads();
 		tess.setNormal(1.0F, 0.0F, 0.0F);
-		this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, meta));
+		super.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, meta));
 		tess.draw();
 		
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);

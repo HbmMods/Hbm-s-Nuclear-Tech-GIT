@@ -14,15 +14,17 @@ public class RenderBlockCT implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-		renderer.renderBlockAsItem(block, 1, 1.0F);
+		RenderBlocksCT.instance.renderBlockAsItem(block, metadata, 1F);
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		
 		RenderBlocksCT rbct = RenderBlocksCT.instance;
+		rbct.prepWorld(world);
 		
-		CTContext.loadContext((World)world, x, y, z, block);
+		CTContext.loadContext(world, x, y, z, block);
+		rbct.setRenderBounds(0, 0, 0, 1, 1, 1);
 		rbct.renderStandardBlock(block, x, y, z);
 		CTContext.dropContext();
 		

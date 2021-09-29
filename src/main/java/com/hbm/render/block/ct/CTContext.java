@@ -2,6 +2,7 @@ package com.hbm.render.block.ct;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import static com.hbm.render.block.ct.CT.*;
@@ -31,7 +32,7 @@ public class CTContext {
 	 * @param z
 	 * @param block
 	 */
-	public static void loadContext(World world, int x, int y, int z, Block block) {
+	public static void loadContext(IBlockAccess world, int x, int y, int z, Block block) {
 		
 		faces = new CTFace[6];
 		
@@ -51,15 +52,15 @@ public class CTContext {
 			}
 			
 			/*
-			 * 1 2 3
-			 * 4   5
-			 * 6 7 8
+			 * 0 1 2
+			 * 3   4
+			 * 5 6 7
 			 */
 			
-			int itl = t | l | cornerType(cons[4], cons[1], cons[2]);
-			int itr = t | r | cornerType(cons[5], cons[3], cons[2]);
-			int ibl = b | l | cornerType(cons[4], cons[6], cons[7]);
-			int ibr = b | r | cornerType(cons[5], cons[8], cons[7]);
+			int itl = t | l | cornerType(cons[3], cons[0], cons[1]);
+			int itr = t | r | cornerType(cons[4], cons[2], cons[1]);
+			int ibl = b | l | cornerType(cons[3], cons[5], cons[6]);
+			int ibr = b | r | cornerType(cons[4], cons[7], cons[6]);
 			
 			faces[i] = new CTFace((IBlockCT)block, itl, itr, ibl, ibr);
 		}

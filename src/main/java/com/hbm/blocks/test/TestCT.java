@@ -27,6 +27,16 @@ public class TestCT extends Block implements IBlockCT {
 		return renderID;
 	}
 	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return true;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return true;
+	}
+	
 	public IIcon[] frags = new IIcon[20];
 
 	@SideOnly(Side.CLIENT)
