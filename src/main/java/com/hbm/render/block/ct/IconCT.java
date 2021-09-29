@@ -1,39 +1,9 @@
 package com.hbm.render.block.ct;
 
+import static com.hbm.render.block.ct.CT.*;
 import net.minecraft.util.IIcon;
 
 public class IconCT implements IIcon {
-
-	public static final int l = 0;	//left
-	public static final int r = 1;	//right
-	public static final int t = 0;	//top
-	public static final int b = 2;	//bottom
-	public static final int f = 0;	//full
-	public static final int c = 4;	//connected
-	public static final int j = 8;	//junction
-	public static final int h = 12;	//horizontal
-	public static final int v = 16;	//vertical
-	
-	public static final int ftl = 0;
-	public static final int ftr = 1;
-	public static final int fbl = 2;
-	public static final int fbr = 3;
-	public static final int ctl = 4;
-	public static final int ctr = 5;
-	public static final int cbl = 6;
-	public static final int cbr = 7;
-	public static final int jtl = 8;
-	public static final int jtr = 9;
-	public static final int jbl = 10;
-	public static final int jbr = 11;
-	public static final int htl = 12;
-	public static final int htr = 13;
-	public static final int hbl = 14;
-	public static final int hbr = 15;
-	public static final int vtl = 16;
-	public static final int vtr = 17;
-	public static final int vbl = 18;
-	public static final int vbr = 19;
 	
 	private IIcon parent;
 	private int type;
@@ -42,38 +12,37 @@ public class IconCT implements IIcon {
 	private float minV;
 	private float maxV;
 	
-	/// none of this is going to work because that's just not how icon UV works! ///
 	public IconCT(IIcon parent, int type) {
 		this.parent = parent;
 		this.type = type;
 		
 		int sub = ((type & f) != 0) ? 2 : 4;
-		float len = 1F / sub;
+		float lenU = (parent.getMaxU() - parent.getMinU()) / sub;
+		float lenV = (parent.getMaxV() - parent.getMinV()) / sub;
 		
-		float du = 0F;
-		float dv = 0F;
+		float du = parent.getMinU();
+		float dv = parent.getMinV();
 		
 		//set pos to full block (coarse positioning)
 		if((type & v) > 0 || (type & j) > 0) {
-			du += len * 2;
+			du += lenU * 2;
 		}
 		if((type & h) > 0 || (type & j) > 0) {
-			dv += len * 2;
+			dv += lenV * 2;
 		}
 		
 		//set pos to sub-block (fine positioning)
 		if((type & r)  > 0) {
-			du += len;
+			du += lenU;
 		}
 		if((type & b) > 0) {
-			dv += len;
+			dv += lenV;
 		}
 
 		minU = du;
-		maxU = du + len;
+		maxU = du + lenU;
 		minV = dv;
-		maxV = dv + len;
-		//what moron wrote this
+		maxV = dv + lenV;
 	}
 
 	@Override

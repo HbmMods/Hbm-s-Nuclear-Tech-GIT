@@ -1,6 +1,8 @@
 package com.hbm.blocks.test;
 
+import com.hbm.render.block.ct.IBlockCT;
 import com.hbm.render.block.ct.IconCT;
+import com.hbm.render.block.ct.IconGeneric;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +14,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 
-public class TestCT extends Block {
+public class TestCT extends Block implements IBlockCT {
 
 	public TestCT(Material p_i45394_1_) {
 		super(p_i45394_1_);
@@ -30,20 +32,11 @@ public class TestCT extends Block {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(this.getTextureName());
-		
-		IIcon ct = new SevenUp(this.getTextureName() + "_ct");
-		reg.registerIcon(this.getTextureName() + "_ct");
-		
-		for(int i = 0; i < frags.length; i++) {
-			frags[i] = new IconCT(i < 4 ? this.blockIcon : ct, i);
-		}
+		this.frags = IBlockCT.registerIcons(reg, this.getTextureName(), this.blockIcon);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public static class SevenUp extends TextureAtlasSprite {
-
-		protected SevenUp(String tex) {
-			super(tex);
-		}
+	@Override
+	public IIcon[] getFragments() {
+		return frags;
 	}
 }

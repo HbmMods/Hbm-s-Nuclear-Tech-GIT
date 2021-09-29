@@ -1,11 +1,15 @@
 package com.hbm.render.block.ct;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 
 public class RenderBlocksCT extends RenderBlocks {
+	
+	public static RenderBlocksCT instance = new RenderBlocksCT();
 
 	VertInfo tl;
 	VertInfo tc;
@@ -41,6 +45,11 @@ public class RenderBlocksCT extends RenderBlocks {
 		
 		this.cc = VertInfo.avg(tl, tr, bl, br);
 	}
+
+	/*@Override
+	public boolean renderStandardBlock(Block block, int x, int y, int z) {
+		return super.renderStandardBlock(block, x, y, z);
+	}*/
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
@@ -148,5 +157,43 @@ public class RenderBlocksCT extends RenderBlocks {
 			
 			return new VertInfo(r, g, b, l);
 		}
+	}
+
+	@Override
+	public void renderBlockAsItem(Block block, int meta, float mult) {
+
+		block.setBlockBoundsForItemRender();
+		this.setRenderBoundsFromBlock(block);
+		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, -1.0F, 0.0F);
+		this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 1.0F, 0.0F);
+		this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, meta));
+		tess.draw();
+
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 0.0F, -1.0F);
+		this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(0.0F, 0.0F, 1.0F);
+		this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, meta));
+		tess.draw();
+		
+		tess.startDrawingQuads();
+		tess.setNormal(-1.0F, 0.0F, 0.0F);
+		this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, meta));
+		tess.draw();
+		tess.startDrawingQuads();
+		tess.setNormal(1.0F, 0.0F, 0.0F);
+		this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, meta));
+		tess.draw();
+		
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 }
