@@ -211,21 +211,12 @@ public class OreDictManager {
 			this.mats = mats;
 		}
 
-		public DictFrame rad(float rad) {
-			return this.haz(new HazardEntry(HazardRegistry.RADIATION, rad));
-		}
-		public DictFrame hot(float time) {
-			return this.haz(new HazardEntry(HazardRegistry.HOT, time));
-		}
-		public DictFrame blinding(float time) {
-			return this.haz(new HazardEntry(HazardRegistry.BLINDING, time));
-		}
-		public DictFrame asbestos(float asb) {
-			return this.haz(new HazardEntry(HazardRegistry.ASBESTOS, asb));
-		}
-		public DictFrame hydro(float h) {
-			return this.haz(new HazardEntry(HazardRegistry.HYDROACTIVE, h));
-		}
+		public DictFrame rad(float rad) { return this.haz(new HazardEntry(HazardRegistry.RADIATION, rad)); }
+		public DictFrame hot(float time) { return this.haz(new HazardEntry(HazardRegistry.HOT, time)); }
+		public DictFrame blinding(float time) { return this.haz(new HazardEntry(HazardRegistry.BLINDING, time)); }
+		public DictFrame asbestos(float asb) { return this.haz(new HazardEntry(HazardRegistry.ASBESTOS, asb)); }
+		public DictFrame hydro(float h) { return this.haz(new HazardEntry(HazardRegistry.HYDROACTIVE, h)); }
+		
 		public DictFrame haz(HazardEntry hazard) {
 			hazards.add(hazard);
 			return this;
@@ -241,7 +232,7 @@ public class OreDictManager {
 		}
 		public DictFrame dustSmall(Item... dustSmall) {
 			hazMult = HazardRegistry.powder_tiny;
-			return makeItem("dustSmall", dustSmall);
+			return makeItem("dustTiny", dustSmall);
 		}
 		public DictFrame dust(Item... dust) {
 			hazMult = HazardRegistry.powder;
@@ -269,11 +260,11 @@ public class OreDictManager {
 			return makeBlocks("block", block);
 		}
 		public DictFrame ore(Block... ore) {
-			hazMult = 0.0F;
+			hazMult = HazardRegistry.ore;
 			return makeBlocks("ore", ore);
 		}
 		public DictFrame oreNether(Block... oreNether) {
-			hazMult = 0.0F;
+			hazMult = HazardRegistry.ore;
 			return makeBlocks("oreNether", oreNether);
 		}
 

@@ -12,9 +12,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-/*
- * this was the biggest fucking waste of my time and i wish everyone who thought this was a good idea the nastiest fucking diarrhea
- */
 public class RenderBlocksCT extends RenderBlocks {
 	
 	public static RenderBlocksCT instance = new RenderBlocksCT();
@@ -111,7 +108,8 @@ public class RenderBlocksCT extends RenderBlocks {
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
 		//super.renderFaceZNeg(block, x, y, z, icon);
 	}
-	
+
+	/// ORDER: LEXICAL ///
 	private void drawFace(double[] ftl, double[] ftr, double[] fbl, double[] fbr, IIcon itl, IIcon itr, IIcon ibl, IIcon ibr) {
 
 		double[] ftc = avgCoords(ftl, ftr);
@@ -128,11 +126,14 @@ public class RenderBlocksCT extends RenderBlocks {
 		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, steel);*/
 	}
 	
+	/// ORDER: LEXICAL ///
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
-		drawVert(ftr, icon.getMinU(), icon.getMaxV(), ntr);
+		
+		/// ORDER: ROTATIONAL ///
 		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
+		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
 		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
-		drawVert(fbl, icon.getMaxU(), icon.getMinV(), nbl);
+		drawVert(fbl, icon.getMinU(), icon.getMaxV(), nbl);
 	}
 	
 	private void drawVert(double[] coord, double u, double v, VertInfo info) {
@@ -142,7 +143,7 @@ public class RenderBlocksCT extends RenderBlocks {
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
 		if(this.enableAO) {
-			tess.setColorOpaque_F(info.red, info.blue, info.green);
+			tess.setColorOpaque_F(info.red, info.green, info.blue);
 			tess.setBrightness(info.brightness);
 		}
 		

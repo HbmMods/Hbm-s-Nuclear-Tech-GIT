@@ -24,7 +24,6 @@ public class RenderBlockCT implements ISimpleBlockRenderingHandler {
 		rbct.prepWorld(world);
 		
 		CTContext.loadContext(world, x, y, z, block);
-		rbct.setRenderBounds(0, 0, 0, 1, 1, 1);
 		rbct.renderStandardBlock(block, x, y, z);
 		CTContext.dropContext();
 		

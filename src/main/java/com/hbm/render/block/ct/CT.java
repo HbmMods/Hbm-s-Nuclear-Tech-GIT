@@ -32,4 +32,19 @@ public class CT {
 	public static final int vtr = 17;
 	public static final int vbl = 18;
 	public static final int vbr = 19;
+	
+	/*  _____________________
+	 * / I am in great pain. \
+	 * \   Please kill me.   /
+	 *  ---------------------
+	 *    \
+	 *     \        \
+	 *      \       _\^
+	 *       \    _- oo\
+	 *            \---- \______
+	 *                 \       )\
+	 *                 ||-----|| \
+	 *                 ||     ||
+	 */
+
 }

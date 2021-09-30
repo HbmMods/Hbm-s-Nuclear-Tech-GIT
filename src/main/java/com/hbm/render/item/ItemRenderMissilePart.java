@@ -52,11 +52,6 @@ public class ItemRenderMissilePart implements IItemRenderer {
 			double s = 0.4;
 			GL11.glScaled(s, s, s);
 			
-			/*if(part.type.name().equals(PartType.FINS.name())) {
-				GL11.glTranslated(0, 0, 0);
-				//GL11.glRotated(-45, 1, 0, 0);
-			}*/
-			
 			Minecraft.getMinecraft().renderEngine.bindTexture(part.texture);
 			part.model.renderAll();
 			

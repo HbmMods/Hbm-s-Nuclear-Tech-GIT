@@ -5,7 +5,6 @@ import static com.hbm.items.ModItems.*;
 
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
-import com.hbm.items.special.ItemHazard;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.lib.RefStrings;
@@ -90,6 +89,7 @@ public class HazardRegistry {
 	public static final float powder_mult = 3.0F;
 	public static final float powder = ingot * powder_mult;
 	public static final float powder_tiny = nugget * powder_mult;
+	public static final float ore = ingot;
 	public static final float block = 10.0F;
 	public static final float crystal = block;
 	public static final float billet = 0.5F;
@@ -115,9 +115,9 @@ public class HazardRegistry {
 		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 4F));
 
 		HazardSystem.register("dustCoal", makeData(COAL, powder));
-		HazardSystem.register("dustSmallCoal", makeData(COAL, powder_tiny));
+		HazardSystem.register("dustTinyCoal", makeData(COAL, powder_tiny));
 		HazardSystem.register("dustLignite", makeData(COAL, powder));
-		HazardSystem.register("dustSmallLignite", makeData(COAL, powder_tiny));
+		HazardSystem.register("dustTinyLignite", makeData(COAL, powder_tiny));
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));

@@ -34,7 +34,7 @@ public class PowderRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_semtex_mix, 3), new Object[] { ModItems.solid_fuel, ModItems.cordite, "dustSaltpeter" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_semtex_mix, 1), new Object[] { ModItems.solid_fuel, ModItems.ballistite, "dustSaltpeter" }));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_desh_mix, 1), new Object[] { "dustSmallBoron", "dustSmallBoron", "dustSmallLanthanum", "dustSmallLanthanum", "dustSmallCerium", "dustSmallCobalt", "dustSmallLithium", "dustSmallNeodymium", "dustSmallNiobium" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_desh_mix, 1), new Object[] { "dustTinyBoron", "dustTinyBoron", "dustTinyLanthanum", "dustTinyLanthanum", "dustTinyCerium", "dustTinyCobalt", "dustTinyLithium", "dustTinyNeodymium", "dustTinyNiobium" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_desh_mix, 9), new Object[] { "dustBoron", "dustBoron", "dustLanthanum", "dustLanthanum", "dustCerium", "dustCobalt", "dustLithium", "dustNeodymium", "dustNiobium" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_desh_ready, 1), new Object[] { ModItems.powder_desh_mix, ModItems.nugget_mercury, ModItems.nugget_mercury, "dustCoal" }));
 
