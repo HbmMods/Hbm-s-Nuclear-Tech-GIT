@@ -2,7 +2,7 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
-import com.hbm.hazard.HazardModifier;
+import com.hbm.hazard.modifier.HazardModifier;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

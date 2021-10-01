@@ -3,7 +3,7 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.hazard.HazardModifier;
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;

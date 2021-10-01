@@ -3,6 +3,7 @@ package com.hbm.hazard;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.items.ModItems.*;
 
+import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
 import com.hbm.items.special.ItemWasteLong;
@@ -12,6 +13,7 @@ import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 
 public class HazardRegistry {
 
@@ -20,7 +22,7 @@ public class HazardRegistry {
 	//I181		           192h		β−	150.00Rad/s	2 much spice :(
 	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
 	//CS137		            30a		β−	020.00Rad/s	Spicy
-	//AU192		            64h		β−	500.00Rad/s	2 much spice :(
+	//AU198		            64h		β−	500.00Rad/s	2 much spice :(
 	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
@@ -69,10 +71,16 @@ public class HazardRegistry {
 	public static final float sa326 = 15.0F;
 	public static final float sa327 = 17.5F;
 	public static final float saf = 5.85F;
+	public static final float sas3 = 5F;
 	public static final float radsource_mult = 0.5F;
 	public static final float pobe = po210 * radsource_mult;
 	public static final float rabe = ra226 * radsource_mult;
 	public static final float pube = pu238 * radsource_mult;
+	public static final float zfb_bi = u235 * 0.35F;
+	public static final float zfb_pu241 = pu241 * 0.5F;
+	public static final float zfb_am_mix = amrg * 0.5F;
+	public static final float bf = 300_000.0F;
+	public static final float bfb = 500_000.0F;
 
 	public static final float sr = sa326 * 0.1F;
 	public static final float sb = sa326 * 0.1F;
@@ -121,6 +129,20 @@ public class HazardRegistry {
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
+		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
+		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
+		
+		HazardSystem.register(insert_polonium, makeData(RADIATION, 100F));
+
+		HazardSystem.register(demon_core_open, makeData(RADIATION, 5F));
+		HazardSystem.register(demon_core_closed, makeData(RADIATION, 100_000F));
+
+		HazardSystem.register(cell_tritium, makeData(RADIATION, 0.001F));
+		HazardSystem.register(cell_sas3, new HazardData().addEntry(RADIATION, sas3).addEntry(BLINDING, 3F));
+		HazardSystem.register(cell_balefire, makeData(RADIATION, 50F));
+		HazardSystem.register(powder_balefire, makeData(RADIATION, 500F));
+		HazardSystem.register(egg_balefire_shard, makeData(RADIATION, bf * nugget));
+		HazardSystem.register(egg_balefire, makeData(RADIATION, bf * ingot));
 
 		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
@@ -174,10 +196,10 @@ public class HazardRegistry {
 		HazardSystem.register(billet_americium_fuel, makeData(RADIATION, amf * billet));
 		HazardSystem.register(ingot_americium_fuel, makeData(RADIATION, amf * ingot));
 		
-		HazardSystem.register(nugget_schrabidium_fuel, makeData(RADIATION, saf * nugget));
-		HazardSystem.register(billet_schrabidium_fuel, makeData(RADIATION, saf * billet));
-		HazardSystem.register(ingot_schrabidium_fuel, makeData(RADIATION, saf * ingot));
-		HazardSystem.register(block_schrabidium_fuel, makeData(RADIATION, saf * block));
+		HazardSystem.register(nugget_schrabidium_fuel, new HazardData().addEntry(RADIATION, saf * nugget).addEntry(BLINDING, 5F * nugget));
+		HazardSystem.register(billet_schrabidium_fuel, new HazardData().addEntry(RADIATION, saf * billet).addEntry(BLINDING, 5F * billet));
+		HazardSystem.register(ingot_schrabidium_fuel, new HazardData().addEntry(RADIATION, saf * ingot).addEntry(BLINDING, 5F * ingot));
+		HazardSystem.register(block_schrabidium_fuel, new HazardData().addEntry(RADIATION, saf * block).addEntry(BLINDING, 5F * block));
 		
 		HazardSystem.register(nugget_hes, makeData(RADIATION, saf * nugget));
 		HazardSystem.register(billet_hes, makeData(RADIATION, saf * billet));
@@ -191,8 +213,32 @@ public class HazardRegistry {
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
+
+		registerRodRadiation(rod_th232, rod_dual_th232, rod_quad_th232, th232);
+		registerRodRadiation(rod_uranium, rod_dual_uranium, rod_quad_uranium, u);
+		registerRodRadiation(rod_u233, rod_dual_u233, rod_quad_u233, u233);
+		registerRodRadiation(rod_u235, rod_dual_u235, rod_quad_u235, u235);
+		registerRodRadiation(rod_u238, rod_dual_u238, rod_quad_u238, u238);
+		registerRodRadiation(rod_plutonium, rod_dual_plutonium, rod_quad_plutonium, pu);
+		registerRodRadiation(rod_pu238, rod_dual_pu238, rod_quad_pu238, pu238);
+		registerRodRadiation(rod_pu239, rod_dual_pu239, rod_quad_pu239, pu239);
+		registerRodRadiation(rod_pu240, rod_dual_pu240, rod_quad_pu240, pu240);
+		registerRodRadiation(rod_neptunium, rod_dual_neptunium, rod_quad_neptunium, np237);
+		registerRodRadiation(rod_polonium, rod_dual_polonium, rod_quad_polonium, po210);
+		registerRodRadiationExtra(rod_schrabidium, rod_dual_schrabidium, rod_quad_schrabidium, sa326, BLINDING, 3F);
+		registerRodRadiationExtra(rod_solinium, rod_dual_solinium, rod_quad_solinium, sa327, BLINDING, 3F);
+		registerRodRadiation(rod_balefire, rod_dual_balefire, rod_quad_balefire, bf);
+		registerRodRadiationExtra(rod_balefire_blazing, rod_dual_balefire_blazing, rod_quad_balefire_blazing, bfb, HOT, 5F);
+
+		registerRBMKRod(rbmk_fuel_ueu, u * rod_rbmk, u * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_meu, uf * rod_rbmk, uf * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_heu233, u233 * rod_rbmk, u233 * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_heu235, u235 * rod_rbmk, u235 * rod_rbmk * 100);
 		
-		//TODO: move this into its own method
+		//TODO
+	}
+	
+	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
 	}
 	
@@ -200,4 +246,33 @@ public class HazardRegistry {
 	private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }
 	private static HazardData makeData(HazardTypeBase hazard, float level) { return new HazardData().addEntry(hazard, level); }
 	private static HazardData makeData(HazardTypeBase hazard, float level, boolean override) { return new HazardData().addEntry(hazard, level, override); }
+	
+	private static void registerRodRadiation(Item single, Item dual, Item quad, float base) {
+		HazardSystem.register(single, makeData(RADIATION, base * rod));
+		HazardSystem.register(dual, makeData(RADIATION, base * rod_dual));
+		HazardSystem.register(quad, makeData(RADIATION, base * rod_quad));
+	}
+	
+	private static void registerRodRadiationExtra(Item single, Item dual, Item quad, float base, HazardTypeBase extra, float base2) {
+		HazardSystem.register(single, new HazardData().addEntry(RADIATION, base * rod).addEntry(extra, base2 * rod));
+		HazardSystem.register(dual, new HazardData().addEntry(RADIATION, base * rod_dual).addEntry(extra, base2 * rod_dual));
+		HazardSystem.register(quad, new HazardData().addEntry(RADIATION, base * rod_quad).addEntry(extra, base2 * rod_quad));
+	}
+	
+	private static void registerRBMKPellet(Item rod, float base, float dep) { registerRBMKPellet(rod, base, dep, 0F); }
+	private static void registerRBMKPellet(Item rod, float base, float dep, float blinding) {
+		
+	}
+	
+	private static void registerRBMKRod(Item rod, float base, float dep) { registerRBMK(rod, base, dep, true, 0F); }
+	private static void registerRBMKRod(Item rod, float base, float dep, float blinding) { registerRBMK(rod, base, dep, true, blinding); }
+	
+	private static void registerRBMK(Item rod, float base, float dep, boolean hot, float blinding) {
+		
+		HazardData data = new HazardData();
+		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierRBMKRadiation(dep)));
+		if(hot) data.addEntry(new HazardEntry(HOT, 0).addMod(new HazardModifierRBMKHot()));
+		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, blinding));
+		HazardSystem.register(rod, data);
+	}
 }

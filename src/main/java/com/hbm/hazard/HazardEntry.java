@@ -3,6 +3,7 @@ package com.hbm.hazard;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.type.HazardTypeBase;
 
 import net.minecraft.entity.EntityLivingBase;

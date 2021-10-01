@@ -103,11 +103,11 @@ public class ItemRBMKPellet extends ItemNuclearWaste {
 		return this.enrichmentOverlays[rectify(meta) % 5];
 	}
 	
-	private boolean hasXenon(int meta) {
+	public static boolean hasXenon(int meta) {
 		return rectify(meta) >= 5;
 	}
 	
-	private int rectify(int meta) {
+	public static int rectify(int meta) {
 		return Math.abs(meta) % 10;
 	}
 }

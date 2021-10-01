@@ -263,6 +263,7 @@ public class MainRegistry {
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
+		HazardRegistry.registerTrafos();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");

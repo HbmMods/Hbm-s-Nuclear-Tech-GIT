@@ -472,6 +472,7 @@ public class ModEventHandler {
 					
 					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
 						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
+						HazardSystem.applyHazards(mod, event.entityLiving);
 						
 						if(reapply) {
 							

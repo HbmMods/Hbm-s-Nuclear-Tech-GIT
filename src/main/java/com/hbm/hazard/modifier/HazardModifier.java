@@ -1,4 +1,4 @@
-package com.hbm.hazard;
+package com.hbm.hazard.modifier;
 
 import java.util.List;
 

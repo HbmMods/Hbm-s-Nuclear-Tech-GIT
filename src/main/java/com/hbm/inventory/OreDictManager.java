@@ -81,7 +81,7 @@ public class OreDictManager {
 		new DictFrame("Tantalum")			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		new DictFrame("Coltan")																		.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		new DictFrame("Niobium")			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
-		new DictFrame("Beryllium")			.nugget(nugget_beryllium)								.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.ore(ore_beryllium);
+		new DictFrame("Beryllium")			.nugget(nugget_beryllium)	.billet(billet_beryllium)	.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.ore(ore_beryllium);
 		new DictFrame("Cobalt")				.nugget(fragment_cobalt)								.ingot(ingot_cobalt)			.dustSmall(powder_cobalt_tiny)		.dust(powder_cobalt)											.block(block_cobalt)		.ore(ore_cobalt, ore_nether_cobalt);
 		new DictFrame("Boron")				.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		new DictFrame("Graphite")																	.ingot(ingot_graphite)																												.block(block_graphite);
@@ -131,11 +131,11 @@ public class OreDictManager {
 		/*
 		 * RARE EARTHS
 		 */
-		new DictFrame("Lanthanum")	.nugget(fragment_lanthanium)	.ingot(ingot_lanthanium)	.dustSmall(powder_lanthanium_tiny)	.dust(powder_lanthanium)	.block(block_lanthanium);
-		new DictFrame("Actinium")	.nugget(fragment_actinium)		.ingot(ingot_actinium)		.dustSmall(powder_actinium_tiny)	.dust(powder_actinium)		.block(block_actinium);
-		new DictFrame("Zirconium")	.nugget(nugget_zirconium)		.ingot(ingot_zirconium)											.dust(powder_zirconium)		.block(block_zirconium)		.ore(ore_depth_zirconium);
-		new DictFrame("Neodymium")	.nugget(fragment_neodymium)									.dustSmall(powder_neodymium_tiny)	.dust(powder_neodymium)									.ore(ore_depth_nether_neodymium);
-		new DictFrame("Cerium")		.nugget(fragment_cerium)									.dustSmall(powder_cerium_tiny)		.dust(powder_cerium);
+		new DictFrame("Lanthanum")	.nugget(fragment_lanthanium)	.ingot(ingot_lanthanium)										.dustSmall(powder_lanthanium_tiny)	.dust(powder_lanthanium)	.block(block_lanthanium);
+		new DictFrame("Actinium")	.nugget(fragment_actinium)		.ingot(ingot_actinium)											.dustSmall(powder_actinium_tiny)	.dust(powder_actinium)		.block(block_actinium);
+		new DictFrame("Zirconium")	.nugget(nugget_zirconium)		.ingot(ingot_zirconium)		.billet(billet_zirconium)												.dust(powder_zirconium)		.block(block_zirconium)		.ore(ore_depth_zirconium);
+		new DictFrame("Neodymium")	.nugget(fragment_neodymium)																		.dustSmall(powder_neodymium_tiny)	.dust(powder_neodymium)									.ore(ore_depth_nether_neodymium);
+		new DictFrame("Cerium")		.nugget(fragment_cerium)																		.dustSmall(powder_cerium_tiny)		.dust(powder_cerium);
 		
 		/*
 		 * NITAN

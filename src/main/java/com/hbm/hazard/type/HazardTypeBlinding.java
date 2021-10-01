@@ -2,7 +2,7 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
-import com.hbm.hazard.HazardModifier;
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
