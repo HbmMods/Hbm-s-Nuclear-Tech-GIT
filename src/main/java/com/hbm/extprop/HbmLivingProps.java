@@ -35,6 +35,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
 	public static final int maxBlacklung = 60 * 60 * 20;
+	private int Fibrosis;
+	public static final int maxFibrosis = 60 * 60 * 30;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
@@ -185,6 +187,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
 		setAsbestos(entity, getAsbestos(entity) + asbestos);
+		incrementFibrosis(entity, asbestos);
 	}
 	
 	
@@ -197,13 +200,32 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		getData(entity).blacklung = blacklung;
 		
 		if(blacklung >= maxBlacklung) {
-			getData(entity).asbestos = 0;
+			getData(entity).blacklung = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
 	}
 	
 	public static void incrementBlackLung(EntityLivingBase entity, int blacklung) {
 		setBlackLung(entity, getBlackLung(entity) + blacklung);
+		incrementFibrosis(entity, blacklung);
+	}
+	
+	/// PULMONARY FIBROSIS ///
+	public static int getFibrosis(EntityLivingBase entity) {
+		return getData(entity).Fibrosis;
+	}
+	
+	public static void setFibrosis(EntityLivingBase entity, int fibrosis) {
+		getData(entity).Fibrosis = fibrosis;
+		
+		if (fibrosis >= maxFibrosis) {
+			getData(entity).Fibrosis = 0;
+			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
+		}
+	}
+	
+	public static void incrementFibrosis(EntityLivingBase entity, int fibrosis) {
+		setFibrosis(entity, getFibrosis(entity) + fibrosis);
 	}
 	
 	/// TIME BOMB ///

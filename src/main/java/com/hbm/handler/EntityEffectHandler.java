@@ -328,6 +328,7 @@ public class EntityEffectHandler {
 		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
 			HbmLivingProps.setBlackLung(entity, 0);
 			HbmLivingProps.setAsbestos(entity, 0);
+			HbmLivingProps.setFibrosis(entity, 0);
 			
 			return;
 		} else {
@@ -340,8 +341,9 @@ public class EntityEffectHandler {
 
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
+		double fibrosis = Math.min(HbmLivingProps.getFibrosis(entity), HbmLivingProps.maxFibrosis);
 		
-		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
+		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D || fibrosis / HbmLivingProps.maxFibrosis > 0.25D;
 		
 		if(!coughs)
 			return;
@@ -349,11 +351,13 @@ public class EntityEffectHandler {
 		boolean coughsCoal = blacklung / HbmLivingProps.maxBlacklung > 0.5D;
 		boolean coughsALotOfCoal = blacklung / HbmLivingProps.maxBlacklung > 0.8D;
 		boolean coughsBlood = asbestos / HbmLivingProps.maxAsbestos > 0.75D || blacklung / HbmLivingProps.maxBlacklung > 0.75D;
+		boolean asthmaAttack = fibrosis / HbmLivingProps.maxFibrosis > 0.30D;
 
 		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
 		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
+		double fibrosisDelta = 1D - (fibrosis / (double)HbmLivingProps.maxFibrosis);
 		
-		double total = 1 - (blacklungDelta * asbestosDelta);
+		double total = 1 - (blacklungDelta * asbestosDelta * fibrosisDelta);
 		
 		int freq = Math.max((int) (1000 - 950 * total), 20);
 		
@@ -377,6 +381,10 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", 5);
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				if(asthmaAttack) {
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
+					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+				}
 			}
 			
 			if(coughsCoal) {
@@ -386,6 +394,15 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				if(asthmaAttack) {
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
+					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+				}
+			}
+			
+			if(asthmaAttack) {
+				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
 			}
 		}
 	}
