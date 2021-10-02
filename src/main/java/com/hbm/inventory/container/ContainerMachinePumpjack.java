@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;

@@ -32,6 +32,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -158,6 +159,7 @@ public class ModBlocks {
 	public static Block ore_oil;
 	public static Block ore_oil_empty;
 	public static Block ore_oil_sand;
+	public static Block ore_bedrock_oil;
 	public static Block ore_lignite;
 	public static Block ore_asbestos;
 	public static Block ore_coal_oil;
@@ -850,6 +852,9 @@ public class ModBlocks {
 	public static Block machine_well;
 	public static Block oil_pipe;
 	public static final int guiID_machine_well = 40;
+	public static Block machine_pumpjack;
+	public static final int guiID_machine_pumpjack = 51;
+	public static Block machine_fracking_tower;
 
 	public static Block machine_flare;
 	public static final int guiID_machine_flare = 44;
@@ -919,9 +924,6 @@ public class ModBlocks {
 
 	public static Block machine_radar;
 	public static final int guiID_radar = 59;
-
-	public static Block machine_pumpjack;
-	public static final int guiID_machine_pumpjack = 51;
 
 	public static Block machine_turbofan;
 	public static final int guiID_machine_turbofan = 52;
@@ -1305,11 +1307,12 @@ public class ModBlocks {
 		ore_cinnebar = new BlockOre(Material.rock).setBlockName("ore_cinnebar").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_cinnebar");
 		ore_coltan = new BlockOre(Material.rock).setBlockName("ore_coltan").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_coltan");
 		
-		ore_bedrock_coltan = new BlockBedrockOre().setBlockName("ore_bedrock_coltan").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_coltan");
+		ore_bedrock_coltan = new BlockBedrockOre().setBlockName("ore_bedrock_coltan").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_coltan");
 
 		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		ore_oil_sand = new BlockFalling(Material.sand).setBlockName("ore_oil_sand").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_sand_alt");
+		ore_bedrock_oil = new BlockGeneric(Material.rock).setBlockName("ore_bedrock_oil").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_oil");
 		
 		ore_tikite = new BlockGeneric(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite_alt");
 
@@ -1960,8 +1963,9 @@ public class ModBlocks {
 		boat = new DecoBlock(Material.iron).setBlockName("boat").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boat");
 		bomber = new DecoBlock(Material.iron).setBlockName("bomber").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
 
-		machine_well = new MachineOilWell(Material.iron).setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_well");
+		machine_well = new MachineOilWell().setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_well");
 		machine_pumpjack = new MachinePumpjack(Material.iron).setBlockName("machine_pumpjack").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_pumpjack");
+		machine_fracking_tower = new MachineFrackingTower().setBlockName("machine_fracking_tower").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		oil_pipe = new BlockNoDrop(Material.iron).setBlockName("oil_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 		machine_flare = new MachineGasFlare(Material.iron).setBlockName("machine_flare").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_flare");
 		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
@@ -2198,6 +2202,7 @@ public class ModBlocks {
 		
 		//Bedrock ores
 		GameRegistry.registerBlock(ore_bedrock_coltan, ore_bedrock_coltan.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_bedrock_oil, ore_bedrock_oil.getUnlocalizedName());
 		
 		//Nice Meme
 		GameRegistry.registerBlock(ore_coal_oil, ore_coal_oil.getUnlocalizedName());

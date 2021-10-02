@@ -200,6 +200,9 @@ public class ModItems {
 	public static Item billet_pu238be;
 	public static Item billet_yharonite;
 	public static Item billet_balefire_gold;
+	public static Item billet_zfb_bismuth;
+	public static Item billet_zfb_pu241;
+	public static Item billet_zfb_am_mix;
 	public static Item billet_beryllium;
 	public static Item billet_bismuth;
 	public static Item billet_zirconium;
@@ -1024,6 +1027,9 @@ public class ModItems {
 	public static ItemRBMKRod rbmk_fuel_pu238be;
 	public static ItemRBMKRod rbmk_fuel_balefire_gold;
 	public static ItemRBMKRod rbmk_fuel_balefire;
+	public static ItemRBMKRod rbmk_fuel_zfb_bismuth;
+	public static ItemRBMKRod rbmk_fuel_zfb_pu241;
+	public static ItemRBMKRod rbmk_fuel_zfb_am_mix;
 	public static ItemRBMKRod rbmk_fuel_drx;
 	public static ItemRBMKPellet rbmk_pellet_ueu;
 	public static ItemRBMKPellet rbmk_pellet_meu;
@@ -1051,6 +1057,9 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_pu238be;
 	public static ItemRBMKPellet rbmk_pellet_balefire_gold;
 	public static ItemRBMKPellet rbmk_pellet_balefire;
+	public static ItemRBMKPellet rbmk_pellet_zfb_bismuth;
+	public static ItemRBMKPellet rbmk_pellet_zfb_pu241;
+	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
 
 	public static Item scrap;
@@ -2594,6 +2603,9 @@ public class ModItems {
 		billet_zirconium = new Item().setUnlocalizedName("billet_zirconium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_zirconium");
 		billet_yharonite = new Item().setUnlocalizedName("billet_yharonite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_yharonite");
 		billet_balefire_gold = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.billet).toItem().setUnlocalizedName("billet_balefire_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_balefire_gold");
+		billet_zfb_bismuth = new Item().setUnlocalizedName("billet_zfb_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_zfb_bismuth");
+		billet_zfb_pu241 = new Item().setUnlocalizedName("billet_zfb_pu241").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_zfb_pu241");
+		billet_zfb_am_mix = new Item().setUnlocalizedName("billet_zfb_am_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_zfb_am_mix");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -3443,6 +3455,9 @@ public class ModItems {
 		rbmk_pellet_pu238be = (ItemRBMKPellet) new ItemRBMKPellet("Plutonium-238 & Beryllium Neutron Source").setUnlocalizedName("rbmk_pellet_pu238be").setTextureName(RefStrings.MODID + ":rbmk_pellet_pu238be");
 		rbmk_pellet_balefire_gold = (ItemRBMKPellet) new ItemRBMKPellet("Antihydrogen in a Magnetized Gold-198 Lattice").setUnlocalizedName("rbmk_pellet_balefire_gold").setTextureName(RefStrings.MODID + ":rbmk_pellet_balefire_gold");
 		rbmk_pellet_balefire = (ItemRBMKPellet) new ItemRBMKPellet("Draconic Flames").setUnlocalizedName("rbmk_pellet_balefire").setTextureName(RefStrings.MODID + ":rbmk_pellet_balefire");
+		rbmk_pellet_zfb_bismuth = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - LEU/HEP-241#Bi").setUnlocalizedName("rbmk_pellet_zfb_bismuth").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_bismuth");
+		rbmk_pellet_zfb_pu241 = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - HEU-235/HEP-240#Pu-241").setUnlocalizedName("rbmk_pellet_zfb_pu241").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_pu241");
+		rbmk_pellet_zfb_am_mix = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - HEP-241#MEA").setUnlocalizedName("rbmk_pellet_zfb_am_mix").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_am_mix");
 		rbmk_pellet_drx = (ItemRBMKPellet) new ItemRBMKPellet(EnumChatFormatting.OBFUSCATED + "can't you hear, can't you hear the thunder?").setUnlocalizedName("rbmk_pellet_drx").setTextureName(RefStrings.MODID + ":rbmk_pellet_drx");
 		
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
@@ -3624,6 +3639,26 @@ public class ModItems {
 				.setHeat(3D)
 				.setMeltingPoint(3652)
 				.setUnlocalizedName("rbmk_fuel_balefire").setTextureName(RefStrings.MODID + ":rbmk_fuel_balefire");
+		rbmk_fuel_zfb_bismuth = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_zfb_bismuth)
+				.setYield(50000000D)
+				.setStats(20)
+				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setHeat(1.75D)
+				.setMeltingPoint(2744)
+				.setUnlocalizedName("rbmk_fuel_zfb_bismuth").setTextureName(RefStrings.MODID + ":rbmk_fuel_zfb_bismuth");
+		rbmk_fuel_zfb_pu241 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_zfb_pu241)
+				.setYield(50000000D)
+				.setStats(20)
+				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setMeltingPoint(2865)
+				.setUnlocalizedName("rbmk_fuel_zfb_pu241").setTextureName(RefStrings.MODID + ":rbmk_fuel_zfb_pu241");
+		rbmk_fuel_zfb_am_mix = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_zfb_am_mix)
+				.setYield(50000000D)
+				.setStats(20)
+				.setFunction(EnumBurnFunc.LINEAR)
+				.setHeat(1.75D)
+				.setMeltingPoint(2744)
+				.setUnlocalizedName("rbmk_fuel_zfb_am_mix").setTextureName(RefStrings.MODID + ":rbmk_fuel_zfb_am_mix");
 		rbmk_fuel_drx = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_drx)
 				.setYield(1000000D)
 				.setStats(1000, 10)
@@ -5482,6 +5517,9 @@ public class ModItems {
 		GameRegistry.registerItem(billet_beryllium, billet_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(billet_bismuth, billet_bismuth.getUnlocalizedName());
 		GameRegistry.registerItem(billet_zirconium, billet_zirconium.getUnlocalizedName());
+		GameRegistry.registerItem(billet_zfb_bismuth, billet_zfb_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(billet_zfb_pu241, billet_zfb_pu241.getUnlocalizedName());
+		GameRegistry.registerItem(billet_zfb_am_mix, billet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(billet_yharonite, billet_yharonite.getUnlocalizedName());
 		GameRegistry.registerItem(billet_balefire_gold, billet_balefire_gold.getUnlocalizedName());
 		
@@ -6461,6 +6499,9 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_pu238be, rbmk_fuel_pu238be.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_balefire_gold, rbmk_fuel_balefire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_balefire, rbmk_fuel_balefire.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_zfb_bismuth, rbmk_fuel_zfb_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_zfb_pu241, rbmk_fuel_zfb_pu241.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_zfb_am_mix, rbmk_fuel_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_drx, rbmk_fuel_drx.getUnlocalizedName());
 
 		GameRegistry.registerItem(rbmk_pellet_ueu, rbmk_pellet_ueu.getUnlocalizedName());
@@ -6489,6 +6530,9 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_pu238be, rbmk_pellet_pu238be.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_balefire_gold, rbmk_pellet_balefire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_balefire, rbmk_pellet_balefire.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_zfb_bismuth, rbmk_pellet_zfb_bismuth.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_zfb_pu241, rbmk_pellet_zfb_pu241.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_zfb_am_mix, rbmk_pellet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
 		
 		GameRegistry.registerItem(debris_graphite, debris_graphite.getUnlocalizedName());

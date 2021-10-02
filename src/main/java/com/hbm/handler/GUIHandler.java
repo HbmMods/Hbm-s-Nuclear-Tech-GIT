@@ -9,6 +9,10 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
+import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 

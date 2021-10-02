@@ -7,7 +7,7 @@ import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

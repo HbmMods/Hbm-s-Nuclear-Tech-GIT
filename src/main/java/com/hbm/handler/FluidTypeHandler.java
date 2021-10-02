@@ -84,6 +84,7 @@ public class FluidTypeHandler {
 
 		GASOLINE		(0x445772,	2,	2,	2,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.gasoline"),
 		SPENTSTEAM		(0x445772,	3,	2,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.spentsteam", FluidTrait.NO_CONTAINER),
+		FRACKSOL		(0x798A6B,	4,	2,	2,	1,	3,	3,	EnumSymbol.ACID,		"hbmfluid.fracksol", FluidTrait.CORROSIVE),
 		
 		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
 		PLASMA_HD		(0xF0ADF4,	9,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_hd", 2500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),

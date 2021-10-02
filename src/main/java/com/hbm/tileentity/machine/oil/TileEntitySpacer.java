@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.oil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

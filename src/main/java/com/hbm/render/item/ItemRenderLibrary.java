@@ -292,7 +292,9 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.derrick_tex); ResourceManager.derrick.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_pumpjack), new ItemRenderBase() {
@@ -305,11 +307,7 @@ public class ItemRenderLibrary {
 		        GL11.glDisable(GL11.GL_CULL_FACE);
 				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glTranslatef(0, 0, 3);
-				bindTexture(ResourceManager.pumpjack_base_tex); ResourceManager.pumpjack_base.renderAll();
-		        GL11.glTranslated(0, 3.5, -2.5);
-				bindTexture(ResourceManager.pumpjack_head_tex); ResourceManager.pumpjack_head.renderAll();
-		        GL11.glTranslated(0, -2, -3);
-				bindTexture(ResourceManager.pumpjack_rotor_tex); ResourceManager.pumpjack_rotor.renderAll();
+				bindTexture(ResourceManager.pumpjack_tex); ResourceManager.pumpjack.renderAll();
 		        GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		

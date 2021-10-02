@@ -72,6 +72,12 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
+import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
+import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntitySpacer;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 

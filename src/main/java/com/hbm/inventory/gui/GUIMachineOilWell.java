@@ -5,7 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -14,24 +15,24 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineOilWell extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_well_large.png");
-	private TileEntityMachineOilWell derrick;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_well.png");
+	private TileEntityOilDrillBase derrick;
 	
-	public GUIMachineOilWell(InventoryPlayer invPlayer, TileEntityMachineOilWell tedf) {
+	public GUIMachineOilWell(InventoryPlayer invPlayer, TileEntityOilDrillBase tedf) {
 		super(new ContainerMachineOilWell(invPlayer, tedf));
 		derrick = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 222;
+		this.ySize = 166;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		derrick.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 70 - 52, 34, 52);
-		derrick.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 124 - 52, 34, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52, derrick.power, derrick.maxPower);
+		derrick.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
+		derrick.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 69 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, derrick.power, derrick.getMaxPower());
 	}
 
 	@Override
@@ -48,29 +49,22 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)derrick.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - i, 176, 52 - i, 16, i);
+		int i = (int)(derrick.getPower() * 34 / derrick.getMaxPower());
+		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
 		
-		int k = derrick.warning;
-		if(k == 2)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 18, 176, 52, 16, 16);
-		if(k == 1)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 18, 192, 52, 16, 16);
+		int k = derrick.indicator;
 		
-		int l = derrick.warning2;
-		if(l == 1)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 90, 208, 52, 16, 16);
-		if(l == 2)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 90, 224, 52, 16, 16);
+		if(k != 0)
+			drawTexturedModalRect(guiLeft + 35, guiTop + 17, 176 + (k - 1) * 16, 52, 16, 16);
+		
+		if(derrick.tanks.length < 3) {
+			drawTexturedModalRect(guiLeft + 34, guiTop + 36, 192, 0, 18, 34);
+		}
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[0].getSheet());
-		derrick.tanks[0].renderTank(this, guiLeft + 80, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		derrick.tanks[0].renderTank(this, guiLeft + 96, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		derrick.tanks[0].renderTank(this, guiLeft + 112, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 2, 52);
+		derrick.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[1].getSheet());
-		derrick.tanks[1].renderTank(this, guiLeft + 80, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
-		derrick.tanks[1].renderTank(this, guiLeft + 96, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
-		derrick.tanks[1].renderTank(this, guiLeft + 112, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 2, 52);
+		derrick.tanks[1].renderTank(this, guiLeft + 116, guiTop + 69, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

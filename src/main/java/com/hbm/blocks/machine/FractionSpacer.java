@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.machine.TileEntitySpacer;
+import com.hbm.tileentity.machine.oil.TileEntitySpacer;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

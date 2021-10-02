@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachinePumpjack;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;

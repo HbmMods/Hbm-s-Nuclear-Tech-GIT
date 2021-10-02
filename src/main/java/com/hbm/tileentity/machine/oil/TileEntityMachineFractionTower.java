@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.oil;
 
 import java.util.ArrayList;
 import java.util.List;

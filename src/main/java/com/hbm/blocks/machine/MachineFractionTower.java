@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineFractionTower;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
