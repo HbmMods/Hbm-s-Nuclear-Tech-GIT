@@ -343,7 +343,8 @@ public class EntityEffectHandler {
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
 		double fibrosis = Math.min(HbmLivingProps.getFibrosis(entity), HbmLivingProps.maxFibrosis);
 		
-		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D || fibrosis / HbmLivingProps.maxFibrosis > 0.25D;
+		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
+		boolean bronchospasms = fibrosis / HbmLivingProps.maxFibrosis > 0.20D;
 		
 		if(!coughs)
 			return;
@@ -351,7 +352,6 @@ public class EntityEffectHandler {
 		boolean coughsCoal = blacklung / HbmLivingProps.maxBlacklung > 0.5D;
 		boolean coughsALotOfCoal = blacklung / HbmLivingProps.maxBlacklung > 0.8D;
 		boolean coughsBlood = asbestos / HbmLivingProps.maxAsbestos > 0.75D || blacklung / HbmLivingProps.maxBlacklung > 0.75D;
-		boolean asthmaAttack = fibrosis / HbmLivingProps.maxFibrosis > 0.30D;
 
 		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
 		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
@@ -373,36 +373,29 @@ public class EntityEffectHandler {
 		
 		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
 			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
-			
-			if(coughsBlood) {
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setString("type", "vomit");
-				nbt.setString("mode", "blood");
-				nbt.setInteger("count", 5);
-				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				if(asthmaAttack) {
-					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
-					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+			if (new Random().nextInt(6) > 1) {
+				if(coughsBlood) {
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("type", "vomit");
+					nbt.setString("mode", "blood");
+					nbt.setInteger("count", 5);
+					nbt.setInteger("entity", entity.getEntityId());
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 				}
-			}
 			
-			if(coughsCoal) {
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setString("type", "vomit");
-				nbt.setString("mode", "smoke");
-				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
-				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				if(asthmaAttack) {
-					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
-					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+				if(coughsCoal) {
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("type", "vomit");
+					nbt.setString("mode", "smoke");
+					nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
+					nbt.setInteger("entity", entity.getEntityId());
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 				}
-			}
-			
-			if(asthmaAttack) {
-				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+			} else {
+				if(bronchospasms) {
+					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
+					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 140, 2));
+				}
 			}
 		}
 	}
