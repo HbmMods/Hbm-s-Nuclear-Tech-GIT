@@ -102,7 +102,7 @@ import com.hbm.tileentity.machine.TileEntityMicrowave;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
-import com.hbm.tileentity.machine.TileEntityReactorAmat;
+import com.hbm.tileentity.machine.TileEntityReactorWarp;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
 import com.hbm.tileentity.machine.TileEntityReiXMainframe;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
@@ -145,8 +145,8 @@ public class GUIHandler implements IGuiHandler {
 			else
 				return null;
 		case ModBlocks.guiID_amat_reactor:
-			if (entity instanceof TileEntityReactorAmat)
-				return new ContainerReactorAmat(player.inventory, (TileEntityReactorAmat) entity);
+			if (entity instanceof TileEntityReactorWarp)
+				return new ContainerReactorWarp((TileEntityReactorWarp) entity);
 			else
 				return null;
 		case ModBlocks.guiID_sing_gen:
@@ -964,8 +964,8 @@ public class GUIHandler implements IGuiHandler {
 			else
 				return null;
 		case ModBlocks.guiID_amat_reactor:
-			if (entity instanceof TileEntityReactorAmat)
-				return new GUIReactorAmat(player.inventory, (TileEntityReactorAmat)entity);
+			if (entity instanceof TileEntityReactorWarp)
+				return new GUIReactorWarp((TileEntityReactorWarp) entity);
 			else
 				return null;
 		case ModBlocks.guiID_sing_gen:

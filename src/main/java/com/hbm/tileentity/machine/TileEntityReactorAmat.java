@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import scala.actors.threadpool.Arrays;
 @Spaghetti("aaaaaa")
+@Deprecated
 public class TileEntityReactorAmat extends TileEntityMachineBase implements IFluidAcceptor, ISidedInventory, IConsumer, IFluidSource
 {
 	public FluidTank[] tanks = new FluidTank[3];
@@ -435,6 +436,7 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 	{
 		return fuelRate;
 	}
+	@Deprecated
 	private static class ReactorBooster
 	{
 		private byte toBuffer;
@@ -484,6 +486,7 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 			return pProd;
 		}
 	}
+	@Deprecated
 	private static class ReactorCatalyst
 	{
 		private short toBuffer;
@@ -509,6 +512,7 @@ public class TileEntityReactorAmat extends TileEntityMachineBase implements IFlu
 			return pProd;
 		}
 	}
+	@Deprecated
 	private static class ReactorCore
 	{
 		private byte fCons;

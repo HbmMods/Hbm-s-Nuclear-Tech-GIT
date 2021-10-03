@@ -16,7 +16,12 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
+/**
+ * Superseded by {@link#GUIReactorWarp}
+ * @deprecated
+ * @author UFFR
+ *
+ */
 public class GUIReactorAmat extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/reactors/gui_reactor_amat.png");

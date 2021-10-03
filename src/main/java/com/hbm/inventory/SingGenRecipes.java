@@ -75,9 +75,9 @@ public class SingGenRecipes
 		recipes.add(commonFluid(new ItemStack(ModItems.ams_core_eyeofharmony, 1), ModItems.plate_dalekanium, FluidType.PLASMA_WARP, new ComparableStack(ModItems.black_hole), 64000).setLevel(5));
 		recipes.add(addRecipe(new ItemStack(ModItems.singularity_micro, 8), new ItemStack[]
 				{
-					new ItemStack(ModItems.nugget_euphemium), null, new ItemStack(ModItems.nugget_euphemium),
-					null, null,
-					new ItemStack(ModItems.nugget_euphemium), null, new ItemStack(ModItems.nugget_euphemium)
+					new ItemStack(ModItems.nugget_euphemium), new ItemStack(ModItems.catalyst_rare), new ItemStack(ModItems.nugget_euphemium),
+					new ItemStack(ModItems.catalyst_rare), new ItemStack(ModItems.catalyst_rare),
+					new ItemStack(ModItems.nugget_euphemium), new ItemStack(ModItems.catalyst_rare), new ItemStack(ModItems.nugget_euphemium)
 				}, new ComparableStack(ModItems.ingot_schrabidium), true, true, FluidType.ASCHRAB, 1000));
 		recipes.add(addRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new ItemStack[]
 				{

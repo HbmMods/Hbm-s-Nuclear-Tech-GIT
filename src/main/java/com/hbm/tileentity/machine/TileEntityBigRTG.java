@@ -98,7 +98,7 @@ public class TileEntityBigRTG extends TileEntityMachineBase implements ISource, 
 			if (age == 9 || age == 19)
 				ffgeuaInit();
 			
-			heat = (short) updateRTGs(slots, getWorldObj());
+			heat = (short) updateRTGs(slots);
 			
 			if (heat > maxHeat)
 				heat = maxHeat;

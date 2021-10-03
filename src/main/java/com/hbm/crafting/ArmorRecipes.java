@@ -148,6 +148,9 @@ public class ArmorRecipes {
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_legs, 1), new Object[] { "EEE", "ESE", "EPE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_legs, 'P', ModItems.pellet_charged });
 			GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_boots, 1), new Object[] { "EPE", "ESE", 'E', ModItems.ingot_schrabidium, 'S', ModItems.starmetal_boots, 'P', ModItems.pellet_charged });
 		}
+		
+		// Armor mods
+		GameRegistry.addRecipe(IBatteryItem.emptyBattery(ModItems.goggles_night_vision), "BPC", "IGI", 'B', ModItems.battery_lithium, 'P', ModItems.ingot_polymer, 'C', ModItems.circuit_copper, 'I', ModItems.plate_polymer, 'G', ModItems.goggles);
 	}
 	/** Register an armor set using vanilla style recipes
 	 * @param outs - Must be in the order: helmet, chestplate, leggings, then boots

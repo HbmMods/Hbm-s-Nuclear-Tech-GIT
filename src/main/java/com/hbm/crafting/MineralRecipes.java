@@ -44,7 +44,9 @@ public class MineralRecipes {
 		RecipesCommon.add1To9(ModBlocks.block_actinium, ModItems.ingot_actinium);
 		RecipesCommon.add9To1(ModItems.ingot_lanthanium, ModBlocks.block_lanthanum);
 		RecipesCommon.add9To1(ModItems.ingot_actinium, ModBlocks.block_actinium);
-		
+		RecipesCommon.add1To9(ModItems.ingot_actinium, ModItems.nugget_actinium);
+		RecipesCommon.add9To1(ModItems.nugget_actinium, ModItems.ingot_actinium);
+
 		RecipesCommon.add1To9(ModBlocks.block_electronium, ModItems.ingot_electronium);
 		RecipesCommon.add9To1(ModItems.ingot_electronium, ModBlocks.block_electronium);
 		
@@ -79,8 +81,9 @@ public class MineralRecipes {
 		RecipesCommon.add1To9(ModBlocks.block_pu_mix, ModItems.ingot_pu_mix);
 		RecipesCommon.add9To1(ModItems.nugget_pu_mix, ModItems.ingot_pu_mix);
 		RecipesCommon.add1To9(ModItems.ingot_pu_mix, ModItems.nugget_pu_mix);
-
+		
 		RecipesCommon.addBilletAll(ModItems.billet_beryllium, ModItems.ingot_beryllium, ModItems.nugget_beryllium);
+		RecipesCommon.addBilletAll(ModItems.billet_actinium, ModItems.ingot_actinium, ModItems.nugget_actinium, new String[] {"nuggetActinium227", "nuggetAc227", "tinyAc227", "tinyActinium227"}, new String[] {"ingotActinium227", "ingotAc227"});
 		RecipesCommon.addBillet(ModItems.billet_uranium, ModItems.nugget_uranium, "nuggetUranium");
 		RecipesCommon.addBillet(ModItems.billet_u233, ModItems.nugget_u233, "nuggetUranium233", "tinyU233");
 		RecipesCommon.addBillet(ModItems.billet_u235, ModItems.nugget_u235, "nuggetUranium235", "tinyU235");
@@ -220,8 +223,8 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_th232, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_thorium) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_lead, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_lead) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.trinitite, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_trinitite) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_waste) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_waste_painted) });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_waste) });
+//		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_waste_painted) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_beryllium, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_beryllium) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_schrabidium, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_schrabidium) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_euphemium, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_euphemium) });

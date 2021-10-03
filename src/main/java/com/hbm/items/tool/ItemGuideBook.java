@@ -3,10 +3,11 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.interfaces.IHasLore;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-
+import com.hbm.util.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +30,8 @@ public class ItemGuideBook extends Item {
 
 	public enum BookType {
 		
-		TEST(statFacTest());
+		TEST(statFacTest()),
+		CUST_CORES(newBasicBook("custCores", 30));
 		
 		public List<GuidePage> pages;
 		
@@ -48,6 +50,23 @@ public class ItemGuideBook extends Item {
 		pages.add(new GuidePage("test test"));
 		pages.add(new GuidePage("test test test"));
 		pages.add(new GuidePage("test test"));
+		return pages;
+	}
+	
+	public static final ArrayList<GuidePage> newBasicBook(String name, int maxPage)
+	{
+		ArrayList<GuidePage> pages = new ArrayList<ItemGuideBook.GuidePage>();
+		
+		int page = 1;
+		while (IHasLore.keyExists(String.format("book.%s.page%s", name, page)))
+		{
+			if (IHasLore.keyExists(String.format("book.%s.page%s.title", name, page)))
+				pages.add(new GuidePage(I18nUtil.resolveKey(String.format("book.%s.page%s", name, page))).addTitle(String.format("book.%s%s.title", name, page), 0x000000, 2));
+			else
+				pages.add(new GuidePage(I18nUtil.resolveKey(String.format("book.%s.page%s", name, page))));
+			page++;
+		}
+		
 		return pages;
 	}
 	

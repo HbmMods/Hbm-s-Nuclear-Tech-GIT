@@ -1,5 +1,6 @@
 package com.hbm.items.block;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -17,9 +18,13 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBlockLore extends ItemBlock implements IHasLore
 {
+	@Deprecated
 	public static HashSet<Block> epicList = new HashSet<Block>();
+	@Deprecated
 	public static HashSet<Block> rareList = new HashSet<Block>();
+	@Deprecated
 	public static HashSet<Block> uncommonList = new HashSet<Block>();
+	public final static HashMap<Block, EnumRarity> formattingMap = new HashMap<Block, EnumRarity>();
 	
 	public ItemBlockLore(Block p_i45328_1_) {
 		super(p_i45328_1_);
@@ -101,21 +106,17 @@ public class ItemBlockLore extends ItemBlock implements IHasLore
 	@Override
 	public EnumRarity getRarity(ItemStack stack)
 	{
-		if (epicList.contains(field_150939_a))
-			return EnumRarity.epic;
-		if (rareList.contains(field_150939_a))
+		if (this.field_150939_a == ModBlocks.gravel_diamond)
 			return EnumRarity.rare;
-		if (uncommonList.contains(field_150939_a))
-			return EnumRarity.uncommon;
+
 		
-		if(this.field_150939_a == ModBlocks.gravel_diamond)
-			return EnumRarity.rare;
+		return formattingMap.containsKey(field_150939_a) ? formattingMap.get(field_150939_a) : EnumRarity.common; 
+		
 		
 //		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
 //				this.field_150939_a == ModBlocks.plasma || this.field_150939_a == ModBlocks.fwatz_plasma)
 //			return EnumRarity.epic;
 
-		return EnumRarity.common;
 	}
 
 }

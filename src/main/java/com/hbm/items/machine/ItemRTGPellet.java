@@ -102,15 +102,7 @@ public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		super.addInformation(stack, player, list, bool);
-		list.add("");
-		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", heat));
-		if (doesDecay)
-		{
-			list.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(decayItem.getUnlocalizedName() + ".name")));
-			list.add(Library.toPercentage(getLifespan(stack), getMaxLifespan()));
-		}
-		if (bool)
-			list.add(String.valueOf(getLifespan(stack)));
+		IRadioisotopeFuel.addTooltip(list, stack, bool);
 	}
 	
 	@Override

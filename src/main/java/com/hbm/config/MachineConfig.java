@@ -14,6 +14,7 @@ public class MachineConfig {
 	public static int twrTurretCooldown = 5000;
 	public static int twrTurretChance = 200;
 	public static EnumSingGenFail singGenFailType = EnumSingGenFail.CAP_CUSTOM;
+	public static boolean scaleRTGPower = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -21,6 +22,7 @@ public class MachineConfig {
 		int singGen = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.00_singGenFail", "When a Watz Super-Compressor fails, what is the radius cap of the potential fölkvangr field? 0 means no fail and -1 means no cap at all", 100);
 		twrTurretCooldown = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.01_twrTurretCooldown", "Duration of the Tsukuyomi platform cooldown (Max 9999)", 5000);
 		twrTurretChance = CommonConfig.createConfigInt(config, CATEGORY_MACHINE, "9.02_twrTurretChance", "Chance to decrement the cooldown of the Tsukuyomi platform each tick", 200);
+		scaleRTGPower = CommonConfig.createConfigBool(config, CATEGORY_MACHINE, "9.03_scaleRTGPower", "Should RTG/Betavoltaic fuel power scale down as it decays?", false);
 		switch(singGen)
 		{
 		case 0:

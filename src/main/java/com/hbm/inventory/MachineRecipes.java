@@ -1982,12 +1982,12 @@ public class MachineRecipes
         	list.add(new ItemStack(ModItems.fluorite, 3));
         	break;
         case LF_U:
-        	list.add(new ItemStack(ModItems.ingot_u235));
-        	list.add(new ItemStack(ModItems.nugget_beryllium, 3));
+        	list.add(new ItemStack(ModItems.powder_u235));
+        	list.add(new ItemStack(ModItems.billet_beryllium));
         	break;
         case LF_PU:
-        	list.add(new ItemStack(ModItems.ingot_pu239));
-        	list.add(new ItemStack(ModItems.nugget_beryllium, 3));
+        	list.add(new ItemStack(ModItems.powder_pu239));
+        	list.add(new ItemStack(ModItems.billet_beryllium));
         	break;
         case LF_SA:
         	list.add(new ItemStack(ModItems.powder_nitan_mix, 4));

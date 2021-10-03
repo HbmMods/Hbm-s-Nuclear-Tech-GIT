@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.interfaces.IBlockRarity;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.block.ItemBlockLore;
 import com.hbm.main.MainRegistry;
@@ -12,11 +13,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHazard extends Block implements IItemHazard {
+public class BlockHazard extends Block implements IItemHazard, IBlockRarity
+{
 	
 	ItemHazardModule module;
 	
@@ -148,22 +151,10 @@ public class BlockHazard extends Block implements IItemHazard {
 		FLAMES,
 		LAVAPOP
 	}
-	public BlockHazard addEpic()
-	{
-		ItemBlockLore.epicList.add(this);
-		return this;
-	}
 	
-	public BlockHazard addRare()
+	@Override
+	public BlockHazard setRarity(EnumRarity rarity)
 	{
-		ItemBlockLore.rareList.add(this);
-		return this;
+		return (BlockHazard) IBlockRarity.super.setRarity(rarity);
 	}
-	
-	public BlockHazard addUncommon()
-	{
-		ItemBlockLore.uncommonList.add(this);
-		return this;
-	}
-
 }

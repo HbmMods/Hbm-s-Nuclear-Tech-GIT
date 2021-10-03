@@ -1,12 +1,13 @@
 package com.hbm.interfaces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.common.annotations.Beta;
+import com.hbm.config.MachineConfig;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 /**
  * For machines that use RTG pellets
  * @author UFFR
@@ -23,14 +24,19 @@ public interface IRTGUser
 	{
 		return itemIn instanceof IRadioisotopeFuel && getDesiredClass().isAssignableFrom(itemIn.getClass());
 	}
+	
+	public static short getPower(IRadioisotopeFuel fuel, ItemStack stack)
+	{
+		return MachineConfig.scaleRTGPower ? IRadioisotopeFuel.getScaledPower(fuel, stack) : fuel.getPower();
+	}
+	
 	/**
 	 * Update all of the RTG pellets in a section of a machine
 	 * @param inventory - Total inventory
 	 * @param rtgIn - Slot numbers for the RTG section
-	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
-	default int updateRTGs(ItemStack[] inventory, int[] rtgIn, World worldIn)
+	default int updateRTGs(ItemStack[] inventory, int[] rtgIn)
 	{
 		int newHeat = 0;
 		for (int slot : rtgIn)
@@ -40,48 +46,46 @@ public interface IRTGUser
 			if (!isItemValid(inventory[slot].getItem()))
 				continue;
 			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[slot].getItem();
-			newHeat += pellet.getPower();
-			IRadioisotopeFuel.handleDecay(inventory[slot], pellet);
+			newHeat += getPower(pellet, inventory[slot]);
+			inventory[slot] = IRadioisotopeFuel.handleDecay(inventory[slot], pellet);
 		}
 		return newHeat;
 	}
 	/**
 	 * Update all of the RTG pellets in the entire machine's inventory
 	 * @param inventory - Total inventory
-	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
-	default int updateRTGs(ItemStack[] inventory, World worldIn)
+	default int updateRTGs(ItemStack[] inventory)
 	{
 		int newHeat = 0;
-		for (int i = 0; i < inventory.length; i++)
+		for (int slot = 0; slot < inventory.length; slot++)
 		{
-			if (inventory[i] == null)
+			if (inventory[slot] == null)
 				continue;
-			if (!isItemValid(inventory[i].getItem()))
+			if (!isItemValid(inventory[slot].getItem()))
 				continue;
-			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[i].getItem();
-			newHeat += pellet.getPower();
-			IRadioisotopeFuel.handleDecay(inventory[i], pellet);
+			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[slot].getItem();
+			newHeat += getPower(pellet, inventory[slot]);
+			inventory[slot] = IRadioisotopeFuel.handleDecay(inventory[slot], pellet);
 		}
 		return newHeat;
 	}
 	/**
 	 * Update all of the RTG pellets in a list of a machine
 	 * @param rtgList - The list of RTGs the machine uses
-	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
 	@Untested
 	@Beta
-	default int updateRTGs(ArrayList<ItemStack> rtgList, World worldIn)
+	default int updateRTGs(ArrayList<ItemStack> rtgList)
 	{
 		int newHeat = 0;
 		
 		for (ItemStack pellet : rtgList)
 		{
 			final IRadioisotopeFuel fuel = (IRadioisotopeFuel) pellet.getItem();
-			newHeat += fuel.getPower();
+			newHeat += getPower(fuel, pellet);
 			if (fuel.getDoesDecay())
 			{
 				if (fuel.getLifespan(pellet) <= 0)
@@ -97,19 +101,18 @@ public interface IRTGUser
 	 * Update all of the RTG pellets in a list of a machine and allows for decay items to accumulate
 	 * @param rtgList - The list of RTGs the machine uses
 	 * @param deplList - The list of depleted items
-	 * @param worldIn - The machine's world object
 	 * @return The total heat level
 	 */
 	@Untested
 	@Beta
-	default int updateRTGs(ArrayList<ItemStack> rtgList, ArrayList<ItemStack> deplList, World worldIn)
+	default int updateRTGs(ArrayList<ItemStack> rtgList, ArrayList<ItemStack> deplList)
 	{
 		int newHeat = 0;
 		
 		for (ItemStack pellet : rtgList)
 		{
 			final IRadioisotopeFuel fuel = (IRadioisotopeFuel) pellet.getItem();
-			newHeat += fuel.getPower();
+			newHeat += getPower(fuel, pellet);
 			if (fuel.getDoesDecay())
 			{
 				if (fuel.getLifespan(pellet) <= 0)
@@ -138,6 +141,24 @@ public interface IRTGUser
 						deplList.add(fuel.getDecayItem());
 				}
 			}
+		}
+		
+		return newHeat;
+	}
+	@Untested
+	@Beta
+	default int updateRTGs(ItemStack[] inventory, HashMap<Item, IRadioisotopeFuel> fuelMap)
+	{
+		int newHeat = 0;
+		
+		for (int slot = 0; slot < inventory.length; slot++)
+		{
+			if (inventory[slot] == null || IRadioisotopeFuel.getInstance(inventory[slot]) == null || !fuelMap.containsKey(inventory[slot].getItem()))
+				continue;
+			
+			final IRadioisotopeFuel fuel = IRadioisotopeFuel.getInstance(inventory[slot]);
+			newHeat += getPower(fuel, inventory[slot]);
+			inventory[slot] = IRadioisotopeFuel.handleDecay(inventory[slot], fuel);
 		}
 		
 		return newHeat;

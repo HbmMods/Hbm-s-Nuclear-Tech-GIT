@@ -12,6 +12,13 @@ public interface IItemHazard {
 	
 	public ItemHazardModule getModule();
 	
+	public enum EnumToxicity
+	{
+		BERYLLIUM,
+		HEAVY_METAL,
+		CHEMICAL;
+	}
+	
 	public static final CustomToxicity BERYLLIUM = new CustomToxicity("beryllium", 1000, 1000, EnumChatFormatting.DARK_GREEN);
 	public static final CustomToxicity HEAVY_METAL = new CustomToxicity("heavyMetal", 1000, 1000, EnumChatFormatting.DARK_BLUE);
 	public static final CustomToxicity CHEMICAL = new CustomToxicity("chemical", 5000, 250, EnumChatFormatting.YELLOW);
@@ -43,7 +50,12 @@ public interface IItemHazard {
 	@Beta
 	public default IItemHazard addCustomToxicity(CustomToxicity tox)
 	{
-		getModule().addCustomToxicity(tox);
+		return addCustomToxicity(tox, 1);
+	}
+	
+	public default IItemHazard addCustomToxicity(CustomToxicity tox, float mod)
+	{
+		getModule().addCustomToxicity(tox, mod);
 		return this;
 	}
 	

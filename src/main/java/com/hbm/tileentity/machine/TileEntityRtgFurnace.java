@@ -105,8 +105,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	
 	public boolean isLoaded()
 	{
-//		return 15 <= IRTGUser.super.updateRTGs(slots, getWorldObj());
-		return 15 <= IRTGUser.super.updateRTGs(slots, slots_side, getWorldObj());
+		return 15 <= updateRTGs(slots, slots_side);
 	}
 	
 	@Override
@@ -295,7 +294,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	@Override
 	public int getHeat()
 	{
-		return updateRTGs(slots, slots_side, getWorldObj());
+		return updateRTGs(slots, slots_side);
 	}
 
 	@Override

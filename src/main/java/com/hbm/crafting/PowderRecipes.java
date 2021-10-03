@@ -19,7 +19,8 @@ public class PowderRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_power, 5), new Object[] { "dustRedstone", "dustGlowstone", "dustDiamond", "dustNeptunium", "dustMagnetizedTungsten" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ballistite, 3), new Object[] { Items.gunpowder, "dustSaltpeter", Items.sugar }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_steel_dusted, 1), new Object[] { "ingotSteel", "dustCoal" }));
-
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_uranium, 9), "dustUranium235", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238"));
+		
 		//Gunpowder
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 3), new Object[] { "dustSulfur", "dustSaltpeter", Items.coal }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 3), new Object[] { "dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1) }));
@@ -32,7 +33,7 @@ public class PowderRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_thermite, 4), new Object[] { "dustIron", "dustIron", "dustIron", "dustAluminum" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_semtex_mix, 3), new Object[] { ModItems.solid_fuel, ModItems.cordite, "dustSaltpeter" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_semtex_mix, 1), new Object[] { ModItems.solid_fuel, ModItems.ballistite, "dustSaltpeter" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.sand_quartz, 1), new Object[] { "sand", "sand", "dustNetherQuartz", "dustNetherQuartz" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.sand_quartz), new Object[] { "sand", "sand", "dustNetherQuartz", "dustNetherQuartz" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.orichalcum, 1, 3), new Object[] { ModItems.powder_spark_mix, ModItems.powder_spark_mix, ModItems.powder_spark_mix, "dustAustralium", "dustAustralium", ModItems.powder_combine_steel, ModItems.powder_combine_steel, ModItems.powder_nitan_mix , ModItems.powder_nitan_mix }));
 		
 		//Desh
@@ -52,6 +53,6 @@ public class PowderRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 2), new Object[] { "dustSteel", ModItems.powder_cobalt }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { "dustIron", "dustCoal", "dustTungsten", "dustTungsten" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { "dustIron", "dustCoal", ModItems.powder_cobalt, ModItems.powder_cobalt }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_nbbe, 2), new Object[] { "dustNiobium", "dustBeryllium" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_nbbe), new Object[] { "dustNiobium", "dustBeryllium" }));
 	}
 }

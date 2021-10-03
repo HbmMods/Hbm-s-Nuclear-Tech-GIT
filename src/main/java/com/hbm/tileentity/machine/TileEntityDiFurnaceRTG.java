@@ -19,7 +19,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 {
 	public int progress;
 	private int processSpeed = 0;
-	private static int timeRequired = 800;
+	private static final int timeRequired = 1200;
 	private static final int[] rtgIn = new int[] {3, 4, 5, 6, 7, 8};
 	private String name;
 	
@@ -220,7 +220,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 	public boolean hasPower()
 	{
 //		updateRTGs();
-		processSpeed = IRTGUser.super.updateRTGs(slots, rtgIn, getWorldObj());
+		processSpeed = updateRTGs(slots, rtgIn);
 		return processSpeed >= 15;
 	}
 	

@@ -150,6 +150,18 @@ public class ContaminationUtil {
 		
 		return true;
 	}
+	/**
+	 * Digamma that has infiltrated various things, add more as needed.<br>
+	 * {@link #LIGHT}
+	 * {@link #MISC}
+	 */
+	public enum EnumDigammaType
+	{
+		/** DRX that has infiltrated the visible light spectrum **/
+		LIGHT,
+		/** Misc DRX **/
+		MISC;
+	}
 	
 	/// DIGAMMA ///
 	public static void applyDigammaData(Entity e, float f) {
@@ -164,7 +176,13 @@ public class ContaminationUtil {
 			return;
 		
 		if(e instanceof IDigammaImmune)
-			return;
+		{
+			final IDigammaImmune instance = (IDigammaImmune) e;
+			if (instance.fullyAscended())
+				return;
+			else
+				f = instance.getDRXScaled(f);
+		}
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
@@ -181,7 +199,13 @@ public class ContaminationUtil {
 			return;
 
 		if(e instanceof IDigammaImmune)
-			return;
+		{
+			final IDigammaImmune instance = (IDigammaImmune) e;
+			if (instance.fullyAscended())
+				return;
+			else
+				f = instance.getDRXScaled(f);
+		}
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;

@@ -34,7 +34,7 @@ public class ChemPlantRecipesNT
 				.setFluidOutput(new FluidStack(2000, FluidType.SALT), null));
 		recipes.put("LF_U", new ChemPlantRecipe(200)
 				.setFluidInput(new FluidStack(1000, FluidType.SALT), null)
-				.setItemInput(new ItemStack(ModItems.ingot_u235), new ItemStack(ModItems.nugget_beryllium, 3))
+				.setItemInput(new ItemStack(ModItems.powder_u235), new ItemStack(ModItems.nugget_beryllium, 3))
 				.setFluidOutput(new FluidStack(1000, FluidType.SALT_U), null));
 		recipes.put("LF_SA", new ChemPlantRecipe(300)
 				.setFluidInput(new FluidStack(1000, FluidType.SAS3), new FluidStack(100, FluidType.MERCURY))
