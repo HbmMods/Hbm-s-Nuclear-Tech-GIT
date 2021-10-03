@@ -35,6 +35,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
 	public static final int maxBlacklung = 60 * 60 * 20;
+	private double boneCancer;
+	public static final double maxBoneCancer = 60 * 60 * 20;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
@@ -197,13 +199,31 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		getData(entity).blacklung = blacklung;
 		
 		if(blacklung >= maxBlacklung) {
-			getData(entity).asbestos = 0;
+			getData(entity).blacklung = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
 	}
 	
 	public static void incrementBlackLung(EntityLivingBase entity, int blacklung) {
 		setBlackLung(entity, getBlackLung(entity) + blacklung);
+	}
+	
+	/// RADIUM AND STRONTIUM 90 POISONING ///
+	public static double getBoneCancer(EntityLivingBase entity) {
+		return getData(entity).boneCancer;
+	}
+	
+	public static void setBoneCancer(EntityLivingBase entity, double boneCancer) {
+		getData(entity).boneCancer = boneCancer;
+		
+		if (boneCancer >= maxBoneCancer) {
+			getData(entity).boneCancer = 0;
+			entity.attackEntityFrom(ModDamageSource.bones, 1000);
+		}
+	}
+	
+	public static void incrementBoneCancer(EntityLivingBase entity, double boneCancer) {
+		setBoneCancer(entity, getBoneCancer(entity) + boneCancer);
 	}
 	
 	/// TIME BOMB ///

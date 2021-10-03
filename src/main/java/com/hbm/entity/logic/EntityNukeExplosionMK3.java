@@ -34,6 +34,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public boolean did = false;
 	public boolean did2 = false;
 	public boolean waste = true;
+	public World worldObj;
 	//Extended Type
 	public int extType = 0;
 

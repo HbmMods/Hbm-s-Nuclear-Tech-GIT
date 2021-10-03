@@ -20,3 +20,31 @@ build
 
 # other
 run
+asm/ccl_modular/codechicken#nei#guihook#DefaultSlotClickHandler.txt
+asm/ccl_modular/codechicken#nei#guihook#GuiContainerManager.txt
+asm/ccl_modular/net#minecraft#block#Block.txt
+asm/ccl_modular/net#minecraft#block#BlockFire.txt
+asm/ccl_modular/net#minecraft#client#gui#inventory#GuiContainer.txt
+asm/ccl_modular/net#minecraft#block#BlockMobSpawner.txt
+asm/ccl_modular/net#minecraft#client#gui#inventory#GuiContainerCreative.txt
+asm/ccl_modular/net#minecraft#inventory#ContainerWorkbench.txt
+asm/ccl_modular/net#minecraft#nbt#NBTTagList.txt
+asm/ccl_modular/net#minecraft#tileentity#MobSpawnerBaseLogic.txt
+asm/ccl_modular/net#minecraft#nbt#NBTTagCompound.txt
+asm/ccl_modular/net#minecraft#client#renderer#entity#RenderItem.txt
+config/hbm.cfg
+config/forgeChunkLoading.cfg
+config/forge.cfg
+*.cfg
+config/CodeChickenCore.cfg
+*.gz
+*.txt
+*.log
+config/hbmTemplate.json
+config/splash.properties
+*.dat
+*.mca
+saves/holy crap/level.dat_old
+saves/holy crap/level.dat_mcr
+saves/holy crap/session.lock
+*.json

@@ -2,6 +2,7 @@ package com.hbm.explosion;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ExplosionNukeAdvanced
 {
@@ -57,6 +58,7 @@ public class ExplosionNukeAdvanced
 	
 	public ExplosionNukeAdvanced(int x, int y, int z, World world, int rad, float coefficient, int typ)
 	{
+
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;

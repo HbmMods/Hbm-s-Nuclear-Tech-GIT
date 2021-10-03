@@ -156,6 +156,7 @@ public class ItemEnergy extends Item {
 				player.heal(10);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
 				HbmLivingProps.incrementRadiation(player, 500F);
+				HbmLivingProps.incrementBoneCancer(player, 24000F);
 				player.triggerAchievement(MainRegistry.achRadium);
 			}
 		}

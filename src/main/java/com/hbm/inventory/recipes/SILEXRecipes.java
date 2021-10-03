@@ -455,6 +455,12 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 5))
 				);
+		
+		recipes.put(new ComparableStack(Items.bone, 1), new SILEXRecipe(300, 100)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust), 80))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_fire), 10))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_calcium), 10))
+				);
 	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {

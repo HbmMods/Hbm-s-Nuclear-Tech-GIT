@@ -17,11 +17,12 @@ import net.minecraft.init.Items;
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
+	//SR90                  29a     β−   20.00Rads/s
 	//TC99		       211,000a		β−	002.75Rad/s	Spicy
 	//I181		           192h		β−	150.00Rad/s	2 much spice :(
 	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
 	//CS137		            30a		β−	020.00Rad/s	Spicy
-	//AU192		            64h		β−	500.00Rad/s	2 much spice :(
+	//AU192		            64h		β−	500.00Rad/s	2 much spice :( 
 	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
@@ -38,6 +39,7 @@ public class HazardRegistry {
 	//AM242		           141a		β−	009.50Rad/s
 
 	public static final float co60 = 30.0F;
+	public static final float sr90 = 20.0F;
 	public static final float tc99 = 2.75F;
 	public static final float i131 = 150.0F;
 	public static final float xe135 = 1250.0F;
@@ -105,6 +107,7 @@ public class HazardRegistry {
 	public static final HazardTypeBase BLINDING = new HazardTypeBlinding();
 	public static final HazardTypeBase ASBESTOS = new HazardTypeAsbestos();
 	public static final HazardTypeBase COAL = new HazardTypeCoal();
+	public static final HazardTypeBase BONECANCER = new HazardTypeBoneCancer();
 	public static final HazardTypeBase HYDROACTIVE = new HazardTypeHydroactive();
 	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
 	
@@ -118,6 +121,11 @@ public class HazardRegistry {
 		HazardSystem.register("dustSmallCoal", makeData(COAL, powder_tiny));
 		HazardSystem.register("dustLignite", makeData(COAL, powder));
 		HazardSystem.register("dustSmallLignite", makeData(COAL, powder_tiny));
+		
+		HazardSystem.register(nugget_ra226, makeData(BONECANCER, powder));
+		HazardSystem.register(billet_ra226be, makeData(BONECANCER, powder));
+		HazardSystem.register(rbmk_pellet_ra226be, makeData(BONECANCER, powder));
+		HazardSystem.register(pile_rod_source, makeData(BONECANCER, powder));
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
@@ -191,6 +199,8 @@ public class HazardRegistry {
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
+		
+		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER));
 		
 		//TODO: move this into its own method
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());

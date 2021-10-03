@@ -4,11 +4,13 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -62,7 +64,7 @@ public class EntityFalloutRain extends Entity {
 	        	
 	        	double dist = radProgress * 100 / getScale() * 0.5;
 	        	
-	        	stomp(x, z, dist);
+	        	stomp(x, z, dist, worldObj);
 	        	
 	        	revProgress++;
 	        	
@@ -88,9 +90,19 @@ public class EntityFalloutRain extends Entity {
         }
     }
     
-    private void stomp(int x, int z, double dist) {
+    private void stomp(int x, int z, double dist, World world) {
     	
     	int depth = 0;
+    	
+    	for(Object o : world.playerEntities) {
+			EntityPlayer player = (EntityPlayer)o;
+			double posX = (player.posX >= 0) ? player.posX : -player.posX;
+			double posY = (player.posY >= 0) ? player.posY : -player.posY;
+			int distance = (int) Math.hypot(posX, posY);
+			double contamLevel = 100 / distance;
+			HbmLivingProps.incrementBoneCancer(player, contamLevel);
+			System.out.println(HbmLivingProps.getBoneCancer(player));
+		}
     	
     	for(int y = 255; y >= 0; y--) {
 

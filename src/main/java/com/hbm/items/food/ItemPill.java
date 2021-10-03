@@ -72,6 +72,10 @@ public class ItemPill extends ItemFood {
 				HbmLivingProps.setDigamma(player, 0);
 				player.addPotionEffect(new PotionEffect(HbmPotion.stability.id, 10 * 60 * 20, 0));
 			}
+			
+			if(this == ModItems.pill_calcium) {
+				HbmLivingProps.setBoneCancer(player, HbmLivingProps.getBoneCancer(player) / 2);
+			}
 		}
 	}
 
@@ -97,6 +101,11 @@ public class ItemPill extends ItemFood {
 		}
 		if(this == ModItems.five_htp) {
 			list.add("Removes all DRX, Stability for 10 minutes");
+		}
+		if(this == ModItems.pill_calcium) {
+			// i know i'm not supposed to add an actual description here but my pea brain cannot get it to work normally
+			list.add("Thanks, Calcium. Thalcium.");
+			list.add("Reduces the effects of Strontium-90 and Radium poisoning");
 		}
 	}
 

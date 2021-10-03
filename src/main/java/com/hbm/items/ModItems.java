@@ -335,6 +335,7 @@ public class ModItems {
 	public static Item powder_neptunium;
 	public static Item powder_polonium;
 	public static Item powder_co60;
+	public static Item powder_sr90;
 	public static Item powder_au198;
 	public static Item powder_i131;
 	public static Item powder_i131_tiny;
@@ -414,6 +415,8 @@ public class ModItems {
 	
 	public static Item powder_coltan_ore;
 	public static Item powder_coltan;
+	
+	public static Item powder_calcium;
 
 	public static Item powder_lanthanium;
 	public static Item powder_actinium;
@@ -820,6 +823,7 @@ public class ModItems {
 	public static Item five_htp;
 	public static Item med_bag;
 	public static Item pill_iodine;
+	public static Item pill_calcium;
 	public static Item plan_c;
 	public static Item stealth_boy;
 	public static Item gas_mask_filter;
@@ -2730,6 +2734,7 @@ public class ModItems {
 		powder_neptunium = new ItemHazard(ItemHazard.np237 * ItemHazard.powder, true).setUnlocalizedName("powder_neptunium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_neptunium");
 		powder_polonium = new ItemHazard(ItemHazard.po210 * ItemHazard.powder, true).setUnlocalizedName("powder_polonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_polonium");
 		powder_co60 = new ItemHazard().addRadiation(ItemHazard.co60 * ItemHazard.powder).addFire(5).toItem().setUnlocalizedName("powder_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_co60");
+		powder_sr90 = new Item().setUnlocalizedName("powder_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_sr90");
 		powder_i131 = new ItemHazard().addRadiation(ItemHazard.i131 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_i131").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_i131");
 		powder_i131_tiny = new ItemHazard().addRadiation(ItemHazard.i131 * ItemHazard.powder_tiny).addFire(15).toItem().setUnlocalizedName("powder_i131_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_i131_tiny");
 		powder_xe135 = new ItemHazard().addRadiation(ItemHazard.xe135 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_xe135").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_xe135");
@@ -2792,6 +2797,7 @@ public class ModItems {
 		powder_lanthanium = new ItemCustomLore().setUnlocalizedName("powder_lanthanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lanthanium");
 		powder_actinium = new ItemCustomLore().setUnlocalizedName("powder_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_actinium");
 		powder_boron = new ItemCustomLore().setUnlocalizedName("powder_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_boron");
+		powder_calcium = new ItemCustomLore().setUnlocalizedName("powder_calcium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_calcium");
 		powder_semtex_mix = new Item().setUnlocalizedName("powder_semtex_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_semtex_mix");
 		powder_desh_mix = new Item().setUnlocalizedName("powder_desh_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_desh_mix");
 		powder_desh_ready = new Item().setUnlocalizedName("powder_desh_ready").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_desh_ready");
@@ -3165,6 +3171,7 @@ public class ModItems {
 		fmn = new ItemPill(0).setUnlocalizedName("fmn").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tablet");
 		five_htp = new ItemPill(0).setUnlocalizedName("five_htp").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":5htp");
 		pill_iodine = new ItemPill(0).setUnlocalizedName("pill_iodine").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pill_iodine");
+		pill_calcium = new ItemPill(0).setUnlocalizedName("pill_calcium").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pill_calcium");
 		plan_c = new ItemPill(0).setUnlocalizedName("plan_c").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":plan_c");
 		stealth_boy = new ItemStarterKit().setUnlocalizedName("stealth_boy").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":stealth_boy");
 		gas_mask_filter = new ItemFilter().setUnlocalizedName("gas_mask_filter").setTextureName(RefStrings.MODID + ":gas_mask_filter");
@@ -5500,6 +5507,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_neptunium, powder_neptunium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_polonium, powder_polonium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_co60, powder_co60.getUnlocalizedName());
+		GameRegistry.registerItem(powder_sr90, powder_sr90.getUnlocalizedName());
 		GameRegistry.registerItem(powder_i131, powder_i131.getUnlocalizedName());
 		GameRegistry.registerItem(powder_i131_tiny, powder_i131_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_xe135, powder_xe135.getUnlocalizedName());
@@ -5546,6 +5554,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_unobtainium, powder_unobtainium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_daffergon, powder_daffergon.getUnlocalizedName());
 		GameRegistry.registerItem(powder_verticium, powder_verticium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_calcium, powder_calcium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_strontium, powder_strontium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cobalt, powder_cobalt.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cobalt_tiny, powder_cobalt_tiny.getUnlocalizedName());
@@ -7217,6 +7226,7 @@ public class ModItems {
 		GameRegistry.registerItem(radx, radx.getUnlocalizedName());
 		GameRegistry.registerItem(siox, siox.getUnlocalizedName());
 		GameRegistry.registerItem(pill_iodine, pill_iodine.getUnlocalizedName());
+		GameRegistry.registerItem(pill_calcium, pill_calcium.getUnlocalizedName());
 		GameRegistry.registerItem(xanax, xanax.getUnlocalizedName());
 		GameRegistry.registerItem(fmn, fmn.getUnlocalizedName());
 		GameRegistry.registerItem(five_htp, five_htp.getUnlocalizedName());
