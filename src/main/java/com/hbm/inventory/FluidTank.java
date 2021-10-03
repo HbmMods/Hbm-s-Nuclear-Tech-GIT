@@ -30,12 +30,12 @@ import net.minecraft.util.ResourceLocation;
 
 public class FluidTank {
 	
-	FluidType type;
-	int fluid;
-	int maxFluid;
+	protected FluidType type;
+	protected int fluid;
+	protected int maxFluid;
 	public int index;
-	public static int x = 16;
-	public static int y = 100;
+	public static final int x = 16;
+	public static final int y = 100;
 	
 	public FluidTank(FluidType type, int maxFluid, int index) {
 		this.type = type;
@@ -43,21 +43,21 @@ public class FluidTank {
 		this.index = index;
 	}
 	
-	public void setFill(int i) {
+	public final void setFill(int i) {
 		fluid = i;
 	}
 	
-	public void incrementFill(int i)
+	public final void incrementFill(int i)
 	{
 		setFill(getFill() + i);
 	}
 	
-	public void decrementFill(int i)
+	public final void decrementFill(int i)
 	{
 		setFill(getFill() - i);
 	}
 	
-	public void setTankType(FluidType type) {
+	public final void setTankType(FluidType type) {
 		
 		if(this.type.name().equals(type.name()))
 			return;
@@ -66,20 +66,20 @@ public class FluidTank {
 		this.setFill(0);
 	}
 	
-	public FluidType getTankType() {
+	public final FluidType getTankType() {
 		
 		return type;
 	}
 	
-	public int getFill() {
+	public final int getFill() {
 		return fluid;
 	}
 	
-	public int getMaxFill() {
+	public final int getMaxFill() {
 		return maxFluid;
 	}
 	
-	public int changeTankSize(int size) {
+	public final int changeTankSize(int size) {
 		maxFluid = size;
 		
 		if(fluid > maxFluid) {
@@ -92,18 +92,18 @@ public class FluidTank {
 	}
 	
 	//Called on TE update
-	public void updateTank(int x, int y, int z, int dim) {
+	public final void updateTank(int x, int y, int z, int dim) {
 
 		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, 100));
 	}
 	
-	public void updateTank(TileEntity te)
+	public final void updateTank(TileEntity te)
 	{
 		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId);
 	}
 	
 	//Fills tank from canisters
-	public void loadTank(int in, int out, ItemStack[] slots) {
+	public final void loadTank(int in, int out, ItemStack[] slots) {
 		
 		FluidType inType = FluidType.NONE;
 		if(slots[in] != null) {
@@ -156,7 +156,7 @@ public class FluidTank {
 	}
 	
 	//Fills canisters from tank
-	public void unloadTank(int in, int out, ItemStack[] slots) {
+	public final void unloadTank(int in, int out, ItemStack[] slots) {
 
 		ItemStack full = null;
 		if(slots[in] != null) {
@@ -229,7 +229,7 @@ public class FluidTank {
 	}
 	
 	//Changes tank type
-	public void setType(int in, int out, ItemStack[] slots) {
+	public final void setType(int in, int out, ItemStack[] slots) {
 		
 		if(in == out && slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
 			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
@@ -251,19 +251,19 @@ public class FluidTank {
 			}
 		}
 	}
-	
+	@Deprecated
 	//Used in the GUI rendering, renders correct fluid type in container with progress
 	public void renderTank(GuiContainer gui, int x, int y, int tx, int ty, int width, int height) {
 		
 		int i = (fluid * height) / maxFluid;
 		gui.drawTexturedModalRect(x, y - i, tx, ty - i, width, i);
 	}
-
+	@Deprecated
 	public void renderTankInfo(GuiContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(gui instanceof GuiInfoContainer)
 			renderTankInfo((GuiInfoContainer)gui, mouseX, mouseY, x, y, width, height);
 	}
-	
+	@Deprecated
 	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
@@ -303,14 +303,14 @@ public class FluidTank {
 	}
 
 	//Called by TE to save fillstate
-	public void writeToNBT(NBTTagCompound nbt, String s) {
+	public final void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
 		nbt.setInteger(s + "_max", maxFluid);
 		nbt.setString(s + "_type", type.getName());
 	}
 	
 	//Called by TE to load fillstate
-	public void readFromNBT(NBTTagCompound nbt, String s) {
+	public final void readFromNBT(NBTTagCompound nbt, String s) {
 		fluid = nbt.getInteger(s);
 		int max = nbt.getInteger(s + "_max");
 		if(max > 0)

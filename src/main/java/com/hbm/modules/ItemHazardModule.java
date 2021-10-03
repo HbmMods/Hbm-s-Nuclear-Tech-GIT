@@ -1,8 +1,8 @@
 package com.hbm.modules;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.annotations.Beta;
 import com.hbm.config.RadiationConfig;
@@ -21,8 +21,13 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemHazardModule {
 	
-	static final NumberFormat basicFormatter = new DecimalFormat("0.###");
-	static final NumberFormat sciNotFormatter = new DecimalFormat("0.###E0");
+	static final DecimalFormat basicFormatter = new DecimalFormat("0.###");
+	static final DecimalFormat sciNotFormatter = new DecimalFormat("0.###E0");
+	static
+	{
+		basicFormatter.setGroupingUsed(true);
+		basicFormatter.setGroupingSize(3);
+	}
 	
 	/**
 	 * Dependency injection: It's fun for boys and girls!
@@ -42,7 +47,9 @@ public class ItemHazardModule {
 	
 	// Custom toxic damage
 	boolean hasCustomTox = false;
-	CustomToxicity tox = null;
+	float toxMod = 0;
+//	CustomToxicity tox = null;
+	Optional<CustomToxicity> tox = Optional.empty();
 	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
@@ -76,10 +83,11 @@ public class ItemHazardModule {
 	 * @param toxIn Pun not intended
 	 */
 	@Beta
-	public void addCustomToxicity(CustomToxicity toxIn)
+	public void addCustomToxicity(CustomToxicity toxIn, float mod)
 	{
 		hasCustomTox = true;
-		tox = toxIn;
+		tox = Optional.of(toxIn);
+		toxMod = mod;
 	}
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
@@ -96,8 +104,8 @@ public class ItemHazardModule {
 		if(this.asbestos)
 			ContaminationUtil.applyAsbestos(entity, (int) (1 * mod));
 		
-		if (hasCustomTox)
-			ContaminationUtil.applyCustom(entity, (int) mod, tox);
+		if (tox.isPresent())
+			ContaminationUtil.applyCustom(entity, (int) (mod * toxMod), tox.get());
 
 		if(this.hydro && currentItem) {
 
@@ -158,8 +166,8 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey(HbmCollection.asbestos) + "]");
 		}
 		
-		if (hasCustomTox)
-			list.add(String.format("%s[%s]", tox.format, I18nUtil.resolveKey("trait." + tox.name)));
+		if (tox.isPresent())
+			list.add(String.format("%s[%s]", tox.get().format, I18nUtil.resolveKey("trait." + tox.get().name)));
 		
 		if(this.hydro) {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.hydro) + "]");
@@ -188,7 +196,7 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
 	}
-	
+	// May switch to an enum instead
 	public static class CustomToxicity
 	{
 		public String name;

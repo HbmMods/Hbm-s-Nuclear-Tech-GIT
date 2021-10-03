@@ -23,7 +23,7 @@ public class TestGun extends ItemGunBase
 	
 	public void setConfig(ItemStack stack)
 	{
-		mainConfig = configs[MathHelper.clamp_int(stack.getItemDamage(), 0, configs.length)];
+		mainConfig = configs[MathHelper.clamp_int(stack.getItemDamage(), 0, configs.length - 1)];
 	}
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem)

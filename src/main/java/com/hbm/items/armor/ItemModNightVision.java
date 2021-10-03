@@ -16,11 +16,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-
+// FIXME models not working
 public class ItemModNightVision extends ItemArmorMod implements IBatteryItem
 {
-	public static final long maxCharge = 1000000;
-	public final long rate = 10;
+	public static final int maxCharge = 1000000;
+	public static final byte rate = 10;
 	public ItemModNightVision()
 	{
 		super(0, true, false, false, false);
@@ -37,7 +37,8 @@ public class ItemModNightVision extends ItemArmorMod implements IBatteryItem
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
 	{
 		player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 10));
-		dischargeBattery(itemStack, rate);
+		if (!player.capabilities.isCreativeMode)
+			dischargeBattery(itemStack, rate);
 	}
 	
 	@Override

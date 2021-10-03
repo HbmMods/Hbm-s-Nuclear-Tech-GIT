@@ -277,8 +277,9 @@ public interface ICustomWarhead
 		U235(52F, 202.5F, ItemHazard.u235, 19.05F),
 		Np237(60F, 200F, ItemHazard.np237, 20.45F),
 		Pu239(10F, 207.1F, ItemHazard.pu239, 19.86F),
-		Pu241(12, 210F, 25F, 19.86F),
-		Am242m(11F, 212F, 8F, 13.67F),
+		Pu241(12, 210F, ItemHazard.pu241, 19.86F),
+		Am241(66, 210F, ItemHazard.am241, 13.67F),
+		Am242m(11F, 212F, ItemHazard.am242m, 13.67F),
 		Sa326(1F, 250F, ItemHazard.sa326, 39.7F);
 		public final float criticalMass;
 		public final float energyReleased;
@@ -321,28 +322,28 @@ public interface ICustomWarhead
 	}
 	public enum SaltedFuel
 	{
-		Co59(1.4902F * 0.75F, 5, SaltedType.MEDIUM, 8.86F),
-		Co60(1.4902F, 5, SaltedType.MEDIUM, 8.86F),
-		Sr90(0.546F, 28, SaltedType.MEDIUM, 2.64F),
-		Cs137(1.1737F, 30, SaltedType.MEDIUM, 1.93F),
-		Ta181(0.52F * 0.75F, 114, SaltedType.SHORT, 16.65F),
-		Ta182(0.52F, 114, SaltedType.SHORT, 16.654F),
-		Au197(1.3735F * 0.75F, 2, SaltedType.SHORT, 19.32F),
-		Au198(1.3735F, 2, SaltedType.SHORT, 19.32F),
-		Pu240(5.25575F, 65, SaltedType.LONG, 19.86F),
-		Sa327(0.5F, 100, SaltedType.LONG, 39.7F);
+		Co59(1.4902F * 0.75F, 5, HalfLifeType.MEDIUM, 8.86F),
+		Co60(1.4902F, 5, HalfLifeType.MEDIUM, 8.86F),
+		Sr90(0.546F, 28, HalfLifeType.MEDIUM, 2.64F),
+		Cs137(1.1737F, 30, HalfLifeType.MEDIUM, 1.93F),
+		Ta181(0.52F * 0.75F, 114, HalfLifeType.SHORT, 16.65F),
+		Ta182(0.52F, 114, HalfLifeType.SHORT, 16.654F),
+		Au197(1.3735F * 0.75F, 2, HalfLifeType.SHORT, 19.32F),
+		Au198(1.3735F, 2, HalfLifeType.SHORT, 19.32F),
+		Pu240(5.25575F, 65, HalfLifeType.LONG, 19.86F),
+		Sa327(0.5F, 100, HalfLifeType.LONG, 39.7F);
 		public final float decayEnergy;
 		public final int halfLife;
-		public final SaltedType type;
+		public final HalfLifeType type;
 		private final float mass;
-		SaltedFuel(float decayEnergy, int halfLife, SaltedType type, float mass)
+		SaltedFuel(float decayEnergy, int halfLife, HalfLifeType type, float mass)
 		{
 			this.decayEnergy = decayEnergy;
 			this.halfLife = halfLife;
 			this.type = type;
 			this.mass = mass;
 		}
-		public enum SaltedType
+		public enum HalfLifeType
 		{
 			/** Counted in days **/
 			SHORT,

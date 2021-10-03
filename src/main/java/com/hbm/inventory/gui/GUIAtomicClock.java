@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerAtomicClock;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -11,14 +10,14 @@ import com.hbm.tileentity.machine.TileEntityAtomicClock;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIAtomicClock extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/machine/gui_atomic_clock.png");
-	private TileEntityAtomicClock clock;
-	private NumberDisplay[] displays = new NumberDisplay[3];
+	private final TileEntityAtomicClock clock;
+	private final FluidTankGUI clockTank;
+	private final NumberDisplay[] displays = new NumberDisplay[3];
 	public GUIAtomicClock(InventoryPlayer invPlayer, TileEntityAtomicClock te)
 	{
 		super(new ContainerAtomicClock(invPlayer, te));
@@ -28,6 +27,7 @@ public class GUIAtomicClock extends GuiInfoContainer
 		displays[0] = new NumberDisplay(49, 23, 43, 187).setDigitLength(6).setMaxMin(9.9999F, 0);
 		displays[1] = new NumberDisplay(101, 23, 43, 187).setMaxMin(100, 0);
 		displays[2] = new NumberDisplay(49, 73, 43, 187).setDigitLength(28).setPadding(1);
+		clockTank = new FluidTankGUI(clock.getTanks().get(0), 26, 89, 16, 73);
 	}
 	
 	@Override
@@ -35,15 +35,14 @@ public class GUIAtomicClock extends GuiInfoContainer
 	{
 		super.drawScreen(mouseX, mouseY, f);
 		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 16, 16, 55, clock.getPower(), clock.getMaxPower());
-		clock.getTanks().get(0).renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 16, 16, 73);
-		final String[] time = new String[] {String.valueOf(displays[0].getNumber())};
-		final String[] day = new String[] {String.valueOf(displays[1].getNumber().byteValue())};
-		final String[] year = new String[] {String.valueOf(displays[2].getNumber().longValue())};
+//		clock.getTanks().get(0).renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 16, 16, 73);
+//		clockTank.updateTank(clock.getTanks().get(0));
+		clockTank.renderTankInfo(mouseX, mouseY);
 		if (clock.isOn && clock.getTanks().get(0).getFill() > 0 && clock.getPower() >= clock.consumption)
 		{
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 21, 46, 16, mouseX, mouseY, time);
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 100, guiTop + 21, 28, 16, mouseX, mouseY, day);
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 71, 198, 16, mouseX, mouseY, year);
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 21, 46, 16, mouseX, mouseY, String.valueOf(displays[0].getNumber()));
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 100, guiTop + 21, 28, 16, mouseX, mouseY, String.valueOf(displays[1].getNumber().byteValue()));
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 47, guiTop + 71, 198, 16, mouseX, mouseY, String.valueOf(displays[2].getNumber().longValue()));
 		}
 	}
 	
@@ -91,9 +90,12 @@ public class GUIAtomicClock extends GuiInfoContainer
 				for (int i = 0; i < 3; i++)
 					displays[i].drawNumber();
 		}
-		FluidTank cTank = clock.getTanks().get(0);
-		mc.getTextureManager().bindTexture(cTank.getSheet());
+//		clockTank.updateTank(clock.getTanks().get(0));
+		clockTank.renderTank();
+		
+//		FluidTank cTank = clock.getTanks().get(0);
+//		mc.getTextureManager().bindTexture(cTank.getSheet());
 //		System.out.println(displays[0].getDispNumber());
-		cTank.renderTank(this, guiLeft + 26, guiTop + 89, cTank.getTankType().textureX() * FluidTank.x, cTank.getTankType().textureY() * FluidTank.y, 16, 73);
+//		cTank.renderTank(this, guiLeft + 26, guiTop + 89, cTank.getTankType().textureX() * FluidTank.x, cTank.getTankType().textureY() * FluidTank.y, 16, 73);
 	}
 }

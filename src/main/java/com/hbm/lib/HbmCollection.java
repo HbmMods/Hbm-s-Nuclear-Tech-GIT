@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableSet;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -86,9 +88,13 @@ public class HbmCollection
 	public static final AmmoItemTrait[] StarmetalType = {AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.CON_HEAVY_WEAR};
 	public static final AmmoItemTrait[] ChlorophyteType = {AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_WEAR, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_PENETRATION};
 	
-	private static final World worldObj = Minecraft.getMinecraft().theWorld;
+	public static final int tickDay = 48000;
+	public static final int tickYear = tickDay * 100;
+	
+	public static final World worldObj = Minecraft.getMinecraft().theWorld;
 	/// COMMON NUKE TYPES
 	public static final EntityNukeExplosionMK3 folkvangrField = new EntityNukeExplosionMK3(worldObj);
+	public static final EntityBalefire balefire = new EntityBalefire(worldObj);
 	static
 	{
 		folkvangrField.destructionRange = BombConfig.aSchrabRadius;
@@ -99,9 +105,6 @@ public class HbmCollection
 	
 	/// COMMON NUKE CLOUDS
 	public static final EntityCloudFleija folkvangrEffect = new EntityCloudFleija(worldObj, BombConfig.aSchrabRadius);
-	static
-	{
-	}
 	
 	/// BULLET COLLECTIONS
 	// SHOTGUNS
@@ -236,6 +239,8 @@ public class HbmCollection
 		ROCKWELL_U,
 		/**Saab Bofors Dynamics**/
 		SAAB,
+		/**Saco Defense / US Ordnance**/
+		SACO,
 		/**Tulsky Oruzheiny Zavod**/
 		TULSKY,
 		/**Union Aerospace Command**/

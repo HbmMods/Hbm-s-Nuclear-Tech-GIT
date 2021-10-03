@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityReactorAmat;
+import com.hbm.tileentity.machine.TileEntityReactorWarp;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
@@ -30,7 +30,7 @@ public class ReactorAmat extends BlockContainer
 			return true;
 		else if (!player.isSneaking())
 		{
-			TileEntityReactorAmat te = (TileEntityReactorAmat) world.getTileEntity(x, y, z);
+			TileEntityReactorWarp te = (TileEntityReactorWarp) world.getTileEntity(x, y, z);
 			if (te != null)
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_amat_reactor, world, x, y, z);
 			return true;
@@ -41,6 +41,6 @@ public class ReactorAmat extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
 	{
-		return new TileEntityReactorAmat();
+		return new TileEntityReactorWarp();
 	}
 }

@@ -225,7 +225,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			
 			heat = 0;
 			
-			heat = updateRTGs(slots, getWorldObj());
+			heat = updateRTGs(slots);
 			
 //			for(int i = 0; i < slots.length; i++) {
 //				if(slots[i] != null) {

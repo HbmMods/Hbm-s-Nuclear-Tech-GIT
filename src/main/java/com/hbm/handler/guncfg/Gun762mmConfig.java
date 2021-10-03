@@ -27,8 +27,8 @@ public class Gun762mmConfig
 		config.hasSights = true;
 		config.crosshair = Crosshair.CROSS;
 		config.reloadSound = "hbm:weapon.DMRMagInPB3";
-		config.firingSound = "hbm:weapon.DMRShootPB3";
-		config.firingPitch = 0.85F;
+		config.firingSound = "hbm:weapon.DMRShootPB3Alt";
+//		config.firingPitch = 0.85F;
 		config.reloadSoundEnd = true;
 		
 		config.name = "uacDMR";
@@ -64,14 +64,36 @@ public class Gun762mmConfig
 		config.durability = 50000;
 		config.crosshair = Crosshair.BOX;
 		config.reloadSound = "hbm:weapon.LMGMagInPB3";
-		config.firingSound = "hbm:weapon.LMGShootPB3";
-		config.firingPitch = 0.9F;
+		config.firingSound = "hbm:weapon.LMGShootPB3Alt";
+//		config.firingPitch = 0.9F;
 		
 		config.name = "uacLMG";
 		
 		return config;
 	}
 
+	public static GunConfiguration getM60Config()
+	{
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 2;
+		config.durability = 10000;
+		config.roundsPerCycle = 1;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.ammoCap = 0;
+		config.allowsInfinity = true;
+		config.hasSights = true;
+		config.crosshair = Crosshair.L_BOX;
+		config.firingSound = "hbm:weapon.LMGShootPB3";
+		
+		config.name = "m60";
+		config.manufacturer = EnumGunManufacturer.SACO;
+		config.comment.add("\"Get some!\" ~ Stuart Brown (aka Ahoy)");
+		config.config.addAll(HbmCollection.threeZeroEight);
+		
+		return config;
+	}
 	
 	public static BulletConfiguration get762NATOConfig()
 	{

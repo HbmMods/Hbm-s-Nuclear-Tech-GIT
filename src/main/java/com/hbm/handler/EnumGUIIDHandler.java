@@ -1,5 +1,5 @@
 package com.hbm.handler;
-
+@Deprecated
 public enum EnumGUIIDHandler
 {
 	TEST_NUKE,

@@ -42,6 +42,14 @@ public class RecipesCommon {
 		GameRegistry.addRecipe(one, new Object[] { "###", "###", "###", '#', nine });
 	}
 
+	public static void storageAll(Block block, Item ingot, Item nugget)
+	{
+		add1To9(block, ingot);
+		add9To1(ingot, block);
+		add1To9(ingot, nugget);
+		add9To1(nugget, ingot);
+	}
+	
 	public static void addBillet(Item billet, Item nugget, String... ore) {
 		
 		for(String o : ore)

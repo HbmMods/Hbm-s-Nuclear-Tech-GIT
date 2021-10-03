@@ -35,20 +35,21 @@ public class OreDictManager
 	}
 	public static void registerOres()
 	{
-//		new DictFrame("Uranium").billet(ModItems.billet_uranium).block(ModBlocks.block_uranium).crystal(ModItems.crystal_uranium).dust(ModItems.powder_uranium).ore(ModBlocks.ore_gneiss_uranium, ModBlocks.ore_gneiss_uranium_scorched, ModBlocks.ore_meteor_uranium, ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched, ModBlocks.ore_uranium, ModBlocks.ore_uranium_scorched).oreNether(ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched);
-//		new DictFrame("Uranium233", "Uranium-233", "U233", "U-233").billet(ModItems.billet_u233).block(ModBlocks.block_u233).nugget(ModItems.nugget_u233).ingot(ModItems.ingot_u233);
-//		new DictFrame("Uranium235", "Uranium-235", "U235", "U-235").billet(ModItems.billet_u235).block(ModBlocks.block_u235).nugget(ModItems.nugget_u235).ingot(ModItems.ingot_u235);
-//		new DictFrame("Uranium238", "Uranium-238", "U238", "U-238").billet(ModItems.billet_u238).block(ModBlocks.block_u238).nugget(ModItems.nugget_u238).ingot(ModItems.ingot_u238).dust(ModItems.powder_u238);
-//		new DictFrame("UraniumDioxide", "Uranium238Dioxide").dust(ModItems.powder_du_dioxide).ingot(ModItems.ingot_du_dioxide);
-//		new DictFrame("Thorium", "Thorium-232", "Thorium232", "Th232", "Th-232").billet(ModItems.billet_th232).block(ModBlocks.block_thorium).crystal(ModItems.crystal_thorium).dust(ModItems.powder_thorium).ore(ModBlocks.ore_meteor_thorium, ModBlocks.ore_thorium).ingot(ModItems.ingot_th232);
-//		new DictFrame("Plutonium").billet(ModItems.billet_plutonium).block(ModBlocks.block_plutonium).crystal(ModItems.crystal_plutonium).dust(ModItems.powder_plutonium).ingot(ModItems.ingot_plutonium).nugget(ModItems.nugget_plutonium).ore(ModBlocks.ore_nether_plutonium).oreNether(ModBlocks.ore_nether_plutonium);
-//		new DictFrame("Plutonium238", "Plutonium-238", "Pu238", "Pu-238").billet(ModItems.billet_pu238).block(ModBlocks.block_pu238).nugget(ModItems.nugget_pu238).ingot(ModItems.ingot_pu238);
-//		new DictFrame("Plutonium239", "Plutonium-239", "Pu239", "Pu-239").billet(ModItems.billet_pu239).block(ModBlocks.block_pu239).nugget(ModItems.nugget_pu239).ingot(ModItems.ingot_pu239);
-//		new DictFrame("Plutonium240", "Plutonium-240", "Pu240", "Pu-240").billet(ModItems.billet_pu240).block(ModBlocks.block_pu240).nugget(ModItems.nugget_pu240).ingot(ModItems.ingot_pu240);
-//		new DictFrame("Neptunium237", "Neptunium-237", "Np237", "Np-237").billet(ModItems.billet_neptunium).block(ModBlocks.block_neptunium).nugget(ModItems.nugget_neptunium).ingot(ModItems.ingot_neptunium);
-//		new DictFrame("Schrabidium", "Schrabidium326", "Schrabidium-326", "Sa326", "Sa-326").billet(ModItems.billet_schrabidium).block(ModBlocks.block_schrabidium).crystal(ModItems.crystal_schrabidium).nugget(ModItems.nugget_schrabidium).ingot(ModItems.ingot_schrabidium).ore(ModBlocks.ore_gneiss_schrabidium, ModBlocks.ore_nether_schrabidium, ModBlocks.ore_schrabidium).oreNether(ModBlocks.ore_nether_schrabidium);
-//		new DictFrame("Polonium210", "Polonium-210", "Po210", "Po-210").billet(ModItems.billet_polonium).block(ModBlocks.block_polonium).dust(ModItems.powder_polonium).nugget(ModItems.nugget_polonium).ingot(ModItems.ingot_polonium);
+		new DictFrame("Uranium").billet(ModItems.billet_uranium).block(ModBlocks.block_uranium).crystal(ModItems.crystal_uranium).dust(ModItems.powder_uranium).ore(ModBlocks.ore_gneiss_uranium, ModBlocks.ore_gneiss_uranium_scorched, ModBlocks.ore_meteor_uranium, ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched, ModBlocks.ore_uranium, ModBlocks.ore_uranium_scorched).oreNether(ModBlocks.ore_nether_uranium, ModBlocks.ore_nether_uranium_scorched);
+		new DictFrame("Uranium233", "U233").billet(ModItems.billet_u233).block(ModBlocks.block_u233).nugget(ModItems.nugget_u233).ingot(ModItems.ingot_u233);
+		new DictFrame("Uranium235", "U235").billet(ModItems.billet_u235).block(ModBlocks.block_u235).nugget(ModItems.nugget_u235).ingot(ModItems.ingot_u235).dust(ModItems.powder_u235);
+		new DictFrame("Uranium238", "U238").billet(ModItems.billet_u238).block(ModBlocks.block_u238).nugget(ModItems.nugget_u238).ingot(ModItems.ingot_u238).dust(ModItems.powder_u238);
+		new DictFrame("UraniumDioxide", "Uranium238Dioxide").dust(ModItems.powder_du_dioxide).ingot(ModItems.ingot_du_dioxide);
+		new DictFrame("Thorium", "Thorium232", "Th232").billet(ModItems.billet_th232).block(ModBlocks.block_thorium).crystal(ModItems.crystal_thorium).dust(ModItems.powder_thorium).ore(ModBlocks.ore_meteor_thorium, ModBlocks.ore_thorium).ingot(ModItems.ingot_th232);
+		new DictFrame("Plutonium").billet(ModItems.billet_plutonium).block(ModBlocks.block_plutonium).crystal(ModItems.crystal_plutonium).dust(ModItems.powder_plutonium).ingot(ModItems.ingot_plutonium).nugget(ModItems.nugget_plutonium).ore(ModBlocks.ore_nether_plutonium).oreNether(ModBlocks.ore_nether_plutonium);
+		new DictFrame("Plutonium238", "Pu238").billet(ModItems.billet_pu238).block(ModBlocks.block_pu238).nugget(ModItems.nugget_pu238).ingot(ModItems.ingot_pu238);
+		new DictFrame("Plutonium239", "Pu239").billet(ModItems.billet_pu239).block(ModBlocks.block_pu239).nugget(ModItems.nugget_pu239).ingot(ModItems.ingot_pu239).dust(ModItems.powder_pu239);
+		new DictFrame("Plutonium240", "Pu240").billet(ModItems.billet_pu240).block(ModBlocks.block_pu240).nugget(ModItems.nugget_pu240).ingot(ModItems.ingot_pu240);
+		new DictFrame("Neptunium237", "Np237").billet(ModItems.billet_neptunium).block(ModBlocks.block_neptunium).nugget(ModItems.nugget_neptunium).ingot(ModItems.ingot_neptunium);
+		new DictFrame("Schrabidium", "Schrabidium326", "Sa326").billet(ModItems.billet_schrabidium).block(ModBlocks.block_schrabidium).crystal(ModItems.crystal_schrabidium).nugget(ModItems.nugget_schrabidium).ingot(ModItems.ingot_schrabidium).ore(ModBlocks.ore_gneiss_schrabidium, ModBlocks.ore_nether_schrabidium, ModBlocks.ore_schrabidium).oreNether(ModBlocks.ore_nether_schrabidium);
+		new DictFrame("Polonium210", "Po210").billet(ModItems.billet_polonium).block(ModBlocks.block_polonium).dust(ModItems.powder_polonium).nugget(ModItems.nugget_polonium).ingot(ModItems.ingot_polonium);
 		new DictFrame("Strontium90", "Sr90").ingot(ModItems.ingot_sr90).dust(ModItems.powder_sr90);
+		new DictFrame("Actinium", "Actinium227", "Ac227").ingot(ModItems.ingot_actinium).block(ModBlocks.block_actinium).billet(ModItems.billet_actinium).dust(ModItems.powder_actinium).dustSmall(ModItems.powder_actinium_tiny).nugget(ModItems.nugget_actinium, ModItems.fragment_actinium);
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium233", ModItems.ingot_u233);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
@@ -398,12 +399,12 @@ public class OreDictManager
 		private int size = 0;
 		/** Unspecified stack **/
 		protected MaterialStack()
-		{
-		}
-		
+		{}
+		/** Assumes stack is an ingot or equivalent **/
 		public MaterialStack(String matIn)
 		{
 			material = matIn;
+			size = 9;
 		}
 		
 		public MaterialStack(String matIn, int size)
@@ -422,7 +423,7 @@ public class OreDictManager
 		}
 		public MaterialStack(ComparableStack stack)
 		{
-			this(stack, 1);
+			this(stack, sizeMap.get(getPrefixFromKey(stack.getDictKeys()[0])) * stack.stacksize);
 		}
 		@CheckReturnValue
 		@CheckForNull
@@ -467,9 +468,10 @@ public class OreDictManager
 			return sizes;
 		}
 		
-		public void setSize(int i)
+		public MaterialStack setSize(int i)
 		{
 			size = i;
+			return this;
 		}
 		public void incrementSize(int i)
 		{

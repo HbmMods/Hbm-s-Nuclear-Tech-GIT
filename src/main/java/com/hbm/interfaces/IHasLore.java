@@ -4,10 +4,15 @@ import java.util.List;
 
 import com.hbm.items.special.ItemCustomLore;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.item.ItemStack;
-
+/**
+ * For things that can't extend {@link#ItemCustomLore}
+ * @author UFFR
+ *
+ */
 public interface IHasLore 
 {
 	/**
@@ -39,5 +44,23 @@ public interface IHasLore
 				for (String s : locs)
 					list.add(s);
 		}
+	}
+	
+	public static boolean getHasLore(String ulocIn)
+	{
+		String uloc = ulocIn.concat(MainRegistry.isPolaroid11 ? ".desc.11" : ".desc");
+		String loc = I18nUtil.resolveKey(uloc);
+		if (loc.equals(uloc))
+			uloc = ulocIn.concat(".desc");
+		else
+			return true;
+		loc = I18nUtil.resolveKey(uloc);
+		return !uloc.equals(loc);
+	}
+	
+	public static boolean keyExists(String key)
+	{
+		String loc = I18nUtil.resolveKey(key);
+		return !(loc == key);
 	}
 }

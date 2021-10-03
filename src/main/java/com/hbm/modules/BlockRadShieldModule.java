@@ -2,12 +2,14 @@ package com.hbm.modules;
 
 import java.util.List;
 
+import com.google.common.annotations.Beta;
 import com.hbm.interfaces.Untested;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 @Untested
+@Beta
 public class BlockRadShieldModule
 {
 	float EMShield;

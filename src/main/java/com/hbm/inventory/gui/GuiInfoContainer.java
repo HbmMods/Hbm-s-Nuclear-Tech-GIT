@@ -2,29 +2,44 @@ package com.hbm.inventory.gui;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnegative;
 
+import org.apache.logging.log4j.Level;
+
 import com.google.common.annotations.Beta;
+import com.google.common.collect.ImmutableSet;
+import com.hbm.handler.FluidTypeHandler.FluidHazards;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.FluidTank;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import scala.runtime.DoubleRef;
 
 public abstract class GuiInfoContainer extends GuiContainer {
 	
-	ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
+	static final ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
+	/** Default text color **/
 	public static final int color0 = 4210752;
+	/** Green computer color **/
+	public static final int color1 = 0x00ff00;
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
@@ -33,9 +48,19 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		this.func_146283_a(Arrays.asList(text), x, y);
 	}
 	
+	public void drawFluidInfo(int x, int y, String...text)
+	{
+		drawFluidInfo(text, x, y);
+	}
+	
 	public void drawElectricityInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			gui.drawFluidInfo(new String[] { Library.getShortNumber(power) + "/" + Library.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
+	}
+	
+	public void drawElectricityInfo(int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower)
+	{
+		drawElectricityInfo(this, guiLeft + mouseX, guiTop + mouseY, x, y, width, height, power, maxPower);
 	}
 	
 	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {
@@ -43,7 +68,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			this.func_146283_a(Arrays.asList(text), mouseX, mouseY);
 	}
 	
-	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String[] text) {
+	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String... text) {
 		
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			this.func_146283_a(Arrays.asList(text), tPosX, tPosY);
@@ -175,10 +200,17 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		}
 		catch (NumberFormatException e)
 		{
+			MainRegistry.logger.printf(Level.WARN, "Invalid text input detected, exception: %s", e);
 			e.printStackTrace();
 			return -1;
 		}
 	}
+	@Deprecated
+	public final FluidTankGUI convertToGUI(FluidTank old, int x, int y, int width, int height)
+	{
+		return new FluidTankGUI(old.getTankType(), old.getMaxFill(), old.index, x, y, width, height);
+	}
+	
 	@Beta
 	public class NumberDisplay
 	{
@@ -459,6 +491,83 @@ public abstract class GuiInfoContainer extends GuiContainer {
 				return out.clone();
 			}
 			return toDisp;
+		}
+	}
+	/**
+	 * Fluid tank more friendly with NTM GUIs.
+	 * Only overrides {@link#renderTank()} and {@link#renderTankInfo()}.
+	 * Is <i>not</i> meant to be a total replacement for the FluidTank class, rather only in GUIs
+	 * As a result the constructor is a bit bulkier with places for the x, y, width, and height
+	 * @author UFFR
+	 *
+	 */
+	@Beta
+	public class FluidTankGUI
+	{
+		private int xPos;
+		private int yPos;
+		private int width;
+		private int height;
+		private FluidTank tank;
+		private FluidType type = FluidType.NONE;
+		public static final int x = 16;
+		public static final int y = 100;
+		public FluidTankGUI(FluidType type, int max, int index, int x, int y, int width, int height)
+		{
+			xPos = x;
+			yPos = y;
+			this.height = height;
+			this.width = width;
+			tank = new FluidTank(type, max, index);
+			this.type = type;
+		}
+		public FluidTankGUI(FluidTank tank, int x, int y, int width, int height)
+		{
+			this(tank.getTankType(), tank.getMaxFill(), tank.index, x, y, width, height);
+		}
+		public void updateTank(FluidTank tank)
+		{
+			this.tank = tank;
+		}
+		public void renderTank()
+		{
+			mc.getTextureManager().bindTexture(tank.getSheet());
+//			renderTank(GuiInfoContainer.this, guiLeft + xPos, guiTop + yPos, type.textureX() * x, type.textureY() * y, width, height);
+			int i = (tank.getFill() * height) / tank.getMaxFill();
+			drawTexturedModalRect(xPos, yPos - i, x * type.textureX(), type.textureY() * y - i, width, i);
+		}
+		
+		public void renderTankInfo(int mouseX, int mouseY)
+		{
+//			renderTankInfo(GuiInfoContainer.this, mouseX, mouseY, guiLeft + xPos, guiTop + yPos, width, height);
+//			System.out.println(mouseX);
+			if(xPos + guiLeft <= mouseX && xPos + width + guiLeft > mouseX && yPos + guiTop < mouseY && yPos + height + guiTop >= mouseY)
+			{
+				final ArrayList<String> list = new ArrayList<String>();
+				final String tColor = type.temperature > 20 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
+				final ImmutableSet<FluidHazards> fHazards = type.getHazardSet();
+				
+				list.add(I18n.format(type.getUnlocalizedName()));
+				list.add(tank.getFill() + "/" + tank.getMaxFill() + "mB");
+				if (tank.getTankType().temperature != 0 || fHazards.contains(FluidHazards.HOT) || fHazards.contains(FluidHazards.CRYO))
+					list.add(tColor + NumberFormat.getInstance().format(type.temperature) + "°C");
+				if (tank.getTankType().isAntimatter())
+					list.add(I18nUtil.resolveKey(HbmCollection.antimatter));
+				if (fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
+					list.add(I18nUtil.resolveKey(HbmCollection.corrosiveStrong));
+				else if (!fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
+					list.add(I18nUtil.resolveKey(HbmCollection.corrosive));
+				if (fHazards.contains(FluidHazards.BIOHAZARD))
+					list.add(I18nUtil.resolveKey(HbmCollection.biohazard));
+				if (fHazards.contains(FluidHazards.CHEMICAL))
+					list.add(I18nUtil.resolveKey(HbmCollection.chemical));
+				if (fHazards.contains(FluidHazards.RADIOACTIVE))
+					list.add(I18nUtil.resolveKey(HbmCollection.radioactiveFluid));
+				if (fHazards.contains(FluidHazards.TOXIC))
+					list.add(I18nUtil.resolveKey(HbmCollection.toxicGeneric));
+//				System.out.println(list);
+				drawFluidInfo(list.toArray(new String[list.size()]), mouseX, mouseY);
+			}
 		}
 	}
 }
