@@ -1164,16 +1164,6 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void chatEvent(ServerChatEvent event) {
 		
-		World world = event.player.worldObj;
-		
-		for(Object e : world.loadedEntityList) {
-			
-			long time = System.currentTimeMillis();
-			Entity entity = (Entity)e;
-			entity.onUpdate();
-			System.out.println("Took " + (System.currentTimeMillis() - time) + "ms to tick " + entity);
-		}
-		
 		EntityPlayerMP player = event.player;
 		String message = event.message;
 		
