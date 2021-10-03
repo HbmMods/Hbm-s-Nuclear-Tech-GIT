@@ -34,6 +34,7 @@ import com.hbm.world.feature.Sellafield;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
@@ -531,12 +532,31 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 
-		if (rand.nextInt(25) == 0) {
+		if(rand.nextInt(25) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(25);
 			int randPosZ = j + rand.nextInt(16);
 
 			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 7 + rand.nextInt(9));
+		}
+
+		if(rand.nextInt(50) == 0) {
+			int randPosX = i + rand.nextInt(16);
+			int randPosZ = j + rand.nextInt(16);
+			
+			for(int x = -4; x <= 4; x++) {
+				for(int y = 0; y <= 4; y++) {
+					for(int z = -4; z <= 4; z++) {
+						
+						if(Math.abs(x) + Math.abs(y) + Math.abs(z) <= 6) {
+							Block b = world.getBlock(randPosX + x, y, randPosZ + z);
+							if(b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.stone) || b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.bedrock)) {
+								world.setBlock(randPosX + x, y, randPosZ + z, ModBlocks.ore_bedrock_oil);
+							}
+						}
+					}
+				}
+			}
 		}
 
 		if (GeneralConfig.enableNITAN) {

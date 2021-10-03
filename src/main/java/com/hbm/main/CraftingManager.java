@@ -813,6 +813,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', "ingotSteel", 'I', "plateIron", 'C', ModItems.board_copper }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_fracking_tower), new Object[] { "NDN", "PRP", "CRC", 'N', "ingotNiobium", 'D', ModBlocks.machine_well, 'P', ModItems.plate_desh, 'R', ModItems.pipes_steel, 'C', ModBlocks.concrete_smooth }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.canister_fracksol, 4), new Object[] { "dustSulfur", "dustSulfur", "dustSulfur", "dustSulfur", ModItems.gas_petroleum, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty }));
 		
 		if(GeneralConfig.enableBabyMode) {
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,9 +25,13 @@ public class ContainerMachineOilWell extends Container {
 		// Canister Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 80, 53));
 		// Gas Input
-		this.addSlotToContainer(new Slot(tedf, 3, 134, 17));
+		this.addSlotToContainer(new Slot(tedf, 3, 125, 17));
 		// Gas Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 134, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 125, 53));
+		//Upgrades
+		this.addSlotToContainer(new Slot(tedf, 5, 152, 17));
+		this.addSlotToContainer(new Slot(tedf, 6, 152, 35));
+		this.addSlotToContainer(new Slot(tedf, 7, 152, 53));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -53,9 +58,12 @@ public class ContainerMachineOilWell extends Container {
 					return null;
 				}
 			} else if(!this.mergeItemStack(var5, 0, 2, false)) {
-				if(!this.mergeItemStack(var5, 3, 4, false))
-					if(!this.mergeItemStack(var5, 5, 6, false))
+				
+				if(var5.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(var5, 5, 8, true)) {
 						return null;
+					}
+				}
 			}
 
 			if(var5.stackSize == 0) {

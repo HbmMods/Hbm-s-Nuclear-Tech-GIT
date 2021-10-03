@@ -234,6 +234,21 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_meu, uf * rod_rbmk, uf * rod_rbmk * 100);
 		registerRBMKRod(rbmk_fuel_heu233, u233 * rod_rbmk, u233 * rod_rbmk * 100);
 		registerRBMKRod(rbmk_fuel_heu235, u235 * rod_rbmk, u235 * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_thmeu, thf * rod_rbmk, u233 * rod_rbmk * 10);
+		registerRBMKRod(rbmk_fuel_lep, puf * rod_rbmk, puf * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_mep, purg * rod_rbmk, purg * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_hep239, pu239 * rod_rbmk, pu239 * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_hep241, pu241 * rod_rbmk, pu241 * rod_rbmk * 100);
+
+		registerRBMKPellet(rbmk_pellet_ueu, u * billet, u * billet * 100);
+		registerRBMKPellet(rbmk_pellet_meu, uf * billet, uf * billet * 100);
+		registerRBMKPellet(rbmk_pellet_heu233, u233 * billet, u233 * billet * 100);
+		registerRBMKPellet(rbmk_pellet_heu235, u235 * billet, u235 * billet * 100);
+		registerRBMKPellet(rbmk_pellet_thmeu, thf * billet, u233 * billet * 10);
+		registerRBMKPellet(rbmk_pellet_lep, puf * billet, puf * billet * 100);
+		registerRBMKPellet(rbmk_pellet_mep, purg * billet, purg * billet * 100);
+		registerRBMKPellet(rbmk_pellet_hep239, pu239 * billet, pu239 * billet * 100);
+		registerRBMKPellet(rbmk_pellet_hep241, pu241 * billet, pu241 * billet * 100);
 		
 		//TODO
 	}
@@ -259,9 +274,13 @@ public class HazardRegistry {
 		HazardSystem.register(quad, new HazardData().addEntry(RADIATION, base * rod_quad).addEntry(extra, base2 * rod_quad));
 	}
 	
-	private static void registerRBMKPellet(Item rod, float base, float dep) { registerRBMKPellet(rod, base, dep, 0F); }
-	private static void registerRBMKPellet(Item rod, float base, float dep, float blinding) {
+	private static void registerRBMKPellet(Item pellet, float base, float dep) { registerRBMKPellet(pellet, base, dep, 0F); }
+	private static void registerRBMKPellet(Item pellet, float base, float dep, float blinding) {
 		
+		HazardData data = new HazardData();
+		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierRBMKRadiation(dep)));
+		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, blinding));
+		HazardSystem.register(pellet, data);
 	}
 	
 	private static void registerRBMKRod(Item rod, float base, float dep) { registerRBMK(rod, base, dep, true, 0F); }

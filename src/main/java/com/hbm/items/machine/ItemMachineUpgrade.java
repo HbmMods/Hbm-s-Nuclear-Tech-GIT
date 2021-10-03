@@ -41,6 +41,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");
 			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
+			list.add(EnumChatFormatting.RED + "Oil Wells:");
+			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (25 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Crystallizer:");
 			list.add("Delay -" + (20 * this.tier) + "% / Consumption +" + (1000 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Cyclotron:");
@@ -67,6 +69,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
+			list.add(EnumChatFormatting.RED + "Oil Wells:");
+			list.add("Consumption -" + (25 * this.tier) + "% / Delay +" + (10 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Cyclotron:");
 			list.add("Consumption -" + (100 * this.tier) + "kHE/t");
 			list.add(EnumChatFormatting.RED + "Maxwell:");
@@ -94,6 +98,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Production x2 / Consumption x2.5");
 			list.add(EnumChatFormatting.RED + "Maxwell:");
 			list.add("Afterburn +3s");
+			list.add(EnumChatFormatting.RED + "Oil Wells:");
+			list.add("Burn 10mB of gas for 50HE/t");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_2) {
@@ -101,6 +107,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Production x3 / Consumption x5");
 			list.add(EnumChatFormatting.RED + "Maxwell:");
 			list.add("Afterburn +6s");
+			list.add(EnumChatFormatting.RED + "Oil Wells:");
+			list.add("Burn 20mB of gas for 100HE/t");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_3) {
@@ -108,6 +116,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Production x4 / Consumption x7.5");
 			list.add(EnumChatFormatting.RED + "Maxwell:");
 			list.add("Afterburn +9s");
+			list.add(EnumChatFormatting.RED + "Oil Wells:");
+			list.add("Burn 30mB of gas for 150HE/t");
 		}
 		
 		if(this == ModItems.upgrade_radius) {

@@ -10,6 +10,9 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
@@ -21,7 +24,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,7 +39,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public FluidTank[] tanks;
 
 	public TileEntityOilDrillBase() {
-		super(5);
+		super(8);
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
 		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
@@ -59,6 +61,10 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
+	public int speedLevel;
+	public int energyLevel;
+	public int overLevel;
+
 	@Override
 	public void updateEntity() {
 		
@@ -67,17 +73,38 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.tanks[0].unloadTank(1, 2, slots);
 			this.tanks[1].unloadTank(3, 4, slots);
 			
-			for(int i = 0; i < 2; i++) {
+			UpgradeManager.eval(slots, 5, 7);
+			this.speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			this.energyLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			this.overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
+			int abLevel = Math.min(UpgradeManager.getLevel(UpgradeType.AFTERBURN), 3);
+			
+			for(int i = 0; i < tanks.length; i++) {
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 			
-			power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+			int toBurn = Math.min(tanks[1].getFill(), abLevel * 10);
 			
-			if(this.power >= this.getPowerReq() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
+			if(toBurn > 0) {
+				tanks[1].setFill(tanks[1].getFill() - toBurn);
+				this.power += toBurn * 5;
 				
-				this.power -= this.getPowerReq();
+				if(this.power > this.getMaxPower())
+					this.power = this.getMaxPower();
+			}
+			
+			power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+
+			if(this.worldObj.getTotalWorldTime() % 10 == 0)
+				this.fillFluidInit(tanks[0].getTankType());
+			if(this.worldObj.getTotalWorldTime() % 10 == 5)
+				this.fillFluidInit(tanks[1].getTankType());
+			
+			if(this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
 				
-				if(worldObj.getTotalWorldTime() % getDelay() == 0) {
+				this.power -= this.getPowerReqEff();
+				
+				if(worldObj.getTotalWorldTime() % getDelayEff() == 0) {
 					this.indicator = 0;
 					
 					for(int y = yCoord - 1; y >= getDrillDepth(); y--) {
@@ -101,16 +128,42 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 				this.indicator = 2;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("indicator", this.indicator);
-			this.networkPack(data, 25);
+			this.sendUpdate();
 		}
+	}
+	
+	public void sendUpdate() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", power);
+		data.setInteger("indicator", this.indicator);
+		this.networkPack(data, 25);
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.indicator = nbt.getInteger("indicator");
+	}
+	
+	public boolean canPump() {
+		return true;
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && i >= 5 && i <= 7 && stack.getItem() instanceof ItemMachineUpgrade)
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+	}
+	
+	public int getPowerReqEff() {
+		int req = this.getPowerReq();
+		return (req + (req / 4 * this.speedLevel) - (req / 4 * this.energyLevel)) * this.overLevel;
+	}
+	
+	public int getDelayEff() {
+		int delay = getDelay();
+		return Math.max((delay - (delay / 4 * this.speedLevel) + (delay / 10 * this.energyLevel) / this.overLevel), 1);
 	}
 	
 	public abstract int getPowerReq();
@@ -120,11 +173,14 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		Block b = worldObj.getBlock(xCoord, y, zCoord);
 		
 		if(b.getExplosionResistance(null) < 1000) {
+			onDrill(y);
 			worldObj.setBlock(xCoord, y, zCoord, ModBlocks.oil_pipe);
 		} else {
 			this.indicator = 2;
 		}
 	}
+	
+	public void onDrill(int y) { }
 	
 	public int getDrillDepth() {
 		return 5;
@@ -136,6 +192,9 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		if(!canSuckBlock(b))
 			return false;
+		
+		if(!this.canPump())
+			return true;
 		
 		trace.clear();
 		
@@ -162,7 +221,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		Block b = worldObj.getBlock(x, y, z);
 		
-		if(b == ModBlocks.ore_oil) {
+		if(b == ModBlocks.ore_oil || b == ModBlocks.ore_bedrock_oil) {
 			doSuck(x, y, z);
 			return true;
 		}
@@ -191,7 +250,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public boolean getTact() {
-		return this.worldObj.getTotalWorldTime() % 2 == 0;
+		return this.worldObj.getTotalWorldTime() % 20 < 10;
 	}
 
 	@Override
@@ -201,20 +260,23 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-
+		for(FluidTank tank : tanks) {
+			if(type == tank.getTankType()) {
+				return tank.getFill();
+			}
+		}
+		
 		return 0;
 	}
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
+		for(FluidTank tank : tanks) {
+			if(type == tank.getTankType()) {
+				tank.setFill(i);
+				return;
+			}
+		}
 	}
 
 	@Override
@@ -236,13 +298,13 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public void setFillstate(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
+		if(index < tanks.length && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
 	public void setType(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
+		if(index < tanks.length && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 

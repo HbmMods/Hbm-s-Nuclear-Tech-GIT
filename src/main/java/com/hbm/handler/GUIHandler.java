@@ -10,9 +10,8 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
-import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
-import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 
@@ -309,8 +308,8 @@ public class GUIHandler implements IGuiHandler {
 		}
 
 		case ModBlocks.guiID_machine_well: {
-			if(entity instanceof TileEntityMachineOilWell) {
-				return new ContainerMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
+			if(entity instanceof TileEntityOilDrillBase) {
+				return new ContainerMachineOilWell(player.inventory, (TileEntityOilDrillBase) entity);
 			}
 			return null;
 		}
@@ -353,13 +352,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_machine_fluidtank: {
 			if(entity instanceof TileEntityMachineFluidTank) {
 				return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_pumpjack: {
-			if(entity instanceof TileEntityMachinePumpjack) {
-				return new ContainerMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
 			}
 			return null;
 		}
@@ -1151,8 +1143,8 @@ public class GUIHandler implements IGuiHandler {
 		}
 
 		case ModBlocks.guiID_machine_well: {
-			if(entity instanceof TileEntityMachineOilWell) {
-				return new GUIMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
+			if(entity instanceof TileEntityOilDrillBase) {
+				return new GUIMachineOilWell(player.inventory, (TileEntityOilDrillBase) entity);
 			}
 			return null;
 		}
@@ -1195,13 +1187,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_machine_fluidtank: {
 			if(entity instanceof TileEntityMachineFluidTank) {
 				return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_pumpjack: {
-			if(entity instanceof TileEntityMachinePumpjack) {
-				return new GUIMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
 			}
 			return null;
 		}
