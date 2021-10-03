@@ -53,7 +53,7 @@ public class BlockGasRadonTomb extends BlockGasBase {
 		
 		if(entity instanceof EntityLivingBase) {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.5F);
-			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 20);
+			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 10);
 		}
 	}
 

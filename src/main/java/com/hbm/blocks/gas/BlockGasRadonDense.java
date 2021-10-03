@@ -41,7 +41,7 @@ public class BlockGasRadonDense extends BlockGasBase {
 		} else {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F);
 			entityLiving.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));
-			HbmLivingProps.incrementFibrosis(entityLiving, 10);
+			HbmLivingProps.incrementFibrosis(entityLiving, 5);
 		}
 	}
 

@@ -25,7 +25,7 @@ public class BlockGasRadon extends BlockGasBase {
 		
 		if(entity instanceof EntityLivingBase) {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
-			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 5);
+			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 1);
 		}
 	}
 
