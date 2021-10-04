@@ -46,6 +46,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	public int rods;
 	public final int rodsMax = 100;
 	public boolean retracting = true;
+	//public boolean usingHeavyWater = false;
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
@@ -172,8 +173,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		hullHeat = nbt.getInteger("hullHeat");
 		rods = nbt.getInteger("rods");
 		retracting = nbt.getBoolean("ret");
+		//usingHeavyWater = nbt.getBoolean("waterType");
 		slots = new ItemStack[getSizeInventory()];
-		tanks[0].readFromNBT(nbt, "water");
+		tanks[0].readFromNBT(nbt, "moderator");
 		tanks[1].readFromNBT(nbt, "coolant");
 		tanks[2].readFromNBT(nbt, "steam");
 
@@ -193,6 +195,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		nbt.setInteger("hullHeat", hullHeat);
 		nbt.setInteger("rods", rods);
 		nbt.setBoolean("ret", retracting);
+		//nbt.setBoolean("waterType", usingHeavyWater);
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
@@ -334,7 +337,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				fillFluidInit(tanks[2].getTankType());
 
 			tanks[0].loadTank(12, 13, slots);
-			tanks[1].loadTank(14, 15, slots);
+			tanks[1].loadTank(14, 15, slots); 
 
 			if(retracting && rods > 0) {
 
@@ -444,6 +447,14 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			water /= 10;
 			break;
 		case SUPERHOTSTEAM:
+			break;
+		case HEAVYSTEAM:
+			water /= 100D;
+			break;
+		case HOTHEAVYSTEAM:
+			water /= 10;
+			break;
+		case SPHOTHEAVYSTEAM:
 			break;
 		}
 

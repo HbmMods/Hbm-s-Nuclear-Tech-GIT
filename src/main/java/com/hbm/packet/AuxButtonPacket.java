@@ -88,13 +88,45 @@ public class AuxButtonPacket implements IMessage {
 					if(m.id == 1) {
 						FluidType type = FluidType.STEAM;
 						int fill = reactor.tanks[2].getFill();
-						
 						switch(m.value) {
 						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
 						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
 						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-						}
+						}					
+						if(fill > reactor.tanks[2].getMaxFill())
+							fill = reactor.tanks[2].getMaxFill();
 						
+						reactor.tanks[2].setTankType(type);
+						reactor.tanks[2].setFill(fill);
+					}
+					
+					if(m.id == 2) {
+						FluidType type = FluidType.WATER;
+						FluidType steamType = FluidType.STEAM;
+						switch(m.value) {
+						case 0: type = FluidType.WATER; break;
+						case 1: type = FluidType.HEAVYWATER; break;	
+					    }
+						switch (reactor.tanks[2].getTankType()) {
+						case STEAM: steamType = FluidType.HEAVYSTEAM; break;
+						case HOTSTEAM: steamType = FluidType.HOTHEAVYSTEAM; break;
+						case SUPERHOTSTEAM: steamType = FluidType.SPHOTHEAVYSTEAM; break;
+						case HEAVYSTEAM: steamType = FluidType.STEAM; break;
+						case HOTHEAVYSTEAM: steamType = FluidType.HOTSTEAM; break;
+						case SPHOTHEAVYSTEAM: steamType = FluidType.SUPERHOTSTEAM; break;
+						}
+						reactor.tanks[2].setTankType(steamType);
+						reactor.tanks[0].setTankType(type);
+					}
+					
+					if(m.id == 3) {
+						FluidType type = FluidType.HEAVYSTEAM;
+						int fill = reactor.tanks[2].getFill();
+						switch(m.value) {
+						case 0: type = FluidType.HOTHEAVYSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 1: type = FluidType.SPHOTHEAVYSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 2: type = FluidType.HEAVYSTEAM; fill = (int)Math.floor(fill * 100); break;
+						}					
 						if(fill > reactor.tanks[2].getMaxFill())
 							fill = reactor.tanks[2].getMaxFill();
 						

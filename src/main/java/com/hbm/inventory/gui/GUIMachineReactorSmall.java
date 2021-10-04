@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineReactorSmall;
 import com.hbm.lib.RefStrings;
@@ -76,6 +77,9 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		case STEAM: s = "1x"; break;
 		case HOTSTEAM:s = "10x"; break;
 		case SUPERHOTSTEAM: s = "100x"; break;
+		case HEAVYSTEAM: s = "1x"; break;
+		case HOTHEAVYSTEAM:s = "10x"; break;
+		case SPHOTHEAVYSTEAM: s = "100x"; break;
 		}
 		
 		String[] text4 = new String[] { "Steam compression switch",
@@ -83,7 +87,10 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 63, guiTop + 107, 14, 18, mouseX, mouseY, text4);
 		
 		String[] text5 = new String[] { diFurnace.retracting ? "Raise control rods" : "Lower control rods"};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 53, 18, 18, mouseX, mouseY, text5);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 36, 18, 18, mouseX, mouseY, text5);
+		
+		String[] text6 = new String[] { "Switch Moderator Type" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 68, 18, 18, mouseX, mouseY, text6);
 	}
 	
 	@Override
@@ -98,24 +105,44 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
     	super.mouseClicked(x, y, i);
 		
-    	if(guiLeft + 52 <= x && guiLeft + 52 + 16 > x && guiTop + 53 < y && guiTop + 53 + 16 >= y) {
+    	if(guiLeft + 52 <= x && guiLeft + 52 + 16 > x && guiTop + 36 < y && guiTop + 36 + 16 >= y) {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, diFurnace.retracting ? 0 : 1, 0));
+    	}
+    	
+        if(guiLeft + 52 <= x && guiLeft + 52 + 16 > x && guiTop + 68 < y && guiTop + 68 + 16 >= y) {
+    		
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			int waterStatus = 0;
+			switch(diFurnace.tanks[0].getTankType()) {
+			case HEAVYWATER: waterStatus = 0; break;
+			case WATER: waterStatus = 1; break;
+			}
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, waterStatus, 2));
     	}
 		
     	if(guiLeft + 63 <= x && guiLeft + 63 + 14 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			int c = 0;
+			if (!(diFurnace.tanks[0].getTankType() == FluidType.HEAVYWATER)) {
+				switch(diFurnace.tanks[2].getTankType()) {
+				case STEAM: c = 0; break;
+				case HOTSTEAM: c = 1; break;
+				case SUPERHOTSTEAM: c = 2; break;
+				}
 			
-			switch(diFurnace.tanks[2].getTankType()) {
-			case STEAM: c = 0; break;
-			case HOTSTEAM: c = 1; break;
-			case SUPERHOTSTEAM: c = 2; break;
+				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, c, 1));
+			} else {
+				switch(diFurnace.tanks[2].getTankType()) {
+				case HEAVYSTEAM: c = 0; break;
+				case HOTHEAVYSTEAM: c = 1; break;
+				case SPHOTHEAVYSTEAM: c = 2; break;
+				}
+				
+				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, c, 3));
 			}
-			
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, c, 1));
     	}
     }
 
@@ -139,6 +166,8 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 			switch(diFurnace.tanks[2].getTankType()) {
 			case HOTSTEAM: offset += 4; break;
 			case SUPERHOTSTEAM: offset += 8; break;
+			case HOTHEAVYSTEAM: offset += 4; break;
+			case SPHOTHEAVYSTEAM: offset += 8; break;
 			}
 			
 			drawTexturedModalRect(guiLeft + 80, guiTop + 108, 0, offset, i, 4);
@@ -161,7 +190,10 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		}
 		
 		if(!diFurnace.retracting)
-			drawTexturedModalRect(guiLeft + 52, guiTop + 53, 212, 0, 18, 18);
+			drawTexturedModalRect(guiLeft + 52, guiTop + 35, 212, 0, 18, 18);
+		
+		if(diFurnace.tanks[0].getTankType() == FluidType.HEAVYWATER)
+			drawTexturedModalRect(guiLeft + 52, guiTop + 71, 230, 0, 18, 18);
 		
 		if(!toggleOverlay) {
 			if(diFurnace.rods >= diFurnace.rodsMax) {
@@ -183,6 +215,9 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		case STEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 18, 14, 18); break;
 		case HOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 18, 14, 18); break;
 		case SUPERHOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 18, 14, 18); break;
+		case HEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 18, 14, 18); break;
+		case HOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 18, 14, 18); break;
+		case SPHOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 18, 14, 18); break;
 		}
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
