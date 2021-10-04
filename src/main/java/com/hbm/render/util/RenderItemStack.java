@@ -34,7 +34,7 @@ public class RenderItemStack {
 		}
 	}
 	
-	public static void renderItemStackDry(int x, int y, float f0, ItemStack stack) {
+	public static void renderItemStackNoEffect(int x, int y, float f0, ItemStack stack) {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
