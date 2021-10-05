@@ -166,8 +166,8 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 			switch(diFurnace.tanks[2].getTankType()) {
 			case HOTSTEAM: offset += 4; break;
 			case SUPERHOTSTEAM: offset += 8; break;
-			case HOTHEAVYSTEAM: offset += 4; break;
-			case SPHOTHEAVYSTEAM: offset += 8; break;
+			case HOTHEAVYSTEAM: offset += 12; break;
+			case SPHOTHEAVYSTEAM: offset += 16; break;
 			}
 			
 			drawTexturedModalRect(guiLeft + 80, guiTop + 108, 0, offset, i, 4);
@@ -215,9 +215,9 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		case STEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 18, 14, 18); break;
 		case HOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 18, 14, 18); break;
 		case SUPERHOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 18, 14, 18); break;
-		case HEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 18, 14, 18); break;
-		case HOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 18, 14, 18); break;
-		case SPHOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 18, 14, 18); break;
+		case HEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 36, 14, 18); break;
+		case HOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 36, 14, 18); break;
+		case SPHOTHEAVYSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 36, 14, 18); break;
 		}
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);

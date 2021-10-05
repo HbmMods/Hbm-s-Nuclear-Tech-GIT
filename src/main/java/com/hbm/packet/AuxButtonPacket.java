@@ -101,22 +101,29 @@ public class AuxButtonPacket implements IMessage {
 					}
 					
 					if(m.id == 2) {
-						FluidType type = FluidType.WATER;
+						FluidType waterType = FluidType.WATER;
 						FluidType steamType = FluidType.STEAM;
 						switch(m.value) {
-						case 0: type = FluidType.WATER; break;
-						case 1: type = FluidType.HEAVYWATER; break;	
+						case 0: waterType = FluidType.WATER; break;
+						case 1: waterType = FluidType.HEAVYWATER; break;	
 					    }
-						switch (reactor.tanks[2].getTankType()) {
+						/*switch (reactor.tanks[2].getTankType()) {
 						case STEAM: steamType = FluidType.HEAVYSTEAM; break;
 						case HOTSTEAM: steamType = FluidType.HOTHEAVYSTEAM; break;
 						case SUPERHOTSTEAM: steamType = FluidType.SPHOTHEAVYSTEAM; break;
 						case HEAVYSTEAM: steamType = FluidType.STEAM; break;
 						case HOTHEAVYSTEAM: steamType = FluidType.HOTSTEAM; break;
 						case SPHOTHEAVYSTEAM: steamType = FluidType.SUPERHOTSTEAM; break;
-						}
+						}*/ 
+						steamType = (reactor.tanks[2].getTankType() == FluidType.STEAM) ? FluidType.HEAVYSTEAM : 
+							(reactor.tanks[2].getTankType() == FluidType.HEAVYSTEAM) ? FluidType.STEAM : 
+							(reactor.tanks[2].getTankType() == FluidType.HOTSTEAM) ? FluidType.HOTHEAVYSTEAM : 
+							(reactor.tanks[2].getTankType() == FluidType.HOTHEAVYSTEAM) ? FluidType.HOTSTEAM :
+							(reactor.tanks[2].getTankType() == FluidType.SUPERHOTSTEAM) ? FluidType.SPHOTHEAVYSTEAM : 
+							(reactor.tanks[2].getTankType() == FluidType.SPHOTHEAVYSTEAM) ? FluidType.SUPERHOTSTEAM : null;
+							
 						reactor.tanks[2].setTankType(steamType);
-						reactor.tanks[0].setTankType(type);
+						reactor.tanks[0].setTankType(waterType);
 					}
 					
 					if(m.id == 3) {

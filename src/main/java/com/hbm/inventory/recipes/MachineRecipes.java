@@ -257,6 +257,9 @@ public class MachineRecipes {
 		case HOTSTEAM: return new Object[] { FluidType.STEAM, 50, 5, 100 };
 		case SUPERHOTSTEAM: return new Object[] { FluidType.HOTSTEAM, 50, 5, 150 };
 		case ULTRAHOTSTEAM: return new Object[] { FluidType.SUPERHOTSTEAM, 50, 5, 250 };
+		case HEAVYSTEAM: return new Object[] { FluidType.SPENTHEAVYSTEAM, 5, 500, 50 };
+		case HOTHEAVYSTEAM: return new Object[] { FluidType.HEAVYSTEAM, 50, 5, 100 };
+		case SPHOTHEAVYSTEAM: return new Object[] { FluidType.HOTHEAVYSTEAM, 50, 5, 150 };
 		}
 		
 		return null;

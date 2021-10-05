@@ -56,7 +56,7 @@ public class GUIMachineTurbine extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.STEAM.name())) {
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.STEAM.name()) || diFurnace.tanks[0].getTankType().name().equals(FluidType.HEAVYSTEAM.name()))  {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
 		}
 		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.HOTSTEAM.name())) {
@@ -67,6 +67,12 @@ public class GUIMachineTurbine extends GuiInfoContainer {
 		}
 		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.ULTRAHOTSTEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
+		}
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.HOTHEAVYSTEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 197, 14, 14, 14);
+		}
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.SPHOTHEAVYSTEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 197, 28, 14, 14);
 		}
 
 		int i = (int)diFurnace.getPowerScaled(34);

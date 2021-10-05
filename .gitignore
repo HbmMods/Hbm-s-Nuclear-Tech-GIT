@@ -48,3 +48,6 @@ saves/holy crap/level.dat_old
 saves/holy crap/level.dat_mcr
 saves/holy crap/session.lock
 *.json
+*.dat_mcr
+*.dat_old
+*.lock

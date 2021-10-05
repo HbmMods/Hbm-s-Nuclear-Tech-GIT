@@ -32,9 +32,9 @@ public class FluidTypeHandler {
 		DEUTERIUM		(0x0000FF,	4,	1,	1,	3,	4,	0,	EnumSymbol.NONE,		"hbmfluid.deuterium"),
 		TRITIUM			(0x000099,	5,	1,	1,	3,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.tritium"),
 		HEAVYWATER      (0x0072d4,  4,  2,  2,  1,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavywater"),
-		HEAVYSTEAM      (0xe5f3f3,  5,  2,  2,  3,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavysteam"),
-		HOTHEAVYSTEAM   (0xc0d2d2,  6,  2,  2,  3,  0,  0,  EnumSymbol.NONE,        "hbmfluid.hotheavysteam"),
-		SPHOTHEAVYSTEAM (0xb6c2ba,  7,  2,  2,  3,  0,  0,  EnumSymbol.NONE,        "hbmfluid.superhotheavysteam"),
+		HEAVYSTEAM      (0xe5f3f3,  5,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavysteam"),
+		HOTHEAVYSTEAM   (0xa9c5bd,  6,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.hotheavysteam"),
+		SPHOTHEAVYSTEAM (0x8ca59e,  7,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.superhotheavysteam"),
 		
 
 		OIL				(0x020202,	6,	1,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.oil"),
@@ -89,6 +89,7 @@ public class FluidTypeHandler {
 
 		GASOLINE		(0x445772,	2,	2,	2,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.gasoline"),
 		SPENTSTEAM		(0x445772,	3,	2,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.spentsteam", FluidTrait.NO_CONTAINER),
+		SPENTHEAVYSTEAM (0x327272,  8,  2,  2,  2,  0,  0,  EnumSymbol.NONE,        "hbmfluid.spentheavysteam", FluidTrait.NO_CONTAINER),
 		
 		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
 		PLASMA_HD		(0xF0ADF4,	9,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_hd", 2500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
