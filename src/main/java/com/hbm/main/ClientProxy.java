@@ -72,6 +72,7 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFrackingTower;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
@@ -173,6 +174,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFractionTower.class, new RenderFractionTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpacer.class, new RenderSpacer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePumpjack.class, new RenderPumpjack());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFrackingTower.class, new RenderFrackingTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTurbofan.class, new RenderTurbofan());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePress.class, new RenderPress());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineEPress.class, new RenderEPress());

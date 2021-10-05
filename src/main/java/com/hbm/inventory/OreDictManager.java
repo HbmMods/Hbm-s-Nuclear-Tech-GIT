@@ -169,21 +169,21 @@ public class OreDictManager {
 		OreDictionary.registerOre("stairWoodPink", pink_stairs);
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
-		OreDictionary.registerOre("dye", cinnebar);
+		//OreDictionary.registerOre("dye", cinnebar);
 		OreDictionary.registerOre("dyeYellow", sulfur);
-		OreDictionary.registerOre("dye", sulfur);
+		//OreDictionary.registerOre("dye", sulfur);
 		OreDictionary.registerOre("dyeBlack", powder_coal);
-		OreDictionary.registerOre("dye", powder_coal);
+		//OreDictionary.registerOre("dye", powder_coal);
 		OreDictionary.registerOre("dyeBrown", powder_lignite);
-		OreDictionary.registerOre("dye", powder_lignite);
+		//OreDictionary.registerOre("dye", powder_lignite);
 		OreDictionary.registerOre("dyeLightGray", powder_titanium);
-		OreDictionary.registerOre("dye", powder_titanium);
+		//OreDictionary.registerOre("dye", powder_titanium);
 		OreDictionary.registerOre("dyeWhite", fluorite);
-		OreDictionary.registerOre("dye", fluorite);
+		//OreDictionary.registerOre("dye", fluorite);
 		OreDictionary.registerOre("dyeBlue", powder_lapis);
-		OreDictionary.registerOre("dye", powder_lapis);
+		//OreDictionary.registerOre("dye", powder_lapis);
 		OreDictionary.registerOre("dyeBlack", oil_tar);
-		OreDictionary.registerOre("dye", oil_tar);
+		//OreDictionary.registerOre("dye", oil_tar);
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
 		OreDictionary.registerOre("blockGlass", glass_lead);

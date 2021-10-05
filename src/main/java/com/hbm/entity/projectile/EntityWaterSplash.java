@@ -7,6 +7,7 @@ import com.hbm.packet.PacketDispatcher;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -46,12 +47,19 @@ public class EntityWaterSplash extends EntityThrowable {
 		}
 	}
 
-    @Override
-	protected void onImpact(MovingObjectPosition p_70184_1_)
-    {
-        if(this.ticksExisted > 5) {
-    		worldObj.spawnParticle("splash", posX, posY, posZ, 0.0D, 0.0D, 0.0D);
-        	this.setDead();
-        }
-    }
+	@Override
+	protected void onImpact(MovingObjectPosition p_70184_1_) {
+		if(this.ticksExisted > 5) {
+			worldObj.spawnParticle("splash", posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+			this.setDead();
+		}
+	}
+
+	public boolean writeToNBTOptional(NBTTagCompound nbt) {
+		return false;
+	}
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		this.setDead();
+	}
 }

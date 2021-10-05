@@ -14,8 +14,10 @@ public class FuelHandler implements IFuelHandler {
 
 		if(fuel.getItem().equals(ModItems.solid_fuel))
 			return 3200;
-		if(fuel.getItem().equals(ModItems.biomass_compressed))
+		if(fuel.getItem().equals(ModItems.biomass))
 			return 800;
+		if(fuel.getItem().equals(ModItems.biomass_compressed))
+			return 2400;
 		if(fuel.getItem().equals(ModItems.powder_coal))
 			return 1600;
 		if(fuel.getItem().equals(ModItems.scrap))

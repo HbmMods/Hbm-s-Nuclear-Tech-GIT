@@ -173,6 +173,8 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.paper, 3));
 		ShredderRecipes.setRecipe(Items.fermented_spider_eye, new ItemStack(ModItems.powder_poison, 3));
 		ShredderRecipes.setRecipe(Items.poisonous_potato, new ItemStack(ModItems.powder_poison, 1));
+		
+		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass));
 
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));
 		ShredderRecipes.setRecipe(ModItems.crystal_coal, new ItemStack(ModItems.powder_coal, 3));
@@ -287,7 +289,7 @@ public class ShredderRecipes {
 	}
 	
 	/**
-	 * Returns null when no ingot or gem is found, for deciding whether the block shredding output shoiuld be 9 or 4 dusts
+	 * Returns null when no ingot or gem is found, for deciding whether the block shredding output should be 9 or 4 dusts
 	 * @param name
 	 * @return
 	 */

@@ -201,7 +201,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		if(blacklung >= maxBlacklung) {
 			getData(entity).blacklung = 0;
-			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
+			entity.attackEntityFrom(ModDamageSource.blacklung, 1000);
 		}
 	}
 	

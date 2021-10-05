@@ -6,12 +6,7 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
-import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
-import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
-import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
-import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
-import com.hbm.tileentity.machine.oil.TileEntitySpacer;
+import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.network.*;
@@ -73,9 +68,6 @@ public class TileMappings {
 		map.put(TileEntityMachineIGenerator.class, "tileentity_igenerator");
 		map.put(TileEntityDummy.class, "tileentity_dummy");
 		map.put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
-		map.put(TileEntityMachineOilWell.class, "tileentity_derrick");
-		map.put(TileEntityMachineGasFlare.class, "tileentity_gasflare");
-		map.put(TileEntityMachineRefinery.class, "tileentity_refinery");
 		map.put(TileEntityOilDuct.class, "tileentity_oil_duct");
 		map.put(TileEntityOilDuctSolid.class, "tileentity_oil_duct_solid");
 		map.put(TileEntityGasDuct.class, "tileentity_gas_duct");
@@ -93,7 +85,6 @@ public class TileMappings {
 		map.put(TileEntityTurretLight.class, "tileentity_turret_light");
 		map.put(TileEntityTurretFlamer.class, "tileentity_turret_flamer");
 		map.put(TileEntityTurretTau.class, "tileentity_turret_tau");
-		map.put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
 		map.put(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		map.put(TileEntityCrateIron.class, "tileentity_crate_iron");
 		map.put(TileEntityCrateSteel.class, "tileentity_crate_steel");
@@ -238,6 +229,12 @@ public class TileMappings {
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
 		map.put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
 		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");
+		
+		map.put(TileEntityMachineOilWell.class, "tileentity_derrick");
+		map.put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
+		map.put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");
+		map.put(TileEntityMachineGasFlare.class, "tileentity_gasflare");
+		map.put(TileEntityMachineRefinery.class, "tileentity_refinery");
 	}
 	
 	private static void putPile() {

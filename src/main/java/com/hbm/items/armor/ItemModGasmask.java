@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelM65;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
@@ -59,7 +60,18 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
+		
+		int i = 0;
+		
+		ItemStack filter = ArmorUtil.getGasMaskFilter(stack);
+		
+		if(filter != null) {
+			i = filter.getItemDamage() / filter.getMaxDamage();
+		}
+		
 		list.add(EnumChatFormatting.GREEN + "  " + stack.getDisplayName() + " (gas protection)");
+		
+		ArmorUtil.addGasMaskTooltip(stack, MainRegistry.proxy.me(), list, false);
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class BlockCluster extends Block implements IDrillInteraction {
 
 	@Override
 	public boolean canBreak(World world, int x, int y, int z, int meta, IMiningDrill drill) {
-		return drill.getDrillRating() <= 70 && world.rand.nextFloat() < 0.05;
+		return drill.getDrillRating() > 70 || world.rand.nextFloat() < 0.05;
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class ResourceManager {
 	//Oil Pumps
 	public static final IModelCustom derrick = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/derrick.obj"));
 	public static final IModelCustom pumpjack = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/pumpjack.obj"));
+	public static final IModelCustom fracking_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/fracking_tower.obj"));
 	
 	//Refinery
 	public static final IModelCustom refinery = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/refinery.obj"));
@@ -322,6 +323,7 @@ public class ResourceManager {
 	//Oil Pumps
 	public static final ResourceLocation derrick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/derrick.png");
 	public static final ResourceLocation pumpjack_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/pumpjack.png");
+	public static final ResourceLocation fracking_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fracking_tower.png");
 	
 	//Refinery
 	public static final ResourceLocation refinery_tex = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
