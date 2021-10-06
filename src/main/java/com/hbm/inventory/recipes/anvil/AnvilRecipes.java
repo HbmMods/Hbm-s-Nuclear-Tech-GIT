@@ -470,6 +470,19 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.pile_rod_boron),
 				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)), new AnvilOutput(new ItemStack(Items.stick, 2))}).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.machine_industrial_generator), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModBlocks.machine_coal_off, 2)),
+						new AnvilOutput(new ItemStack(ModBlocks.machine_boiler_off, 2)),
+						new AnvilOutput(new ItemStack(ModBlocks.machine_large_turbine, 1)),
+						new AnvilOutput(new ItemStack(ModBlocks.machine_transformer, 1)),
+						new AnvilOutput(new ItemStack(ModBlocks.steel_scaffold, 20)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 12)),
+						new AnvilOutput(new ItemStack(ModItems.plate_lead, 8)),
+						new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 12)),
+						new AnvilOutput(new ItemStack(ModItems.pipes_steel, 1))
+						}).setTier(2));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

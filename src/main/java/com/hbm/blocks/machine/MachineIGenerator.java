@@ -48,7 +48,7 @@ public class MachineIGenerator extends BlockDummyable {
 		return false;
 	}
 	
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
@@ -69,7 +69,7 @@ public class MachineIGenerator extends BlockDummyable {
 		} else {
 			return false;
 		}
-	}
+	}*/
 
 	@Override
 	public int[] getDimensions() {
@@ -105,7 +105,7 @@ public class MachineIGenerator extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {3,-2,1,1,-1,3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,-2,1,1,1,0}, this, dir);
 		
-		int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
+		/*int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
 		
 		for(int iy = 0; iy <= 1; iy++) {
 			for(int ix = -rot[4]; ix <= rot[5]; ix++) {
@@ -116,6 +116,6 @@ public class MachineIGenerator extends BlockDummyable {
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
