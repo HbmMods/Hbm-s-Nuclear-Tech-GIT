@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 
 import api.hbm.block.IPileNeutronReceiver;
 import net.minecraft.init.Blocks;
@@ -13,7 +14,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 	public int neutrons;
 	public int lastNeutrons;
 	public int progress;
-	public static final int maxProgress = 75000;
+	public static final int maxProgress = GeneralConfig.enable528 ? 75000 : 50000;
 
 	@Override
 	public void updateEntity() {
