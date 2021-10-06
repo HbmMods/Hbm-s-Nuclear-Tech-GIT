@@ -6,9 +6,10 @@ import java.util.List;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.IItemHazard;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
@@ -63,8 +64,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					
 					Item item = slots[i].getItem();
 					
-					if(item instanceof IItemHazard && worldObj.getTotalWorldTime() % 20 == 0) {
-						rad += ((IItemHazard)item).getModule().radiation;
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						rad += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.RADIATION);
 					}
 					
 					int meta = slots[i].getItemDamage();

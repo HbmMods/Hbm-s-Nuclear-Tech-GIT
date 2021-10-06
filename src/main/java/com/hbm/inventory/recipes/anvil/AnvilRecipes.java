@@ -459,23 +459,35 @@ public class AnvilRecipes {
 		).setTier(4));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModItems.pile_rod_uranium),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_uranium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(2));
-		if (GeneralConfig.enable528) {
+				new ComparableStack(ModItems.pile_rod_uranium), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.billet_uranium, 3)),
+						new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+						}).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModItems.pile_rod_plutonium),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),new AnvilOutput(new ItemStack(ModItems.nuclear_waste_tiny, 6)),new AnvilOutput(new ItemStack(ModItems.plate_iron, 1))}).setTier(2)); 
+				new ComparableStack(ModItems.pile_rod_source), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.billet_ra226be, 3)),
+						new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+						}).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_boron), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)),
+						new AnvilOutput(new ItemStack(Items.stick, 2))
+						}).setTier(2));
+
+		if(GeneralConfig.enable528) {
+			constructionRecipes.add(new AnvilConstructionRecipe(
+					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
+							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),
+							new AnvilOutput(new ItemStack(ModItems.billet_nuclear_waste, 1)),
+							new AnvilOutput(new ItemStack(ModItems.plate_iron, 1))
+							}).setTier(2));
 		} else {
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModItems.pile_rod_plutonium),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(2));
+			constructionRecipes.add(new AnvilConstructionRecipe(
+					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
+							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 3)),
+							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+							}).setTier(2));
 		}
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModItems.pile_rod_source),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.billet_ra226be, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))}).setTier(2));
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModItems.pile_rod_boron),
-				new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)), new AnvilOutput(new ItemStack(Items.stick, 2))}).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.machine_industrial_generator), new AnvilOutput[] {

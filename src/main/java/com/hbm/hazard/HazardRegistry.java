@@ -87,6 +87,7 @@ public class HazardRegistry {
 	public static final float trx = 25.0F;
 	public static final float trn = 0.1F;
 	public static final float wst = 15.0F;
+	public static final float wstv = 7.5F;
 	public static final float yc = u;
 	public static final float fo = 10F;
 
@@ -144,7 +145,6 @@ public class HazardRegistry {
 		HazardSystem.register(egg_balefire_shard, makeData(RADIATION, bf * nugget));
 		HazardSystem.register(egg_balefire, makeData(RADIATION, bf * ingot));
 
-		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
 		HazardSystem.register(nuclear_waste_long_tiny, makeData(RADIATION, 0.5F));
 		HazardSystem.register(nuclear_waste_short, new HazardData().addEntry(RADIATION, 30F).addEntry(HOT, 5F));
@@ -153,10 +153,14 @@ public class HazardRegistry {
 		HazardSystem.register(nuclear_waste_long_depleted_tiny, makeData(RADIATION, 0.05F));
 		HazardSystem.register(nuclear_waste_short_depleted, makeData(RADIATION, 3F));
 		HazardSystem.register(nuclear_waste_short_depleted_tiny, makeData(RADIATION, 0.3F));
-		HazardSystem.register(nuclear_waste, makeData(RADIATION, 15F));
-		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, 1.5F));
-		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, 7.5F));
-		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, 0.75F));
+
+		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
+		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
+		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));
+		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
+		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));
+		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, wstv * nugget));
+		
 		HazardSystem.register(waste_uranium, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_thorium, makeData(RADIATION, 10F));
 		HazardSystem.register(waste_plutonium, makeData(RADIATION, 15F));

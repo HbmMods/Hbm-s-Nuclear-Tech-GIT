@@ -373,7 +373,8 @@ public class EntityEffectHandler {
 		
 		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
 			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
-			if (new Random().nextInt(6) > 1) {
+			
+			if(entity.getRNG().nextInt(6) > 1) {
 				if(coughsBlood) {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("type", "vomit");

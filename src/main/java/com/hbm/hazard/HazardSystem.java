@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.transformer.HazardTransformerBase;
+import com.hbm.hazard.type.HazardTypeBase;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 
@@ -139,6 +141,18 @@ public class HazardSystem {
 		}
 		
 		return entries;
+	}
+	
+	public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
+		List<HazardEntry> entries = getHazardsFromStack(stack);
+		
+		for(HazardEntry entry : entries) {
+			if(entry.type == hazard) {
+				return HazardModifier.evalAllModifiers(stack, null, entry.baseLevel, entry.mods);
+			}
+		}
+		
+		return 0F;
 	}
 	
 	/**

@@ -833,6 +833,7 @@ item.billet_les.name=Low Enriched Schrabidium Fuel Billet
 item.billet_mox_fuel.name=MOX Fuel Billet
 item.billet_neptunium.name=Neptunium Billet
 item.billet_neptunium_fuel.name=Neptunium Fuel Billet
+item.billet_nuclear_waste.name=Nuclear Waste Billet
 item.billet_po210be.name=Po210Be Billet
 item.billet_polonium.name=Polonium-210 Billet
 item.billet_pu_mix.name=Reactor Grade Plutonium Billet
