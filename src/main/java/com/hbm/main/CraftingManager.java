@@ -284,8 +284,6 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.screwdriver, 1), new Object[] { "  I", " I ", "S  ", 'S', "ingotSteel", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.overfuse, 1), new Object[] { ModItems.screwdriver, "dustNeptunium", ModItems.powder_iodine, ModItems.powder_thorium, ModItems.powder_astatine, ModItems.powder_neodymium, ModItems.board_copper, ModItems.black_hole, ModItems.powder_caesium }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.overfuse, 1), new Object[] { ModItems.screwdriver, ModItems.powder_strontium, ModItems.powder_bromine, ModItems.powder_cobalt, ModItems.powder_tennessine, ModItems.powder_niobium, ModItems.board_copper, ModItems.black_hole, ModItems.powder_cerium }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.crystal_energy, 1), new Object[] { "EEE", "EGE", "EEE", 'E', ModItems.powder_power, 'G', Items.glowstone_dust });
-		GameRegistry.addRecipe(new ItemStack(ModItems.pellet_coolant, 1), new Object[] { "CRC", "RBR", "CRC", 'C', ModItems.powder_ice, 'R', ModItems.rod_quad_coolant, 'B', ModBlocks.block_niter });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.blades_aluminium, 1), new Object[] { " P ", "PIP", " P ", 'P', "plateAluminum", 'I', "ingotAluminum" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.blades_gold, 1), new Object[] { " P ", "PIP", " P ", 'P', "plateGold", 'I', "ingotGold" }));
@@ -378,11 +376,11 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_lamp_off), 1), new Object[] { "FFF", "FBF", "FFF", 'F', Blocks.iron_bars, 'B', Blocks.redstone_lamp });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_sand), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.sandstone });
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_green_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P', "dustPhosphorus", 'T', ModItems.cell_tritium, '1', "dustSulfur", '2', "dustCopper" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_blue_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P',"dustPhosphorus", 'T', ModItems.cell_tritium, '1', "dustAluminum", '2', ModItems.powder_strontium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_green_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P', "dustRedPhosphorus", 'T', ModItems.cell_tritium, '1', "dustSulfur", '2', "dustCopper" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.lamp_tritium_blue_off, 1), new Object[] { "GPG", "1T2", "GPG", 'G', "blockGlass", 'P',"dustRedPhosphorus", 'T', ModItems.cell_tritium, '1', "dustAluminum", '2', ModItems.powder_strontium }));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barbed_wire, 16), new Object[] { "AIA", "I I", "AIA", 'A', ModItems.wire_aluminium, 'I', "ingotIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barbed_wire_fire, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', "dustPhosphorus" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.barbed_wire_fire, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', "dustRedPhosphorus" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.barbed_wire_poison, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', ModItems.powder_poison });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.barbed_wire_acid, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', new ItemStack(ModItems.fluid_tank_full, 1, FluidType.ACID.getID()) });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.barbed_wire_wither, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', new ItemStack(Items.skull, 1, 1) });

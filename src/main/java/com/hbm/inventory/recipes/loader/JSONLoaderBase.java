@@ -1,8 +1,13 @@
 package com.hbm.inventory.recipes.loader;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -13,6 +18,44 @@ import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class JSONLoaderBase {
+
+	public File config;
+	public File template;
+	private final Gson gson = new Gson();
+	
+	public JSONLoaderBase() {
+		
+	}
+	
+	public void loadRecipes() {
+		registerDefaults();
+		//saveTemplateJSON(template);
+		
+		if(config != null) {
+			loadJSONRecipes();
+		}
+	}
+	
+	protected abstract void registerDefaults();
+	
+	protected void loadJSONRecipes() {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonElement recipes = json.get("recipes");
+			
+			if(recipes instanceof JsonArray) {
+				
+				JsonArray recArray = recipes.getAsJsonArray();
+				for(JsonElement recipe : recArray) {
+					
+					if(recipe.isJsonObject()) {
+						
+					}
+				}
+			}
+		} catch (Exception e) { }
+	}
 	
 	protected static AStack aStackFromArray(JsonArray array) {
 		

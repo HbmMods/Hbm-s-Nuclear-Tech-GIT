@@ -525,7 +525,7 @@ public class AssemblerRecipes {
 				new OreDictStack("ingotAsbestos", 8)
 			}, 200);
 
-		makeRecipe(new ComparableStack(ModBlocks.machine_industrial_generator, 1), new AStack[] {
+		/*makeRecipe(new ComparableStack(ModBlocks.machine_industrial_generator, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_coal_off, 2),
 				new ComparableStack(ModBlocks.machine_boiler_off, 2),
 				new ComparableStack(ModBlocks.machine_large_turbine, 1),
@@ -535,7 +535,7 @@ public class AssemblerRecipes {
 				new OreDictStack("plateLead", 8),
 				new OreDictStack("plateAluminum", 12),
 				new ComparableStack(ModItems.pipes_steel, 1)
-			}, 200);
+			}, 200);*/
 
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2), new AStack[] {
 				new OreDictStack("plateSteel", 2),
