@@ -13,16 +13,8 @@ public interface IBlockCT {
 		return this == block;
 	}
 	
-	public static IIcon[] registerIcons(IIconRegister reg, String textureName, IIcon blockIcon) {
-		IIcon[] frags = new IIcon[20];
-		
-		IIcon ct = new IconGeneric(textureName + "_ct");
-		reg.registerIcon(textureName + "_ct");
-		
-		for(int i = 0; i < frags.length; i++) {
-			frags[i] = new IconCT(i < 4 ? blockIcon : ct, i);
-		}
-		
-		return frags;
+	public static CTStitchReceiver primeReceiver(IIconRegister reg, String textureName, IIcon blockIcon) {
+		IIcon ct = reg.registerIcon(textureName + "_ct");
+		return new CTStitchReceiver(blockIcon, ct);
 	}
 }

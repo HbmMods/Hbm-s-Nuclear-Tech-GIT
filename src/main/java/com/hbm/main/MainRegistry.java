@@ -61,6 +61,7 @@ import com.hbm.entity.mob.siege.EntitySiegeZombie;
 import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.entity.qic.EntitySPV;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.imc.IMCCentrifuge;
@@ -484,6 +485,8 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
 		EntityRegistry.registerGlobalEntityID(EntitySiegeZombie.class, "entity_meme_zombie", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
+
+		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 160, this, 1000, 1, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 

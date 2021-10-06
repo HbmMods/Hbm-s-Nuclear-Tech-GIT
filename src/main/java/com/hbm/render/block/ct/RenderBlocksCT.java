@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RenderBlocksCT extends RenderBlocks {
 	
@@ -63,31 +64,56 @@ public class RenderBlocksCT extends RenderBlocks {
 			return false;
 		}
 		
+		CTContext.loadContext(blockAccess, x, y, z, block);
+		
 		return super.renderStandardBlock(block, x, y, z);
 	}
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceXPos(block, x, y, z, icon);
+		initSideInfo();
+		CTFace face = CTContext.faces[ForgeDirection.EAST.ordinal()];
+
+		/// ORDER: LEXICAL ///
+		drawFace(
+				new double[] {x + 1, y + 1, z + 1},
+				new double[] {x + 1, y + 1, z + 0},
+				new double[] {x + 1, y + 0, z + 1},
+				new double[] {x + 1, y + 0, z + 0},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceXNeg(block, x, y, z, icon);
+		initSideInfo();
+		CTFace face = CTContext.faces[ForgeDirection.WEST.ordinal()];
+
+		/// ORDER: LEXICAL ///
+		drawFace(
+				new double[] {x + 0, y + 1, z + 0},
+				new double[] {x + 0, y + 1, z + 1},
+				new double[] {x + 0, y + 0, z + 0},
+				new double[] {x + 0, y + 0, z + 1},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceYPos(block, x, y, z, icon);
-		
 		initSideInfo();
-		CTFace face = CTContext.faces[1];
-		
+		CTFace face = CTContext.faces[ForgeDirection.UP.ordinal()];
+
+		/// ORDER: LEXICAL ///
 		drawFace(
 				new double[] {x + 0, y + 1, z + 0},
 				new double[] {x + 1, y + 1, z + 0},
-				new double[] {x + 1, y + 1, z + 1},
 				new double[] {x + 0, y + 1, z + 1},
+				new double[] {x + 1, y + 1, z + 1},
 				face.getTopLeft(),
 				face.getTopRight(),
 				face.getBottomLeft(),
@@ -96,17 +122,53 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceYNeg(block, x, y, z, icon);
+		initSideInfo();
+		CTFace face = CTContext.faces[ForgeDirection.DOWN.ordinal()];
+
+		/// ORDER: LEXICAL ///
+		drawFace(
+				new double[] {x + 0, y + 0, z + 1},
+				new double[] {x + 1, y + 0, z + 1},
+				new double[] {x + 0, y + 0, z + 0},
+				new double[] {x + 1, y + 0, z + 0},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceZPos(block, x, y, z, icon);
+		initSideInfo();
+		CTFace face = CTContext.faces[ForgeDirection.SOUTH.ordinal()];
+
+		/// ORDER: LEXICAL ///
+		drawFace(
+				new double[] {x + 0, y + 1, z + 1},
+				new double[] {x + 1, y + 1, z + 1},
+				new double[] {x + 0, y + 0, z + 1},
+				new double[] {x + 1, y + 0, z + 1},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		//super.renderFaceZNeg(block, x, y, z, icon);
+		initSideInfo();
+		CTFace face = CTContext.faces[ForgeDirection.NORTH.ordinal()];
+
+		/// ORDER: LEXICAL ///
+		drawFace(
+				new double[] {x + 1, y + 1, z + 0},
+				new double[] {x + 0, y + 1, z + 0},
+				new double[] {x + 1, y + 0, z + 0},
+				new double[] {x + 0, y + 0, z + 0},
+				face.getTopLeft(),
+				face.getTopRight(),
+				face.getBottomLeft(),
+				face.getBottomRight());
 	}
 
 	/// ORDER: LEXICAL ///
@@ -118,22 +180,38 @@ public class RenderBlocksCT extends RenderBlocks {
 		double[] fcr = avgCoords(ftr, fbr);
 		double[] fcc = avgCoords(ftc, fbc);
 
-		IIcon steel = ModBlocks.block_steel.getIcon(0, 0);
-		drawSubFace(ftl, this.tl, ftr, this.tr, fbl, this.bl, fbr, this.br, steel);
-		/*drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, steel);
-		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, steel);
-		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, steel);
-		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, steel);*/
+		IIcon atl = ModBlocks.block_steel.getIcon(0, 0);
+		IIcon atr = ModBlocks.block_copper.getIcon(0, 0);
+		IIcon abl = ModBlocks.block_tungsten.getIcon(0, 0);
+		IIcon abr = ModBlocks.block_aluminium.getIcon(0, 0);
+		
+		/*drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, atl);
+		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, atr);
+		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, abl);
+		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, abr);*/
+		
+		drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, itl);
+		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, itr);
+		drawSubFace(fcl, this.cl, fcc, this.cc, fbl, this.bl, fbc, this.bc, ibl);
+		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, ibr);
 	}
 	
-	/// ORDER: LEXICAL ///
+	/// ORDER: GOD IS DEAD ///
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
 		
-		/// ORDER: ROTATIONAL ///
-		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
+		boolean debugColor = false;
+		
+		System.out.println(icon.getIconName());
+		
+		/// ORDER: I DON'T FUCKING KNOW AT THIS POINT ///
+		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);
 		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
-		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
+		if(debugColor) tess.setColorOpaque_F(1F, 0F, 0F);
+		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
+		if(debugColor) tess.setColorOpaque_F(0F, 0F, 1F);
 		drawVert(fbl, icon.getMinU(), icon.getMaxV(), nbl);
+		if(debugColor) tess.setColorOpaque_F(0F, 1F, 0F);
+		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
 	}
 	
 	private void drawVert(double[] coord, double u, double v, VertInfo info) {
@@ -152,9 +230,9 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private double[] avgCoords(double[] first, double[] second) {
 		return new double[] {
-				(first[0] + second[0]) / 2,
-				(first[1] + second[1]) / 2,
-				(first[2] + second[2]) / 2
+				(first[0] + second[0]) / 2D,
+				(first[1] + second[1]) / 2D,
+				(first[2] + second[2]) / 2D
 		};
 	}
 	

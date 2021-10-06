@@ -93,7 +93,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		
 		this.tanks[2].setFill(tanks[2].getFill() - 10);
 
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 100; i++) {
 			int rX = xCoord + (int)(worldObj.rand.nextGaussian() * 75);
 			int rZ = zCoord + (int)(worldObj.rand.nextGaussian() * 75);
 			int rY = worldObj.getHeightValue(rX, rZ) - 1;
@@ -102,6 +102,13 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 			
 			if(ground == Blocks.grass || ground == Blocks.dirt) {
 				worldObj.setBlock(rX, rY, rZ, worldObj.rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead);
+				
+			} else if(ground == Blocks.sand || ground == ModBlocks.ore_oil_sand) {
+				
+				if(worldObj.getBlockMetadata(rX, rY, rZ) == 1)
+					worldObj.setBlock(rX, rY, rZ, ModBlocks.sand_dirty_red);
+				else
+					worldObj.setBlock(rX, rY, rZ, ModBlocks.sand_dirty);
 				
 			} else if(ground.getMaterial() == Material.leaves) {
 				worldObj.setBlockToAir(rX, rY, rZ);

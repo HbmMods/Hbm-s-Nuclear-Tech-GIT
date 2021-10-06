@@ -16,7 +16,7 @@ public class IconCT implements IIcon {
 		this.parent = parent;
 		this.type = type;
 		
-		int sub = ((type & f) != 0) ? 2 : 4;
+		int sub = (type < 4) ? 2 : 4;
 		float lenU = (parent.getMaxU() - parent.getMinU()) / sub;
 		float lenV = (parent.getMaxV() - parent.getMinV()) / sub;
 		

@@ -39,5 +39,4 @@ public class RenderBlockCT implements ISimpleBlockRenderingHandler {
 	public int getRenderId() {
 		return TestCT.renderID;
 	}
-
 }

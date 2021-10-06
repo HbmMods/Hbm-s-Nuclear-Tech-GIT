@@ -34,6 +34,7 @@ import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
+import com.hbm.render.block.ct.CTStitchReceiver;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -845,6 +846,11 @@ public class ModEventHandlerClient {
 		
 		if(event.map.getTextureType() == 0)
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+	}
+
+	@SubscribeEvent
+	public void postTextureStitch(TextureStitchEvent.Post event) {
+		CTStitchReceiver.receivers.forEach(x -> x.postStitch());
 	}
 
 	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");

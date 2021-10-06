@@ -439,6 +439,8 @@ public class ModBlocks {
 	public static Block frozen_planks;
 	public static Block dirt_dead;
 	public static Block dirt_oily;
+	public static Block sand_dirty;
+	public static Block sand_dirty_red;
 	
 	public static Block fallout;
 	public static Block foam_layer;
@@ -1595,6 +1597,8 @@ public class ModBlocks {
 		
 		dirt_dead = new BlockGeneric(Material.ground).setBlockName("dirt_dead").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":dirt_dead");
 		dirt_oily = new BlockGeneric(Material.ground).setBlockName("dirt_oily").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":dirt_oily");
+		sand_dirty = new BlockFalling(Material.sand).setBlockName("sand_dirty").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_dirty");
+		sand_dirty_red = new BlockFalling(Material.sand).setBlockName("sand_dirty_red").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_dirty_red");
 
 		sellafield_slaked = new BlockGeneric(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
 		sellafield_0 = new BlockHazard(Material.rock).addRadiation(0.5F).toBlock().setBlockName("sellafield_0").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
@@ -2554,6 +2558,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(frozen_planks, frozen_planks.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_dead, dirt_dead.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_oily, dirt_oily.getUnlocalizedName());
+		GameRegistry.registerBlock(sand_dirty, sand_dirty.getUnlocalizedName());
+		GameRegistry.registerBlock(sand_dirty_red, sand_dirty_red.getUnlocalizedName());
 		GameRegistry.registerBlock(fallout, ItemBlockHazard.class, fallout.getUnlocalizedName());
 		GameRegistry.registerBlock(foam_layer, foam_layer.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_boron_layer, sand_boron_layer.getUnlocalizedName());
