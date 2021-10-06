@@ -2,6 +2,7 @@ package com.hbm.blocks.gas;
 
 import java.util.Random;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -24,6 +25,7 @@ public class BlockGasRadon extends BlockGasBase {
 		
 		if(entity instanceof EntityLivingBase) {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
+			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 1);
 		}
 	}
 
