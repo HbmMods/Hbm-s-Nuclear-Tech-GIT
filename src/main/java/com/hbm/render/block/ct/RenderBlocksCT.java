@@ -43,6 +43,11 @@ public class RenderBlocksCT extends RenderBlocks {
 		if(!this.enableAO)
 			return;
 
+		/*this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
+		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
+		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
+		this.br = new VertInfo(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, this.brightnessBottomRight);*/
+
 		this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
 		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
 		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
@@ -180,10 +185,10 @@ public class RenderBlocksCT extends RenderBlocks {
 		double[] fcr = avgCoords(ftr, fbr);
 		double[] fcc = avgCoords(ftc, fbc);
 
-		IIcon atl = ModBlocks.block_steel.getIcon(0, 0);
+		/*IIcon atl = ModBlocks.block_steel.getIcon(0, 0);
 		IIcon atr = ModBlocks.block_copper.getIcon(0, 0);
 		IIcon abl = ModBlocks.block_tungsten.getIcon(0, 0);
-		IIcon abr = ModBlocks.block_aluminium.getIcon(0, 0);
+		IIcon abr = ModBlocks.block_aluminium.getIcon(0, 0);*/
 		
 		/*drawSubFace(ftl, this.tl, ftc, this.tc, fcl, this.cl, fcc, this.cc, atl);
 		drawSubFace(ftc, this.tc, ftr, this.tr, fcc, this.cc, fcr, this.cr, atr);
@@ -200,8 +205,6 @@ public class RenderBlocksCT extends RenderBlocks {
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
 		
 		boolean debugColor = false;
-		
-		System.out.println(icon.getIconName());
 		
 		/// ORDER: I DON'T FUCKING KNOW AT THIS POINT ///
 		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);

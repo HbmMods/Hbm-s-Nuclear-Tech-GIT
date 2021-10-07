@@ -93,7 +93,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		
 		this.tanks[2].setFill(tanks[2].getFill() - 10);
 
-		for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < 10; i++) {
 			int rX = xCoord + (int)(worldObj.rand.nextGaussian() * 75);
 			int rZ = zCoord + (int)(worldObj.rand.nextGaussian() * 75);
 			int rY = worldObj.getHeightValue(rX, rZ) - 1;

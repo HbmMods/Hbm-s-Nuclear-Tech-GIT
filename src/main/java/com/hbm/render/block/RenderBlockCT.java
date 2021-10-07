@@ -1,6 +1,6 @@
 package com.hbm.render.block;
 
-import com.hbm.blocks.test.TestCT;
+import com.hbm.render.block.ct.CT;
 import com.hbm.render.block.ct.CTContext;
 import com.hbm.render.block.ct.RenderBlocksCT;
 
@@ -8,7 +8,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class RenderBlockCT implements ISimpleBlockRenderingHandler {
 
@@ -37,6 +36,6 @@ public class RenderBlockCT implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return TestCT.renderID;
+		return CT.renderID;
 	}
 }

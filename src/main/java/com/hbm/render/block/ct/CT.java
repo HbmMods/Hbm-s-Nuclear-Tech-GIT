@@ -3,6 +3,8 @@ package com.hbm.render.block.ct;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+
 public class CT {
 	
 	/* LEXICAL ORDER */
@@ -74,6 +76,8 @@ public class CT {
 	public static boolean isV(int i) {
 		return i >= v && i < v + 4;
 	}
+	
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	/*  _____________________
 	 * / I am in great pain. \

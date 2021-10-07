@@ -3,7 +3,6 @@ package com.hbm.render.block.ct;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import static com.hbm.render.block.ct.CT.*;
@@ -16,12 +15,12 @@ public class CTContext {
 	//dim 2: 8x neighbors (TL, TC, TR, CL, CR, BL, BC, BR)
 	//dim 3: 3x coord (x/y/z, [-1;1])
 	public static int[][][] access = new int[][][] {
-		lcfs(ForgeDirection.NORTH, ForgeDirection.EAST),	//DOWN guess
-		lcfs(ForgeDirection.SOUTH, ForgeDirection.EAST),	//UP guess
+		lcfs(ForgeDirection.SOUTH, ForgeDirection.WEST),	//DOWN guess
+		lcfs(ForgeDirection.NORTH, ForgeDirection.WEST),	//UP guess
 		lcfs(ForgeDirection.UP, ForgeDirection.EAST),		//NORTH
 		lcfs(ForgeDirection.UP, ForgeDirection.WEST),		//SOUTH
 		lcfs(ForgeDirection.UP, ForgeDirection.NORTH),		//WEST
-		lcfs(ForgeDirection.UP, ForgeDirection.EAST)		//EAST
+		lcfs(ForgeDirection.UP, ForgeDirection.SOUTH)		//EAST
 	};
 	
 	//lexical coordinates from side
