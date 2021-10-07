@@ -1,5 +1,7 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -24,6 +26,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -87,50 +90,31 @@ public class BlockStorageCrate extends BlockContainer {
 	}
 
 	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
-		ISidedInventory tileentityfurnace = (ISidedInventory) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
-
-		if(((TileEntityLockableBase) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_)).isLocked()) {
-			super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
-			return;
-		}
-
-		if(tileentityfurnace != null) {
-			for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
-				ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
-
-				if(itemstack != null) {
-					float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-					float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-					float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-
-					while(itemstack.stackSize > 0) {
-						int j1 = this.field_149933_a.nextInt(21) + 10;
-
-						if(j1 > itemstack.stackSize) {
-							j1 = itemstack.stackSize;
-						}
-
-						itemstack.stackSize -= j1;
-						EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-
-						if(itemstack.hasTagCompound()) {
-							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-						}
-
-						float f3 = 0.05F;
-						entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
-						entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
-						entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
-						p_149749_1_.spawnEntityInWorld(entityitem);
-					}
-				}
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> drops = new ArrayList();
+		
+		ItemStack drop = new ItemStack(this);
+		ISidedInventory inv = (ISidedInventory)world.getTileEntity(x, y, z);
+		
+		if(inv != null) {
+		
+			drop.stackTagCompound = new NBTTagCompound();
+			
+			for(int i = 0; i < inv.getSizeInventory(); i++) {
+				
+				ItemStack stack = inv.getStackInSlot(i);
+				if(stack == null)
+					continue;
+				
+				NBTTagCompound slot = new NBTTagCompound();
+				stack.writeToNBT(slot);
+				drop.stackTagCompound.setTag("slot" + i, slot);
 			}
-
-			p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
 		}
-
-		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+		
+		drops.add(drop);
+		
+		return drops;
 	}
 
 	@Override
@@ -161,10 +145,19 @@ public class BlockStorageCrate extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+		
+		ISidedInventory inv = (ISidedInventory)world.getTileEntity(x, y, z);
+		
+		if(inv != null && stack.hasTagCompound()) {
+			
+			for(int i = 0; i < inv.getSizeInventory(); i++) {
+				inv.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot" + i)));
+			}
+		}
 
 		if(this != ModBlocks.safe)
-			super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+			super.onBlockPlacedBy(world, x, y, z, player, stack);
 
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
@@ -181,5 +174,4 @@ public class BlockStorageCrate extends BlockContainer {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 	}
-
 }

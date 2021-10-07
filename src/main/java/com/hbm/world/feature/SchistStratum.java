@@ -1,5 +1,7 @@
 package com.hbm.world.feature;
 
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -17,7 +19,7 @@ public class SchistStratum {
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
 		if(this.noise == null) {
-			this.noise = new NoiseGeneratorPerlin(event.rand, 4);
+			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed()), 4);
 		}
 
 		World world = event.world;
@@ -32,7 +34,6 @@ public class SchistStratum {
 		int threshold = 5;
 		
 		for(int x = cX; x < cX + 16; x++) {
-			
 			for(int z = cZ; z < cZ + 16; z++) {
 				
 				double n = noise.func_151601_a(x * scale, z * scale);

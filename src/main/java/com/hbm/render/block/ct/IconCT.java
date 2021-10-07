@@ -24,18 +24,18 @@ public class IconCT implements IIcon {
 		float dv = parent.getMinV();
 		
 		//set pos to full block (coarse positioning)
-		if((type & v) > 0 || (type & j) > 0) {
+		if(CT.isV(type) || CT.isJ(type)) {
 			du += lenU * 2;
 		}
-		if((type & h) > 0 || (type & j) > 0) {
+		if(CT.isH(type) || CT.isJ(type)) {
 			dv += lenV * 2;
 		}
 		
 		//set pos to sub-block (fine positioning)
-		if((type & r)  > 0) {
+		if(CT.isR(type)) {
 			du += lenU;
 		}
-		if((type & b) > 0) {
+		if(CT.isB(type)) {
 			dv += lenV;
 		}
 

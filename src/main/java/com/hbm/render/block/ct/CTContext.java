@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import static com.hbm.render.block.ct.CT.*;
 
@@ -11,18 +12,52 @@ public class CTContext {
 	
 	public static CTFace[] faces;
 	
-	//dim 1: faces (forgeDir)
-	//dim 2: neighbors (TL, TC, TR, CL, CR, BL, BC, BR)
-	//dim 3: coord (x/y/z, [-1;1])
+	//dim 1: 6x faces (forgeDir)
+	//dim 2: 8x neighbors (TL, TC, TR, CL, CR, BL, BC, BR)
+	//dim 3: 3x coord (x/y/z, [-1;1])
 	public static int[][][] access = new int[][][] {
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }
-		//TODO
+		lcfs(ForgeDirection.NORTH, ForgeDirection.EAST),	//DOWN guess
+		lcfs(ForgeDirection.SOUTH, ForgeDirection.EAST),	//UP guess
+		lcfs(ForgeDirection.UP, ForgeDirection.EAST),		//NORTH
+		lcfs(ForgeDirection.UP, ForgeDirection.WEST),		//SOUTH
+		lcfs(ForgeDirection.UP, ForgeDirection.NORTH),		//WEST
+		lcfs(ForgeDirection.UP, ForgeDirection.EAST)		//EAST
 	};
+	
+	//lexical coordinates from side
+	private static int[][] lcfs(ForgeDirection up, ForgeDirection left) {
+		
+		ForgeDirection down = up.getOpposite();
+		ForgeDirection right = left.getOpposite();
+		
+		int[][] lexicalCoordinates = new int[][] {
+			cfs(up, left),
+			cfs(up),
+			cfs(up, right),
+			cfs(left),
+			cfs(right),
+			cfs(down, left),
+			cfs(down),
+			cfs(down, right),
+		};
+		
+		return lexicalCoordinates;
+	}
+	
+	//coordinates from sides
+	private static int[] cfs(ForgeDirection... dirs) {
+		int x = 0;
+		int y = 0;
+		int z = 0;
+		
+		for(ForgeDirection dir : dirs) {
+			x += dir.offsetX;
+			y += dir.offsetY;
+			z += dir.offsetZ;
+		}
+		
+		return new int[] {x, y, z};
+	}
 	
 	/**
 	 * Generates the six CTFaces and fills the faces array, the faces contain the information on what icon types should be used
@@ -68,12 +103,18 @@ public class CTContext {
 	
 	/**
 	 * Returns the overarching texture type based on whether the horizontal, vertical and corner are connected
-	 * @param vert
 	 * @param hor
 	 * @param corner
+	 * @param vert
 	 * @return the bitmask for the full texture type that should be used (f/c/j/h/v)
 	 */
-	public static int cornerType(boolean vert, boolean hor, boolean corner) {
+	public static int cornerType(boolean hor, boolean corner, boolean vert) {
+		
+		/*
+		 * C - V
+		 * |
+		 * H
+		 */
 		
 		if(vert && hor && corner)
 			return c;

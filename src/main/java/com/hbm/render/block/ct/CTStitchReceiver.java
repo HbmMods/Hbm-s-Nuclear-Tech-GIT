@@ -23,7 +23,7 @@ public class CTStitchReceiver {
 	public void postStitch() {
 		
 		for(int i = 0; i < 20; i++) {
-			fragCache[i] = new IconCT(i < 4 ? parentFull : parentCT, CT.coords[i]);
+			fragCache[i] = new IconCT(i < 4 ? parentFull : parentCT, i);
 		}
 	}
 }
