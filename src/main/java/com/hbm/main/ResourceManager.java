@@ -355,7 +355,9 @@ public class ResourceManager {
 	
 	//Cooling Tower
 	public static final ResourceLocation tower_small_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_small.png");
+	public static final ResourceLocation tower_small_heavy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_small_heavy.png");
 	public static final ResourceLocation tower_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_large.png");
+	public static final ResourceLocation tower_large_heavy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_large_heavy.png");
 	
 	//IGen
 	public static final ResourceLocation igen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen.png");

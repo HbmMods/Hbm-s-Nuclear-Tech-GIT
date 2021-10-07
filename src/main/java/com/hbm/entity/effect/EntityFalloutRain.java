@@ -99,9 +99,8 @@ public class EntityFalloutRain extends Entity {
 			double posX = (player.posX >= 0) ? player.posX : -player.posX;
 			double posY = (player.posY >= 0) ? player.posY : -player.posY;
 			int distance = (int) Math.hypot(posX, posY);
-			double contamLevel = 100 / distance;
+			double contamLevel = (distance == 0) ? 100 / 1 :  100 / distance;
 			HbmLivingProps.incrementBoneCancer(player, contamLevel);
-			System.out.println(HbmLivingProps.getBoneCancer(player));
 		}
     	
     	for(int y = 255; y >= 0; y--) {

@@ -982,6 +982,9 @@ public class ModItems {
 	public static Item rod_schrabidium_fuel;
 	public static Item rod_dual_schrabidium_fuel;
 	public static Item rod_quad_schrabidium_fuel;
+	public static Item rod_natural_uranium_fuel;
+	public static Item rod_dual_natural_uranium_fuel;
+	public static Item rod_quad_natural_uranium_fuel;
 
 	public static Item rod_water;
 	public static Item rod_dual_water;
@@ -3393,6 +3396,9 @@ public class ModItems {
 		rod_schrabidium_fuel = new ItemFuelRod(ItemHazard.saf * ItemHazard.rod, true, 500000, 250).setUnlocalizedName("rod_schrabidium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_schrabidium_fuel");
 		rod_dual_schrabidium_fuel = new ItemFuelRod(ItemHazard.saf * ItemHazard.rod_dual, true, 500000, 500).setUnlocalizedName("rod_dual_schrabidium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_schrabidium_fuel");
 		rod_quad_schrabidium_fuel = new ItemFuelRod(ItemHazard.saf * ItemHazard.rod_quad, true, 500000, 1000).setUnlocalizedName("rod_quad_schrabidium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_schrabidium_fuel");
+		rod_natural_uranium_fuel = new ItemFuelRod(ItemHazard.uf * ItemHazard.rod, true, 250000, 25).setUnlocalizedName("rod_natural_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
+		rod_dual_natural_uranium_fuel = new ItemFuelRod(ItemHazard.uf * ItemHazard.rod, true, 250000, 50).setUnlocalizedName("rod_dual_natural_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium");
+		rod_quad_natural_uranium_fuel = new ItemFuelRod(ItemHazard.uf * ItemHazard.rod, true, 250000, 75).setUnlocalizedName("rod_quad_natural_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium");
 
 		rod_water = new ItemCustomLore().setUnlocalizedName("rod_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_water");
 		rod_dual_water = new ItemCustomLore().setUnlocalizedName("rod_dual_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_water");
@@ -6365,6 +6371,10 @@ public class ModItems {
 		GameRegistry.registerItem(rod_schrabidium_fuel, rod_schrabidium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_schrabidium_fuel, rod_dual_schrabidium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_schrabidium_fuel, rod_quad_schrabidium_fuel.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_natural_uranium_fuel, rod_natural_uranium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_natural_uranium_fuel, rod_dual_natural_uranium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_natural_uranium_fuel, rod_quad_natural_uranium_fuel.getUnlocalizedName());
 		
 		GameRegistry.registerItem(rod_water, rod_water.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_water, rod_dual_water.getUnlocalizedName());

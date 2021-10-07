@@ -20,7 +20,6 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	public int age = 0;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
-	public boolean usingHeavyWater = false;
 	
 	public int waterTimer = 0;
 	

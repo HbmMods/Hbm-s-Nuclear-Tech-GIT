@@ -46,7 +46,6 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	public int rods;
 	public final int rodsMax = 100;
 	public boolean retracting = true;
-	//public boolean usingHeavyWater = false;
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
@@ -133,16 +132,16 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11)
-			if(itemStack.getItem() instanceof ItemFuelRod)
-				return true;
 		if(i == 12)
 			if(itemStack.getItem() == ModItems.rod_water || itemStack.getItem() == ModItems.rod_dual_water || itemStack.getItem() == ModItems.rod_quad_water || itemStack.getItem() == Items.water_bucket)
 				return true;
 		if(i == 14)
 			if(itemStack.getItem() == ModItems.rod_coolant || itemStack.getItem() == ModItems.rod_dual_coolant || itemStack.getItem() == ModItems.rod_quad_coolant)
 				return true;
-		return false;
+		if(i >= 0 && i <= 11 )
+			if(itemStack.getItem() instanceof ItemFuelRod && (!(itemStack.getItem() == ModItems.rod_natural_uranium_fuel || itemStack.getItem() == ModItems.rod_dual_natural_uranium_fuel || itemStack.getItem() == ModItems.rod_quad_natural_uranium_fuel) && tanks[0].getTankType() == FluidType.WATER));
+				return true;
+		//return false;
 	}
 
 	@Override
