@@ -100,7 +100,8 @@ public class ItemChemistryTemplate extends Item {
 		VIT_LIQUID,
 		VIT_GAS,
 		TEL,
-		GASOLINE;
+		GASOLINE,
+		FRACKSOL;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -294,6 +295,8 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case GASOLINE:
         	return 40;
+        case FRACKSOL:
+        	return 20;
         default:
         	return 100;
         }

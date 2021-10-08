@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.Loader;
@@ -44,6 +45,9 @@ public class CraftingManager {
 		
 		GameRegistry.addRecipe(new RBMKFuelCraftingHandler());
 		GameRegistry.addRecipe(new MKUCraftingHandler());
+		
+		//TODO: find out what this actually did
+		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	public static void AddCraftingRec() {
@@ -813,7 +817,7 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', "ingotSteel", 'I', "plateIron", 'C', ModItems.board_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_fracking_tower), new Object[] { "NDN", "PRP", "CRC", 'N', "ingotNiobium", 'D', ModBlocks.machine_well, 'P', ModItems.plate_desh, 'R', ModItems.pipes_steel, 'C', ModBlocks.concrete_smooth }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.canister_fracksol, 4), new Object[] { "dustSulfur", "dustSulfur", "dustSulfur", "dustSulfur", ModItems.gas_petroleum, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty }));
+		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.canister_fracksol, 4), new Object[] { "dustSulfur", "dustSulfur", "dustSulfur", "dustSulfur", ModItems.gas_petroleum, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty }));
 		
 		if(GeneralConfig.enableBabyMode) {
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

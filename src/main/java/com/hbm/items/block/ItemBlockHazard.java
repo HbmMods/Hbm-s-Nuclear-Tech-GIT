@@ -14,7 +14,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemBlockHazard extends ItemBlock {
+public class ItemBlockHazard extends ItemBlock implements IItemHazard {
 	
 	ItemHazardModule module;
 
@@ -51,5 +51,11 @@ public class ItemBlockHazard extends ItemBlock {
 			return this.module.onEntityItemUpdate(item);
 		
 		return false;
+	}
+
+	@Override
+	public ItemHazardModule getModule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

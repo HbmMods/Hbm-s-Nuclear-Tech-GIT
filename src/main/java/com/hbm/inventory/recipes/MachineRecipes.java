@@ -1736,6 +1736,9 @@ public class MachineRecipes {
 		case GASOLINE:
 			list.add(new ItemStack(ModItems.antiknock, 1));
 			break;
+		case FRACKSOL:
+			list.add(new ItemStack(ModItems.sulfur, 1));
+			break;
 		default:
 			break;
 		}
@@ -1974,6 +1977,10 @@ public class MachineRecipes {
 			break;
 		case GASOLINE:
 			input[0] = new FluidStack(10000, FluidType.PETROIL);
+			break;
+		case FRACKSOL:
+			input[0] = new FluidStack(100, FluidType.PETROLEUM);
+			input[1] = new FluidStack(1000, FluidType.WATER);
 			break;
 		default:
 			break;
@@ -2272,6 +2279,9 @@ public class MachineRecipes {
         	break;
         case GASOLINE:
 			output[0] = new FluidStack(12000, FluidType.GASOLINE);
+        	break;
+        case FRACKSOL:
+			output[0] = new FluidStack(1000, FluidType.FRACKSOL);
         	break;
 		default:
 			break;

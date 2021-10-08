@@ -69,6 +69,8 @@ import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.IItemHazard;
 import com.hbm.inventory.*;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.BreederRecipes;
@@ -894,6 +896,14 @@ public class MainRegistry {
 		TileEntityMachineReactorLarge.registerAll();
 
 		proxy.registerMissileItems();
+		
+		for(Object i : Item.itemRegistry) {
+			Item item = (Item) i;
+			
+			if(item instanceof IItemHazard && HazardSystem.getHazardsFromStack(new ItemStack(item)).isEmpty()) {
+				logger.warn(item.getUnlocalizedName() + " not yet in HazardSystem!");
+			}
+		}
 	}
 
 	@EventHandler

@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -93,27 +94,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		
 		this.tanks[2].setFill(tanks[2].getFill() - 10);
 
-		for(int i = 0; i < 10; i++) {
-			int rX = xCoord + (int)(worldObj.rand.nextGaussian() * 75);
-			int rZ = zCoord + (int)(worldObj.rand.nextGaussian() * 75);
-			int rY = worldObj.getHeightValue(rX, rZ) - 1;
-			
-			Block ground = worldObj.getBlock(rX, rY, rZ);
-			
-			if(ground == Blocks.grass || ground == Blocks.dirt) {
-				worldObj.setBlock(rX, rY, rZ, worldObj.rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead);
-				
-			} else if(ground == Blocks.sand || ground == ModBlocks.ore_oil_sand) {
-				
-				if(worldObj.getBlockMetadata(rX, rY, rZ) == 1)
-					worldObj.setBlock(rX, rY, rZ, ModBlocks.sand_dirty_red);
-				else
-					worldObj.setBlock(rX, rY, rZ, ModBlocks.sand_dirty);
-				
-			} else if(ground.getMaterial() == Material.leaves) {
-				worldObj.setBlockToAir(rX, rY, rZ);
-			}
-		}
+		OilSpot.generateOilSpot(worldObj, xCoord, zCoord, 75, 10);
 	}
 
 	@Override

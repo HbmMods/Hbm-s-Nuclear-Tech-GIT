@@ -30,6 +30,7 @@ import com.hbm.world.feature.Geyser;
 import com.hbm.world.feature.GeyserLarge;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilSandBubble;
+import com.hbm.world.feature.OilSpot;
 import com.hbm.world.feature.Sellafield;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
@@ -559,6 +560,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 			
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
+			OilSpot.generateOilSpot(world, randPosX, randPosZ, 10, 50);
 		}
 
 		if (GeneralConfig.enableNITAN) {
