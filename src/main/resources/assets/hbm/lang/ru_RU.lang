@@ -1507,6 +1507,8 @@ tile.ore_rare.name=Редкоземельная руда
 tile.ore_oil.name=Нефтяной карман
 tile.ore_oil_empty.name=Пустой нефтяной карман
 tile.ore_oil_sand.name=Битумозный песок
+tile.sand_dirty.name=Пропитанный нефтью песок
+tile.sand_dirty_red.name=Пропитанный нефтью красный песок
 tile.cluster_aluminium.name=Алюминиевый рудный кластер
 tile.cluster_depth_iron.name=Глубинный железорудный кластер
 tile.cluster_depth_titanium.name=Глубинный титановый рудный кластер
@@ -1521,6 +1523,7 @@ tile.ore_coltan.name=Колтановая руда
 tile.ore_bedrock_coltan.name=Бедроковая колтановая руда
 tile.ore_bedrock_oil.name=Бедроковый нефтяной пласт
 tile.ore_cobalt.name=Кобальтовая руда
+tile.stone_porous.name=Пористый камень
 
 tile.deco_titanium.name=Титановый декоративный блок
 tile.deco_red_copper.name=Красномедный декоративный блок
