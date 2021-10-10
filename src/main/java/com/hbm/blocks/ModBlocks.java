@@ -872,6 +872,8 @@ public class ModBlocks {
 
 	public static Block machine_large_turbine;
 	public static final int guiID_machine_large_turbine = 100;
+	
+	public static Block machine_deuterium_extractor;
 
 	public static Block machine_chungus;
 	public static Block machine_condenser;
@@ -971,9 +973,6 @@ public class ModBlocks {
 	public static final int guiID_waste_drum = 79;
 	public static Block machine_storage_drum;
 	public static final int guiID_storage_drum = 118;
-	
-	//public static Block machine_neutrino;
-	//public static final int guiID_machine_neutrino = 117;
 
 	public static Block anvil_iron;
 	public static Block anvil_lead;
@@ -1989,6 +1988,7 @@ public class ModBlocks {
 		machine_boiler_electric_off = new MachineBoiler(false).setBlockName("machine_boiler_electric_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_electric_off");
 		machine_boiler_electric_on = new MachineBoiler(true).setBlockName("machine_boiler_electric_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_boiler_electric_on");
 		
+		machine_deuterium_extractor = new MachineDeuteriumExtractor(Material.iron).setBlockName("machine_deuterium_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deuterium_extractor_side");
 		machine_turbine = new MachineTurbine(Material.iron).setBlockName("machine_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_turbine");
 		machine_large_turbine = new MachineLargeTurbine(Material.iron).setBlockName("machine_large_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_large_turbine");
 		machine_chungus = new MachineChungus(Material.iron).setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_chungus");
@@ -2839,6 +2839,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_boiler_on, machine_boiler_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_electric_on, machine_boiler_electric_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_electric_off, machine_boiler_electric_off.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_deuterium_extractor, machine_deuterium_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_turbine, machine_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_large_turbine, machine_large_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chungus, machine_chungus.getUnlocalizedName());

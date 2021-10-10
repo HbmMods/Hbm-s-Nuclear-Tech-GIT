@@ -129,6 +129,10 @@ public class HazardRegistry {
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
+		
+		HazardSystem.register(rod_natural_uranium_fuel, new HazardData().addEntry(RADIATION, 2F));
+		HazardSystem.register(rod_dual_natural_uranium_fuel, new HazardData().addEntry(RADIATION, 4F));
+		HazardSystem.register(rod_quad_natural_uranium_fuel, new HazardData().addEntry(RADIATION, 8F));
 
 		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
@@ -147,11 +151,13 @@ public class HazardRegistry {
 		HazardSystem.register(waste_thorium, makeData(RADIATION, 10F));
 		HazardSystem.register(waste_plutonium, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_mox, makeData(RADIATION, 15F));
+		HazardSystem.register(waste_natural_uranium, makeData(RADIATION, 10F));
 		HazardSystem.register(waste_schrabidium, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_uranium_hot, new HazardData().addEntry(RADIATION, 10F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_thorium_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_mox_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
+		HazardSystem.register(waste_natural_uranium_hot, new HazardData().addEntry(RADIATION, 10F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_schrabidium_hot, new HazardData().addEntry(RADIATION, 40F).addEntry(HOT, 5F).addEntry(BLINDING, 5F));
 		
 		HazardSystem.register(nugget_uranium_fuel, makeData(RADIATION, uf * nugget));
@@ -201,6 +207,9 @@ public class HazardRegistry {
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
 		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER));
+		HazardSystem.register(powder_plutonium, new HazardData().addEntry(BONECANCER));
+		HazardSystem.register(ingot_plutonium, new HazardData().addEntry(BONECANCER));
+		HazardSystem.register(nugget_plutonium, new HazardData().addEntry(BONECANCER));
 		
 		//TODO: move this into its own method
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());

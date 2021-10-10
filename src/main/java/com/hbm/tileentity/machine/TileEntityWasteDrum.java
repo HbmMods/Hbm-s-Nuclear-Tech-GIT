@@ -243,6 +243,8 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 								slots[i] = new ItemStack(ModItems.waste_mox);
 							else if(slots[i].getItem() == ModItems.waste_schrabidium_hot)
 								slots[i] = new ItemStack(ModItems.waste_schrabidium);
+							else if(slots[i].getItem() == ModItems.waste_natural_uranium_hot)
+								slots[i] = new ItemStack(ModItems.waste_natural_uranium);
 						}
 					}
 				}

@@ -126,7 +126,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class ModEventHandler {
-	
+
 	public static int meteorShower = 0;
 	static Random rand = new Random();
 	

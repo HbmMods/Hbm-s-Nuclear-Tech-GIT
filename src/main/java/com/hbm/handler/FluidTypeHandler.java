@@ -31,7 +31,7 @@ public class FluidTypeHandler {
 		
 		DEUTERIUM		(0x0000FF,	4,	1,	1,	3,	4,	0,	EnumSymbol.NONE,		"hbmfluid.deuterium"),
 		TRITIUM			(0x000099,	5,	1,	1,	3,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.tritium"),
-		HEAVYWATER      (0x0072d4,  4,  2,  2,  1,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavywater"),
+		HEAVYWATER      (0x00a0b0,  4,  2,  2,  1,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavywater"),
 		HEAVYSTEAM      (0xe5f3f3,  5,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.heavysteam"),
 		HOTHEAVYSTEAM   (0xa9c5bd,  6,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.hotheavysteam"),
 		SPHOTHEAVYSTEAM (0x8ca59e,  7,  2,  2,  4,  0,  0,  EnumSymbol.NONE,        "hbmfluid.superhotheavysteam"),

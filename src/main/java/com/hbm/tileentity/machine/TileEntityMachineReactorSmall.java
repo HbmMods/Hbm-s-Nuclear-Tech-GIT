@@ -139,7 +139,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			if(itemStack.getItem() == ModItems.rod_coolant || itemStack.getItem() == ModItems.rod_dual_coolant || itemStack.getItem() == ModItems.rod_quad_coolant)
 				return true;
 		if(i >= 0 && i <= 11 )
-			if(itemStack.getItem() instanceof ItemFuelRod && (!(itemStack.getItem() == ModItems.rod_natural_uranium_fuel || itemStack.getItem() == ModItems.rod_dual_natural_uranium_fuel || itemStack.getItem() == ModItems.rod_quad_natural_uranium_fuel) && tanks[0].getTankType() == FluidType.WATER));
+			if(itemStack.getItem() instanceof ItemFuelRod);
 				return true;
 		//return false;
 	}
@@ -364,8 +364,12 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				for(int i = 0; i < 12; i++) {
 					
 					if(slots[i] != null) {
-						if(slots[i].getItem() instanceof ItemFuelRod)
-							decay(i);
+						if(slots[i].getItem() instanceof ItemFuelRod) {
+							// ugly \/ \/ \/
+							if(!((slots[i].getItem() == ModItems.rod_natural_uranium_fuel || slots[i].getItem() == ModItems.rod_dual_natural_uranium_fuel || slots[i].getItem() == ModItems.rod_quad_natural_uranium_fuel) && tanks[0].getTankType() == FluidType.WATER)) {
+								decay(i);
+							}		
+						}	
 						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
 					}
@@ -672,6 +676,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		} else if(item == ModItems.rod_schrabidium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_schrabidium_fuel_depleted);
+			
+		} else if(item == ModItems.rod_natural_uranium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_natural_uranium_fuel_depleted);
 
 		} else if(item == ModItems.rod_dual_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_dual_uranium_fuel_depleted);
@@ -687,6 +694,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		} else if(item == ModItems.rod_dual_schrabidium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted);
+			
+		} else if(item == ModItems.rod_dual_natural_uranium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_dual_natural_uranium_fuel_depleted);
 
 		} else if(item == ModItems.rod_quad_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_quad_uranium_fuel_depleted);
@@ -702,6 +712,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		} else if(item == ModItems.rod_quad_schrabidium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted);
+		
+		} else if(item == ModItems.rod_quad_natural_uranium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_quad_natural_uranium_fuel_depleted);
 		}
 	}
 
