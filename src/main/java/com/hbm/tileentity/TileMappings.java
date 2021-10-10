@@ -226,6 +226,8 @@ public class TileMappings {
 	}
 	
 	private static void putMachines() {
+		map.put(TileEntityUVLamp.class, "tileentity_uv_lamp");
+		
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
 		map.put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
 		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");

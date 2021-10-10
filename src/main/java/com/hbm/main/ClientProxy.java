@@ -258,6 +258,21 @@ public class ClientProxy extends ServerProxy {
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
 		
+		//universal JSON translated items
+		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(
+				new double[] {0, -90, 55},
+				new double[] {0, 7.0, 0},
+				new double[] {1.7, 1.7, 0.85},
+				
+				new double[] {-20, -90, -80},
+				new double[] {1.13, 5.2, -0.26},
+				new double[] {1.36, 1.36, 0.68},
+				
+				new double[] {0, 0, 0},
+				new double[] {0, 0, 0},
+				new double[] {1.1, 1.1, 1.1}));
+		
+		
 		//test crap
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_container), new ItemRenderTestContainer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_bomb_advanced), new ItemRenderTestBombAdvanced());

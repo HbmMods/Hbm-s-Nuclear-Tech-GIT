@@ -50,7 +50,7 @@ public class ArmorRecipes {
 		addHelmet(	ModItems.rag, ModItems.robes_helmet);
 		addChest(	ModItems.rag, ModItems.robes_plate);
 		addLegs(	ModItems.rag, ModItems.robes_legs);
-		addBoots(	ModItems.plate_polymer, ModItems.robes_boots);
+		GameRegistry.addRecipe(new ItemStack(ModItems.robes_boots, 1), new Object[] { "R R", "P P", 'R', ModItems.rag, 'P', ModItems.plate_polymer });
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.security_helmet, 1), new Object[] { "SSS", "IGI", 'S', "plateSteel", 'I', ModItems.plate_polymer, 'G', "paneGlass" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.security_plate, 1), new Object[] { "KWK", "IKI", "WKW", 'K', ModItems.plate_kevlar, 'I', ModItems.ingot_polymer, 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

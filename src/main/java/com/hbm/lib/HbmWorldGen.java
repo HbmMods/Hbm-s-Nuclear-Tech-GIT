@@ -560,7 +560,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 			
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
-			OilSpot.generateOilSpot(world, randPosX, randPosZ, 10, 50);
+			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50);
 		}
 
 		if (GeneralConfig.enableNITAN) {

@@ -10,6 +10,7 @@ import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -25,6 +26,7 @@ import net.minecraftforge.event.world.WorldEvent;
 public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	
 	private HashMap<World, SimpleRadiationPerWorld> perWorld = new HashMap();
+	private static final float maxRad = 100_000F;
 
 	@Override
 	public float getRadiation(World world, int x, int y, int z) {
@@ -33,7 +35,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 		if(radWorld != null) {
 			ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
 			Float rad = radWorld.radiation.get(coords);
-			return rad == null ? 0F : rad;
+			return rad == null ? 0F : MathHelper.clamp_float(rad, 0, maxRad);
 		}
 		
 		return 0;
@@ -48,7 +50,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 			if(world.blockExists(x, 0, z)) {
 				
 				ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
-				radWorld.radiation.put(coords, rad);
+				radWorld.radiation.put(coords, MathHelper.clamp_float(rad, 0, maxRad));
 				world.getChunkFromBlockCoords(x, z).isModified = true;
 			}
 		}
@@ -92,7 +94,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 							Float val = radiation.get(newCoord);
 							float rad = val == null ? 0 : val;
 							float newRad = rad + chunk.getValue() * percent;
-							newRad = Math.max(0F, newRad * 0.99F - 0.05F);
+							newRad = MathHelper.clamp_float(0F, newRad * 0.99F - 0.05F, maxRad);
 							radiation.put(newCoord, newRad);
 						} else {
 							radiation.put(newCoord, chunk.getValue() * percent);
