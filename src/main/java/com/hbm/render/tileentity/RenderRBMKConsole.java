@@ -42,7 +42,10 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		TileEntityRBMKConsole console = (TileEntityRBMKConsole) te;
 		
 		Tessellator tess = Tessellator.instance;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		tess.startDrawingQuads();
+		tess.setBrightness(240);
+		tess.setNormal(1, 0, 0);
 		
 		for(int i = 0; i < console.columns.length; i++) {
 			
@@ -51,32 +54,35 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 			if(col == null)
 				continue;
 
-			double kx = i % 15 - 0.125D * 7;
-			double ky = i / 15 + 2.5;
-			double kz = 0.5D;
+			double kx = -0.3725D;
+			double ky = -(i / 15) * 0.125 + 3.625;
+			double kz = -(i % 15) * 0.125 + 0.125D * 7;
 			
-			drawColumn(tess, kx, ky, kz, (float)(0.6D + ((kx + ky) % 2) * 0.1D), col.data.getDouble("heat") / col.data.getDouble("maxHeat"));
+			drawColumn(tess, kx, ky, kz, (float)(0.65D + (i % 2) * 0.05D), col.data.getDouble("heat") / col.data.getDouble("maxHeat"));
 			
 			switch(col.type) {
 			case FUEL:
-			case FUEL_SIM:		drawFuel(tess, kx, ky, kz, col.data.getDouble("enrichment")); break;
-			case CONTROL:		drawControl(tess, kx, ky, kz, col.data.getDouble("level")); break;
-			case CONTROL_AUTO:	drawControlAuto(tess, kx, ky, kz, col.data.getDouble("level")); break;
+			case FUEL_SIM:		drawFuel(tess, kx + 0.01, ky, kz, col.data.getDouble("enrichment")); break;
+			case CONTROL:		drawControl(tess, kx + 0.01, ky, kz, col.data.getDouble("level")); break;
+			case CONTROL_AUTO:	drawControlAuto(tess, kx + 0.01, ky, kz, col.data.getDouble("level")); break;
 			}
 		}
+		
+		tess.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL11.glPopMatrix();
 	}
 	
 	private void drawColumn(Tessellator tess, double x, double y, double z, float color, double heat) {
 		
-		double width = 0.0625D;
+		double width = 0.0625D * 0.75;
 		
 		tess.setColorOpaque_F((float) (color + ((1 - color) * heat)), color, color);
-		tess.addVertex(x - width, y + width, z);
-		tess.addVertex(x + width, y + width, z);
-		tess.addVertex(x + width, y - width, z);
-		tess.addVertex(x - width, y - width, z);
+		tess.addVertex(x, y + width, z - width);
+		tess.addVertex(x, y + width, z + width);
+		tess.addVertex(x, y - width, z + width);
+		tess.addVertex(x, y - width, z - width);
 	}
 	
 	private void drawFuel(Tessellator tess, double x, double y, double z, double enrichment) {
@@ -92,14 +98,6 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 	}
 	
 	private void drawSquare(Tessellator tess, double x, double y, double z, float r, float g, float b) {
-		
-		double width = 0.0625D;
-		
-		tess.setColorOpaque_F(r, g, b);
-		tess.addVertex(x - width, y + width, z);
-		tess.addVertex(x + width, y + width, z);
-		tess.addVertex(x + width, y - width, z);
-		tess.addVertex(x - width, y - width, z);
 	}
 	
 	private void drawDot(Tessellator tess, double x, double y, double z, float r, float g, float b) {
@@ -110,18 +108,20 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		tess.setColorOpaque_F(r, g, b);
 		
 		tess.addVertex(x, y + width, z);
-		tess.addVertex(x + edge, y + edge, z);
-		tess.addVertex(x + width, y, z);
-		tess.addVertex(x + edge, y - edge, z);
+		tess.addVertex(x, y + edge, z + edge);
+		tess.addVertex(x, y, z + width);
+		tess.addVertex(x, y - edge, z + edge);
+
+		tess.addVertex(x, y + edge, z - edge);
+		tess.addVertex(x, y + width, z);
+		tess.addVertex(x, y - edge, z - edge);
+		tess.addVertex(x, y, z - width);
 		
 		tess.addVertex(x, y + width, z);
-		tess.addVertex(x - edge, y + edge, z);
-		tess.addVertex(x - width, y, z);
-		tess.addVertex(x - edge, y - edge, z);
-		
-		tess.addVertex(x, y + width, z);
-		tess.addVertex(x + edge, y - edge, z);
+		tess.addVertex(x, y - edge, z + edge);
 		tess.addVertex(x, y - width, z);
-		tess.addVertex(x - edge, y - edge, z);
+		tess.addVertex(x, y - edge, z - edge);
+		
+		tess.setColorOpaque_F(1F, 1F, 1F);
 	}
 }
