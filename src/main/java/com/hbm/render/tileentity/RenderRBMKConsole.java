@@ -5,8 +5,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineFENSU;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
 
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -35,7 +38,90 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.rbmk_console_tex);
 		ResourceManager.rbmk_console.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		TileEntityRBMKConsole console = (TileEntityRBMKConsole) te;
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		
+		for(int i = 0; i < console.columns.length; i++) {
+			
+			RBMKColumn col = console.columns[i];
+			
+			if(col == null)
+				continue;
+
+			double kx = i % 15 - 0.125D * 7;
+			double ky = i / 15 + 2.5;
+			double kz = 0.5D;
+			
+			drawColumn(tess, kx, ky, kz, (float)(0.6D + ((kx + ky) % 2) * 0.1D), col.data.getDouble("heat") / col.data.getDouble("maxHeat"));
+			
+			switch(col.type) {
+			case FUEL:
+			case FUEL_SIM:		drawFuel(tess, kx, ky, kz, col.data.getDouble("enrichment")); break;
+			case CONTROL:		drawControl(tess, kx, ky, kz, col.data.getDouble("level")); break;
+			case CONTROL_AUTO:	drawControlAuto(tess, kx, ky, kz, col.data.getDouble("level")); break;
+			}
+		}
 
 		GL11.glPopMatrix();
+	}
+	
+	private void drawColumn(Tessellator tess, double x, double y, double z, float color, double heat) {
+		
+		double width = 0.0625D;
+		
+		tess.setColorOpaque_F((float) (color + ((1 - color) * heat)), color, color);
+		tess.addVertex(x - width, y + width, z);
+		tess.addVertex(x + width, y + width, z);
+		tess.addVertex(x + width, y - width, z);
+		tess.addVertex(x - width, y - width, z);
+	}
+	
+	private void drawFuel(Tessellator tess, double x, double y, double z, double enrichment) {
+		this.drawDot(tess, x, y, z, 0F, 0.25F + (float) (enrichment * 0.75D), 0F);
+	}
+	
+	private void drawControl(Tessellator tess, double x, double y, double z, double level) {
+		this.drawDot(tess, x, y, z, (float) level, (float) level, 0F);
+	}
+	
+	private void drawControlAuto(Tessellator tess, double x, double y, double z, double level) {
+		this.drawDot(tess, x, y, z, (float) level, 0F, (float) level);
+	}
+	
+	private void drawSquare(Tessellator tess, double x, double y, double z, float r, float g, float b) {
+		
+		double width = 0.0625D;
+		
+		tess.setColorOpaque_F(r, g, b);
+		tess.addVertex(x - width, y + width, z);
+		tess.addVertex(x + width, y + width, z);
+		tess.addVertex(x + width, y - width, z);
+		tess.addVertex(x - width, y - width, z);
+	}
+	
+	private void drawDot(Tessellator tess, double x, double y, double z, float r, float g, float b) {
+		
+		double width = 0.03125D;
+		double edge = 0.022097D;
+		
+		tess.setColorOpaque_F(r, g, b);
+		
+		tess.addVertex(x, y + width, z);
+		tess.addVertex(x + edge, y + edge, z);
+		tess.addVertex(x + width, y, z);
+		tess.addVertex(x + edge, y - edge, z);
+		
+		tess.addVertex(x, y + width, z);
+		tess.addVertex(x - edge, y + edge, z);
+		tess.addVertex(x - width, y, z);
+		tess.addVertex(x - edge, y - edge, z);
+		
+		tess.addVertex(x, y + width, z);
+		tess.addVertex(x + edge, y - edge, z);
+		tess.addVertex(x, y - width, z);
+		tess.addVertex(x - edge, y - edge, z);
 	}
 }

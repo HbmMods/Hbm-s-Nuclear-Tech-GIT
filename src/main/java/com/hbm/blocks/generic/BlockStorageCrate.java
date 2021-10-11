@@ -113,8 +113,11 @@ public class BlockStorageCrate extends BlockContainer {
 			
 			if(inv instanceof TileEntityLockableBase) {
 				TileEntityLockableBase lockable = (TileEntityLockableBase) inv;
-				nbt.setInteger("lock", lockable.getPins());
-				nbt.setDouble("lockMod", lockable.getMod());
+				
+				if(lockable.isLocked()) {
+					nbt.setInteger("lock", lockable.getPins());
+					nbt.setDouble("lockMod", lockable.getMod());
+				}
 			}
 			
 			if(!nbt.hasNoTags()) {
