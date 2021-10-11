@@ -1035,6 +1035,7 @@ public class ModBlocks {
 	public static Block rbmk_moderator;
 	public static Block rbmk_outgasser;
 	public static Block rbmk_console;
+	public static Block rbmk_crane_console;
 	public static final int guiID_rbmk_rod = 113;
 	public static final int guiID_rbmk_boiler = 114;
 	public static final int guiID_rbmk_control = 115;
@@ -1945,6 +1946,7 @@ public class ModBlocks {
 		rbmk_moderator = new RBMKModerator().setBlockName("rbmk_moderator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_moderator");
 		rbmk_outgasser = new RBMKOutgasser().setBlockName("rbmk_outgasser").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_outgasser");
 		rbmk_console = new RBMKConsole().setBlockName("rbmk_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_console");
+		rbmk_crane_console = new RBMKCraneConsole().setBlockName("rbmk_crane_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_crane_console");
 		rbmk_loader = new BlockGeneric(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		rbmk_steam_inlet = new RBMKInlet(Material.iron).setBlockName("rbmk_steam_inlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_inlet");
 		rbmk_steam_outlet = new RBMKOutlet(Material.iron).setBlockName("rbmk_steam_outlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_outlet");
@@ -2795,6 +2797,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_moderator, rbmk_moderator.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_outgasser, rbmk_outgasser.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_crane_console, rbmk_crane_console.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_loader, rbmk_loader.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_steam_inlet, rbmk_steam_inlet.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_steam_outlet, rbmk_steam_outlet.getUnlocalizedName());

@@ -97,9 +97,6 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		this.drawDot(tess, x, y, z, (float) level, 0F, (float) level);
 	}
 	
-	private void drawSquare(Tessellator tess, double x, double y, double z, float r, float g, float b) {
-	}
-	
 	private void drawDot(Tessellator tess, double x, double y, double z, float r, float g, float b) {
 		
 		double width = 0.03125D;
