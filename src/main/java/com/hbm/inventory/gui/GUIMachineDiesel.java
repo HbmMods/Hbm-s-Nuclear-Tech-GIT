@@ -36,6 +36,7 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 				"  Diesel (500 HE/t)",
 				"  Petroil (300 HE/t)",
 				"  Biofuel (400 HE/t)",
+				"  LPG (450 HE/t)",
 				"  Hydrogen (10 HE/t)",
 				"  Leaded Gasoline (1500 HE/t)",
 				"  NITAN Superfuel (5000 HE/t)" };
