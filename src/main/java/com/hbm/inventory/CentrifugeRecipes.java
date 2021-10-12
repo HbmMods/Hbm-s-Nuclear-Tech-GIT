@@ -16,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CentrifugeRecipes {
 
-	private static HashMap<Object, ItemStack[]> recipes = new HashMap();
+	private static HashMap<Object, ItemStack[]> recipes = new HashMap<Object, ItemStack[]>();
 	
 	public static void register() {
 		

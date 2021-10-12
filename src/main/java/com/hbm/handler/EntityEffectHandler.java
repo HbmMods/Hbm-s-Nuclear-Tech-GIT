@@ -53,9 +53,9 @@ public class EntityEffectHandler {
 			
 			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 				return;
-			int ix = (int)MathHelper.floor_double(entity.posX);
-			int iy = (int)MathHelper.floor_double(entity.posY);
-			int iz = (int)MathHelper.floor_double(entity.posZ);
+			int ix = MathHelper.floor_double(entity.posX);
+			int iy = MathHelper.floor_double(entity.posY);
+			int iz = MathHelper.floor_double(entity.posZ);
 	
 			Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
 			float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);

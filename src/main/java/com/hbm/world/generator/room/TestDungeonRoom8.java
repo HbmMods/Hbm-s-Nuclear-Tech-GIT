@@ -2,12 +2,12 @@ package com.hbm.world.generator.room;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.tileentity.machine.TileEntitySafe;
 import com.hbm.world.generator.CellularDungeon;
 import com.hbm.world.generator.CellularDungeonRoom;
 import com.hbm.world.generator.DungeonToolbox;
 
+import api.hbm.internet.IDataStorageUser;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -49,12 +49,12 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 				if(world.rand.nextInt(10) == 0)
 				{
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getFullMedium(ModItems.storage_magnetic_fdd_tainted));
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, IDataStorageUser.getFullMedium(ModItems.storage_magnetic_fdd_tainted));
 				}
 				else
 				{
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(Items.book));
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd));
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(6, IDataStorageUser.getFullMedium(ModItems.storage_magnetic_fdd_tainted));
 				}
 			}
 			break;

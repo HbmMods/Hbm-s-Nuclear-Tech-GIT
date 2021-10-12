@@ -1,12 +1,12 @@
 package com.hbm.extprop;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.hbm.interfaces.IItemHazard.EnumToxicity;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
-import com.hbm.modules.ItemHazardModule.CustomToxicity;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -33,7 +33,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radiation;
 	private float digamma;
 	private int asbestos;
-	private HashMap<CustomToxicity, Float> customToxValues = new HashMap<ItemHazardModule.CustomToxicity, Float>();
+	private HashMap<EnumToxicity, Float> customToxValues = new HashMap<EnumToxicity, Float>();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -57,29 +57,28 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		return getData(entity).radiation;
 	}
 	
-	public static float getCustom(EntityLivingBase entity, CustomToxicity tox)
+	public static float getCustom(EntityLivingBase entity, EnumToxicity tox)
 	{
 		return getData(entity).customToxValues.containsKey(tox) ? getData(entity).customToxValues.get(tox) : 0;
 	}
 	
-	public static void setCustom(EntityLivingBase entity, CustomToxicity tox, float amount)
+	public static void setCustom(EntityLivingBase entity, EnumToxicity tox, float amount)
 	{
 		HbmLivingProps data = getData(entity);
 		data.customToxValues.put(tox, amount);
 		
-		if (data.customToxValues.get(tox) >= tox.cap)
+		if (data.customToxValues.get(tox) >= tox.getCap())
 		{
 			data.customToxValues.put(tox, 0F);
-			entity.attackEntityFrom(ModDamageSource.causeDamage(entity, tox.name).setDamageBypassesArmor().setDamageIsAbsolute(), tox.damage);
+			entity.attackEntityFrom(ModDamageSource.causeDamage(entity, tox.toString()).setDamageBypassesArmor().setDamageIsAbsolute(), 1000);
 		}
 	}
 	
-	public static void incrementCustom(EntityLivingBase entity, CustomToxicity tox, float amount)
+	public static void incrementCustom(EntityLivingBase entity, EnumToxicity tox, float amount)
 	{
 //		System.out.println(getData(entity).customToxValues.get(tox));
-		final HbmLivingProps data = getData(entity);
 //		data.customToxValues.put(tox, amount + getCustom(entity, tox));
-		data.setCustom(entity, tox, getCustom(entity, tox) + amount);
+		setCustom(entity, tox, getCustom(entity, tox) + amount);
 	}
 	
 	public static void setRadiation(EntityLivingBase entity, float rad) {
@@ -191,6 +190,14 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setFloat("hfr_digamma", digamma);
 		props.setInteger("hfr_asbestos", asbestos);
 		
+		if (!customToxValues.isEmpty())
+		{
+			NBTTagCompound custom = new NBTTagCompound();
+			for (Entry<EnumToxicity, Float> e : customToxValues.entrySet())
+				custom.setFloat(e.getKey().toString(), e.getValue());
+			
+			props.setTag("hfr_custom", custom);
+		}
 		nbt.setTag("HbmLivingProps", props);
 	}
 
@@ -199,10 +206,19 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmLivingProps");
 		
-		if(props != null) {
+		if(props != null)
+		{
 			radiation = props.getFloat("hfr_radiation");
 			digamma = props.getFloat("hfr_digamma");
 			asbestos = props.getInteger("hfr_asbestos");
+			
+			if (!props.hasKey("hfr_custom"))
+			{
+				NBTTagCompound custom = props.getCompoundTag("hfr_custom");
+				for (EnumToxicity tox : EnumToxicity.values())
+					if (custom.hasKey(tox.toString()))
+						customToxValues.put(tox, custom.getFloat(tox.toString()));
+			}
 		}
 	}
 	

@@ -13,11 +13,11 @@ import net.minecraft.item.ItemStack;
 
 public class BobmazonOfferFactory {
 
-	public static List<Offer> materials = new ArrayList();
-	public static List<Offer> machines = new ArrayList();
-	public static List<Offer> weapons = new ArrayList();
-	public static List<Offer> tools = new ArrayList();
-	public static List<Offer> special = new ArrayList();
+	public static List<Offer> materials = new ArrayList<Offer>();
+	public static List<Offer> machines = new ArrayList<Offer>();
+	public static List<Offer> weapons = new ArrayList<Offer>();
+	public static List<Offer> tools = new ArrayList<Offer>();
+	public static List<Offer> special = new ArrayList<Offer>();
 	
 	public static void init() {
 

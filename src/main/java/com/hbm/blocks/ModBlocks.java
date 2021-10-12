@@ -158,15 +158,14 @@ import com.hbm.items.special.ItemOreBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityAtomicClock;
+import com.hbm.tileentity.turret.TileEntityLunarOni;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 import com.hbm.tileentity.turret.TileEntityTurretFriendly;
 import com.hbm.tileentity.turret.TileEntityTurretHoward;
 import com.hbm.tileentity.turret.TileEntityTurretJeremy;
 import com.hbm.tileentity.turret.TileEntityTurretRichard;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
-import com.hbm.tileentity.machine.TileEntityAtomicClock;
-import com.hbm.tileentity.turret.TileEntityLunarOni;
-import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;

@@ -12,7 +12,6 @@ import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.HbmCollection;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;

@@ -7,7 +7,10 @@ import java.util.Optional;
 
 import javax.annotation.CheckForNull;
 
+import org.apache.logging.log4j.Level;
+
 import com.google.common.annotations.Beta;
+import com.hbm.calc.EasyLocation;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -19,8 +22,13 @@ import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TESirenPacket;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,10 +46,10 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	protected static final HashMap<ComparableStack, ReactorCore> coreList = new HashMap<>();
 	protected static final HashMap<ComparableStack, ReactorCatalyst> catalystList = new HashMap<>();
 	protected static final HashMap<ComparableStack, ReactorBooster> boosterList = new HashMap<>();
-	public static final long maxPower = 100000000;
-	public static final long powerRate = 10000;
+	public static final long maxPower = 1000000000;
+	public static final long powerRate = 100000;
 	private long power = 0;
-	public static final int maxTemp = 35000000;
+	public static final int maxTemp = 3500000;
 	public static final int critTemp = (int) (maxTemp * 0.8);
 	private int temperature = 20;
 	public static final int maxBar = 200000;
@@ -55,10 +63,9 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	private boolean magnets = false;
 	private boolean active = false;
 	private final boolean[] criticalStats = {false, false, false};
-	private Optional<ReactorCore> currCore = Optional.empty();
-	private Optional<ReactorBooster> currBooster = Optional.empty();
-	private Optional<ReactorCatalyst> currCatalyst = Optional.empty();
-	private final Optional<ReactorBaseItem>[] reactorItems = new Optional[3];
+	public Optional<ReactorCore> currCore = Optional.empty();
+	public Optional<ReactorBooster> currBooster = Optional.empty();
+	public Optional<ReactorCatalyst> currCatalyst = Optional.empty();
 	static
 	{
 		coreList.put(new ComparableStack(ModItems.singularity_micro), new ReactorCore(1, 10, "singularity_micro").setDecays(48000 * 5));
@@ -85,12 +92,17 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 		// TODO Auto-generated method stub
 		if (!worldObj.isRemote)
 		{
+			age++;
+			if (age >= 20)
+				age = 0;
+			if (age == 9 || age == 19)
+				fillFluidInit(FluidType.PLASMA_WARP);
+			
 			for (int i = 0; i < 3; i++)
 				tanks[i].updateTank(this);
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			updateIntermixAndInputs();
-			
 			if (areMagnetsOn())
 			{
 				power -= powerRate;
@@ -103,19 +115,40 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 				}
 			}
 			
+			final int currFluid = getFluidFill(FluidType.PLASMA_WARP);
+			temperature = modStatLevel(getMaxLevel(currFluid, maxTemp), temperature);
+			bar = modStatLevel(getMaxLevel(currFluid, maxBar), bar);
+			teradynes = modStatLevel(getMaxLevel(currFluid, maxDyne), teradynes);
 			updateCritical();
+			
+			for (boolean b : criticalStats)
+			{
+				if (b)
+				{
+					PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(new EasyLocation(this), TrackType.AMS_SIREN.ordinal(), true), Library.easyTargetPoint(this, 1500));
+					PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(new EasyLocation(this), TrackType.AMS_SIREN.ordinal(), false), Library.easyTargetPoint(this, 1500));
+					break;
+				}
+			}		
 		}
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("power", power);
 		data.setIntArray("stats", new int[] {temperature, bar, teradynes});
+		data.setByteArray("intermix", intermix);
 		data.setByte("delay", delay);
 		data.setBoolean("magnetsOn", magnets);
 		data.setBoolean("isActive", active);
+		if (currCore.isPresent())
+			data.setTag("core", currCore.get().writeToNBT());
+		if (currBooster.isPresent())
+			data.setTag("booster", currBooster.get().writeToNBT());
+		if (currCatalyst.isPresent())
+			data.setTag("catalyst", currCatalyst.get().writeToNBT());
 		networkPack(data, 100);
 	}
 	
-	/** Uses an euler type logarithmic function
+	/** Uses an euler/natural logarithm type logarithmic function
 	 * @param targLvl Target level of the stat
 	 * @param currLvl Current level of the stat
 	 * @return The new level of the stat
@@ -124,43 +157,52 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	@Untested
 	private static int modStatLevel(int targLvl, int currLvl)
 	{
-		return (int) Math.ceil(targLvl / 1 + Math.pow(Math.E, -Math.log(currLvl)));
+		try
+		{
+			return (int) Math.floor((targLvl * 1.125) / 1 + Math.pow(Math.E, Math.log(currLvl)));
+		}
+		catch (ArithmeticException e)
+		{
+			e.printStackTrace();
+			MainRegistry.logger.catching(Level.WARN, e);
+			return 0;
+		}
+
 	}
 	/**
-	 * Uses a logarithmic with base 10 function
+	 * Uses a square root function
 	 * @param fLevel Current fluid level of the plasma tank
 	 * @param max Maximum level of the statistic
-	 * @param min Minimum value to clamp the target to, probably 0
 	 * @return The target level for a stat
 	 */
 	@Beta
 	@Untested
-	private static int getMaxLevel(int fLevel, int max, int min)
+	private static int getMaxLevel(int fLevel, int max)
 	{
-		return MathHelper.clamp_int((int) (Math.log10(fLevel / max) * (128000 / (max / 100)) + max), min, Integer.MAX_VALUE);
+		try
+		{
+			return (int) Math.floor(Math.sqrt(fLevel) * -(max / fLevel) + max * 1.125);
+		}
+		catch (ArithmeticException e)
+		{
+			e.printStackTrace();
+			MainRegistry.logger.catching(Level.WARN, e);
+			return 0;
+		}
 	}
 	
 	private void updateIntermixAndInputs()
 	{
 		// TODO finish
-//		for (byte i = 0; i < 3; i++)
-//		{
-//			if (reactorItems[i].isPresent())
-//			{
-//				final ReactorBaseItem item = reactorItems[i].get();
-//				item.modIntermix(intermix);
-//				item.decayTick();
-//				if (item.getLife() <= 0)
-//					reactorItems[i] = Optional.empty();
-//			}
-//		}
-		
+		intermix[0] = 0;
+		intermix[1] = 0;
 		if (currCore.isPresent())
 		{
 			final ReactorCore core = currCore.get();
 			core.modIntermix(intermix);
-			core.decayTick();
-			if (core.getLife() <= 0)
+			if (canOperate())
+				core.decayTick();
+			if (core.getLife() <= 0 || (!core.getDoesDecay() && constructComparable(1) == null))
 				currCore = Optional.empty(); 
 		}
 		else if (isItemValidForSlot(1, getStackInSlot(1)))
@@ -174,7 +216,8 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 		{
 			final ReactorCatalyst catalyst = currCatalyst.get();
 			catalyst.modIntermix(intermix);
-			catalyst.decayTick();
+			if (canOperate())
+				catalyst.decayTick();
 			if (catalyst.getLife() <= 0)
 				currCatalyst = Optional.empty();
 		}
@@ -188,7 +231,8 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 		{
 			final ReactorBooster booster = currBooster.get();
 			booster.modIntermix(intermix);
-			booster.decayTick();
+			if (canOperate())
+				booster.decayTick();
 			if (booster.getLife() <= 0)
 				currBooster = Optional.empty();
 		}
@@ -217,9 +261,9 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 		case 0:
 			return itemStack.getItem() instanceof IBatteryItem;
 		case 1:
-			return boosterList.containsKey(constructComparable(itemStack));
-		case 2:
 			return coreList.containsKey(constructComparable(itemStack));
+		case 2:
+			return boosterList.containsKey(constructComparable(itemStack));
 		case 3:
 			return catalystList.containsKey(constructComparable(itemStack));
 		default:
@@ -244,6 +288,7 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	@Override
 	public void handleButtonPacket(int value, int meta)
 	{
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "gui.button.press", 1.0F, 1.0F);
 		switch (value)
 		{
 		case 0:
@@ -267,12 +312,19 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	{
 		power = nbt.getLong("power");
 		final int[] stats = nbt.getIntArray("stats");
+		intermix = nbt.getByteArray("intermix");
 		temperature = stats[0];
 		bar = stats[1];
 		teradynes = stats[2];
 		delay = nbt.getByte("delay");
 		magnets = nbt.getBoolean("magnetsOn");
 		active = nbt.getBoolean("isActive");
+		if (nbt.hasKey("core"))
+			currCore = Optional.of((ReactorCore) new ReactorCore().readFromNBT(nbt.getCompoundTag("core")));
+		if (nbt.hasKey("booster"))
+			currBooster = Optional.of((ReactorBooster) new ReactorBooster().readFromNBT(nbt.getCompoundTag("booster")));
+		if (nbt.hasKey("catalyst"))
+			currCatalyst = Optional.of((ReactorCatalyst) new ReactorCatalyst().readFromNBT(nbt.getCompoundTag("catalyst")));
 	}
 
 	@Override
@@ -280,7 +332,7 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	{
 		super.writeToNBT(nbt);
 		for (int i = 0; i < 3; i++)
-			tanks[i].writeToNBT(nbt, "tanks");
+			tanks[i].writeToNBT(nbt, "tank_" + i);
 		nbt.setLong("power", power);
 		nbt.setIntArray("stats", new int[] {temperature, bar, teradynes});
 		nbt.setByte("delay", delay);
@@ -299,7 +351,7 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	{
 		super.readFromNBT(nbt);
 		for (int i = 0; i < 3; i++)
-			tanks[i].readFromNBT(nbt, "tanks");
+			tanks[i].readFromNBT(nbt, "tank_" + i);
 		power = nbt.getLong("power");
 		final int[] stats = nbt.getIntArray("stats");
 		temperature = stats[0];
@@ -533,8 +585,21 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 			doesDecay = data.getBoolean("decays");
 			return this;
 		}
+		@Override
+		public String toString()
+		{
+			return I18nUtil.resolveKey(name);
+		}
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (!(obj instanceof ReactorBaseItem))
+				return false;
+			final ReactorBaseItem tester = (ReactorBaseItem) obj;
+			return doesDecay == tester.getDoesDecay() && maxLife == tester.getMaxLife() && life == tester.getLife() && name.equals(tester.name) && getIntermix().equals(tester.getIntermix());
+		}
 	}
-	private static final class ReactorCore extends ReactorBaseItem
+	public static final class ReactorCore extends ReactorBaseItem
 	{
 		public ReactorCore(){}
 		public ReactorCore(int fCons, int pProd, String locName)
@@ -552,7 +617,7 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 			return (ReactorCore) super.setDecays(life);
 		}
 	}
-	private static final class ReactorCatalyst extends ReactorBaseItem
+	public static final class ReactorCatalyst extends ReactorBaseItem
 	{
 		public ReactorCatalyst(){}
 		public ReactorCatalyst(int life, int pBoost, String locName)
@@ -566,7 +631,7 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 			return new ReactorCatalyst();
 		}
 	}
-	private static final class ReactorBooster extends ReactorBaseItem
+	public static final class ReactorBooster extends ReactorBaseItem
 	{
 		public ReactorBooster(){}
 		public ReactorBooster(int life, int fBoost, int pBoost, String locName)
@@ -634,5 +699,25 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 	public byte getDelayLevel()
 	{
 		return delay;
+	}
+	public boolean isCoreValid()
+	{
+		return currCore.isPresent();
+	}
+	public boolean magnetsActivated()
+	{
+		return magnets;
+	}
+	public boolean isRunning()
+	{
+		return active;
+	}
+	public boolean hasPower(boolean low)
+	{
+		return low ? power < maxPower * 0.75 : power >= powerRate;
+	}
+	public boolean hasPlasma(boolean low)
+	{
+		return low ? getFluidFill(FluidType.PLASMA_WARP) > getMaxFluidFill(FluidType.PLASMA_WARP) * 0.25 : getFluidFill(FluidType.PLASMA_WARP) > 0;
 	}
 }

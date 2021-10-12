@@ -4,25 +4,21 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableList;
-import com.hbm.interfaces.ICustomWarhead.CustomWarheadWrapper;
-import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead;
 import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumBioType;
 import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumChemicalType;
-import com.hbm.interfaces.ICustomWarhead.EnumCustomWarheadTrait;
-import com.hbm.interfaces.ICustomWarhead.EnumWeaponType;
-import com.hbm.interfaces.ICustomWarhead.FusionFuel;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
 import scala.actors.threadpool.Arrays;
 /**
  * Interface for customizable warheads or other explosive devices
@@ -182,7 +178,7 @@ public interface ICustomWarhead
 		return stack.getTagCompound().getCompoundTag(NBT_GROUP);
 	}
 	
-	public default ItemStack addFuel(ItemStack stack, Enum fuel, float amount)
+	public default ItemStack addFuel(ItemStack stack, Enum<?> fuel, float amount)
 	{
 		if (stack != null && stack.getItem() instanceof ICustomWarhead)
 		{
@@ -201,20 +197,20 @@ public interface ICustomWarhead
 		return stack;
 	}
 	
-	public default void addCompositionalInfo(NBTTagCompound data, List tooltip, List<Enum> combinedFuels)
+	public default void addCompositionalInfo(NBTTagCompound data, List<String> tooltip, List<Enum<?>> combinedFuels)
 	{
-		for (Enum f : combinedFuels)
+		for (Enum<?> f : combinedFuels)
 			if (data.getFloat(f.toString()) > 0)
 				tooltip.add(String.format("%s: %skg (%s)", I18nUtil.resolveKey("warheadFuel.".concat(f.toString())), df.format(data.getFloat(f.toString())), Library.toPercentage(data.getFloat(f.toString()), data.getFloat(NBT_MASS))));
 	}
 	
-	public default void addTooltip(ItemStack stack, List tooltip)
+	public default void addTooltip(ItemStack stack, List<String> tooltip)
 	{
 //		tooltip.clear();
 		try {
 		NBTTagCompound data = getWarheadData(stack);
 		
-		final ArrayList<Enum> combinedFuels = new ArrayList<Enum>();
+		final ArrayList<Enum<?>> combinedFuels = new ArrayList<>();
 		combinedFuels.addAll(Arrays.asList(FissileFuel.values()));
 		combinedFuels.addAll(Arrays.asList(FusionFuel.values()));
 		combinedFuels.addAll(Arrays.asList(SaltedFuel.values()));
@@ -267,7 +263,7 @@ public interface ICustomWarhead
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			MainRegistry.logger.catching(Level.ERROR, e);
 		}
 	}
 	
@@ -275,7 +271,7 @@ public interface ICustomWarhead
 	{
 		U233(15F, 197.5F, ItemHazard.u233, 19.05F),
 		U235(52F, 202.5F, ItemHazard.u235, 19.05F),
-		Np237(60F, 200F, ItemHazard.np237, 20.45F),
+		Np237(60F, 202.5F, ItemHazard.np237, 20.45F),
 		Pu239(10F, 207.1F, ItemHazard.pu239, 19.86F),
 		Pu241(12, 210F, ItemHazard.pu241, 19.86F),
 		Am241(66, 210F, ItemHazard.am241, 13.67F),
@@ -398,7 +394,7 @@ public interface ICustomWarhead
 			stack = ((ICustomWarhead) item).constructNew();
 			warhead = (ICustomWarhead) item;
 		}
-		public CustomWarheadWrapper addFuel(Enum fuel, float amount)
+		public CustomWarheadWrapper addFuel(Enum<?> fuel, float amount)
 		{
 			warhead.addFuel(stack, fuel, amount);
 			return this;
@@ -408,7 +404,7 @@ public interface ICustomWarhead
 			warhead.addData(stack, key, value);
 			return this;
 		}
-		public CustomWarheadWrapper addData(String key, Enum value)
+		public CustomWarheadWrapper addData(String key, Enum<?> value)
 		{
 			return addData(key, value.toString());
 		}

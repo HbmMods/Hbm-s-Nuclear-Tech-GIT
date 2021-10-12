@@ -15,6 +15,7 @@ public class WeaponConfig {
 	public static boolean dropStar = true;
 	public static boolean dropCrys = true;
 	public static boolean dropDead = true;
+	public static boolean enableTWR = true;
 	
 	public static void loadFromConfig(Configuration config) {
 

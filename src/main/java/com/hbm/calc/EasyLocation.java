@@ -3,6 +3,7 @@ package com.hbm.calc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EasyLocation
@@ -176,5 +177,10 @@ public class EasyLocation
 	public int hashCode()
 	{
 		return (int) (dimID * posX * posY * posZ) * 7 * 31;
+	}
+	
+	public Vec3 toVec3()
+	{
+		return Vec3.createVectorHelper(posY, posY, posZ);
 	}
 }

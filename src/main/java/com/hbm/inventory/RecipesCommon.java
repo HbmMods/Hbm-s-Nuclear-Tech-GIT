@@ -142,6 +142,7 @@ public class RecipesCommon {
 			this.meta = meta;
 		}
 		
+		@Override
 		public String getFriendlyName()
 		{
 			return toStack().getDisplayName();
@@ -231,7 +232,7 @@ public class RecipesCommon {
 		}
 
 		@Override
-		public AStack copy() {
+		public ComparableStack copy() {
 			return new ComparableStack(item, stacksize, meta);
 		}
 	}
@@ -278,6 +279,7 @@ public class RecipesCommon {
 			return this;
 		}
 		
+		@Override
 		public ItemStack toStack() {
 			ItemStack stack = super.toStack();
 			stack.stackTagCompound = this.nbt;
@@ -303,6 +305,7 @@ public class RecipesCommon {
 			return OreDictionary.getOres(name);
 		}
 
+		@Override
 		public String getFriendlyName()
 		{
 			return name;

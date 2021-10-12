@@ -83,7 +83,14 @@ public class AlloyForgeRecipes
 			stacks = materialStacks;
 			stackOut = output;
 		}
-
+		public ComparableStack getOutput()
+		{
+			return stackOut.copy();
+		}
+		public MaterialStack[] getInputs()
+		{
+			return stacks.clone();
+		}
 	}
 
 	@Deprecated

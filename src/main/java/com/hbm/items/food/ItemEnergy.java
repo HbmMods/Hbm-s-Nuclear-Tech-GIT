@@ -21,8 +21,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 @Spaghetti("yet another if statement chain")
-public class ItemEnergy extends Item {
-
+public class ItemEnergy extends Item
+{
+	private PotionEffect[] effects;
+	private short rads;
+	private float health;
+	private float explosionSize;
+	private boolean[] explosionStats = new boolean[3];
+	private boolean explodes = false;
+	private boolean isCan = false;
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 
@@ -233,7 +240,9 @@ public class ItemEnergy extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
 			}
 		}
-
+		player.inventory.addItemStackToInventory(getContainerItem(stack));
+		if (isCan)
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
 		return stack;
 	}
 
@@ -261,7 +270,7 @@ public class ItemEnergy extends Item {
 
 		return p_77659_1_;
 	}
-
+	@Spaghetti("IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS IF THIS...")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
@@ -357,5 +366,36 @@ public class ItemEnergy extends Item {
 			}
 			list.add("[Requires bottle opener]");
 		}
+	}
+	
+	public ItemEnergy addPotionEffects(PotionEffect...effects)
+	{
+		this.effects = effects;
+		return this;
+	}
+	/** Clamped to a short **/
+	public ItemEnergy addRADs(int rad)
+	{
+		rads = (short) rad;
+		return this;
+	}
+	public ItemEnergy addHealth(float hp)
+	{
+		health = hp;
+		return this;
+	}
+	public ItemEnergy addExplosion(float size, boolean cloud, boolean rubble, boolean shrapnel)
+	{
+		explodes = true;
+		explosionSize = size;
+		explosionStats[0] = cloud;
+		explosionStats[1] = rubble;
+		explosionStats[2] = shrapnel;
+		return this;
+	}
+	public ItemEnergy setIsCan()
+	{
+		isCan = true;
+		return this;
 	}
 }

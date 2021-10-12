@@ -10,13 +10,10 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
-import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
-import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
@@ -30,7 +27,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -109,7 +105,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				endActionClient(stack, world, entity, false);
 			}
 			
-			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
+			if(mainConfig.reloadType != GunConfiguration.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
 				if(Keyboard.isKeyDown(Keyboard.KEY_R) && (getMag(stack) < mainConfig.ammoCap || (mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
@@ -167,7 +163,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	
 	public boolean hasAmmo(ItemStack stack, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE || !main) {
+		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE || !main) {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
@@ -180,7 +176,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 
 		BulletConfiguration config = null;
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 			config = getBeltCfg(player, stack, true);
 		} else {
 			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
@@ -256,7 +252,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//called on click (server side, called by mouse packet) for semi-automatics and specific events
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
+		if(mainConfig.firingMode == GunConfiguration.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);
@@ -405,7 +401,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			int count = 1;
 			
-			if(mainConfig.reloadType == mainConfig.RELOAD_FULL) {
+			if(mainConfig.reloadType == GunConfiguration.RELOAD_FULL) {
 				
 				count = mainConfig.ammoCap - getMag(stack);
 			}
@@ -450,16 +446,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 
 		if(player.isSneaking() && mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0) {
 			
-			if(this.getMag(stack) == mainConfig.ammoCap) {
-				this.setMag(stack, 0);
-				this.resetAmmoType(stack, world, player);
+			if(getMag(stack) == mainConfig.ammoCap) {
+				setMag(stack, 0);
+				resetAmmoType(stack, world, player);
 				player.playSound("block.pistonOut", 1.0F, 1.0F);
 			}
 			
 			return;
 		}
 		
-		if(this.getMag(stack) == mainConfig.ammoCap)
+		if(getMag(stack) == mainConfig.ammoCap)
 			return;
 
 		if(getIsReloading(stack))
@@ -539,7 +535,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		addAdditionalInformation(stack, list);
 	}
 	
-	protected void addAdditionalInformation(ItemStack stack, List list)
+	protected void addAdditionalInformation(ItemStack stack, List<String> list)
 	{
 		list.add(mainConfig.damage.isEmpty() ? I18nUtil.resolveKey(HbmCollection.gunDamage, BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).dmgMin, BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).dmgMax) : I18nUtil.resolveKey(HbmCollection.gunDamage.concat("Alt"), mainConfig.damage));
 		
@@ -663,7 +659,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
 			return;
 
-		if(config.reloadType != mainConfig.RELOAD_NONE) {
+		if(config.reloadType != GunConfiguration.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - 1);
 		} else {
 			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));

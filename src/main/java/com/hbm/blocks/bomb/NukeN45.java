@@ -135,7 +135,7 @@ public class NukeN45 extends BlockContainer implements IBomb {
 		} else if(!entity.primed && entity.getType() > 0) {
 			int t = entity.getType();
 			entity.clearSlots();
-			entity.explode(world, x, y, z, t);
+			TileEntityNukeN45.explode(world, x, y, z, t);
 		}
 	}
 }

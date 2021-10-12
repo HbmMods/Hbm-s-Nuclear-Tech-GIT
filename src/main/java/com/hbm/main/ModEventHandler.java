@@ -1,7 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Field;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.ModBlocks;
@@ -52,7 +52,6 @@ import com.hbm.saveddata.TimeSavedData;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -302,7 +301,10 @@ public class ModEventHandler
 				
 				try {
 					ReflectionHelper.findField(Entity.class, "field_149500_a", "invulnerable").setBoolean(event.entityItem, true);
-				} catch(Exception e) { }
+				} catch(Exception e)
+				{
+					MainRegistry.logger.catching(Level.INFO, e);
+				}
 			}
 		}
 	}
@@ -314,7 +316,10 @@ public class ModEventHandler
 		
 		try {
 			prevArmor = (ItemStack[]) ReflectionHelper.findField(EntityLivingBase.class, "field_82180_bT", "previousEquipment").get(event.entityLiving);
-		} catch(Exception e) { }
+		} catch(Exception e)
+		{
+			MainRegistry.logger.catching(Level.INFO, e);
+		}
 
 		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && event.entityLiving.getHeldItem() != null 
 				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())
@@ -677,7 +682,10 @@ public class ModEventHandler
 					try {
 						Field food = ReflectionHelper.findField(FoodStats.class, "field_75127_a", "foodLevel");
 						food.setInt(player.getFoodStats(), 10);
-					} catch(Exception e) { }
+					} catch(Exception e)
+					{
+						MainRegistry.logger.catching(Level.INFO, e);
+					}
 				}
 			}
 			/// BETA HEALTH END ///
@@ -700,7 +708,7 @@ public class ModEventHandler
 		}
 
 		//TODO: rewrite this so it doesn't look like shit
-		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
+		if(player.worldObj.isRemote && event.phase == Phase.START && !player.isInvisible() && !player.isSneaking()) {
 			
 			if(player.getUniqueID().toString().equals(Library.HbMinecraft)) {
 				
@@ -901,7 +909,10 @@ public class ModEventHandler
 	    
 		    return str;
 		    
-		} catch (NoSuchAlgorithmException e) { }
+		} catch (NoSuchAlgorithmException e)
+		{
+			MainRegistry.logger.catching(Level.ERROR, e);
+		}
 		
 		return "";
 	}

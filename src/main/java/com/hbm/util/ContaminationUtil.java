@@ -4,8 +4,8 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.interfaces.IItemHazard.EnumToxicity;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.modules.ItemHazardModule.CustomToxicity;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -13,8 +13,6 @@ import api.hbm.entity.IDigammaImmune;
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -126,7 +124,7 @@ public class ContaminationUtil {
 	}
 	
 	/// CUSTOM ///
-	public static void applyCustom(Entity e, int i, CustomToxicity tox)
+	public static void applyCustom(Entity e, int i, EnumToxicity tox)
 	{
 //		System.out.println(tox);
 		if (!isValidTarget(e))
@@ -136,14 +134,14 @@ public class ContaminationUtil {
 			HbmLivingProps.incrementCustom(entity, tox, i);
 	}
 	
-	public static boolean isValidTarget(Entity e, Class...classes)
+	public static boolean isValidTarget(Entity e, Class<?>...classes)
 	{
 		if (!(e instanceof EntityLivingBase) || (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode || ((EntityPlayer) e).ticksExisted < 200))
 			return false;
 		
 		if (classes != null)
 		{
-			for (Class c : classes)
+			for (Class<?> c : classes)
 				if (e.getClass().isAssignableFrom(c))
 					return false;
 		}

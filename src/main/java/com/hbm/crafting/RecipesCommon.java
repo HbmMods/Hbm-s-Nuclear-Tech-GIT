@@ -92,7 +92,7 @@ public class RecipesCommon {
 	{
 		addBillet(billet, nugget, nuggetOre);
 		billetToIngot(billet, ingot);
-		ingotToBillet(billet, ingot);
+		ingotToBillet(billet, ingot, ingotOre);
 	}
 	
 	public static void addRodsAll(Item quad, Item dual, Item single, Item billet)

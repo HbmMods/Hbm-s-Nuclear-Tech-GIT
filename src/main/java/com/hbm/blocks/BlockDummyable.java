@@ -42,6 +42,7 @@ public abstract class BlockDummyable extends BlockContainer {
 
 	public static boolean safeRem = false;
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 
 		super.onNeighborBlockChange(world, x, y, z, block);
@@ -65,6 +66,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 	}
 
+	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		super.updateTick(world, x, y, z, rand);
@@ -92,7 +94,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		return findCoreRec(world, x, y, z);
 	}
 
-	List<ThreeInts> positions = new ArrayList();
+	List<ThreeInts> positions = new ArrayList<ThreeInts>();
 
 	public int[] findCoreRec(World world, int x, int y, int z) {
 
@@ -205,9 +207,9 @@ public abstract class BlockDummyable extends BlockContainer {
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-		this.safeRem = true;
+		BlockDummyable.safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
-		this.safeRem = false;
+		BlockDummyable.safeRem = false;
 
 	}
 

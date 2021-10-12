@@ -59,7 +59,7 @@ public class FusionRecipes {
 	
 	public static HashMap<ItemStack, ItemStack> getRecipes() {
 		
-		HashMap<ItemStack, ItemStack> map = new HashMap();
+		HashMap<ItemStack, ItemStack> map = new HashMap<ItemStack, ItemStack>();
 
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DT.ordinal()), getByproduct(FluidType.PLASMA_DT));
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HD.ordinal()), getByproduct(FluidType.PLASMA_HD));

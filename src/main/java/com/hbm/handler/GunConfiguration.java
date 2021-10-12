@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-public class GunConfiguration {
+public class GunConfiguration implements Cloneable
+{
 	
 	/**
 	 * alt function restrictions:
@@ -31,7 +35,7 @@ public class GunConfiguration {
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
 	/**whether to not to disable crosshairs when sneaking**/
 	public boolean hasSights;
 	
@@ -64,18 +68,18 @@ public class GunConfiguration {
 	/**Custom descriptor about damage, optional**/
 	public String damage = "";
 	/**Extra long comments about the lore of the gun**/
-	public List<String> advLore = new ArrayList();
+	public List<String> advLore = new ArrayList<String>();
 	/**Extra long comments about how the gun works**/
-	public List<String> advFuncLore = new ArrayList();
+	public List<String> advFuncLore = new ArrayList<String>();
 	/**Localization key for the official name**/
 	public String name = "";
 	/**Localization key for the gun's manufacturer**/
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	/**Additional comments**/
-	public List<String> comment = new ArrayList();
+	public List<String> comment = new ArrayList<String>();
 
 	/**bullet configs for main and alt fire**/
-	public List<Integer> config = new ArrayList();
+	public List<Integer> config = new ArrayList<Integer>();
 
 	/** Crosshair on screen **/
 	public Crosshair crosshair;
@@ -102,6 +106,48 @@ public class GunConfiguration {
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
+	}
+	
+	@Override
+	public GunConfiguration clone()
+	{
+//		GunConfiguration newConfig = new GunConfiguration();
+//		newConfig.advFuncLore = new ArrayList<String>(advFuncLore);
+//		newConfig.advLore = new ArrayList<String>(advLore);
+//		newConfig.allowsInfinity = allowsInfinity;
+//		newConfig.ammoCap = ammoCap;
+//		newConfig.animations = new HashMap<>(animations);
+//		newConfig.comment = new ArrayList<String>(comment);
+//		newConfig.config = new ArrayList<Integer>(config);
+//		newConfig.crosshair = crosshair;
+//		newConfig.damage = damage;
+//		newConfig.durability = durability;
+//		newConfig.equipSound = equipSound;
+//		newConfig.firingDuration = firingDuration;
+//		newConfig.firingMode = firingMode;
+//		newConfig.firingPitch = firingPitch;
+//		newConfig.firingSound = firingSound;
+//		newConfig.gunMode = gunMode;
+//		newConfig.hasSights = hasSights;
+//		newConfig.manufacturer = manufacturer;
+//		newConfig.name = name;
+//		newConfig.rateOfFire = rateOfFire;
+//		newConfig.reloadDuration = reloadDuration;
+//		newConfig.reloadSound = reloadSound;
+//		newConfig.reloadSoundEnd = reloadSoundEnd;
+//		newConfig.reloadType = reloadType;
+//		newConfig.roundsPerCycle = roundsPerCycle;
+//		newConfig.showAmmo = showAmmo;
+//		return newConfig;
+		try {
+			return (GunConfiguration) super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+			MainRegistry.logger.catching(Level.ERROR, e);
+			return new GunConfiguration();
+		}
 	}
 
 }

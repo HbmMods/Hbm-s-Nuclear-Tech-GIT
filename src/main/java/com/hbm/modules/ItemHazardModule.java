@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import com.google.common.annotations.Beta;
 import com.hbm.config.RadiationConfig;
+import com.hbm.interfaces.IItemHazard.EnumToxicity;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.Library;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -49,7 +51,7 @@ public class ItemHazardModule {
 	boolean hasCustomTox = false;
 	float toxMod = 0;
 //	CustomToxicity tox = null;
-	Optional<CustomToxicity> tox = Optional.empty();
+	Optional<EnumToxicity> tox = Optional.empty();
 	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
@@ -83,7 +85,7 @@ public class ItemHazardModule {
 	 * @param toxIn Pun not intended
 	 */
 	@Beta
-	public void addCustomToxicity(CustomToxicity toxIn, float mod)
+	public void addCustomToxicity(EnumToxicity toxIn, float mod)
 	{
 		hasCustomTox = true;
 		tox = Optional.of(toxIn);
@@ -134,20 +136,26 @@ public class ItemHazardModule {
 		}
 
 		if(this.blinding && !(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer) entity))) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
+			entity.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
 		}
 	}
 	
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	/**
+	 * @param player If player info is needed 
+	 * @param bool Whether or not to show extended info
+	 */
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean bool)
 	{
 		if (this.radiation > 0)
 		{
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(HbmCollection.radioactive) + "]");
 			double rad = (Math.floor(radiation * 1000) / 1000);
 			double totalrad = radiation * stack.stackSize;
-//			System.out.println(radiation);
+			rad = Library.roundNumber(radiation, 4);
+			totalrad = Library.roundNumber(radiation * stack.stackSize, 4);
+//			System.out.println(rad);
 //			System.out.println(radiation * stack.stackSize);
-			String radFormatted = rad >= 0.0001F ? basicFormatter.format(rad) : sciNotFormatter.format(radiation);
+			String radFormatted = rad >= 0.0001F ? basicFormatter.format(rad) : sciNotFormatter.format(rad);
 			String totalRadFormatted = rad >= 0.0001F ? basicFormatter.format(totalrad) : sciNotFormatter.format(totalrad);
 			list.add(EnumChatFormatting.YELLOW + (radFormatted + "RAD/s"));
 			if (stack.stackSize > 1)
@@ -167,7 +175,7 @@ public class ItemHazardModule {
 		}
 		
 		if (tox.isPresent())
-			list.add(String.format("%s[%s]", tox.get().format, I18nUtil.resolveKey("trait." + tox.get().name)));
+			list.add(String.format("%s[%s]", tox.get().getColor(), I18nUtil.resolveKey("trait." + tox.get().toString())));
 		
 		if(this.hydro) {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.hydro) + "]");
@@ -179,13 +187,14 @@ public class ItemHazardModule {
 		
 		if (this.digamma > 0)
 		{
-			float d = ((int) (digamma * 10000F)) / 10F;
-			float totalDrx = d * stack.stackSize;
+			float totalDrx = digamma * stack.stackSize;
+			String formattedDrx = digamma >= 0.1F ? basicFormatter.format(digamma) : sciNotFormatter.format(digamma);
+			String formattedDrxTotal = totalDrx >= 0.1F ? basicFormatter.format(totalDrx) : sciNotFormatter.format(totalDrx);
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey(HbmCollection.drx) + "]");
-			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
+			list.add(EnumChatFormatting.DARK_RED + "" + formattedDrx + "mDRX/s");
 			// FIXME
 			if (stack.stackSize > 1)
-				list.add(String.format("%s%smDRX/s total", EnumChatFormatting.DARK_RED, totalDrx));
+				list.add(String.format("%s%smDRX/s total", EnumChatFormatting.DARK_RED, formattedDrxTotal));
 		}
 		
 		int[] breeder = BreederRecipes.getFuelValue(stack);
@@ -196,7 +205,8 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
 	}
-	// May switch to an enum instead
+	// Use the enum instead
+	@Deprecated
 	public static class CustomToxicity
 	{
 		public String name;

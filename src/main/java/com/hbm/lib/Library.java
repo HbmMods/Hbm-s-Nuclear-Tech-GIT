@@ -1,6 +1,8 @@
 package com.hbm.lib;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,6 +99,26 @@ public class Library {
 	{
 		return player.getUniqueID().toString().equals(ID);
 	}
+	/**
+	 * Rounds a number to so many significant digits
+	 * @param num The number to round
+	 * @param digits Amount of digits
+	 * @return The rounded double
+	 */
+	public static double roundDecimal(double num, @Nonnegative int digits)
+	{
+		if (digits < 0)
+			throw new IllegalArgumentException("Attempted negative number in non-negative field! Attempted value: " + digits);
+		
+		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
+	}
+	
+	public static double roundNumber(double num, @Nonnegative int digits)
+	{
+		double leftDigitCount = Math.ceil(Math.log10(Math.abs(num)));
+		double fac = Math.pow(10, digits - leftDigitCount);
+		return Math.round(num * fac) / fac;
+	}
 	
 	public static String[] ticksToDate(long ticks)
 	{
@@ -151,17 +173,10 @@ public class Library {
 		System.arraycopy(array2, 0, out, array1.length, array2.length);
 		return out;
 	}
-	@Deprecated
-	public static <T> T[] concatArrays(T[] array1, T[] array2, Class<T> type)
-	{
-		T[] out = Arrays.copyOf(array1, array1.length + array2.length);
-		System.arraycopy(array2, 0, out, array1.length, array2.length);
-		return out;
-	}
 	
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
-	public static List<String> superuser = new ArrayList<String>();
+	public static List<String> superuser = new ArrayList<>();
 	
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
 		
@@ -358,7 +373,7 @@ public class Library {
 	{
 		return new TargetPoint(te.getWorldObj().provider.dimensionId, te.xCoord, te.yCoord, te.zCoord, range);
 	}
-	/** Requires dim to be set **/
+	/** <u><i>Requires dim to be set</i></u> **/
 	public static TargetPoint easyTargetPoint(EasyLocation loc, int range)
 	{
 		return new TargetPoint(loc.dimID, loc.posX, loc.posY, loc.posZ, range);
@@ -373,6 +388,7 @@ public class Library {
 	 */
 	public static <T> T[] filledArray(Class<T> type, T fill, @Nonnegative int size)
 	{
+		@SuppressWarnings("unchecked")
 		T[] array = (T[]) Array.newInstance(type, size);
 		
 		for (int i = 0; i < size; i++)
@@ -388,7 +404,7 @@ public class Library {
 	 */
 	public static <T> List<T> arrayToList(T[] array)
 	{
-		ArrayList<T> listOut = new ArrayList<T>(array.length);
+		ArrayList<T> listOut = new ArrayList<>(array.length);
 		for (T obj : array)
 			listOut.add(obj);
 		return listOut;
@@ -415,17 +431,14 @@ public class Library {
         {
             return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
         }
-        else
-        {
-            double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
-            double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
-            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
-            return Vec3.createVectorHelper(d0, d1, d2);
-        }
+		double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
+		double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
+		double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
+		return Vec3.createVectorHelper(d0, d1, d2);
     }
 	
 	public static List<int[]> getBlockPosInPath(int x, int y, int z, int length, Vec3 vec0) {
-		List<int[]> list = new ArrayList<int[]>();
+		List<int[]> list = new ArrayList<>();
 		
 		for(int i = 0; i <= length; i++) {
 			list.add(new int[] { (int)(x + (vec0.xCoord * i)), y, (int)(z + (vec0.zCoord * i)), i });
@@ -471,6 +484,9 @@ public class Library {
 	}
 	
 	//not great either but certainly better
+	/**
+	 * @param maxPower Unused 
+	 */
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
@@ -509,7 +525,7 @@ public class Library {
 	 * @param totCapacity - Total data capacity of the machine
 	 * @return Data remaining after writing to the medium
 	 */
-	public static long writeToMedium(ItemStack[] slots, int index, long curCapacity, long totCapacity)
+	public static long writeToMedium(ItemStack[] slots, int index, long curCapacity)
 	{
 		if (slots[index] != null && slots[index].getItem() instanceof ItemStorageMedium)
 		{
@@ -1124,11 +1140,9 @@ public class Library {
 		return flag;
 	}
 	
-	public static ItemStack carefulCopy(ItemStack stack) {
-		if(stack == null)
-			return null;
-		else
-			return stack.copy();
+	public static ItemStack carefulCopy(ItemStack stack)
+	{
+		return stack == null ? null : stack.copy();
 	}
 	
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {

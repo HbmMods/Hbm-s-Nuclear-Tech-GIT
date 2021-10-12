@@ -18,7 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ShredderRecipes {
 
-	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap();
+	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap<ComparableStack, ItemStack>();
 	public static HashMap<Object, Object> neiShredderRecipes;
 	@Spaghetti("Ok, I get it, but wow")
 	public static void registerShredder() {
@@ -293,7 +293,7 @@ public class ShredderRecipes {
 		
 		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
 		if(neiShredderRecipes == null)
-			neiShredderRecipes = new HashMap(shredderRecipes);
+			neiShredderRecipes = new HashMap<Object, Object>(shredderRecipes);
 		
 		return neiShredderRecipes;
 	}

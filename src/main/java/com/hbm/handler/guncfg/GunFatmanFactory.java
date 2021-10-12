@@ -174,7 +174,7 @@ public class GunFatmanFactory {
 		bullet.bulletsMin = 8;
 		bullet.bulletsMax = 8;
 		bullet.spread = 0.1F;
-		bullet.style = bullet.STYLE_GRENADE;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -438,6 +438,7 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_BF;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
+			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {

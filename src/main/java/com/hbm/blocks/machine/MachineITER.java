@@ -135,9 +135,9 @@ public class MachineITER extends BlockDummyable {
 		pl.getHeldItem().stackSize--;
 		
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o + height, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
-		this.safeRem = true;
+		BlockDummyable.safeRem = true;
 		fillSpace(world, x, y, z, dir, o);
-		this.safeRem = false;
+		BlockDummyable.safeRem = false;
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 

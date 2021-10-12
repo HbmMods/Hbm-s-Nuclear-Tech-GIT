@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.hbm.inventory.HadronRecipes.HadronRecipe;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.util.WeightedRandomObject;
@@ -17,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class SILEXRecipes {
 	
-	private static HashMap<Object, SILEXRecipe> recipes = new HashMap();
+	private static HashMap<Object, SILEXRecipe> recipes = new HashMap<Object, SILEXRecipe>();
 	
 	public static void register() {
 		
@@ -103,7 +102,7 @@ public class SILEXRecipes {
 		
 		public int fluidProduced;
 		public int fluidConsumed;
-		public List<WeightedRandomObject> outputs = new ArrayList();
+		public List<WeightedRandomObject> outputs = new ArrayList<WeightedRandomObject>();
 		
 		public SILEXRecipe(int fluidProduced, int fluidConsumed) {
 			this.fluidProduced = fluidProduced;

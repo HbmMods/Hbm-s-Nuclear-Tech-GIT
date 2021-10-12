@@ -16,8 +16,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class BreederRecipes {
 
-	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
-	private static HashMap<ComparableStack, int[]> fuels = new HashMap();
+	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap<ComparableStack, BreederRecipe>();
+	private static HashMap<ComparableStack, int[]> fuels = new HashMap<ComparableStack, int[]>();
 	//for the int array: [0] => level (1-4) [1] => amount of operations
 	
 	public static void registerRecipes() {
@@ -40,6 +40,9 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_u233), new BreederRecipe(ModItems.rod_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_dual_u233), new BreederRecipe(ModItems.rod_dual_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_quad_u233), new BreederRecipe(ModItems.rod_quad_u235, 2));
+		recipes.put(new ComparableStack(ModItems.rod_u234), new BreederRecipe(ModItems.rod_u235, 2));
+		recipes.put(new ComparableStack(ModItems.rod_dual_u234), new BreederRecipe(ModItems.rod_dual_u235, 2));
+		recipes.put(new ComparableStack(ModItems.rod_quad_u234), new BreederRecipe(ModItems.rod_quad_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_u235), new BreederRecipe(ModItems.rod_neptunium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_dual_u235), new BreederRecipe(ModItems.rod_dual_neptunium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_quad_u235), new BreederRecipe(ModItems.rod_quad_neptunium, 3));
@@ -136,7 +139,7 @@ public class BreederRecipes {
 	
 	public static HashMap<ItemStack, BreederRecipe> getAllRecipes() {
 		
-		HashMap<ItemStack, BreederRecipe> map = new HashMap();
+		HashMap<ItemStack, BreederRecipe> map = new HashMap<ItemStack, BreederRecipe>();
 		
 		for(Map.Entry<ComparableStack, BreederRecipe> recipe : recipes.entrySet()) {
 			map.put(recipe.getKey().toStack(), recipe.getValue());
@@ -147,7 +150,7 @@ public class BreederRecipes {
 	
 	public static List<ItemStack> getAllFuelsFromHEAT(int heat) {
 		
-		List<ItemStack> list = new ArrayList();
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		
 		for(Map.Entry<ComparableStack, int[]> fuel : fuels.entrySet()) {
 			

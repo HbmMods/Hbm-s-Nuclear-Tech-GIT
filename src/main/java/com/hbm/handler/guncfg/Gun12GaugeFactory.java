@@ -114,7 +114,7 @@ public class Gun12GaugeFactory {
 	
 	public static GunConfiguration getBenelliConfig()
 	{
-		GunConfiguration config = new Gun12GaugeFactory().getUboinikConfig();
+		GunConfiguration config = getUboinikConfig().clone();
 		config.gunMode = 0;
 		config.firingMode = 1;
 		config.rateOfFire = 5;

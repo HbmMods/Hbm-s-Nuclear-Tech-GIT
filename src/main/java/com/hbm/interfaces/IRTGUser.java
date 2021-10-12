@@ -18,7 +18,7 @@ public interface IRTGUser
 	/** Get the heat provided by the RTGs **/
 	public int getHeat();
 	/** Item class that only works in the machine, simply return {@link#IRadioisotopeFuel} to accept all **/
-	public Class getDesiredClass();
+	public Class<?> getDesiredClass();
 	
 	public default boolean isItemValid(Item itemIn)
 	{
@@ -119,7 +119,6 @@ public interface IRTGUser
 				{
 					rtgList.remove(pellet);
 					boolean alreadyExists = false;
-					int index;
 					final ItemStack decayItem = fuel.getDecayItem();
 					for (int i = 0; i < deplList.size(); i++)
 					{

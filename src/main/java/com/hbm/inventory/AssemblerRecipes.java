@@ -253,6 +253,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.part_carbon, 1), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack("dustCoal", 1), },50);
 		makeRecipe(new ComparableStack(ModItems.part_copper, 1), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack("dustCopper", 1), },50);
 		makeRecipe(new ComparableStack(ModItems.part_plutonium, 1), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new ComparableStack(ModItems.powder_plutonium, 1), },50);
+		makeRecipe(new ComparableStack(ModItems.part_einsteinium), new AStack[] {new ComparableStack(ModItems.plate_polymer), new ComparableStack(ModItems.powder_es254), },50);
 		makeRecipe(new ComparableStack(ModItems.thermo_element, 1), new AStack[] {new OreDictStack("plateSteel", 3), new OreDictStack("plateIron", 1), new OreDictStack("plateCopper", 2), new ComparableStack(ModItems.wire_red_copper, 2), new ComparableStack(ModItems.wire_aluminium, 2), new OreDictStack("dustSilicon", 4), },150);
 		makeRecipe(new ComparableStack(ModItems.limiter, 1), new AStack[] {new OreDictStack("plateSteel", 3), new OreDictStack("plateIron", 1), new ComparableStack(ModItems.circuit_copper, 2), new ComparableStack(ModItems.wire_copper, 4), },150);
 		makeRecipe(new ComparableStack(ModItems.plate_dalekanium, 1), new AStack[] {new ComparableStack(ModBlocks.block_meteor, 1), },50);
@@ -1006,7 +1007,7 @@ public class AssemblerRecipes {
 						new OreDictStack("dustTungsten"),
 						new OreDictStack("dustZirconium")
 				}, 100);
-		
+		// These make a massive ouch when you try to actually use them 
 		makeRecipe(new ComparableNBTStack(ModItems.custom_warhead).addNBT(CustomWarheadWrapper.gravimetricBase.regurgitateData()), new AStack[]
 				{
 						new ComparableStack(ModItems.particle_graviton, 6),
@@ -1038,8 +1039,8 @@ public class AssemblerRecipes {
 				{
 						new ComparableStack(ModItems.neutron_reflector, 36),
 						new ComparableStack(ModBlocks.det_charge, 6),
-						new OreDictStack("U235", 6),
-						new OreDictStack("Pu239"),
+						new OreDictStack("ingotU235", 6),
+						new OreDictStack("ingotPu239"),
 						new ComparableStack(ModItems.tritium_deuterium_cake),
 						new OreDictStack("ingotCobalt", 12),
 						new ComparableStack(ModItems.wire_gold, 16),

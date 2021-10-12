@@ -40,7 +40,8 @@ public class BlockHadronDiode extends BlockContainer {
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":hadron_diode");
 	}
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
     	
 		TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(x, y, z);
@@ -73,8 +74,7 @@ public class BlockHadronDiode extends BlockContainer {
 			world.markBlockForUpdate(x, y, z);
 
     		return true;
-    	} else {
-    		return false;
     	}
+		return false;
     }
 }

@@ -134,7 +134,7 @@ public class ModEventHandlerClient {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
-		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+		if(!event.isCanceled() && event.type == ElementType.ARMOR) {
 			
 	        int width = event.resolution.getScaledWidth();
 	        int height = event.resolution.getScaledHeight();
@@ -182,7 +182,7 @@ public class ModEventHandlerClient {
 				
 				ItemStack stack = player.inventory.armorInventory[2];
 				
-				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
+				float tot = (float) JetpackBase.getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
 				top -= 3;
 				
 				GL11.glDisable(GL11.GL_TEXTURE_2D);

@@ -74,10 +74,10 @@ public class BossSpawnHandler {
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
 					
-					if(player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).getBoolean("radMark")) {
+					if(player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("radMark")) {
 						
 						player.addChatComponentMessage(new ChatComponentText("You hear a faint clicking...").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
-						player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", false);
+						player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", false);
 						
 						Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
 						

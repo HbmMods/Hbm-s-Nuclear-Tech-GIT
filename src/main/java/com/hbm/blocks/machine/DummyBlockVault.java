@@ -114,7 +114,7 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 				if(entity != null)
 				{
 					entity.type++;
-					if(entity.type >= entity.maxTypes)
+					if(entity.type >= TileEntityVaultDoor.maxTypes)
 						entity.type = 0;
 				}
 			}

@@ -176,7 +176,7 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.euphemium_boots, euph * boots);
 	}
 	
-	private static HashMap<Item, Double> entries = new HashMap();
+	private static HashMap<Item, Double> entries = new HashMap<Item, Double>();
 	
 	public static void registerHazmat(Item item, double resistance) {
 		

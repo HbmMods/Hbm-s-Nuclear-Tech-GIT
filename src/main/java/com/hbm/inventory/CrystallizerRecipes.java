@@ -19,7 +19,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class CrystallizerRecipes {
 	
 	//'Object' is either a ComparableStack or the key for the ore dict
-	private static HashMap<Object, ItemStack> recipes = new HashMap();
+	private static HashMap<Object, ItemStack> recipes = new HashMap<Object, ItemStack>();
 	
 	public static void register() {
 

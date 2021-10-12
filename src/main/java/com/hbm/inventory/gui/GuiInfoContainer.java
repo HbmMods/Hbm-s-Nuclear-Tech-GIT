@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Nonnegative;
 
@@ -15,7 +14,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.FluidTypeHandler.FluidHazards;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
@@ -31,7 +29,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import scala.runtime.DoubleRef;
 
 public abstract class GuiInfoContainer extends GuiContainer {
 	
@@ -40,6 +37,8 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	public static final int color0 = 4210752;
 	/** Green computer color **/
 	public static final int color1 = 0x00ff00;
+	public static final char slimCursor = '│';
+	public static final char blockCursor = '█';
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
@@ -60,7 +59,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	public void drawElectricityInfo(int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower)
 	{
-		drawElectricityInfo(this, guiLeft + mouseX, guiTop + mouseY, x, y, width, height, power, maxPower);
+		drawElectricityInfo(this, mouseX, mouseY, guiLeft + x, guiTop + y, width, height, power, maxPower);
 	}
 	
 	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {
@@ -94,6 +93,16 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	public static long getScaledBar(long toScale, int scaleBy, long total)
 	{
 		return (toScale * scaleBy) / total;
+	}
+	
+	public static char getCursor(char in)
+	{
+		return System.currentTimeMillis() % 1000 < 500 ? ' ' : in;
+	}
+	
+	public static char getCursor()
+	{
+		return getCursor(slimCursor);
 	}
 	/**
 	 * Check if a button was pressed
@@ -205,11 +214,6 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			return -1;
 		}
 	}
-	@Deprecated
-	public final FluidTankGUI convertToGUI(FluidTank old, int x, int y, int width, int height)
-	{
-		return new FluidTankGUI(old.getTankType(), old.getMaxFill(), old.index, x, y, width, height);
-	}
 	
 	@Beta
 	public class NumberDisplay
@@ -225,7 +229,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		/** The amount of padding between digits, default 3 **/
 		@Nonnegative
 		private byte padding = 3;
-		/** Does it blink or not, default false **/
+		/** Does it blink or not, default false, not yet used **/
 		private boolean blink = false;
 		/** Max number the display can handle **/
 		private float maxNum;
@@ -407,9 +411,25 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			numIn = in;
 			if (customBounds)
 				numIn = MathHelper.clamp_double(in, minNum, maxNum);
-			
-			toDisp = new Long((int) Math.round(new Double(numIn))).toString().toCharArray();
-			toDisp = truncOrExpand();
+			if (isFloat)
+			{
+				BigDecimal bd = new BigDecimal(new Double(numIn).toString());
+				bd = bd.setScale(floatPad, RoundingMode.HALF_UP);
+				
+//				char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
+				char[] proc = bd.toString().toCharArray();
+				proc = Double.valueOf(Library.roundDecimal(numIn, floatPad)).toString().toCharArray();
+				
+				if (proc.length == digitLength)
+					toDisp = proc;
+				else
+					toDisp = truncOrExpand();
+			}
+			else
+			{
+				toDisp = new Long((int) Math.round(new Double(numIn))).toString().toCharArray();
+				toDisp = truncOrExpand();
+			}
 		}
 		/** Get the set number **/
 		public Double getNumber()
@@ -471,6 +491,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			
 //			char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
 			char[] proc = bd.toString().toCharArray();
+			proc = Double.valueOf(Library.roundDecimal(numIn, pad)).toString().toCharArray();
 			
 			if (proc.length == digitLength)
 				toDisp = proc;
@@ -512,18 +533,18 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		private FluidType type = FluidType.NONE;
 		public static final int x = 16;
 		public static final int y = 100;
-		public FluidTankGUI(FluidType type, int max, int index, int x, int y, int width, int height)
+		public FluidTankGUI(FluidType type, int max, int x, int y, int width, int height)
 		{
 			xPos = x;
 			yPos = y;
 			this.height = height;
 			this.width = width;
-			tank = new FluidTank(type, max, index);
+			tank = new FluidTank(type, max, 0);
 			this.type = type;
 		}
 		public FluidTankGUI(FluidTank tank, int x, int y, int width, int height)
 		{
-			this(tank.getTankType(), tank.getMaxFill(), tank.index, x, y, width, height);
+			this(tank.getTankType(), tank.getMaxFill(), x, y, width, height);
 		}
 		public void updateTank(FluidTank tank)
 		{
@@ -532,9 +553,9 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		public void renderTank()
 		{
 			mc.getTextureManager().bindTexture(tank.getSheet());
-//			renderTank(GuiInfoContainer.this, guiLeft + xPos, guiTop + yPos, type.textureX() * x, type.textureY() * y, width, height);
+//			tank.renderTank(GuiInfoContainer.this, guiLeft + xPos, guiTop + yPos, type.textureX() * x, type.textureY() * y, width, height);
 			int i = (tank.getFill() * height) / tank.getMaxFill();
-			drawTexturedModalRect(xPos, yPos - i, x * type.textureX(), type.textureY() * y - i, width, i);
+			drawTexturedModalRect(guiLeft + xPos, (guiTop + yPos + height) - i, x * type.textureX(), (type.textureY() * y) - i, width, i);
 		}
 		
 		public void renderTankInfo(int mouseX, int mouseY)

@@ -43,7 +43,7 @@ public class GunDartFactory {
 		config.name = "dart";
 		config.manufacturer = EnumGunManufacturer.NONE;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_GPS);
 		
 		return config;
@@ -73,7 +73,7 @@ public class GunDartFactory {
 		config.name = "nerf";
 		config.manufacturer = EnumGunManufacturer.HASBRO;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
 		
 		return config;
@@ -90,10 +90,10 @@ public class GunDartFactory {
 		bullet.dmgMax = 2;
 		bullet.doesRicochet = true;
 		bullet.doesPenetrate = false;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.leadChance = 0;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 60 * 20, 2));
 		
 		bullet.bHurt = new IBulletHurtBehavior() {

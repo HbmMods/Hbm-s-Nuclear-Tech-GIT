@@ -5,10 +5,8 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import com.google.common.annotations.Beta;
 import com.hbm.config.MachineConfig;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
-import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.util.I18nUtil;
 
@@ -72,7 +70,6 @@ public interface IRadioisotopeFuel
 	{
 		if (stack != null && stack.getItem() instanceof IRadioisotopeFuel)
 		{
-			IRadioisotopeFuel fuel = (IRadioisotopeFuel) stack.getItem();
 			if (stack.hasTagCompound())
 				return stack.stackTagCompound.getLong(lifeKey);
 			else
@@ -104,19 +101,20 @@ public interface IRadioisotopeFuel
 	/**
 	 * Gets the lifespan of an RTG based on half-life
 	 * @param halfLife The half-life
-	 * @param type Half-life units
-	 * @return The half-life calculated into Minecraft time
+	 * @param type Half-life units: {@link#HalfLifeType}
+	 * @param realYears Whether or not to use 365 days per year instead of 100 to calculate time
+	 * @return The half-life calculated into Minecraft ticks
 	 */
-	public static long getLifespan(float halfLife, HalfLifeType type)
+	public static long getLifespan(float halfLife, HalfLifeType type, boolean realYears)
 	{
 		float life = 0;
 		switch (type)
 		{
 		case LONG:
-			life = (48000 * 100 * 100) * halfLife;
+			life = (48000 * (realYears ? 365 : 100) * 100) * halfLife;
 			break;
 		case MEDIUM:
-			life = (48000 * 100) * halfLife;
+			life = (48000 * (realYears ? 365 : 100)) * halfLife;
 			break;
 		case SHORT:
 			life = 48000 * halfLife;
@@ -130,14 +128,14 @@ public interface IRadioisotopeFuel
 	 * @param instance {@link#IRadioisotopeFuel} instance
 	 * @param stack Appropriate ItemStack
 	 */
-	public static void addTooltip(List tooltip, ItemStack stack, boolean showAdv)
+	public static void addTooltip(List<String> tooltip, ItemStack stack, boolean showAdv)
 	{
 		final IRadioisotopeFuel instance = (IRadioisotopeFuel) stack.getItem();
 		tooltip.add("");
 		tooltip.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getPower()));
 		if (instance.getDoesDecay())
 		{
-			tooltip.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name")));
+			tooltip.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name"), instance.getDecayItem().stackSize));
 			tooltip.add(Library.toPercentage(instance.getLifespan(stack), instance.getMaxLifespan()));
 			if (showAdv)
 			{
@@ -149,5 +147,11 @@ public interface IRadioisotopeFuel
 				tooltip.add(String.format("Maximum life: %s y, %s d, %s h", (Object[]) maxLife));
 			}
 		}
+	}
+	
+	public static double getDuraBar(ItemStack stack)
+	{
+		final IRadioisotopeFuel instance = (IRadioisotopeFuel) stack.getItem();
+		return 1D - (double) instance.getLifespan(stack) / (double) instance.getMaxLifespan();
 	}
 }

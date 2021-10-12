@@ -7,16 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.config.MachineConfig;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.guncfg.GunEnergyFactory;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EntityDamageUtil;
@@ -30,11 +32,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 {
 	private static int cooldown = 0;
 	private int ammoCount = 0;
-	public boolean isOn = false;
-	public boolean isReady = false;
-	public boolean gotTargets = false;
+	public boolean isOn, isReady, gotTargets, hasTachyon;
 	public byte tachyonCount = 0;
-	public boolean hasTachyon = false;
 	public byte index = 0;
 	private long power = 0;
 	public static final long maxPower = 1000000000000L;
@@ -59,6 +58,10 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 	public TileEntityTsukuyomi()
 	{
 		super(3);
+		isOn = false;
+		isReady = false;
+		gotTargets = false;
+		hasTachyon = false;
 	}
 
 	public void updateConfig()
@@ -78,7 +81,9 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		BulletConfiguration config = bulletConf == 0 ? null : BulletConfigSyncingUtil.pullConfig(bulletConf);
 		if (config != null && currPlayer != null && isReady)
 		{
-			float pHealth = currPlayer.getHealth();
+			if (currPlayer.capabilities.isCreativeMode)
+				return I18nUtil.resolveKey("twr.result.fail");
+			final float pHealth = currPlayer.getHealth();
 			return config.dmgMin > pHealth ? I18nUtil.resolveKey("twr.result.success") :
 				config.dmgMax > pHealth ? I18nUtil.resolveKey("twr.result.partial") :
 					I18nUtil.resolveKey("twr.result.fail");
@@ -157,12 +162,11 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		if (nbt.hasKey("bullConfig"))
 			bulletConf = nbt.getInteger("bullConfig");
 		targets.clear();
-		for (int i = 0; i < 16; i++)
+		byte i = 0;
+		while (nbt.hasKey("player_" + i))
 		{
-			if (!nbt.hasKey("player_" + i))
-				break;
-			else
-				targets.add(nbt.getString("player_" + i));
+			targets.add(nbt.getString("player_" + i));
+			i++;
 		}
 	}
 	
@@ -182,6 +186,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			{
 				gotTargets = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
+				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the first stage");
 			}
 			else
 			{
@@ -191,6 +196,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
 				readyTargets.clear();
 				currPlayer = null;
+				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has halted the first stage");
 			}
 			break;
 		case 1:
@@ -204,6 +210,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 					ammoCount = BulletConfigSyncingUtil.pullConfig(bulletConf).ammoCount;
 					decrStackSize(1, 1);
 				}
+				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the second stage using the configuration: [" + BulletConfigSyncingUtil.pullConfig(bulletConf).ammo.getUnlocalizedName() + "] and is ready to purify");
 			}
 			else
 			{
@@ -218,6 +225,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 				isOn = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
 				currPlayer = null;
+				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has commenced purification");
 				purify();
 			}
 			else
@@ -262,12 +270,11 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		tachyonCount = nbt.getByte("tachyonCount");
 		bulletConf = nbt.getInteger("bullConf");
 		cooldown = AuxSavedData.getDataPair(getWorldObj(), "tsukuyomiCooldown");
-		for (int i = 0; i < 16; i++)
+		byte i = 0;
+		while (nbt.hasKey("player_" + i))
 		{
-			if (!nbt.hasKey("player_" + i))
-				break;
-			else
-				targets.add(nbt.getString("player_" + i));
+			targets.add(nbt.getString("player_" + i));
+			i++;
 		}
 	}
 	@Override
@@ -296,6 +303,9 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		power = 0;
 		cooldown = MachineConfig.twrTurretCooldown;
 		ammoCount -= readyTargets.size();
+		if (ammoCount == 0)
+			bulletConf = 0;
+		MainRegistry.logger.info("A TWR (Tsukuyomi) platform has completed purification, global cooldown is now: " + cooldown);
 	}
 
 	private boolean isPlayerNameValid(String name)
@@ -400,7 +410,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			{
 				String s = "";
 				MessageDigest md5 = MessageDigest.getInstance("MD5");
-				byte[] bytes = md5.digest(Integer.toHexString((int) (7 * x * 13 * z * health * dim * hash * super.hashCode() * 31 * exp + worldObj.rand.nextInt())).getBytes());
+				byte[] bytes = md5.digest(Integer.toHexString((int) (7 * x * 13 * z * health * dim * hash * super.hashCode() - y * 31 * exp + worldObj.rand.nextInt()) - (int) maxHealth).getBytes());
 				for (byte b : bytes)
 					s += Integer.toString((b & 0xFF) + 256, 16).substring(1);
 				
@@ -409,6 +419,7 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			catch (NoSuchAlgorithmException e)
 			{
 				e.printStackTrace();
+				MainRegistry.logger.catching(Level.ERROR, e);
 			}
 			return "N/A";
 		}

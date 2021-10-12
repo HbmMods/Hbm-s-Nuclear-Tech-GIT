@@ -14,16 +14,18 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CyclotronRecipes {
 
-	private static HashMap<Object, ItemStack> lithium = new HashMap();
-	private static HashMap<Object, ItemStack> beryllium = new HashMap();
-	private static HashMap<Object, ItemStack> carbon = new HashMap();
-	private static HashMap<Object, ItemStack> copper = new HashMap();
-	private static HashMap<Object, ItemStack> plutonium = new HashMap();
-	private static HashMap<Object, Integer> liAmat = new HashMap();
-	private static HashMap<Object, Integer> beAmat = new HashMap();
-	private static HashMap<Object, Integer> caAmat = new HashMap();
-	private static HashMap<Object, Integer> coAmat = new HashMap();
-	private static HashMap<Object, Integer> plAmat = new HashMap();
+	private static HashMap<Object, ItemStack> lithium = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, ItemStack> beryllium = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, ItemStack> carbon = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, ItemStack> copper = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, ItemStack> plutonium = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, ItemStack> einsteinium = new HashMap<Object, ItemStack>();
+	private static HashMap<Object, Integer> liAmat = new HashMap<Object, Integer>();
+	private static HashMap<Object, Integer> beAmat = new HashMap<Object, Integer>();
+	private static HashMap<Object, Integer> caAmat = new HashMap<Object, Integer>();
+	private static HashMap<Object, Integer> coAmat = new HashMap<Object, Integer>();
+	private static HashMap<Object, Integer> plAmat = new HashMap<Object, Integer>();
+	private static HashMap<Object, Integer> esAmat = new HashMap<Object, Integer>();
 	
 	public static void register() {
 
@@ -95,6 +97,10 @@ public class CyclotronRecipes {
 		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_anti_schrabidium), 0);
 		/// PLUTONIUM END ///
 		
+		/// EINSTEINIUM-254 START ///
+		makeRecipe(einsteinium, esAmat, "dustUranium", new ItemStack(ModItems.powder_schrabidium), 2500);
+		/// EINSTEINIUM END ///
+		
 		///TODO: fictional elements
 	}
 	
@@ -127,6 +133,11 @@ public class CyclotronRecipes {
 			pool = plutonium;
 			aPool = plAmat;
 		}
+		else if (box.getItem() == ModItems.part_einsteinium)
+		{
+			pool = einsteinium;
+			aPool = esAmat;
+		}
 		
 		if(pool == null)
 			return null;
@@ -156,6 +167,7 @@ public class CyclotronRecipes {
 		addRecipes(recipes, carbon, ModItems.part_carbon);
 		addRecipes(recipes, copper, ModItems.part_copper);
 		addRecipes(recipes, plutonium, ModItems.part_plutonium);
+		addRecipes(recipes, einsteinium, ModItems.part_einsteinium);
 		
 		return recipes;
 	}

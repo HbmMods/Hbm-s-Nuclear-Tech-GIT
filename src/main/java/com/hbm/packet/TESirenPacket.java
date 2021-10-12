@@ -1,9 +1,11 @@
 package com.hbm.packet;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.items.machine.ItemCassette.SoundType;
 import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.sound.SoundLoopSiren;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -34,6 +36,11 @@ public class TESirenPacket implements IMessage {
 		this.z = z;
 		this.id = id;
 		this.active = active;
+	}
+	
+	public TESirenPacket(EasyLocation loc, int id, boolean active)
+	{
+		this((int) loc.posX, (int) loc.posY, (int) loc.posZ, id, active);
 	}
 
 	@Override

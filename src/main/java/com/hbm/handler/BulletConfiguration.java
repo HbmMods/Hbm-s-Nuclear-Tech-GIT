@@ -1,22 +1,25 @@
 package com.hbm.handler;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import org.apache.logging.log4j.Level;
+
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 
-public class BulletConfiguration {
+public class BulletConfiguration implements Cloneable {
 	
 	/**What item this specific configuration consumes**/
 	public Item ammo;
@@ -61,7 +64,7 @@ public class BulletConfiguration {
 	public boolean doesBreakGlass;
 	
 	//bullet effects
-	public List<PotionEffect> effects;
+	public List<PotionEffect> effects = new ArrayList<PotionEffect>();
 	/**Blocks the bullet can pass through**/
 	public HashSet<Block> spectralBlocks = new HashSet<Block>();
 	/**Materials the bullet can pass through**/
@@ -161,5 +164,38 @@ public class BulletConfiguration {
 		
 		this.spread *= mod;
 		return this;
+	}
+	// TODO
+	@Override
+	public BulletConfiguration clone()
+	{
+//		BulletConfiguration newConfig = new BulletConfiguration();
+//		newConfig.ammo = ammo;
+//		newConfig.ammoCount = ammoCount;
+//		newConfig.bHit = bHit;
+//		newConfig.bHurt = bHurt;
+//		newConfig.bImpact = bImpact;
+//		newConfig.blockDamage = blockDamage;
+//		newConfig.bounceMod = bounceMod;
+//		newConfig.bRicochet = bRicochet;
+//		newConfig.bulletsMax = bulletsMax;
+//		newConfig.bulletsMin = bulletsMin;
+//		newConfig.bUpdate = bUpdate;
+//		newConfig.caustic = caustic;
+//		newConfig.chlorine = chlorine;
+//		newConfig.destroysBlocks = destroysBlocks;
+//		newConfig.dmgMax = dmgMax;
+//		newConfig.dmgMin = dmgMin;
+//		return newConfig;
+		try
+		{
+			return (BulletConfiguration) super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+			MainRegistry.logger.catching(Level.ERROR, e);
+			return new BulletConfiguration();
+		}
 	}
 }

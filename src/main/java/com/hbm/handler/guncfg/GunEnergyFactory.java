@@ -230,7 +230,7 @@ public class GunEnergyFactory {
 	/** Alt fire gun mode **/
 	public static GunConfigurationEnergy getHLRSecondConfig()
 	{
-		GunConfigurationEnergy config = new GunEnergyFactory().getHLRMainConfig();
+		GunConfigurationEnergy config = getHLRMainConfig().clone();
 		config.ammoRate = 250000000;
 		config.rateOfFire = 3;
 		//config.firingSound = "hbm:weapon.zomgShoot";
@@ -310,7 +310,7 @@ public class GunEnergyFactory {
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		bullet.emp = 10;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 1));
 		bullet.effects.add(new PotionEffect(Potion.weakness.id, 10 * 20, 4));
 		
@@ -410,7 +410,7 @@ public class GunEnergyFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		return bullet;
@@ -452,10 +452,10 @@ public class GunEnergyFactory {
 		bullet.dmgMin = 10000;
 		bullet.dmgMax = 25000;
 
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_ZOMG;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_ZOMG;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -484,7 +484,7 @@ public class GunEnergyFactory {
 		bullet.velocity = 1F;
 		bullet.gravity = 0.0;
 		bullet.maxAge = 200;
-		bullet.style = bullet.STYLE_BLADE;
+		bullet.style = BulletConfiguration.STYLE_BLADE;
 		bullet.destroysBlocks = true;
 		bullet.doesRicochet = false;
 		
@@ -494,7 +494,7 @@ public class GunEnergyFactory {
 	// TODO Finish, not technically a bullet, it's supposed to be a ray, not that it works in its current state anyway
 	public static BulletConfiguration getSingConfig()
 	{
-		BulletConfiguration bullet = new BulletConfigFactory().standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig().clone();
 		
 		bullet.ammo = ModItems.singularity_micro;
 		bullet.velocity = 10.0F;
@@ -564,7 +564,7 @@ public class GunEnergyFactory {
 	/** Main fire bullet **/
 	public static BulletConfiguration getHLRDefaultConfig()
 	{
-		BulletConfiguration bullet = new BulletConfigFactory().standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig().clone();
 		
 		bullet.ammo = ModItems.nothing;
 		bullet.velocity = 10.0F;
@@ -606,7 +606,7 @@ public class GunEnergyFactory {
 	/** Alt fire bullet **/
 	public static BulletConfiguration getHLRAltConfig()
 	{
-		BulletConfiguration bullet = new BulletConfigFactory().standardBuckshotConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig().clone();
 		
 		bullet.ammo = ModItems.nothing;
 		bullet.velocity = 10.0F;

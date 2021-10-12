@@ -39,9 +39,10 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	private static final float sa327HL = sa326HL * 0.75f;
 	public static final float co60 = realisticRads ? (mod1 / 5.3F) * 2 : 30F;
 	public static final float sr90 = realisticRads ? mod1 / 28F : 15F;
+	public static final float tc99 = realisticRads ? mod1 / 211000 : 2.75F;
 	public static final float i131 = realisticRads ? mod2 / 0.021917808219178F : 150F;
 	public static final float xe135 = realisticRads ? mod2 / 0.0010388127853881F : 1250F;
-	public static final float cs137 = realisticRads ? mod2 / 30F : 20F;
+	public static final float cs137 = realisticRads ? mod1 / 30F : 20F;
 	public static final float ta182 = realisticRads ? mod2 / 0.31232876712329F : 85F;
 	public static final float au198 = realisticRads ? mod2 / 0.0073059360730594F : MainRegistry.isPolaroid11 ? 567.09F : 500.0F;// is le funi reference I swear
 	public static final float bi209 = mod1 / 2.01E19F;
@@ -79,17 +80,19 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float cm246 = mod1 / 4730;
 	public static final float cm247 = mod1 / 1.56e7F;
 	public static final float cm248 = mod1 / 3.40e5F;
-	public static final float cm250 = mod1 / 9000;
+	public static final float cm250 = mod1 / 9000 * 2;
 	public static final float bk247 = mod1 / 1380;
+	public static final float bk248 = mod1 / 300;
 	public static final float bk249 = mod2 / 0.9F;
 	public static final float cf249 = mod1 / 351;
+	public static final float cf250 = mod1 / 13;
 	public static final float cf251 = mod1 / 900;
 	public static final float cf252 = mod1 / 2.6F;
 	public static final float es254 = mod2 / 0.73972602739726F;
 	public static final float md258 = mod2 / 0.13972602739726F;
 	public static final float cn285 = mod2 / 9.1958396752917E-7F;
 	public static final float cn286 = mod2 / 2.5367833587012E-7F;
-	public static final float ts294 = realisticRads ? mod1 / 1.617199391172E-9F : 1000000;
+	public static final float ts294 = realisticRads ? mod2 / 1.617199391172E-9F : 1000000;
 	public static final float sa326 = realisticRads ? (mod1 / sa326HL) * 10 : 15.0F;
 	public static final float sa327 = realisticRads ? (mod1 / sa327HL) * 10 : 17.5F;
 	public static final float sa327_drx = 0.00001F;
@@ -179,5 +182,11 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public ItemHazard setRarity(EnumRarity rarity)
 	{
 		return (ItemHazard)super.setRarity(rarity);
+	}
+	
+	@Override
+	public ItemHazard setHasEffect()
+	{
+		return (ItemHazard) super.setHasEffect();
 	}
 }

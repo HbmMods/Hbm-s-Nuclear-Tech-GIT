@@ -12,19 +12,15 @@ import com.hbm.tileentity.turret.TileEntityTsukuyomi;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import scala.annotation.meta.field;
 
 public class GUITsukuyomi extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/weapon/gui_turret_twr.png");
-	private static final int color1 = 0x00ff00;
 	private TileEntityTsukuyomi twr;
 	private GuiTextField tField;
 	private NumberDisplay disp;
@@ -53,7 +49,7 @@ public class GUITsukuyomi extends GuiInfoContainer
 	public void drawScreen(int mouseX, int mouseY, float f)
 	{
 		super.drawScreen(mouseX, mouseY, f);
-		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 166, guiTop + 18, 16, 77, twr.getPower(), twr.maxPower);
+		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 166, guiTop + 18, 16, 77, twr.getPower(), TileEntityTsukuyomi.maxPower);
 		final String[] search = I18nUtil.resolveKeyArray("twr.gui.search");
 		drawCustomInfoStat(mouseX, mouseY, guiLeft + 69, guiTop + 18, 37, 16, guiLeft + 95, guiTop + 33, search);
 		final String[] calibrate = I18nUtil.resolveKeyArray("twr.gui.calibrate");
@@ -80,13 +76,13 @@ public class GUITsukuyomi extends GuiInfoContainer
 		fontRendererObj.drawString(I18nUtil.resolveKey("container.inventory"), 14, ySize - 96 + 2, 4210752);
 		
 		String currText = tField.getText();
-		String cursor = System.currentTimeMillis() % 1000 < 500 ? " " : "│";//"█";
+		char cursor = getCursor();
 		if (tField.isFocused())
 			currText = currText.substring(0, tField.getCursorPosition()) + cursor + currText.substring(tField.getCursorPosition(), currText.length());
 		
 		GL11.glScaled(0.5D, 0.5D, 1D);
-		String[] recal = I18nUtil.resolveKeyArray("twr.gui.recalibrating", twr.getCooldown());
-		if (twr.getCooldown() == 0)
+		String[] recal = I18nUtil.resolveKeyArray("twr.gui.recalibrating", TileEntityTsukuyomi.getCooldown());
+		if (TileEntityTsukuyomi.getCooldown() == 0)
 		{
 			fontRendererObj.drawString(currText, 15 * 2, 24 * 2, color1);
 			fontRendererObj.drawString(I18nUtil.resolveKey("twr.target", twr.currPlayer == null ? I18nUtil.resolveKey("twr.target.none") : twr.currPlayer.getDisplayName()), 72 * 2, 90 * 2, color1);
@@ -164,10 +160,10 @@ public class GUITsukuyomi extends GuiInfoContainer
 		if (twr.isOn)
 			drawTexturedModalRect(guiLeft + 128, guiTop + 69, 219, 79, 37, 15);
 		// Number display
-		disp.setNumber(twr.getCooldown() > 0 ? twr.getCooldown() : twr.getAmmoCount());
+		disp.setNumber(TileEntityTsukuyomi.getCooldown() > 0 ? TileEntityTsukuyomi.getCooldown() : twr.getAmmoCount());
 		disp.drawNumber();
 		
-		int pow = (int) getScaledBar(twr.getPower(), 77, twr.maxPower);
+		int pow = (int) getScaledBar(twr.getPower(), 77, TileEntityTsukuyomi.maxPower);
 		drawTexturedModalRect(guiLeft + 165, guiTop + 95 - pow, 238, 78 - pow, 18, pow);
 	}
 	

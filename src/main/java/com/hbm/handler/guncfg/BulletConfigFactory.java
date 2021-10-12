@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
@@ -319,9 +318,9 @@ public class BulletConfigFactory {
 			bullet.worldObj.spawnEntityInWorld(explosionEntity);
 			
 			EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
-			cloud.posX = bullet.posX;
-			cloud.posY = bullet.posY;
-			cloud.posZ = bullet.posZ;
+			cloud.posX = x;
+			cloud.posY = y;
+			cloud.posZ = z;
 			bullet.worldObj.spawnEntityInWorld(cloud);
 		}
 	}

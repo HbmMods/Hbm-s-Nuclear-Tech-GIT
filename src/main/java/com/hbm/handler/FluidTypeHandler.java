@@ -144,6 +144,8 @@ public class FluidTypeHandler {
 			this.temperature = 0;
 			if (hazards != null)
 				this.hazards.addAll(Arrays.asList(hazards));
+			if (p > 1)
+				this.hazards.add(FluidHazards.TOXIC);
 		}
 		
 		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter, FluidHazards...hazards) {
@@ -157,6 +159,8 @@ public class FluidTypeHandler {
 			this.reactivity = r;
 			this.symbol = symbol;
 			this.hot = hot;
+			if (p > 1)
+				this.hazards.add(FluidHazards.TOXIC);
 			if (hot)
 				this.hazards.add(FluidHazards.HOT);
 			this.corrosive = corrosive;

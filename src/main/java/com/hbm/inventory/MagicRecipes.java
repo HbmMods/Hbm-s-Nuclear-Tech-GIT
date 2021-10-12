@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
@@ -16,11 +16,11 @@ import net.minecraft.item.ItemStack;
 
 public class MagicRecipes {
 	
-	private static List<MagicRecipe> recipes = new ArrayList();
+	private static List<MagicRecipe> recipes = new ArrayList<MagicRecipe>();
 
 	public static ItemStack getRecipe(InventoryCrafting matrix) {
 		
-		List<ComparableStack> comps = new ArrayList();
+		List<ComparableStack> comps = new ArrayList<ComparableStack>();
 		
 		for(int i = 0; i < 4; i++) {
 			if(matrix.getStackInSlot(i) != null)

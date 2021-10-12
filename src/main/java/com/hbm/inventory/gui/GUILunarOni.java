@@ -14,20 +14,15 @@ import com.hbm.util.I18nUtil;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUILunarOni extends GuiInfoContainer
 {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/weapon/gui_turret_lunar_oni.png");
-	private static final int color1 = 0x00ff00;
 	private TileEntityLunarOni luna;
 	private NumberDisplay[] displays = new NumberDisplay[3];
 	private GuiTextField tField;
-	private byte timer = 0;
 	public GUILunarOni(InventoryPlayer invPlayer, TileEntityLunarOni te)
 	{
 		super(new ContainerLunarOni(invPlayer, te));
@@ -57,7 +52,7 @@ public class GUILunarOni extends GuiInfoContainer
 	{
 		super.drawScreen(mouseX, mouseY, f);
 		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 166, guiTop + 19, 16, 95, luna.getPower(), luna.getMaxPower());
-		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 148, guiTop + 19, 16, 95, luna.getBuffer(), luna.maxBuffer);
+		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 148, guiTop + 19, 16, 95, luna.getBuffer(), TileEntityLunarOni.maxBuffer);
 		final String[] dir = new String[] {new Float(luna.getDirection()).toString()};
 		final String[] ele = new String[] {new Float(luna.getElevation()).toString()};
 		final String[] pow = new String[] {new Byte(displays[2].getNumber().byteValue()).toString() + "%"};
@@ -100,7 +95,7 @@ public class GUILunarOni extends GuiInfoContainer
 		fontRendererObj.drawString(I18nUtil.resolveKey("container.inventory"), 14, ySize - 96 + 2, color0);
 		
 		String currText = tField.getText();
-		String cursor = System.currentTimeMillis() % 1000 < 500 ? " " : "│";
+		char cursor = getCursor();
 		if (tField.isFocused())
 			currText = currText.substring(0, tField.getCursorPosition()) + cursor + currText.substring(tField.getCursorPosition(), currText.length());
 		fontRendererObj.drawString(currText, 116, 47, color1);
@@ -170,7 +165,7 @@ public class GUILunarOni extends GuiInfoContainer
 		
 		int pow = (int) getScaledBar(luna.getPower(), 95, luna.getMaxPower());
 		drawTexturedModalRect(guiLeft + 165, guiTop + 114 - pow, 238, 96 - pow, 18, pow);
-		int buff = (int) getScaledBar(luna.getBuffer(), 95, luna.maxBuffer);
+		int buff = (int) getScaledBar(luna.getBuffer(), 95, TileEntityLunarOni.maxBuffer);
 		drawTexturedModalRect(guiLeft + 147, guiTop + 114 - buff, 220, 96 - buff, 18, buff);
 	}
 	@Override

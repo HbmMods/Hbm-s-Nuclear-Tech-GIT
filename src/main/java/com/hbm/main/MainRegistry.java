@@ -1,5 +1,313 @@
 package com.hbm.main;
 
+import java.util.List;
+import java.util.Random;
+
+import org.apache.logging.log4j.Logger;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.MachineConfig;
+import com.hbm.config.MobConfig;
+import com.hbm.config.PotionConfig;
+import com.hbm.config.RadiationConfig;
+import com.hbm.config.ToolConfig;
+import com.hbm.config.WeaponConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.creativetabs.BlockTab;
+import com.hbm.creativetabs.ConsumableTab;
+import com.hbm.creativetabs.ControlTab;
+import com.hbm.creativetabs.MachineTab;
+import com.hbm.creativetabs.MissileTab;
+import com.hbm.creativetabs.NukeTab;
+import com.hbm.creativetabs.PartsTab;
+import com.hbm.creativetabs.TemplateTab;
+import com.hbm.creativetabs.WeaponTab;
+import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.effect.EntityCloudSolinium;
+import com.hbm.entity.effect.EntityCloudTom;
+import com.hbm.entity.effect.EntityEMPBlast;
+import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.EntityNukeCloudBig;
+import com.hbm.entity.effect.EntityNukeCloudNoShroom;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.entity.effect.EntityVortex;
+import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeBreach;
+import com.hbm.entity.grenade.EntityGrenadeBurst;
+import com.hbm.entity.grenade.EntityGrenadeCloud;
+import com.hbm.entity.grenade.EntityGrenadeCluster;
+import com.hbm.entity.grenade.EntityGrenadeElectric;
+import com.hbm.entity.grenade.EntityGrenadeFire;
+import com.hbm.entity.grenade.EntityGrenadeFlare;
+import com.hbm.entity.grenade.EntityGrenadeFrag;
+import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGascan;
+import com.hbm.entity.grenade.EntityGrenadeGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFBouncy;
+import com.hbm.entity.grenade.EntityGrenadeIFBrimstone;
+import com.hbm.entity.grenade.EntityGrenadeIFConcussion;
+import com.hbm.entity.grenade.EntityGrenadeIFGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFHE;
+import com.hbm.entity.grenade.EntityGrenadeIFHopwire;
+import com.hbm.entity.grenade.EntityGrenadeIFImpact;
+import com.hbm.entity.grenade.EntityGrenadeIFIncendiary;
+import com.hbm.entity.grenade.EntityGrenadeIFMystery;
+import com.hbm.entity.grenade.EntityGrenadeIFNull;
+import com.hbm.entity.grenade.EntityGrenadeIFSpark;
+import com.hbm.entity.grenade.EntityGrenadeIFSticky;
+import com.hbm.entity.grenade.EntityGrenadeIFToxic;
+import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeLunatic;
+import com.hbm.entity.grenade.EntityGrenadeMIRV;
+import com.hbm.entity.grenade.EntityGrenadeMk2;
+import com.hbm.entity.grenade.EntityGrenadeNuclear;
+import com.hbm.entity.grenade.EntityGrenadeNuke;
+import com.hbm.entity.grenade.EntityGrenadePC;
+import com.hbm.entity.grenade.EntityGrenadePlasma;
+import com.hbm.entity.grenade.EntityGrenadePoison;
+import com.hbm.entity.grenade.EntityGrenadePulse;
+import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
+import com.hbm.entity.grenade.EntityGrenadeShrapnel;
+import com.hbm.entity.grenade.EntityGrenadeSmart;
+import com.hbm.entity.grenade.EntityGrenadeStrong;
+import com.hbm.entity.grenade.EntityGrenadeStunning;
+import com.hbm.entity.grenade.EntityGrenadeTau;
+import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.grenade.EntityWastePearl;
+import com.hbm.entity.item.EntityFireworks;
+import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.item.EntityMovingItem;
+import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.logic.EntityDeathBlast;
+import com.hbm.entity.logic.EntityEMP;
+import com.hbm.entity.logic.EntityNukeExplosion;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionPlus;
+import com.hbm.entity.logic.EntityTomBlast;
+import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.entity.missile.EntityBobmazon;
+import com.hbm.entity.missile.EntityBombletSelena;
+import com.hbm.entity.missile.EntityBombletTheta;
+import com.hbm.entity.missile.EntityBooster;
+import com.hbm.entity.missile.EntityCarrier;
+import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMinerRocket;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
+import com.hbm.entity.missile.EntityMissileBHole;
+import com.hbm.entity.missile.EntityMissileBunkerBuster;
+import com.hbm.entity.missile.EntityMissileBurst;
+import com.hbm.entity.missile.EntityMissileBusterStrong;
+import com.hbm.entity.missile.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileDrill;
+import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
+import com.hbm.entity.missile.EntityMissileEndo;
+import com.hbm.entity.missile.EntityMissileExo;
+import com.hbm.entity.missile.EntityMissileGeneric;
+import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
+import com.hbm.entity.missile.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileNuclear;
+import com.hbm.entity.missile.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileSchrabidium;
+import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
+import com.hbm.entity.missile.EntitySoyuz;
+import com.hbm.entity.missile.EntitySoyuzCapsule;
+import com.hbm.entity.missile.EntityTestMissile;
+import com.hbm.entity.mob.EntityCyberCrab;
+import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityHunterChopper;
+import com.hbm.entity.mob.EntityMaskMan;
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityQuackos;
+import com.hbm.entity.mob.EntityRADBeast;
+import com.hbm.entity.mob.EntityTaintCrab;
+import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityTeslaCrab;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
+import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityChlorineFX;
+import com.hbm.entity.particle.EntityCloudFX;
+import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityFogFX;
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.entity.particle.EntityOrangeFX;
+import com.hbm.entity.particle.EntityPinkCloudFX;
+import com.hbm.entity.particle.EntitySSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
+import com.hbm.entity.projectile.EntityAAShell;
+import com.hbm.entity.projectile.EntityBeamVortex;
+import com.hbm.entity.projectile.EntityBombletZeta;
+import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityBuilding;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBurningFOEQ;
+import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.projectile.EntityCombineBall;
+import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityDuchessGambit;
+import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.entity.projectile.EntityFallingNuke;
+import com.hbm.entity.projectile.EntityFire;
+import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityLaser;
+import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.entity.projectile.EntityMinerBeam;
+import com.hbm.entity.projectile.EntityModBeam;
+import com.hbm.entity.projectile.EntityNightmareBlast;
+import com.hbm.entity.projectile.EntityOilSpill;
+import com.hbm.entity.projectile.EntityPlasmaBeam;
+import com.hbm.entity.projectile.EntityRainbow;
+import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntityRocketHoming;
+import com.hbm.entity.projectile.EntityRubble;
+import com.hbm.entity.projectile.EntitySchrab;
+import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.entity.projectile.EntitySparkBeam;
+import com.hbm.entity.projectile.EntityTom;
+import com.hbm.entity.projectile.EntityWaterSplash;
+import com.hbm.handler.BobmazonOfferFactory;
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FuelHandler;
+import com.hbm.handler.GUIHandler;
+import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.HazmatRegistry;
+import com.hbm.inventory.AssemblerRecipes;
+import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.CentrifugeRecipes;
+import com.hbm.inventory.ChemPlantRecipesNT;
+import com.hbm.inventory.CrystallizerRecipes;
+import com.hbm.inventory.CyclotronRecipes;
+import com.hbm.inventory.FluidContainer;
+import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.HadronRecipes;
+import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.MagicRecipes;
+import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.SILEXRecipes;
+import com.hbm.inventory.ShredderRecipes;
+import com.hbm.inventory.SingGenRecipes;
+import com.hbm.items.ModItems;
+import com.hbm.lib.HbmWorld;
+import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.TileEntityProxyEnergy;
+import com.hbm.tileentity.TileEntityProxyInventory;
+import com.hbm.tileentity.bomb.TileEntityBombMulti;
+import com.hbm.tileentity.bomb.TileEntityCelPrime;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeBattery;
+import com.hbm.tileentity.bomb.TileEntityCelPrimePort;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTanks;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTerminal;
+import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
+import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
+import com.hbm.tileentity.bomb.TileEntityFireworks;
+import com.hbm.tileentity.bomb.TileEntityLandmine;
+import com.hbm.tileentity.bomb.TileEntityLaunchPad;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
+import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
+import com.hbm.tileentity.bomb.TileEntityNukeBoy;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.bomb.TileEntityNukeFleija;
+import com.hbm.tileentity.bomb.TileEntityNukeGadget;
+import com.hbm.tileentity.bomb.TileEntityNukeMan;
+import com.hbm.tileentity.bomb.TileEntityNukeMike;
+import com.hbm.tileentity.bomb.TileEntityNukeN2;
+import com.hbm.tileentity.bomb.TileEntityNukeN45;
+import com.hbm.tileentity.bomb.TileEntityNukePrototype;
+import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
+import com.hbm.tileentity.bomb.TileEntityNukeTsar;
+import com.hbm.tileentity.bomb.TileEntityRedBarrel;
+import com.hbm.tileentity.bomb.TileEntitySellafield;
+import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
+import com.hbm.tileentity.bomb.TileEntityTestNuke;
+import com.hbm.tileentity.conductor.TileEntityCable;
+import com.hbm.tileentity.conductor.TileEntityCableSwitch;
+import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityGasDuct;
+import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
+import com.hbm.tileentity.conductor.TileEntityOilDuct;
+import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
+import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
+import com.hbm.tileentity.conductor.TileEntityRFDuct;
+import com.hbm.tileentity.conductor.TileEntityWireCoated;
+import com.hbm.tileentity.deco.TileEntityBomber;
+import com.hbm.tileentity.deco.TileEntityDecoBlock;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
+import com.hbm.tileentity.deco.TileEntityDecoPoleSatelliteReceiver;
+import com.hbm.tileentity.deco.TileEntityDecoPoleTop;
+import com.hbm.tileentity.deco.TileEntityDecoSteelPoles;
+import com.hbm.tileentity.deco.TileEntityDecoTapeRecorder;
+import com.hbm.tileentity.deco.TileEntityGeysir;
+import com.hbm.tileentity.deco.TileEntityObjTester;
+import com.hbm.tileentity.deco.TileEntityRotationTester;
+import com.hbm.tileentity.deco.TileEntityTestContainer;
+import com.hbm.tileentity.deco.TileEntityTestRender;
+import com.hbm.tileentity.deco.TileEntityTrappedBrick;
+import com.hbm.tileentity.deco.TileEntityVent;
+import com.hbm.tileentity.deco.TileEntityYellowBarrel;
+import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
+import com.hbm.tileentity.turret.TileEntityLunarOni;
+import com.hbm.tileentity.turret.TileEntityTsukuyomi;
+import com.hbm.tileentity.turret.TileEntityTurretCIWS;
+import com.hbm.tileentity.turret.TileEntityTurretCheapo;
+import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretFlamer;
+import com.hbm.tileentity.turret.TileEntityTurretFriendly;
+import com.hbm.tileentity.turret.TileEntityTurretHeavy;
+import com.hbm.tileentity.turret.TileEntityTurretHoward;
+import com.hbm.tileentity.turret.TileEntityTurretJeremy;
+import com.hbm.tileentity.turret.TileEntityTurretLight;
+import com.hbm.tileentity.turret.TileEntityTurretRichard;
+import com.hbm.tileentity.turret.TileEntityTurretRocket;
+import com.hbm.tileentity.turret.TileEntityTurretSpitfire;
+import com.hbm.tileentity.turret.TileEntityTurretTau;
+import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.world.generator.CellularDungeonFactory;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -21,68 +329,6 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-
-import java.util.List;
-import java.util.Random;
-
-import org.apache.logging.log4j.Logger;
-
-import com.hbm.blocks.ModBlocks;
-import com.hbm.config.BombConfig;
-import com.hbm.config.GeneralConfig;
-import com.hbm.config.MachineConfig;
-import com.hbm.config.MobConfig;
-import com.hbm.config.PotionConfig;
-import com.hbm.config.RadiationConfig;
-import com.hbm.config.ToolConfig;
-import com.hbm.config.WeaponConfig;
-import com.hbm.config.WorldConfig;
-import com.hbm.creativetabs.*;
-import com.hbm.entity.effect.*;
-import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.*;
-import com.hbm.entity.logic.*;
-import com.hbm.entity.missile.*;
-import com.hbm.entity.mob.*;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
-import com.hbm.entity.particle.*;
-import com.hbm.entity.projectile.*;
-import com.hbm.handler.*;
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.*;
-import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection;
-import com.hbm.lib.HbmWorld;
-import com.hbm.lib.Library;
-import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.TileEntityProxyEnergy;
-import com.hbm.tileentity.TileEntityProxyInventory;
-import com.hbm.tileentity.bomb.*;
-import com.hbm.tileentity.conductor.*;
-import com.hbm.tileentity.deco.*;
-import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
-import com.hbm.tileentity.turret.*;
-import com.hbm.world.generator.CellularDungeonFactory;
-
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION)
 public class MainRegistry {
@@ -233,7 +479,7 @@ public class MainRegistry {
 			while(polaroidID == 4 || polaroidID == 9)
 				polaroidID = rand.nextInt(18) + 1;
 		}
-		isPolaroid11 = polaroidID == 11 ? true : false;
+		isPolaroid11 = polaroidID == 11;
 
 		loadConfig(PreEvent);
 		HbmPotion.init();
@@ -666,258 +912,301 @@ public class MainRegistry {
 
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeGeneric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_strong, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeStrong(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_frag, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeFrag(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_fire, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeFire(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cluster, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeCluster(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_flare, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeFlare(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_electric, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeElectric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_poison, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadePoison(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gas, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeGas(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_schrabidium, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeSchrabidium(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuke, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeNuke(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuclear, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeNuclear(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pulse, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadePulse(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_plasma, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadePlasma(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_tau, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeTau(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_lemon, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeLemon(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mk2, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeMk2(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_aschrab, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeASchrab(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_zomg, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeZOMG(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_shrapnel, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeShrapnel(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_black_hole, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeBlackHole(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gascan, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeGascan(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cloud, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeCloud(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pink_cloud, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadePC(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_smart, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeSmart(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mirv, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeMIRV(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_breach, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeBreach(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_burst, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeBurst(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_generic, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFGeneric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_he, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFHE(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_bouncy, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFBouncy(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_sticky, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFSticky(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_impact, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFImpact(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_incendiary, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFIncendiary(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_toxic, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFToxic(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_concussion, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFConcussion(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_brimstone, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFBrimstone(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_mystery, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFMystery(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_spark, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFSpark(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_hopwire, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFHopwire(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_null, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
 				return new EntityGrenadeIFNull(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.nuclear_waste_pearl, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
 				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_lunatic, new BehaviorProjectileDispense() {
 			
+			@Override
 			protected IProjectile getProjectileEntity(World worldIn, IPosition pos)
 			{
 				return new EntityGrenadeLunatic(worldIn, pos.getX(), pos.getY(), pos.getZ());

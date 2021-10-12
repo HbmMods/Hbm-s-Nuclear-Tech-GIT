@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
@@ -26,14 +25,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFluidBarrel extends BlockContainer {
 	
 	int capacity;
-	public List<String> tooltip = new ArrayList<String>();
+	public List<String> tooltip = new ArrayList<>();
 	private BarrelHold maxTier = BarrelHold.NONE;
 	private boolean isLeaky = false;
 
@@ -41,7 +39,7 @@ public class BlockFluidBarrel extends BlockContainer {
 		super(p_i45386_1_);
 		this.capacity = capacity;
 		this.maxTier = maxTier;
-		isLeaky = leaky;
+		this.isLeaky = leaky;
 		makeTooltip();
 	}
 	
@@ -53,10 +51,10 @@ public class BlockFluidBarrel extends BlockContainer {
 		ACID_STRONG("desc.block.barrel.acidStrong"),
 		ACID_ALT("desc.block.barrel.acidAlt"),
 		ANTIMATTER("desc.block.barrel.antimatter");
-		private String key;
+		public final String key;
 		private BarrelHold(String string)
 		{
-			key = string;
+			this.key = string;
 		}
 	}
 	

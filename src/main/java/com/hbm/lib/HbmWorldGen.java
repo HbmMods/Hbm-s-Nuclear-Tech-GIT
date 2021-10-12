@@ -117,7 +117,7 @@ public class HbmWorldGen implements IWorldGenerator {
 						Block b = world.getBlock(x, y, z);
 						
 						if(b.getMaterial() == Material.rock || b == Blocks.dirt)
-							world.setBlock(i + x, (int) (y), j + z, ModBlocks.stone_gneiss, 0, 2);
+							world.setBlock(i + x, (y), j + z, ModBlocks.stone_gneiss, 0, 2);
 					}
 				}
 			}

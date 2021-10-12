@@ -20,7 +20,7 @@ public interface IHasLore
 	 * @param stack - The itemstack the tooltip will be added to
 	 * @param list - The tooltip list
 	 */
-	public default void standardLore(ItemStack stack, List list)
+	public default void standardLore(ItemStack stack, List<String> list)
 	{
 		if (ItemCustomLore.getHasLore(stack))
 		{
@@ -35,7 +35,7 @@ public interface IHasLore
 		}
 	}
 	
-	public default void customLore(String key, List list, Object...args)
+	public default void customLore(String key, List<String> list, Object...args)
 	{
 		if (ItemCustomLore.getHasLore(key))
 		{

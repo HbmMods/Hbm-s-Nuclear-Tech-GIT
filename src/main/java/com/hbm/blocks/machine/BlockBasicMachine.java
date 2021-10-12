@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

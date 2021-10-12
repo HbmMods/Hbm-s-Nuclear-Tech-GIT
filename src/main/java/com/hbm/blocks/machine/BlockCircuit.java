@@ -1,16 +1,13 @@
 package com.hbm.blocks.machine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityComputerMatrix;
 
@@ -18,8 +15,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -74,9 +69,8 @@ public class BlockCircuit extends Block
 	public boolean onBlockActivated(World worldIn, int x, int y, int z,
 			EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
-		if (player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.screwdriver)
+		if (player.getHeldItem() != null && Library.checkForHeld(player, ModItems.screwdriver) || Library.checkForHeld(player, ModItems.screwdriver_chad))
 		{
-			List<ItemStack> dropStack = new ArrayList<ItemStack>();
 			AStack[] toDrop = AssemblerRecipes.recipes.get(new ComparableStack(this));
 			worldIn.setBlockToAir(x, y, z);
 			dropItems(toDrop, worldIn, x, y, z);

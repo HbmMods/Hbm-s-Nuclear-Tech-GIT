@@ -73,7 +73,7 @@ public class ItemBetavoltaic extends ItemCustomLore implements IRadioisotopeFuel
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return 1D - (double) getLifespan(stack) / (double) getMaxLifespan();
+		return IRadioisotopeFuel.getDuraBar(stack);
 	}
 	
 }

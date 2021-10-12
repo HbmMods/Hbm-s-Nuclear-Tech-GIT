@@ -5,16 +5,15 @@ import com.google.common.collect.ImmutableSet;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemStorageMedium;
 import com.hbm.items.weapon.ItemAmmo.AmmoItemTrait;
 import com.hbm.potion.HbmPotion;
 
+import api.hbm.internet.IDataStorageUser;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -157,13 +156,7 @@ public class HbmCollection
 	// ENERGY BULLET SPECTRAL-ABLE
 	public static ImmutableSet<Block> energyRoundBlock;
 	public static ImmutableSet<Material> energyRoundMaterial;
-	/// DATA STORAGE TYPES (haven't decided which is better)
-	public static final String RESEARCH_ASSEMBLER = "DATA_RECIPE_ASSEMBLER";
-	public static final String RESEARCH_CHEMPLANT = "DATA_RECIPE_CHEMPLANT";
-	public static final String RECIPE = "DATA_RECIPE";
-	public static final String MESSAGE = "DATA_MESSAGE";
-	public static final String PROGRAM = "DATA_PROGRAM";
-	public static final String COMMAND_TASK = "DATA_COMMAND_TASK";
+	/// DATA STORAGE TYPES
 	public static enum EnumDataTypes
 	{
 		RESEARCH_ASSEMBLER("DATA_RECIPE_ASSEMBLER"),
@@ -620,8 +613,10 @@ public class HbmCollection
 						new ItemStack(ModItems.gun_revolver_cursed),
 						new ItemStack(ModItems.watch),
 				};
-		ItemStack fdd = ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd);
-		ItemStack cd = ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd);
+//		ItemStack fdd = ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd);
+//		ItemStack cd = ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd);
+		ItemStack fdd = IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_fdd);
+		ItemStack cd = IDataStorageUser.getBlankMedium(ModItems.storage_optical_cd);
 		fdd.stackSize = 10;
 		cd.stackSize = 8;
 		fddPack = new ItemStack[] {fdd};

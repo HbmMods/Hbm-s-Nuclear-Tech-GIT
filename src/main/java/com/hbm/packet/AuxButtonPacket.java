@@ -250,7 +250,7 @@ public class AuxButtonPacket implements IMessage {
 				if (te instanceof TileEntityBarrel) {
 					TileEntityBarrel barrel = (TileEntityBarrel)te;
 
-					barrel.mode = (short) ((barrel.mode + 1) % barrel.modes);
+					barrel.mode = (short) ((barrel.mode + 1) % TileEntityBarrel.modes);
 					barrel.markDirty();
 				}
 				

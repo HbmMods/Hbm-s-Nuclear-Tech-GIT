@@ -2,9 +2,7 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ArmorFSBPowered;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.registry.GameRegistry;

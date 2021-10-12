@@ -3,13 +3,10 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.annotation.Nonnull;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
@@ -17,7 +14,6 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;

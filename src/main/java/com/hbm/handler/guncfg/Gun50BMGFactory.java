@@ -170,7 +170,7 @@ public class Gun50BMGFactory {
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z)
 			{
-				bullet.worldObj.newExplosion(bullet, x, y, z, 10.0F, true, true);
+				bullet.worldObj.newExplosion(bullet, x, y, z, 5.0F, true, false);
 			}
 		};
 		

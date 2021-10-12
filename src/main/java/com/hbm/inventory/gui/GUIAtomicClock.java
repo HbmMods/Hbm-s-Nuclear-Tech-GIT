@@ -24,10 +24,10 @@ public class GUIAtomicClock extends GuiInfoContainer
 		clock = te;
 		xSize = 256;
 		ySize = 187;
-		displays[0] = new NumberDisplay(49, 23, 43, 187).setDigitLength(6).setMaxMin(9.9999F, 0);
+		displays[0] = new NumberDisplay(49, 23, 43, 187).setDigitLength(6).setMaxMin(9.9999F, 0).setFloat(4);
 		displays[1] = new NumberDisplay(101, 23, 43, 187).setMaxMin(100, 0);
 		displays[2] = new NumberDisplay(49, 73, 43, 187).setDigitLength(28).setPadding(1);
-		clockTank = new FluidTankGUI(clock.getTanks().get(0), 26, 89, 16, 73);
+		clockTank = new FluidTankGUI(clock.getTanks().get(0), 26, 16, 16, 73);
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class GUIAtomicClock extends GuiInfoContainer
 		super.drawScreen(mouseX, mouseY, f);
 		drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 16, 16, 55, clock.getPower(), clock.getMaxPower());
 //		clock.getTanks().get(0).renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 16, 16, 73);
-//		clockTank.updateTank(clock.getTanks().get(0));
+		clockTank.updateTank(clock.getTanks().get(0));
 		clockTank.renderTankInfo(mouseX, mouseY);
 		if (clock.isOn && clock.getTanks().get(0).getFill() > 0 && clock.getPower() >= clock.consumption)
 		{
@@ -74,7 +74,7 @@ public class GUIAtomicClock extends GuiInfoContainer
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
 	{
 		displays[0].setNumber(clock.time);
-		displays[0].setFloat((byte) 4);
+		displays[0].setFloat(4);
 		displays[1].setNumber(clock.day);
 		displays[2].setNumber(clock.year);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -82,15 +82,15 @@ public class GUIAtomicClock extends GuiInfoContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		int pow = (int) getScaledBar(clock.getPower(), 54, clock.getMaxPower());
-		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - pow, 49, 241 - pow, 16, pow);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 71 - pow, 49, 242 - pow, 16, pow);
 		if (clock.isOn)
 		{
 			drawTexturedModalRect(guiLeft + 44, guiTop + 43, 67, 187, 18, 18);
 			if (clock.getTanks().get(0).getFill() > 0 && clock.getPower() >= clock.consumption)
-				for (int i = 0; i < 3; i++)
+				for (byte i = 0; i < 3; i++)
 					displays[i].drawNumber();
 		}
-//		clockTank.updateTank(clock.getTanks().get(0));
+		clockTank.updateTank(clock.getTanks().get(0));
 		clockTank.renderTank();
 		
 //		FluidTank cTank = clock.getTanks().get(0);

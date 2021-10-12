@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.annotations.Beta;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -29,7 +28,7 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	public byte day = 1;
 	public long year = 2300L;
 	public boolean isOn = false;
-	public long consumption = 100000;
+	public long consumption = powerRate;
 	private int[] upgrades = new int[] {0, 0};
 	public TileEntityAtomicClock()
 	{

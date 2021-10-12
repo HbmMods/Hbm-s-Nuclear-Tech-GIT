@@ -42,19 +42,19 @@ public class SingGenRecipes
 				}, new ComparableStack(ModItems.singularity), true, false, FluidType.NONE, 0).setLevel(4));
 		recipes.add(addRecipe(new ItemStack(ModItems.overfuse, 1), new ItemStack[]
 				{
-					new ItemStack(ModItems.screwdriver), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_nitan_mix),
+					new ItemStack(ModItems.screwdriver_chad), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_nitan_mix),
 					new ItemStack(ModItems.powder_nitan_mix), new ItemStack(ModItems.powder_nitan_mix),
 					new ItemStack(ModItems.powder_nitan_mix), new ItemStack(ModItems.powder_nitan_mix), new ItemStack(ModItems.powder_nitan_mix)
 				}, new ComparableStack(ModItems.black_hole), false, false, FluidType.NONE, 0).setLevel(5));
 		recipes.add(addRecipe(new ItemStack(ModItems.overfuse, 1), new ItemStack[]
 				{
-					new ItemStack(ModItems.screwdriver), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_neptunium),
+					new ItemStack(ModItems.screwdriver_chad), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_neptunium),
 					new ItemStack(ModItems.powder_iodine), new ItemStack(ModItems.powder_thorium),
 					new ItemStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_caesium)
 				}, new ComparableStack(ModItems.black_hole), false, false, FluidType.NONE, 0).setLevel(5));
 		recipes.add(addRecipe(new ItemStack(ModItems.overfuse, 1), new ItemStack[]
 				{
-					new ItemStack(ModItems.screwdriver), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_strontium),
+					new ItemStack(ModItems.screwdriver_chad), new ItemStack(ModItems.board_copper), new ItemStack(ModItems.powder_strontium),
 					new ItemStack(ModItems.powder_bromine), new ItemStack(ModItems.powder_cobalt),
 					new ItemStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_niobium), new ItemStack(ModItems.powder_cerium)
 				}, new ComparableStack(ModItems.black_hole), false, false, FluidType.NONE, 0).setLevel(5));

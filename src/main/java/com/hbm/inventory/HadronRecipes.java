@@ -15,7 +15,7 @@ public class HadronRecipes {
 	 * Since we're dealing with like 10 or so recipes, using a HashMap (or to combine two keys, a HashMap *in* a HashMap)
 	 * would be less performant than those few steps through a good old Array list, and it's much easier to implement too.
 	 */
-	private static final List<HadronRecipe> recipes = new ArrayList();
+	private static final List<HadronRecipe> recipes = new ArrayList<HadronRecipe>();
 	
 	/*
 	 * We CAN actually implement recipes with the same input items but different momentum requirements.

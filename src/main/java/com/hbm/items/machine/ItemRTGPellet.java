@@ -114,7 +114,7 @@ public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return 1D - (double) getLifespan(stack) / getMaxLifespan();
+		return IRadioisotopeFuel.getDuraBar(stack);
 	}
 	
 	@Override

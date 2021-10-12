@@ -6,6 +6,7 @@ import com.hbm.inventory.ChemPlantRecipesNT;
 import com.hbm.inventory.ChemPlantRecipesNT.ChemPlantRecipe;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate.EnumChemistryTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -109,7 +110,7 @@ public class TileEntityChemPlantNT extends TileEntityMachineChemplant
 			currRecipe = ChemPlantRecipesNT.recipes.get(currTemplate.toString());
 			FluidStack[] fInputs = currRecipe.fIn;
 			FluidStack[] fOutputs = currRecipe.fOut;
-			ItemStack[] iInputs = currRecipe.inputs;
+			ItemStack[] iInputs = RecipesCommon.objectToStackArray(currRecipe.inputs);
 			ItemStack[] iOutputs = currRecipe.outputs;
 			
 			if((!Library.isArrayEmpty(iInputs) || !Library.isArrayEmpty(fInputs)) && 
@@ -298,7 +299,7 @@ public class TileEntityChemPlantNT extends TileEntityMachineChemplant
 			return false;
 		else
 		{
-			ItemStack[] inputCopy = currRecipe.inputs.clone();
+			ItemStack[] inputCopy = RecipesCommon.objectToStackArray(currRecipe.inputs.clone());
 			if (Library.isArrayEmpty(inputCopy))
 				return false;
 			

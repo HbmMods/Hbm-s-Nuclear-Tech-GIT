@@ -1,7 +1,5 @@
 package com.hbm.util;
 
-import java.util.List;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -157,6 +155,7 @@ public class InventoryUtil {
 	 * @param stack2
 	 * @return
 	 */
+	@SuppressWarnings("null")
 	public static boolean doesStackDataMatch(ItemStack stack1, ItemStack stack2) {
 		
 		if(stack1 == null && stack2 == null)

@@ -221,7 +221,7 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 2;
 		bullet.dmgMax = 3;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
 		
 		return bullet;
@@ -294,8 +294,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 150;
 		bullet.destroysBlocks = true;
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_NIGHTMARE;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;
 		
 		return bullet;
 	}

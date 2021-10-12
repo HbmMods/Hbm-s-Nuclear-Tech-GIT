@@ -2,11 +2,9 @@ package com.hbm.interfaces;
 
 import com.google.common.annotations.Beta;
 import com.hbm.modules.ItemHazardModule;
-import com.hbm.modules.ItemHazardModule.CustomToxicity;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.util.EnumChatFormatting;
 
 public interface IItemHazard {
 	
@@ -14,14 +12,29 @@ public interface IItemHazard {
 	
 	public enum EnumToxicity
 	{
-		BERYLLIUM,
-		HEAVY_METAL,
-		CHEMICAL;
+		BERYLLIUM(1000, '2'),
+		HEAVY_METAL(1000, '1'),
+		CHEMICAL(250, 'e');
+		private int cap;
+		private char code;
+		private EnumToxicity(int cap, char code)
+		{
+			this.cap = cap;
+			this.code = code;
+		}
+		public int getCap()
+		{
+			return cap;
+		}
+		public char getCode()
+		{
+			return code;
+		}
+		public String getColor()
+		{
+			return "\u00a7" + code;
+		}
 	}
-	
-	public static final CustomToxicity BERYLLIUM = new CustomToxicity("beryllium", 1000, 1000, EnumChatFormatting.DARK_GREEN);
-	public static final CustomToxicity HEAVY_METAL = new CustomToxicity("heavyMetal", 1000, 1000, EnumChatFormatting.DARK_BLUE);
-	public static final CustomToxicity CHEMICAL = new CustomToxicity("chemical", 5000, 250, EnumChatFormatting.YELLOW);
 	
 	public default IItemHazard addRadiation(float radiation) {
 		this.getModule().addRadiation(radiation);
@@ -48,12 +61,12 @@ public interface IItemHazard {
 	 */
 	@Untested
 	@Beta
-	public default IItemHazard addCustomToxicity(CustomToxicity tox)
+	public default IItemHazard addCustomToxicity(EnumToxicity tox)
 	{
 		return addCustomToxicity(tox, 1);
 	}
 	
-	public default IItemHazard addCustomToxicity(CustomToxicity tox, float mod)
+	public default IItemHazard addCustomToxicity(EnumToxicity tox, float mod)
 	{
 		getModule().addCustomToxicity(tox, mod);
 		return this;
