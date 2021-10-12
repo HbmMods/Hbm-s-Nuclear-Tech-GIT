@@ -255,6 +255,8 @@ public class TileMappings {
 		map.put(TileEntityRBMKAbsorber.class, "tileentity_rbmk_absorber");
 		map.put(TileEntityRBMKModerator.class, "tileentity_rbmk_moderator");
 		map.put(TileEntityRBMKOutgasser.class, "tileentity_rbmk_outgasser");
+		map.put(TileEntityRBMKCooler.class, "tileentity_rbmk_cooler");
+		map.put(TileEntityRBMKStorage.class, "tileentity_rbmk_storage");
 		map.put(TileEntityCraneConsole.class, "tileentity_rbmk_crane_console");
 		map.put(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
 		map.put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
