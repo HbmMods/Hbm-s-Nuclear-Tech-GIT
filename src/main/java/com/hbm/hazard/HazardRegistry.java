@@ -207,6 +207,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
 		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER));
+		HazardSystem.register(ingot_radium, new HazardData().addEntry(RADIATION, ra226 * ingot).addEntry(BONECANCER));
 		HazardSystem.register(powder_plutonium, new HazardData().addEntry(BONECANCER));
 		HazardSystem.register(ingot_plutonium, new HazardData().addEntry(BONECANCER));
 		HazardSystem.register(nugget_plutonium, new HazardData().addEntry(BONECANCER));

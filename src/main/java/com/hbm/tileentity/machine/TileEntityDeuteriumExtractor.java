@@ -4,18 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumExtractor extends TileEntity implements IFluidAcceptor, IFluidSource {
+public class TileEntityDeuteriumExtractor extends TileEntity implements IFluidAcceptor, IFluidSource, IConsumer {
 	
 	public int age = 0;
+	public long power = 0;
+	public static final long maxPower = 10000;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
 	
@@ -29,24 +35,48 @@ public class TileEntityDeuteriumExtractor extends TileEntity implements IFluidAc
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			
+			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
 			age++;
 			if(age >= 2) {
 				age = 0;
+				if(hasPower() && hasEnoughWater()) {
+					int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
+					tanks[0].setFill(tanks[0].getFill() - convert);
+					tanks[1].setFill(tanks[1].getFill() + Math.round(convert / 100));
+					power -= 100;
+				}
 			}
 			
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			if(power < 0)
+				power = 0;
 			
-			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
-			tanks[0].setFill(tanks[0].getFill() - convert);
-			tanks[1].setFill(tanks[1].getFill() + convert);
+			//int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
+			//tanks[0].setFill(tanks[0].getFill() - convert);
+			///tanks[1].setFill(tanks[1].getFill() + Math.round(convert / 10));
 			
 			fillFluidInit(tanks[1].getTankType());
+			
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
+	}
+	
+	public long getPowerRemainingScaled(long i) {
+		return (power * i) / maxPower;
+	}
+	
+	public boolean hasPower() {
+		return power > 0;
+	}
+	
+	public boolean hasEnoughWater() {
+		return tanks[0].getFill() >= 100;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		this.power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "deuterium");
 	}
@@ -54,6 +84,7 @@ public class TileEntityDeuteriumExtractor extends TileEntity implements IFluidAc
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "deuterium");
 	}
@@ -136,6 +167,21 @@ public class TileEntityDeuteriumExtractor extends TileEntity implements IFluidAc
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+	
+	@Override
+	public void setPower(long i) {
+		power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
 	}
 	
 }

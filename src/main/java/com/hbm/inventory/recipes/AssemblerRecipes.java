@@ -726,6 +726,30 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 4),
 				new ComparableStack(ModItems.circuit_tantalium, 16)
 			}, 100);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_deuterium_extractor, 1), new AStack[] {
+				new ComparableStack(ModItems.deuterium_filter, 1),
+				new ComparableStack(ModItems.sulfur, 12),
+				new OreDictStack("plateSteel", 8),
+				new OreDictStack("plateAluminum", 4),
+				new ComparableStack(ModItems.fluid_duct, 8),
+				new ComparableStack(ModItems.board_copper, 2),
+				new ComparableStack(ModItems.turbine_titanium, 2),
+				new ComparableStack(ModItems.circuit_aluminium, 3)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.missile_shuttle, 1), new AStack[] {
+				new ComparableStack(ModItems.missile_generic, 2),
+				new ComparableStack(ModItems.missile_strong, 1),
+				new ComparableStack(Items.dye, 5, 14),
+				new ComparableStack(ModItems.canister_gasoline, 24),
+				new ComparableStack(ModItems.ingot_fiberglass, 12),
+				new ComparableStack(ModItems.circuit_copper, 2),
+				new ComparableStack(ModItems.ingot_semtex, 8),
+				new ComparableStack(Blocks.glass_pane, 6),
+				new OreDictStack("plateSteel", 4),
+				new OreDictStack("IngotSteel", 6)
+		}, 100);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

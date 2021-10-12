@@ -94,14 +94,16 @@ public class EntityFalloutRain extends Entity {
     	
     	int depth = 0;
     	
-    	for(Object o : world.playerEntities) {
+    	/*for(Object o : world.playerEntities) {
 			EntityPlayer player = (EntityPlayer)o;
 			double posX = (player.posX >= 0) ? player.posX : -player.posX;
 			double posY = (player.posY >= 0) ? player.posY : -player.posY;
 			int distance = (int) Math.hypot(posX, posY);
 			double contamLevel = (distance == 0) ? 100 / 1 :  100 / distance;
 			HbmLivingProps.incrementBoneCancer(player, contamLevel);
-		}
+		}*/
+    	// \    /  |_|  \ /
+    	//  \/\/   | |   |
     	
     	for(int y = 255; y >= 0; y--) {
 
