@@ -1899,6 +1899,9 @@ public class MachineRecipes {
         case STEAM:
 			input[0] = new FluidStack(1000, FluidType.WATER);
         	break;
+        case LPG:
+			input[0] = new FluidStack(2000, FluidType.PETROLEUM);
+        	break;
         case BP_BIOFUEL:
 			input[0] = new FluidStack(2000, FluidType.BIOGAS);
         	break;
@@ -2227,6 +2230,9 @@ public class MachineRecipes {
         	break;
         case BP_BIOFUEL:
 			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
+        	break;
+        case LPG:
+			output[0] = new FluidStack(1000, FluidType.LPG);
         	break;
         case UF6:
 			output[0] = new FluidStack(900, FluidType.UF6);
