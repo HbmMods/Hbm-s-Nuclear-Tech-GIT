@@ -637,15 +637,15 @@ public class ModEventHandlerClient {
 			
 			World world = Minecraft.getMinecraft().theWorld;
 			
-			if(world != null && world.provider instanceof WorldProviderSurface && !RenderNTMSkybox.didLastRender) {
+			if(world != null && world.provider instanceof WorldProviderSurface) {// && !RenderNTMSkybox.didLastRender) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
 				if(!(sky instanceof RenderNTMSkybox)) {
-					world.provider.setSkyRenderer(new RenderNTMSkybox(sky));
+					world.provider.setSkyRenderer(new RenderNTMSkybox());
 				}
 			}
 			
-			RenderNTMSkybox.didLastRender = false;
+			//RenderNTMSkybox.didLastRender = false;
 		}
 	}
 	

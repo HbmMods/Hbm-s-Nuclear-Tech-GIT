@@ -50,10 +50,12 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
+import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -104,6 +106,7 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -124,11 +127,14 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.WorldEvent;
 
 public class ModEventHandler {
 	
 	public static int meteorShower = 0;
 	static Random rand = new Random();
+	public static float dust;
+	public static float fire;
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -518,12 +524,61 @@ public class ModEventHandler {
 		}
 	}
 	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onLoad(WorldEvent.Load event) {
+		DimensionManager.unregisterProviderType(0);
+		DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onUnload(WorldEvent.Unload event) {
+		//We don't want Tom's impact data transferring between worlds.
+		TomSaveData data = TomSaveData.forWorld(event.world);
+		this.fire=0;
+		this.dust=0;
+		data.fire=0;
+		data.dust=0;
+	}
+
+	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
 		/////
 		//try {
 		/////
+		
+		///TOM IMPACT START///
+		if(event.world != null && !event.world.isRemote && event.phase == Phase.START)
+		{
+			float settle = 1F/14400000F; ///600 days to completely clear all dust. 
+			float cool = 1F/24000F;///One MC day between initial impact and total darkness.
+			//ImpactWorldHandler.handleWorldDestruction(event.world);
+			TomSaveData data = TomSaveData.forWorld(event.world);
+			NBTTagCompound tag = data.getData();
+			float atmosphericDust = tag.getFloat("dust");
+			float firestorm = tag.getFloat("fire");
+			if(atmosphericDust>0 && firestorm == 0)
+			{
+				tag.setFloat("dust", Math.max(0, atmosphericDust-settle));
+				data.markDirty();
+				data.dust = atmosphericDust;
+			}
+			if(firestorm>0)
+			{
+				tag.setFloat("fire", Math.max(0,(firestorm-cool)));
+				tag.setFloat("dust", Math.min(1,(atmosphericDust+cool)));
+				data.markDirty();
+				data.fire = firestorm;
+				data.dust = atmosphericDust;
+				//dust = atmosphericDust+cool;
+				//fire = firestorm-cool;
+			}
+			dust = data.dust;
+			fire = data.fire;
+			///System.out.print("Dust: "+dust);
+		}
+		///TOM IMPACT END///
 		
 		/// METEOR SHOWER START ///
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && GeneralConfig.enableMeteorStrikes) {
