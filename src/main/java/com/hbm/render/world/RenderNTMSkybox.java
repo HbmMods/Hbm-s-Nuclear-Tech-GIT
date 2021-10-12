@@ -96,9 +96,9 @@ public class RenderNTMSkybox extends IRenderHandler
 		
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
-        float f1 = (float) vec3.xCoord;//distance;
-        float f2 = (float) vec3.yCoord;//distance;
-        float f3 = (float) vec3.zCoord;//distance;
+        float f1 = (float) vec3.xCoord;
+        float f2 = (float) vec3.yCoord;
+        float f3 = (float) vec3.zCoord;
         float f6;
         float dust = Math.max((1.0F - (atmosphericDust*2)),0);
         float rain = dust*(1.0F - world.getRainStrength(partialTicks));
