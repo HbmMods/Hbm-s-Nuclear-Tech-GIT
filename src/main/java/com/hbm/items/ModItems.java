@@ -800,6 +800,7 @@ public class ModItems {
 	public static Item gas_full;
 	public static Item gas_petroleum;
 	public static Item gas_biogas;
+	public static Item gas_lpg;
 
 	public static Item fluid_tank_full;
 	public static Item fluid_tank_empty;
@@ -3164,6 +3165,7 @@ public class ModItems {
 		gas_full = new Item().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_full");
 		gas_petroleum = new Item().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_petroleum");
 		gas_biogas = new Item().setUnlocalizedName("gas_biogas").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_biogas");
+		gas_lpg = new Item().setUnlocalizedName("gas_lpg").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_lpg");
 		
 		tank_waste = new ItemTankWaste().setUnlocalizedName("tank_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
 
@@ -6094,6 +6096,7 @@ public class ModItems {
 		GameRegistry.registerItem(gas_full, gas_full.getUnlocalizedName());
 		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
 		GameRegistry.registerItem(gas_biogas, gas_biogas.getUnlocalizedName());
+		GameRegistry.registerItem(gas_lpg, gas_lpg.getUnlocalizedName());
 		
 		//Universal Tank
 		GameRegistry.registerItem(fluid_tank_empty, fluid_tank_empty.getUnlocalizedName());
