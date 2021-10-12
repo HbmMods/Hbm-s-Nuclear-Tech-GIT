@@ -954,6 +954,23 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
+		renderers.put(Item.getItemFromBlock(ModBlocks.rbmk_crane_console), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.rbmk_crane_console_tex);
+				ResourceManager.rbmk_crane_console.renderPart("Console_Coonsole");
+				ResourceManager.rbmk_crane_console.renderPart("JoyStick");
+				ResourceManager.rbmk_crane_console.renderPart("Meter1");
+				ResourceManager.rbmk_crane_console.renderPart("Meter2");
+				bindTexture(ResourceManager.ks23_tex); ResourceManager.rbmk_crane_console.renderPart("Shotgun");
+				bindTexture(ResourceManager.mini_nuke_tex); ResourceManager.rbmk_crane_console.renderPart("MiniNuke");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
 		renderers.put(Item.getItemFromBlock(ModBlocks.lamp_demon), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);

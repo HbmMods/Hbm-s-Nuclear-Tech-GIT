@@ -20,7 +20,7 @@ public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements 
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 10 == 0) {
 			
 			for(int i = 0; i < slots.length - 1; i++) {
 				
