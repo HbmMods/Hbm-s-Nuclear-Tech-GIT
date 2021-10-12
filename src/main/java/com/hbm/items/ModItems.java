@@ -2754,7 +2754,6 @@ public class ModItems {
 		ingot_pu239 = new ItemHazard().addRadiation(ItemHazard.pu239).toItem().setUnlocalizedName("ingot_pu239").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pu239");
 		ingot_pu240 = new ItemHazard().addRadiation(ItemHazard.pu240).toItem().setUnlocalizedName("ingot_pu240").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pu240");
 		ingot_pu_mix = new ItemHazard().addRadiation(ItemHazard.purg).toItem().setUnlocalizedName("ingot_pu_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pu_mix");
-		ingot_cm242 = new ItemHazard().addRadiation(ItemHazard.cm242).addFire(20).toItem().setUnlocalizedName("ingot_cm242").setCreativeTab(MainRegistry.partsTab).setTextureName(curiumFast);
 		ingot_cm243 = new ItemHazard().addRadiation(ItemHazard.cm243).addFire(20).toItem().setUnlocalizedName("ingot_cm243").setCreativeTab(MainRegistry.partsTab).setTextureName(curiumSlow);
 		ingot_cm244 = new ItemHazard().addRadiation(ItemHazard.cm244).addFire(20).toItem().setUnlocalizedName("ingot_cm244").setCreativeTab(MainRegistry.partsTab).setTextureName(curiumFast);
 		ingot_cm245 = new ItemHazard().addRadiation(ItemHazard.cm245).toItem().setUnlocalizedName("ingot_cm245").setCreativeTab(MainRegistry.partsTab).setTextureName(curiumSlow);
@@ -2771,6 +2770,7 @@ public class ModItems {
 		ingot_md258 = new ItemHazard().setHasEffect().addRadiation(ItemHazard.md258).addFire(50).toItem().setUnlocalizedName("ingot_md258").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_mendelevium");
 		ingot_cn285 = new ItemHazard().setHasEffect().addRadiation(ItemHazard.cn285).addFire(60).toItem().setUnlocalizedName("ingot_cn285").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_copernicium");
 		ingot_cn286 = new ItemHazard().setHasEffect().addRadiation(ItemHazard.cn286).addFire(60).toItem().setUnlocalizedName("ingot_cn286").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_copernicium");
+		ingot_cm242 = new ItemHazard().addRadiation(ItemHazard.cm242).addFire(20).toItem().setUnlocalizedName("ingot_cm242").setCreativeTab(MainRegistry.partsTab).setTextureName(curiumFast);
 		ingot_neptunium = new ItemHazard().addRadiation(ItemHazard.np237).toItem().setUnlocalizedName("ingot_neptunium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_neptunium");
 		ingot_polonium = new ItemHazard().addRadiation(ItemHazard.po210).addCustomToxicity(EnumToxicity.HEAVY_METAL, 100).addFire(5).toItem().setUnlocalizedName("ingot_polonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polonium");
 		ingot_titanium = new Item().setUnlocalizedName("ingot_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_titanium");

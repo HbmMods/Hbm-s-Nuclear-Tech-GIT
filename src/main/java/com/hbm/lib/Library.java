@@ -99,6 +99,20 @@ public class Library {
 	{
 		return player.getUniqueID().toString().equals(ID);
 	}
+	
+	public static String[] ticksToDate(long ticks)
+	{
+		final String[] dateOut = new String[3];
+		long year = Math.floorDiv(ticks, HbmCollection.tickYear);
+		byte day = (byte) Math.floorDiv(ticks - HbmCollection.tickYear * year, HbmCollection.tickDay);
+		float time = ticks - ((HbmCollection.tickYear * year) + (HbmCollection.tickDay * day));
+		time = (float) convertScale(time, 0, HbmCollection.tickDay, 0, 10F);
+		dateOut[0] = String.valueOf(year);
+		dateOut[1] = String.valueOf(day);
+		dateOut[2] = String.valueOf(time);
+		return dateOut;
+	}
+	
 	/**
 	 * Rounds a number to so many significant digits
 	 * @param num The number to round
