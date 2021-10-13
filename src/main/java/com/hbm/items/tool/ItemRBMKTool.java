@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 import com.hbm.util.I18nUtil;
 
@@ -65,8 +66,25 @@ public class ItemRBMKTool extends Item {
 			return true;
 		}
 		
+		if(b == ModBlocks.rbmk_crane_console && stack.hasTagCompound()) {
+			
+			if(!world.isRemote) {
+				
+				int[] pos = ((BlockDummyable)b).findCore(world, x, y, z);
+				
+				TileEntityCraneConsole console = (TileEntityCraneConsole)world.getTileEntity(pos[0], pos[1], pos[2]);
+				int tx = stack.stackTagCompound.getInteger("posX");
+				int ty = stack.stackTagCompound.getInteger("posY");
+				int tz = stack.stackTagCompound.getInteger("posZ");
+				console.setTarget(tx, ty, tz);
+				player.addChatComponentMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".set").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+			}
+			
+			return true;
+		}
+		
 		return false;
-    }
+	}
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {

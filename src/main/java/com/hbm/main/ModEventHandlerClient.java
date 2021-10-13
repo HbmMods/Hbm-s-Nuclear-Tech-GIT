@@ -407,14 +407,17 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = MainRegistry.proxy.me();
 		Minecraft mc = Minecraft.getMinecraft();
-		int i = MathHelper.floor_double(mc.thePlayer.posX);
-		int j = MathHelper.floor_double(mc.thePlayer.posY);
-		int k = MathHelper.floor_double(mc.thePlayer.posZ);
-		Block block = mc.theWorld.getBlock(i, j, k);
 		
-		if(block == ModBlocks.vacuum) {
-			e.result = null;
-			return;
+		if(player != null) {
+			int i = MathHelper.floor_double(player.posX);
+			int j = MathHelper.floor_double(player.posY);
+			int k = MathHelper.floor_double(player.posZ);
+			Block block = mc.theWorld.getBlock(i, j, k);
+			
+			if(block == ModBlocks.vacuum) {
+				e.result = null;
+				return;
+			}
 		}
 		
 		ResourceLocation r = e.sound.getPositionedSoundLocation();

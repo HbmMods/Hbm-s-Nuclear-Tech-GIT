@@ -86,7 +86,8 @@ public class BlockVacuum extends Block {
 			if(b == this)
 				continue;
 			
-			if(b.getBlockBoundsMinX() > 0 || b.getBlockBoundsMinY() > 0 || b.getBlockBoundsMinZ() > 0 ||
+			if(b.getMaterial() == Material.air || 
+					b.getBlockBoundsMinX() > 0 || b.getBlockBoundsMinY() > 0 || b.getBlockBoundsMinZ() > 0 ||
 					b.getBlockBoundsMaxX() < 1 || b.getBlockBoundsMaxY() < 1 || b.getBlockBoundsMaxZ() < 1) {
 				world.setBlockToAir(x, y, z);
 				return;

@@ -1,15 +1,189 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import java.util.List;
+
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.packet.NBTPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.INBTPacketReceiver;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneConsole extends TileEntity {
+public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver {
+	
+	public int centerX;
+	public int centerY;
+	public int centerZ;
+	
+	public int spanF;
+	public int spanB;
+	public int spanL;
+	public int spanR;
+	
+	public int height;
+	
+	public boolean setUpCrane = false;
+
+	public double lastTiltFront = 0;
+	public double lastTiltLeft = 0;
+	public double tiltFront = 0;
+	public double tiltLeft = 0;
+
+	public double lastPosFront = 0;
+	public double lastPosLeft = 0;
+	public double posFront = 0;
+	public double posLeft = 0;
+	private static final double speed = 0.05D;
+	
+	private boolean goesDown = false;
+	public double lastProgress = 1D;
+	public double progress = 1D;
+
+	@Override
+	public void updateEntity() {
+		
+		if(worldObj.isRemote) {
+			lastTiltFront = tiltFront;
+			lastTiltLeft = tiltLeft;
+			lastPosFront = posFront;
+			lastPosLeft = posLeft;
+			lastProgress = progress;
+		}
+		
+		if(goesDown) {
+			
+			if(progress > 0) {
+				progress -= 0.04D;
+			} else {
+				progress = 0;
+				goesDown = false;
+			}
+		} else if(progress != 1) {
+			
+			progress += 0.04D;
+			
+			if(progress > 1D) {
+				progress = 1D;
+			}
+		}
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
+		double minX = xCoord + 0.5 - side.offsetX * 1.5;
+		double maxX = xCoord + 0.5 + side.offsetX * 1.5 + dir.offsetX * 2;
+		double minZ = zCoord + 0.5 - side.offsetZ * 1.5;
+		double maxZ = zCoord + 0.5 + side.offsetZ * 1.5 + dir.offsetZ * 2;
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
+				Math.min(minX, maxX),
+				yCoord,
+				Math.min(minZ, maxZ),
+				Math.max(minX, maxX),
+				yCoord + 2,
+				Math.max(minZ, maxZ)));
+		tiltFront = 0;
+		tiltLeft = 0;
+		
+		if(players.size() > 0 && progress == 1D) {
+			EntityPlayer player = players.get(0);
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			boolean up = props.getKeyPressed(EnumKeybind.CRANE_UP);
+			boolean down = props.getKeyPressed(EnumKeybind.CRANE_DOWN);
+			boolean left = props.getKeyPressed(EnumKeybind.CRANE_LEFT);
+			boolean right = props.getKeyPressed(EnumKeybind.CRANE_RIGHT);
+			
+			if(up && !down) {
+				tiltFront = 30;
+				posFront += speed;
+			}
+			if(!up && down) {
+				tiltFront = -30;
+				posFront -= speed;
+			}
+			if(left && !right) {
+				tiltLeft = 30;
+				posLeft += speed;
+			}
+			if(!left && right) {
+				tiltLeft = -30;
+				posLeft -= speed;
+			}
+			
+			if(props.getKeyPressed(EnumKeybind.CRANE_LOAD)) {
+				goesDown = true;
+			}
+		}
+
+		if(posFront > spanF)
+			posFront = spanF;
+		if(posFront < -spanB)
+			posFront = -spanB;
+		if(posLeft > spanL)
+			posLeft = spanL;
+		if(posLeft < -spanR)
+			posLeft = -spanR;
+		
+		if(!worldObj.isRemote) {
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("crane", setUpCrane);
+			
+			if(setUpCrane) { //no need to send any of this if there's NO FUCKING CRANE THERE
+				nbt.setInteger("centerX", centerX);
+				nbt.setInteger("centerY", centerY);
+				nbt.setInteger("centerZ", centerZ);
+				nbt.setInteger("spanF", spanF);
+				nbt.setInteger("spanB", spanB);
+				nbt.setInteger("spanL", spanL);
+				nbt.setInteger("spanR", spanR);
+				nbt.setInteger("height", height);
+				nbt.setInteger("height", height);
+			}
+			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.setUpCrane = nbt.getBoolean("crane");
+		this.centerX = nbt.getInteger("centerX");
+		this.centerY = nbt.getInteger("centerY");
+		this.centerZ = nbt.getInteger("centerZ");
+		this.spanF = nbt.getInteger("spanF");
+		this.spanB = nbt.getInteger("spanB");
+		this.spanL = nbt.getInteger("spanL");
+		this.spanR = nbt.getInteger("spanR");
+		this.height = nbt.getInteger("height");
+	}
+	
+	public void setTarget(int x, int y, int z) {
+		this.centerX = x;
+		this.centerY = y + 5;
+		this.centerZ = z;
+
+		this.spanF = 7;
+		this.spanB = 7;
+		this.spanL = 7;
+		this.spanR = 7;
+		
+		this.height = 7;
+		this.setUpCrane = true;
+		
+		this.markDirty();
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return AxisAlignedBB.getBoundingBox(xCoord - 1.5, yCoord, zCoord - 1.5, xCoord + 2.5, yCoord + 1.5, zCoord + 2.5);
+		return this.INFINITE_EXTENT_AABB;
 	}
 	
 	@Override
