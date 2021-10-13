@@ -11,17 +11,26 @@ public class MaterialGas extends Material {
 		this.setReplaceable();
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> master
 	public boolean isSolid() {
 		return true;
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> master
 	public boolean getCanBlockGrass() {
 		return false;
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> master
 	public boolean blocksMovement() {
 		return false;
 	}

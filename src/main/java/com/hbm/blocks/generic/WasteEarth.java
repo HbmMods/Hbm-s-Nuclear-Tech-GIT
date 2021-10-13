@@ -22,7 +22,11 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class WasteEarth extends Block {
 
@@ -91,6 +95,7 @@ public class WasteEarth extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
+<<<<<<< HEAD
 
 		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0) {
 			Block b0;
@@ -109,6 +114,9 @@ public class WasteEarth extends Block {
 				world.setBlock(x, y + 1, z, ModBlocks.mush);
 		}
 
+=======
+		
+>>>>>>> master
 		if(this == ModBlocks.waste_mycelium && GeneralConfig.enableMycelium) {
 			for(int i = -1; i < 2; i++) {
 				for(int j = -1; j < 2; j++) {
@@ -121,6 +129,7 @@ public class WasteEarth extends Block {
 					}
 				}
 			}
+<<<<<<< HEAD
 
 			if(rand.nextInt(10) == 0) {
 				Block b0;
@@ -151,5 +160,30 @@ public class WasteEarth extends Block {
 		if(GeneralConfig.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
 			if(!world.isRemote)
 				world.setBlock(x, y, z, Blocks.dirt);
+=======
+		}
+
+		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {
+			
+			if(GeneralConfig.enableAutoCleanup || (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)) {
+				world.setBlock(x, y, z, Blocks.dirt);
+				
+			}
+			
+			if(world.getBlock(x, y + 1, z) instanceof BlockMushroom) {
+				world.setBlock(x, y + 1, z, ModBlocks.mush);
+			}
+		}
+	}
+	
+	@Override
+	public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable) {
+		
+		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {
+			return plantable.getPlantType(world, x, y, z) == EnumPlantType.Cave;
+		}
+		
+		return false;
+>>>>>>> master
 	}
 }

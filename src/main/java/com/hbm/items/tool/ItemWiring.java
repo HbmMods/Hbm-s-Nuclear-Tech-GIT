@@ -42,8 +42,13 @@ public class ItemWiring extends Item {
 						TileEntityPylonRedWire first = (TileEntityPylonRedWire) world.getTileEntity(x1, y1, z1);
 						TileEntityPylonRedWire second = ((TileEntityPylonRedWire) te);
 						
+<<<<<<< HEAD
 						first.connected.add(second);
 						second.connected.add(first);
+=======
+						first.addTileEntityBasedOnCoords(x, y, z);
+						second.addTileEntityBasedOnCoords(x1, y1, z1);
+>>>>>>> master
 						first.markDirty();
 						second.markDirty();
 

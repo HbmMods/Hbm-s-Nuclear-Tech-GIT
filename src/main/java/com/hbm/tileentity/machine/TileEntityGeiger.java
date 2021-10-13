@@ -3,8 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.saveddata.RadiationSavedData;
-
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 
@@ -56,12 +55,7 @@ public class TileEntityGeiger extends TileEntity {
 	}
 
 	public int check() {
-		
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-		
-		Chunk chunk = worldObj.getChunkFromBlockCoords(xCoord, zCoord);
-		int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
-		
+		int rads = (int)Math.ceil(ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord));
 		return rads;
 	}
 

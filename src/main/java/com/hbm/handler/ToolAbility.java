@@ -9,9 +9,15 @@ import java.util.Set;
 import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+<<<<<<< HEAD
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.ShredderRecipes;
+=======
+import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
+>>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.util.EnchantmentUtil;

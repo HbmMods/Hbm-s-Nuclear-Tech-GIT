@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
@@ -40,7 +42,7 @@ public class ExplosionHurtUtil {
 			double interpolation = 1 - (dist / radius);
 			float rad = (float) (outer + (inner - outer) * interpolation);
 			
-			ContaminationUtil.applyRadData(entity, rad);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}
 	}
 	public static void doDigamma(World world, double x, double y, double z, float outer, float inner, double radius)

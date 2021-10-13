@@ -11,7 +11,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
+<<<<<<< HEAD
 public class BlockLithium extends Block implements IItemHazard {
+=======
+public class BlockLithium extends BlockBeaconable implements IItemHazard {
+>>>>>>> master
 
 	ItemHazardModule module;
 

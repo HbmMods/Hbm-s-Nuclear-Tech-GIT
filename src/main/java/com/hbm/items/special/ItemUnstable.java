@@ -51,6 +51,8 @@ public class ItemUnstable extends Item {
     		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, radius, entity.posX, entity.posY, entity.posZ));
     		world.playSoundAtEntity(entity, "hbm:entity.oldExplosion", 1.0F, 1.0F);
     		entity.attackEntityFrom(ModDamageSource.nuclearBlast, 10000);
+    		
+    		stack.stackSize = 0;
     	}
     }
     

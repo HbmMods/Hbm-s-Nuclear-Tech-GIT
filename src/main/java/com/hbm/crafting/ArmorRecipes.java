@@ -182,3 +182,5 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "M M", "MPM", 'M', material, 'P', priorTier[3] });
 	}
 }
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.robes_boots, 1), new Object[] { "R R", "P P", 'R', ModItems.rag, 'P', ModItems.plate_polymer });

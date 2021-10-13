@@ -23,6 +23,7 @@ public class EntityMinerRocket extends Entity {
 	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(16, Integer.valueOf(0));
+		this.dataWatcher.addObject(17, Integer.valueOf(0));
 	}
 	
 	@Override
@@ -83,12 +84,14 @@ public class EntityMinerRocket extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		dataWatcher.updateObject(16, nbt.getInteger("mode"));
+		dataWatcher.updateObject(17, nbt.getInteger("sat"));
 		timer = nbt.getInteger("timer");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("mode", dataWatcher.getWatchableObjectInt(16));
+		nbt.setInteger("sat", dataWatcher.getWatchableObjectInt(17));
 		nbt.setInteger("timer", timer);
 	}
 

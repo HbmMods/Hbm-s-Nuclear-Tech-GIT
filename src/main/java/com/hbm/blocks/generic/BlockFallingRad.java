@@ -2,8 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.saveddata.RadiationSavedData;
-
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
@@ -15,31 +14,27 @@ public class BlockFallingRad extends BlockFalling {
 
 	public BlockFallingRad(Material mat, float rad, float max) {
 		super(mat);
-	    this.setTickRandomly(true);
-	    radIn = rad;
-	    radMax = max;
+		this.setTickRandomly(true);
+		radIn = rad;
+		radMax = max;
 	}
-	
-    @Override
-	public void updateTick(World world, int x, int y, int z, Random rand)
-    {
-    	super.updateTick(world, x, y, z, rand);
-        
-        RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
 
-        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-    }
-    
-    @Override
-    public int tickRate(World world) {
-    	
-    	return 20;
-    }
-    
-    public void onBlockAdded(World world, int x, int y, int z)
-    {
-        super.onBlockAdded(world, x, y, z);
-        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-    }
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		super.updateTick(world, x, y, z, rand);
+		ChunkRadiationManager.proxy.incrementRad(world, x, y, z, radIn);
+
+		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+	}
+
+	@Override
+	public int tickRate(World world) {
+		return 20;
+	}
+
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+	}
 
 }

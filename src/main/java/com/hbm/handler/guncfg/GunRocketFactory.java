@@ -2,6 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -146,6 +147,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_ERROR);
 		config.durability = 500;
 		
 		return config;
@@ -354,7 +356,7 @@ public class GunRocketFactory {
 		bullet.incendiary = 5;
 		bullet.trail = 9;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
 		return bullet;
 	}
@@ -393,5 +395,53 @@ public class GunRocketFactory {
 		
 		return bullet;
 	}
+	
+	public static BulletConfiguration getRocketErrorConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_digamma;
+		bullet.velocity = 0.5F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 35;
+		bullet.explosive = 0;
+		bullet.incendiary = 0;
+		bullet.trail = 7;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
 
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				EntitySpear spear = new EntitySpear(bullet.worldObj);
+				spear.posX = bullet.posX;
+				spear.posZ = bullet.posZ;
+				spear.posY = bullet.posY + 100;
+				
+				bullet.worldObj.spawnEntityInWorld(spear);
+				
+				/*for(int i = 0; i < 250; i++) {
+
+					double ix = bullet.posX + bullet.worldObj.rand.nextGaussian() * 15;
+					double iy = bullet.posY + bullet.worldObj.rand.nextGaussian() * 2;
+					double iz = bullet.posZ + bullet.worldObj.rand.nextGaussian() * 15;
+					
+					ExAttrib at = Vec3.createVectorHelper(ix - bullet.posX, 0, iz - bullet.posZ).lengthVector() < 20 ? ExAttrib.DIGAMMA_CIRCUIT : ExAttrib.DIGAMMA;
+					
+					new ExplosionNT(bullet.worldObj, bullet, ix, iy, iz, 7.5F)
+					.addAttrib(ExAttrib.NOHURT)
+					.addAttrib(ExAttrib.NOPARTICLE)
+					.addAttrib(ExAttrib.NODROP)
+					.addAttrib(ExAttrib.NOSOUND)
+					.addAttrib(at).explode();
+				}*/
+			}
+		};
+		
+		return bullet;
+	}
 }

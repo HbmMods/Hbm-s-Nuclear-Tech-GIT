@@ -102,15 +102,9 @@ public class ItemAnalyzer extends Item {
 				
 				if(te instanceof TileEntityPylonRedWire) {
 					
-					player.addChatMessage(new ChatComponentText(
-							"Connections:"));
-					
-					List<TileEntityPylonRedWire> connections = ((TileEntityPylonRedWire)te).connected;
-					
-					for(int i = 0; i < connections.size(); i++) {
-						player.addChatMessage(new ChatComponentText(
-								" *" + connections.get(i).xCoord + " / " + connections.get(i).yCoord + " / " + connections.get(i).zCoord));
-					}
+					/**
+					 * this is a smoldering crater
+					 */
 				}
 				
 				if(te instanceof TileEntityLockableBase) {

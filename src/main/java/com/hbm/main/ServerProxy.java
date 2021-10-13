@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.sound.AudioWrapper;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -26,6 +27,9 @@ public abstract class ServerProxy {
 	
 	public abstract void playSound(String sound, Object data);
 	
+	public boolean isVanished(Entity e) {
+		return false;
+	}
 	public abstract void displayTooltip(String msg);
 	
 	public abstract boolean getIsKeyPressed(EnumKeybind key);

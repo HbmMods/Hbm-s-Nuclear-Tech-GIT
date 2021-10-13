@@ -53,30 +53,38 @@ public class ItemCustomMissile extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
-		ItemMissile chip = (ItemMissile) Item.getItemById(readFromNBT(stack, "chip"));
-		ItemMissile warhead = (ItemMissile) Item.getItemById(readFromNBT(stack, "warhead"));
-		ItemMissile fuselage = (ItemMissile) Item.getItemById(readFromNBT(stack, "fuselage"));
-		ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
-		ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
-
-		list.add(EnumChatFormatting.BOLD + "Warhead: " + EnumChatFormatting.GRAY + warhead.getWarhead((WarheadType)warhead.attributes[0]));
-		list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)warhead.attributes[1]);
-		list.add(EnumChatFormatting.BOLD + "Fuel Type: " + EnumChatFormatting.GRAY + fuselage.getFuel((FuelType)fuselage.attributes[0]));
-		list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)fuselage.attributes[1] + "l");
-		list.add(EnumChatFormatting.BOLD + "Chip inaccuracy: " + EnumChatFormatting.GRAY + (Float)chip.attributes[0] * 100 + "%");
+		if(!stack.hasTagCompound())
+			return;
 		
-		if(stability != null)
-			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + (Float)stability.attributes[0] * 100 + "%");
-		else
-			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + "100%");
-		
-		list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + fuselage.getSize(fuselage.top) + "/" + fuselage.getSize(fuselage.bottom));
-		
-		float health = warhead.health + fuselage.health + thruster.health;
-		if(stability != null)
-			health += stability.health;
-
-		list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
+		try {
+			ItemMissile chip = (ItemMissile) Item.getItemById(readFromNBT(stack, "chip"));
+			ItemMissile warhead = (ItemMissile) Item.getItemById(readFromNBT(stack, "warhead"));
+			ItemMissile fuselage = (ItemMissile) Item.getItemById(readFromNBT(stack, "fuselage"));
+			ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
+			ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
+	
+			list.add(EnumChatFormatting.BOLD + "Warhead: " + EnumChatFormatting.GRAY + warhead.getWarhead((WarheadType)warhead.attributes[0]));
+			list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)warhead.attributes[1]);
+			list.add(EnumChatFormatting.BOLD + "Fuel Type: " + EnumChatFormatting.GRAY + fuselage.getFuel((FuelType)fuselage.attributes[0]));
+			list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)fuselage.attributes[1] + "l");
+			list.add(EnumChatFormatting.BOLD + "Chip inaccuracy: " + EnumChatFormatting.GRAY + (Float)chip.attributes[0] * 100 + "%");
+			
+			if(stability != null)
+				list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + (Float)stability.attributes[0] * 100 + "%");
+			else
+				list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + "100%");
+			
+			list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + fuselage.getSize(fuselage.top) + "/" + fuselage.getSize(fuselage.bottom));
+			
+			float health = warhead.health + fuselage.health + thruster.health;
+			if(stability != null)
+				health += stability.health;
+	
+			list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
+			
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "### I AM ERROR ###");
+		}
 	}
 	
 	public static MissileStruct getStruct(ItemStack stack) {

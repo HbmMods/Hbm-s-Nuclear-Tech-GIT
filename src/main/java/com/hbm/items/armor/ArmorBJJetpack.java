@@ -3,12 +3,19 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
+<<<<<<< HEAD
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelArmorBJ;
+=======
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.model.ModelArmorBJ;
+import com.hbm.util.ArmorUtil;
+>>>>>>> master
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -49,6 +56,7 @@ public class ArmorBJJetpack extends ArmorBJ {
 		
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
+<<<<<<< HEAD
 		if(world.isRemote) {
 			
 			if(player == MainRegistry.proxy.me()) {
@@ -70,12 +78,28 @@ public class ArmorBJJetpack extends ArmorBJ {
 	    		data.setString("type", "jetpack_bj");
 	    		data.setInteger("player", player.getEntityId());
 	    		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+=======
+		if(!world.isRemote) {
+			
+			if(this.hasFSBArmor(player) && props.isJetpackActive()) {
+
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "jetpack_bj");
+				data.setInteger("player", player.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+>>>>>>> master
 			}
 		}
 
 		if(this.hasFSBArmor(player)) {
 			
+<<<<<<< HEAD
 			if(props.getKeyPressed(EnumKeybind.JETPACK)) {
+=======
+			ArmorUtil.resetFlightTime(player);
+			
+			if(props.isJetpackActive()) {
+>>>>>>> master
 				
 				if(player.motionY < 0.4D)
 					player.motionY += 0.1D;

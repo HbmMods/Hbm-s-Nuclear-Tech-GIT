@@ -10,6 +10,8 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.HbmCollection;
 import com.hbm.util.I18nUtil;
 
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
@@ -76,7 +78,19 @@ public class ItemFluidIcon extends Item {
 		
 		stack.getTagCompound().setInteger("fill", i);
 		
-		return stack.copy();
+		return stack;
+	}
+	
+	public static ItemStack make(FluidType fluid, int i) {
+		return addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i);
+	}
+	
+	public static int getQuantity(ItemStack stack) {
+		
+		if(!stack.hasTagCompound())
+			return 0;
+		
+		return stack.getTagCompound().getInteger("fill");
 	}
 
     public String getItemStackDisplayName(ItemStack stack)

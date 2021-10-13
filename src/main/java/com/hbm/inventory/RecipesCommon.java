@@ -1,11 +1,15 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.items.ModItems;
 
+import com.hbm.main.MainRegistry;
+
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -55,6 +59,8 @@ public class RecipesCommon {
 		
 		/*
 		 * Is it unprofessional to pool around in child classes from an abstract superclass? Do I look like I give a shit?
+		 * 
+		 * Major fuckup: comparablestacks need EQUAL stacksize but the oredictstack ignores stack size entirely
 		 */
 		public boolean isApplicable(ComparableStack comp) {
 			
@@ -89,7 +95,21 @@ public class RecipesCommon {
 					new ItemStack(ModItems.nothing).setStackDisplayName("Error occurred when retrieving itemstack");
 		}
 		
+		/**
+		 * Whether the supplied itemstack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
+		 * @param stack the ItemStack to check
+		 * @param ignoreSize whether size should be ignored entirely or if the ItemStack needs to be >at least< the same size as this' size
+		 * @return
+		 */
+		public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
+		
 		public abstract AStack copy();
+		
+		/**
+		 * Generates either an ItemStack or an ArrayList of ItemStacks
+		 * @return
+		 */
+		public abstract List<ItemStack> extractForNEI();
 	}
 	
 	public static class ComparableStack extends AStack {
@@ -172,6 +192,21 @@ public class RecipesCommon {
 		
 		@Override
 		public int hashCode() {
+			
+			if(item == null) {
+				MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
+				Thread.currentThread().dumpStack();
+				item = Items.stick;
+			}
+			
+			String name = Item.itemRegistry.getNameForObject(item);
+			
+			if(name == null) {
+				MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen?");
+				Thread.currentThread().dumpStack();
+				item = Items.stick; //we know sticks have a name, so sure, why not
+			}
+			
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + Item.itemRegistry.getNameForObject(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
@@ -234,6 +269,29 @@ public class RecipesCommon {
 		@Override
 		public ComparableStack copy() {
 			return new ComparableStack(item, stacksize, meta);
+		}
+
+		@Override
+		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
+			
+			if(stack == null)
+				return false;
+			
+			if(stack.getItem() != this.item)
+				return false;
+			
+			if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta)
+				return false;
+			
+			if(!ignoreSize && stack.stackSize < this.stacksize)
+				return false;
+			
+			return true;
+		}
+
+		@Override
+		public List<ItemStack> extractForNEI() {
+			return Arrays.asList(new ItemStack[] {this.toStack()});
 		}
 	}
 	
@@ -330,6 +388,39 @@ public class RecipesCommon {
 		@Override
 		public AStack copy() {
 			return new OreDictStack(name, stacksize);
+		}
+
+		@Override
+		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
+			
+			if(stack == null)
+				return false;
+			
+			if(!ignoreSize && stack.stackSize < this.stacksize)
+				return false;
+			
+			int[] ids = OreDictionary.getOreIDs(stack);
+			
+			if(ids == null || ids.length == 0)
+				return false;
+			
+			for(int i = 0; i < ids.length; i++) {
+				if(this.name.equals(OreDictionary.getOreName(ids[i])))
+					return true;
+			}
+			
+			return false;
+		}
+
+		@Override
+		public List<ItemStack> extractForNEI() {
+			
+			List<ItemStack> ores = OreDictionary.getOres(name);
+			
+			for(ItemStack stack : ores)
+				stack.stackSize = this.stacksize;
+			
+			return ores;
 		}
 	}
 	/**

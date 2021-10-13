@@ -1,7 +1,10 @@
 package com.hbm.items.weapon;
 
 import java.util.List;
+import java.util.Random;
 
+import com.hbm.handler.indexing.AmmoIndex;
+import com.hbm.handler.indexing.AmmoIndex.AmmoTrait;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import com.hbm.items.special.ItemStarterKit.KitType;

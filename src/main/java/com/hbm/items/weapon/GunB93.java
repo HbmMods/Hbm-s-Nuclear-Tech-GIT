@@ -94,19 +94,9 @@ public class GunB93 extends Item {
 					setPower(stack, 0);
 					
 			    	if(!world.isRemote) {
-			    		world.playSoundEffect(entity.posX, entity.posY, entity.posZ,
-								"random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-
-						EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(world);
-						exp.posX = entity.posX;
-						exp.posY = entity.posY;
-						exp.posZ = entity.posZ;
-						exp.destructionRange = 50;
-						exp.speed = 25;
-						exp.coefficient = 1.0F;
-						exp.waste = false;
-
-						world.spawnEntityInWorld(exp);
+			    		world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+			    		
+						world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, entity.posX, entity.posY, entity.posZ, 50));
 			    		
 			    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 50);
 			    		cloud.posX = entity.posX;

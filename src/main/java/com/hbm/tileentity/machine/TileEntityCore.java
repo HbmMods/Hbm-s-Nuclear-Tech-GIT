@@ -13,6 +13,8 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,24 +54,14 @@ public class TileEntityCore extends TileEntityMachineBase {
 				
 				//System.out.println(fill + " * " + mod + " / " + max + " = " + size);
 
-	    		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
-
-				EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(worldObj);
-				exp.posX = xCoord;
-				exp.posY = yCoord;
-				exp.posZ = zCoord;
-				exp.destructionRange = size;
-				exp.speed = 25;
-				exp.coefficient = 1.0F;
-				exp.waste = false;
-
-				worldObj.spawnEntityInWorld(exp);
-	    		
-	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
-	    		cloud.posX = xCoord;
-	    		cloud.posY = yCoord;
-	    		cloud.posZ = zCoord;
-	    		worldObj.spawnEntityInWorld(cloud);
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, size));
+				
+				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
+				cloud.posX = xCoord;
+				cloud.posY = yCoord;
+				cloud.posZ = zCoord;
+				worldObj.spawnEntityInWorld(cloud);
 			}
 			
 			if(slots[0] != null && slots[2] != null && slots[0].getItem() instanceof ItemCatalyst && slots[2].getItem() instanceof ItemCatalyst)
@@ -262,5 +254,29 @@ public class TileEntityCore extends TileEntityMachineBase {
 		tanks[0].writeToNBT(nbt, "fuel1");
 		tanks[1].writeToNBT(nbt, "fuel2");
 	}
-
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord + 0.5 - 4,
+					yCoord + 0.5 - 4,
+					zCoord + 0.5 - 4,
+					xCoord + 0.5 + 5,
+					yCoord + 0.5 + 5,
+					zCoord + 0.5 + 5
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
 }

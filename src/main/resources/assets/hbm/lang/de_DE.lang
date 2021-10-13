@@ -10,6 +10,11 @@ achievement.bossMeltdown.desc=Mehr schlecht als recht, aber was will man machen.
 achievement.bossMeltdown=3,6 Röntgen
 achievement.bossWorm.desc=Der Fabstaff. Mein Arsch. Jetzt fang an zu rechnen.
 achievement.bossWorm=Disassembling Balls-O-Tron
+<<<<<<< HEAD
+=======
+achievement.bossUFO.desc=Yo, what do we have here? A huge spacecraft pulling up to the bloockship?
+achievement.bossUFO=Ayy Lmao
+>>>>>>> master
 achievement.c20_5.desc=???
 achievement.c20_5=Kapitel [ZWANZIG KOMMA FÜNF]
 achievement.c44.desc=Galvanisch verzinkt! ...das macht in der Übersetzung sowas von keinen Sinn.
@@ -24,8 +29,13 @@ achievement.digammaKnow.desc=what this world is about.
 achievement.digammaKnow=The Terror of Knowing
 achievement.digammaSee.desc=into the abyss.
 achievement.digammaSee=The Terror of Seeing
+<<<<<<< HEAD
 achievement.diigammaUpOnTop.desc=Fürchtenichts, eisenbeschlagen.
 achievement.diigammaUpOnTop=An der Spitze
+=======
+achievement.digammaUpOnTop.desc=Bewundere meinen Sohn, er ist mein Klon.
+achievement.digammaUpOnTop=Bewundere mich, bewundere mein Heim
+>>>>>>> master
 achievement.fiend.desc=Sei gemein.
 achievement.fiend2.desc=Sei gemeiner.
 achievement.fiend2=Unhold 2: Noch unholdiger
@@ -56,6 +66,11 @@ achievement.potato.desc=Du stichst mich! Was soll denn das?
 achievement.potato=Machtgeile KI
 achievement.radDeath.desc=Marie Curie entdeckte den Nutzen der radioaktiven Strahlung, sowie den Tod durch radioaktive Strahlung.
 achievement.radDeath=Au, Strahlung!
+<<<<<<< HEAD
+=======
+achievement.radium.desc=SIE SIND GEFEUERT WEIL SIE RADIUM IN MEINEN KAFFEE GESCHÜTTET HABEN
+achievement.radium=MISTER UNGLAUBLICH
+>>>>>>> master
 achievement.radPoison.desc=Leide an Strahlenkrankheit.
 achievement.radPoison=Yay, Strahlung!
 achievement.sacrifice.desc=Sterbe im Feuer, aber irgendwie auch nicht.
@@ -64,6 +79,11 @@ achievement.selenium.desc=Lange nicht gesehen!
 achievement.selenium=Und täglich grüßt der Mond
 achievement.stratum.desc=Steig' auf die Bremse, Mitts.
 achievement.stratum=Stratum
+<<<<<<< HEAD
+=======
+achievement.someWounds.desc=Bereite dich vor
+achievement.someWounds=Manche Wunden heilen nie
+>>>>>>> master
 achievement.soyuz.desc=Werde knusprig
 achievement.soyuz=Gebackene Kartoffel
 achievement.space.desc=Scheitere in jeder möglichen Weise und verschwende 90 Millionen Dollar an Forschungsgeldern.
@@ -75,6 +95,11 @@ armor.blastProtection=Explosionsmodifikator: %s
 armor.cap=Schadensobergrenze: %s
 armor.damageModifier=Modifikator: %s (%s)
 armor.electricJetpack=Ionentriebwerke
+<<<<<<< HEAD
+=======
+armor.explosionImmune=Kann nur Schaden durch Explosionen nehmen
+armor.fastFall=Schneller Fall
+>>>>>>> master
 armor.fireproof=Feuerfest
 armor.fullSetBonus=Set-Bonus:
 armor.geigerHUD=Geigerzähler-HUD
@@ -82,8 +107,17 @@ armor.geigerSound=Akustischer Geigerzähler
 armor.glider=Schleichen um zu gleiten
 armor.gravity=Schwerkraftsmodifikator: %s
 armor.hardLanding=Harte Landung
+<<<<<<< HEAD
 armor.modifier=Genereller Schadensmodifikator: %s
 armor.nullDamage=Nichtet Schaden von %s
+=======
+armor.ignoreLimit=Resistenz ist nicht limitiert
+armor.modifier=Genereller Schadensmodifikator: %s
+armor.nullDamage=Nichtet Schaden von %s
+armor.projectileProtection=Projektilmodifikator: %s
+armor.rocketBoots=Rocket boots
+armor.sprintBoost=Verstärkter Sprint
+>>>>>>> master
 armor.thermal=Wärmebildkamera
 armor.threshold=Schadensschwelle: %s
 armor.vats=Feinde-HUD
@@ -101,7 +135,15 @@ chem.CC_NAPHTHA=Naphtha-Kohleverflüssigung
 chem.CC_OIL=Kohleverflüssigung
 chem.CIRCUIT_4=Überstaktete Schaltkreisherstellung
 chem.CIRCUIT_5=Leistungsstarke Schaltkreisherstellung
+<<<<<<< HEAD
 chem.CONCRETE=Betonherstellung
+=======
+chem.COLTAN_CLEANING=Coltanreinigung
+chem.COLTAN_CRYSTAL=Tantal-Kristallisierung
+chem.COLTAN_PAIN=Pandemonium(III)tantalit-Herstellung
+chem.CONCRETE=Betonherstellung
+chem.CONCRETE_ASBESTOS=Asbestbetonherstellung
+>>>>>>> master
 chem.COOLANT=Kühlflüssigkeit mischen
 chem.CORDITE=Korditherstellung
 chem.CRYOGEL=Kryogel mischen
@@ -122,7 +164,13 @@ chem.FP_NAPHTHA=Mitteldestillatsverarbeitung
 chem.FP_SMEAR=Industrieölverarbeitung
 chem.FR_PETROIL=Gemischherstellung
 chem.FR_REOIL=Öl-Wiederaufbereitung
+<<<<<<< HEAD
 chem.KEVLAR=Kevlarverbundherstellung
+=======
+chem.GASOLINE=Benzinherstellung
+chem.KEVLAR=Kevlarverbundherstellung
+chem.LPG=Petroleumgasverflüssigung
+>>>>>>> master
 chem.NITAN=NITAN-Supertreibstoff mischen
 chem.OIL_SAND=Teersand-Extraktion
 chem.PEROXIDE=Wasserstoffperoxidherstellung
@@ -149,19 +197,38 @@ chem.SF_RECLAIMED=Verfestigung von wiederaufbereitetem Industrieöl
 chem.SF_SMEAR=Industrieölverfestigung
 chem.SOLID_FUEL=Festbrennstoffherstellung
 chem.STEAM=Wasser kochen
+<<<<<<< HEAD
 chem.TEST=Test
 chem.UF6=Uranhexafluoridproduktion
+=======
+chem.TEL=TEL mischen
+chem.TEST=Test
+chem.UF6=Uranhexafluoridproduktion
+chem.VIT_GAS=Gas-Atommüllvitrifizierung
+chem.VIT_LIQUID=Flüssig-Atommüllvitrifizierung
+>>>>>>> master
 chem.XENON=Lindeverfahren (Xenon)
 chem.XENON_OXY=Verbessertes Lindeverfahren (Xenon)
 chem.YELLOWCAKE=Yellowcakeproduktion
 
+<<<<<<< HEAD
 container.amsBase=AMS-Basis [WIP]
 container.amsEmitter=AMS-Emitter [WIP]
 container.amsLimiter=AMS-Stabilisator [WIP]
+=======
+container.amsBase=AMS-Basis (Deko)
+container.amsEmitter=AMS-Emitter (Deko)
+container.amsLimiter=AMS-Stabilisator (Deko)
+container.anvil=Stufe %s Amboss
+>>>>>>> master
 container.arcFurnace=Lichtbogenofen
 container.armorTable=Rüstungsmodifikationstisch
 container.assembler=Fertigungsmaschine
 container.barrel=Fass
+<<<<<<< HEAD
+=======
+container.bat9000=Big-Ass Tank 9000
+>>>>>>> master
 container.battery=Energiespeicher
 container.bombMulti=Mehrzweckbombe
 container.centrifuge=Zentrifuge
@@ -184,6 +251,10 @@ container.factoryAdvanced=Fortgeschrittene Fabrik
 container.factoryTitanium=Einfache Fabrik
 container.fluidtank=Tank
 container.forceField=Kraftfeldgenerator
+<<<<<<< HEAD
+=======
+container.frackingTower=Hydraulischer Frackingturm
+>>>>>>> master
 container.fusionMultiblock=Großer Fusionsreaktor
 container.fusionaryWatzPlant=Fusionares Watzwerk
 container.gasCentrifuge=Gaszentrifuge
@@ -227,6 +298,10 @@ container.nukePrototype=Der Prototyp
 container.nukeSolinium=Die Blauspülung
 container.nukeTsar=Tsar Bombe
 container.oilWell=Ölbohrturm
+<<<<<<< HEAD
+=======
+container.orbus=Schwerer Magnetischer Lagerbehälter
+>>>>>>> master
 container.plasmaHeater=Plasmaerhitzer
 container.press=Befeuerte Presse
 container.puf6_tank=PuF6 Tank
@@ -235,6 +310,15 @@ container.radGen=Strahlenbetriebener Generator
 container.radar=Radar
 container.radiobox=UKW-Sender
 container.radiorec=UKW Radio
+<<<<<<< HEAD
+=======
+container.rbmkBoiler=RBMK Dampfkanal
+container.rbmkControl=RBMK Steuerstäbe
+container.rbmkControlAuto=RBMK Automatische Steuerstäbe
+container.rbmkOutgasser=RBMK Bestrahlungskanal
+container.rbmkReaSim=RBMK Brennstäbe (ReaSim)
+container.rbmkRod=RBMK Brennstäbe
+>>>>>>> master
 container.reactor=Brutreaktor
 container.reactorControl=Reaktorfernsteuerung
 container.reactorLarge=Großer Atomreaktor
@@ -248,12 +332,23 @@ container.satLinker=SatLink-Gerät
 container.siren=Sirene
 container.soyuzCapsule=Landekapsel
 container.soyuzLauncher=Soyuz-Startplatform
+<<<<<<< HEAD
+=======
+container.storageDrum=Atommüll-Lagertrommel
+>>>>>>> master
 container.teleLinker=TelLink-Gerät
 container.teleporter=Teleporter
 container.turretChekhov=Tschechows Gewehr
 container.turretFriendly=Mister Friendly
+<<<<<<< HEAD
 container.turretHoward=Howard
 container.turretJeremy=Jeremy
+=======
+container.turretFritz=Fritz
+container.turretHoward=Howard
+container.turretJeremy=Jeremy
+container.turretMaxwell=Maxwell
+>>>>>>> master
 container.turretRichard=Richard
 container.turretTauon=Tauon
 container.uf6_tank=UF6 Tank
@@ -283,11 +378,22 @@ death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
 death.attack.euthanizedSelf=%1$s hat sich selbst eingeschläfert, was für ein Vollpfosten.
 death.attack.exhaust=%1$s wurde von einer startenden Rakete verbrutzelt.
 death.attack.flamethrower=%1$s wurde von %2$s gegrillt.
+<<<<<<< HEAD
 death.attack.ice=%1$s wurde von %2$s in ein Eis am Stiel verwandelt.
 death.attack.laser=%1$s wurde von %2$s zerbröselt.
 death.attack.lead=%1$s starb an Bleivergiftung.
 death.attack.lunar=%1$s vergaß lebenswichtige Organe aufzuladen.
 death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
+=======
+death.attack.flamethrower.item=%1$s wurde von %2$s mit %3$s gegrillt.
+death.attack.ice=%1$s wurde von %2$s in ein Eis am Stiel verwandelt.
+death.attack.laser=%1$s wurde von %2$s zerbröselt.
+death.attack.laser.item=%1$s wurde von %2$s mit %3$s zerbröselt.
+death.attack.lead=%1$s starb an Bleivergiftung.
+death.attack.lunar=%1$s vergaß lebenswichtige Organe aufzuladen.
+death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
+death.attack.mku=%1$s starb aus unbekannten Gründen.
+>>>>>>> master
 death.attack.monoxide=%1$s vergaß, die Batterien im Kohlenmonoxid-Detektor auszutauschen.
 death.attack.mudPoisoning=%1$s starb an Giftschlamm.
 death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
@@ -295,14 +401,25 @@ death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.
 death.attack.plasma=%1$s wurde von %2$s eingeäschert.
 death.attack.radiation=%1$s starb an Strahlenvergiftung.
 death.attack.revolverBullet=%1$s wurde von %2$s in den Kopf geschossen.
+<<<<<<< HEAD
 death.attack.rubble=%1$s wurde von Schutt zerquetscht.
 death.attack.shrapnel=%1$s wurde von einem Schrapnell zerfetzt.
 death.attack.spikes=%1$s wurde aufgespießt.
+=======
+death.attack.revolverBullet.item.item=%1$s wurde von %2$s mit %3$s in den Kopf geschossen.
+death.attack.rubble=%1$s wurde von Schutt zerquetscht.
+death.attack.shrapnel=%1$s wurde von einem Schrapnell zerfetzt.
+death.attack.spikes=%1$s wurde aufgespießt.
+death.attack.subAtomic1=%1$s's Atome wurden von %2$s vernichtet.
+>>>>>>> master
 death.attack.subAtomic2=%1$s verließ das QPU-Gitter weil %2$s seine De-Facto-Geschwindigkeit manipulierte.
 death.attack.subAtomic3=%1$s's Divergenzwert fiel wegen %2$s unter 1 Prozent.
 death.attack.subAtomic4=%1$s wurde von %2$s durch null geteilt.
 death.attack.subAtomic5=%1$s wurde von %2$s nullifiziert.
+<<<<<<< HEAD
 death.attack.subAtomic=%1$s's Atome wurden von %2$s vernichtet.
+=======
+>>>>>>> master
 death.attack.suicide=%1$s blies sich die Rübe weg.
 death.attack.taint=%1$s starb an Flux-Tumoren.
 death.attack.tau=%1$s wurde von %2$s mit negativ geladenen Tauonen durchsiebt.
@@ -319,6 +436,10 @@ entity.entity_elder_one.name=Quackos der Älteste
 entity.entity_fucc_a_ducc.name=Ente
 entity.entity_ntm_fbi.name=FBI Agent
 entity.entity_ntm_radiation_blaze.name=Kernschmelze-Elementar
+<<<<<<< HEAD
+=======
+entity.hbm.entity_ntm_ufo.name=Marsianisches Invasionsschiff
+>>>>>>> master
 entity.entity_mob_hunter_chopper.name=Jagdschrauber
 entity.entity_mob_mask_man.name=Maskenmann
 entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
@@ -332,11 +453,22 @@ entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 
 fluid.acid_fluid=Säure
+<<<<<<< HEAD
 fluid.mud_fluid=Giftiger Schlamm
 fluid.schrabidic_fluid=Schrabidische Säure
 fluid.toxic_fluid=Stereotypischer grüner Schleim
 
 geiger.chunkRad=Chunk-Strahlung:
+=======
+fluid.corium_fluid=Corium
+fluid.mud_fluid=Giftiger Schlamm
+fluid.schrabidic_fluid=Schrabidische Säure
+fluid.toxic_fluid=Stereotypischer grüner Schleim
+fluid.volcanic_lava_fluid=Vulkanische Lava
+
+geiger.chunkRad=Chunk-Strahlung:
+geiger.envRad=Gesamte Umgebungsstrahlung:
+>>>>>>> master
 geiger.playerRad=Spieler-Kontaminierung:
 geiger.playerRes=Strahlungsresistenz:
 geiger.title=GEIGERZÄHLER
@@ -354,6 +486,27 @@ hadron.noresult=Kein Ergebnis.
 hadron.progress=Verarbeite...
 hadron.success=Abgeschlossen!
 
+<<<<<<< HEAD
+=======
+hazard.prot=Schützt vor Gefahren:
+hazard.noprot=Schützt NICHT vor:
+hazard.bacteria=Bakterien / Aerosole
+hazard.corrosive=Ätzende Dämpfe
+hazard.gasChlorine=Giftgas
+hazard.gasInert=Träge Gase / Strickgas
+hazard.gasMonoxide=Kohlenstoffmonoxid
+hazard.light=Starkes Licht
+hazard.nerveAgent=Nervengift
+hazard.particleCoarse=Partikel
+hazard.particleFine=Feinstaub
+hazard.sand=Augenreizstoffe
+
+hbm.key=NTM Hotkeys
+hbm.key.toggleBack=Rucksack umschalten
+hbm.key.toggleHUD=HUD umschalten
+hbm.key.reload=Nachladen
+
+>>>>>>> master
 hbmfluid.acid=Wasserstoffperoxid
 hbmfluid.amat=Antimaterie
 hbmfluid.aschrab=Antischrabidium
@@ -365,7 +518,13 @@ hbmfluid.coolant=Kühlflüssigkeit
 hbmfluid.cryogel=Kryogel
 hbmfluid.deuterium=Deuterium
 hbmfluid.diesel=Diesel
+<<<<<<< HEAD
 hbmfluid.gas=Erdgas
+=======
+hbmfluid.fracksol=Frackinglösung
+hbmfluid.gas=Erdgas
+hbmfluid.gasoline=Bleibenzin
+>>>>>>> master
 hbmfluid.heatingoil=Heizöl
 hbmfluid.heavyoil=Schweröl
 hbmfluid.hotoil=Heißes Rohöl
@@ -374,6 +533,10 @@ hbmfluid.hydrogen=Flüssiger Wasserstoff
 hbmfluid.kerosene=Kerosin
 hbmfluid.lava=Lava
 hbmfluid.lightoil=Leichtöl
+<<<<<<< HEAD
+=======
+hbmfluid.lpg=LPG
+>>>>>>> master
 hbmfluid.lubricant=Schmiermittel
 hbmfluid.mercury=Quecksilber
 hbmfluid.naphtha=Mitteldestillat
@@ -381,6 +544,10 @@ hbmfluid.nitan=NITAN© 100 Oktan Supertreibstoff
 hbmfluid.none=Nichts
 hbmfluid.oil=Rohöl
 hbmfluid.oxygen=Flüssiger Sauerstoff
+<<<<<<< HEAD
+=======
+hbmfluid.pain=Pandemonium(III)tantalit-Lösung
+>>>>>>> master
 hbmfluid.petroil=Gemisch
 hbmfluid.petroleum=Petroleumgas
 hbmfluid.plasma_bf=Balefire-Plasma
@@ -393,11 +560,20 @@ hbmfluid.reclaimed=Wiederaufbetreitetes Industrieöl
 hbmfluid.sas3=Schrabidiumtrisulfat
 hbmfluid.schrabidic=Schrabidische Säure
 hbmfluid.smear=Industrieöl
+<<<<<<< HEAD
+=======
+hbmfluid.spentsteam=Niedrigdruckdampf
+>>>>>>> master
 hbmfluid.steam=Dampf
 hbmfluid.superhotsteam=Superverdichteter Dampf
 hbmfluid.tritium=Tritium
 hbmfluid.uf6=Uranhexafluorid
 hbmfluid.ultrahotsteam=Ultraverdichteter Dampf
+<<<<<<< HEAD
+=======
+hbmfluid.wastefluid=Flüssiger Atommüll
+hbmfluid.wastegas=Gasförmiger Atommüll
+>>>>>>> master
 hbmfluid.water=Wasser
 hbmfluid.watz=Giftiger Schlamm
 hbmfluid.xenon=Xenongas
@@ -481,6 +657,12 @@ item.ammo_50bmg_ap.name=.50 BMG Patrone (Panzerbrechend)
 item.ammo_50bmg_chlorophyte.name=.50 BMG Patrone (Grünalgen)
 item.ammo_50bmg_du.name=.50 BMG Patrone (DU)
 item.ammo_50bmg_explosive.name=.50 BMG Patrone (Explosiv)
+<<<<<<< HEAD
+=======
+item.ammo_50bmg_flechette.name=.50 BMG Flechetpatrone
+item.ammo_50bmg_flechette_am.name=.50 BMG Flechetpatrone (Americium)
+item.ammo_50bmg_flechette_po.name=.50 BMG Flechetpatrone (Polonium)
+>>>>>>> master
 item.ammo_50bmg_incendiary.name=.50 BMG Patrone (Brand)
 item.ammo_50bmg_phosphorus.name=.50 BMG Patrone (WP)
 item.ammo_50bmg_sleek.name=.50 BMG Patrone (IF-F&E)
@@ -517,7 +699,15 @@ item.ammo_cell.name=Energiezelle
 item.ammo_container.name=Munitionsbehälter
 item.ammo_dart.name=Plastikdart (Withernd)
 item.ammo_dart_nerf.name=NERF-Dart
+<<<<<<< HEAD
 item.ammo_dgk.name=Goalkeeper-Zwilling CIWS 200er Gürtel
+=======
+item.ammo_dart_nuclear.name=Plastikdart (Zeitbombe)
+item.ammo_dgk.name=Goalkeeper-Zwilling CIWS 200er Gürtel
+item.ammo_fireext.name=Feuerlöscher-Wassertank
+item.ammo_fireext_foam.name=Feuerlöscher-Schaumtank
+item.ammo_fireext_sand.name=Feuerlöscher-Sandtank
+>>>>>>> master
 item.ammo_folly.name=Silbernes Geschoss (Original)
 item.ammo_folly_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
 item.ammo_folly_nuclear.name=Silbernes Geschoss (Atomar)
@@ -550,6 +740,10 @@ item.ammo_nuke_safe.name=Miniatombombe (Sicher)
 item.ammo_nuke_tots.name=Miniatombombe (Kleine Knirpse)
 item.ammo_rocket.name=84mm Rakete
 item.ammo_rocket_canister.name=84mm Rakete (Katusche)
+<<<<<<< HEAD
+=======
+item.ammo_rocket_digamma.name=null
+>>>>>>> master
 item.ammo_rocket_emp.name=84mm Rakete (Impuls)
 item.ammo_rocket_glare.name=84mm Rakete (Roter Schein)
 item.ammo_rocket_he.name=84mm Rakete (HE)
@@ -591,6 +785,10 @@ item.ams_focus_limiter.name=Beschränkender Stabilisierungsfokus
 item.ams_lens.name=Stabilisierer-Linse
 item.ams_muzzle.name=Strahlenemissions-Mündung
 item.analyzer.name=Analysierer
+<<<<<<< HEAD
+=======
+item.antiknock.name=Tetraethyblei-Antiklopfmittel
+>>>>>>> master
 item.apple_euphemium.name=Euphemiumapfel
 item.apple_lead.name=Bleiapfel
 item.apple_schrabidium.name=Schrabidiumapfel
@@ -603,6 +801,10 @@ item.asbestos_cloth.name=Hitzeschutzanzugsstoff
 item.asbestos_helmet.name=Hitzeschutzhelm
 item.asbestos_legs.name=Hitzeschutzhose
 item.asbestos_plate.name=Hitzeschutzbrustplatte
+<<<<<<< HEAD
+=======
+item.ashglasses.name=Aschegläser
+>>>>>>> master
 item.assembly_556.name=5.56mm Patronensatz
 item.assembly_actionexpress.name=.50 AE Patronensatz
 item.assembly_calamity.name=.50 BMG Patronensatz
@@ -621,6 +823,10 @@ item.assembly_steel.name=Bleipatronensatz
 item.assembly_template.name=Fertigungsvorlage:
 item.assembly_uzi.name=.22 LR Patronensatz
 item.attachment_mask.name=Anfügbare Gasmaske
+<<<<<<< HEAD
+=======
+item.attachment_mask_mono.name=Anfügbare Halbmaske
+>>>>>>> master
 item.australium_iii.name=Mark III Lebensverlängerer
 item.australium_iv.name=Mark IV Lebensverlängerer
 item.australium_v.name=Mark V Lebensverlängerer
@@ -647,6 +853,15 @@ item.battery_potatos.name=PotatOS
 item.battery_red_cell.name=Redstone-Energiezelle
 item.battery_red_cell_24.name=24-fache Redstone-Energiezelle
 item.battery_red_cell_6.name=Sechsfache Redstone-Energiezelle
+<<<<<<< HEAD
+=======
+item.battery_sc_americium.name=Americium-241-Selbstlader
+item.battery_sc_gold.name=Gold-198-Selbstlader
+item.battery_sc_plutonium.name=Plutonium-238-Selbstlader
+item.battery_sc_polonium.name=Polonium-210-Selbstlader
+item.battery_sc_technetium.name=Technerium-99-Selbstlader
+item.battery_sc_uranium.name=Uran-238-Selbstlader
+>>>>>>> master
 item.battery_schrabidium.name=Schrabidiumbatterie
 item.battery_schrabidium_cell.name=Schrabidium-Energiezelle
 item.battery_schrabidium_cell_2.name=Doppelte Schrabidium-Energiezelle
@@ -666,6 +881,7 @@ item.battery_su_l.name=Große Einwegbatterie
 item.battery_trixite.name=Billige Spark-Batterie-Nachmache
 item.beta.name=Beta-Features
 item.big_sword.name=Großes Schwert
+<<<<<<< HEAD
 item.billet_mox_fuel.name=MOX-Kernbrennstoffbillet
 item.billet_neptunium.name=Neptuniumbillet
 item.billet_polonium.name=Poloniumbillet
@@ -688,11 +904,66 @@ item.billet_uranium_fuel.name=Urankernbrennstoffbillet
 item.billet_yharonite.name=Yharonitbillet
 item.biomass.name=Biomasse
 item.biomass_compressed.name=Verdichtete Biomasse
+=======
+item.billet_am_mix.name=Reaktorfähiges Americiumbillet
+item.billet_am241.name=Americium-241-Billet
+item.billet_am242.name=Americium-242-Billet
+item.billet_americium_fuel.name=Americiumkernbrennstoffbillet
+item.billet_au198.name=Gold-198-Billet
+item.billet_australium.name=Australiumbillet
+item.billet_australium_greater.name=Ayerit-Australiumbillet
+item.billet_australium_lesser.name=Tasmanit-Australiumbillet
+item.billet_balefire_gold.name=Flammgoldbillet
+item.billet_beryllium.name=Berylliumbillet
+item.billet_bismuth.name=Bismutbillet
+item.billet_co60.name=Kobalt-60-Billet
+item.billet_hes.name=Stark angereichertes Schrabidiumkernbrennstoffbillet
+item.billet_les.name=Schwach angereichertes Schrabidiumkernbrennstoffbillet
+item.billet_mox_fuel.name=MOX-Kernbrennstoffbillet
+item.billet_neptunium.name=Neptuniumbillet
+item.billet_neptunium_fuel.name=Neptuniumkernbrennstoffbillet
+item.billet_nuclear_waste.name=Atommüllbillet
+item.billet_po210be.name=Po210Be-Billet
+item.billet_polonium.name=Polonium-210-Billet
+item.billet_pu_mix.name=Reaktorfähiges Plutoniumbillet
+item.billet_pu238.name=Plutonium-238-Billet
+item.billet_pu238be.name=Pu238Be-Billet
+item.billet_pu239.name=Plutonium-239-Billet
+item.billet_pu240.name=Plutonium-240-Billet
+item.billet_pu241.name=Plutonium-241-Billet
+item.billet_plutonium.name=Plutoniumbillet
+item.billet_plutonium_fuel.name=Plutoniumkernbrennstoffbillet
+item.billet_ra226be.name=Ra226Be-Billet
+item.billet_schrabidium.name=Schrabidiumbillet
+item.billet_schrabidium_fuel.name=Schrabidiumkernbrennstoffbillet
+item.billet_solinium.name=Soliniumbillet
+item.billet_technetium.name=Technetium-99-Billet
+item.billet_th232.name=Thorium-232-Billet
+item.billet_thorium_fuel.name=Thoriumkernbrennstoffbillet
+item.billet_u233.name=Uran-233-Billet
+item.billet_u235.name=Uran-235-Billet
+item.billet_u238.name=Uran-238-Billet
+item.billet_uranium.name=Uranbillet
+item.billet_uranium_fuel.name=Urankernbrennstoffbillet
+item.billet_yharonite.name=Yharonitbillet
+item.billet_zfb_am_mix.name=Reaktorfähiges ZFB-Billet
+item.billet_zfb_bismuth.name=Bismut ZFB-Billet
+item.billet_zfb_pu241.name=Pu-241 ZFB-Billet
+item.billet_zirconium.name=Zirkoniumbillet
+item.biomass.name=Biomasse
+item.biomass_compressed.name=Verdichtete Biomasse
+item.bismuth_pickaxe.name=Bismutspitzhacke
+item.bismuth_tool.name=Magnetischer Extraktor
+>>>>>>> master
 item.bj_boots.name=Lunare Beschlagene Stiefel
 item.bj_helmet.name=Augenklappe mit Infrarot-Sensor
 item.bj_legs.name=Lunare Kybernetischer Beinersatz
 item.bj_plate.name=Lunare Kybernetische Panzerung
 item.bj_plate_jetpack.name=Lunare Kybernetische Panzerung (Geflügelt)
+<<<<<<< HEAD
+=======
+item.black_diamond.name=Black Diamond
+>>>>>>> master
 item.black_hole.name=Miniatur Schwarzes Loch
 item.blade_meteorite.name=Meteoritenklinge
 item.blade_titanium.name=Titanturbinenschaufel
@@ -717,6 +988,10 @@ item.bolt_dura_steel.name=Schnellarbeitsstahlbolzen
 item.bolt_tungsten.name=Wolframbolzen
 item.bomb_caller.name=Luftschlag Zielmarker
 item.bomb_waffle.name=Massenvernichtungswaffel
+<<<<<<< HEAD
+=======
+item.guide_book.name=Handbuch
+>>>>>>> master
 item.book_of_.name=Das Buch der Güterwagons
 item.book_secret.name=3-596-50802-9
 item.bottle2_empty.name=Leere Glasflasche
@@ -760,7 +1035,14 @@ item.canister_biofuel.name=Biodieselkanister
 item.canister_bitumen.name=Bitumenkanister
 item.canister_canola.name=Schmiermittelkanister
 item.canister_empty.name=Leerer Kanister
+<<<<<<< HEAD
 item.canister_fuel.name=Dieselkanister
+=======
+item.canister_fracksol.name=Frackinglösungskanister
+item.canister_fuel.name=Dieselkanister
+item.canister_gasoline.name=Bleibenzinkanister
+item.canister_gasoline.desc=blei ist freund$lasse deinen freund in deinen blutstrom$*lädt waffe* jetzt sofort
+>>>>>>> master
 item.canister_heatingoil.name=Heizölkanister
 item.canister_heavyoil.name=Schwerölkanister
 item.canister_kerosene.name=Kerosinkanister
@@ -829,6 +1111,10 @@ item.catalyst_clay.name=Tonerde-Katalysator
 item.cbt_device.name=CBT-Gerät
 item.cell_anti_schrabidium.name=Antischrabidiumzelle
 item.cell_antimatter.name=Antimaterienzelle
+<<<<<<< HEAD
+=======
+item.cell_balefire.name=Balefiregas-Zelle
+>>>>>>> master
 item.cell_deuterium.name=Deuteriumzelle
 item.cell_empty.name=Leere Zelle
 item.cell_puf6.name=Plutoniumhexafluorid-Zelle
@@ -839,6 +1125,10 @@ item.centri_stick.name=Zentrifuge am Spieß
 item.centrifuge_element.name=Zentrifugenelement
 item.centrifuge_tower.name=Zentrifugenturm
 item.chainsaw.name=Kettensäge
+<<<<<<< HEAD
+=======
+item.cheese.name=Käse
+>>>>>>> master
 item.chemistry_template.name=Chemievorlage:
 item.chernobylsign.name=Tschernobyl-Warnschild-Streitaxt
 item.chlorine_pinwheel.name=Chlorgas-Konverter
@@ -851,12 +1141,25 @@ item.chopper_head.name=Jagdschrauber Cockpit
 item.chopper_tail.name=Jagdschrauber Heck
 item.chopper_torso.name=Jagdschrauber Rumpf
 item.chopper_wing.name=Jagdschrauber Seitentragfläche
+<<<<<<< HEAD
 item.circuit_aluminium.name=Einfacher Schaltkreis
+=======
+item.cigarette.name=FFI-Markenzigarette
+item.cinnebar.name=Zinnober
+item.circuit_aluminium.name=Einfacher Schaltkreis
+item.circuit_bismuth.name=Vielfältiges Chipset
+item.circuit_bismuth_raw.name=Bismuth-Schaltkreisrohling
+>>>>>>> master
 item.circuit_copper.name=Erweiterter Schaltkreis
 item.circuit_gold.name=Übertakteter Schaltkreis
 item.circuit_raw.name=Schaltkreisrohling
 item.circuit_red_copper.name=Forgeschrittener Schaltkreis
 item.circuit_schrabidium.name=Leistungsstarker Schaltkreis
+<<<<<<< HEAD
+=======
+item.circuit_tantalium.name=Kondensatorplatine
+item.circuit_tantalium_raw.name=Kondensatorplatinenrohling
+>>>>>>> master
 item.circuit_targeting_tier1.name=Militärische Schaltplatte (Stufe 1)
 item.circuit_targeting_tier2.name=Militärische Schaltplatte (Stufe 2)
 item.circuit_targeting_tier3.name=Militärische Schaltplatte (Stufe 3)
@@ -909,6 +1212,10 @@ item.cmb_pickaxe.name=CMB-Stahlspitzhacke
 item.cmb_plate.name=CMB-Stahlbrustpanzer
 item.cmb_shovel.name=CMB-Stahlschaufel
 item.cmb_sword.name=CMB-Stahlschwert
+<<<<<<< HEAD
+=======
+item.coal_infernal.name=Höllische Kohle
+>>>>>>> master
 item.cobalt_axe.name=Kobaltaxt
 item.cobalt_boots.name=Kobaltstiefel
 item.cobalt_decorated_axe.name=Ausgezeichnete Kobaltaxt
@@ -923,6 +1230,11 @@ item.cobalt_pickaxe.name=Kobaltspitzhacke
 item.cobalt_plate.name=Kobaltbrustpanzer
 item.cobalt_shovel.name=Kobaltschaufel
 item.cobalt_sword.name=Kobaltschwert
+<<<<<<< HEAD
+=======
+item.coffee.name=Kaffee
+item.coffee_radium.name=Radiumkaffee
+>>>>>>> master
 item.coil_advanced_alloy.name=Supraleitende Magnetspule
 item.coil_advanced_torus.name=Supraleitende Ringspule
 item.coil_copper.name=Kupferspule
@@ -934,8 +1246,16 @@ item.coil_tungsten.name=Heizspirale
 item.coin_creeper.name=Nukleare Creeper-Münze
 item.coin_maskman.name=Maskenmann-Münze
 item.coin_radiation.name=Strahlungs-Münze
+<<<<<<< HEAD
 item.coin_worm.name=Balls-O-Tron-Münze
 item.coke.name=Koks
+=======
+item.coin_siege.name=Belagerungsmünze
+item.coin_ufo.name=UFO-Münze
+item.coin_worm.name=Balls-O-Tron-Münze
+item.coke.name=Koks
+item.coltan_tool.name=Koltass
+>>>>>>> master
 item.combine_scrap.name=CMB Schrott
 item.component_emitter.name=Emitterkomponente
 item.component_limiter.name=Stabilisatorkomponente
@@ -947,7 +1267,14 @@ item.crucible.name=Schmelztiegel
 item.crystal_aluminium.name=Aluminiumkristalle
 item.crystal_beryllium.name=Berylliumkristalle
 item.crystal_charred.name=Verkohlter Kristall
+<<<<<<< HEAD
 item.crystal_copper.name=Kupferkristalle
+=======
+item.crystal_coal.name=Kohlekristalle
+item.crystal_cobalt.name=Kobaltkristalle
+item.crystal_copper.name=Kupferkristalle
+item.crystal_cinnebar.name=Zinnoberkristalle
+>>>>>>> master
 item.crystal_diamond.name=Diamantkristalle
 item.crystal_energy.name=Energiekristall
 item.crystal_fluorite.name=Fluoritkristalle
@@ -955,6 +1282,10 @@ item.crystal_gold.name=Goldkristalle
 item.crystal_horn.name=Kristallhorn
 item.crystal_iron.name=Eisenkristalle
 item.crystal_lead.name=Bleikristalle
+<<<<<<< HEAD
+=======
+item.crystal_lapis.name=Lapiskristalle
+>>>>>>> master
 item.crystal_lithium.name=Lithiumkristalle
 item.crystal_niter.name=Salpeterkristalle
 item.crystal_phosphorus.name=Phosphorkristalle
@@ -971,6 +1302,10 @@ item.crystal_trixite.name=Trixitkristalle
 item.crystal_tungsten.name=Wolframkristalle
 item.crystal_uranium.name=Urankristalle
 item.crystal_xen.name=Künstlicher Xen-Kristall
+<<<<<<< HEAD
+=======
+item.cube_power.name=Electroniumwürfel
+>>>>>>> master
 item.custom_amat.name=AB - Antimaterie-Element
 item.custom_dirty.name=AB - Schmutziges Element
 item.custom_fall.name=AB - Abwurf-Upgrade
@@ -980,6 +1315,12 @@ item.custom_nuke.name=AB - Nukleares Element
 item.custom_schrab.name=AB - Schrabidiumelement
 item.custom_tnt.name=AB - Sprengladung
 item.cyclotron_tower.name=Zyklotronenturm
+<<<<<<< HEAD
+=======
+item.debris_fuel.name=RBMK-Kernbrennstoffbrocken
+item.debris_graphite.name=Heißer Graphitbrocken
+item.debris_metal.name=Gebrochene Metallleiste
+>>>>>>> master
 item.definitelyfood.name=GarantiertKeinDreck-Marken Feldration
 item.defuser.name=High-Tech Bombenentschärfungsgerät
 item.demon_core_closed.name=Bedeckter Dämonenkern
@@ -999,6 +1340,13 @@ item.detonator_laser.name=Laserzünder
 item.detonator_multi.name=Mehrfach-Fernzünder
 item.diamond_gavel.name=Diamantener Richterhammer
 item.digamma_diagnostic.name=Digamma-Diagnosegerät
+<<<<<<< HEAD
+=======
+item.dns_boots.name=DNT-Nanoanzug Stiefel
+item.dns_legs.name=DNT-Nanoanzug Beinschützer
+item.dns_helmet.name=DNT-Nanoanzug Helm
+item.dns_plate.name=DNT-Nanoanzug Brustpanzer
+>>>>>>> master
 item.dnt_boots.name=dienautronium stiefel
 item.dnt_legs.name=dineuterium beine
 item.dnt_helmet.name=dinotroniumu helme
@@ -1068,6 +1416,10 @@ item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
 item.fluid_tank_empty.name=Leere universelle Flüssigkeitszelle
 item.fluid_tank_full.name=Universelle Flüssigkeitszelle:
 item.fluorite.name=Fluorit
+<<<<<<< HEAD
+=======
+item.flywheel_beryllium.name=Berylliumschwungscheibe
+>>>>>>> master
 item.fmn.name=Flunitrazepamtablette
 item.folly_bullet.name=12,8cm Sternenmetall-Hochenergiegeschoss
 item.folly_bullet_du.name=12,8cm DU-Geschoss
@@ -1075,8 +1427,15 @@ item.folly_bullet_nuclear.name=12,8cm Atomares Geschoss
 item.folly_shell.name=Silberne Kanonenhülse
 item.fooditem.name=lebensmittel
 item.fragment_actinium.name=Actiniumfragment
+<<<<<<< HEAD
 item.fragment_cerium.name=Cerium Ffragment
 item.fragment_cobalt.name=Cobaltfragment
+=======
+item.fragment_boron.name=Borfragment
+item.fragment_cerium.name=Cerium Ffragment
+item.fragment_cobalt.name=Cobaltfragment
+item.fragment_coltan.name=Coltan
+>>>>>>> master
 item.fragment_lanthanium.name=Lanthanfragment
 item.fragment_meteorite.name=Meteoritenfragment
 item.fragment_neodymium.name=Neodymfragment
@@ -1099,11 +1458,28 @@ item.gadget_wireing.name=Kabelrolle
 item.gas_biogas.name=Biogastank
 item.gas_empty.name=Leerer Gastank
 item.gas_full.name=Gastank
+<<<<<<< HEAD
 item.gas_mask.name=Gasmaske
 item.gas_mask_filter.name=Gasmaskenfilter
 item.gas_mask_m65.name=M65-Z Gasmaske
 item.gas_petroleum.name=Petroleumgastank
 item.geiger_counter.name=Mobiler Geigerzähler
+=======
+item.gas_lpg.name=LPG-Tank
+item.gas_mask.name=Gasmaske
+item.gas_mask_filter.name=Gasmaskenfilter
+item.gas_mask_filter_combo.name=Kombofilter
+item.gas_mask_filter_mono.name=Katalytischer Maskenfilter
+item.gas_mask_filter_piss.name=Verbesserter selbstgebauter Gasmaskenfilter
+item.gas_mask_filter_rag.name=Selbstgebauter Gasmaskenfilter
+item.gas_mask_m65.name=M65-Z Gasmaske
+item.gas_mask_mono.name=Halbmaske
+item.gas_mask_olde.name=Ledergasmaske
+item.gas_petroleum.name=Petroleumgastank
+item.geiger_counter.name=Mobiler Geigerzähler
+item.gem_tantalium.name=Tantal-Polykristall
+item.gem_volcanic.name=Vulkanischer Edelstein
+>>>>>>> master
 item.generator_front.name=Generatorfront
 item.generator_steel.name=Generator
 item.glitch.name=Glitch
@@ -1151,6 +1527,10 @@ item.grenade_smart.name=Smart-Granate
 item.grenade_strong.name=Verbesserte Handgranate
 item.grenade_tau.name=Taugranate
 item.grenade_zomg.name=Negativenergie-Paarvernichtungsgranate
+<<<<<<< HEAD
+=======
+item.gun_ar15.name=Josh
+>>>>>>> master
 item.gun_avenger.name=CZ57 Avenger-Minigun
 item.gun_b92.name=§9B92 Energiepistole§r
 item.gun_b92_ammo.name=§9B92-Energiezelle§r
@@ -1179,6 +1559,10 @@ item.gun_euthanasia.name=Euthanasia
 item.gun_euthanasia_ammo.name=Spritze
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_fatman_ammo.name=Miniatombombe (LEGACY)
+<<<<<<< HEAD
+=======
+item.gun_fireext.name=Feuerlöscher
+>>>>>>> master
 item.gun_flamer.name=Herr Topaz
 item.gun_flechette.name=Flechet-Gewehr
 item.gun_folly.name=Prototyp Digamma "Irrsinn"
@@ -1261,6 +1645,10 @@ item.gun_uzi_silencer.name=IMI Uzi mit Schalldämpfer
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 item.gun_zomg.name=ZOMG Kanone
+<<<<<<< HEAD
+=======
+item.hand_drill.name=Handbohrer
+>>>>>>> master
 item.hazmat_boots.name=Strahlenschutzstiefel
 item.hazmat_boots_grey.name=Hochleistungs-Strahlenschutzstiefel
 item.hazmat_boots_red.name=Verbesserte Strahlenschutzstiefel
@@ -1308,6 +1696,7 @@ item.inf_diesel.name=Unendlicher Dieseltank
 item.inf_sulfur.name=Unendlicher Schwefeltank
 item.inf_tritium.name=Unendlicher Tritiumtank
 item.inf_water.name=Unendlicher Wassertank
+<<<<<<< HEAD
 item.ingot_actinium.name=Semistabiler Actiniumbarren
 item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
 item.ingot_aluminium.name=Aluminiumbarren
@@ -1315,6 +1704,24 @@ item.ingot_asbestos.name=Asbestplatte
 item.ingot_australium.name=Australiumbarren
 item.ingot_beryllium.name=Berylliumbarren
 item.ingot_chainsteel.name=Schwerer Kettenstahl
+=======
+item.inf_water_mk2.name=Schwerer unendlicher Wassertank
+item.ingot_actinium.name=Semistabiler Actiniumbarren
+item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
+item.ingot_aluminium.name=Aluminiumbarren
+item.ingot_am_mix.name=Reaktorfähiger Americiumbarren
+item.ingot_am241.name=Americium-241-Barren
+item.ingot_am242.name=Americium-242-Barren
+item.ingot_americium_fuel.name=Americiumkernbrennstoffbarren
+item.ingot_asbestos.name=Asbestplatte
+item.ingot_au198.name=Gold-198-Barren
+item.ingot_australium.name=Australiumbarren
+item.ingot_beryllium.name=Berylliumbarren
+item.ingot_bismuth.name=Bismutbarren
+item.ingot_boron.name=Borbarren
+item.ingot_chainsteel.name=Schwerer Kettenstahl
+item.ingot_co60.name=Kobalt-60-Barren
+>>>>>>> master
 item.ingot_cobalt.name=Kobaltbarren
 item.ingot_combine_steel.name=CMB-Stahlbarren
 item.ingot_copper.name=Industrielles Kupfer
@@ -1325,6 +1732,10 @@ item.ingot_dura_steel.name=Schnellarbeitsstahlbarren
 item.ingot_electronium.name=Elektroniumbarren
 item.ingot_euphemium.name=Euphemiumbarren
 item.ingot_fiberglass.name=Fiberglasstafel
+<<<<<<< HEAD
+=======
+item.ingot_graphite.name=Graphitbarren
+>>>>>>> master
 item.ingot_hes.name=Stark angereicherter Schrabidiumkernbrennstoffbarren
 item.ingot_lanthanium.name=Semistabiler Lanthanbarren
 item.ingot_lead.name=Bleibarren
@@ -1334,6 +1745,7 @@ item.ingot_meteorite.name=Meteoritenbarren
 item.ingot_meteorite_forged.name=Geschmiedeter Meteoritenbarren
 item.ingot_mox_fuel.name=MOX-Kernbrennstoffbarren
 item.ingot_neptunium.name=Neptuniumbarren
+<<<<<<< HEAD
 item.ingot_phosphorus.name=Weiße Phosphortafel
 item.ingot_plutonium.name=Plutoniumbarren
 item.ingot_plutonium_fuel.name=Plutoniumkernbrennstoffbarren
@@ -1343,6 +1755,20 @@ item.ingot_pu_mix.name=Reaktorfähiger Plutoniumbarren
 item.ingot_pu238.name=Pu238-Barren
 item.ingot_pu239.name=Pu239-Barren
 item.ingot_pu240.name=Pu240-Barren
+=======
+item.ingot_neptunium_fuel.name=Neptuniumkernbrennstoffbarren
+item.ingot_niobium.name=Niobbarren
+item.ingot_phosphorus.name=Weiße Phosphortafel
+item.ingot_plutonium.name=Plutoniumbarren
+item.ingot_plutonium_fuel.name=Plutoniumkernbrennstoffbarren
+item.ingot_polonium.name=Polonium-210-Barren
+item.ingot_polymer.name=Polymertafel
+item.ingot_pu_mix.name=Reaktorfähiger Plutoniumbarren
+item.ingot_pu238.name=Plutonium-238-Barren
+item.ingot_pu239.name=Plutonium-239-Barren
+item.ingot_pu240.name=Plutonium-240-Barren
+item.ingot_pu241.name=Plutonium-241-Barren
+>>>>>>> master
 item.ingot_red_copper.name=Minecraft-Kupfer
 item.ingot_reiium.name=Reiiumbarren
 item.ingot_saturnite.name=Saturnitbarren
@@ -1351,10 +1777,15 @@ item.ingot_schrabidium.name=Schrabidiumbarren
 item.ingot_schrabidium_fuel.name=Schrabidiumkernbrennstoffbarren
 item.ingot_schraranium.name=Schraraniumbarren
 item.ingot_semtex.name=Semtextafel
+<<<<<<< HEAD
+=======
+item.ingot_smore.name=S'morebarren
+>>>>>>> master
 item.ingot_solinium.name=Soliniumbarren
 item.ingot_starmetal.name=§9Sternenmetallbarren§r
 item.ingot_steel.name=Stahlbarren
 item.ingot_steel_dusted.name=Bestäubter Stahlbarren
+<<<<<<< HEAD
 item.ingot_th232.name=Th232-Barren
 item.ingot_thorium_fuel.name=Thoriumkernbrennstoffbarren
 item.ingot_titanium.name=Titanbarren
@@ -1363,12 +1794,30 @@ item.ingot_u233.name=U233-Barren
 item.ingot_u235.name=U235-Barren
 item.ingot_u238.name=U238-Barren
 item.ingot_u238m2.name=Metastabiler U238/2-Barren
+=======
+item.ingot_tantalium.name=Tantalbarren
+item.ingot_tcalloy.name=Technetiumstahlbarren
+item.ingot_technetium.name=Technetium-99-Barren
+item.ingot_th232.name=Thorium-232-Barren
+item.ingot_thorium_fuel.name=Thoriumkernbrennstoffbarren
+item.ingot_titanium.name=Titanbarren
+item.ingot_tungsten.name=Wolframbarren
+item.ingot_u233.name=Uran-233-Barren
+item.ingot_u235.name=Uran-235-Barren
+item.ingot_u238.name=Uran-238-Barren
+item.ingot_u238m2.name=Metastabiler Uran-238M2-Barren
+>>>>>>> master
 item.ingot_unobtainium.name=Unobtainiumbarren
 item.ingot_uranium.name=Uranbarren
 item.ingot_uranium_fuel.name=Urankernbrennstoffbarren
 item.ingot_verticium.name=Verticiumbarren
 item.ingot_weidanium.name=Weidaniumbarren
 item.ingot_zirconium.name=Zirkoniumwürfel
+<<<<<<< HEAD
+=======
+item.injector_5htp.name=5-HTP-Autoinjektor
+item.injector_knife.name=20cm Klingen-Autoinjektor
+>>>>>>> master
 item.ink.name=林-Tinte
 item.insert_doxium.name=Astolfium-dottierte Doxiumeinlage
 item.insert_du.name=DU-Einlage
@@ -1387,7 +1836,11 @@ item.jetpack_break.name=Bauarbeiter-Raketenrucksack
 item.jetpack_fly.name=Raketenrucksack
 item.jetpack_tank.name=Raketenrucksack-Reservetank
 item.jetpack_vector.name=Schubvektorgesteuerter Raketenrucksack
+<<<<<<< HEAD
 item.journal_bj.name=Mit Whiskey durchnässtes Notizbuch
+=======
+item.journal_bj.name=Mit Whisky durchnässtes Notizbuch
+>>>>>>> master
 item.journal_pip.name=Tagebuch des Überlebenskünstlers
 item.journal_silver.name=Notizen des Kontraktor's
 item.key.name=Schlüssel
@@ -1420,7 +1873,14 @@ item.man_explosive.name=Sprendlinse
 item.man_explosive8.name=Implosions-Treibladung
 item.man_igniter.name=Zünder
 item.man_kit.name=Fat Man Kit
+<<<<<<< HEAD
 item.mask_of_infamy.name=Maske der Schande
+=======
+item.marshmallow.name=Marshmallow am Stiel
+item.mask_of_infamy.name=Maske der Schande
+item.mask_piss.name=Grabenmaske
+item.mask_rag.name=Primitive Schutzmaske
+>>>>>>> master
 item.matchstick.name=Streichholz
 item.mech_key.name=Großer Silberschlüssel
 item.mechanism_launcher_1.name=Werfermechanismus
@@ -1435,6 +1895,10 @@ item.med_ipecac.name=Ipecac-Sirup
 item.med_ptsd.name=PTBS-Medikament
 item.med_schiziphrenia.name=Schizophrenie-Medikament
 item.medal_liquidator.name=Liquidatorenmedallie
+<<<<<<< HEAD
+=======
+item.meltdown_tool.name=Djatlow Sofortiger Kernschmelzeinduzierer
+>>>>>>> master
 item.memespoon.name=§eLuftschlag
 item.memory.name=item.null.name
 item.mese_gavel.name=Mese-Richterhammer
@@ -1498,6 +1962,10 @@ item.missile_soyuz.name=Soyuz-FG
 item.missile_soyuz_lander.name=Orbitalmodul
 item.missile_strong.name=Starke HE Rakete
 item.missile_taint.name=Verdorbene Rakete
+<<<<<<< HEAD
+=======
+item.missile_volcano.name=Tectonic Missile
+>>>>>>> master
 item.morning_glory.name=Zaunwinde
 item.motor.name=Motor
 item.motor_desh.name=Desh-Motor
@@ -1648,9 +2116,26 @@ item.nuclear_waste_short.name=Kurzlebiger Atommüll
 item.nuclear_waste_short_tiny.name=Kleiner Haufen kurzlebiger Atommüll
 item.nuclear_waste_short_depleted.name=Zerfallender kurzlebiger Atommüll
 item.nuclear_waste_short_depleted_tiny.name=Kleiner Haufen zerfallender kurzlebiger Atommüll
+<<<<<<< HEAD
 item.nugget.name=Chicken Nugget
 item.nugget_australium.name=Australiumnugget
 item.nugget_beryllium.name=Berylliumnugget
+=======
+item.nuclear_waste_vitrified.name=Vitrifizierter Atommüll
+item.nuclear_waste_vitrified_tiny.name=Kleiner Haufen vitrifizierter Atommüll
+item.nugget.name=Chicken Nugget
+item.nugget_am_mix.name=Reaktorfähiges Americiumnugget
+item.nugget_am241.name=Americium-241-Nugget
+item.nugget_am242.name=Americium-242-Nugget
+item.nugget_au198.name=Gold-198-Nugget
+item.nugget_americium_fuel.name=Americiumkernbrennstoffnugget
+item.nugget_australium.name=Australiumnugget
+item.nugget_australium_greater.name=Ayerit-Australiumnugget
+item.nugget_australium_lesser.name=Tasmanit-Australiumnugget
+item.nugget_beryllium.name=Berylliumnugget
+item.nugget_bismuth.name=Bismutnugget
+item.nugget_co60.name=Kobalt-60-Nugget
+>>>>>>> master
 item.nugget_daffergon.name=Daffergonnugget
 item.nugget_desh.name=Deshnugget
 item.nugget_dineutronium.name=Dineutroniumnugget
@@ -1661,6 +2146,7 @@ item.nugget_les.name=Schwach angereichertes Schrabidiumkernbrennstoffnugget
 item.nugget_mercury.name=Quecksilbertropfen
 item.nugget_mox_fuel.name=MOX-Kernbrennstoffnugget
 item.nugget_neptunium.name=Neptuniumnugget
+<<<<<<< HEAD
 item.nugget_plutonium.name=Plutoniumnugget
 item.nugget_plutonium_fuel.name=Plutoniumkernbrennstoffnugget
 item.nugget_polonium.name=Poloniumnugget
@@ -1668,15 +2154,37 @@ item.nugget_pu_mix.name=Reactorfähiges Plutoniumnugget
 item.nugget_pu238.name=Pu238-Nugget
 item.nugget_pu239.name=Pu239-Nugget
 item.nugget_pu240.name=Pu240-Nugget
+=======
+item.nugget_neptunium_fuel.name=Neptuniumkernbrennstoffnugget
+item.nugget_plutonium.name=Plutoniumnugget
+item.nugget_plutonium_fuel.name=Plutoniumkernbrennstoffnugget
+item.nugget_polonium.name=Polonium-210-Nugget
+item.nugget_pu_mix.name=Reaktorfähiges Plutoniumnugget
+item.nugget_pu238.name=Plutonium-238-Nugget
+item.nugget_pu239.name=Plutonium-239-Nugget
+item.nugget_pu240.name=Plutonium-240-Nugget
+item.nugget_pu241.name=Plutonium-241-Nugget
+item.nugget_ra226.name=Radium-226-Nugget
+>>>>>>> master
 item.nugget_reiium.name=Reiiumnugget
 item.nugget_schrabidium.name=Schrabidiumnugget
 item.nugget_schrabidium_fuel.name=Schrabidiumkernbrennstoffnugget
 item.nugget_solinium.name=Soliniumnugget
+<<<<<<< HEAD
 item.nugget_th232.name=Th232-Nugget
 item.nugget_thorium_fuel.name=Thoriumkernbrennstoffnugget
 item.nugget_u233.name=U233-Nugget
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
+=======
+item.nugget_tantalium.name=Tantalnugget
+item.nugget_technetium.name=Technetium-99-Nugget
+item.nugget_th232.name=Thorium-232-Nugget
+item.nugget_thorium_fuel.name=Thoriumkernbrennstoffnugget
+item.nugget_u233.name=Uran-233-Nugget
+item.nugget_u235.name=Uran-235-Nugget
+item.nugget_u238.name=Uran-238-Nugget
+>>>>>>> master
 item.nugget_unobtainium.name=Unobtainiumnugget
 item.nugget_uranium.name=Urannugget
 item.nugget_uranium_fuel.name=Urankernbrennstoffnugget
@@ -1694,6 +2202,10 @@ item.oil_detector.desc2=Detektor findet nur größere Vorkommen.
 item.oil_detector.bullseye=Ölvorkommen direkt untertage!
 item.oil_detector.detected=Ölvorkommen in der Nähe!
 item.oil_detector.noOil=Kein Öl gefunden.
+<<<<<<< HEAD
+=======
+item.oil_tar.name=Ölteer
+>>>>>>> master
 item.overfuse.name=Singularitätsschraubenzieher
 item.oxy_mask.name=Sauerstoffmaske
 item.paa_boots.name=PaA-"olle Latschen"
@@ -1723,9 +2235,17 @@ item.particle_empty.name=Leere Partikelkapsel
 item.particle_higgs.name=Higgs Bosonen Kapsel
 item.particle_hydrogen.name=Wasserstoffionenkapsel
 item.particle_lead.name=Bleiionenkapsel
+<<<<<<< HEAD
 item.particle_muon.name=Myonenkapsel
 item.particle_sparkticle.name=Sparktikelkapsel
 item.particle_strange.name=Strange-Quark-Kapsel
+=======
+item.particle_lutece.name=Lutece-Quasipartikel
+item.particle_muon.name=Myonenkapsel
+item.particle_sparkticle.name=Sparktikelkapsel
+item.particle_strange.name=Strange-Quark-Kapsel
+item.particle_tachyon.name=Tachyonenkapsel
+>>>>>>> master
 item.peas.name=Erbsen
 item.pedestal_steel.name=Stahlsockel
 item.pellet_advanced.name=Fortgeschrittenes Watzaufwertugspellet
@@ -1748,6 +2268,7 @@ item.pellet_mercury.name=Quecksilberkugeln
 item.pellet_mes.name=MES-Watzpellet
 item.pellet_meteorite.name=Meteoritenkugeln
 item.pellet_neptunium.name=Neptunium-Watzpellet
+<<<<<<< HEAD
 item.pellet_rtg.name=Plutonium 238 Pellet
 item.pellet_rtg_gold.name=Gold 198 Pellet
 item.pellet_rtg_polonium.name=Polonium 210 Pellet
@@ -1757,11 +2278,33 @@ item.photo_panel.name=Photovoltaikpanele
 item.pill_iodine.name=Iodpille
 item.pin.name=Haarklammer
 item.pipes_steel.name=Stahlrohre
+=======
+item.pellet_rtg.name=Plutonium-238 Pellet
+item.pellet_rtg_americium.name=Americium-241 Pellet
+item.pellet_rtg_gold.name=Gold-198 Pellet
+item.pellet_rtg_polonium.name=Polonium-210 Pellet
+item.pellet_rtg_weak.name=Schwaches Uran RTG-Pellet
+item.pellet_schrabidium.name=Pures Schrabidium-Watzpellet
+item.photo_panel.name=Photovoltaikpanele
+item.pile_rod_boron.name=Chicago Pile Steuerstab
+item.pile_rod_plutonium.name=Chicago Pile Plutoniumstab
+item.pile_rod_source.name=Chicago Pile Ra226Be-Neutronenquelle
+item.pile_rod_uranium.name=Chicago Pile Uranstab
+item.pill_iodine.name=Iodpille
+item.pin.name=Haarklammer
+item.pipes_steel.name=Stahlrohre
+item.pirfenidone.name=Pirfenidon
+item.pipes_steel.desc=Auf Recycling-Rezepte wurden wegen$Steuerhinterziehung verzichtet.
+>>>>>>> master
 item.piston_selenium.name=Sternmotorenkolben
 item.plan_c.name=Plan C
 item.plate_advanced_alloy.name=Fortgeschrittene Legierungsplatte
 item.plate_aluminium.name=Aluminiumplatte
 item.plate_armor_ajr.name=Eisenbeschlagene Panzerplatte
+<<<<<<< HEAD
+=======
+item.plate_armor_dnt.name=DNT-Panzerplatte
+>>>>>>> master
 item.plate_armor_fau.name=Fau-Panzerplatte
 item.plate_armor_hev.name=Reaktive Panzerplatte
 item.plate_armor_lunar.name=Lunare Panzerplatte
@@ -1790,20 +2333,44 @@ item.powder_advanced_alloy.name=Fortgeschrittener Legierungsstaub
 item.powder_aluminium.name=Aluminiumstaub
 item.powder_asbestos.name=Asbeststaub
 item.powder_astatine.name=Astatstaub
+<<<<<<< HEAD
 item.powder_australium.name=Australiumstaub
 item.powder_balefire.name=Thermonukleare Asche
 item.powder_beryllium.name=Berylliumstaub
+=======
+item.powder_at209.name=Astat-209-Staub
+item.powder_au198.name=Gold-198-Staub
+item.powder_australium.name=Australiumstaub
+item.powder_balefire.name=Thermonukleare Asche
+item.powder_beryllium.name=Berylliumstaub
+item.powder_boron.name=Borstaub
+item.powder_boron_tiny.name=Kleiner Haufen Borstaub
+>>>>>>> master
 item.powder_bromine.name=Bromstaub
 item.powder_caesium.name=Caesiumstaub
 item.powder_cerium.name=Cerstaub
 item.powder_cerium_tiny.name=Kleiner Haufen Cerstaub
 item.powder_chlorophyte.name=Grünalgenstaub
 item.powder_cloud.name=Wolkenrückstände
+<<<<<<< HEAD
 item.powder_coal.name=Kohlestaub
 item.powder_cobalt.name=Cobaltstaub
 item.powder_cobalt_tiny.name=Kleiner Haufen Cobaltstaub
 item.powder_combine_steel.name=CMB-Stahlstaub
 item.powder_copper.name=Kupferstaub
+=======
+item.powder_co60.name=Kobalt-60-Staub
+item.powder_coal.name=Kohlestaub
+item.powder_coal_tiny.name=Kleiner Haufen Kohlestaub
+item.powder_cobalt.name=Kobaltstaub
+item.powder_cobalt_tiny.name=Kleiner Haufen Cobaltstaub
+item.powder_coltan.name=Gereinigtes Tantalit
+item.powder_coltan_ore.name=Gebrochenes Coltan
+item.powder_combine_steel.name=CMB-Stahlstaub
+item.powder_copper.name=Kupferstaub
+item.powder_cs137.name=Caesium-137-Staub
+item.powder_cs137_tiny.name=Kleiner Haufen Caesium-137-Staub
+>>>>>>> master
 item.powder_daffergon.name=Daffergonstaub
 item.powder_desh.name=Deshstaub
 item.powder_desh_mix.name=Deshmischung
@@ -1815,6 +2382,11 @@ item.powder_emerald.name=Smaragdstaub
 item.powder_euphemium.name=Euphemiumstaub
 item.powder_fire.name=Roter Phosphor
 item.powder_gold.name=Goldstaub
+<<<<<<< HEAD
+=======
+item.powder_i131.name=Iod-131-Staub
+item.powder_i131_tiny.name=Kleiner Haufen Iod-131-Staub
+>>>>>>> master
 item.powder_ice.name=Kryopulver
 item.powder_iodine.name=Iodstaub
 item.powder_iron.name=Eisenstaub
@@ -1837,7 +2409,11 @@ item.powder_niobium_tiny.name=Kleiner Haufen Niobstaub
 item.powder_nitan_mix.name=Nitaniummischung
 item.powder_plutonium.name=Plutoniumstaub
 item.powder_poison.name=Giftpulver
+<<<<<<< HEAD
 item.powder_polonium.name=Poloniumstaub
+=======
+item.powder_polonium.name=Polonium-210-Staub
+>>>>>>> master
 item.powder_polymer.name=Polymerstaub
 item.powder_power.name=Energiepulver
 item.powder_quartz.name=Quarzstaub
@@ -1850,6 +2426,11 @@ item.powder_spark_mix.name=Sparkmischung
 item.powder_steel.name=Stahlstaub
 item.powder_steel_tiny.name=Kleiner Haufen Stahlstaub
 item.powder_strontium.name=Strontiumstaub
+<<<<<<< HEAD
+=======
+item.powder_tantalium.name=Tantalstaub
+item.powder_tcalloy.name=Technetiumstahlstaub
+>>>>>>> master
 item.powder_tennessine.name=Tennessinstaub
 item.powder_thermite.name=Thermit
 item.powder_thorium.name=Thoriumstaub
@@ -1859,6 +2440,11 @@ item.powder_unobtainium.name=Unobtainiumstaub
 item.powder_uranium.name=Uranstaub
 item.powder_verticium.name=Verticiumstaub
 item.powder_weidanium.name=Weidaniumstaub
+<<<<<<< HEAD
+=======
+item.powder_xe135.name=Xenon-135-Staub
+item.powder_xe135_tiny.name=Kleiner Haufen Xenon-135-Staub
+>>>>>>> master
 item.powder_yellowcake.name=Yellowcake
 item.powder_zirconium.name=Zirkoniumstaub
 item.primer_357.name=.357 Magnum-Zündhütchen (x24)
@@ -1873,6 +2459,82 @@ item.radaway.name=RadAway
 item.radaway_flush.name=Elite-RadAway
 item.radaway_strong.name=Starkes RadAway
 item.radx.name=Rad-X
+<<<<<<< HEAD
+=======
+item.rag.name=Stoff
+item.rag_damp.name=Nasser Stoff
+item.rag_piss.name=Pisslappen
+item.rbmk_fuel_balefire.name=Balefire-RBMK-Kernbrennstoff
+item.rbmk_fuel_balefire_gold.name=Flammgold-RBMK-Kernbrennstoff
+item.rbmk_fuel_drx.name=§cDigamma-RBMK-Kernbrennstoff
+item.rbmk_fuel_empty.name=Leere RBMK Kernbrennstoffstäbe
+item.rbmk_fuel_hea241.name=HEA-241-RBMK-Kernbrennstoff
+item.rbmk_fuel_hea242.name=HEA-242-RBMK-Kernbrennstoff
+item.rbmk_fuel_heaus.name=HEAus-RBMK-Kernbrennstoff
+item.rbmk_fuel_hen.name=HEN-RBMK-Kernbrennstoff
+item.rbmk_fuel_hes.name=HES-RBMK-Kernbrennstoff
+item.rbmk_fuel_hep.name=HEP-239-RBMK-Kernbrennstoff
+item.rbmk_fuel_hep241.name=HEP-241-RBMK-Kernbrennstoff
+item.rbmk_fuel_heu233.name=HEU-233-RBMK-Kernbrennstoff
+item.rbmk_fuel_heu235.name=HEU-235-RBMK-Kernbrennstoff
+item.rbmk_fuel_lea.name=LEA-RBMK-Kernbrennstoff
+item.rbmk_fuel_leaus.name=LEAus-RBMK-Kernbrennstoff
+item.rbmk_fuel_lep.name=LEP-239-RBMK-Kernbrennstoff
+item.rbmk_fuel_les.name=LES-RBMK-Kernbrennstoff
+item.rbmk_fuel_mea.name=MEA-RBMK-Kernbrennstoff
+item.rbmk_fuel_men.name=MEN-RBMK-Kernbrennstoff
+item.rbmk_fuel_mep.name=MEP-239-RBMK-Kernbrennstoff
+item.rbmk_fuel_mes.name=MES-RBMK-Kernbrennstoff
+item.rbmk_fuel_meu.name=MEU-RBMK-Kernbrennstoff
+item.rbmk_fuel_mox.name=MOX-RBMK-Kernbrennstoff
+item.rbmk_fuel_po210be.name=Po210Be-RBMK-Neutronenquelle
+item.rbmk_fuel_pu238be.name=Pu238Be-RBMK-Neutronenquelle
+item.rbmk_fuel_ra226be.name=Ra226Be-RBMK-Neutronenquelle
+item.rbmk_fuel_thmeu.name=ThMEU-RBMK-Kernbrennstoff
+item.rbmk_fuel_ueu.name=NU-RBMK-Kernbrennstoff
+item.rbmk_fuel_zfb_am_mix.name=Reaktorfähiges Americium RBMK-ZFB
+item.rbmk_fuel_zfb_bismuth.name=Bismut RBMK-ZFB
+item.rbmk_fuel_zfb_pu241.name=Pu-241 RBMK-ZFB
+item.rbmk_lid.name=RBMK-Abdeckplatte
+item.rbmk_lid_glass.name=RBMK-Glasabdeckplatte
+item.rbmk_pellet_balefire.name=Balefire-Kernbrennstoffpellet
+item.rbmk_pellet_balefire_gold.name=Flammgold-Kernbrennstoffpellet
+item.rbmk_pellet_drx.name=§cDigamma-Kernbrennstoffpellet§r
+item.rbmk_pellet_hea241.name=HEA-241-Kernbrennstoffpellet
+item.rbmk_pellet_hea242.name=HEA-242-Kernbrennstoffpellet
+item.rbmk_pellet_heaus.name=HEAus-Kernbrennstoffpellet
+item.rbmk_pellet_hen.name=HEN-Kernbrennstoffpellet
+item.rbmk_pellet_hep239.name=HEP-239-Kernbrennstoffpellet
+item.rbmk_pellet_hep241.name=HEP-241-Kernbrennstoffpellet
+item.rbmk_pellet_heu233.name=HEU-233-Kernbrennstoffpellet
+item.rbmk_pellet_heu235.name=HEU-235-Kernbrennstoffpellet
+item.rbmk_pellet_hes.name=HES-Kernbrennstoffpellet
+item.rbmk_pellet_lea.name=LEA-Kernbrennstoffpellet
+item.rbmk_pellet_leaus.name=LEAus-Kernbrennstoffpellet
+item.rbmk_pellet_lep.name=LEP-Kernbrennstoffpellet
+item.rbmk_pellet_les.name=LES-Kernbrennstoffpellet
+item.rbmk_pellet_mea.name=MEA-Kernbrennstoffpellet
+item.rbmk_pellet_men.name=MEN-Kernbrennstoffpellet
+item.rbmk_pellet_mep.name=MEP-Kernbrennstoffpellet
+item.rbmk_pellet_mes.name=MES-Kernbrennstoffpellet
+item.rbmk_pellet_meu.name=MEU-Kernbrennstoffpellet
+item.rbmk_pellet_mox.name=MOX-Kernbrennstoffpellet
+item.rbmk_pellet_po210be.name=Po210Be-Neutronenquellenpellet
+item.rbmk_pellet_pu238be.name=Pu238Be-Neutronenquellenpellet
+item.rbmk_pellet_ra226be.name=Ra226Be-Neutronenquellenpellet
+item.rbmk_pellet_thmeu.name=ThMEU-Kernbrennstoffpellet
+item.rbmk_pellet_ueu.name=NU-Kernbrennstoffpellet
+item.rbmk_pellet_zfb_am_mix.name=Reaktorfähiges Americium ZFB-Pellet
+item.rbmk_pellet_zfb_bismuth.name=Bismut ZFB-Pellet
+item.rbmk_pellet_zfb_pu241.name=Pu-241 ZFB-Pellet
+item.rbmk_lid.name=RBMK-Abdeckplatte
+item.rbmk_lid_glass.name=RBMK-Glasabdeckung
+item.rbmk_tool.name=RBMK-Konsolen-Verlinkungsgerät
+item.rbmk_tool.desc=Schleichen und Rechtsclick auf RBMK um Position zu speichern,$Schleichen und Rechtsclick auf Konsole um zu verlinken!
+item.rbmk_tool.linked=Position gespeichert!
+item.rbmk_tool.set=RBMK verlinkt!
+item.reacher.name=Wolfram-Greifzange
+>>>>>>> master
 item.reactor_core.name=Brutreaktorkern
 item.reactor_sensor.name=Reaktor-Fernsensor
 item.record.glass.desc=? ? ?
@@ -1886,6 +2548,13 @@ item.reer_graar.name=The Reer Graar
 item.remote.name=Kaputte Fernbedienung
 item.ring_pull.name=Dosenring
 item.ring_starmetal.name=§9Sternenmetallring§r
+<<<<<<< HEAD
+=======
+item.robes_boots.name=Feldstiefel
+item.robes_helmet.name=Lockere Kaputze
+item.robes_legs.name=Lockere Hose
+item.robes_plate.name=Lockerer Sweater
+>>>>>>> master
 item.rocket_fuel.name=Festbrennstoff (Raketentreibstoff)
 item.rod_australium.name=Australiumbrennstab
 item.rod_balefire.name=Balefire-Brennstab
@@ -1904,6 +2573,7 @@ item.rod_dual_neptunium.name=Neptuniumdoppelbrennstab
 item.rod_dual_plutonium.name=Plutoniumdoppelbrennstab
 item.rod_dual_plutonium_fuel.name=Doppelte Plutoniumkernbrennstoffzelle
 item.rod_dual_plutonium_fuel_depleted.name=Erschöpfte Plutoniumdoppelkernbrennstoffzelle
+<<<<<<< HEAD
 item.rod_dual_polonium.name=Poloniumdoppelbrennstab
 item.rod_dual_pu238.name=Pu238-Doppelbrennstab
 item.rod_dual_pu239.name=Pu239-Doppelbrennstab
@@ -1919,6 +2589,23 @@ item.rod_dual_tritium.name=Doppelte Tritiumzelle
 item.rod_dual_u233.name=U233-Doppelbrennstab
 item.rod_dual_u235.name=U235-Doppelbrennstab
 item.rod_dual_u238.name=U238-Doppelbrennstab
+=======
+item.rod_dual_polonium.name=Polonium-210-Doppelbrennstab
+item.rod_dual_pu238.name=Plutonium-238-Doppelbrennstab
+item.rod_dual_pu239.name=Plutonium-239-Doppelbrennstab
+item.rod_dual_pu240.name=Plutonium-240-Doppelbrennstab
+item.rod_dual_schrabidium.name=Schrabidium-326-Doppelbrennstab
+item.rod_dual_schrabidium_fuel.name=Doppelte Schrabidiumkernbrennstoffzelle
+item.rod_dual_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumdoppelkernbrennstoffzelle
+item.rod_dual_solinium.name=Schrabidium-327-Doppelbrennstab
+item.rod_dual_th232.name=Thorium-232-Doppelbrennstab
+item.rod_dual_thorium_fuel.name=Doppelte Thoriumkernbrennstoffzelle
+item.rod_dual_thorium_fuel_depleted.name=Erschöpfte Thoriumdoppelkernbrennstoffzelle
+item.rod_dual_tritium.name=Doppelte Tritiumzelle
+item.rod_dual_u233.name=Uran-233-Doppelbrennstab
+item.rod_dual_u235.name=Uran-235-Doppelbrennstab
+item.rod_dual_u238.name=Uran-238-Doppelbrennstab
+>>>>>>> master
 item.rod_dual_uranium.name=Urandoppelbrennstab
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel_depleted.name=Erschöpfte Urandoppelkernbrennstoffzelle
@@ -1935,10 +2622,17 @@ item.rod_of_discord.name=Rute der Zwietracht
 item.rod_plutonium.name=Plutoniumbrennstab
 item.rod_plutonium_fuel.name=Plutoniumkernbrennstoffzelle
 item.rod_plutonium_fuel_depleted.name=Erschöpfte Plutoniumkernbrennstoffzelle
+<<<<<<< HEAD
 item.rod_polonium.name=Poloniumbrennstab
 item.rod_pu238.name=Pu238-Brennstab
 item.rod_pu239.name=Pu239-Brennstab
 item.rod_pu240.name=Pu240-Brennstab
+=======
+item.rod_polonium.name=Polonium-210-Brennstab
+item.rod_pu238.name=Plutonium-238-Brennstab
+item.rod_pu239.name=Plutonium-239-Brennstab
+item.rod_pu240.name=Plutonium-240-Brennstab
+>>>>>>> master
 item.rod_quad_balefire.name=Balefire-Vierfachbrennstab
 item.rod_quad_balefire_blazing.name=Lodernder Balefire-Vierfachbrennstab
 item.rod_quad_coolant.name=Vierfache Kühlzelle
@@ -1952,6 +2646,7 @@ item.rod_quad_neptunium.name=Neptuniumvierfachbrennstab
 item.rod_quad_plutonium.name=Plutoniumvierfachbrennstab
 item.rod_quad_plutonium_fuel.name=Vierfache Plutoniumkernbrennstoffzelle
 item.rod_quad_plutonium_fuel_depleted.name=Erschöpfte Plutoniumvierfachkernbrennstoffzelle
+<<<<<<< HEAD
 item.rod_quad_polonium.name=Poloniumvierfachbrennstab
 item.rod_quad_pu238.name=Pu238-Vierfachbrennstab
 item.rod_quad_pu239.name=Pu239-Vierfachbrennstab
@@ -1967,12 +2662,30 @@ item.rod_quad_tritium.name=Vierfache Tritiumzelle
 item.rod_quad_u233.name=U233-Vierfachbrennstab
 item.rod_quad_u235.name=U235-Vierfachbrennstab
 item.rod_quad_u238.name=U238-Vierfachbrennstab
+=======
+item.rod_quad_polonium.name=Polonium-210-Vierfachbrennstab
+item.rod_quad_pu238.name=Plutonium-238-Vierfachbrennstab
+item.rod_quad_pu239.name=Plutonium-239-Vierfachbrennstab
+item.rod_quad_pu240.name=Plutonium-240-Vierfachbrennstab
+item.rod_quad_schrabidium.name=Schrabidium-326-Vierfachbrennstab
+item.rod_quad_schrabidium_fuel.name=Vierfache Schrabidiumkernbrennstoffzelle
+item.rod_quad_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumvierfachkernbrennstoffzelle
+item.rod_quad_solinium.name=Schrabidium-327-Vierfachbrennstab
+item.rod_quad_th232.name=Thorium-232-Vierfachbrennstab
+item.rod_quad_thorium_fuel.name=Vierfache Thoriumkernbrennstoffzelle
+item.rod_quad_thorium_fuel_depleted.name=Erschöpfte Thoriumvierfachkernbrennstoffzelle
+item.rod_quad_tritium.name=Vierfache Tritiumzelle
+item.rod_quad_u233.name=Uran-233-Vierfachbrennstab
+item.rod_quad_u235.name=Uran-235-Vierfachbrennstab
+item.rod_quad_u238.name=Uran-238-Vierfachbrennstab
+>>>>>>> master
 item.rod_quad_uranium.name=Uranvierfachbrennstab
 item.rod_quad_uranium_fuel.name=Vierfache Urankernbrennstoffzelle
 item.rod_quad_uranium_fuel_depleted.name=Erschöpfte Uranvierfachkernbrennstoffzelle
 item.rod_quad_waste.name=Vierfacher Atommüllstab
 item.rod_quad_water.name=Vierfache Wasserzelle
 item.rod_reiium.name=Reiiumbrennstab
+<<<<<<< HEAD
 item.rod_schrabidium.name=Sa326-Brennstab
 item.rod_schrabidium_fuel.name=Schrabidiumkernbrennstoffzelle
 item.rod_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumkernbrennstoffzelle
@@ -1984,6 +2697,19 @@ item.rod_tritium.name=Tritiumzelle
 item.rod_u233.name=U233-Brennstab
 item.rod_u235.name=U235-Brennstab
 item.rod_u238.name=U238-Brennstab
+=======
+item.rod_schrabidium.name=Schrabidium-326-Brennstab
+item.rod_schrabidium_fuel.name=Schrabidiumkernbrennstoffzelle
+item.rod_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumkernbrennstoffzelle
+item.rod_solinium.name=Schrabidium-327-Brennstab
+item.rod_th232.name=Thorium-232-Brennstab
+item.rod_thorium_fuel.name=Thoriumkernbrennstoffzelle
+item.rod_thorium_fuel_depleted.name=Erschöpfte Thoriumkernbrennstoffzelle
+item.rod_tritium.name=Tritiumzelle
+item.rod_u233.name=Uran-233-Brennstab
+item.rod_u235.name=Uran-235-Brennstab
+item.rod_u238.name=Uran-238-Brennstab
+>>>>>>> master
 item.rod_unobtainium.name=Unobtainiumbrennstab
 item.rod_uranium.name=Uranbrennstab
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
@@ -2003,6 +2729,10 @@ item.rune_thurisaz.name=Additive Catalyst Matrix
 item.sat_base.name=Satellitenkörper
 item.sat_chip.name=Satelliten-ID-Chip
 item.sat_coord.name=Satelliten-Zielmarkierer
+<<<<<<< HEAD
+=======
+item.sat_designator.name=atelliten-Laserzielmarkierer
+>>>>>>> master
 item.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse
 item.sat_gerald.name=Gerald der Konstruktionsandroid
 item.sat_head_laser.name=Todesstrahl
@@ -2041,6 +2771,10 @@ item.seg_20.name=Größe 20 Bindeglied
 item.serum.name=Serum
 item.servo_set.name=Servo-Set
 item.servo_set_desh.name=Deshservo-Set
+<<<<<<< HEAD
+=======
+item.shackles.name=Fußschellen
+>>>>>>> master
 item.shimmer_axe.name=Shimmer Axe
 item.shimmer_axe_head.name=Schwerer Axtkopf
 item.shimmer_handle.name=Verstärketer Polymergriff
@@ -2050,6 +2784,10 @@ item.singularity.name=Singularität
 item.singularity_counter_resonant.name=Eingefasste nicht-resonante Singularität
 item.singularity_spark.name=Spark'sche Singularität
 item.singularity_super_heated.name=Supererhitzte resonante Singularität
+<<<<<<< HEAD
+=======
+item.siox.name=SiOX-Krebsmedikament
+>>>>>>> master
 item.siren_track.name=Sirenentrack
 item.smashing_hammer.name=Zerschmetterungshammer
 item.solid_fuel.name=Festbrennstoff
@@ -2058,6 +2796,10 @@ item.solinium_igniter.name=SOL-Impulszünder
 item.solinium_kit.name=Solinium Kit
 item.solinium_propellant.name=SOL-Verdichtungsladung
 item.sopsign.name=Sopschild-Streitaxt
+<<<<<<< HEAD
+=======
+item.spawn_ufo.name=Marsianisches Invasionsschiff
+>>>>>>> master
 item.spawn_worm.name=Balls-O-Tron Prime
 item.sphere_steel.name=Stahlhohlkugel
 item.spider_milk.name=Spinnenmilch
@@ -2121,6 +2863,10 @@ item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
 item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_super.name=Super Stimpak
+<<<<<<< HEAD
+=======
+item.syringe_mkunicorn.name=MKUNICORN
+>>>>>>> master
 item.syringe_poison.name=Giftspritze
 item.syringe_taint.name=Wässrige Schmutzinjektion
 item.t45_boots.name=T45-Powerrüstungsstiefel
@@ -2187,6 +2933,10 @@ item.turret_spitfire_ammo.name=AA-Geschoss
 item.turret_tau_ammo.name=Tauonengeschütz-Uranmunition
 item.twinkie.name=Twinkie
 item.ullapool_caber.name=Ullapool'sche Stiel
+<<<<<<< HEAD
+=======
+item.undefined.name=Undefined
+>>>>>>> master
 item.upgrade_afterburn_1.name=Nachbrennerupgrade Mk.I
 item.upgrade_afterburn_2.name=Nachbrennerupgrade Mk.II
 item.upgrade_afterburn_3.name=Nachbrennerupgrade Mk.III
@@ -2214,6 +2964,11 @@ item.upgrade_speed_1.name=Geschwindigkeitsupgrade Mk.I
 item.upgrade_speed_2.name=Geschwindigkeitsupgrade Mk.II
 item.upgrade_speed_3.name=Geschwindigkeitsupgrade Mk.III
 item.upgrade_template.name=Maschinenupgrade-Vorlage
+<<<<<<< HEAD
+=======
+item.v1.name=V1
+item.volcanic_pickaxe.name=Geschmolzene Spitzhacke
+>>>>>>> master
 item.wand_d.name=Debug-Zauberstab
 item.wand_k.name=Konstruktions-Zauberstab
 item.wand_s.name=Struktur-Zauberstab
@@ -2234,6 +2989,10 @@ item.warhead_mirvlet.name=MIRV
 item.warhead_nuclear.name=Atomsprengkopf
 item.warhead_thermo_endo.name=Endothermischer Sprengkopf
 item.warhead_thermo_exo.name=Exothermischer Sprengkopf
+<<<<<<< HEAD
+=======
+item.warhead_volcano.name=Tektonischer Sprengkopf
+>>>>>>> master
 item.waste_mox.name=Erschöpfter MOX-Kernbrennstoff
 item.waste_mox_hot.name=Erschöpfter MOX-Kernbrennstoff (Heiß)
 item.waste_plutonium.name=Erschöpfter Plutoniumkernbrennstoff
@@ -2253,7 +3012,13 @@ item.weapon_pipe_rusty.name=Der Einstellungskorrigierer
 item.weapon_saw.name=Ärztlich autorisierter Mord
 item.weaponized_starblaster_cell.name=§cManipulierte Sternenblaster-Energiezelle§r
 item.wd40.name=VT-40
+<<<<<<< HEAD
 item.wild_p.name=Wild Pegasus Trockener Wiskey
+=======
+item.wild_p.name=Wild Pegasus Trockener Whisky
+item.wings_limp.name=Schlaffe Flügel
+item.wings_murk.name=Trübe Flügel
+>>>>>>> master
 item.wire_advanced_alloy.name=Supraleiter
 item.wire_aluminium.name=Aluminiumdraht
 item.wire_copper.name=Kupferdraht
@@ -2294,18 +3059,60 @@ potion.hbm_telekinesis=! ! !
 
 radar.detectMissiles=Raketen erkennen
 radar.detectPlayers=Spieler erkennen
+<<<<<<< HEAD
 radar.smartMode=Smart Mode$Redstonesignal ignoriert aufsteigende Raketen
 
+=======
+radar.redMode=Redstone Mode$Ein: Redstonesignal basiert auf Nähe$Aus: Redstonesignal basiert auf Größe
+radar.smartMode=Smart Mode$Redstonesignal ignoriert aufsteigende Raketen
+
+rbmk.heat=Komponententemperatur: %s
+rbmk.boiler.water=Wasser: %s / %s
+rbmk.boiler.steam=Dampf: %s / %s
+rbmk.boiler.type=Kompressor: %s
+rbmk.control.level=%s
+rbmk.control.red=§cote Gruppe
+rbmk.control.yellow=§eGelbe Gruppe
+rbmk.control.green=§aGrüne Gruppe
+rbmk.control.blue=§1Blaue Gruppe
+rbmk.control.purple=§5Lila Gruppe
+rbmk.moderated=Moderiert
+rbmk.rod.depletion=Erschöpfung: %s
+rbmk.rod.xenon=Xenonvergiftung: %s
+rbmk.rod.coreTemp=Kerntemperatur: %s
+rbmk.rod.skinTemp=Außentemperatur: %s / %s
+
+>>>>>>> master
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
 tile.absorber_red.name=Verbesserter Strahlungs-Absorber
 tile.acid_block.name=Säure
+<<<<<<< HEAD
 tile.ams_base.name=AMS-Basis [WIP]
 tile.ams_emitter.name=AMS-Emitter [WIP]
 tile.ams_limiter.name=AMS-Stabilisator [WIP]
 tile.ancient_scrap.name=Antikes Altmetall
 tile.asphalt.name=Asphalt
+=======
+tile.ams_base.name=AMS-Basis (Deko)
+tile.ams_emitter.name=AMS-Emitter (Deko)
+tile.ams_limiter.name=AMS-Stabilisator (Deko)
+tile.ancient_scrap.name=Antikes Altmetall
+tile.anvil_bismuth.name=Bismutamboss
+tile.anvil_dnt.name=Dineutroniumamboss
+tile.anvil_ferrouranium.name=Ferrouranamboss
+tile.anvil_iron.name=Eisenamboss
+tile.anvil_lead.name=Bleiamboss
+tile.anvil_meteorite.name=Meteoritenamboss
+tile.anvil_murky.name=Düsteramboss
+tile.anvil_schrabidate.name=Eisenschrabidatamboss
+tile.anvil_starmetal.name=Sternenmetallamboss
+tile.anvil_steel.name=Stahlamboss
+tile.ash_digamma.name=Asche
+tile.asphalt.name=Asphalt
+tile.asphalt_light.name=Leuchtender Asphalt
+>>>>>>> master
 tile.barbed_wire.name=Stacheldraht
 tile.barbed_wire_acid.name=Ätzender Stacheldraht
 tile.barbed_wire_fire.name=Flammender Stacheldraht
@@ -2317,13 +3124,34 @@ tile.barrel_corroded.name=Verrostetes Fass
 tile.barrel_iron.name=Eisenfass
 tile.barrel_plastic.name=Sicheres Fass™
 tile.barrel_steel.name=Stahlfass
+<<<<<<< HEAD
 tile.barricade.name=Sandsäcke
 tile.blast_door.name=Abschluss-Sprengtür
+=======
+tile.barrel_tcalloy.name=Technetiumstahlfass
+tile.barricade.name=Sandsäcke
+tile.basalt.name=Basalt
+tile.basalt_asbestos.name=Asbestreicher Basalt
+tile.basalt_brick.name=Basaltziegel
+tile.basalt_fluorite.name=Fluoritreicher Basalt
+tile.basalt_gem.name=Edelsteinreicher Basalt
+tile.basalt_polished.name=Polierter Basalt
+tile.basalt_smooth.name=Glatter Basalt
+tile.basalt_sulfur.name=Schwefelreicher Basalt
+tile.basalt_tiles.name=Basaltfliesen
+tile.blast_door.name=Abschluss-Sprengtür
+tile.block_actinium.name=Actiniumblock
+>>>>>>> master
 tile.block_advanced_alloy.name=Fortgeschrittener Legierungsblock
 tile.block_aluminium.name=Aluminiumblock
 tile.block_asbestos.name=Asbestblock
 tile.block_australium.name=Australiumblock
 tile.block_beryllium.name=Berylliumblock
+<<<<<<< HEAD
+=======
+tile.block_bismuth.name=Bismutblock
+tile.block_boron.name=Borblock
+>>>>>>> master
 tile.block_cap_fritz.name=Fritz-Kola Kronkorkenblock
 tile.block_cap_korl.name=Korl Kronkorkenblock
 tile.block_cap_nuka.name=Nuka Kronkorkenblock
@@ -2333,8 +3161,16 @@ tile.block_cap_sparkle.name=S~Cola Kronkorkenblock
 tile.block_cap_star.name=Sunset Sarsaparilla Kronkorkenblock
 tile.block_cap_sunset.name=Sunset Sarsaparilla Sternkronkorkenblock
 tile.block_cobalt.name=Kobaltblock
+<<<<<<< HEAD
 tile.block_combine_steel.name=CMB-Stahlblock
 tile.block_copper.name=Kupferblock
+=======
+tile.block_coltan.name=Coltanblock
+tile.block_combine_steel.name=CMB-Stahlblock
+tile.block_copper.name=Kupferblock
+tile.block_corium.name=Corium
+tile.block_corium_cobble.name=Corebblestone
+>>>>>>> master
 tile.block_daffergon.name=Daffergonblock
 tile.block_desh.name=Verstärketer Deshblock
 tile.block_dineutronium.name=Dineutroniumblock
@@ -2345,8 +3181,21 @@ tile.block_euphemium_cluster.name=Euphemiumgeätzter Schrabidium-Cluster
 tile.block_fallout.name=Fallout-Block
 tile.block_fiberglass.name=Fiberglasrolle
 tile.block_fluorite.name=Fluoritblock
+<<<<<<< HEAD
 tile.block_insulator.name=Isolatorrolle
 tile.block_lead.name=Bleiblock
+=======
+tile.block_foam.name=Schaum
+tile.block_graphite.name=Graphitblock
+tile.block_graphite_drilled.name=Gebohrtes Graphit
+tile.block_graphite_fuel.name=Pile Brennstoff
+tile.block_graphite_plutonium.name=Pile Brennstoff (Gebrütet)
+tile.block_graphite_rod.name=Pile Steuerstab
+tile.block_graphite_source.name=Pile Neutronenquelle
+tile.block_insulator.name=Isolatorrolle
+tile.block_lead.name=Bleiblock
+tile.block_lanthanium.name=Lanthanblock
+>>>>>>> master
 tile.block_lithium.name=Lithiumblock
 tile.block_magnetized_tungsten.name=Magnetisierter Wolframblock
 tile.block_meteor.name=Meteoritenblock
@@ -2357,6 +3206,7 @@ tile.block_meteor_treasure.name=Meteoritenschatz
 tile.block_mox_fuel.name=MOX-Kernbrennstoffblock
 tile.block_neptunium.name=Neptuniumblock
 tile.block_niter.name=Salpeterblock
+<<<<<<< HEAD
 tile.block_plutonium.name=Plutoniumblock
 tile.block_plutonium_fuel.name=Plutoniumkernbrennstoffblock
 tile.block_polonium.name=Poloniumblock
@@ -2364,6 +3214,17 @@ tile.block_pu_mix.name=Reaktorfähiger Plutoniumblock
 tile.block_pu238.name=Pu238-Block
 tile.block_pu239.name=Pu239-Block
 tile.block_pu240.name=Pu240-Block
+=======
+tile.block_niter_reinforced.name=Sprengsicherer Salpeterblock
+tile.block_niobium.name=Niobblock
+tile.block_plutonium.name=Plutoniumblock
+tile.block_plutonium_fuel.name=Plutoniumkernbrennstoffblock
+tile.block_polonium.name=Polonium-210-Block
+tile.block_pu_mix.name=Reaktorfähiger Plutoniumblock
+tile.block_pu238.name=Plutonium-238-Block
+tile.block_pu239.name=Plutonium-239-Block
+tile.block_pu240.name=Plutonium-240-Block
+>>>>>>> master
 tile.block_red_copper.name=Roter Kupferblock
 tile.block_red_phosphorus.name=Roter Phosphorblock
 tile.block_reiium.name=Reiiumblock
@@ -2373,10 +3234,16 @@ tile.block_schrabidium_cluster.name=Schrabidium-Cluster
 tile.block_schrabidium_fuel.name=Schrabidiumkernbrennstoffblock
 tile.block_schraranium.name=Schraraniumblock
 tile.block_scrap.name=Schrottblock
+<<<<<<< HEAD
+=======
+tile.block_semtex.name=Semtexblock
+tile.block_smore.name=S'moreblock
+>>>>>>> master
 tile.block_solinium.name=Soliniumblock
 tile.block_starmetal.name=§9Sternenmetallblock§r
 tile.block_steel.name=Stahlblock
 tile.block_sulfur.name=Schwefelblock
+<<<<<<< HEAD
 tile.block_thorium.name=Thoriumblock
 tile.block_thorium_fuel.name=Thoriumkernbrennstoffblock
 tile.block_titanium.name=Titanblock
@@ -2385,15 +3252,35 @@ tile.block_tungsten.name=Wolframblock
 tile.block_u233.name=U233-Block
 tile.block_u235.name=U235-Block
 tile.block_u238.name=U238-Block
+=======
+tile.block_tantalium.name=Tantalblock
+tile.block_thorium.name=Thorium-232-Block
+tile.block_thorium_fuel.name=Thoriumkernbrennstoffblock
+tile.block_titanium.name=Titanblock
+tile.block_trinitite.name=Trinititblock
+tile.block_tritium.name=Tritiumzellenblock
+tile.block_tungsten.name=Wolframblock
+tile.block_u233.name=Uran-233-Block
+tile.block_u235.name=Uran-235-Block
+tile.block_u238.name=Uran-238-Block
+>>>>>>> master
 tile.block_unobtainium.name=Unobtainiumblock
 tile.block_uranium.name=Uranblock
 tile.block_uranium_fuel.name=Urankernbrennstoffblock
 tile.block_verticium.name=Verticiumblock
 tile.block_waste.name=Atommüllblock
 tile.block_waste_painted.name=Bemalter Atommüllblock
+<<<<<<< HEAD
 tile.block_weidanium.name=Weidaniumblock
 tile.block_white_phosphorus.name=Weißer Phosphorblock
 tile.block_yellowcake.name=Yellowcakeblock
+=======
+tile.block_waste_vitrified.name=Vitrifizierter Atommüllblock
+tile.block_weidanium.name=Weidaniumblock
+tile.block_white_phosphorus.name=Weißer Phosphorblock
+tile.block_yellowcake.name=Yellowcakeblock
+tile.block_zirconium.name=Zirkoniumblock
+>>>>>>> master
 tile.boat.name=Boot
 tile.bomb_multi.name=Mehrzweckbombe
 tile.bomber.name=Abgestürtzer Bomber
@@ -2406,7 +3293,12 @@ tile.brick_concrete_broken.name=Gebrochene Betonziegel
 tile.brick_concrete_cracked.name=Rissige Betonziegel
 tile.brick_concrete_marked.name=Beschriebene Betonziegel
 tile.brick_concrete_mossy.name=Bemooste Betonziegel
+<<<<<<< HEAD
 tile.brick_dungeon.name=Berzelianitziiegel
+=======
+tile.brick_ducrete.name=Ducrete-Ziegel
+tile.brick_dungeon.name=Berzelianitziegel
+>>>>>>> master
 tile.brick_dungeon_circle.name=Berzelianitkreis
 tile.brick_dungeon_flat.name=Berzelianitblock
 tile.brick_dungeon_tile.name=Berzelianitfliese
@@ -2426,12 +3318,44 @@ tile.cable_switch.name=Stromschalter
 tile.cheater_virus.name=Geliertes Euphemium
 tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block
 tile.chlorine_gas.name=Chlorgas
+<<<<<<< HEAD
+=======
+tile.cluster_aluminium.name=Aluminiumerzcluster
+tile.cluster_depth_iron.name=Tiefen-Eisenerzcluster
+tile.cluster_depth_titanium.name=Tiefen-Titanerzcluster
+tile.cluster_depth_tungsten.name=Tiefen-Wolframerzcluster
+tile.cluster_iron.name=Eisenerzcluster
+tile.cluster_titanium.name=Titanerzcluster
+>>>>>>> master
 tile.cmb_brick.name=CMB-Stahlfliese
 tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
 tile.compact_launcher.name=Kompakt-Startrampe
 tile.concrete.name=Betonfliese
+<<<<<<< HEAD
 tile.concrete_pillar.name=Stahlbetonsäule
 tile.concrete_smooth.name=Beton
+=======
+tile.concrete_asbestos.name=Asbestbeton
+tile.concrete_colored.black.name=Schwarzer Beton 
+tile.concrete_colored.blue.name=Blauer Beton 
+tile.concrete_colored.brown.name=Brauner Beton 
+tile.concrete_colored.cyan.name=Türkiser Beton 
+tile.concrete_colored.gray.name=Grauer Beton 
+tile.concrete_colored.green.name=Grüner Beton 
+tile.concrete_colored.lightBlue.name=Hellblauer Beton 
+tile.concrete_colored.lime.name=Hellgrüner Beton 
+tile.concrete_colored.magenta.name=Magenta Beton 
+tile.concrete_colored.orange.name=Oranger Beton 
+tile.concrete_colored.pink.name=Rosa Beton 
+tile.concrete_colored.purple.name=Lila Beton 
+tile.concrete_colored.red.name=Roter Beton 
+tile.concrete_colored.silver.name=Hellgrauer Beton 
+tile.concrete_colored.white.name=Weißer Beton 
+tile.concrete_colored.yellow.name=Gelber Beton 
+tile.concrete_pillar.name=Stahlbetonsäule
+tile.concrete_smooth.name=Beton
+tile.corium_block.name=Corium
+>>>>>>> master
 tile.crashed_bomb.name=Blindgänger
 tile.crate.name=Vorratskiste
 tile.crate_ammo.name=Sternenmetallkiste
@@ -2451,11 +3375,49 @@ tile.deco_aluminium.name=Aluminium-Dekoblock
 tile.deco_asbestos.name=Asbestdach
 tile.deco_beryllium.name=Beryllium-Dekoblock
 tile.deco_lead.name=Blei-Dekoblock
+<<<<<<< HEAD
 tile.deco_red_copper.name=Roter Kupfer-Dekoblock
+=======
+tile.deco_rbmk.name=RBMK-Dekoblock
+tile.deco_rbmk_smooth.name=Glatter RBMK-Dekoblock
+tile.deco_red_copper.name=Roter Kupfer-Dekoblock
+tile.deco_pipe.name=Stahlrohr
+tile.deco_pipe_rusted.name=Rostiges Stahlrohr
+tile.deco_pipe_green.name=Grünes Stahlrohr
+tile.deco_pipe_green_rusted.name=Rostiges grünes Stahlrohr
+tile.deco_pipe_red.name=Rotes Stahlrohr
+tile.deco_pipe_marked.name=Gasrohr
+tile.deco_pipe_framed.name=Stahlrohr mit Rahmen
+tile.deco_pipe_framed_rusted.name=Rostiges Stahlrohr mit Rahmen
+tile.deco_pipe_framed_green.name=Grünes Stahlrohr mit Rahmen
+tile.deco_pipe_framed_green_rusted.name=Rostiges grünes Stahlrohr mit Rahmen
+tile.deco_pipe_framed_red.name=Rotes Stahlrohr mit Rahmen
+tile.deco_pipe_framed_marked.name=Gasrohr mit Rahmen
+tile.deco_pipe_quad.name=Stahlrohre
+tile.deco_pipe_quad_rusted.name=Rostige Stahlrohre
+tile.deco_pipe_quad_green.name=Grüne Stahlrohre
+tile.deco_pipe_quad_green_rusted.name=Rostige grüne Stahlrohre
+tile.deco_pipe_quad_red.name=Rote Stahlrohre
+tile.deco_pipe_quad_marked.name=Gasrohre
+tile.deco_pipe_rim.name=Stahlrohr mit Rand
+tile.deco_pipe_rim_rusted.name=Rostiges Stahlrohr mit Rand
+tile.deco_pipe_rim_green.name=Grünes Stahlrohr mit Rand
+tile.deco_pipe_rim_green_rusted.name=Rostiges grünes Stahlrohr mit Rand
+tile.deco_pipe_rim_red.name=Rotes Stahlrohr mit Rand
+tile.deco_pipe_rim_marked.name=Gasrohr mit Rand
+>>>>>>> master
 tile.deco_steel.name=Stahl-Dekoblock
 tile.deco_titanium.name=Titan-Dekoblock
 tile.deco_tungsten.name=Wolfram-Dekoblock
 tile.decon.name=Spieler-Dekontaminierer
+<<<<<<< HEAD
+=======
+tile.depth_brick.name=Tiefenziegel
+tile.depth_dnt.name=DNT-Verstärkte Tiefenziegel
+tile.depth_nether_brick.name=Nether-Tiefenziegel
+tile.depth_nether_tiles.name=Nether-Tiefenfliesen
+tile.depth_tiles.name=Tiefenfliesen
+>>>>>>> master
 tile.det_charge.name=Sprengladung
 tile.det_cord.name=Det Cord
 tile.det_miner.name=Bergbau-Sprengladung
@@ -2465,7 +3427,15 @@ tile.dfc_emitter.name=DFC-Emitter
 tile.dfc_injector.name=DFC-Brennstoffinjektor
 tile.dfc_receiver.name=DFC-Receiver
 tile.dfc_stabilizer.name=DFC-Stabilisator
+<<<<<<< HEAD
 tile.drill_pipe.name=Bohrgestänge
+=======
+tile.dirt_dead.name=Tote Erde
+tile.dirt_oily.name=Ölige Erde
+tile.drill_pipe.name=Bohrgestänge
+tile.ducrete.name=Ducrete-Fliese
+tile.ducrete_smooth.name=Ducrete
+>>>>>>> master
 tile.dummy_block.name=Dummyblock
 tile.dummy_port.name=Dummyblock (Stromanschluss)
 tile.dungeon_chain.name=Metallkette
@@ -2480,6 +3450,10 @@ tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.fallout.name=Fallout
 tile.fence_metal.name=Maschendrahtzaun
+<<<<<<< HEAD
+=======
+tile.fire_digamma.name=Verweilendes Digamma
+>>>>>>> master
 tile.fireworks.name=Feuerwerksbatterie
 tile.fireworks.charges=Ladungen: %s
 tile.fireworks.message=Nachricht: %s
@@ -2487,6 +3461,11 @@ tile.fireworks.color=Farbe: %s
 tile.flame_war.name=Flamewar aus der Box
 tile.float_bomb.name=Schwebebombe
 tile.fluid_duct.name=Universelles Flüssigkeitsrohr
+<<<<<<< HEAD
+=======
+tile.foam_layer.name=Schaumdecke
+tile.fraction_spacer.name=Fraktionierungsturm-Teiler
+>>>>>>> master
 tile.frozen_dirt.name=Gefrorene Erde
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_log.name=Gefrorener Baumstamm
@@ -2506,17 +3485,37 @@ tile.fwatz_plasma.name=Destabilisiertes Antischrabidiumplasma
 tile.fwatz_scaffold.name=Watzwerkstützen
 tile.fwatz_tank.name=Kühlmitteltank
 tile.gas_asbestos.name=Asbestpartikel
+<<<<<<< HEAD
 tile.gas_duct.name=Gasleitung
 tile.gas_duct_solid.name=Verstärkte Gasleitung
+=======
+tile.gas_coal.name=Kohlestaub
+tile.gas_duct.name=Gasleitung
+tile.gas_duct_solid.name=Verstärkte Gasleitung
+tile.gas_explosive.name=Explosives Gas
+>>>>>>> master
 tile.gas_flammable.name=Flammbares Gas
 tile.gas_monoxide.name=Koglenmonoxid
 tile.gas_radon.name=Radongas
 tile.gas_radon_dense.name=Dichtes Radongas
 tile.gas_radon_tomb.name=Grabgas
 tile.geiger.name=Geigerzähler
+<<<<<<< HEAD
 tile.glass_polonium.name=Poloniumglas
 tile.glass_trinitite.name=Trinity-Glas
 tile.glass_uranium.name=Uranglas
+=======
+tile.glass_ash.name=Ascheglas
+tile.glass_boron.name=Borglas
+tile.glass_lead.name=Bleiglas
+tile.glass_polonium.name=Poloniumglas
+tile.glass_quartz.name=Quarzglas
+tile.glass_trinitite.name=Trinity-Glas
+tile.glass_uranium.name=Uranglas
+tile.gneiss_brick.name=Schieferziegel
+tile.gneiss_chiseled.name=Gemeißelter Schiefer
+tile.gneiss_tile.name=Schieferfliese
+>>>>>>> master
 tile.gravel_diamond.name=Diamantkies
 tile.gravel_obsidian.name=Gebrochener Obsidian
 tile.hadron_access.name=Teilchenbeschleuniger-Zugriffskonsole
@@ -2546,7 +3545,23 @@ tile.hadron_power_100m.name=Teilchenbeschleuniger-Stromanschluss (100MHE)
 tile.hadron_power_1g.name=Teilchenbeschleuniger-Stromanschluss (1GHE)
 tile.hadron_power_10g.name=Teilchenbeschleuniger-Stromanschluss (10GHE)
 tile.hazmat.name=Strahlenschutzstoff-Block
+<<<<<<< HEAD
 tile.iter.name=Kernfusionsreaktor
+=======
+tile.hev_battery.name=Anzugs-Batterie
+tile.iter.name=Kernfusionsreaktor
+tile.ladder_aluminium.name=Aluminiumleiter
+tile.ladder_cobalt.name=Kobaltleiter
+tile.ladder_copper.name=Kupferleiter
+tile.ladder_gold.name=Goldene Leiter
+tile.ladder_iron.name=Eisenleiter
+tile.ladder_lead.name=Bleilieter
+tile.ladder_steel.name=Stahlleiter
+tile.ladder_sturdy.name=Feste Holzleiter
+tile.ladder_titanium.name=Titanleiter
+tile.ladder_tungsten.name=Wolframleiter
+tile.lamp_demon.name=Dämonenkernlampe
+>>>>>>> master
 tile.lamp_tritium_blue_off.name=Blaue Tritiumlampe
 tile.lamp_tritium_blue_on.name=Blaue Tritiumlampe
 tile.lamp_tritium_green_off.name=Grüne Tritiumlampe
@@ -2559,6 +3574,10 @@ tile.machine_arc_furnace_off.name=Lichtbogenofen
 tile.machine_arc_furnace_on.name=Lichtbogenofen
 tile.machine_armor_table.name=Rüstungsmodifikationstisch
 tile.machine_assembler.name=Fertigungsmaschine
+<<<<<<< HEAD
+=======
+tile.machine_bat9000.name=Big-Ass Tank 9000
+>>>>>>> master
 tile.machine_battery.name=Energiespeicherblock
 tile.machine_battery_potato.name=Kartoffelbatterieblock
 tile.machine_boiler_electric_off.name=Elektrischer Boiler
@@ -2567,9 +3586,17 @@ tile.machine_boiler_off.name=Dampfkessel
 tile.machine_boiler_on.name=Dampfkessel
 tile.machine_centrifuge.name=Zentrifuge
 tile.machine_chemplant.name=Chemiefabrik
+<<<<<<< HEAD
 tile.machine_coal_off.name=Verbrennungsgenerator
 tile.machine_coal_on.name=Verbrennungsgenerator
 tile.machine_combine_factory.name=CMB-Stahl Hochofen
+=======
+tile.machine_chungus.name=Leviathan-Dampfturbine
+tile.machine_coal_off.name=Verbrennungsgenerator
+tile.machine_coal_on.name=Verbrennungsgenerator
+tile.machine_combine_factory.name=CMB-Stahl Hochofen
+tile.machine_condenser.name=Dampfkondensierer
+>>>>>>> master
 tile.machine_controller.name=Reaktorfernsteuerung
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
@@ -2589,6 +3616,11 @@ tile.machine_fensu.name=FEnSU
 tile.machine_flare.name=Abfackelturm
 tile.machine_fluidtank.name=Tank
 tile.machine_forcefield.name=Kraftfeldgenerator
+<<<<<<< HEAD
+=======
+tile.machine_fracking_tower.name=Hydraulischer Frackingturm
+tile.machine_fraction_tower.name=Fraktionierungsturm
+>>>>>>> master
 tile.machine_gascent.name=Gaszentrifuge
 tile.machine_generator.name=Atomreaktor (Alt)
 tile.machine_geo.name=Gepthermiegenerator
@@ -2602,6 +3634,10 @@ tile.machine_minirtg.name=Radioisotopenzelle
 tile.machine_missile_assembly.name=Raketenmontagestation
 tile.machine_nuke_furnace_off.name=Atombetriebener Ofen
 tile.machine_nuke_furnace_on.name=Atombetriebener Ofen
+<<<<<<< HEAD
+=======
+tile.machine_orbus.name=Schwerer Magnetischer Lagerbehälter
+>>>>>>> master
 tile.machine_powerrtg.name=PT-Isotopenzelle
 tile.machine_press.name=Befeuerte Presse
 tile.machine_puf6_tank.name=Plutoniumhexafluorid-Tank
@@ -2628,13 +3664,25 @@ tile.machine_schrabidium_battery.name=Schrabidium-Energiespeicherblock
 tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 tile.machine_selenium.name=Hochleistungs-Sternmotor
 tile.machine_shredder.name=Brecher
+<<<<<<< HEAD
 tile.machine_silex.name=Laser-Isotopentrenner
+=======
+tile.machine_silex.name=Laser-Isotopentrenner (SILEX)
+>>>>>>> master
 tile.machine_siren.name=Sirene
 tile.machine_solar_boiler.name=Solarturmboiler
 tile.machine_spp_bottom.name=NPE-Potentialgenerator (Unterteil)
 tile.machine_spp_top.name=NPE-Potentialgenerator (Oberteil)
+<<<<<<< HEAD
 tile.machine_telelinker.name=Geschütz-Telemetrie-Manager
 tile.machine_teleporter.name=Teleporter
+=======
+tile.machine_storage_drum.name=Atommüll-Lagertrommel
+tile.machine_telelinker.name=Geschütz-Telemetrie-Manager
+tile.machine_teleporter.name=Teleporter
+tile.machine_tower_large.name=Kühlturm
+tile.machine_tower_small.name=Hilfskühlturm
+>>>>>>> master
 tile.machine_transformer.name=10k-20Hz-Transformator
 tile.machine_transformer_20.name=10k-1Hz-Transformator
 tile.machine_transformer_dnt.name=DNT-20Hz-Transformator
@@ -2679,11 +3727,27 @@ tile.oil_pipe.name=Rohölrohr
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_asbestos.name=Asbesterz
 tile.ore_australium.name=Australisches Erz
+<<<<<<< HEAD
 tile.ore_beryllium.name=Berylliumerz
 tile.ore_coal_oil.name=Öliges Kohleerz
 tile.ore_coal_oil_burning.name=Brennendes Öliges Kohleerz
 tile.ore_copper.name=Kupfererz
 tile.ore_daffergon.name=Dellit
+=======
+tile.ore_bedrock_coltan.name=Bedrock-Coltanerz
+tile.ore_bedrock_oil.name=Bedrock-Ölvorkommen
+tile.ore_beryllium.name=Berylliumerz
+tile.ore_cinnebar.name=Zinnobererz
+tile.ore_coal_oil.name=Öliges Kohleerz
+tile.ore_coal_oil_burning.name=Brennendes Öliges Kohleerz
+tile.ore_cobalt.name=Kobalterz
+tile.ore_coltan.name=Coltanerz
+tile.ore_copper.name=Kupfererz
+tile.ore_daffergon.name=Dellit
+tile.ore_depth_cinnebar.name=Tiefen-Zinnobererz
+tile.ore_depth_nether_neodymium.name=Nether-Tiefen-Neodymerz
+tile.ore_depth_zirconium.name=Tiefen-Zirkonerz
+>>>>>>> master
 tile.ore_fluorite.name=Fluoriterz
 tile.ore_gneiss_asbestos.name=Schiefer-Asbesterz
 tile.ore_gneiss_copper.name=Schiefer-Kupfererz
@@ -2708,6 +3772,10 @@ tile.ore_meteor_titanium.name=Meteoriten-Titanerz
 tile.ore_meteor_tungsten.name=Meteoriten-Wolframerz
 tile.ore_meteor_uranium.name=Meteoriten-Uranerz
 tile.ore_nether_coal.name=Brennendes Nether-Kohleerz
+<<<<<<< HEAD
+=======
+tile.ore_nether_cobalt.name=Nether-Kobalterz
+>>>>>>> master
 tile.ore_nether_fire.name=Nether-Phosphorerz
 tile.ore_nether_plutonium.name=Nether-Plutoniumerz
 tile.ore_nether_schrabidium.name=Nether-Schrabidiumerz
@@ -2742,10 +3810,37 @@ tile.plasma.name=Plasma
 tile.plasma_heater.name=Plasmaerhitzer
 tile.pole_satellite_receiver.name=Satellitenschüssel
 tile.pole_top.name=Antennenspitze
+<<<<<<< HEAD
+=======
+tile.pribris.name=RBMK-Schutt
+tile.pribris_burning.name=Flammender RBMK-Schutt
+tile.pribris_digamma.name=Geschwärzter RBMK-Schutt
+tile.pribris_radiating.name=Glühender RBMK-Schutt
+>>>>>>> master
 tile.radiobox.name=Rosenberg Ungeziefervernichter
 tile.radiorec.name=Kaputtes UKW Radio
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
+<<<<<<< HEAD
+=======
+tile.rbmk_absorber.name=RBMK Bor-Neutronenabsorber
+tile.rbmk_blank.name=RBMK Strukturteil
+tile.rbmk_boiler.name=RBMK Dampfkanal
+tile.rbmk_console.name=RBMK Konsole
+tile.rbmk_control.name=RBMK Steuerstäbe
+tile.rbmk_control_auto.name=RBMK Automatische Steuerstäbe
+tile.rbmk_control_mod.name=RBMK Moderierte Steuerstäbe
+tile.rbmk_loader.name=RBMK-Dampfadapter
+tile.rbmk_moderator.name=RBMK Graphitmoderator
+tile.rbmk_outgasser.name=RBMK Bestrahlungskanal
+tile.rbmk_reflector.name=RBMK Wolframcarbid-Moderator
+tile.rbmk_rod.name=RBMK Brennstäbe
+tile.rbmk_rod_mod.name=RBMK Moderierte Brennstäbe
+tile.rbmk_rod_reasim.name=RBMK Brennstäbe (ReaSim)
+tile.rbmk_rod_reasim_mod.name=RBMK Moderierte Brennstäbe (ReaSim)
+tile.rbmk_steam_inlet.name=RBMK ReaSim Wassereinlass
+tile.rbmk_steam_outlet.name=RBMK ReaSim Dampfabnehmer
+>>>>>>> master
 tile.reactor_computer.name=Reaktorsteuerung
 tile.reactor_conductor.name=Reaktorboiler
 tile.reactor_control.name=Steuerstäbe
@@ -2758,6 +3853,10 @@ tile.red_cable.name=Rotes Kupferkabel
 tile.red_pylon.name=Strommasten
 tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
 tile.reinforced_brick.name=Verstärkter Stein
+<<<<<<< HEAD
+=======
+tile.reinforced_ducrete.name=Verstärkter Ducrete
+>>>>>>> master
 tile.reinforced_glass.name=Verstärktes Glas
 tile.reinforced_lamp_off.name=Verstärkte Lampe
 tile.reinforced_lamp_on.name=Verstärkte Lampe
@@ -2767,7 +3866,19 @@ tile.reinforced_stone.name=Verdichteter Stein
 tile.rejuvinator.name=Regenerationsmaschine
 tile.residue.name=Wolkenrückstände
 tile.safe.name=Panzerschrank
+<<<<<<< HEAD
 tile.sand_polonium.name=Poloniumsand
+=======
+tile.sand_boron.name=Borsand
+tile.sand_boron_layer.name=Borsanddecke
+tile.sand_dirty.name=Öliger Sand
+tile.sand_dirty_red.name=Roter Öliger Sand
+tile.sand_gold.name=Goldsand
+tile.sand_gold198.name=Gold-198-Sand
+tile.sand_lead.name=Bleisand
+tile.sand_polonium.name=Poloniumsand
+tile.sand_quartz.name=Quarzsand
+>>>>>>> master
 tile.sand_uranium.name=Uransand
 tile.sat_dock.name=Frachtlandeplattform
 tile.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse (Dekoblock)
@@ -2776,6 +3887,10 @@ tile.sat_mapper.name=Oberflächen-Abtastungssatellit (Dekoblock)
 tile.sat_radar.name=Radar-Überwachungssatellit (Dekoblock)
 tile.sat_resonator.name=Xenium-Resonator-Satellit (Dekoblock)
 tile.sat_scanner.name=Satellit mit Tiefenscanning-Modul (Dekoblock)
+<<<<<<< HEAD
+=======
+tile.schrabidic_block.name=Schrabidische Säure
+>>>>>>> master
 tile.seal_controller.name=Silolukenöffner
 tile.seal_frame.name=Siloluke (Rahmen)
 tile.seal_hatch.name=Siloluke (Deckel)
@@ -2792,11 +3907,22 @@ tile.soyuz_launcher.name=Soyuz-Startplatform
 tile.spikes.name=Stacheln
 tile.steel_beam.name=Stahlträger
 tile.steel_corner.name=Stahlwand (Ecke)
+<<<<<<< HEAD
+=======
+tile.steel_grate.name=Stahlgitter
+>>>>>>> master
 tile.steel_poles.name=Stahlmasten
 tile.steel_roof.name=Flaches Stachldach
 tile.steel_scaffold.name=Stahlgerüst
 tile.steel_wall.name=Stahlwand
+<<<<<<< HEAD
 tile.stone_gneiss.name=Graphitschiefer
+=======
+tile.stone_depth.name=Tiefenfels
+tile.stone_depth_nether.name=Nether-Tiefenfels
+tile.stone_gneiss.name=Graphitschiefer
+tile.stone_porous.name=Poröser Stein
+>>>>>>> master
 tile.struct_iter_core.name=Fusionsreaktor-Kernkomponente
 tile.struct_launcher.name=Startrampe-Komponentenblock
 tile.struct_launcher_core.name=Kompaktrampe-Kernkomponente
@@ -2820,10 +3946,20 @@ tile.turret_chekhov.name=Schweres MG-Geschütz "Tschechows Gewehr"
 tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_friendly.name=Gatlingeschütz "Mister Friendly"
+<<<<<<< HEAD
 tile.turret_heavy.name=Schweres MG-Geschütz
 tile.turret_howard.name=Goalkeeper-Zwilling CIWS "Howard"
 tile.turret_jeremy.name=Autokanonengeschütz "Jeremy"
 tile.turret_light.name=Leichtes MG-Geschütz
+=======
+tile.turret_fritz.name=Schwered Flammenwerfergeschütz "Fritz"
+tile.turret_heavy.name=Schweres MG-Geschütz
+tile.turret_howard.name=Goalkeeper-Zwilling CIWS "Howard"
+tile.turret_howard_damaged.name=Goalkeeper-Zwilling CIWS "turret_howard_damaged"
+tile.turret_jeremy.name=Autokanonengeschütz "Jeremy"
+tile.turret_light.name=Leichtes MG-Geschütz
+tile.turret_maxwell.name=Hochenergie-MASER-Geschütz "Maxwell"
+>>>>>>> master
 tile.turret_rocket.name=Raketengeschütz
 tile.turret_richard.name=Raketenwerfergeschütz "Richard"
 tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
@@ -2835,6 +3971,12 @@ tile.vent_chlorine_seal.name=Chlorgassiegel
 tile.vent_cloud.name=Wolken-Auslass
 tile.vent_pink_cloud.name=Pinker Wolken-Auslass
 tile.vitrified_barrel.name=Fass voll vitrifiziertem Atommüll
+<<<<<<< HEAD
+=======
+tile.volcano_core.name=Vulkankern
+item.missile_volcano.desc=Mit der Kraft von Kernwaffen können wir einen Vulkan beschwören!
+tile.volcanic_lava_block.name=Vulkanische Lava
+>>>>>>> master
 tile.waste_earth.name=Totes Gras
 tile.waste_log.name=Verkohltes Holz
 tile.waste_mycelium.name=Leuchtende Myzel
@@ -2853,6 +3995,10 @@ tile.yellow_barrel.name=Radioaktives Fass
 trait.asbestos=Asbest
 trait.blinding=Blendend
 trait.breeding=%s Operationen in Brutreaktor
+<<<<<<< HEAD
+=======
+trait.coal=Kohlestaub
+>>>>>>> master
 trait.digamma=Digammastrahlung
 trait.drop=Gefährlicher Drop
 trait.explosive=Entzündlich / Explosiv
@@ -2865,6 +4011,48 @@ trait.hydro=Hydro-Reaktiv
 trait.radioactive=Radioaktiv
 trait.radResistance=Strahlungs-Resistenz: %s
 
+<<<<<<< HEAD
+=======
+trait.rbmk.coreTemp=Kerntemperatur: %s
+trait.rbmk.depletion=Erschöpfung: %s
+trait.rbmk.diffusion=Diffusion: %s
+trait.rbmk.fluxFunc=Flux-Funktion: %s
+trait.rbmk.funcType=Funktionstyp: %s
+trait.rbmk.heat=Hitze pro Tick bei voller Kraft: %s
+trait.rbmk.melt=Schmelzpunkt: %s
+trait.rbmk.neutron.any=Alle Neutronen
+trait.rbmk.neutron.fast=Schnelle Neutronen
+trait.rbmk.neutron.slow=Langsame Neutronen
+trait.rbmk.skinTemp=Außentemperatur: %s
+trait.rbmk.source=Selbstzündend
+trait.rbmk.splitsInto=Teilt sich in: %s
+trait.rbmk.splitsWith=Teilt sich mit: %s
+trait.rbmk.xenon=Xenonvergiftung: %s
+trait.rbmk.xenonBurn=Xenon-Verbr.-Funkion: %s
+trait.rbmk.xenonGen=Xenon-Erzg.-Funktion: %s
+
+trait.rbmx.coreTemp=Kernentropie: %s
+trait.rbmx.depletion=Verkrustungsgraad: %s
+trait.rbmx.diffusion=Fluss: %s
+trait.rbmx.fluxFunc=Zerstörungsfunktion: %s
+trait.rbmk.funcType=Funktionsspezifikation: %s
+trait.rbmx.heat=Verkrustung pro Tick bei voller Kraft: %s
+trait.rbmx.melt=Kollapstiefe: %s
+trait.rbmk.neutron.any.x=Alle nicht-euklidischen Formen
+trait.rbmk.neutron.fast.x=Elliptische nicht-euklidische Formen
+trait.rbmk.neutron.slow.x=Hyperbolische nicht-euklidische Formen
+trait.rbmx.skinTemp=Außenentropie: %s
+trait.rbmx.source=Selbstverbrennend
+trait.rbmx.splitsInto=Verlässt nach: %s
+trait.rbmx.splitsWith=Kommt von: %s
+trait.rbmx.xenon=Bleivergiftung: %s
+trait.rbmx.xenonBurn=Blei-Verbr.-Funkion: %s
+trait.rbmx.xenonGen=Blei-Erzg.-Funktion: %s
+
+trait.tile.cluster=Droppt nur, wenn von Spielern zerstört
+trait.tile.depth=Kann nur durch Explosionen zerstört werden
+
+>>>>>>> master
 tool.ability.cnetrifuge=Auto-Zentrifuge
 tool.ability.crystallizer=Auto-Kristallisierer
 tool.ability.explosion=Explosion
@@ -2878,8 +4066,14 @@ tool.ability.silktouch=Behutsamkeit
 tool.ability.smelter=Auto-Ofen
 
 weapon.ability.beheader=Köpfer
+<<<<<<< HEAD
 weapon.ability.chainsaw=Skelettensäge
 # Should rhyme with the translation for "chainsaw"
+=======
+# Should rhyme with the translation for "chainsaw"
+weapon.ability.chainsaw=Skelettensäge
+weapon.ability.fire=Flammend
+>>>>>>> master
 weapon.ability.radiation=Radioaktive Schneide
 weapon.ability.phosphorus=Phosphorspitze
 weapon.ability.stun=Betäubend

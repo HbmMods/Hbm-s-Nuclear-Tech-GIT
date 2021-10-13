@@ -19,9 +19,13 @@ import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
@@ -177,6 +181,44 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 	
+	public static GunConfiguration getAR15Config() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 50;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 100000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:turret.howard_fire";
+		
+		config.name = "AR-15 .50 BMG Mod";
+		config.manufacturer = "Armalite";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
+		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_PO);
+		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
+		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
+		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		
+		return config;
+	}
+
 	static float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {
 		
@@ -259,8 +301,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_ap;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 30;
-		bullet.dmgMax = 25;
+		bullet.dmgMin = 25;
+		bullet.dmgMax = 30;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -344,5 +386,71 @@ public class Gun50BMGFactory {
 		
 		return bullet;
 	}
+	
+	public static BulletConfiguration get50BMGFlechetteConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_50bmg_flechette;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 20;
+		bullet.dmgMax = 25;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get50BMGFlechetteAMConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_50bmg_flechette_am;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 50;
+		bullet.dmgMax = 65;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		
+		bullet.bHit = new IBulletHitBehavior() {
 
+			@Override
+			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityLivingBase) {
+					ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 100F);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get50BMGFlechettePOConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_50bmg_flechette_po;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 40;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		
+		bullet.bHit = new IBulletHitBehavior() {
+
+			@Override
+			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityLivingBase) {
+					ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 50F);
+				}
+			}
+		};
+		
+		return bullet;
+	}
 }

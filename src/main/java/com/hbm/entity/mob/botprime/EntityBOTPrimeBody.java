@@ -1,6 +1,6 @@
 package com.hbm.entity.mob.botprime;
 
-import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
+import com.hbm.entity.mob.ai.EntityAINearestAttackableTargetNT;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,31 +11,35 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
-	
-	private WormMovementBodyNT movement = new WormMovementBodyNT(this);
+
+	//private WormMovementBodyNT movement = new WormMovementBodyNT(this);
 
 	public EntityBOTPrimeBody(World world) {
 		super(world);
-		this.bodySpeed = 0.6D;
 		this.rangeForParts = 70.0D;
 		this.segmentDistance = 3.5D;
+<<<<<<< HEAD
 	    this.maxBodySpeed = 1.4D;
 	    this.targetTasks.addTask(1, new EntityAINearestAttackableTargetNT(this, EntityPlayer.class, 0, false, false, this.selector, 128.0D));
+=======
+		this.maxBodySpeed = 1.4D;
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTargetNT(this, EntityPlayer.class, 0, false, false, this.selector, 128.0D));
+>>>>>>> master
 	}
-	
+
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(17, (byte)0);
+		this.dataWatcher.addObject(17, (byte) 0);
 	}
 
 	@Override
 	public float getAttackStrength(Entity target) {
-		
+
 		if(target instanceof EntityLivingBase) {
 			return ((EntityLivingBase) target).getHealth() * 0.75F;
 		}
-		
+
 		return 100;
 	}
 	
@@ -45,11 +49,22 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 	}
 
 	@Override
+	public boolean isPotionApplicable(PotionEffect potion) {
+		return false;
+	}
+
+	@Override
 	protected void updateAITasks() {
 		this.updateEntityActionState();
 		this.targetTasks.onUpdateTasks();
+<<<<<<< HEAD
 		this.movement.updateMovement();
 		
+=======
+		
+		updateMovement();
+
+>>>>>>> master
 		if(this.didCheck) {
 			if(this.targetedEntity == null || !this.targetedEntity.isEntityAlive()) {
 				setHealth(getHealth() - 1999.0F);
@@ -58,7 +73,11 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, false);
 			}
 		}
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> master
 		if(this.followed != null && this.followed.isEntityAlive() && getAttackTarget() != null) {
 			if(canEntityBeSeenThroughNonSolids(getAttackTarget())) {
 				this.attackCounter += 1;
@@ -73,11 +92,16 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 		} else if(this.attackCounter > 0) {
 			this.attackCounter -= 1;
 		}
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> master
 		if(this.targetedEntity != null) {
 			double dx = targetedEntity.posX - posX;
 			double dy = targetedEntity.posY - posY;
 			double dz = targetedEntity.posZ - posZ;
+<<<<<<< HEAD
 	        float f3 = MathHelper.sqrt_double(dx * dx + dz * dz);
 	        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(dx, dz) * 180.0D / Math.PI);
 	        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(dy, f3) * 180.0D / Math.PI);
@@ -89,6 +113,19 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 		
 		super.onUpdate();
 		
+=======
+			float f3 = MathHelper.sqrt_double(dx * dx + dz * dz);
+			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(dx, dz) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(dy, f3) * 180.0D / Math.PI);
+		}
+	}
+
+	@Override
+	public void onUpdate() {
+
+		super.onUpdate();
+
+>>>>>>> master
 		if(this.targetedEntity != null) {
 			double dx = targetedEntity.posX - posX;
 			double dy = targetedEntity.posY - posY;

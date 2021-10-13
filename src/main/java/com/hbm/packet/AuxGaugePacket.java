@@ -36,7 +36,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-@Spaghetti("Changing all machiines to use TileEntityMachineBase will reduce the total chaos in this class")
+@Spaghetti("Changing all machines to use TileEntityMachineBase will reduce the total chaos in this class")
+@Deprecated
 public class AuxGaugePacket implements IMessage {
 
 	int x;
@@ -254,7 +255,6 @@ public class AuxGaugePacket implements IMessage {
 				
 				
 				if(te instanceof TileEntityMachineBase) {
-					
 					((TileEntityMachineBase)te).processGauge(m.value, m.id);
 				}
 				

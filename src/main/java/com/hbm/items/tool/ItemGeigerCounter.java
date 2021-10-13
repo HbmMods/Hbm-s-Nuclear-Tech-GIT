@@ -5,12 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+<<<<<<< HEAD
 import com.hbm.saveddata.RadiationSavedData;
+=======
+>>>>>>> master
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,21 +31,30 @@ public class ItemGeigerCounter extends Item {
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
 		
+<<<<<<< HEAD
+=======
+		if(!(entity instanceof EntityLivingBase) || world.isRemote)
+			return;
+		
+>>>>>>> master
 		if(entity instanceof EntityPlayer) {
 			
 			if(ArmorFSB.hasFSBArmor((EntityPlayer)entity) && ((ArmorFSB)((EntityPlayer)entity).inventory.armorInventory[2].getItem()).geigerSound)
 				return;
+<<<<<<< HEAD
 		}
 		
 		setInt(stack, getInt(stack, "timer") + 1, "timer");
 		if(getInt(stack, "timer") == 10) {
 			setInt(stack, 0, "timer");
 			setInt(stack, check(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ), "ticker");
+=======
+>>>>>>> master
 		}
 		
-		int x = getInt(stack, "ticker");
+		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
 		
-		if(getInt(stack, "timer") % 5 == 0) {
+		if(world.getTotalWorldTime() % 5 == 0) {
 			if(x > 0) {
 				List<Integer> list = new ArrayList<Integer>();
 
@@ -70,29 +85,25 @@ public class ItemGeigerCounter extends Item {
 		}
 	}
 	
-	static void setInt(ItemStack stack, int i, String name) {
+	static void setFloat(ItemStack stack, float i, String name) {
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
 		
-		stack.stackTagCompound.setInteger(name, i);
+		stack.stackTagCompound.setFloat(name, i);
 	}
 	
-	public static int getInt(ItemStack stack, String name) {
+	public static float getFloat(ItemStack stack, String name) {
 		if(stack.hasTagCompound())
-			return stack.stackTagCompound.getInteger(name);
+			return stack.stackTagCompound.getFloat(name);
 		
 		return 0;
 	}
 
 	public static int check(World world, int x, int y, int z) {
-		
-		RadiationSavedData data = RadiationSavedData.getData(world);
-		
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
-		
+		int rads = (int)Math.ceil(ChunkRadiationManager.proxy.getRadiation(world, x, y, z));
 		return rads;
 	}
+<<<<<<< HEAD
 	
 	//what?!
     /*@Override
@@ -107,13 +118,15 @@ public class ItemGeigerCounter extends Item {
     	
     	return false;
     }*/
+=======
+>>>>>>> master
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(!world.isRemote) {
-	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-	    	ContaminationUtil.printGeigerData(player);
+			world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+			ContaminationUtil.printGeigerData(player);
 		}
 		
 		return stack;

@@ -3,10 +3,10 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.RadiationSavedData;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,11 +20,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class BlockOre extends BlockGeneric
-{
+public class BlockOre extends Block {
 
-	private float radIn = 0.0F;
-	private float radMax = 0.0F;
+	private float rad = 0.0F;
 
 	public BlockOre(Material mat) {
 		super(mat);
@@ -35,22 +33,23 @@ public class BlockOre extends BlockGeneric
 		this.setTickRandomly(tick);
 	}
 
+	@Deprecated() //use hazard module for this
 	public BlockOre(Material mat, float rad, float max) {
 		super(mat);
 		this.setTickRandomly(true);
-		radIn = rad;
-		radMax = max;
+		this.rad = rad;
 	}
 
+	@Spaghetti("*throws up*")
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
-		if(this == ModBlocks.ore_fluorite) {
+		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
 			return ModItems.fluorite;
 		}
 		if(this == ModBlocks.ore_niter) {
 			return ModItems.niter;
 		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
 			return ModItems.sulfur;
 		}
 		if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
@@ -156,7 +155,7 @@ public class BlockOre extends BlockGeneric
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
 			switch(rand.nextInt(6)) {
 			case 0:
-				return ModItems.fragment_actinium;
+				return ModItems.fragment_boron;
 			case 1:
 				return ModItems.fragment_cerium;
 			case 2:
@@ -193,14 +192,19 @@ public class BlockOre extends BlockGeneric
 		if(this == ModBlocks.deco_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
-		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos) {
+		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos || this == ModBlocks.basalt_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
 		if(this == ModBlocks.ore_lignite) {
 			return ModItems.lignite;
 		}
-		if (this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt)
-		{
+		if(this == ModBlocks.ore_cinnebar) {
+			return ModItems.cinnebar;
+		}
+		if(this == ModBlocks.ore_coltan) {
+			return ModItems.fragment_coltan;
+		}
+		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
 
@@ -208,28 +212,30 @@ public class BlockOre extends BlockGeneric
 	}
 
 	@Override
-	public int quantityDropped(Random p_149745_1_) {
-		if(this == ModBlocks.ore_fluorite) {
-			return 2 + p_149745_1_.nextInt(3);
+	public int quantityDropped(Random rand) {
+		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
+			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_niter) {
-			return 2 + p_149745_1_.nextInt(3);
+			return 2 + rand.nextInt(3);
 		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
-			return 2 + p_149745_1_.nextInt(3);
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
+			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
-			return 4 + p_149745_1_.nextInt(8);
+			return 4 + rand.nextInt(8);
 		}
 		if(this == ModBlocks.block_meteor_broken) {
-			return 1 + p_149745_1_.nextInt(3);
+			return 1 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.block_meteor_treasure) {
-			return 1 + p_149745_1_.nextInt(3);
+			return 1 + rand.nextInt(3);
 		}
-		if (this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt)
-		{
-			return 5 + p_149745_1_.nextInt(5);
+		if(this == ModBlocks.ore_cobalt) {
+			return 4 + rand.nextInt(6);
+		}
+		if(this == ModBlocks.ore_nether_cobalt) {
+			return 5 + rand.nextInt(8);
 		}
 
 		return 1;
@@ -310,10 +316,8 @@ public class BlockOre extends BlockGeneric
 			return;
 		}
 
-		if(this.radIn > 0) {
-
-			RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
-
+		if(this.rad > 0) {
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, rad);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}
@@ -321,7 +325,7 @@ public class BlockOre extends BlockGeneric
 	@Override
 	public int tickRate(World world) {
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			return 20;
 
 		return 100;
@@ -330,7 +334,7 @@ public class BlockOre extends BlockGeneric
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}
 

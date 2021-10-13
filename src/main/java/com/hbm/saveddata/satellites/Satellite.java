@@ -40,7 +40,6 @@ public abstract class Satellite {
 	public Interfaces satIface = Interfaces.NONE;
 	
 	public static void register() {
-
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
 		registerSatellite(SatelliteScanner.class, ModItems.sat_scanner);
 		registerSatellite(SatelliteRadar.class, ModItems.sat_radar);

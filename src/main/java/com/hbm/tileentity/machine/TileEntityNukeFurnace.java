@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineNukeFurnace;
-import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import net.minecraft.entity.player.EntityPlayer;

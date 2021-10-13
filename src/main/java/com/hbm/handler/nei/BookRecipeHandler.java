@@ -4,12 +4,12 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.inventory.MagicRecipes;
-import com.hbm.inventory.MagicRecipes.MagicRecipe;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.gui.GUIBook;
+import com.hbm.inventory.recipes.MagicRecipes;
+import com.hbm.inventory.recipes.MagicRecipes.MagicRecipe;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;

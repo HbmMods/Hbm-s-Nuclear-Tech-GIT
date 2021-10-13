@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.missile.EntityMinerRocket;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
@@ -221,6 +222,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			        	rocket.posX = xCoord + 0.5;
 			        	rocket.posY = 300;
 			        	rocket.posZ = zCoord + 0.5;
+			        	rocket.getDataWatcher().updateObject(17, freq);
 			        	worldObj.spawnEntityInWorld(rocket);
 			        	miner.lastOp = System.currentTimeMillis();
 			        	data.markDirty();
@@ -235,6 +237,12 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		    	if(e instanceof EntityMinerRocket) {
 		    		
 		    		EntityMinerRocket rocket = (EntityMinerRocket)e;
+		    		
+		    		if(slots[15] != null && ItemSatChip.getFreq(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
+		    			rocket.setDead();
+		    			ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.tots);
+		    			break;
+		    		}
 		    		
 		    		if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
 		    			unloadCargo();
@@ -268,6 +276,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_titanium, 2), 8),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_tungsten, 2), 7),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_coal, 4), 15),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_uranium, 2), 5),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium, 1), 5),
@@ -290,7 +299,11 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_plutonium, 1), 3),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_trixite, 1), 1),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_starmetal, 1), 1),
+<<<<<<< HEAD
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_lithium, 1), 1)
+=======
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_lithium, 2), 4)
+>>>>>>> master
 	};
 	
 	private void addToInv(ItemStack stack) {

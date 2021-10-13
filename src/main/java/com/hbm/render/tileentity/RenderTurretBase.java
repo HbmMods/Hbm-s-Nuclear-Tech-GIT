@@ -21,6 +21,7 @@ public abstract class RenderTurretBase extends TileEntitySpecialRenderer {
 		int y = turret.yCoord;
 		int z = (int)(turret.zCoord + pos.zCoord);
 
+<<<<<<< HEAD
 		checkPlug(turret.getWorldObj(), x - 2, y, z, true, false, type, 0, 0, 0);
 		checkPlug(turret.getWorldObj(), x - 2, y, z - 1, true, false, type, 0, -1, 0);
 		
@@ -32,6 +33,19 @@ public abstract class RenderTurretBase extends TileEntitySpecialRenderer {
 
 		checkPlug(turret.getWorldObj(), x, y, z - 2, true, false, type, 0, -1, 270);
 		checkPlug(turret.getWorldObj(), x - 1, y, z - 2, true, false, type, 0, 0, 270);
+=======
+		checkPlug(turret.getWorldObj(), x - 2, y, z, power, fluid, type, 0, 0, 0);
+		checkPlug(turret.getWorldObj(), x - 2, y, z - 1, power, fluid, type, 0, -1, 0);
+		
+		checkPlug(turret.getWorldObj(), x - 1, y, z + 1, power, fluid, type, 0, -1, 90);
+		checkPlug(turret.getWorldObj(), x, y, z + 1, power, fluid, type, 0, 0, 90);
+
+		checkPlug(turret.getWorldObj(), x + 1, y, z, power, fluid, type, 0, -1, 180);
+		checkPlug(turret.getWorldObj(), x + 1, y, z - 1, power, fluid, type, 0, 0, 180);
+
+		checkPlug(turret.getWorldObj(), x, y, z - 2, power, fluid, type, 0, -1, 270);
+		checkPlug(turret.getWorldObj(), x - 1, y, z - 2, power, fluid, type, 0, 0, 270);
+>>>>>>> master
 	}
 	
 	private void checkPlug(World world, int x, int y, int z, boolean power, boolean fluid, FluidType type, int ox, int oz, int rot) {

@@ -3,8 +3,17 @@ package com.hbm.blocks.fluid;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+<<<<<<< HEAD
 import com.hbm.lib.RefStrings;
 import com.hbm.util.ContaminationUtil;
+=======
+import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
+>>>>>>> master
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,10 +21,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+<<<<<<< HEAD
+=======
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
+>>>>>>> master
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+<<<<<<< HEAD
+=======
+import net.minecraftforge.common.util.ForgeDirection;
+>>>>>>> master
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
@@ -71,6 +89,7 @@ public class SchrabidicBlock extends BlockFluidClassic {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		entity.setInWeb();
+<<<<<<< HEAD
 		ContaminationUtil.applyRadData(entity, 1.0F);
 	}
 
@@ -92,6 +111,25 @@ public class SchrabidicBlock extends BlockFluidClassic {
 		if(reactToBlocks(world, x, y, z - 1))
 			world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
     }
+=======
+		
+		if(entity instanceof EntityLivingBase)
+			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1.0F);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		super.onNeighborBlockChange(world, x, y, z, block);
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+
+			if(reactToBlocks(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
+				break;
+			}
+		}
+	}
+>>>>>>> master
 	
 	public boolean reactToBlocks(World world, int x, int y, int z) {
 		if(world.getBlock(x, y, z).getMaterial() != ModBlocks.fluidschrabidic) {
@@ -106,4 +144,29 @@ public class SchrabidicBlock extends BlockFluidClassic {
 	public int tickRate(World p_149738_1_) {
 		return 15;
 	}
+<<<<<<< HEAD
+=======
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass() {
+		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
+
+		double ix = x + 0.5F + rand.nextDouble() * 2 - 1D;
+		double iy = y + 0.5F + rand.nextDouble() * 2 - 1D;
+		double iz = z + 0.5F + rand.nextDouble() * 2 - 1D;
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "schrabfog");
+		data.setDouble("posX", ix);
+		data.setDouble("posY", iy);
+		data.setDouble("posZ", iz);
+		MainRegistry.proxy.effectNT(data);
+	}
+>>>>>>> master
 }

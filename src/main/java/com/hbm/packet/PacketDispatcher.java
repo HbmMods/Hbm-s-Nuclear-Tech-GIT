@@ -41,8 +41,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TETurretPacket.Handler.class, TETurretPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template
 		wrapper.registerMessage(ItemFolderPacket.Handler.class, ItemFolderPacket.class, i++, Side.SERVER);
-		//Pumpjack rotation for animation rendering
-		wrapper.registerMessage(TEPumpjackPacket.Handler.class, TEPumpjackPacket.class, i++, Side.CLIENT);
 		//Turbofan spin for rendering
 		wrapper.registerMessage(TETurbofanPacket.Handler.class, TETurbofanPacket.class, i++, Side.CLIENT);
 		//Press item for rendering
@@ -99,6 +97,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
 		//Packet to send NBT data from clients to serverside TEs
 		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
+		//Packet to send for anvil recipes to be crafted
+		wrapper.registerMessage(AnvilCraftPacket.Handler.class, AnvilCraftPacket.class, i++, Side.SERVER);
 		// Packet to send NBT data to classes extending IDataConnector
 		wrapper.registerMessage(NBTInternetDataPacket.Handler.class, NBTInternetDataPacket.class, i++, Side.CLIENT);
 	}

@@ -203,7 +203,6 @@
     "entity.ducc": {"category": "neutral", "sounds": ["entity/ducc1", "entity/ducc2"]},
     "entity.slicer": {"category": "neutral", "sounds": ["entity/slicer1", "entity/slicer2", "entity/slicer3", "entity/slicer4"]},
     "entity.megaquacc": {"category": "hostile", "sounds": [{"name": "entity/megaquacc", "stream": false}]},
-    "entity.vomit": {"category": "player", "sounds": [{"name": "entity/vomit", "stream": false}]},
     
     "step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
     "step.iron_jump": {"category": "player", "sounds": [{"name": "footsteps/iron_jump", "stream": false}]},
@@ -242,3 +241,16 @@
     "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]},
     "alarm.defconstage": {"category": "record", "sounds": [{"name": "alarm/defconstage", "stream": false}]}
 }
+
+    "block.rbmk_explosion": {"category": "block", "sounds": [{"name": "block/rbmk_explosion", "stream": false}]},
+    "block.rbmk_az5_cover": {"category": "block", "sounds": [{"name": "block/rbmk_az5_cover", "stream": false}]},
+    "block.chungusLever": {"category": "block", "sounds": [{"name": "block/chungusLever", "stream": false}]},
+    "weapon.extinguisher": {"category": "player", "sounds": [{"name": "weapon/extinguisher", "stream": false}]},
+    "entity.ufoBeam": {"category": "hostile", "sounds": [{"name": "entity/ufoBeamShort", "stream": false}]},
+    "entity.ufoBlast": {"category": "hostile", "sounds": [{"name": "entity/ufoBlast", "stream": false}]},
+    "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1"]},
+    "entity.siegeHurt": {"category": "hostile", "sounds": ["entity/siegeHurt1", "entity/siegeHurt2"]},
+    "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
+    "step.metalBlock": {"category": "block", "sounds": ["footsteps/metalStep1", "footsteps/metalStep2", "footsteps/metalStep3", "footsteps/metalStep4"]},
+    "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
+    "player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]},

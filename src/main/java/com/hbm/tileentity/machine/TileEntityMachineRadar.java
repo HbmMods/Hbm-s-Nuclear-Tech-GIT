@@ -19,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-@Untested
 public class TileEntityMachineRadar extends TileEntityTickingBase implements IConsumer {
 
 	public List<Entity> entList = new ArrayList();
@@ -31,6 +30,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 	public boolean scanMissiles = true;
 	public boolean scanPlayers = true;
 	public boolean smartMode = true;
+<<<<<<< HEAD
+=======
+	public boolean redMode = true;
+>>>>>>> master
 
 	public float prevRotation;
 	public float rotation;
@@ -98,6 +101,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		case 0: this.scanMissiles = !this.scanMissiles; break;
 		case 1: this.scanPlayers = !this.scanPlayers; break;
 		case 2: this.smartMode = !this.smartMode; break;
+<<<<<<< HEAD
+=======
+		case 3: this.redMode = !this.redMode; break;
+>>>>>>> master
 		}
 	}
 	
@@ -130,6 +137,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 	public int getRedPower() {
 		
 		if(!entList.isEmpty()) {
+<<<<<<< HEAD
 			
 			double maxRange = WeaponConfig.radarRange * Math.sqrt(2D);
 			
@@ -140,12 +148,42 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 				Entity e = entList.get(i);
 				double dist = Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2));
 				int p = 15 - (int)Math.floor(dist / maxRange * 15);
-				
-				if(p > power)
-					power = p;
-			}
+=======
 			
-			return power;
+			/// PROXIMITY ///
+			if(redMode) {
+				
+				double maxRange = WeaponConfig.radarRange * Math.sqrt(2D);
+				
+				int power = 0;
+				
+				for(int i = 0; i < entList.size(); i++) {
+					
+					Entity e = entList.get(i);
+					double dist = Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2));
+					int p = 15 - (int)Math.floor(dist / maxRange * 15);
+					
+					if(p > power)
+						power = p;
+				}
+				
+				return power;
+				
+			/// TIER ///
+			} else {
+				
+				int power = 0;
+				
+				for(int i = 0; i < nearbyMissiles.size(); i++) {
+					
+					if(nearbyMissiles.get(i)[3] + 1 > power) {
+						power = nearbyMissiles.get(i)[3] + 1;
+					}
+				}
+>>>>>>> master
+				
+				return power;
+			}
 		}
 		
 		return 0;
@@ -158,6 +196,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		data.setBoolean("scanMissiles", scanMissiles);
 		data.setBoolean("scanPlayers", scanPlayers);
 		data.setBoolean("smartMode", smartMode);
+<<<<<<< HEAD
+=======
+		data.setBoolean("redMode", redMode);
+>>>>>>> master
 		data.setInteger("count", this.nearbyMissiles.size());
 		
 		for(int i = 0; i < this.nearbyMissiles.size(); i++) {
@@ -177,6 +219,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		this.scanMissiles = data.getBoolean("scanMissiles");
 		this.scanPlayers = data.getBoolean("scanPlayers");
 		this.smartMode = data.getBoolean("smartMode");
+<<<<<<< HEAD
+=======
+		this.redMode = data.getBoolean("redMode");
+>>>>>>> master
 		
 		int count = data.getInteger("count");
 		
@@ -217,6 +263,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		this.scanMissiles = nbt.getBoolean("scanMissiles");
 		this.scanPlayers = nbt.getBoolean("scanPlayers");
 		this.smartMode = nbt.getBoolean("smartMode");
+<<<<<<< HEAD
+=======
+		this.redMode = nbt.getBoolean("redMode");
+>>>>>>> master
 	}
 
 	@Override
@@ -226,6 +276,10 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		nbt.setBoolean("scanMissiles", scanMissiles);
 		nbt.setBoolean("scanPlayers", scanPlayers);
 		nbt.setBoolean("smartMode", smartMode);
+<<<<<<< HEAD
+=======
+		nbt.setBoolean("redMode", redMode);
+>>>>>>> master
 	}
 	
 	@Override

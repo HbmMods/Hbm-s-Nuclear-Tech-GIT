@@ -24,16 +24,7 @@ public class EntityMissileSchrabidium extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 		if(!this.worldObj.isRemote) {
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-			entity.posX = this.posX;
-			entity.posY = this.posY;
-			entity.posZ = this.posZ;
-			entity.destructionRange = BombConfig.aSchrabRadius;
-			entity.speed = 25;
-			entity.coefficient = 1.0F;
-			entity.waste = false;
-
-			this.worldObj.spawnEntityInWorld(entity);
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, BombConfig.aSchrabRadius));
 
 			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
 			cloud.posX = this.posX;

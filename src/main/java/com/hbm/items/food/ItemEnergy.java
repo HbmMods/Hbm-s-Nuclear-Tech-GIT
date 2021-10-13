@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -177,6 +180,12 @@ public class ItemEnergy extends Item
 				if(stack.stackSize <= 0) {
 					return new ItemStack(ModItems.bottle_empty);
 				}
+			if(this == ModItems.coffee_radium) {
+				player.heal(10);
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+				HbmLivingProps.incrementRadiation(player, 500F);
+				player.triggerAchievement(MainRegistry.achRadium);
+			}
 
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
 			}

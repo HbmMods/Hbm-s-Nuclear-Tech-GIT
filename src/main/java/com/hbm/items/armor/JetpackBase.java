@@ -6,6 +6,10 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.render.model.ModelJetPack;
+<<<<<<< HEAD
+=======
+import com.hbm.util.ArmorUtil;
+>>>>>>> master
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +41,11 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+<<<<<<< HEAD
 		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
+=======
+		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
+>>>>>>> master
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 		list.add(EnumChatFormatting.GOLD + "Can be worn on its own!");
@@ -51,7 +59,11 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 		if(jetpack == null)
 			return;
 		
+<<<<<<< HEAD
 		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + getFuel(jetpack) + "mB / " + this.maxFuel + "mB");
+=======
+		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + this.getFuel(jetpack) + "mB / " + this.maxFuel + "mB");
+>>>>>>> master
 	}
 	
 	@Override
@@ -66,6 +78,10 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 			return;
 				
 		onArmorTick(entity.worldObj, (EntityPlayer)entity, jetpack);
+<<<<<<< HEAD
+=======
+		ArmorUtil.resetFlightTime((EntityPlayer)entity);
+>>>>>>> master
 		
 		ArmorModHandler.applyMod(armor, jetpack);
 	}
@@ -114,7 +130,11 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 	protected void useUpFuel(EntityPlayer player, ItemStack stack, int rate) {
 
 		if(player.ticksExisted % rate == 0)
+<<<<<<< HEAD
 			setFuel(stack, getFuel(stack) - 1);
+=======
+			this.setFuel(stack, this.getFuel(stack) - 1);
+>>>>>>> master
 	}
 	
     public static int getFuel(ItemStack stack) {
@@ -143,12 +163,20 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 
 	@Override
 	public int getFill(ItemStack stack) {
+<<<<<<< HEAD
 		return getFuel(stack);
+=======
+		return this.getFuel(stack);
+>>>>>>> master
 	}
 
 	@Override
 	public void setFill(ItemStack stack, int fill) {
+<<<<<<< HEAD
 		setFuel(stack, fill);
+=======
+		this.setFuel(stack, fill);
+>>>>>>> master
 	}
 
 	@Override

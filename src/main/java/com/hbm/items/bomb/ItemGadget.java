@@ -8,10 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class ItemGadget extends ItemHazard {
+<<<<<<< HEAD
 	
 	public ItemGadget(float radiation) {
 		super(radiation);
 	}
+=======
+>>>>>>> master
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

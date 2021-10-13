@@ -2,30 +2,29 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.interfaces.IBlockRarity;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IItemHazard;
-import com.hbm.items.block.ItemBlockLore;
 import com.hbm.main.MainRegistry;
 import com.hbm.modules.ItemHazardModule;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHazard extends Block implements IItemHazard, IBlockRarity
-{
+public class BlockHazard extends Block implements IItemHazard {
 	
 	ItemHazardModule module;
 	
 	private float radIn = 0.0F;
 	private float radMax = 0.0F;
 	private ExtDisplayEffect extEffect = null;
+	
+	private boolean beaconable = false;
 
 	public BlockHazard() {
 		this(Material.iron);
@@ -119,11 +118,21 @@ public class BlockHazard extends Block implements IItemHazard, IBlockRarity
 		return this;
 	}
 
+	public BlockHazard makeBeaconable() {
+		this.beaconable = true;
+		return this;
+	}
+
+	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+		return beaconable;
+	}
+
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		if(this.radIn > 0) {
-			RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, radIn);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}
@@ -150,11 +159,5 @@ public class BlockHazard extends Block implements IItemHazard, IBlockRarity
 		SCHRAB,
 		FLAMES,
 		LAVAPOP
-	}
-	
-	@Override
-	public BlockHazard setRarity(EnumRarity rarity)
-	{
-		return (BlockHazard) IBlockRarity.super.setRarity(rarity);
 	}
 }

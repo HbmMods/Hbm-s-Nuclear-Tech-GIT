@@ -4,10 +4,12 @@ import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -32,7 +34,6 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 	private int headID;
 	private int partNum;
 	protected boolean didCheck;
-	protected double bodySpeed;
 	protected double maxBodySpeed;
 	protected double segmentDistance;
 	protected double knockbackDivider;
@@ -103,12 +104,8 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 		if((this.targetedEntity != null) && (this.targetedEntity.isDead)) {
 			this.targetedEntity = null;
 		}
-		/*if((getIsHead()) && (this.targetedEntity != null) && ((this.targetedEntity instanceof EntityPlayer))) {
-			this.entityAge = 0;
-		}*/
 		if(this.posY < -10.0D) {
-			setPositionAndUpdate(this.posX, 128.0D, this.posZ);
-			this.motionY = 0.0D;
+			this.motionY = 1D;
 		} else if(this.posY < 3.0D) {
 			this.motionY = 0.3D;
 		}
@@ -121,7 +118,7 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 	protected void attackEntitiesInList(List<Entity> targets) {
 		
 		for(Entity target : targets) {
-			if(((target instanceof EntityLivingBase)) && (canAttackClass(target.getClass())) && ((!(target instanceof EntityWormBaseNT)) || (((EntityWormBaseNT) target).getHeadID() != this.getHeadID()))) {
+			if((target instanceof EntityLivingBase) && canAttackClass(target.getClass()) && (!(target instanceof EntityWormBaseNT) || ((EntityWormBaseNT) target).getHeadID() != this.getHeadID())) {
 				attackEntityAsMob(target);
 			}
 		}
@@ -155,12 +152,10 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 	public abstract float getAttackStrength(Entity paramsa);
 
 	@Override
-	public void addVelocity(double x, double y, double z) {
-	}
+	public void addVelocity(double x, double y, double z) { }
 
 	@Override
-	public void faceEntity(Entity entity, float yaw, float pitch) {
-	}
+	public void faceEntity(Entity entity, float yaw, float pitch) { }
 
 	protected boolean isCourseTraversable() {
 		return (this.canFly) || (isEntityInsideOpaqueBlock());
@@ -187,4 +182,59 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 		setHeadID(nbt.getInteger("wormID"));
 	}
 
+	protected void updateMovement() {
+		
+		double targetingRange = 128.0D;
+		
+		if(this.targetedEntity != null && this.targetedEntity.getDistanceSqToEntity(this) < targetingRange * targetingRange) {
+			this.waypointX = this.targetedEntity.posX;
+			this.waypointY = this.targetedEntity.posY;
+			this.waypointZ = this.targetedEntity.posZ;
+		}
+		
+		if((this.ticksExisted % 60 == 0 || this.ticksExisted == 1) && (this.targetedEntity == null || this.followed == null)) {
+			findEntityToFollow(this.worldObj.selectEntitiesWithinAABB(EntityLiving.class, this.boundingBox.expand(this.rangeForParts, this.rangeForParts, this.rangeForParts), EntityWormBaseNT.wormSelector));
+		}
+		
+		double deltaX = this.waypointX - this.posX;
+		double deltaY = this.waypointY - this.posY;
+		double deltaZ = this.waypointZ - this.posZ;
+		double deltaDist = MathHelper.sqrt_double(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+		if(this.targetedEntity != null) {
+			this.faceEntity(this.targetedEntity, 180.0F, 180.0F);
+		}
+		
+		double speed = Math.max(0.0D, Math.min(deltaDist - this.segmentDistance, this.maxBodySpeed));
+		
+		if(deltaDist < this.segmentDistance * 0.895D) {
+			this.motionX *= 0.8D;
+			this.motionY *= 0.8D;
+			this.motionZ *= 0.8D;
+		} else {
+			this.motionX = (deltaX / deltaDist * speed);
+			this.motionY = (deltaY / deltaDist * speed);
+			this.motionZ = (deltaZ / deltaDist * speed);
+		}
+	}
+
+	protected void findEntityToFollow(List<EntityWormBaseNT> segments) {
+		
+		for(EntityWormBaseNT segment : segments) {
+			
+			if(segment.getHeadID() == this.getHeadID()) {
+				
+				if(segment.getIsHead()) {
+					if(this.getPartNumber() == 0) {
+						this.targetedEntity = ((Entity) segment);
+					}
+					this.followed = ((EntityLivingBase) segment);
+					
+				} else if(segment.getPartNumber() == this.getPartNumber() - 1) {
+					this.targetedEntity = ((Entity) segment);
+				}
+			}
+		}
+		this.didCheck = true;
+	}
 }

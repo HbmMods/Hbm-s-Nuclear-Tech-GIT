@@ -1,7 +1,10 @@
 package com.hbm.inventory.container;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.special.WatzFuel;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -12,22 +15,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerWatzCore extends Container {
 	
 	private TileEntityWatzCore diFurnace;
-
-	private int powerList;
-	private int heatList;
-	private int decayMultiplier;
-	private int powerMultiplier;
-	private int heatMultiplier;
-	private int heat;
 	
 	public ContainerWatzCore(InventoryPlayer invPlayer, TileEntityWatzCore tedf) {
-
-		powerList = 0;
-		heatList = 0;
-		decayMultiplier = 0;
-		powerMultiplier = 0;
-		heatMultiplier = 0;
-		heat = 0;
 		
 		diFurnace = tedf;
 		
@@ -96,42 +85,57 @@ public class ContainerWatzCore extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
-		
-		if (var4 != null && var4.getHasStack())
-		{
+
+		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			
-            if (par2 <= 39) {
-				if (!this.mergeItemStack(var5, 40, this.inventorySlots.size(), true))
-				{
+
+			if(par2 <= 39) {
+				if(!this.mergeItemStack(var5, 40, this.inventorySlots.size(), true)) {
 					return null;
 				}
+				
 			} else {
-				return null;
+				
+				if(var5.getItem() == ModItems.titanium_filter) {
+					if(!this.mergeItemStack(var5, 38, 39, false)) {
+						return null;
+					}
+				} else if(var5.getItem() instanceof WatzFuel) {
+					if(!this.mergeItemStack(var5, 0, 36, false)) {
+						return null;
+					}
+				} else if(var5.getItem() instanceof IBatteryItem) {
+					if(!this.mergeItemStack(var5, 37, 38, false)) {
+						return null;
+					}
+				} else {
+					 if(!this.mergeItemStack(var5, 36, 37, false)) {
+							return null;
+					 }
+				}
 			}
-            
-			if (var5.stackSize == 0)
-			{
+
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
+
+			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
 	}
+<<<<<<< HEAD
 	
 	@Override
 	public void detectAndSendChanges() {
@@ -228,4 +232,6 @@ public class ContainerWatzCore extends Container {
 			break;
 		}
 	}
+=======
+>>>>>>> master
 }

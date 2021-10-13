@@ -1,6 +1,10 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+<<<<<<< HEAD
+=======
+import com.hbm.handler.BossSpawnHandler;
+>>>>>>> master
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityHadron;
@@ -70,6 +74,11 @@ public class BlockHadronCore extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking()) {
 			
+<<<<<<< HEAD
+=======
+			BossSpawnHandler.markFBI(player);
+			
+>>>>>>> master
 			TileEntityHadron entity = (TileEntityHadron) world.getTileEntity(x, y, z);
 			if(entity != null) {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hadron, world, x, y, z);

@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.FusionRecipes;
 import com.hbm.inventory.gui.GUIITER;
+import com.hbm.inventory.recipes.FusionRecipes;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

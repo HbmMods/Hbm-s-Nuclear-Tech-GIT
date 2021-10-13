@@ -1,58 +1,96 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            url = "https://repo1.maven.org/maven2/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+	repositories {
+		maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url = 'https://plugins.gradle.org/m2' }
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+	}
 }
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+def jsonFile = file('./src/main/resources/mcmod.info')
+def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+version = parsedJson.version
+group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "HBM-NTM"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = "1.7.10-10.13.4.1558-1.7.10"
-    runDir = "eclipse"
+	version = "1.7.10-10.13.4.1558-1.7.10"
+	runDir = "eclipse"
+}
+
+// A little hack to fix codechicken's crazy maven structure (at least in 1.7.10)
+eclipse.classpath.file.whenMerged { cp ->
+	// Find all codechicken source jars
+	def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
+	
+	// Remove them from classpath
+	cp.entries.removeAll srcent
+
+	// Map the source entries to their dev counterparts based on basename
+	Map<String, File> srcmap = new HashMap<String, File>()
+	srcent.forEach { entry ->
+		def file = new File(entry.path)
+		srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
+	}
+	
+	// Create file reference factory
+	def fileref = new org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory()
+	
+	// Find all codechicken development jars
+	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
+		File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
+		srcmapping = srcmap.get(srcmapping.getName()) // Transform it using the sourcemap
+		entry.sourcePath = fileref.fromFile(srcmapping) // Set the source path
+	}
+}
+
+repositories {
+	maven {
+		name = 'ModMaven'
+		url = 'https://modmaven.dev'
+	}
 }
 
 dependencies {
-compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
-compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
-compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
+	compile 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
+	
+	compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
+	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
+	
+	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
+	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 }
 
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+processResources {
+	// this will ensure that this task is redone when the versions change.
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+	// replace stuff in mcmod.info, nothing else
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+		
+	// copy everything else, thats not the mcmod.info
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+
+task version {
+	doFirst {
+		println project.version
+	}
 }
 
 apply plugin: 'java'

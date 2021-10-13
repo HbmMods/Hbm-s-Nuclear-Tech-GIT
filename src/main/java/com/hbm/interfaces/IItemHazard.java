@@ -90,9 +90,12 @@ public interface IItemHazard {
 	//the only ugly part of this entire system is the manual casting so that the rest of the daisychained setters work
 	public default Item toItem() {
 		return (Item)this;
-	}
 	
 	public default Block toBlock() {
 		return (Block)this;
+	}
+	public default IItemHazard addCoal(int coal) {
+		this.getModule().addCoal(coal);
+		return this;
 	}
 }

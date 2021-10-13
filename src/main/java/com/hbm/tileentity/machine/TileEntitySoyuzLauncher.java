@@ -16,6 +16,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.ISidedInventory;
@@ -268,10 +269,13 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	//2: designator present
 	public int designator() {
 		
-		if(mode == 0)
+		if(mode == 0) {
 			return 0;
-		if(slots[1] != null && (slots[1].getItem() == ModItems.designator || slots[1].getItem() == ModItems.designator_range || slots[1].getItem() == ModItems.designator_manual) && slots[1].hasTagCompound())
+		}
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
 			return 2;
+		}
+		
 		return 1;
 	}
 	

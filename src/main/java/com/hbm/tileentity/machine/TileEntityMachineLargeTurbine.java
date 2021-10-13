@@ -10,9 +10,8 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -41,7 +40,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 10240000, 1);
+		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 10240000, 1);
 	}
 
 	@Override
@@ -49,7 +48,6 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		return "container.machineLargeTurbine";
 	}
 
-	@Untested
 	@Override
 	public void updateEntity() {
 		

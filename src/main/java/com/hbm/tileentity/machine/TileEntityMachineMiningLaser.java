@@ -10,16 +10,20 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.CentrifugeRecipes;
-import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.ShredderRecipes;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
+import api.hbm.block.IDrillInteraction;
+import api.hbm.block.IMiningDrill;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -35,7 +39,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer, IFluidSource {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer, IFluidSource, IMiningDrill {
 	
 	public long power;
 	public int age = 0;
@@ -100,11 +104,14 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(isOn) {
 				
-				int cycles = getOverdrive();
-				int speed = getSpeed();
-				int range = getRange();
-				int fortune = getFortune();
-				int consumption = getConsumption() * speed;
+				UpgradeManager.eval(slots, 1, 8);
+				int cycles = 1 + UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+				int speed = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12);
+				int range = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT) * 2, 24);
+				int fortune = Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
+				int consumption = this.consumption
+						- (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 12) / 16)
+						+ (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12) / 16);
 				
 				for(int i = 0; i < cycles; i++) {
 					
@@ -222,6 +229,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		Block b = worldObj.getBlock(targetX, targetY, targetZ);
 		int meta = worldObj.getBlockMetadata(targetX, targetY, targetZ);
 		boolean normal = true;
+		boolean doesBreak = true;
 		
 		if(b == Blocks.lit_redstone_ore)
 			b = Blocks.redstone_ore;
@@ -268,9 +276,22 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			}
 		}
 		
-		if(normal)
-			b.dropBlockAsItem(worldObj, targetX, targetY, targetZ, meta, fortune);
-		worldObj.func_147480_a(targetX, targetY, targetZ, false);
+		if(normal && b instanceof IDrillInteraction) {
+			IDrillInteraction in = (IDrillInteraction) b;
+			ItemStack drop = in.extractResource(worldObj, targetX, targetY, targetZ, meta, this);
+			
+			if(drop != null) {
+				worldObj.spawnEntityInWorld(new EntityItem(worldObj, targetX + 0.5, targetY + 0.5, targetZ + 0.5, drop.copy()));
+			}
+			
+			doesBreak = in.canBreak(worldObj, targetX, targetY, targetZ, meta, this);
+		}
+		
+		if(doesBreak) {
+			if(normal) b.dropBlockAsItem(worldObj, targetX, targetY, targetZ, meta, fortune);
+			worldObj.func_147480_a(targetX, targetY, targetZ, false);
+		}
+		
 		suckDrops();
 
 		if(doesScream()) {
@@ -287,6 +308,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			Item.getItemFromBlock(Blocks.sand),
 			Item.getItemFromBlock(Blocks.sandstone),
 			Item.getItemFromBlock(Blocks.gravel),
+<<<<<<< HEAD
+=======
+			Item.getItemFromBlock(ModBlocks.basalt),
+>>>>>>> master
 			Item.getItemFromBlock(ModBlocks.stone_gneiss),
 			Items.flint,
 			Items.snowball,
@@ -391,46 +416,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
 	}
 	
-	public int getOverdrive() {
-		
-		int speed = 1;
-		
-		for(int i = 1; i < 9; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_overdrive_1)
-					speed += 1;
-				else if(slots[i].getItem() == ModItems.upgrade_overdrive_2)
-					speed += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_overdrive_3)
-					speed += 3;
-			}
-		}
-		
-		return Math.min(speed, 4);
-	}
-	
-	public int getSpeed() {
-		
-		int speed = 1;
-		
-		for(int i = 1; i < 9; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_speed_1)
-					speed += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_speed_2)
-					speed += 4;
-				else if(slots[i].getItem() == ModItems.upgrade_speed_3)
-					speed += 6;
-			}
-		}
-		
-		return Math.min(speed, 13);
-	}
-	
 	public int getRange() {
 		
 		int range = 1;
@@ -449,26 +434,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		}
 		
 		return Math.min(range, 25);
-	}
-	
-	public int getFortune() {
-		
-		int fortune = 0;
-		
-		for(int i = 1; i < 9; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_fortune_1)
-					fortune += 1;
-				else if(slots[i].getItem() == ModItems.upgrade_fortune_2)
-					fortune += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_fortune_3)
-					fortune += 3;
-			}
-		}
-		
-		return Math.min(fortune, 3);
 	}
 	
 	public boolean hasNullifier() {
@@ -556,10 +521,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 	
 	public int getConsumption() {
-		
-		int consumption = this.consumption;
-		
-		return consumption;
+		return this.consumption;
 	}
 	
 	public int getWidth() {
@@ -707,5 +669,15 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		
 		tank.writeToNBT(nbt, "oil");
 		nbt.setBoolean("isOn", isOn);
+	}
+
+	@Override
+	public DrillType getDrillTier() {
+		return DrillType.HITECH;
+	}
+
+	@Override
+	public int getDrillRating() {
+		return 100;
 	}
 }

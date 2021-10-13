@@ -9,8 +9,8 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.MachineRecipes.GasCentOutput;
+import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes.GasCentOutput;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
@@ -294,8 +294,10 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 				
 				this.power -= 200;
 				
-				if(this.power < 0)
+				if(this.power < 0) {
 					power = 0;
+					this.progress = 0;
+				}
 				
 				if(progress >= processingSpeed) {
 					process();

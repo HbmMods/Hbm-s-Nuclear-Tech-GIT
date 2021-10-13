@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -34,7 +35,7 @@ public class BlockCloudResidue extends Block {
 	
 	@Override
 	public int getRenderType(){
-		return 334077;
+		return ModBlocks.taint.getRenderType();
 	}
 
     @Override

@@ -14,8 +14,10 @@ public class FuelHandler implements IFuelHandler {
 
 		if(fuel.getItem().equals(ModItems.solid_fuel))
 			return 3200;
-		if(fuel.getItem().equals(ModItems.biomass_compressed))
+		if(fuel.getItem().equals(ModItems.biomass))
 			return 800;
+		if(fuel.getItem().equals(ModItems.biomass_compressed))
+			return 2400;
 		if(fuel.getItem().equals(ModItems.powder_coal))
 			return 1600;
 		if(fuel.getItem().equals(ModItems.scrap))
@@ -36,6 +38,13 @@ public class FuelHandler implements IFuelHandler {
 			return 3200;
 		if(fuel.getItem() == ModItems.book_guide)
 			return 800;
+<<<<<<< HEAD
+=======
+		if(fuel.getItem() == ModItems.coal_infernal)
+			return 4800;
+		if(fuel.getItem() == ModItems.crystal_coal)
+			return 6400;
+>>>>>>> master
 		
 		return 0;
 	}

@@ -20,13 +20,12 @@ public class RenderRubble extends Render {
 	}
 
 	@Override
-	public void doRender(Entity rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
-			float p_76986_9_) {
+	public void doRender(Entity rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
 		GL11.glScalef(1.0F, 1.0F, 1.0F);
 		GL11.glRotatef(180, 1, 0, 0);
-		GL11.glRotatef((rocket.ticksExisted % 360) * 10, 1, 1, 1);
+		GL11.glRotatef(((rocket.ticksExisted + p_76986_9_) % 360) * 10, 1, 1, 1);
 
 		try {
 			int block = rocket.getDataWatcher().getWatchableObjectInt(16);

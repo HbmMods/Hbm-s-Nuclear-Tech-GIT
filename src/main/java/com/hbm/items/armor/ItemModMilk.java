@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
+<<<<<<< HEAD
+=======
+import com.hbm.potion.HbmPotion;
+>>>>>>> master
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +48,11 @@ public class ItemModMilk extends ItemArmorMod {
 
 			PotionEffect eff = (PotionEffect) iterator.next();
 
+<<<<<<< HEAD
 			if(Potion.potionTypes[eff.getPotionID()].isBadEffect()) {
+=======
+			if(HbmPotion.getIsBadEffect(Potion.potionTypes[eff.getPotionID()])) {
+>>>>>>> master
 				ints.add(eff.getPotionID());
 			}
 		}

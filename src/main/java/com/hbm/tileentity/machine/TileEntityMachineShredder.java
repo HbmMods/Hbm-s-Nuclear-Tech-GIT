@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Untested;
-import com.hbm.inventory.ShredderRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -190,7 +190,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		if(i >= 9 && i <= 26)
 				return true;
 		if(i >= 27 && i <= 29)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+			if(itemStack.getItemDamage() == itemStack.getMaxDamage() && itemStack.getMaxDamage() > 0)
 				return true;
 		
 		return false;
@@ -304,7 +304,6 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		}
 	}
 	
-	@Untested
 	public boolean canProcess() {
 		if(slots[27] != null && slots[28] != null && 
 				this.getGearLeft() > 0 && this.getGearLeft() < 3 && 

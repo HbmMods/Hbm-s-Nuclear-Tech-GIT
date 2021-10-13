@@ -6,18 +6,19 @@ import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.ILaserable;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.block.ILaserable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISource, IFluidAcceptor, ILaserable {
@@ -170,7 +171,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 	}
 
 	@Override
-	public void addEnergy(long energy, ForgeDirection dir) {
+	public void addEnergy(World world, int x, int y, int z, long energy, ForgeDirection dir) {
 		
 		//only accept lasers from the front
 		if(dir.getOpposite().ordinal() == this.getBlockMetadata()) {

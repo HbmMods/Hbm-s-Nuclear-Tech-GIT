@@ -2,7 +2,11 @@ package com.hbm.entity.mob.botprime;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
+=======
+import com.hbm.entity.mob.ai.EntityAINearestAttackableTargetNT;
+>>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -27,8 +31,11 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 	 */
 
 	//TODO: clean-room implementation of the movement behavior classes (again)
+<<<<<<< HEAD
 	
 	private final WormMovementHeadNT movement = new WormMovementHeadNT(this);
+=======
+>>>>>>> master
 	
 	public EntityBOTPrimeHead(World world) {
 		super(world);
@@ -58,7 +65,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		
 		if(super.attackEntityFrom(par1DamageSource, par2)) {
-			this.dmgCooldown = 4;
+			this.dmgCooldown = 10;
 			return true;
 		}
 
@@ -95,7 +102,11 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		this.updateEntityActionState();
 		super.updateAITasks();
 
+<<<<<<< HEAD
 		this.movement.updateMovement();
+=======
+		updateHeadMovement();
+>>>>>>> master
 
 		if((getHealth() < getMaxHealth()) && (this.ticksExisted % 6 == 0)) {
 			if(this.targetedEntity != null) {
@@ -142,7 +153,11 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
 
 		for(EntityPlayer player : players) {
+<<<<<<< HEAD
 			player.triggerAchievement(MainRegistry.bossMaskman);
+=======
+			player.triggerAchievement(MainRegistry.bossWorm);
+>>>>>>> master
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_worm));
 		}
 	}
@@ -163,5 +178,83 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		super.readEntityFromNBT(nbt);
 		this.spawnPoint.set(nbt.getInteger("spawnX"), nbt.getInteger("spawnY"), nbt.getInteger("spawnZ"));
 	}
+<<<<<<< HEAD
+=======
 
+	protected void updateHeadMovement() {
+>>>>>>> master
+
+		double deltaX = this.waypointX - this.posX;
+		double deltaY = this.waypointY - this.posY;
+		double deltaZ = this.waypointZ - this.posZ;
+		double deltaSq = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+		
+		if(this.courseChangeCooldown-- <= 0) {
+			
+			this.courseChangeCooldown += this.getRNG().nextInt(5) + 2;
+			deltaSq = MathHelper.sqrt_double(deltaSq);
+			
+			if(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ < this.maxSpeed) {
+				
+				if(!this.isCourseTraversable()) {
+					deltaSq *= 8.0D;
+				}
+				
+				double moverSpeed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue();
+				this.motionX += deltaX / deltaSq * moverSpeed;
+				this.motionY += deltaY / deltaSq * moverSpeed;
+				this.motionZ += deltaZ / deltaSq * moverSpeed;
+			}
+		}
+		
+		if(!this.isCourseTraversable()) {
+			this.motionY -= this.fallSpeed;
+		}
+		
+		if(this.dmgCooldown > 0) {
+			this.dmgCooldown -= 1;
+		}
+		
+		this.aggroCooldown -= 1;
+		
+		if(this.getAttackTarget() != null) {
+			
+			if(this.aggroCooldown <= 0) {
+				this.targetedEntity = this.getAttackTarget();
+				this.aggroCooldown = 20;
+			}
+			
+		} else if(this.targetedEntity == null) {
+			this.waypointX = this.spawnPoint.posX - 50 + this.getRNG().nextInt(100);
+			this.waypointY = this.spawnPoint.posY - 30 + this.getRNG().nextInt(60);
+			this.waypointZ = this.spawnPoint.posZ - 50 + this.getRNG().nextInt(100);
+		}
+		
+		this.rotationYaw = -(float) -(Math.atan2(this.motionX, this.motionZ) * 180.0F / Math.PI);
+		this.rotationPitch = (float) -(Math.atan2(this.motionY, MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ)) * 180.0D / Math.PI);
+		
+		if(this.targetedEntity != null && this.targetedEntity .getDistanceSqToEntity(this) < this.attackRange * this.attackRange) {
+			
+			if(this.wasNearGround || this.canFly) {
+				
+				this.waypointX = this.targetedEntity.posX;
+				this.waypointY = this.targetedEntity.posY;
+				this.waypointZ = this.targetedEntity.posZ;
+				
+				if(this.getRNG().nextInt(80) == 0 && this.posY > this.surfaceY && !this.isCourseTraversable()) {
+					this.wasNearGround = false;
+				}
+				
+			} else {
+				
+				this.waypointX = this.targetedEntity.posX;
+				this.waypointY = 10.0D;
+				this.waypointZ = this.targetedEntity.posZ;
+				
+				if(this.posY < 15.0D) {
+					this.wasNearGround = true;
+				}
+			}
+		}
+	}
 }

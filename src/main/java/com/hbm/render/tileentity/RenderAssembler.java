@@ -2,7 +2,11 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+<<<<<<< HEAD
 import com.hbm.inventory.AssemblerRecipes;
+=======
+import com.hbm.inventory.recipes.AssemblerRecipes;
+>>>>>>> master
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderDecoItem;

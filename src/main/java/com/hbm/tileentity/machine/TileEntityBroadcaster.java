@@ -29,10 +29,13 @@ public class TileEntityBroadcaster extends TileEntity {
 				double d = Math.sqrt(Math.pow(e.posX - (xCoord + 0.5), 2) + Math.pow(e.posY - (yCoord + 0.5), 2) + Math.pow(e.posZ - (zCoord + 0.5), 2));
 				
 				if(d <= 25) {
-					double t = (25 - d) / 25 * 10;
-					e.attackEntityFrom(ModDamageSource.broadcast, (float) t);
 					if(e.getActivePotionEffect(Potion.confusion) == null || e.getActivePotionEffect(Potion.confusion).getDuration() < 100)
 						e.addPotionEffect(new PotionEffect(Potion.confusion.id, 300, 0));
+				}
+				
+				if(d <= 15) {
+					double t = (15 - d) / 15 * 10;
+					e.attackEntityFrom(ModDamageSource.broadcast, (float) t);
 				}
 			}
 		}

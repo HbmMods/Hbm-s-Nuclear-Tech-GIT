@@ -18,8 +18,10 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
-import com.hbm.util.ArmorUtil;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -301,31 +303,7 @@ public class BulletConfigFactory {
 		}
 	}
 	
-	public static void explosionLunatic(EntityBulletBase bullet, int x, int y, int z, int size) {
-		
-		if(!bullet.worldObj.isRemote) {
-
-			EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(bullet.worldObj);
-			explosionEntity.posX = bullet.posX;
-			explosionEntity.posY = bullet.posY;
-			explosionEntity.posZ = bullet.posZ;
-			explosionEntity.destructionRange = size;
-			explosionEntity.speed = BombConfig.blastSpeed;
-			explosionEntity.coefficient = 15F;
-			explosionEntity.coefficient2 = 45F;
-			explosionEntity.waste = false;
-			explosionEntity.extType = 2;
-			bullet.worldObj.spawnEntityInWorld(explosionEntity);
-			
-			EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
-			cloud.posX = x;
-			cloud.posY = y;
-			cloud.posZ = z;
-			bullet.worldObj.spawnEntityInWorld(cloud);
-		}
-	}
-	
-	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion) {
+	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
 		
 		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
 
@@ -355,6 +333,12 @@ public class BulletConfigFactory {
 				data.setDouble("motion", motion);
 				
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+				
+				if(bullet.worldObj.rand.nextFloat() < hazeChance) {
+				NBTTagCompound haze = new NBTTagCompound();
+				haze.setString("type", "haze");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(haze, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 150));
+				}
 			}
 		};
 		
@@ -376,7 +360,9 @@ public class BulletConfigFactory {
 						
 						if(e instanceof EntityLivingBase) {
 							
-							if(e instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) e))
+							EntityLivingBase entity = (EntityLivingBase) e;
+							
+							if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.GAS_CHLORINE))
 								continue;
 
 							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);
@@ -387,10 +373,10 @@ public class BulletConfigFactory {
 							eff1.getCurativeItems().clear();
 							eff2.getCurativeItems().clear();
 							eff3.getCurativeItems().clear();
-							((EntityLivingBase)e).addPotionEffect(eff0);
-							((EntityLivingBase)e).addPotionEffect(eff1);
-							((EntityLivingBase)e).addPotionEffect(eff2);
-							((EntityLivingBase)e).addPotionEffect(eff3);
+							entity.addPotionEffect(eff0);
+							entity.addPotionEffect(eff1);
+							entity.addPotionEffect(eff2);
+							entity.addPotionEffect(eff3);
 						}
 					}
 				}
@@ -514,5 +500,4 @@ public class BulletConfigFactory {
 		
 		return onUpdate;
 	}
-
 }

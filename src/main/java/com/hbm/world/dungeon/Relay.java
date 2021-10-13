@@ -794,7 +794,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 3, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 4, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 5, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
-		world.setBlock(x + 6, y + 2, z + 0, Blocks.anvil, 3, 3);
+		world.setBlock(x + 6, y + 2, z + 0, ModBlocks.deco_steel, 3, 3);
 		world.setBlock(x + 7, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 8, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 9, y + 2, z + 0, ModBlocks.barbed_wire, 0, 3);
@@ -839,7 +839,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 6, y + 2, z + 7, Block2, 0, 3);
 		world.setBlock(x + 7, y + 2, z + 7, Block2, 0, 3);
 		world.setBlock(x + 8, y + 2, z + 7, Block2, 0, 3);
-		world.setBlock(x + 10, y + 2, z + 7, Blocks.anvil, 0, 3);
+		world.setBlock(x + 10, y + 2, z + 7, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 0, y + 2, z + 8, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 3, y + 2, z + 8, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 4, y + 2, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -847,7 +847,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 6, y + 2, z + 8, Block2, 0, 3);
 		world.setBlock(x + 7, y + 2, z + 8, Block2, 0, 3);
 		world.setBlock(x + 8, y + 2, z + 8, Block2, 0, 3);
-		world.setBlock(x + 10, y + 2, z + 8, Blocks.anvil, 0, 3);
+		world.setBlock(x + 10, y + 2, z + 8, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 0, y + 2, z + 9, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 4, y + 2, z + 9, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 5, y + 2, z + 9, Blocks.brick_block, 0, 3);
@@ -889,7 +889,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 2, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 3, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 4, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);
-		world.setBlock(x + 5, y + 2, z + 15, Blocks.anvil, 1, 3);
+		world.setBlock(x + 5, y + 2, z + 15, ModBlocks.deco_steel, 1, 3);
 		world.setBlock(x + 6, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 7, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);
 		world.setBlock(x + 8, y + 2, z + 15, ModBlocks.barbed_wire, 0, 3);

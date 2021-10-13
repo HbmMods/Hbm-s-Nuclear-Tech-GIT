@@ -14,6 +14,7 @@ public class SatelliteResonator extends Satellite {
 	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) {
 
 		if(!(player instanceof EntityPlayerMP))
+			return;
 
 		world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 		player.mountEntity(null);

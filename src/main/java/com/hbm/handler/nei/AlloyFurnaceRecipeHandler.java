@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import com.hbm.inventory.MachineRecipes;
+
 import com.hbm.inventory.gui.GUITestDiFurnace;
+import com.hbm.inventory.recipes.MachineRecipes;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
