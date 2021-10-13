@@ -6,6 +6,7 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -67,6 +68,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -83,6 +85,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -401,9 +404,22 @@ public class ModEventHandlerClient {
 	@Spaghetti("please get this shit out of my face")
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		Minecraft mc = Minecraft.getMinecraft();
+		int i = MathHelper.floor_double(mc.thePlayer.posX);
+		int j = MathHelper.floor_double(mc.thePlayer.posY);
+		int k = MathHelper.floor_double(mc.thePlayer.posZ);
+		Block block = mc.theWorld.getBlock(i, j, k);
+		
+		if(block == ModBlocks.vacuum) {
+			e.result = null;
+			return;
+		}
+		
 		ResourceLocation r = e.sound.getPositionedSoundLocation();
 
-		WorldClient wc = Minecraft.getMinecraft().theWorld;
+		WorldClient wc = mc.theWorld;
 		
 		//Alright, alright, I give the fuck up, you've wasted my time enough with this bullshit. You win.
 		//A winner is you.
@@ -458,7 +474,7 @@ public class ModEventHandlerClient {
 			if(!sounds.init || sounds.isDonePlaying()) {
 				sounds.init = true;
 				sounds.setDone(false);
-				Minecraft.getMinecraft().getSoundHandler().playSound(sounds);
+				mc.getSoundHandler().playSound(sounds);
 			}
 		}
 	}

@@ -1515,12 +1515,17 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getIsKeyPressed(EnumKeybind key) {
 
-		if(key == EnumKeybind.JETPACK)
-			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
-		if(key == EnumKeybind.TOGGLE_JETPACK)
-			return HbmKeybinds.jetpackKey.getIsKeyPressed();
-		if(key == EnumKeybind.TOGGLE_HEAD)
-			return HbmKeybinds.hudKey.getIsKeyPressed();
+		switch(key){
+		case JETPACK:			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+		case TOGGLE_JETPACK:	return HbmKeybinds.jetpackKey.getIsKeyPressed();
+		case TOGGLE_HEAD:		return HbmKeybinds.hudKey.getIsKeyPressed();
+		case RELOAD:			return HbmKeybinds.reloadKey.getIsKeyPressed();
+		case CRANE_UP:			return HbmKeybinds.craneUpKey.getIsKeyPressed();
+		case CRANE_DOWN:		return HbmKeybinds.craneDownKey.getIsKeyPressed();
+		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
+		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
+		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
+		}
 		
 		return false;
 	}

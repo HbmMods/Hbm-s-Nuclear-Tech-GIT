@@ -478,6 +478,11 @@ hazard.particleFine=Particulates
 hazard.sand=Eye Irritants
 
 hbm.key=NTM Hotkeys
+hbm.key.craneLoad=Load/Unload Crane
+hbm.key.craneMoveDown=Move Crane Backward
+hbm.key.craneMoveLeft=Move Crane Left
+hbm.key.craneMoveRight=Move Crane Right
+hbm.key.craneMoveUp=Move Crane Forward
 hbm.key.toggleBack=Toggle Backpack
 hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
