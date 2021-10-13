@@ -21,7 +21,7 @@ public class HazardTypeBoneCancer extends HazardTypeBase {
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 		
 		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_FINE))
-			HbmLivingProps.incrementBoneCancer(target, (int) Math.min(level, 10));
+			HbmLivingProps.incrementBoneCancer(target, (int) level);
 		else
 			ArmorUtil.damageGasMaskFilter(target, (int) level);
 	}

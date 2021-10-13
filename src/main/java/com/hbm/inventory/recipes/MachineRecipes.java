@@ -1647,9 +1647,6 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_coal, 2));
 			list.add(new ItemStack(ModItems.fluorite, 1));
 			break;
-        case DEUTERIUM:
-			list.add(new ItemStack(ModItems.sulfur, 1));
-			break;
         case BP_BIOGAS:
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
@@ -1738,6 +1735,10 @@ public class MachineRecipes {
 			break;
 		case GASOLINE:
 			list.add(new ItemStack(ModItems.antiknock, 1));
+			break;
+		case ZR_CA_PROCESSING:
+			list.add(new ItemStack(ModItems.raw_zirconium, 8));
+			list.add(new ItemStack(ModItems.powder_calcium, 1));
 			break;
 		default:
 			break;
@@ -1893,9 +1894,6 @@ public class MachineRecipes {
         case POLYMER:
 			input[0] = new FluidStack(600, FluidType.PETROLEUM);
         	break;
-        case DEUTERIUM:
-			input[0] = new FluidStack(4000, FluidType.WATER);
-        	break;
         case STEAM:
 			input[0] = new FluidStack(1000, FluidType.WATER);
         	break;
@@ -1977,6 +1975,9 @@ public class MachineRecipes {
 			break;
 		case GASOLINE:
 			input[0] = new FluidStack(10000, FluidType.PETROIL);
+			break;
+		case ZR_CA_PROCESSING:
+			input[0] = new FluidStack(2000, FluidType.ACID);
 			break;
 		default:
 			break;
@@ -2135,6 +2136,9 @@ public class MachineRecipes {
 		case TEL:
 			output[0] = new ItemStack(ModItems.antiknock, 1);
 			break;
+		case ZR_CA_PROCESSING:
+			output[0] = new ItemStack(ModItems.powder_zirconium, 2);
+			output[1] = new ItemStack(ModItems.dust, 4);
 		default:
 			break;
 		}
@@ -2212,9 +2216,6 @@ public class MachineRecipes {
         case PEROXIDE:
 			output[0] = new FluidStack(800, FluidType.ACID);
 			break;
-        case DEUTERIUM:
-			output[0] = new FluidStack(500, FluidType.DEUTERIUM);
-        	break;
         case STEAM:
 			output[0] = new FluidStack(1000, FluidType.STEAM);
         	break;

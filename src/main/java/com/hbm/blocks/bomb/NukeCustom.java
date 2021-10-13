@@ -16,6 +16,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -179,6 +180,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, hydro));
+			ModEventHandler.nukeDetCount += hydro / 40;
 			
 		/// NUCLEAR ///
 		} else if(nuke > 0) {
@@ -188,6 +190,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, nuke));
+			ModEventHandler.nukeDetCount += nuke / 10;
 			
 		/// NON-NUCLEAR ///
 		} else if(tnt >= 75) {

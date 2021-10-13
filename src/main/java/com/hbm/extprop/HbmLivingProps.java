@@ -208,7 +208,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		setBlackLung(entity, getBlackLung(entity) + blacklung);
 	}
 	
-	/// RADIUM AND STRONTIUM 90 POISONING ///
+	/// BONE RADIOISOTOPE ACCUMULATION ///
 	public static double getBoneCancer(EntityLivingBase entity) {
 		return getData(entity).boneCancer;
 	}
@@ -258,6 +258,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_bomb", bombTimer);
 		props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
+		props.setDouble("hfr_boneCancer", boneCancer);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -280,6 +281,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			bombTimer = props.getInteger("hfr_bomb");
 			contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
+			boneCancer = props.getDouble("hfr_boneCancer");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			

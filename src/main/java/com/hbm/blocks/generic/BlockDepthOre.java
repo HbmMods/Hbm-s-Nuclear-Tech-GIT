@@ -25,7 +25,7 @@ public class BlockDepthOre extends BlockDepth {
 			return ModItems.cinnebar;
 		}
 		if(this == ModBlocks.ore_depth_zirconium) {
-			return ModItems.nugget_zirconium;
+			return ModItems.raw_zirconium;
 		}
 		if(this == ModBlocks.ore_depth_nether_neodymium) {
 			return ModItems.fragment_neodymium;

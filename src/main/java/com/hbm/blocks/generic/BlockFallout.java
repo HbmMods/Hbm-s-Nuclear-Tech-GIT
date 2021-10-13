@@ -55,6 +55,7 @@ public class BlockFallout extends Block implements IItemHazard {
 			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
 			effect.setCurativeItems(new ArrayList());
 			((EntityLivingBase) entity).addPotionEffect(effect);
+			HbmLivingProps.incrementBoneCancer((EntityLivingBase) entity, 1);
 		}
 	}
 
@@ -63,6 +64,7 @@ public class BlockFallout extends Block implements IItemHazard {
 		if(!world.isRemote) {
 			//player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
 			HbmLivingProps.addCont(player, new ContaminationEffect(1F, 200, false));
+			HbmLivingProps.incrementBoneCancer(player, 50);
 		}
 	}
 

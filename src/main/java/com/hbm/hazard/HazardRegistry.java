@@ -122,10 +122,10 @@ public class HazardRegistry {
 		HazardSystem.register("dustLignite", makeData(COAL, powder));
 		HazardSystem.register("dustSmallLignite", makeData(COAL, powder_tiny));
 		
-		HazardSystem.register(nugget_ra226, makeData(BONECANCER, powder));
-		HazardSystem.register(billet_ra226be, makeData(BONECANCER, powder));
-		HazardSystem.register(rbmk_pellet_ra226be, makeData(BONECANCER, powder));
-		HazardSystem.register(pile_rod_source, makeData(BONECANCER, powder));
+		HazardSystem.register(nugget_ra226, makeData(BONECANCER, nugget));
+		HazardSystem.register(billet_ra226be, makeData(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_ra226be, makeData(BONECANCER, billet));
+		HazardSystem.register(pile_rod_source, makeData(BONECANCER, ingot));
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
@@ -206,11 +206,16 @@ public class HazardRegistry {
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
-		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER));
-		HazardSystem.register(ingot_radium, new HazardData().addEntry(RADIATION, ra226 * ingot).addEntry(BONECANCER));
-		HazardSystem.register(powder_plutonium, new HazardData().addEntry(BONECANCER));
-		HazardSystem.register(ingot_plutonium, new HazardData().addEntry(BONECANCER));
-		HazardSystem.register(nugget_plutonium, new HazardData().addEntry(BONECANCER));
+		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER, powder));
+		HazardSystem.register(ingot_radium, new HazardData().addEntry(RADIATION, ra226 * ingot).addEntry(BONECANCER, ingot));
+		HazardSystem.register(powder_plutonium, new HazardData().addEntry(BONECANCER, ingot));
+		HazardSystem.register(ingot_plutonium, new HazardData().addEntry(BONECANCER, ingot));
+		HazardSystem.register(nugget_plutonium, new HazardData().addEntry(BONECANCER, powder));
+		HazardSystem.register(billet_plutonium, new HazardData().addEntry(BONECANCER, billet));
+		HazardSystem.register(crystal_plutonium, new HazardData().addEntry(BONECANCER, crystal));
+		HazardSystem.register(block_plutonium, new HazardData().addEntry(BONECANCER, block));
+		HazardSystem.register(waste_plutonium, new HazardData().addEntry(BONECANCER, crystal));
+		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(BONECANCER, crystal * 1.5F));
 		
 		//TODO: move this into its own method
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());

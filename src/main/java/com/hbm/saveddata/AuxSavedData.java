@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraftforge.event.world.WorldEvent.Load;
 
 public class AuxSavedData extends WorldSavedData {
 	
@@ -117,6 +118,50 @@ public class AuxSavedData extends WorldSavedData {
 
 		for(DataPair pair : data.data) {
 			if(pair.key.equals("thunder")) {
+				return pair.value;
+			}
+		}
+
+		return 0;
+	}
+	
+	public static void setDetCount(World event, int count) {
+		AuxSavedData data = getData(event);
+		
+		if(data.data == null) {
+			data.data = new ArrayList();
+			data.data.add(new DataPair("detCount", count));
+			
+		} else {
+			
+			DataPair detCount = null;
+			
+			for(DataPair pair : data.data) {
+				if(pair.key.equals("detCount")) {
+					detCount = pair;
+					break;
+				}
+			}
+			
+			if(detCount == null) {
+				data.data.add(new DataPair("detCount", count));
+			} else {
+				detCount.value = count;
+			}
+		}
+		
+		data.markDirty();
+	}
+	
+	public static int getDetCount(World world) {
+
+		AuxSavedData data = getData(world);
+		
+		if(data == null)
+			return 0;
+
+		for(DataPair pair : data.data) {
+			if(pair.key.equals("detCount")) {
 				return pair.value;
 			}
 		}

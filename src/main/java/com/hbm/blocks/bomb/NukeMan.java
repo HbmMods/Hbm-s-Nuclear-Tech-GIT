@@ -8,6 +8,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -146,6 +147,8 @@ public class NukeMan extends BlockContainer implements IBomb {
 			entity2.posY = y;
 			entity2.posZ = z;
 			world.spawnEntityInWorld(entity2);
+			
+			ModEventHandler.nukeDetCount += 50;
 		}
 
 		return false;

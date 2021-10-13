@@ -9,6 +9,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -132,6 +133,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 			
 	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.boyRadius, x + 0.5, y + 0.5, z + 0.5));
 			world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, BombConfig.boyRadius));
+			ModEventHandler.nukeDetCount += 50;
 		}
 		return false;
 	}

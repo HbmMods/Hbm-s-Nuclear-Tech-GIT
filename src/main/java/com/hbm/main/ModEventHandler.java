@@ -123,11 +123,15 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class ModEventHandler {
 
 	public static int meteorShower = 0;
+	public static int nukeDetCount = 0;
+	public static int minuteCounter = 0;
+	public static int decayCounter = 0;
 	static Random rand = new Random();
 	
 	@SubscribeEvent
@@ -520,6 +524,9 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
+		//AuxSavedData.setDetCount(event.world, nukeDetCount);
+		//nukeDetCount = AuxSavedData.getDetCount(event.world);
+		
 		/////
 		//try {
 		/////
@@ -557,6 +564,13 @@ public class ModEventHandler {
 			}
 		}
 		/// METEOR SHOWER END ///
+		
+		if(minuteCounter == 601 && decayCounter >= 30) {
+			nukeDetCount = Math.round(nukeDetCount / 2);
+			if(nukeDetCount > 1000)
+				nukeDetCount = 1000;
+			decayCounter = 0;
+		}
 
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
@@ -702,6 +716,12 @@ public class ModEventHandler {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
 		}
+		
+		minuteCounter++;
+		if(minuteCounter >= 1200)
+			minuteCounter = 0;
+			decayCounter++;
+	
 	}
 	
 	@SubscribeEvent
@@ -762,6 +782,7 @@ public class ModEventHandler {
 		/// FSB ARMOR ///
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleHurt(event);
+		
 	}
 	
 	@SubscribeEvent
@@ -942,8 +963,16 @@ public class ModEventHandler {
 					}
 				}
 			}
-			
 			/// PU RADIATION END ///
+			
+			/// GLOBAL CONTAMINATION CALULATED ///
+			
+			if(minuteCounter == 600) {
+				HbmLivingProps.incrementBoneCancer(player, nukeDetCount);
+			}
+			System.out.println("fuck" + HbmLivingProps.getBoneCancer(player));
+			System.out.println(nukeDetCount);
+			/// FUCK ???
 
 			/// NEW ITEM SYS START ///
 			HazardSystem.updatePlayerInventory(player);
@@ -1272,6 +1301,16 @@ public class ModEventHandler {
 				}
 			}
 		}
+	}
+	//TODO: this entire global contamination effect is completely and utterly fucked
+	@SubscribeEvent
+	public void onWorldEvent(WorldEvent.Load event) {
+		nukeDetCount = AuxSavedData.getDetCount(event.world);
+	}
+	//AAAAAAAA
+	@SubscribeEvent
+	public void onWorldEvent(WorldEvent.Unload event) {
+		AuxSavedData.setDetCount(event.world, nukeDetCount);
 	}
 	
 }

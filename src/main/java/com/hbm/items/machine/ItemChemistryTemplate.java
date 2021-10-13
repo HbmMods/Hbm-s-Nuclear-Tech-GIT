@@ -73,7 +73,6 @@ public class ItemChemistryTemplate extends Item {
 		CIRCUIT_4,
 		CIRCUIT_5,
 		POLYMER,
-		DEUTERIUM,
 		STEAM,
 		YELLOWCAKE,
 		UF6,
@@ -100,7 +99,8 @@ public class ItemChemistryTemplate extends Item {
 		VIT_LIQUID,
 		VIT_GAS,
 		TEL,
-		GASOLINE;
+		GASOLINE,
+		ZR_CA_PROCESSING;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -234,8 +234,6 @@ public class ItemChemistryTemplate extends Item {
         	return 20;
         case POLYMER:
         	return 100;
-        case DEUTERIUM:
-        	return 200;
         case STEAM:
         	return 20;
         case BP_BIOGAS:
@@ -294,6 +292,8 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case GASOLINE:
         	return 40;
+        case ZR_CA_PROCESSING:
+        	return 100;
         default:
         	return 100;
         }

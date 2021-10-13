@@ -732,7 +732,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.sulfur, 12),
 				new OreDictStack("plateSteel", 8),
 				new OreDictStack("plateAluminum", 4),
-				new ComparableStack(ModItems.fluid_duct, 8),
+				new ComparableStack(ModItems.pipes_steel),
 				new ComparableStack(ModItems.board_copper, 2),
 				new ComparableStack(ModItems.turbine_titanium, 2),
 				new ComparableStack(ModItems.circuit_aluminium, 3)
@@ -748,7 +748,6 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.ingot_semtex, 8),
 				new ComparableStack(Blocks.glass_pane, 6),
 				new OreDictStack("plateSteel", 4),
-				new OreDictStack("IngotSteel", 6)
 		}, 100);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
