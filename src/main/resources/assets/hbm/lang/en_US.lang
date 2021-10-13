@@ -2860,6 +2860,7 @@ tile.brick_jungle_trap.name=Trapped Enargite Bricks
 tile.brick_light.name=Light Bricks
 tile.brick_obsidian.name=Obsidian Bricks
 tile.broadcaster_pc.name=Corrupted Broadcaster
+tile.burning_earth.name=Burning Grass
 tile.cable_switch.name=Power Switch
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

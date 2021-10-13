@@ -82,9 +82,10 @@ public class WorldProviderNTM extends WorldProviderSurface {
     @SideOnly(Side.CLIENT)
     public float getSunBrightness(float par1) {
     	float dust = ModEventHandler.dust;
-    	float sunBr = worldObj.getSunBrightnessFactor(par1);   
+    	float sunBr = worldObj.getSunBrightnessFactor(par1);
         return (sunBr*0.8F+0.2F)*(1-dust);
     }
+
 	
     @Override
     public boolean isDaytime()
@@ -101,7 +102,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	public float getSunBrightnessFactor(float par1) {
 		float dust = ModEventHandler.dust;
 		float sunBr = worldObj.getSunBrightnessFactor(par1);
-		float dimSun = sunBr*((0.8F+0.2F)*(1-dust));
+		float dimSun = sunBr*(1-dust);
         return dimSun;
 	}
 
