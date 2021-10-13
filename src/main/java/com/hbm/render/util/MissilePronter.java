@@ -10,9 +10,6 @@ public class MissilePronter {
 
 	public static void prontMissile(MissileMultipart missile, TextureManager tex) {
 		
-		//if(!missile.hadFuselage())
-		//	return;
-		
 		GL11.glPushMatrix();
 		
 		if(missile.thruster != null && missile.thruster.type.name().equals(PartType.THRUSTER.name())) {

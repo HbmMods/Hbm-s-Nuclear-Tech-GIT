@@ -77,7 +77,7 @@ public class EntityCloudFX extends EntityModFX {
 			
 			if (worldObj.getBlock((int) posX, (int) posY, (int) posZ).isNormalCube()) {
 	
-				if(rand.nextInt(5) != 0) {
+				if(!worldObj.isRemote && rand.nextInt(5) != 0) {
 					this.setDead();
 					
 					if(BlockCloudResidue.hasPosNeightbour(worldObj, (int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions)) && worldObj.getBlock((int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions)).isReplaceable(worldObj, (int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions))) {

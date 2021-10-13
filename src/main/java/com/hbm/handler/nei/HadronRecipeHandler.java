@@ -7,9 +7,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+<<<<<<< HEAD
 import com.hbm.inventory.HadronRecipes;
 import com.hbm.inventory.HadronRecipes.HadronRecipe;
 import com.hbm.inventory.gui.GUIHadron;
+=======
+import com.hbm.inventory.gui.GUIHadron;
+import com.hbm.inventory.recipes.HadronRecipes;
+import com.hbm.inventory.recipes.HadronRecipes.HadronRecipe;
+>>>>>>> master
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
-import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -29,13 +29,11 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 			Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
 			
 			if(block == ModBlocks.machine_amgen) {
-				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				Chunk c = worldObj.getChunkFromBlockCoords(xCoord, zCoord);
-				float rad = data.getRadNumFromCoord(c.xPosition, c.zPosition);
+				float rad = ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord);
 				
 				power += rad;
 				
-				data.decrementRad(worldObj, xCoord, zCoord, 5F);
+				ChunkRadiationManager.proxy.decrementRad(worldObj, xCoord, yCoord, zCoord, 5F);
 				
 			} else if(block == ModBlocks.machine_geo) {
 				

@@ -13,83 +13,73 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 public class ItemFluidTank extends Item {
-	
+
 	IIcon overlayIcon;
 
-    public ItemFluidTank()
-    {
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
-    }
+	public ItemFluidTank() {
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list)
-    {
-        for (int i = 1; i < FluidType.values().length; ++i)
-        {
-            list.add(new ItemStack(item, 1, i));
-        }
-    }
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
+		
+		for(int i = 1; i < FluidType.values().length; ++i) {
+			if(!FluidType.values()[i].hasNoContainer()) {
+				list.add(new ItemStack(item, 1, i));
+			}
+		}
+	}
 
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        String s1 = ("" + StatCollector.translateToLocal(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
+	public String getItemStackDisplayName(ItemStack stack) {
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
 
-        if (s1 != null)
-        {
-            s = s + " " + s1;
-        }
+		if(s1 != null) {
+			s = s + " " + s1;
+		}
 
-        return s;
-    }
+		return s;
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
-        return true;
-    }
+	public boolean requiresMultipleRenderPasses() {
+		return true;
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
-        super.registerIcons(p_94581_1_);
+	public void registerIcons(IIconRegister p_94581_1_) {
+		super.registerIcons(p_94581_1_);
 
-        if(this == ModItems.fluid_tank_full)
-        	this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_overlay");
-        if(this == ModItems.fluid_barrel_full)
-        	this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_barrel_overlay");
-    }
-    
-    @Override
+		if(this == ModItems.fluid_tank_full)
+			this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_overlay");
+		if(this == ModItems.fluid_barrel_full)
+			this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_barrel_overlay");
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_)
-    {
-        return p_77618_2_ == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
-    }
+	public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_) {
+		return p_77618_2_ == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int p_82790_2_)
-    {
-        if (p_82790_2_ == 0)
-        {
-            return 16777215;
-        }
-        else
-        {
-            int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
+	public int getColorFromItemStack(ItemStack stack, int p_82790_2_) {
+		if(p_82790_2_ == 0) {
+			return 16777215;
+		} else {
+			int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
 
-            if (j < 0)
-            {
-                j = 16777215;
-            }
+			if(j < 0) {
+				j = 16777215;
+			}
 
-            return j;
-        }
-    }
+			return j;
+		}
+	}
 
 }

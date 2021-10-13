@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
+<<<<<<< HEAD
+=======
+import com.hbm.config.BombConfig;
+>>>>>>> master
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -47,6 +51,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	private BulletConfiguration config;
 	public EntityLivingBase shooter;
 	public float overrideDamage;
+	
+	public BulletConfiguration getConfig() {
+		return config;
+	}
 
 	public EntityBulletBase(World world) {
 		super(world);
@@ -246,6 +254,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		if (victim != null) {
 			movement = new MovingObjectPosition(victim);
+			movement.hitVec.yCoord += victim.height * 0.5D;
 		}
 		
 		/// ZONE 2 END ///
@@ -257,19 +266,15 @@ public class EntityBulletBase extends Entity implements IProjectile {
         	//handle entity collision
         	if(movement.entityHit != null) {
 
-				DamageSource damagesource = null;
-				
-				if (this.shooter == null) {
-					damagesource = ModDamageSource.causeBulletDamage(this, this);
-				} else {
-					damagesource = ModDamageSource.causeBulletDamage(this, shooter);
-				}
+				DamageSource damagesource = this.config.getDamage(this, shooter);
 
     			if(!worldObj.isRemote) {
-	        		if(!config.doesPenetrate)
+	        		if(!config.doesPenetrate) {
+						this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
 	        			onEntityImpact(victim);
-	        		else
+	        		} else {
 	        			onEntityHurt(victim);
+	        		}
     			}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
@@ -293,9 +298,16 @@ public class EntityBulletBase extends Entity implements IProjectile {
         		Block b = worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ);
         		boolean hRic = rand.nextInt(100) < config.HBRC;
         		boolean doesRic = config.doesRicochet || hRic;
+<<<<<<< HEAD
         		// FIXME
         		if(!config.isSpectral && !doesRic && (!config.spectralBlocks.contains(b) || !config.spectralMaterials.contains(b.getMaterial())))
+=======
+        		
+        		if(!config.isSpectral && !doesRic) {
+					this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
+>>>>>>> master
         			this.onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+        		}
         		
         		if(doesRic) {
         			
@@ -344,10 +356,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         	
                         	onRicochet(movement.blockX, movement.blockY, movement.blockZ);
                         	
-                		} else {
-                			if(!worldObj.isRemote)
-                				onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
-                		}
+						} else {
+							if(!worldObj.isRemote) {
+								this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
+								onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+							}
+						}
 
                         this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
                         this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
@@ -427,7 +441,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(config.bImpact != null)
 			config.bImpact.behaveBlockHit(this, bX, bY, bZ);
 		
-		if(!worldObj.isRemote)
+		if(!worldObj.isRemote && !config.liveAfterImpact)
 			this.setDead();
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
@@ -471,30 +485,24 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow));
 
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-			entity.posX = this.posX;
-			entity.posY = this.posY;
-			entity.posZ = this.posZ;
-			entity.destructionRange = config.rainbow;
-			entity.speed = 25;
-			entity.coefficient = 1.0F;
-			entity.waste = false;
-
-			this.worldObj.spawnEntityInWorld(entity);
-	    		
-	    	EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
-	    	cloud.posX = this.posX;
-	    	cloud.posY = this.posY;
-	    	cloud.posZ = this.posZ;
-	    	this.worldObj.spawnEntityInWorld(cloud);
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
+			cloud.posX = this.posX;
+			cloud.posY = this.posY;
+			cloud.posZ = this.posZ;
+			this.worldObj.spawnEntityInWorld(cloud);
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
 	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ).mute());
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
+<<<<<<< HEAD
 			if(MainRegistry.isPolaroid11|| rand.nextInt(100) == 0) data.setBoolean("balefire", true);
+=======
+			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
+>>>>>>> master
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}

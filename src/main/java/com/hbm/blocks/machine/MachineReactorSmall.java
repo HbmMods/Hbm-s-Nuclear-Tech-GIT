@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
@@ -142,14 +143,13 @@ public class MachineReactorSmall extends BlockContainer implements IMultiblock {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
+		} else if(!player.isSneaking()) {
+			BossSpawnHandler.markFBI(player);
+
 			TileEntityMachineReactorSmall entity = (TileEntityMachineReactorSmall) world.getTileEntity(x, y, z);
-			if(entity != null)
-			{
+			if(entity != null) {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_small, world, x, y, z);
 			}
 			return true;

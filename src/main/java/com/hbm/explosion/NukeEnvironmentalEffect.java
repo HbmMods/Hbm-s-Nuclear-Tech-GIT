@@ -15,7 +15,7 @@ public class NukeEnvironmentalEffect {
 	/**
 	 * Area of effect radiation effect. j > 0 for jagged edges of the spherical area. Args: world, x, y, z, radius, outer radius with random chance.
 	 */
-	@Deprecated //does not use scorched uranium, implementation is gaarbage anyway
+	@Deprecated //does not use scorched uranium, implementation is garbage anyway
 	public static void applyStandardAOE(World world, int x, int y, int z, int r, int j) {
 
 		int r2 = r * r;

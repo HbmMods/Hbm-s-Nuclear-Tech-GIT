@@ -1,8 +1,12 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
+<<<<<<< HEAD
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+=======
+import com.hbm.inventory.recipes.MachineRecipes;
+>>>>>>> master
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;

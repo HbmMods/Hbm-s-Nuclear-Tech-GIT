@@ -4,10 +4,14 @@ import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+<<<<<<< HEAD
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.KeybindPacket;
+=======
+import com.hbm.packet.AuxParticlePacketNT;
+>>>>>>> master
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -36,6 +40,7 @@ public class JetpackBreak extends JetpackBase {
 		
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
+<<<<<<< HEAD
 		if(world.isRemote) {
 			
 			if(player == MainRegistry.proxy.me()) {
@@ -52,6 +57,11 @@ public class JetpackBreak extends JetpackBase {
 		} else {
 			
 			if(getFuel(stack) > 0 && (props.getKeyPressed(EnumKeybind.JETPACK) || (!player.onGround && !player.isSneaking()))) {
+=======
+		if(!world.isRemote) {
+			
+			if(getFuel(stack) > 0 && (props.isJetpackActive() || (!player.onGround && !player.isSneaking() && props.enableBackpack))) {
+>>>>>>> master
 
 	    		NBTTagCompound data = new NBTTagCompound();
 	    		data.setString("type", "jetpack");
@@ -62,7 +72,11 @@ public class JetpackBreak extends JetpackBase {
 
 		if(getFuel(stack) > 0) {
 			
+<<<<<<< HEAD
 			if(props.getKeyPressed(EnumKeybind.JETPACK)) {
+=======
+			if(props.isJetpackActive()) {
+>>>>>>> master
 				player.fallDistance = 0;
 				
 				if(player.motionY < 0.4D)
@@ -71,7 +85,11 @@ public class JetpackBreak extends JetpackBase {
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 				this.useUpFuel(player, stack, 5);
 				
+<<<<<<< HEAD
 			} else if(!player.isSneaking() && !player.onGround) {
+=======
+			} else if(!player.isSneaking() && !player.onGround && props.enableBackpack) {
+>>>>>>> master
 				player.fallDistance = 0;
 				
 				if(player.motionY < -1)

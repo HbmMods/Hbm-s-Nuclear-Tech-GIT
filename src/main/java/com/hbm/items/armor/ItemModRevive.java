@@ -46,5 +46,8 @@ public class ItemModRevive extends ItemArmorMod {
 
 		list.add(EnumChatFormatting.GOLD + "  " + stack.getDisplayName() + " (" + (stack.getMaxDamage() - stack.getItemDamage()) + " revives left)");
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 }

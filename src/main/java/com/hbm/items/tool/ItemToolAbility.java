@@ -12,6 +12,7 @@ import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.*;
 import com.hbm.handler.WeaponAbility;
 
+import api.hbm.item.IDepthRockTool;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -37,7 +38,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class ItemToolAbility extends ItemTool implements IItemAbility {
+public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool {
 	
 	private EnumToolType toolType;
 	private EnumRarity rarity = EnumRarity.common;
@@ -243,42 +244,47 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
-    	
-        return getCurrentAbility(stack) != null ? true : super.hasEffect(stack);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-    	
-    	if(this.breakAbility.size() > 1) {
-    		list.add("Abilities: ");
-    		
-    		for(ToolAbility ability : this.breakAbility) {
-    			
-    			if(ability != null) {
-    				
-    				if(getCurrentAbility(stack) == ability)
-    					list.add(" >" + EnumChatFormatting.GOLD + ability.getFullName());
-    				else
-    					list.add("  " + EnumChatFormatting.GOLD + ability.getFullName());
-    			}
-    		}
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack stack) {
 
-    		list.add("Right click to cycle through abilities!");
-    		list.add("Sneak-click to turn abilitty off!");
-    	}
-    	
-    	if(!this.hitAbility.isEmpty()) {
-    		
-    		list.add("Weapon modifiers: ");
-    		
-    		for(WeaponAbility ability : this.hitAbility) {
+		return getCurrentAbility(stack) != null ? true : super.hasEffect(stack);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+
+		if(this.breakAbility.size() > 1) {
+			list.add("Abilities: ");
+
+			for(ToolAbility ability : this.breakAbility) {
+
+				if(ability != null) {
+
+					if(getCurrentAbility(stack) == ability)
+						list.add(" >" + EnumChatFormatting.GOLD + ability.getFullName());
+					else
+						list.add("  " + EnumChatFormatting.GOLD + ability.getFullName());
+				}
+			}
+
+			list.add("Right click to cycle through abilities!");
+			list.add("Sneak-click to turn abilitty off!");
+		}
+
+		if(!this.hitAbility.isEmpty()) {
+
+			list.add("Weapon modifiers: ");
+
+			for(WeaponAbility ability : this.hitAbility) {
 				list.add("  " + EnumChatFormatting.RED + ability.getFullName());
-    		}
-    	}
-    }
+			}
+		}
+
+		if(this.rockBreaker) {
+			list.add("");
+			list.add(EnumChatFormatting.RED + "Can break depth rock!");
+		}
+	}
     
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
     	
@@ -335,15 +341,27 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
     	return 0;
     }
     
-    private void setAbility(ItemStack stack, int ability) {
+	private void setAbility(ItemStack stack, int ability) {
 
-    	if(!stack.hasTagCompound())
-    		stack.stackTagCompound = new NBTTagCompound();
-    	
-    	stack.stackTagCompound.setInteger("ability", ability);
-    }
-    
-    protected boolean canOperate(ItemStack stack) {
-    	return true;
-    }
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+
+		stack.stackTagCompound.setInteger("ability", ability);
+	}
+
+	protected boolean canOperate(ItemStack stack) {
+		return true;
+	}
+
+	public ItemToolAbility setDepthRockBreaker() {
+		this.rockBreaker = true;
+		return this;
+	}
+	
+	private boolean rockBreaker = false;
+
+	@Override
+	public boolean canBreakRock(World world, EntityPlayer player, ItemStack tool, Block block, int x, int y, int z) {
+		return canOperate(tool) && this.rockBreaker;
+	}
 }

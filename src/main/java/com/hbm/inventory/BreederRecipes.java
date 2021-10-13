@@ -16,8 +16,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class BreederRecipes {
 
-	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap<ComparableStack, BreederRecipe>();
-	private static HashMap<ComparableStack, int[]> fuels = new HashMap<ComparableStack, int[]>();
+	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
+	private static HashMap<ComparableStack, int[]> fuels = new HashMap();
 	//for the int array: [0] => level (1-4) [1] => amount of operations
 	
 	public static void registerRecipes() {
@@ -34,15 +34,12 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_quad_plutonium), new BreederRecipe(ModItems.rod_quad_waste, 4));
 		
 		//isotopes
-		recipes.put(new ComparableStack(ModItems.rod_th232), new BreederRecipe(ModItems.rod_tha, 2));
-		recipes.put(new ComparableStack(ModItems.rod_dual_th232), new BreederRecipe(ModItems.rod_dual_tha, 2));
-		recipes.put(new ComparableStack(ModItems.rod_quad_th232), new BreederRecipe(ModItems.rod_quad_tha, 2));
+		recipes.put(new ComparableStack(ModItems.rod_th232), new BreederRecipe(ModItems.rod_u233, 2));
+		recipes.put(new ComparableStack(ModItems.rod_dual_th232), new BreederRecipe(ModItems.rod_dual_u233, 2));
+		recipes.put(new ComparableStack(ModItems.rod_quad_th232), new BreederRecipe(ModItems.rod_quad_u233, 2));
 		recipes.put(new ComparableStack(ModItems.rod_u233), new BreederRecipe(ModItems.rod_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_dual_u233), new BreederRecipe(ModItems.rod_dual_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_quad_u233), new BreederRecipe(ModItems.rod_quad_u235, 2));
-		recipes.put(new ComparableStack(ModItems.rod_u234), new BreederRecipe(ModItems.rod_u235, 2));
-		recipes.put(new ComparableStack(ModItems.rod_dual_u234), new BreederRecipe(ModItems.rod_dual_u235, 2));
-		recipes.put(new ComparableStack(ModItems.rod_quad_u234), new BreederRecipe(ModItems.rod_quad_u235, 2));
 		recipes.put(new ComparableStack(ModItems.rod_u235), new BreederRecipe(ModItems.rod_neptunium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_dual_u235), new BreederRecipe(ModItems.rod_dual_neptunium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_quad_u235), new BreederRecipe(ModItems.rod_quad_neptunium, 3));
@@ -70,7 +67,6 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_balefire), new BreederRecipe(ModItems.rod_balefire_blazing, 4));
 		recipes.put(new ComparableStack(ModItems.rod_dual_balefire), new BreederRecipe(ModItems.rod_dual_balefire_blazing, 4));
 		recipes.put(new ComparableStack(ModItems.rod_quad_balefire), new BreederRecipe(ModItems.rod_quad_balefire_blazing, 4));
-		recipes.put(new ComparableStack(ModItems.orichalcum, 1, 2), new BreederRecipe(new ItemStack(ModItems.orichalcum, 1, 4), 4));
 
 		//rocks
 		recipes.put(new ComparableStack(Blocks.stone), new BreederRecipe(new ItemStack(ModBlocks.sellafield_0), 2));
@@ -79,8 +75,6 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModBlocks.sellafield_2), new BreederRecipe(new ItemStack(ModBlocks.sellafield_3), 3));
 		recipes.put(new ComparableStack(ModBlocks.sellafield_3), new BreederRecipe(new ItemStack(ModBlocks.sellafield_4), 4));
 		recipes.put(new ComparableStack(ModBlocks.sellafield_4), new BreederRecipe(new ItemStack(ModBlocks.sellafield_core), 4));
-		
-		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 4));
 	}
 	
 	public static void registerFuels() {
@@ -139,7 +133,7 @@ public class BreederRecipes {
 	
 	public static HashMap<ItemStack, BreederRecipe> getAllRecipes() {
 		
-		HashMap<ItemStack, BreederRecipe> map = new HashMap<ItemStack, BreederRecipe>();
+		HashMap<ItemStack, BreederRecipe> map = new HashMap();
 		
 		for(Map.Entry<ComparableStack, BreederRecipe> recipe : recipes.entrySet()) {
 			map.put(recipe.getKey().toStack(), recipe.getValue());
@@ -150,7 +144,7 @@ public class BreederRecipes {
 	
 	public static List<ItemStack> getAllFuelsFromHEAT(int heat) {
 		
-		List<ItemStack> list = new ArrayList<ItemStack>();
+		List<ItemStack> list = new ArrayList();
 		
 		for(Map.Entry<ComparableStack, int[]> fuel : fuels.entrySet()) {
 			

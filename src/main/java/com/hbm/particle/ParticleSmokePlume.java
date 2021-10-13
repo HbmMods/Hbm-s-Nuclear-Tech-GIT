@@ -35,27 +35,26 @@ public class ParticleSmokePlume extends EntityFX {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
-		
+
 		particleAlpha = 1 - ((float) age / (float) maxAge);
-		
+
 		++this.age;
 
-		if (this.age == this.maxAge) {
+		if(this.age == this.maxAge) {
 			this.setDead();
 		}
-        
-		double bak = Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector();
-		
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        
-        if (Math.abs(motionX) < 0.025 && Math.abs(motionZ) < 0.025)
-        {
-        	motionY = bak;
-        }
 
-        motionX *= 0.925;
-        motionY *= 0.925;
-        motionZ *= 0.925;
+		double bak = Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector();
+
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+
+		if(Math.abs(motionX) < 0.025 && Math.abs(motionZ) < 0.025) {
+			motionY = bak;
+		}
+
+		motionX *= 0.925;
+		motionY *= 0.925;
+		motionZ *= 0.925;
 	}
 
 	public int getFXLayer() {
@@ -63,40 +62,40 @@ public class ParticleSmokePlume extends EntityFX {
 	}
 
 	public void renderParticle(Tessellator p_70539_1_, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_) {
-		
+
 		this.theRenderEngine.bindTexture(texture);
-		
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		RenderHelper.disableStandardItemLighting();
-		
+
 		Random urandom = new Random(this.getEntityId());
-		
+
 		for(int i = 0; i < 6; i++) {
-			
+
 			p_70539_1_.startDrawingQuads();
-			
-	        this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.7F + 0.2F;
-	        
+
+			this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.7F + 0.2F;
+
 			p_70539_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 			p_70539_1_.setNormal(0.0F, 1.0F, 0.0F);
 			p_70539_1_.setBrightness(240);
-			
+
 			float scale = 0.5F;
-	        float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double)p_70539_2_ - interpPosX) + urandom.nextGaussian() * 0.5);
-	        float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double)p_70539_2_ - interpPosY) + urandom.nextGaussian() * 0.5);
-	        float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double)p_70539_2_ - interpPosZ) + urandom.nextGaussian() * 0.5);
-	        
-			p_70539_1_.addVertexWithUV((double)(pX - p_70539_3_ * scale - p_70539_6_ * scale), (double)(pY - p_70539_4_ * scale), (double)(pZ - p_70539_5_ * scale - p_70539_7_ * scale), 1, 1);
-			p_70539_1_.addVertexWithUV((double)(pX - p_70539_3_ * scale + p_70539_6_ * scale), (double)(pY + p_70539_4_ * scale), (double)(pZ - p_70539_5_ * scale + p_70539_7_ * scale), 1, 0);
-			p_70539_1_.addVertexWithUV((double)(pX + p_70539_3_ * scale + p_70539_6_ * scale), (double)(pY + p_70539_4_ * scale), (double)(pZ + p_70539_5_ * scale + p_70539_7_ * scale), 0, 0);
-			p_70539_1_.addVertexWithUV((double)(pX + p_70539_3_ * scale - p_70539_6_ * scale), (double)(pY - p_70539_4_ * scale), (double)(pZ + p_70539_5_ * scale - p_70539_7_ * scale), 0, 1);
+			float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - interpPosX) + urandom.nextGaussian() * 0.5);
+			float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - interpPosY) + urandom.nextGaussian() * 0.5);
+			float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - interpPosZ) + urandom.nextGaussian() * 0.5);
+
+			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale - p_70539_6_ * scale), (double) (pY - p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale - p_70539_7_ * scale), 1, 1);
+			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale + p_70539_6_ * scale), (double) (pY + p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale + p_70539_7_ * scale), 1, 0);
+			p_70539_1_.addVertexWithUV((double) (pX + p_70539_3_ * scale + p_70539_6_ * scale), (double) (pY + p_70539_4_ * scale), (double) (pZ + p_70539_5_ * scale + p_70539_7_ * scale), 0, 0);
+			p_70539_1_.addVertexWithUV((double) (pX + p_70539_3_ * scale - p_70539_6_ * scale), (double) (pY - p_70539_4_ * scale), (double) (pZ + p_70539_5_ * scale - p_70539_7_ * scale), 0, 1);
 			p_70539_1_.draw();
 		}
-		
+
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

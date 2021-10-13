@@ -220,5 +220,23 @@ public class ToolRecipes {
 	public static void newStamp(Item stamp, String mat, boolean diamond)
 	{
 		GameRegistry.addRecipe(new ShapedOreRecipe(stamp, new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', diamond ? Items.diamond : Items.brick, 'M', mat}));
+
+	//Generic, pattern-driven
+	public static void addTool(Object ingot, Item tool, String[] pattern) {
+		if(ingot instanceof Item)		addToolRec(ingot, tool, pattern);
+		if(ingot instanceof ItemStack)	addToolRec(ingot, tool, pattern);
+		if(ingot instanceof String)		addToolDict(ingot, tool, pattern);
+	}
+	public static void addToolRec(Object ingot, Item tool, String[] pattern) {
+		GameRegistry.addRecipe(new ItemStack(tool), new Object[] { pattern, 'X', ingot, '#', Items.stick });
+	}
+	public static void addToolDict(Object ingot, Item tool, String[] pattern) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tool), new Object[] { pattern, 'X', ingot, '#', Items.stick }));
+	}
+	public static final String[] patternPick = new String[] {"XXX", " # ", " # "};
+	public static final String[] patternSword = new String[] {"X", "X", "#"};
+	public static final String[] patternAxe = new String[] {"XX", "X#", " #"};
+	public static final String[] patternShovel = new String[] {"X", "#", "#"};
+	public static final String[] patternHoe = new String[] {"XX", " #", " #"};
 	}
 }

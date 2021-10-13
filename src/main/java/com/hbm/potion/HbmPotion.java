@@ -10,17 +10,18 @@ import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -143,8 +144,7 @@ public class HbmPotion extends Potion {
 			}
 		}
 		if(this == radiation) {
-			
-			ContaminationUtil.applyRadData(entity, (float)(level + 1F) * 0.05F);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
 			
@@ -161,6 +161,12 @@ public class HbmPotion extends Potion {
 
 			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.laserBang", 100.0F, 1.0F);
 			ExplosionLarge.spawnParticles(entity.worldObj, entity.posX, entity.posY, entity.posZ, 10);
+			
+			if(entity instanceof EntityCow) {
+				EntityCow cow = (EntityCow) entity;
+				int toDrop = cow.isChild() ? 10 : 3;
+				cow.entityDropItem(new ItemStack(ModItems.cheese, toDrop), 1.0F);
+			}
 		}
 		if(this == lead) {
 			
@@ -207,21 +213,20 @@ public class HbmPotion extends Potion {
 	public boolean isReady(int par1, int par2) {
 
 		if(this == taint) {
-
-	        return par1 % 2 == 0;
+			return par1 % 2 == 0;
 		}
 		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus || this == paralysis || this == fragile) {
 			
 			return true;
 		}
+		
 		if(this == bang) {
-
 			return par1 <= 10;
 		}
+		
 		if(this == lead) {
-
 			int k = 60;
-	        return k > 0 ? par1 % k == 0 : true;
+			return k > 0 ? par1 % k == 0 : true;
 		}
 		if (this == perforated)
 		{
@@ -230,5 +235,17 @@ public class HbmPotion extends Potion {
 		}
 		
 		return false;
+	}
+	
+	public static boolean getIsBadEffect(Potion potion) {
+		
+		try {
+			Field isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K");
+			boolean ret = isBadEffect.getBoolean(potion);
+			return ret;
+			
+		} catch (Exception x) {
+			return false;
+		}
 	}
 }

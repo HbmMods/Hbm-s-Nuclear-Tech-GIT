@@ -200,11 +200,6 @@ public class Balefire extends BlockFire {
         }
     }
     
-    private boolean isFlammable(World p_149817_1_, int p_149817_2_, int p_149817_3_, int p_149817_4_)
-    {
-        return p_149817_1_.getBlock(p_149817_2_, p_149817_3_, p_149817_4_).getMaterial().getCanBurn();
-    }
-    
     public boolean canCatchFire(IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {
         return world.getBlock(x, y, z).isFlammable(world, x, y, z, face);

@@ -15,10 +15,12 @@ import com.hbm.handler.GunConfigurationEnergy;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -131,6 +133,35 @@ public class GunEnergyFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getExtConfig() {
+		GunConfiguration config = new GunConfiguration();
+		
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.reloadSoundEnd = false;
+		config.firingDuration = 0;
+		config.ammoCap = 300; //good for 15 seconds of continued spray
+		config.durability = 10000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCLE;
+		config.firingSound = "hbm:weapon.extinguisher";
+		config.reloadSound = "hbm:weapon.flamerReload";
+		
+		config.name = "PROTEX Fire Exinguisher 6kg";
+		config.manufacturer = "Gloria GmbH";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.FEXT_FOAM);
+		config.config.add(BulletConfigSyncingUtil.FEXT_SAND);
+		
+		return config;
+	}
 	public static GunConfiguration getVortexConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -310,6 +341,10 @@ public class GunEnergyFactory {
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		bullet.emp = 10;
 		
+		bullet.damageType = ModDamageSource.s_emp;
+		bullet.dmgProj = false;
+		bullet.dmgBypass = true;
+		
 		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 1));
 		bullet.effects.add(new PotionEffect(Potion.weakness.id, 10 * 20, 4));
@@ -340,6 +375,10 @@ public class GunEnergyFactory {
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		bullet.vPFX = "flame";
 		bullet.incendiary = 10;
+		
+		bullet.damageType = ModDamageSource.s_flamethrower;
+		bullet.dmgProj = false;
+		bullet.dmgFire = true;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -388,7 +427,7 @@ public class GunEnergyFactory {
 		bullet.maxAge = 200;
 		bullet.vPFX = "smoke";
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25);
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25, 0.1F);
 		
 		return bullet;
 	}
@@ -407,6 +446,8 @@ public class GunEnergyFactory {
 		bullet.maxAge = 15;
 		bullet.vPFX = "flame";
 		bullet.incendiary = 0;
+		
+		bullet.dmgBypass = true;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
@@ -430,6 +471,8 @@ public class GunEnergyFactory {
 		bullet.dmgMax = 0;
 		bullet.vPFX = "cloud";
 		bullet.incendiary = 0;
+		
+		bullet.dmgFire = false;
 		
 		bullet.bImpact = BulletConfigFactory.getGasEffect(5, 60 * 20);
 		
@@ -646,6 +689,307 @@ public class GunEnergyFactory {
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_LASER;
 		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getFextConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.ammo_fireext;
+		bullet.ammoCount = 300;
+		
+		bullet.velocity = 0.75F;
+		bullet.spread = 0.025F;
+		bullet.wear = 1;
+		bullet.bulletsMin = 2;
+		bullet.bulletsMax = 3;
+		bullet.dmgMin = 0;
+		bullet.dmgMax = 0;
+		bullet.gravity = 0.04D;
+		bullet.maxAge = 100;
+		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
+		bullet.doesBreakGlass = false;
+		bullet.style = BulletConfiguration.STYLE_NONE;
+		bullet.plink = BulletConfiguration.PLINK_NONE;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					boolean fizz = false;
+					
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j <= 1; j++) {
+							for(int k = -1; k <= 1; k++) {
+								
+								if(bullet.worldObj.getBlock(ix + i, iy + j, iz + k) == Blocks.fire) {
+									bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+									fizz = true;
+								}
+							}
+						}
+					}
+					
+					if(fizz)
+						bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(Blocks.water));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+					MainRegistry.proxy.effectNT(data);
+				} else {
+
+					int x = (int)Math.floor(bullet.posX);
+					int y = (int)Math.floor(bullet.posY);
+					int z = (int)Math.floor(bullet.posZ);
+					
+					if(bullet.worldObj.getBlock(x, y, z) == ModBlocks.volcanic_lava_block && bullet.worldObj.getBlockMetadata(x, y, z) == 0) {
+						bullet.worldObj.setBlock(x, y, z, Blocks.obsidian);
+						bullet.setDead();
+					}
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getFextFoamConfig() {
+		
+		BulletConfiguration bullet = getFextConfig();
+		
+		bullet.ammo = ModItems.ammo_fireext_foam;
+		bullet.spread = 0.05F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					boolean fizz = false;
+					
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j <= 1; j++) {
+							for(int k = -1; k <= 1; k++) {
+								
+								Block b = bullet.worldObj.getBlock(ix + i, iy + j, iz + k);
+								
+								if(b.getMaterial() == Material.fire) {
+									bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+									fizz = true;
+								}
+							}
+						}
+					}
+					
+					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					if(b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						
+						if(b != ModBlocks.foam_layer) {
+							bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.foam_layer);
+						} else {
+							int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+							
+							if(meta < 6)
+								bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+							else
+								bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.block_foam);
+						}
+					}
+					
+					if(fizz)
+						bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(ModBlocks.block_foam));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+					MainRegistry.proxy.effectNT(data);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getFextSandConfig() {
+		
+		BulletConfiguration bullet = getFextConfig();
+		
+		bullet.ammo = ModItems.ammo_fireext_sand;
+		bullet.spread = 0.1F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					int ix = (int)Math.floor(bullet.posX);
+					int iy = (int)Math.floor(bullet.posY);
+					int iz = (int)Math.floor(bullet.posZ);
+					
+					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					if((b.isReplaceable(bullet.worldObj, ix, iy, iz) || b == ModBlocks.sand_boron_layer) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+						
+						if(b != ModBlocks.sand_boron_layer) {
+							bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron_layer);
+						} else {
+							int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+							
+							if(meta < 6)
+								bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+							else
+								bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron);
+						}
+						
+						if(b.getMaterial() == Material.fire)
+							bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+					}
+				}
+			}
+		};
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "blockdust");
+					data.setInteger("block", Block.getIdFromBlock(ModBlocks.sand_boron));
+					data.setDouble("posX", bullet.posX);
+					data.setDouble("posY", bullet.posY);
+					data.setDouble("posZ", bullet.posZ);
+					data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.1);
+					data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.1);
+					data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.1);
+					MainRegistry.proxy.effectNT(data);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getZOMGBoltConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.nugget_euphemium;
+		bullet.ammoCount = 1000;
+		bullet.wear = 1;
+		bullet.velocity = 1F;
+		bullet.spread = 0.125F;
+		bullet.maxAge = 100;
+		bullet.gravity = 0D;
+		bullet.bulletsMin = 5;
+		bullet.bulletsMax = 5;
+		bullet.dmgMin = 10000;
+		bullet.dmgMax = 25000;
+		bullet.liveAfterImpact = true;
+		
+		bullet.damageType = ModDamageSource.s_zomg_prefix;
+		bullet.dmgProj = false;
+		bullet.dmgBypass = true;
+
+		bullet.style = bullet.STYLE_BOLT;
+		bullet.trail = bullet.BOLT_ZOMG;
+		
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)Math.floor(bullet.posX), (int)Math.floor(bullet.posY), (int)Math.floor(bullet.posZ), 5);
+					bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
+    				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getTurbineConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.nothing;
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 150;
+		bullet.velocity = 1F;
+		bullet.gravity = 0.0;
+		bullet.maxAge = 200;
+		bullet.style = bullet.STYLE_BLADE;
+		bullet.destroysBlocks = true;
+		bullet.doesRicochet = false;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getTurretConfig() {
+		BulletConfiguration bullet = getFlameConfig();
+		bullet.spread *= 2F;
+		bullet.gravity = 0.0025D;
 		return bullet;
 	}
 }

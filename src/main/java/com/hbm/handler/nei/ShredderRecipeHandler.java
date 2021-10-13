@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.ShredderRecipes;
 import com.hbm.inventory.gui.GUIMachineShredder;
+import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

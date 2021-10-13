@@ -39,4 +39,15 @@ public class VersatileConfig {
 	public static boolean hasPotionSickness(EntityLivingBase entity) {
 		return entity.isPotionActive(HbmPotion.potionsickness);
 	}
+
+	static int minute = 60 * 20;
+	static int hour = 60 * minute;
+	
+	public static int getLongDecayChance() {
+		return GeneralConfig.enable528 ? 15 * hour : 3 * hour;
+	}
+
+	public static int getShortDecayChance() {
+		return GeneralConfig.enable528 ? 3 * hour : 15 * minute;
+	}
 }

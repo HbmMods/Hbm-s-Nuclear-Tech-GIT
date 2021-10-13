@@ -6,18 +6,24 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.interfaces.Untested;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class BulletConfiguration implements Cloneable {
 	
@@ -62,6 +68,8 @@ public class BulletConfiguration implements Cloneable {
 	public boolean isSpectral;
 	/**whether or not the bullet should break glass**/
 	public boolean doesBreakGlass;
+	//whether the bullet should stay alive after colliding with a block
+	public boolean liveAfterImpact;
 	
 	//bullet effects
 	public List<PotionEffect> effects = new ArrayList<PotionEffect>();
@@ -96,6 +104,12 @@ public class BulletConfiguration implements Cloneable {
 	public int plink;
 	//vanilla particle FX
 	public String vPFX = "";
+	
+	public String damageType = ModDamageSource.s_bullet;
+	public boolean dmgProj = true;
+	public boolean dmgFire = false;
+	public boolean dmgExplosion = false;
+	public boolean dmgBypass = false;
 
 	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
@@ -165,6 +179,29 @@ public class BulletConfiguration implements Cloneable {
 		this.spread *= mod;
 		return this;
 	}
+	
+	@Untested
+	public DamageSource getDamage(EntityBulletBase bullet, EntityLivingBase shooter) {
+		
+		DamageSource dmg;
+		
+		String unloc = damageType;
+		
+		if(unloc.equals(ModDamageSource.s_zomg_prefix))
+			unloc += (bullet.worldObj.rand.nextInt(5) + 1); //pain
+		
+		if(shooter != null)
+			dmg = new EntityDamageSourceIndirect(unloc, bullet, shooter);
+		else
+			dmg = new DamageSource(unloc);
+		
+		if(this.dmgProj) dmg.setProjectile();
+		if(this.dmgFire) dmg.setFireDamage();
+		if(this.dmgExplosion) dmg.setExplosion();
+		if(this.dmgBypass) dmg.setDamageBypassesArmor();
+		
+		return dmg;
+	}
 	// TODO
 	@Override
 	public BulletConfiguration clone()
@@ -181,21 +218,21 @@ public class BulletConfiguration implements Cloneable {
 //		newConfig.bulletsMax = bulletsMax;
 //		newConfig.bulletsMin = bulletsMin;
 //		newConfig.bUpdate = bUpdate;
-//		newConfig.caustic = caustic;
 //		newConfig.chlorine = chlorine;
-//		newConfig.destroysBlocks = destroysBlocks;
-//		newConfig.dmgMax = dmgMax;
-//		newConfig.dmgMin = dmgMin;
+//		newConfig.caustic = caustic;
 //		return newConfig;
-		try
-		{
-			return (BulletConfiguration) super.clone();
-		}
-		catch (CloneNotSupportedException e)
-		{
-			e.printStackTrace();
-			MainRegistry.logger.catching(Level.ERROR, e);
-			return new BulletConfiguration();
-		}
+//		newConfig.dmgMin = dmgMin;
+//		newConfig.dmgMax = dmgMax;
+//		newConfig.destroysBlocks = destroysBlocks;
 	}
+		}
+			return new BulletConfiguration();
+			MainRegistry.logger.catching(Level.ERROR, e);
+			e.printStackTrace();
+		{
+		catch (CloneNotSupportedException e)
+		}
+			return (BulletConfiguration) super.clone();
+		{
+		try
 }

@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
@@ -14,6 +17,7 @@ import com.hbm.potion.HbmPotion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -21,6 +25,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemSyringe extends ItemCustomLore
@@ -251,7 +256,7 @@ public class ItemSyringe extends ItemCustomLore
 			}
 		}
 
-		if(this == ModItems.gas_mask_filter && player.inventory.armorInventory[3] != null && (player.inventory.armorInventory[3].getItem() == ModItems.gas_mask || player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_m65)) {
+		if(this == ModItems.gas_mask_filter_mono && player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_mono) {
 			if(!world.isRemote) {
 				if(player.inventory.armorInventory[3].getItemDamage() == 0)
 					return stack;
@@ -280,6 +285,10 @@ public class ItemSyringe extends ItemCustomLore
 					return stack;
 
 				IPartiallyFillable fillable = (IPartiallyFillable) jetpack.getItem();
+				
+				if(fillable.getType(jetpack) != FluidType.KEROSENE)
+					return stack;
+				
 				int fill = Math.min(fillable.getFill(jetpack) + 1000, fillable.getMaxFill(jetpack));
 				fillable.setFill(jetpack, fill);
 				
@@ -362,17 +371,24 @@ public class ItemSyringe extends ItemCustomLore
 
 		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
-				entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
-				entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
-				entity.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
-				entity.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
-				entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
-				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
-				VersatileConfig.applyPotionSickness(entity, 50);
+				
+				if(entity instanceof EntityCow) {
+					
+					entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 40, 0));
+					
+				} else  {
+					entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
+					entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
+					entity.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
+					entity.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
+					entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
+					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
+					VersatileConfig.applyPotionSickness(entity, 50);
+				}
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -501,6 +517,18 @@ public class ItemSyringe extends ItemCustomLore
 				//entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 30 * 20, 9));
 			}
 		}
+
+		if(this == ModItems.syringe_mkunicorn) {
+			if(!world.isRemote) {
+				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);
+				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
+				stack.stackSize--;
+			}
+		}
+
+		return false;
+	}
+
 
 		return false;
 	}

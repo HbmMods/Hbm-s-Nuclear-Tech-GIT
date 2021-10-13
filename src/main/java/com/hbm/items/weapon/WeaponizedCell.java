@@ -25,24 +25,14 @@ public class WeaponizedCell extends Item {
 	    		
 	    		if(WeaponConfig.dropStar) {
 	    		
-		    		world.playSoundEffect(item.posX, item.posY, item.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-	
-					EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(world);
-					exp.posX = item.posX;
-					exp.posY = item.posY;
-					exp.posZ = item.posZ;
-					exp.destructionRange = 100;
-					exp.speed = 25;
-					exp.coefficient = 1.0F;
-					exp.waste = false;
-	
-					world.spawnEntityInWorld(exp);
-		    		
-		    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 100);
-		    		cloud.posX = item.posX;
-		    		cloud.posY = item.posY;
-		    		cloud.posZ = item.posZ;
-		    		world.spawnEntityInWorld(cloud);
+					world.playSoundEffect(item.posX, item.posY, item.posZ, "random.explode", 100.0F, world.rand.nextFloat() * 0.1F + 0.9F);
+					world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, item.posX, item.posY, item.posZ, 100));
+
+					EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 100);
+					cloud.posX = item.posX;
+					cloud.posY = item.posY;
+					cloud.posZ = item.posZ;
+					world.spawnEntityInWorld(cloud);
 	    		}
 	    		
 	    		item.setDead();

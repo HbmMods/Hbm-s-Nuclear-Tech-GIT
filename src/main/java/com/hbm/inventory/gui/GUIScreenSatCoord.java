@@ -47,17 +47,17 @@ public class GUIScreenSatCoord extends GuiScreen {
         this.xField.setTextColor(-1);
         this.xField.setDisabledTextColour(-1);
         this.xField.setEnableBackgroundDrawing(false);
-        this.xField.setMaxStringLength(5);
+        this.xField.setMaxStringLength(7);
         this.yField = new GuiTextField(this.fontRendererObj, guiLeft + 66, guiTop + 56, 48, 12);
         this.yField.setTextColor(-1);
         this.yField.setDisabledTextColour(-1);
         this.yField.setEnableBackgroundDrawing(false);
-        this.yField.setMaxStringLength(5);
+        this.yField.setMaxStringLength(7);
         this.zField = new GuiTextField(this.fontRendererObj, guiLeft + 66, guiTop + 92, 48, 12);
         this.zField.setTextColor(-1);
         this.zField.setDisabledTextColour(-1);
         this.zField.setEnableBackgroundDrawing(false);
-        this.zField.setMaxStringLength(5);
+        this.zField.setMaxStringLength(7);
     }
     
     protected void mouseClicked(int i, int j, int k)

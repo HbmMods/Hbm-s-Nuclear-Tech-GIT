@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import com.hbm.inventory.MachineRecipes;
+
 import com.hbm.inventory.gui.GUIMachineCMBFactory;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

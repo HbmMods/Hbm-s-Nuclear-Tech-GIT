@@ -6,11 +6,11 @@ import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.ILaserable;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.block.ILaserable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoreEmitter extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, ILaserable {
@@ -92,11 +93,18 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 						int y = yCoord + dir.offsetY * i;
 						int z = zCoord + dir.offsetZ * i;
 						
+						Block block = worldObj.getBlock(x, y, z);
 						TileEntity te = worldObj.getTileEntity(x, y, z);
+						
+						if(block instanceof ILaserable) {
+							
+							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
+							break;
+						}
 						
 						if(te instanceof ILaserable) {
 							
-							((ILaserable)te).addEnergy(out * 98 / 100, dir);
+							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
 						
@@ -231,7 +239,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 	}
 
 	@Override
-	public void addEnergy(long energy, ForgeDirection dir) {
+	public void addEnergy(World world, int x, int y, int z, long energy, ForgeDirection dir) {
 		
 		//do not accept lasers from the front
 		if(dir.getOpposite().ordinal() != this.getBlockMetadata())

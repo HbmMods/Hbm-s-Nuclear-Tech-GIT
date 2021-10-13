@@ -42,7 +42,7 @@ public class RenderTaintBlock implements ISimpleBlockRenderingHandler {
         double d4 = (double)iicon.getMinV();
         double d0 = (double)iicon.getMaxU();
         double d1 = (double)iicon.getMaxV();
-        double d2 = 0.05000000074505806D;
+        double d2 = 0.05D;
         renderer.blockAccess.getBlockMetadata(x, y, z);
 
         if (side2)

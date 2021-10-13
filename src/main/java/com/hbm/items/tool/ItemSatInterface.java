@@ -46,7 +46,7 @@ public class ItemSatInterface extends ItemSatChip {
     	Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(this.getFreq(stack));
     	
     	if(sat != null && entity.ticksExisted % 2 == 0) {
-    		PacketDispatcher.wrapper.sendTo(new SatPanelPacket(sat), (EntityPlayerMP) entity);
+    		PacketDispatcher.wrapper.sendTo(new SatPanelPacket(sat), (EntityPlayerMP) entity); //making this one sat that is static might not have been a good idea
     	}
     }
 

@@ -33,8 +33,12 @@ public class GUIMachineRTG extends GuiInfoContainer {
 		String[] text = new String[] { "Accepted Pellets:",
 				"  Regular Pellet (5 HE/t)",
 				"  Weak Pellet (3 HE/t)",
+<<<<<<< HEAD
 				"  Polonium Pellet (25 HE/t)",
 				"  Gold 198 Pellet (150 HE/t)" };
+=======
+				"  Polonium Pellet (25 HE/t)" };
+>>>>>>> master
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 

@@ -8,6 +8,7 @@ import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -17,7 +18,6 @@ import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -414,8 +414,12 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				 */
 
 				float rad = (float) coreHeat / (float) maxCoreHeat * 50F;
+<<<<<<< HEAD
 				RadiationSavedData data = RadiationSavedData.getData(worldObj);
 				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
+=======
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
+>>>>>>> master
 			}
 
 			for(int i = 0; i < 3; i++)
@@ -517,7 +521,11 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			if(tanks[0].getFill() > tanks[0].getMaxFill())
 				tanks[0].setFill(tanks[0].getMaxFill());
 
+<<<<<<< HEAD
 		} else if(b == ModBlocks.block_niter) {
+=======
+		} else if(b == ModBlocks.block_niter || b == ModBlocks.block_niter_reinforced) {
+>>>>>>> master
 			if(tanks[0].getFill() >= 50 && tanks[1].getFill() + 5 <= tanks[1].getMaxFill()) {
 				tanks[0].setFill(tanks[0].getFill() - 50);
 				tanks[1].setFill(tanks[1].getFill() + 5);
@@ -707,8 +715,12 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 
+<<<<<<< HEAD
 		RadiationSavedData data = RadiationSavedData.getData(worldObj);
 		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+=======
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
+>>>>>>> master
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
@@ -823,9 +835,15 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	
 	public boolean isSubmerged() {
 		
+<<<<<<< HEAD
 		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
 				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water &&
 				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
+=======
+		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
+>>>>>>> master
 				worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).getMaterial() == Material.water;
 	}
 }

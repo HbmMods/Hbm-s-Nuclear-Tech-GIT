@@ -19,8 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-@Spaghetti("Not spaghetti in itself, but for the love of god please use this base class for all machines")
-public abstract class TileEntityMachineBase extends TileEntity implements ISidedInventory {
+public abstract class TileEntityMachineBase extends TileEntity implements ISidedInventory, INBTPacketReceiver {
 
 	public ItemStack slots[];
 	
@@ -145,7 +144,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 0 };
+		return new int[] { };
 	}
 	
 	public int getGaugeScaled(int i, FluidTank tank) {

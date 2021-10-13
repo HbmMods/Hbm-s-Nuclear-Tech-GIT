@@ -16,6 +16,12 @@ public class BlockRotatablePillar extends BlockRotatedPillar implements IBlockRa
 	@SideOnly(Side.CLIENT)
 	protected IIcon iconSide;
 
+<<<<<<< HEAD
+=======
+	@SideOnly(Side.CLIENT)
+	protected IIcon iconSide;
+
+>>>>>>> master
 	private String textureTop;
 
 	public BlockRotatablePillar(Material mat, String top) {

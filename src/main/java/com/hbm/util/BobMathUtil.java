@@ -1,6 +1,16 @@
 package com.hbm.util;
 
+<<<<<<< HEAD
 import net.minecraft.util.Vec3;
+=======
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
+import scala.actors.threadpool.Arrays;
+>>>>>>> master
 
 public class BobMathUtil {
 	
@@ -32,4 +42,20 @@ public class BobMathUtil {
 		return angle;
 	}
 
+	public static float remap(float num, float min1, float max1, float min2, float max2){
+		return ((num - min1) / (max1 - min1)) * (max2 - min2) + min2;
+	}
+	
+	public static ForgeDirection[] getShuffledDirs() {
+		
+		ForgeDirection[] dirs = new ForgeDirection[6];
+		List<Integer> indices = new ArrayList() {{ add(0); add(1); add(2); add(3); add(4); add(5); }};
+		Collections.shuffle(indices);
+		
+		for(int i = 0; i < 6; i++) {
+			dirs[i] = ForgeDirection.getOrientation(indices.get(i));
+		}
+		
+		return dirs;
+	}
 }

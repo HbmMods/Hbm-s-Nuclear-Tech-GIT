@@ -14,8 +14,13 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+<<<<<<< HEAD
 import com.hbm.inventory.CyclotronRecipes;
 import com.hbm.inventory.FluidTank;
+=======
+import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.recipes.CyclotronRecipes;
+>>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;

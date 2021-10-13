@@ -153,17 +153,7 @@ public class NukePrototype extends BlockContainer implements IBomb {
 			tetn.clearSlots();
 			//world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-		
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
-    		entity.posX = x;
-    		entity.posY = y;
-    		entity.posZ = z;
-    		entity.destructionRange = r;
-    		entity.speed = BombConfig.blastSpeed;
-    		entity.coefficient = 1.0F;
-    		entity.waste = false;
-    	
-    		world.spawnEntityInWorld(entity);
+			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, x + 0.5, y + 0.5, z + 0.5, r));
     		
     		EntityCloudFleija cloud = new EntityCloudFleija(world, r);
     		cloud.posX = x;

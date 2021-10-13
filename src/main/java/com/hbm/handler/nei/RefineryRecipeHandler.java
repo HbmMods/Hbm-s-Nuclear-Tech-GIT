@@ -7,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineRefinery;
+import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.PositionedStack;
@@ -85,7 +86,7 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("refinery")) && getClass() == RefineryRecipeHandler.class) {
-			Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
+			Map<Object, Object[]> recipes = RefineryRecipes.getRefineryRecipe();
 			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 
 						(ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], 
@@ -99,7 +100,7 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
+		Map<Object, Object[]> recipes = RefineryRecipes.getRefineryRecipe();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks((ItemStack)recipe.getValue()[0], result) || 
 					compareFluidStacks((ItemStack)recipe.getValue()[1], result) || 
@@ -124,7 +125,7 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
+		Map<Object, Object[]> recipes = RefineryRecipes.getRefineryRecipe();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()))
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 

@@ -1,11 +1,26 @@
 package com.hbm.tileentity.machine;
 
+<<<<<<< HEAD
+=======
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.Library;
+>>>>>>> master
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+<<<<<<< HEAD
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+=======
+import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
+>>>>>>> master
 
 public class TileEntityFEL extends TileEntityMachineBase {
 	
@@ -13,6 +28,10 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	public static final long maxPower = 1000000;
 	public int watts;
 	public int mode = 0;
+<<<<<<< HEAD
+=======
+	public boolean isOn;
+>>>>>>> master
 	
 	public TileEntityFEL() {
 		super(1);
@@ -28,9 +47,49 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
+<<<<<<< HEAD
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setByte("mode", (byte)mode);
+=======
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			
+			int range = 50;
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			int length = 5;
+			
+			for(int i = 5; i < range; i++) {
+				
+				length = i;
+
+				int x = xCoord + dir.offsetX * i;
+				int y = yCoord + 1;
+				int z = zCoord + dir.offsetZ * i;
+				
+				Block b = worldObj.getBlock(x, y, z);
+				
+				if(b.getMaterial().isOpaque())
+					continue;
+				
+				if(b == ModBlocks.machine_silex) {
+					
+					TileEntity te = worldObj.getTileEntity(x + dir.offsetX, yCoord, z + dir.offsetZ);
+					
+					if(te instanceof TileEntitySILEX) {
+						TileEntitySILEX silex = (TileEntitySILEX) te;
+						silex.laser += this.watts;
+					}
+				}
+				
+				break;
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setByte("mode", (byte)mode);
+			data.setByte("watts", (byte)watts);
+			data.setBoolean("isOn", isOn);
+>>>>>>> master
 			this.networkPack(data, 250);
 		}
 	}
@@ -39,6 +98,11 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.mode = nbt.getByte("mode");
+<<<<<<< HEAD
+=======
+		this.watts = nbt.getByte("watts");
+		this.isOn = nbt.getBoolean("isOn");
+>>>>>>> master
 	}
 
 	@Override
@@ -47,8 +111,49 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		if(meta == 0) {
 			this.mode = Math.abs(value) % 6;
 		}
+<<<<<<< HEAD
 	}
 
+=======
+		
+		if(meta == 1){
+			this.watts = MathHelper.clamp_int(value, 1, 100);
+		}
+		
+		if(meta == 2){
+			this.isOn = !this.isOn;
+		}
+	}
+	
+	public long getPowerScaled(long i) {
+		return (power * i) / maxPower;
+	}
+	
+	public int getWattsScaled(int i) {
+		return (watts * i) / 100;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		power = nbt.getLong("power");
+		watts = nbt.getInteger("watts");
+		mode = nbt.getInteger("mode");
+		isOn = nbt.getBoolean("isOn");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setInteger("watts", watts);
+		nbt.setInteger("mode", mode);
+		nbt.setBoolean("isOn", isOn);
+	}
+	
+>>>>>>> master
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(
@@ -63,8 +168,12 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+<<<<<<< HEAD
 	public double getMaxRenderDistanceSquared()
 	{
+=======
+	public double getMaxRenderDistanceSquared() {
+>>>>>>> master
 		return 65536.0D;
 	}
 }

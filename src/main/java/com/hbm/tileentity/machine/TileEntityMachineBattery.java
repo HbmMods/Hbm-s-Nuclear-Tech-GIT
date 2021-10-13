@@ -10,11 +10,15 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyConductor;
+import api.hbm.energy.IEnergyConnector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource, IEnergyConnector {
 	
 	public long power = 0;
 	public long maxPower = 1000000;
@@ -162,10 +166,43 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
-			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 		
 			short mode = (short) this.getRelevantMode();
+			
+			//////////////////////////////////////////////////////////////////////
+			/*for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				
+				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				
+				// first we make sure we're not subscribed to the network that we'll be supplying
+				if(te instanceof IEnergyConductor) {
+					IEnergyConductor con = (IEnergyConductor) te;
+					
+					if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
+						con.getPowerNet().unsubscribe(this);
+				}
+				
+				//then we add energy
+				if(mode == 1 || mode == 2) {
+					if(te instanceof IEnergyConnector) {
+						IEnergyConnector con = (IEnergyConnector) te;
+						long oldPower = this.power;
+						long transfer = this.power - con.transferPower(this.power);
+						this.power = oldPower - transfer;
+					}
+				}
+				
+				//then we subscribe if possible
+				if(te instanceof IEnergyConductor) {
+					IEnergyConductor con = (IEnergyConductor) te;
+					
+					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
+						con.getPowerNet().subscribe(this);
+				}
+			}*/
+			//////////////////////////////////////////////////////////////////////
+			
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 			
 			if(mode == 1 || mode == 2)
 			{
@@ -249,7 +286,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public long getMaxPower() {
 		
 		if(!worldObj.isRemote && getRelevantMode() >= 2)
-			return 0;
+			return this.getPower();
 		
 		return maxPower;
 	}
@@ -272,6 +309,29 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+	
+	/*
+	 * SATAN - TECH
+	 */
+	@Override
+	public long transferPower(long power) {
+		
+		this.power += power;
+		
+		if(this.power > this.getMaxPower()) {
+			
+			long overshoot = this.power - this.getMaxPower();
+			this.power = this.getMaxPower();
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return true;
 	}
 
 }

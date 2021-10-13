@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -293,9 +294,12 @@ public class Gun357MagnumFactory {
 		bullet.bulletsMax = 6;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 150;
+		bullet.doesRicochet = false;
 		bullet.destroysBlocks = true;
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;
+		
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		return bullet;
 	}

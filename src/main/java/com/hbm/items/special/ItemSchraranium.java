@@ -12,10 +12,13 @@ public class ItemSchraranium extends ItemHazard {
 	
 	IIcon nikonium;
 
+<<<<<<< HEAD
 	public ItemSchraranium(float radiation, boolean fire, boolean blinding) {
 		super(radiation, fire, blinding);
 	}
 
+=======
+>>>>>>> master
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg) {
         this.itemIcon = reg.registerIcon(this.getIconString());

@@ -9,7 +9,11 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
 import com.hbm.interfaces.IConsumer;
+<<<<<<< HEAD
 import com.hbm.inventory.HadronRecipes;
+=======
+import com.hbm.inventory.recipes.HadronRecipes;
+>>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;

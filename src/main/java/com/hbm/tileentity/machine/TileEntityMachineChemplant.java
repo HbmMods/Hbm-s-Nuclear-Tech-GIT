@@ -11,9 +11,11 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxParticlePacket;
@@ -244,41 +246,18 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		this.consumption = 100;
 		this.speed = 100;
 		
-		for(int i = 1; i < 4; i++) {
-			ItemStack stack = slots[i];
-			
-			if(stack != null) {
-				if(stack.getItem() == ModItems.upgrade_speed_1) {
-					this.speed -= 25;
-					this.consumption += 300;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_2) {
-					this.speed -= 50;
-					this.consumption += 600;
-				}
-				if(stack.getItem() == ModItems.upgrade_speed_3) {
-					this.speed -= 75;
-					this.consumption += 900;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_1) {
-					this.consumption -= 30;
-					this.speed += 5;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_2) {
-					this.consumption -= 60;
-					this.speed += 10;
-				}
-				if(stack.getItem() == ModItems.upgrade_power_3) {
-					this.consumption -= 90;
-					this.speed += 15;
-				}
-			}
-		}
+		UpgradeManager.eval(slots, 1, 3);
+
+		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+		int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
 		
-		if(speed < 25)
-			speed = 25;
-		if(consumption < 10)
-			consumption = 10;
+		speed -= speedLevel * 25;
+		consumption += speedLevel * 300;
+		speed += powerLevel * 5;
+		consumption -= powerLevel * 30;
+		speed /= (overLevel + 1);
+		consumption *= (overLevel + 1);
 
 		if(!worldObj.isRemote) {
 			
@@ -302,9 +281,15 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[0].loadTank(17, 19, slots);
 			tanks[1].loadTank(18, 20, slots);
 			
+<<<<<<< HEAD
 			if(slots[17] != null && !(slots[17].getItem() == ModItems.fluid_barrel_infinite || slots[17].getItem() == ModItems.inf_water))
 				tanks[0].unloadTank(17, 19, slots);
 			if(slots[18] != null && !(slots[18].getItem() == ModItems.fluid_barrel_infinite || slots[18].getItem() == ModItems.inf_water))
+=======
+			if(slots[17] != null && !(slots[17].getItem() == ModItems.fluid_barrel_infinite || slots[17].getItem() == ModItems.inf_water || slots[17].getItem() == ModItems.inf_water_mk2))
+				tanks[0].unloadTank(17, 19, slots);
+			if(slots[18] != null && !(slots[18].getItem() == ModItems.fluid_barrel_infinite || slots[18].getItem() == ModItems.inf_water || slots[18].getItem() == ModItems.inf_water_mk2))
+>>>>>>> master
 				tanks[1].unloadTank(18, 20, slots);
 			
 			tanks[2].unloadTank(9, 11, slots);

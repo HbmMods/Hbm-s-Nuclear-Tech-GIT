@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidHazards;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.gui.GuiInfoContainer;
@@ -131,6 +136,13 @@ public class FluidTank {
 				return;
 			}
 			
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+				this.fluid += 500;
+				if(this.fluid > this.maxFluid)
+					this.fluid = this.maxFluid;
+				return;
+			}
+			
 			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
 				return;
 		} else {
@@ -144,12 +156,15 @@ public class FluidTank {
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
-			} else if(slots[out] != null && slots[out].getItem() == FluidContainerRegistry.getEmptyContainer(slots[in]).getItem() && slots[out].stackSize < slots[out].getMaxStackSize()) {
+			} else if(slots[out] != null && (FluidContainerRegistry.getEmptyContainer(slots[in]) == null || slots[out].getItem() == FluidContainerRegistry.getEmptyContainer(slots[in]).getItem()) && slots[out].stackSize < slots[out].getMaxStackSize()) {
 				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
+				
+				if(FluidContainerRegistry.getEmptyContainer(slots[in]) != null)
+					slots[out].stackSize++;
+				
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
-				slots[out].stackSize++;
 			}
 		}
 	}
@@ -200,6 +215,13 @@ public class FluidTank {
 			
 			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
 				this.fluid -= 50;
+				if(this.fluid < 0)
+					this.fluid = 0;
+				return;
+			}
+			
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+				this.fluid -= 500;
 				if(this.fluid < 0)
 					this.fluid = 0;
 				return;

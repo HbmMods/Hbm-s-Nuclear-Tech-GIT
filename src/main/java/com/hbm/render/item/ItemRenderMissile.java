@@ -16,6 +16,10 @@ public class ItemRenderMissile implements IItemRenderer {
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+		
+		if(MissileMultipart.loadFromStruct(ItemCustomMissile.getStruct(item)) == null)
+			return false;
+		
 		switch(type) {
 		case EQUIPPED:
 		case EQUIPPED_FIRST_PERSON:
@@ -70,11 +74,6 @@ public class ItemRenderMissile implements IItemRenderer {
 			GL11.glTranslated(7, 14, 0);
 			
 			GL11.glScaled(-scale, -scale, -scale);
-			
-			/*if(part.type.name().equals(PartType.FINS.name())) {
-				GL11.glTranslated(0, 0, 0);
-				//GL11.glRotated(-45, 1, 0, 0);
-			}*/
 
 			GL11.glRotatef(System.currentTimeMillis() / 25 % 360, 0, -1, 0);
 			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().renderEngine);

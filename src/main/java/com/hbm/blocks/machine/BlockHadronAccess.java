@@ -1,6 +1,10 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+<<<<<<< HEAD
+=======
+import com.hbm.handler.BossSpawnHandler;
+>>>>>>> master
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyInventory;
 
@@ -54,6 +58,11 @@ public class BlockHadronAccess extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking()) {
 			
+<<<<<<< HEAD
+=======
+			BossSpawnHandler.markFBI(player);
+			
+>>>>>>> master
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 			
 			/*for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {

@@ -55,17 +55,15 @@ public class MachineTeleporter extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
-			float hitY, float hitZ) {
-		if (world.isRemote) {
-			return true;
-		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.linker) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.linker) {
 			return false;
-		}else if (!player.isSneaking()) {
+			
+		} else if(!player.isSneaking()) {
 			TileEntityMachineTeleporter entity = (TileEntityMachineTeleporter) world.getTileEntity(x, y, z);
-			if (entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_teleporter, world, x,
-						y, z);
+			if(entity != null && world.isRemote) {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_teleporter, world, x, y, z);
 			}
 			return true;
 		} else {

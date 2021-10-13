@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
+<<<<<<< HEAD
+=======
+import com.hbm.items.ModItems;
+>>>>>>> master
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -28,6 +32,15 @@ public class ItemModHealth extends ItemArmorMod {
 
 		list.add(color + "+" + (Math.round(health * 10 / 2) * 0.1) + " health");
 		list.add("");
+<<<<<<< HEAD
+=======
+		
+		if(this == ModItems.black_diamond) {
+			list.add(EnumChatFormatting.DARK_GRAY + "Nostalgia");
+			list.add("");
+		}
+		
+>>>>>>> master
 		super.addInformation(itemstack, player, list, bool);
 	}
 

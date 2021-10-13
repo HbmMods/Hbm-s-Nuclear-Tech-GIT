@@ -8,12 +8,11 @@ import com.hbm.modules.BlockRadShieldModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class BlockGeneric extends Block implements IBlockRadShield, IBlockRarity
-{
 	BlockRadShieldModule sModule;
-	public BlockGeneric(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		sModule = new BlockRadShieldModule();
+public class BlockGeneric extends Block {
+
+	public BlockGeneric(Material material) {
+		super(material);
 	}
 	
 	@Override

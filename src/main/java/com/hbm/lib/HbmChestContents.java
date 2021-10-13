@@ -78,7 +78,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_cassette), 1, 3, 8)};
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
-			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.chlorine_pinwheel, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier3, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
@@ -271,7 +270,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] vault2 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 2, 6, 1),
-			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_advanced_cell_4), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_advanced_cell_4, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_desh_mix, 0, 1, 5, 1),
 			new WeightedRandomChestContent(Items.diamond, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.ammo_nuke, 0, 1, 1, 1),
@@ -289,7 +288,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] vault3 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 6, 16, 1),
-			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_lithium), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_lithium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_power, 0, 1, 5, 1),
 			new WeightedRandomChestContent(ModItems.sat_chip, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Items.diamond, 0, 5, 9, 1),
@@ -318,7 +317,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_b92, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ingot_combine_steel, 0, 16, 28, 1),
-			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 8, 18, 1),
 			new WeightedRandomChestContent(ModItems.man_core, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.boy_kit, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 1),

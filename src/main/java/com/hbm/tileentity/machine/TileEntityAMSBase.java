@@ -2,9 +2,13 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+<<<<<<< HEAD
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+=======
+>>>>>>> master
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -16,7 +20,6 @@ import com.hbm.items.machine.ItemCatalyst;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.items.special.ItemAMSCore;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -27,7 +30,6 @@ import com.hbm.util.ArmorUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -35,7 +37,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import scala.util.Random;
 
 public class TileEntityAMSBase extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
@@ -315,10 +316,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				
 				this.color = -1;
 				
-				float powerMod = 1;
 				float heatMod = 1;
 				float fuelMod = 1;
-				long powerBase = 0;
 				int heatBase = 0;
 				int fuelBase = 0;
 				
@@ -340,25 +339,20 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 
 					
 					for(int i = 8; i < 12; i++) {
-						powerBase += ItemCatalyst.getPowerAbs(slots[i]);
-						powerMod *= ItemCatalyst.getPowerMod(slots[i]);
 						heatMod *= ItemCatalyst.getHeatMod(slots[i]);
 						fuelMod *= ItemCatalyst.getFuelMod(slots[i]);
 					}
 
-					powerBase = ItemAMSCore.getPowerBase(slots[12]);
 					heatBase = ItemAMSCore.getHeatBase(slots[12]);
 					fuelBase = ItemAMSCore.getFuelBase(slots[12]);
 					
-					powerBase *= this.efficiency;
-					powerBase *= Math.pow(1.25F, booster);
 					heatBase *= Math.pow(1.25F, booster);
 					heatBase *= (100 - field);
 					
 					if(this.getFuelPower(tanks[2].getTankType()) > 0 && this.getFuelPower(tanks[3].getTankType()) > 0 &&
 							tanks[2].getFill() > 0 && tanks[3].getFill() > 0) {
 
-						power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat)) / 1000 * getFuelPower(tanks[2].getTankType()) * getFuelPower(tanks[3].getTankType());
+						//power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat)) / 1000 * getFuelPower(tanks[2].getTankType()) * getFuelPower(tanks[3].getTankType());
 						heat += (heatBase * heatMod) / (float)(this.field / 100F);
 						tanks[2].setFill((int)(tanks[2].getFill() - fuelBase * fuelMod));
 						tanks[3].setFill((int)(tanks[3].getFill() - fuelBase * fuelMod));
@@ -367,15 +361,9 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 						if(tanks[3].getFill() <= 0)
 							tanks[3].setFill(0);
 						
-						radiation();
-						
 						if(heat > maxHeat) {
-							explode();
 							heat = maxHeat;
 						}
-						
-						if(field <= 0)
-							explode();
 					}
 				}
 				
@@ -413,53 +401,6 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		}
 	}
 	
-	private void radiation() {
-		
-		double maxSize = 5;
-		double minSize = 0.5;
-		double scale = minSize;
-		scale += ((((double)this.tanks[2].getFill()) / ((double)this.tanks[2].getMaxFill())) + (((double)this.tanks[3].getFill()) / ((double)this.tanks[3].getMaxFill()))) * ((maxSize - minSize) / 2);
-
-		scale *= 0.60;
-		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
-		
-		for(Entity e : list) {
-			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer)e)))
-				if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
-					e.attackEntityFrom(ModDamageSource.ams, 1000);
-					e.setFire(3);
-				}
-		}
-
-		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
-		
-		for(Entity e : list2) {
-			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHaz2((EntityPlayer)e)))
-					e.attackEntityFrom(ModDamageSource.amsCore, 10000);
-		}
-	}
-	
-	private void explode() {
-		if(!worldObj.isRemote) {
-			
-			for(int i = 0; i < 10; i++) {
-
-	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 100);
-	    		cloud.posX = xCoord + rand.nextInt(201) - 100;
-	    		cloud.posY = yCoord + rand.nextInt(201) - 100;
-	    		cloud.posZ = zCoord + rand.nextInt(201) - 100;
-	    		this.worldObj.spawnEntityInWorld(cloud);
-			}
-			
-			int radius = (int)(50 + (double)(tanks[2].getFill() + tanks[3].getFill()) / 16000D * 150);
-			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacExperimental(worldObj, radius, xCoord, yCoord, zCoord));
-			
-			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-		}
-	}
-	
 	private int getCoolingStrength(FluidType type) {
 		switch(type) {
 		case WATER:
@@ -484,18 +425,6 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		default:
 			return 0;
 		}
-	}
-	
-	private float gauss(float a, float x) {
-		
-		//Greater values -> less difference of temperate impact
-		double amplifier = 0.10;
-		
-		return (float) ( (1/Math.sqrt(a * Math.PI)) * Math.pow(Math.E, -1 * Math.pow(x, 2)/amplifier) );
-	}
-	
-	private float calcEffect(float a, float x) {
-		return (float) (gauss( 1 / a, x / maxHeat) * Math.sqrt(Math.PI * 2) / (Math.sqrt(2) * Math.sqrt(maxPower)));
 	}
 	
 	private float calcField(int a, int b, int c, int d) {

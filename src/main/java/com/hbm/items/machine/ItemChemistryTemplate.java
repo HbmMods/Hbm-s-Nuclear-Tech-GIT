@@ -5,11 +5,12 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 
+import com.hbm.inventory.recipes.MachineRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
@@ -22,6 +23,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemChemistryTemplate extends Item {
 	
+	@Spaghetti("this system is so utterly and horribly fucking retarded i can not believe i haven't been shot for this yet")
 	public enum EnumChemistryTemplate {
 		
 		//FP - Fuel Processing
@@ -65,6 +67,7 @@ public class ItemChemistryTemplate extends Item {
 		SF_BIOFUEL,
 		BP_BIOGAS,
 		BP_BIOFUEL,
+		LPG,
 		OIL_SAND,
 		ASPHALT,
 		COOLANT,
@@ -87,6 +90,7 @@ public class ItemChemistryTemplate extends Item {
 		CORDITE,
 		KEVLAR,
 		CONCRETE,
+		CONCRETE_ASBESTOS,
 		SOLID_FUEL,
 		ELECTROLYSIS,
 		XENON,
@@ -110,6 +114,14 @@ public class ItemChemistryTemplate extends Item {
 		RC_U,
 		RC_PU,
 		ALCOHOL,
+		COLTAN_CLEANING,
+		COLTAN_PAIN,
+		COLTAN_CRYSTAL,
+		VIT_LIQUID,
+		VIT_GAS,
+		FRACKSOL;
+		GASOLINE,
+		TEL,
 		SARIN;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
@@ -262,6 +274,8 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case BP_BIOFUEL:
         	return 100;
+        case LPG:
+        	return 100;
         case YELLOWCAKE:
         	return 250;
         case UF6:
@@ -283,10 +297,12 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case CONCRETE:
         	return 100;
+        case CONCRETE_ASBESTOS:
+        	return 100;
         case SOLID_FUEL:
         	return 200;
         case ELECTROLYSIS:
-        	return 400;
+        	return 150;
         case XENON:
         	return 300;
         case XENON_OXY:
@@ -324,6 +340,26 @@ public class ItemChemistryTemplate extends Item {
         case RC_PU:
         case RC_U:
         	return 300;
+        case SCHRABIDIC:
+        	return 100;
+        case SCHRABIDATE:
+        	return 150;
+        case COLTAN_CLEANING:
+        	return 60;
+        case COLTAN_PAIN:
+        	return 120;
+        case COLTAN_CRYSTAL:
+        	return 80;
+        case VIT_LIQUID:
+        	return 100;
+        case VIT_GAS:
+        	return 100;
+        case TEL:
+        	return 40;
+        case GASOLINE:
+        	return 40;
+        case FRACKSOL:
+        	return 20;
         default:
         	return 100;
         }

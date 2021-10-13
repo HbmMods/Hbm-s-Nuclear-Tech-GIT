@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class ItemSolinium extends ItemHazard {
+<<<<<<< HEAD
 	
 	public ItemSolinium(float radiation, boolean blinding) {
 		super(radiation, false, blinding);
@@ -20,6 +21,8 @@ public class ItemSolinium extends ItemHazard {
 		if (blinding)
 			this.getModule().addBlinding();
 	}
+=======
+>>>>>>> master
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

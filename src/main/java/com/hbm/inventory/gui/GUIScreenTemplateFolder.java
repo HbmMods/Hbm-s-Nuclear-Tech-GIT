@@ -8,8 +8,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.AssemblerRecipes;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
@@ -58,14 +58,22 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				allStacks.add(new ItemStack(i));
 			for(Item i : MachineRecipes.stamps_circuit)
 				allStacks.add(new ItemStack(i));
+<<<<<<< HEAD
 			for (Item i : MachineRecipes.stamps_disc)
 				allStacks.add(new ItemStack(i));
+=======
+>>>>>>> master
 			// Tracks
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			// Fluid IDs
 			for(int i = 1; i < FluidType.values().length; i++)
+<<<<<<< HEAD
 				allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+=======
+				if(!FluidType.values()[i].hasNoID())
+					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+>>>>>>> master
 			// Assembly Templates
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null)
@@ -167,9 +175,12 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 	}
 
 	protected void mouseClicked(int i, int j, int k) {
+<<<<<<< HEAD
 
 		System.out.println(i + " " + j);
 		System.out.println((guiLeft + i) + " " + (guiTop + j));
+=======
+>>>>>>> master
 		
 		if(i >= guiLeft + 45 && i < guiLeft + 117 && j >= guiTop + 211 && j < guiTop + 223) {
 			this.search.setFocused(true);

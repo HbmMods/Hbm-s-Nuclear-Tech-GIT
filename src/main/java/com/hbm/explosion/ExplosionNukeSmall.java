@@ -2,11 +2,10 @@ package com.hbm.explosion;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadiationSavedData;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -28,7 +27,7 @@ public class ExplosionNukeSmall {
 			data.setString("type", "tinytot");
 		else
 			data.setString("type", "muke");
-		if(MainRegistry.isPolaroid11 || world.rand.nextInt(100) == 0)
+		if(MainRegistry.polaroidID == 11 || world.rand.nextInt(100) == 0)
 			data.setBoolean("balefire", true);
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 250));
 		world.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
@@ -50,10 +49,6 @@ public class ExplosionNukeSmall {
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 45); break;
 			
 			case 3: new ExplosionNT(world, null, posX, posY, posZ, 20F).addAllAttrib(ExplosionNT.nukeAttribs).overrideResolution(64).explode();
-				/*new ExplosionNT(world, null, posX + 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX - 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX, posY, posZ + 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX, posY, posZ - 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();*/
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 55); break;
 			}
 			
@@ -71,6 +66,6 @@ public class ExplosionNukeSmall {
 		for(int i = -2; i <= 2; i++)
 			for(int j = -2; j <= 2; j++)
 				if(i + j < 4)
-					RadiationSavedData.incrementRad(world, (int)posX + i * 16, (int)posZ + j * 16, 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod, 1000);
+					ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod);
 	}
 }

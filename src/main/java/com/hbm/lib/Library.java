@@ -89,6 +89,8 @@ public class Library {
 	public static final String lag_add = "259785a0-20e9-4c63-9286-ac2f93ff528f";
 	public static final String Pu_238 = "c95fdfd3-bea7-4255-a44b-d21bc3df95e3";
 	public static final String Tankish = "609268ad-5b34-49c2-abba-a9d83229af03";
+	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
+	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
 
 	public static final Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -257,7 +259,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table) {
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
+				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
 			return true;
 		}
 		
@@ -630,6 +633,7 @@ public class Library {
 	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
+	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
@@ -734,12 +738,12 @@ public class Library {
 							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
-								that.ffgeua(x, y + 1, z, that.getTact());
-								that.ffgeua(x, y - 1, z, that.getTact());
-								that.ffgeua(x - 1, y, z, that.getTact());
-								that.ffgeua(x + 1, y, z, that.getTact());
-								that.ffgeua(x, y, z - 1, that.getTact());
-								that.ffgeua(x, y, z + 1, that.getTact());
+								ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
+								ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
+								ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
+								ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
+								ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
+								ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
 							}
 						}
 					}
@@ -758,12 +762,12 @@ public class Library {
 							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
-								that.ffgeua(x, y + 1, z, that.getTact());
-								that.ffgeua(x, y - 1, z, that.getTact());
-								that.ffgeua(x - 1, y, z, that.getTact());
-								that.ffgeua(x + 1, y, z, that.getTact());
-								that.ffgeua(x, y, z - 1, that.getTact());
-								that.ffgeua(x, y, z + 1, that.getTact());
+								ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
+								ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
+								ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
+								ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
+								ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
+								ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
 							}
 						}
 					}
@@ -783,12 +787,12 @@ public class Library {
 								if(((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked != newTact)
 								{
 									((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked = newTact;
-									that.ffgeua(x, y + 1, z, that.getTact());
-									that.ffgeua(x, y - 1, z, that.getTact());
-									that.ffgeua(x - 1, y, z, that.getTact());
-									that.ffgeua(x + 1, y, z, that.getTact());
-									that.ffgeua(x, y, z - 1, that.getTact());
-									that.ffgeua(x, y, z + 1, that.getTact());
+									ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
+									ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
+									ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
+									ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
+									ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
+									ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
 								}
 							}
 						}
@@ -811,16 +815,16 @@ public class Library {
 							{
 								((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked = newTact;
 								for(int j = 0; j < ((TileEntityPylonRedWire)tileentity).connected.size(); j++) {
-									TileEntityPylonRedWire pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
+									int[] pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
 									if(pylon != null) {
-										that.ffgeua(pylon.xCoord + 1, pylon.yCoord, pylon.zCoord, that.getTact());
-										that.ffgeua(pylon.xCoord - 1, pylon.yCoord, pylon.zCoord, that.getTact());
-										that.ffgeua(pylon.xCoord, pylon.yCoord + 1, pylon.zCoord, that.getTact());
-										that.ffgeua(pylon.xCoord, pylon.yCoord - 1, pylon.zCoord, that.getTact());
-										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord + 1, that.getTact());
-										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord - 1, that.getTact());
+										ffgeua(pylon[0] + 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0] - 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1] + 1, pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1] - 1, pylon[2], that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1], pylon[2] + 1, that.getTact(), that, worldObj);
+										ffgeua(pylon[0], pylon[1], pylon[2] - 1, that.getTact(), that, worldObj);
 										
-										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord, that.getTact());
+										ffgeua(pylon[0], pylon[1], pylon[2], that.getTact(), that, worldObj);
 									}
 								}
 							}
@@ -997,12 +1001,12 @@ public class Library {
 							if(((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillFluid(x, y + 1, z, that.getTact(), type);
-								that.fillFluid(x, y - 1, z, that.getTact(), type);
-								that.fillFluid(x - 1, y, z, that.getTact(), type);
-								that.fillFluid(x + 1, y, z, that.getTact(), type);
-								that.fillFluid(x, y, z - 1, that.getTact(), type);
-								that.fillFluid(x, y, z + 1, that.getTact(), type);
+								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
 							}
 						}
 					}
@@ -1021,12 +1025,12 @@ public class Library {
 							if(((TileEntityGasDuct)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityGasDuct)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillFluid(x, y + 1, z, that.getTact(), type);
-								that.fillFluid(x, y - 1, z, that.getTact(), type);
-								that.fillFluid(x - 1, y, z, that.getTact(), type);
-								that.fillFluid(x + 1, y, z, that.getTact(), type);
-								that.fillFluid(x, y, z - 1, that.getTact(), type);
-								that.fillFluid(x, y, z + 1, that.getTact(), type);
+								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
 							}
 						}
 					}
@@ -1045,12 +1049,12 @@ public class Library {
 							if(((TileEntityOilDuct)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityOilDuct)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillFluid(x, y + 1, z, that.getTact(), type);
-								that.fillFluid(x, y - 1, z, that.getTact(), type);
-								that.fillFluid(x - 1, y, z, that.getTact(), type);
-								that.fillFluid(x + 1, y, z, that.getTact(), type);
-								that.fillFluid(x, y, z - 1, that.getTact(), type);
-								that.fillFluid(x, y, z + 1, that.getTact(), type);
+								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
 							}
 						}
 					}
@@ -1069,12 +1073,12 @@ public class Library {
 							if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillFluid(x, y + 1, z, that.getTact(), type);
-								that.fillFluid(x, y - 1, z, that.getTact(), type);
-								that.fillFluid(x - 1, y, z, that.getTact(), type);
-								that.fillFluid(x + 1, y, z, that.getTact(), type);
-								that.fillFluid(x, y, z - 1, that.getTact(), type);
-								that.fillFluid(x, y, z + 1, that.getTact(), type);
+								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
 							}
 						}
 					}
@@ -1093,12 +1097,12 @@ public class Library {
 							if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillFluid(x, y + 1, z, that.getTact(), type);
-								that.fillFluid(x, y - 1, z, that.getTact(), type);
-								that.fillFluid(x - 1, y, z, that.getTact(), type);
-								that.fillFluid(x + 1, y, z, that.getTact(), type);
-								that.fillFluid(x, y, z - 1, that.getTact(), type);
-								that.fillFluid(x, y, z + 1, that.getTact(), type);
+								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
+								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
 							}
 						}
 					}
@@ -1125,7 +1129,7 @@ public class Library {
 					{
 						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
 						{
-							that.setFluidFill(that.getFluidFill(type)-part, type);
+							that.setFluidFill(that.getFluidFill(type) - part, type);
 							consume.setFluidFill(consume.getFluidFill(type) + part, type);
 						} else {
 							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);

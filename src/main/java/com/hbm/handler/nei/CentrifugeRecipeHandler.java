@@ -6,10 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.inventory.CentrifugeRecipes;
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
+import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
+
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;

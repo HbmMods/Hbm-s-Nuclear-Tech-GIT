@@ -69,6 +69,15 @@ public class Gun44MagnumFactory {
 //		config.config.add(BulletConfigSyncingUtil.CHL_M44);
 //		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.M44_AP);
+		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.M44_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_M44);
+		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		
 		return config;
 	}
 	

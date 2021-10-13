@@ -8,8 +8,13 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+<<<<<<< HEAD
 import com.hbm.inventory.SILEXRecipes;
 import com.hbm.inventory.SILEXRecipes.SILEXRecipe;
+=======
+import com.hbm.inventory.recipes.SILEXRecipes;
+import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
+>>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
@@ -25,6 +30,10 @@ import net.minecraft.util.WeightedRandom;
 
 public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor {
 	
+<<<<<<< HEAD
+=======
+	public int laser = 0;
+>>>>>>> master
 	public FluidTank tank;
 	public ComparableStack current;
 	public int currentFill;
@@ -116,8 +125,13 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	public static final HashMap<FluidType, ComparableStack> fluidConversion = new HashMap();
 	
 	static {
+<<<<<<< HEAD
 		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.ingot_uranium));
 		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.ingot_plutonium));
+=======
+		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()));
+		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.PUF6.ordinal()));
+>>>>>>> master
 	}
 	
 	int loadDelay;
@@ -153,7 +167,11 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			
 			int load = recipe.fluidProduced;
 			
+<<<<<<< HEAD
 			if(load <= this.maxFill - this.currentFill && load < tank.getFill()) {
+=======
+			if(load <= this.maxFill - this.currentFill && load <= tank.getFill()) {
+>>>>>>> master
 				this.currentFill += load;
 				this.current = new ComparableStack(slots[0]).makeSingular();
 				tank.setFill(tank.getFill() - load);
@@ -216,6 +234,27 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			}
 		}
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 0, 5, 6, 7, 8, 9, 10 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		
+		if(i == 0) return SILEXRecipes.getOutput(itemStack) != null;
+		
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot >= 5;
+	}
+>>>>>>> master
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

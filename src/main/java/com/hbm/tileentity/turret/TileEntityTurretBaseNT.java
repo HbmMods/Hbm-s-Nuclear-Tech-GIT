@@ -21,7 +21,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
@@ -29,6 +32,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -161,7 +165,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 		}
 		
-		if(this.isOn && hasPower()) {
+		if(isOn() && hasPower()) {
 			
 			if(tPos != null)
 				this.alignTurret();
@@ -179,7 +183,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				this.stattrak++;
 			}
 			
-			if(this.isOn && hasPower()) {
+			if(isOn() && hasPower()) {
 				searchTimer--;
 				
 				this.setPower(this.getPower() - this.getConsumption());
@@ -493,12 +497,15 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(e.isDead || !e.isEntityAlive())
 			return false;
 		
+		if(!hasThermalVision() && e instanceof EntityLivingBase && ((EntityLivingBase)e).isPotionActive(Potion.invisibility))
+			return false;
+		
 		Vec3 pos = this.getTurretPos();
 		Vec3 ent = this.getEntityPos(e);
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
 		double length = delta.lengthVector();
 		
-		if(length < this.getDecetorGrace())
+		if(length < this.getDecetorGrace() || length > this.getDecetorRange() * 1.1) //the latter statement is only relevant for entities that have already been detected
 			return false;
 		
 		delta = delta.normalize();
@@ -508,18 +515,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		//check if the entity is within swivel range
 		if(pitchDeg < -this.getTurretDepression() || pitchDeg > this.getTurretElevation())
 			return false;
-		
-		/*for(double i = 0; i < length; i += 0.25D) {
-
-			double x = pos.xCoord + delta.xCoord * i;
-			double y = pos.yCoord + delta.yCoord * i;
-			double z = pos.zCoord + delta.zCoord * i;
-			
-			worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
-		}
-		
-		worldObj.spawnParticle("cloud", pos.xCoord, pos.yCoord, pos.zCoord, 0, 0.1, 0);
-		worldObj.spawnParticle("flame", ent.xCoord, ent.yCoord, ent.zCoord, 0, 0.1, 0);*/
 		
 		return !Library.isObstructed(worldObj, ent.xCoord, ent.yCoord, ent.zCoord, pos.xCoord, pos.yCoord, pos.zCoord);
 	}
@@ -541,8 +536,16 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return true;
 		}
 		
-		if(targetMobs && e instanceof IMob)
-			return true;
+		if(targetMobs) {
+
+			//never target the ender dragon directly
+			if(e instanceof EntityDragon)
+				return false;
+			if(e instanceof EntityDragonPart)
+				return true;
+			if(e instanceof IMob)
+				return true;
+		}
 		
 		if(targetMachines) {
 
@@ -651,6 +654,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public double getBarrelLength() {
 		return 1.0D;
 	}
+
+	/**
+	 * Whether the turret can detect invisible targets or not
+	 * @return
+	 */
+	public boolean hasThermalVision() {
+		return true;
+	}
 	
 	/**
 	 * The pivot point of the turret, this position is used for LOS calculation and more
@@ -704,6 +715,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	public boolean hasPower() {
 		return this.getPower() >= this.getConsumption();
+	}
+	
+	public boolean isOn() {
+		return this.isOn;
 	}
 	
 	public void setPower(long i) {

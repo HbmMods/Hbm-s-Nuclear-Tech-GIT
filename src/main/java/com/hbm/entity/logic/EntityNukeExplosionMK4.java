@@ -7,8 +7,8 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRay;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,13 +52,12 @@ public class EntityNukeExplosionMK4 extends Entity {
 		}
 		
 		if(!worldObj.isRemote && fallout && explosion != null) {
-			RadiationSavedData data = RadiationSavedData.getData(worldObj);
 
 			//float radMax = (float) (length / 2F * Math.pow(length, 2) / 35F);
 			float radMax = Math.min((float) (length / 2F * Math.pow(length, 1.5) / 35F), 15000);
 			//System.out.println(radMax);
 			float rad = radMax / 4F;
-			data.incrementRad(worldObj, (int)this.posX, (int)this.posZ, rad, radMax);
+			ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rad);
 		}
 		
 		if(!mute) {

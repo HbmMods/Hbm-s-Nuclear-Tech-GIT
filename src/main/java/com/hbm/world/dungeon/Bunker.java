@@ -19,87 +19,69 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class Bunker extends WorldGenerator
-{
+public class Bunker extends WorldGenerator {
 	Block Block1 = ModBlocks.reinforced_brick;
 	Block Block3 = ModBlocks.reinforced_light;
 	Block Block4 = ModBlocks.deco_steel;
 	Block Block5 = ModBlocks.deco_tungsten;
-	
-	protected Block[] GetValidSpawnBlocks()
-	{
-		return new Block[]
-		{
-			Blocks.grass,
-			Blocks.dirt,
-			Blocks.stone,
-			Blocks.sand,
-			Blocks.sandstone,
-		};
+
+	protected Block[] GetValidSpawnBlocks() {
+		return new Block[] { Blocks.grass, Blocks.dirt, Blocks.stone, Blocks.sand, Blocks.sandstone, };
 	}
 
-	public boolean LocationIsValidSpawn(World world, int x, int y, int z)
- {
+	@Override
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int i = rand.nextInt(1);
+
+		if(i == 0) {
+			generate_r0(world, rand, x, y, z);
+		}
+
+		return true;
+
+	}
+
+	public boolean LocationIsValidSpawn(World world, int x, int y, int z) {
 
 		Block checkBlock = world.getBlock(x, y - 1, z);
-		Block blockAbove = world.getBlock(x, y , z);
+		Block blockAbove = world.getBlock(x, y, z);
 		Block blockBelow = world.getBlock(x, y - 2, z);
 
-		for (Block i : GetValidSpawnBlocks())
-		{
-			if (blockAbove != Blocks.air)
-			{
+		for(Block i : GetValidSpawnBlocks()) {
+			if(blockAbove != Blocks.air) {
 				return false;
 			}
-			if (checkBlock == i)
-			{
+			if(checkBlock == i) {
 				return true;
-			}
-			else if (checkBlock == Blocks.snow_layer && blockBelow == i)
-			{
+			} else if(checkBlock == Blocks.snow_layer && blockBelow == i) {
 				return true;
-			}
-			else if (checkBlock.getMaterial() == Material.plants && blockBelow == i)
-			{
+			} else if(checkBlock.getMaterial() == Material.plants && blockBelow == i) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z)
-	{
-		int i = rand.nextInt(1);
-
-		if(i == 0)
-		{
-		    generate_r0(world, rand, x, y, z);
-		}
-
-       return true;
-
-	}
-
-	public boolean generate_r0(World world, Random rand, int x, int y, int z)
-	{
+	public boolean generate_r0(World world, Random rand, int x, int y, int z) {
 		y += 1;
-		if(!LocationIsValidSpawn(world, x, y, z) || !LocationIsValidSpawn(world, x + 3, y, z) || !LocationIsValidSpawn(world, x + 3, y, z + 5) || !LocationIsValidSpawn(world, x, y, z + 5))
+
+		if(!LocationIsValidSpawn(world, x + 9, y, z + 9)) {
+			return false;
+		}
+		
+		if(!LocationIsValidSpawn(world, x, y, z))
 		{
 			return false;
 		}
 
-		for(int i = 0; i < 11; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
-				for(int k = 0; k < 15; k++)
-				{
+		for(int i = 0; i < 11; i++) {
+			for(int j = 0; j < 9; j++) {
+				for(int k = 0; k < 15; k++) {
 					world.setBlock(x + i, y + j - 25, z + k, Blocks.air, 0, 3);
 				}
 			}
 		}
-		
+
 		world.setBlock(x + 0, y + -25, z + 0, Block1, 0, 3);
 		world.setBlock(x + 1, y + -25, z + 0, Block1, 0, 3);
 		world.setBlock(x + 2, y + -25, z + 0, Block1, 0, 3);
@@ -296,47 +278,42 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 1, y + -24, z + 1, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 2, y + -24, z + 1, Blocks.chest, 3, 3);
 		world.setBlockMetadataWithNotify(x + 2, y + -24, z + 1, 3, 3);
-		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2)+ 6);
+		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest) world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2) + 6);
 		}
 		world.setBlock(x + 2, y + -23, z + 1, ModBlocks.geiger, 2, 3);
-        world.setBlock(x + 3, y + -24, z + 1, Library.getRandomConcrete(), 0, 3);
+		world.setBlock(x + 3, y + -24, z + 1, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 1, y + -24, z + 2, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 1, y + -24, z + 5, 3, 3);
-		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 2), 8);
+		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest) world.getTileEntity(x + 1, y + -24, z + 2), 8);
 		}
-        world.setBlock(x + 3, y + -24, z + 2, Blocks.chest, 4, 3);
+		world.setBlock(x + 3, y + -24, z + 2, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 3, y + -24, z + 2, 4, 3);
-		if(world.getBlock(x + 3, y + -24, z + 2) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 2), 8);
+		if(world.getBlock(x + 3, y + -24, z + 2) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest) world.getTileEntity(x + 3, y + -24, z + 2), 8);
 		}
-        world.setBlock(x + 4, y + -24, z + 2, Block1, 0, 3);
+		world.setBlock(x + 4, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 1, y + -24, z + 3, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 1, y + -24, z + 3, 5, 3);
-		if(world.getBlock(x + 1, y + -24, z + 3) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 3), 8);
+		if(world.getBlock(x + 1, y + -24, z + 3) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest) world.getTileEntity(x + 1, y + -24, z + 3), 8);
 		}
-        world.setBlock(x + 3, y + -24, z + 3, Blocks.chest, 4, 3);
+		world.setBlock(x + 3, y + -24, z + 3, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 3, y + -24, z + 3, 5, 3);
-		if(world.getBlock(x + 3, y + -24, z + 3) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 3), 8);
+		if(world.getBlock(x + 3, y + -24, z + 3) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest) world.getTileEntity(x + 3, y + -24, z + 3), 8);
 		}
-        world.setBlock(x + 4, y + -24, z + 3, Block1, 0, 3);
+		world.setBlock(x + 4, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 7, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 8, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 9, y + -24, z + 3, Blocks.iron_door, 5, 3);
-        ItemDoor.placeDoorBlock(world, x + 9, y + -24, z + 3, 5, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 9, y + -24, z + 3, 5, Blocks.iron_door);
 		world.setBlock(x + 10, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 4, Block1, 0, 3);
@@ -349,7 +326,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 0, y + -24, z + 5, Block1, 0, 3);
 		world.setBlock(x + 1, y + -24, z + 5, Block1, 0, 3);
 		world.setBlock(x + 2, y + -24, z + 5, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 2, y + -24, z + 5, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 2, y + -24, z + 5, 3, Blocks.iron_door);
 		world.setBlock(x + 3, y + -24, z + 5, Block1, 0, 3);
 		world.setBlock(x + 4, y + -24, z + 5, Block1, 0, 3);
 		world.setBlock(x + 7, y + -24, z + 5, Block1, 0, 3);
@@ -374,7 +351,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 0, y + -24, z + 9, Block1, 0, 3);
 		world.setBlock(x + 3, y + -24, z + 9, Block1, 0, 3);
 		world.setBlock(x + 7, y + -24, z + 9, Blocks.iron_door, 1, 3);
-        ItemDoor.placeDoorBlock(world, x + 7, y + -24, z + 9, 1, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 7, y + -24, z + 9, 1, Blocks.iron_door);
 		world.setBlock(x + 10, y + -24, z + 9, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 11, y + -24, z + 9, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 10, Block1, 0, 3);
@@ -436,7 +413,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 4, y + -23, z + 3, Block1, 0, 3);
 		world.setBlock(x + 7, y + -23, z + 3, Block1, 0, 3);
 		world.setBlock(x + 8, y + -23, z + 3, Block1, 0, 3);
-		//world.setBlock(x + 9, y + -23, z + 3, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 9, y + -23, z + 3, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 10, y + -23, z + 3, Block1, 0, 3);
 		world.setBlock(x + 11, y + -23, z + 3, Block1, 0, 3);
 		world.setBlock(x + 0, y + -23, z + 4, Block1, 0, 3);
@@ -447,7 +424,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 11, y + -23, z + 4, Block1, 0, 3);
 		world.setBlock(x + 0, y + -23, z + 5, Block1, 0, 3);
 		world.setBlock(x + 1, y + -23, z + 5, Block1, 0, 3);
-		//world.setBlock(x + 2, y + -23, z + 5, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 2, y + -23, z + 5, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 3, y + -23, z + 5, Block1, 0, 3);
 		world.setBlock(x + 4, y + -23, z + 5, Block3, 0, 3);
 		world.setBlock(x + 7, y + -23, z + 5, Block1, 0, 3);
@@ -468,7 +445,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 0, y + -23, z + 9, Block1, 0, 3);
 		world.setBlock(x + 1, y + -23, z + 9, Blocks.web, 0, 3);
 		world.setBlock(x + 3, y + -23, z + 9, Block3, 0, 3);
-		//world.setBlock(x + 7, y + -23, z + 9, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 7, y + -23, z + 9, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 11, y + -23, z + 9, Block1, 0, 3);
 		world.setBlock(x + 0, y + -23, z + 10, Block1, 0, 3);
 		world.setBlock(x + 3, y + -23, z + 10, Block1, 0, 3);
@@ -492,8 +469,8 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 11, y + -23, z + 13, Block1, 0, 3);
 		world.setBlock(x + 0, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 1, y + -23, z + 14, Block1, 0, 3);
-		//prevent geiger displacement
-		//world.setBlock(x + 2, y + -23, z + 14, Block1, 0, 3);
+		// prevent geiger displacement
+		// world.setBlock(x + 2, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 3, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 4, y + -23, z + 14, Block3, 0, 3);
 		world.setBlock(x + 5, y + -23, z + 14, Block1, 0, 3);
@@ -815,11 +792,10 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 3, y + -20, z + 1, Block1, 0, 3);
 		world.setBlock(x + 4, y + -20, z + 1, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 4, y + -20, z + 1, 5, 3);
-		if(world.getBlock(x + 4, y + -20, z + 1) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 4, y + -20, z + 1), 12);
+		if(world.getBlock(x + 4, y + -20, z + 1) == Blocks.chest) {
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest) world.getTileEntity(x + 4, y + -20, z + 1), 12);
 		}
-        world.setBlock(x + 8, y + -20, z + 1, Block4, 0, 3);
+		world.setBlock(x + 8, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 9, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 10, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 11, y + -20, z + 1, Block1, 0, 3);
@@ -839,7 +815,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 3, y + -20, z + 4, Block1, 0, 3);
 		world.setBlock(x + 4, y + -20, z + 4, Block1, 0, 3);
 		world.setBlock(x + 5, y + -20, z + 4, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 5, y + -20, z + 4, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 5, y + -20, z + 4, 3, Blocks.iron_door);
 		world.setBlock(x + 6, y + -20, z + 4, Block1, 0, 3);
 		world.setBlock(x + 7, y + -20, z + 4, Block1, 0, 3);
 		world.setBlock(x + 8, y + -20, z + 4, Block1, 0, 3);
@@ -851,25 +827,25 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 11, y + -20, z + 5, Block1, 0, 3);
 		world.setBlock(x + 0, y + -20, z + 6, Block1, 0, 3);
 		world.setBlock(x + 3, y + -20, z + 6, Blocks.iron_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 3, y + -20, z + 6, 0, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 3, y + -20, z + 6, 0, Blocks.iron_door);
 		world.setBlock(x + 11, y + -20, z + 6, Block1, 0, 3);
 		world.setBlock(x + 0, y + -20, z + 7, Block1, 0, 3);
 		world.setBlock(x + 3, y + -20, z + 7, Block1, 0, 3);
 		world.setBlock(x + 8, y + -20, z + 7, Blocks.iron_door, 1, 3);
-        ItemDoor.placeDoorBlock(world, x + 8, y + -20, z + 7, 1, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 8, y + -20, z + 7, 1, Blocks.iron_door);
 		world.setBlock(x + 10, y + -20, z + 7, Blocks.iron_door, 1, 3);
-        ItemDoor.placeDoorBlock(world, x + 10, y + -20, z + 7, 1, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 10, y + -20, z + 7, 1, Blocks.iron_door);
 		world.setBlock(x + 11, y + -20, z + 7, Block1, 0, 3);
 		world.setBlock(x + 0, y + -20, z + 8, Block1, 0, 3);
 		world.setBlock(x + 3, y + -20, z + 8, Block1, 0, 3);
 		world.setBlock(x + 4, y + -20, z + 8, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 4, y + -20, z + 8, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 4, y + -20, z + 8, 3, Blocks.iron_door);
 		world.setBlock(x + 6, y + -20, z + 8, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 6, y + -20, z + 8, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 6, y + -20, z + 8, 3, Blocks.iron_door);
 		world.setBlock(x + 8, y + -20, z + 8, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 8, y + -20, z + 8, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 8, y + -20, z + 8, 3, Blocks.iron_door);
 		world.setBlock(x + 10, y + -20, z + 8, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 10, y + -20, z + 8, 3, Blocks.iron_door);
+		ItemDoor.placeDoorBlock(world, x + 10, y + -20, z + 8, 3, Blocks.iron_door);
 		world.setBlock(x + 11, y + -20, z + 8, Block1, 0, 3);
 		world.setBlock(x + 0, y + -20, z + 9, Block1, 0, 3);
 		world.setBlock(x + 3, y + -20, z + 9, Block1, 0, 3);
@@ -939,7 +915,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 0, y + -19, z + 4, Block1, 0, 3);
 		world.setBlock(x + 3, y + -19, z + 4, Block1, 0, 3);
 		world.setBlock(x + 4, y + -19, z + 4, Block1, 0, 3);
-		//world.setBlock(x + 5, y + -19, z + 4, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 5, y + -19, z + 4, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 6, y + -19, z + 4, Block1, 0, 3);
 		world.setBlock(x + 7, y + -19, z + 4, Block1, 0, 3);
 		world.setBlock(x + 8, y + -19, z + 4, Block1, 0, 3);
@@ -950,19 +926,19 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 3, y + -19, z + 5, Block1, 0, 3);
 		world.setBlock(x + 11, y + -19, z + 5, Block1, 0, 3);
 		world.setBlock(x + 0, y + -19, z + 6, Block1, 0, 3);
-		//world.setBlock(x + 3, y + -19, z + 6, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 3, y + -19, z + 6, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 11, y + -19, z + 6, Block1, 0, 3);
 		world.setBlock(x + 0, y + -19, z + 7, Block1, 0, 3);
 		world.setBlock(x + 3, y + -19, z + 7, Block3, 0, 3);
-		//world.setBlock(x + 8, y + -19, z + 7, Blocks.iron_door, 8, 3);
-		//world.setBlock(x + 10, y + -19, z + 7, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 8, y + -19, z + 7, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 10, y + -19, z + 7, Blocks.iron_door, 8, 3);
 		world.setBlock(x + 11, y + -19, z + 7, Block1, 0, 3);
 		world.setBlock(x + 0, y + -19, z + 8, Block1, 0, 3);
 		world.setBlock(x + 3, y + -19, z + 8, Block1, 0, 3);
-		//world.setBlock(x + 4, y + -19, z + 8, Blocks.iron_door, 8, 3);
-		//world.setBlock(x + 6, y + -19, z + 8, Blocks.iron_door, 8, 3);
-		//world.setBlock(x + 8, y + -19, z + 8, Blocks.iron_door, 8, 3);
-		//world.setBlock(x + 10, y + -19, z + 8, Blocks.iron_door, 9, 3);
+		// world.setBlock(x + 4, y + -19, z + 8, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 6, y + -19, z + 8, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 8, y + -19, z + 8, Blocks.iron_door, 8, 3);
+		// world.setBlock(x + 10, y + -19, z + 8, Blocks.iron_door, 9, 3);
 		world.setBlock(x + 11, y + -19, z + 8, Block1, 0, 3);
 		world.setBlock(x + 0, y + -19, z + 9, Block1, 0, 3);
 		world.setBlock(x + 3, y + -19, z + 9, Block1, 0, 3);
@@ -1530,8 +1506,8 @@ public class Bunker extends WorldGenerator
 		return true;
 
 	}
-	public boolean generate_r02_last(World world, Random rand, int x, int y, int z)
-	{
+
+	public boolean generate_r02_last(World world, Random rand, int x, int y, int z) {
 
 		world.setBlock(x + 10, y + -24, z + 12, Blocks.ladder, 4, 3);
 		world.setBlock(x + 10, y + -24, z + 13, Blocks.ladder, 4, 3);
@@ -1600,7 +1576,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 8, y + -19, z + 10, Blocks.bed, 8, 3);
 		world.setBlock(x + 10, y + -19, z + 10, Blocks.bed, 8, 3);
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned bunker at " + x + " " + y +" " + z + "\n");
+			System.out.print("[Debug] Successfully spawned bunker at " + x + " " + y + " " + z + "\n");
 		return true;
 
 	}

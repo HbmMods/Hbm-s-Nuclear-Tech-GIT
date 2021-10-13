@@ -20,7 +20,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class Factory extends WorldGenerator
 {
 	Block Block1 = ModBlocks.steel_scaffold;
-	Block Block2 = ModBlocks.machine_difurnace_off;
+	Block Block2 = ModBlocks.red_barrel;
 	Block Block3 = ModBlocks.factory_titanium_core;
 	Block Block4 = ModBlocks.steel_wall;
 	Block Block5 = ModBlocks.reinforced_light;
@@ -701,13 +701,13 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 3, y + 0, z + 20, Blocks.stone_brick_stairs, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 20, Blocks.iron_block, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 20, Blocks.stone_brick_stairs, 1, 3);
-		world.setBlock(x + 7, y + 0, z + 20, Blocks.anvil, 0, 3);
+		world.setBlock(x + 7, y + 0, z + 20, ModBlocks.anvil_iron, 4, 3);
 		world.setBlock(x + 14, y + 0, z + 20, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 21, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 21, Blocks.stone_brick_stairs, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 21, Blocks.iron_block, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 21, Blocks.stone_brick_stairs, 1, 3);
-		world.setBlock(x + 7, y + 0, z + 21, Blocks.anvil, 0, 3);
+		world.setBlock(x + 7, y + 0, z + 21, ModBlocks.anvil_iron, 4, 3);
 		world.setBlock(x + 14, y + 0, z + 21, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 22, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 22, Blocks.stone_brick_stairs, 0, 3);

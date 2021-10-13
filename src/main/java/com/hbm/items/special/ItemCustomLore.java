@@ -3,8 +3,6 @@ package com.hbm.items.special;
 import java.util.List;
 import java.util.Random;
 
-import org.lwjgl.input.Keyboard;
-
 import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IHasLore;
 import com.hbm.items.ModItems;
@@ -36,6 +34,8 @@ public class ItemCustomLore extends Item implements IHasLore
 	{
 		this.basicLore = lore;
 	}
+	
+	EnumRarity rarity;
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

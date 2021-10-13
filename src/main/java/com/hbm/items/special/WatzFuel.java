@@ -34,7 +34,7 @@ public class WatzFuel extends ItemHazard {
 	 */
 	
 	public WatzFuel(float radiation, boolean blinding, int lifeTime, int power, float powerMultiplier, int heat, float heatMultiplier, float decayMultiplier) {
-		super(radiation, false, blinding);
+		super();
 		this.lifeTime = lifeTime * 100;
 		this.power = power/10;
 		this.powerMultiplier = powerMultiplier;
@@ -44,6 +44,10 @@ public class WatzFuel extends ItemHazard {
 		this.setMaxDamage(100);
 		this.canRepair = false;
 		setMaxStackSize(1);
+		
+		this.addRadiation(radiation);
+		if(blinding)
+			this.addBlinding();
 	}
 	/**
 	 * What the pellet will decay into, Lead pellet by default

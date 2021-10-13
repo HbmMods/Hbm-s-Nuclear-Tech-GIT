@@ -8,8 +8,11 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+<<<<<<< HEAD
 import com.hbm.saveddata.RadiationSavedData;
 
+=======
+>>>>>>> master
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -163,7 +166,7 @@ public class TestEventTester extends Block {
         	if(!worldObj.isRemote)
         		worldObj.spawnEntityInWorld(rainbow);*/
         	
-        	RadiationSavedData data = RadiationSavedData.getData(worldObj);
+        	/*RadiationSavedData data = RadiationSavedData.getData(worldObj);
         	
         	//ALU SETS RAD TO 1000
         	//BER PRINTS RAD LEVEL
@@ -227,7 +230,11 @@ public class TestEventTester extends Block {
         		
         		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, x1, y1 + 5, z1, 100));
         		worldObj.setBlockToAir(x1, y1, z1);
+<<<<<<< HEAD
         	}
+=======
+        	}*/
+>>>>>>> master
         	
         }
     }

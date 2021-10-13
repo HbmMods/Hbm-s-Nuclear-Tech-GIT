@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.CrystallizerRecipes;
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUICrystallizer;
+import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;

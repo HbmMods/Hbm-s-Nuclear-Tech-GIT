@@ -1,7 +1,11 @@
 package com.hbm.tileentity.machine;
 
+<<<<<<< HEAD
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+=======
+import com.hbm.inventory.recipes.MachineRecipes;
+>>>>>>> master
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;

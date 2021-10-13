@@ -3,31 +3,7 @@ package com.hbm.handler;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.hbm.handler.guncfg.BulletConfigFactory;
-import com.hbm.handler.guncfg.Gun12GaugeFactory;
-import com.hbm.handler.guncfg.Gun20GaugeFactory;
-import com.hbm.handler.guncfg.Gun22LRFactory;
-import com.hbm.handler.guncfg.Gun357MagnumFactory;
-import com.hbm.handler.guncfg.Gun44MagnumFactory;
-import com.hbm.handler.guncfg.Gun45ACPFactory;
-import com.hbm.handler.guncfg.Gun4GaugeFactory;
-import com.hbm.handler.guncfg.Gun50AEFactory;
-import com.hbm.handler.guncfg.Gun50BMGFactory;
-import com.hbm.handler.guncfg.Gun556mmFactory;
-import com.hbm.handler.guncfg.Gun5mmFactory;
-import com.hbm.handler.guncfg.Gun75BoltFactory;
-import com.hbm.handler.guncfg.Gun762mmConfig;
-import com.hbm.handler.guncfg.Gun9mmFactory;
-import com.hbm.handler.guncfg.GunCannonFactory;
-import com.hbm.handler.guncfg.GunDGKFactory;
-import com.hbm.handler.guncfg.GunDartFactory;
-import com.hbm.handler.guncfg.GunEnergyFactory;
-import com.hbm.handler.guncfg.GunFatmanFactory;
-import com.hbm.handler.guncfg.GunGaussFactory;
-import com.hbm.handler.guncfg.GunGrenadeFactory;
-import com.hbm.handler.guncfg.GunNPCFactory;
-import com.hbm.handler.guncfg.GunOSIPRFactory;
-import com.hbm.handler.guncfg.GunRocketFactory;
+import com.hbm.handler.guncfg.*;
 import com.hbm.items.ModItems;
 
 public class BulletConfigSyncingUtil {
@@ -72,6 +48,7 @@ public class BulletConfigSyncingUtil {
 	public static int ROCKET_TOXIC = i++;
 	public static int ROCKET_PHOSPHORUS = i++;
 	public static int ROCKET_CANISTER = i++;
+	public static int ROCKET_ERROR = i++;
 
 	public static int GRENADE_NORMAL = i++;
 	public static int GRENADE_HE = i++;
@@ -123,6 +100,10 @@ public class BulletConfigSyncingUtil {
 	public static int BMG50_STAR = i++;
 	public static int BMG50_PHOSPHORUS = i++;
 	public static int BMG50_SLEEK = i++;
+	public static int BMG50_FLECHETTE_NORMAL = i++;
+	public static int BMG50_FLECHETTE_AM = i++;
+	public static int BMG50_FLECHETTE_PO = i++;
+
 	
 	public static int ROUND_LUNA_SNIPER = i++;
 	
@@ -166,6 +147,10 @@ public class BulletConfigSyncingUtil {
 	public static int FLAMER_VAPORIZER = i++;
 	public static int FLAMER_GAS = i++;
 
+	public static int FEXT_NORMAL = i++;
+	public static int FEXT_FOAM = i++;
+	public static int FEXT_SAND = i++;
+
 	public static int R556_NORMAL = i++;
 	public static int R556_GOLD = i++;
 	public static int R556_PHOSPHORUS = i++;
@@ -188,6 +173,7 @@ public class BulletConfigSyncingUtil {
 	public static int B75_HE = i++;
 
 	public static int NEEDLE_GPS = i++;
+	public static int NEEDLE_NUKE = i++;
 	public static int DART_NORMAL = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
@@ -217,6 +203,7 @@ public class BulletConfigSyncingUtil {
 	public static int SHELL_DU = i++;
 	public static int SHELL_W9 = i++;
 	public static int DGK_NORMAL = i++;
+	public static int FLA_NORMAL = i++;
 
 	public static int NUKE_NORMAL = i++;
 	public static int NUKE_LOW = i++;
@@ -269,6 +256,8 @@ public class BulletConfigSyncingUtil {
 
 	public static int WORM_BOLT = i++;
 	public static int WORM_LASER = i++;
+	
+	public static int UFO_ROCKET = i++;
 
 	public static void loadConfigsForSync() {
 
@@ -308,6 +297,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_CHAINSAW, GunRocketFactory.getRocketRPCConfig());
 		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
 		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
+		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
 
 		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
 		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());
@@ -359,6 +349,10 @@ public class BulletConfigSyncingUtil {
 		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
 		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
 		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
+		configSet.put(BMG50_FLECHETTE_NORMAL, Gun50BMGFactory.get50BMGFlechetteConfig());
+		configSet.put(BMG50_FLECHETTE_AM, Gun50BMGFactory.get50BMGFlechetteAMConfig());
+		configSet.put(BMG50_FLECHETTE_PO, Gun50BMGFactory.get50BMGFlechettePOConfig());
+
 		
 		configSet.put(ROUND_LUNA_SNIPER, Gun50BMGFactory.getLunaticSniperRound());
 		
@@ -401,6 +395,10 @@ public class BulletConfigSyncingUtil {
 		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
 		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
 		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+		
+		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
+		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
+		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());
 
 		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
 		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());
@@ -426,6 +424,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NEEDLE_GPS, GunDartFactory.getGPSConfig());
 		configSet.put(DART_NORMAL, GunDartFactory.getNERFConfig());
 
+		configSet.put(NEEDLE_NUKE, GunDartFactory.getNukeConfig());
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));
 		configSet.put(G20_SLUG_FIRE, Gun20GaugeFactory.get20GaugeSlugConfig().setToFire(3));
@@ -453,6 +452,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SHELL_DU, GunCannonFactory.getShellDUConfig());
 		configSet.put(SHELL_W9, GunCannonFactory.getShellW9Config());
 		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
+		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());
 
 		configSet.put(NUKE_NORMAL, GunFatmanFactory.getNukeConfig());
 		configSet.put(NUKE_LOW, GunFatmanFactory.getNukeLowConfig());
@@ -481,7 +481,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(HLR_NORMAL, GunEnergyFactory.getHLRDefaultConfig());
 		configSet.put(HLR_ALT, GunEnergyFactory.getHLRAltConfig());
 
-		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());		
+		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
@@ -504,6 +504,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(MASKMAN_METEOR, GunNPCFactory.getMaskmanMeteor());
 		configSet.put(WORM_BOLT, GunNPCFactory.getWormBolt());
 		configSet.put(WORM_LASER, GunNPCFactory.getWormHeadBolt());
+		
+		configSet.put(UFO_ROCKET, GunNPCFactory.getRocketUFOConfig());
 	}
 
 	public static BulletConfiguration pullConfig(int key) {

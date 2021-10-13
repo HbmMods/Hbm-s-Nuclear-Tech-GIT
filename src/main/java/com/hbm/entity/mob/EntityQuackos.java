@@ -63,7 +63,14 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	/**
 	 * BOW
 	 */
+<<<<<<< HEAD
 	public void setDead() { } //prank'd
+=======
+	public void setDead() {
+		if(worldObj.isRemote)
+			super.setDead();
+	} //prank'd
+>>>>>>> master
 
 	/**
 	 * BOW

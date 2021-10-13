@@ -23,9 +23,15 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GUITurretBase extends GuiInfoContainer {
 
+<<<<<<< HEAD
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
 	private TileEntityTurretBaseNT turret;
 	private GuiTextField field;
+=======
+	protected static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
+	protected TileEntityTurretBaseNT turret;
+	protected GuiTextField field;
+>>>>>>> master
 	int index;
 	
 	public GUITurretBase(InventoryPlayer invPlayer, TileEntityTurretBaseNT tedf) {

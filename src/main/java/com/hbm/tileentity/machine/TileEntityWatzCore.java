@@ -496,7 +496,11 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public boolean hasFuse() {
+<<<<<<< HEAD
 		return slots[38] != null && Arrays.asList(validFilters).contains(slots[38].getItem()) && ItemCapacitor.getDura(slots[38]) > 0;
+=======
+		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemCapacitor.getDura(slots[38]) > 0;
+>>>>>>> master
 	}
 	
 	@Override
@@ -521,17 +525,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
-
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19) {
-				ffgeuaInit();
-				fillFluidInit(tank.getTankType());
-			}
+		
+		if (this.isStructureValid(this.worldObj)) {
 
 			powerMultiplier = 100;
 			heatMultiplier = 100;
@@ -555,6 +550,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					decayPellet(i);
 				}
 			}
+<<<<<<< HEAD
 
 			//Only damages filter when heat is present (thus waste being created)
 			if (heatList > 0) {
@@ -584,6 +580,50 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			tank.unloadTank(36, 39, slots);
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+=======
+			
+			if(!worldObj.isRemote) {
+	
+				age++;
+				if (age >= 20) {
+					age = 0;
+				}
+	
+				if (age == 9 || age == 19) {
+					ffgeuaInit();
+					fillFluidInit(tank.getTankType());
+				}
+	
+				//Only damages filter when heat is present (thus waste being created)
+				if (heatList > 0) {
+					ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
+				}
+	
+				heatList *= heatMultiplier;
+				heatList /= 100;
+				heat = heatList;
+	
+				powerList *= powerMultiplier;
+				powerList /= 100;
+				power += powerList;
+	
+				tank.setFill(tank.getFill() + ((decayMultiplier * heat) / 100) / 100);
+				
+				if(power > maxPower)
+					power = maxPower;
+				
+				//Gets rid of 1/4 of the total waste, if at least one access hatch is not occupied
+				if(tank.getFill() > tank.getMaxFill())
+					emptyWaste();
+				
+				power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
+				
+				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+				tank.unloadTank(36, 39, slots);
+	
+				PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			}
+>>>>>>> master
 		}
 	}
 	
@@ -659,16 +699,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "random.explode", 3.0F, 0.75F);
 				} else {
-					EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
-					entity.posX = this.xCoord;
-					entity.posY = this.yCoord;
-					entity.posZ = this.zCoord;
-					entity.destructionRange = BombConfig.fleijaRadius;
-					entity.speed = 25;
-					entity.coefficient = 1.0F;
-					entity.waste = false;
-	    	
-					worldObj.spawnEntityInWorld(entity);
+					worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord, yCoord, zCoord, BombConfig.fleijaRadius));
 				}
 			}
 		}

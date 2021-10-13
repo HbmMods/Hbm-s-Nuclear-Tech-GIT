@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.dungeon.AncientTomb;
@@ -29,7 +30,36 @@ public class ItemWandD extends Item {
 			
 			int x = pos.blockX;
 			int z = pos.blockZ;
-			int y = world.getHeightValue(x, z);
+			//int y = world.getHeightValue(x, z);
+			int y = pos.blockY;
+			
+			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
+			
+			for(int i = x - 10; i <= x + 10; i++) {
+				for(int j = y - 10; j <= y + 10; j++) {
+					for(int k = z - 10; k <= z + 10; k++) {
+						
+						world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+					}
+				}
+			}
+			
+			/*EntityBlockSpider spider = new EntityBlockSpider(world);
+			spider.setPosition(x + 0.5, y, z + 0.5);
+			spider.makeBlock(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+			world.setBlockToAir(x, y, z);
+			world.spawnEntityInWorld(spider);*/
+			
+			
+    		/*NBTTagCompound data = new NBTTagCompound();
+    		data.setString("type", "rift");
+    		data.setDouble("posX", x);
+    		data.setDouble("posY", y + 1);
+    		data.setDouble("posZ", z);
+    		
+    		MainRegistry.proxy.effectNT(data);*/
+			
+			//new Spaceship().generate_r0(world, world.rand, x - 4, y, z - 8);
 
     		/*NBTTagCompound data = new NBTTagCompound();
     		data.setString("type", "rift");
@@ -47,7 +77,11 @@ public class ItemWandD extends Item {
 			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
 			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
 			
+<<<<<<< HEAD
 			new AncientTomb().build(world, world.rand, x, y + 10, z);
+=======
+			//new AncientTomb().build(world, world.rand, x, y + 10, z);
+>>>>>>> master
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

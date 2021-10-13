@@ -6,10 +6,12 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -122,6 +124,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+<<<<<<< HEAD
 
 			this.consumption = 100;
 			this.speed = 100;
@@ -161,6 +164,24 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 				speed = 25;
 			if(consumption < 10)
 				consumption = 10;
+=======
+>>>>>>> master
+
+			this.consumption = 100;
+			this.speed = 100;
+			
+			UpgradeManager.eval(slots, 1, 3);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			speed -= speedLevel * 25;
+			consumption += speedLevel * 300;
+			speed += powerLevel * 5;
+			consumption -= powerLevel * 30;
+			speed /= (overLevel + 1);
+			consumption *= (overLevel + 1);
 
 			isProgressing = false;
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
