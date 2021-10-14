@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.packet.NBTPacket;
@@ -12,10 +13,13 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver {
@@ -47,6 +51,9 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	private boolean goesDown = false;
 	public double lastProgress = 1D;
 	public double progress = 1D;
+	
+	private ItemStack loadedItem;
+	private boolean hasLoaded = false;
 
 	@Override
 	public void updateEntity() {
@@ -93,7 +100,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		tiltFront = 0;
 		tiltLeft = 0;
 		
-		if(players.size() > 0 && progress == 1D) {
+		if(players.size() > 0 && !isCraneLoading()) {
 			EntityPlayer player = players.get(0);
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			boolean up = props.getKeyPressed(EnumKeybind.CRANE_UP);
@@ -103,34 +110,28 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 			
 			if(up && !down) {
 				tiltFront = 30;
-				posFront += speed;
+				if(!worldObj.isRemote) posFront += speed;
 			}
 			if(!up && down) {
 				tiltFront = -30;
-				posFront -= speed;
+				if(!worldObj.isRemote) posFront -= speed;
 			}
 			if(left && !right) {
 				tiltLeft = 30;
-				posLeft += speed;
+				if(!worldObj.isRemote) posLeft += speed;
 			}
 			if(!left && right) {
 				tiltLeft = -30;
-				posLeft -= speed;
+				if(!worldObj.isRemote) posLeft -= speed;
 			}
 			
 			if(props.getKeyPressed(EnumKeybind.CRANE_LOAD)) {
 				goesDown = true;
 			}
 		}
-
-		if(posFront > spanF)
-			posFront = spanF;
-		if(posFront < -spanB)
-			posFront = -spanB;
-		if(posLeft > spanL)
-			posLeft = spanL;
-		if(posLeft < -spanR)
-			posLeft = -spanR;
+		
+		posFront = MathHelper.clamp_double(posFront, -spanB, spanF);
+		posLeft = MathHelper.clamp_double(posFront, -spanR, spanL);
 		
 		if(!worldObj.isRemote) {
 			
@@ -146,10 +147,55 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				nbt.setInteger("spanL", spanL);
 				nbt.setInteger("spanR", spanR);
 				nbt.setInteger("height", height);
-				nbt.setInteger("height", height);
+				nbt.setDouble("posFront", posFront);
+				nbt.setDouble("posLeft", posLeft);
+				nbt.setBoolean("loaded", this.hasItemLoaded());
 			}
 			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 		}
+	}
+	
+	public boolean hasItemLoaded() {
+		
+		if(!worldObj.isRemote)
+			return this.loadedItem != null;
+		else
+			return this.hasLoaded;
+	}
+	
+	public boolean isCraneLoading() {
+		return this.progress != 1D;
+	}
+	
+	public boolean isAboveValidTarget() {
+		return getColumnAtPos() != null;
+	}
+	
+	public boolean canTargetInteract() {
+		
+		IRBMKLoadable column = getColumnAtPos();
+		
+		if(column == null)
+			return false;
+		
+		if(this.hasItemLoaded()) {
+			return column.canLoad(loadedItem);
+		} else {
+			return column.canUnload();
+		}
+	}
+	
+	public IRBMKLoadable getColumnAtPos() {
+		
+		/*int x = this.centerX + this.
+		Block b = worldObj.getBlock(x, y, z);
+		
+		if(b instanceof RBMKBase) {
+			
+			int[] pos = ((BlockDummyable)b).findCore(world, x, y, z);
+		}*/
+		
+		return null;
 	}
 
 	@Override
@@ -163,11 +209,14 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		this.spanL = nbt.getInteger("spanL");
 		this.spanR = nbt.getInteger("spanR");
 		this.height = nbt.getInteger("height");
+		this.posFront = nbt.getDouble("posFront");
+		this.posLeft = nbt.getDouble("posLeft");
+		this.hasLoaded = nbt.getBoolean("loaded");
 	}
 	
 	public void setTarget(int x, int y, int z) {
 		this.centerX = x;
-		this.centerY = y + 5;
+		this.centerY = y + RBMKDials.getColumnHeight(worldObj) + 1;
 		this.centerZ = z;
 
 		this.spanF = 7;

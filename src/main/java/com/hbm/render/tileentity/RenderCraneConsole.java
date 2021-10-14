@@ -68,10 +68,18 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-		GL11.glColor3f(0F, 1F, 0F);
+		
+		//loading indicator
+		if(console.isCraneLoading()) GL11.glColor3f(0.8F, 0.8F, 0F);	//is the crane loading? yellow
+		else if(console.hasItemLoaded()) GL11.glColor3f(0F, 1F, 0F);	//is the crane loaded? green
+		else GL11.glColor3f(0F, 0.1F, 0F);								//is the crane unloaded? off
 		ResourceManager.rbmk_crane_console.renderPart("Lamp1");
-		GL11.glColor3f(1F, 1F, 0F);
+		
+		//target indicator
+		if(console.isAboveValidTarget()) GL11.glColor3f(0F, 1F, 0F);	//valid? green
+		else GL11.glColor3f(1F, 0F, 0F);								//not valid? red
 		ResourceManager.rbmk_crane_console.renderPart("Lamp2");
+		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopAttrib();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
