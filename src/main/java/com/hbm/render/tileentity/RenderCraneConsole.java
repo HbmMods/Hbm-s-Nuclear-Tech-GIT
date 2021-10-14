@@ -47,14 +47,16 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.25, 0.75);
-		GL11.glRotated(Math.sin(System.currentTimeMillis() * 0.01 % 360) * 180 / Math.PI * 0.125 + 45, 1, 0, 0);
+		double heat = console.loadedHeat;
+		GL11.glRotated(Math.sin(System.currentTimeMillis() * 0.01 % 360) * 180 / Math.PI * 0.05 + 135 - 270 * heat, 1, 0, 0);
 		GL11.glTranslated(0, -1.25, -0.75);
 		ResourceManager.rbmk_crane_console.renderPart("Meter1");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.25, 0.25);
-		GL11.glRotated(System.currentTimeMillis() / 16 % 360, -1, 0, 0);
+		double enrichment = console.loadedEnrichment;
+		GL11.glRotated(Math.sin(System.currentTimeMillis() * 0.01 % 360) * 180 / Math.PI * 0.05 + 135 - 270 * enrichment, 1, 0, 0);
 		GL11.glTranslated(0, -1.25, -0.25);
 		ResourceManager.rbmk_crane_console.renderPart("Meter2");
 		GL11.glPopMatrix();
@@ -93,7 +95,7 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 
 			int height = console.height - 6;
 			double cranePosX = (-te.xCoord + console.centerX);
-			double cranePosY = (-te.yCoord + console.centerY);
+			double cranePosY = (-te.yCoord + console.centerY) + 1;
 			double cranePosZ = (-te.zCoord + console.centerZ);
 			
 			GL11.glTranslated(cranePosX, cranePosY, cranePosZ);

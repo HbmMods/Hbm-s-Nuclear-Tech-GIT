@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -54,6 +55,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	
 	private ItemStack loadedItem;
 	private boolean hasLoaded = false;
+	public double loadedHeat;
+	public double loadedEnrichment;
 
 	@Override
 	public void updateEntity() {
@@ -61,9 +64,6 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		if(worldObj.isRemote) {
 			lastTiltFront = tiltFront;
 			lastTiltLeft = tiltLeft;
-			lastPosFront = posFront;
-			lastPosLeft = posLeft;
-			lastProgress = progress;
 		}
 		
 		if(goesDown) {
@@ -73,6 +73,20 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 			} else {
 				progress = 0;
 				goesDown = false;
+				
+				if(this.canTargetInteract()) {
+					if(this.hasItemLoaded()) {
+						getColumnAtPos().load(this.loadedItem);
+						this.loadedItem = null;
+					} else {
+						IRBMKLoadable column = getColumnAtPos();
+						this.loadedItem = column.provideNext();
+						column.unload();
+					}
+					
+					this.markDirty();
+				}
+					
 			}
 		} else if(progress != 1) {
 			
@@ -131,9 +145,17 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		}
 		
 		posFront = MathHelper.clamp_double(posFront, -spanB, spanF);
-		posLeft = MathHelper.clamp_double(posFront, -spanR, spanL);
+		posLeft = MathHelper.clamp_double(posLeft, -spanR, spanL);
 		
 		if(!worldObj.isRemote) {
+			
+			if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+				this.loadedHeat = ItemRBMKRod.getHullHeat(loadedItem);
+				this.loadedEnrichment = ItemRBMKRod.getEnrichment(loadedItem);
+			} else {
+				this.loadedHeat = 0;
+				this.loadedEnrichment = 0;
+			}
 			
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setBoolean("crane", setUpCrane);
@@ -150,6 +172,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				nbt.setDouble("posFront", posFront);
 				nbt.setDouble("posLeft", posLeft);
 				nbt.setBoolean("loaded", this.hasItemLoaded());
+				nbt.setDouble("loadedHeat", loadedHeat);
+				nbt.setDouble("loadedEnrichment", loadedEnrichment);
 			}
 			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 		}
@@ -187,19 +211,36 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	
 	public IRBMKLoadable getColumnAtPos() {
 		
-		/*int x = this.centerX + this.
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
+
+		int x = (int)Math.floor(this.centerX - dir.offsetX * this.posFront - left.offsetX * this.posLeft + 0.5D);
+		int y = this.centerY - 1;
+		int z = (int)Math.floor(this.centerZ - dir.offsetZ * this.posFront - left.offsetZ * this.posLeft + 0.5D);
+				
 		Block b = worldObj.getBlock(x, y, z);
 		
 		if(b instanceof RBMKBase) {
 			
-			int[] pos = ((BlockDummyable)b).findCore(world, x, y, z);
-		}*/
+			int[] pos = ((BlockDummyable)b).findCore(worldObj, x, y, z);
+			if(pos != null) {
+				TileEntityRBMKBase column = (TileEntityRBMKBase)worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+				if(column instanceof IRBMKLoadable) {
+					return (IRBMKLoadable) column;
+				}
+			}
+		}
 		
 		return null;
 	}
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		
+		lastPosFront = posFront;
+		lastPosLeft = posLeft;
+		lastProgress = progress;
+		
 		this.setUpCrane = nbt.getBoolean("crane");
 		this.centerX = nbt.getInteger("centerX");
 		this.centerY = nbt.getInteger("centerY");
@@ -212,6 +253,9 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		this.posFront = nbt.getDouble("posFront");
 		this.posLeft = nbt.getDouble("posLeft");
 		this.hasLoaded = nbt.getBoolean("loaded");
+		this.posLeft = nbt.getDouble("posLeft");
+		this.loadedHeat = nbt.getDouble("loadedHeat");
+		this.loadedEnrichment = nbt.getDouble("loadedEnrichment");
 	}
 	
 	public void setTarget(int x, int y, int z) {
@@ -228,6 +272,49 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		this.setUpCrane = true;
 		
 		this.markDirty();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.setUpCrane = nbt.getBoolean("crane");
+		this.centerX = nbt.getInteger("centerX");
+		this.centerY = nbt.getInteger("centerY");
+		this.centerZ = nbt.getInteger("centerZ");
+		this.spanF = nbt.getInteger("spanF");
+		this.spanB = nbt.getInteger("spanB");
+		this.spanL = nbt.getInteger("spanL");
+		this.spanR = nbt.getInteger("spanR");
+		this.height = nbt.getInteger("height");
+		this.posFront = nbt.getDouble("posFront");
+		this.posLeft = nbt.getDouble("posLeft");
+		
+		NBTTagCompound held = nbt.getCompoundTag("held");
+		this.loadedItem = ItemStack.loadItemStackFromNBT(held);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("crane", setUpCrane);
+		nbt.setInteger("centerX", centerX);
+		nbt.setInteger("centerY", centerY);
+		nbt.setInteger("centerZ", centerZ);
+		nbt.setInteger("spanF", spanF);
+		nbt.setInteger("spanB", spanB);
+		nbt.setInteger("spanL", spanL);
+		nbt.setInteger("spanR", spanR);
+		nbt.setInteger("height", height);
+		nbt.setDouble("posFront", posFront);
+		nbt.setDouble("posLeft", posLeft);
+		
+		if(this.loadedItem != null) {
+			NBTTagCompound held = new NBTTagCompound();
+			this.loadedItem.writeToNBT(held);
+			nbt.setTag("held", held);
+		}
 	}
 	
 	@Override
