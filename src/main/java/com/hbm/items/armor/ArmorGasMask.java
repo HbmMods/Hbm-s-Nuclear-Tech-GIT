@@ -23,7 +23,6 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -112,12 +111,12 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 
 		if(this == ModItems.goggles || this == ModItems.gas_mask_m65) {
 			int index = (int) ((double) stack.getItemDamage() / (double) stack.getMaxDamage() * 6D);
-			tex = this.googleBlur[index];
+			tex = this.googleBlur[Math.min(index, 5)];
 		}
 
 		if(this == ModItems.gas_mask) {
 			int index = (int) ((double) stack.getItemDamage() / (double) stack.getMaxDamage() * 6D);
-			tex = this.maskBlur[index];
+			tex = this.maskBlur[Math.min(index, 5)];
 		}
 		
 		if(tex == null)

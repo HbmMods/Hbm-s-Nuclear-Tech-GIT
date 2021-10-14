@@ -226,6 +226,8 @@ public class TileMappings {
 	}
 	
 	private static void putMachines() {
+		map.put(TileEntityUVLamp.class, "tileentity_uv_lamp");
+		
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
 		map.put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
 		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");
@@ -253,6 +255,9 @@ public class TileMappings {
 		map.put(TileEntityRBMKAbsorber.class, "tileentity_rbmk_absorber");
 		map.put(TileEntityRBMKModerator.class, "tileentity_rbmk_moderator");
 		map.put(TileEntityRBMKOutgasser.class, "tileentity_rbmk_outgasser");
+		map.put(TileEntityRBMKCooler.class, "tileentity_rbmk_cooler");
+		map.put(TileEntityRBMKStorage.class, "tileentity_rbmk_storage");
+		map.put(TileEntityCraneConsole.class, "tileentity_rbmk_crane_console");
 		map.put(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
 		map.put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		map.put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");

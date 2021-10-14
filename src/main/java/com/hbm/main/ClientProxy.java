@@ -232,6 +232,7 @@ public class ClientProxy extends ServerProxy {
 		//RBMK
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKControlManual.class, new RenderRBMKControlRod());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKControlAuto.class, new RenderRBMKControlRod());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraneConsole.class, new RenderCraneConsole());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKConsole.class, new RenderRBMKConsole());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKAbsorber.class, new RenderRBMKLid());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKBlank.class, new RenderRBMKLid());
@@ -241,6 +242,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKReflector.class, new RenderRBMKLid());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRod.class, new RenderRBMKLid());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRodReaSim.class, new RenderRBMKLid());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKCooler.class, new RenderRBMKLid());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKStorage.class, new RenderRBMKLid());
 		//ITER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITER.class, new RenderITER());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePlasmaHeater.class, new RenderPlasmaHeater());
@@ -257,6 +260,21 @@ public class ClientProxy extends ServerProxy {
 		
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
+		
+		//universal JSON translated items
+		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(
+				new double[] {0, -90, 55},
+				new double[] {0, 7.0, 0},
+				new double[] {1.7, 1.7, 0.85},
+				
+				new double[] {-20, -90, -80},
+				new double[] {1.13, 5.2, -0.26},
+				new double[] {1.36, 1.36, 0.68},
+				
+				new double[] {0, 0, 0},
+				new double[] {0, 0, 0},
+				new double[] {1.1, 1.1, 1.1}));
+		
 		
 		//test crap
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_container), new ItemRenderTestContainer());
@@ -1497,12 +1515,17 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getIsKeyPressed(EnumKeybind key) {
 
-		if(key == EnumKeybind.JETPACK)
-			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
-		if(key == EnumKeybind.TOGGLE_JETPACK)
-			return HbmKeybinds.jetpackKey.getIsKeyPressed();
-		if(key == EnumKeybind.TOGGLE_HEAD)
-			return HbmKeybinds.hudKey.getIsKeyPressed();
+		switch(key){
+		case JETPACK:			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+		case TOGGLE_JETPACK:	return HbmKeybinds.jetpackKey.getIsKeyPressed();
+		case TOGGLE_HEAD:		return HbmKeybinds.hudKey.getIsKeyPressed();
+		case RELOAD:			return HbmKeybinds.reloadKey.getIsKeyPressed();
+		case CRANE_UP:			return HbmKeybinds.craneUpKey.getIsKeyPressed();
+		case CRANE_DOWN:		return HbmKeybinds.craneDownKey.getIsKeyPressed();
+		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
+		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
+		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
+		}
 		
 		return false;
 	}

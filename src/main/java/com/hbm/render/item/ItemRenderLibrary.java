@@ -954,6 +954,23 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
+		renderers.put(Item.getItemFromBlock(ModBlocks.rbmk_crane_console), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.rbmk_crane_console_tex);
+				ResourceManager.rbmk_crane_console.renderPart("Console_Coonsole");
+				ResourceManager.rbmk_crane_console.renderPart("JoyStick");
+				ResourceManager.rbmk_crane_console.renderPart("Meter1");
+				ResourceManager.rbmk_crane_console.renderPart("Meter2");
+				bindTexture(ResourceManager.ks23_tex); ResourceManager.rbmk_crane_console.renderPart("Shotgun");
+				bindTexture(ResourceManager.mini_nuke_tex); ResourceManager.rbmk_crane_console.renderPart("MiniNuke");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
 		renderers.put(Item.getItemFromBlock(ModBlocks.lamp_demon), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);
@@ -1092,6 +1109,18 @@ public class ItemRenderLibrary {
 				GL11.glScaled(0.25, 0.25, 0.25);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.tower_large_tex); ResourceManager.tower_large.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fracking_tower), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4.5, 0);
+				GL11.glScaled(2.5, 2.5, 2.5);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.fracking_tower_tex); ResourceManager.fracking_tower.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 	}

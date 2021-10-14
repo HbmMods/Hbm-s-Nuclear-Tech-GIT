@@ -24,7 +24,7 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.waterTimer > 0) {
+			if(this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 4 == 0) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 0.5F);

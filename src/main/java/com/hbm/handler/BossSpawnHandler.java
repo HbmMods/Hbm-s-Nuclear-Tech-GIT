@@ -1,14 +1,22 @@
 package com.hbm.handler;
 
+import java.util.Random;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
+import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -17,6 +25,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public class BossSpawnHandler {
+	
+	//because some dimwit keeps resetting the world rand
+	private static final Random meteorRand = new Random();
 	
 	public static void rollTheDice(World world) {
 		
@@ -103,6 +114,10 @@ public class BossSpawnHandler {
 				}
 			}
 		}
+		
+		if(GeneralConfig.enableMeteorStrikes && !world.isRemote) {
+			meteorUpdate(world);
+		}
 	}
 	
 	private static void trySpawn(World world, float x, float y, float z, EntityLiving e) {
@@ -122,5 +137,74 @@ public class BossSpawnHandler {
 		
 		if(!player.worldObj.isRemote)
 			player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setLong("fbiMark", player.worldObj.getTotalWorldTime() + 20 * 60 * 20);
+	}
+	
+	public static int meteorShower = 0;
+	private static void meteorUpdate(World world) {
+
+		if(meteorRand.nextInt(meteorShower > 0 ? WorldConfig.meteorShowerChance : WorldConfig.meteorStrikeChance) == 0) {
+			
+			if(!world.playerEntities.isEmpty()) {
+				
+				EntityPlayer p = (EntityPlayer)world.playerEntities.get(meteorRand.nextInt(world.playerEntities.size()));
+				
+				if(p != null && p.dimension == 0) {
+					
+					boolean repell = false;
+					boolean strike = true;
+					
+					if(p.getCurrentArmor(2) != null && ArmorModHandler.hasMods(p.getCurrentArmor(2))) {
+						ItemStack mod = ArmorModHandler.pryMods(p.getCurrentArmor(2))[ArmorModHandler.helmet_only];
+						
+						if(mod != null) {
+							if(mod.getItem() == ModItems.protection_charm) {
+								repell = true;
+							}
+							if(mod.getItem() == ModItems.meteor_charm) {
+								repell = true;
+								strike = meteorRand.nextInt(4) == 0;
+							}
+						}
+					}
+					
+					if(strike)
+						spawnMeteorAtPlayer(p, repell);
+				}
+			}
+		}
+		
+		if(meteorShower > 0) {
+			meteorShower--;
+			if(meteorShower == 0 && GeneralConfig.enableDebugMode)
+				MainRegistry.logger.info("Ended meteor shower.");
+		}
+		
+		if(meteorRand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
+			meteorShower = (int)(WorldConfig.meteorShowerDuration * 0.75 + WorldConfig.meteorShowerDuration * 0.25 * meteorRand.nextFloat());
+
+			if(GeneralConfig.enableDebugMode)
+				MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
+		}
+	}
+	
+	public static void spawnMeteorAtPlayer(EntityPlayer player, boolean repell) {
+
+		EntityMeteor meteor = new EntityMeteor(player.worldObj);
+		meteor.setPositionAndRotation(player.posX + meteorRand.nextInt(201) - 100, 384, player.posZ + meteorRand.nextInt(201) - 100, 0, 0);
+		
+		Vec3 vec;
+		if(repell) {
+			vec = Vec3.createVectorHelper(meteor.posX - player.posX, 0, meteor.posZ - player.posZ).normalize();
+			vec.xCoord = vec.xCoord * meteorRand.nextDouble() - 0.5D;
+			vec.zCoord = vec.zCoord * meteorRand.nextDouble() - 0.5D;
+		} else {
+			vec = Vec3.createVectorHelper(meteorRand.nextDouble() - 0.5D, 0, 0);
+			vec.rotateAroundY((float) (Math.PI * meteorRand.nextDouble()));
+		}
+		
+		meteor.motionX = vec.xCoord;
+		meteor.motionY = -2.5;
+		meteor.motionZ = vec.zCoord;
+		player.worldObj.spawnEntityInWorld(meteor);
 	}
 }

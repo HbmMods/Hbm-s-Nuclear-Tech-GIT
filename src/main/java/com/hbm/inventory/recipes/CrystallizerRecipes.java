@@ -37,7 +37,6 @@ public class CrystallizerRecipes {
 		recipes.put("orePlutonium", new ItemStack(ModItems.crystal_plutonium));
 		recipes.put("oreTitanium", new ItemStack(ModItems.crystal_titanium));
 		recipes.put("oreSulfur", new ItemStack(ModItems.crystal_sulfur));
-		recipes.put("oreNiter", new ItemStack(ModItems.crystal_niter));
 		recipes.put("oreSaltpeter", new ItemStack(ModItems.crystal_niter));
 		recipes.put("oreCopper", new ItemStack(ModItems.crystal_copper));
 		recipes.put("oreTungsten", new ItemStack(ModItems.crystal_tungsten));

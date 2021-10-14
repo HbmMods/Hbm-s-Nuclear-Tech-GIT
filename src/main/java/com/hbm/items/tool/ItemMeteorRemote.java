@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.handler.BossSpawnHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -31,15 +32,7 @@ public class ItemMeteorRemote extends Item {
 		stack.damageItem(1, player);
 
 		if(!world.isRemote) {
-			EntityMeteor meteor = new EntityMeteor(world);
-			meteor.setPositionAndRotation(player.posX + world.rand.nextInt(201) - 100, 384, player.posZ + world.rand.nextInt(201) - 100, 0, 0);
-			meteor.motionX = world.rand.nextDouble() - 0.5;
-			meteor.motionY = -2.5;
-			meteor.motionZ = world.rand.nextDouble() - 0.5;
-			world.spawnEntityInWorld(meteor);
-		}
-		
-		if(world.isRemote) {
+			BossSpawnHandler.spawnMeteorAtPlayer(player, false);
 			player.addChatMessage(new ChatComponentText("Watch your head!"));
 		}
 
