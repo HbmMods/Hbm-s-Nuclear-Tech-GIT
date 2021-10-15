@@ -64,6 +64,7 @@ public class ItemChemistryTemplate extends Item {
 		BP_BIOGAS,
 		BP_BIOFUEL,
 		LPG,
+		ETHANOL,
 		OIL_SAND,
 		ASPHALT,
 		COOLANT,
@@ -246,6 +247,8 @@ public class ItemChemistryTemplate extends Item {
         	return 100;
         case LPG:
         	return 100;
+        case ETHANOL:
+        	return 50;
         case YELLOWCAKE:
         	return 250;
         case UF6:
