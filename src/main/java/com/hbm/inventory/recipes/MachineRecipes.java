@@ -1650,6 +1650,9 @@ public class MachineRecipes {
         case BP_BIOGAS:
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
+        case ETHANOL:
+			list.add(new ItemStack(ModItems.biomass, 6));
+			break;
         case YELLOWCAKE:
 			list.add(new ItemStack(ModItems.powder_uranium, 1));
 			list.add(new ItemStack(ModItems.sulfur, 2));
@@ -2230,6 +2233,9 @@ public class MachineRecipes {
         	break;
         case BP_BIOFUEL:
 			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
+        	break;
+        case ETHANOL:
+			output[0] = new FluidStack(1000, FluidType.ETHANOL);
         	break;
         case LPG:
 			output[0] = new FluidStack(1000, FluidType.LPG);
