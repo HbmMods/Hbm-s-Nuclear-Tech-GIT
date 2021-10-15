@@ -1739,6 +1739,10 @@ public class MachineRecipes {
 		case FRACKSOL:
 			list.add(new ItemStack(ModItems.sulfur, 1));
 			break;
+		case METH:
+			list.add(new ItemStack(Items.wheat, 1));
+			list.add(new ItemStack(Items.dye, 2, 3));
+			break;
 		default:
 			break;
 		}
@@ -1985,6 +1989,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(100, FluidType.PETROLEUM);
 			input[1] = new FluidStack(1000, FluidType.WATER);
 			break;
+		case METH:
+			input[0] = new FluidStack(400, FluidType.LUBRICANT);
+			input[1] = new FluidStack(400, FluidType.ACID);
+			break;
 		default:
 			break;
 		}
@@ -2141,6 +2149,10 @@ public class MachineRecipes {
 			break;
 		case TEL:
 			output[0] = new ItemStack(ModItems.antiknock, 1);
+			break;
+		case METH:
+			output[0] = new ItemStack(ModItems.chocolate, 2);
+			output[1] = new ItemStack(ModItems.chocolate, 2);
 			break;
 		default:
 			break;

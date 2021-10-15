@@ -61,6 +61,15 @@ public class ItemPill extends ItemFood {
 				float digamma = HbmLivingProps.getDigamma(player);
 				HbmLivingProps.setDigamma(player, Math.max(digamma - 0.5F, 0F));
 			}
+			
+			if(this == ModItems.chocolate) {
+				if(rand.nextInt(20) == 0) {
+					player.attackEntityFrom(ModDamageSource.overdose, 1000);
+				}
+				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.jump.id, 60 * 20, 2));
+			}
 
 			if(this == ModItems.fmn) {
 				float digamma = HbmLivingProps.getDigamma(player);
@@ -96,6 +105,9 @@ public class ItemPill extends ItemFood {
 		}
 		if(this == ModItems.xanax) {
 			list.add("Removes 500mDRX");
+		}
+		if(this == ModItems.chocolate) {
+			list.add("Radium Chocolate? Pretty sure this is just meth.");
 		}
 		if(this == ModItems.fmn) {
 			list.add("Removes all DRX above 2,000mDRX");
