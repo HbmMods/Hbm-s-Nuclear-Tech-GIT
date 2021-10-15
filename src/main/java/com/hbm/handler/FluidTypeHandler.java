@@ -55,6 +55,7 @@ public class FluidTypeHandler {
 		PETROLEUM		(0x7cb7c9,	7,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.petroleum"),
 		LPG				(0x4747EA,	5,	2,	2,	1,	3,	1,	EnumSymbol.NONE,		"hbmfluid.lpg"),
 		
+		ETHANOL			(0xe0ffff,	6,	2,	2,	2,	3,	0,	EnumSymbol.NONE,		"hbmfluid.ethanol"),
 		BIOGAS			(0xbfd37c,	12,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.biogas"),
 		BIOFUEL			(0xeef274,	13,	2,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.biofuel"),
 
