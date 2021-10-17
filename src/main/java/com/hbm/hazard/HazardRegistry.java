@@ -6,10 +6,6 @@ import static com.hbm.items.ModItems.*;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
-import com.hbm.items.special.ItemWasteLong;
-import com.hbm.items.special.ItemWasteShort;
-import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -154,6 +150,7 @@ public class HazardRegistry {
 		HazardSystem.register(nuclear_waste_short_depleted, makeData(RADIATION, 3F));
 		HazardSystem.register(nuclear_waste_short_depleted_tiny, makeData(RADIATION, 0.3F));
 
+		HazardSystem.register(scrap_nuclear, makeData(RADIATION, 1F));
 		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
 		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));

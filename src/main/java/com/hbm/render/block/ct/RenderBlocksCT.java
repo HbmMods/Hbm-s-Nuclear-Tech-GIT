@@ -40,7 +40,7 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void initSideInfo() {
 		
-		if(!this.enableAO)
+		if(!this.enableAO || true)
 			return;
 
 		/*this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
@@ -223,7 +223,7 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
-		if(this.enableAO) {
+		if(this.enableAO && false) {
 			tess.setColorOpaque_F(info.red, info.green, info.blue);
 			tess.setBrightness(info.brightness);
 		}

@@ -343,7 +343,7 @@ public class ItemEnergy extends Item {
 				list.add("The most delicious beverage in the wasteland!");
 			list.add("[Requires bottle opener]");
 		}
-		if(this == ModItems.bottle_sparkle) {
+		if(this == ModItems.bottle_rad) {
 			if(MainRegistry.polaroidID == 11)
 				list.add("Now with 400% more radiation!");
 			else

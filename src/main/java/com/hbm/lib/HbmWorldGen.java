@@ -681,7 +681,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateEnd(World world, Random rand, int i, int j) {
 		
-		if(!WorldConfig.endOre) {
+		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
 	
 			/*for(int k = 0; k < 50; k++){

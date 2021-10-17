@@ -3,440 +3,272 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements ISource {
 
-	private ItemStack slots[];
-
+	public int[] progress = new int[12];
+	public int[] maxProgress = new int[12];
+	public int[] production = new int[12];
+	public ItemStack[] processing = new ItemStack[12];
+	
 	public long power;
-	public int fuel;
-	public int strength;
-	public int mode;
-	public int soundCycle = 0;
-	public float rotation;
-	public static final long maxPower = 100000;
-	public static final int maxFuel = 10000;
-	public static final int maxStrength = 1000;
-	public int age = 0;
+	public static final long maxPower = 1000000;
 	public List<IConsumer> list = new ArrayList();
-
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 0, 0 };
-	private static final int[] slots_side = new int[] { 0 };
-
-	private String customName;
+	
+	public boolean isOn = false;
 
 	public TileEntityMachineRadGen() {
-		slots = new ItemStack[3];
+		super(24);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.radGen";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (slots[i] != null) {
-			if (slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-
-		this.power = nbt.getLong("power");
-		this.fuel = nbt.getInteger("fuel");
-		this.strength = nbt.getInteger("strength");
-		slots = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if (b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setLong("power", power);
-		nbt.setInteger("fuel", fuel);
-		nbt.setInteger("strength", strength);
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
+	public String getName() {
+		return "container.radGen";
 	}
 
 	@Override
 	public void updateEntity() {
 		
-		if (!worldObj.isRemote) {
-			
-			age++;
-			if(age >= 20)
-			{
-				age = 0;
-			}
-			
-			if(age == 9 || age == 19)
-				ffgeuaInit();
-		}
-		
 		if(!worldObj.isRemote) {
 			
-			int r = getRads(slots[0]);
-			if(r > 0) {
-				if(slots[0].getItem().hasContainerItem()) {
-					if(slots[1] == null) {
-						if(fuel + r <= maxFuel) {
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				ffgeuaInit();
+			}
+			
+			//check if reload necessary for any queues
+			for(int i = 0; i < 12; i++) {
+				
+				if(processing[i] == null && slots[i] != null && getDurationFromItem(slots[i]) > 0 &&
+						(getOutputFromItem(slots[i]) == null || slots[i + 12] == null ||
+						(getOutputFromItem(slots[i]).getItem() == slots[i + 12].getItem() && getOutputFromItem(slots[i]).getItemDamage() == slots[i + 12].getItemDamage() &&
+						getOutputFromItem(slots[i]).stackSize + slots[i + 12].stackSize <= slots[i + 12].getMaxStackSize()))) {
+					
+					progress[i] = 0;
+					maxProgress[i] = this.getDurationFromItem(slots[i]);
+					production[i] = this.getPowerFromItem(slots[i]);
+					processing[i] = new ItemStack(slots[i].getItem(), 1, slots[i].getItemDamage());
+					this.decrStackSize(i, 1);
+					this.markDirty();
+				}
+			}
+			
+			this.isOn = false;
+			
+			for(int i = 0; i < 12; i++) {
+				
+				if(processing[i] != null) {
+					
+					this.isOn = true;
+					this.power += production[i];
+					progress[i]++;
+					
+					if(progress[i] >= maxProgress[i]) {
+						progress[i] = 0;
+						ItemStack out = getOutputFromItem(processing[i]);
+						
+						if(out != null) {
 							
-							slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
-							
-							slots[0].stackSize--;
-							if(slots[0].stackSize <= 0)
-								slots[0] = null;
-							fuel += r;
+							if(slots[i + 12] == null) {
+								slots[i + 12] = out;
+							} else {
+								slots[i + 12].stackSize += out.stackSize;
+							}
 						}
-					} else if(slots[0].getItem().getContainerItem() == slots[1].getItem() && slots[1].stackSize < slots[1].getMaxStackSize()) {
-						if(fuel + r <= maxFuel) {
-							
-							slots[1].stackSize++;
-							
-							slots[0].stackSize--;
-							if(slots[0].stackSize <= 0)
-								slots[0] = null;
-							fuel += r;
-						}
-					}
-				} else {
-					if(fuel + r <= maxFuel) {
-						slots[0].stackSize--;
-						if(slots[0].stackSize <= 0)
-							slots[0] = null;
-						fuel += r;
+						
+						processing[i] = null;
+						this.markDirty();
 					}
 				}
 			}
 			
-			if(fuel > 0) {
-				fuel--;
-				if(strength < maxStrength)
-					strength += Math.ceil(fuel / 1000);
-			} else {
-				if(strength > 0)
-					strength -= (strength * 0.1);
-			}
-
-			if(strength > maxStrength)
-				strength = maxStrength;
-
-			if(strength < 0)
-				strength = 0;
+			if(this.power > maxPower)
+				this.power = maxPower;
 			
-			power += strength;
-			
-			if(power > maxPower)
-				power = maxPower;
-			
-			mode = 0;
-			if(strength > 0)
-				mode = 1;
-			if(strength > 800)
-				mode = 2;
-			
-			//PacketDispatcher.wrapper.sendToAll(new TEIGeneratorPacket(xCoord, yCoord, zCoord, rotation, torque));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setIntArray("progress", this.progress);
+			data.setIntArray("maxProgress", this.maxProgress);
+			data.setIntArray("production", this.production);
+			data.setLong("power", this.power);
+			data.setBoolean("isOn", this.isOn);
+			this.networkPack(data, 50);
 		}
 	}
 	
-	private int getRads(ItemStack stack) {
-		if(stack == null)
-			return 0;
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.progress = nbt.getIntArray("progress");
+		this.maxProgress = nbt.getIntArray("maxProgress");
+		this.production = nbt.getIntArray("production");
+		this.power = nbt.getLong("power");
+		this.isOn = nbt.getBoolean("isOn");
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.progress = nbt.getIntArray("progress");
 		
+		if(progress.length != 12) {
+			progress = new int[12];
+			return;
+		}
+		
+		this.maxProgress = nbt.getIntArray("maxProgress");
+		this.production = nbt.getIntArray("production");
+		this.power = nbt.getLong("power");
+		this.isOn = nbt.getBoolean("isOn");
+
+		NBTTagList list = nbt.getTagList("progressing", 10);
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if(b0 >= 0 && b0 < processing.length) {
+				processing[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
+		}
+		
+		this.power = nbt.getLong("power");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setIntArray("progress", this.progress);
+		nbt.setIntArray("maxProgress", this.maxProgress);
+		nbt.setIntArray("production", this.production);
+		nbt.setLong("power", this.power);
+		nbt.setBoolean("isOn", this.isOn);
+		
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < processing.length; i++) {
+			if(processing[i] != null) {
+				NBTTagCompound nbt1 = new NBTTagCompound();
+				nbt1.setByte("slot", (byte) i);
+				processing[i].writeToNBT(nbt1);
+				list.appendTag(nbt1);
+			}
+		}
+		nbt.setTag("progressing", list);
+		
+		nbt.setLong("power", this.power);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		
+		if(i >= 12 || getDurationFromItem(stack) <= 0)
+			return false;
+		
+		if(slots[i] == null)
+			return true;
+		
+		int size = slots[i].stackSize;
+		
+		for(int j = 0; j < 12; j++) {
+			if(slots[j] == null)
+				return false;
+			
+			if(slots[j].getItem() == stack.getItem() && slots[j].getItemDamage() == stack.getItemDamage() && slots[j].stackSize < size)
+				return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int i) {
+		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+				12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i >= 12;
+	}
+	
+	private int getPowerFromItem(ItemStack stack) {
 		Item item = stack.getItem();
 
-		if(item == ModItems.nugget_uranium) return 5;
-		if(item == ModItems.ingot_uranium) return 50;
-		if(item == Item.getItemFromBlock(ModBlocks.block_uranium)) return 500;
-		if(item == ModItems.rod_uranium) return 30;
-		if(item == ModItems.rod_dual_uranium) return 60;
-		if(item == ModItems.rod_quad_uranium) return 90;
+		if(item == ModItems.nuclear_waste_short)
+			return 150;
+		if(item == ModItems.nuclear_waste_long)
+			return 50;
 
-		if(item == ModItems.nugget_u235) return 50;
-		if(item == ModItems.ingot_u235) return 500;
-		if(item == ModItems.rod_u235) return 300;
-		if(item == ModItems.rod_dual_u235) return 600;
-		if(item == ModItems.rod_quad_u235) return 900;
-		
-		if(item == ModItems.nugget_u238) return 10;
-		if(item == ModItems.ingot_u238) return 100;
-		if(item == ModItems.rod_u238) return 60;
-		if(item == ModItems.rod_dual_u238) return 120;
-		if(item == ModItems.rod_quad_u238) return 240;
+		if(item == ModItems.nuclear_waste_short_tiny)
+			return 15;
+		if(item == ModItems.nuclear_waste_long_tiny)
+			return 5;
 
-		if(item == ModItems.nugget_pu238) return 40;
-		if(item == ModItems.ingot_pu238) return 400;
-		if(item == ModItems.rod_pu238) return 240;
-		if(item == ModItems.rod_dual_pu238) return 480;
-		if(item == ModItems.rod_quad_pu238) return 960;
-		
-		if(item == ModItems.nugget_pu239) return 70;
-		if(item == ModItems.ingot_pu239) return 700;
-		if(item == ModItems.rod_pu239) return 420;
-		if(item == ModItems.rod_dual_pu239) return 840;
-		if(item == ModItems.rod_quad_pu239) return 1680;
-		
-		if(item == ModItems.nugget_pu240) return 20;
-		if(item == ModItems.ingot_pu240) return 200;
-		if(item == ModItems.rod_pu240) return 120;
-		if(item == ModItems.rod_dual_pu240) return 240;
-		if(item == ModItems.rod_quad_pu240) return 480;
-		
-		if(item == ModItems.nugget_neptunium) return 60;
-		if(item == ModItems.ingot_neptunium) return 600;
-		if(item == ModItems.rod_neptunium) return 360;
-		if(item == ModItems.rod_dual_neptunium) return 720;
-		if(item == ModItems.rod_quad_neptunium) return 1440;
-
-		if(item == ModItems.nugget_schrabidium) return 100;
-		if(item == ModItems.ingot_schrabidium) return 1000;
-		if(item == Item.getItemFromBlock(ModBlocks.block_schrabidium)) return 10000;
-		if(item == ModItems.rod_schrabidium) return 600;
-		if(item == ModItems.rod_dual_schrabidium) return 1200;
-		if(item == ModItems.rod_quad_schrabidium) return 2400;
-		
-		if(item == ModItems.nugget_solinium) return 120;
-		if(item == ModItems.ingot_solinium) return 1200;
-		if(item == ModItems.rod_schrabidium) return 720;
-		if(item == ModItems.rod_dual_schrabidium) return 1440;
-		if(item == ModItems.rod_quad_schrabidium) return 2880;
-
-		if(item == ModItems.nuclear_waste) return 100;
-		if(item == ModItems.waste_uranium) return 150;
-		if(item == ModItems.waste_plutonium) return 150;
-		if(item == ModItems.waste_mox) return 150;
-		if(item == ModItems.waste_schrabidium) return 150;
-		if(item == Item.getItemFromBlock(ModBlocks.block_waste)) return 1000;
-		if(item == Item.getItemFromBlock(ModBlocks.yellow_barrel)) return 900;
-		if(item == ModItems.trinitite) return 80;
-		if(item == Item.getItemFromBlock(ModBlocks.block_trinitite)) return 800;
-
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_0)) return 1000;
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_1)) return 2000;
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_2)) return 3000;
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_3)) return 4000;
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_4)) return 5000;
-		if(item == Item.getItemFromBlock(ModBlocks.sellafield_core)) return 10000;
-
-		if(item == ModItems.rod_uranium_fuel_depleted) return 400;
-		if(item == ModItems.rod_dual_uranium_fuel_depleted) return 800;
-		if(item == ModItems.rod_quad_uranium_fuel_depleted) return 1600;
-
-		if(item == ModItems.rod_mox_fuel_depleted) return 550;
-		if(item == ModItems.rod_dual_mox_fuel_depleted) return 1100;
-		if(item == ModItems.rod_quad_mox_fuel_depleted) return 2200;
-
-		if(item == ModItems.rod_plutonium_fuel_depleted) return 600;
-		if(item == ModItems.rod_dual_plutonium_fuel_depleted) return 1200;
-		if(item == ModItems.rod_quad_plutonium_fuel_depleted) return 2400;
-
-		if(item == ModItems.rod_schrabidium_fuel_depleted) return 800;
-		if(item == ModItems.rod_dual_schrabidium_fuel_depleted) return 1600;
-		if(item == ModItems.rod_quad_schrabidium_fuel_depleted) return 3200;
-		
-		if(item == ModItems.rod_quad_euphemium) return 5000;
-		
-		if(item == ModItems.rod_waste) return 600;
-		if(item == ModItems.rod_dual_waste) return 1200;
-		if(item == ModItems.rod_quad_waste) return 4800;
-
-		if(item == Item.getItemFromBlock(ModBlocks.block_yellowcake)) return 1000;
-		if(item == Item.getItemFromBlock(ModBlocks.mush)) return 10;
-		if(item == ModItems.fallout) return 25;
-		if(item == Item.getItemFromBlock(ModBlocks.block_fallout)) return 250;
-		if(item == Item.getItemFromBlock(ModBlocks.waste_mycelium)) return 150;
+		if(item == ModItems.scrap_nuclear)
+			return 5;
 		
 		return 0;
 	}
 	
-	public int getFuelScaled(int i) {
-		return (fuel * i) / maxFuel;
-	}
-	
-	public long getPowerScaled(long i) {
-		return (power * i) / maxPower;
-	}
-	
-	public int getStrengthScaled(int i) {
-		return (strength * i) / maxStrength;
-	}
+	private int getDurationFromItem(ItemStack stack) {
+		Item item = stack.getItem();
 
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
+		if(item == ModItems.nuclear_waste_short)
+			return 30 * 60 * 20;
+		if(item == ModItems.nuclear_waste_long)
+			return 2 * 60 * 60 * 20;
+
+		if(item == ModItems.nuclear_waste_short_tiny)
+			return 3 * 60 * 20;
+		if(item == ModItems.nuclear_waste_long_tiny)
+			return 12 * 60 * 20;
+
+		if(item == ModItems.scrap_nuclear)
+			return 5 * 60 * 20;
 		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
+		return 0;
+	}
+	
+	private ItemStack getOutputFromItem(ItemStack stack) {
+		Item item = stack.getItem();
+
+		if(item == ModItems.nuclear_waste_short)
+			return new ItemStack(ModItems.nuclear_waste_short_depleted, 1, stack.getItemDamage());
+		if(item == ModItems.nuclear_waste_long)
+			return new ItemStack(ModItems.nuclear_waste_long_depleted, 1, stack.getItemDamage());
+		if(item == ModItems.nuclear_waste_short_tiny)
+			return new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, stack.getItemDamage());
+		if(item == ModItems.nuclear_waste_long_tiny)
+			return new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, stack.getItemDamage());
+		
+		return null;
 	}
 
 	@Override
 	public void ffgeuaInit() {
-		int i = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-		
-		switch(i) {
-		case 2: 
-			ffgeua(this.xCoord + 5, this.yCoord, this.zCoord, getTact()); break;
-		case 3: 
-			ffgeua(this.xCoord - 5, this.yCoord, this.zCoord, getTact()); break;
-		case 4: 
-			ffgeua(this.xCoord, this.yCoord, this.zCoord - 5, getTact()); break;
-		case 5: 
-			ffgeua(this.xCoord, this.yCoord, this.zCoord + 5, getTact()); break;
-		}
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ffgeua(this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, getTact());
+	}
+
+	@Override
+	public void ffgeua(int x, int y, int z, boolean newTact) {
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
 	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
+		return worldObj.getTotalWorldTime() % 20 < 10;
 	}
 
 	@Override
@@ -457,5 +289,16 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

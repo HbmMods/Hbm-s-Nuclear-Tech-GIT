@@ -50,6 +50,7 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemSwordMeteorite;
 import com.hbm.particle.*;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -262,18 +263,29 @@ public class ClientProxy extends ServerProxy {
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
 		
 		//universal JSON translated items
-		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(
-				new double[] {0, -90, 55},
-				new double[] {0, 7.0, 0},
-				new double[] {1.7, 1.7, 0.85},
-				
-				new double[] {-20, -90, -80},
-				new double[] {1.13, 5.2, -0.26},
-				new double[] {1.36, 1.36, 0.68},
-				
-				new double[] {0, 0, 0},
-				new double[] {0, 0, 0},
-				new double[] {1.1, 1.1, 1.1}));
+		double[] rtp = new double[] {0, 180, -90};
+		double[] ttp_high = new double[] {0.125, 0.625, 0};
+		double[] ttp_low = new double[] {0, 0.75, 0};
+		double[] stp = new double[] {1.7, 1.7, 0.85};
+		double[] rfp = new double[] {0, 180, -90};
+		double[] tfp = new double[] {1.13, 5.2, -0.26};
+		double[] sfp = new double[] {1.36, 1.36, 0.68};
+		double[] rir = new double[] {0, 0, 0};
+		double[] tir = new double[] {0, 0, 0};
+		double[] sir = new double[] {1.1, 1.1, 1.1};
+
+		MinecraftForgeClient.registerItemRenderer(ModItems.titanium_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.alloy_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.desh_sword, new ItemRenderTransformer(rtp, ttp_low, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.cobalt_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.cobalt_decorated_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.starmetal_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.schrabidium_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		
+		for(ItemSwordMeteorite sword : ItemSwordMeteorite.swords) {
+		//	MinecraftForgeClient.registerItemRenderer(sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		}
 		
 		
 		//test crap
