@@ -74,8 +74,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				progress = 0;
 				goesDown = false;
 				
-				if(this.canTargetInteract()) {
-					if(this.hasItemLoaded()) {
+				if(!worldObj.isRemote && this.canTargetInteract()) {
+					if(this.loadedItem != null) {
 						getColumnAtPos().load(this.loadedItem);
 						this.loadedItem = null;
 					} else {
