@@ -3,9 +3,11 @@ package com.hbm.hazard;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.items.ModItems.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
+import com.hbm.items.ModItems;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -157,6 +159,12 @@ public class HazardRegistry {
 		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
 		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));
 		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, wstv * nugget));
+		HazardSystem.register(block_waste, makeData(RADIATION, wst * block));
+		HazardSystem.register(block_waste_painted, makeData(RADIATION, wst * block));
+		HazardSystem.register(block_waste_vitrified, makeData(RADIATION, wstv * block));
+		HazardSystem.register(ancient_scrap, makeData(RADIATION, 150F));
+		HazardSystem.register(block_corium, makeData(RADIATION, 150F));
+		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
 		
 		HazardSystem.register(waste_uranium, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_thorium, makeData(RADIATION, 10F));
@@ -250,6 +258,12 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_mep, purg * billet, purg * billet * 100);
 		registerRBMKPellet(rbmk_pellet_hep239, pu239 * billet, pu239 * billet * 100);
 		registerRBMKPellet(rbmk_pellet_hep241, pu241 * billet, pu241 * billet * 100);
+
+		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
+		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));
+		HazardSystem.register(ModItems.fallout, makeData(RADIATION, fo * powder));
+		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
+		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		
 		//TODO
 	}

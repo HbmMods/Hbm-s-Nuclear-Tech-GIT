@@ -63,7 +63,8 @@ public class OreDictManager {
 		new DictFrame("Gold198", "Au198")					.rad(HazardRegistry.au198).hot(5)		.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
 		new DictFrame("Schrabidium")						.rad(HazardRegistry.sa326).blinding(3F)	.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium);
 		new DictFrame("Solinium")							.rad(HazardRegistry.sa327).blinding(3F)	.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
-		new DictFrame("Schrabidate")						.rad(HazardRegistry.sb)																			.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
+		new DictFrame("Schrabidate")						.rad(HazardRegistry.sb).blinding(1F)															.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
+		new DictFrame("Schraranium")						.rad(HazardRegistry.sr).blinding(1F)															.ingot(ingot_schraranium)															.block(block_schraranium);
 
 		/*
 		 * STABLE

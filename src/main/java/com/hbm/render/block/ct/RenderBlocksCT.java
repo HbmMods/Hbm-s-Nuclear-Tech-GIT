@@ -40,13 +40,8 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void initSideInfo() {
 		
-		if(!this.enableAO || true)
+		/*if(!this.enableAO)
 			return;
-
-		/*this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
-		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
-		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
-		this.br = new VertInfo(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, this.brightnessBottomRight);*/
 
 		this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
 		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
@@ -58,7 +53,7 @@ public class RenderBlocksCT extends RenderBlocks {
 		this.cl = VertInfo.avg(tl, bl);
 		this.cr = VertInfo.avg(tr, br);
 		
-		this.cc = VertInfo.avg(tl, tr, bl, br);
+		this.cc = VertInfo.avg(tl, tr, bl, br);*/
 	}
 
 	@Override
@@ -201,12 +196,12 @@ public class RenderBlocksCT extends RenderBlocks {
 		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, ibr);
 	}
 	
-	/// ORDER: GOD IS DEAD ///
+	/// ORDER: LEXICAL ///
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
 		
 		boolean debugColor = false;
 		
-		/// ORDER: I DON'T FUCKING KNOW AT THIS POINT ///
+		/// ORDER: ROTATIONAL ///
 		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);
 		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
 		if(debugColor) tess.setColorOpaque_F(1F, 0F, 0F);
@@ -223,10 +218,10 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
-		if(this.enableAO && false) {
+		/*if(this.enableAO) {
 			tess.setColorOpaque_F(info.red, info.green, info.blue);
 			tess.setBrightness(info.brightness);
-		}
+		}*/
 		
 		tess.addVertexWithUV(x, y, z, u, v);
 	}
