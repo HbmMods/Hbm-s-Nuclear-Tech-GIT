@@ -27,6 +27,39 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class OreDictManager {
 
 	/*
+	 * Standard keys
+	 */
+	public static final String KEY_STICK = "stickWood";
+	public static final String KEY_ANYGLASS = "blockGlass";
+	public static final String KEY_CLEARGLASS = "blockGlassColorless";
+	public static final String KEY_ANYPANE = "paneGlass";
+	public static final String KEY_CLEARPANE = "paneGlassColorless";
+	public static final String KEY_BRICK = "ingotBrick";
+	public static final String KEY_NETHERBRICK = "ingotBrickNether";
+	public static final String KEY_SLIME = "slimeball";
+	public static final String KEY_LOG = "logWood";
+	public static final String KEY_PLANKS = "plankWood";
+	public static final String KEY_LEAVES = "treeLeaves";
+	public static final String KEY_SAPLING = "treeSapling";
+	
+	public static final String KEY_BLACK = "dyeBlack";
+    public static final String KEY_RED = "dyeRed";
+    public static final String KEY_GREEN = "dyeGreen";
+    public static final String KEY_BROWN = "dyeBrown";
+    public static final String KEY_BLUE = "dyeBlue";
+    public static final String KEY_PURPLE = "dyePurple";
+    public static final String KEY_CYAN = "dyeCyan";
+    public static final String KEY_LIGHTGRAY = "dyeLightGray";
+    public static final String KEY_GRAY = "dyeGray";
+    public static final String KEY_PINK = "dyePink";
+    public static final String KEY_LIME = "dyeLime";
+    public static final String KEY_YELLOW = "dyeYellow";
+    public static final String KEY_LIGHTBLUE = "dyeLightBlue";
+    public static final String KEY_MAGENTA = "dyeMagenta";
+    public static final String KEY_ORANGE = "dyeOrange";
+    public static final String KEY_WHITE = "dyeWhite";
+	
+	/*
 	 * PREFIXES
 	 */
 	public static final String NUGGET = "nugget";
