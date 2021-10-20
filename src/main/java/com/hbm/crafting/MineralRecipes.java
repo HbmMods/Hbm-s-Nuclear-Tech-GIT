@@ -354,7 +354,11 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.nugget_mercury, 8), new Object[] { "#", '#', ModItems.bottle_mercury });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire, 1), new Object[] { "###", "###", "###", '#', ModItems.egg_balefire_shard });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 9), new Object[] { "#", '#', ModItems.egg_balefire });
-
+		GameRegistry.addRecipe(new ItemStack(ModItems.powder_paleogenite, 1), new Object[] { "###", "###", "###", '#', ModItems.powder_paleogenite_tiny });
+		GameRegistry.addRecipe(new ItemStack(ModItems.powder_paleogenite_tiny, 9), new Object[] { "#", '#', ModItems.powder_paleogenite });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_osmiridium, 1), new Object[] { "###", "###", "###", '#', ModItems.nugget_osmiridium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.nugget_osmiridium, 9), new Object[] { "#", '#', ModItems.ingot_osmiridium });		
+		
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.hazmat, 8), new Object[] { "###", "# #", "###", '#', ModItems.hazmat_cloth });
 		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_cloth, 1), new Object[] { "#", '#', ModBlocks.hazmat });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 1), new Object[] { "##", "##", '#', ModItems.powder_balefire });

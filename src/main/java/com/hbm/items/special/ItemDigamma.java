@@ -3,7 +3,9 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
+import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.effect.EntityQuasar;
+import com.hbm.entity.logic.EntityTomBlast;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -70,8 +72,19 @@ public class ItemDigamma extends ItemHazard {
 					///This is just test code to initiate the firestorm phase of Tom's destruction because I don't want to launch Gerald every time I want to test something.
 					TomSaveData data = TomSaveData.forWorld(entityItem.worldObj);
 					NBTTagCompound tag = data.getData();
-					tag.setFloat("fire", 1);
+					tag.setBoolean("impact", true);
 					data.markDirty();
+					
+	    			/*EntityTomBlast tom = new EntityTomBlast(entityItem.worldObj);
+	    			tom.posX = entityItem.posX;
+	    			tom.posY = entityItem.posY;
+	    			tom.posZ = entityItem.posZ;
+	    			tom.destructionRange = 500;
+	    			entityItem.worldObj.spawnEntityInWorld(tom);
+	    			
+	    			EntityCloudTom cloud = new EntityCloudTom(entityItem.worldObj, 500);
+	    			cloud.setLocationAndAngles(entityItem.posX, entityItem.posY, entityItem.posZ, 0, 0);
+	    			entityItem.worldObj.spawnEntityInWorld(cloud);*/
 				}
 
 				entityItem.setDead();

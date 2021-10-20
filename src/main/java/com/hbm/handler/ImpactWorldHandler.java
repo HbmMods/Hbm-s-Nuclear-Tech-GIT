@@ -8,6 +8,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ModEventHandler;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.world.WorldProviderNTM;
 
 import net.minecraft.block.Block;
 
@@ -32,6 +33,11 @@ public class ImpactWorldHandler {
 		if(!(world instanceof WorldServer))
 			return;
 		
+		if(!(world.provider.dimensionId == 0))
+		{
+			return;
+		}
+		
 		WorldServer serv = (WorldServer)world;
 		
 		ChunkProviderServer provider = (ChunkProviderServer) serv.getChunkProvider();		
@@ -46,7 +52,7 @@ public class ImpactWorldHandler {
 					for(int z = 0; z < 16; z++) {
 						int X = coord.getCenterXPos() - 8 + x;
 						int Z = coord.getCenterZPosition() - 8 + z;
-						int Y = world.getHeightValue(X, Z) - world.rand.nextInt(world.getHeightValue(X, Z));
+						int Y = Math.max(1,world.getHeightValue(X, Z) - world.rand.nextInt(world.getHeightValue(X, Z)));
 						int Y2 = world.getHeightValue(X, Z) - world.rand.nextInt(2);
 
 						die(world, X, Y, Z);
@@ -61,17 +67,18 @@ public class ImpactWorldHandler {
 	}
 	///Plants die without sufficient light.
 	public static void die(World world, int x, int y, int z) {
+		int light = Math.max(world.getSavedLightValue(EnumSkyBlock.Block, x, y+1, z),(int)(world.getBlockLightValue(x, y + 1, z)*(1-ModEventHandler.dust)));
 		if(world.getBlock(x, y, z) == Blocks.grass) {
-			if((world.getBlockLightValue(x, y + 1, z)*(1-ModEventHandler.dust)) < 4)
+			if(light < 4)
 			world.setBlock(x, y, z, Blocks.dirt);
 		} else if(world.getBlock(x, y, z) instanceof BlockBush) {
-			if((world.getBlockLightValue(x, y + 1, z)*(1-ModEventHandler.dust)) < 4)
+			if(light < 4)
 			world.setBlock(x, y, z, Blocks.air);
 		} else if(world.getBlock(x, y, z) instanceof BlockLeaves) {
-			if((world.getBlockLightValue(x, y + 1, z)*(1-ModEventHandler.dust)) < 4)
+			if(light < 4)
 			world.setBlock(x, y, z, Blocks.air);
 		} else if(world.getBlock(x, y, z) instanceof BlockVine) {
-			if((world.getBlockLightValue(x, y + 1, z)*(1-ModEventHandler.dust)) < 4)
+			if(light < 4)
 			world.setBlock(x, y, z, Blocks.air);
 		}
 	}	
@@ -85,10 +92,10 @@ public class ImpactWorldHandler {
 			}
 			world.setBlock(x, y+1, z, Blocks.fire);
 		}
-		else if((b == Blocks.grass || b == Blocks.mycelium || b == ModBlocks.waste_earth || b == ModBlocks.frozen_grass || b == ModBlocks.waste_mycelium) && !world.canLightningStrikeAt(x, y, z)) {
+		else if((b == Blocks.grass || b == Blocks.mycelium || b == ModBlocks.waste_earth || b == ModBlocks.frozen_grass || b == ModBlocks.waste_mycelium) && !world.canLightningStrikeAt(x, y, z) && world.getSavedLightValue(EnumSkyBlock.Sky, x, y+1, z)>=7) {
 			world.setBlock(x, y, z, ModBlocks.burning_earth);
 		}
-		else if(b == ModBlocks.frozen_dirt)
+		else if(b == ModBlocks.frozen_dirt && world.getSavedLightValue(EnumSkyBlock.Sky, x, y+1, z)>=7)
 		{
 			world.setBlock(x, y, z, Blocks.dirt);
 		}

@@ -115,10 +115,16 @@ public class WorldProviderNTM extends WorldProviderSurface {
     {
     	Vec3 fog =super.getFogColor(p_76562_1_, p_76562_2_);
     	float dust = ModEventHandler.dust;      
-
+    	float fire = ModEventHandler.fire;
+    	
         float f3 = (float) fog.xCoord;
         float f4 = (float) fog.yCoord*(1-(dust*0.5F));
         float f5 = (float) fog.zCoord*(1-dust);
+        
+        if(fire>0)
+        {
+        	return Vec3.createVectorHelper((double)f3*(Math.max((1-(dust*2)),0)), (double)f4*(Math.max((1-(dust*2)),0)), (double)f5*(Math.max((1-(dust*2)),0)));
+        }
         return Vec3.createVectorHelper((double)f3*(1-dust), (double)f4*(1-dust), (double)f5*(1-dust));
     }
 
@@ -127,12 +133,27 @@ public class WorldProviderNTM extends WorldProviderSurface {
     public Vec3 getSkyColor(Entity cameraEntity, float partialTicks)
     {
     	Vec3 sky = super.getSkyColor(cameraEntity, partialTicks);
-    	float dust = ModEventHandler.dust;        
+    	float dust = ModEventHandler.dust;
+    	float fire = ModEventHandler.fire;
     	
-        float f4 = (float) sky.xCoord;
-        float f5 = (float) sky.yCoord*(1-(dust*0.5F));
-        float f6 = (float) sky.zCoord*(1-dust);
-        return Vec3.createVectorHelper((double)f4*(1-dust), (double)f5*(1-dust), (double)f6*(1-dust));
+        float f4;
+        float f5;
+        float f6;
+
+        if(fire>0)
+        {
+        	f4 = (float) (sky.xCoord*1.3f);
+        	f5 = (float) sky.yCoord*((Math.max((1-(dust*1.4f)),0)));
+        	f6 = (float) sky.zCoord*((Math.max((1-(dust*4)),0)));        	
+        }
+        else
+        {
+        	f4 = (float) sky.xCoord;
+        	f5 = (float) sky.yCoord*(1-(dust*0.5F));
+        	f6 = (float) sky.zCoord*(1-dust);
+        }
+        
+        return Vec3.createVectorHelper((double)f4*(fire+(1-dust)), (double)f5*(fire+(1-dust)), (double)f6*(fire+(1-dust)));
     }
   
 

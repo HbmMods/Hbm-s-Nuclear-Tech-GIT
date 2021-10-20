@@ -1739,6 +1739,11 @@ public class MachineRecipes {
 		case FRACKSOL:
 			list.add(new ItemStack(ModItems.sulfur, 1));
 			break;
+		case OSMIRIDIUM_DEATH:
+			list.add(new ItemStack(ModItems.powder_paleogenite, 1));
+			list.add(new ItemStack(ModItems.fluorite, 8));
+			list.add(new ItemStack(ModItems.nugget_bismuth, 4));
+			break;
 		default:
 			break;
 		}
@@ -1982,6 +1987,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(100, FluidType.PETROLEUM);
 			input[1] = new FluidStack(1000, FluidType.WATER);
 			break;
+    	case OSMIRIDIUM_DEATH:
+			input[0] = new FluidStack(1000, FluidType.ACID);
+			//input[1] = new FluidStack(500, FluidType.OXYGEN);
+        	break;
 		default:
 			break;
 		}
@@ -2282,6 +2291,9 @@ public class MachineRecipes {
         	break;
         case FRACKSOL:
 			output[0] = new FluidStack(1000, FluidType.FRACKSOL);
+        	break;
+        case OSMIRIDIUM_DEATH:
+			output[0] = new FluidStack(1000, FluidType.DEATH);
         	break;
 		default:
 			break;

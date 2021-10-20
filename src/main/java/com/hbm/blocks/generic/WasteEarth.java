@@ -145,7 +145,7 @@ public class WasteEarth extends Block {
 					}
 				}
 			}
-			world.setBlock(x, y, z, Blocks.dirt);
+			world.setBlock(x, y, z, ModBlocks.impact_dirt);
 		}
 
 		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {

@@ -209,6 +209,12 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
+		recipes.put(new ComparableStack(ModItems.powder_tektite), new ItemStack[] {
+				new ItemStack(ModItems.powder_meteorite_tiny, 1),
+				new ItemStack(ModItems.powder_paleogenite_tiny, 1),
+				new ItemStack(ModItems.powder_meteorite_tiny, 1),
+				new ItemStack(ModItems.dust, 6) });
+		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		
 		if(quartz != null && !quartz.isEmpty()) {

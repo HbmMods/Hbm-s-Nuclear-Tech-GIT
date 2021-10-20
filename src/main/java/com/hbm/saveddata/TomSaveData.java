@@ -16,6 +16,7 @@ public class TomSaveData extends WorldSavedData {
    final static String key = "impactData";
 	public static float dust;
 	public static float fire;
+	public static boolean impact;
    
    public static TomSaveData forWorld(World world) {
       TomSaveData result = (TomSaveData)world.perWorldStorage.loadData(TomSaveData.class, "impactData");
@@ -37,8 +38,10 @@ public class TomSaveData extends WorldSavedData {
   	 data = compound.getCompoundTag(key);
   	 this.dust = compound.getFloat("dust");
   	 this.fire = compound.getFloat("fire");
+  	 this.impact = compound.getBoolean("impact");
   	 ModEventHandler.dust = this.dust;
   	 ModEventHandler.fire = this.fire;
+  	 ModEventHandler.impact = this.impact;
    }
 
    @Override

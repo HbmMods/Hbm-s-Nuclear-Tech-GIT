@@ -59,6 +59,8 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -70,6 +72,10 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -86,6 +92,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.event.ClickEvent;
@@ -109,6 +116,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -116,6 +126,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -128,6 +139,10 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.event.terraingen.BiomeEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -138,6 +153,7 @@ public class ModEventHandler {
 	static Random rand = new Random();
 	public static float dust;
 	public static float fire;
+	public static boolean impact;
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -539,10 +555,152 @@ public class ModEventHandler {
 		TomSaveData data = TomSaveData.forWorld(event.world);
 		this.fire=0;
 		this.dust=0;
+		this.impact=false;
 		data.fire=0;
 		data.dust=0;
+		data.impact=false;
 	}
+	
+	@SubscribeEvent
+	public void extinction(EntityJoinWorldEvent event) {
+		if(impact == true)
+		{
+			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase)
+			{
+				if(event.world.provider.dimensionId == 0)
+				{
+					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob))
+					{
+						event.setCanceled(true);
+						//event.setResult(Event.Result.DENY);
+					}
+				}
+				if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20)
+				{
+					Random rand = new Random();
+					if(rand.nextInt(9)!=0)
+					{
+						event.setCanceled(true);
+						//event.setResult(Event.Result.DENY);
+					}
+				}
+			}	
+		}
+	}
+	
+	@SubscribeEvent
+	public void postImpactGeneration(BiomeEvent event)
+	{
+		///Disables post-impact surface replacement for superflat worlds because they are retarded and crash with a NullPointerException if you try to look for biome-specific blocks. 		
+		if(event.biome != null)
+		{
+			if(event.biome.topBlock != null)
+			{
+				if(event.biome.topBlock==Blocks.grass)
+				{			
+					if(impact == true)
+					{
+						if(dust > 0 || fire > 0)
+						{
+							final Block newtop =ModBlocks.impact_dirt;
+							//BiomeGenBase[] array;
+							event.biome.topBlock=newtop;	
+						}
+						else
+						{			
+							event.biome.topBlock=Blocks.grass;
+						}
+					}			
+					else
+					{			
+						event.biome.topBlock=Blocks.grass;
+					}
+				}	
+			}				
+		}		
+	}
+	
+	@SubscribeEvent
+	public void postImpactDecoration(DecorateBiomeEvent.Decorate event)
+	{
+		if(impact == true)
+		{
+			EventType type = event.type;
+			if(dust > 0 || fire > 0)
+			{
+				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.GRASS || type == event.type.REED || type == event.type.FLOWERS || type == event.type.DEAD_BUSH || type == event.type.CACTUS
+						|| type == event.type.PUMPKIN || type == event.type.LILYPAD)
+				{
+					event.setResult(Result.DENY);
+				}	
+			}
+			else if(dust == 0 && fire == 0)
+			{
+				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS)
+				{
+					if(event.world.rand.nextInt(9)==0)
+					{
+						event.setResult(Result.DEFAULT);
+					}
+					else
+					{
+						event.setResult(Result.DENY);
+					}
+				}
+				if(type == event.type.GRASS || type == event.type.REED)
+				{
+					event.setResult(Result.DEFAULT);
+				}
+			}
+		}
+		else
+		{
+			event.setResult(Result.DEFAULT);
+		}
+	}
+	
+    @SubscribeEvent
+    public void populateChunk(PopulateChunkEvent.Post event)
+    {
+		if(impact == true)
+		{
+			Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
+	        for (ExtendedBlockStorage storage : chunk.getBlockStorageArray()) {
+	            if (storage != null) {
+	                for (int x = 0; x < 16; ++x) {
+	                    for (int y = 0; y < 16; ++y) {
+	                        for (int z = 0; z < 16; ++z) {
+	                        	//if(storage.getYLocation()>16) {
+	                        		//if(dust >0.25)
+	                        		//{
+	                        			if (storage.getBlockByExtId(x, y, z) == Blocks.grass) {
+	                        				storage.func_150818_a(x, y, z, ModBlocks.impact_dirt);
+	                        			}
+	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
+	                        				storage.func_150818_a(x, y, z, Blocks.air);
+	                        			}
+	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
+	                        				storage.func_150818_a(x, y, z, Blocks.air);
+	                        			}
+	                        			else if (storage.getBlockByExtId(x, y, z).getMaterial()==Material.leaves) {
+	                        				storage.func_150818_a(x, y, z, Blocks.air);
+	                        			}
+	                        			else if (storage.getBlockByExtId(x, y, z).getMaterial()==Material.plants) {
+	                        				storage.func_150818_a(x, y, z, Blocks.air);
+	                        			}
+	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockBush) {
+	                        				storage.func_150818_a(x, y, z, Blocks.air);
+	                        			}
 
+	                        		//}
+	                        	//}
+	                        }
+	                    }
+	                }
+	            }
+	        }
+		}        
+    }
 	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
@@ -561,6 +719,8 @@ public class ModEventHandler {
 			NBTTagCompound tag = data.getData();
 			float atmosphericDust = tag.getFloat("dust");
 			float firestorm = tag.getFloat("fire");
+			boolean hasImpacted = tag.getBoolean("impact");
+			data.impact = hasImpacted;
 			if(atmosphericDust>0 && firestorm == 0)
 			{
 				tag.setFloat("dust", Math.max(0, atmosphericDust-settle));
@@ -574,12 +734,10 @@ public class ModEventHandler {
 				data.markDirty();
 				data.fire = firestorm;
 				data.dust = atmosphericDust;
-				//dust = atmosphericDust+cool;
-				//fire = firestorm-cool;
 			}
 			dust = data.dust;
 			fire = data.fire;
-			///System.out.print("Dust: "+dust);
+			impact = data.impact;
 		}
 		///TOM IMPACT END///
 		
@@ -638,7 +796,7 @@ public class ModEventHandler {
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
-						if(fire >0 && dust <0.75f && event.world.getSavedLightValue(EnumSkyBlock.Sky, (int)entity.posX, (int)entity.posY, (int)entity.posZ)>7)
+						if(entity.worldObj.provider.dimensionId == 0 && fire >0 && dust <0.75f && event.world.getSavedLightValue(EnumSkyBlock.Sky, (int)entity.posX, (int)entity.posY, (int)entity.posZ)>7)
 						{
 							entity.setFire(10);
 							entity.attackEntityFrom(DamageSource.onFire, 2);
