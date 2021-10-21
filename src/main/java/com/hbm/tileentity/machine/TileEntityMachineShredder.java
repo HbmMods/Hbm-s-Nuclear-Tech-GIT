@@ -105,10 +105,14 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i == 0)
+		if(i < 9)
 				return true;
-		if(i == 2)
-			if(stack.getItem() instanceof IBatteryItem || stack.getItem() instanceof ItemBlades)
+		if(i == 29)
+			if(stack.getItem() instanceof IBatteryItem)
+				return true;
+		
+		if(i == 27 || i == 28)
+			if(stack.getItem() instanceof ItemBlades)
 				return true;
 		
 		return false;
@@ -175,14 +179,35 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		
+		if(j != 1)
+			return this.isItemValidForSlot(i, itemStack);
+		
+		if(i >= 9 || !this.isItemValidForSlot(i, itemStack))
+			return false;
+		
+		if(slots[i] == null)
+			return true;
+		
+		int size = slots[i].stackSize;
+		
+		for(int k = 0; k < 9; k++) {
+			if(slots[k] == null)
+				return false;
+			
+			if(slots[k].getItem() == itemStack.getItem() && slots[k].getItemDamage() == itemStack.getItemDamage() && slots[k].stackSize < size)
+				return false;
+		}
+		
+		System.out.println("ass");
+		
+		return true;
 	}
 
 	@Override

@@ -408,7 +408,7 @@ public class ModEventHandlerClient {
 		EntityPlayer player = MainRegistry.proxy.me();
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		if(player != null) {
+		if(player != null && mc.theWorld != null) {
 			int i = MathHelper.floor_double(player.posX);
 			int j = MathHelper.floor_double(player.posY);
 			int k = MathHelper.floor_double(player.posZ);

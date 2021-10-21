@@ -184,29 +184,35 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.25, 0.25, 0.25);
-		        GL11.glShadeModel(GL11.GL_SMOOTH);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
-		        bindTexture(ResourceManager.igen_tex); ResourceManager.igen.renderPart("Base");
-		        bindTexture(ResourceManager.igen_rotor); ResourceManager.igen.renderPart("Rotor");
-		        bindTexture(ResourceManager.igen_cog); ResourceManager.igen.renderPart("CogLeft"); ResourceManager.igen.renderPart("CogRight");
-		        bindTexture(ResourceManager.igen_pistons); ResourceManager.igen.renderPart("Pistons");
-		        bindTexture(ResourceManager.igen_arm); ResourceManager.igen.renderPart("ArmLeft"); ResourceManager.igen.renderPart("ArmRight");
-		        GL11.glEnable(GL11.GL_CULL_FACE);
-		        GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				bindTexture(ResourceManager.igen_tex); ResourceManager.igen.renderPart("Base");
+				bindTexture(ResourceManager.igen_rotor); ResourceManager.igen.renderPart("Rotor");
+				bindTexture(ResourceManager.igen_cog); ResourceManager.igen.renderPart("CogLeft"); ResourceManager.igen.renderPart("CogRight");
+				bindTexture(ResourceManager.igen_pistons); ResourceManager.igen.renderPart("Pistons");
+				bindTexture(ResourceManager.igen_arm); ResourceManager.igen.renderPart("ArmLeft"); ResourceManager.igen.renderPart("ArmRight");
+				GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_radgen), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);
-				GL11.glRotated(90, 0, 1, 0);
 				GL11.glScaled(4.5, 4.5, 4.5);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
-				GL11.glTranslated(0, 0, 1.5);
-		        bindTexture(ResourceManager.radgen_body_tex); ResourceManager.radgen_body.renderAll();
-				GL11.glTranslated(0, 1.5, 0);
-		        bindTexture(ResourceManager.turbofan_blades_tex); ResourceManager.radgen_rotor.renderAll();
+				GL11.glTranslated(0.5, 0, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.radgen_tex);
+				ResourceManager.radgen.renderPart("Base");
+				ResourceManager.radgen.renderPart("Rotor");
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glColor3f(0F, 1F, 0F);
+				ResourceManager.radgen.renderPart("Light");
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fensu), new ItemRenderBase() {

@@ -160,16 +160,6 @@ public class ItemCustomLore extends Item {
 			list.add("It stopped ticking at 2:34.");
 		}
 		
-		if(this == ModItems.fuse)
-		{
-			list.add("This item is needed for every large");
-			list.add("nuclear reactor, as it allows the");
-			list.add("reactor to generate electricity and");
-			list.add("use up it's fuel. Removing the fuse");
-			list.add("from a reactor will instantly shut");
-			list.add("it down.");
-		}
-		
 		if(this == ModItems.rod_lithium)
 		{
 			list.add("Turns into Tritium Rod");
@@ -250,18 +240,6 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.burnt_bark)
 		{
 			list.add("A piece of bark from an exploded golden oak tree.");
-		}
-		
-		if(this == ModItems.crystal_energy)
-		{
-			list.add("Densely packed energy powder.");
-			list.add("Not edible.");
-		}
-		
-		if(this == ModItems.pellet_coolant)
-		{
-			list.add("Required for cyclotron operation.");
-			list.add("Do NOT operate cyclotron without it!");
 		}
 		
 		if(this == ModItems.entanglement_kit)
