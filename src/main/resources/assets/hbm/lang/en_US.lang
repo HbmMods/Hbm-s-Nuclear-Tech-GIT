@@ -210,6 +210,7 @@ chem.GASOLINE=Gasoline Production
 chem.KEVLAR=Kevlar Compound Production
 chem.NITAN=NITAN Super Fuel Mixing
 chem.OIL_SAND=Tar Sand Extraction
+chem.OSMIRIDIUM_DEATH=Osmiridic Solution Production
 chem.PEROXIDE=Hydrogen Peroxide Production
 chem.POLYMER=Polymer Synthesis
 chem.PUF6=Plutonium Hexafluoride Production

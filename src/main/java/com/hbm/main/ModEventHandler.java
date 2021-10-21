@@ -73,6 +73,8 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
@@ -567,12 +569,12 @@ public class ModEventHandler {
 		{
 			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase)
 			{
+				EntityLivingBase living = (EntityLivingBase)event.entity;
 				if(event.world.provider.dimensionId == 0)
 				{
-					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob))
+					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob) && !living.isChild())
 					{
 						event.setCanceled(true);
-						//event.setResult(Event.Result.DENY);
 					}
 				}
 				if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20)
@@ -581,11 +583,51 @@ public class ModEventHandler {
 					if(rand.nextInt(9)!=0)
 					{
 						event.setCanceled(true);
-						//event.setResult(Event.Result.DENY);
 					}
 				}
 			}	
 		}
+	}
+	
+	@SubscribeEvent
+	public void villages(BiomeEvent.GetVillageBlockID event) {
+		Block b = event.original;
+		Material mat = event.original.getMaterial();
+		if(event.biome == null)
+		{
+			return;
+		}
+		if(impact == true)
+		{
+			if(mat==Material.wood || mat==Material.glass || b==Blocks.ladder || b instanceof BlockCrops || b==Blocks.chest || b instanceof BlockDoor|| mat==Material.cloth || mat==Material.water)
+			{
+				//System.out.println("Replacing village blocks");
+				event.replacement=Blocks.air;				
+			}
+			else if(b == Blocks.cobblestone || b == Blocks.stonebrick)
+			{
+				if(rand.nextInt(3)==1)
+				{
+					event.replacement=Blocks.gravel;
+				}
+			}
+			else if(b == Blocks.sandstone)
+			{
+				if(rand.nextInt(3)==1)
+				{
+					event.replacement=Blocks.sand;
+				}
+			}
+			else if(b == Blocks.farmland)
+			{
+				event.replacement=Blocks.dirt;
+			}	
+		}
+		if(event.replacement!=null)
+		{
+			event.setResult(Result.DENY);
+		}
+		//}
 	}
 	
 	@SubscribeEvent
@@ -598,18 +640,17 @@ public class ModEventHandler {
 			{
 				if(event.biome.topBlock==Blocks.grass)
 				{			
-					if(impact == true)
+					if(impact == true && (dust > 0 || fire > 0))
 					{
-						if(dust > 0 || fire > 0)
-						{
+						//if(dust > 0 || fire > 0)
+						//{
 							final Block newtop =ModBlocks.impact_dirt;
-							//BiomeGenBase[] array;
 							event.biome.topBlock=newtop;	
-						}
+						/*}
 						else
 						{			
 							event.biome.topBlock=Blocks.grass;
-						}
+						}*/
 					}			
 					else
 					{			
@@ -671,8 +712,8 @@ public class ModEventHandler {
 	                    for (int y = 0; y < 16; ++y) {
 	                        for (int z = 0; z < 16; ++z) {
 	                        	//if(storage.getYLocation()>16) {
-	                        		//if(dust >0.25)
-	                        		//{
+	                        		if(dust >0.25 || fire >0)
+	                        		{
 	                        			if (storage.getBlockByExtId(x, y, z) == Blocks.grass) {
 	                        				storage.func_150818_a(x, y, z, ModBlocks.impact_dirt);
 	                        			}
@@ -692,7 +733,7 @@ public class ModEventHandler {
 	                        				storage.func_150818_a(x, y, z, Blocks.air);
 	                        			}
 
-	                        		//}
+	                        		}
 	                        	//}
 	                        }
 	                    }

@@ -52,7 +52,7 @@ public class ImpactWorldHandler {
 					for(int z = 0; z < 16; z++) {
 						int X = coord.getCenterXPos() - 8 + x;
 						int Z = coord.getCenterZPosition() - 8 + z;
-						int Y = Math.max(1,world.getHeightValue(X, Z) - world.rand.nextInt(world.getHeightValue(X, Z)));
+						int Y = world.getHeightValue(X, Z) - world.rand.nextInt(Math.max(1,world.getHeightValue(X, Z)));
 						int Y2 = world.getHeightValue(X, Z) - world.rand.nextInt(2);
 
 						die(world, X, Y, Z);
