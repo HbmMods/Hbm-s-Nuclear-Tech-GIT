@@ -1993,6 +1993,9 @@ public class MachineRecipes {
 			input[0] = new FluidStack(400, FluidType.LUBRICANT);
 			input[1] = new FluidStack(400, FluidType.ACID);
 			break;
+		case CO2:
+			input[0] = new FluidStack(1000, FluidType.GAS);
+			break;
 		default:
 			break;
 		}
@@ -2300,6 +2303,9 @@ public class MachineRecipes {
         	break;
         case FRACKSOL:
 			output[0] = new FluidStack(1000, FluidType.FRACKSOL);
+        	break;
+        case CO2:
+        	output[0] = new FluidStack(1000, FluidType.CARBONDIOXIDE);
         	break;
 		default:
 			break;

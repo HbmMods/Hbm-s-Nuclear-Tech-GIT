@@ -103,7 +103,8 @@ public class ItemChemistryTemplate extends Item {
 		TEL,
 		GASOLINE,
 		FRACKSOL,
-		METH;
+		METH,
+		CO2;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -303,6 +304,8 @@ public class ItemChemistryTemplate extends Item {
         	return 20;
         case METH:
         	return 30;
+        case CO2:
+        	return 60;
         default:
         	return 100;
         }

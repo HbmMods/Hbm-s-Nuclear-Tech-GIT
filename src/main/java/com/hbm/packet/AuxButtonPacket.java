@@ -18,6 +18,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
+import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -282,6 +283,13 @@ public class AuxButtonPacket implements IMessage {
 					base.handleButtonPacket(m.value, m.id);
 				}
 				
+				if(te instanceof TileEntityReactorZirnox) {
+					TileEntityReactorZirnox zirnox = (TileEntityReactorZirnox)te;
+					
+					zirnox.isOn = !zirnox.isOn;
+					
+				}
+				
 				//why make new packets when you can just abuse and uglify the existing ones?
 				if(te == null && m.value == 999) {
 					
@@ -304,6 +312,7 @@ public class AuxButtonPacket implements IMessage {
 						p.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, perDat);
 					}
 				}
+				
 				
 			//} catch (Exception x) { }
 			

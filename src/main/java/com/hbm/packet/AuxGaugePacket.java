@@ -249,11 +249,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 1)
 						launcher.padSize = PartSize.values()[m.value];
 				}
-				
-				
-				
-				
-				
 				if(te instanceof TileEntityMachineBase) {
 					((TileEntityMachineBase)te).processGauge(m.value, m.id);
 				}
