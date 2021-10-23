@@ -185,7 +185,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 			}
 
-			this.pressure = (int) ((float)this.heat * (2.25 * this.carbonDioxide.getFill() / 16000));
+			this.pressure = (int) ((float)this.heat * (2 * this.carbonDioxide.getFill() / 16000));
 			
 			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
 				generateSteam();
@@ -310,7 +310,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.corium_block);
+		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.block_corium);
 
 		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
 		
@@ -350,7 +350,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, getTact(), type);
-		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + + rot.offsetZ * 3, getTact(), type);
+		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, getTact(), type);
 		
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, getTact(), type);
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, getTact(), type);

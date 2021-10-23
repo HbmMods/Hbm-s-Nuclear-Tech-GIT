@@ -1129,6 +1129,16 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.fracking_tower_tex); ResourceManager.fracking_tower.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		renderers.put(Item.getItemFromBlock(ModBlocks.reactor_zirnox), new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glScaled(2.9, 2.9, 2.9);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.75, 0.75, 0.75);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.zirnox_tex); ResourceManager.zirnox.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

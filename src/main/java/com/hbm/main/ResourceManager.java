@@ -260,6 +260,9 @@ public class ResourceManager {
 	public static final IModelCustom spider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/blockspider.obj"));
 	public static final IModelCustom ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/ufo.obj"));
 	
+	//ZIRNOX
+	public static final IModelCustom zirnox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/zirnox.obj"));
+	
 	//Belt
 	public static final IModelCustom arrow = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/arrow.obj"));
 	
@@ -546,7 +549,8 @@ public class ResourceManager {
 	public static final ResourceLocation spider_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/blockspider.png");
 	public static final ResourceLocation ufo_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/ufo.png");
 
-	
+	//ZIRNOX
+	public static final ResourceLocation zirnox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/zirnox.png");
 	
 	////Obj Items
 	

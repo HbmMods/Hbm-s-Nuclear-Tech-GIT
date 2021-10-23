@@ -364,6 +364,7 @@ container.turretTauon=Tauon
 container.uf6_tank=UF6 Tank
 container.wasteDrum=Spent Fuel Pool Drum
 container.watzPowerplant=Watz Power Plant
+container.zirnox=ZIRNOX Nuclear Reactor
 
 death.attack.acid=%1$s fell into acid.
 death.attack.ams=%1$s was bathed in deadly particles that have yet to be named by human science.
