@@ -187,7 +187,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 			this.pressure = (int) ((float)this.heat * (2.25 * this.carbonDioxide.getFill() / 16000));
 			
-			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 4000) {
+			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
 				generateSteam();
 				this.heat -= (int) ((float)this.heat * (0.06 * this.carbonDioxide.getFill() / 16000));
 			}
