@@ -286,7 +286,17 @@ public class AuxButtonPacket implements IMessage {
 				if(te instanceof TileEntityReactorZirnox) {
 					TileEntityReactorZirnox zirnox = (TileEntityReactorZirnox)te;
 					
-					zirnox.isOn = !zirnox.isOn;
+					if(m.id == 0) {
+						zirnox.isOn = !zirnox.isOn;
+					}
+					
+					if(m.id == 1) {
+						int fill = zirnox.carbonDioxide.getFill();
+						zirnox.carbonDioxide.setFill(fill - 1000);
+						if(fill < 0) {
+							zirnox.carbonDioxide.setFill(0);
+						}
+					}
 					
 				}
 				

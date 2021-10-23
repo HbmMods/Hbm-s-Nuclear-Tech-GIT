@@ -64,11 +64,12 @@ public class ReactorZirnox extends BlockDummyable implements IMultiblock {
 	
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-
-		this.makeExtra(world, x + dir.offsetX * 2, y + 1, z + dir.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * 2, y + 3, z + dir.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * -2, y + 1, z + dir.offsetZ * -2);
-		this.makeExtra(world, x + dir.offsetX * -2, y + 3, z + dir.offsetZ * -2);
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 1, z + dir.offsetZ * o + rot.offsetZ * 2);
+		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 3, z + dir.offsetZ * o + rot.offsetZ * 2);
+		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 1, z + dir.offsetZ * o + rot.offsetZ * -2);
+		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 3, z + dir.offsetZ * o + rot.offsetZ * -2);
 	}
 	
 }

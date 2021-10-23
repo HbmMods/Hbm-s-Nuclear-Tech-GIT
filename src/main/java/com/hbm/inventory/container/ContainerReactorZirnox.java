@@ -3,7 +3,7 @@ package com.hbm.inventory.container;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -93,7 +93,7 @@ public class ContainerReactorZirnox extends Container {
 					
 				} else {
 					
-					if(stack.getItem() == ModItems.rod_zirnox_uranium_fuel) {
+					if(stack.getItem() instanceof ItemZirnoxRod) {
 						
 						if(!this.mergeItemStack(stack, 0, 24, true))
 							return null;

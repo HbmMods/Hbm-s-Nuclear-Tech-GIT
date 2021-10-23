@@ -14,6 +14,7 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -164,7 +165,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				age = 0;
 			}
 			
-			if(age == 10 || age == 19) {
+			if(age == 9 || age == 19) {
 				fillFluidInit(steam.getTankType());
 			}
 
@@ -184,11 +185,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 			}
 
-			this.pressure = this.heat * (3/2) * (this.carbonDioxide.getFill() / 16000);
+			this.pressure = (int) ((float)this.heat * (2.25 * this.carbonDioxide.getFill() / 16000));
 			
 			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 4000) {
 				generateSteam();
-				this.heat -= this.heat * 0.075 * (this.carbonDioxide.getFill() / 16000);
+				this.heat -= (int) ((float)this.heat * (0.06 * this.carbonDioxide.getFill() / 16000));
 			}
 
 			checkIfMeltdown();
@@ -227,14 +228,17 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private boolean hasFuelRod(int id) {
 		if(id > 23)
 			return false;
-
-		if(slots[id] != null)
-			return slots[id].getItem() instanceof ItemZirnoxRod;
+		
+		if(slots[id] != null) {
+			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
+				return slots[id].getItem() instanceof ItemZirnoxRod;
+			}
+		}
 
 		return false;
 	}
 
-	private int getNeightbourCount(int id) {
+	private int getNeighbourCount(int id) {
 
 		int[] neighbours = this.getNeighbouringSlots(id);
 
@@ -255,8 +259,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void decay(int id) {
 		if(id > 23)
 			return;
-
-		int decay = getNeightbourCount(id) + 1;
+		
+		int decay = getNeighbourCount(id);
+		
+		if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
+		decay = getNeighbourCount(id) + 1;
+		}
 
 		for(int i = 0; i < decay; i++) {
 			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
@@ -339,13 +347,13 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@Override
 	public void fillFluidInit(FluidType type) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		fillFluid(this.xCoord - dir.offsetX * 3, this.yCoord + 1, this.zCoord - dir.offsetZ * 3, getTact(), type);
-		fillFluid(this.xCoord - dir.offsetX * 3, this.yCoord + 3, this.zCoord - dir.offsetZ * 3, getTact(), type);
+		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, getTact(), type);
+		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + + rot.offsetZ * 3, getTact(), type);
 		
-		fillFluid(this.xCoord - dir.offsetX * -3, this.yCoord + 1, this.zCoord - dir.offsetZ * -3, getTact(), type);
-		fillFluid(this.xCoord - dir.offsetX * -3, this.yCoord + 3, this.zCoord - dir.offsetZ * -3, getTact(), type);
-
+		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, getTact(), type);
+		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, getTact(), type);
 	}
 
 	public boolean getTact() {

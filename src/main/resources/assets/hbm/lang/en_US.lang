@@ -3197,6 +3197,7 @@ tile.machine_turbofan.name=Turbofan
 tile.machine_uf6_tank.name=Uranium Hexafluoride Tank
 tile.machine_waste_drum.name=Spent Fuel Pool Drum
 tile.machine_well.name=Oil Derrick
+tile.machine_zirnox.name=ZIRNOX Nuclear Reactor
 tile.marker_structure.name=Multiblock Structure Marker
 tile.meteor_battery.name=Starmetal Static Electricity Generator
 tile.meteor_brick.name=Meteor Bricks

@@ -513,6 +513,21 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_red_copper, 8),
 				new ComparableStack(ModItems.circuit_gold, 3),
 			}, 600);
+		
+		makeRecipe(new ComparableStack(ModBlocks.reactor_zirnox, 1), new AStack[] {
+				new ComparableStack(ModItems.hull_big_steel, 3),
+				new ComparableStack(ModItems.hull_small_steel, 6),
+				new ComparableStack(ModBlocks.steel_scaffold, 4),
+				new ComparableStack(ModBlocks.steel_grate, 8),
+				new ComparableStack(ModBlocks.concrete_smooth, 12),
+				new ComparableStack(ModBlocks.deco_pipe_quad, 12),
+				new ComparableStack(ModItems.motor, 4),
+				new OreDictStack(B.ingot(), 2),
+				new OreDictStack(PB.ingot(), 4),
+				new ComparableStack(ModItems.wire_red_copper, 4),
+				new ComparableStack(ModItems.circuit_copper, 4),
+				new ComparableStack(ModItems.circuit_red_copper, 2),
+			}, 600);
 
 		makeRecipe(new ComparableStack(ModItems.gun_zomg, 1), new AStack[] {
 				new ComparableStack(ModItems.crystal_xen, 2),

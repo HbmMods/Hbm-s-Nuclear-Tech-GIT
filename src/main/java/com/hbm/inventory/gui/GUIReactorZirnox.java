@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerReactorZirnox;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -67,6 +66,12 @@ public class GUIReactorZirnox extends GuiInfoContainer {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 0));
+    	}
+    	
+    	if(guiLeft + 142 <= x && guiLeft + 142 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
+    		
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 1));
     	}
     }
 	
