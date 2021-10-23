@@ -63,12 +63,12 @@ public class ItemPill extends ItemFood {
 			}
 			
 			if(this == ModItems.chocolate) {
-				if(rand.nextInt(20) == 0) {
+				if(rand.nextInt(25) == 0) {
 					player.attackEntityFrom(ModDamageSource.overdose, 1000);
 				}
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 3));
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
+				player.addPotionEffect(new PotionEffect(Potion.jump.id, 60 * 20, 3));
 			}
 
 			if(this == ModItems.fmn) {
