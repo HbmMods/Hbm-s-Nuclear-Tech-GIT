@@ -1,7 +1,6 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -29,6 +28,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,7 +38,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 
-public class GunEnergyFactory {
+public class GunEnergyFactory
+{
 	private static Random rand = new Random();
 	public static GunConfiguration getEMPConfig() {
 		
@@ -152,8 +153,8 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.extinguisher";
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
-		config.name = "PROTEX Fire Exinguisher 6kg";
-		config.manufacturer = "Gloria GmbH";
+		config.name = "extinguisher";
+		config.manufacturer = EnumGunManufacturer.GLORIA;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
@@ -479,61 +480,6 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration getZOMGBoltConfig() {
-		
-		BulletConfiguration bullet = new BulletConfiguration();
-		
-		bullet.ammo = ModItems.nugget_euphemium;
-		bullet.ammoCount = 1000;
-		bullet.wear = 1;
-		bullet.velocity = 1F;
-		bullet.spread = 0.125F;
-		bullet.maxAge = 100;
-		bullet.gravity = 0D;
-		bullet.bulletsMin = 5;
-		bullet.bulletsMax = 5;
-		bullet.dmgMin = 10000;
-		bullet.dmgMax = 25000;
-
-		bullet.style = BulletConfiguration.STYLE_BOLT;
-		bullet.trail = BulletConfiguration.BOLT_ZOMG;
-		
-		bullet.effects = new ArrayList<PotionEffect>();
-		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
-		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(!bullet.worldObj.isRemote) {
-					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)bullet.posX, (int)bullet.posY, (int)bullet.posZ, 5);
-					bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
-    				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
-				}
-			}
-		};
-		
-		return bullet;
-	}
-
-	public static BulletConfiguration getTurbineConfig() {
-		
-		BulletConfiguration bullet = new BulletConfiguration();
-		
-		bullet.ammo = ModItems.nothing;
-		bullet.dmgMin = 100;
-		bullet.dmgMax = 150;
-		bullet.velocity = 1F;
-		bullet.gravity = 0.0;
-		bullet.maxAge = 200;
-		bullet.style = BulletConfiguration.STYLE_BLADE;
-		bullet.destroysBlocks = true;
-		bullet.doesRicochet = false;
-		
-		return bullet;
-	}
-	
 	// TODO Finish, not technically a bullet, it's supposed to be a ray, not that it works in its current state anyway
 	public static BulletConfiguration getSingConfig()
 	{
@@ -644,6 +590,8 @@ public class GunEnergyFactory {
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_LASER;
 		
+		bullet.damageType = ModDamageSource.s_laser;
+		
 		return bullet;
 	}
 	/** Alt fire bullet **/
@@ -688,6 +636,8 @@ public class GunEnergyFactory {
 		
 		bullet.style = BulletConfiguration.STYLE_BOLT;
 		bullet.trail = BulletConfiguration.BOLT_LASER;
+		
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		return bullet;
 	}
@@ -947,10 +897,10 @@ public class GunEnergyFactory {
 		bullet.dmgProj = false;
 		bullet.dmgBypass = true;
 
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_ZOMG;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_ZOMG;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -966,6 +916,8 @@ public class GunEnergyFactory {
 			}
 		};
 		
+		bullet.damageType = ModDamageSource.s_zomg_prefix;
+		
 		return bullet;
 	}
 
@@ -979,7 +931,7 @@ public class GunEnergyFactory {
 		bullet.velocity = 1F;
 		bullet.gravity = 0.0;
 		bullet.maxAge = 200;
-		bullet.style = bullet.STYLE_BLADE;
+		bullet.style = BulletConfiguration.STYLE_BLADE;
 		bullet.destroysBlocks = true;
 		bullet.doesRicochet = false;
 		

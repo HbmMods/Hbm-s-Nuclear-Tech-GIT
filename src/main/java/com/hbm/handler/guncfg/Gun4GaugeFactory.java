@@ -204,7 +204,7 @@ public class Gun4GaugeFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -412,8 +412,8 @@ public class Gun4GaugeFactory {
 		BulletConfiguration bullet = get4GaugeConfig();
 		
 		bullet.ammo = ModItems.ammo_4gauge_vampire;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 9;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 8;
 		bullet.bulletsMin *= 2;
 		bullet.bulletsMax *= 2;
 		bullet.leadChance = 100;

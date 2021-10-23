@@ -181,8 +181,8 @@ public class Gun12GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_12gauge;
-		bullet.dmgMin = 3;
-		bullet.dmgMax = 6;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 8;
 		
 		return bullet;
 	}
@@ -206,8 +206,8 @@ public class Gun12GaugeFactory {
 		
 		bullet.ammo = ModItems.ammo_12gauge_shrapnel;
 		bullet.wear = 15;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 10;
 		bullet.ricochetAngle = 15;
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
@@ -221,8 +221,8 @@ public class Gun12GaugeFactory {
 		
 		bullet.ammo = ModItems.ammo_12gauge_du;
 		bullet.wear = 20;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 12;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 14;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
 		

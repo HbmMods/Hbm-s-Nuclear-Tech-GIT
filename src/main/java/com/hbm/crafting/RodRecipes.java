@@ -44,9 +44,11 @@ public class RodRecipes {
 		//...with billets
 		addRodBilletUnload(ModItems.billet_uranium, ModItems.rod_uranium);
 		addRodBilletUnload(ModItems.billet_u233, ModItems.rod_u233);
+		addRodBilletUnload(ModItems.billet_u234, ModItems.rod_u234);
 		addRodBilletUnload(ModItems.billet_u235, ModItems.rod_u235);
 		addRodBilletUnload(ModItems.billet_u238, ModItems.rod_u238);
 		addRodBilletUnload(ModItems.billet_th232, ModItems.rod_th232);
+		addRodBilletUnload(ModItems.billet_tha, ModItems.rod_tha);
 		addRodBilletUnload(ModItems.billet_plutonium, ModItems.rod_plutonium);
 		addRodBilletUnload(ModItems.billet_pu238, ModItems.rod_pu238);
 		addRodBilletUnload(ModItems.billet_pu239, ModItems.rod_pu239);
@@ -55,6 +57,7 @@ public class RodRecipes {
 		addRodBilletUnload(ModItems.billet_polonium, ModItems.rod_polonium);
 		addRodBilletUnload(ModItems.billet_schrabidium, ModItems.rod_schrabidium);
 		addRodBilletUnload(ModItems.billet_solinium, ModItems.rod_solinium);
+		addRodBilletUnload(ModItems.billet_euphemium, ModItems.rod_euphemium);
 		addRodBillet(ModItems.billet_uranium_fuel, ModItems.rod_uranium_fuel);
 		addRodBillet(ModItems.billet_thorium_fuel, ModItems.rod_thorium_fuel);
 		addRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_plutonium_fuel);
@@ -88,9 +91,11 @@ public class RodRecipes {
 		//...with billets
 		addDualRodBilletUnload(ModItems.billet_uranium, ModItems.rod_dual_uranium);
 		addDualRodBilletUnload(ModItems.billet_u233, ModItems.rod_dual_u233);
+		addDualRodBilletUnload(ModItems.billet_u234, ModItems.rod_dual_u234);
 		addDualRodBilletUnload(ModItems.billet_u235, ModItems.rod_dual_u235);
 		addDualRodBilletUnload(ModItems.billet_u238, ModItems.rod_dual_u238);
 		addDualRodBilletUnload(ModItems.billet_th232, ModItems.rod_dual_th232);
+		addDualRodBilletUnload(ModItems.billet_tha, ModItems.rod_dual_tha);
 		addDualRodBilletUnload(ModItems.billet_plutonium, ModItems.rod_dual_plutonium);
 		addDualRodBilletUnload(ModItems.billet_pu238, ModItems.rod_dual_pu238);
 		addDualRodBilletUnload(ModItems.billet_pu239, ModItems.rod_dual_pu239);
@@ -141,9 +146,11 @@ public class RodRecipes {
 		//...with billets
 		addQuadRodBilletUnload(ModItems.billet_uranium, ModItems.rod_quad_uranium);
 		addQuadRodBilletUnload(ModItems.billet_u233, ModItems.rod_quad_u233);
+		addQuadRodBilletUnload(ModItems.billet_u234, ModItems.rod_quad_u234);
 		addQuadRodBilletUnload(ModItems.billet_u235, ModItems.rod_quad_u235);
 		addQuadRodBilletUnload(ModItems.billet_u238, ModItems.rod_quad_u238);
 		addQuadRodBilletUnload(ModItems.billet_th232, ModItems.rod_quad_th232);
+		addQuadRodBilletUnload(ModItems.billet_tha, ModItems.rod_quad_tha);
 		addQuadRodBilletUnload(ModItems.billet_plutonium, ModItems.rod_quad_plutonium);
 		addQuadRodBilletUnload(ModItems.billet_pu238, ModItems.rod_quad_pu238);
 		addQuadRodBilletUnload(ModItems.billet_pu239, ModItems.rod_quad_pu239);
@@ -182,6 +189,9 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
 		addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
 		addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
+		addRBMKRod(ModItems.billet_ac227be, ModItems.rbmk_fuel_ac227be);
+		addRBMKRod(ModItems.billet_cf252be, ModItems.rbmk_fuel_cf252be);
+		addRBMKRod(ModItems.billet_sa327be, ModItems.rbmk_fuel_sa327be);
 		addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
 		addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
 		addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
@@ -214,9 +224,9 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.egg_balefire_shard, 4), new Object[] { ModItems.rod_quad_balefire });
 
 		//Waste rod recycling
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nuclear_waste, 1), new Object[] { ModItems.rod_waste });
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nuclear_waste, 2), new Object[] { ModItems.rod_dual_waste });
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nuclear_waste, 4), new Object[] { ModItems.rod_quad_waste });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_nuclear_waste, 1), new Object[] { ModItems.rod_waste });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_nuclear_waste, 2), new Object[] { ModItems.rod_dual_waste });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_nuclear_waste, 4), new Object[] { ModItems.rod_quad_waste });
 
 		//Depleted fuel recycling
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_uranium_hot, 1), new Object[] { ModItems.rod_uranium_fuel_depleted });
@@ -284,7 +294,7 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(billet, 4), new Object[] { out });
 	}
 	
-	//Fill rods with 6 nuggets
+	//Fill rods with 8 billets
 	public static void addRBMKRod(Item billet, Item out) {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
 	}

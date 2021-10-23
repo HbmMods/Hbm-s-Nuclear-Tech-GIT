@@ -2,7 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.inventory.MachineRecipes.StampType;
+import com.hbm.inventory.recipes.MachineRecipes.StampType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

@@ -1,12 +1,7 @@
 package com.hbm.tileentity.machine;
 
-<<<<<<< HEAD
-import com.hbm.inventory.BreederRecipes;
-import com.hbm.inventory.BreederRecipes.BreederRecipe;
-=======
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
->>>>>>> master
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -103,6 +98,7 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 
 		charge = data.getShort("charge");

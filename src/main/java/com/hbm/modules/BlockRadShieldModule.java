@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 
 @Untested
 @Beta
+@Deprecated
 public class BlockRadShieldModule
 {
 	float EMShield;

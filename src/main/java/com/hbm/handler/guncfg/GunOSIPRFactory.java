@@ -60,7 +60,7 @@ public class GunOSIPRFactory {
 		return config;
 	}
 
-	static float inaccuracy = 5;
+	static final float inaccuracy = 5;
 	public static BulletConfiguration getPulseConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();

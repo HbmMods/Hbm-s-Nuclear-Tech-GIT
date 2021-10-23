@@ -27,9 +27,7 @@ public abstract class ServerProxy {
 	
 	public abstract void playSound(String sound, Object data);
 	
-	public boolean isVanished(Entity e) {
-		return false;
-	}
+	public abstract boolean isVanished(Entity e);
 	public abstract void displayTooltip(String msg);
 	
 	public abstract boolean getIsKeyPressed(EnumKeybind key);

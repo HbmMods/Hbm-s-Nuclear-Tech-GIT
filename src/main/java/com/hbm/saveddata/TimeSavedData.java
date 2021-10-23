@@ -91,7 +91,7 @@ public class TimeSavedData extends WorldSavedData
 			date.timeInternal = 0;
 			if (date.day >= 100)
 			{
-				date.day = 0;
+				date.day = 1;
 				date.year++;
 			}
 			else

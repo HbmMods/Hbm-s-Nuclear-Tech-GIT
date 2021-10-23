@@ -10,7 +10,6 @@ import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
 import api.hbm.block.IToolable;
-import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -24,7 +23,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class RBMKBase extends BlockDummyable implements IToolable {
+public abstract class RBMKBase extends BlockDummyable implements IToolable
+{
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
@@ -176,7 +176,7 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable {
 							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid_glass)));
 						}
 						
-						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + this.offset, 3);
+						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + offset, 3);
 					}
 					
 					return true;

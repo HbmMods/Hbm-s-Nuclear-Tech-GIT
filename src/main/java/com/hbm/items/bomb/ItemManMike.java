@@ -7,14 +7,8 @@ import com.hbm.items.special.ItemHazard;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class ItemManMike extends ItemHazard {
-<<<<<<< HEAD
-	
-	public ItemManMike(float radiation) {
-		super(radiation);
-	}
-=======
->>>>>>> master
+public class ItemManMike extends ItemHazard
+{
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

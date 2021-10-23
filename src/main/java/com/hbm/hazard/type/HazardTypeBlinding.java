@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 
 public class HazardTypeBlinding extends HazardTypeBase {
@@ -26,10 +27,15 @@ public class HazardTypeBlinding extends HazardTypeBase {
 	}
 
 	@Override
-	public void updateEntity(EntityItem item, float level) { }
+	public void updateEntity(EntityItem item, float level)
+	{
+		final List<EntityLivingBase> entities = item.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(level, level, level, level, level, level));
+		for (EntityLivingBase e : entities)
+			e.addPotionEffect(new PotionEffect(Potion.blindness.id, (int) (level * (level / e.getDistanceToEntity(item)))));
+	}
 
 	@Override
-	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+	public void addHazardInformation(EntityPlayer player, List<String> list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
 	}
 

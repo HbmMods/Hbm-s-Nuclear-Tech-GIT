@@ -4,7 +4,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -22,18 +21,21 @@ public class ItemHot extends ItemCustomLore
 		this.heat = heat;
 	}
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg) {
         super.registerIcons(reg);
         this.hotIcon = reg.registerIcon(this.getIconString() + "_hot");
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta) {
         return this.itemIcon;
     }
 	
-    public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
+    @Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
     	
     	if(!world.isRemote && stack.hasTagCompound()) {
     		

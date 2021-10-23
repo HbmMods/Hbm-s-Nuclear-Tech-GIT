@@ -2,12 +2,17 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
 
 public class Gun22LRFactory {
 	
@@ -59,7 +64,7 @@ public class Gun22LRFactory {
 		return config;
 	}
 
-	static float inaccuracy = 5;
+	static final float inaccuracy = 5;
 	public static BulletConfiguration get22LRConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -68,6 +73,16 @@ public class Gun22LRFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 2;
 		bullet.dmgMax = 4;
+		
+		bullet.bHurt = new IBulletHurtBehavior()
+		{
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit)
+			{
+				final double dmgMod = MathHelper.clamp_double(bullet.getDistanceSqToEntity(bullet.shooter), 0, 2.5);
+				bullet.overrideDamage = (float) dmgMod;
+			}
+		};
 		
 		return bullet;
 	}
@@ -82,7 +97,15 @@ public class Gun22LRFactory {
 		bullet.dmgMax = 8;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
-		
+		bullet.bHurt = new IBulletHurtBehavior()
+		{
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit)
+			{
+				final double dmgMod = MathHelper.clamp_double(bullet.getDistanceSqToEntity(bullet.shooter), 0, 2);
+				bullet.overrideDamage = (float) dmgMod;
+			}
+		};
 		return bullet;
 	}
 

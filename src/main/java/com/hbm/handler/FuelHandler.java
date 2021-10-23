@@ -1,13 +1,15 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.common.IFuelHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-public class FuelHandler implements IFuelHandler {
+@Spaghetti("This could be handled better, possibly with a switch")
+public class FuelHandler implements IFuelHandler
+{
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
@@ -38,13 +40,10 @@ public class FuelHandler implements IFuelHandler {
 			return 3200;
 		if(fuel.getItem() == ModItems.book_guide)
 			return 800;
-<<<<<<< HEAD
-=======
 		if(fuel.getItem() == ModItems.coal_infernal)
 			return 4800;
 		if(fuel.getItem() == ModItems.crystal_coal)
 			return 6400;
->>>>>>> master
 		
 		return 0;
 	}

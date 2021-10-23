@@ -31,6 +31,10 @@ public class WorldConfig {
 	public static int explosivebubbleSpawn = 8;
 	public static int cinnebarSpawn = 1;
 
+	public static int ironClusterSpawn = 4;
+	public static int titaniumClusterSpawn = 2;
+	public static int aluminiumClusterSpawn = 3;
+	
 	public static int netherUraniumuSpawn = 8;
 	public static int netherTungstenSpawn = 10;
 	public static int netherSulfurSpawn = 26;

@@ -7,11 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-<<<<<<< HEAD
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.HbmCollection;
-=======
->>>>>>> master
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.util.I18nUtil;

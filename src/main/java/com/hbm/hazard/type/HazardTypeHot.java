@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -24,14 +26,23 @@ public class HazardTypeHot extends HazardTypeBase {
 			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
 		
 		if(!reacher && !target.isWet() && level > 0)
+		{
 			target.setFire((int) Math.ceil(level));
+			if (level > 4)
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(target, ModDamageSource.causeDamage(target, "burn"), level * 0.5f);
+		}
 	}
 
 	@Override
-	public void updateEntity(EntityItem item, float level) { }
+	public void updateEntity(EntityItem item, float level)
+	{
+//		final List<EntityLivingBase> entities = item.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(0, 0, 0, level, level, level));
+//		for (EntityLivingBase e : entities)
+//			e.setFire((int) (level * (level / e.getDistanceToEntity(item))));
+	}
 
 	@Override
-	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+	public void addHazardInformation(EntityPlayer player, List<String> list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 		

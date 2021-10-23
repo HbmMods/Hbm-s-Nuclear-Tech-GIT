@@ -9,7 +9,6 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -199,8 +198,8 @@ public class Gun50BMGFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:turret.howard_fire";
 		
-		config.name = "AR-15 .50 BMG Mod";
-		config.manufacturer = "Armalite";
+		config.name = "ar15_50";
+		config.manufacturer = EnumGunManufacturer.ARMALITE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
@@ -219,15 +218,15 @@ public class Gun50BMGFactory {
 		return config;
 	}
 
-	static float inaccuracy = 2.5F;
+	static final float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50bmg;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 25;
+		bullet.dmgMax = 28;
 		
 		return bullet;
 	}
@@ -238,8 +237,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_incendiary;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 25;
+		bullet.dmgMax = 28;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
@@ -252,15 +251,15 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_phosphorus;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 25;
+		bullet.dmgMax = 28;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -287,8 +286,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_explosive;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 25;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 35;
 		bullet.wear = 25;
 		bullet.explosive = 1;
 		
@@ -301,8 +300,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_ap;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 25;
-		bullet.dmgMax = 30;
+		bullet.dmgMin = 35;
+		bullet.dmgMax = 40;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -315,8 +314,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_du;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 40;
-		bullet.dmgMax = 45;
+		bullet.dmgMin = 50;
+		bullet.dmgMax = 55;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -329,8 +328,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_star;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 50;
-		bullet.dmgMax = 70;
+		bullet.dmgMin = 60;
+		bullet.dmgMax = 80;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		
@@ -393,9 +392,9 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 25;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 35;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		return bullet;
 	}
@@ -406,9 +405,9 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette_am;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 50;
-		bullet.dmgMax = 65;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.dmgMin = 60;
+		bullet.dmgMax = 75;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {
 
@@ -433,9 +432,9 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette_po;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 30;
-		bullet.dmgMax = 40;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.dmgMin = 40;
+		bullet.dmgMax = 50;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {
 

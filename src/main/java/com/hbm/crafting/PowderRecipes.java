@@ -1,5 +1,6 @@
 package com.hbm.crafting;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -54,6 +55,7 @@ public class PowderRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_nbbe), new Object[] { "dustNiobium", "dustBeryllium" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.orichalcum, 1, 3), new Object[] { ModItems.powder_spark_mix, ModItems.powder_spark_mix, ModItems.powder_spark_mix, "dustAustralium", "dustAustralium", ModItems.powder_combine_steel, ModItems.powder_combine_steel, ModItems.powder_nitan_mix , ModItems.powder_nitan_mix }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.sand_quartz), new Object[] { "sand", "sand", "dustNetherQuartz", "dustNetherQuartz" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.sand_quartz), new Object[] { "sand", "sand", "dustQuartz", "dustQuartz" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_uranium, 9), "dustUranium235", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238", "dustUranium238"));
 	}
 }

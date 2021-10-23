@@ -119,7 +119,7 @@ public class ItemChemistryTemplate extends Item {
 		COLTAN_CRYSTAL,
 		VIT_LIQUID,
 		VIT_GAS,
-		FRACKSOL;
+		FRACKSOL,
 		GASOLINE,
 		TEL,
 		SARIN;
@@ -152,7 +152,8 @@ public class ItemChemistryTemplate extends Item {
         this.setMaxDamage(0);
     }
 
-    public String getItemStackDisplayName(ItemStack stack)
+    @Override
+	public String getItemStackDisplayName(ItemStack stack)
     {
         String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
         String s1 = ("" + StatCollector.translateToLocal("chem." + EnumChemistryTemplate.getEnum(stack.getItemDamage()).name())).trim();
@@ -340,10 +341,6 @@ public class ItemChemistryTemplate extends Item {
         case RC_PU:
         case RC_U:
         	return 300;
-        case SCHRABIDIC:
-        	return 100;
-        case SCHRABIDATE:
-        	return 150;
         case COLTAN_CLEANING:
         	return 60;
         case COLTAN_PAIN:
@@ -402,9 +399,11 @@ public class ItemChemistryTemplate extends Item {
     		
     		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_time"));
         	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " " + I18nUtil.resolveKey("info.template_seconds"));
-    	} catch(Exception e) {
+    	} catch(Exception e)
+    	{
     		list.add("###INVALID###");
     		list.add("0x334077-0x6A298F-0xDF3795-0x334077");
+    		e.printStackTrace();
     	}
 	}
 

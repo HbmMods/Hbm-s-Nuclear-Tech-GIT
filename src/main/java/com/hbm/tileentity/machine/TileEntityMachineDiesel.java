@@ -25,7 +25,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 	public static final long maxPower = 50000;
 	public long powerCap = 50000;
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
+	public List<IConsumer> list = new ArrayList<IConsumer>();
 	public FluidTank tank;
 
 	private static final int[] slots_top = new int[] { 0 };
@@ -128,6 +128,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 
 		power = data.getInteger("power");
@@ -140,25 +141,25 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 	
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
-		if(type.name().equals(FluidType.HYDROGEN.name()))
-<<<<<<< HEAD
-			return 1000;
-=======
-			return 10;
->>>>>>> master
-		if(type.name().equals(FluidType.DIESEL.name()))
-			return 500;
-		if(type.name().equals(FluidType.PETROIL.name()))
-			return 300;
-		if(type.name().equals(FluidType.BIOFUEL.name()))
+		switch (type)
+		{
+		case BIOFUEL:
 			return 400;
-		if(type.name().equals(FluidType.GASOLINE.name()))
+		case DIESEL:
+			return 500;
+		case GASOLINE:
 			return 1500;
-		if(type.name().equals(FluidType.NITAN.name()))
-			return 5000;
-		if(type.name().equals(FluidType.LPG.name()))
+		case HYDROGEN:
+			return 10;
+		case LPG:
 			return 450;
-		return 0;
+		case NITAN:
+			return 5000;
+		case PETROIL:
+			return 300;
+		default:
+			return 0;
+		}
 	}
 
 	public void generate() {

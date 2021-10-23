@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-<<<<<<< HEAD
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-=======
->>>>>>> master
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -25,7 +20,6 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteResonator;
-import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -55,7 +49,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public int mode = 0;
 	public boolean locked = false;
 	public FluidTank[] tanks;
-	public List<IConsumer> list = new ArrayList();
+	public List<IConsumer> list = new ArrayList<IConsumer>();
 	public int color = -1;
 	
 	Random rand = new Random();
@@ -601,7 +595,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 
 	@Override
 	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
+		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(tanks[0]);
 		list.add(tanks[1]);
 		list.add(tanks[2]);

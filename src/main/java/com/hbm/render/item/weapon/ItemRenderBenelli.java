@@ -10,8 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderBenelli implements IItemRenderer
 {
@@ -58,7 +56,7 @@ public class ItemRenderBenelli implements IItemRenderer
 		
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
-		double[] reload = HbmAnimations.getRelevantTransformation("RELOAD");
+//		double[] reload = HbmAnimations.getRelevantTransformation("RELOAD");
 		double[] feedNew = HbmAnimations.getRelevantTransformation("PUMP");
 		switch (type)
 		{

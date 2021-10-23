@@ -15,7 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
-public class ParticleMukeCloud extends EntityFX {
+public class ParticleMukeCloud extends EntityFX
+{
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/explosion.png");
 	private TextureManager theRenderEngine;
@@ -50,11 +51,13 @@ public class ParticleMukeCloud extends EntityFX {
 		}
 	}
 
+	@Override
 	public int getFXLayer() {
 		return 3;
 	}
 	
-    public void onUpdate() {
+    @Override
+	public void onUpdate() {
     	
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -64,7 +67,7 @@ public class ParticleMukeCloud extends EntityFX {
             this.setDead();
         }
 
-        this.motionY -= 0.04D * (double)this.particleGravity;
+        this.motionY -= 0.04D * this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= friction;
         this.motionY *= friction;
@@ -76,6 +79,7 @@ public class ParticleMukeCloud extends EntityFX {
         }
     }
 
+	@Override
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 
 		this.theRenderEngine.bindTexture(getTexture());
@@ -109,21 +113,14 @@ public class ParticleMukeCloud extends EntityFX {
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
 
-		float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) interp - interpPosX);
-		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY);
-		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
+		float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * interp - interpPosX);
+		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * interp - interpPosY);
+		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * interp - interpPosZ);
 
-<<<<<<< HEAD
-		tess.addVertexWithUV((double) (pX - x * this.particleScale - tx * this.particleScale), (double) (pY - y * this.particleScale), (double) (pZ - z * this.particleScale - tz * this.particleScale), uMax, vMax);
-		tess.addVertexWithUV((double) (pX - x * this.particleScale + tx * this.particleScale), (double) (pY + y * this.particleScale), (double) (pZ - z * this.particleScale + tz * this.particleScale), uMax, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale + tx * this.particleScale), (double) (pY + y * this.particleScale), (double) (pZ + z * this.particleScale + tz * this.particleScale), uMin, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale - tx * this.particleScale), (double) (pY - y * this.particleScale), (double) (pZ + z * this.particleScale - tz * this.particleScale), uMin, vMax);
-=======
-		tess.addVertexWithUV((double) (pX - x * this.particleScale - tx * this.particleScale), (double) (pY - 1 * this.particleScale), (double) (pZ - z * this.particleScale - tz * this.particleScale), uMax, vMax);
-		tess.addVertexWithUV((double) (pX - x * this.particleScale + tx * this.particleScale), (double) (pY + 1 * this.particleScale), (double) (pZ - z * this.particleScale + tz * this.particleScale), uMax, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale + tx * this.particleScale), (double) (pY + 1 * this.particleScale), (double) (pZ + z * this.particleScale + tz * this.particleScale), uMin, vMin);
-		tess.addVertexWithUV((double) (pX + x * this.particleScale - tx * this.particleScale), (double) (pY - 1 * this.particleScale), (double) (pZ + z * this.particleScale - tz * this.particleScale), uMin, vMax);
->>>>>>> master
+		tess.addVertexWithUV(pX - x * this.particleScale - tx * this.particleScale, pY - 1 * this.particleScale, pZ - z * this.particleScale - tz * this.particleScale, uMax, vMax);
+		tess.addVertexWithUV(pX - x * this.particleScale + tx * this.particleScale, pY + 1 * this.particleScale, pZ - z * this.particleScale + tz * this.particleScale, uMax, vMin);
+		tess.addVertexWithUV(pX + x * this.particleScale + tx * this.particleScale, pY + 1 * this.particleScale, pZ + z * this.particleScale + tz * this.particleScale, uMin, vMin);
+		tess.addVertexWithUV(pX + x * this.particleScale - tx * this.particleScale, pY - 1 * this.particleScale, pZ + z * this.particleScale - tz * this.particleScale, uMin, vMax);
 		
 		tess.draw();
 		

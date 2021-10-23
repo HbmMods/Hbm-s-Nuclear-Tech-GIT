@@ -25,7 +25,8 @@ public class BarbedWire extends Block {
         super(mat);
     }
     
-    public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent) {
+    @Override
+	public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent) {
     	
     	ent.setInWeb();
 
@@ -72,24 +73,28 @@ public class BarbedWire extends Block {
         }
     }
 
-    public boolean isOpaqueCube()
+    @Override
+	public boolean isOpaqueCube()
     {
         return false;
     }
 
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
+    @Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
         return null;
     }
     
     public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
-    public int getRenderType()
+    @Override
+	public int getRenderType()
     {
         return renderID;
     }
 
-    public boolean renderAsNormalBlock()
+    @Override
+	public boolean renderAsNormalBlock()
     {
         return false;
 	}

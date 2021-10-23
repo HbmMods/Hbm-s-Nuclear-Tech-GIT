@@ -2,11 +2,11 @@ package com.hbm.tileentity.machine;
 
 import com.google.common.annotations.Beta;
 import com.hbm.calc.EasyLocation;
-import com.hbm.inventory.ChemPlantRecipesNT;
-import com.hbm.inventory.ChemPlantRecipesNT.ChemPlantRecipe;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.RecipesCommon;
+import com.hbm.inventory.recipes.ChemPlantRecipesNT;
+import com.hbm.inventory.recipes.ChemPlantRecipesNT.ChemPlantRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate.EnumChemistryTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade;

@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,23 +27,23 @@ public class HazardSystem {
 	/*
 	 * Map for OreDict entries, always evaluated first. Avoid registering HazardData with 'doesOverride', as internal order is based on the item's ore dict keys.
 	 */
-	public static final HashMap<String, HazardData> oreMap = new HashMap();
+	public static final HashMap<String, HazardData> oreMap = new HashMap<String, HazardData>();
 	/*
 	 * Map for items, either with wildcard meta or stuff that's expected to have a variety of damage values, like tools.
 	 */
-	public static final HashMap<Item, HazardData> itemMap = new HashMap();
+	public static final HashMap<Item, HazardData> itemMap = new HashMap<Item, HazardData>();
 	/*
 	 * Very specific stacks with item and meta matching. ComparableStack does not support NBT matching, to scale hazards with NBT please use HazardModifiers.
 	 */
-	public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap();
+	public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap<ComparableStack, HazardData>();
 	/*
 	 * For items that should, for whichever reason, be completely exempt from the hazard system.
 	 */
-	public static final HashSet<ComparableStack> blacklist = new HashSet();
+	public static final HashSet<ComparableStack> blacklist = new HashSet<ComparableStack>();
 	/*
 	 * List of hazard transformers, called in order before and after unrolling all the HazardEntries.
 	 */
-	public static final List<HazardTransformerBase> trafos = new ArrayList();
+	public static final List<HazardTransformerBase> trafos = new ArrayList<HazardTransformerBase>();
 	
 	/**
 	 * Automatically casts the first parameter and registers it to the HazSys
@@ -94,10 +95,10 @@ public class HazardSystem {
 	public static List<HazardEntry> getHazardsFromStack(ItemStack stack) {
 		
 		if(isItemBlacklisted(stack)) {
-			return new ArrayList();
+			return new ArrayList<HazardEntry>();
 		}
 		
-		List<HazardData> chronological = new ArrayList();
+		List<HazardData> chronological = new ArrayList<HazardData>();
 		
 		/// ORE DICT ///
 		int[] ids = OreDictionary.getOreIDs(stack);
@@ -117,7 +118,7 @@ public class HazardSystem {
 		if(stackMap.containsKey(comp))
 			chronological.add(stackMap.get(comp));
 		
-		List<HazardEntry> entries = new ArrayList();
+		List<HazardEntry> entries = new ArrayList<HazardEntry>();
 		
 		for(HazardTransformerBase trafo : trafos) {
 			trafo.transformPre(stack, entries);
@@ -168,6 +169,15 @@ public class HazardSystem {
 		}
 	}
 	
+	public static void updateHazardEntities(EntityItem item)
+	{
+		List<HazardEntry> hazards = getHazardsFromStack(item.getEntityItem());
+//		System.out.println(hazards.isEmpty());
+		if (!hazards.isEmpty())
+			for (HazardEntry haz : hazards)
+				haz.updateEntity(item, haz.baseLevel);
+	}
+	
 	/**
 	 * Will apply the effects of all carried items, including the armor inventory.
 	 * @param player
@@ -205,7 +215,7 @@ public class HazardSystem {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void addFullTooltip(ItemStack stack, EntityPlayer player, List list) {
+	public static void addFullTooltip(ItemStack stack, EntityPlayer player, List<String> list) {
 		
 		List<HazardEntry> hazards = getHazardsFromStack(stack);
 		

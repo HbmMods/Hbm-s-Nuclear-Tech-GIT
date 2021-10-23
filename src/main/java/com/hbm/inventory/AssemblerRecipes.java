@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.Level;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,6 +21,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -33,14 +36,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 @Untested
+@Deprecated
 public class AssemblerRecipes {
 
 	public static File config;
 	public static File template;
 	private static final Gson gson = new Gson();
-	public static HashMap<ComparableStack, AStack[]> recipes = new HashMap();
-	public static HashMap<ComparableStack, Integer> time = new HashMap();
-	public static List<ComparableStack> recipeList = new ArrayList();
+	public static HashMap<ComparableStack, AStack[]> recipes = new HashMap<ComparableStack, AStack[]>();
+	public static HashMap<ComparableStack, Integer> time = new HashMap<ComparableStack, Integer>();
+	public static List<ComparableStack> recipeList = new ArrayList<ComparableStack>();
 	
 	/**
 	 * Pre-Init phase: Finds the recipe config (if exists) and checks if a template is present, if not it generates one.
@@ -80,7 +84,7 @@ public class AssemblerRecipes {
 	 */
 	private static void generateList() {
 		
-		List<ComparableStack> list = new ArrayList(recipes.keySet());
+		List<ComparableStack> list = new ArrayList<ComparableStack>(recipes.keySet());
 		Collections.sort(list);
 		recipeList = list;
 	}
@@ -328,7 +332,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.therm_endo, 1), new AStack[] {new OreDictStack("plateTitanium", 12), new ComparableStack(ModItems.thermo_unit_endo, 1), new ComparableStack(ModItems.circuit_gold, 2), new ComparableStack(ModItems.wire_gold, 6), },250);
 		makeRecipe(new ComparableStack(ModBlocks.therm_exo, 1), new AStack[] {new OreDictStack("plateTitanium", 12), new ComparableStack(ModItems.thermo_unit_exo, 1), new ComparableStack(ModItems.circuit_gold, 2), new ComparableStack(ModItems.wire_gold, 6), },250);
 		makeRecipe(new ComparableStack(ModBlocks.launch_pad, 1), new AStack[] {new OreDictStack("ingotSteel", 4), new ComparableStack(ModItems.ingot_polymer, 2), new OreDictStack("plateSteel", 12), new ComparableStack(ModBlocks.machine_battery, 1), new ComparableStack(ModItems.circuit_gold, 2), },250);
-		makeRecipe(new ComparableStack(ModItems.chopper, 1), new AStack[] {new ComparableStack(ModItems.chopper_blades, 5), new ComparableStack(ModItems.chopper_gun, 1), new ComparableStack(ModItems.chopper_head, 1), new ComparableStack(ModItems.chopper_tail, 1), new ComparableStack(ModItems.chopper_torso, 1), new ComparableStack(ModItems.chopper_wing, 2), },300);
+		makeRecipe(new ComparableStack(ModItems.spawn_chopper, 1), new AStack[] {new ComparableStack(ModItems.chopper_blades, 5), new ComparableStack(ModItems.chopper_gun, 1), new ComparableStack(ModItems.chopper_head, 1), new ComparableStack(ModItems.chopper_tail, 1), new ComparableStack(ModItems.chopper_torso, 1), new ComparableStack(ModItems.chopper_wing, 2), },300);
 		makeRecipe(new ComparableStack(ModBlocks.turret_light, 1), new AStack[] {new OreDictStack("ingotSteel", 6), new ComparableStack(ModItems.pipes_steel, 2), new OreDictStack("ingotRedCopperAlloy", 2), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit_targeting_tier2, 2), },200);
 		makeRecipe(new ComparableStack(ModBlocks.turret_heavy, 1), new AStack[] {new OreDictStack("ingotSteel", 8), new OreDictStack("ingotAluminum", 4), new ComparableStack(ModItems.pipes_steel, 2), new ComparableStack(ModItems.hull_small_steel, 1), new OreDictStack("ingotRedCopperAlloy", 4), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit_targeting_tier2, 3), },250);
 		makeRecipe(new ComparableStack(ModBlocks.turret_rocket, 1), new AStack[] {new OreDictStack("ingotSteel", 12), new OreDictStack("ingotTitanium", 4), new ComparableStack(ModItems.hull_small_steel, 8), new OreDictStack("ingotRedCopperAlloy", 6), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit_targeting_tier3, 2), },300);
@@ -569,7 +573,7 @@ public class AssemblerRecipes {
 						}
 						
 						Object outp = parseJsonArray(output.getAsJsonArray());
-						List inp = new ArrayList();
+						List<Object> inp = new ArrayList<Object>();
 						
 						for(JsonElement in : input.getAsJsonArray()) {
 							
@@ -589,8 +593,10 @@ public class AssemblerRecipes {
 				}
 			}
 			
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			//shush
+			MainRegistry.logger.catching(Level.WARN, e);
 		}
 	}
 	
@@ -755,18 +761,20 @@ public class AssemblerRecipes {
 			writer.endObject();
 			writer.close();
 			
-		} catch(IOException e) {
+		} catch(IOException e)
+		{
 			//shush
+			MainRegistry.logger.catching(Level.WARN, e);
 		}
 	}
 
 	public static Map<ItemStack, List<Object>> getRecipes() {
 		
-		Map<ItemStack, List<Object>> recipes = new HashMap();
+		Map<ItemStack, List<Object>> recipes = new HashMap<ItemStack, List<Object>>();
 		
 		for(Entry<ComparableStack, AStack[]> entry : AssemblerRecipes.recipes.entrySet()) {
 			
-			List<Object> value = new ArrayList();
+			List<Object> value = new ArrayList<Object>();
 			
 			for(AStack o : entry.getValue()) {
 				
@@ -775,7 +783,7 @@ public class AssemblerRecipes {
 					
 				} else if(o instanceof OreDictStack) {
 					
-					List<ItemStack> list = new ArrayList();
+					List<ItemStack> list = new ArrayList<ItemStack>();
 					OreDictStack oreStack = (OreDictStack)o;
 					List<ItemStack> ores = OreDictionary.getOres(oreStack.name);
 					

@@ -3,18 +3,18 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.config.RadiationConfig;
+import com.hbm.hazard.HazardData;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemHazard extends ItemCustomLore implements IItemHazard {
+public class ItemHazard extends ItemCustomLore implements IItemHazard
+{
 
 	//AU198 	            64h		α	500.00Rad/s	2 much spice :(
 	//PO210		           138d		α	075.00Rad/s	Spicy
@@ -61,6 +61,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float u = realisticRads ? ((u238 * 8 + u235) * 0.1F) : 0.35F;
 	public static final float uf = realisticRads ? (u238 * 6F + u235 * 3F) / 10F : 0.5F;
 	public static final float np237 = realisticRads ? mod1 / 2100000F : 2.5F;
+	public static final float npf = ((u238 * 2) + (np237)) * 0.1F;
 	public static final float pu238 = realisticRads ? mod1 / 88F : 10.0F;
 	public static final float pu239 = realisticRads ? mod1 / 24000F : 5.0F;
 	public static final float pu240 = realisticRads ? mod1 / 6600F : 7.5F;
@@ -118,29 +119,25 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float rod_dual = rod * 2;
 	public static final float rod_quad = rod * 4;
 	
-	ItemHazardModule module;
+	HazardData module = new HazardData();
 	
 	public ItemHazard() {
-		this.module = new ItemHazardModule();
 	}
 
-	@Override
-	public ItemHazardModule getModule() {
-		return this.module;
+	public ItemHazard(String key)
+	{
+		super(key);
 	}
 	
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-		
-		if(entity instanceof EntityLivingBase)
-			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
+	public HazardData getModule() {
+		return module;
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
-		super.addInformation(stack, player, list, bool);
-		this.module.addInformation(stack, player, list, bool);
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b)
+	{
+		//superseded
 	}
 	
 	/*
@@ -149,33 +146,33 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	@Deprecated()
 	public ItemHazard(float radiation) {
 		this();
-		this.module.addRadiation(radiation);
+		addRadiation(radiation);
 	}
 
 	@Deprecated()
 	public ItemHazard(float radiation, boolean fire) {
 		this();
-		this.module.addRadiation(radiation);
-		if(fire) this.module.addFire(5);
+		addRadiation(radiation);
+		if(fire) addFire(5);
 	}
 
 	@Deprecated()
 	public ItemHazard(float radiation, boolean fire, boolean blinding) {
 		this();
-		this.module.addRadiation(radiation);
-		if(blinding) this.module.addBlinding();
-		if(fire) this.module.addFire(5);
+		addRadiation(radiation);
+		if(blinding) addBlinding();
+		if(fire) addFire(5);
 	}
 	@Deprecated
 	public ItemHazard(float radiation, float drx, boolean fire, boolean blinding)
 	{
 		this();
-		this.module.addRadiation(radiation);
-		this.module.addDigamma(drx);
+		addRadiation(radiation);
+		addDigamma(drx);
 		if (blinding)
-			this.module.addBlinding();
+			addBlinding();
 		if (fire)
-			this.module.addFire(5);
+			addFire(5);
 	}
 	
 	@Override

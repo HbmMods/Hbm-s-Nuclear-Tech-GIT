@@ -1,26 +1,18 @@
 package com.hbm.tileentity.machine;
 
-<<<<<<< HEAD
-=======
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
->>>>>>> master
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-<<<<<<< HEAD
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-=======
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
->>>>>>> master
 
 public class TileEntityFEL extends TileEntityMachineBase {
 	
@@ -28,10 +20,7 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	public static final long maxPower = 1000000;
 	public int watts;
 	public int mode = 0;
-<<<<<<< HEAD
-=======
 	public boolean isOn;
->>>>>>> master
 	
 	public TileEntityFEL() {
 		super(1);
@@ -47,11 +36,6 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-<<<<<<< HEAD
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setByte("mode", (byte)mode);
-=======
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			int range = 50;
@@ -89,7 +73,6 @@ public class TileEntityFEL extends TileEntityMachineBase {
 			data.setByte("mode", (byte)mode);
 			data.setByte("watts", (byte)watts);
 			data.setBoolean("isOn", isOn);
->>>>>>> master
 			this.networkPack(data, 250);
 		}
 	}
@@ -98,11 +81,8 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.mode = nbt.getByte("mode");
-<<<<<<< HEAD
-=======
 		this.watts = nbt.getByte("watts");
 		this.isOn = nbt.getBoolean("isOn");
->>>>>>> master
 	}
 
 	@Override
@@ -111,10 +91,6 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		if(meta == 0) {
 			this.mode = Math.abs(value) % 6;
 		}
-<<<<<<< HEAD
-	}
-
-=======
 		
 		if(meta == 1){
 			this.watts = MathHelper.clamp_int(value, 1, 100);
@@ -153,7 +129,6 @@ public class TileEntityFEL extends TileEntityMachineBase {
 		nbt.setBoolean("isOn", isOn);
 	}
 	
->>>>>>> master
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(
@@ -168,12 +143,7 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-<<<<<<< HEAD
-	public double getMaxRenderDistanceSquared()
-	{
-=======
 	public double getMaxRenderDistanceSquared() {
->>>>>>> master
 		return 65536.0D;
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -10,16 +11,20 @@ import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-public class GunDartFactory {
+public class GunDartFactory
+{
 
-	public static GunConfiguration getDarterConfig() {
+	public static GunConfiguration getDarterConfig()
+	{
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -125,6 +130,43 @@ public class GunDartFactory {
 		return bullet;
 	}
 
+public static BulletConfiguration getNukeConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_dart_nuclear;
+		bullet.velocity = 5.0F;
+		bullet.spread = 0;
+		bullet.dmgMin = 1;
+		bullet.dmgMax = 2;
+		bullet.doesRicochet = true;
+		bullet.doesPenetrate = false;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.leadChance = 0;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityLivingBase) {
+					
+					EntityLivingBase e = (EntityLivingBase) hit;
+
+					if(HbmLivingProps.getRadiation(e) < 250)
+						HbmLivingProps.setRadiation(e, 250);
+					if(HbmLivingProps.getTimer(e) <= 0)
+						HbmLivingProps.setTimer(e, MainRegistry.polaroidID * 60 * 20);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
 	public static BulletConfiguration getNERFConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();

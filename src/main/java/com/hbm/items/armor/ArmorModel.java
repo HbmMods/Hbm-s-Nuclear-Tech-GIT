@@ -39,13 +39,9 @@ public class ArmorModel extends ItemArmor {
 	private ModelOxygenMask modelOxy;
 	@SideOnly(Side.CLIENT)
 	private ModelM65 modelM65;
-<<<<<<< HEAD
-	private ModelHat modelHat;
-=======
 	@SideOnly(Side.CLIENT)
 	private ModelHat modelHat;
 	@Spaghetti("replace this garbage with an array")
->>>>>>> master
 	private ResourceLocation goggleBlur0 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_0.png");
 	private ResourceLocation goggleBlur1 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_1.png");
 	private ResourceLocation goggleBlur2 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_2.png");
@@ -58,68 +54,6 @@ public class ArmorModel extends ItemArmor {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity) {
-		if (this == ModItems.goggles) {
-			return armorType == 0;
-		}
-		if (this == ModItems.gas_mask) {
-			return armorType == 0;
-		}
-		if (this == ModItems.gas_mask_m65) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hat) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hazmat_helmet_red) {
-			return armorType == 0;
-		}
-		if (this == ModItems.hazmat_helmet_grey) {
-			return armorType == 0;
-		}
-		if (this == ModItems.oxy_mask) {
-			return armorType == 0;
-		}
-		if (this == ModItems.cape_test) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_radiation) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_gasmask) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_schrabidium) {
-			return armorType == 1;
-		}
-		/*if (this == ModItems.cape_hbm) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_dafnik) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_lpkukin) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_vertice) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_codered_) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_ayy) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_nostalgia) {
-			return armorType == 1;
-		}*/
-		return armorType == 0;
-	}
-
-	@Override
-=======
->>>>>>> master
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 		if (this == ModItems.goggles) {
@@ -142,17 +76,6 @@ public class ArmorModel extends ItemArmor {
 			if (armorSlot == 0) {
 				if (this.modelHat == null) {
 					this.modelHat = new ModelHat(0);
-<<<<<<< HEAD
-				}
-				return this.modelHat;
-			}
-		}
-		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium) {
-			if (armorSlot == 1) {
-				if (this.modelCloak == null) {
-					this.modelCloak = new ModelCloak();
-=======
->>>>>>> master
 				}
 				return this.modelHat;
 			}
@@ -192,7 +115,8 @@ public class ArmorModel extends ItemArmor {
 		return "hbm:textures/models/capes/CapeUnknown.png";
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
     	
     	if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
@@ -229,9 +153,9 @@ public class ArmorModel extends ItemArmor {
         
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(0.0D, (double)resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), (double)resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
+        tessellator.addVertexWithUV(0.0D, resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
         tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         tessellator.draw();
         GL11.glDepthMask(true);

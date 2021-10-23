@@ -4,6 +4,7 @@ import com.hbm.modules.BlockRadShieldModule;
 
 import net.minecraft.block.Block;
 @Untested
+@Deprecated
 public interface IBlockRadShield
 {
 	public BlockRadShieldModule getShieldModule();

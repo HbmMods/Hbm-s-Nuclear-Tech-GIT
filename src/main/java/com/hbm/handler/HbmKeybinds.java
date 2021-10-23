@@ -1,11 +1,5 @@
 package com.hbm.handler;
 
-<<<<<<< HEAD
-public class HbmKeybinds {
-
-	public static enum EnumKeybind {
-		JETPACK
-=======
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.extprop.HbmPlayerProps;
@@ -53,6 +47,5 @@ public class HbmKeybinds {
 		TOGGLE_JETPACK,
 		TOGGLE_HEAD,
 		RELOAD
->>>>>>> master
 	}
 }

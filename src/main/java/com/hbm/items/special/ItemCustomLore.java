@@ -20,7 +20,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item implements IHasLore
 {
-	EnumRarity rarity;
+	EnumRarity rarity = EnumRarity.common;
 	boolean hasEffect = false;
 	public String basicLore = new String();
 	/** New item with custom lore, assumes that it is in the localization file
@@ -34,9 +34,7 @@ public class ItemCustomLore extends Item implements IHasLore
 	{
 		this.basicLore = lore;
 	}
-	
-	EnumRarity rarity;
-	
+	static int setSize = 0;
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
@@ -63,6 +61,30 @@ public class ItemCustomLore extends Item implements IHasLore
 //		}
 		
 		standardLore(itemstack, list);
+		
+		if (this == ModItems.undefined)
+		{
+			
+			if (player.worldObj.rand.nextInt(10) == 0)
+				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
+			else
+			{
+				Random rand = new Random(System.currentTimeMillis() / 500);
+				
+				if (setSize == 0)
+					setSize = Item.itemRegistry.getKeys().size();
+				
+				int r = rand.nextInt(setSize);
+				
+				Item item = Item.getItemById(r);
+				
+				if(item != null)
+					list.add(new ItemStack(item).getDisplayName());
+				else
+					list.add(EnumChatFormatting.RED + "ERROR #" + r);
+				
+			}
+		}
 		
 		if(this == ModItems.pin)
 		{
@@ -139,7 +161,7 @@ public class ItemCustomLore extends Item implements IHasLore
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_)
     {	
-		return this.rarity != null ? rarity : EnumRarity.common;
+		return rarity;
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIAtomicClock extends GuiInfoContainer
 {
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/machine/gui_atomic_clock.png");
+	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/machine/gui_atomic_clock.png");
 	private final TileEntityAtomicClock clock;
 	private final FluidTankGUI clockTank;
 	private final NumberDisplay[] displays = new NumberDisplay[3];

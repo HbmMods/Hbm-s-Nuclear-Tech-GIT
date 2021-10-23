@@ -21,7 +21,6 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -300,6 +299,30 @@ public class BulletConfigFactory {
 			}
 			
 			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+		}
+	}
+	@Deprecated
+	public static void explosionLunatic(EntityBulletBase bullet, int x, int y, int z, int size) {
+		
+		if(!bullet.worldObj.isRemote) {
+
+			EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(bullet.worldObj);
+			explosionEntity.posX = bullet.posX;
+			explosionEntity.posY = bullet.posY;
+			explosionEntity.posZ = bullet.posZ;
+			explosionEntity.destructionRange = size;
+			explosionEntity.speed = BombConfig.blastSpeed;
+			explosionEntity.coefficient = 15F;
+			explosionEntity.coefficient2 = 45F;
+			explosionEntity.waste = false;
+			explosionEntity.extType = 2;
+			bullet.worldObj.spawnEntityInWorld(explosionEntity);
+			
+			EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
+			cloud.posX = x;
+			cloud.posY = y;
+			cloud.posZ = z;
+			bullet.worldObj.spawnEntityInWorld(cloud);
 		}
 	}
 	

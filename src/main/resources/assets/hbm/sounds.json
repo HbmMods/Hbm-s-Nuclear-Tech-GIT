@@ -239,8 +239,7 @@
     "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]},
     "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]},
     "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]},
-    "alarm.defconstage": {"category": "record", "sounds": [{"name": "alarm/defconstage", "stream": false}]}
-}
+    "alarm.defconstage": {"category": "record", "sounds": [{"name": "alarm/defconstage", "stream": false}]},
 
     "block.rbmk_explosion": {"category": "block", "sounds": [{"name": "block/rbmk_explosion", "stream": false}]},
     "block.rbmk_az5_cover": {"category": "block", "sounds": [{"name": "block/rbmk_az5_cover", "stream": false}]},
@@ -253,4 +252,5 @@
     "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
     "step.metalBlock": {"category": "block", "sounds": ["footsteps/metalStep1", "footsteps/metalStep2", "footsteps/metalStep3", "footsteps/metalStep4"]},
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
-    "player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]},
+    "player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]}
+}

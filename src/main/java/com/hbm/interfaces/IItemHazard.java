@@ -1,14 +1,17 @@
 package com.hbm.interfaces;
 
 import com.google.common.annotations.Beta;
-import com.hbm.modules.ItemHazardModule;
+import com.hbm.hazard.HazardData;
+import com.hbm.hazard.HazardEntry;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 public interface IItemHazard {
 	
-	public ItemHazardModule getModule();
+	public HazardData getModule();
 	
 	public enum EnumToxicity
 	{
@@ -37,22 +40,22 @@ public interface IItemHazard {
 	}
 	
 	public default IItemHazard addRadiation(float radiation) {
-		this.getModule().addRadiation(radiation);
+		this.getModule().addEntry(HazardRegistry.RADIATION, radiation);
 		return this;
 	}
 	
 	public default IItemHazard addDigamma(float digamma) {
-		this.getModule().addDigamma(digamma);
+		this.getModule().addEntry(HazardRegistry.DIGAMMA, digamma);
 		return this;
 	}
 	
 	public default IItemHazard addFire(int fire) {
-		this.getModule().addFire(fire);
+		this.getModule().addEntry(HazardRegistry.HOT, fire);
 		return this;
 	}
 	
 	public default IItemHazard addAsbestos() {
-		this.getModule().addAsbestos();
+		this.getModule().addEntry(HazardRegistry.ASBESTOS, 1);
 		return this;
 	}
 	/**
@@ -61,41 +64,40 @@ public interface IItemHazard {
 	 */
 	@Untested
 	@Beta
-	public default IItemHazard addCustomToxicity(EnumToxicity tox)
+	public default IItemHazard addCustomToxicity(HazardEntry tox)
 	{
-		return addCustomToxicity(tox, 1);
-	}
-	
-	public default IItemHazard addCustomToxicity(EnumToxicity tox, float mod)
-	{
-		getModule().addCustomToxicity(tox, mod);
+		getModule().addEntry(tox);
 		return this;
 	}
 	
 	public default IItemHazard addBlinding() {
-		this.getModule().addBlinding();
+		this.getModule().addEntry(HazardRegistry.BLINDING);
 		return this;
 	}
 	
 	public default IItemHazard addHydroReactivity() {
-		this.getModule().addHydroReactivity();
+		this.getModule().addEntry(HazardRegistry.HYDROACTIVE);
 		return this;
 	}
 	
 	public default IItemHazard addExplosive(float bang) {
-		this.getModule().addExplosive(bang);
+		this.getModule().addEntry(HazardRegistry.EXPLOSIVE, bang);
 		return this;
 	}
 	
 	//the only ugly part of this entire system is the manual casting so that the rest of the daisychained setters work
-	public default Item toItem() {
+	public default Item toItem()
+	{
+//		HazardSystem.register(this, getModule()); No good deed goes unpunished apparently
 		return (Item)this;
-	
-	public default Block toBlock() {
+	}
+	public default Block toBlock()
+	{
+//		HazardSystem.register(this, getModule());
 		return (Block)this;
 	}
 	public default IItemHazard addCoal(int coal) {
-		this.getModule().addCoal(coal);
+		this.getModule().addEntry(HazardRegistry.COAL, coal);
 		return this;
 	}
 }

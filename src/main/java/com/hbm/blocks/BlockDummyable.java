@@ -42,10 +42,7 @@ public abstract class BlockDummyable extends BlockContainer {
 
 	public static boolean safeRem = false;
 
-<<<<<<< HEAD
 	@Override
-=======
->>>>>>> master
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 
 		super.onNeighborBlockChange(world, x, y, z, block);
@@ -69,10 +66,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 	}
 
-<<<<<<< HEAD
 	@Override
-=======
->>>>>>> master
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		super.updateTick(world, x, y, z, rand);
@@ -100,11 +94,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		return findCoreRec(world, x, y, z);
 	}
 
-<<<<<<< HEAD
 	List<ThreeInts> positions = new ArrayList<ThreeInts>();
-=======
-	List<ThreeInts> positions = new ArrayList();
->>>>>>> master
 
 	public int[] findCoreRec(World world, int x, int y, int z) {
 
@@ -164,11 +154,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(i == 3) {
 			dir = ForgeDirection.getOrientation(4);
 		}
-<<<<<<< HEAD
-=======
-		
 		dir = getDirModified(dir);
->>>>>>> master
 
 		if(!checkRequirement(world, x, y, z, dir, o)) {
 
@@ -200,13 +186,10 @@ public abstract class BlockDummyable extends BlockContainer {
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
-<<<<<<< HEAD
-=======
 	
 	protected ForgeDirection getDirModified(ForgeDirection dir) {
 		return dir;
 	}
->>>>>>> master
 
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir);
@@ -229,15 +212,12 @@ public abstract class BlockDummyable extends BlockContainer {
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-<<<<<<< HEAD
 		BlockDummyable.safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
 		BlockDummyable.safeRem = false;
-=======
-		this.safeRem = true;
+		safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
-		this.safeRem = false;
->>>>>>> master
+		safeRem = false;
 
 	}
 
@@ -262,16 +242,12 @@ public abstract class BlockDummyable extends BlockContainer {
 
 			// if(pos != null) {
 
-<<<<<<< HEAD
 			// TODO: run extensive tests on whether this change doesn't break anything
 			ForgeDirection d = ForgeDirection.getOrientation(i);
 			world.setBlockToAir(x - d.offsetX, y - d.offsetY, z - d.offsetZ);
-=======
-			ForgeDirection d = ForgeDirection.getOrientation(i);
 			
 			if(world.getBlock(x - d.offsetX, y - d.offsetY, z - d.offsetZ) == this)
 				world.setBlockToAir(x - d.offsetX, y - d.offsetY, z - d.offsetZ);
->>>>>>> master
 			// }
 		}
 

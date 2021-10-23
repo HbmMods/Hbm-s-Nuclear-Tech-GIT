@@ -201,7 +201,8 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_cinnebar) {
 			return ModItems.cinnebar;
 		}
-		if(this == ModBlocks.ore_coltan) {
+		if(this == ModBlocks.ore_coltan)
+		{
 			return ModItems.fragment_coltan;
 		}
 		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {

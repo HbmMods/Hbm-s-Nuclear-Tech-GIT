@@ -135,6 +135,7 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_gasmask, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 4), 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.gas_mask });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_schrabidium, 1), new Object[] { "W W", "WIW", "WDW", 'W', ModItems.ingot_schrabidium, 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.circuit_red_copper });
 		
+		GameRegistry.addRecipe(new ItemStack(ModItems.robes_boots, 1), new Object[] { "R R", "P P", 'R', ModItems.rag, 'P', ModItems.plate_polymer });
 		//Configged
 		if(GeneralConfig.enableBabyMode) {
 			basicArmorSet(new Item[] { ModItems.starmetal_helmet, ModItems.starmetal_plate, ModItems.starmetal_legs, ModItems.starmetal_boots }, ModItems.ingot_starmetal);
@@ -182,5 +183,3 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(outs[3]), new Object[] { "M M", "MPM", 'M', material, 'P', priorTier[3] });
 	}
 }
-
-		GameRegistry.addRecipe(new ItemStack(ModItems.robes_boots, 1), new Object[] { "R R", "P P", 'R', ModItems.rag, 'P', ModItems.plate_polymer });

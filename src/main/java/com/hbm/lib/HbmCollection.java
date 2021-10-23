@@ -176,6 +176,8 @@ public class HbmCollection
 	// GUN MANUFACTURERS
 	public static enum EnumGunManufacturer
 	{
+		/**Armalite**/
+		ARMALITE,
 		/**Auto-Ordnance Corporation**/
 		AUTO_ORDINANCE,
 		/**BAE Systems plc**/
@@ -198,6 +200,8 @@ public class HbmCollection
 		F_STRONG,
 		/**FlimFlam Industries**/
 		FLIMFLAM,
+		/**Gloria GmbH**/
+		GLORIA,
 		/**Heckler & Koch**/
 		H_AND_K,
 		/**Harrington & Richardson**/
@@ -264,11 +268,13 @@ public class HbmCollection
 	public static final String gunDamage = "desc.item.gun.damage";
 	// ITEM TRAITS
 	public static final String asbestos = "trait.asbestos";
+	public static final String beryllium = "trait.BERYLLIUM";
 	public static final String blinding = "trait.blinding";
 	public static final String drop = "trait.drop";
 	public static final String drx = "trait.digamma";
 	public static final String explosive = "trait.explosive";
 	public static final String hot = "trait.hot";
+	public static final String heavyMetal = "trait.HEAVY_METAL";
 	public static final String hydro = "trait.hydro";
 	public static final String radioactive = "trait.radioactive";
 	// FLUID TRAITS
@@ -617,8 +623,8 @@ public class HbmCollection
 //		ItemStack cd = ItemStorageMedium.getBlankMedium(ModItems.storage_optical_cd);
 		ItemStack fdd = IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_fdd);
 		ItemStack cd = IDataStorageUser.getBlankMedium(ModItems.storage_optical_cd);
-		fdd.stackSize = 10;
-		cd.stackSize = 8;
+//		fdd.stackSize = 10;
+//		cd.stackSize = 8;
 		fddPack = new ItemStack[] {fdd};
 		cdPack = new ItemStack[] {cd};
 //		Arrays.fill(fddPack, ItemStorageMedium.getBlankMedium(ModItems.storage_magnetic_fdd));

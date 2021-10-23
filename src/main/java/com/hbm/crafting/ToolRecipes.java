@@ -107,7 +107,7 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.turret_chip, 1), new Object[] { "WWW", "CPC", "WWW", 'W', ModItems.wire_gold, 'P', ModItems.ingot_polymer, 'C', ModItems.circuit_gold, });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.turret_biometry, 1), new Object[] { "CC ", "GGS", "SSS", 'C', ModItems.circuit_copper, 'S', "plateSteel", 'G', "plateGold", 'I', "plateLead" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.survey_scanner, 1), new Object[] { "SWS", " G ", "PCP", 'W', ModItems.wire_gold, 'P', ModItems.ingot_polymer, 'C', ModItems.circuit_gold, 'S', "plateSteel", 'G', "ingotGold" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.geiger_counter, 1), new Object[] { "GPP", "WCS", "WBB", 'W', ModItems.wire_gold, 'P', ModItems.ingot_polymer, 'C', ModItems.circuit_copper, 'G', "ingotGold", 'S', "plateSteel", 'B', ModItems.ingot_beryllium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.geiger_counter, 1), new Object[] { "GPP", "WCS", "WBB", 'W', ModItems.wire_gold, 'P', ModItems.plate_polymer, 'C', ModItems.circuit_aluminium, 'G', "ingotGold", 'S', "plateSteel", 'B', ModItems.ingot_beryllium }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.geiger), new Object[] { ModItems.geiger_counter });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.mirror_tool), new Object[] { " A ", " IA", "I  ", 'A', "ingotAluminum", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.defuser, 1), new Object[] { " PS", "P P", " P ", 'P', "ingotPolymer", 'S', "plateSteel" }));
@@ -220,9 +220,10 @@ public class ToolRecipes {
 	public static void newStamp(Item stamp, String mat, boolean diamond)
 	{
 		GameRegistry.addRecipe(new ShapedOreRecipe(stamp, new Object[] {" R ", "BBB", "MMM", 'R', Items.redstone, 'B', diamond ? Items.diamond : Items.brick, 'M', mat}));
-
+	}
 	//Generic, pattern-driven
-	public static void addTool(Object ingot, Item tool, String[] pattern) {
+	public static void addTool(Object ingot, Item tool, String[] pattern)
+	{
 		if(ingot instanceof Item)		addToolRec(ingot, tool, pattern);
 		if(ingot instanceof ItemStack)	addToolRec(ingot, tool, pattern);
 		if(ingot instanceof String)		addToolDict(ingot, tool, pattern);
@@ -238,5 +239,5 @@ public class ToolRecipes {
 	public static final String[] patternAxe = new String[] {"XX", "X#", " #"};
 	public static final String[] patternShovel = new String[] {"X", "#", "#"};
 	public static final String[] patternHoe = new String[] {"XX", " #", " #"};
-	}
+	
 }

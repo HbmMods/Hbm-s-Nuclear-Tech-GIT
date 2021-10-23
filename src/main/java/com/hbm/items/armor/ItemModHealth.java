@@ -4,10 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
-<<<<<<< HEAD
-=======
 import com.hbm.items.ModItems;
->>>>>>> master
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,7 +13,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemModHealth extends ItemArmorMod {
+public class ItemModHealth extends ItemArmorMod
+{
 	
 	float health;
 
@@ -32,15 +30,12 @@ public class ItemModHealth extends ItemArmorMod {
 
 		list.add(color + "+" + (Math.round(health * 10 / 2) * 0.1) + " health");
 		list.add("");
-<<<<<<< HEAD
-=======
 		
 		if(this == ModItems.black_diamond) {
 			list.add(EnumChatFormatting.DARK_GRAY + "Nostalgia");
 			list.add("");
 		}
 		
->>>>>>> master
 		super.addInformation(itemstack, player, list, bool);
 	}
 
@@ -54,7 +49,7 @@ public class ItemModHealth extends ItemArmorMod {
 	
 	@Override
 	public Multimap getModifiers(ItemStack armor) {
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers();
 		
 		multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(),
 				new AttributeModifier(ArmorModHandler.UUIDs[((ItemArmor)armor.getItem()).armorType], "NTM Armor Mod Health", health, 0));

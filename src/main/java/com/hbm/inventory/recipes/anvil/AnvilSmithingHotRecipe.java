@@ -15,6 +15,7 @@ public class AnvilSmithingHotRecipe extends AnvilSmithingRecipe {
 		super(tier, out, left, right);
 	}
 	
+	@Override
 	public boolean doesStackMatch(ItemStack input, AStack recipe) {
 		
 		if(input != null && input.getItem() instanceof ItemHot) {
@@ -27,6 +28,7 @@ public class AnvilSmithingHotRecipe extends AnvilSmithingRecipe {
 		return recipe.matchesRecipe(input, false);
 	}
 	
+	@Override
 	public ItemStack getOutput(ItemStack left, ItemStack right) {
 		
 		if(left.getItem() instanceof ItemHot && right.getItem() instanceof ItemHot && output.getItem() instanceof ItemHot) {
@@ -43,10 +45,12 @@ public class AnvilSmithingHotRecipe extends AnvilSmithingRecipe {
 		return output.copy();
 	}
 	
+	@Override
 	public List<ItemStack> getLeft() {
 		return Arrays.asList(new ItemStack[] {getHot(left)});
 	}
 	
+	@Override
 	public List<ItemStack> getRight() {
 		return Arrays.asList(new ItemStack[] {getHot(right)});
 	}

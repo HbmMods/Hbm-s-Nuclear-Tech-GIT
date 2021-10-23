@@ -2,6 +2,8 @@ package com.hbm.potion;
 
 import java.lang.reflect.Field;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.GeneralConfig;
@@ -12,6 +14,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -21,6 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -87,8 +91,9 @@ public class HbmPotion extends Potion {
 				modfield.setInt(field, field.getModifiers() & 0xFFFFFFEF);
 				field.set(null, newArray);
 				
-			} catch (Exception e) {
-				
+			} catch (Exception e)
+			{
+				MainRegistry.logger.catching(Level.INFO, e);
 			}
 		}
 		
@@ -122,6 +127,7 @@ public class HbmPotion extends Potion {
 		return super.getStatusIconIndex();
 	}
 
+	@Override
 	public void performEffect(EntityLivingBase entity, int level) {
 
 		if(this == taint) {
@@ -144,7 +150,7 @@ public class HbmPotion extends Potion {
 			}
 		}
 		if(this == radiation) {
-			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
 			
@@ -203,19 +209,22 @@ public class HbmPotion extends Potion {
 		}
 		if (this == hollow)
 		{
-			if (level > 2)
-				ContaminationUtil.applyDigammaDirect(entity, (float)(level + 1F) * 0.5F);
-			else
-				ContaminationUtil.applyDigammaData(entity, (float)(level + 1F) * 0.25F);
+//			if (level > 2)
+//				ContaminationUtil.applyDigammaDirect(entity, (level + 1F) * 0.5F);
+//			else
+//				ContaminationUtil.applyDigammaData(entity, (level + 1F) * 0.25F);
+			
+			ContaminationUtil.contaminate(entity, HazardType.DIGAMMA, ContaminationType.DIGAMMA, (level + 1F) > 2 ? 0.005F : 0.0025F);
 		}
 	}
 
+	@Override
 	public boolean isReady(int par1, int par2) {
 
 		if(this == taint) {
 			return par1 % 2 == 0;
 		}
-		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus || this == paralysis || this == fragile) {
+		if(this == radiation || this == hollow || this == radaway || this == telekinesis || this == phosphorus || this == paralysis || this == fragile) {
 			
 			return true;
 		}
@@ -244,7 +253,7 @@ public class HbmPotion extends Potion {
 			boolean ret = isBadEffect.getBoolean(potion);
 			return ret;
 			
-		} catch (Exception x) {
+		} catch (@SuppressWarnings("unused") Exception x) {
 			return false;
 		}
 	}

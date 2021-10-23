@@ -4,15 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-<<<<<<< HEAD
-import com.hbm.saveddata.RadiationSavedData;
 
-=======
->>>>>>> master
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -22,9 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class TestEventTester extends Block {
 	
@@ -89,15 +81,12 @@ public class TestEventTester extends Block {
                 {
                     try {
                         Chunk oldChunk = worldObj.getChunkFromBlockCoords(x1, z1);
-
                         if(worldObj instanceof WorldServer)
                         {
                             WorldServer worldServer = (WorldServer) worldObj;
                             ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
                             IChunkProvider chunkProviderGenerate = chunkProviderServer.currentChunkProvider;
-
                             Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);
-
                             for (int x = 0; x < 16; x++)
                             {
                                 for (int z = 0; z < 16; z++)
@@ -106,11 +95,8 @@ public class TestEventTester extends Block {
                                     {
                                         Block block = newChunk.getBlock(x, y, z);
                                         int metadata = newChunk.getBlockMetadata(x, y, z);
-
                                         worldServer.setBlock(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, block, metadata, 2);
-
                                         TileEntity tileEntity = newChunk.getTileEntityUnsafe(x, y, z);
-
                                         if(tileEntity != null)
                                         {
                                             worldServer.setTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
@@ -118,7 +104,6 @@ public class TestEventTester extends Block {
                                     }
                                 }
                             }
-
                             oldChunk.isTerrainPopulated = false;
                             chunkProviderGenerate.populate(chunkProviderGenerate, oldChunk.xPosition, oldChunk.zPosition);
                         }
@@ -177,7 +162,6 @@ public class TestEventTester extends Block {
         	//THO SETS RAD TO 1000000
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_aluminium) {
-
 				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
 				
 				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 1000);
@@ -186,7 +170,6 @@ public class TestEventTester extends Block {
         	}
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_beryllium) {
-
 				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
 				
 				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
@@ -197,7 +180,6 @@ public class TestEventTester extends Block {
         	}
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_red_copper) {
-
 				data.jettisonData();
         	}
         	
@@ -209,7 +191,6 @@ public class TestEventTester extends Block {
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_uranium) {
 				
         		float r = 0;
-
             	for(Entry<ChunkCoordIntPair, Float> struct : data.contamination.entrySet()) {
         			r += struct.getValue();
         		}
@@ -218,7 +199,6 @@ public class TestEventTester extends Block {
         	}
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_thorium) {
-
 				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
 				
 				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 1000000);
@@ -230,11 +210,7 @@ public class TestEventTester extends Block {
         		
         		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, x1, y1 + 5, z1, 100));
         		worldObj.setBlockToAir(x1, y1, z1);
-<<<<<<< HEAD
-        	}
-=======
         	}*/
->>>>>>> master
         	
         }
     }
@@ -333,7 +309,6 @@ public class TestEventTester extends Block {
 
 
     	/*worldObj.setBlock(par2, par3, par4, ModBlocks.crate_steel, 0, 3);
-
 		if(worldObj.getBlock(par2, par3, par4) == ModBlocks.crate_steel)
 		{
 			WeightedRandomChestContent.generateChestContents(worldObj.rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)worldObj.getTileEntity(par2, par3, par4), 32);
@@ -384,7 +359,6 @@ public class TestEventTester extends Block {
 					new TargetPoint(worldObj.provider.dimensionId,par2, par3, par4, 50));*/
 
     	/*if(!worldObj.isRemote) {
-
             EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), this, worldObj.getBlockMetadata(par2, par3, par4));
             worldObj.spawnEntityInWorld(entityfallingblock);
     	}*/
@@ -459,12 +433,12 @@ public class TestEventTester extends Block {
 	        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 	        int l = MathHelper.floor_double(z - wat - 1.0D);
 	        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-	        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+	        List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 	        Vec3 vec4 = Vec3.createVectorHelper(x, y + 1, z);
 
 	        for (int i1 = 0; i1 < list.size(); ++i1)
 	        {
-	            Entity entity = (Entity)list.get(i1);
+	            Entity entity = list.get(i1);
 	            double d4 = entity.getDistance(x, y, z) / this.explosionSize;
 
 	            if (d4 <= 1.0D)

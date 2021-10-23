@@ -1,13 +1,12 @@
 package com.hbm.items.special;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.hbm.entity.mob.EntityHunterChopper;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
-import com.hbm.items.ModItems;
+import org.apache.logging.log4j.Level;
+
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -25,139 +24,129 @@ import net.minecraft.world.World;
 
 public class ItemSpawner extends Item
 {
-	Class<? extends EntityLivingBase> entity = null;
+	Class<? extends Entity> entity = null;
 	
 	public ItemSpawner()
-	{super();setMaxStackSize(1);}
+	{
+		setMaxStackSize(1);
+	}
 	
-	public ItemSpawner(@Nonnull Class<? extends EntityLivingBase> entityIn)
+	public ItemSpawner(@Nonnull Class<? extends Entity> entityIn)
 	{
 		this();
 		assert entityIn != null : "Class cannot be null!";
-		assert EntityLivingBase.class.isAssignableFrom(entityIn) : "Class must extend EntityLivingBase!";
+		assert Entity.class.isAssignableFrom(entityIn) : "Class must extend Entity!";
 		entity = entityIn;
 	}
-
-	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-		
-		if(world.isRemote) {
-			return true;
-		} else {
-			
-			Block block = world.getBlock(x, y, z);
-			
-			x += Facing.offsetsXForSide[side];
-			y += Facing.offsetsYForSide[side];
-			z += Facing.offsetsZForSide[side];
-			double offset = 0.0D;
-
-			if(side == 1 && block.getRenderType() == 11)
-				offset = 0.5D;
-
-			Entity entity = spawnCreature(world, stack.getItemDamage(), x + 0.5D, y + offset, z + 0.5D);
-
-			if(entity != null) {
-				if(entity instanceof EntityLivingBase && stack.hasDisplayName()) {
-					((EntityLiving) entity).setCustomNameTag(stack.getDisplayName());
-				}
-
-				if(!player.capabilities.isCreativeMode) {
-					--stack.stackSize;
-				}
-			}
-
-			return true;
-		}
-	}
 	
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
-		if(world.isRemote) {
-			return stack;
-			
-		} else {
-			MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+    @Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldIn, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    {
+        if (worldIn.isRemote)
+            return true;
+        else
+        {
+            Block block = worldIn.getBlock(x, y, z);
+            x += Facing.offsetsXForSide[side];
+            y += Facing.offsetsYForSide[side];
+            z += Facing.offsetsZForSide[side];
+            double d0 = 0.0D;
 
-			if(movingobjectposition == null) {
-				return stack;
-			} else {
-				if(movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					int i = movingobjectposition.blockX;
-					int j = movingobjectposition.blockY;
-					int k = movingobjectposition.blockZ;
+            if (side == 1 && block.getRenderType() == 11)
+                d0 = 0.5D;
 
-					if(!world.canMineBlock(player, i, j, k)) {
-						return stack;
-					}
+            Entity entity = spawnCreature(worldIn, stack.getItemDamage(), x + 0.5D, y + d0, z + 0.5D);
 
-					if(!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack)) {
-						return stack;
-					}
+            if (entity != null)
+            {
+                if (entity instanceof EntityLivingBase && stack.hasDisplayName())
+                    ((EntityLiving)entity).setCustomNameTag(stack.getDisplayName());
 
-					if(world.getBlock(i, j, k) instanceof BlockLiquid) {
-						Entity entity = spawnCreature(world, stack.getItemDamage(), i, j, k);
+                if (!player.capabilities.isCreativeMode)
+                    --stack.stackSize;
+            }
 
-						if(entity != null) {
-							if(entity instanceof EntityLivingBase && stack.hasDisplayName()) {
-								((EntityLiving) entity).setCustomNameTag(stack.getDisplayName());
-							}
+            return true;
+        }
+    }
 
-							if(!player.capabilities.isCreativeMode) {
-								--stack.stackSize;
-							}
-						}
-					}
-				}
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    @Override
+	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player)
+    {
+        if (worldIn.isRemote)
+            return stack;
+        else
+        {
+            MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, player, true);
 
-				return stack;
-			}
-		}
-	}
+            if (movingobjectposition == null)
+                return stack;
+            else
+            {
+                if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+                {
+                    int i = movingobjectposition.blockX;
+                    int j = movingobjectposition.blockY;
+                    int k = movingobjectposition.blockZ;
 
-	public Entity spawnCreature(World world, int dmg, double x, double y, double z)
-	{
-		Entity entityToSpawn = null;
-		try
-		{
-			entityToSpawn = entity.getConstructor(World.class).newInstance(world);
-		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e)
-		{
-			e.printStackTrace();
-		}
-		
-//		if(this == ModItems.spawn_chopper)
-//			entity = new EntityHunterChopper(world);
-//		
-//		if(this == ModItems.spawn_worm)
-//			entity = new EntityBOTPrimeHead(world);
-		
-		if(entityToSpawn != null)
-		{
-			EntityLiving entityliving = (EntityLiving) entityToSpawn;
-			entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
-			entityliving.rotationYawHead = entityliving.rotationYaw;
-			entityliving.renderYawOffset = entityliving.rotationYaw;
-			entityliving.onSpawnWithEgg((IEntityLivingData) null);
-			world.spawnEntityInWorld(entityToSpawn);
-		}
+                    if (!worldIn.canMineBlock(player, i, j, k))
+                        return stack;
 
-		return entityToSpawn;
-	}
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
+                        return stack;
 
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+                    if (worldIn.getBlock(i, j, k) instanceof BlockLiquid)
+                    {
+                        Entity entity = spawnCreature(worldIn, stack.getItemDamage(), i, j, k);
 
-		if(this == ModItems.spawn_worm) {
-			list.add("Without a player in survival mode");
-			list.add("to target, he struggles around a lot.");
-			list.add("");
-			list.add("He's doing his best so please show him");
-			list.add("some consideration.");
-		}
-	}
+                        if (entity != null)
+                        {
+                            if (entity instanceof EntityLivingBase && stack.hasDisplayName())
+                                ((EntityLiving)entity).setCustomNameTag(stack.getDisplayName());
+
+                            if (!player.capabilities.isCreativeMode)
+                                --stack.stackSize;
+                        }
+                    }
+                }
+
+                return stack;
+            }
+        }
+    }
+
+    /**
+     * Spawns the creature specified by the egg's type in the location specified by the last three parameters.
+     * Parameters: world, entityID, x, y, z.
+     */
+    public Entity spawnCreature(World worldIn, int p_77840_1_, double x, double y, double z)
+    {
+    	Entity entityToSpawn = null;
+    	try
+    	{
+    		entityToSpawn = entity.getConstructor(World.class).newInstance(worldIn);
+    	}
+    	catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException
+    			| SecurityException | InvocationTargetException e)
+    	{
+    		MainRegistry.logger.catching(Level.ERROR, e);
+    	}
+
+        if (entityToSpawn != null && entityToSpawn instanceof EntityLivingBase)
+        {
+            EntityLiving entityliving = (EntityLiving)entityToSpawn;
+            entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
+            entityliving.rotationYawHead = entityliving.rotationYaw;
+            entityliving.renderYawOffset = entityliving.rotationYaw;
+            entityliving.onSpawnWithEgg((IEntityLivingData)null);
+            worldIn.spawnEntityInWorld(entityToSpawn);
+        }
+        
+
+        return entityToSpawn;
+    }
 
 }

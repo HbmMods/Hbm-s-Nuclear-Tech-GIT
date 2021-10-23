@@ -5,7 +5,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
@@ -95,28 +94,7 @@ public class WasteEarth extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-<<<<<<< HEAD
-
-		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0) {
-			Block b0;
-			int count = 0;
-			for(int i = -5; i < 5; i++) {
-				for(int j = -5; j < 6; j++) {
-					for(int k = -5; k < 5; k++) {
-						b0 = world.getBlock(x + i, y + j, z + k);
-						if((b0 instanceof BlockMushroom) || b0 == ModBlocks.mush) {
-							count++;
-						}
-					}
-				}
-			}
-			if(count > 0 && count < 5)
-				world.setBlock(x, y + 1, z, ModBlocks.mush);
-		}
-
-=======
 		
->>>>>>> master
 		if(this == ModBlocks.waste_mycelium && GeneralConfig.enableMycelium) {
 			for(int i = -1; i < 2; i++) {
 				for(int j = -1; j < 2; j++) {
@@ -129,38 +107,6 @@ public class WasteEarth extends Block {
 					}
 				}
 			}
-<<<<<<< HEAD
-
-			if(rand.nextInt(10) == 0) {
-				Block b0;
-				int count = 0;
-				for(int i = -5; i < 5; i++) {
-					for(int j = -5; j < 6; j++) {
-						for(int k = -5; k < 5; k++) {
-							b0 = world.getBlock(x + i, y + j, z + k);
-							if(b0 == ModBlocks.mush) {
-								count++;
-							}
-						}
-					}
-				}
-				if(count < 5)
-					world.setBlock(x, y + 1, z, ModBlocks.mush);
-			}
-		}
-
-		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {
-			if(!world.isRemote) {
-				if(world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2) {
-					world.setBlock(x, y, z, Blocks.dirt);
-				}
-			}
-		}
-
-		if(GeneralConfig.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
-			if(!world.isRemote)
-				world.setBlock(x, y, z, Blocks.dirt);
-=======
 		}
 
 		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {
@@ -184,6 +130,5 @@ public class WasteEarth extends Block {
 		}
 		
 		return false;
->>>>>>> master
 	}
 }

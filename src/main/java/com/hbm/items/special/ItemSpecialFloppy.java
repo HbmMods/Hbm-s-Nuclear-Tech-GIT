@@ -11,7 +11,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemSpecialFloppy extends ItemStorageMedium
+public final class ItemSpecialFloppy extends ItemStorageMedium
 {
 	// It will do something, eventually...
 	public ItemSpecialFloppy()
@@ -21,13 +21,13 @@ public class ItemSpecialFloppy extends ItemStorageMedium
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc19"));
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".desc19"));
 		list.add("");
 		// The fate of the world is now (literally) in your hands
 		//list.add(EnumChatFormatting.RED + specialLore[MainRegistry.polaroidID - 1]);
 		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("item.storage_magnetic_fdd_tainted.desc" + MainRegistry.polaroidID));
 		list.add("");
-		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc20"));
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".desc20"));
 	}
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_)

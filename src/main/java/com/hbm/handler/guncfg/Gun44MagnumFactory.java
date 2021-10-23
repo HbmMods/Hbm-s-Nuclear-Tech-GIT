@@ -70,13 +70,7 @@ public class Gun44MagnumFactory {
 //		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -93,13 +87,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -117,13 +105,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -142,13 +124,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -187,8 +163,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 7;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 10;
 		
 		return bullet;
 	}
@@ -198,8 +174,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_ap;
-		bullet.dmgMin = 7;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 12;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -211,8 +187,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_du;
-		bullet.dmgMin = 7;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 16;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -224,15 +200,15 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_phosphorus;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 7;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 10;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -258,8 +234,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_star;
-		bullet.dmgMin = 14;
-		bullet.dmgMax = 20;
+		bullet.dmgMin = 16;
+		bullet.dmgMax = 22;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		

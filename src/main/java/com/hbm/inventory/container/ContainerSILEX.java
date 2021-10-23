@@ -9,7 +9,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerSILEX extends Container {
+public class ContainerSILEX extends Container
+{
 
 	private TileEntitySILEX silex;
 
@@ -60,11 +61,7 @@ public class ContainerSILEX extends Container {
 				if(!this.mergeItemStack(var5, silex.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-<<<<<<< HEAD
-			} else if(var5.getItem() == ModItems.turret_chip) {
-=======
 			} else if(var5.getItem() == ModItems.turret_chip) { //did i copy this from turrets? tf is happening lol
->>>>>>> master
 				
 				if(!this.mergeItemStack(var5, 0, 1, false))
 					return null;

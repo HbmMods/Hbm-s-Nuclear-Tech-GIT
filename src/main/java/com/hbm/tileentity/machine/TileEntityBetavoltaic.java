@@ -1,126 +1,40 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.annotations.Beta;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IRTGUser;
 import com.hbm.interfaces.IRadioisotopeFuel;
 import com.hbm.interfaces.ISource;
-import com.hbm.items.ModItems;
+import com.hbm.inventory.recipes.BetavoltaicFuels;
 import com.hbm.items.machine.ItemBetavoltaic;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 @Beta
 public class TileEntityBetavoltaic extends TileEntityMachineBase implements IRTGUser, ISource
 {
 	public static final long maxPower = 5000000;
 	public static final short maxHeat = 32000;
-	private static final HashMap<Item, IRadioisotopeFuel> fuelMap = new HashMap<>();
 	private ArrayList<IConsumer> cList = new ArrayList<IConsumer>();
 	private short heat = 0;
 	private long power = 0;
 	private byte age = 0;
-	
-	private static final int thaLife = 48000 * 40;
-	private static final byte thaPower = 75;
-	private static final int sr90Life = 48000 * 100 * 10;
-	private static final byte sr90Power = 50;
-	private static final byte sa327Power = 30;
-	// Interfaces my beloved
-	static
-	{
-		fuelMap.put(ModItems.ingot_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.ingot_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.nugget_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower / 10;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.nugget_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.billet_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower / 2;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.billet_thorium_fuel);}
-		});
-		fuelMap.put(Item.getItemFromBlock(ModBlocks.block_tha), new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower * 10;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModBlocks.block_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.rod_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower / 2;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.rod_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.rod_dual_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.rod_dual_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.rod_quad_tha, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return thaPower + thaPower / 2;}
-			@Override public long getMaxLifespan(){return thaLife;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.rod_quad_thorium_fuel);}
-		});
-		fuelMap.put(ModItems.ingot_sr90, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return sr90Power;}
-			@Override public long getMaxLifespan(){return sr90Life;}
-			@Override public boolean getDoesDecay(){return true;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.powder_zirconium);}
-		});
-		fuelMap.put(ModItems.cell_tritium, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return 1;}
-			@Override public long getMaxLifespan(){return 48000 * 100 * 5;}
-			@Override public boolean getDoesDecay(){return false;}
-			@Override public ItemStack getDecayItem(){return new ItemStack(ModItems.cell_empty);}
-		});
-		fuelMap.put(ModItems.ingot_solinium, new IRadioisotopeFuel()
-		{
-			@Override public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan){return this;}
-			@Override public short getPower(){return sa327Power;}
-			@Override public long getMaxLifespan(){return 0;}
-			@Override public boolean getDoesDecay(){return false;}
-			@Override public ItemStack getDecayItem(){return null;}
-		});
-	}
 	public TileEntityBetavoltaic()
 	{
 		super(24);
+		if (!BetavoltaicFuels.isInitialized())
+			BetavoltaicFuels.initialize();
+	}
+	
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 1;
 	}
 
 	@Override
@@ -177,7 +91,7 @@ public class TileEntityBetavoltaic extends TileEntityMachineBase implements IRTG
 	}
 
 	@Override
-	public Class getDesiredClass()
+	public Class<? extends IRadioisotopeFuel> getDesiredClass()
 	{
 		return ItemBetavoltaic.class;
 	}
@@ -199,7 +113,7 @@ public class TileEntityBetavoltaic extends TileEntityMachineBase implements IRTG
 			if (age == 9 || age == 19)
 				ffgeuaInit();
 			
-			heat = (short) updateRTGs(slots, fuelMap);
+			heat = (short) updateRTGs(slots, BetavoltaicFuels.fuelMap);
 			
 			if (heat > maxHeat)
 				heat = maxHeat;
@@ -240,6 +154,6 @@ public class TileEntityBetavoltaic extends TileEntityMachineBase implements IRTG
 	@Override
 	public boolean isItemValid(Item itemIn)
 	{
-		return IRTGUser.super.isItemValid(itemIn) || fuelMap.containsKey(itemIn);
+		return IRTGUser.super.isItemValid(itemIn) || BetavoltaicFuels.fuelMap.containsKey(itemIn);
 	}
 }

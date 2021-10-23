@@ -9,7 +9,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUITurretFritz extends GUITurretBase {
+public class GUITurretFritz extends GUITurretBase
+{
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_fritz.png");
 
@@ -21,19 +22,20 @@ public class GUITurretFritz extends GUITurretBase {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		((TileEntityTurretFritz)this.turret).tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 63, 7, 52);
+		((TileEntityTurretFritz)turret).tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 63, 7, 52);
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mX, int mY) {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, mX, mY);
 		
-		FluidTank tank = ((TileEntityTurretFritz)this.turret).tank;
+		FluidTank tank = ((TileEntityTurretFritz)turret).tank;
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tank.getSheet());
 		tank.renderTank(this, guiLeft + 134, guiTop + 116, tank.getTankType().textureX() * FluidTank.x, tank.getTankType().textureY() * FluidTank.y, 7, 52);
 	}
 	
+	@Override
 	protected ResourceLocation getTexture() {
 		return texture;
 	}

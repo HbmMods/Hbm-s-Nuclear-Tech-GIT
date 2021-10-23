@@ -73,7 +73,6 @@ public class MachineIGenerator extends BlockDummyable {
 	}
 =======
 	}*/
->>>>>>> master
 
 	@Override
 	public int[] getDimensions() {
@@ -109,9 +108,7 @@ public class MachineIGenerator extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {3,-2,1,1,-1,3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,-2,1,1,1,0}, this, dir);
 		
-<<<<<<< HEAD
 		int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
-=======
 		/*int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
 >>>>>>> master
 		
@@ -128,6 +125,5 @@ public class MachineIGenerator extends BlockDummyable {
 		}
 =======
 		}*/
->>>>>>> master
 	}
 }

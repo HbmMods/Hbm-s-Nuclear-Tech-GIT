@@ -20,7 +20,7 @@ public class RBMKControl extends RBMKBase {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 
-		if(meta >= this.offset)
+		if(meta >= offset)
 			return new TileEntityRBMKControlManual();
 		return null;
 	}
@@ -37,6 +37,6 @@ public class RBMKControl extends RBMKBase {
 	
 	@Override
 	public int getRenderType(){
-		return this.renderIDControl;
+		return renderIDControl;
 	}
 }

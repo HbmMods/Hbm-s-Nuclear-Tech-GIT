@@ -2,11 +2,7 @@ package com.hbm.entity.mob.botprime;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
-=======
 import com.hbm.entity.mob.ai.EntityAINearestAttackableTargetNT;
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -31,11 +27,6 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 	 */
 
 	//TODO: clean-room implementation of the movement behavior classes (again)
-<<<<<<< HEAD
-	
-	private final WormMovementHeadNT movement = new WormMovementHeadNT(this);
-=======
->>>>>>> master
 	
 	public EntityBOTPrimeHead(World world) {
 		super(world);
@@ -72,7 +63,8 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		return false;
 	}
 
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
+    @Override
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
     	
     	//TODO: check if this is even needed
     	setHeadID(this.getEntityId());
@@ -102,11 +94,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		this.updateEntityActionState();
 		super.updateAITasks();
 
-<<<<<<< HEAD
-		this.movement.updateMovement();
-=======
 		updateHeadMovement();
->>>>>>> master
 
 		if((getHealth() < getMaxHealth()) && (this.ticksExisted % 6 == 0)) {
 			if(this.targetedEntity != null) {
@@ -153,11 +141,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
 
 		for(EntityPlayer player : players) {
-<<<<<<< HEAD
-			player.triggerAchievement(MainRegistry.bossMaskman);
-=======
 			player.triggerAchievement(MainRegistry.bossWorm);
->>>>>>> master
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_worm));
 		}
 	}
@@ -167,6 +151,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		return 1000;
 	}
 	
+	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("spawnX", this.spawnPoint.posX);
@@ -174,15 +159,13 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		nbt.setInteger("spawnZ", this.spawnPoint.posZ);
 	}
 
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		this.spawnPoint.set(nbt.getInteger("spawnX"), nbt.getInteger("spawnY"), nbt.getInteger("spawnZ"));
 	}
-<<<<<<< HEAD
-=======
 
 	protected void updateHeadMovement() {
->>>>>>> master
 
 		double deltaX = this.waypointX - this.posX;
 		double deltaY = this.waypointY - this.posY;

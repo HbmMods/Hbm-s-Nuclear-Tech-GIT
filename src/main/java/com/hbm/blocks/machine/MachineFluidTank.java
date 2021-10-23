@@ -24,25 +24,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineFluidTank extends BlockContainer implements IMultiblock {
-	private boolean isMagnetic;
-	public MachineFluidTank(Material p_i45386_1_, boolean isMagnetic) {
+public class MachineFluidTank extends BlockContainer implements IMultiblock
+{
+
+	public MachineFluidTank(Material p_i45386_1_) {
 		super(p_i45386_1_);
-		this.isMagnetic = isMagnetic;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineFluidTank(this.isMagnetic);
+		return new TileEntityMachineFluidTank();
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-	{
-		if (isMagnetic)
-			return Item.getItemFromBlock(ModBlocks.machine_fluidtank_magnetic);
-		else
-			return Item.getItemFromBlock(ModBlocks.machine_fluidtank);
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+		return Item.getItemFromBlock(ModBlocks.machine_fluidtank);
 	}
 
 	@Override

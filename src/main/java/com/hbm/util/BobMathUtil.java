@@ -1,16 +1,11 @@
 package com.hbm.util;
 
-<<<<<<< HEAD
-import net.minecraft.util.Vec3;
-=======
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
->>>>>>> master
 
 public class BobMathUtil {
 	

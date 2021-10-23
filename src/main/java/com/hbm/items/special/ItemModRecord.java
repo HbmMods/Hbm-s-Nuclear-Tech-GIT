@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 
 public class ItemModRecord extends ItemRecord {
 
-	private static final Map modRecords = new HashMap();
+	private static final Map<String, ItemModRecord> modRecords = new HashMap<String, ItemModRecord>();
 	public final String recordName;
 
 	public ItemModRecord(String string) {
@@ -76,7 +76,7 @@ public class ItemModRecord extends ItemRecord {
 	 */
 	@SideOnly(Side.CLIENT)
 	public static ItemRecord getRecord(String p_150926_0_) {
-		return (ItemRecord) modRecords.get(p_150926_0_);
+		return modRecords.get(p_150926_0_);
 	}
 	
 	@Override
@@ -84,18 +84,38 @@ public class ItemModRecord extends ItemRecord {
 
 		String s = "";
 
-		if(name.equals("records.lc"))
-			s = RefStrings.MODID + ":music.recordLambdaCore";
-		if(name.equals("records.ss"))
-			s = RefStrings.MODID + ":music.recordSectorSweep";
-		if(name.equals("records.vc"))
-			s = RefStrings.MODID + ":music.recordVortalCombat";
-		if (name.equals("records.nmj"))
-			s = RefStrings.MODID + ":music.recordNuclearMissionJam";
-		if(name.equals("records.glass"))
-			s = RefStrings.MODID + ":music.transmission";
+//		if(name.equals("records.lc"))
+//			s = RefStrings.MODID + ":music.recordLambdaCore";
+//		if(name.equals("records.ss"))
+//			s = RefStrings.MODID + ":music.recordSectorSweep";
+//		if(name.equals("records.vc"))
+//			s = RefStrings.MODID + ":music.recordVortalCombat";
+//		if (name.equals("records.nmj"))
+//			s = RefStrings.MODID + ":music.recordNuclearMissionJam";
+//		if(name.equals("records.glass"))
+//			s = RefStrings.MODID + ":music.transmission";
+		switch (name)
+		{
+		case "records.lc":
+			s = "recordLambdaCore";
+			break;
+		case "records.ss":
+			s = "recordSectorSweep";
+			break;
+		case "records.vc":
+			s = "recordVortalCombat";
+			break;
+		case "records.nmj":
+			s = "recordNuclearMissionJam";
+			break;
+		case "records.glass":
+			s = "transmission";
+			break;
+		default:
+			break;
+		}
 
-		return new ResourceLocation(s);
+		return new ResourceLocation(RefStrings.MODID, "music.".concat(s));
 	}
 
 	@Override

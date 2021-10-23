@@ -9,15 +9,9 @@ import java.util.Set;
 import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
-<<<<<<< HEAD
-import com.hbm.inventory.CentrifugeRecipes;
-import com.hbm.inventory.CrystallizerRecipes;
-import com.hbm.inventory.ShredderRecipes;
-=======
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.util.EnchantmentUtil;
@@ -34,7 +28,8 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public abstract class ToolAbility {
+public abstract class ToolAbility
+{
 	
 	public abstract void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool);
 	public abstract String getName();
@@ -50,7 +45,7 @@ public abstract class ToolAbility {
 			this.radius = radius;
 		}
 		
-		private Set<ThreeInts> pos = new HashSet();
+		private Set<ThreeInts> pos = new HashSet<ThreeInts>();
 
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {

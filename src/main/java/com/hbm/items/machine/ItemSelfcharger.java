@@ -16,6 +16,7 @@ public class ItemSelfcharger extends Item implements IBatteryItem {
 	
 	public ItemSelfcharger(long charge) {
 		this.charge = charge;
+		setMaxStackSize(1);
 	}
 
 	@Override

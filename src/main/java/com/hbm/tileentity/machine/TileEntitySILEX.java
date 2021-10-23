@@ -8,13 +8,8 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-<<<<<<< HEAD
-import com.hbm.inventory.SILEXRecipes;
-import com.hbm.inventory.SILEXRecipes.SILEXRecipe;
-=======
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
@@ -30,10 +25,7 @@ import net.minecraft.util.WeightedRandom;
 
 public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor {
 	
-<<<<<<< HEAD
-=======
 	public int laser = 0;
->>>>>>> master
 	public FluidTank tank;
 	public ComparableStack current;
 	public int currentFill;
@@ -91,6 +83,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		
 		this.currentFill = nbt.getInteger("fill");
@@ -104,6 +97,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		}
 	}
 	
+	@Override
 	public void handleButtonPacket(int value, int meta) {
 		
 		this.currentFill = 0;
@@ -122,16 +116,11 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		return (currentFill * i) / maxFill;
 	}
 	
-	public static final HashMap<FluidType, ComparableStack> fluidConversion = new HashMap();
+	public static final HashMap<FluidType, ComparableStack> fluidConversion = new HashMap<FluidType, ComparableStack>();
 	
 	static {
-<<<<<<< HEAD
-		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.ingot_uranium));
-		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.ingot_plutonium));
-=======
 		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()));
 		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.PUF6.ordinal()));
->>>>>>> master
 	}
 	
 	int loadDelay;
@@ -167,11 +156,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			
 			int load = recipe.fluidProduced;
 			
-<<<<<<< HEAD
-			if(load <= this.maxFill - this.currentFill && load < tank.getFill()) {
-=======
-			if(load <= this.maxFill - this.currentFill && load <= tank.getFill()) {
->>>>>>> master
+			if(load <= maxFill - this.currentFill && load <= tank.getFill()) {
 				this.currentFill += load;
 				this.current = new ComparableStack(slots[0]).makeSingular();
 				tank.setFill(tank.getFill() - load);
@@ -234,8 +219,6 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
@@ -254,7 +237,6 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
 		return slot >= 5;
 	}
->>>>>>> master
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

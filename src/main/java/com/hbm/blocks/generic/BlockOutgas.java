@@ -3,8 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.hazard.HazardData;
 import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,11 +20,11 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 	boolean onBreak;
 	boolean onNeighbour;
 	
-	ItemHazardModule module;
+	HazardData module;
 
 	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
 		super(mat);
-		this.module = new ItemHazardModule();
+		this.module = new HazardData();
 		this.setTickRandomly(randomTick);
 		this.randomTick = randomTick;
 		this.rate = rate;
@@ -34,15 +34,16 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 
 	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
 		this(mat, randomTick, rate, onBreak);
-		this.module = new ItemHazardModule();
+		this.module = new HazardData();
 		this.onNeighbour = onNeighbour;
 	}
 
 	@Override
-	public ItemHazardModule getModule() {
+	public HazardData getModule() {
 		return module;
 	}
 
+	@Override
 	public int tickRate(World p_149738_1_) {
 		return rate;
 	}
@@ -55,12 +56,9 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 			return ModBlocks.gas_radon;
 		}
 		
-<<<<<<< HEAD
-=======
 		if(this == ModBlocks.block_corium_cobble)
 			return ModBlocks.gas_radon;
 		
->>>>>>> master
 		if(this == ModBlocks.ancient_scrap)
 			return ModBlocks.gas_radon_tomb;
 		
@@ -71,12 +69,8 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos ||
 				this == ModBlocks.block_asbestos || this == ModBlocks.deco_asbestos ||
 				this == ModBlocks.brick_asbestos || this == ModBlocks.tile_lab ||
-<<<<<<< HEAD
-				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken) {
-=======
 				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken ||
 				this == ModBlocks.basalt_asbestos) {
->>>>>>> master
 			return ModBlocks.gas_asbestos;
 		}
 		
@@ -150,7 +144,6 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 			}
 		}
 	}
-<<<<<<< HEAD
 
 	@Override
 	public Block toBlock() {
@@ -158,6 +151,4 @@ public class BlockOutgas extends BlockOre implements IItemHazard {
 		return IItemHazard.super.toBlock();
 	}
 
-=======
->>>>>>> master
 }

@@ -9,19 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class RenderDerrick extends TileEntitySpecialRenderer {
 
-<<<<<<< HEAD
-    @Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-    	
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glRotatef(180, 0F, 1F, 0F);
-
-        bindTexture(ResourceManager.derrick_tex);
-        ResourceManager.derrick.renderAll();
-=======
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 
@@ -35,7 +22,6 @@ public class RenderDerrick extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.derrick_tex);
 		ResourceManager.derrick.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
->>>>>>> master
 
 		GL11.glPopMatrix();
 	}

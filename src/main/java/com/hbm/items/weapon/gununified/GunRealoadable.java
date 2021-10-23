@@ -7,12 +7,11 @@ import com.hbm.handler.HbmKeybinds;
 import api.hbm.item.IButtonReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-public class GunRealoadable extends GunFrame implements IButtonReceiver {
+public class GunRealoadable extends GunFrame implements IButtonReceiver
+{
 
 	private IReloadBehavior reload;
 	public static boolean lastReload = false;

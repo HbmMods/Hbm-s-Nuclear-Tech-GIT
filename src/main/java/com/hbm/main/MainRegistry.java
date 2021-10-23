@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -75,13 +74,16 @@ import com.hbm.inventory.*;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.ChemPlantRecipesNT;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.inventory.recipes.HadronRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.MagicRecipes;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
+import com.hbm.inventory.recipes.SingGenRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
@@ -826,6 +828,7 @@ public class MainRegistry {
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.nuclear_waste_pearl, new BehaviorProjectileDispense() {
 
+			@Override
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
 				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
 			}
@@ -946,7 +949,7 @@ public class MainRegistry {
 				digammaFeel,
 				digammaKnow,
 				digammaKauaiMoho,
-				digammaUpOnTop
+				digammaUpOnTop,
 				psycheEgo,
 				psycheSuperego,
 				psycheId,
@@ -1033,19 +1036,6 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
 		
 		PacketDispatcher.registerPackets();
-	}
-	
-	private void loadConfig(FMLPreInitializationEvent event) {
-
-		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
-		MinecraftForge.EVENT_BUS.register(radiationSystem);
-		FMLCommonHandler.instance().bus().register(radiationSystem);
-		
-		if(event.getSide() == Side.CLIENT) {
-			HbmKeybinds.register();
-			HbmKeybinds keyHandler = new HbmKeybinds();
-			FMLCommonHandler.instance().bus().register(keyHandler);
-		}
 	}
 	
 	//yes kids, this is where we would usually register commands

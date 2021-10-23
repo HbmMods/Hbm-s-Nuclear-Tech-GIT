@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Untested;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -20,7 +19,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ShredderRecipes {
 
-	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap();
+	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap<ComparableStack, ItemStack>();
 	public static HashMap<Object, Object> neiShredderRecipes;
 	
 	public static void registerShredder() {
@@ -67,6 +66,15 @@ public class ShredderRecipes {
 					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
 			}
+			// TODO Untested
+			if (name.length() > 6 && name.startsWith("nugget"))
+			{
+				ItemStack tinyDust = getTinyDustByName(name.substring(6));
+				
+				if (tinyDust != null && tinyDust.getItem() != ModItems.dust)
+					for (ItemStack stack : matches)
+						putIfValid(stack, tinyDust, name);
+			}
 		}
 	}
 	
@@ -97,12 +105,14 @@ public class ShredderRecipes {
 				shredderRecipes.put(new ComparableStack(in), dust);
 			} else {
 				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
-				Thread.currentThread().dumpStack();
+				Thread.currentThread();
+				Thread.dumpStack();
 			}
 			
 		} else {
 			MainRegistry.logger.error("Ore dict entry '" + name + "' has a null stack!");
-			Thread.currentThread().dumpStack();
+			Thread.currentThread();
+			Thread.dumpStack();
 		}
 	}
 	
@@ -202,7 +212,15 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.crystal_trixite, new ItemStack(ModItems.powder_plutonium, 6));
 		ShredderRecipes.setRecipe(ModItems.crystal_lithium, new ItemStack(ModItems.powder_lithium, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_starmetal, new ItemStack(ModItems.powder_dura_steel, 6));
-		ShredderRecipes.setRecipe(ModItems.crystal_cobalt, new ItemStack(ModItems.powder_cobalt, 3));
+		ShredderRecipes.setRecipe(ModItems.crystal_cobalt, new ItemStack(ModItems.powder_cobalt, 2));
+		
+		setRecipe(ModBlocks.glass_ash, new ItemStack(ModBlocks.ash_digamma));
+		setRecipe(ModBlocks.glass_boron, new ItemStack(ModBlocks.sand_boron));
+		setRecipe(ModBlocks.glass_lead, new ItemStack(ModBlocks.sand_lead));
+		setRecipe(ModBlocks.glass_polonium, new ItemStack(ModBlocks.sand_polonium));
+		setRecipe(ModBlocks.glass_quartz, new ItemStack(ModBlocks.sand_quartz));
+		setRecipe(ModBlocks.glass_trinitite, new ItemStack(ModItems.trinitite));
+		setRecipe(ModBlocks.glass_uranium, new ItemStack(ModBlocks.sand_uranium));
 
 		ShredderRecipes.setRecipe(ModBlocks.steel_poles, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModBlocks.pole_top, new ItemStack(ModItems.powder_tungsten, 4));
@@ -288,6 +306,16 @@ public class ShredderRecipes {
 		return new ItemStack(ModItems.scrap);
 	}
 	
+public static ItemStack getTinyDustByName(String name) {
+		
+		List<ItemStack> matches = OreDictionary.getOres("dustTiny" + name);
+		
+		if(matches != null && !matches.isEmpty())
+			return matches.get(0).copy();
+		
+		return new ItemStack(ModItems.dust);
+	}
+	
 	/**
 	 * Returns null when no ingot or gem is found, for deciding whether the block shredding output should be 9 or 4 dusts
 	 * @param name
@@ -327,7 +355,7 @@ public class ShredderRecipes {
 		
 		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
 		if(neiShredderRecipes == null)
-			neiShredderRecipes = new HashMap(shredderRecipes);
+			neiShredderRecipes = new HashMap<Object, Object>(shredderRecipes);
 		
 		return neiShredderRecipes;
 	}

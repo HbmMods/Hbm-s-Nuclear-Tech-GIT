@@ -41,6 +41,7 @@ public interface IDataStorageUser
 	
 	public static ItemStack getBlankMedium(Item item)
 	{
+//		System.out.println(item instanceof IDataStorageUser);
 		if (item instanceof IDataStorageUser)
 			return getBlankMedium(new ItemStack(item));
 		else

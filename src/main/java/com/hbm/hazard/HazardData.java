@@ -20,7 +20,7 @@ public class HazardData {
 	 */
 	int mutexBits = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 	
-	List<HazardEntry> entries = new ArrayList();
+	List<HazardEntry> entries = new ArrayList<HazardEntry>();
 	
 	public HazardData addEntry(HazardTypeBase hazard) {
 		return this.addEntry(hazard, 1F, false);

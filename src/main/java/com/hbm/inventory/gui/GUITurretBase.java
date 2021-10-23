@@ -21,17 +21,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GUITurretBase extends GuiInfoContainer {
+public abstract class GUITurretBase extends GuiInfoContainer
+{
 
-<<<<<<< HEAD
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
-	private TileEntityTurretBaseNT turret;
-	private GuiTextField field;
-=======
 	protected static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
 	protected TileEntityTurretBaseNT turret;
 	protected GuiTextField field;
->>>>>>> master
 	int index;
 	
 	public GUITurretBase(InventoryPlayer invPlayer, TileEntityTurretBaseNT tedf) {
@@ -42,6 +37,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		this.ySize = 222;
 	}
 	
+	@Override
 	public void initGui() {
 
 		super.initGui();
@@ -61,6 +57,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 45, 16, 52, turret.power, turret.getMaxPower());
 	}
 
+	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 		
@@ -261,6 +258,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		return names.size();
 	}
 	
+	@Override
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
 		
 		if(this.field.textboxKeyTyped(p_73869_1_, p_73869_2_)) {

@@ -2,17 +2,10 @@ package com.hbm.entity.mob;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.RadiationSavedData;
-=======
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
->>>>>>> master
 
 import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
@@ -37,6 +30,7 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 		this.experienceValue = 30;
 	}
 
+	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(120.0D);
@@ -51,40 +45,49 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 		return this;
 	}
 
+	@Override
 	protected boolean canDespawn() {
 		return false;
 	}
 
+	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(16, (int) 0);
+		this.dataWatcher.addObject(16, 0);
 	}
 
+	@Override
 	protected String getLivingSound() {
 		return "hbm:item.geiger" + (1 + rand.nextInt(6));
 	}
 
+	@Override
 	protected String getHurtSound() {
 		return "mob.blaze.hit";
 	}
 
+	@Override
 	protected String getDeathSound() {
 		return "hbm:step.iron";
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBrightnessForRender(float f) {
 		return 15728880;
 	}
 
+	@Override
 	public float getBrightness(float f) {
 		return 1.0F;
 	}
 
+	@Override
 	public int getTotalArmorValue() {
 		return 8;
 	}
 
+	@Override
 	public void onLivingUpdate() {
 
 		if(!this.worldObj.isRemote) {
@@ -100,7 +103,7 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 				this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
 			}
 
-			if(this.getEntityToAttack() != null && this.getEntityToAttack().posY + (double) this.getEntityToAttack().getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
+			if(this.getEntityToAttack() != null && this.getEntityToAttack().posY + this.getEntityToAttack().getEyeHeight() > this.posY + this.getEyeHeight() + this.heightOffset) {
 				this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
 			}
 
@@ -120,21 +123,22 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 		if(this.getMaxHealth() <= 150) {
 
 			for(int i = 0; i < 6; i++) {
-				this.worldObj.spawnParticle("townaura", this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width * 1.5, this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width * 1.5, 0.0D, 0.0D, 0.0D);
+				this.worldObj.spawnParticle("townaura", this.posX + (this.rand.nextDouble() - 0.5D) * this.width * 1.5, this.posY + this.rand.nextDouble() * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width * 1.5, 0.0D, 0.0D, 0.0D);
 			}
 
 			if(this.rand.nextInt(6) == 0) {
 
-				this.worldObj.spawnParticle("flame", this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height * 0.75, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, 0.0D, 0.0D, 0.0D);
+				this.worldObj.spawnParticle("flame", this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height * 0.75, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
 			}
 
 		} else {
-			this.worldObj.spawnParticle("lava", this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height * 0.75, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, 0.0D, 0.0D, 0.0D);
+			this.worldObj.spawnParticle("lava", this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height * 0.75, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
 		}
 
 		super.onLivingUpdate();
 	}
 
+	@Override
 	protected void attackEntity(Entity target, float dist) {
 
 		if(this.attackTime <= 0 && dist < 2.0F && target.boundingBox.maxY > this.boundingBox.minY && target.boundingBox.minY < this.boundingBox.maxY) {
@@ -147,13 +151,9 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 			double deltaZ = target.posZ - this.posZ;
 
 			if(this.attackTime == 0 && getEntityToAttack() != null) {
-<<<<<<< HEAD
 
-				RadiationSavedData.incrementRad(worldObj, (int) posX, (int) posZ, 150, 1000);
-=======
 				
 				ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), 100);
->>>>>>> master
 				target.attackEntityFrom(ModDamageSource.radiation, 16.0F);
 				this.swingItem();
 				this.playLivingSound();
@@ -171,9 +171,11 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 		return worldObj.getEntityByID(id);
 	}
 
+	@Override
 	protected void fall(float p_70069_1_) {
 	}
 
+	@Override
 	protected Item getDropItem() {
 		return ModItems.rod_uranium_fuel_depleted;
 	}
@@ -191,6 +193,7 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 		}
 	}
 
+	@Override
 	protected void dropFewItems(boolean beenHit, int looting) {
 
 		if(beenHit) {

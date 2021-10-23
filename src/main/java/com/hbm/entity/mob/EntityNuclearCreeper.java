@@ -354,14 +354,9 @@ public class EntityNuclearCreeper extends EntityMob {
             	}
             } else {
         		
-<<<<<<< HEAD
             	byte size = (byte) (flag ? ExplosionNukeSmall.medium : 0);
             	
     			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, size);
-        			
-=======
-        		ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.medium);
->>>>>>> master
             }
 
             this.setDead();

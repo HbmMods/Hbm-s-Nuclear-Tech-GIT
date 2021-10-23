@@ -18,7 +18,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIScreenGuide extends GuiScreen {
+public class GUIScreenGuide extends GuiScreen
+{
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png");
 	private static final ResourceLocation texture_cover = new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book_cover.png");
@@ -142,7 +143,7 @@ public class GUIScreenGuide extends GuiScreen {
 				int width = 100;
 				
 				int widthScaled = (int) (width * scale);
-				List<String> lines = new ArrayList();
+				List<String> lines = new ArrayList<String>();
 				String[] words = text.split(" ");
 				
 				lines.add(words[0]);

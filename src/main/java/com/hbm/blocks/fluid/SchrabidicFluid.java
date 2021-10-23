@@ -5,7 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.Fluid;
 
-public class SchrabidicFluid extends Fluid {
+public class SchrabidicFluid extends Fluid
+{
 
 	public SchrabidicFluid() {
 		super("schrabidic_fluid");
@@ -13,23 +14,6 @@ public class SchrabidicFluid extends Fluid {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-<<<<<<< HEAD
-    public IIcon getIcon() {
-    	return getStillIcon();
-    }
-
-	@Override
-	@SideOnly(Side.CLIENT)
-    public IIcon getStillIcon() {
-        return SchrabidicBlock.stillIcon;
-    }
-
-	@Override
-	@SideOnly(Side.CLIENT)
-    public IIcon getFlowingIcon() {
-        return SchrabidicBlock.flowingIcon;
-    }
-=======
 	public IIcon getIcon() {
 		return getStillIcon();
 	}
@@ -45,5 +29,4 @@ public class SchrabidicFluid extends Fluid {
 	public IIcon getFlowingIcon() {
 		return SchrabidicBlock.flowingIcon;
 	}
->>>>>>> master
 }

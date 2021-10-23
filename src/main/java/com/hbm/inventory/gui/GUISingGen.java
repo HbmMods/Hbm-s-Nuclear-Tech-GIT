@@ -3,8 +3,8 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.SingGenRecipes.SingGenRecipe;
 import com.hbm.inventory.container.ContainerMachineSingGen;
+import com.hbm.inventory.recipes.SingGenRecipes.SingGenRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemAMSCore;
 import com.hbm.lib.Library;

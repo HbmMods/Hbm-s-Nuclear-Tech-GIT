@@ -97,7 +97,7 @@ public class EntitySpear extends Entity {
 			
 			if(!worldObj.isRemote && ticksInGround > 100) {
 				
-				List entities =  new ArrayList(worldObj.loadedEntityList);
+				List<Entity> entities =  new ArrayList<Entity>(worldObj.loadedEntityList);
 				for(Object obj : entities) {
 					
 					if(obj instanceof EntityLivingBase)

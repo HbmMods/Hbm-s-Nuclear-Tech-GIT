@@ -3,18 +3,10 @@ package com.hbm.tileentity.conductor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
-import com.hbm.interfaces.Spaghetti;
-<<<<<<< HEAD
-=======
-import com.hbm.interfaces.Untested;
 import com.hbm.packet.NBTPacket;
->>>>>>> master
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEPylonDestructorPacket;
-import com.hbm.packet.TEPylonSenderPacket;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -25,12 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-<<<<<<< HEAD
-@Spaghetti("Destroy this abomination in holy fire")
-public class TileEntityPylonRedWire extends TileEntity implements IConductor {
-=======
 public class TileEntityPylonRedWire extends TileEntity implements IConductor, INBTPacketReceiver {
->>>>>>> master
 	
 	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();
 	public List<int[]> connected = new ArrayList<int[]>();

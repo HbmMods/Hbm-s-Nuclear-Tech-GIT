@@ -14,7 +14,6 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionSolinium;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -187,7 +186,6 @@ public class EntityNukeExplosionMK3 extends Entity {
         {
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
         	
-<<<<<<< HEAD
         	if(waste || extType != 1 ) {
         		if (extType != 2)
         		{
@@ -197,10 +195,6 @@ public class EntityNukeExplosionMK3 extends Entity {
         		{
         			ExplosionHurtUtil.doDigamma(worldObj, posX, posY, posZ, coefficient / 20F, coefficient2 / 20F, this.destructionRange);
         		}
-=======
-        	if(waste || extType != 1) {
-        		ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
->>>>>>> master
         	} else {
         		switch (extType)
         		{

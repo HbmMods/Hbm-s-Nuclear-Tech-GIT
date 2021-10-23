@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnegative;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.EasyLocation;
@@ -19,6 +20,7 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
@@ -43,6 +45,10 @@ import com.hbm.tileentity.conductor.TileEntityWireCoated;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.internet.IDataStorageUser;
@@ -54,14 +60,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @Spaghetti("this whole class")
-public class Library {
+public class Library
+{
 	
-	static Random rand = new Random();
+	final static Random rand = new Random();
 
 	//this is a list of UUIDs used for various things, primarily for accessories.
 	//for a comprehensive list, check RenderAccessoryUtility.java
@@ -102,17 +111,61 @@ public class Library {
 		return player.getUniqueID().toString().equals(ID);
 	}
 	
-	public static String[] ticksToDate(long ticks)
+	public static void radiate(World worldIn, EasyLocation loc, float rads, double range, ContaminationType type)
 	{
-		final String[] dateOut = new String[3];
-		long year = Math.floorDiv(ticks, HbmCollection.tickYear);
-		byte day = (byte) Math.floorDiv(ticks - HbmCollection.tickYear * year, HbmCollection.tickDay);
-		float time = ticks - ((HbmCollection.tickYear * year) + (HbmCollection.tickDay * day));
-		time = (float) convertScale(time, 0, HbmCollection.tickDay, 0, 10F);
-		dateOut[0] = String.valueOf(year);
-		dateOut[1] = String.valueOf(day);
-		dateOut[2] = String.valueOf(time);
-		return dateOut;
+		List<EntityLivingBase> entities = worldIn.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(loc.posX + 0.5, loc.posY + 0.5, loc.posZ + 0.5, loc.posX + 0.5, loc.posY + 0.5, loc.posZ + 0.5).expand(range, range, range));
+//		System.out.println(entities.isEmpty());
+		for (EntityLivingBase e : entities)
+		{
+			
+			Vec3 vec = Vec3.createVectorHelper(e.posX - (loc.posX + 0.5), (e.posY + e.getEyeHeight()) - (loc.posY + 0.5), e.posZ - (loc.posZ + 0.5));
+			double len = vec.lengthVector();
+			vec = vec.normalize();
+			
+			float res = 0;
+			
+			for (int i = 1; i < len; i++)
+			{
+
+				int ix = (int) Math.floor(loc.posX + 0.5 + vec.xCoord * i);
+				int iy = (int) Math.floor(loc.posY + 0.5 + vec.yCoord * i);
+				int iz = (int) Math.floor(loc.posZ + 0.5 + vec.zCoord * i);
+				
+				res += worldIn.getBlock(ix, iy, iz).getExplosionResistance(null);
+			}
+			
+			if (res < 1)
+				res = 1;
+			
+			float eRads = rads;
+			eRads /= res;
+			eRads /= (float) (len * len);
+			
+			ContaminationUtil.contaminate(e, HazardType.RADIATION, type, eRads);
+		}
+	}
+	
+	public static void addFluidInfo(FluidType fluid, List<String> tooltip)
+	{
+		final ImmutableSet<FluidTrait> fHazards = fluid.getTraitSet();
+		final String tColor = fluid.temperature > 0 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
+		
+		if (fluid.temperature != 0 || fHazards.contains(FluidTrait.HOT) || fHazards.contains(FluidTrait.CRYO))
+			tooltip.add(tColor + NumberFormat.getInstance().format(fluid.temperature) + "°C");
+		if (fluid.isAntimatter())
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.antimatter));
+		if (fHazards.contains(FluidTrait.CORROSIVE_STRONG) && fHazards.contains(FluidTrait.CORROSIVE))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.corrosiveStrong));
+		else if (!fHazards.contains(FluidTrait.CORROSIVE_STRONG) && fHazards.contains(FluidTrait.CORROSIVE))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.corrosive));
+		if (fHazards.contains(FluidTrait.BIOHAZARD))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.biohazard));
+		if (fHazards.contains(FluidTrait.CHEMICAL))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.chemical));
+		if (fHazards.contains(FluidTrait.RADIOACTIVE))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.radioactiveFluid));
+		if (fHazards.contains(FluidTrait.TOXIC))
+			tooltip.add(I18nUtil.resolveKey(HbmCollection.toxicGeneric));
 	}
 	
 	/**
@@ -128,7 +181,13 @@ public class Library {
 		
 		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
 	}
-	
+	/**
+	 * Round any number to so many significant figures
+	 * @author Drillgon200
+	 * @param num The number to round
+	 * @param digits Amount of significant figures
+	 * @return The rounded form of the number
+	 */
 	public static double roundNumber(double num, @Nonnegative int digits)
 	{
 		double leftDigitCount = Math.ceil(Math.log10(Math.abs(num)));

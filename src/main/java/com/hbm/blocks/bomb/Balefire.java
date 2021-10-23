@@ -33,24 +33,28 @@ public class Balefire extends BlockFire {
         super();
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_) {
     	
     	field_149850_M = p_149651_1_.registerIcon(this.getTextureName());
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getFireIcon(int p_149840_1_)
     {
         return field_149850_M;
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return field_149850_M;
     }
-    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+    @Override
+	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (p_149674_1_.getGameRules().getGameRuleBooleanValue("doFireTick"))
         {
@@ -200,7 +204,8 @@ public class Balefire extends BlockFire {
         }
     }
     
-    public boolean canCatchFire(IBlockAccess world, int x, int y, int z, ForgeDirection face)
+    @Override
+	public boolean canCatchFire(IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {
         return world.getBlock(x, y, z).isFlammable(world, x, y, z, face);
     }

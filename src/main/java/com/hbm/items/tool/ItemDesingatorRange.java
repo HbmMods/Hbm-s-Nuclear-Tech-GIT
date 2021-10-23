@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 public class ItemDesingatorRange extends Item implements IDesignatorItem {
 
 	@Override
-<<<<<<< HEAD
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		if(itemstack.stackTagCompound != null)
@@ -28,16 +27,8 @@ public class ItemDesingatorRange extends Item implements IDesignatorItem {
 			list.add(I18nUtil.resolveKey(HbmCollection.tarCoord));
 			list.add("X: " + String.valueOf(itemstack.stackTagCompound.getInteger("xCoord")));
 			list.add("Z: " + String.valueOf(itemstack.stackTagCompound.getInteger("zCoord")));
-=======
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(itemstack.stackTagCompound != null) {
-			list.add("Target Coordinates:");
-			list.add("X: " + itemstack.stackTagCompound.getInteger("xCoord"));
-			list.add("Z: " + itemstack.stackTagCompound.getInteger("zCoord"));
->>>>>>> master
-		} else {
+		} else
 			list.add(I18nUtil.resolveKey(HbmCollection.noPos));
-		}
 	}
 
 	@Override
@@ -54,18 +45,9 @@ public class ItemDesingatorRange extends Item implements IDesignatorItem {
 
 			stack.stackTagCompound.setInteger("xCoord", x);
 			stack.stackTagCompound.setInteger("zCoord", z);
-<<<<<<< HEAD
 			stack.stackTagCompound.setIntArray("coord", new int[] {x, y, z});
 	        if(world.isRemote)
-			{
 	        	player.addChatMessage(new ChatComponentText(I18nUtil.resolveKey(HbmCollection.tarSet, x, z)));
-=======
-
-			if(world.isRemote) {
-				player.addChatMessage(new ChatComponentText("Position set to X:" + x + ", Z:" + z));
->>>>>>> master
-			}
-
 			world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 
 			return stack;

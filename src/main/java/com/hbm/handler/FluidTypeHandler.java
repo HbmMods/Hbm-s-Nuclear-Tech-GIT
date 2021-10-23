@@ -1,26 +1,19 @@
 package com.hbm.handler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.HashSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.hbm.render.util.EnumSymbol;
 
-import net.minecraft.util.EnumChatFormatting;
-
 public class FluidTypeHandler {
 	
-	public static enum FluidTrait {
+	public static enum FluidTrait
 	{
 		ANTIMATTER,
 		AMAT,
-		CORROSIVE,
-		CORROSIVE_2,
 		NO_CONTAINER,
-		NO_ID;
+		NO_ID,
 		CRYO,
 		HOT,
 		CORROSIVE,
@@ -30,9 +23,8 @@ public class FluidTypeHandler {
 		CHEMICAL,
 		RADIOACTIVE;
 	}
-	public enum FluidType {
-	
-
+	public enum FluidType
+	{
 		NONE			(0x888888,	0,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.none"),
 
 		WATER			(0x3333FF,	1,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.water"),
@@ -45,7 +37,7 @@ public class FluidTypeHandler {
 		LAVA			(0xFF3300,	3,	1,	1,	4,	0,	0,	EnumSymbol.NOWATER,		"hbmfluid.lava", 1200),
 		
 		DEUTERIUM		(0x0000FF,	4,	1,	1,	3,	4,	0,	EnumSymbol.NONE,		"hbmfluid.deuterium"),
-		TRITIUM			(0x000099,	5,	1,	1,	3,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.tritium", false, false, false, FluidHazards.RADIOACTIVE),
+		TRITIUM			(0x000099,	5,	1,	1,	3,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.tritium", false, false, false, FluidTrait.RADIOACTIVE),
 
 		OIL				(0x020202,	6,	1,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.oil"),
 		HOTOIL			(0x300900,	8,	2,	1,	2,	3,	0,	EnumSymbol.HOT,			"hbmfluid.hotoil", true, false, false, 350),
@@ -75,41 +67,41 @@ public class FluidTypeHandler {
 
 		NITAN			(0x8018ad,	15,	2,	1,	2,	4,	1,	EnumSymbol.NONE,		"hbmfluid.nitan"),
 		
-		UF6				(0xD1CEBE,	14,	1,	1,	4,	0,	2,	EnumSymbol.RADIATION,	"hbmfluid.uf6", false, true, false, FluidHazards.RADIOACTIVE),
-		PUF6			(0x4C4C4C,	15,	1,	1,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.puf6", false, true, false, FluidHazards.RADIOACTIVE),
-		SAS3			(0x4ffffc,	14,	2,	1,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3", false, true, false, FluidHazards.RADIOACTIVE),
-		SCHRABIDIC		(0x006B6B,	14,	1,	2,	5,	0,	5,	EnumSymbol.ACID,		"hbmfluid.schrabidic", false, true, false, FluidHazards.RADIOACTIVE, FluidHazards.CORROSIVE_STRONG),
+		UF6				(0xD1CEBE,	14,	1,	1,	4,	0,	2,	EnumSymbol.RADIATION,	"hbmfluid.uf6", false, true, false, FluidTrait.RADIOACTIVE),
+		PUF6			(0x4C4C4C,	15,	1,	1,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.puf6", false, true, false, FluidTrait.RADIOACTIVE),
+		SAS3			(0x4ffffc,	14,	2,	1,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3", false, true, false, FluidTrait.RADIOACTIVE),
+		SCHRABIDIC		(0x006B6B,	14,	1,	2,	5,	0,	5,	EnumSymbol.ACID,		"hbmfluid.schrabidic", false, true, false, FluidTrait.RADIOACTIVE, FluidTrait.CORROSIVE_STRONG),
 		
 		AMAT			(0x010101,	0,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.amat", false, false, true),
-		ASCHRAB			(0xb50000,	1,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.aschrab", false, false, true, FluidHazards.RADIOACTIVE),
+		ASCHRAB			(0xb50000,	1,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.aschrab", false, false, true, FluidTrait.RADIOACTIVE),
 
 		ACID			(0xfff7aa,	10,	2,	1,	3,	0,	3,	EnumSymbol.OXIDIZER,	"hbmfluid.acid", false, true, false),
-		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", false, true, false, 1500, FluidHazards.CORROSIVE_STRONG),
+		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", false, true, false, 1500, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
 		CRYOGEL			(0x32ffff,	0,	1,	2,	2,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.cryogel", false, false, false, -170),
 		
 		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen", false, false, false, -253),
 		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen", false, false, false, -183),
 		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),
 		// Make highly corrosive
-		SALT			(0x00e1ed,	1, 	2, 	2,	4, 	0,	4, 	EnumSymbol.ACID,		"hbmfluid.salt", true, true, false, 220, FluidHazards.CORROSIVE_STRONG),
-		SALT_U			(0x60f7ff, 	2,	2,	2,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u", true, true, false, 220, FluidHazards.CORROSIVE_STRONG, FluidHazards.RADIOACTIVE),
-		SALT_PU			(0x00686d,	3,	2,	2,	4,	0,	5,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu", true, true, false, 220, FluidHazards.CORROSIVE_STRONG, FluidHazards.RADIOACTIVE),
-		SAS3_NIT		(0x47dedb, 	4,	2,	2,	4,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit", false, true, false, FluidHazards.RADIOACTIVE),
-		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", true, true, false, 1500, FluidHazards.RADIOACTIVE),
+		SALT			(0x00e1ed,	1, 	2, 	2,	4, 	0,	4, 	EnumSymbol.ACID,		"hbmfluid.salt", true, true, false, 220, FluidTrait.CORROSIVE_STRONG),
+		SALT_U			(0x60f7ff, 	2,	2,	2,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u", true, true, false, 220, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
+		SALT_PU			(0x00686d,	3,	2,	2,	4,	0,	5,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu", true, true, false, 220, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
+		SAS3_NIT		(0x47dedb, 	4,	2,	2,	4,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit", false, true, false, FluidTrait.RADIOACTIVE),
+		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", true, true, false, 1500, FluidTrait.RADIOACTIVE),
 		
-		SALT_U_DP		(0x40a0a5, 	8,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u_dp", true, true, false, 320, FluidHazards.CORROSIVE_STRONG, FluidHazards.RADIOACTIVE),
-		SALT_PU_DP		(0x003234,	9,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu_dp", true, true, false, 320, FluidHazards.CORROSIVE_STRONG, FluidHazards.RADIOACTIVE),
-		SAS3_DP			(0x319b99,	10,	2,	1,	5,	2,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3_dp", true, true, false, 400, FluidHazards.RADIOACTIVE),
-		SAS3_NIT_DP		(0x297e7c, 	11,	2,	2,	5,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit_dp", false, true, false, 450, FluidHazards.CORROSIVE_STRONG, FluidHazards.RADIOACTIVE),
-		BALEFIRE_DP		(0x136615,	7,	1,	2,	5,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire_dp", true, true, false, 2250, FluidHazards.RADIOACTIVE),
+		SALT_U_DP		(0x40a0a5, 	8,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_u_dp", true, true, false, 320, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
+		SALT_PU_DP		(0x003234,	9,	2,	2,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.salt_pu_dp", true, true, false, 320, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
+		SAS3_DP			(0x319b99,	10,	2,	1,	5,	2,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3_dp", true, true, false, 400, FluidTrait.RADIOACTIVE),
+		SAS3_NIT_DP		(0x297e7c, 	11,	2,	2,	5,	2,	4,	EnumSymbol.RADIATION, 	"hbmfluid.sas3_nit_dp", false, true, false, 450, FluidTrait.CORROSIVE_STRONG, FluidTrait.RADIOACTIVE),
+		BALEFIRE_DP		(0x136615,	7,	1,	2,	5,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire_dp", true, true, false, 2250, FluidTrait.RADIOACTIVE),
 		PAIN			(0x938541,	15,	1,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.pain", 300, FluidTrait.CORROSIVE),
-		WASTEGAS		(0xB8B8B8,	1,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastegas", FluidTrait.NO_CONTAINER),
-		WASTEFLUID		(0x544400,	0,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastefluid", FluidTrait.NO_CONTAINER),
+		WASTEGAS		(0xB8B8B8,	1,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastegas", FluidTrait.RADIOACTIVE),
+		WASTEFLUID		(0x544400,	0,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastefluid", FluidTrait.RADIOACTIVE),
 		GASOLINE		(0x445772,	2,	2,	2,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.gasoline"),
 		SPENTSTEAM		(0x445772,	3,	2,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.spentsteam", FluidTrait.NO_CONTAINER),
 		FRACKSOL		(0x798A6B,	4,	2,	2,	1,	3,	3,	EnumSymbol.ACID,		"hbmfluid.fracksol", FluidTrait.CORROSIVE),
 		
-		MERCURY			(0x808080,	7,	1,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.mercury", FluidHazards.TOXIC),
+		MERCURY			(0x808080,	7,	1,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.mercury", FluidTrait.TOXIC),
 		
 		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", true, false, true, 3250),
 		PLASMA_HD		(0xF0ADF4,	9,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_hd", true, false, true, 2500),
@@ -119,7 +111,7 @@ public class FluidTypeHandler {
 		PLASMA_WARP		(0x00FFFF,	15,	1,	2,	5,	5,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_warp", true, false, true, 1200000),
 		ALCOHOL			(0x00bcbc, 	16, 2, 	2,	1, 	3,	0,  EnumSymbol.NONE,		"hbmfluid.alcohol"),
 		
-		SARIN			(0x00b4b4,	17, 2,	2,	4,	1,	1,	EnumSymbol.CHEMICAL,	"hbmfluid.sarin", FluidHazards.CHEMICAL);
+		SARIN			(0x00b4b4,	17, 2,	2,	4,	1,	1,	EnumSymbol.CHEMICAL,	"hbmfluid.sarin", FluidTrait.CHEMICAL);
 		
 		//Approximate HEX Color of the fluid, used for pipe rendering
 		private int color;
@@ -138,16 +130,15 @@ public class FluidTypeHandler {
 		//Whether the fluid is antimatter and requires magnetic storage
 		//private boolean antimatter;
 		
-		private HashSet<FluidHazards> hazards = new HashSet<FluidTypeHandler.FluidHazards>();
+		private HashSet<FluidTrait> traits = new HashSet<FluidTrait>();
 		
 		public int poison;
 		public int flammability;
 		public int reactivity;
 		public EnumSymbol symbol;
 		public int temperature;
-		public List<FluidTrait> traits = new ArrayList();
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidHazards...hazards) {
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait...traits) {
 			this.color = color;
 			this.textureX = x;
 			this.textureY = y;
@@ -158,13 +149,19 @@ public class FluidTypeHandler {
 			this.reactivity = r;
 			this.symbol = symbol;
 			this.temperature = 0;
-			if (hazards != null)
-				this.hazards.addAll(Arrays.asList(hazards));
+			if (traits != null)
+				this.traits.addAll(Arrays.asList(traits));
 			if (p > 1)
-				this.hazards.add(FluidHazards.TOXIC);
+				this.traits.add(FluidTrait.TOXIC);
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter, FluidHazards...hazards) {
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temp, FluidTrait...traits)
+		{
+			this(color, x, y, sheet, p, f, r, symbol, name, traits);
+			temperature = temp;
+		}
+		
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter, FluidTrait...hazards) {
 			this.color = color;
 			this.textureX = x;
 			this.textureY = y;
@@ -174,27 +171,24 @@ public class FluidTypeHandler {
 			this.flammability = f;
 			this.reactivity = r;
 			this.symbol = symbol;
-			this.hot = hot;
 			if (p > 1)
-				this.hazards.add(FluidHazards.TOXIC);
+				this.traits.add(FluidTrait.TOXIC);
 			if (hot)
-				this.hazards.add(FluidHazards.HOT);
-			this.corrosive = corrosive;
+				this.traits.add(FluidTrait.HOT);
 			if (corrosive)
-				this.hazards.add(FluidHazards.CORROSIVE);
-			this.antimatter = antimatter;
+				this.traits.add(FluidTrait.CORROSIVE);
 			if (antimatter)
-				this.hazards.add(FluidHazards.ANTIMATTER);
+				this.traits.add(FluidTrait.ANTIMATTER);
 			this.temperature = 0;
 			if (hazards != null)
-				this.hazards.addAll(Arrays.asList(hazards));
+				this.traits.addAll(Arrays.asList(hazards));
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter, int temperature, FluidHazards...hazards) {
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter, int temperature, FluidTrait...hazards) {
 			this(color, x, y, sheet, p, f, r, symbol, name, hot, corrosive, antimatter, hazards);
 			this.temperature = temperature;
 			if (!hot && temperature < 20)
-				this.hazards.add(FluidHazards.CRYO);
+				this.traits.add(FluidTrait.CRYO);
 		}
 
 		public int getColor() {
@@ -245,16 +239,16 @@ public class FluidTypeHandler {
 		}
 		
 		public boolean isCorrosive() {
-			return this.traits.contains(FluidTrait.CORROSIVE) || this.traits.contains(FluidTrait.CORROSIVE_2);
+			return this.traits.contains(FluidTrait.CORROSIVE) || this.traits.contains(FluidTrait.CORROSIVE_STRONG);
 		}
 		
 		public boolean isAntimatter() {
 			return this.traits.contains(FluidTrait.AMAT);
 		}
 		
-		public ImmutableSet<FluidHazards> getHazardSet()
+		public ImmutableSet<FluidTrait> getTraitSet()
 		{
-			return ImmutableSet.copyOf(hazards);
+			return ImmutableSet.copyOf(traits);
 		}
 		
 		public boolean hasNoContainer() {
@@ -264,5 +258,5 @@ public class FluidTypeHandler {
 		public boolean hasNoID() {
 			return this.traits.contains(FluidTrait.NO_ID);
 		}
-	};
+	}
 }

@@ -1,9 +1,7 @@
 package com.hbm.items.machine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -12,25 +10,20 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.annotations.Beta;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.internet.IDataStorageUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.World;
 @Beta
 @Spaghetti("Could  be a lot better tbh")
 public class ItemStorageMedium extends ItemCustomLore implements IDataStorageUser
@@ -186,6 +179,7 @@ public class ItemStorageMedium extends ItemCustomLore implements IDataStorageUse
 		}
 	}
 	
+	@Override
 	public void deleteData(ItemStack stack, long i)
 	{
 		if (stack.getItem() instanceof ItemStorageMedium)
@@ -253,14 +247,17 @@ public class ItemStorageMedium extends ItemCustomLore implements IDataStorageUse
 		
 	}
 	
+	@Override
 	public long getMaxCapacity()
 	{
 		return maxCapacity;
 	}
+	@Override
 	public long getWriteSpeed()
 	{
 		return writeRate;
 	}
+	@Override
 	public long getReadSpeed()
 	{
 		return readRate;
@@ -291,10 +288,12 @@ public class ItemStorageMedium extends ItemCustomLore implements IDataStorageUse
 		}
 		return new ItemStack(item);
 	}
+	@Override
 	public boolean showDurabilityBar(ItemStack stack)
 	{
 		return true;
 	}
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - (double) getDataUsed(stack) / (double) getMaxCapacity();

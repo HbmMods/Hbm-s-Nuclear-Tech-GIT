@@ -172,7 +172,7 @@ public class GUILunarOni extends GuiInfoContainer
 	protected void keyTyped(char c, int i)
 	{
 		if (tField.textboxKeyTyped(c, i))
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(RefStrings.MODID, "misc.keyPress"), 1.0F));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(keyboard, 1.0F));
 		else
 			super.keyTyped(c, i);
 	}

@@ -1,9 +1,7 @@
 package com.hbm.tileentity.turret;
 
 import java.util.List;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.EasyLocation;
 import com.hbm.config.BombConfig;
@@ -14,18 +12,18 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.ILaserable;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.I18nUtil;
 
-import net.minecraft.block.Block;
+import api.hbm.block.ILaserable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLunarOni extends TileEntityMachineBase implements IConsumer, ILaserable, IControlReceiver
@@ -117,8 +115,9 @@ public class TileEntityLunarOni extends TileEntityMachineBase implements IConsum
 		for (int[] blockC: blocks)
 		{
 			EasyLocation currBlock = new EasyLocation(blockC);
-			if (currBlock.getBlockAtCoord(getWorldObj()) == Blocks.air)
-				currBlock.setBlockAtCoord(ModBlocks.block_australium, getWorldObj());
+			currBlock.setWorld(getWorldObj());
+			if (currBlock.getBlockAtCoord() == Blocks.air)
+				currBlock.setBlockAtCoord(ModBlocks.block_australium);
 		}
 	}
 	
@@ -356,7 +355,7 @@ public class TileEntityLunarOni extends TileEntityMachineBase implements IConsum
 	}
 
 	@Override
-	public void addEnergy(long energy, ForgeDirection dir)
+	public void addEnergy(World world, int x, int y, int z, long energy, ForgeDirection dir)
 	{
 		energyIn = energy;
 	}

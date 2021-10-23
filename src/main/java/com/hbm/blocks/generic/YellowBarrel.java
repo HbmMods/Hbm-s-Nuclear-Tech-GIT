@@ -49,12 +49,7 @@ public class YellowBarrel extends Block {
 				}
 			}
 		}
-<<<<<<< HEAD
-
-		RadiationSavedData.incrementRad(world, x, z, 35, 1500);
-=======
 		ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 35);
->>>>>>> master
 	}
 
 	@Override
@@ -103,25 +98,15 @@ public class YellowBarrel extends Block {
 		super.updateTick(world, x, y, z, rand);
 
 		if(this == ModBlocks.yellow_barrel)
-<<<<<<< HEAD
-			RadiationSavedData.incrementRad(world, x, z, 5, 75);
-		else
-			RadiationSavedData.incrementRad(world, x, z, 0.5F, 5);
-=======
 			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5.0F);
 		else
 			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 0.5F);
->>>>>>> master
 
 		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}
 
 	@Override
 	public int tickRate(World world) {
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 		return 20;
 	}
 

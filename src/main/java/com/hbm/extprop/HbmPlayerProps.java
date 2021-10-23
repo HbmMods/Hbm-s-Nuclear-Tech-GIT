@@ -1,22 +1,15 @@
 package com.hbm.extprop;
 
-<<<<<<< HEAD
 import java.util.Random;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
-import com.hbm.saveddata.TimeSavedData;
-=======
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
->>>>>>> master
+import com.hbm.saveddata.TimeSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-<<<<<<< HEAD
-=======
 import net.minecraft.util.EnumChatFormatting;
->>>>>>> master
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
@@ -25,16 +18,13 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 	
-<<<<<<< HEAD
 	// Data
 	private long age = 20;
 	private byte birthday = 1;
 	private long birthyear = 2280;
 	private boolean hasAscended = false;
-=======
 	public boolean enableHUD = true;
 	public boolean enableBackpack = true;
->>>>>>> master
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 	
@@ -45,14 +35,10 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static HbmPlayerProps registerData(EntityPlayer player) {
 		
 		player.registerExtendedProperties(key, new HbmPlayerProps(player));
-<<<<<<< HEAD
 		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		props.age = getNewAge();
 		props.birthyear = TimeSavedData.getData(player.worldObj).getYear() - props.age;
 		return props;
-=======
-		return (HbmPlayerProps) player.getExtendedProperties(key);
->>>>>>> master
 	}
 	
 	public static HbmPlayerProps getData(EntityPlayer player) {
@@ -61,7 +47,6 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		return props != null ? props : registerData(player);
 	}
 	
-<<<<<<< HEAD
 	public static long getAge(EntityPlayer player)
 	{
 		return getData(player).age;
@@ -90,23 +75,15 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			getData(player).age = newAge;
 	}
 	
-=======
->>>>>>> master
 	public boolean getKeyPressed(EnumKeybind key) {
 		return keysPressed[key.ordinal()];
 	}
 	
-<<<<<<< HEAD
-	public void setKeyPressed(EnumKeybind key, boolean pressed) {
-		keysPressed[key.ordinal()] = pressed;
-	}
-
 	public static long getNewAge()
 	{
 		return 20 + new Random().nextInt(5);
 	}
 	
-=======
 	public boolean isJetpackActive() {
 		return this.enableBackpack && getKeyPressed(EnumKeybind.JETPACK);
 	}
@@ -136,12 +113,10 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		keysPressed[key.ordinal()] = pressed;
 	}
 
->>>>>>> master
 	@Override
 	public void init(Entity entity, World world) { }
 
 	@Override
-<<<<<<< HEAD
 	public void saveNBTData(NBTTagCompound compound)
 	{
 		NBTTagCompound props = new NBTTagCompound();
@@ -180,10 +155,4 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 				hasAscended = false;
 		}
 	}
-=======
-	public void saveNBTData(NBTTagCompound compound) { }
-
-	@Override
-	public void loadNBTData(NBTTagCompound compound) { }
->>>>>>> master
 }

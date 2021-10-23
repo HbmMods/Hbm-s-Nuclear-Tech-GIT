@@ -73,9 +73,6 @@ public class ItemPill extends ItemFood implements IHasLore
 				HbmLivingProps.setDigamma(player, 0);
 				player.addPotionEffect(new PotionEffect(HbmPotion.stability.id, 10 * 60 * 20, 0));
 			}
-		}
-	}
-
 			if(this == ModItems.pirfenidone) {
 				float fibrosis = HbmLivingProps.getFibrosis(player);
 				HbmLivingProps.setFibrosis(player, (int) Math.min(fibrosis, 37800));
@@ -84,6 +81,10 @@ public class ItemPill extends ItemFood implements IHasLore
 				HbmLivingProps.setAsbestos(player, 0);
 				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
 			}
+
+		}
+	}
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{

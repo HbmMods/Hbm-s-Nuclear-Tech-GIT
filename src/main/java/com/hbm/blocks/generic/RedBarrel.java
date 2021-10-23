@@ -65,11 +65,7 @@ public class RedBarrel extends Block {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public int getRenderType(){
-=======
 	public int getRenderType() {
->>>>>>> master
 		return BlockFluidBarrel.renderID;
 	}
 

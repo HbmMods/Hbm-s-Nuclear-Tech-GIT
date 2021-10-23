@@ -24,6 +24,7 @@ public class BlockDecoCT extends BlockOre implements IBlockCT{
 	@SideOnly(Side.CLIENT)
 	public CTStitchReceiver rec;
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(this.getTextureName());

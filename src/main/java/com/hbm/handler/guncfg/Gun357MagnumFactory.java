@@ -197,8 +197,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_iron_ammo;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 4;
+		bullet.dmgMax = 6;
 		
 		return bullet;
 	}
@@ -208,8 +208,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_ammo;
-		bullet.dmgMin = 3;
-		bullet.dmgMax = 5;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 7;
 		
 		return bullet;
 	}
@@ -219,8 +219,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_lead_ammo;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 3;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 7;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
@@ -233,8 +233,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_gold_ammo;
-		bullet.dmgMin = 10;
-		bullet.dmgMax = 15;
+		bullet.dmgMin = 11;
+		bullet.dmgMax = 16;
 		
 		return bullet;
 	}
@@ -244,8 +244,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_357_desh;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 17;
+		bullet.dmgMin = 16;
+		bullet.dmgMax = 18;
 		
 		return bullet;
 	}
@@ -267,8 +267,8 @@ public class Gun357MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
-		bullet.dmgMin = 12;
-		bullet.dmgMax = 15;
+		bullet.dmgMin = 13;
+		bullet.dmgMax = 16;
 		
 		return bullet;
 	}

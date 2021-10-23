@@ -1,7 +1,5 @@
 package com.hbm.render.item.weapon;
 
-import java.lang.annotation.Native;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
@@ -53,7 +51,7 @@ public class ItemRenderLunaticSniper implements IItemRenderer
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
 		double[] tilt = HbmAnimations.getRelevantTransformation("TILT");
-		double[] insert = HbmAnimations.getRelevantTransformation("INSERT_ROUND");
+//		double[] insert = HbmAnimations.getRelevantTransformation("INSERT_ROUND");
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lunatic_sniper_tex);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);

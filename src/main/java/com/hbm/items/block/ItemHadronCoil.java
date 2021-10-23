@@ -12,7 +12,8 @@ import net.minecraft.item.ItemStack;
 
 public class ItemHadronCoil extends ItemBlock {
 
-	public ItemHadronCoil(Block block) {
+	public ItemHadronCoil(Block block)
+	{
 		super(block);
 	}
 	

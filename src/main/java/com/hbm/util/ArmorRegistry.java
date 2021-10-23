@@ -99,18 +99,41 @@ public class ArmorRegistry {
 		
 		return prot;
 	}
-	
-	public static enum HazardClass {
-		GAS_CHLORINE("hazard.gasChlorine"),				//also attacks eyes -> no half mask
-		GAS_MONOXIDE("hazard.gasMonoxide"),				//only affects lungs
-		GAS_INERT("hazard.gasInert"),					//SA
-		PARTICLE_COARSE("hazard.particleCoarse"),		//only affects lungs
-		PARTICLE_FINE("hazard.particleFine"),			//only affects lungs
-		BACTERIA("hazard.bacteria"),					//no half masks
-		NERVE_AGENT("hazard.nerveAgent"),				//aggressive nerve agent, also attacks skin
-		GAS_CORROSIVE("hazard.corrosive"),				//corrosive substance, also attacks skin
-		SAND("hazard.sand"),							//blinding sand particles
-		LIGHT("hazard.light");							//blinding light
+	/**
+	 * Type of hazard <br><br>
+	 * <li>{@link #GAS_CHLORINE}<br>
+	 * <li>{@link #GAS_MONOXIDE}<br>
+	 * <li>{@link #PARTICLE_COARSE}<br>
+	 * <li>{@link #PARTICLE_FINE}<br>
+	 * <li>{@link #NERVE_AGENT}<br>
+	 * <li>{@link #GAS_CORROSIVE}<br>
+	 * <li>{@link #SAND}<br>
+	 * <li>{@link #LIGHT}
+	 * @author HBM
+	 * 
+	 */
+	public static enum HazardClass
+	{
+		/**also attacks eyes -> no half mask**/
+		GAS_CHLORINE("hazard.gasChlorine"),
+		/**only affects lungs**/
+		GAS_MONOXIDE("hazard.gasMonoxide"),
+		/**SA**/
+		GAS_INERT("hazard.gasInert"),
+		/**only affects lungs**/
+		PARTICLE_COARSE("hazard.particleCoarse"),
+		/**only affects lungs***/
+		PARTICLE_FINE("hazard.particleFine"),
+		/**no half masks**/
+		BACTERIA("hazard.bacteria"),
+		/**aggressive nerve agent, also attacks skin**/
+		NERVE_AGENT("hazard.nerveAgent"),
+		/**corrosive substance, also attacks skin***/
+		GAS_CORROSIVE("hazard.corrosive"),
+		/**blinding sand particles**/
+		SAND("hazard.sand"),
+		/**blinding light**/
+		LIGHT("hazard.light");
 		
 		public final String lang;
 		

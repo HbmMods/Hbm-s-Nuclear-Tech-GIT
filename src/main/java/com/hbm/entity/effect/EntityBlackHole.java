@@ -1,12 +1,8 @@
 package com.hbm.entity.effect;
 
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 
@@ -25,10 +21,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityBlackHole extends Entity {
-	
-	Random rand = new Random();
-	EntityBalefire bf = new EntityBalefire(worldObj);
+public class EntityBlackHole extends Entity
+{
 
 	public EntityBlackHole(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -47,28 +41,6 @@ public class EntityBlackHole extends Entity {
 		super.onUpdate();
 		
 		float size = this.dataWatcher.getWatchableObjectFloat(16);
-<<<<<<< HEAD
-		int disYield = (int)Math.ceil(size) * 10;
-		bf.posX = this.posX;
-		bf.posY = this.posY;
-		bf.posZ = this.posZ;
-
-		for(int k = 0; k < size * 5; k++) {
-			double phi = rand.nextDouble() * (Math.PI * 2);
-			double costheta = rand.nextDouble() * 2 - 1;
-			double theta = Math.acos(costheta);
-			double x = Math.sin( theta) * Math.cos( phi );
-			double y = Math.sin( theta) * Math.sin( phi );
-			double z = Math.cos( theta );
-			
-			Vec3 vec = Vec3.createVectorHelper(x, y, z);
-			int length = (int)Math.ceil(size * 15);
-			
-			for(int i = 0; i < length; i ++) {
-				int x0 = (int)(this.posX + (vec.xCoord * i));
-				int y0 = (int)(this.posY + (vec.yCoord * i));
-				int z0 = (int)(this.posZ + (vec.zCoord * i));
-=======
 		
 		if(!worldObj.isRemote) {
 			for(int k = 0; k < size * 2; k++) {
@@ -78,7 +50,6 @@ public class EntityBlackHole extends Entity {
 				double x = Math.sin( theta) * Math.cos( phi );
 				double y = Math.sin( theta) * Math.sin( phi );
 				double z = Math.cos( theta );
->>>>>>> master
 				
 				Vec3 vec = Vec3.createVectorHelper(x, y, z);
 				int length = (int)Math.ceil(size * 15);
@@ -107,34 +78,6 @@ public class EntityBlackHole extends Entity {
 				}
 			}
 		}
-<<<<<<< HEAD
-		worldObj.func_147480_a((int)posX, (int)posY, (int)posZ, false);
-		ExplosionNukeGeneric.succ(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 15));
-		if(!worldObj.isRemote && ExplosionNukeGeneric.dedify(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 2))) {
-			this.setDead();
-			int r = (int)Math.ceil(size);
-			int r2 = r * r;
-			int r22 = r2 / 2;
-			for (int xx = -r; xx < r; xx++) {
-				int X = xx + (int)this.posX;
-				int XX = xx * xx;
-				for (int yy = -r; yy < r; yy++) {
-					int Y = yy + (int)this.posY;
-					int YY = XX + yy * yy;
-					for (int zz = -r; zz < r; zz++) {
-						int Z = zz + (int)this.posZ;
-						int ZZ = YY + zz * zz;
-						if (ZZ < r22) {
-							worldObj.setBlock(X, Y, Z, ModBlocks.gravel_obsidian);
-						}
-					}
-				}
-			}
-			worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 5.0F, true);
-			bf.destructionRange = disYield + 25;
-			worldObj.spawnEntityInWorld(bf);
-			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, posX, posY, posZ, (disYield + 25) * 1.5F, 1000));
-=======
 		
 		double range = size * 15;
 		
@@ -202,7 +145,6 @@ public class EntityBlackHole extends Entity {
 					}
 				}
 			}
->>>>>>> master
 		}
 		
 		this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);

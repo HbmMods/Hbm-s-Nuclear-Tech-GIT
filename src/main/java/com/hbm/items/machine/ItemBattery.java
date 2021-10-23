@@ -27,6 +27,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		this.maxCharge = dura;
 		this.chargeRate = chargeRate;
 		this.dischargeRate = dischargeRate;
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -60,6 +61,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		return rarity;
 	}
 
+	@Override
 	public void chargeBattery(ItemStack stack, long i) {
 		if(stack.getItem() instanceof ItemBattery) {
 			if(stack.hasTagCompound()) {
@@ -71,6 +73,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		}
 	}
 
+	@Override
 	public void setCharge(ItemStack stack, long i) {
 		if(stack.getItem() instanceof ItemBattery) {
 			if(stack.hasTagCompound()) {
@@ -82,6 +85,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		}
 	}
 
+	@Override
 	public void dischargeBattery(ItemStack stack, long i) {
 		if(stack.getItem() instanceof ItemBattery) {
 			if(stack.hasTagCompound()) {
@@ -93,6 +97,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		}
 	}
 
+	@Override
 	public long getCharge(ItemStack stack) {
 		if(stack.getItem() instanceof ItemBattery) {
 			if(stack.hasTagCompound()) {
@@ -107,14 +112,17 @@ public class ItemBattery extends Item implements IBatteryItem {
 		return 0;
 	}
 
+	@Override
 	public long getMaxCharge() {
 		return maxCharge;
 	}
 
+	@Override
 	public long getChargeRate() {
 		return chargeRate;
 	}
 
+	@Override
 	public long getDischargeRate() {
 		return dischargeRate;
 	}
@@ -143,10 +151,12 @@ public class ItemBattery extends Item implements IBatteryItem {
 		return new ItemStack(item);
 	}
 
+	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		return true;
 	}
 
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 		return 1D - (double) getCharge(stack) / (double) getMaxCharge();
 	}

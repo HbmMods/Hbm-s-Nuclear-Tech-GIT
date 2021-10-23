@@ -8,7 +8,6 @@ import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -30,9 +29,9 @@ public class BlockWithSubtypes extends BlockGeneric
 		setSize = size;
 //		icons = new IIcon[setSize];
 	}
-	public BlockWithSubtypes(Material mat, int size, String... names)
+	public BlockWithSubtypes(Material mat, String... names)
 	{
-		this(mat, size);
+		this(mat, names.length);
 		addCustomNames(names);
 	}
 	

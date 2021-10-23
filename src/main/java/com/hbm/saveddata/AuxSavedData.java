@@ -9,7 +9,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class AuxSavedData extends WorldSavedData {
 	
-	public List<DataPair> data = new ArrayList();
+	public List<DataPair> data = new ArrayList<DataPair>();
 
 	public AuxSavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
@@ -115,7 +115,7 @@ public class AuxSavedData extends WorldSavedData {
 		AuxSavedData data = getData(world);
 		
 		if(data.data == null) {
-			data.data = new ArrayList();
+			data.data = new ArrayList<DataPair>();
 			data.data.add(new DataPair("thunder", dura));
 			
 		} else {

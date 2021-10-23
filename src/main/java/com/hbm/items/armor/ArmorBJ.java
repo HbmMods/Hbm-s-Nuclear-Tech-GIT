@@ -35,7 +35,8 @@ public class ArmorBJ extends ArmorFSBPowered {
 		return models[armorSlot];
 	}
 	
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    @Override
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
     	
     	super.onArmorTick(world, player, itemStack);
     	

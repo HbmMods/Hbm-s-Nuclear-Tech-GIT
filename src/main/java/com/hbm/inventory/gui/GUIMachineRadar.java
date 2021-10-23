@@ -19,7 +19,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineRadar extends GuiInfoContainer {
+public class GUIMachineRadar extends GuiInfoContainer
+{
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_radar.png");
 	private TileEntityMachineRadar diFurnace;
@@ -37,18 +38,12 @@ public class GUIMachineRadar extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 221, 200, 7, diFurnace.power, diFurnace.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 221, 200, 7, diFurnace.power, TileEntityMachineRadar.maxPower);
 
-<<<<<<< HEAD
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 103, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectMissiles") );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 113, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectPlayers"));
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 123, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.smartMode"));
-=======
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 98, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectMissiles") );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 108, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectPlayers"));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 118, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.smartMode"));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 128, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.redMode"));
->>>>>>> master
 
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(int[] m : diFurnace.nearbyMissiles) {
@@ -73,30 +68,16 @@ public class GUIMachineRadar extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-<<<<<<< HEAD
-		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 103 < y && guiTop + 103 + 8 >= y) {
-=======
 		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 98 < y && guiTop + 98 + 8 >= y) {
->>>>>>> master
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 0));
 		}
 
-<<<<<<< HEAD
-		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 113 < y && guiTop + 113 + 8 >= y) {
-=======
 		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 108 < y && guiTop + 108 + 8 >= y) {
->>>>>>> master
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 1));
 		}
 
-<<<<<<< HEAD
-		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 123 < y && guiTop + 123 + 8 >= y) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 2));
-		}
-=======
 		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 118 < y && guiTop + 118 + 8 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 2));
@@ -106,7 +87,6 @@ public class GUIMachineRadar extends GuiInfoContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 3));
 		}
->>>>>>> master
 	}
 	
 	@Override
@@ -121,18 +101,6 @@ public class GUIMachineRadar extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-<<<<<<< HEAD
-		drawTexturedModalRect(guiLeft - 14, guiTop + 99, 216, 198, 14, 36);
-		
-		if(diFurnace.scanMissiles)
-			drawTexturedModalRect(guiLeft - 10, guiTop + 103, 230, 202, 8, 8);
-		
-		if(diFurnace.scanPlayers)
-			drawTexturedModalRect(guiLeft - 10, guiTop + 113, 230, 212, 8, 8);
-		
-		if(diFurnace.smartMode)
-			drawTexturedModalRect(guiLeft - 10, guiTop + 123, 230, 222, 8, 8);
-=======
 		drawTexturedModalRect(guiLeft - 14, guiTop + 94, 216, 198, 14, 46);
 		
 		if(diFurnace.scanMissiles)
@@ -146,7 +114,6 @@ public class GUIMachineRadar extends GuiInfoContainer {
 		
 		if(diFurnace.redMode)
 			drawTexturedModalRect(guiLeft - 10, guiTop + 128, 230, 232, 8, 8);
->>>>>>> master
 		
 		if(diFurnace.power > 0) {
 			int i = (int)diFurnace.getPowerScaled(200);

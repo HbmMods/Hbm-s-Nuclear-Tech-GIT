@@ -12,7 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class ItemWiring extends Item {
+public class ItemWiring extends Item
+{
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_,
@@ -42,13 +43,8 @@ public class ItemWiring extends Item {
 						TileEntityPylonRedWire first = (TileEntityPylonRedWire) world.getTileEntity(x1, y1, z1);
 						TileEntityPylonRedWire second = ((TileEntityPylonRedWire) te);
 						
-<<<<<<< HEAD
-						first.connected.add(second);
-						second.connected.add(first);
-=======
 						first.addTileEntityBasedOnCoords(x, y, z);
 						second.addTileEntityBasedOnCoords(x1, y1, z1);
->>>>>>> master
 						first.markDirty();
 						second.markDirty();
 

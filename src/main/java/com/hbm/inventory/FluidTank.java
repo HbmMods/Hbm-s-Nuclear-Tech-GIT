@@ -1,22 +1,14 @@
 package com.hbm.inventory;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.FluidTypeHandler.FluidHazards;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.FluidTypeHandler.FluidTrait;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
-import com.hbm.lib.HbmCollection;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
@@ -24,12 +16,10 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class FluidTank {
@@ -289,28 +279,9 @@ public class FluidTank {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
 			ArrayList<String> list = new ArrayList<String>();
-			final String tColor = type.temperature > 0 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
-			final ImmutableSet<FluidHazards> fHazards = type.getHazardSet();
-			
-			list.add(I18n.format(this.type.getUnlocalizedName()));
-			list.add(fluid + "/" + maxFluid + "mB");
-			if (type.temperature != 0 || fHazards.contains(FluidHazards.HOT) || fHazards.contains(FluidHazards.CRYO))
-				list.add(tColor + NumberFormat.getInstance().format(type.temperature) + "°C");
-			if (type.isAntimatter())
-				list.add(I18nUtil.resolveKey(HbmCollection.antimatter));
-			if (fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
-				list.add(I18nUtil.resolveKey(HbmCollection.corrosiveStrong));
-			else if (!fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
-				list.add(I18nUtil.resolveKey(HbmCollection.corrosive));
-			if (fHazards.contains(FluidHazards.BIOHAZARD))
-				list.add(I18nUtil.resolveKey(HbmCollection.biohazard));
-			if (fHazards.contains(FluidHazards.CHEMICAL))
-				list.add(I18nUtil.resolveKey(HbmCollection.chemical));
-			if (fHazards.contains(FluidHazards.RADIOACTIVE))
-				list.add(I18nUtil.resolveKey(HbmCollection.radioactiveFluid));
-			if (fHazards.contains(FluidHazards.TOXIC))
-				list.add(I18nUtil.resolveKey(HbmCollection.toxicGeneric));
-			
+			list.add(I18nUtil.resolveKey(type.getUnlocalizedName()));
+			list.add(String.format("%smB/%smB", getFill(), getMaxFill()));
+			Library.addFluidInfo(type, list);
 			gui.drawFluidInfo(list.toArray(new String[list.size()]), mouseX, mouseY);
 //			if(type.temperature == 0)
 //				gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);

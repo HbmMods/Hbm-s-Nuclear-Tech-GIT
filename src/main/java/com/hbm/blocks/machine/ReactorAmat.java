@@ -22,25 +22,26 @@ public class ReactorAmat extends BlockContainer
 		super(material);
 	}
 	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		if (world.isRemote)
-			return true;
-		else if (!player.isSneaking())
-		{
-			TileEntityReactorWarp te = (TileEntityReactorWarp) world.getTileEntity(x, y, z);
-			if (te != null)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_amat_reactor, world, x, y, z);
-			return true;
-		}
-		else
-			return false;
-	}
+//	@Override
+//	public boolean onBlockActivated(World world, int x, int y, int z,
+//			EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+//	{
+//		if (world.isRemote)
+//			return true;
+//		else if (!player.isSneaking())
+//		{
+//			TileEntityReactorWarp te = (TileEntityReactorWarp) world.getTileEntity(x, y, z);
+//			if (te != null)
+//				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_amat_reactor, world, x, y, z);
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
 	{
-		return new TileEntityReactorWarp();
+//		return new TileEntityReactorWarp();
+		return null;
 	}
 }

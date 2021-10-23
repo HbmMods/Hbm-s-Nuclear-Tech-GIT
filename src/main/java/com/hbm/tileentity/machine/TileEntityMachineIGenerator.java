@@ -25,10 +25,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
-<<<<<<< HEAD
-import scala.actors.threadpool.Arrays;
-=======
->>>>>>> master
 
 public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource, IFluidAcceptor {
 	
@@ -356,7 +352,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			return;
 		
 		//i don't feel like adding null checks because they won't trigger anyway
-		slots[2] = new ItemStack(this.rtgPellets.inverse().get(pellets[0]));
+		slots[2] = new ItemStack(rtgPellets.inverse().get(pellets[0]));
 		
 		for(int i = 0; i < pellets.length - 1; i++) {
 			pellets[i] = pellets[i + 1];

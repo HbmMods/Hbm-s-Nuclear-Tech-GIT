@@ -12,7 +12,8 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerWatzCore extends Container {
+public class ContainerWatzCore extends Container
+{
 	
 	private TileEntityWatzCore diFurnace;
 	
@@ -135,103 +136,4 @@ public class ContainerWatzCore extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
 	}
-<<<<<<< HEAD
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.powerList != this.diFurnace.powerList)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.powerList);
-			}
-			
-			if(this.heatList != this.diFurnace.heatList)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.heatList);
-			}
-			
-			if(this.decayMultiplier != this.diFurnace.decayMultiplier)
-			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.decayMultiplier);
-			}
-			
-			if(this.powerMultiplier != this.diFurnace.powerMultiplier)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.diFurnace.powerMultiplier);
-			}
-			
-			if(this.heatMultiplier != this.diFurnace.heatMultiplier)
-			{
-				par1.sendProgressBarUpdate(this, 4, this.diFurnace.heatMultiplier);
-			}
-			
-			if(this.heat != this.diFurnace.heat)
-			{
-				par1.sendProgressBarUpdate(this, 5, this.diFurnace.heat);
-			}
-		}
-
-		this.powerList = this.diFurnace.powerList;
-		this.heatList = this.diFurnace.heatList;
-		this.decayMultiplier = this.diFurnace.decayMultiplier;
-		this.powerMultiplier = this.diFurnace.powerMultiplier;
-		this.heatMultiplier = this.diFurnace.heatMultiplier;
-		this.heat = this.diFurnace.heat;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-//		if(i == 0)
-//		{
-//			diFurnace.powerList = j;
-//		}
-//		if(i == 1)
-//		{
-//			diFurnace.heatList = j;
-//		}
-//		if(i == 2)
-//		{
-//			diFurnace.decayMultiplier = j;
-//		}
-//		if(i == 3)
-//		{
-//			diFurnace.powerMultiplier = j;
-//		}
-//		if(i == 4)
-//		{
-//			diFurnace.heatMultiplier = j;
-//		}
-//		if(i == 5)
-//		{
-//			diFurnace.heat = j;
-//		}
-		switch(i)
-		{
-		case 0:
-			diFurnace.powerList = j;
-			break;
-		case 1:
-			diFurnace.heatList = j;
-			break;
-		case 2:
-			diFurnace.decayMultiplier = j;
-			break;
-		case 3:
-			diFurnace.powerMultiplier = j;
-			break;
-		case 4:
-			diFurnace.heatMultiplier = j;
-			break;
-		case 5:
-			diFurnace.heat = j;
-			break;
-		}
-	}
-=======
->>>>>>> master
 }

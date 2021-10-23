@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
@@ -16,7 +15,7 @@ public class HadronRecipes {
 	 * Since we're dealing with like 10 or so recipes, using a HashMap (or to combine two keys, a HashMap *in* a HashMap)
 	 * would be less performant than those few steps through a good old Array list, and it's much easier to implement too.
 	 */
-	private static final List<HadronRecipe> recipes = new ArrayList();
+	private static final List<HadronRecipe> recipes = new ArrayList<HadronRecipe>();
 	
 	/*
 	 * We CAN actually implement recipes with the same input items but different momentum requirements.
@@ -70,6 +69,13 @@ public class HadronRecipes {
 				new ItemStack(ModItems.particle_empty),
 				false
 				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_aschrab),
+				new ItemStack(ModItems.particle_higgs),
+				6000,
+				new ItemStack(ModItems.particle_graviton),
+				new ItemStack(ModItems.particle_empty),
+				false));
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_muon),
 				new ItemStack(ModItems.particle_higgs),

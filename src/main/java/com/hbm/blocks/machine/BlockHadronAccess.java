@@ -1,10 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
-<<<<<<< HEAD
-=======
 import com.hbm.handler.BossSpawnHandler;
->>>>>>> master
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyInventory;
 
@@ -33,7 +30,8 @@ public class BlockHadronAccess extends BlockContainer {
 		return new TileEntityProxyInventory();
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
     	
 		ForgeDirection dir = ForgeDirection.getOrientation(meta).getOpposite();
@@ -44,7 +42,8 @@ public class BlockHadronAccess extends BlockContainer {
     	return this.blockIcon;
     }
 	
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+    @Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
     	
         int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 		ForgeDirection dir = ForgeDirection.getOrientation(l).getOpposite();
@@ -56,13 +55,11 @@ public class BlockHadronAccess extends BlockContainer {
 		
 		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking()) {
+		} else if(!player.isSneaking())
+		{
 			
-<<<<<<< HEAD
-=======
 			BossSpawnHandler.markFBI(player);
 			
->>>>>>> master
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 			
 			/*for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {

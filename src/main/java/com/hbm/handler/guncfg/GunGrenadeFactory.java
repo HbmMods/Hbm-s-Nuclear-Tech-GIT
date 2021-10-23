@@ -2,6 +2,9 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudTom;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -191,7 +194,7 @@ public class GunGrenadeFactory {
 		
 		return bullet;
 	}
-
+	static final byte size = 25;
 	public static BulletConfiguration getGrenadeLunaticConfig()
 	{
 		BulletConfiguration bullet = getGrenadeConfig();
@@ -200,12 +203,34 @@ public class GunGrenadeFactory {
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		bullet.wear = 20;
-		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		// TODO rework
+		bullet.bImpact = new IBulletImpactBehavior()
+		{
 			
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.explosionLunatic(bullet, x, y, z, 25);
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z)
+			{
+				
+				if(!bullet.worldObj.isRemote)
+				{
+					EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(bullet.worldObj);
+					explosionEntity.posX = bullet.posX;
+					explosionEntity.posY = bullet.posY;
+					explosionEntity.posZ = bullet.posZ;
+					explosionEntity.destructionRange = size;
+					explosionEntity.speed = BombConfig.blastSpeed;
+					explosionEntity.coefficient = 15F;
+					explosionEntity.coefficient2 = 45F;
+					explosionEntity.waste = false;
+					explosionEntity.extType = 2;
+					bullet.worldObj.spawnEntityInWorld(explosionEntity);
+					
+					EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
+					cloud.posX = x;
+					cloud.posY = y;
+					cloud.posZ = z;
+					bullet.worldObj.spawnEntityInWorld(cloud);
+				}
 			}
 		};
 		return bullet;

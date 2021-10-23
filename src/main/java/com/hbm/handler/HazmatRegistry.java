@@ -12,56 +12,47 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class HazmatRegistry {
+public class HazmatRegistry
+{
 	
-	public static void registerHazmats() {
 
-		//assuming coefficient of 10
-		//real coefficient turned out to be 5
-		//oops
-		
-		double helmet = 0.2D;
-		double chest = 0.4D;
-		double legs = 0.3D;
-		double boots = 0.1D;
+	//assuming coefficient of 10
+	//real coefficient turned out to be 5
+	//oops
+	
+	static final double helmet = 0.2D;
+	static final double chest = 0.4D;
+	static final double legs = 0.3D;
+	static final double boots = 0.1D;
 
-		double iron = 0.0225D; // 5%
-		double gold = 0.0225D; // 5%
-		double steel = 0.045D; // 10%
-		double titanium = 0.045D; // 10%
-		double alloy = 0.07D; // 15%
-		double cobalt = 0.125D; // 25%
-		
-<<<<<<< HEAD
-		double hazYellow = 0.3D; // 50%
-		double hazRed = 0.7D; // 80%
-		double hazGray = 1.3D; // 95%
-		double paa = 1.3D; // 95%
-		double liquidator = 2D; // 99%
+	static final double iron = 0.0225D; // 5%
+	static final double gold = 0.0225D; // 5%
+	static final double steel = 0.045D; // 10%
+	static final double titanium = 0.045D; // 10%
+	static final double alloy = 0.07D; // 15%
+	static final double cobalt = 0.125D; // 25%
+	
+	static final double hazYellow = 0.6D; // 50%
+	static final double hazRed = 1.0D; // 90%
+	static final double hazGray = 2D; // 99%
+	static final double paa = 1.7D; // 97%
+	static final double liquidator = 2D; // 99%
 
-		double ferro = 1D;
-=======
-		double hazYellow = 0.6D; // 50%
-		double hazRed = 1.0D; // 90%
-		double hazGray = 2D; // 99%
-		double paa = 1.7D; // 97%
-		double liquidator = 2D; // 99%
+	static final double t45 = 1D; // 90%
+	static final double ajr = 1.3D; // 95%
+	static final double bj = 1D; // 90%
+	static final double hev = 1.3D; // 95%
+	static final double fau = 4D; // 99.99%
+	static final double dns = 5D; // 99.999%
+	static final double security = 0.825D; // 85%
+	static final double star = 1D; // 90%
+	static final double cmb = 1.3D; // 95%
+	static final double schrab = 2.3D; // 99.5%
+	static final double euph = 10D; // <100%
 
->>>>>>> master
-		double t45 = 1D; // 90%
-		double ajr = 1.3D; // 95%
-		double bj = 1D; // 90%
-		double hev = 1.3D; // 95%
-		double fau = 4D; // 99.99%
-<<<<<<< HEAD
-=======
-		double dns = 5D; // 99.999%
->>>>>>> master
-		double security = 0.825D; // 85%
-		double star = 1D; // 90%
-		double cmb = 1.3D; // 95%
-		double schrab = 2.3D; // 99.5%
-		double euph = 10D; // <100%
+	
+	public static void registerHazmats()
+	{
 		
 		HazmatRegistry.registerHazmat(ModItems.hazmat_helmet, hazYellow * helmet);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_plate, hazYellow * chest);
@@ -113,14 +104,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.fau_legs, fau * legs);
 		HazmatRegistry.registerHazmat(ModItems.fau_boots, fau * boots);
 
-<<<<<<< HEAD
-=======
 		HazmatRegistry.registerHazmat(ModItems.dns_helmet, dns * helmet);
 		HazmatRegistry.registerHazmat(ModItems.dns_plate, dns * chest);
 		HazmatRegistry.registerHazmat(ModItems.dns_legs, dns * legs);
 		HazmatRegistry.registerHazmat(ModItems.dns_boots, dns * boots);
 
->>>>>>> master
 		HazmatRegistry.registerHazmat(ModItems.paa_plate, paa * chest);
 		HazmatRegistry.registerHazmat(ModItems.paa_legs, paa * legs);
 		HazmatRegistry.registerHazmat(ModItems.paa_boots, paa * boots);
@@ -186,25 +174,18 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.schrabidium_legs, schrab * legs);
 		HazmatRegistry.registerHazmat(ModItems.schrabidium_boots, schrab * boots);
 
-<<<<<<< HEAD
-		registerHazmat(ModItems.ferrouranium_helmet, ferro * helmet);
-		registerHazmat(ModItems.ferrouranium_plate, ferro * chest);
-		registerHazmat(ModItems.ferrouranium_legs, ferro * legs);
-		registerHazmat(ModItems.ferrouranium_boots, ferro * boots);
-		
-=======
->>>>>>> master
 		HazmatRegistry.registerHazmat(ModItems.euphemium_helmet, euph * helmet);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_plate, euph * chest);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_legs, euph * legs);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_boots, euph * boots);
+		
+		registerHazmat(ModItems.ferrouranium_helmet, hazRed * helmet);
+		registerHazmat(ModItems.ferrouranium_plate, hazRed * chest);
+		registerHazmat(ModItems.ferrouranium_legs, hazRed * legs);
+		registerHazmat(ModItems.ferrouranium_boots, hazRed * boots);
 	}
 	
-<<<<<<< HEAD
 	private static HashMap<Item, Double> entries = new HashMap<Item, Double>();
-=======
-	private static HashMap<Item, Double> entries = new HashMap();
->>>>>>> master
 	
 	public static void registerHazmat(Item item, double resistance) {
 		

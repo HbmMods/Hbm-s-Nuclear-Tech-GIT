@@ -741,6 +741,7 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	//mk3, only use this one
+	@Override
 	public void effectNT(NBTTagCompound data) {
 		
 		World world = Minecraft.getMinecraft().theWorld;
@@ -796,7 +797,7 @@ public class ClientProxy extends ServerProxy {
 					fx.motionZ = vec.zCoord;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 					
-					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
+					vec.rotateAroundY((float)Math.PI * 2F / count);
 				}
 			}
 			
@@ -814,7 +815,7 @@ public class ClientProxy extends ServerProxy {
 					fx.motionZ = vec.zCoord;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 
-					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
+					vec.rotateAroundY((float)Math.PI * 2F / count);
 				}
 			}
 			

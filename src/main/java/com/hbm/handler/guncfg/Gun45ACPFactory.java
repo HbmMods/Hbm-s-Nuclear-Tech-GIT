@@ -2,7 +2,6 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
@@ -118,7 +117,7 @@ public class Gun45ACPFactory
 		bullet.ammo = ModItems.ammo_45;
 		bullet.dmgMax = 8;
 		bullet.dmgMin = 6;
-		bullet.spread /= 2;
+		bullet.spread /= 2.5;
 		
 		return bullet;
 	}

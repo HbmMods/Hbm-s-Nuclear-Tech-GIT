@@ -12,18 +12,10 @@ import net.minecraft.world.World;
 
 public class EntityShrapnel extends EntityThrowable {
 
-<<<<<<< HEAD
-    public EntityShrapnel(World p_i1773_1_)
-    {
-        super(p_i1773_1_);
-        this.isImmuneToFire = true;
-    }
-=======
 	public EntityShrapnel(World p_i1773_1_) {
 		super(p_i1773_1_);
 		this.isImmuneToFire = true;
 	}
->>>>>>> master
 
 	public EntityShrapnel(World p_i1774_1_, EntityLivingBase p_i1774_2_) {
 		super(p_i1774_1_, p_i1774_2_);
@@ -31,47 +23,6 @@ public class EntityShrapnel extends EntityThrowable {
 
 	@Override
 	public void entityInit() {
-<<<<<<< HEAD
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
-    }
-
-    public EntityShrapnel(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
-    {
-        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
-    }
-    
-    @Override
-    public void onUpdate() {
-    	super.onUpdate();
-    	
-    	if(worldObj.isRemote && this.dataWatcher.getWatchableObjectByte(16) == 1)
-    		worldObj.spawnParticle("flame", posX, posY, posZ, 0.0, 0.0, 0.0);
-    }
-
-    @Override
-	protected void onImpact(MovingObjectPosition p_70184_1_)
-    {
-        if (p_70184_1_.entityHit != null)
-        {
-            byte b0 = 15;
-
-            p_70184_1_.entityHit.attackEntityFrom(ModDamageSource.shrapnel, b0);
-        }
-
-        if(this.ticksExisted > 5) {
-        	this.setDead();
-        	
-        	for(int i = 0; i < 5; i++)
-        		worldObj.spawnParticle("lava", posX, posY, posZ, 0.0, 0.0, 0.0);
-        	
-        	worldObj.playSoundEffect(posX, posY, posZ, "random.fizz", 1.0F, 1.0F);
-        }
-    }
-    
-    public void setTrail(boolean b) {
-        	this.dataWatcher.updateObject(16, (byte)(b ? 1 : 0));
-    }
-=======
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
 
@@ -146,5 +97,4 @@ public class EntityShrapnel extends EntityThrowable {
 	public void setVolcano(boolean b) {
 		this.dataWatcher.updateObject(16, (byte) (b ? 2 : 0));
 	}
->>>>>>> master
 }

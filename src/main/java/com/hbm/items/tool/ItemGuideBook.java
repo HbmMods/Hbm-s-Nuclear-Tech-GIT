@@ -3,36 +3,27 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-import com.hbm.interfaces.IHasLore;
-=======
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
-<<<<<<< HEAD
-=======
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
->>>>>>> master
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ItemGuideBook extends Item {
-<<<<<<< HEAD
-=======
+public class ItemGuideBook extends Item
+{
 	
 	public ItemGuideBook() {
 		this.setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
->>>>>>> master
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -42,23 +33,8 @@ public class ItemGuideBook extends Item {
 		
 		return stack;
 	}
-<<<<<<< HEAD
-	
+
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) { }
-
-	public enum BookType {
-		
-		TEST(statFacTest()),
-		CUST_CORES(newBasicBook("custCores", 30));
-		
-		public List<GuidePage> pages;
-		
-		private BookType(List<GuidePage> pages) {
-			this.pages = pages;
-		}
-=======
-
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
@@ -89,12 +65,11 @@ public class ItemGuideBook extends Item {
 		public static BookType getType(int i) {
 			return BookType.values()[Math.abs(i) % BookType.values().length];
 		}
->>>>>>> master
 	}
 	
 	public static List<GuidePage> statFacTest() {
 		
-		List<GuidePage> pages = new ArrayList();
+		List<GuidePage> pages = new ArrayList<GuidePage>();
 		pages.add(new GuidePage("book.test.page1").addTitle("Title LMAO", 0x800000, 1F).setScale(2F).addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
 		pages.add(new GuidePage("book.test.page1").addTitle("LA SEXO", 0x800000, 0.5F).setScale(1.75F).addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
 		pages.add(new GuidePage("test test"));
@@ -105,25 +80,9 @@ public class ItemGuideBook extends Item {
 		return pages;
 	}
 	
-<<<<<<< HEAD
-	public static final ArrayList<GuidePage> newBasicBook(String name, int maxPage)
-	{
-		ArrayList<GuidePage> pages = new ArrayList<ItemGuideBook.GuidePage>();
-		
-		int page = 1;
-		while (IHasLore.keyExists(String.format("book.%s.page%s", name, page)))
-		{
-			if (IHasLore.keyExists(String.format("book.%s.page%s.title", name, page)))
-				pages.add(new GuidePage(I18nUtil.resolveKey(String.format("book.%s.page%s", name, page))).addTitle(String.format("book.%s%s.title", name, page), 0x000000, 2));
-			else
-				pages.add(new GuidePage(I18nUtil.resolveKey(String.format("book.%s.page%s", name, page))));
-			page++;
-		}
-		
-=======
 	public static List<GuidePage> statFacRBMK() {
 		
-		List<GuidePage> pages = new ArrayList();
+		List<GuidePage> pages = new ArrayList<GuidePage>();
 		pages.add(new GuidePage("book.rbmk.page1").setScale(2F).addTitle("book.rbmk.title1", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk1.png"), 90, 80, 60));
 		pages.add(new GuidePage("book.rbmk.page2").setScale(2F).addTitle("book.rbmk.title2", 0x800000, 1F)
@@ -155,7 +114,6 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk15.png"), 100, 48, 48));
 		pages.add(new GuidePage("book.rbmk.page16").setScale(2F).addTitle("book.rbmk.title16", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk16.png"), 50, 70, 100));
->>>>>>> master
 		return pages;
 	}
 	

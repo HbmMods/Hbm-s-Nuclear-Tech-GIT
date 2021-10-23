@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class UpgradeManager {
 
-	private static HashMap<UpgradeType, Integer> upgrades = new HashMap();
+	private static HashMap<UpgradeType, Integer> upgrades = new HashMap<UpgradeType, Integer>();
 	private static UpgradeType mutexType = null;
 	
 	@Untested

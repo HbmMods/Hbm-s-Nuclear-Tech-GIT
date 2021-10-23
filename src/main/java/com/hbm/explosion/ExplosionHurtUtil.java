@@ -8,7 +8,6 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -62,7 +61,7 @@ public class ExplosionHurtUtil {
 			if (pDuration < 20)
 				pDuration = 20;
 			ContaminationUtil.applyDigammaData(entity, rad);
-			entity.addPotionEffect(new PotionEffect(HbmPotion.hollow.id, (int) pDuration, 1));
+			entity.addPotionEffect(new PotionEffect(HbmPotion.hollow.id, pDuration, 1));
 		}
 	}
 	public static void doStun(World world, double x, double y, double z, double radius)

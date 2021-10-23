@@ -13,10 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTool;
 import net.minecraft.item.Item.ToolMaterial;
-<<<<<<< HEAD
-=======
 import net.minecraft.util.Vec3;
->>>>>>> master
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -55,8 +52,8 @@ public class BlockCoalOil extends Block {
 		return 2 + rand.nextInt(2);
 	}
 
+	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-<<<<<<< HEAD
 
 		if(player.getHeldItem() == null)
 			return;
@@ -66,18 +63,20 @@ public class BlockCoalOil extends Block {
 
 		ItemTool tool = (ItemTool) player.getHeldItem().getItem();
 
-		if(tool.func_150913_i() != ToolMaterial.WOOD) {
+		if(tool.func_150913_i() != ToolMaterial.WOOD)
+		{
 
 			if(world.rand.nextInt(10) == 0)
 				world.setBlock(x, y, z, Blocks.fire);
-=======
-		
-		if(doesToolIgnite(player)) {
+		}
+		if (doesToolIgnite(player))
+		{
 			if(world.rand.nextInt(10) == 0)
 				world.setBlock(x, y, z, Blocks.fire);
 		}
 	}
 
+	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
 
 		if(!world.isRemote)
@@ -104,17 +103,16 @@ public class BlockCoalOil extends Block {
 				
 				world.spawnParticle("flame", x + 0.5 + dX * 0.75, y + 0.5 + dY * 0.75, z + 0.5 + dZ * 0.75, 0.0, 0.0, 0.0);
 			}
->>>>>>> master
 		}
 	}
 
+	@Override
 	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
 		world.setBlock(x, y, z, Blocks.fire);
 	}
-<<<<<<< HEAD
-=======
 	
-	private boolean doesToolIgnite(EntityPlayer player) {
+	private boolean doesToolIgnite(EntityPlayer player)
+	{
 
 		if(player.getHeldItem() == null)
 			return false;
@@ -126,5 +124,4 @@ public class BlockCoalOil extends Block {
 
 		return tool.func_150913_i() != ToolMaterial.WOOD;
 	}
->>>>>>> master
 }

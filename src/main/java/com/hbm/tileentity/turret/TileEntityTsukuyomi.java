@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.MachineConfig;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -186,7 +187,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 			{
 				gotTargets = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
-				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the first stage");
+				if (GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the first stage");
 			}
 			else
 			{
@@ -196,7 +198,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:gui.buttonNo", 1.0F, 1.0F);
 				readyTargets.clear();
 				currPlayer = null;
-				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has halted the first stage");
+				if (GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.info("A TWR (Tsukuyomi) platform has halted the first stage");
 			}
 			break;
 		case 1:
@@ -210,7 +213,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 					ammoCount = BulletConfigSyncingUtil.pullConfig(bulletConf).ammoCount;
 					decrStackSize(1, 1);
 				}
-				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the second stage using the configuration: [" + BulletConfigSyncingUtil.pullConfig(bulletConf).ammo.getUnlocalizedName() + "] and is ready to purify");
+				if (GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.info("A TWR (Tsukuyomi) platform has entered the second stage using the configuration: [" + I18nUtil.resolveKey(BulletConfigSyncingUtil.pullConfig(bulletConf).ammo.getUnlocalizedName()) + "] and is ready to purify");
 			}
 			else
 			{
@@ -225,7 +229,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 				isOn = true;
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.defconstage", 1.0F, 1.0F);
 				currPlayer = null;
-				MainRegistry.logger.info("A TWR (Tsukuyomi) platform has commenced purification");
+				if (GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.info("A TWR (Tsukuyomi) platform has commenced purification");
 				purify();
 			}
 			else
@@ -305,7 +310,8 @@ public class TileEntityTsukuyomi extends TileEntityMachineBase implements IConsu
 		ammoCount -= readyTargets.size();
 		if (ammoCount == 0)
 			bulletConf = 0;
-		MainRegistry.logger.info("A TWR (Tsukuyomi) platform has completed purification, global cooldown is now: " + cooldown);
+		if (GeneralConfig.enableExtendedLogging)
+			MainRegistry.logger.info("A TWR (Tsukuyomi) platform has completed purification, global cooldown is now: " + cooldown);
 	}
 
 	private boolean isPlayerNameValid(String name)

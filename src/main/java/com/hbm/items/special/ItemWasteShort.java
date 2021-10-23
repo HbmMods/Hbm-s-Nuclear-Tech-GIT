@@ -12,7 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemWasteShort extends ItemHazard {
+public class ItemWasteShort extends ItemNuclearWaste
+{
 
 	public ItemWasteShort() {
 		super();
@@ -50,7 +51,12 @@ public class ItemWasteShort extends ItemHazard {
 		PLUTONIUM239("Plutonium-239", 250, 1000),	//funny fission fragments + pu240 and 241 / u238 (actually u236 but fuck you)
 		PLUTONIUM240("Plutonium-240", 350, 1000),	//funny fission fragments + pu241 / u238  + lead
 		PLUTONIUM241("Plutonium-241", 500, 1000),	//funny fission fragments + am241 / 242 / np237 + bismuth
-		AMERICIUM242("Americium-242", 750, 1000);	//funny fission fragments + californium / np237 + pu241
+		AMERICIUM242("Americium-242m", 750, 1000),	//funny fission fragments + californium / np237 + pu241
+		CURIUM("Curium", 1000, 1250),// (Too many isotopes to name rn) heavier fission fragments, potentially reaching lanthanides (same down)
+		BERKELIUM247("Berkelium-247", 1200, 1500),
+		CALIFORNIUM252("Californium-252", 1250, 1500),
+		EINSTEINIUM254("Einsteinium-254", 1500, 1500),
+		SCHRABIDIUM326("Schrabidium-326", 3000, 4500);//very heavy fission fragments reaching perhaps into the actinides + trans-schrabidics?
 		
 		public String name;
 		public int liquid;

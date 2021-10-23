@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,11 +10,8 @@ import javax.annotation.Nonnegative;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableSet;
-import com.hbm.handler.FluidTypeHandler.FluidHazards;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
-import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -24,9 +20,7 @@ import com.hbm.util.I18nUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -39,6 +33,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	public static final int color1 = 0x00ff00;
 	public static final char slimCursor = '│';
 	public static final char blockCursor = '█';
+	protected static final ResourceLocation keyboard = new ResourceLocation(RefStrings.MODID, "misc.keyPress"); 
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
@@ -527,8 +522,8 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	{
 		private int xPos;
 		private int yPos;
-		private int width;
-		private int height;
+		private int tankWidth;
+		private int tankHeight;
 		private FluidTank tank;
 		private FluidType type = FluidType.NONE;
 		public static final int x = 16;
@@ -537,8 +532,8 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			xPos = x;
 			yPos = y;
-			this.height = height;
-			this.width = width;
+			this.tankHeight = height;
+			this.tankWidth = width;
 			tank = new FluidTank(type, max, 0);
 			this.type = type;
 		}
@@ -554,39 +549,20 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			mc.getTextureManager().bindTexture(tank.getSheet());
 //			tank.renderTank(GuiInfoContainer.this, guiLeft + xPos, guiTop + yPos, type.textureX() * x, type.textureY() * y, width, height);
-			int i = (tank.getFill() * height) / tank.getMaxFill();
-			drawTexturedModalRect(guiLeft + xPos, (guiTop + yPos + height) - i, x * type.textureX(), (type.textureY() * y) - i, width, i);
+			int i = (tank.getFill() * tankHeight) / tank.getMaxFill();
+			drawTexturedModalRect(guiLeft + xPos, (guiTop + yPos + tankHeight) - i, x * type.textureX(), (type.textureY() * y) - i, tankWidth, i);
 		}
 		
 		public void renderTankInfo(int mouseX, int mouseY)
 		{
 //			renderTankInfo(GuiInfoContainer.this, mouseX, mouseY, guiLeft + xPos, guiTop + yPos, width, height);
 //			System.out.println(mouseX);
-			if(xPos + guiLeft <= mouseX && xPos + width + guiLeft > mouseX && yPos + guiTop < mouseY && yPos + height + guiTop >= mouseY)
+			if(xPos + guiLeft <= mouseX && xPos + tankWidth + guiLeft > mouseX && yPos + guiTop < mouseY && yPos + tankHeight + guiTop >= mouseY)
 			{
 				final ArrayList<String> list = new ArrayList<String>();
-				final String tColor = type.temperature > 20 ? EnumChatFormatting.RED.toString() : EnumChatFormatting.BLUE.toString();
-				final ImmutableSet<FluidHazards> fHazards = type.getHazardSet();
-				
-				list.add(I18n.format(type.getUnlocalizedName()));
-				list.add(tank.getFill() + "/" + tank.getMaxFill() + "mB");
-				if (tank.getTankType().temperature != 0 || fHazards.contains(FluidHazards.HOT) || fHazards.contains(FluidHazards.CRYO))
-					list.add(tColor + NumberFormat.getInstance().format(type.temperature) + "°C");
-				if (tank.getTankType().isAntimatter())
-					list.add(I18nUtil.resolveKey(HbmCollection.antimatter));
-				if (fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
-					list.add(I18nUtil.resolveKey(HbmCollection.corrosiveStrong));
-				else if (!fHazards.contains(FluidHazards.CORROSIVE_STRONG) && fHazards.contains(FluidHazards.CORROSIVE))
-					list.add(I18nUtil.resolveKey(HbmCollection.corrosive));
-				if (fHazards.contains(FluidHazards.BIOHAZARD))
-					list.add(I18nUtil.resolveKey(HbmCollection.biohazard));
-				if (fHazards.contains(FluidHazards.CHEMICAL))
-					list.add(I18nUtil.resolveKey(HbmCollection.chemical));
-				if (fHazards.contains(FluidHazards.RADIOACTIVE))
-					list.add(I18nUtil.resolveKey(HbmCollection.radioactiveFluid));
-				if (fHazards.contains(FluidHazards.TOXIC))
-					list.add(I18nUtil.resolveKey(HbmCollection.toxicGeneric));
-//				System.out.println(list);
+				list.add(I18nUtil.resolveKey(type.getUnlocalizedName()));
+				list.add(String.format("%smB/%smB", tank.getFill(), tank.getMaxFill()));
+				Library.addFluidInfo(type, list);
 				drawFluidInfo(list.toArray(new String[list.size()]), mouseX, mouseY);
 			}
 		}

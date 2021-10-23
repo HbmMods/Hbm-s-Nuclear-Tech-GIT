@@ -3,15 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-<<<<<<< HEAD
-import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.explosion.ExplosionFleija;
-=======
 import com.hbm.handler.FluidTypeHandler.FluidTrait;
->>>>>>> master
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -31,40 +23,18 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
-<<<<<<< HEAD
-	private final boolean magnetic;
-=======
->>>>>>> master
 	
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 	
-<<<<<<< HEAD
-	public TileEntityMachineFluidTank(boolean isMagnetic) {
-=======
 	public TileEntityMachineFluidTank() {
->>>>>>> master
 		super(6);
 		tank = new FluidTank(FluidType.NONE, 256000, 0);
-		magnetic = isMagnetic;
 	}
 
 	@Override
-<<<<<<< HEAD
-	public String getName()
-	{
-		if (magnetic)
-		{
-			return "container.fluidtankMagnetic";
-		}
-		else
-		{
-			return "container.fluidtank";
-		}
-=======
 	public String getName() {
 		return "container.fluidtank";
->>>>>>> master
 	}
 	
 	@Override
@@ -83,42 +53,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			tank.loadTank(2, 3, slots);
 			tank.setType(0, 1, slots);
 			
-<<<<<<< HEAD
-			if(tank.getTankType().isAntimatter() && tank.getFill() > 0 && !magnetic)
-			{
-				if (tank.getTankType().equals(FluidType.ASCHRAB))
-				{
-					EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
-					field.posX = xCoord;
-					field.posY = yCoord;
-					field.posZ = zCoord;
-					field.destructionRange = BombConfig.aSchrabRadius;
-					field.speed = 25;
-					field.coefficient = 1.0F;
-					field.waste = false;
-					worldObj.spawnEntityInWorld(field);
-					EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), BombConfig.aSchrabRadius);
-					effect.posX = xCoord;
-					effect.posY = yCoord;
-					effect.posZ = zCoord;
-					worldObj.spawnEntityInWorld(effect);
-				}
-				else
-				{
-					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
-				}
-=======
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().isAntimatter()) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 				}
 				
-				if(tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2)) {
+				if(tank.getTankType().getTraitSet().contains(FluidTrait.CORROSIVE_STRONG)) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				}
->>>>>>> master
 			}
 			
 			tank.unloadTank(4, 5, slots);
@@ -130,11 +73,13 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		
 		mode = data.getShort("mode");
 	}
 	
+	@Override
 	public void handleButtonPacket(int value, int meta) {
 		
 		mode = (short) ((mode + 1) % modes);
@@ -221,7 +166,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 	@Override
 	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
+		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(tank);
 		
 		return list;

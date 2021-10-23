@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.annotations.Beta;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IRTGUser;
+import com.hbm.interfaces.IRadioisotopeFuel;
 import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Untested;
 import com.hbm.items.machine.ItemRTGPellet;
@@ -18,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileEntityBigRTG extends TileEntityMachineBase implements ISource, IRTGUser
 {
 	public static final long maxPower = 1000000;
-	public static final short maxHeat = 3200;
+	public static final short maxHeat = 32000;
 	private ArrayList<IConsumer> cList = new ArrayList<IConsumer>();
 	private short heat = 0;
 	private long power = 0;
@@ -136,7 +137,7 @@ public class TileEntityBigRTG extends TileEntityMachineBase implements ISource, 
 	}
 
 	@Override
-	public Class getDesiredClass()
+	public Class<? extends IRadioisotopeFuel> getDesiredClass()
 	{
 		return ItemRTGPellet.class;
 	}

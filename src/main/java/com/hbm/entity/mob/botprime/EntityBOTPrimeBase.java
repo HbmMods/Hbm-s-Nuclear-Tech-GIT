@@ -12,11 +12,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityBOTPrimeBase extends EntityWormBaseNT implements IRadiationImmune {
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> master
 	public int attackCounter = 0;
 
 	protected final IEntitySelector selector = new IEntitySelector() {
@@ -61,37 +57,6 @@ public abstract class EntityBOTPrimeBase extends EntityWormBaseNT implements IRa
 	}
 
 	@Override
-<<<<<<< HEAD
-    protected boolean canDespawn() {
-        return false;
-    }
-    
-    protected String getHurtSound() {
-        return "mob.blaze.hit";
-    }
-    
-    protected String getDeathSound() {
-        return "hbm:entity.bombDet";
-    }
-	
-	protected void laserAttack(Entity target, boolean head) {
-		
-		if(!(target instanceof EntityLivingBase))
-			return;
-		
-		EntityLivingBase living = (EntityLivingBase) target;
-
-		if(head) {
-			
-			for(int i = 0; i < 5; i++) {
-				
-				EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.WORM_LASER, this, living, 1.0F, i * 0.05F);
-				this.worldObj.spawnEntityInWorld(bullet);
-			}
-			
-			this.playSound("hbm:weapon.ballsLaser", 5.0F, 0.75F);
-			
-=======
 	protected boolean canDespawn() {
 		return false;
 	}
@@ -121,7 +86,6 @@ public abstract class EntityBOTPrimeBase extends EntityWormBaseNT implements IRa
 
 			this.playSound("hbm:weapon.ballsLaser", 5.0F, 0.75F);
 
->>>>>>> master
 		} else {
 			EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.WORM_BOLT, this, living, 0.5F, 0.125F);
 			this.worldObj.spawnEntityInWorld(bullet);

@@ -2,42 +2,33 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.LoopedSoundPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssembler extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMachineAssembler extends TileEntityMachineBase implements IConsumer
+{
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -52,8 +43,6 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	public int recipe;
 	
 	private AudioWrapper audio;
-	
-	Random rand = new Random();
 	
 	public TileEntityMachineAssembler() {
 		super(18);
@@ -124,48 +113,6 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-<<<<<<< HEAD
-
-			this.consumption = 100;
-			this.speed = 100;
-			
-			for(int i = 1; i < 4; i++) {
-				ItemStack stack = slots[i];
-				
-				if(stack != null) {
-					if(stack.getItem() == ModItems.upgrade_speed_1) {
-						this.speed -= 25;
-						this.consumption += 300;
-					}
-					if(stack.getItem() == ModItems.upgrade_speed_2) {
-						this.speed -= 50;
-						this.consumption += 600;
-					}
-					if(stack.getItem() == ModItems.upgrade_speed_3) {
-						this.speed -= 75;
-						this.consumption += 900;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_1) {
-						this.consumption -= 30;
-						this.speed += 5;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_2) {
-						this.consumption -= 60;
-						this.speed += 10;
-					}
-					if(stack.getItem() == ModItems.upgrade_power_3) {
-						this.consumption -= 90;
-						this.speed += 15;
-					}
-				}
-			}
-			
-			if(speed < 25)
-				speed = 25;
-			if(consumption < 10)
-				consumption = 10;
-=======
->>>>>>> master
 
 			this.consumption = 100;
 			this.speed = 100;
@@ -283,7 +230,8 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 		}
 	}
 	
-    public void onChunkUnload() {
+    @Override
+	public void onChunkUnload() {
     	
     	if(audio != null) {
 			audio.stopSound();
@@ -291,7 +239,8 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
     	}
     }
 	
-    public void invalidate() {
+    @Override
+	public void invalidate() {
     	
     	super.invalidate();
     	
@@ -301,6 +250,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
     	}
     }
 	
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
@@ -596,6 +546,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 		return 65536.0D;
 	}
 	
+	@Override
 	public int countMufflers() {
 		
 		int count = 0;

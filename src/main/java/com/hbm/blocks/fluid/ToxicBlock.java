@@ -74,13 +74,9 @@ public class ToxicBlock extends BlockFluidClassic {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		entity.setInWeb();
-<<<<<<< HEAD
-		ContaminationUtil.applyRadData(entity, 1.0F);
-=======
 		
 		if(entity instanceof EntityLivingBase)
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1.0F);
->>>>>>> master
 	}
 
 	@Override

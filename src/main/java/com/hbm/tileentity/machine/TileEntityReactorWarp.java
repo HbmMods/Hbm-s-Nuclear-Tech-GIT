@@ -37,7 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import scala.actors.threadpool.Arrays;
-
+@Beta
 public class TileEntityReactorWarp extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, IFluidSource, IControlReceiver
 {
 	protected FluidTank[] tanks = new FluidTank[3];
@@ -644,26 +644,6 @@ public class TileEntityReactorWarp extends TileEntityMachineBase implements ICon
 		public ReactorBooster getBlank()
 		{
 			return new ReactorBooster();
-		}
-	}
-	@Deprecated
-	private static final class DepletingItemWrapper
-	{
-		private String locName;
-		private ReactorBaseItem intItem;
-		private int life;
-		public DepletingItemWrapper(String name, ReactorBaseItem item)
-		{
-			locName = name;
-			intItem = item;
-		}
-		public int getMaxLife()
-		{
-			return intItem.getMaxLife();
-		}
-		public int getLife()
-		{
-			return life;
 		}
 	}
 

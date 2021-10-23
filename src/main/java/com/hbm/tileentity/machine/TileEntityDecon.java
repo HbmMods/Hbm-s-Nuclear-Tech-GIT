@@ -4,17 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.extprop.HbmLivingProps;
-<<<<<<< HEAD
-import com.hbm.potion.HbmPotion;
-
-import net.minecraft.entity.EntityLivingBase;
-=======
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
->>>>>>> master
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -31,10 +25,7 @@ public class TileEntityDecon extends TileEntity {
 				for(EntityLivingBase e : entities) {
 					HbmLivingProps.incrementRadiation(e, -0.5F);
 					e.removePotionEffect(HbmPotion.radiation.id);
-<<<<<<< HEAD
-=======
 					HbmLivingProps.getCont(e).clear();
->>>>>>> master
 				}
 			}
 		} else {

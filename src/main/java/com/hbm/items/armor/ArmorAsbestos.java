@@ -85,7 +85,8 @@ public class ArmorAsbestos extends ItemArmor implements ISpecialArmor {
 		 player.extinguish();
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
     	
     	if(this != ModItems.asbestos_helmet)
@@ -100,9 +101,9 @@ public class ArmorAsbestos extends ItemArmor implements ISpecialArmor {
         Minecraft.getMinecraft().getTextureManager().bindTexture(asbestosBlur);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(0.0D, (double)resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), (double)resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
+        tessellator.addVertexWithUV(0.0D, resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
         tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         tessellator.draw();
         GL11.glDepthMask(true);

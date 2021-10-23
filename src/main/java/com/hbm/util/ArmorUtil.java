@@ -1,78 +1,13 @@
 package com.hbm.util;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.List;
 
->>>>>>> master
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
-<<<<<<< HEAD
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-public class ArmorUtil {
-
-	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
-		
-		if(player.inventory.armorInventory[0] != null && 
-				player.inventory.armorInventory[0].getItem() == boots && 
-				player.inventory.armorInventory[1] != null && 
-				player.inventory.armorInventory[1].getItem() == legs && 
-				player.inventory.armorInventory[2] != null && 
-				player.inventory.armorInventory[2].getItem() == plate && 
-				player.inventory.armorInventory[3] != null && 
-				player.inventory.armorInventory[3].getItem() == helmet)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkArmorPiece(EntityPlayer player, Item armor, int slot)
-	{
-		if(player.inventory.armorInventory[slot] != null &&
-				player.inventory.armorInventory[slot].getItem() == armor) 
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkArmorNull(EntityPlayer player, int slot)
-	{
-		if(player.inventory.armorInventory[slot] == null) 
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static void damageSuit(EntityPlayer player, int slot, int amount) {
-		
-		if(player.inventory.armorInventory[slot] == null)
-			return;
-		
-		int j = player.inventory.armorInventory[slot].getItemDamage();
-		player.inventory.armorInventory[slot].setItemDamage(j += amount);
-
-		if(player.inventory.armorInventory[slot].getItemDamage() >= player.inventory.armorInventory[slot].getMaxDamage())
-		{
-			player.inventory.armorInventory[slot] = null;
-		}
-	}
-	
-	public static boolean checkForHazmat(EntityPlayer player) {
-=======
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.item.IGasMask;
@@ -175,7 +110,6 @@ public class ArmorUtil {
 	 * The more horrifying part
 	 */
 	public static boolean checkForHazmat(EntityLivingBase player) {
->>>>>>> master
 		
 		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
 				checkArmor(player, ModItems.hazmat_helmet_red, ModItems.hazmat_plate_red, ModItems.hazmat_legs_red, ModItems.hazmat_boots_red) || 
@@ -193,11 +127,7 @@ public class ArmorUtil {
 		return false;
 	}
 	
-<<<<<<< HEAD
-	public static boolean checkForHaz2(EntityPlayer player) {
-=======
 	public static boolean checkForHaz2(EntityLivingBase player) {
->>>>>>> master
 		
 		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) || 
 				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) || 
@@ -209,32 +139,17 @@ public class ArmorUtil {
 		return false;
 	}
 	
-<<<<<<< HEAD
-	public static boolean checkForAsbestos(EntityPlayer player) {
-		
-		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
-		{
-			return true;
-		}
-		
-=======
 	public static boolean checkForAsbestos(EntityLivingBase player) {
 		
 		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
 			return true;
 
->>>>>>> master
 		return false;
 	}
 	
 	public static boolean checkForDigamma(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
-<<<<<<< HEAD
-		{
-			return true;
-		}
-=======
 			return true;
 		
 		if(checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots))
@@ -242,13 +157,10 @@ public class ArmorUtil {
 		
 		if(player.isPotionActive(HbmPotion.stability.id))
 			return true; 
->>>>>>> master
 		
 		return false;
 	}
 	
-<<<<<<< HEAD
-=======
 	public static boolean checkForDigamma2(EntityPlayer player) {
 		
 		if(!checkArmor(player, ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots))
@@ -273,21 +185,13 @@ public class ArmorUtil {
 		return player.getMaxHealth() < 3;
 	}
 	
->>>>>>> master
 	public static boolean checkForFaraday(EntityPlayer player) {
 		
 		ItemStack[] armor = player.inventory.armorInventory;
 		
 		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
 		
-<<<<<<< HEAD
-		if(isFaradayArmor(armor[0]) &&
-				isFaradayArmor(armor[1]) &&
-				isFaradayArmor(armor[2]) &&
-				isFaradayArmor(armor[3]))
-=======
 		if(isFaradayArmor(armor[0]) && isFaradayArmor(armor[1]) && isFaradayArmor(armor[2]) && isFaradayArmor(armor[3]))
->>>>>>> master
 			return true;
 		
 		return false;
@@ -318,12 +222,7 @@ public class ArmorUtil {
 			"rubber",
 			"hev",
 			"ajr",
-<<<<<<< HEAD
-			"spacesuit",
-			"uranium"
-=======
 			"spacesuit"
->>>>>>> master
 	};
 	
 	public static boolean isFaradayArmor(ItemStack item) {
@@ -342,124 +241,6 @@ public class ArmorUtil {
 		return false;
 	}
 	
-<<<<<<< HEAD
-	public static boolean checkForGasMask(EntityPlayer player) {
-
-		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.gas_mask, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.gas_mask_m65, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3))
-		{
-			return true;
-		}
-		
-		if(player.isPotionActive(HbmPotion.mutation))
-			return true;
-		
-		ItemStack helmet = player.getCurrentArmor(3);
-		if(helmet != null && ArmorModHandler.hasMods(helmet)) {
-			
-			ItemStack mods[] = ArmorModHandler.pryMods(helmet);
-			
-			if(mods[ArmorModHandler.helmet_only] != null && mods[ArmorModHandler.helmet_only].getItem() == ModItems.attachment_mask)
-				return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkForGoggles(EntityPlayer player) {
-
-		if(checkArmorPiece(player, ModItems.goggles, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.gas_mask, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.bj_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkForFiend(EntityPlayer player) {
-		
-		return checkArmorPiece(player, ModItems.jackt, 2) && Library.checkForHeld(player, ModItems.shimmer_sledge);
-	}
-	
-	public static boolean checkForFiend2(EntityPlayer player) {
-		
-		return checkArmorPiece(player, ModItems.jackt2, 2) && Library.checkForHeld(player, ModItems.shimmer_axe);
-=======
 	public static boolean checkForFiend(EntityPlayer player) {
 		
 		return checkArmorPiece(player, ModItems.jackt, 2) && Library.checkForHeld(player, ModItems.shimmer_sledge);
@@ -580,7 +361,7 @@ public class ArmorUtil {
 			installGasMaskFilter(mask, filter);
 	}
 	
-	public static void addGasMaskTooltip(ItemStack mask, EntityPlayer player, List list, boolean ext) {
+	public static void addGasMaskTooltip(ItemStack mask, EntityPlayer player, List<String> list, boolean ext) {
 		
 		if(mask == null || !(mask.getItem() instanceof IGasMask))
 			return;
@@ -608,6 +389,5 @@ public class ArmorUtil {
 		filter.getItem().addInformation(filter, player, lore, ext);
 		ForgeEventFactory.onItemTooltip(filter, player, lore, ext);
 		lore.forEach(x -> list.add(EnumChatFormatting.YELLOW + "  " + x));
->>>>>>> master
 	}
 }

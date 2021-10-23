@@ -46,7 +46,7 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 	public int hurtCooldown;
 	public int beamTimer;
 	private Entity target;
-	private List<Entity> secondaries = new ArrayList();
+	private List<Entity> secondaries = new ArrayList<Entity>();
 	
 	public EntityUFO(World p_i1587_1_) {
 		super(p_i1587_1_);
@@ -287,6 +287,7 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		}
 	}
 	
+	@Override
 	protected void onDeathUpdate() {
 		
 		if(this.getBeam())

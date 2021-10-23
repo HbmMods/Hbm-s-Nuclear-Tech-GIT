@@ -1,19 +1,18 @@
 package com.hbm.items.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.interfaces.IRadioisotopeFuel;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
-import com.hbm.lib.Library;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -26,11 +25,16 @@ public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 	private boolean doesDecay = false;
 	private ItemStack decayItem = null;
 	private long lifespan = 0;
+	
+	private static final ArrayList<ItemRTGPellet> pelletList = new ArrayList<>();
+	
+	@SuppressWarnings("deprecation")
 	public ItemRTGPellet(float radiation, boolean fire, int heatIn)
 	{
 		super(radiation, fire);
 		heat = (short) heatIn;
 		setMaxStackSize(1);
+		pelletList.add(this);
 	}
 	
 	private static final String[] facts = new String[]
@@ -53,6 +57,7 @@ public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 			"The Manhattan Project referred to refined natural uranium as tuballoy, enriched uranium as oralloy, and depleted uranium as depletalloy."
 	};
 
+	@Override
 	public ItemRTGPellet setDecays(@Nonnull ItemStack itemIn, long life)
 	{
 		doesDecay = true;
@@ -120,6 +125,16 @@ public class ItemRTGPellet extends ItemHazard implements IRadioisotopeFuel
 	@Override
 	public ItemRTGPellet toItem()
 	{
-		return (ItemRTGPellet) this;
+		return this;
+	}
+	
+	public String getData()
+	{
+		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getPower(), (getDoesDecay() ? " (decays)" : ""));
+	}
+	
+	public static ImmutableSet<ItemRTGPellet> getPellets()
+	{
+		return ImmutableSet.copyOf(pelletList);
 	}
 }

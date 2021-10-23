@@ -31,7 +31,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorDNT extends ArmorFSBPowered {
+public class ArmorDNT extends ArmorFSBPowered
+{
 
 	public ArmorDNT(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, layer, slot, texture, maxPower, chargeRate, consumption, drain);
@@ -78,7 +79,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 		if(!world.isRemote) {
 			
 			/// JET ///
-			if(this.hasFSBArmor(player) && (props.isJetpackActive() || (!player.onGround && !player.isSneaking() && props.enableBackpack))) {
+			if(hasFSBArmor(player) && (props.isJetpackActive() || (!player.onGround && !player.isSneaking() && props.enableBackpack))) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "jetpack_dns");
@@ -87,7 +88,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 			}
 		}
 
-		if(this.hasFSBArmor(player)) {
+		if(hasFSBArmor(player)) {
 			
 			ArmorUtil.resetFlightTime(player);
 

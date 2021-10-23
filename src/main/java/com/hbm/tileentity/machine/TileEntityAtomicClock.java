@@ -126,6 +126,7 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	{
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
+		nbt.setBoolean("isOn", isOn);
 		tank.writeToNBT(nbt, "tank");
 	}
 	
@@ -134,6 +135,7 @@ public class TileEntityAtomicClock extends TileEntityMachineBase implements ICon
 	{
 		super.readFromNBT(nbt);
 		power = nbt.getLong("power");
+		isOn = nbt.getBoolean("isOn");
 		tank.readFromNBT(nbt, "tank");
 	}
 	

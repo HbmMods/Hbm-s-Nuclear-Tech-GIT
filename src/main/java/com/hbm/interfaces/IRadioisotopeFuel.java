@@ -89,7 +89,7 @@ public interface IRadioisotopeFuel
 	 */
 	public static ItemStack handleDecay(ItemStack stack, IRadioisotopeFuel instance)
 	{
-		if (instance.getDoesDecay())
+		if (instance.getDoesDecay() && MachineConfig.doRTGsDecay)
 		{
 			if (instance.getLifespan(stack) <= 0)
 				return instance.getDecayItem();

@@ -9,11 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
 import com.hbm.interfaces.IConsumer;
-<<<<<<< HEAD
-import com.hbm.inventory.HadronRecipes;
-=======
 import com.hbm.inventory.recipes.HadronRecipes;
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -210,8 +206,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	}
 	
 	static final int maxParticles = 1;
-	List<Particle> particles = new ArrayList();
-	List<Particle> particlesToRemove = new ArrayList();
+	List<Particle> particles = new ArrayList<Particle>();
+	List<Particle> particlesToRemove = new ArrayList<Particle>();
 	
 	private void updateParticles() {
 		
@@ -643,7 +639,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		
 		List<Integer> rands = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5} );
 		Collections.shuffle(rands);
-		List<ForgeDirection> dirs = new ArrayList();
+		List<ForgeDirection> dirs = new ArrayList<ForgeDirection>();
 		for(Integer i : rands) {
 			dirs.add(ForgeDirection.getOrientation(i));
 		}

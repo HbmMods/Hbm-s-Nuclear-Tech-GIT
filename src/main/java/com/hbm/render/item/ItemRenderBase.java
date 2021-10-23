@@ -47,13 +47,9 @@ public abstract class ItemRenderBase implements IItemRenderer {
 				GL11.glScaled(1.5, 1.5, 1.5);
 			
 			GL11.glScaled(0.25, 0.25, 0.25);
-<<<<<<< HEAD
-			GL11.glRotated(90, 0, 1, 0);
-=======
 
 			if(type != ItemRenderType.EQUIPPED)
 				GL11.glRotated(90, 0, 1, 0);
->>>>>>> master
 			renderNonInv();
 		}
 		renderCommon();

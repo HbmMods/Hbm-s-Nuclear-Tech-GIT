@@ -7,6 +7,7 @@ import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.oil.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.network.*;
@@ -16,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
 
-	public static HashMap<Class<? extends TileEntity>, String> map = new HashMap();
+	public static final HashMap<Class<? extends TileEntity>, String> map = new HashMap<Class<? extends TileEntity>, String>();
 	
 	public static void writeMappings() {
 		map.put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -191,6 +192,11 @@ public class TileMappings {
 		map.put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		map.put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
 		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
+		map.put(TileEntityTsukuyomi.class, "tileentity_turret_twr");
+		map.put(TileEntityLunarOni.class, "tileentity_lunar_oni");
+		map.put(TileEntityAtomicClock.class, "tileentity_atomic_clock");
+		map.put(TileEntityDiFurnaceRTG.class, "tileentity_diFurnace_rtg");
+		map.put(TileEntityReactorWarp.class, "tileentity_reactor_amat");
 		
 		putBombs();
 		putTurrets();

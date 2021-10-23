@@ -26,11 +26,11 @@ public class ItemCustomWarhead extends ItemWithSubtypes implements ICustomWarhea
 		super.addInformation(itemstack, player, list, bool);
 		addTooltip(itemstack, list);
 	}
-	
+	// Why did I make this anyway?
 	@Override
 	public ICustomWarhead getInstance()
 	{
-		return (ICustomWarhead) this;
+		return this;
 	}
 	
 	@Override

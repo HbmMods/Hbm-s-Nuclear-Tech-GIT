@@ -2,20 +2,18 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class RBMKBoiler extends RBMKBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		
-		if(meta >= this.offset)
+		if(meta >= offset)
 			return new TileEntityRBMKBoiler();
 		
 		if(hasExtra(meta))
@@ -31,6 +29,6 @@ public class RBMKBoiler extends RBMKBase {
 	
 	@Override
 	public int getRenderType(){
-		return this.renderIDControl;
+		return renderIDControl;
 	}
 }

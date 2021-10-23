@@ -12,20 +12,15 @@ public class ItemSchraranium extends ItemHazard {
 	
 	IIcon nikonium;
 
-<<<<<<< HEAD
-	public ItemSchraranium(float radiation, boolean fire, boolean blinding) {
-		super(radiation, fire, blinding);
-	}
-
-=======
->>>>>>> master
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg) {
         this.itemIcon = reg.registerIcon(this.getIconString());
         this.nikonium = reg.registerIcon("hbm:ingot_nikonium");
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta) {
     	
     	if(GeneralConfig.enableBabyMode)
@@ -33,7 +28,8 @@ public class ItemSchraranium extends ItemHazard {
 		return this.itemIcon;
     }
 
-    public String getItemStackDisplayName(ItemStack stack) {
+    @Override
+	public String getItemStackDisplayName(ItemStack stack) {
 
     	if(GeneralConfig.enableBabyMode)
 			return "Nikonium Ingot";

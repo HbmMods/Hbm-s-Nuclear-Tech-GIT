@@ -1,5 +1,9 @@
 package com.hbm.explosion;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.main.MainRegistry;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -74,13 +78,21 @@ public class ExplosionLunatic
 	
 	public boolean update()
 	{
-		this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
-		int shell2 = this.shell * 2;
-		this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
-		this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
-		this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;
-		this.lastposZ = this.leg == 0 ? this.element : this.leg == 1 ? this.shell : this.leg == 2 ? -this.element : -this.shell;
-		this.n++;
-		return this.n > this.nlimit;
+		try
+		{
+			this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
+			int shell2 = this.shell * 2;
+			this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
+			this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
+			this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;
+			this.lastposZ = this.leg == 0 ? this.element : this.leg == 1 ? this.shell : this.leg == 2 ? -this.element : -this.shell;
+			this.n++;
+			return this.n > this.nlimit;
+		}
+		catch (ArithmeticException t)
+		{
+			MainRegistry.logger.catching(Level.ERROR, t);
+			return true;
+		}
 	}
 }

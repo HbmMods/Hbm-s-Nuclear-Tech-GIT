@@ -5,19 +5,22 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.crafting.*;
-import com.hbm.crafting.handlers.*;
+import com.hbm.crafting.ArmorRecipes;
+import com.hbm.crafting.ConsumableRecipes;
+import com.hbm.crafting.MineralRecipes;
+import com.hbm.crafting.PowderRecipes;
+import com.hbm.crafting.RodRecipes;
+import com.hbm.crafting.ToolRecipes;
+import com.hbm.crafting.WeaponRecipes;
+import com.hbm.crafting.handlers.MKUCraftingHandler;
+import com.hbm.crafting.handlers.RBMKFuelCraftingHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.OreDictManager;
-import com.hbm.interfaces.ICustomWarhead.CustomWarheadWrapper;
-import com.hbm.interfaces.ICustomWarhead.FissileFuel;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
 import com.hbm.util.EnchantmentUtil;
 
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
 import api.hbm.internet.IDataStorageUser;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -32,8 +35,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingManager {
 	
@@ -66,9 +67,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.hazmat_cloth_red, 1), new Object[] { "C", "R", "C", 'C', ModItems.hazmat_cloth, 'R', "dustRedstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.hazmat_cloth_grey, 1), new Object[] { " P ", "ICI", " L ", 'C', ModItems.hazmat_cloth_red, 'P', "plateIron", 'L', "plateLead", 'I', ModItems.plate_polymer }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.asbestos_cloth, 8), new Object[] { "SCS", "CPC", "SCS", 'S', Items.string, 'P', ModItems.powder_bromine, 'C', Blocks.wool }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.bolt_dura_steel, 4), new Object[] { "D", "D", 'D', ModItems.ingot_dura_steel});
+//		GameRegistry.addRecipe(new ItemStack(ModItems.bolt_dura_steel, 4), new Object[] { "D", "D", 'D', ModItems.ingot_dura_steel});
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pipes_steel, 1), new Object[] { "B", "B", "B", 'B', "blockSteel" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bolt_tungsten, 4), new Object[] { "D", "D", 'D', "ingotTungsten" }));
+//		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bolt_tungsten, 4), new Object[] { "D", "D", 'D', "ingotTungsten" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bolt_compound, 1), new Object[] { "PDP", "PTP", "PDP", 'D', ModItems.bolt_dura_steel, 'T', ModItems.bolt_tungsten, 'P', "plateTitanium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pellet_coal, 1), new Object[] { "PFP", "FOF", "PFP", 'P', "dustCoal", 'F', Items.flint, 'O', ModBlocks.gravel_obsidian }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_polymer, 8), new Object[] { "DD", 'D', "ingotPolymer" }));
@@ -390,7 +391,7 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_brick), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', ModBlocks.brick_concrete });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_compound), 4), new Object[] { "FBF", "BTB", "FBF", 'F', ModItems.bolt_tungsten, 'B', ModBlocks.reinforced_brick, 'T', ModItems.oil_tar });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_glass), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.glass });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_glass), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', ModBlocks.glass_quartz });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_light), 1), new Object[] { "FFF", "FBF", "FFF", 'F', Blocks.iron_bars, 'B', Blocks.glowstone });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_lamp_off), 1), new Object[] { "FFF", "FBF", "FFF", 'F', Blocks.iron_bars, 'B', Blocks.redstone_lamp });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_sand), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.sandstone });
@@ -506,12 +507,13 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(ItemBattery.getEmptyBattery(ModItems.battery_steam), new Object[] { "PMP", "ISI", "PCP", 'P', "plateCopper", 'M', ModItems.motor, 'C', ModItems.coil_tungsten, 'S', new ItemStack(ModItems.fluid_tank_full, 1, FluidType.WATER.getID()), 'I', ModItems.plate_polymer }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(ItemBattery.getEmptyBattery(ModItems.battery_steam_large), new Object[] { "MPM", "ISI", "CPC", 'P', ModItems.board_copper, 'M', ModItems.motor, 'C', ModItems.coil_tungsten, 'S', new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.WATER.getID()), 'I', "ingotPolymer" }));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_sc_uranium), new Object[] { "NBN", "PCP", "NBN", 'N', "nuggetGold", 'B', ModItems.billet_u238, 'P', "plateLead", 'C', ModItems.thermo_element }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_sc_uranium), new Object[] { "NBN", "PCP", "NBN", 'N', "nuggetGold", 'B', ModItems.billet_u238, 'P', "plateLead", 'C', ModItems.betavoltaic_element }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_sc_technetium), new Object[] { "NBN", "PCP", "NBN", 'N', "nuggetGold", 'B', ModItems.billet_technetium, 'P', "plateLead", 'C', ModItems.battery_sc_uranium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_sc_plutonium), new Object[] { "NBN", "PCP", "NBN", 'N', "nuggetTechnetium99", 'B', ModItems.billet_pu238, 'P', "plateLead", 'C', ModItems.battery_sc_technetium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.battery_sc_polonium), new Object[] { "NBN", "PCP", "NBN", 'N', "nuggetTechnetium99", 'B', ModItems.billet_polonium, 'P', ModItems.ingot_polymer, 'C', ModItems.battery_sc_plutonium }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_sc_gold), new Object[] { "NBN", "PCP", "NBN", 'N', ModItems.nugget_tantalium, 'B', ModItems.billet_au198, 'P', ModItems.ingot_polymer, 'C', ModItems.battery_sc_polonium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_sc_americium), new Object[] { "NBN", "PCP", "NBN", 'N', ModItems.nugget_tantalium, 'B', ModItems.billet_am241, 'P', ModItems.ingot_polymer, 'C', ModItems.battery_sc_gold });
+		GameRegistry.addRecipe(new ItemStack(ModItems.battery_sc_berkelium), "NBN", "PCP", "NBN", 'N', ModItems.nugget_tantalium, 'B', ModItems.billet_bk249, 'P', ModItems.ingot_polymer, 'C', ModItems.battery_sc_americium);// TODO Placeholder(?)
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wiring_red_copper, 1), new Object[] { "PPP", "PIP", "PPP", 'P', "plateSteel", 'I', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.tank_waste, 1), new Object[] { "PTP", "PTP", "PTP", 'T', ModItems.tank_steel, 'P', "plateSteel" }));
@@ -834,7 +836,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', "ingotSteel", 'I', "plateIron", 'C', ModItems.board_copper }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_fracking_tower), new Object[] { "NDN", "PRP", "CRC", 'N', "ingotNiobium", 'D', ModBlocks.machine_well, 'P', ModItems.plate_desh, 'R', ModItems.pipes_steel, 'C', ModBlocks.concrete_smooth }));
+//		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_fracking_tower), new Object[] { "NDN", "PRP", "CRC", 'N', "ingotNiobium", 'D', ModBlocks.machine_well, 'P', ModItems.plate_desh, 'R', ModItems.pipes_steel, 'C', ModBlocks.concrete_smooth }));
 		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.canister_fracksol, 4), new Object[] { "dustSulfur", "dustSulfur", "dustSulfur", "dustSulfur", ModItems.gas_petroleum, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty }));
 		
 		if(GeneralConfig.enableBabyMode) {
@@ -873,6 +875,8 @@ public class CraftingManager {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.book_of_), new Object[] { "BGB", "GAG", "BGB", 'B', ModItems.egg_balefire_shard, 'G', "ingotGold", 'A', Items.book }));
 		}
 
+		GameRegistry.addRecipe(new ItemStack(ModItems.inf_coolant), "PPP", "NTN", "PPP", 'P', ModItems.plate_combine_steel, 'N', ModBlocks.block_niter_reinforced, 'T', ModItems.inf_water_mk2);
+		
 		if(!GeneralConfig.enable528) {
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.struct_launcher_core, 1), new Object[] { "SCS", "SIS", "BEB", 'S', ModBlocks.steel_scaffold, 'I', Blocks.iron_bars, 'C', ModItems.circuit_targeting_tier3, 'B', ModBlocks.struct_launcher, 'E', ModBlocks.machine_battery });
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.struct_launcher_core_large, 1), new Object[] { "SIS", "ICI", "BEB", 'S', ModItems.circuit_red_copper, 'I', Blocks.iron_bars, 'C', ModItems.circuit_targeting_tier4, 'B', ModBlocks.struct_launcher, 'E', ModBlocks.machine_battery });
@@ -880,20 +884,66 @@ public class CraftingManager {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.reactor_sensor, 1), new Object[] { "WPW", "CMC", "PPP", 'W', ModItems.wire_tungsten, 'P', "plateLead", 'C', ModItems.circuit_targeting_tier3, 'M', ModItems.magnetron }));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.reactor_ejector, 1), new Object[] { "CLC", "MHM", "CLC", 'C', ModBlocks.brick_concrete, 'L', "plateLead", 'M', ModItems.motor, 'H', ModBlocks.reactor_hatch }));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.reactor_inserter, 1), new Object[] { "CLC", "MHM", "CLC", 'C', ModBlocks.brick_concrete, 'L', "plateCopper", 'M', ModItems.motor, 'H', ModBlocks.reactor_hatch }));
-			GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_console, 1), new Object[] { "PPP", "PCP", "PPP", 'C', ModItems.circuit_targeting_tier3, 'P', Items.potato });
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.rbmk_console, 1), new Object[] { "BBB", "DGD", "DCD", 'B', "ingotBoron", 'D', ModBlocks.deco_rbmk, 'G', "paneGlass", 'C', ModItems.circuit_targeting_tier3 }));
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.hadron_core, 1), new Object[] { "CCC", "DSD", "CCC", 'C', ModBlocks.hadron_coil_alloy, 'D', ModBlocks.hadron_diode, 'S', ModItems.circuit_schrabidium });
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod, 1), new Object[] { "C", "R", "C", 'C', ModItems.hull_small_steel, 'R', ModBlocks.rbmk_blank });
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rod_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', ModBlocks.block_graphite, 'R', ModBlocks.rbmk_rod, 'B', ModItems.nugget_bismuth });
 			GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_boiler, 1), new Object[] { "CPC", "CRC", "CPC", 'C', ModItems.board_copper, 'P', ModItems.pipes_steel, 'R', ModBlocks.rbmk_blank });
 		}
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.hadron_analysis_glass, 1), new Object[] { ModBlocks.hadron_analysis, ModBlocks.glass_quartz }));
+		
+		final Object item = (GeneralConfig.enableBabyMode ? Blocks.diamond_block : (GeneralConfig.enable528 ? ModItems.ingot_chainsteel : ModBlocks.block_saturnite));
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.stamp_desh_flat, new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', "blockDeshAlloy", 'B', ModItems.stamp_schrabidium_flat }));// TODO Is it too balanced?
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_plate), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_plate });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_wire), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_wire });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_circuit), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_circuit });
+		GameRegistry.addRecipe(new ItemStack(ModItems.stamp_desh_disc), new Object[] { "MDM", "DBD", "MDM", 'M', item, 'D', ModBlocks.block_desh, 'B', ModItems.stamp_schrabidium_disc });
+		
+		ToolRecipes.newStamp(ModItems.stamp_ferrouranium_flat, ModItems.ingot_ferrouranium, true);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.ducrete), ModBlocks.ducrete_smooth);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.ducrete_smooth), ModBlocks.ducrete);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] { "CDC", "DLD", "CDC", 'C', Items.clay_ball, 'D', "blockDucrete", 'L', "plateLead" }));
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.reinforced_ducrete, 8), new Object[] { "RDR", "DUD", "RDR", 'R', ModBlocks.steel_beam, 'D', ModBlocks.brick_ducrete, 'U', ModItems.ingot_du_dioxide });
+		GameRegistry.addRecipe(new ItemStack(ModItems.wire_glass_insulated, 3), new Object[] { "PAP", "WWW", "APA", 'A', ModItems.acrylic, 'P', ModItems.plate_polymer, 'W', ModItems.wire_glass });
+//		GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical, 8), new Object[] { "KPK", "WWW", "KPK", 'K', ModItems.plate_kevlar, 'P', ModItems.ingot_polymer, 'W', ModItems.wire_glass_insulated });
+//		GameRegistry.addRecipe(new ItemStack(ModBlocks.cable_optical_coated, 4), new Object[] { "KWK", "WIW", "KWK", 'K', ModItems.plate_kevlar, 'W', ModBlocks.cable_optical, 'I', ModBlocks.block_insulator });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_reel, 2), new Object[] { " P ", "TTT", " P ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminum" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.storage_magnetic_raw_disc, 4), new Object[] { " T ", "TPT", " T ", 'T', ModItems.storage_magnetic_raw, 'P', "plateAluminum" }));
+		GameRegistry.addShapelessRecipe(IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_r_to_r), new Object[] { ModItems.storage_magnetic_raw_reel, ModItems.storage_magnetic_raw_reel });
+		GameRegistry.addRecipe(new ShapedOreRecipe(IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_cassette), new Object[] { "PPP", "RGR", "PPP", 'P', ModItems.plate_polymer, 'R', ModItems.storage_magnetic_r_to_r, 'G', "paneGlass" }));
+//		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.light_incandescent, 8), new Object[] { " G ", "GWG", "APA", 'G', "paneGlass", 'W', ModItems.wire_tungsten, 'P', "plateAluminum", 'A', ModItems.wire_aluminium }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.catalyst_rare, new Object[] { ModItems.catalyst_clay, "dustUranium238", "dustLanthanum", "dustActinium" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.catalyst_ten, new Object[] { ModItems.catalyst_rare, "dustTennessine", "dustTennessine", "dustTennessine" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.component_ftl, 1, 0), new Object[] { "LPL", "LTL", "LPL", 'L', "ingotLanthanum", 'T', new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.HYDROGEN.ordinal()), 'P', "plateGold" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.component_ftl, 1, 1), new Object[] { "TBT", "TLT", "TBT", 'T', new ItemStack(ModItems.component_ftl, 1, 0), 'L', "blockLanthanum", 'B', "blockGraphite" }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.component_ftl, 1, 2), new Object[] { "SES", "ESE", "SES", 'S', ModItems.ring_starmetal, 'E', ModItems.rod_euphemium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.component_ftl, 1, 3), new Object[] { "AAA", "DCD", "AAA", 'A', new ItemStack(ModItems.component_ftl, 1, 4), 'C', new ItemStack(ModItems.component_ftl, 1, 2), 'D', ModItems.plate_desh });
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.chronometer_player, new Object[] { "TCT", "PGP", " N ", 'T', "plateTitanium", 'P', ModItems.ingot_polymer, 'G', "paneGlass", 'N', Blocks.iron_bars, 'C', ModItems.circuit_schrabidium }));
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.concrete_stairs, 8), new Object[] { "C  ", "CC ", "CCC", 'C', ModBlocks.concrete });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.concrete_smooth_stairs, 8), new Object[] { "C  ", "CC ", "CCC", 'C', ModBlocks.concrete_smooth });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.brick_concrete_stairs, 8), new Object[] { "C  ", "CC ", "CCC", 'C', ModBlocks.brick_concrete });
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.pill_strontium, 4), new Object[] { "dustStrontium", new ItemStack(ModItems.fluid_tank_full, 1, FluidType.ACID.ordinal()) }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.bottle_sr90, new Object[] { ModItems.bottle2_empty, "dustStrontium90", Items.milk_bucket, "dustCoal" }));
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.pane_acrylic, 6), new Object[] { "GGG", "GGG", 'G', ModItems.acrylic });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.pane_actinium, 8), "PPP", "PAP", "PPP", 'P', ModBlocks.pane_acrylic, 'A', "nuggetActinium227"));
+		// TODO TMP Recipe
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.filter_fiberglass, ModItems.ingot_fiberglass, ModItems.ingot_fiberglass, ModItems.powder_desh, ModItems.powder_desh, "dustLanthanum", "dustLanthanum", "dustLanthanum", new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.ALCOHOL.ordinal()), "dustGold"));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stamp_357_desh, 1), new Object[] { "RSR", "DDD", " C ", 'R', "dustRedstone", 'D', "ingotDeshAlloy", 'C', ModItems.casing_357, 'S', ModItems.stamp_desh_flat }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stamp_44_desh, 1), new Object[] { "RSR", "DDD", " C ", 'R', "dustRedstone", 'D', "ingotDeshAlloy", 'C', ModItems.casing_44, 'S', ModItems.stamp_desh_flat }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stamp_9_desh, 1), new Object[] { "RSR", "DDD", " C ", 'R', "dustRedstone", 'D', "ingotDeshAlloy", 'C', ModItems.casing_9, 'S', ModItems.stamp_desh_flat }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stamp_50_desh, 1), new Object[] { "RSR", "DDD", " C ", 'R', "dustRedstone", 'D', "ingotDeshAlloy", 'C', ModItems.casing_50, 'S', ModItems.stamp_desh_flat }));
+		
+		if (OreDictionary.doesOreNameExist("dustDesh") || OreDictionary.doesOreNameExist("ingotDesh"))
+			GameRegistry.addRecipe(new ShapelessOreRecipe(ModItems.powder_desh_ready, OreDictionary.doesOreNameExist("dustDesh") ? "dustDesh" : "ingotDesh", OreDictionary.doesOreNameExist("dustDesh") ? "dustDesh" : "ingotDesh", "dustCoal", ModItems.nugget_mercury));
+		
 	}
 	
 	public static void crumple() {
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
-			List<IRecipe> toDestroy = new ArrayList();
+			List<IRecipe> toDestroy = new ArrayList<IRecipe>();
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
 			ItemStack digiminer = new ItemStack(mb, 1, 4);
@@ -942,8 +992,6 @@ public class CraftingManager {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_lead), new ItemStack(ModItems.ingot_lead, 3), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_lithium), new ItemStack(ModItems.lithium), 20.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_starmetal), new ItemStack(ModItems.ingot_starmetal), 50.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_iron), new ItemStack(Items.iron_ingot), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_gold), new ItemStack(Items.gold_ingot), 5.0F);
@@ -1002,6 +1050,7 @@ public class CraftingManager {
 		GameRegistry.addSmelting(ModItems.powder_u235, new ItemStack(ModItems.ingot_u235), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_pu239, new ItemStack(ModItems.ingot_pu239), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_es254, new ItemStack(ModItems.ingot_es254), 10F);
+		GameRegistry.addSmelting(ModItems.powder_co60, new ItemStack(ModItems.ingot_co60), 2F);
 
 		GameRegistry.addSmelting(ModItems.powder_coal, new ItemStack(ModItems.coke), 1.0F);
 		GameRegistry.addSmelting(ModItems.briquette_lignite, new ItemStack(ModItems.coke), 1.0F);
@@ -1019,7 +1068,6 @@ public class CraftingManager {
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.gravel_diamond), new ItemStack(Items.diamond), 3.0F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_uranium), new ItemStack(ModBlocks.glass_uranium), 0.25F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_polonium), new ItemStack(ModBlocks.glass_polonium), 0.75F);
-		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_quartz), new ItemStack(ModBlocks.glass_quartz), 0.75F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.waste_trinitite), new ItemStack(ModBlocks.glass_trinitite), 0.25F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.waste_trinitite_red), new ItemStack(ModBlocks.glass_trinitite), 0.25F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_boron), new ItemStack(ModBlocks.glass_boron), 0.25F);
@@ -1051,7 +1099,7 @@ public class CraftingManager {
 		GameRegistry.addSmelting(ModItems.crystal_rare, new ItemStack(ModItems.powder_desh_mix, 1), 2.0F);
 		GameRegistry.addSmelting(ModItems.crystal_phosphorus, new ItemStack(ModItems.powder_fire, 6), 2.0F);
 		GameRegistry.addSmelting(ModItems.crystal_lithium, new ItemStack(ModItems.lithium, 2), 2.0F);
-		GameRegistry.addSmelting(ModItems.crystal_cobalt, new ItemStack(ModItems.ingot_cobalt, 2), 2.0F);
+		GameRegistry.addSmelting(ModItems.crystal_cobalt, new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(ModItems.crystal_starmetal, new ItemStack(ModItems.ingot_starmetal, 2), 2.0F);
 		GameRegistry.addSmelting(ModItems.crystal_trixite, new ItemStack(ModItems.ingot_plutonium, 4), 2.0F);
 		GameRegistry.addSmelting(ModItems.crystal_cinnebar, new ItemStack(ModItems.cinnebar, 4), 2.0F);
@@ -1077,6 +1125,5 @@ public class CraftingManager {
 		
 		for(int i = 0; i < 10; i++)
 			GameRegistry.addSmelting(new ItemStack(ModItems.ingot_steel_dusted, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_steel_dusted, 1, i)), 1.0F);
-		GameRegistry.addSmelting(ModItems.crystal_cobalt, new ItemStack(ModItems.ingot_cobalt, 1), 2.0F);
 	}
 }

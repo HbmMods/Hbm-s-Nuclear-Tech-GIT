@@ -52,7 +52,7 @@ public class Gun50AEFactory {
 		return config;
 	}
 
-	static float inaccuracy = 0.0005F;
+	static final float inaccuracy = 0.0005F;
 	public static BulletConfiguration get50AEConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();

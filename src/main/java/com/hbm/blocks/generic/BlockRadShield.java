@@ -8,8 +8,16 @@ import net.minecraft.block.material.Material;
 @Untested
 public class BlockRadShield extends BlockGeneric implements IBlockRadShield
 {
+	BlockRadShieldModule module;
 	public BlockRadShield(Material mat)
 	{
 		super(mat);
+		module = new BlockRadShieldModule();
+	}
+
+	@Override
+	public BlockRadShieldModule getShieldModule()
+	{
+		return module;
 	}
 }

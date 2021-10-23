@@ -44,7 +44,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	public int rods;
 	public final int rodsMax = 100;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 	public FluidTank[] tanks;
 	public ReactorFuelType type;
 	public int fuel;
@@ -701,7 +701,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			this.slots[i] = null;
 		}
 
-		int rad = (int)(((long)fuel) * 25000L / (fuelBase * 15L));
+		int rad = (int)((fuel) * 25000L / (fuelBase * 15L));
 		
 		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 
@@ -728,13 +728,13 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			}
 		}
 		
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield_core);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.block_corium);
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 			
 			for(EntityPlayer player : players) {
-				player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", true);
+				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
 	}
@@ -744,17 +744,11 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		int rand = worldObj.rand.nextInt(20);
 		
 		if(rand < 7)
-			worldObj.setBlock(x, y, z, ModBlocks.toxic_block);
+			worldObj.setBlock(x, y, z, ModBlocks.corium_block);
 		else if(rand < 10)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_0);
-		else if(rand < 14)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_1);
-		else if(rand < 17)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_2);
-		else if(rand < 19)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_3);
+			worldObj.setBlock(x, y, z, ModBlocks.block_corium_cobble);
 		else
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_4);
+			worldObj.setBlock(x, y, z, ModBlocks.block_corium);
 	}
 
 	@Override
@@ -837,7 +831,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 
 	@Override
 	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
+		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(tanks[0]);
 		list.add(tanks[1]);
 		list.add(tanks[2]);

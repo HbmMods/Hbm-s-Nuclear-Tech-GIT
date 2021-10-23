@@ -14,13 +14,8 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-<<<<<<< HEAD
-import com.hbm.inventory.CyclotronRecipes;
-import com.hbm.inventory.FluidTank;
-=======
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.recipes.CyclotronRecipes;
->>>>>>> master
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
@@ -55,7 +50,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	public FluidTank coolant;
 	public FluidTank amat;
 	
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 
 	public TileEntityMachineCyclotron() {
 		super(16);
@@ -157,6 +152,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
@@ -164,6 +160,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		this.plugs = data.getByte("plugs");
 	}
 	
+	@Override
 	public void handleButtonPacket(int value, int meta) {
 		
 		this.isOn = !this.isOn;
@@ -503,6 +500,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public long getMaxPower() {
-		return this.maxPower;
+		return maxPower;
 	}
 }

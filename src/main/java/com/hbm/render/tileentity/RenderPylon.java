@@ -3,13 +3,11 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.main.ModEventHandler;
 import com.hbm.render.model.ModelPylon;
 import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -53,16 +51,16 @@ public class RenderPylon extends TileEntitySpecialRenderer {
 				float k = j + 1;
 				
 				double ja = j + 0.5D;
-				double ix = te.xCoord + 0.5 + delta.xCoord / (double)(count * 2) * ja;
-				double iy = te.yCoord + 0.5 + delta.yCoord / (double)(count * 2) * ja + 5 - Math.sin(j / count * Math.PI * 0.5);
-				double iz = te.zCoord + 0.5 + delta.zCoord / (double)(count * 2) * ja;
+				double ix = te.xCoord + 0.5 + delta.xCoord / (count * 2) * ja;
+				double iy = te.yCoord + 0.5 + delta.yCoord / (count * 2) * ja + 5 - Math.sin(j / count * Math.PI * 0.5);
+				double iz = te.zCoord + 0.5 + delta.zCoord / (count * 2) * ja;
 				
 				//te.getWorldObj().spawnParticle("reddust", ix, iy, iz, 0.01 + j * 0.1, 0, 0);
 				
 				int brightness = te.getWorldObj().getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
 				int lX = brightness % 65536;
 				int lY = brightness / 65536;
-				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
+				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lX / 1.0F, lY / 1.0F);
 				
 				drawPowerLine(
 						x + 0.5 + (wX * j / count),

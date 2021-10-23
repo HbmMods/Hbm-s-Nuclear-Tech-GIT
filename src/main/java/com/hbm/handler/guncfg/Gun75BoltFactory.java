@@ -76,7 +76,7 @@ public class Gun75BoltFactory {
 		config.name = "bolter";
 		config.manufacturer = EnumGunManufacturer.CERIX;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.B75_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.B75_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.B75_HE);
@@ -84,7 +84,7 @@ public class Gun75BoltFactory {
 		return config;
 	}
 
-	static float inaccuracy = 0.5F;
+	static final float inaccuracy = 0.5F;
 	public static BulletConfiguration get75BoltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -140,7 +140,7 @@ public class Gun75BoltFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {

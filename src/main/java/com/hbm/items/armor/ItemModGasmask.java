@@ -1,12 +1,5 @@
 package com.hbm.items.armor;
 
-<<<<<<< HEAD
-import java.util.List;
-
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.render.model.ModelM65;
-
-=======
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,55 +8,35 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelM65;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.item.IGasMask;
->>>>>>> master
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-<<<<<<< HEAD
-=======
 import net.minecraft.entity.EntityLivingBase;
->>>>>>> master
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-<<<<<<< HEAD
-import net.minecraftforge.client.event.RenderPlayerEvent;
-
-public class ItemModGasmask extends ItemArmorMod {
-	
-	private ModelM65 modelM65;
-	private ResourceLocation tex = new ResourceLocation("hbm:textures/models/ModelM65.png");
-=======
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
-public class ItemModGasmask extends ItemArmorMod implements IGasMask {
+public class ItemModGasmask extends ItemArmorMod implements IGasMask
+{
 	
 	private ModelM65 modelM65;
 	private ResourceLocation tex = new ResourceLocation("hbm:textures/models/ModelM65.png");
 	private ResourceLocation tex_mono = new ResourceLocation("hbm:textures/models/ModelM65Mono.png");
->>>>>>> master
 
 	public ItemModGasmask() {
 		super(ArmorModHandler.helmet_only, true, false, false, false);
 	}
-<<<<<<< HEAD
-    
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.GREEN + "Gas protection");
-		list.add("");
-		super.addInformation(itemstack, player, list, bool);
-=======
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
@@ -84,14 +57,10 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 				list.add(EnumChatFormatting.DARK_RED + " -" + I18nUtil.resolveKey(clazz.lang));
 			}
 		}
->>>>>>> master
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-<<<<<<< HEAD
-		list.add(EnumChatFormatting.GREEN + "  " + stack.getDisplayName() + " (gas protection)");
-=======
 		
 		int i = 0;
 		
@@ -104,7 +73,6 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 		list.add(EnumChatFormatting.GREEN + "  " + stack.getDisplayName() + " (gas protection)");
 		
 		ArmorUtil.addGasMaskTooltip(stack, MainRegistry.proxy.me(), list, false);
->>>>>>> master
 	}
 
 	@Override
@@ -127,13 +95,6 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 		float yaw = yawHead - yawOffset;
 		float yawWrapped = MathHelper.wrapAngleTo180_float(yawHead - yawOffset);
 		float pitch = player.rotationPitch;
-<<<<<<< HEAD
-		
-		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
-		modelM65.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
-	}
-
-=======
 
 		if(this == ModItems.attachment_mask)
 			Minecraft.getMinecraft().renderEngine.bindTexture(tex);
@@ -191,5 +152,4 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 		
 		return super.onItemRightClick(stack, world, player);
 	}
->>>>>>> master
 }

@@ -18,7 +18,7 @@ public interface IRTGUser
 	/** Get the heat provided by the RTGs **/
 	public int getHeat();
 	/** Item class that only works in the machine, simply return {@link#IRadioisotopeFuel} to accept all **/
-	public Class<?> getDesiredClass();
+	public Class<? extends IRadioisotopeFuel> getDesiredClass();
 	
 	public default boolean isItemValid(Item itemIn)
 	{

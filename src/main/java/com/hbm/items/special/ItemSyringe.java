@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -14,18 +13,13 @@ import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemSyringe extends ItemCustomLore
@@ -528,11 +522,6 @@ public class ItemSyringe extends ItemCustomLore
 
 		return false;
 	}
-
-
-		return false;
-	}
-
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{

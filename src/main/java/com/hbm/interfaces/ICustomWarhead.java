@@ -380,7 +380,7 @@ public interface ICustomWarhead
 				warhead = (ICustomWarhead) stack.getItem();
 			}
 			else
-				throw new IllegalArgumentException("Input stack item is not instance of [ICustomWarhead]");
+				throw new IllegalArgumentException("Input stack item is not instance of " + ICustomWarhead.class.toString());
 		}
 		public CustomWarheadWrapper(ICustomWarhead warhead)
 		{
@@ -416,7 +416,7 @@ public interface ICustomWarhead
 		}
 		public NBTTagCompound regurgitateData()
 		{
-			return warhead.getWarheadData(getStack());
+			return (NBTTagCompound) warhead.getWarheadData(getStack()).copy();
 		}
 		public ICustomWarhead getInterface()
 		{

@@ -1,9 +1,6 @@
 package com.hbm.inventory.gui;
 
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang3.math.NumberUtils;
->>>>>>> master
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -18,21 +15,15 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-<<<<<<< HEAD
-=======
 import net.minecraft.util.MathHelper;
->>>>>>> master
 import net.minecraft.util.ResourceLocation;
 
-public class GUIFEL extends GuiInfoContainer {
+public class GUIFEL extends GuiInfoContainer
+{
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fel.png");
 	private TileEntityFEL fel;
-<<<<<<< HEAD
-    private GuiTextField field;
-=======
 	private GuiTextField field;
->>>>>>> master
 
 	public GUIFEL(InventoryPlayer invPlayer, TileEntityFEL laser) {
 		super(new ContainerFEL(invPlayer, laser));
@@ -44,18 +35,6 @@ public class GUIFEL extends GuiInfoContainer {
 
 	@Override
 	public void initGui() {
-<<<<<<< HEAD
-
-		super.initGui();
-
-        Keyboard.enableRepeatEvents(true);
-        this.field = new GuiTextField(this.fontRendererObj, guiLeft + 57, guiTop + 57, 29, 12);
-        this.field.setTextColor(-1);
-        this.field.setDisabledTextColour(-1);
-        this.field.setEnableBackgroundDrawing(false);
-        this.field.setMaxStringLength(3);
-        this.field.setText(String.valueOf(fel.watts));
-=======
 		super.initGui();
 		
 		Keyboard.enableRepeatEvents(true);
@@ -65,7 +44,6 @@ public class GUIFEL extends GuiInfoContainer {
 		this.field.setEnableBackgroundDrawing(false);
 		this.field.setMaxStringLength(3);
 		this.field.setText(String.valueOf(fel.watts));
->>>>>>> master
 	}
 
 	@Override
@@ -78,19 +56,16 @@ public class GUIFEL extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 43, 18, 9, mouseX, mouseY, new String[] {"UV"});
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 52, 18, 9, mouseX, mouseY, new String[] {"X-Ray"});
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 61, 18, 9, mouseX, mouseY, new String[] {"Gamma Ray"});
-<<<<<<< HEAD
-=======
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, fel.power, fel.maxPower);
->>>>>>> master
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, fel.power, TileEntityFEL.maxPower);
 	}
 
-	protected void mouseClicked(int x, int y, int i) {
+	@Override
+	protected void mouseClicked(int x, int y, int i)
+	{
 		super.mouseClicked(x, y, i);
 
 		this.field.mouseClicked(x, y, i);
-<<<<<<< HEAD
-=======
 
 		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
 
@@ -106,7 +81,6 @@ public class GUIFEL extends GuiInfoContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, 0, 2));
 		}
->>>>>>> master
 		
 		for(int k = 0; k < 6; k++) {
 			
@@ -133,19 +107,13 @@ public class GUIFEL extends GuiInfoContainer {
 
 		if(field.isFocused())
 			drawTexturedModalRect(guiLeft + 53, guiTop + 53, 210, 4, 34, 16);
-<<<<<<< HEAD
-=======
 
 		if(fel.isOn)
 			drawTexturedModalRect(guiLeft + 97, guiTop + 16, 192, 0, 18, 18);
->>>>>>> master
 		
 		int mode = fel.mode;
 		drawTexturedModalRect(guiLeft + 133, guiTop + 16 + mode * 9, 176, 52 + mode * 9, 18, 9);
 		
-<<<<<<< HEAD
-        this.field.drawTextBox();
-=======
 		int i = (int) fel.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
 
@@ -155,11 +123,11 @@ public class GUIFEL extends GuiInfoContainer {
 	}
 	
 	@Override
-	protected void keyTyped(char c, int key) {
-		
-		if(!this.field.textboxKeyTyped(c, key)) {
+	protected void keyTyped(char c, int key)
+	{
+		if (field.textboxKeyTyped(c, key))
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(RefStrings.MODID, "misc.keyPress"), 1.0F));
+		else
 			super.keyTyped(c, key);
-		}
->>>>>>> master
 	}
 }

@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
+@Deprecated
 public class TurretJeremy extends BlockDummyable {
 
 	public TurretJeremy(Material mat) {

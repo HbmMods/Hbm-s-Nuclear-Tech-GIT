@@ -3,14 +3,11 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.Random;
 
-<<<<<<< HEAD
-=======
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
->>>>>>> master
+import com.hbm.hazard.HazardData;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
@@ -20,32 +17,37 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFallout extends Block implements IItemHazard {
 	
-	ItemHazardModule module;
+	HazardData module;
 
 	public BlockFallout(Material mat) {
 		super(mat);
-		this.module = new ItemHazardModule();
+		this.module = new HazardData();
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
 		return ModItems.fallout;
 	}
 
+	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y - 1, z);
 		return block != Blocks.ice && block != Blocks.packed_ice ? (block.isLeaves(world, x, y - 1, z) ? true : (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7 ? true : block.isOpaqueCube() && block.getMaterial().blocksMovement())) : false;
@@ -56,23 +58,22 @@ public class BlockFallout extends Block implements IItemHazard {
 
 		if(!world.isRemote && entity instanceof EntityLivingBase) {
 			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
-			effect.setCurativeItems(new ArrayList());
+			effect.setCurativeItems(new ArrayList<ItemStack>());
 			((EntityLivingBase) entity).addPotionEffect(effect);
 		}
 	}
 
+	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
 
 		if(!world.isRemote) {
-<<<<<<< HEAD
 			player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
-=======
 			//player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
 			HbmLivingProps.addCont(player, new ContaminationEffect(1F, 200, false));
->>>>>>> master
 		}
 	}
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {
 		this.func_150155_m(world, x, y, z);
 	}
@@ -86,12 +87,13 @@ public class BlockFallout extends Block implements IItemHazard {
 		}
 	}
 
+	@Override
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
 	}
 
 	@Override
-	public ItemHazardModule getModule() {
+	public HazardData getModule() {
 		return module;
 	}
 }

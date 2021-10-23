@@ -149,6 +149,18 @@ public class ConsumableRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.servo_set, 1), new Object[] { "MBM", "PBP", "MBM", 'M', ModItems.motor, 'B', ModItems.bolt_tungsten, 'P', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.servo_set_desh, 1), new Object[] { "MBM", "PSP", "MBM", 'M', ModItems.motor_desh, 'B', ModItems.bolt_dura_steel, 'P', "plateAdvanced", 'S', ModItems.servo_set }));
 		
+		GameRegistry.addRecipe(new ItemStack(ModItems.medal_liquidator, 1), new Object[] { "GBG", "BFB", "GBG", 'G', ModItems.nugget_au198, 'B', ModItems.ingot_boron, 'F', ModItems.debris_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.injector_5htp, 1), new Object[] { ModItems.five_htp, ModItems.circuit_targeting_tier1, ModItems.plate_saturnite });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.injector_knife, 1), new Object[] { ModItems.injector_5htp, Items.iron_sword });
+		GameRegistry.addRecipe(new ItemStack(ModItems.shackles, 1), new Object[] { "CIC", "C C", "I I", 'I', ModItems.ingot_chainsteel, 'C', ModBlocks.chain });
+		GameRegistry.addRecipe(new ItemStack(ModItems.black_diamond, 1), new Object[] { "NIN", "IGI", "NIN", 'N', ModItems.nugget_au198, 'I', ModItems.ink, 'G', ModItems.gem_volcanic });
+		//RD40 Filters
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter, 1), new Object[] { "I", "F", 'F', ModItems.filter_coal, 'I', "plateIron" }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.gas_mask_filter_mono, 1), new Object[] { "ZZZ", "ZCZ", "ZZZ", 'Z', ModItems.nugget_zirconium, 'C', ModItems.catalyst_clay });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_combo, 1), new Object[] { "ZCZ", "CFC", "ZCZ", 'Z', "ingotZirconium", 'C', ModItems.catalyst_clay, 'F', ModItems.gas_mask_filter }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_rag, 1), new Object[] { "I", "F", 'F', ModItems.rag_damp, 'I', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_piss, 1), new Object[] { "I", "F", 'F', ModItems.rag_piss, 'I', "ingotIron" }));
+		
 		//Helmet Mods
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.attachment_mask, 1), new Object[] { "DID", "IGI", " F ", 'D', ModItems.ducttape, 'I', ModItems.plate_polymer, 'G', "paneGlass", 'F', ModItems.gas_mask_filter }));
 		
@@ -171,15 +183,3 @@ public class ConsumableRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stealth_boy, 1), new Object[] { " B", "LI", "LC", 'B', Item.getItemFromBlock(Blocks.stone_button), 'L', Items.leather, 'I', "ingotSteel", 'C', ModItems.circuit_red_copper }));
 	}
 }
-
-		GameRegistry.addRecipe(new ItemStack(ModItems.medal_liquidator, 1), new Object[] { "GBG", "BFB", "GBG", 'G', ModItems.nugget_au198, 'B', ModItems.ingot_boron, 'F', ModItems.debris_fuel });
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.injector_5htp, 1), new Object[] { ModItems.five_htp, ModItems.circuit_targeting_tier1, ModItems.plate_saturnite });
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.injector_knife, 1), new Object[] { ModItems.injector_5htp, Items.iron_sword });
-		GameRegistry.addRecipe(new ItemStack(ModItems.shackles, 1), new Object[] { "CIC", "C C", "I I", 'I', ModItems.ingot_chainsteel, 'C', ModBlocks.chain });
-		GameRegistry.addRecipe(new ItemStack(ModItems.black_diamond, 1), new Object[] { "NIN", "IGI", "NIN", 'N', ModItems.nugget_au198, 'I', ModItems.ink, 'G', ModItems.gem_volcanic });
-		//RD40 Filters
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter, 1), new Object[] { "I", "F", 'F', ModItems.filter_coal, 'I', "plateIron" }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.gas_mask_filter_mono, 1), new Object[] { "ZZZ", "ZCZ", "ZZZ", 'Z', ModItems.nugget_zirconium, 'C', ModItems.catalyst_clay });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_combo, 1), new Object[] { "ZCZ", "CFC", "ZCZ", 'Z', "ingotZirconium", 'C', ModItems.catalyst_clay, 'F', ModItems.gas_mask_filter }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_rag, 1), new Object[] { "I", "F", 'F', ModItems.rag_damp, 'I', "ingotIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter_piss, 1), new Object[] { "I", "F", 'F', ModItems.rag_piss, 'I', "ingotIron" }));

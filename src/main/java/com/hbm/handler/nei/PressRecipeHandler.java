@@ -84,7 +84,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if((outputId.equals("pressing")) && getClass() == PressRecipeHandler.class) {
-			Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
+			Map<Object[], Object> recipes = MachineRecipes.getPressRecipes();
 			for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((List<ItemStack>) recipe.getKey()[0], (ItemStack) recipe.getKey()[1], (ItemStack) recipe.getValue()));
 			}
@@ -95,7 +95,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
+		Map<Object[], Object> recipes = MachineRecipes.getPressRecipes();
 		for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue(), result))
 				this.arecipes.add(new SmeltingSet((List<ItemStack>) recipe.getKey()[0], (ItemStack) recipe.getKey()[1], (ItemStack) recipe.getValue()));
@@ -113,7 +113,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
+		Map<Object[], Object> recipes = MachineRecipes.getPressRecipes();
 		for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 
 			boolean b = false;

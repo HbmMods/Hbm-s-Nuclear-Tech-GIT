@@ -47,7 +47,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	public final int rodsMax = 100;
 	public boolean retracting = true;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 	public FluidTank[] tanks;
 
 	private static final int[] slots_top = new int[] { 0 };
@@ -414,12 +414,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				 */
 
 				float rad = (float) coreHeat / (float) maxCoreHeat * 50F;
-<<<<<<< HEAD
-				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
-=======
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
->>>>>>> master
 			}
 
 			for(int i = 0; i < 3; i++)
@@ -437,7 +432,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		// function of SHS produced per tick
 		// maxes out at heat% * tank capacity / 20
-		double steam = (((double) hullHeat / (double) maxHullHeat) * ((double) tanks[2].getMaxFill() / 50D)) * conversionMod;
+		double steam = (((double) hullHeat / (double) maxHullHeat) * (tanks[2].getMaxFill() / 50D)) * conversionMod;
 
 		double water = steam;
 
@@ -521,11 +516,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			if(tanks[0].getFill() > tanks[0].getMaxFill())
 				tanks[0].setFill(tanks[0].getMaxFill());
 
-<<<<<<< HEAD
-		} else if(b == ModBlocks.block_niter) {
-=======
 		} else if(b == ModBlocks.block_niter || b == ModBlocks.block_niter_reinforced) {
->>>>>>> master
 			if(tanks[0].getFill() >= 50 && tanks[1].getFill() + 5 <= tanks[1].getMaxFill()) {
 				tanks[0].setFill(tanks[0].getFill() - 50);
 				tanks[1].setFill(tanks[1].getFill() + 5);
@@ -713,20 +704,15 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.corium_block);
 
-<<<<<<< HEAD
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
-=======
 		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
->>>>>>> master
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 			
 			for(EntityPlayer player : players) {
-				player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", true);
+				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
 	}
@@ -804,7 +790,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
+		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(tanks[0]);
 		list.add(tanks[1]);
 		list.add(tanks[2]);
@@ -835,15 +821,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	
 	public boolean isSubmerged() {
 		
-<<<<<<< HEAD
-		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
-				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water &&
-				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water &&
-=======
 		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
 				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water ||
 				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
->>>>>>> master
 				worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).getMaterial() == Material.water;
 	}
 }

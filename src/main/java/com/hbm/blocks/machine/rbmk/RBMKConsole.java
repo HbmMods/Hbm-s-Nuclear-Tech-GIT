@@ -29,7 +29,7 @@ public class RBMKConsole extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 
-		if(meta >= this.offset)
+		if(meta >= offset)
 			return new TileEntityRBMKConsole();
 		
 		return null;
@@ -68,7 +68,7 @@ public class RBMKConsole extends BlockDummyable {
 				if(side == 1) {
 					Vec3 vec = Vec3.createVectorHelper(1.375D, 0, 0.75D);
 					
-					switch(entity.getBlockMetadata() - this.offset) {
+					switch(entity.getBlockMetadata() - offset) {
 					case 2: vec.rotateAroundY((float)Math.toRadians(90)); break;
 					case 3: vec.rotateAroundY((float)Math.toRadians(270)); break;
 					case 4: vec.rotateAroundY((float)Math.toRadians(180)); break;
@@ -115,6 +115,7 @@ public class RBMKConsole extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {0, 0, 0, 1, 2, 2}, this, dir);
 	}
 	
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 
 		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, 0, 1, 2, 2}, x, y, z, dir))

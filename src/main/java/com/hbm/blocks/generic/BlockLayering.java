@@ -24,34 +24,40 @@ public class BlockLayering extends Block {
 		this.func_150154_b(0);
 	}
 
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
 		int l = p_149668_1_.getBlockMetadata(p_149668_2_, p_149668_3_, p_149668_4_) & 7;
 		float f = 0.125F;
-		return AxisAlignedBB.getBoundingBox((double) p_149668_2_ + this.minX, (double) p_149668_3_ + this.minY, (double) p_149668_4_ + this.minZ, (double) p_149668_2_ + this.maxX, (double) ((float) p_149668_3_ + (float) l * f), (double) p_149668_4_ + this.maxZ);
+		return AxisAlignedBB.getBoundingBox(p_149668_2_ + this.minX, p_149668_3_ + this.minY, p_149668_4_ + this.minZ, p_149668_2_ + this.maxX, p_149668_3_ + l * f, p_149668_4_ + this.maxZ);
 	}
 
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
+	@Override
 	public void setBlockBoundsForItemRender() {
 		this.func_150154_b(0);
 	}
 
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
 		this.func_150154_b(p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_));
 	}
 
 	protected void func_150154_b(int p_150154_1_) {
 		int j = p_150154_1_ & 7;
-		float f = (float) (2 * (1 + j)) / 16.0F;
+		float f = 2 * (1 + j) / 16.0F;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 	}
 
+	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y - 1, z);
 		
@@ -61,6 +67,7 @@ public class BlockLayering extends Block {
 		return block != Blocks.ice && block != Blocks.packed_ice ? (block.isLeaves(world, x, y - 1, z) ? true : (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7 ? true : block.isOpaqueCube() && block.getMaterial().blocksMovement())) : false;
 	}
 
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {
 		this.func_150155_m(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
 	}
@@ -74,30 +81,36 @@ public class BlockLayering extends Block {
 		}
 	}
 
+	@Override
 	public void harvestBlock(World p_149636_1_, EntityPlayer p_149636_2_, int p_149636_3_, int p_149636_4_, int p_149636_5_, int p_149636_6_) {
 		super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
 		p_149636_1_.setBlockToAir(p_149636_3_, p_149636_4_, p_149636_5_);
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
 		return null;
 	}
 
+	@Override
 	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {
 		if(p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11) {
 			p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_) {
 		return p_149646_5_ == 1 ? true : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
 	}
 
+	@Override
 	public int quantityDropped(int meta, int fortune, Random random) {
 		return (meta & 7) + 1;
 	}
 
+	@Override
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		return meta >= 7 ? false : blockMaterial.isReplaceable();

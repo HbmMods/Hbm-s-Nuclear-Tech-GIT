@@ -34,11 +34,7 @@ public class RenderItemStack {
 		}
 	}
 	
-<<<<<<< HEAD
-	public static void renderItemStackDry(int x, int y, float f0, ItemStack stack) {
-=======
 	public static void renderItemStackNoEffect(int x, int y, float f0, ItemStack stack) {
->>>>>>> master
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		

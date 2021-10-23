@@ -165,7 +165,7 @@ public class ModEventHandlerClient {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
-		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+		if(!event.isCanceled() && event.type == ElementType.ARMOR) {
 			
 	        int width = event.resolution.getScaledWidth();
 	        int height = event.resolution.getScaledHeight();
@@ -213,7 +213,7 @@ public class ModEventHandlerClient {
 				
 				ItemStack stack = player.inventory.armorInventory[2];
 				
-				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
+				float tot = (float) JetpackBase.getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
 				top -= 3;
 				
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -253,13 +253,13 @@ public class ModEventHandlerClient {
 			
 			event.setCanceled(true);
 			
-			float pX = (float) (player.prevPosX + (player.posX - player.prevPosX) * (double)event.partialRenderTick);
-			float pY = (float) (player.prevPosY + (player.posY - player.prevPosY) * (double)event.partialRenderTick);
-			float pZ = (float) (player.prevPosZ + (player.posZ - player.prevPosZ) * (double)event.partialRenderTick);
+			float pX = (float) (player.prevPosX + (player.posX - player.prevPosX) * event.partialRenderTick);
+			float pY = (float) (player.prevPosY + (player.posY - player.prevPosY) * event.partialRenderTick);
+			float pZ = (float) (player.prevPosZ + (player.posZ - player.prevPosZ) * event.partialRenderTick);
 			EntityPlayer me = Minecraft.getMinecraft().thePlayer;
-			float mX = (float) (me.prevPosX + (me.posX - me.prevPosX) * (double)event.partialRenderTick);
-			float mY = (float) (me.prevPosY + (me.posY - me.prevPosY) * (double)event.partialRenderTick);
-			float mZ = (float) (me.prevPosZ + (me.posZ - me.prevPosZ) * (double)event.partialRenderTick);
+			float mX = (float) (me.prevPosX + (me.posX - me.prevPosX) * event.partialRenderTick);
+			float mY = (float) (me.prevPosY + (me.posY - me.prevPosY) * event.partialRenderTick);
+			float mZ = (float) (me.prevPosZ + (me.posZ - me.prevPosZ) * event.partialRenderTick);
 
 			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/particle/fart.png"));
 			GL11.glPushMatrix();
@@ -576,8 +576,8 @@ public class ModEventHandlerClient {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 
-		GL11.glRotatef((float)-mc.thePlayer.rotationYaw, 0, 1, 0);
-		GL11.glRotatef((float)(mc.thePlayer.rotationPitch), 1, 0, 0);
+		GL11.glRotatef(-mc.thePlayer.rotationYaw, 0, 1, 0);
+		GL11.glRotatef((mc.thePlayer.rotationPitch), 1, 0, 0);
 		
 		ScaledResolution resolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
@@ -604,9 +604,9 @@ public class ModEventHandlerClient {
 		if(mc.theWorld.getTotalWorldTime() == 1)
 			ModEventHandler.lastBrightness = ModEventHandler.currentBrightness;
 		
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)(lX + (cX - lX) * interp) / 1.0F, (float)(lY + (cY - lY) * interp) / 1.0F);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lX + (cX - lX) * interp) / 1.0F, (lY + (cY - lY) * interp) / 1.0F);
 
-		mc.entityRenderer.enableLightmap((double)event.partialTicks);
+		mc.entityRenderer.enableLightmap(event.partialTicks);
 		
 		mc.getTextureManager().bindTexture(ashes);
 		
@@ -623,7 +623,7 @@ public class ModEventHandlerClient {
 			tessellator.draw();
 		}
 
-		mc.entityRenderer.disableLightmap((double)event.partialTicks);
+		mc.entityRenderer.disableLightmap(event.partialTicks);
 		
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -787,14 +787,6 @@ public class ModEventHandlerClient {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		
 		GL11.glPopMatrix();
-		
-		if(ArmorFSB.hasFSBArmor(player)) {
-			ItemStack plate = player.inventory.armorInventory[2];
-			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
-			
-			if(chestplate.thermal)
-				RenderOverhead.renderThermalSight(event.partialTicks);
-		}
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

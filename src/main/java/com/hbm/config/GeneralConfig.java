@@ -29,6 +29,7 @@ public class GeneralConfig {
 	public static boolean enableCrosshairs = true;
 	public static boolean enableBabyMode = false;
 	public static boolean enableReflectorCompat = false;
+	public static boolean enableRoundedValues = false;
 
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -67,6 +68,7 @@ public class GeneralConfig {
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true).getBoolean(true);
 		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
+		enableRoundedValues = config.getBoolean(CATEGORY_GENERAL, "1.25_enableRoundedValues", false, "Whether or not to round off the radiation values by a certain amount of significant figures (does not apply to RBMK rods)");
 		
 		final String CATEGORY_528 = "528";
 

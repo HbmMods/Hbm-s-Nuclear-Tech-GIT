@@ -113,7 +113,7 @@ public class Gun9mmFactory {
 		return config;
 	}
 	
-	static float inaccuracy = 5;
+	static final float inaccuracy = 5;
 	public static BulletConfiguration get9mmConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();

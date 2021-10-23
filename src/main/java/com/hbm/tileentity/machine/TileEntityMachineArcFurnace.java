@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineArcFurnace;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;

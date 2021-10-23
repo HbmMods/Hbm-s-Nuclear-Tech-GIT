@@ -3,9 +3,9 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.interfaces.Untested;
-import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -61,7 +61,7 @@ public class BlockCircuit extends Block
 	public TileEntity createTileEntity(World world, int metadata)
 	{
 		te = new TileEntityComputerMatrix(strength);
-		return te;
+		return null;
 	}
 	
 	// Disassemble
@@ -78,8 +78,8 @@ public class BlockCircuit extends Block
 		}
 		else if (worldIn.isRemote && player.getHeldItem() == null)
 			player.addChatMessage(new ChatComponentText("In order to disassemble this supercomputer component without mangling everything, I'll need a more precise tool..."));
-		else if (worldIn.isRemote && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.plate_aluminium)
-			player.addChatMessage(new ChatComponentText(String.format("Collective strength: %s; Count: %s", getCollectiveStrength(), getCount())));
+//		else if (worldIn.isRemote && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.plate_aluminium)
+//			player.addChatMessage(new ChatComponentText(String.format("Collective strength: %s; Count: %s", getCollectiveStrength(), getCount())));
 
 		return super.onBlockActivated(worldIn, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 	}

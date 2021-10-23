@@ -3,18 +3,16 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.indexing.AmmoIndex;
-import com.hbm.handler.indexing.AmmoIndex.AmmoTrait;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
-import com.hbm.items.special.ItemStarterKit.KitType;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import scala.actors.threadpool.Arrays;
 
 public class ItemAmmo extends ItemCustomLore
 {
@@ -105,6 +103,17 @@ public class ItemAmmo extends ItemCustomLore
 		}
 	}
 	
+	public ItemAmmo()
+	{
+		setCreativeTab(MainRegistry.weaponTab);
+	}
+	
+	public ItemAmmo(String key)
+	{
+		super(key);
+		setCreativeTab(MainRegistry.weaponTab);
+	}
+	
 	public ItemAmmo addTraits(AmmoItemTrait... traitsIn)
 	{
 		traitArray = traitsIn;
@@ -115,6 +124,13 @@ public class ItemAmmo extends ItemCustomLore
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		super.addInformation(stack, player, list, bool);
+		if (this == ModItems.ammo_rocket_digamma) {
+			
+			if(new Random().nextInt(3) < 2)
+				list.add(EnumChatFormatting.RED + "COVER YOURSELF IN OIL");
+			else
+				list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "COVER YOURSELF IN OIL");
+		}
 		if (traitArray != null || traitArray.length > 0)
 		{
 			//List traits = Arrays.asList(traitArray);
@@ -140,5 +156,10 @@ public class ItemAmmo extends ItemCustomLore
 			}
 		}		
 	}
-
+	@Override
+	public Item setUnlocalizedName(String uloc)
+	{
+		setTextureName(RefStrings.MODID + ":" + uloc);
+		return super.setUnlocalizedName(uloc);
+	}
 }

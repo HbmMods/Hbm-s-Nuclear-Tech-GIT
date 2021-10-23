@@ -3,13 +3,11 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -23,13 +21,13 @@ public class ItemWithSubtypes extends ItemCustomLore
 {
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] itemIcon;
-	protected int setSize;
+	protected int iconSetSize;
 	protected String[] customNames;
 	public boolean hasCustomNames = false;
 	public ItemWithSubtypes(int size)
 	{
 		super();
-		setSize = size;
+		iconSetSize = size;
 		setHasSubtypes(true);
 	}
 	@Deprecated
@@ -51,7 +49,7 @@ public class ItemWithSubtypes extends ItemCustomLore
 	 */
 	public ItemWithSubtypes addCustomNames(String... names)
 	{
-		assert names.length == setSize : "Given string array must be equal in size to the set!";
+		assert names.length == iconSetSize : "Given string array must be equal in size to the set!";
 		hasCustomNames = true;
 		customNames = names;
 		return this;
@@ -61,7 +59,7 @@ public class ItemWithSubtypes extends ItemCustomLore
 	{
 		if (customNames != null && customNames.length > 0)
 			return "item.".concat(customNames[stack.getItemDamage()]);
-		else if (stack.getItemDamage() > setSize)
+		else if (stack.getItemDamage() > iconSetSize)
 			return "invalid meta tag";
 		else
 			return super.getUnlocalizedName(stack);
@@ -70,7 +68,7 @@ public class ItemWithSubtypes extends ItemCustomLore
 	@Override
 	public void registerIcons(IIconRegister registry)
 	{
-		itemIcon = new IIcon[setSize];
+		itemIcon = new IIcon[iconSetSize];
 		for (int i = 0; i < itemIcon.length; i++)
 			itemIcon[i] = registry.registerIcon(hasCustomNames ? String.format("%s:%s", RefStrings.MODID, customNames[i]) : String.format("%s:%s_%s", RefStrings.MODID, this.getUnlocalizedName().substring(5), i));
 	}
@@ -78,14 +76,14 @@ public class ItemWithSubtypes extends ItemCustomLore
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List tabList)
 	{
-		for (int i = 0; i < setSize; i++)
+		for (int i = 0; i < iconSetSize; i++)
 			tabList.add(new ItemStack(itemIn, 1, i));
 	}
 	
 	@Override
 	public IIcon getIconFromDamage(int icon)
 	{
-		int i = MathHelper.clamp_int(icon, 0, setSize);
+		int i = MathHelper.clamp_int(icon, 0, iconSetSize);
 		return itemIcon[i];
 	}
 }

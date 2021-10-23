@@ -3,9 +3,10 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.hazard.HazardData;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockHazard extends Block implements IItemHazard {
 	
-	ItemHazardModule module;
+	HazardData module;
 	
 	private float radIn = 0.0F;
 	private float radMax = 0.0F;
@@ -32,7 +33,7 @@ public class BlockHazard extends Block implements IItemHazard {
 
 	public BlockHazard(Material mat) {
 		super(mat);
-		this.module = new ItemHazardModule();
+		this.module = new HazardData();
 	}
 	
 	public BlockHazard setDisplayEffect(ExtDisplayEffect extEffect) {
@@ -40,6 +41,7 @@ public class BlockHazard extends Block implements IItemHazard {
 		return this;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
@@ -106,13 +108,13 @@ public class BlockHazard extends Block implements IItemHazard {
 	}
 
 	@Override
-	public ItemHazardModule getModule() {
+	public HazardData getModule() {
 		return module;
 	}
 
 	@Override
 	public IItemHazard addRadiation(float radiation) {
-		this.getModule().addRadiation(radiation);
+		getModule().addEntry(HazardRegistry.RADIATION, radiation);
 		this.radIn = radiation * 0.1F;
 		this.radMax = radiation;
 		return this;
@@ -146,6 +148,7 @@ public class BlockHazard extends Block implements IItemHazard {
 		return super.tickRate(world);
 	}
 
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 

@@ -3,8 +3,9 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.hazard.HazardData;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 
 public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 	
-	ItemHazardModule module;
+	HazardData module;
 	
 	private float rad = 0.0F;
 
@@ -25,7 +26,7 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 
 	public BlockHazardFalling(Material mat) {
 		super(mat);
-		this.module = new ItemHazardModule();
+		this.module = new HazardData();
 	}
 
 	public BlockHazardFalling makeBeaconable() {
@@ -39,13 +40,13 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 	}
 
 	@Override
-	public ItemHazardModule getModule() {
+	public HazardData getModule() {
 		return module;
 	}
 
 	@Override
 	public IItemHazard addRadiation(float radiation) {
-		this.getModule().addRadiation(radiation);
+		getModule().addEntry(HazardRegistry.RADIATION, radiation);
 		this.rad = radiation * 0.1F;
 		return this;
 	}
@@ -70,6 +71,7 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 		return super.tickRate(world);
 	}
 
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 

@@ -1,9 +1,15 @@
 package com.hbm.extprop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.type.HazardTypeBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -22,7 +28,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class HbmLivingProps implements IExtendedEntityProperties {
+public class HbmLivingProps implements IExtendedEntityProperties
+{
 	
 	public static final String key = "NTM_EXT_LIVING";
 	public static final UUID digamma_UUID = UUID.fromString("2a3d8aec-5ab9-4218-9b8b-ca812bdf378b");
@@ -35,13 +42,19 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
 	public static final int maxBlacklung = 60 * 60 * 20;
-	private int Fibrosis;
+	private int fibrosis;
 	public static final int maxFibrosis = 60 * 60 * 30;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
 	private int contagion;
-	private List<ContaminationEffect> contamination = new ArrayList();
+	private List<ContaminationEffect> contamination = new ArrayList<ContaminationEffect>();
+	private final HashMap<HazardTypeBase, Float> basicHazards = new HashMap<HazardTypeBase, Float>();
+	public static final HashMap<HazardTypeBase, Float> maxHazards = new HashMap<HazardTypeBase, Float>();
+	static
+	{
+		maxHazards.put(HazardRegistry.BERYLLIUM, 72000f);
+	}
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -71,14 +84,37 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void incrementRadiation(EntityLivingBase entity, float rad) {
 		HbmLivingProps data = getData(entity);
-		float radiation = getData(entity).radiation + rad;
+		float radiation = data.radiation + rad;
 		
 		if(radiation > 2500)
 			radiation = 2500;
 		if(radiation < 0)
 			radiation = 0;
 		
-		data.setRadiation(entity, radiation);
+		setRadiation(entity, radiation);
+	}
+	
+	/// Basics
+	public static float getStat(EntityLivingBase entity, HazardTypeBase haz)
+	{
+		return getData(entity).basicHazards.get(haz);
+	}
+	
+	public static void setStat(EntityLivingBase entity, HazardTypeBase haz, float amount)
+	{
+		getData(entity).basicHazards.put(haz, amount);
+	}
+	
+	public static void incStat(EntityLivingBase entity, HazardTypeBase haz, float amount)
+	{
+		HbmLivingProps data = getData(entity);
+		data.basicHazards.put(haz, data.basicHazards.get(haz) + amount);
+		
+		if (data.basicHazards.get(haz) > maxHazards.get(haz))
+		{
+			setStat(entity, haz, 0);
+			entity.attackEntityFrom(ModDamageSource.causeDamage(entity, haz.toString()), 1000);
+		}
 	}
 	
 	/// RAD ENV ///
@@ -123,7 +159,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		try {
 			attributeinstance.removeModifier(attributeinstance.getModifier(digamma_UUID));
-		} catch(Exception ex) { }
+		} catch(Exception ex) {
+			MainRegistry.logger.catching(Level.WARN, ex);
+		}
 		
 		attributeinstance.applyModifier(new AttributeModifier(digamma_UUID, "digamma", healthMod, 2));
 		
@@ -160,14 +198,14 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void incrementDigamma(EntityLivingBase entity, float digamma) {
 		HbmLivingProps data = getData(entity);
-		float dRad = getDigamma(entity) + digamma;
+		float dRad = data.digamma + digamma;
 		
 		if(dRad > 10)
 			dRad = 10;
 		if(dRad < 0)
 			dRad = 0;
 		
-		data.setDigamma(entity, dRad);
+		setDigamma(entity, dRad);
 	}
 	
 	
@@ -212,14 +250,14 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// PULMONARY FIBROSIS ///
 	public static int getFibrosis(EntityLivingBase entity) {
-		return getData(entity).Fibrosis;
+		return getData(entity).fibrosis;
 	}
 	
 	public static void setFibrosis(EntityLivingBase entity, int fibrosis) {
-		getData(entity).Fibrosis = fibrosis;
+		getData(entity).fibrosis = fibrosis;
 		
 		if (fibrosis >= maxFibrosis) {
-			getData(entity).Fibrosis = 0;
+			getData(entity).fibrosis = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
 	}
@@ -267,6 +305,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			this.contamination.get(i).save(props, i);
 		}
 		
+		if (!basicHazards.isEmpty())
+		{
+			NBTTagCompound data = new NBTTagCompound();
+			for (Entry<HazardTypeBase, Float> e : basicHazards.entrySet())
+				data.setFloat(e.getKey().toString(), e.getValue());
+			
+			props.setTag("hfr_basic", data);
+		}
+		
 		nbt.setTag("HbmLivingProps", props);
 	}
 
@@ -288,6 +335,11 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			for(int i = 0; i < cont; i++) {
 				this.contamination.add(ContaminationEffect.load(props, i));
 			}
+			
+//			if (props.hasKey("hfr_basic"))
+//			{
+//				NBTTagCompound data = props.getCompoundTag("hfr_basic");
+//			}
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.interfaces.IBlockRarity;
-import com.hbm.items.block.ItemBlockLore;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,12 +15,6 @@ public class BlockRotatablePillar extends BlockRotatedPillar implements IBlockRa
 	@SideOnly(Side.CLIENT)
 	protected IIcon iconSide;
 
-<<<<<<< HEAD
-=======
-	@SideOnly(Side.CLIENT)
-	protected IIcon iconSide;
-
->>>>>>> master
 	private String textureTop;
 
 	public BlockRotatablePillar(Material mat, String top) {
@@ -29,6 +22,7 @@ public class BlockRotatablePillar extends BlockRotatedPillar implements IBlockRa
 		textureTop = top;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 

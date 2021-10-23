@@ -8,10 +8,6 @@ import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-<<<<<<< HEAD
-import net.minecraft.item.Item;
-=======
->>>>>>> master
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -32,7 +28,8 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 		this.setMaxDamage(1);
 	}
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
     	
     	list.add("Charge: " + Library.getShortNumber(getCharge(stack)) + " / " + Library.getShortNumber(maxPower));
@@ -44,21 +41,6 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 	public boolean isArmorEnabled(ItemStack stack) {
 		return getCharge(stack) > 0;
 	}
-<<<<<<< HEAD
-	@Deprecated
-	public static ItemStack getUnpoweredPiece(Item item)
-	{
-		if (item instanceof ArmorFSBPowered)
-		{
-			ItemStack stack = new ItemStack(item);
-			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", 0);
-			return stack.copy();
-		}
-		return null;
-	}
-=======
->>>>>>> master
 
 	@Override
     public void chargeBattery(ItemStack stack, long i) {
@@ -147,7 +129,8 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
         this.dischargeBattery(stack, damage * consumption);
     }
 	
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    @Override
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
     	
     	super.onArmorTick(world, player, itemStack);
     	

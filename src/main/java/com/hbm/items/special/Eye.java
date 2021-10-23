@@ -5,6 +5,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +32,8 @@ public class Eye extends ItemCustomLore
 			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(I18nUtil.resolveKey("eye.respond.nothing")), (EntityPlayerMP) playerIn);
 		}
 		playerIn.addPotionEffect(new PotionEffect(HbmPotion.unconscious.id, 60*20));
-		ContaminationUtil.applyDigammaDirect(playerIn, 0.5F);
+//		ContaminationUtil.applyDigammaDirect(playerIn, 0.5F);
+		ContaminationUtil.contaminate(playerIn, HazardType.DIGAMMA, ContaminationType.CREATIVE, 0.5f);
 		return stack;
 	}
 	

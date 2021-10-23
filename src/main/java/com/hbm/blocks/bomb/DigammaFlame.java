@@ -21,7 +21,8 @@ public class DigammaFlame extends Block {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
+	{
 		
 		if(entity instanceof EntityLivingBase) {
 			ContaminationUtil.contaminate((EntityLivingBase) entity, HazardType.DIGAMMA, ContaminationType.DIGAMMA, 0.05F);

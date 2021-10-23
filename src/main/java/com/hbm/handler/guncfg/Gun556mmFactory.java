@@ -184,7 +184,7 @@ public class Gun556mmFactory {
 		return config;
 	}
 
-	static float inaccuracy = 2.5F;
+	static final float inaccuracy = 2.5F;
 	public static BulletConfiguration get556Config() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -218,7 +218,7 @@ public class Gun556mmFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -372,7 +372,7 @@ public class Gun556mmFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {

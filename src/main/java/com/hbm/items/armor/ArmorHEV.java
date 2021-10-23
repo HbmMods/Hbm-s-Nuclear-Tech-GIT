@@ -1,17 +1,9 @@
 package com.hbm.items.armor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorHEV;
-<<<<<<< HEAD
-import com.hbm.saveddata.RadiationSavedData;
-=======
->>>>>>> master
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,18 +12,14 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
-public class ArmorHEV extends ArmorFSBPowered {
+public class ArmorHEV extends ArmorFSBPowered
+{
 
 	public ArmorHEV(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, layer, slot, texture, maxPower, chargeRate, consumption, drain);
@@ -58,7 +46,7 @@ public class ArmorHEV extends ArmorFSBPowered {
     @Override
 	public void handleOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) {
     	
-    	if(this.hasFSBArmorIgnoreCharge(player)) {
+    	if(hasFSBArmorIgnoreCharge(player)) {
     		
     		if(event.type == ElementType.ARMOR) {
     			event.setCanceled(true);

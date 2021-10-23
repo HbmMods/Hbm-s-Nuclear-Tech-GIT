@@ -2,15 +2,10 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
-<<<<<<< HEAD
-import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-=======
 import com.hbm.handler.FluidTypeHandler.FluidTrait;
->>>>>>> master
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -28,7 +23,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public short mode = 0;
 	public static final short modes = 4;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 
 	public TileEntityBarrel() {
 		super(6);
@@ -63,64 +58,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				fillFluidInit(tank.getTankType());
 			
 			if(tank.getFill() > 0) {
-<<<<<<< HEAD
-				
-				Block b = this.getBlockType();
-				
-				//for when you fill antimatter into a matter tank
-				if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter() && tank.getFill() > 0) {
-					if (tank.getTankType().equals(FluidType.ASCHRAB))
-					{
-						EntityNukeExplosionMK3 field = new EntityNukeExplosionMK3(getWorldObj());
-						field.posX = xCoord;
-						field.posY = yCoord;
-						field.posZ = zCoord;
-						field.destructionRange = BombConfig.aSchrabRadius;
-						field.speed = 25;
-						field.coefficient = 1.0F;
-						field.waste = false;
-						worldObj.spawnEntityInWorld(field);
-						EntityCloudFleija effect = new EntityCloudFleija(getWorldObj(), BombConfig.aSchrabRadius);
-						effect.posX = xCoord;
-						effect.posY = yCoord;
-						effect.posZ = zCoord;
-						worldObj.spawnEntityInWorld(effect);
-					}
-					else
-					{
-						worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
-					}
-				}
-				
-				//for when you fill hot or corrosive liquids into a plastic tank
-				if(b == ModBlocks.barrel_plastic && (tank.getTankType().isCorrosive() || tank.getTankType().isHot())) {
-					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
-				}
-				
-				//for when you fill corrosive liquid into an iron tank
-				if(b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) {
-					ItemStack[] copy = this.slots.clone();
-					this.slots = new ItemStack[6];
-					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
-					TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
-					
-					if(barrel != null) {
-						barrel.tank.setTankType(tank.getTankType());
-						barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
-						barrel.slots = copy;
-					}
-					
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
-				}
-				
-				if(b == ModBlocks.barrel_corroded && worldObj.rand.nextInt(3) == 0) {
-					tank.setFill(tank.getFill() - 1);
-				}
-=======
 				checkFluidInteraction();
->>>>>>> master
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -132,9 +70,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public void checkFluidInteraction() {
 		
 		Block b = this.getBlockType();
-		
+		final Set<FluidTrait> traitSet = tank.getTankType().getTraitSet();
 		//for when you fill antimatter into a matter tank
-		if(b != ModBlocks.barrel_antimatter && tank.getTankType().traits.contains(FluidTrait.AMAT)) {
+		if(b != ModBlocks.barrel_antimatter && traitSet.contains(FluidTrait.AMAT)) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 		}
@@ -147,7 +85,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		
 		//for when you fill corrosive liquid into an iron tank
 		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
-				(b == ModBlocks.barrel_steel && tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2))) {
+				(b == ModBlocks.barrel_steel && traitSet.contains(FluidTrait.CORROSIVE_STRONG))) {
 			ItemStack[] copy = this.slots.clone();
 			this.slots = new ItemStack[6];
 			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
@@ -167,6 +105,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		}
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		
 		mode = data.getShort("mode");
@@ -239,7 +178,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	@Override
 	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
+		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(tank);
 		
 		return list;

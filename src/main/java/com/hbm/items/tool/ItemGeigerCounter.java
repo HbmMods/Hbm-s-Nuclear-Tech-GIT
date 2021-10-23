@@ -4,15 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-<<<<<<< HEAD
-import com.hbm.saveddata.RadiationSavedData;
-=======
->>>>>>> master
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
@@ -22,34 +16,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
-public class ItemGeigerCounter extends Item {
+public class ItemGeigerCounter extends Item
+{
 	
 	Random rand = new Random();
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
 		
-<<<<<<< HEAD
-=======
 		if(!(entity instanceof EntityLivingBase) || world.isRemote)
 			return;
 		
->>>>>>> master
 		if(entity instanceof EntityPlayer) {
 			
 			if(ArmorFSB.hasFSBArmor((EntityPlayer)entity) && ((ArmorFSB)((EntityPlayer)entity).inventory.armorInventory[2].getItem()).geigerSound)
 				return;
-<<<<<<< HEAD
-		}
-		
-		setInt(stack, getInt(stack, "timer") + 1, "timer");
-		if(getInt(stack, "timer") == 10) {
-			setInt(stack, 0, "timer");
-			setInt(stack, check(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ), "ticker");
-=======
->>>>>>> master
 		}
 		
 		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
@@ -103,23 +85,6 @@ public class ItemGeigerCounter extends Item {
 		int rads = (int)Math.ceil(ChunkRadiationManager.proxy.getRadiation(world, x, y, z));
 		return rads;
 	}
-<<<<<<< HEAD
-	
-	//what?!
-    /*@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
-    {
-    	if(world.getBlock(x, y, z) == ModBlocks.block_red_copper) {
-    		world.func_147480_a(x, y, z, false);
-    		player.inventory.consumeInventoryItem(ModItems.geiger_counter);
-    		player.inventory.addItemStackToInventory(new ItemStack(ModItems.survey_scanner));
-    		return true;
-    	}
-    	
-    	return false;
-    }*/
-=======
->>>>>>> master
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {

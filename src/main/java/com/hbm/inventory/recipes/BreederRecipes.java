@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
+
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
@@ -17,8 +18,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class BreederRecipes {
 
-	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
-	private static HashMap<ComparableStack, int[]> fuels = new HashMap();
+	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap<ComparableStack, BreederRecipe>();
+	private static HashMap<ComparableStack, int[]> fuels = new HashMap<ComparableStack, int[]>();
 	//for the int array: [0] => level (1-4) [1] => amount of operations
 	
 	public static void registerRecipes() {
@@ -68,6 +69,7 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_balefire), new BreederRecipe(ModItems.rod_balefire_blazing, 4));
 		recipes.put(new ComparableStack(ModItems.rod_dual_balefire), new BreederRecipe(ModItems.rod_dual_balefire_blazing, 4));
 		recipes.put(new ComparableStack(ModItems.rod_quad_balefire), new BreederRecipe(ModItems.rod_quad_balefire_blazing, 4));
+		recipes.put(new ComparableStack(ModItems.orichalcum, 1, 2), new BreederRecipe(new ItemStack(ModItems.orichalcum, 1, 4), 4));
 
 		//rocks
 		recipes.put(new ComparableStack(Blocks.stone), new BreederRecipe(new ItemStack(ModBlocks.sellafield_0), 2));
@@ -78,6 +80,7 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModBlocks.sellafield_4), new BreederRecipe(new ItemStack(ModBlocks.sellafield_core), 4));
 		
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 4));
+		recipes.put(new ComparableStack(ModItems.shrimp_fry), new BreederRecipe(ModItems.shrimp_atomic, 1));
 	}
 	
 	public static void registerFuels() {
@@ -136,7 +139,7 @@ public class BreederRecipes {
 	
 	public static HashMap<ItemStack, BreederRecipe> getAllRecipes() {
 		
-		HashMap<ItemStack, BreederRecipe> map = new HashMap();
+		HashMap<ItemStack, BreederRecipe> map = new HashMap<ItemStack, BreederRecipe>();
 		
 		for(Map.Entry<ComparableStack, BreederRecipe> recipe : recipes.entrySet()) {
 			map.put(recipe.getKey().toStack(), recipe.getValue());
@@ -147,7 +150,7 @@ public class BreederRecipes {
 	
 	public static List<ItemStack> getAllFuelsFromHEAT(int heat) {
 		
-		List<ItemStack> list = new ArrayList();
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		
 		for(Map.Entry<ComparableStack, int[]> fuel : fuels.entrySet()) {
 			
@@ -173,6 +176,7 @@ public class BreederRecipes {
 	 * @param stack
 	 * @return an integer array (possibly null) with two fields, the HEAT value and the amount of operations
 	 */
+	@CheckForNull
 	public static int[] getFuelValue(ItemStack stack) {
 		
 		if(stack == null)
@@ -186,16 +190,35 @@ public class BreederRecipes {
 	
 	public static String getHEATString(String string, int heat) {
 
-		if(heat == 1)
-			string =  EnumChatFormatting.GREEN + string;
-		if(heat == 2)
-			string = EnumChatFormatting.YELLOW + string;
-		if(heat == 3)
-			string = EnumChatFormatting.GOLD + string;
-		if(heat == 4)
-			string = EnumChatFormatting.RED + string;
+//		if(heat == 1)
+//			string =  EnumChatFormatting.GREEN + string;
+//		if(heat == 2)
+//			string = EnumChatFormatting.YELLOW + string;
+//		if(heat == 3)
+//			string = EnumChatFormatting.GOLD + string;
+//		if(heat == 4)
+//			string = EnumChatFormatting.RED + string;
+		char code;
+		switch (heat)
+		{
+		case 1:
+			code = EnumChatFormatting.GREEN.getFormattingCode();
+			break;
+		case 2:
+			code = EnumChatFormatting.YELLOW.getFormattingCode();
+			break;
+		case 3:
+			code = EnumChatFormatting.GOLD.getFormattingCode();
+			break;
+		case 4:
+			code = EnumChatFormatting.RED.getFormattingCode();
+			break;
+		default:
+			code = EnumChatFormatting.WHITE.getFormattingCode();
+			break;
+		}
 		
-		return string; //strings are reference types I GET IT
+		return String.format("%s%s%s", '§', code, string); //strings are reference types I GET IT
 	}
 	
 	//nicer than opaque object arrays

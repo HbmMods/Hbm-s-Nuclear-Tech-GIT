@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidSource {
 
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
 	public FluidTank gas;
 	public double progress;
 	public static final int duration = 10000;
@@ -72,7 +72,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		}
 	}
 	
-	private static HashMap<Object, ItemStack> recipes = new HashMap();
+	private static final HashMap<Object, ItemStack> recipes = new HashMap<Object, ItemStack>();
 	
 	static {
 		recipes.put("blockLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.TRITIUM.ordinal()), 10000));
@@ -85,6 +85,23 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		recipes.put(new ComparableStack(Blocks.brown_mushroom), new ItemStack(ModBlocks.mush));
 		recipes.put(new ComparableStack(Blocks.red_mushroom), new ItemStack(ModBlocks.mush));
 		recipes.put(new ComparableStack(Items.mushroom_stew), new ItemStack(ModItems.glowing_stew));
+		recipes.put("blockThorium232", new ItemStack(ModBlocks.block_tha));
+		recipes.put("ingotThorium232", new ItemStack(ModItems.ingot_tha));
+		recipes.put("nuggetThorium232", new ItemStack(ModItems.nugget_tha));
+		recipes.put("billetThorium232", new ItemStack(ModItems.billet_tha));
+		recipes.put(new ComparableStack(ModItems.rod_th232), new ItemStack(ModItems.rod_tha));
+		recipes.put(new ComparableStack(ModItems.rod_dual_th232), new ItemStack(ModItems.rod_dual_tha));
+		recipes.put(new ComparableStack(ModItems.rod_quad_th232), new ItemStack(ModItems.rod_quad_tha));
+		recipes.put("nuggetRadium226", new ItemStack(ModItems.nugget_actinium));
+		recipes.put("billetRadium226", new ItemStack(ModItems.billet_actinium));
+		recipes.put("ingotRadium226", new ItemStack(ModItems.ingot_actinium));
+		recipes.put(new ComparableStack(ModItems.shrimp_fry), new ItemStack(ModItems.shrimp_atomic));
+		recipes.put("nuggetUranium234", new ItemStack(ModItems.nugget_u235));
+		recipes.put("billetUranium234", new ItemStack(ModItems.billet_u235));
+		recipes.put("ingotUranium234", new ItemStack(ModItems.ingot_u235));
+		recipes.put("nuggetCobalt", new ItemStack(ModItems.nugget_co60));
+		recipes.put("ingotCobalt", new ItemStack(ModItems.ingot_co60));
+		recipes.put("dustCobalt", new ItemStack(ModItems.powder_co60));
 	}
 	
 	private boolean canProcess() {

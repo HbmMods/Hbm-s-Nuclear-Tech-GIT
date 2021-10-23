@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
-import com.hbm.inventory.CyclotronRecipes;
-=======
->>>>>>> master
 import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.lib.RefStrings;

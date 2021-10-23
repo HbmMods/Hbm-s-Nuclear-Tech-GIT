@@ -25,7 +25,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
-public class BulletConfiguration implements Cloneable {
+public class BulletConfiguration implements Cloneable
+{
 	
 	/**What item this specific configuration consumes**/
 	public Item ammo;
@@ -224,15 +225,14 @@ public class BulletConfiguration implements Cloneable {
 //		newConfig.dmgMin = dmgMin;
 //		newConfig.dmgMax = dmgMax;
 //		newConfig.destroysBlocks = destroysBlocks;
-	}
-		}
-			return new BulletConfiguration();
-			MainRegistry.logger.catching(Level.ERROR, e);
-			e.printStackTrace();
-		{
-		catch (CloneNotSupportedException e)
-		}
-			return (BulletConfiguration) super.clone();
-		{
 		try
+		{
+			return (BulletConfiguration) super.clone();
+		}
+		catch (CloneNotSupportedException t)
+		{
+			MainRegistry.logger.catching(Level.ERROR, t);
+			return new BulletConfiguration();
+		}
+	}
 }

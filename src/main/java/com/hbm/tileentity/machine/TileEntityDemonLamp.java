@@ -53,7 +53,7 @@ public class TileEntityDemonLamp extends TileEntity {
 				res = 1;
 			
 			float eRads = rads;
-			eRads /= (float)res;
+			eRads /= res;
 			eRads /= (float)(len * len);
 			
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);

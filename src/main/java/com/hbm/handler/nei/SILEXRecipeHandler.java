@@ -7,15 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
-import com.hbm.inventory.SILEXRecipes;
-import com.hbm.inventory.SILEXRecipes.SILEXRecipe;
-import com.hbm.inventory.gui.GUISILEX;
-=======
 import com.hbm.inventory.gui.GUISILEX;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
->>>>>>> master
 import com.hbm.lib.RefStrings;
 import com.hbm.util.WeightedRandomObject;
 
@@ -39,14 +33,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack input;
 		List<PositionedStack> outputs;
 		List<Double> chances;
-<<<<<<< HEAD
-
-		public RecipeSet(Object input, SILEXRecipe recipe) {
-			
-			this.input = new PositionedStack(input, 30, 24);
-			this.outputs = new ArrayList<PositionedStack>();
-			this.chances = new ArrayList<Double>();
-=======
 		double produced;
 
 		public RecipeSet(Object input, SILEXRecipe recipe) {
@@ -55,7 +41,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
 			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
->>>>>>> master
 			
 			double weight = 0;
 			
@@ -63,15 +48,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				weight += obj.itemWeight;
 			}
 			
-<<<<<<< HEAD
-			int off = 0;
-			
-			for(WeightedRandomObject obj : recipe.outputs) {
-				outputs.add(new PositionedStack(obj.asStack(), 93, 24 + off - 9 * ((recipe.outputs.size() + 1) / 2)));
-				chances.add(100 * obj.itemWeight / weight);
-				off += 18;
-			}
-=======
 			int sep = recipe.outputs.size() > 4 ? 3 : 2;
 			
 			for(int i = 0; i < recipe.outputs.size(); i++) {
@@ -91,7 +67,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				outputs.add(new PositionedStack(obj.asStack(), 65, 24 + off - 9 * ((recipe.outputs.size()) / 2) + 1));
 				off += 18;
 			}*/
->>>>>>> master
 		}
 
 		@Override
@@ -186,13 +161,8 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-<<<<<<< HEAD
-		transferRects.add(new RecipeTransferRect(new Rectangle(60, 34 - 11, 24, 18), "silex"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(72 - 5, 28 - 11, 30, 30), "silex"));
-=======
 		transferRects.add(new RecipeTransferRect(new Rectangle(42, 34 - 11, 24, 18), "silex"));
 		transferRectsGui.add(new RecipeTransferRect(new Rectangle(39, 60, 60, 50), "silex"));
->>>>>>> master
 		guiGui.add(GUISILEX.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
@@ -205,13 +175,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-<<<<<<< HEAD
-		int off = 0;
-		for(Double chance : rec.chances) {
-			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 112, 28 + off - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
-			off += 18;
-		}
-=======
 		/*int index = 0;
 		for(Double chance : rec.chances) {
 			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 84, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
@@ -229,7 +192,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
 		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
->>>>>>> master
 	}
 
 	@Override

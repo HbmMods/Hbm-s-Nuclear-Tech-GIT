@@ -19,6 +19,12 @@ public class TurretBaseNT extends BlockDummyable
 {
 	private Class<? extends TileEntityTurretBaseNT> turretClass = null;
 	private int guiID;
+	/**
+	 * Constructor for turrets
+	 * @param mat Material, usually iron
+	 * @param classIn The TileEntity class of the turret that extends {@link#TileEntityTurretBaseNT}
+	 * @param gui The GUI ID of the turret, {@literal -1} for no GUI
+	 */
 	public TurretBaseNT(Material mat, @Nonnull Class<? extends TileEntityTurretBaseNT> classIn, int gui)
 	{
 		super(mat);
@@ -35,6 +41,9 @@ public class TurretBaseNT extends BlockDummyable
 	public boolean onBlockActivated(World worldIn, int x, int y, int z,
 			EntityPlayer player, int size, float hitX, float hitY, float hitZ)
 	{
+		if (guiID == -1)
+			return false;
+		
 		if (worldIn.isRemote)
 			return true;
 		else if (!player.isSneaking())

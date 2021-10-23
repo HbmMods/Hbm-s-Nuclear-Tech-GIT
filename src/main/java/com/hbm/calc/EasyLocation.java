@@ -140,7 +140,7 @@ public class EasyLocation
 	}
 	/** <b><i>Has prerequisite of having the world object set</b></i>
 	 * @param b The block in question
-	 * @return Whatever the setBlock() method is supposed to return**/
+	 * @return Whatever the {@link#World.setBlock()} method is supposed to return**/
 	public boolean setBlockAtCoord(Block b)
 	{
 		return world.setBlock((int) posX, (int) posY, (int) posZ, b);

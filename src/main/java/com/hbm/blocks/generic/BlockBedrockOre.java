@@ -11,7 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class BlockBedrockOre extends Block implements IDrillInteraction {
+public class BlockBedrockOre extends Block implements IDrillInteraction
+{
 
 	public BlockBedrockOre() {
 		super(Material.rock);
@@ -43,7 +44,7 @@ public class BlockBedrockOre extends Block implements IDrillInteraction {
 	
 	private Item getDrop() {
 
-		if(this == ModBlocks.ore_bedrock_coltan)
+		if (this == ModBlocks.ore_bedrock_coltan)
 			return ModItems.fragment_coltan;
 		
 		return null;

@@ -4,10 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
-<<<<<<< HEAD
-import com.hbm.main.MainRegistry;
-=======
->>>>>>> master
 import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;
@@ -105,11 +101,7 @@ public class EntityFalloutRain extends Entity {
     		if(b.getMaterial() == Material.air)
     			continue;
     		
-<<<<<<< HEAD
-    		if(b != ModBlocks.fallout && (worldObj.getBlock(x, y + 1, z) == Blocks.air || worldObj.getBlock(x, y + 1, z).isReplaceable(worldObj, x, y + 1, z))) {
-=======
     		if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
->>>>>>> master
     			
     			double d = (double) radProgress / (double) getScale() * 0.5;
     			

@@ -8,6 +8,8 @@ import com.hbm.entity.grenade.EntityGrenadeBouncyBase;
 import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -49,6 +51,7 @@ public class ItemGrenade extends ItemCustomLore
 	{
 		maxStackSize = 16;
 		this.fuse = fuse;
+		setCreativeTab(MainRegistry.weaponTab);
 	}
 
 	@Override
@@ -103,5 +106,11 @@ public class ItemGrenade extends ItemCustomLore
 	{
 		return ((ItemGrenade)grenade).fuse * 20;
 	}
-
+	
+	@Override
+	public Item setUnlocalizedName(String uloc)
+	{
+		setTextureName(RefStrings.MODID + ":" + uloc);
+		return super.setUnlocalizedName(uloc);
+	}
 }

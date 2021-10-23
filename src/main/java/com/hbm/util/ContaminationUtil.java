@@ -1,34 +1,17 @@
 package com.hbm.util;
 
-<<<<<<< HEAD
-=======
 import com.hbm.config.GeneralConfig;
->>>>>>> master
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
-<<<<<<< HEAD
-import com.hbm.interfaces.IItemHazard.EnumToxicity;
-=======
 import com.hbm.handler.radiation.ChunkRadiationManager;
->>>>>>> master
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
-<<<<<<< HEAD
-import api.hbm.entity.IDigammaImmune;
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-=======
-import api.hbm.entity.IRadiationImmune;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
->>>>>>> master
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +20,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class ContaminationUtil {
 	
@@ -59,26 +41,13 @@ public class ContaminationUtil {
 	}
 	
 	/// RADIATION ///
-<<<<<<< HEAD
-	public static void applyRadData(Entity e, float f) {
-=======
 	private static void applyRadData(Entity e, float f) {
->>>>>>> master
 
 		if(!(e instanceof EntityLivingBase))
 			return;
 
 		if(isRadImmune(e))
 			return;
-<<<<<<< HEAD
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-		
-		if(e instanceof EntityPlayer && e.ticksExisted < 200)
-			return;
-=======
->>>>>>> master
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
@@ -97,16 +66,7 @@ public class ContaminationUtil {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
-
-		if(isRadImmune(e))
-			return;
 		
-<<<<<<< HEAD
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-=======
 		EntityLivingBase entity = (EntityLivingBase)e;
 
 		if(isRadImmune(e))
@@ -114,7 +74,6 @@ public class ContaminationUtil {
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
->>>>>>> master
 
 		HbmLivingProps.incrementRadiation(entity, f);
 	}
@@ -139,11 +98,6 @@ public class ContaminationUtil {
 		
 		return e instanceof EntityNuclearCreeper ||
 				e instanceof EntityMooshroom ||
-<<<<<<< HEAD
-=======
-				e instanceof EntityZombie ||
-				e instanceof EntitySkeleton ||
->>>>>>> master
 				e instanceof EntityQuackos ||
 				e instanceof EntityOcelot ||
 				e instanceof IRadiationImmune;
@@ -162,112 +116,26 @@ public class ContaminationUtil {
 			return;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
-<<<<<<< HEAD
-		
-		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
-			HbmLivingProps.incrementAsbestos(entity, i);
-	}
-	
-	/// CUSTOM ///
-	public static void applyCustom(Entity e, int i, EnumToxicity tox)
-	{
-//		System.out.println(tox);
-		if (!isValidTarget(e))
-			return;
-		EntityLivingBase entity = (EntityLivingBase) e;
-		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
-			HbmLivingProps.incrementCustom(entity, tox, i);
-	}
-	
-	public static boolean isValidTarget(Entity e, Class<?>...classes)
-	{
-		if (!(e instanceof EntityLivingBase) || (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode || ((EntityPlayer) e).ticksExisted < 200))
-			return false;
-		
-		if (classes != null)
-		{
-			for (Class<?> c : classes)
-				if (e.getClass().isAssignableFrom(c))
-					return false;
-		}
-		
-		return true;
-	}
-	/**
-	 * Digamma that has infiltrated various things, add more as needed.<br>
-	 * {@link #LIGHT}
-	 * {@link #MISC}
-	 */
-	public enum EnumDigammaType
-	{
-		/** DRX that has infiltrated the visible light spectrum **/
-		LIGHT,
-		/** Misc DRX **/
-		MISC;
-	}
-	
-	/// DIGAMMA ///
-	public static void applyDigammaData(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-		
-		if(e instanceof EntityPlayer && e.ticksExisted < 200)
-			return;
-		
-		if(e instanceof IDigammaImmune)
-		{
-			final IDigammaImmune instance = (IDigammaImmune) e;
-			if (instance.fullyAscended())
-				return;
-			else
-				f = instance.getDRXScaled(f);
-		}
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(entity.isPotionActive(HbmPotion.stability.id))
-			return;
-		
-		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) entity)))
-			HbmLivingProps.incrementDigamma(entity, f);
-	}
-	
-	public static void applyDigammaDirect(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-
-		if(e instanceof IDigammaImmune)
-		{
-			final IDigammaImmune instance = (IDigammaImmune) e;
-			if (instance.fullyAscended())
-				return;
-			else
-				f = instance.getDRXScaled(f);
-		}
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		HbmLivingProps.incrementDigamma(entity, f);
-	}
-	
-	public static float getDigamma(Entity e) {
-
-		if(!(e instanceof EntityLivingBase))
-			return 0.0F;
-		
-=======
 		
 		if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.PARTICLE_FINE))
 			ArmorUtil.damageGasMaskFilter(entity, i);
 		else
 			HbmLivingProps.incrementAsbestos(entity, i);
+	}
+	/**
+	 * Digamma that has infiltrated various things, add more as needed.<br>
+	 * <li>{@link #LIGHT}<br>
+	 * <li>{@link #MISC}<br>
+	 * <li>{@link #DIRECT}
+	 */
+	public enum EnumDigammaType
+	{
+		/** DRX that has infiltrated the visible light spectrum **/
+		LIGHT,
+		/** Misc. DRX **/
+		MISC,
+		/** Direct exposure **/
+		DIRECT;
 	}
 	
 	/// DIGAMMA ///
@@ -311,7 +179,6 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return 0.0F;
 		
->>>>>>> master
 		EntityLivingBase entity = (EntityLivingBase)e;
 		return HbmLivingProps.getDigamma(entity);
 	}
@@ -325,18 +192,11 @@ public class ContaminationUtil {
 		double rads = ((int)(ChunkRadiationManager.proxy.getRadiation(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ)) * 10)) / 10D;
 		double env = ((int)(HbmLivingProps.getRadBuf(player) * 10D)) / 10D;
 		
-<<<<<<< HEAD
-		double res = 100.0D - ((int)(ContaminationUtil.calculateRadiationMod(player) * 10000)) / 100D;
-		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100)) / 100D;
-		
-		String chunkPrefix = "";
-=======
 		double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
 		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;
 
 		String chunkPrefix = getPreffixFromRad(rads);
 		String envPrefix = getPreffixFromRad(env);
->>>>>>> master
 		String radPrefix = "";
 		String resPrefix = "" + EnumChatFormatting.WHITE;
 		
@@ -360,16 +220,11 @@ public class ContaminationUtil {
 		//a *functioning* painful mess, nonetheless
 		player.addChatMessage(new ChatComponentText("===== ☢ ").appendSibling(new ChatComponentTranslation("geiger.title")).appendSibling(new ChatComponentText(" ☢ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.chunkRad").appendSibling(new ChatComponentText(" " + chunkPrefix + rads + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
-<<<<<<< HEAD
-=======
 		player.addChatMessage(new ChatComponentTranslation("geiger.envRad").appendSibling(new ChatComponentText(" " + envPrefix + env + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
->>>>>>> master
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
 	
-<<<<<<< HEAD
-=======
 	public static String getPreffixFromRad(double rads) {
 
 		String chunkPrefix = "";
@@ -390,7 +245,6 @@ public class ContaminationUtil {
 		return chunkPrefix;
 	}
 	
->>>>>>> master
 	public static void printDiagnosticData(EntityPlayer player) {
 
 		double digamma = ((int)(HbmLivingProps.getDigamma(player) * 100)) / 100D;
@@ -403,39 +257,33 @@ public class ContaminationUtil {
 	}
 	
 	public static enum HazardType {
-<<<<<<< HEAD
-		MONOXIDE,
 		RADIATION,
-		ASBESTOS,
-=======
-		RADIATION,
->>>>>>> master
 		DIGAMMA
 	}
-	
-	public static enum ContaminationType {
-<<<<<<< HEAD
-		GAS,				//filterable by gas mask
-		GAS_NON_REACTIVE,	//not filterable by gas mask
-		GOGGLES,			//preventable by goggles
-=======
->>>>>>> master
-		FARADAY,			//preventable by metal armor
-		HAZMAT,				//preventable by hazmat
-		HAZMAT2,			//preventable by heavy hazmat
-		DIGAMMA,			//preventable by fau armor or stability
-		DIGAMMA2,			//preventable by robes
-<<<<<<< HEAD
-		CREATIVE,			//preventable by creative mode
-		NONE				//not preventable
-	}
-	
-	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
-		
-=======
-		CREATIVE,			//preventable by creative mode, for rad calculation armor piece bonuses still apply
-		RAD_BYPASS,			//same as craative but will not apply radiation resistance calculation
-		NONE				//not preventable
+	/**
+	 * Determines what the hazard type can be prevented by<br>
+	 * {@link #FARADAY} {@link #HAZMAT} {@link #HAZMAT2} {@link #DIGAMMA} {@link #DIGAMMA2} {@link #CREATIVE} {@link #RAD_BYPASS} {@link #NONE}
+	 * @author HBM
+	 *
+	 */
+	public static enum ContaminationType
+	{
+		/** preventable by metal armor **/
+		FARADAY,
+		/** preventable by hazmat **/
+		HAZMAT,
+		/** preventable by heavy hazmat **/
+		HAZMAT2,
+		/** preventable by fau armor or stability **/
+		DIGAMMA,
+		/** preventable by robes **/
+		DIGAMMA2,
+		/** preventable by creative mode, for rad calculation armor piece bonuses still apply **/
+		CREATIVE,
+		/** same as creative but will not apply radiation resistance calculation **/
+		RAD_BYPASS,
+		/** not preventable **/
+		NONE
 	}
 	
 	/*
@@ -449,26 +297,11 @@ public class ContaminationUtil {
 			HbmLivingProps.setRadEnv(entity, radEnv + amount);
 		}
 		
->>>>>>> master
 		if(entity instanceof EntityPlayer) {
 			
 			EntityPlayer player = (EntityPlayer)entity;
 			
 			switch(cont) {
-<<<<<<< HEAD
-			case GAS:				if(ArmorUtil.checkForGasMask(player))	return false; break;
-			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForHaz2(player))		return false; break;
-			case GOGGLES:			if(ArmorUtil.checkForGoggles(player))	return false; break;
-			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
-			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
-			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; if(player.isPotionActive(HbmPotion.stability.id)) return false; break;
-			case DIGAMMA2: break;
-			default:
-				break;
-			}
-			
-			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)
-=======
 			case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return false; break;
 			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
 			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
@@ -477,28 +310,17 @@ public class ContaminationUtil {
 			}
 			
 			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE && cont != ContaminationType.DIGAMMA2)
->>>>>>> master
 				return false;
 			
 			if(player.ticksExisted < 200)
 				return false;
 		}
 		
-<<<<<<< HEAD
-		if(hazard == HazardType.RADIATION && isRadImmune(entity))
-			return false;
-		
-		switch(hazard) {
-		case MONOXIDE: entity.attackEntityFrom(ModDamageSource.monoxide, amount); break;
-		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * calculateRadiationMod(entity)); break;
-		case ASBESTOS: HbmLivingProps.incrementAsbestos(entity, (int)amount); break;
-=======
 		if(hazard == HazardType.RADIATION && (isRadImmune(entity) || !GeneralConfig.enableRads))
 			return false;
 		
 		switch(hazard) {
 		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
->>>>>>> master
 		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
 		}
 		
