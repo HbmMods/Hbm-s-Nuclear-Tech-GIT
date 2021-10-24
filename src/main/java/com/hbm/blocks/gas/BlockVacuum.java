@@ -63,7 +63,7 @@ public class BlockVacuum extends Block {
 
 	@Override
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -86,13 +86,44 @@ public class BlockVacuum extends Block {
 			if(b == this)
 				continue;
 			
-			if(b.getMaterial() == Material.air || 
-					b.getBlockBoundsMinX() > 0 || b.getBlockBoundsMinY() > 0 || b.getBlockBoundsMinZ() > 0 ||
-					b.getBlockBoundsMaxX() < 1 || b.getBlockBoundsMaxY() < 1 || b.getBlockBoundsMaxZ() < 1) {
+			if(isAirBlock(b)) {
+				
+				if(b.isReplaceable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+					if(getAirCount(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == 0) {
+						world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.vacuum);
+						return;
+					}
+				}
+				
 				world.setBlockToAir(x, y, z);
 				return;
 			}
 		}
+	}
+	
+	private boolean isAirBlock(Block b) {
+		
+		if(b == this)
+			return false;
+		
+		return b.getMaterial() == Material.air || 
+				b.getBlockBoundsMinX() > 0 || b.getBlockBoundsMinY() > 0 || b.getBlockBoundsMinZ() > 0 ||
+				b.getBlockBoundsMaxX() < 1 || b.getBlockBoundsMaxY() < 1 || b.getBlockBoundsMaxZ() < 1;
+	}
+	
+	private int getAirCount(World world, int x, int y, int z) {
+		
+		int air = 0;
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			
+			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			
+			if(isAirBlock(b))
+				air++;
+		}
+		
+		return air;
 	}
 
 	@Override
