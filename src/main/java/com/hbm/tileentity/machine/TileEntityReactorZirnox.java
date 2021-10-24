@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
@@ -13,6 +14,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
@@ -22,7 +24,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -45,6 +46,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank steam;
 	public FluidTank carbonDioxide;
 	public FluidTank water;
+	
+	private static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
+	static {
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_uranium_fuel), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_th232), new ItemStack(ModItems.rod_zirnox_thorium_fuel));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_thorium_fuel), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_mox_fuel), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
+	}
 	
 	public TileEntityReactorZirnox() {
 		super(28);
@@ -185,7 +194,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 			}
 
-			this.pressure = (int) ((float)this.heat * (2 * this.carbonDioxide.getFill() / 16000));
+			this.pressure = (int) ((float)this.heat * (1.5 * this.carbonDioxide.getFill() / 16000));
 			
 			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
 				generateSteam();
@@ -272,30 +281,18 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
 
 			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
-				onRunOut(id);
+				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
 				return;
 			}
 		}
 	}
 	
-	private void onRunOut(int id) {
-		Item item = slots[id].getItem();
-		
-		if (item == ModItems.rod_zirnox_uranium_fuel) {
-			slots[id] = new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted);
-		} else if (item == ModItems.rod_zirnox_th232) {
-			slots[id] = new ItemStack(ModItems.rod_zirnox_thorium_fuel);
-		} else if (item == ModItems.rod_zirnox_thorium_fuel) {
-			slots[id] = new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted);
-		}
-	}
-	
 	private void checkIfMeltdown() {
+		if (this.pressure > maxPressure || (this.heat > maxHeat && this.pressure >= 12000)) {
+			meltdown(true);
+		}
 		if (this.heat > maxHeat) {
 			meltdown(false);
-		}
-		if (this.pressure > maxPressure) {
-			meltdown(true);
 		}
 	}
 	
@@ -310,8 +307,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.block_corium);
-
+		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.zirnox_destroyed);
+		
 		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
 		
 		if(MobConfig.enableElementals) {

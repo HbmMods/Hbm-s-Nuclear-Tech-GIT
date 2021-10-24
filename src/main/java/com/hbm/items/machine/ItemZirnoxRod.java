@@ -1,7 +1,10 @@
 package com.hbm.items.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,4 +25,5 @@ public class ItemZirnoxRod extends ItemFuelRod {
 		list.add(EnumChatFormatting.DARK_AQUA + "  Generates " + heat + " heat per tick");
 		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + Library.getShortNumber(lifeTime) + " ticks");
 	}
+	
 }

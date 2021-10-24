@@ -51,7 +51,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn1);
 		}
 
-		if(zirnox.carbonDioxide.getFill() <= 12000) {
+		if(zirnox.carbonDioxide.getFill() <= 8000) {
 			String[] warn2 = new String[] { "Error: CO2 is required for",
 					"the reactor to function properly!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn2);
@@ -68,7 +68,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 0));
     	}
     	
-    	if(guiLeft + 142 <= x && guiLeft + 142 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
+    	if(guiLeft + 151 <= x && guiLeft + 151 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 1));
@@ -120,7 +120,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		if(zirnox.water.getFill() <= 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
-		if(zirnox.carbonDioxide.getFill() <= 12000)
+		if(zirnox.carbonDioxide.getFill() <= 8000)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, 7);
 	}
 	

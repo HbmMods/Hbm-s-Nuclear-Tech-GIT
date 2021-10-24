@@ -1131,7 +1131,7 @@ public class ItemRenderLibrary {
 			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.reactor_zirnox), new ItemRenderBase( ) {
 			public void renderInventory() {
-				GL11.glScaled(2.9, 2.9, 2.9);
+				GL11.glScaled(2.8, 2.8, 2.8);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.75, 0.75, 0.75);

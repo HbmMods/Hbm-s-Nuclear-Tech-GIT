@@ -192,6 +192,7 @@ public class TileMappings {
 		map.put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
 		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
 		map.put(TileEntityReactorZirnox.class, "tileentity_zirnox");
+		map.put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");
 		
 		putBombs();
 		putTurrets();
