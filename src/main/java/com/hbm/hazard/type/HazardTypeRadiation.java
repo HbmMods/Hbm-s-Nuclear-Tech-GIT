@@ -41,7 +41,7 @@ public class HazardTypeRadiation extends HazardTypeBase
 			float rad = level / 20F;
 			
 			if(reacher)
-				rad = (float) Math.min(Math.sqrt(rad), rad); //to prevent radiation from going up when being <1
+				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}

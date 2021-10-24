@@ -127,10 +127,8 @@ import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class ModEventHandler {
-	
-	public static int meteorShower = 0;
-	public static int tsukuyomiCooldown = 0;
-	
+  
+  public static int tsukuyomiCooldown = 0;
 	static Random rand = new Random();
 	
 	@SubscribeEvent
@@ -554,48 +552,6 @@ public class ModEventHandler {
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
-		
-		/////
-		//try {
-		/////
-		
-		// Keep track of time and date
-		TimeSavedData.updateNormal(event.world);
-		
-		/// METEOR SHOWER START ///
-		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && GeneralConfig.enableMeteorStrikes) {
-			if(event.world.rand.nextInt(meteorShower > 0 ? WorldConfig.meteorShowerChance : WorldConfig.meteorStrikeChance) == 0) {
-				if(!event.world.playerEntities.isEmpty()) {
-					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
-					
-					if(p != null && p.dimension == 0) {
-						EntityMeteor meteor = new EntityMeteor(event.world);
-						meteor.setPositionAndRotation(p.posX + event.world.rand.nextInt(201) - 100, 384, p.posZ + event.world.rand.nextInt(201) - 100, 0, 0);
-						meteor.motionX = event.world.rand.nextDouble() - 0.5;
-						meteor.motionY = -2.5;
-						meteor.motionZ = event.world.rand.nextDouble() - 0.5;
-						event.world.spawnEntityInWorld(meteor);
-					}
-				}
-			}
-			
-			if(meteorShower > 0) {
-				meteorShower--;
-				if(meteorShower == 0 && GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("Ended meteor shower.");
-			}
-			
-			if(event.world.rand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
-				meteorShower = 
-						(int)(WorldConfig.meteorShowerDuration * 0.75 + 
-								WorldConfig.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
-			}
-		}
-		/// METEOR SHOWER END ///
-		
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote) {
 			

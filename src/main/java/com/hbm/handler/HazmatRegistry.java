@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.Compat;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -68,6 +69,16 @@ public class HazmatRegistry
 		HazmatRegistry.registerHazmat(ModItems.hazmat_plate_grey, hazGray * chest);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_legs_grey, hazGray * legs);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_boots_grey, hazGray * boots);
+
+		Item rec_helmet = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazhelmet");
+		Item rec_chest = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazchest");
+		Item rec_legs = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazlegs");
+		Item rec_boots = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazboots");
+
+		if(rec_helmet != null)	HazmatRegistry.registerHazmat(rec_helmet, hazGray * helmet);
+		if(rec_chest != null)	HazmatRegistry.registerHazmat(rec_chest, hazGray * chest);
+		if(rec_legs != null)	HazmatRegistry.registerHazmat(rec_legs, hazGray * legs);
+		if(rec_boots != null)	HazmatRegistry.registerHazmat(rec_boots, hazGray * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.liquidator_helmet, liquidator * helmet);
 		HazmatRegistry.registerHazmat(ModItems.liquidator_plate, liquidator * chest);

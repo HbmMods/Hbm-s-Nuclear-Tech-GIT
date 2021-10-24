@@ -9,31 +9,11 @@ import static com.hbm.blocks.ModBlocks.block_uranium_fuel;
 import static com.hbm.blocks.ModBlocks.lamp_demon;
 import static com.hbm.items.ModItems.*;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.RadiationConfig;
-import com.hbm.extprop.HbmLivingProps;
-import com.hbm.hazard.modifier.HazardModifier;
-import com.hbm.hazard.modifier.HazardModifierRBMKHot;
-import com.hbm.hazard.modifier.HazardModifierRBMKRadiation;
-import com.hbm.hazard.transformer.HazardTransformerDigammaNBT;
+import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
-import com.hbm.hazard.type.HazardTypeAsbestos;
-import com.hbm.hazard.type.HazardTypeBase;
-import com.hbm.hazard.type.HazardTypeBlinding;
-import com.hbm.hazard.type.HazardTypeCoal;
-import com.hbm.hazard.type.HazardTypeDigamma;
-import com.hbm.hazard.type.HazardTypeExplosive;
-import com.hbm.hazard.type.HazardTypeHot;
-import com.hbm.hazard.type.HazardTypeHydroactive;
-import com.hbm.hazard.type.HazardTypeRadiation;
-import com.hbm.lib.HbmCollection;
-import com.hbm.main.MainRegistry;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorRegistry.HazardClass;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.hazard.type.*;
+import com.hbm.items.ModItems;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -336,12 +316,19 @@ public class HazardRegistry {
 		HazardSystem.register(debris_fuel, makeData(RADIATION, 15000).addEntry(HOT, 30));
 		HazardSystem.register(debris_graphite, makeData(RADIATION, 50).addEntry(HOT, 5));
 		HazardSystem.register(debris_metal, makeData(RADIATION, 10));
-//		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
+		HazardSystem.register(scrap_nuclear, makeData(RADIATION, 1F));
+		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
 		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));
 		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
 		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));
 		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, wstv * nugget));
+		HazardSystem.register(block_waste, makeData(RADIATION, wst * block));
+		HazardSystem.register(block_waste_painted, makeData(RADIATION, wst * block));
+		HazardSystem.register(block_waste_vitrified, makeData(RADIATION, wstv * block));
+		HazardSystem.register(ancient_scrap, makeData(RADIATION, 150F));
+		HazardSystem.register(block_corium, makeData(RADIATION, 150F));
+		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
 		
 		HazardSystem.register(waste_uranium, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_thorium, makeData(RADIATION, 10F));
@@ -503,6 +490,12 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_zfb_bismuth, zfb_bi * billet, zfb_bi * billet / 2);
 		registerRBMKPellet(rbmk_pellet_zfb_pu241, zfb_pu241 * billet, zfb_pu241 * billet * 2);
 		registerRBMXPellet(rbmk_pellet_drx, 100 / 8, 100000000 / 8);
+
+		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
+		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));
+		HazardSystem.register(ModItems.fallout, makeData(RADIATION, fo * powder));
+		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
+		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		
 		//TODO
 	}

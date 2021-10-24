@@ -247,6 +247,13 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
 
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_0, new ItemStack(ModItems.scrap_nuclear, 1));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_1, new ItemStack(ModItems.scrap_nuclear, 2));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_2, new ItemStack(ModItems.scrap_nuclear, 3));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_3, new ItemStack(ModItems.scrap_nuclear, 5));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_4, new ItemStack(ModItems.scrap_nuclear, 7));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_core, new ItemStack(ModItems.scrap_nuclear, 15));
+
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_rusted, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_green, new ItemStack(ModItems.powder_steel, 1));

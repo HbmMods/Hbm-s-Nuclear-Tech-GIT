@@ -11,25 +11,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ItemModCharm extends ItemArmorMod
-{
+public class ItemModCharm extends ItemArmorMod {
 
-	public ItemModCharm()
-	{
+	public ItemModCharm() {
 		super(ArmorModHandler.helmet_only, false, true, false, false);
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		list.add(EnumChatFormatting.AQUA + "You feel blessed.");
 		list.add(EnumChatFormatting.AQUA + "Diverts meteors away from the player.");
 		
-		if(this == ModItems.protection_charm)
+		if(this == ModItems.protection_charm) {
 			list.add(EnumChatFormatting.AQUA + "Halves broadcaster damage");
-		if(this == ModItems.meteor_charm)
-		{
+		}
+		if(this == ModItems.meteor_charm) {
 			list.add(EnumChatFormatting.AQUA + "Reduces meteor spawning by 75%.");
 			list.add(EnumChatFormatting.AQUA + "Negates broadcaster damage");
 		}
@@ -38,16 +35,14 @@ public class ItemModCharm extends ItemArmorMod
 	}
 
 	@Override
-	public void addDesc(List list, ItemStack stack, ItemStack armor)
-	{
+	public void addDesc(List list, ItemStack stack, ItemStack armor) {
 		list.add(EnumChatFormatting.GOLD + "  " + stack.getDisplayName());
 	}
 
 	@Override
 	public void modDamage(LivingHurtEvent event, ItemStack armor) {
 		
-		if(event.source == ModDamageSource.broadcast)
-		{
+		if(event.source == ModDamageSource.broadcast) {
 			
 			if(this == ModItems.protection_charm)
 				event.ammount *= 0.5F;

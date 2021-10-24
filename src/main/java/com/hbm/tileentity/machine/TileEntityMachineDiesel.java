@@ -190,7 +190,6 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IS
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
 		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 

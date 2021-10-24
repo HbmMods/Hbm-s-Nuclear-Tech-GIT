@@ -2,6 +2,7 @@ package com.hbm.tileentity;
 
 import java.util.HashMap;
 
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -197,6 +198,8 @@ public class TileMappings {
 		map.put(TileEntityAtomicClock.class, "tileentity_atomic_clock");
 		map.put(TileEntityDiFurnaceRTG.class, "tileentity_diFurnace_rtg");
 		map.put(TileEntityReactorWarp.class, "tileentity_reactor_amat");
+    
+		map.put(TileEntityLoot.class, "tileentity_ntm_loot");
 		
 		putBombs();
 		putTurrets();

@@ -64,7 +64,6 @@ public class ItemCustomLore extends Item implements IHasLore
 		
 		if (this == ModItems.undefined)
 		{
-			
 			if (player.worldObj.rand.nextInt(10) == 0)
 				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
 			else

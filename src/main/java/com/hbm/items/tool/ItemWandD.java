@@ -2,6 +2,8 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,11 +31,14 @@ public class ItemWandD extends Item {
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
-			for(int i = x - 10; i <= x + 10; i++) {
-				for(int j = y - 10; j <= y + 10; j++) {
-					for(int k = z - 10; k <= z + 10; k++) {
+			int r = 5;
+			
+			for(int i = x - r; i <= x + r; i++) {
+				for(int j = y - r; j <= y + r; j++) {
+					for(int k = z - r; k <= z + r; k++) {
 						
-						world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+						world.setBlock(i, j, k, ModBlocks.vacuum);
+						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
 			}
