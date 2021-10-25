@@ -129,7 +129,6 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.biomass, 2), new Object[] { Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds, Items.melon_seeds });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.biomass, 3), new Object[] { Items.rotten_flesh, Items.rotten_flesh, Items.rotten_flesh, Items.rotten_flesh });
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.canister_ethanol, 1), new Object[] { ModItems.biomass, ModItems.biomass, ModItems.biomass, ModItems.biomass, ModItems.canister_empty, ModItems.biomass, ModItems.biomass, ModItems.biomass, ModItems.biomass }));
 		
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.part_lithium), new Object[] { "P", "D", "P", 'P', "plateSteel", 'D', "dustLithium" }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.part_beryllium), new Object[] { "P", "D", "P", 'P', "plateSteel", 'D', "dustBeryllium" }));
