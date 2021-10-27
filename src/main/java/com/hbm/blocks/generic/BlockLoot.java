@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
+import com.hbm.util.LootGenerator;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -47,15 +48,7 @@ public class BlockLoot extends BlockContainer {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
-		
-		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
-		
-		if(loot != null && loot.items.isEmpty()) {
-			
-			for(int i = 0; i < 64; i++) {
-				loot.addItem(new ItemStack(ModItems.cigarette), -0.375 + world.rand.nextDouble() * 0.75, world.rand.nextDouble() * 0.0625, -0.375 + world.rand.nextDouble() * 0.75);
-			}
-		}
+		LootGenerator.lootMedicine(world, x, y, z);
 	}
 	
 	@Override
@@ -130,8 +123,6 @@ public class BlockLoot extends BlockContainer {
 			super.readFromNBT(nbt);
 			
 			int count = nbt.getInteger("count");
-			
-			System.out.println("count");
 			
 			for(int i = 0; i < count; i++) {
 				ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("item" + i));

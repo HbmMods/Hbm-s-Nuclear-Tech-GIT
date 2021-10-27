@@ -95,7 +95,7 @@ public class RBMKDials {
 	 * @return [0;15]
 	 */
 	public static int getColumnHeight(World world) {
-		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEIGHT), 4), 1, 16) - 1;
+		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEIGHT), 4), 2, 16) - 1;
 	}
 	
 	/**
