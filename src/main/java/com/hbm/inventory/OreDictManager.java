@@ -39,6 +39,7 @@ public class OreDictManager {
 	public static final String KEY_SLIME = "slimeball";
 	public static final String KEY_LOG = "logWood";
 	public static final String KEY_PLANKS = "plankWood";
+	public static final String KEY_SLAB = "slabWood";
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
 	
@@ -128,7 +129,7 @@ public class OreDictManager {
 	public static final DictFrame STEEL = new DictFrame("Steel");
 	public static final DictFrame TCALLOY = new DictFrame("TcAlloy");
 	public static final DictFrame PB = new DictFrame("Lead");
-	//public static final DictFrame BI = new DictFrame("Bismuth")			  ;
+	//public static final DictFrame BI = new DictFrame("Bismuth");
 	public static final DictFrame TA = new DictFrame("Tantalum");
 	public static final DictFrame COLTAN = new DictFrame("Coltan");
 	public static final DictFrame NB = new DictFrame("Niobium");
@@ -137,7 +138,8 @@ public class OreDictManager {
 	public static final DictFrame B = new DictFrame("Boron");
 	public static final DictFrame GRAPHITE = new DictFrame("Graphite");
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
-	public static final DictFrame POLY = new DictFrame("Polymer");
+	public static final DictFrame POLYMER = new DictFrame("Polymer");
+	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
 	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
@@ -146,7 +148,7 @@ public class OreDictManager {
 	public static final DictFrame EUPH = new DictFrame("Euphemium");
 	public static final DictFrame DNT = new DictFrame("Dineutronium");
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
-	public static final DictFrame ASBEST = new DictFrame("Asbestos");
+	public static final DictFrame ASBESTOS = new DictFrame("Asbestos");
 	/*
 	 * DUST AND GEM ORES
 	 */
@@ -198,6 +200,13 @@ public class OreDictManager {
 	public static final DictFrame XE135 = new DictFrame("Xenon135", "Xe135");
 	public static final DictFrame CS137 = new DictFrame("Caesium137", "Cs137");
 	public static final DictFrame AT209 = new DictFrame("Astatine209", "At209");
+	
+	/*
+	 * COLLECTIONS
+	 */
+	public static final DictFrame ANY_PLASTIC = new DictFrame("AnyPlastic");
+	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
+	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
 	
 	public static void registerOres() {
 
@@ -261,7 +270,8 @@ public class OreDictManager {
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
-		POLY																.ingot(ingot_polymer)												.dust(powder_polymer);
+		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer);
+		BAKELITE															.ingot(ingot_bakelite);
 		MAGTUNG																.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
@@ -270,7 +280,7 @@ public class OreDictManager {
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
-		ASBEST	.asbestos(1F)												.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos);
+		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos);
 
 		/*
 		 * DUST AND GEM ORES
@@ -329,6 +339,13 @@ public class OreDictManager {
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
 		CS137	.rad(HazardRegistry.cs137)	.hot(3F)	.hydro(3F)	.dustSmall(powder_cs137_tiny)	.dust(powder_cs137);
 		AT209	.rad(HazardRegistry.at209)	.hot(20F)												.dust(powder_at209);
+		
+		/*
+		 * COLLECTIONS
+		 */
+		ANY_PLASTIC		.ingot(ModItems.ingot_polymer, ModItems.ingot_bakelite).dust(ModItems.powder_polymer);
+		ANY_GUNPOWDER	.dust(Items.gunpowder, ModItems.ballistite, ModItems.cordite);
+		ANY_SMOKELESS	.dust(ModItems.ballistite, ModItems.cordite);
 
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);

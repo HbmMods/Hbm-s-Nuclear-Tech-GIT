@@ -1,16 +1,37 @@
-package com.hbm.items.special;
+package com.hbm.items.machine;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
+import com.google.common.collect.ImmutableSet;
+import com.hbm.items.ModItems;
+import com.hbm.tileentity.IRadioisotopeFuel;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends ItemHazard {
-
-	public ItemRTGPellet(float radiation, boolean fire) {
-		super(radiation, fire);
+public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
+	
+	private short heat = 0;
+	private boolean doesDecay = false;
+	private ItemStack decayItem = null;
+	private long lifespan = 0;
+	
+	private static final ArrayList<ItemRTGPellet> pelletList = new ArrayList<>();
+	
+	public ItemRTGPellet(int heatIn) {
+		heat = (short) heatIn;
+		setMaxStackSize(1);
+		pelletList.add(this);
 	}
 	
 	private static final String[] facts = new String[] {
@@ -33,9 +54,38 @@ public class ItemRTGPellet extends ItemHazard {
 	};
 
 	@Override
+	public ItemRTGPellet setDecays(@Nonnull ItemStack itemIn, long life) {
+		doesDecay = true;
+		decayItem = itemIn;
+		lifespan = life;
+		return this;
+	}
+	
+	@Override
+	public long getMaxLifespan() {
+		return lifespan;
+	}
+
+	@Override
+	public short getPower() {
+		return heat;
+	}
+
+	@CheckForNull
+	@Override
+	public ItemStack getDecayItem() {
+		return decayItem == null ? null : decayItem.copy();
+	}
+
+	@Override
+	public boolean getDoesDecay() {
+		return doesDecay;
+	}
+	
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(!world.isRemote) {
+		if(!world.isRemote && this == ModItems.pellet_rtg) {
 			player.addChatComponentMessage(new ChatComponentText(facts[world.rand.nextInt(facts.length)]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 			world.playSoundAtEntity(player, "random.orb", 1.0F, 1.0F);
 		}
@@ -43,4 +93,27 @@ public class ItemRTGPellet extends ItemHazard {
 		return stack;
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		super.addInformation(stack, player, list, bool);
+		IRadioisotopeFuel.addTooltip(list, stack, bool);
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return getDoesDecay() && getLifespan(stack) != getMaxLifespan();
+	}
+
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) {
+		return IRadioisotopeFuel.getDuraBar(stack);
+	}
+
+	public String getData() {
+		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getPower(), (getDoesDecay() ? " (decays)" : ""));
+	}
+
+	public static ImmutableSet<ItemRTGPellet> getPellets() {
+		return ImmutableSet.copyOf(pelletList);
+	}
 }

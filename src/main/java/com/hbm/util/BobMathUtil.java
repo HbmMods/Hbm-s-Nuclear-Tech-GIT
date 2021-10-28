@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,5 +54,40 @@ public class BobMathUtil {
 		}
 		
 		return dirs;
+	}
+
+	public static String toPercentage(float amount, float total) {
+		return NumberFormat.getPercentInstance().format(amount / total);
+	}
+	
+	public static String[] ticksToDate(long ticks) {
+		
+		int tickDay = 48000;
+		int tickYear = tickDay * 100;
+		
+		final String[] dateOut = new String[3];
+		long year = Math.floorDiv(ticks, tickYear);
+		byte day = (byte) Math.floorDiv(ticks - tickYear * year, tickDay);
+		float time = ticks - (tickYear * year + tickDay * day);
+		time = (float) convertScale(time, 0, tickDay, 0, 10F);
+		dateOut[0] = String.valueOf(year);
+		dateOut[1] = String.valueOf(day);
+		dateOut[2] = String.valueOf(time);
+		return dateOut;
+	}
+	
+	/**
+	 * Rescale a number from one range to another
+	 * @param toScale - The integer to scale
+	 * @param oldMin - The current minimum value
+	 * @param oldMax - The current maximum value
+	 * @param newMin - The desired minimum value
+	 * @param newMax - The desired maximum value
+	 * @return The scaled number
+	 */
+	public static double convertScale(double toScale, double oldMin, double oldMax, double newMin, double newMax) {
+		double prevRange = oldMax - oldMin;
+		double newRange = newMax - newMin;
+		return (((toScale - oldMin) * newRange) / prevRange) + newMin;
 	}
 }

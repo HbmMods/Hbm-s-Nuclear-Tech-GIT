@@ -578,7 +578,10 @@ public class ModBlocks {
 	
 	public static Block machine_difurnace_off;
 	public static Block machine_difurnace_on;
+	public static Block machine_difurnace_rtg_off;
+	public static Block machine_difurnace_rtg_on;
 	public static final int guiID_test_difurnace = 1;
+	public static final int guiID_rtg_difurnace = 2001;
 	
 	public static Block machine_centrifuge;
 	public static final int guiID_centrifuge = 5;
@@ -1665,6 +1668,8 @@ public class ModBlocks {
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
+		machine_difurnace_rtg_off = new MachineDiFurnaceRTG(false).setBlockName("machine_difurnace_rtg_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_difurnace_rtg_on = new MachineDiFurnaceRTG(true).setBlockName("machine_difurnace_rtg_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(2.0F).setCreativeTab(null);
 		
 		machine_centrifuge = new MachineCentrifuge(Material.iron).setBlockName("machine_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_gascent = new MachineGasCent(Material.iron).setBlockName("machine_gascent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2735,6 +2740,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_on, machine_difurnace_on.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_difurnace_rtg_off, machine_difurnace_rtg_off.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_difurnace_rtg_on, machine_difurnace_rtg_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_gascent, machine_gascent.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fel, machine_fel.getUnlocalizedName());

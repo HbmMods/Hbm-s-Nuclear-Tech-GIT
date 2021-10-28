@@ -281,6 +281,7 @@ public class ModItems {
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
+	public static Item ingot_bakelite;
 	
 	public static Item ingot_fiberglass;
 	public static Item ingot_asbestos;
@@ -2617,6 +2618,7 @@ public class ModItems {
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
+		ingot_bakelite = new ItemCustomLore().setUnlocalizedName("ingot_bakelite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bakelite");
 		ingot_desh = new ItemCustomLore().setUnlocalizedName("ingot_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_desh");
 		nugget_desh = new ItemCustomLore().setUnlocalizedName("nugget_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_desh");
 		ingot_dineutronium = new ItemCustomLore().setUnlocalizedName("ingot_dineutronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dineutronium");
@@ -3020,11 +3022,11 @@ public class ModItems {
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
-		pellet_rtg = new ItemRTGPellet(ItemHazard.pu238 * ItemHazard.rtg, true).setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg");
-		pellet_rtg_weak = new ItemHazard(ItemHazard.u238 * ItemHazard.billet * 2 + ItemHazard.pu238 * ItemHazard.billet).setUnlocalizedName("pellet_rtg_weak").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_weak");
-		pellet_rtg_polonium = new ItemHazard(ItemHazard.po210 * ItemHazard.rtg, true).setUnlocalizedName("pellet_rtg_polonium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_polonium");
-		pellet_rtg_gold = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.rtg).addFire(15).toItem().setUnlocalizedName("pellet_rtg_gold").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_gold");
-		pellet_rtg_americium = new ItemHazard().addRadiation(ItemHazard.am241 * ItemHazard.rtg).addFire(15).toItem().setUnlocalizedName("pellet_rtg_americium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_americium");
+		pellet_rtg = new ItemRTGPellet(5).setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg");
+		pellet_rtg_weak = new ItemRTGPellet(2).setUnlocalizedName("pellet_rtg_weak").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_weak");
+		pellet_rtg_polonium = new ItemRTGPellet(25).setUnlocalizedName("pellet_rtg_polonium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_polonium");
+		pellet_rtg_gold = new ItemRTGPellet(150).setUnlocalizedName("pellet_rtg_gold").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_gold");
+		pellet_rtg_americium = new ItemRTGPellet(15).setUnlocalizedName("pellet_rtg_americium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_americium");
 		tritium_deuterium_cake = new ItemCustomLore().setUnlocalizedName("tritium_deuterium_cake").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":tritium_deuterium_cake");
 		
 		piston_selenium = new Item().setUnlocalizedName("piston_selenium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":piston_selenium");
@@ -5442,6 +5444,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dura_steel, ingot_dura_steel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_polymer, ingot_polymer.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_bakelite, ingot_bakelite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schraranium, ingot_schraranium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schrabidium, ingot_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schrabidate, ingot_schrabidate.getUnlocalizedName());
