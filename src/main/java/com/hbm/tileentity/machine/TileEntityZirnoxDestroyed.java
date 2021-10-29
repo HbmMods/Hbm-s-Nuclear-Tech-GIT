@@ -8,7 +8,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityZirnoxDestroyed extends TileEntity {
 	
 	public AxisAlignedBB getRenderBoundingBox() {
-		return AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 2, zCoord + 3);
+		return AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 1, zCoord + 3);
 	}
 
 	@SideOnly(Side.CLIENT)

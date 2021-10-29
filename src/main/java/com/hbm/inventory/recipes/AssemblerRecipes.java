@@ -524,7 +524,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 4),
 				new OreDictStack(B.ingot(), 2),
 				new OreDictStack(PB.ingot(), 4),
-				new ComparableStack(ModItems.wire_red_copper, 4),
+				new OreDictStack(GRAPHITE.ingot(), 24),
 				new ComparableStack(ModItems.circuit_copper, 4),
 				new ComparableStack(ModItems.circuit_red_copper, 2),
 			}, 600);

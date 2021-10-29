@@ -303,11 +303,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 		
 		if (explosion) {
-		//placeholder
+		//add debris, make destroyed zirnox radioactive, ask bob about fixing the bounding box when setting
 		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.zirnox_destroyed, this.getBlockMetadata(), 3);
+		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.zirnox_destroyed);
 		
 		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
 		

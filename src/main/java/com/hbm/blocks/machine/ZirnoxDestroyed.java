@@ -1,12 +1,19 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityZirnoxDestroyed;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -34,8 +41,24 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 	}
 	
 	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return null;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
+		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+		drops.add(new ItemStack(ModBlocks.concrete_smooth, 6));
+		drops.add(new ItemStack(ModBlocks.deco_pipe_quad, 4));
+		drops.add(new ItemStack(ModBlocks.steel_grate, 2));
+		drops.add(new ItemStack(ModItems.debris_metal, 4));
+		drops.add(new ItemStack(ModItems.debris_graphite, 1));
+		return drops;
+	}
+	
+	@Override
 	public int[] getDimensions() {
-		return new int[] {4, 0, 2, 2, 2, 2,}; 
+		return new int[] {1, 0, 2, 2, 2, 2,}; 
 	}
 	
 	@Override
@@ -45,10 +68,6 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 	
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 1, z + dir.offsetZ * o + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 1, z + dir.offsetZ * o + rot.offsetZ * -2);
 	}
 	
 }
