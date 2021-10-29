@@ -54,7 +54,7 @@ public class ReactorZirnox extends BlockDummyable implements IMultiblock {
 	
 	@Override
 	public int[] getDimensions() {
-		return new int[] {1, 0, 2, 2, 2, 2,}; 
+		return new int[] {4, 0, 2, 2, 2, 2,}; 
 	}
 	
 	@Override
