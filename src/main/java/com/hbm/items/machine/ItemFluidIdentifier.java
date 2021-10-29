@@ -70,8 +70,12 @@ public class ItemFluidIdentifier extends Item {
 
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
 		list.add("");
-		list.add("Universal fluid identifier for:");
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".info"));
 		list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
+		list.add("");
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage0"));
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage1"));
+		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage2"));
 	}
 
 	public static FluidType getType(ItemStack stack) {
