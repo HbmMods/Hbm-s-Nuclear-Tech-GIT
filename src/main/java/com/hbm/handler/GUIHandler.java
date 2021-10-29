@@ -852,6 +852,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		
+		case ModBlocks.guiID_rtg_difurnace: {
+			if (entity instanceof TileEntityDiFurnaceRTG) {
+				return new ContainerMachineDiFurnaceRTG(player.inventory, (TileEntityDiFurnaceRTG) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1691,6 +1698,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rbmk_storage: {
 			if(entity instanceof TileEntityRBMKStorage) {
 				return new GUIRBMKStorage(player.inventory, (TileEntityRBMKStorage) entity);
+			}
+			return null;
+		}
+		
+		case ModBlocks.guiID_rtg_difurnace: {
+			if (entity instanceof TileEntityDiFurnaceRTG) {
+				return new GUIMachineDiFurnaceRTG(player.inventory, (TileEntityDiFurnaceRTG) entity);
 			}
 			return null;
 		}
