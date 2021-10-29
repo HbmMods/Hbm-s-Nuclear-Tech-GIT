@@ -1,7 +1,11 @@
 package com.hbm.items.machine;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IFluidDuct;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.util.I18nUtil;
@@ -18,6 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemFluidIdentifier extends Item {
 
@@ -79,16 +84,48 @@ public class ItemFluidIdentifier extends Item {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3) {
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityFluidDuct) {
-
+		if(te instanceof TileEntityFluidDuct) {
 			if(!world.isRemote) {
 				TileEntityFluidDuct duct = (TileEntityFluidDuct) te;
-				duct.type = FluidType.getEnum(stack.getItemDamage());
+				FluidType type = FluidType.getEnum(stack.getItemDamage());
+				if (player.isSneaking()) markDuctsRecursively(world, x, y, z, type);
+				else duct.type = type;
 			}
 
 			player.swingItem();
 		}
 		return false;
+	}
+
+	private void markDuctsRecursively(World world, int x, int y, int z, FluidType type) {
+		markDuctsRecursively(world, x, y, z, type, 64);
+	}
+
+	private void markDuctsRecursively(World world, int x, int y, int z, FluidType type, int maxRecursion) {
+		TileEntity start = world.getTileEntity(x, y, z);
+		if (!(start instanceof TileEntityFluidDuct)) return;
+		TileEntityFluidDuct startDuct = (TileEntityFluidDuct) start;
+		FluidType oldType = startDuct.type;
+		if (oldType == type) return; // prevent infinite loops
+		startDuct.type = type;
+
+		directionLoop: for (ForgeDirection direction : ForgeDirection.values()) {
+			for (int currentRecursion = 1; currentRecursion <= maxRecursion; currentRecursion++) {
+				int nextX = x + direction.offsetX * currentRecursion;
+				int nextY = y + direction.offsetY * currentRecursion;
+				int nextZ = z + direction.offsetZ * currentRecursion;
+
+				TileEntity te = world.getTileEntity(nextX, nextY, nextZ);
+				if (te instanceof IFluidDuct && ((IFluidDuct) te).getType() == oldType) {
+					TileEntityFluidDuct nextDuct = (TileEntityFluidDuct) te;
+					long connectionsCount = Arrays.stream(nextDuct.connections).filter(Objects::nonNull).count();
+					if (connectionsCount > 1) {
+						markDuctsRecursively(world, nextX, nextY, nextZ, type, maxRecursion - currentRecursion);
+						continue directionLoop;
+					} else nextDuct.type = type;
+				} else break;
+			}
+		}
 	}
 
 	@Override
