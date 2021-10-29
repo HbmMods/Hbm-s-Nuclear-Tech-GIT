@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.ZirnoxDestroyed;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -288,21 +289,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 	
 	private void checkIfMeltdown() {
-		if (this.pressure > maxPressure || (this.heat > maxHeat && this.pressure >= 12000)) {
-			meltdown(true);
-		}
-		if (this.heat > maxHeat) {
-			meltdown(false);
+		if (this.pressure > maxPressure || this.heat > maxHeat) {
+			meltdown();
 		}
 	}
 	
-	private void meltdown(boolean explosion) {
+	private void meltdown() {
 		
 		for(int i = 0; i < slots.length; i++) {
 			this.slots[i] = null;
 		}
-		
-		if (explosion) {
 		//add debris, make destroyed zirnox radioactive, ask bob about fixing the bounding box when setting
 		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.zirnox_destroyed, this.getBlockMetadata(), 3);
@@ -317,21 +313,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			
 			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
-			}
-			}
-		} else {
-			//placeholder
-			worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-			worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.corium_block);
-			ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 300);
-			
-			if(MobConfig.enableElementals) {
-				@SuppressWarnings("unchecked")
-				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
-				
-				for(EntityPlayer player : players) {
-					player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
-				}
 			}
 		}
 	}
