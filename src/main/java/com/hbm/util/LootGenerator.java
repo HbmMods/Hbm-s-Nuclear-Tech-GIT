@@ -72,7 +72,11 @@ public class LootGenerator {
 					
 					int count = world.rand.nextInt(5) + 3;
 					for(int k = 0; k < count; k++) {
-						addItemWithDeviation(loot, world.rand, new ItemStack(cap, 4), i * 0.125, k * 0.03125, k * 0.125);
+						
+						if(cap == ModItems.cap_sunset && world.rand.nextInt(10) == 0)
+							addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.cap_star, 1), i * 0.3125, k * 0.03125, j * 0.3125);
+						else
+							addItemWithDeviation(loot, world.rand, new ItemStack(cap, 4), i * 0.3125, k * 0.03125, j * 0.3125);
 					}
 				}
 			}

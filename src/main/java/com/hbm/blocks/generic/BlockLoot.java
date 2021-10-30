@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
@@ -11,9 +12,12 @@ import com.hbm.util.LootGenerator;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -48,7 +52,31 @@ public class BlockLoot extends BlockContainer {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
-		LootGenerator.lootMedicine(world, x, y, z);
+		
+		/*TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			loot.addItem(new ItemStack(ModItems.gun_lever_action), 0, 0, 0);
+		}*/
+		
+		LootGenerator.lootCapStash(world, x, y, z);
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		
+		if(!world.isRemote) {
+			TileEntityLoot entity = (TileEntityLoot) world.getTileEntity(x, y, z);
+			if(entity != null) {
+				
+				for(Quartet<ItemStack, Double, Double, Double> quartet : entity.items) {
+					EntityItem item = new EntityItem(world, x + 0.5, y, z + 0.5, quartet.getW());
+					world.spawnEntityInWorld(item);
+				}
+			}
+		}
+		
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
 	@Override
@@ -72,11 +100,6 @@ public class BlockLoot extends BlockContainer {
 			
 			TileEntityLoot entity = (TileEntityLoot) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				
-				for(Quartet<ItemStack, Double, Double, Double> quartet : entity.items) {
-					player.inventory.addItemStackToInventory(quartet.getW());
-				}
-				
 				world.setBlockToAir(x, y, z);
 				player.inventoryContainer.detectAndSendChanges();
 			}

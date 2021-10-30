@@ -229,6 +229,7 @@ public class TileMappings {
 	}
 	
 	private static void putMachines() {
+		map.put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");
 		map.put(TileEntityUVLamp.class, "tileentity_uv_lamp");
 		
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
