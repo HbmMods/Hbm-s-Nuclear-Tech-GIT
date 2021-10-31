@@ -8,8 +8,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ZirnoxDestroyed;
 import com.hbm.config.MobConfig;
+import com.hbm.entity.projectile.EntityZirnoxDebris;
+import com.hbm.entity.projectile.EntityZirnoxDebris.DebrisType;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -294,18 +297,57 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 	
+	protected void spawnDebris(DebrisType type) {
+
+		EntityZirnoxDebris debris = new EntityZirnoxDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, type);
+		debris.motionX = worldObj.rand.nextGaussian() * 1.25D;
+		debris.motionZ = worldObj.rand.nextGaussian() * 1.25D;
+		debris.motionY = 0.01D + worldObj.rand.nextDouble() * 1.25D;
+		
+		if(type == DebrisType.CONCRETE) {
+			debris.motionX *= 0.5D;
+			debris.motionY += 0.5D;
+			debris.motionZ *= 0.5D;
+		}
+		
+		if(type == DebrisType.EXCHANGER) {
+			debris.motionX += 0.5D;
+			debris.motionY *= 0.1D;
+			debris.motionZ += 0.5D;
+		}
+		
+		worldObj.spawnEntityInWorld(debris);
+	}
+	
+	protected void zirnoxDebris() {
+		for (int i = 0; i < 2; i++) {
+			spawnDebris(DebrisType.CONCRETE);
+			spawnDebris(DebrisType.EXCHANGER);
+		}
+		for (int i = 0; i < 20; i++) {
+			spawnDebris(DebrisType.BLANK);
+			spawnDebris(DebrisType.ELEMENT);
+			spawnDebris(DebrisType.SHRAPNEL);
+			spawnDebris(DebrisType.GRAPHITE);
+		}
+		
+	}
+	
 	private void meltdown() {
 		
 		for(int i = 0; i < slots.length; i++) {
 			this.slots[i] = null;
 		}
-		//add debris, make destroyed zirnox radioactive, ask bob about fixing the bounding box when setting
-		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+		
+		int[] dimensions = {1, 0, 2, 2, 2, 2,};
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.zirnox_destroyed, this.getBlockMetadata(), 3);
-		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 18.0F, true);
+		MultiblockHandlerXR.fillSpace(worldObj, this.xCoord, this.yCoord, this.zCoord, dimensions, ModBlocks.zirnox_destroyed, ForgeDirection.NORTH);
+		worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.rbmk_explosion", 10.0F, 1.0F);
+		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 12.0F, true);
+		zirnoxDebris();
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		
-		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 1000);
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 2500);
 		
 		if(MobConfig.enableElementals) {
 			@SuppressWarnings("unchecked")

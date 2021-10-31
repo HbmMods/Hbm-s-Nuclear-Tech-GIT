@@ -1123,6 +1123,11 @@ public class ModItems {
 	public static Item debris_graphite;
 	public static Item debris_metal;
 	public static Item debris_fuel;
+	
+	public static Item debris_concrete;
+	public static Item debris_exchanger;
+	public static Item debris_shrapnel;
+	public static Item debris_element;
 
 	public static Item containment_box;
 
@@ -3748,7 +3753,12 @@ public class ModItems {
 		debris_graphite = new ItemHazard().addRadiation(70F).toItem().setUnlocalizedName("debris_graphite").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_graphite");
 		debris_metal = new ItemHazard().addRadiation(5F).toItem().setUnlocalizedName("debris_metal").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_metal");
 		debris_fuel = new ItemHazard().addRadiation(1500F).addFire(15).toItem().setUnlocalizedName("debris_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_fuel");
-
+		
+		debris_concrete = new ItemHazard().addRadiation(40F).toItem().setUnlocalizedName("debris_concrete").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_concrete");
+		debris_exchanger = new ItemHazard().addRadiation(20F).toItem().setUnlocalizedName("debris_exchanger").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_exchanger");
+		debris_shrapnel =new ItemHazard().addRadiation(10F).toItem().setUnlocalizedName("debris_shrapnel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_shrapnel");
+		debris_element =new ItemHazard().addRadiation(500F).toItem().setUnlocalizedName("debris_element").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_element");
+		
 		pellet_cluster = new ItemCustomLore().setUnlocalizedName("pellet_cluster").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_cluster");
 		powder_fire = new ItemCustomLore().setUnlocalizedName("powder_fire").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_red_phosphorus");
 		powder_ice = new ItemCustomLore().setUnlocalizedName("powder_ice").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ice");
@@ -6586,6 +6596,11 @@ public class ModItems {
 		GameRegistry.registerItem(debris_metal, debris_metal.getUnlocalizedName());
 		GameRegistry.registerItem(debris_fuel, debris_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(undefined, undefined.getUnlocalizedName());
+		
+		GameRegistry.registerItem(debris_concrete, debris_concrete.getUnlocalizedName());
+		GameRegistry.registerItem(debris_exchanger, debris_exchanger.getUnlocalizedName());
+		GameRegistry.registerItem(debris_shrapnel, debris_shrapnel.getUnlocalizedName());
+		GameRegistry.registerItem(debris_element, debris_element.getUnlocalizedName());
 		
 		GameRegistry.registerItem(scrap, scrap.getUnlocalizedName());
 		GameRegistry.registerItem(scrap_nuclear, scrap_nuclear.getUnlocalizedName());
