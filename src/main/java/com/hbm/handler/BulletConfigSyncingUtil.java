@@ -188,6 +188,12 @@ public class BulletConfigSyncingUtil {
 	public static int ROCKET_CHAINSAW_LASER = i++;
 	public static int ROCKET_TOXIC_LASER = i++;
 	public static int ROCKET_PHOSPHORUS_LASER = i++;
+	
+	public static int ROCKET_STINGER = i++;
+	public static int ROCKET_STINGER_HE = i++;
+	public static int ROCKET_STINGER_INCENDIARY = i++;
+	public static int ROCKET_STINGER_NUCLEAR = i++;
+	public static int ROCKET_STINGER_BONES = i++;
 
 	public static int SHELL_NORMAL = i++;
 	public static int SHELL_EXPLOSIVE = i++;
@@ -283,6 +289,12 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
 		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
 		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
+		
+		configSet.put(ROCKET_STINGER, GunRocketHomingFactory.getRocketStingerConfig());
+		configSet.put(ROCKET_STINGER_HE, GunRocketHomingFactory.getRocketStingerHEConfig());
+		configSet.put(ROCKET_STINGER_INCENDIARY, GunRocketHomingFactory.getRocketStingerIncendiaryConfig());
+		configSet.put(ROCKET_STINGER_NUCLEAR, GunRocketHomingFactory.getRocketStingerNuclearConfig());
+		configSet.put(ROCKET_STINGER_BONES, GunRocketHomingFactory.getRocketStingerBonesConfig());
 
 		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
 		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());

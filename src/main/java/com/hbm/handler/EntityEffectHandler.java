@@ -73,6 +73,7 @@ public class EntityEffectHandler {
 		handleRadiation(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
+		handleBoneCancer(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -386,6 +387,30 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		}
+	}
+	
+	private static void handleBoneCancer(EntityLivingBase entity) {
+		if(entity.worldObj.isRemote)
+			return;
+		
+		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
+			HbmLivingProps.setBlackLung(entity, 0);
+			HbmLivingProps.setAsbestos(entity, 0);
+			
+			return;
+		} 
+		double cancerLevel = Math.min(HbmLivingProps.getBoneCancer(entity), HbmLivingProps.maxBoneCancer);
+		float cancerPercent = (float) (cancerLevel / HbmLivingProps.maxBoneCancer);
+		
+		if(cancerPercent > 0.2F) {
+			int effectLevel = Math.round(cancerPercent * 2);
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 100, effectLevel));
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, effectLevel));
+			if(cancerPercent > 0.75F) {
+				float radLevel = cancerPercent * 0.25F;
+				HbmLivingProps.incrementRadiation(entity, radLevel);
 			}
 		}
 	}

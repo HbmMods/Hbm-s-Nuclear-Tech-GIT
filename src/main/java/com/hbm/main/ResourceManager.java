@@ -148,6 +148,9 @@ public class ResourceManager {
 	//Waste Drum
 	public static final IModelCustom waste_drum = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/drum.obj"));
 	
+	//Deuterium Tower
+	public static final IModelCustom deuterium_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/machine_deuterium_tower.obj"));
+	
 	//Anti Mass Spectrometer
 	public static final IModelCustom ams_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_base.obj"));
 	public static final IModelCustom ams_emitter = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_emitter.obj"));
@@ -358,6 +361,9 @@ public class ResourceManager {
 	public static final ResourceLocation tower_small_heavy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_small_heavy.png");
 	public static final ResourceLocation tower_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_large.png");
 	public static final ResourceLocation tower_large_heavy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/tower_large_heavy.png");
+	
+	//Deuterium Tower
+	public static final ResourceLocation deuterium_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/machine_deuterium_tower.png");
 	
 	//IGen
 	public static final ResourceLocation igen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen.png");
@@ -584,6 +590,7 @@ public class ResourceManager {
 	public static final IModelCustom ff_nightmare = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/nightmare.obj"));
 	public static final IModelCustom fireext = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/fireext.obj"));
 	public static final IModelCustom ar15 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/ar15.obj"));
+	public static final IModelCustom stinger = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/stinger.obj"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -646,6 +653,8 @@ public class ResourceManager {
 	public static final ResourceLocation fireext_foam_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fireext_foam.png");
 	public static final ResourceLocation fireext_sand_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fireext_sand.png");
 	public static final ResourceLocation ar15_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/carbine.png");
+	public static final ResourceLocation stinger_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/stinger.png");
+	public static final ResourceLocation sky_stinger_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/sky_stinger.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 
@@ -1109,4 +1118,7 @@ public class ResourceManager {
 	public static final IModelCustom deb_rod = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/projectiles/deb_rod.obj"));
 	public static final IModelCustom deb_lid = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/projectiles/deb_lid.obj"));
 	public static final IModelCustom deb_graphite = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/projectiles/deb_graphite.obj"));
+	
+	//// FONTS
+	public static final ResourceLocation helvetica_tex = new ResourceLocation(RefStrings.MODID, "textures/fonts/helvetica.png");
 }

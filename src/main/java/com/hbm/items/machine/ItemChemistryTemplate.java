@@ -100,7 +100,8 @@ public class ItemChemistryTemplate extends Item {
 		VIT_GAS,
 		TEL,
 		GASOLINE,
-		ZR_CA_PROCESSING;
+		ZR_CA_PROCESSING,
+		HEAVY_ELECTROLYSIS;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -294,6 +295,8 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case ZR_CA_PROCESSING:
         	return 100;
+        case HEAVY_ELECTROLYSIS:
+        	return 150;
         default:
         	return 100;
         }

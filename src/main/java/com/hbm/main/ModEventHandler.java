@@ -565,7 +565,7 @@ public class ModEventHandler {
 		}
 		/// METEOR SHOWER END ///
 		
-		if(minuteCounter == 601 && decayCounter >= 30) {
+		if(minuteCounter == 601 && decayCounter >= 10000) {
 			nukeDetCount = Math.round(nukeDetCount / 2);
 			if(nukeDetCount > 1000)
 				nukeDetCount = 1000;
@@ -970,8 +970,8 @@ public class ModEventHandler {
 			if(minuteCounter == 600) {
 				HbmLivingProps.incrementBoneCancer(player, nukeDetCount);
 			}
-			System.out.println("fuck" + HbmLivingProps.getBoneCancer(player));
-			System.out.println(nukeDetCount);
+			//System.out.println("fuck" + HbmLivingProps.getBoneCancer(player));
+			//System.out.println(nukeDetCount);
 			/// FUCK ???
 
 			/// NEW ITEM SYS START ///

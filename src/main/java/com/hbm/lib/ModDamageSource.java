@@ -47,7 +47,8 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource spikes = (new DamageSource("spikes")).setDamageBypassesArmor();
 	public static DamageSource lunar = (new DamageSource("lunar")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
-	public static DamageSource bones = (new DamageSource("bones")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource bones0 = (new DamageSource("bones0")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource bones1 = (new DamageSource("bones1")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource mku = (new DamageSource("mku")).setDamageIsAbsolute().setDamageBypassesArmor();
 

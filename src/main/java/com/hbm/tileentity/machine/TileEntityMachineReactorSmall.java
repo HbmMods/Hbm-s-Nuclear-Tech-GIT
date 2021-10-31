@@ -15,6 +15,7 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
+import com.hbm.items.machine.ItemWasteRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -140,7 +141,13 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				return true;
 		if(i >= 0 && i <= 11 )
 			if(itemStack.getItem() instanceof ItemFuelRod);
-				return true;
+				if(((ItemFuelRod) itemStack.getItem()).getUseableInPHWR() && tanks[0].getTankType() == FluidType.HEAVYWATER) {
+					return true;
+				} else if(!((ItemFuelRod) itemStack.getItem()).getUseableInPHWR() && tanks[0].getTankType() == FluidType.WATER) {
+					return true;
+				} else {
+					return false;
+				}
 		//return false;
 	}
 
@@ -223,22 +230,8 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11)
-			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_thorium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_dual_thorium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_quad_thorium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_mox_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted ||
-			itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
+		if(i >= 0 && i <= 11)
+			if(itemStack.getItem() instanceof ItemWasteRod)
 				return true;
 		if(i == 13 || i == 15)
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty || itemStack.getItem() == ModItems.fluid_tank_empty || itemStack.getItem() == ModItems.fluid_barrel_empty)
@@ -365,10 +358,11 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 					
 					if(slots[i] != null) {
 						if(slots[i].getItem() instanceof ItemFuelRod) {
-							// ugly \/ \/ \/
-							if(!((slots[i].getItem() == ModItems.rod_natural_uranium_fuel || slots[i].getItem() == ModItems.rod_dual_natural_uranium_fuel || slots[i].getItem() == ModItems.rod_quad_natural_uranium_fuel) && tanks[0].getTankType() == FluidType.WATER)) {
+							if(((ItemFuelRod) slots[i].getItem()).getUseableInPHWR() && tanks[0].getTankType() == FluidType.HEAVYWATER) {
 								decay(i);
-							}		
+							} else if(!((ItemFuelRod) slots[i].getItem()).getUseableInPHWR() && tanks[0].getTankType() == FluidType.WATER) {
+								decay(i);
+							}
 						}	
 						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
@@ -715,7 +709,59 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		
 		} else if(item == ModItems.rod_quad_natural_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_quad_natural_uranium_fuel_depleted);
+			
+		} else if(item == ModItems.rod_uranium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_uranium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_thorium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_thorium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_plutonium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_plutonium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_mox_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_mox_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_schrabidium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_schrabidium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_dual_uranium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_dual_uranium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_dual_thorium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_dual_thorium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_dual_plutonium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_dual_mox_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_dual_mox_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_dual_schrabidium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_quad_uranium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_quad_uranium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_quad_thorium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_quad_thorium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_quad_plutonium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_quad_mox_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_quad_mox_fuel_depleted_zr);
+
+		} else if(item == ModItems.rod_quad_schrabidium_fuel_zr) {
+			slots[id] = new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted_zr);
 		}
+		
+		/*      /\      /\      /\      /\      /\    |   |
+		 *     /__\    /__\    /__\    /__\    /__\   |---| 
+		 *    /    \  /    \  /    \  /    \  /    \  |   |
+		 *    
+		 *   I'm Going to need a Therapist after this
+		 */ 
 	}
 
 	private void explode() {

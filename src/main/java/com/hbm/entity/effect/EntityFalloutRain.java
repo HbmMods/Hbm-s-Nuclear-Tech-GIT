@@ -62,7 +62,7 @@ public class EntityFalloutRain extends Entity {
 	        	
 	        	double dist = radProgress * 100 / getScale() * 0.5;
 	        	
-	        	stomp(x, z, dist, worldObj);
+	        	stomp(x, z, dist);
 	        	
 	        	revProgress++;
 	        	
@@ -88,21 +88,9 @@ public class EntityFalloutRain extends Entity {
         }
     }
     
-    private void stomp(int x, int z, double dist, World world) {
+    private void stomp(int x, int z, double dist) {
     	
     	int depth = 0;
-    	
-    	/*for(Object o : world.playerEntities) {
-			EntityPlayer player = (EntityPlayer)o;
-			double posX = (player.posX >= 0) ? player.posX : -player.posX;
-			double posY = (player.posY >= 0) ? player.posY : -player.posY;
-			int distance = (int) Math.hypot(posX, posY);
-			double contamLevel = (distance == 0) ? 100 / 1 :  100 / distance;
-			HbmLivingProps.incrementBoneCancer(player, contamLevel);
-		}*/
-    	// \    /  |_|  \ /
-    	//  \/\/   | |   |
-    	
     	for(int y = 255; y >= 0; y--) {
 
     		Block b =  worldObj.getBlock(x, y, z);

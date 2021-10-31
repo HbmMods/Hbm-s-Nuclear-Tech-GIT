@@ -16,26 +16,26 @@ private TileEntityNukeMike nukeMike;
 		
 		nukeMike = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 17));
-		this.addSlotToContainer(new Slot(tedf, 1, 62, 17));
-		this.addSlotToContainer(new Slot(tedf, 2, 26, 53));
-		this.addSlotToContainer(new Slot(tedf, 3, 62, 53));
-		this.addSlotToContainer(new Slot(tedf, 4, 44, 35));
-		this.addSlotToContainer(new Slot(tedf, 5, 80, 35));
-		this.addSlotToContainer(new Slot(tedf, 6, 98, 35));
-		this.addSlotToContainer(new Slot(tedf, 7, 116, 35));
+		this.addSlotToContainer(new Slot(tedf, 0, 26, 83));
+		this.addSlotToContainer(new Slot(tedf, 1, 26, 101));
+		this.addSlotToContainer(new Slot(tedf, 2, 44, 83));
+		this.addSlotToContainer(new Slot(tedf, 3, 44, 101));
+		this.addSlotToContainer(new Slot(tedf, 4, 39, 35));
+		this.addSlotToContainer(new Slot(tedf, 5, 98, 91));
+		this.addSlotToContainer(new Slot(tedf, 6, 116, 91));
+		this.addSlotToContainer(new Slot(tedf, 7, 134, 91));
 		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 135 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 193));
 		}
 	}
 	

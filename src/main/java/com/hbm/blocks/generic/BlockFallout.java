@@ -9,6 +9,8 @@ import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
 import com.hbm.modules.ItemHazardModule;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -55,7 +57,10 @@ public class BlockFallout extends Block implements IItemHazard {
 			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
 			effect.setCurativeItems(new ArrayList());
 			((EntityLivingBase) entity).addPotionEffect(effect);
-			HbmLivingProps.incrementBoneCancer((EntityLivingBase) entity, 1);
+			
+			if(entity instanceof EntityPlayer)
+				if(!ArmorRegistry.hasProtection((EntityPlayer)entity, 3, HazardClass.PARTICLE_FINE))
+					HbmLivingProps.incrementBoneCancer((EntityLivingBase) entity, 250);
 		}
 	}
 
@@ -64,7 +69,10 @@ public class BlockFallout extends Block implements IItemHazard {
 		if(!world.isRemote) {
 			//player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
 			HbmLivingProps.addCont(player, new ContaminationEffect(1F, 200, false));
-			HbmLivingProps.incrementBoneCancer(player, 50);
+			HbmLivingProps.incrementBoneCancer(player, 500);
+			
+			if(!ArmorRegistry.hasProtection(player, 3, HazardClass.PARTICLE_FINE))
+				HbmLivingProps.incrementBoneCancer((EntityLivingBase) player, 250);
 		}
 	}
 

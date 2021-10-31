@@ -3,16 +3,20 @@ package com.hbm.hazard;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.items.ModItems.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
+import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 
 public class HazardRegistry {
 
@@ -122,10 +126,10 @@ public class HazardRegistry {
 		HazardSystem.register("dustLignite", makeData(COAL, powder));
 		HazardSystem.register("dustSmallLignite", makeData(COAL, powder_tiny));
 		
-		HazardSystem.register(nugget_ra226, makeData(BONECANCER, nugget));
 		HazardSystem.register(billet_ra226be, makeData(BONECANCER, billet));
 		HazardSystem.register(rbmk_pellet_ra226be, makeData(BONECANCER, billet));
-		HazardSystem.register(pile_rod_source, makeData(BONECANCER, ingot));
+		HazardSystem.register(pile_rod_source, makeData(BONECANCER, billet * 3));
+		HazardSystem.register(ModItems.fallout, makeData(BONECANCER, powder));
 		
 		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
@@ -149,13 +153,13 @@ public class HazardRegistry {
 		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, 0.75F));
 		HazardSystem.register(waste_uranium, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_thorium, makeData(RADIATION, 10F));
-		HazardSystem.register(waste_plutonium, makeData(RADIATION, 15F));
+		HazardSystem.register(waste_plutonium, makeData(RADIATION, 15F).addEntry(BONECANCER, 15F));
 		HazardSystem.register(waste_mox, makeData(RADIATION, 15F));
 		HazardSystem.register(waste_natural_uranium, makeData(RADIATION, 10F));
 		HazardSystem.register(waste_schrabidium, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_uranium_hot, new HazardData().addEntry(RADIATION, 10F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_thorium_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
-		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
+		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F).addEntry(BONECANCER, powder));
 		HazardSystem.register(waste_mox_hot, new HazardData().addEntry(RADIATION, 15F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_natural_uranium_hot, new HazardData().addEntry(RADIATION, 10F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_schrabidium_hot, new HazardData().addEntry(RADIATION, 40F).addEntry(HOT, 5F).addEntry(BLINDING, 5F));
@@ -164,12 +168,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_uranium_fuel, makeData(RADIATION, uf * billet));
 		HazardSystem.register(ingot_uranium_fuel, makeData(RADIATION, uf * ingot));
 		HazardSystem.register(block_uranium_fuel, makeData(RADIATION, uf * block));
-		
-		HazardSystem.register(nugget_plutonium_fuel, makeData(RADIATION, puf * nugget));
-		HazardSystem.register(billet_plutonium_fuel, makeData(RADIATION, puf * billet));
-		HazardSystem.register(ingot_plutonium_fuel, makeData(RADIATION, puf * ingot));
-		HazardSystem.register(block_plutonium_fuel, makeData(RADIATION, puf * block));
-		
+	
 		HazardSystem.register(nugget_thorium_fuel, makeData(RADIATION, thf * nugget));
 		HazardSystem.register(billet_thorium_fuel, makeData(RADIATION, thf * billet));
 		HazardSystem.register(ingot_thorium_fuel, makeData(RADIATION, thf * ingot));
@@ -178,11 +177,6 @@ public class HazardRegistry {
 		HazardSystem.register(nugget_neptunium_fuel, makeData(RADIATION, npf * nugget));
 		HazardSystem.register(billet_neptunium_fuel, makeData(RADIATION, npf * billet));
 		HazardSystem.register(ingot_neptunium_fuel, makeData(RADIATION, npf * ingot));
-		
-		HazardSystem.register(nugget_mox_fuel, makeData(RADIATION, mox * nugget));
-		HazardSystem.register(billet_mox_fuel, makeData(RADIATION, mox * billet));
-		HazardSystem.register(ingot_mox_fuel, makeData(RADIATION, mox * ingot));
-		HazardSystem.register(block_mox_fuel, makeData(RADIATION, mox * block));
 		
 		HazardSystem.register(nugget_americium_fuel, makeData(RADIATION, amf * nugget));
 		HazardSystem.register(billet_americium_fuel, makeData(RADIATION, amf * billet));
@@ -204,18 +198,25 @@ public class HazardRegistry {
 		HazardSystem.register(billet_balefire_gold, makeData(RADIATION, au198 * billet));
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
-		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
+		HazardSystem.register(billet_pu238be, new HazardData().addEntry(RADIATION, pube * billet).addEntry(BONECANCER, billet));
 		
-		HazardSystem.register(powder_sr90, new HazardData().addEntry(RADIATION, sr90 * ingot).addEntry(BONECANCER, powder));
-		HazardSystem.register(ingot_radium, new HazardData().addEntry(RADIATION, ra226 * ingot).addEntry(BONECANCER, ingot));
-		HazardSystem.register(powder_plutonium, new HazardData().addEntry(BONECANCER, ingot));
-		HazardSystem.register(ingot_plutonium, new HazardData().addEntry(BONECANCER, ingot));
-		HazardSystem.register(nugget_plutonium, new HazardData().addEntry(BONECANCER, powder));
-		HazardSystem.register(billet_plutonium, new HazardData().addEntry(BONECANCER, billet));
-		HazardSystem.register(crystal_plutonium, new HazardData().addEntry(BONECANCER, crystal));
-		HazardSystem.register(block_plutonium, new HazardData().addEntry(BONECANCER, block));
-		HazardSystem.register(waste_plutonium, new HazardData().addEntry(BONECANCER, crystal));
-		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(BONECANCER, crystal * 1.5F));
+		HazardSystem.register(crystal_plutonium, new HazardData().addEntry(RADIATION, pu * crystal).addEntry(BONECANCER, crystal));
+		
+		makeIsotopeBoneCancerSet(block_plutonium_fuel, ingot_plutonium_fuel, nugget_plutonium_fuel, billet_plutonium_fuel, puf);
+		makeIsotopeBoneCancerSet(block_mox_fuel, ingot_mox_fuel, nugget_mox_fuel, billet_mox_fuel, mox);
+		
+		HazardSystem.register(man_core, new HazardData().addEntry(RADIATION, pu * ingot).addEntry(BONECANCER, ingot));
+		HazardSystem.register(gadget_core, new HazardData().addEntry(RADIATION, pu * ingot).addEntry(BONECANCER, ingot));
+		
+		HazardSystem.register(ModItems.part_plutonium, new HazardData().addEntry(RADIATION, pu * powder).addEntry(BONECANCER, powder));
+		HazardSystem.register(pellet_rtg, new HazardData().addEntry(RADIATION, pu238 * billet * 3).addEntry(BONECANCER, billet));
+		
+		HazardSystem.register(rbmk_pellet_hep239, new HazardData().addEntry(RADIATION, pu239 * billet).addEntry(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_hep241, new HazardData().addEntry(RADIATION, pu241 * billet).addEntry(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_mep, new HazardData().addEntry(RADIATION, pu * billet).addEntry(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_lep, new HazardData().addEntry(RADIATION, pu240 * billet).addEntry(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_mox, new HazardData().addEntry(RADIATION, mox * billet).addEntry(BONECANCER, billet));
+		HazardSystem.register(rbmk_pellet_pu238be, new HazardData().addEntry(RADIATION, pu238 * billet).addEntry(BONECANCER, billet));
 		
 		//TODO: move this into its own method
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
@@ -225,4 +226,11 @@ public class HazardRegistry {
 	private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }
 	private static HazardData makeData(HazardTypeBase hazard, float level) { return new HazardData().addEntry(hazard, level); }
 	private static HazardData makeData(HazardTypeBase hazard, float level, boolean override) { return new HazardData().addEntry(hazard, level, override); }
+	
+	private static void makeIsotopeBoneCancerSet(Block matBlock, Item matIngot, Item matNugget, Item matBillet, float radMod) {
+		HazardSystem.register(matBlock, new HazardData().addEntry(RADIATION, radMod * block).addEntry(BONECANCER, block));
+		HazardSystem.register(matIngot, new HazardData().addEntry(RADIATION, radMod * ingot).addEntry(BONECANCER, ingot));
+		HazardSystem.register(matNugget, new HazardData().addEntry(RADIATION, radMod * nugget).addEntry(BONECANCER, nugget));
+		HazardSystem.register(matBillet, new HazardData().addEntry(RADIATION, radMod * billet).addEntry(BONECANCER, billet));
+	}
 }

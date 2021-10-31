@@ -235,6 +235,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 				
+				float powerMultiplier = tanks[0].getTankType() == FluidType.HEAVYSTEAM || tanks[0].getTankType() == FluidType.HOTHEAVYSTEAM || tanks[0].getTankType() == FluidType.SPHOTHEAVYSTEAM ? 1.2F : 1F;
 				int processMax = 1200;																//the maximum amount of cycles based on the 1.2k cycle cap (subject to change)
 				int processSteam = tanks[0].getFill() / (Integer)outs[2];							//the maximum amount of cycles depending on steam
 				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];	//the maximum amount of cycles depending on water
@@ -244,7 +245,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
 				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
 				
-				power += (Integer)outs[3] * cycles;
+				power += (Integer)outs[3] * cycles * powerMultiplier;
 				
 				if(power > maxPower)
 					power = maxPower;

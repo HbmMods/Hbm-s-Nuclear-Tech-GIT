@@ -93,7 +93,7 @@ public class BulletConfigFactory {
 	public static BulletConfiguration standardBuckshotConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
-		
+	
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;

@@ -121,6 +121,26 @@ public class ItemSyringe extends Item {
 				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
+		
+		if(this == ModItems.syringe_morphine && !VersatileConfig.hasPotionSickness(player)) {
+			if(!world.isRemote) {
+				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(HbmPotion.moveSpeed.id, 60 * 10, 1));
+
+				stack.stackSize--;
+				world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
+
+				if(stack.stackSize <= 0) {
+					return new ItemStack(ModItems.syringe_empty);
+				}
+
+				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
+					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
+				}
+				
+				VersatileConfig.applyPotionSickness(player, 20);
+			}
+		}
 
 		if(this == ModItems.syringe_metal_medx && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
@@ -609,6 +629,13 @@ public class ItemSyringe extends Item {
 		
 		if(this == ModItems.syringe_mkunicorn) {
 			list.add(EnumChatFormatting.RED + "?");
+		}
+		
+		if(this == ModItems.syringe_morphine) {
+			list.add("Hello?");
+			list.add("Is there anybody in there?");
+			list.add("Just nod if you can hear me");
+			list.add("Is there anyone home?");
 		}
 	}
 }

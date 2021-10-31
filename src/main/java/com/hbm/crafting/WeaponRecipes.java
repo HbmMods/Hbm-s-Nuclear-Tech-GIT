@@ -70,7 +70,7 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_quadro, 1), new Object[] { "SSS", "SSS", "CM ", 'S', ModItems.hull_small_steel, 'C', ModItems.circuit_targeting_tier3, 'M', ModItems.mechanism_launcher_2 }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_hk69, 1), new Object[] { "SSI", " MB", 'S', ModItems.hull_small_steel, 'I', "ingotIron", 'M', ModItems.mechanism_launcher_1, 'B', ModItems.bolt_tungsten }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_stinger, 1), new Object[] { "SSW", "CMW", 'S', "plateSteel", 'W', "plateTitanium", 'C', ModItems.circuit_red_copper, 'M', ModItems.mechanism_launcher_2 }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_stinger_ammo, 4), new Object[] { "SS ", "STI", " IR", 'S', "plateSteel", 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateAluminum", 'R', "dustRedstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_stinger_rocket, 4), new Object[] { "SS ", "STI", " IR", 'S', "plateSteel", 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateAluminum", 'R', ModItems.circuit_aluminium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver, 1), new Object[] { "SSM", " RW", 'S', "plateSteel", 'W', "plankWood", 'R', ModItems.wire_aluminium, 'M', ModItems.mechanism_revolver_1 }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_saturnite, 1), new Object[] { "SSM", " RW", 'S', "plateSaturnite", 'W', "plankWood", 'R', ModItems.wire_tungsten, 'M', ModItems.mechanism_revolver_2 }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_iron, 1), new Object[] { "SSM", " RW", 'S', "plateIron", 'W', "plankWood", 'R', ModItems.wire_aluminium, 'M', ModItems.mechanism_revolver_1 }));
@@ -148,6 +148,7 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_mymy, 1), new Object[] { "PP ", " WP", 'P', ModItems.plate_polymer, 'W', ModItems.wire_aluminium });
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_darter, 1), new Object[] { "SST", "  P", 'S', "plateSteel", 'T', ModItems.gas_empty, 'P', ModItems.ingot_polymer }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_fireext, 1), new Object[] { "HB", " T", 'H', ModItems.hull_small_steel, 'B', ModItems.bolt_tungsten, 'T', ModItems.tank_steel });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_skystinger, 1), new Object[] { " PP", "THC", " SS", 'P', ModItems.plate_saturnite, 'T', ModItems.gun_stinger, 'H', ModItems.flame_pony, 'C', ModItems.circuit_tantalium, 'S', ModItems.ingot_starmetal});
 		
 		//Legacy ammo recycling
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ammo_44, 1), new Object[] { ModItems.gun_revolver_nopip_ammo });
@@ -241,6 +242,12 @@ public class WeaponRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_rocket_rpc, 2), new Object[] { "BP ", "CBH", " DR", 'B', ModItems.blades_steel, 'P', "plateSteel", 'C', ModItems.canister_fuel, 'H', ModItems.hull_small_steel, 'D', ModItems.piston_selenium, 'R', ModItems.ammo_rocket }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_rocket_rpc, 2), new Object[] { "BP ", "CBH", " DR", 'B', ModItems.blades_steel, 'P', "plateSteel", 'C', ModItems.canister_petroil, 'H', ModItems.hull_small_steel, 'D', ModItems.piston_selenium, 'R', ModItems.ammo_rocket }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_rocket_rpc, 2), new Object[] { "BP ", "CBH", " DR", 'B', ModItems.blades_steel, 'P', "plateSteel", 'C', ModItems.canister_biofuel, 'H', ModItems.hull_small_steel, 'D', ModItems.piston_selenium, 'R', ModItems.ammo_rocket }));
+		
+		//Stinger Rockets
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_stinger_rocket_he, 1), new Object[] { "S", "R", 'S', ModItems.ingot_semtex, 'R', ModItems.ammo_stinger_rocket });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_stinger_rocket_incendiary, 1), new Object[] { "S", "R", 'S', ModItems.powder_thermite, 'R', ModItems.ammo_stinger_rocket });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_stinger_rocket_nuclear, 1), new Object[] { "RPR", "PSP", "RPR", 'R', ModItems.neutron_reflector, 'P', ModItems.nugget_pu239, 'S', ModItems.ammo_stinger_rocket });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_stinger_rocket_bones, 1), new Object[] { " C ", "SKR", " P ", 'C', ModItems.fallout, 'S', ModItems.powder_sr90, 'K', ModItems.ammo_stinger_rocket, 'R', ModItems.powder_ra226, 'P', ModItems.powder_plutonium });
 
 		//40mm grenades
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_grenade, 2), new Object[] { " T ", "GCI", " P ", 'T', Items.gunpowder, 'G', ModItems.cordite, 'C', ModItems.casing_50, 'P', ModItems.primer_50, 'I', "plateIron" }));

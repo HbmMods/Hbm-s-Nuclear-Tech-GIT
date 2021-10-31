@@ -52,7 +52,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_technetium, ModItems.nugget_technetium);
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);
 		add1To9Pair(ModItems.ingot_au198, ModItems.nugget_au198);
-		add1To9Pair(ModItems.ingot_radium, ModItems.nugget_ra226);
+		add1To9Pair(ModItems.ingot_ra226, ModItems.nugget_ra226);
 
 		add1To9Pair(ModItems.ingot_pu241, ModItems.nugget_pu241);
 		add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);

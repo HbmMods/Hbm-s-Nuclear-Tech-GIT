@@ -57,6 +57,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 		}
 	}
 	
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -95,27 +96,33 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(tanks[0].getTankType() == type) {
 			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		}
+		if(tanks[1].getTankType() == type) {
 			tanks[1].setFill(i);
+		}
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(tanks[0].getTankType() == type) {
 			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		}
+		if(tanks[1].getTankType() == type) {
 			return tanks[1].getFill();
-		
+		}
 		return 0;
 	}
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(tanks[0].getTankType() == type) {
 			return tanks[0].getMaxFill();
-		
+		}
+		if(tanks[1].getTankType() == type) {
+			return tanks[1].getMaxFill();
+		}
 		return 0;
 	}
 

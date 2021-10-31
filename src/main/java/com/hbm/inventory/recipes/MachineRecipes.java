@@ -1979,6 +1979,9 @@ public class MachineRecipes {
 		case ZR_CA_PROCESSING:
 			input[0] = new FluidStack(2000, FluidType.ACID);
 			break;
+		case HEAVY_ELECTROLYSIS:
+			input[0] = new FluidStack(8000, FluidType.HEAVYWATER);
+			break;
 		default:
 			break;
 		}
@@ -2276,6 +2279,10 @@ public class MachineRecipes {
         	break;
         case GASOLINE:
 			output[0] = new FluidStack(12000, FluidType.GASOLINE);
+        	break;
+        case HEAVY_ELECTROLYSIS:
+        	output[0] = new FluidStack(400, FluidType.DEUTERIUM);
+			output[1] = new FluidStack(400, FluidType.OXYGEN);
         	break;
 		default:
 			break;

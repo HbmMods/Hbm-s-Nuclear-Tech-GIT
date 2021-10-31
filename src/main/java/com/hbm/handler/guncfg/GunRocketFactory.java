@@ -378,7 +378,6 @@ public class GunRocketFactory {
 				if(!bullet.worldObj.isRemote) {
 					
 					if(bullet.ticksExisted > 10) {
-						bullet.setDead();
 						
 						for(int i = 0; i < 50; i++) {
 							
@@ -387,6 +386,7 @@ public class GunRocketFactory {
 							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
 							bullet.worldObj.spawnEntityInWorld(bolt);
 						}
+						bullet.setDead();
 					}
 				}
 			}

@@ -2,6 +2,7 @@ package com.hbm.extprop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
@@ -27,6 +28,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_LIVING";
 	public static final UUID digamma_UUID = UUID.fromString("2a3d8aec-5ab9-4218-9b8b-ca812bdf378b");
 	public EntityLivingBase entity;
+	private static Random rand = new Random();
 	
 	/// VALS ///
 	private float radiation;
@@ -218,7 +220,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		if (boneCancer >= maxBoneCancer) {
 			getData(entity).boneCancer = 0;
-			entity.attackEntityFrom(ModDamageSource.bones, 1000);
+			entity.attackEntityFrom(new ModDamageSource(rand.nextInt(1) == 0 ? "bones0" : "bones1"), 1000);
 		}
 	}
 	

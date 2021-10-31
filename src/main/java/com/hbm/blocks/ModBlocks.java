@@ -32,6 +32,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -436,6 +437,7 @@ public class ModBlocks {
 	public static Block fallout;
 	public static Block foam_layer;
 	public static Block sand_boron_layer;
+	public static Block jam;
 
 	public static Block sellafield_slaked;
 	public static Block sellafield_0;
@@ -973,6 +975,8 @@ public class ModBlocks {
 	public static final int guiID_waste_drum = 79;
 	public static Block machine_storage_drum;
 	public static final int guiID_storage_drum = 118;
+	
+	public static Block machine_deuterium_tower;
 
 	public static Block anvil_iron;
 	public static Block anvil_lead;
@@ -1584,6 +1588,7 @@ public class ModBlocks {
 		fallout = new BlockFallout(Material.snow).addRadiation(ItemHazard.fo * ItemHazard.powder * 2).toBlock().setBlockName("fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
 		foam_layer = new BlockLayering(Material.snow).setBlockName("foam_layer").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":foam");
 		sand_boron_layer = new BlockLayering(Material.sand).setBlockName("sand_boron_layer").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":sand_boron");
+		jam = new BlockLayering(Material.snow).setBlockName("jam").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":jam");
 
 		sellafield_slaked = new BlockGeneric(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
 		sellafield_0 = new BlockHazard(Material.rock).addRadiation(0.5F).toBlock().setBlockName("sellafield_0").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
@@ -2012,8 +2017,8 @@ public class ModBlocks {
 		machine_waste_drum = new WasteDrum(Material.iron).setBlockName("machine_waste_drum").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":waste_drum");
 		machine_storage_drum = new StorageDrum(Material.iron, guiID_storage_drum).setBlockName("machine_storage_drum").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_storage_drum");
 		
-		//machine_neutrino = new MachineNeutrino(Material.iron, guiID_machine_neutrino).setBlockName("machine_neutrino").setHardness(10.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_neutrino");
-
+		machine_deuterium_tower = new DeuteriumTower(Material.iron).setBlockName("machine_deuterium_tower").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deuterium_tower");
+		
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2087,7 +2092,7 @@ public class ModBlocks {
 		volcanic_lava_fluid = new VolcanicFluid().setLuminosity(15).setDensity(3000).setViscosity(3000).setTemperature(1300).setUnlocalizedName("volcanic_lava_fluid");
 		FluidRegistry.registerFluid(volcanic_lava_fluid);
 		volcanic_lava_block = new VolcanicBlock(volcanic_lava_fluid, Material.lava).setBlockName("volcanic_lava_block").setResistance(500F);
-
+		
 		dummy_block_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_block_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_port_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_centrifuge = new DummyBlockCentrifuge(Material.iron).setBlockName("dummy_block_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2542,6 +2547,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fallout, ItemBlockHazard.class, fallout.getUnlocalizedName());
 		GameRegistry.registerBlock(foam_layer, foam_layer.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_boron_layer, sand_boron_layer.getUnlocalizedName());
+		GameRegistry.registerBlock(jam, jam.getUnlocalizedName());
 		
 		//RAD
 		GameRegistry.registerBlock(sellafield_slaked, sellafield_slaked.getUnlocalizedName());
@@ -2873,6 +2879,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_forcefield, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(radiorec, radiorec.getUnlocalizedName());
 		GameRegistry.registerBlock(radiobox, radiobox.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_deuterium_tower, machine_deuterium_tower.getUnlocalizedName());
 		
 		//ReiX Machines
 		//GameRegistry.registerBlock(machine_reix_mainframe, machine_reix_mainframe.getUnlocalizedName());

@@ -1096,6 +1096,20 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.tower_large_tex); ResourceManager.tower_large.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_deuterium_tower), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -5, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glRotated(180, 0, 1, 0);
+				GL11.glScaled(0.5, 0.5, 0.5);
+		        GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.deuterium_tower_tex);  ResourceManager.deuterium_tower.renderAll();
+		        GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

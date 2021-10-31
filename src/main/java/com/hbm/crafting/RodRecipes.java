@@ -40,6 +40,7 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_euphemium, 1), new Object[] { ModItems.rod_empty, ModItems.nugget_euphemium, ModItems.nugget_euphemium, ModItems.nugget_euphemium, ModItems.nugget_euphemium, ModItems.nugget_euphemium, ModItems.nugget_euphemium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_australium, 1), new Object[] { ModItems.rod_empty, ModItems.nugget_australium, ModItems.nugget_australium, ModItems.nugget_australium, ModItems.nugget_australium, ModItems.nugget_australium, ModItems.nugget_australium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_balefire, 1), new Object[] { ModItems.rod_empty, ModItems.egg_balefire_shard });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_natural_uranium_fuel, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium });
 		
 		//...with billets
 		addRodBilletUnload(ModItems.billet_uranium, ModItems.rod_uranium);
@@ -60,6 +61,7 @@ public class RodRecipes {
 		addRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_plutonium_fuel);
 		addRodBillet(ModItems.billet_mox_fuel, ModItems.rod_mox_fuel);
 		addRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_schrabidium_fuel);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_natural_uranium_fuel, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_uranium });
 
 		//Dual rods
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_empty, 2), new Object[] { ModItems.rod_dual_empty });
@@ -84,6 +86,7 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_mox_fuel, 1), new Object[] { ModItems.rod_dual_empty, ModItems.ingot_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_schrabidium_fuel, 1), new Object[] { ModItems.rod_dual_empty, ModItems.ingot_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_balefire, 1), new Object[] { ModItems.rod_dual_empty, ModItems.egg_balefire_shard, ModItems.egg_balefire_shard });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_natural_uranium_fuel, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium });
 		
 		//...with billets
 		addDualRodBilletUnload(ModItems.billet_uranium, ModItems.rod_dual_uranium);
@@ -104,6 +107,7 @@ public class RodRecipes {
 		addDualRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_dual_plutonium_fuel);
 		addDualRodBillet(ModItems.billet_mox_fuel, ModItems.rod_dual_mox_fuel);
 		addDualRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_dual_schrabidium_fuel);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_natural_uranium_fuel, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_uranium, ModItems.billet_uranium });
 
 		//Lithium and tritium rods
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_lithium, 1), new Object[] { ModItems.rod_empty, ModItems.lithium });
@@ -137,6 +141,7 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_mox_fuel, 1), new Object[] { ModItems.rod_quad_empty, ModItems.ingot_mox_fuel, ModItems.ingot_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_schrabidium_fuel, 1), new Object[] { ModItems.rod_quad_empty, ModItems.ingot_schrabidium_fuel, ModItems.ingot_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_balefire, 1), new Object[] { ModItems.rod_quad_empty, ModItems.egg_balefire_shard, ModItems.egg_balefire_shard, ModItems.egg_balefire_shard, ModItems.egg_balefire_shard });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_natural_uranium_fuel, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_uranium, ModItems.ingot_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium, ModItems.nugget_uranium });
 		
 		//...with billets
 		addQuadRodBilletUnload(ModItems.billet_uranium, ModItems.rod_quad_uranium);
@@ -157,6 +162,7 @@ public class RodRecipes {
 		addQuadRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_quad_plutonium_fuel);
 		addQuadRodBillet(ModItems.billet_mox_fuel, ModItems.rod_quad_mox_fuel);
 		addQuadRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_quad_schrabidium_fuel);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_natural_uranium_fuel, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_uranium, ModItems.billet_uranium, ModItems.billet_uranium, ModItems.billet_uranium });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pile_rod_uranium, 1), new Object[] { " U ", "PUP", " U ", 'P', "plateIron", 'U', ModItems.billet_uranium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pile_rod_source, 1), new Object[] { " U ", "PUP", " U ", 'P', "plateIron", 'U', ModItems.billet_ra226be }));
@@ -231,6 +237,85 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 1), new Object[] { ModItems.rod_schrabidium_fuel_depleted });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 2), new Object[] { ModItems.rod_dual_schrabidium_fuel_depleted });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 4), new Object[] { ModItems.rod_quad_schrabidium_fuel_depleted });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_natural_uranium_hot, 1), new Object[] { ModItems.rod_natural_uranium_fuel_depleted });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_natural_uranium_hot, 2), new Object[] { ModItems.rod_dual_natural_uranium_fuel_depleted });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_natural_uranium_hot, 4), new Object[] { ModItems.rod_quad_natural_uranium_fuel_depleted });
+		
+		// Zirconium Clad Rods
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_zrclad_empty, 1), new Object[] { ModItems.rod_empty, ModItems.ingot_zirconium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_zrclad_empty, 1), new Object[] { ModItems.rod_dual_empty, ModItems.ingot_zirconium, ModItems.ingot_zirconium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_zrclad_empty, 1), new Object[] { ModItems.rod_quad_empty, ModItems.ingot_zirconium, ModItems.ingot_zirconium, ModItems.ingot_zirconium, ModItems.ingot_zirconium });
+		
+		// Pheo is lazy: the novel
+		// this is all the zirconium clad rod recipes excluding NU
+		// each "chunk" of recipes looks like this:
+		/*
+		 *  single rod with nuggets & ingots
+		 *  single rod with billets
+		 *  dual rod with nuggets & ingots
+		 *  dual rod with billets 
+		 *  quad rod with nuggets & ingots
+		 *  quad rod with billets
+		 * 	single rod waste extraction
+		 *  dual rod waste extraction
+		 *  quad rod waste extraction
+		 */
+		
+		// Uranium
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_uranium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_uranium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_uranium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_uranium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_uranium_fuel, ModItems.billet_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_uranium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_uranium_fuel, ModItems.ingot_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_uranium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_uranium_fuel, ModItems.billet_uranium_fuel, ModItems.billet_uranium_fuel, ModItems.billet_uranium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_uranium_hot, 1), new Object[] { ModItems.rod_uranium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_uranium_hot, 2), new Object[] { ModItems.rod_dual_uranium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_uranium_hot, 4), new Object[] { ModItems.rod_quad_uranium_fuel_depleted_zr });
+		
+		// Thorium
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_thorium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_thorium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_thorium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_thorium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_thorium_fuel, ModItems.billet_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_thorium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_thorium_fuel, ModItems.ingot_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel, ModItems.nugget_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_thorium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_thorium_fuel, ModItems.billet_thorium_fuel, ModItems.billet_thorium_fuel, ModItems.billet_thorium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_thorium_hot, 1), new Object[] { ModItems.rod_thorium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_thorium_hot, 2), new Object[] { ModItems.rod_dual_thorium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_thorium_hot, 4), new Object[] { ModItems.rod_quad_thorium_fuel_depleted_zr });
+		
+		// Plutonium
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_plutonium_fuel, ModItems.billet_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_plutonium_fuel, ModItems.ingot_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel, ModItems.nugget_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_plutonium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_plutonium_fuel, ModItems.billet_plutonium_fuel, ModItems.billet_plutonium_fuel, ModItems.billet_plutonium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_plutonium_hot, 1), new Object[] { ModItems.rod_plutonium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_plutonium_hot, 2), new Object[] { ModItems.rod_dual_plutonium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_plutonium_hot, 4), new Object[] { ModItems.rod_quad_plutonium_fuel_depleted_zr });
+		
+		// MOX
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_mox_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_mox_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_mox_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_mox_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_mox_fuel, ModItems.billet_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_mox_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_mox_fuel, ModItems.ingot_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel, ModItems.nugget_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_mox_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_mox_fuel, ModItems.billet_mox_fuel, ModItems.billet_mox_fuel, ModItems.billet_mox_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_mox_hot, 1), new Object[] { ModItems.rod_mox_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_mox_hot, 2), new Object[] { ModItems.rod_dual_mox_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_mox_hot, 4), new Object[] { ModItems.rod_quad_mox_fuel_depleted_zr });
+		
+		// Schrabidium
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_zrclad_empty, ModItems.billet_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.ingot_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_dual_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_dual_zrclad_empty, ModItems.billet_schrabidium_fuel, ModItems.billet_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.ingot_schrabidium_fuel, ModItems.ingot_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel, ModItems.nugget_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.rod_quad_schrabidium_fuel_zr, 1), new Object[] { ModItems.rod_quad_zrclad_empty, ModItems.billet_schrabidium_fuel, ModItems.billet_schrabidium_fuel, ModItems.billet_schrabidium_fuel, ModItems.billet_schrabidium_fuel });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 1), new Object[] { ModItems.rod_schrabidium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 2), new Object[] { ModItems.rod_dual_schrabidium_fuel_depleted_zr });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.waste_schrabidium_hot, 4), new Object[] { ModItems.rod_quad_schrabidium_fuel_depleted_zr });
+		
 	}
 	
 	//Fill rods with 6 nuggets
@@ -258,7 +343,7 @@ public class RodRecipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_dual_empty, billet, billet });
 	}
 	
-	//Fill rods with three billets
+	//Fill rods with four billets
 	public static void addQuadRodBillet(Item billet, Item out) {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_quad_empty, billet, billet, billet, billet });
 	}
@@ -285,4 +370,5 @@ public class RodRecipes {
 	public static void addRBMKRod(Item billet, Item out) {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
 	}
+	
 }
