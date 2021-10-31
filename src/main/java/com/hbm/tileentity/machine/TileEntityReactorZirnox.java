@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.ZirnoxDestroyed;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.projectile.EntityZirnoxDebris;
 import com.hbm.entity.projectile.EntityZirnoxDebris.DebrisType;
@@ -33,9 +32,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/*
- * FIX FLUID PORTS!!!!!!!!!! ASK BOB
- */
 public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource {
 	
 	public int heat;
@@ -297,7 +293,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 	
-	protected void spawnDebris(DebrisType type) {
+	private void spawnDebris(DebrisType type) {
 
 		EntityZirnoxDebris debris = new EntityZirnoxDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, type);
 		debris.motionX = worldObj.rand.nextGaussian() * 1.25D;
@@ -319,7 +315,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		worldObj.spawnEntityInWorld(debris);
 	}
 	
-	protected void zirnoxDebris() {
+	private void zirnoxDebris() {
 		for (int i = 0; i < 2; i++) {
 			spawnDebris(DebrisType.CONCRETE);
 			spawnDebris(DebrisType.EXCHANGER);
@@ -341,7 +337,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		
 		int[] dimensions = {1, 0, 2, 2, 2, 2,};
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.zirnox_destroyed, this.getBlockMetadata(), 3);
-		MultiblockHandlerXR.fillSpace(worldObj, this.xCoord, this.yCoord, this.zCoord, dimensions, ModBlocks.zirnox_destroyed, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(worldObj, this.xCoord, this.yCoord, this.zCoord, dimensions, ModBlocks.zirnox_destroyed, ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset));
 		worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.rbmk_explosion", 10.0F, 1.0F);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 12.0F, true);
 		zirnoxDebris();

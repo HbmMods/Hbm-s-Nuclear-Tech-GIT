@@ -3,20 +3,22 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 
-public class EntityZirnoxDebris extends EntityRBMKDebris {
-	
-	private boolean hasSizeSet = false;
+public class EntityZirnoxDebris extends EntityDebrisBase {
 	
 	public EntityZirnoxDebris(World world) {
 		super(world);
@@ -33,7 +35,7 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 
 		if(!worldObj.isRemote) {
 			
-			switch(this.getZirnoxDebrisType()) {
+			switch(this.getType()) {
 			case BLANK: if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.debris_metal))) this.setDead(); break;
 			case ELEMENT: if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.debris_element))) this.setDead(); break;
 			case SHRAPNEL: if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.debris_shrapnel))) this.setDead(); break;
@@ -53,10 +55,10 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 		
 		if(!hasSizeSet) {
 			
-			switch(this.getZirnoxDebrisType()) {
+			switch(this.getType()) {
 			case BLANK: this.setSize(0.5F, 0.5F); break;
 			case ELEMENT: this.setSize(1F, 1F); break;
-			case SHRAPNEL: this.setSize(0.25F, 0.25F); break;
+			case SHRAPNEL: this.setSize(0.5F, 0.5F); break;
 			case GRAPHITE: this.setSize(0.25F, 0.25F); break;
 			case CONCRETE: this.setSize(1F, 0.5F); break;
 			case EXCHANGER: this.setSize(1F, 0.5F); break;
@@ -90,7 +92,7 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 		}
 		
 		if(!worldObj.isRemote) {
-			if(this.getZirnoxDebrisType() == DebrisType.CONCRETE || this.getZirnoxDebrisType() == DebrisType.EXCHANGER && motionY > 0) {
+			if((this.getType() == DebrisType.CONCRETE || this.getType() == DebrisType.EXCHANGER) && motionY > 0) {
 	
 				Vec3 pos = Vec3.createVectorHelper(posX, posY, posZ);
 				Vec3 next = Vec3.createVectorHelper(posX + motionX * 2, posY + motionY * 2, posZ + motionZ * 2);
@@ -118,7 +120,7 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 				}
 			}
 			
-			if(this.getZirnoxDebrisType() == DebrisType.ELEMENT || this.getZirnoxDebrisType() == DebrisType.GRAPHITE) {
+			if(this.getType() == DebrisType.ELEMENT || this.getType() == DebrisType.GRAPHITE) {
 				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(10, 10, 10));
 				
 				for(EntityLivingBase e : entities) {
@@ -131,12 +133,12 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 		}
 	}
 	
-	private int getLifetime() {
+	protected int getLifetime() {
 		
-		switch(this.getZirnoxDebrisType()) {
+		switch(this.getType()) {
 		case BLANK: return 3 * 60 * 20;
 		case ELEMENT: return 10 * 60 * 20;
-		case SHRAPNEL: return 3 * 60 * 20;
+		case SHRAPNEL: return 15 * 60 * 20;
 		case GRAPHITE: return 15 * 60 * 20;
 		case CONCRETE: return 60 * 20;
 		case EXCHANGER: return 60 * 20;
@@ -148,7 +150,7 @@ public class EntityZirnoxDebris extends EntityRBMKDebris {
 		this.dataWatcher.updateObject(20, type.ordinal());
 	}
 	
-	public DebrisType getZirnoxDebrisType() {
+	public DebrisType getType() {
 		return DebrisType.values()[Math.abs(this.dataWatcher.getWatchableObjectInt(20)) % DebrisType.values().length];
 	}
 	

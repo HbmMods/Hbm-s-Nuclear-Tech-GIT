@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -9,6 +10,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -19,9 +21,8 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
 		if(!worldObj.isRemote) {
-			radiate(worldObj, xCoord, yCoord, zCoord);
+			radiate(worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 	}
 	

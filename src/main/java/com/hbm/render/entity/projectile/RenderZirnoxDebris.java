@@ -16,7 +16,6 @@ public class RenderZirnoxDebris extends Render {
 	//for fallback only
 		private static final ResourceLocation tex_base = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_side.png");
 		private static final ResourceLocation tex_element = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element.png");
-		private static final ResourceLocation tex_control = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_control.png");
 		private static final ResourceLocation tex_blank = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_blank.png");
 		private static final ResourceLocation tex_graphite = new ResourceLocation(RefStrings.MODID + ":textures/blocks/block_graphite.png");
 
@@ -31,12 +30,12 @@ public class RenderZirnoxDebris extends Render {
 			GL11.glRotatef(debris.getEntityId() % 360, 0, 1, 0); //rotate based on entity ID to add unique randomness
 			GL11.glRotatef(debris.lastRot + (debris.rot - debris.lastRot) * f1, 1, 1, 1);
 			
-			DebrisType type = debris.getZirnoxDebrisType();
+			DebrisType type = debris.getType();
 			
 			switch(type) {
 			case BLANK: bindTexture(tex_blank); ResourceManager.deb_blank.renderAll(); break;
 			case ELEMENT: bindTexture(tex_element); ResourceManager.deb_element.renderAll(); break;
-			case SHRAPNEL: bindTexture(tex_control); ResourceManager.deb_blank.renderAll(); break;
+			case SHRAPNEL: bindTexture(tex_blank); ResourceManager.deb_blank.renderAll(); break;
 			case GRAPHITE: bindTexture(tex_graphite); ResourceManager.deb_graphite.renderAll(); break;
 			case CONCRETE: bindTexture(tex_blank); ResourceManager.deb_lid.renderAll(); break;
 			case EXCHANGER: bindTexture(tex_blank); ResourceManager.deb_lid.renderAll(); break;
