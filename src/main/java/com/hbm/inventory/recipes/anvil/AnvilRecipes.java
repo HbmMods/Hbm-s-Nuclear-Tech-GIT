@@ -518,7 +518,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.rbmk_control), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModBlocks.rbmk_absorber, 1)),
-						new AnvilOutput(new ItemStack(ModBlocks.block_graphite, 2)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_graphite, 2)),
 						new AnvilOutput(new ItemStack(ModItems.motor, 2))
 				}).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
