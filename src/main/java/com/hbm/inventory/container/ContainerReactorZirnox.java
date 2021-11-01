@@ -66,19 +66,17 @@ public class ContainerReactorZirnox extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int index)
-    {
+    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		
 		ItemStack var3 = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 		
-		if (slot != null && slot.getHasStack())
-		{
+		if (slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
 			var3 = stack.copy();
 			
             if (index <= 27) {
-				if (!this.mergeItemStack(stack, 28, this.inventorySlots.size(), true))
-				{
+				if (!this.mergeItemStack(stack, 28, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
@@ -91,7 +89,7 @@ public class ContainerReactorZirnox extends Container {
 					if(!this.mergeItemStack(stack, 25, 26, true))
 						return null;
 					
-				} else {
+			} else {
 					
 					if(stack.getItem() instanceof ItemZirnoxRod) {
 						

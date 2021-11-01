@@ -469,12 +469,12 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 152, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityBlockSpider.class, "entity_taintcrawler", 153, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityRBMKDebris.class, "entity_rbmk_debris", 154, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 154, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityUFO.class, "entity_ntm_ufo", 155, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosionNT.class, "entity_ntm_explosion_nt", 156, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityQuasar.class, "entity_digamma_quasar", 157, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntitySpear.class, "entity_digamma_spear", 158, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityMissileVolcano.class, "entity_missile_volcano", 159, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 160, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

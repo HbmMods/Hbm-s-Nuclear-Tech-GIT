@@ -28,8 +28,8 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 	
 	private void radiate(World world, int x, int y, int z) {
 		
-		float rads = 10000F;
-		double range = 50D;
+		float rads = 500000F;
+		double range = 100D;
 		
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5).expand(range, range, range));
 		
@@ -59,7 +59,7 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 			
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
 			
-			if(len < 3) {
+			if(len < 5) {
 				e.attackEntityFrom(DamageSource.onFire, 2);
 			}
 		}

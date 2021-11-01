@@ -51,7 +51,7 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 		
-		if(rand.nextInt(6) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+		if(rand.nextInt(2) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 			world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_radon_dense);
 		}
 		
@@ -71,7 +71,7 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 			if(world.rand.nextInt(4) == 0) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "rbmkflame");
-				data.setInteger("maxAge", 60);
+				data.setInteger("maxAge", 90);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.25 + world.rand.nextDouble() * 0.5, y + 1.75, z + 0.25 + world.rand.nextDouble() * 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 1.75, z + 0.5, 75));
 				MainRegistry.proxy.effectNT(data);
 				world.playSoundEffect(x + 0.5F, y + 0.5, z + 0.5, "fire.fire", 1.0F + world.rand.nextFloat(), world.rand.nextFloat() * 0.7F + 0.3F);
@@ -92,8 +92,9 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 		drops.add(new ItemStack(ModBlocks.concrete_smooth, 6));
 		drops.add(new ItemStack(ModBlocks.deco_pipe_quad, 4));
 		drops.add(new ItemStack(ModBlocks.steel_grate, 2));
-		drops.add(new ItemStack(ModItems.debris_metal, 4));
+		drops.add(new ItemStack(ModItems.debris_metal, 6));
 		drops.add(new ItemStack(ModItems.debris_graphite, 2));
+		drops.add(new ItemStack(ModItems.fallout, 4));
 		return drops;
 	}
 	

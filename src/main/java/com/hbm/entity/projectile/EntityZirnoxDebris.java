@@ -3,20 +3,15 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.lib.RefStrings;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import com.hbm.main.ResourceManager;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class EntityZirnoxDebris extends EntityDebrisBase {
 	
