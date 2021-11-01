@@ -16,6 +16,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.ISidedInventory;
@@ -41,10 +42,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	private AudioWrapper audio;
 	
 	public MissileStruct load;
-
-	private static final int[] access = new int[] { 0 };
-
-	private String customName;
 
 	public TileEntitySoyuzLauncher() {
 		super(27);
@@ -272,10 +269,13 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	//2: designator present
 	public int designator() {
 		
-		if(mode == 0)
+		if(mode == 0) {
 			return 0;
-		if(slots[1] != null && (slots[1].getItem() == ModItems.designator || slots[1].getItem() == ModItems.designator_range || slots[1].getItem() == ModItems.designator_manual) && slots[1].hasTagCompound())
+		}
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
 			return 2;
+		}
+		
 		return 1;
 	}
 	
@@ -306,9 +306,14 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				return 2;
 			return 1;
 		}
+		
+		if(slots[2] != null && slots[2].getItem() == ModItems.sat_lunar_miner) {
+			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander)
+				return 2;
+			return 1;
+		}
 		return 0;
-	}
-
+}
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

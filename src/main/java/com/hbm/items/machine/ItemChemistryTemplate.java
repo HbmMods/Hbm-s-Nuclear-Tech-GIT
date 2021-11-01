@@ -84,6 +84,7 @@ public class ItemChemistryTemplate extends Item {
 		XENON,
 		SATURN,
 		BALEFIRE;
+		HELIUM3,
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -255,6 +256,8 @@ public class ItemChemistryTemplate extends Item {
         	return 600;
         case BALEFIRE:
         	return 100;
+		case HELIUM3:
+        	return 200;
         default:
         	return 100;
         }

@@ -71,7 +71,9 @@ public class FluidTypeHandler {
 		PLASMA_HT		(0xD1ABF2,	10,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_ht", true, false, true, 3000),
 		PLASMA_XM		(0xC6A5FF,	11,	1,	2,	0,	4,	1,	EnumSymbol.RADIATION,	"hbmfluid.plasma_xm", true, false, true, 4250),
 		PLASMA_BF		(0xA7F1A3,	12,	1,	2,	4,	5,	4,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_bf", true, false, true, 8500);
+		PLASMA_DH3		(0xFF83AA,	7,	2,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dh3", 3480, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
 		
+		HELIUM3			(0xFCF0C4,	8,	2,	2,	3,	4,	0,	EnumSymbol.NONE,		"hbmfluid.helium3"),
 
 		//Approximate HEX Color of the fluid, used for pipe rendering
 		private int color;

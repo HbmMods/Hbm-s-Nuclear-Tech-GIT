@@ -40,7 +40,6 @@ public abstract class Satellite {
 	public Interfaces satIface = Interfaces.NONE;
 	
 	public static void register() {
-
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
 		registerSatellite(SatelliteScanner.class, ModItems.sat_scanner);
 		registerSatellite(SatelliteRadar.class, ModItems.sat_radar);
@@ -48,6 +47,7 @@ public abstract class Satellite {
 		registerSatellite(SatelliteResonator.class, ModItems.sat_resonator);
 		registerSatellite(SatelliteRelay.class, ModItems.sat_foeq);
 		registerSatellite(SatelliteMiner.class, ModItems.sat_miner);
+		registerSatellite(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
 		registerSatellite(SatelliteHorizons.class, ModItems.sat_gerald);
 	}
 	
