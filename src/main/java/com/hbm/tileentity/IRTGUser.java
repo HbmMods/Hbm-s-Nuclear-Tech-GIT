@@ -37,19 +37,22 @@ public interface IRTGUser
 	 * @param rtgIn - Slot numbers for the RTG section
 	 * @return The total heat level
 	 */
-	default int updateRTGs(ItemStack[] inventory, int[] rtgIn)
-	{
+	default int updateRTGs(ItemStack[] inventory, int[] rtgIn) {
+		
 		int newHeat = 0;
-		for (int slot : rtgIn)
-		{
-			if (inventory[slot] == null)
+		for(int slot : rtgIn) {
+			
+			if(inventory[slot] == null)
 				continue;
-			if (!isItemValid(inventory[slot].getItem()))
+			
+			if(!isItemValid(inventory[slot].getItem()))
 				continue;
+			
 			final IRadioisotopeFuel pellet = (IRadioisotopeFuel) inventory[slot].getItem();
 			newHeat += getPower(pellet, inventory[slot]);
 			inventory[slot] = IRadioisotopeFuel.handleDecay(inventory[slot], pellet);
 		}
+		
 		return newHeat;
 	}
 	/**

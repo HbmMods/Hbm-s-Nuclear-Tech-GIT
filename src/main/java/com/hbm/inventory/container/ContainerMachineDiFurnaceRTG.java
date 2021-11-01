@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.tileentity.IRadioisotopeFuel;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,10 +54,14 @@ public class ContainerMachineDiFurnaceRTG extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 3) {
-				if(!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
+			if(par2 <= 8) {
+				if(!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true)) {
 					return null;
 				}
+			} else if(var5.getItem() instanceof IRadioisotopeFuel) {
+				if(!this.mergeItemStack(var5, 3, 9, false))
+					return null;
+				
 			} else if(!this.mergeItemStack(var5, 0, 3, false)) {
 				return null;
 			}

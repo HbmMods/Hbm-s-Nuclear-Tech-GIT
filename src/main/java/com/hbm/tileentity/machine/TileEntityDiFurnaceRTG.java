@@ -58,7 +58,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 			progress = 0;
 		}
 		
-		MachineDiFurnaceRTG.updateBlockState(isProcessing() || canProcess(), getWorldObj(), xCoord, yCoord, zCoord);
+		MachineDiFurnaceRTG.updateBlockState(isProcessing() || (canProcess() && hasPower()), getWorldObj(), xCoord, yCoord, zCoord);
 
 		NBTTagCompound data = new NBTTagCompound();
 		data.setShort("progress", progress);
@@ -125,7 +125,6 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 	}
 
 	public boolean hasPower() {
-		// updateRTGs();
 		processSpeed = (short) updateRTGs(slots, rtgIn);
 		return processSpeed >= 15;
 	}
@@ -159,6 +158,11 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? new int[] {2} : side == 1 ? new int[] {0} : new int[] {1};
 	}
 
 	@Override

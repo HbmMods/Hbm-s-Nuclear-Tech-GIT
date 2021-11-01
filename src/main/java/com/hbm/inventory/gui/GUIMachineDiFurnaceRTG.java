@@ -8,10 +8,9 @@ import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
@@ -49,8 +48,15 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(bFurnace.isInvalid()) {
+			TileEntity te = bFurnace.getWorldObj().getTileEntity(bFurnace.xCoord, bFurnace.yCoord, bFurnace.zCoord);
+			if(te instanceof TileEntityDiFurnaceRTG) {
+				bFurnace = (TileEntityDiFurnaceRTG) te;
+			}
+		}
 
-		if(bFurnace.hasPower())
+		if(bFurnace.getPower() >= 15)
 			drawTexturedModalRect(guiLeft + 58, guiTop + 36, 176, 31, 18, 16);
 
 		int p = bFurnace.getDiFurnaceProgressScaled(24);

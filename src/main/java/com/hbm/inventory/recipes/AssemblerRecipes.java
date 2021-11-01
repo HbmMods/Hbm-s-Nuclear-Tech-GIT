@@ -726,6 +726,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 4),
 				new ComparableStack(ModItems.circuit_tantalium, 16)
 			}, 100);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_difurnace_rtg_off, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_difurnace_off, 1),
+				new ComparableStack(ModItems.rtg_unit, 3),
+				new OreDictStack(DESH.ingot(), 4),
+				new OreDictStack(PB.plate(), 6),
+				new OreDictStack(OreDictManager.getReflector(), 8),
+				new OreDictStack(CU.plate(), 12)
+			}, 150);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

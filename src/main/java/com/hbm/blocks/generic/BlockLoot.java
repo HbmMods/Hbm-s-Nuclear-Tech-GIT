@@ -59,7 +59,7 @@ public class BlockLoot extends BlockContainer {
 			loot.addItem(new ItemStack(ModItems.gun_lever_action), 0, 0, 0);
 		}*/
 		
-		LootGenerator.lootCapStash(world, x, y, z);
+		//LootGenerator.lootCapStash(world, x, y, z);
 	}
 
 	@Override
