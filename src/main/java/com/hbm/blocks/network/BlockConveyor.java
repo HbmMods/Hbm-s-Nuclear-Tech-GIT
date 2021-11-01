@@ -2,6 +2,7 @@ package com.hbm.blocks.network;
 
 import com.hbm.entity.item.EntityMovingItem;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -35,10 +36,12 @@ public class BlockConveyor extends Block {
 			}
 		}
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
 	public int getRenderType() {
-		return 334086;
+		return renderID;
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class BlockConveyor extends Block {
 	
 	@Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-        return null;
+        return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y, z + 1);
     }
 	
 	@Override

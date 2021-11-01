@@ -14,9 +14,12 @@ import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +35,11 @@ public class ItemDrop extends Item {
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if (entityItem != null) {
+			
+			if(this == ModItems.beta) {
+				entityItem.setDead();
+				return true;
+			}
 			
 			ItemStack stack = entityItem.getEntityItem();
 
@@ -83,8 +91,9 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.pellet_antimatter && WeaponConfig.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
-						ExplosionLarge.explodeFire(entityItem.worldObj, entityItem.posX, entityItem.posY,
-								entityItem.posZ, 100, true, true, true);
+						new ExplosionNT(entityItem.worldObj, entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 30).overrideResolution(64).addAttrib(ExAttrib.FIRE).addAttrib(ExAttrib.NOSOUND).explode();
+						ExplosionLarge.spawnParticles(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, ExplosionLarge.cloudFunction(100));
+						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium && WeaponConfig.dropCell) {
@@ -244,7 +253,7 @@ public class ItemDrop extends Item {
 			list.add("Explodes when dropped!");
 		}
 		
-		list.add(EnumChatFormatting.RED + "[Dangerous Drop]");
+		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.drop") + "]");
 	}
 	
 	@Override

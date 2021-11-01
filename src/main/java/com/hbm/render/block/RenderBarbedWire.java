@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.generic.BarbedWire;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
@@ -69,7 +70,7 @@ public class RenderBarbedWire implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334083;
+		return BarbedWire.renderID;
 	}
 
 }

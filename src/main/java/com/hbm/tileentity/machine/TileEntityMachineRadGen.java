@@ -377,7 +377,8 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 
 		if(item == Item.getItemFromBlock(ModBlocks.block_yellowcake)) return 1000;
 		if(item == Item.getItemFromBlock(ModBlocks.mush)) return 10;
-		if(item == Item.getItemFromBlock(ModBlocks.waste_earth)) return 25;
+		if(item == ModItems.fallout) return 25;
+		if(item == Item.getItemFromBlock(ModBlocks.block_fallout)) return 250;
 		if(item == Item.getItemFromBlock(ModBlocks.waste_mycelium)) return 150;
 		
 		return 0;

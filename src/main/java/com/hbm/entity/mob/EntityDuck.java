@@ -26,5 +26,4 @@ public class EntityDuck extends EntityChicken {
     {
         return new EntityDuck(this.worldObj);
     }
-
 }

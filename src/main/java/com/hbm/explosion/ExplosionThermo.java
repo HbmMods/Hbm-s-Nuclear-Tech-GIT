@@ -4,7 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.ArmorUtil;
+import com.hbm.util.ArmorUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

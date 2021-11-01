@@ -43,6 +43,7 @@ import com.hbm.entity.grenade.EntityGrenadeSmart;
 import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.grenade.EntityWastePearl;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -198,6 +199,9 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_if_null) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFNull(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.nuclear_waste_pearl) {
+				p_77659_2_.spawnEntityInWorld(new EntityWastePearl(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -235,6 +239,12 @@ public class ItemGrenade extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
 		list.add("Fuse: " + translateFuse());
+
+		if (this == ModItems.grenade_smart) {
+			list.add("");
+			list.add("\"Why did it not blow up????\"");
+			list.add(EnumChatFormatting.ITALIC + "If it didn't blow up it means it worked.");
+		}
 
 		if (this == ModItems.grenade_if_generic) {
 			list.add("");

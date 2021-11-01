@@ -61,7 +61,7 @@ public class GUIMicrowave extends GuiInfoContainer {
 		int i = (int)microwave.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
 		
-		int j = microwave.getProgressScaled(23);
+		int j = Math.min(microwave.getProgressScaled(23), 22);
 		drawTexturedModalRect(guiLeft + 104, guiTop + 34, 192, 0, j, 16);
 
 		int k = microwave.getSpeedScaled(34);

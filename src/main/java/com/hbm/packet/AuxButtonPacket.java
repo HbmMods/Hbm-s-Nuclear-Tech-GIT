@@ -1,9 +1,11 @@
 package com.hbm.packet;
 
+import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
@@ -275,13 +277,17 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
 					base.handleButtonPacket(m.value, m.id);
 				}
+				if(te instanceof TileEntityTickingBase) {
+					TileEntityTickingBase base = (TileEntityTickingBase)te;
+					base.handleButtonPacket(m.value, m.id);
+				}
 				
 				//why make new packets when you can just abuse and uglify the existing ones?
 				if(te == null && m.value == 999) {
 					
 					NBTTagCompound perDat = p.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 					
-					if(!perDat.getBoolean("hasDucked")) {
+					if(MobConfig.enableDucks && !perDat.getBoolean("hasDucked")) {
 						EntityDuck ducc = new EntityDuck(p.worldObj);
 						ducc.setPosition(p.posX, p.posY + p.eyeHeight, p.posZ);
 						

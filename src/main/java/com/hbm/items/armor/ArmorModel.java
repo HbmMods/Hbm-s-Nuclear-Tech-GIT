@@ -9,6 +9,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelCloak;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelGoggles;
+import com.hbm.render.model.ModelHat;
 import com.hbm.render.model.ModelM65;
 import com.hbm.render.model.ModelOxygenMask;
 
@@ -33,6 +34,7 @@ public class ArmorModel extends ItemArmor {
 	private ModelCloak modelCloak;
 	private ModelOxygenMask modelOxy;
 	private ModelM65 modelM65;
+	private ModelHat modelHat;
 	private ResourceLocation goggleBlur0 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_0.png");
 	private ResourceLocation goggleBlur1 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_1.png");
 	private ResourceLocation goggleBlur2 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_2.png");
@@ -59,6 +61,9 @@ public class ArmorModel extends ItemArmor {
 			return armorType == 0;
 		}
 		if (this == ModItems.gas_mask_m65) {
+			return armorType == 0;
+		}
+		if (this == ModItems.hat) {
 			return armorType == 0;
 		}
 		if (this == ModItems.hazmat_helmet_red) {
@@ -139,6 +144,14 @@ public class ArmorModel extends ItemArmor {
 					this.modelOxy = new ModelOxygenMask();
 				}
 				return this.modelOxy;
+			}
+		}
+		if (this == ModItems.hat) {
+			if (armorSlot == 0) {
+				if (this.modelHat == null) {
+					this.modelHat = new ModelHat(0);
+				}
+				return this.modelHat;
 			}
 		}
 		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium) {

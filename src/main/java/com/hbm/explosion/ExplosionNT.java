@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,6 +35,8 @@ public class ExplosionNT extends Explosion {
     private World worldObj;
     protected int field_77289_h = 16;
     protected Map affectedEntities = new HashMap();
+    
+    public static final List<ExAttrib> nukeAttribs = Arrays.asList(new ExAttrib[] {ExAttrib.FIRE, ExAttrib.NOPARTICLE, ExAttrib.NOSOUND, ExAttrib.NODROP, ExAttrib.NOHURT});
 
 	public ExplosionNT(World world, Entity exploder, double x, double y, double z, float strength) {
 		super(world, exploder, x, y, z, strength);
@@ -44,6 +47,21 @@ public class ExplosionNT extends Explosion {
 		atttributes.add(attrib);
 		return this;
 	}
+	
+	public ExplosionNT addAllAttrib(List<ExAttrib> attrib) {
+		atttributes.addAll(attrib);
+		return this;
+	}
+	
+	public ExplosionNT overrideResolution(int res) {
+		field_77289_h = res;
+		return this;
+	}
+	
+    public void explode() {
+    	doExplosionA();
+    	doExplosionB(false);
+    }
 	
     public void doExplosionA()
     {
@@ -155,9 +173,10 @@ public class ExplosionNT extends Explosion {
         }
     }
     
-    public void doExplosionB(boolean p_77279_1_)
-    {
-        this.worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+    public void doExplosionB(boolean p_77279_1_) {
+    	
+    	if(!has(ExAttrib.NOSOUND))
+    		this.worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
         if (!has(ExAttrib.NOPARTICLE)) {
 	        if (this.explosionSize >= 2.0F && this.isSmoking)
@@ -212,7 +231,7 @@ public class ExplosionNT extends Explosion {
 
                 if (block.getMaterial() != Material.air)
                 {
-                    if (block.canDropFromExplosion(this))
+                    if (block.canDropFromExplosion(this) && !has(ExAttrib.NODROP))
                     {
                     	float chance = 1.0F;
                     	
@@ -280,7 +299,9 @@ public class ExplosionNT extends Explosion {
 		LAVA,		//again the same thing but lava
 		ALLMOD,		//block placer attributes like fire are applied for all destroyed blocks
 		ALLDROP,	//miner TNT!
+		NODROP,		//the opposite
 		NOPARTICLE,
+		NOSOUND,
 		NOHURT
 	}
 

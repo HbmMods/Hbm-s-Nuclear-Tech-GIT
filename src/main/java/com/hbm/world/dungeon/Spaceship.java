@@ -18,12 +18,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class Spaceship extends WorldGenerator
 {
 	Block Block1 = ModBlocks.deco_tungsten;
-	Block Block2 = ModBlocks.fusion_conductor;
+	Block Block2 = ModBlocks.deco_red_copper;
 	Block Block3 = ModBlocks.deco_steel;
 	Block Block4 = ModBlocks.fusion_heater;
 	Block Block5 = ModBlocks.block_meteor;
 	Block Block6 = ModBlocks.reactor_element;
-	Block Block7 = ModBlocks.fusion_core;
+	Block Block7 = ModBlocks.cable_switch;
 	Block Block8 = ModBlocks.fusion_hatch;
 	Block Block9 = ModBlocks.reinforced_light;
 	Block Block10 = ModBlocks.reinforced_glass;
@@ -495,10 +495,10 @@ public class Spaceship extends WorldGenerator
 		world.setBlock(x + 2, y + -2, z + 27, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + -2, z + 27, Block3, 0, 3);
 		world.setBlock(x + 4, y + -2, z + 27, Block3, 0, 3);
-		world.setBlock(x + 5, y + -2, z + 27, ModBlocks.machine_reactor, 3, 3);
+		world.setBlock(x + 5, y + -2, z + 27, ModBlocks.fusion_conductor);
 		world.setBlock(x + 6, y + -2, z + 27, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + -2, z + 27, Blocks.air, 0, 3);
-		world.setBlock(x + 8, y + -2, z + 27, ModBlocks.machine_reactor, 4, 3);
+		world.setBlock(x + 8, y + -2, z + 27, ModBlocks.fusion_conductor);
 		world.setBlock(x + 9, y + -2, z + 27, Block3, 0, 3);
 		world.setBlock(x + 10, y + -2, z + 27, Block3, 0, 3);
 		world.setBlock(x + 11, y + -2, z + 27, Blocks.air, 0, 3);

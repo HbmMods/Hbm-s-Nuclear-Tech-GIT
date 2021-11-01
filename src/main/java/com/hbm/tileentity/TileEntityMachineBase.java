@@ -100,19 +100,19 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	}
 	
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
+	public ItemStack decrStackSize(int slot, int amount) {
+		if(slots[slot] != null)
 		{
-			if(slots[i].stackSize <= j)
+			if(slots[slot].stackSize <= amount)
 			{
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
+				ItemStack itemStack = slots[slot];
+				slots[slot] = null;
 				return itemStack;
 			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
+			ItemStack itemStack1 = slots[slot].splitStack(amount);
+			if (slots[slot].stackSize == 0)
 			{
-				slots[i] = null;
+				slots[slot] = null;
 			}
 			
 			return itemStack1;

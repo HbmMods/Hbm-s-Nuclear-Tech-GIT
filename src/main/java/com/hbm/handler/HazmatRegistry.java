@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import java.util.HashMap;
 
+import com.hbm.items.armor.ItemModCladding;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,26 +11,14 @@ import net.minecraft.item.ItemStack;
 
 public class HazmatRegistry {
 	
-	public static final HazmatRegistry instance = new HazmatRegistry();
 	private static HashMap<Item, Float> entries = new HashMap();
 	
-	private class HazmatEntry {
-		
-		private Item item;
-		private float resistance;
-		
-		private HazmatEntry(Item item, float resistance) {
-			this.item = item;
-			this.resistance = resistance;
-		}
-	}
-	
-	public void registerHazmat(Item item, float resistance) {
+	public static void registerHazmat(Item item, float resistance) {
 		
 		entries.put(item, resistance);
 	}
 	
-	public float getResistance(ItemStack stack) {
+	public static float getResistance(ItemStack stack) {
 		
 		if(stack == null)
 			return 0;
@@ -44,15 +33,25 @@ public class HazmatRegistry {
 		return cladding;
 	}
 	
-	public float getCladding(ItemStack stack) {
+	public static float getCladding(ItemStack stack) {
 
 		if(stack.hasTagCompound() && stack.stackTagCompound.getFloat("hfr_cladding") > 0)
 			return stack.stackTagCompound.getFloat("hfr_cladding");
 		
+		if(ArmorModHandler.hasMods(stack)) {
+			
+			ItemStack[] mods = ArmorModHandler.pryMods(stack);
+			ItemStack cladding = mods[ArmorModHandler.cladding];
+			
+			if(cladding != null && cladding.getItem() instanceof ItemModCladding) {
+				return ((ItemModCladding)cladding.getItem()).rad;
+			}
+		}
+		
 		return 0;
 	}
 	
-	public float getResistance(EntityPlayer player) {
+	public static float getResistance(EntityPlayer player) {
 		
 		float res = 0.0F;
 		

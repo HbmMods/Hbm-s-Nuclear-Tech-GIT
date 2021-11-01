@@ -15,8 +15,8 @@ public class FusionRecipes {
 		case PLASMA_DT: return 1200;
 		case PLASMA_HD: return 1200;
 		case PLASMA_HT: return 1200;
-		case PLASMA_XM: return 3600; 
-		case PLASMA_BF: return 1200;
+		case PLASMA_XM: return 2400;
+		case PLASMA_BF: return 150;
 		default: return 0;
 		}
 	}

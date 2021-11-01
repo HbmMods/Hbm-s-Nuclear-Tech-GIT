@@ -13,15 +13,13 @@ import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
 public class ParticleRocketFlame extends EntityFX {
-
-	private TextureManager theRenderEngine;
+	
 	private int age;
 	private int maxAge;
 
 	public ParticleRocketFlame(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_) {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
 		particleIcon = ModEventHandlerClient.particleBase;
-		theRenderEngine = p_i1213_1_;
 		maxAge = 300 + rand.nextInt(50);
 	}
 

@@ -12,13 +12,17 @@ public class EnchantmentUtil {
 	
 	public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
 		
+		if(stack.getEnchantmentTagList() == null)
+			return;
+		
 		int i = 0;
 		for( ; i < stack.getEnchantmentTagList().tagCount(); i++) {
 			if(stack.getEnchantmentTagList().getCompoundTagAt(i).getShort("id") == enchantment.effectId)
 				break;
 		}
-
-		stack.getEnchantmentTagList().removeTag(i);
+		
+		if(i < stack.getEnchantmentTagList().tagCount())
+			stack.getEnchantmentTagList().removeTag(i);
 		
 		if(stack.getEnchantmentTagList().tagCount() == 0)
 			stack.getTagCompound().removeTag("ench");

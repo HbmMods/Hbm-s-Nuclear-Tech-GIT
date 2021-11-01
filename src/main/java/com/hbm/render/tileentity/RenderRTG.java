@@ -22,6 +22,8 @@ public class RenderRTG extends TileEntitySpecialRenderer {
         
         if(te.getBlockType() == ModBlocks.machine_rtg_grey)
             bindTexture(ResourceManager.rtg_tex);
+        else if(te.getBlockType() == ModBlocks.machine_powerrtg)
+            bindTexture(ResourceManager.rtg_polonium_tex);
         else
             bindTexture(ResourceManager.rtg_cell_tex);
         

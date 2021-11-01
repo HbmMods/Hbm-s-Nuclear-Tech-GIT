@@ -5,17 +5,22 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.GunConfiguration;
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.ArmorFSBPowered;
+import com.hbm.items.armor.ItemArmorMod;
+import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -25,6 +30,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.util.RenderAccessoryUtility;
+import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
 import com.hbm.sound.MovingSoundChopper;
@@ -35,6 +41,7 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
+import com.hbm.util.I18nUtil;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
@@ -46,17 +53,23 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderItemInFrameEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -70,58 +83,23 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		/// HANDLE GUN AND AMMO OVERLAYS ///
-		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
-			
-			ItemGunBase gun = ((ItemGunBase)player.getHeldItem().getItem());
-			GunConfiguration gcfg = gun.mainConfig;
-			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(player.getHeldItem())));
-			
-			Item ammo = bcfg.ammo;
-			int count = ItemGunBase.getMag(player.getHeldItem());
-			int max = gcfg.ammoCap;
-			
-			if(gcfg.reloadType == GunConfiguration.RELOAD_NONE) {
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), true);
-				count = ItemGunBase.getBeltSize(player, ammo);
-				max = -1;
-			}
-			
-			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
-			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
-			
-			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
-				Item oldAmmo = ammo;
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), false);
-				
-				if(ammo != oldAmmo) {
-					count = ItemGunBase.getBeltSize(player, ammo);
-					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
-				}
-			}
+		/// HANDLE GUN OVERLAYS ///
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
+			((IItemHUD)player.getHeldItem().getItem()).renderHUD(event, event.type, player, player.getHeldItem());
 		}
 		
 		/// HANDLE GEIGER COUNTER HUD ///
 		if(event.type == ElementType.HOTBAR) {
 			
-			if(player.inventory.hasItem(ModItems.geiger_counter)) {
-
-				float rads = 0;
-
-				rads = player.getEntityData().getFloat("hfr_radiation");
+			if(!(ArmorFSB.hasFSBArmor(player) && ((ArmorFSB)player.inventory.armorInventory[2].getItem()).customGeiger)) {
 				
-				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
+				if(player.inventory.hasItem(ModItems.geiger_counter)) {
+	
+					float rads = HbmLivingProps.getRadiation(player);
+					
+					RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
+				}
 			}
-		}
-		
-		/// HANDLE CUSTOM CROSSHAIRS ///
-		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && GeneralConfig.enableCrosshairs) {
-			event.setCanceled(true);
-			
-			if(!(player.getHeldItem().getItem() instanceof ItemGunBase && ((ItemGunBase)player.getHeldItem().getItem()).mainConfig.hasSights && player.isSneaking()))
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
-			
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -144,6 +122,85 @@ public class ModEventHandlerClient {
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
 		}
+		
+		/// HANDLE FSB HUD ///
+		ItemStack helmet = player.inventory.armorInventory[3];
+		
+		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
+			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
+		}
+		
+		/// HANDLE ELECTRIC FSB HUD ///
+		
+		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+			
+	        int width = event.resolution.getScaledWidth();
+	        int height = event.resolution.getScaledHeight();
+	        int left = width / 2 - 91;
+	        int top = height - GuiIngameForge.left_height - 3;
+	        
+			Tessellator tess = Tessellator.instance;
+			
+			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
+				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
+				boolean noHelmet = chestplate.noHelmet;
+		        
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				tess.startDrawingQuads();
+	
+				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
+					
+					ItemStack stack = player.inventory.armorInventory[i];
+					
+					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
+						break;
+					
+					float tot = 1F - (float) ((ArmorFSBPowered)stack.getItem()).getDurabilityForDisplay(stack);
+					
+					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+					tess.addVertex(left - 0.5, top - 0.5, 0);
+					tess.addVertex(left - 0.5, top + 1.5, 0);
+					tess.addVertex(left + 81.5, top + 1.5, 0);
+					tess.addVertex(left + 81.5, top - 0.5, 0);
+					
+					tess.setColorOpaque_F(1F - tot, tot, 0F);
+					tess.addVertex(left, top, 0);
+					tess.addVertex(left, top + 1, 0);
+					tess.addVertex(left + 81 * tot, top + 1, 0);
+					tess.addVertex(left + 81 * tot, top, 0);
+					
+					top -= 2.5;
+				}
+				
+				tess.draw();
+				
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
+				
+				ItemStack stack = player.inventory.armorInventory[2];
+				
+				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
+				top -= 3;
+				
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				tess.startDrawingQuads();
+				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+				tess.addVertex(left - 0.5, top - 0.5, 0);
+				tess.addVertex(left - 0.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top - 0.5, 0);
+				
+				tess.setColorOpaque_F(1F - tot, tot, 0F);
+				tess.addVertex(left, top, 0);
+				tess.addVertex(left, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top, 0);
+				tess.draw();
+				
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+			}
+		}
 	}
 	
 	public static boolean ducked = false;
@@ -154,6 +211,44 @@ public class ModEventHandlerClient {
 		RenderPlayer renderer = event.renderer;
 		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
 		
+		PotionEffect invis = player.getActivePotionEffect(Potion.invisibility);
+		
+		if(invis != null && invis.getAmplifier() > 0)
+			event.setCanceled(true);
+
+		if(player.getDisplayName().toLowerCase().equals("martmn")) {
+			
+			event.setCanceled(true);
+			
+			float pX = (float) (player.prevPosX + (player.posX - player.prevPosX) * (double)event.partialRenderTick);
+			float pY = (float) (player.prevPosY + (player.posY - player.prevPosY) * (double)event.partialRenderTick);
+			float pZ = (float) (player.prevPosZ + (player.posZ - player.prevPosZ) * (double)event.partialRenderTick);
+			EntityPlayer me = Minecraft.getMinecraft().thePlayer;
+			float mX = (float) (me.prevPosX + (me.posX - me.prevPosX) * (double)event.partialRenderTick);
+			float mY = (float) (me.prevPosY + (me.posY - me.prevPosY) * (double)event.partialRenderTick);
+			float mZ = (float) (me.prevPosZ + (me.posZ - me.prevPosZ) * (double)event.partialRenderTick);
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/particle/fart.png"));
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glTranslatef(pX - mX, pY - mY + 0.75F - (float)player.getYOffset(), pZ - mZ);
+			GL11.glRotatef(-me.rotationYaw, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(me.rotationPitch, 1.0F, 0.0F, 0.0F);
+			Tessellator t = Tessellator.instance;
+			t.startDrawingQuads();
+			t.setBrightness(240);
+			t.addVertexWithUV(-1, 1, 0, 0, 0);
+			t.addVertexWithUV(1, 1, 0, 1, 0);
+			t.addVertexWithUV(1, -1, 0, 1, 1);
+			t.addVertexWithUV(-1, -1, 0, 0, 1);
+			t.draw();
+			
+			GL11.glEnable(GL11.GL_LIGHTING);
+			
+			GL11.glPopMatrix();
+		}
+		
 		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
 		
 		if(cloak != null)
@@ -163,6 +258,32 @@ public class ModEventHandlerClient {
 			renderer.modelBipedMain.aimedBow = true;
 			renderer.modelArmor.aimedBow = true;
 			renderer.modelArmorChestplate.aimedBow = true;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {
+		
+		EntityPlayer player = event.entityPlayer;
+		
+		for(int i = 0; i < 4; i++) {
+			
+			ItemStack armor = player.getCurrentArmor(i);
+			
+			if(armor != null && ArmorModHandler.hasMods(armor)) {
+				
+				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+					
+					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
+						((ItemArmorMod)mod.getItem()).modRender(event, armor);
+					}
+				}
+			}
+			
+			//because armor that isn't ItemArmor doesn't render at all
+			if(armor != null && armor.getItem() instanceof JetpackBase) {
+				((ItemArmorMod)armor.getItem()).modRender(event, armor);
+			}
 		}
 	}
 
@@ -263,12 +384,12 @@ public class ModEventHandlerClient {
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 		
-		float rad = HazmatRegistry.instance.getResistance(stack);
+		float rad = HazmatRegistry.getResistance(stack);
 		
-		rad = ((int)(rad * 100)) / 100F;
+		rad = ((int)(rad * 1000)) / 1000F;
 		
 		if(rad > 0)
-			list.add(EnumChatFormatting.YELLOW + "Radiation resistance: " + rad);
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
 		
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		
@@ -285,24 +406,35 @@ public class ModEventHandlerClient {
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
-    }
-	
-	public static IIcon particleBase;
-
-	@SubscribeEvent
-	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		
-		if(event.map.getTextureType() == 0)
-			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
-	}
+		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
+			
+			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
+				
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
+				
+			} else {
+				
+				list.add(EnumChatFormatting.YELLOW + "Mods:");
+				
+				ItemStack[] mods = ArmorModHandler.pryMods(stack);
+				
+				for(int i = 0; i < 8; i++) {
+					
+					if(mods[i] != null && mods[i].getItem() instanceof ItemArmorMod) {
+						
+						((ItemArmorMod)mods[i].getItem()).addDesc(list, mods[i], stack);
+					}
+				}
+			}
+		}
+    }
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
-		
-		/* 
-		 * my ass is heavy
-		 */
 		
 		GL11.glPushMatrix();
 		
@@ -340,8 +472,8 @@ public class ModEventHandlerClient {
 			SoyuzPronter.prontCapsule();
 			
 			GL11.glRotated(System.currentTimeMillis() * 0.025 % 360, 0, -1, 0);
-			
-			String msg = "your ad here";
+
+			String msg = HTTPHandler.capsule;
 
 			GL11.glTranslated(0, 3.75, 0);
 			GL11.glRotated(180, 1, 0, 0);
@@ -355,13 +487,14 @@ public class ModEventHandlerClient {
 				
 				GL11.glRotatef(rot, 0, 1, 0);
 				
-				rot -= Minecraft.getMinecraft().fontRenderer.getCharWidth(c);
+				float width = Minecraft.getMinecraft().fontRenderer.getStringWidth(msg);
+				float scale = 5 / width;
+				
+				rot -= Minecraft.getMinecraft().fontRenderer.getCharWidth(c) * scale * 50;
 				
 				GL11.glTranslated(2, 0, 0);
 				
 				GL11.glRotatef(-90, 0, 1, 0);
-				
-				float scale = 0.03F;
 				GL11.glScalef(scale, scale, scale);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().fontRenderer.drawString(String.valueOf(c), 0, 0, 0xff00ff);
@@ -375,5 +508,75 @@ public class ModEventHandlerClient {
 		}
 		
 		GL11.glPopMatrix();
+		
+		if(ArmorFSB.hasFSBArmor(player)) {
+			ItemStack plate = player.inventory.armorInventory[2];
+			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+			
+			if(chestplate.thermal)
+				RenderOverhead.renderThermalSight(event.partialTicks);
+		}
+	}
+	
+	@SubscribeEvent
+	public void preRenderEvent(RenderLivingEvent.Pre event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(ArmorFSB.hasFSBArmor(player)) {
+			ItemStack plate = player.inventory.armorInventory[2];
+			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+			
+			if(chestplate.vats) {
+				
+				int count = (int)Math.min(event.entity.getMaxHealth(), 100);
+				
+				int bars = (int)Math.ceil(event.entity.getHealth() * count / event.entity.getMaxHealth());
+				
+				String bar = EnumChatFormatting.RED + "";
+				
+				for(int i = 0; i < count; i++) {
+					
+					if(i == bars)
+						bar += EnumChatFormatting.RESET + "";
+					
+						bar += "|";
+				}
+				RenderOverhead.renderTag(event.entity, event.x, event.y, event.z, event.renderer, bar, chestplate.thermal);
+			}
+		}
+	}
+	
+	public static IIcon particleBase;
+
+	@SubscribeEvent
+	public void onTextureStitch(TextureStitchEvent.Pre event) {
+		
+		if(event.map.getTextureType() == 0)
+			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+	}
+
+	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");
+	
+	@SubscribeEvent
+	public void renderFrame(RenderItemInFrameEvent event) {
+		
+		if(event.item != null && event.item.getItem() == ModItems.flame_pony) {
+			event.setCanceled(true);
+			
+			double p = 0.0625D;
+			double o = p * 2.75D;
+			
+			GL11.glDisable(GL11.GL_LIGHTING);
+			Minecraft.getMinecraft().renderEngine.bindTexture(poster);
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);
+			tess.addVertexWithUV(-0.5, 0.5 + o, p * 0.5, 0, 0);
+			tess.addVertexWithUV(-0.5, -0.5 + o, p * 0.5, 0, 1);
+			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
+			tess.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
 	}
 }

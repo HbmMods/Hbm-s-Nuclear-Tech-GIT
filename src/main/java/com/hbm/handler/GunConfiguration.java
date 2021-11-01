@@ -53,6 +53,8 @@ public class GunConfiguration {
 	public int reloadType;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
+	//whether the ammo count should be displayed
+	public boolean showAmmo = true;
 	
 	public String name = "";
 	public String manufacturer = "";

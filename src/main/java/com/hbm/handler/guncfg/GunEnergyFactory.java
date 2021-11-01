@@ -10,7 +10,6 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -182,32 +181,15 @@ public class GunEnergyFactory {
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.1D);
-				
-				/*
-				 * java.lang.NullPointerException
-				 *	at cpw.mods.fml.common.network.FMLOutboundHandler$OutboundTarget$7.selectNetworks(FMLOutboundHandler.java:193)
-				 *	at cpw.mods.fml.common.network.FMLOutboundHandler.write(FMLOutboundHandler.java:273)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.invokeWrite(DefaultChannelHandlerContext.java:644)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.write(DefaultChannelHandlerContext.java:698)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.write(DefaultChannelHandlerContext.java:637)
-				 *	at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:115)
-				 *	at io.netty.handler.codec.MessageToMessageCodec.write(MessageToMessageCodec.java:116)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.invokeWrite(DefaultChannelHandlerContext.java:644)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.write(DefaultChannelHandlerContext.java:698)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.writeAndFlush(DefaultChannelHandlerContext.java:688)
-				 *	at io.netty.channel.DefaultChannelHandlerContext.writeAndFlush(DefaultChannelHandlerContext.java:717)
-				 *	at io.netty.channel.DefaultChannelPipeline.writeAndFlush(DefaultChannelPipeline.java:893)
-				 *	at io.netty.channel.AbstractChannel.writeAndFlush(AbstractChannel.java:239)
-				 *	at cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper.sendToAllAround(SimpleNetworkWrapper.java:210)
-				 *	at com.hbm.handler.guncfg.GunEnergyFactory$1.behaveBlockHit(GunEnergyFactory.java:150)
-				 */
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+				if(!bullet.worldObj.isRemote) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaburst");
+					data.setString("mode", "flame");
+					data.setInteger("count", 15);
+					data.setDouble("motion", 0.1D);
+					
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+				}
 			}
 		};
 		

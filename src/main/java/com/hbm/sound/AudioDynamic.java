@@ -1,12 +1,10 @@
 package com.hbm.sound;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MovingSound;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.ResourceLocation;
 
@@ -18,7 +16,7 @@ public class AudioDynamic extends MovingSound {
 	protected AudioDynamic(ResourceLocation loc) {
 		super(loc);
 		this.repeat = true;
-		this.field_147666_i = ISound.AttenuationType.NONE;
+		this.field_147666_i = ISound.AttenuationType.LINEAR;
 		this.intendedVolume = 10;
 	}
 	

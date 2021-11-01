@@ -75,6 +75,8 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModBlocks.sellafield_2), new BreederRecipe(new ItemStack(ModBlocks.sellafield_3), 3));
 		recipes.put(new ComparableStack(ModBlocks.sellafield_3), new BreederRecipe(new ItemStack(ModBlocks.sellafield_4), 4));
 		recipes.put(new ComparableStack(ModBlocks.sellafield_4), new BreederRecipe(new ItemStack(ModBlocks.sellafield_core), 4));
+		
+		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 4));
 	}
 	
 	public static void registerFuels() {

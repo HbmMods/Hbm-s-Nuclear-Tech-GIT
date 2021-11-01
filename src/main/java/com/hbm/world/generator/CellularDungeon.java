@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 
-import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 

@@ -2,27 +2,13 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/missilePad.obj");
-	private IModelCustom padModel;
-    private ResourceLocation padTexture;
-	
-	public RenderLaunchPadTier1()
-    {
-		padModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/missilePad.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -31,22 +17,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
-		/*switch(tileEntity.getBlockMetadata())
-		{
-		case 5:
-			GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 2:
-			GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 4:
-			GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 3:
-			GL11.glRotatef(0, 0F, 1F, 0F); break;
-		}*/
-
-		//GL11.glScalef(1.5F, 1.0F, 1.5F);
-        bindTexture(padTexture);
-        padModel.renderAll();
-		//GL11.glScalef(2/3F, 1.0F, 2/3F);
+        
+        bindTexture(ResourceManager.missile_pad_tex);
+        ResourceManager.missile_pad.renderAll();
 
         GL11.glDisable(GL11.GL_CULL_FACE);
         int state = 0;

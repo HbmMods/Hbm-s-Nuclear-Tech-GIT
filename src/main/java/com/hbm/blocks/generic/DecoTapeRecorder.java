@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,10 +19,12 @@ public class DecoTapeRecorder extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return null;
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
-		return 334079;
+		return renderID;
 	}
 	
 	@Override

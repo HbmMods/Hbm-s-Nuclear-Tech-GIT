@@ -516,6 +516,63 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		
+		//BOLTS
+		if(this == ModItems.ammo_75bolt) {
+			list.add(EnumChatFormatting.YELLOW + "Gyro-stabilized armor-piercing");
+			list.add(EnumChatFormatting.YELLOW + "DU round with tandem charge");
+		}
+		if(this == ModItems.ammo_75bolt_incendiary) {
+			list.add(EnumChatFormatting.YELLOW + "Armor-piercing explosive round");
+			list.add(EnumChatFormatting.YELLOW + "filled with oxy-phosphorous gel");
+		}
+		if(this == ModItems.ammo_75bolt_he) {
+			list.add(EnumChatFormatting.YELLOW + "Armor-piercing penetrator filled");
+			list.add(EnumChatFormatting.YELLOW + "with a powerful explosive charge");
+		}
+		
+		//NUKES
+		if(this== ModItems.ammo_nuke_low) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+		}
+		if(this== ModItems.ammo_nuke_high) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
+			list.add(EnumChatFormatting.BLUE + "+ Fallout");
+		}
+		if(this== ModItems.ammo_nuke_tots) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased bomb count");
+			list.add(EnumChatFormatting.YELLOW + "* Fun for the whole family!");
+			list.add(EnumChatFormatting.RED + "- Highly decreased accuracy");
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- Not recommended for the Proto MIRV");
+		}
+		if(this== ModItems.ammo_nuke_safe) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- No block damage");
+		}
+		if(this== ModItems.ammo_nuke_pumpkin) {
+			list.add(EnumChatFormatting.RED + "- Not even a nuke");
+		}
+		
+		//MIRV
+		if(this== ModItems.ammo_mirv_low) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+		}
+		if(this== ModItems.ammo_mirv_high) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
+			list.add(EnumChatFormatting.BLUE + "+ Fallout");
+		}
+		if(this== ModItems.ammo_mirv_safe) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- No block damage");
+		}
+		if(this== ModItems.ammo_mirv_special) {
+			list.add(EnumChatFormatting.BLUE + "+ 6 Low-yield mini nukes");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Mini nukes");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Tiny tots");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Balefire shells");
+			list.add(EnumChatFormatting.WHITE + "* Sticky!");
+		}
+		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
 			list.add(EnumChatFormatting.BLUE + "+ Focused starmetal reaction blast");

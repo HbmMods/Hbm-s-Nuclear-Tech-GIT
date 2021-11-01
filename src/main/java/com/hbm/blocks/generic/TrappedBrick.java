@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.TrappedBrick.Trap;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.deco.TileEntityTrappedBrick;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class TrappedBrick extends BlockContainer {
@@ -45,7 +46,8 @@ public class TrappedBrick extends BlockContainer {
         }
     }
 
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
     	
     	int meta = world.getBlockMetadata(x, y, z);
@@ -63,7 +65,11 @@ public class TrappedBrick extends BlockContainer {
 			break;
 		case SPIKES:
 			if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z))
-				world.setBlock(x, y + 1, z, ModBlocks.barbed_wire);
+				world.setBlock(x, y + 1, z, ModBlocks.spikes);
+			List<Entity> targets = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x, y + 1, z, x + 1, y + 2, z + 1));
+			for(Entity e : targets)
+				e.attackEntityFrom(ModDamageSource.spikes, 10);
+			world.playSoundEffect(x + 0.5, y + 1.5, z + 0.5, "hbm:entity.slicer", 1.0F, 1.0F);
 			break;
 		case MINE:
 			world.createExplosion(null, x + 0.5, y + 1.5, z + 0.5, 1F, false);

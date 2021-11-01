@@ -182,18 +182,6 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		tanks[1].writeToNBT(nbt, "fuel_2");
 		plasma.writeToNBT(nbt, "plasma");
 	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
-	}
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {

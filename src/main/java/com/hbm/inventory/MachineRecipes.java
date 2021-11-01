@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
@@ -12,8 +13,12 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.EnchantmentUtil;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -116,6 +121,36 @@ public class MachineRecipes {
 			}
 		}
 
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor)) {
+			return new ItemStack(ModItems.ingot_meteorite);
+		}
+
+		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
+			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
+		}
+		
+		if(item.getItem() instanceof ItemGunBase && item2.getItem() == Items.enchanted_book) {
+			
+			ItemStack result = item.copy();
+
+            Map mapright = EnchantmentHelper.getEnchantments(item2);
+            Iterator itr = mapright.keySet().iterator();
+
+            while (itr.hasNext()) {
+            	
+            	int i = ((Integer)itr.next()).intValue();
+            	int j = ((Integer)mapright.get(Integer.valueOf(i))).intValue();
+            	Enchantment e = Enchantment.enchantmentsList[i];
+            	
+            	EnchantmentUtil.removeEnchantment(result, e);
+            	EnchantmentUtil.addEnchantment(result, e, j);
+            }
+            
+            return result;
+		}
+
 		return null;
 	}
 
@@ -126,23 +161,17 @@ public class MachineRecipes {
 		List<GasCentOutput> list = new ArrayList();
 		
 		switch(fluid) {
-		case LAVA:
-			list.add(new GasCentOutput(1, new ItemStack(ModBlocks.gravel_obsidian), 1));
-			list.add(new GasCentOutput(2, new ItemStack(Blocks.gravel), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_lithium), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_iron, 2), 4));
-			return list;
 		case UF6:
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 1));
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_u238), 1));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_u238), 2));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_u238), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 4));
 			return list;
 		case PUF6:
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 1));
-			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu239), 2));
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_pu240), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu238), 1));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 2));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 3));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 4));
 			return list;
 		case WATZ:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));
@@ -316,6 +345,9 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.biomass_compressed);
 			if(input.getItem() == ModItems.powder_lignite)
 				return new ItemStack(ModItems.briquette_lignite);
+
+			if(input.getItem() == ModItems.meteorite_sword_reforged)
+				return new ItemStack(ModItems.meteorite_sword_hardened);
 		}
 		
 		if(stamps_plate.contains(stamp.getItem())) {
@@ -1629,14 +1661,14 @@ public class MachineRecipes {
 			break;
         case CIRCUIT_4:
 			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
-			list.add(new ItemStack(ModItems.wire_gold, 6));
-			list.add(new ItemStack(ModItems.powder_lapis, 4));
+			list.add(new ItemStack(ModItems.wire_gold, 4));
+			list.add(new ItemStack(ModItems.powder_lapis, 1));
 			list.add(new ItemStack(ModItems.ingot_polymer, 1));
 			break;
         case CIRCUIT_5:
 			list.add(new ItemStack(ModItems.circuit_gold, 1));
-			list.add(new ItemStack(ModItems.wire_schrabidium, 6));
-			list.add(new ItemStack(ModItems.powder_diamond, 4));
+			list.add(new ItemStack(ModItems.wire_schrabidium, 4));
+			list.add(new ItemStack(ModItems.powder_diamond, 1));
 			list.add(new ItemStack(ModItems.ingot_desh, 1));
 			break;
         case POLYMER:
@@ -1709,6 +1741,12 @@ public class MachineRecipes {
 			break;
         case BALEFIRE:
 			list.add(new ItemStack(ModItems.egg_balefire_shard, 1));
+			break;
+        case SCHRABIDIC:
+			list.add(new ItemStack(ModItems.pellet_charged, 1));
+			break;
+        case SCHRABIDATE:
+			list.add(new ItemStack(ModItems.powder_iron, 1));
 			break;
 		default:
 			break;
@@ -1909,12 +1947,22 @@ public class MachineRecipes {
     	case XENON:
 			input[0] = new FluidStack(0, FluidType.NONE);
         	break;
+    	case XENON_OXY:
+			input[0] = new FluidStack(250, FluidType.OXYGEN);
+        	break;
     	case SATURN:
 			input[0] = new FluidStack(100, FluidType.ACID);
-			input[1] = new FluidStack(200, FluidType.MERCURY);
+			input[1] = new FluidStack(50, FluidType.MERCURY);
         	break;
     	case BALEFIRE:
 			input[0] = new FluidStack(6000, FluidType.KEROSENE);
+        	break;
+    	case SCHRABIDIC:
+			input[0] = new FluidStack(8000, FluidType.SAS3);
+			input[1] = new FluidStack(6000, FluidType.ACID);
+        	break;
+    	case SCHRABIDATE:
+			input[0] = new FluidStack(250, FluidType.SCHRABIDIC);
         	break;
 		default:
 			break;
@@ -2040,13 +2088,16 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.plate_kevlar, 4);
         	break;
         case SOLID_FUEL:
-			output[0] = new ItemStack(ModItems.rocket_fuel, 1);
+			output[0] = new ItemStack(ModItems.rocket_fuel, 4);
         	break;
         case SATURN:
-			output[0] = new ItemStack(ModItems.ingot_saturnite, 1);
+			output[0] = new ItemStack(ModItems.ingot_saturnite, 2);
         	break;
         case BALEFIRE:
 			output[0] = new ItemStack(ModItems.powder_balefire, 1);
+        	break;
+        case SCHRABIDATE:
+			output[0] = new ItemStack(ModItems.powder_schrabidate, 1);
         	break;
 		default:
 			break;
@@ -2138,10 +2189,10 @@ public class MachineRecipes {
 			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
         	break;
         case UF6:
-			output[0] = new FluidStack(1000, FluidType.UF6);
+			output[0] = new FluidStack(900, FluidType.UF6);
         	break;
         case PUF6:
-			output[0] = new FluidStack(1000, FluidType.PUF6);
+			output[0] = new FluidStack(900, FluidType.PUF6);
         	break;
         case SAS3:
 			output[0] = new FluidStack(1000, FluidType.SAS3);
@@ -2168,8 +2219,14 @@ public class MachineRecipes {
         case XENON:
 			output[0] = new FluidStack(50, FluidType.XENON);
         	break;
+        case XENON_OXY:
+			output[0] = new FluidStack(50, FluidType.XENON);
+        	break;
         case BALEFIRE:
 			output[0] = new FluidStack(8000, FluidType.BALEFIRE);
+        	break;
+        case SCHRABIDIC:
+			output[0] = new FluidStack(16000, FluidType.SCHRABIDIC);
         	break;
 		default:
 			break;

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOrangeFX;
+import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.entity.projectile.EntityWaterSplash;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -84,6 +87,26 @@ public class TileEntityGeysir extends TileEntity {
 		}
 	}
 	
+	private void fire() {
+		
+		int range = 32;
+		if(worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(range, range, range)).isEmpty())
+			return;
+		
+		if(worldObj.rand.nextInt(3) == 0) {
+			EntityShrapnel fx = new EntityShrapnel(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
+			fx.motionX = worldObj.rand.nextGaussian() * 0.05;
+			fx.motionZ = worldObj.rand.nextGaussian() * 0.05;
+			fx.motionY = 0.5 + worldObj.rand.nextDouble() * timer * 0.01;
+			
+			worldObj.spawnEntityInWorld(fx);
+		}
+		
+		if(timer % 2 == 0) //TODO: replace with actual particle
+			worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, this.xCoord + 0.5F, this.yCoord + 1.1F, this.zCoord + 0.5F, worldObj.rand.nextGaussian() * 0.05, 0.2, worldObj.rand.nextGaussian() * 0.05));
+		
+	}
+	
 	private int getDelay() {
 		
 		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
@@ -102,6 +125,10 @@ public class TileEntityGeysir extends TileEntity {
 			
 			return (meta == 0 ? 20 : 30 + rand.nextInt(20));
 			
+		} else if(b == ModBlocks.geysir_nether) {
+			
+			return (meta == 0 ? (rand.nextBoolean() ? 300 : 450) : 80 + rand.nextInt(60));
+			
 		}
 		
 		return 0;
@@ -112,17 +139,16 @@ public class TileEntityGeysir extends TileEntity {
 		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
 		
 		if(b == ModBlocks.geysir_water) {
-			
 			water();
 			
 		} else if(b == ModBlocks.geysir_chlorine) {
-			
 			chlorine();
 			
 		} else if(b == ModBlocks.geysir_vapor) {
-			
 			vapor();
 			
+		} else if(b == ModBlocks.geysir_nether) {
+			fire();
 		}
 	}
 

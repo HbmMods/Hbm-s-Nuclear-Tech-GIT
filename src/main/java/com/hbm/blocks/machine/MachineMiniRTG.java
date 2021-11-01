@@ -20,7 +20,7 @@ public class MachineMiniRTG extends BlockContainer {
 
 	@Override
 	public int getRenderType() {
-		return 334087;
+		return MachineRTG.renderID;
 	}
 
 	@Override

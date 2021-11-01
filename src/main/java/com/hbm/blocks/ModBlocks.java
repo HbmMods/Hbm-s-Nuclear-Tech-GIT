@@ -693,6 +693,8 @@ public class ModBlocks {
 	public static Block fluid_duct;
 
 	public static Block conveyor;
+	
+	public static Block chain;
 
 	public static Block chain;
 

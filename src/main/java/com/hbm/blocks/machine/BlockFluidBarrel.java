@@ -7,6 +7,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -34,10 +35,12 @@ public class BlockFluidBarrel extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityBarrel(capacity);
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
-		return 334081;
+		return renderID;
 	}
 	
 	@Override

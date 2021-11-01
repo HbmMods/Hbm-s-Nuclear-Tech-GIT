@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.machine.MachineRTG;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
@@ -48,6 +49,6 @@ public class RenderRTGBlock implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334087;
+		return MachineRTG.renderID;
 	}
 }

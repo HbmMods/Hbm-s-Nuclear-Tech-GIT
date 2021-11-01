@@ -7,16 +7,15 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -63,37 +62,6 @@ public class WeaponSpecial extends ItemSword {
         		entity.setHealth(0.0F);
         	}
         	world.playSoundAtEntity(entity, "hbm:weapon.bonk", 3.0F, 1.0F);
-		}
-
-		if(this == ModItems.pch) {
-
-        	world.playSoundAtEntity(entity, "hbm:weapon.bodysplat", 10.0F, 1.0F);
-        	
-			if(entity instanceof EntityHorse) {
-				
-				for(int i = 0; i < 10; i++) {
-					EntityHorse horse = (EntityHorse) ((EntityHorse) entity).createChild((EntityHorse)entity);
-					horse.setPositionAndRotation(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-					horse.setGrowingAge(-24000);
-					world.spawnEntityInWorld(horse);
-				}
-				
-				return false;
-			}
-			
-			if (!world.isRemote)
-        	{
-        		entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 20, 0));
-        	}
-			
-			Vec3 vec = entityPlayer.getLookVec();
-			double dX = vec.xCoord * 10;
-			double dY = vec.yCoord * 10;
-			double dZ = vec.zCoord * 10;
-
-			entity.motionX += dX;
-			entity.motionY += dY;
-			entity.motionZ += dZ;
 		}
 
 		if(this == ModItems.bottle_opener) {
@@ -288,9 +256,6 @@ public class WeaponSpecial extends ItemSword {
 		if(this == ModItems.schrabidium_hammer) {
 			list.add("Even though it says \"+1000000000");
 			list.add("damage\", it's actually \"onehit anything\"");
-		}
-		if(this == ModItems.pch) {
-			list.add("How am I not locked up yet?");
 		}
 		if(this == ModItems.ullapool_caber) {
 			list.add("High-yield Scottish face removal.");

@@ -2,6 +2,8 @@ package com.hbm.items.weapon;
 
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.items.ModItems;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -36,6 +38,7 @@ public class ItemGunOSIPR extends ItemGunBase {
 			world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, 1F);
 			setCharge(stack, 0);
 			setDelay(stack, altConfig.rateOfFire);
+			player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
 			
 		} else if(i > 0)
 			setCharge(stack, i + 1);

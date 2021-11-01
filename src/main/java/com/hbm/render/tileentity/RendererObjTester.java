@@ -169,7 +169,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         
         GL11.glShadeModel(GL11.GL_FLAT);*/
 
-        /*GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -183,9 +183,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         bindTexture(ResourceManager.soyuz_module_solar_tex);
         ResourceManager.soyuz_module.renderPart("Solar");
         
-        GL11.glShadeModel(GL11.GL_FLAT);*/
+        GL11.glShadeModel(GL11.GL_FLAT);
         
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        /*GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glShadeModel(GL11.GL_SMOOTH);
         
         bindTexture(ResourceManager.igen_tex);
@@ -279,7 +279,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         	for(int i = 0; i < 5; i++) {
                 tileEntity.getWorldObj().spawnParticle("smoke", tileEntity.xCoord + 2.8, tileEntity.yCoord + 5.05, tileEntity.zCoord + 2, 0, 0, -0.3);
         	}
-        }
+        }*/
         
         GL11.glPopMatrix();
     }

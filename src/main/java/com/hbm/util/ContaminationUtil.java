@@ -1,13 +1,17 @@
 package com.hbm.util;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -28,57 +32,144 @@ public class ContaminationUtil {
 			EntityPlayer player = (EntityPlayer)entity;
 			
 			float koeff = 5.0F;
-			return (float) Math.pow(koeff, -HazmatRegistry.instance.getResistance(player));
+			return (float) Math.pow(koeff, -HazmatRegistry.getResistance(player));
 		}
 		
 		return 1;
 	}
 	
+	/// RADIATION ///
 	public static void applyRadData(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
+			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
 			return;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		f *= calculateRadiationMod(entity);
 
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
+		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
 	public static void applyRadDirect(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
-		
-		if(((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
+
+		if(e instanceof IRadiationImmune)
 			return;
 		
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(entity.isPotionActive(HbmPotion.mutation))
+			return;
+
+		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
 	public static float getRads(Entity e) {
 
 		if(!(e instanceof EntityLivingBase))
 			return 0.0F;
+
+		if(e instanceof IRadiationImmune)
+			return 0.0F;
 		
-		return e.getEntityData().getFloat("hfr_radiation");
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		return HbmLivingProps.getRadiation(entity);
+	}
+	
+	/// ASBESTOS ///
+	public static void applyAsbestos(Entity e, int i) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
+			HbmLivingProps.incrementAsbestos(entity, i);
+	}
+	
+	/// DIGAMMA ///
+	public static void applyDigammaData(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(entity.isPotionActive(HbmPotion.stability.id))
+			return;
+		
+		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) entity)))
+			HbmLivingProps.incrementDigamma(entity, f);
+	}
+	
+	public static void applyDigammaDirect(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		HbmLivingProps.incrementDigamma(entity, f);
+	}
+	
+	public static float getDigamma(Entity e) {
+
+		if(!(e instanceof EntityLivingBase))
+			return 0.0F;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		return HbmLivingProps.getDigamma(entity);
 	}
 	
 	public static void printGeigerData(EntityPlayer player) {
 
 		World world = player.worldObj;
 
-		double eRad = ((int)(player.getEntityData().getFloat("hfr_radiation") * 10)) / 10D;
+		double eRad = ((int)(HbmLivingProps.getRadiation(player) * 10)) / 10D;
 
 		RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
 		Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
 		double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
 		
 		double res = 100.0D - ((int)(ContaminationUtil.calculateRadiationMod(player) * 10000)) / 100D;
-		double resKoeff = ((int)(HazmatRegistry.instance.getResistance(player) * 100)) / 100D;
+		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100)) / 100D;
 		
 		String chunkPrefix = "";
 		String radPrefix = "";
@@ -113,9 +204,11 @@ public class ContaminationUtil {
 		if(resKoeff > 0)
 			resPrefix += EnumChatFormatting.GREEN;
 
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "===== ☢ GEIGER COUNTER ☢ ====="));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Current chunk radiation: " + chunkPrefix + rads + " RAD/s"));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Player contamination: " + radPrefix + eRad + " RAD"));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Player resistance: " + resPrefix + res + "% (" + resKoeff + ")"));
+		//localization and server-side restrictions have turned this into a painful mess
+		//a *functioning* painful mess, nonetheless
+		player.addChatMessage(new ChatComponentText("===== ☢ ").appendSibling(new ChatComponentTranslation("geiger.title")).appendSibling(new ChatComponentText(" ☢ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.chunkRad").appendSibling(new ChatComponentText(" " + chunkPrefix + rads + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
 }

@@ -16,6 +16,8 @@ public class ToolConfig {
 	public static boolean abilityShredder = true;
 	public static boolean abilityCentrifuge = true;
 	public static boolean abilityCrystallizer = true;
+	public static boolean abilityMercury = true;
+	public static boolean abilityExplosion = true;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -32,5 +34,7 @@ public class ToolConfig {
 		abilityShredder = config.get(CATEGORY_TOOLS, "11.08_abilityShredder", true).getBoolean(true);
 		abilityCentrifuge = config.get(CATEGORY_TOOLS, "11.09_abilityCentrifuge", true).getBoolean(true);
 		abilityCrystallizer = config.get(CATEGORY_TOOLS, "11.10_abilityCrystallizer", true).getBoolean(true);
+		abilityMercury = config.get(CATEGORY_TOOLS, "11.11_abilityMercury", true).getBoolean(true);
+		abilityExplosion = config.get(CATEGORY_TOOLS, "11.12_abilityExplosion", true).getBoolean(true);
 	}
 }

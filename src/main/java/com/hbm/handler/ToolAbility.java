@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.hbm.config.ToolConfig;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.ShredderRecipes;
@@ -32,6 +34,7 @@ public abstract class ToolAbility {
 	public abstract String getName();
 	public abstract String getFullName();
 	public abstract String getExtension();
+	public abstract boolean isAllowed();
 	
 	public static class RecursionAbility extends ToolAbility {
 		
@@ -134,7 +137,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + radius + ")";
 		}
-		
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityVein;
+		}
 	}
 
 	public static class HammerAbility extends ToolAbility {
@@ -175,6 +182,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + range + ")";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityHammer;
+		}
 	}
 
 	public static class SilkAbility extends ToolAbility {
@@ -209,6 +221,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getExtension() {
 			return "";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilitySilk;
 		}
 	}
 
@@ -251,6 +268,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + luck + ")";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityLuck;
+		}
 	}
 
 	public static class SmelterAbility extends ToolAbility {
@@ -285,6 +307,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return "";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityFurnace;
+		}
 	}
 	
 	public static class ShredderAbility extends ToolAbility {
@@ -318,6 +345,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getExtension() {
 			return "";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityShredder;
 		}
 	}
 	
@@ -357,6 +389,11 @@ public abstract class ToolAbility {
 		public String getFullName() {
 			return I18n.format(getName());
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityCentrifuge;
+		}
 	}
 	
 	public static class CrystallizerAbility extends ToolAbility {
@@ -390,6 +427,96 @@ public abstract class ToolAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName());
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityCrystallizer;
+		}
+	}
+	
+	public static class MercuryAbility extends ToolAbility {
+
+		@Override
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
+			
+			int mercury = 0;
+
+			if(block == Blocks.redstone_ore)
+				mercury = player.getRNG().nextInt(5) + 4;
+			if(block == Blocks.redstone_block)
+				mercury = player.getRNG().nextInt(7) + 8;
+			
+			if(mercury > 0) {
+				world.setBlockToAir(x, y, z);
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.nugget_mercury, mercury)));
+			}
+		}
+
+		@Override
+		public String getExtension() {
+			return "";
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.mercury";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName());
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityMercury;
+		}
+	}
+	
+	public static class ExplosionAbility extends ToolAbility {
+		
+		float strength;
+		
+		public ExplosionAbility(float strength) {
+			this.strength = strength;
+		}
+
+		@Override
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+			
+			ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
+			ex.addAttrib(ExAttrib.ALLDROP);
+			ex.addAttrib(ExAttrib.NOHURT);
+			ex.addAttrib(ExAttrib.NOPARTICLE);
+			ex.doExplosionA();
+			ex.doExplosionB(false);
+			
+			player.worldObj.createExplosion(player, x + 0.5, y + 0.5, z + 0.5, 0.1F, false);
+		}
+
+		@Override
+		public String getExtension() {
+			return " (" + strength + ")";
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.explosion";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityExplosion;
 		}
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
@@ -13,7 +14,6 @@ public class TileEntityMachineMiniRTG extends TileEntity implements ISource {
 
 	public List<IConsumer> list = new ArrayList();
 	public long power;
-	public long maxPower = 100;
 	boolean tact = false;
 	
 	@Override
@@ -21,16 +21,27 @@ public class TileEntityMachineMiniRTG extends TileEntity implements ISource {
 		
 		if(!worldObj.isRemote) {
 
-			power += 25;
+			if(this.getBlockType() == ModBlocks.machine_powerrtg)
+				power += 2500;
+			else
+				power += 70;
 			
-			if(power > maxPower)
-				power = maxPower;
+			if(power > getMaxPower())
+				power = getMaxPower();
 
 			tact = false;
 			ffgeuaInit();
 			tact = true;
 			ffgeuaInit();
 		}
+	}
+	
+	private int getMaxPower() {
+		
+		if(this.getBlockType() == ModBlocks.machine_powerrtg)
+			return 50000;
+		
+		return 1400;
 	}
 
 	@Override

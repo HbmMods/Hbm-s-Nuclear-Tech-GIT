@@ -8,9 +8,12 @@ import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 
 public class BlockNTMGlass extends BlockBreakable {
+	
+	int renderLayer;
 
-	public BlockNTMGlass(String name, Material material) {
+	public BlockNTMGlass(int layer, String name, Material material) {
 		super(name, material, false);
+		this.renderLayer = layer;
 	}
 	
     public int quantityDropped(Random rand) {
@@ -19,7 +22,7 @@ public class BlockNTMGlass extends BlockBreakable {
     
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {
-        return 1;
+        return renderLayer;
     }
     
     public boolean renderAsNormalBlock() {

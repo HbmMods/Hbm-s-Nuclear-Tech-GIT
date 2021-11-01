@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineReactor;
+import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -221,7 +222,21 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11)
-			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
+			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
 				return true;
 		if(i == 13 || i == 15)
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty || itemStack.getItem() == ModItems.fluid_tank_empty || itemStack.getItem() == ModItems.fluid_barrel_empty)
@@ -343,9 +358,15 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			}
 
 			if(rods >= rodsMax)
+				
 				for(int i = 0; i < 12; i++) {
-					if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod)
-						decay(i);
+					
+					if(slots[i] != null) {
+						if(slots[i].getItem() instanceof ItemFuelRod)
+							decay(i);
+						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
+							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+					}
 				}
 
 			coreHeatMod = 1.0;
@@ -676,16 +697,26 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	}
 
 	private void explode() {
+		
 		for(int i = 0; i < slots.length; i++) {
 			this.slots[i] = null;
 		}
 
+		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 
 		RadiationSavedData data = RadiationSavedData.getData(worldObj);
 		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+		
+		if(MobConfig.enableElementals) {
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
+			
+			for(EntityPlayer player : players) {
+				player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", true);
+			}
+		}
 	}
 
 	@Override

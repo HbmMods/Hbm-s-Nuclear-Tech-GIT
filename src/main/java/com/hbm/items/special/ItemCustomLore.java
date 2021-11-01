@@ -3,9 +3,10 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,9 +18,23 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item {
 	
+	EnumRarity rarity;
+	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		String unloc = this.getUnlocalizedName() + ".desc";
+		String loc = I18nUtil.resolveKey(unloc);
+		
+		if(!unloc.equals(loc)) {
+			
+			String[] locs = loc.split("\\$");
+			
+			for(String s : locs) {
+				list.add(s);
+			}
+		}
+		
 		if(this == ModItems.flame_pony)
 		{
 			//list.add("Blue horse beats yellow horse, look it up!");
@@ -360,11 +375,6 @@ public class ItemCustomLore extends Item {
 			list.add("Doubles as a crappy lander!");
 		}
 		
-		if(this == ModItems.egg_balefire)
-		{
-			list.add("What kind of bird lays a radioactive egg?");
-		}
-		
 		if(this == ModItems.ingot_schraranium)
 		{
 			if(GeneralConfig.enableBabyMode)
@@ -376,6 +386,14 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.mech_key)
 		{
 			list.add("It pulses with power.");
+		}
+		
+		if(this == ModItems.nugget_mox_fuel) {
+			list.add("Moxie says: " + EnumChatFormatting.BOLD + "TAX EVASION.");
+		}
+		
+		if(this == ModItems.billet_mox_fuel) {
+			list.add(EnumChatFormatting.ITALIC + "Pocket-Moxie!");
 		}
 	}
 
@@ -401,7 +419,9 @@ public class ItemCustomLore extends Item {
     			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
     			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 
     			this == ModItems.gun_revolver_schrabidium_ammo || this == ModItems.ingot_saturnite || 
-    			this == ModItems.plate_saturnite)
+    			this == ModItems.plate_saturnite || this == ModItems.ingot_schrabidate || 
+    			this == ModItems.powder_schrabidate || this == ModItems.ingot_schraranium || 
+    			this == ModItems.crystal_schraranium)
     	{
     		return EnumRarity.rare;
     	}
@@ -416,13 +436,12 @@ public class ItemCustomLore extends Item {
     			this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || 
     			this == ModItems.powder_australium || this == ModItems.powder_weidanium || 
     			this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || 
-    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium ||
-    			this == ModItems.coin_maskman)
+    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
     	{
     		return EnumRarity.uncommon;
     	}
     	
-		return EnumRarity.common;
+		return this.rarity != null ? rarity : EnumRarity.common;
     }
 
     @Override
@@ -441,5 +460,9 @@ public class ItemCustomLore extends Item {
     	
     	return false;
     }
-
+    
+    public ItemCustomLore setRarity(EnumRarity rarity) {
+    	this.rarity = rarity;
+		return this;
+    }
 }

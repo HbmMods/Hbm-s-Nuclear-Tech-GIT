@@ -167,7 +167,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 			return null;
 		
 		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getStackInSlotOnClosing(slot);
+			return ((ISidedInventory)getTile()).getStackInSlot(slot);
 		}
 		
 		return null;

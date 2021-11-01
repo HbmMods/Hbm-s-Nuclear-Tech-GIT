@@ -58,7 +58,7 @@ public class MultiblockHandler {
 	public static final int[] chemplantDimensionWest  = new int[] { 1, 2, 2, 0, 1, 2 };
 	public static final int[] fluidTankDimensionNS = new int[] { 1, 1, 2, 0, 2, 2 };
 	public static final int[] fluidTankDimensionEW  = new int[] { 2, 2, 2, 0, 1, 1 };
-	public static final int[] refineryDimensions  = new int[] { 1, 1, 9, 0, 1, 1 };
+	public static final int[] refineryDimensions  = new int[] { 1, 1, 8, 0, 1, 1 };
 	public static final int[] pumpjackDimensionNorth = new int[] { 1, 1, 4, 0, 6, 0 };
 	public static final int[] pumpjackDimensionEast  = new int[] { 0, 6, 4, 0, 1, 1 };
 	public static final int[] pumpjackDimensionSouth = new int[] { 1, 1, 4, 0, 0, 6 };

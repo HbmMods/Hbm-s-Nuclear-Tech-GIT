@@ -16,9 +16,9 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new AlloyFurnaceRecipeHandler());
 		API.registerUsageHandler(new AlloyFurnaceRecipeHandler());
 		API.registerRecipeHandler(new CentrifugeRecipeHandler());
-		API.registerUsageHandler(new GasCentrifugeRecipeHandler());
-		API.registerRecipeHandler(new GasCentrifugeRecipeHandler());
 		API.registerUsageHandler(new CentrifugeRecipeHandler());
+		API.registerRecipeHandler(new GasCentrifugeRecipeHandler());
+		API.registerUsageHandler(new GasCentrifugeRecipeHandler());
 		API.registerRecipeHandler(new ReactorRecipeHandler());
 		API.registerUsageHandler(new ReactorRecipeHandler());
 		API.registerRecipeHandler(new ShredderRecipeHandler());
@@ -45,6 +45,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new BookRecipeHandler());
 		API.registerRecipeHandler(new FusionRecipeHandler());
 		API.registerUsageHandler(new FusionRecipeHandler());
+		API.registerRecipeHandler(new HadronRecipeHandler());
+		API.registerUsageHandler(new HadronRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(new ItemStack(ModItems.memory));

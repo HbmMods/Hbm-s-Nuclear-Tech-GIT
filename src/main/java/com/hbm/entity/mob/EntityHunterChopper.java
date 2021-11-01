@@ -6,6 +6,8 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -21,7 +23,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisplayData {
+public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisplayData, IRadiationImmune {
 	
 	public int courseChangeCooldown;
 	public double waypointX;

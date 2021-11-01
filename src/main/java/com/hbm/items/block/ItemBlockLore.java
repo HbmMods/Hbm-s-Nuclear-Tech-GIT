@@ -98,6 +98,13 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("");
 			list.add("i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
 		}
+		
+		if(this.field_150939_a == ModBlocks.turret_cwis) {
+			list.add("Hmmm today I will use an anti-missile turret agains mobs");
+			list.add("");
+			list.add("Why does it not work???");
+			list.add("bob pls fix");
+		}
 	}
 
     @Override
@@ -106,7 +113,8 @@ public class ItemBlockLore extends ItemBlock {
 		if(this.field_150939_a == ModBlocks.ore_schrabidium || this.field_150939_a == ModBlocks.ore_nether_schrabidium ||
 				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster ||
 				this.field_150939_a == ModBlocks.block_schrabidium_fuel || this.field_150939_a == ModBlocks.block_solinium ||
-				this.field_150939_a == ModBlocks.gravel_diamond)
+				this.field_150939_a == ModBlocks.gravel_diamond || this.field_150939_a == ModBlocks.ore_gneiss_schrabidium ||
+				this.field_150939_a == ModBlocks.block_schraranium || this.field_150939_a == ModBlocks.block_schrabidate)
 			return EnumRarity.rare;
 		
 		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||

@@ -6,6 +6,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
@@ -279,7 +280,14 @@ public class GunRocketFactory {
 		bullet.explosive = 0;
 		bullet.incendiary = 0;
 		bullet.trail = 7;
-		bullet.nuke = 25;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 2);
+			}
+		};
 		
 		return bullet;
 	}

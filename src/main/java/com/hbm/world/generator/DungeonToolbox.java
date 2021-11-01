@@ -3,11 +3,14 @@ package com.hbm.world.generator;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class DungeonToolbox {
 	
@@ -60,5 +63,29 @@ public class DungeonToolbox {
 			return null;
 
 		return list.get(rand.nextInt(list.size()));
+	}
+	
+	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore) {
+		generateOre(world, rand, chunkX, chunkZ, veinCount, amount, minHeight, variance, ore, 0, Blocks.stone);
+	}
+	
+	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore, int meta) {
+		generateOre(world, rand, chunkX, chunkZ, veinCount, amount, minHeight, variance, ore, meta, Blocks.stone);
+	}
+	
+	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore, Block target) {
+		generateOre(world, rand, chunkX, chunkZ, veinCount, amount, minHeight, variance, ore, 0, target);
+	}
+	
+	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore, int meta, Block target) {
+		
+		for(int i = 0; i < veinCount; i++) {
+			
+			int x = chunkX + rand.nextInt(16);
+			int y = minHeight + (variance > 0 ? rand.nextInt(variance) : 0);
+			int z = chunkZ + rand.nextInt(16);
+	
+			(new WorldGenMinable(ore, meta, amount, target)).generate(world, rand, x, y, z);
+		}
 	}
 }

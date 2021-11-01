@@ -101,6 +101,16 @@ public class EntityFalloutRain extends Entity {
     		if(b.getMaterial() == Material.air)
     			continue;
     		
+    		if(b != ModBlocks.fallout && (worldObj.getBlock(x, y + 1, z) == Blocks.air || worldObj.getBlock(x, y + 1, z).isReplaceable(worldObj, x, y + 1, z))) {
+    			
+    			double d = (double) radProgress / (double) getScale() * 0.5;
+    			
+    			double chance = 0.05 - Math.pow((d - 0.6) * 0.5, 2);
+    			
+    			if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))
+    				worldObj.setBlock(x, y + 1, z, ModBlocks.fallout);
+    		}
+    		
     		if(b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
     			if(rand.nextInt(5) == 0)
     				worldObj.setBlock(x, y + 1, z, Blocks.fire);
@@ -190,6 +200,14 @@ public class EntityFalloutRain extends Entity {
 				else
 					worldObj.setBlock(x, y, z, ModBlocks.ore_nether_uranium_scorched);
     			return;
+			}
+
+			else if(b == ModBlocks.ore_gneiss_uranium) {
+				if(rand.nextInt(VersatileConfig.getSchrabOreChance()) == 0)
+					worldObj.setBlock(x, y, z, ModBlocks.ore_gneiss_schrabidium);
+				else
+					worldObj.setBlock(x, y, z, ModBlocks.ore_gneiss_uranium_scorched);
+				return;
     			
     		//this piece stops the "stomp" from reaching below ground
 			} else if(b.isNormalCube()) {

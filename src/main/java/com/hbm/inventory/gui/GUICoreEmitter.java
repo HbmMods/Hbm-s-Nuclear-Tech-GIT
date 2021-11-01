@@ -56,8 +56,9 @@ public class GUICoreEmitter extends GuiInfoContainer {
 	}
 	
 	protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
-        this.field.mouseClicked(x, y, i);
+		super.mouseClicked(x, y, i);
+
+		this.field.mouseClicked(x, y, i);
 
     	if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
     		

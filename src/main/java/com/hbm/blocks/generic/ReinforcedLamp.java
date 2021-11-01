@@ -13,78 +13,91 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ReinforcedLamp extends Block {
-	
-    private final boolean field_150171_a;
-    private static final String __OBFID = "CL_00000297";
 
-    public ReinforcedLamp(Material mat, boolean p_i45421_1_)
-    {
-        super(mat);
-        this.field_150171_a = p_i45421_1_;
+	private final boolean isOn;
 
-        if (p_i45421_1_)
-        {
-            this.setLightLevel(1.0F);
-        }
-    }
+	public ReinforcedLamp(Material mat, boolean isOn) {
+		super(mat);
+		this.isOn = isOn;
 
-    @Override
-	public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
-    {
-        if (!p_149726_1_.isRemote)
-        {
-            if (this.field_150171_a && !p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
-            {
-                p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, 4);
-            }
-            else if (!this.field_150171_a && p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
-            {
-                p_149726_1_.setBlock(p_149726_2_, p_149726_3_, p_149726_4_, ModBlocks.reinforced_lamp_on, 0, 2);
-            }
-        }
-    }
+		if(isOn) {
+			this.setLightLevel(1.0F);
+		}
+	}
 
-    @Override
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
-    {
-        if (!p_149695_1_.isRemote)
-        {
-            if (this.field_150171_a && !p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
-            {
-                p_149695_1_.scheduleBlockUpdate(p_149695_2_, p_149695_3_, p_149695_4_, this, 4);
-            }
-            else if (!this.field_150171_a && p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
-            {
-                p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, ModBlocks.reinforced_lamp_on, 0, 2);
-            }
-        }
-    }
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		
+		if(!world.isRemote) {
+			
+			if(this.isOn && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.scheduleBlockUpdate(x, y, z, this, 4);
+				
+			} else if(!this.isOn && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.setBlock(x, y, z, getOn(), 0, 2);
+			}
+		}
+	}
 
-    @Override
-	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
-    {
-        if (!p_149674_1_.isRemote && this.field_150171_a && !p_149674_1_.isBlockIndirectlyGettingPowered(p_149674_2_, p_149674_3_, p_149674_4_))
-        {
-            p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, ModBlocks.reinforced_lamp_off, 0, 2);
-        }
-    }
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {
+		
+		if(!world.isRemote) {
+			
+			if(this.isOn && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.scheduleBlockUpdate(x, y, z, this, 4);
+				
+			} else if(!this.isOn && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.setBlock(x, y, z, getOn(), 0, 2);
+			}
+		}
+	}
 
-    @Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return Item.getItemFromBlock(ModBlocks.reinforced_lamp_off);
-    }
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random p_149674_5_) {
+		
+		if(!world.isRemote && this.isOn && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			world.setBlock(x, y, z, getOff(), 0, 2);
+		}
+	}
 
-    @Override
+	@Override
+	public Item getItemDropped(int i, Random r, int j) {
+		return Item.getItemFromBlock(getOff());
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
-    {
-        return Item.getItemFromBlock(ModBlocks.reinforced_lamp_off);
-    }
+	public Item getItem(World world, int x, int y, int z) {
+		return Item.getItemFromBlock(getOff());
+	}
 
-    @Override
-	protected ItemStack createStackedBlock(int p_149644_1_)
-    {
-        return new ItemStack(ModBlocks.reinforced_lamp_off);
-    }
+	@Override
+	protected ItemStack createStackedBlock(int e) {
+		return new ItemStack(getOff());
+	}
+	
+	private Block getOff() {
+
+		if(this == ModBlocks.reinforced_lamp_on)
+			return ModBlocks.reinforced_lamp_off;
+		if(this == ModBlocks.lamp_tritium_green_on)
+			return ModBlocks.lamp_tritium_green_off;
+		if(this == ModBlocks.lamp_tritium_blue_on)
+			return ModBlocks.lamp_tritium_blue_off;
+		
+		return this;
+	}
+	
+	private Block getOn() {
+
+		if(this == ModBlocks.reinforced_lamp_off)
+			return ModBlocks.reinforced_lamp_on;
+		if(this == ModBlocks.lamp_tritium_green_off)
+			return ModBlocks.lamp_tritium_green_on;
+		if(this == ModBlocks.lamp_tritium_blue_off)
+			return ModBlocks.lamp_tritium_blue_on;
+		
+		return this;
+	}
 }

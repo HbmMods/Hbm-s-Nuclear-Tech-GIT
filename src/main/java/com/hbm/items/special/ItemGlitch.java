@@ -111,7 +111,7 @@ public class ItemGlitch extends Item {
 				break;
 			case 18:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
 				player.addChatMessage(new ChatComponentText("Here ya go."));
 				break;
 			case 19:

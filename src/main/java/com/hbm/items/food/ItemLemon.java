@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
@@ -17,6 +21,10 @@ public class ItemLemon extends ItemFood {
 
 	public ItemLemon(int p_i45339_1_, float p_i45339_2_, boolean p_i45339_3_) {
 		super(p_i45339_1_, p_i45339_2_, p_i45339_3_);
+		
+		if(this == ModItems.med_ipecac || this == ModItems.med_ptsd) {
+			this.setAlwaysEdible();
+		}
 	}
 	
 	@Override
@@ -208,6 +216,10 @@ public class ItemLemon extends ItemFood {
 			list.add("Performant explosive for many applications.");
 			list.add("Edible");
 		}
+
+		if(this == ModItems.peas) {
+			list.add("He accepts your offering.");
+		}
 	}
 
 
@@ -216,6 +228,13 @@ public class ItemLemon extends ItemFood {
     {
 		if(this == ModItems.med_ipecac || this == ModItems.med_ptsd) {
 			player.addPotionEffect(new PotionEffect(Potion.hunger.id, 50, 49));
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", "vomit");
+			nbt.setInteger("entity", player.getEntityId());
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 25));
+			
+			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:entity.vomit", 1.0F, 1.0F);
 		}
 		
 		if(this == ModItems.med_schizophrenia) {

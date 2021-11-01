@@ -93,7 +93,7 @@ public class EntityNukeExplosion extends Entity {
         	ExplosionNukeGeneric.vapor(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)this.action);
         	
         	this.action = this.damageRange / steps * this.counter;
-        	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)this.action);
+        	ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, (int)this.action);
         	
         }
         
