@@ -170,7 +170,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			short mode = (short) this.getRelevantMode();
 			
 			//////////////////////////////////////////////////////////////////////
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			/*for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				
 				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 				
@@ -202,9 +202,9 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 			//////////////////////////////////////////////////////////////////////
 			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;*/
 			
-			/*if(mode == 1 || mode == 2)
+			if(mode == 1 || mode == 2)
 			{
 				age++;
 				if(age >= 20)
@@ -214,7 +214,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				
 				if(age == 9 || age == 19)
 					ffgeuaInit();
-			}*/
+			}
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
