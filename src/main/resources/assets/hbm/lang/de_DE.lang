@@ -352,7 +352,8 @@ death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
 desc.item.rtgHeat=Hitzelevel: %s
 desc.gui.rtgBFurnace.desc=Bönitigt mindestens 15 Hitze um zu starten$Je mehr Hitze, desto schneller der Vorgang$Hitze über dem maximalen Level hat keinen Effekt$Gold-198 kann zu Quecksilber zerfallen
 desc.gui.rtgBFurnace.heat=§eHitzelevel: %s
-desc.gui.rtgBFurnace.pellets=Akzeptierte Pellets:$  Pu238-Pellet (+5 Hitze)$  U238-Pellet (+1 Hitze)$  Po210-Pellet (+25 Hitze)$  Au198-Pellet (+150 Hitze)
+desc.gui.rtgBFurnace.pellets=Akzeptierte Pellets:
+desc.gui.rtgBFurnace.pellet=%s (%s Hitze)
 
 digamma.playerDigamma=Digammabelastung:
 digamma.playerHealth=Digammaeinfluss:

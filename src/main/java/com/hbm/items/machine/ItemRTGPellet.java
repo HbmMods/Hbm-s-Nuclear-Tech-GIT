@@ -26,7 +26,7 @@ public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 	private ItemStack decayItem = null;
 	private long lifespan = 0;
 	
-	private static final ArrayList<ItemRTGPellet> pelletList = new ArrayList<>();
+	public static final List<ItemRTGPellet> pelletList = new ArrayList();
 	
 	public ItemRTGPellet(int heatIn) {
 		heat = (short) heatIn;
@@ -67,7 +67,7 @@ public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 	}
 
 	@Override
-	public short getPower() {
+	public short getHeat() {
 		return heat;
 	}
 
@@ -110,10 +110,6 @@ public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 	}
 
 	public String getData() {
-		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getPower(), (getDoesDecay() ? " (decays)" : ""));
-	}
-
-	public static ImmutableSet<ItemRTGPellet> getPellets() {
-		return ImmutableSet.copyOf(pelletList);
+		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getHeat(), (getDoesDecay() ? " (decays)" : ""));
 	}
 }

@@ -28,7 +28,7 @@ public interface IRTGUser
 	
 	public static short getPower(IRadioisotopeFuel fuel, ItemStack stack)
 	{
-		return MachineConfig.scaleRTGPower ? IRadioisotopeFuel.getScaledPower(fuel, stack) : fuel.getPower();
+		return MachineConfig.scaleRTGPower ? IRadioisotopeFuel.getScaledPower(fuel, stack) : fuel.getHeat();
 	}
 	
 	/**

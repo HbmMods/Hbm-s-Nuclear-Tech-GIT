@@ -28,7 +28,7 @@ public interface IRadioisotopeFuel
 	public ItemStack getDecayItem();
 	public IRadioisotopeFuel setDecays(@Nonnull ItemStack stack, long lifespan);
 	public boolean getDoesDecay();
-	public short getPower();
+	public short getHeat();
 	/**
 	 * Get the scaled power between max and 0, depending on decay
 	 * @param fuel The fuel instance
@@ -37,7 +37,7 @@ public interface IRadioisotopeFuel
 	 */
 	public static short getScaledPower(IRadioisotopeFuel fuel, ItemStack stack)
 	{
-		return (short) Math.ceil(fuel.getPower() * (fuel.getLifespan(stack) * fuel.getMaxLifespan()));
+		return (short) Math.ceil(fuel.getHeat() * (fuel.getLifespan(stack) * fuel.getMaxLifespan()));
 	}
 	
 	@CheckForNull
@@ -132,7 +132,7 @@ public interface IRadioisotopeFuel
 	public static void addTooltip(List<String> tooltip, ItemStack stack, boolean showAdv)
 	{
 		final IRadioisotopeFuel instance = (IRadioisotopeFuel) stack.getItem();
-		tooltip.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getPower()));
+		tooltip.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getHeat()));
 		if (instance.getDoesDecay())
 		{
 			tooltip.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name"), instance.getDecayItem().stackSize));

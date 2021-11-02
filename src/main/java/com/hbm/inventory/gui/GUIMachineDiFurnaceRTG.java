@@ -1,8 +1,12 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.container.ContainerMachineDiFurnaceRTG;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 import com.hbm.util.I18nUtil;
@@ -25,14 +29,24 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
 	}
 
 	@Override
+	@Untested
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-		String[] infoText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.pellets");
 		String[] descText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.desc");
 		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtgBFurnace.heat", bFurnace.getPower());
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, infoText);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, descText);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 36, 18, 16, mouseX, mouseY, heatText);
+		
+		List<ItemRTGPellet> pellets = ItemRTGPellet.pelletList;
+		String[] pelletText = new String[pellets.size() + 1];
+		pelletText[0] = I18nUtil.resolveKey("desc.gui.rtgBFurnace.pellets");
+		
+		for(int i = 0; i < pellets.size(); i++) {
+			ItemRTGPellet pellet = pellets.get(i);
+			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtgBFurnace.pellet", I18nUtil.resolveKey(pellet.getUnlocalizedName()), pellet.getHeat());
+		}
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);
 	}
 
 	@Override

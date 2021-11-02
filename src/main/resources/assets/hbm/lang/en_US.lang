@@ -420,7 +420,8 @@ death.attack.teleporter=%1$s was teleported into nothingness.
 desc.item.rtgHeat=Power Level: %s
 desc.gui.rtgBFurnace.desc=Requires at least 15 heat to process$The more heat on top of that, the faster it runs$Heat going over maximum speed will have no effect$Gold-198 may decay into Mercury
 desc.gui.rtgBFurnace.heat=§eCurrent heat level: %s
-desc.gui.rtgBFurnace.pellets=Accepted Pellets:$  Pu238 Pellet (+5 heat)$  Weak U238 Pellet (+1 heat)$  Po210 Pellet (+25 heat)$  Au198 Pellet (+150 heat)
+desc.gui.rtgBFurnace.pellets=Accepted Pellets:
+desc.gui.rtgBFurnace.pellet=%s (%s heat)
 
 digamma.playerDigamma=Digamma exposure:
 digamma.playerHealth=Digamma influence:
