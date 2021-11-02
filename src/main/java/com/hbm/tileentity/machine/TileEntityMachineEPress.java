@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -209,7 +210,7 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 					int speed = 25;
 					
 					if(slots[1] != null && slots[2] != null) {
-						ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
+						ItemStack stack = PressRecipes.getOutput(slots[2], slots[1]);
 						if(stack != null &&
 								(slots[3] == null ||
 								(slots[3].getItem() == stack.getItem() &&
@@ -230,9 +231,11 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 								if(slots[2].stackSize <= 0)
 									slots[2] = null;
 								
-								slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-								if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
-									slots[1] = null;
+								if(slots[1].getMaxDamage() != 0) {
+									slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+									if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
+										slots[1] = null;
+								}
 	
 						        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 							}

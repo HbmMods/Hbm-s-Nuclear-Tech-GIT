@@ -47,7 +47,6 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 
         @Override
 		public List<PositionedStack> getIngredients() {
-        	
             return getCycledIngredients(cycleticks / 48, input);
         }
 

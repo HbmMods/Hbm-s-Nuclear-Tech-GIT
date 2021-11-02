@@ -13,6 +13,8 @@ import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemStamp;
+import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -52,12 +54,12 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		if(player.getHeldItem().getItem() == ModItems.template_folder) {
 
 			// Stamps
-			for(Item i : MachineRecipes.stamps_plate)
-				allStacks.add(new ItemStack(i));
-			for(Item i : MachineRecipes.stamps_wire)
-				allStacks.add(new ItemStack(i));
-			for(Item i : MachineRecipes.stamps_circuit)
-				allStacks.add(new ItemStack(i));
+			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE))
+				allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE))
+				allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT))
+				allStacks.add(i.copy());
 			// Tracks
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
