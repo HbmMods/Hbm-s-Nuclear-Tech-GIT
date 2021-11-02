@@ -15,11 +15,13 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 
@@ -44,6 +46,12 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 				MainRegistry.proxy.effectNT(data);
 				world.playSoundEffect(x + 0.5F, y + 0.5, z + 0.5, "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F);
 
+			}
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
+			
+			if(rand.nextInt(10) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
 			if(rand.nextInt(1000) == 0) {

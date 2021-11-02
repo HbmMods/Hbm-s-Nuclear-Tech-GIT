@@ -1407,6 +1407,10 @@ public class ClientProxy extends ServerProxy {
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, scale));
 		}
 		
+		if("deadleaf".equals(type)) {
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
+		}
+
 		if("tower".equals(type)) {
 			ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
 			fx.setLift(data.getFloat("lift"));
@@ -1489,6 +1493,7 @@ public class ClientProxy extends ServerProxy {
 				}
 			}
 		}
+		
 	}
 	
 	private HashMap<Integer, Long> vanished = new HashMap();

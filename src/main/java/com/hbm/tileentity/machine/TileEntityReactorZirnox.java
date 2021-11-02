@@ -343,8 +343,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		zirnoxDebris();
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		
-		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 2500);
-		
 		if(MobConfig.enableElementals) {
 			@SuppressWarnings("unchecked")
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));

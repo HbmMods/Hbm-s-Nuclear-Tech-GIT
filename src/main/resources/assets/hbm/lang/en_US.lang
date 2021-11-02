@@ -3450,6 +3450,7 @@ tile.volcanic_lava_block.name=Volcanic Lava
 tile.volcano_core.name=Volcano Core
 tile.waste_earth.name=Dead Grass
 tile.waste_log.name=Charred Log
+tile.waste_leaves.name=Dead Leaves
 tile.waste_mycelium.name=Glowing Mycelium
 tile.waste_planks.name=Charred Wooden Planks
 tile.waste_trinitite.name=Trinitite Ore

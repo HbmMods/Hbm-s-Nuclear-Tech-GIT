@@ -8,8 +8,10 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RBMKDebrisBurning extends RBMKDebris {
 
@@ -31,6 +33,12 @@ public class RBMKDebrisBurning extends RBMKDebris {
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.25 + rand.nextDouble() * 0.5, y + 1.75, z + 0.25 + rand.nextDouble() * 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 1.75, z + 0.5, 75));
 				MainRegistry.proxy.effectNT(data);
 				world.playSoundEffect(x + 0.5F, y + 0.5, z + 0.5, "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F);
+			}
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
+			
+			if(rand.nextInt(15) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
 			if(rand.nextInt(100) == 0) {

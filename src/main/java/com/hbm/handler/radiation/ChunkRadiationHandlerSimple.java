@@ -10,6 +10,7 @@ import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -221,10 +222,12 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 									world.setBlock(x, y, z, ModBlocks.waste_earth);
 								} else if(world.getBlock(x, y, z) == Blocks.tallgrass) {
 									world.setBlock(x, y, z, Blocks.air);
-								} else if(world.getBlock(x, y, z) == Blocks.leaves) {
-									world.setBlock(x, y, z, Blocks.air);
-								} else if(world.getBlock(x, y, z) == Blocks.leaves2) {
-									world.setBlock(x, y, z, Blocks.air);
+								} else if(world.getBlock(x, y, z).getMaterial() == Material.leaves && !(world.getBlock(x, y, z) == ModBlocks.waste_leaves)) {
+									if(world.rand.nextInt(7) <= 5) {
+										world.setBlock(x, y, z, ModBlocks.waste_leaves);
+									} else {
+										world.setBlock(x, y, z, Blocks.air);
+									}
 								}
 							}
 						}
