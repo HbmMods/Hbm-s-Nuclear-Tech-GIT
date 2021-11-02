@@ -2,6 +2,7 @@ package com.hbm.tileentity;
 
 import java.util.HashMap;
 
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -194,6 +195,7 @@ public class TileMappings {
 		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
 
 		map.put(TileEntityLoot.class, "tileentity_ntm_loot");
+		map.put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		
 		putBombs();
 		putTurrets();

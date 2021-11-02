@@ -3,21 +3,13 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
-import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityBombMulti;
-import com.hbm.util.LootGenerator;
 import com.hbm.util.Tuple.Quartet;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
