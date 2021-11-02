@@ -6,8 +6,10 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -86,6 +88,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -133,7 +136,14 @@ public class ModEventHandlerClient {
 
 		/// DODD DIAG HOOK FOR RBMK
 		if(event.type == ElementType.CROSSHAIRS) {
-			TileEntityRBMKBase.diagnosticPrintHook(event);
+			Minecraft mc = Minecraft.getMinecraft();
+			World world = mc.theWorld;
+			MovingObjectPosition mop = mc.objectMouseOver;
+			ScaledResolution resolution = event.resolution;
+			
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			}
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

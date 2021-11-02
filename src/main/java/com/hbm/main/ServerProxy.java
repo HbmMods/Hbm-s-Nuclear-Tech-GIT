@@ -39,4 +39,6 @@ public class ServerProxy {
 	public boolean isVanished(Entity e) {
 		return false;
 	}
+	
+	public void openLink(String url) { }
 }

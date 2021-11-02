@@ -28,6 +28,8 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -1547,6 +1549,13 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public EntityPlayer me() {
 		return Minecraft.getMinecraft().thePlayer;
+	}
+	
+	@Override
+	public void openLink(String url) {
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (Exception e) { }
 	}
 }
 

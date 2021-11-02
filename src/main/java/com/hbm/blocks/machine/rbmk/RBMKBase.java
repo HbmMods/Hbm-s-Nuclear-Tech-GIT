@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKLid;
@@ -13,6 +14,8 @@ import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -22,9 +25,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class RBMKBase extends BlockDummyable implements IToolable {
+public abstract class RBMKBase extends BlockDummyable implements IToolable, ILookOverlay {
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
@@ -185,6 +189,12 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable {
 		}
 		
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		TileEntityRBMKBase.diagnosticPrintHook(event, world, x, y, z);
 	}
 
 	public static int renderIDRods = RenderingRegistry.getNextAvailableRenderId();
