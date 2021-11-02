@@ -55,25 +55,32 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 			// Stamps
 			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE))
-				allStacks.add(i.copy());
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
 			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE))
-				allStacks.add(i.copy());
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
 			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT))
-				allStacks.add(i.copy());
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+			
 			// Tracks
-			for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
+			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
+			}
 			// Fluid IDs
-			for(int i = 1; i < FluidType.values().length; i++)
-				if(!FluidType.values()[i].hasNoID())
+			for(int i = 1; i < FluidType.values().length; i++) {
+				if(!FluidType.values()[i].hasNoID()) {
 					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+				}
+			}
 			// Assembly Templates
-			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
-				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null)
+			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
+				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null) {
 					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+				}
+			}
 			// Chemistry Templates
-			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
+			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
+			}
 		} else {
 
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
