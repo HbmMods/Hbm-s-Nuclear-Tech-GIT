@@ -35,6 +35,7 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -108,11 +109,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -712,6 +715,37 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 
+		/// TOM IMPACT START///
+		if(event.world != null && !event.world.isRemote && event.phase == Phase.START) {
+			float settle = 1F / 14400000F; /// 600 days to completely clear all
+											/// dust.
+			float cool = 1F / 24000F;/// One MC day between initial impact and
+										/// total darkness.
+			ImpactWorldHandler.impactEffects(event.world);
+			TomSaveData data = TomSaveData.forWorld(event.world);
+			NBTTagCompound tag = data.getData();
+			float atmosphericDust = tag.getFloat("dust");
+			float firestorm = tag.getFloat("fire");
+			boolean hasImpacted = tag.getBoolean("impact");
+			data.impact = hasImpacted;
+			if(atmosphericDust > 0 && firestorm == 0) {
+				tag.setFloat("dust", Math.max(0, atmosphericDust - settle));
+				data.markDirty();
+				data.dust = atmosphericDust;
+			}
+			if(firestorm > 0) {
+				tag.setFloat("fire", Math.max(0, (firestorm - cool)));
+				tag.setFloat("dust", Math.min(1, (atmosphericDust + cool)));
+				data.markDirty();
+				data.fire = firestorm;
+				data.dust = atmosphericDust;
+			}
+			dust = data.dust;
+			fire = data.fire;
+			impact = data.impact;
+		}
+		/// TOM IMPACT END///
+		
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
 			
@@ -733,6 +767,11 @@ public class ModEventHandler {
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
+						
+						if(entity.worldObj.provider.dimensionId == 0 && fire > 0 && dust < 0.75f && event.world.getSavedLightValue(EnumSkyBlock.Sky, (int) entity.posX, (int) entity.posY, (int) entity.posZ) > 7) {
+							entity.setFire(10);
+							entity.attackEntityFrom(DamageSource.onFire, 2);
+						}
 						
 						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 							continue;

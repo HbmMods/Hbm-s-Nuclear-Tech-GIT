@@ -1,8 +1,14 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -36,9 +42,21 @@ public class BlockBobble extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-	    int meta = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		
+		for(int i = 0; i < BobbleType.values().length; i++)
+			list.add(new ItemStack(item, 1, i));
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+		int meta = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
 		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		
+		TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(x, y, z);
+		bobble.type = BobbleType.values()[stack.getItemDamage() % BobbleType.values().length];
+		bobble.markDirty();
 	}
 	
 	@Override

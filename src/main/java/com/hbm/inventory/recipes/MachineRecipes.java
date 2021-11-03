@@ -2029,6 +2029,7 @@ public class MachineRecipes {
         	break;
         case HELIUM3:
 			output[0] = new FluidStack(1000, FluidType.HELIUM3);
+        	break;
         case OSMIRIDIUM_DEATH:
 			output[0] = new FluidStack(1000, FluidType.DEATH);
         	break;
