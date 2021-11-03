@@ -37,7 +37,7 @@ public class RBMKDebrisBurning extends RBMKDebris {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 			
-			if(rand.nextInt(15) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			if(rand.nextInt(7) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			

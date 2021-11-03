@@ -58,7 +58,7 @@ public class BlockGasMeltdown extends BlockGasBase {
 	@Override
 	public ForgeDirection getFirstDirection(World world, int x, int y, int z) {
 		
-		if(world.rand.nextInt(5) == 0)
+		if(world.rand.nextInt(2) == 0)
 			return ForgeDirection.UP;
 		
 		return ForgeDirection.DOWN;
@@ -76,13 +76,13 @@ public class BlockGasMeltdown extends BlockGasBase {
 	
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 			
-			if(rand.nextInt(3) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			if(rand.nextInt(7) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_radon_dense);
 			}
 			
 			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5);
 			
-			if(rand.nextInt(300) == 0) {
+			if(rand.nextInt(450) == 0) {
 				world.setBlockToAir(x, y, z);
 				return;
 			}

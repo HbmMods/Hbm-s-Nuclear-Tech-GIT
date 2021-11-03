@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class WasteLeaves extends Block {
@@ -36,13 +37,13 @@ public class WasteLeaves extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		
 		if(rand.nextInt(300) == 0) {
-			world.setBlock(x, y, z, Blocks.air);
+			world.setBlockToAir(x, y, z);
 		}
 		
 		super.updateTick(world, x, y, z, rand);
 	}
 	
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
@@ -51,7 +52,7 @@ public class WasteLeaves extends Block {
 		data.setString("type", "deadleaf");
 
 		MainRegistry.proxy.effectNT(data);
-	}
+	}*/
 	
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -63,6 +64,6 @@ public class WasteLeaves extends Block {
 	}
 	
 	protected boolean canSilkHarvest() {
-		return true;
+		return false;
 	}
 }

@@ -51,7 +51,7 @@ public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 		
-		if(rand.nextInt(7) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ) == Blocks.air) {
+		if(rand.nextInt(4) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ) == Blocks.air) {
 			world.setBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ, ModBlocks.gas_meltdown);
 		}
 		

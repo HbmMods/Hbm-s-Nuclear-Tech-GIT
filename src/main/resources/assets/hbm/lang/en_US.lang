@@ -3045,6 +3045,7 @@ tile.gas_monoxide.name=Carbon Monoxide
 tile.gas_radon.name=Radon Gas
 tile.gas_radon_dense.name=Dense Radon Gas
 tile.gas_radon_tomb.name=Tomb Gas
+tile.gas_meltdown.name=Meltdown Gas
 tile.geiger.name=Geiger Counter
 tile.glass_ash.name=Ash Glass
 tile.glass_boron.name=Boron Glass

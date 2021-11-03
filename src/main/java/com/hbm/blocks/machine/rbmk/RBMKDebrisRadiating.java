@@ -50,7 +50,7 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 			
-			if(rand.nextInt(10) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			if(rand.nextInt(5) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
