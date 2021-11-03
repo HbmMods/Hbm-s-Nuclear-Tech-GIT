@@ -103,7 +103,8 @@ public class ItemChemistryTemplate extends Item {
 		TEL,
 		GASOLINE,
 		FRACKSOL,
-		HELIUM3;
+		HELIUM3,
+		OSMIRIDIUM_DEATH;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -303,6 +304,8 @@ public class ItemChemistryTemplate extends Item {
         	return 20;
 		case HELIUM3:
         	return 200;
+        case OSMIRIDIUM_DEATH:
+        	return 240;
         default:
         	return 100;
         }

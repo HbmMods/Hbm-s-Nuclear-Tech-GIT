@@ -6,6 +6,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionTom;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -71,6 +72,11 @@ public class EntityTomBlast extends Entity {
 
 			if(flag) {
 				this.setDead();
+				TomSaveData data = TomSaveData.forWorld(worldObj);
+				NBTTagCompound tag = data.getData();
+				tag.setBoolean("impact", true);
+				tag.setFloat("fire", 1);
+				data.markDirty();
 			}
 		}
 

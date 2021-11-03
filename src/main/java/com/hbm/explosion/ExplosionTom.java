@@ -1,5 +1,7 @@
 package com.hbm.explosion;
 
+import com.hbm.blocks.ModBlocks;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -105,7 +107,22 @@ public class ExplosionTom
 				if(y == 0)
 					break;
 				
-				worldObj.setBlockToAir(pX, y, pZ);
+				if(y <= threshold + 2 && worldObj.getBlock(pX, y, pZ) != Blocks.air) {
+					
+					if(worldObj.rand.nextInt(499) < 1) {
+						worldObj.setBlock(pX, y, pZ, ModBlocks.ore_tektite_osmiridium);
+					} else {
+						worldObj.setBlock(pX, y, pZ, ModBlocks.tektite);
+					}
+					
+				} else {
+					if(y > 16) {
+						worldObj.setBlockToAir(pX, y, pZ);
+					} else {
+						worldObj.setBlock(pX, y, pZ, Blocks.lava, 0, 2);
+					}
+
+				}
 				
 				y--;
 			}

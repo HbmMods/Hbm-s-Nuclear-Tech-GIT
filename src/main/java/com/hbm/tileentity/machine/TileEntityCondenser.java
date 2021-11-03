@@ -9,10 +9,12 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.main.ModEventHandler;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, IFluidSource {
@@ -44,6 +46,14 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 			tanks[0].setFill(tanks[0].getFill() - convert);
 			tanks[1].setFill(tanks[1].getFill() + convert);
+			
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			
+			if(ModEventHandler.fire > 0 && light > 7) { // Make both steam and water evaporate during firestorms...{
+				tanks[1].setFill(tanks[1].getFill() - convert);
+			} else {
+				tanks[1].setFill(tanks[1].getFill() + convert);
+			}
 			
 			fillFluidInit(tanks[1].getTankType());
 			

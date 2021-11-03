@@ -14,6 +14,7 @@ import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -34,6 +35,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -202,6 +204,13 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	}
 	
 	protected void coolPassively() {
+		
+		if(ModEventHandler.fire > 0) {
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			if(heat < 20 + (480 * (light / 15))) {
+				this.heat += this.passiveCooling() * 2;
+			}
+		}
 		
 		this.heat -= this.passiveCooling();
 		

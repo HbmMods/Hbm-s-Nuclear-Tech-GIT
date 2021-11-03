@@ -119,6 +119,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	static {
 		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()));
 		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.PUF6.ordinal()));
+		fluidConversion.put(FluidType.DEATH, new ComparableStack(ModItems.fluid_icon, 1, FluidType.DEATH.ordinal()));
 	}
 	
 	int loadDelay;

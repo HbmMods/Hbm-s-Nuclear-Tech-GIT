@@ -10,11 +10,13 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource {
 	
@@ -101,6 +103,15 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		
 		if(b == ModBlocks.barrel_corroded && worldObj.rand.nextInt(3) == 0) {
 			tank.setFill(tank.getFill() - 1);
+		}
+		
+		//For when Tom's firestorm hits a barrel full of water
+		if(tank.getTankType() == FluidType.WATER && ModEventHandler.fire > 0) {
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			
+			if(light > 7) {
+				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+			}
 		}
 	}
 	

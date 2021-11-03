@@ -1469,6 +1469,11 @@ public class MachineRecipes {
 		case HELIUM3:
 			list.add(new ItemStack(ModBlocks.moon_turf, 8));
 			break;
+		case OSMIRIDIUM_DEATH:
+			list.add(new ItemStack(ModItems.powder_paleogenite, 1));
+			list.add(new ItemStack(ModItems.fluorite, 8));
+			list.add(new ItemStack(ModItems.nugget_bismuth, 4));
+			break;
 		default:
 			break;
 		}
@@ -1715,6 +1720,9 @@ public class MachineRecipes {
 			input[0] = new FluidStack(100, FluidType.PETROLEUM);
 			input[1] = new FluidStack(1000, FluidType.WATER);
 			break;
+		case OSMIRIDIUM_DEATH:
+			input[0] = new FluidStack(1000, FluidType.ACID);
+        	break;
 		default:
 			break;
 		}
@@ -2021,6 +2029,9 @@ public class MachineRecipes {
         	break;
         case HELIUM3:
 			output[0] = new FluidStack(1000, FluidType.HELIUM3);
+        case OSMIRIDIUM_DEATH:
+			output[0] = new FluidStack(1000, FluidType.DEATH);
+        	break;
 		default:
 			break;
 		}

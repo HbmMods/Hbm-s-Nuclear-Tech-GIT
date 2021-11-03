@@ -244,6 +244,8 @@ public class ModItems {
 	public static Item ingot_tantalium;
 	public static Item nugget_tantalium;
 	public static Item ingot_niobium;
+	public static Item ingot_osmiridium;
+	public static Item nugget_osmiridium;
 	public static Item plate_lead;
 	public static Item nugget_schrabidium;
 	public static Item plate_schrabidium;
@@ -335,6 +337,7 @@ public class ModItems {
 	public static Item crystal_starmetal;
 	public static Item crystal_cinnebar;
 	public static Item crystal_trixite;
+	public static Item crystal_osmiridium;
 	
 	public static Item gem_tantalium;
 	public static Item gem_volcanic;
@@ -423,6 +426,10 @@ public class ModItems {
 	
 	public static Item powder_coltan_ore;
 	public static Item powder_coltan;
+	public static Item powder_tektite;
+	public static Item powder_paleogenite;
+	public static Item powder_paleogenite_tiny;
+	public static Item powder_impure_osmiridium;
 
 	public static Item powder_lanthanium;
 	public static Item powder_actinium;
@@ -2717,7 +2724,9 @@ public class ModItems {
 		ingot_tantalium = new ItemCustomLore().setUnlocalizedName("ingot_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_tantalium");
 		nugget_tantalium = new ItemCustomLore().setUnlocalizedName("nugget_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_tantalium");
 		ingot_niobium = new Item().setUnlocalizedName("ingot_niobium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_niobium");
-		nugget_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.nugget, false, true).setUnlocalizedName("nugget_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium");
+		ingot_osmiridium = new Item().setUnlocalizedName("ingot_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_osmiridium");
+		nugget_osmiridium = new Item().setUnlocalizedName("nugget_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_osmiridium");
+		nugget_schrabidium = new Item().setUnlocalizedName("nugget_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium");
 		nugget_beryllium = new Item().setUnlocalizedName("nugget_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_beryllium");
 		hazmat_cloth = new Item().setUnlocalizedName("hazmat_cloth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hazmat_cloth");
 		hazmat_cloth_red = new Item().setUnlocalizedName("hazmat_cloth_red").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hazmat_cloth_red");
@@ -2727,10 +2736,10 @@ public class ModItems {
 		rag_damp = new Item().setUnlocalizedName("rag_damp").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rag_damp");
 		rag_piss = new Item().setUnlocalizedName("rag_piss").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rag_piss");
 		filter_coal = new Item().setUnlocalizedName("filter_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":filter_coal");
-		ingot_hes = new ItemHazard(ItemHazard.saf * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_hes").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_hes");
-		ingot_les = new ItemHazard(ItemHazard.saf * ItemHazard.ingot, false, true).setUnlocalizedName("ingot_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_les");
-		nugget_hes = new ItemHazard(ItemHazard.saf * ItemHazard.nugget, false, true).setUnlocalizedName("nugget_hes").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_hes");
-		nugget_les = new ItemHazard(ItemHazard.saf * ItemHazard.nugget, false, true).setUnlocalizedName("nugget_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_les");
+		ingot_hes = new Item().setUnlocalizedName("ingot_hes").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_hes");
+		ingot_les = new Item().setUnlocalizedName("ingot_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_les");
+		nugget_hes = new Item().setUnlocalizedName("nugget_hes").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_hes");
+		nugget_les = new Item().setUnlocalizedName("nugget_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_les");
 		plate_combine_steel = new Item().setUnlocalizedName("plate_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_combine_steel");
 
 		crystal_coal = new Item().setUnlocalizedName("crystal_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_coal");
@@ -2760,6 +2769,7 @@ public class ModItems {
 		crystal_starmetal = new Item().setUnlocalizedName("crystal_starmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_starmetal");
 		crystal_cinnebar = new Item().setUnlocalizedName("crystal_cinnebar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_cinnebar");
 		crystal_trixite = new ItemHazard().addRadiation(ItemHazard.trx * ItemHazard.crystal).toItem().setUnlocalizedName("crystal_trixite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_trixite");
+		crystal_osmiridium = new Item().setUnlocalizedName("crystal_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_osmiridium");
 		gem_tantalium = new ItemCustomLore().setUnlocalizedName("gem_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":gem_tantalium");
 		gem_volcanic = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("gem_volcanic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":gem_volcanic");
 		
@@ -2852,7 +2862,11 @@ public class ModItems {
 		powder_balefire = new ItemHazard().addRadiation(500F).addFire(5).toItem().setUnlocalizedName("powder_balefire").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_balefire");
 		powder_coltan_ore = new ItemHazard().addAsbestos(3).toItem().setUnlocalizedName("powder_coltan_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coltan_ore");
 		powder_coltan = new Item().setUnlocalizedName("powder_coltan").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coltan");
-
+		powder_tektite = new Item().setUnlocalizedName("powder_tektite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tektite");
+		powder_paleogenite = new Item().setUnlocalizedName("powder_paleogenite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_paleogenite");
+		powder_paleogenite_tiny = new Item().setUnlocalizedName("powder_paleogenite_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_paleogenite_tiny");
+		powder_impure_osmiridium = new Item().setUnlocalizedName("powder_impure_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_impure_osmiridium");
+		
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");
 		fragment_cobalt = new Item().setUnlocalizedName("fragment_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_cobalt");
 		fragment_niobium = new Item().setUnlocalizedName("fragment_niobium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_niobium");
@@ -5493,6 +5507,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_dineutronium, ingot_dineutronium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_electronium, ingot_electronium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_smore, ingot_smore.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_osmiridium, ingot_osmiridium.getUnlocalizedName());
 
 		//Meteorite Ingots
 		GameRegistry.registerItem(ingot_steel_dusted, ingot_steel_dusted.getUnlocalizedName());
@@ -5603,6 +5618,10 @@ public class ModItems {
 		GameRegistry.registerItem(powder_lead, powder_lead.getUnlocalizedName());
 		GameRegistry.registerItem(powder_coltan_ore, powder_coltan_ore.getUnlocalizedName());
 		GameRegistry.registerItem(powder_coltan, powder_coltan.getUnlocalizedName());
+		GameRegistry.registerItem(powder_tektite, powder_tektite.getUnlocalizedName());
+		GameRegistry.registerItem(powder_paleogenite, powder_paleogenite.getUnlocalizedName());
+		GameRegistry.registerItem(powder_paleogenite_tiny, powder_paleogenite_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(powder_impure_osmiridium, powder_impure_osmiridium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_tantalium, powder_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_yellowcake, powder_yellowcake.getUnlocalizedName());
 		GameRegistry.registerItem(powder_beryllium, powder_beryllium.getUnlocalizedName());
@@ -5699,6 +5718,7 @@ public class ModItems {
 		GameRegistry.registerItem(crystal_starmetal, crystal_starmetal.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_cinnebar, crystal_cinnebar.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_trixite, crystal_trixite.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_osmiridium, crystal_osmiridium.getUnlocalizedName());
 		GameRegistry.registerItem(gem_tantalium, gem_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(gem_volcanic, gem_volcanic.getUnlocalizedName());
 		
@@ -5765,6 +5785,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_desh, nugget_desh.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_euphemium, nugget_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_dineutronium, nugget_dineutronium.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_osmiridium, nugget_osmiridium.getUnlocalizedName());
 
 		//Plates
 		GameRegistry.registerItem(plate_iron, plate_iron.getUnlocalizedName());

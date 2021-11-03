@@ -149,6 +149,7 @@ public class OreDictManager {
 	public static final DictFrame DNT = new DictFrame("Dineutronium");
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
 	public static final DictFrame ASBESTOS = new DictFrame("Asbestos");
+	public static final DictFrame OSMIRIDIUM = new DictFrame("Osmiridium");
 	/*
 	 * DUST AND GEM ORES
 	 */
@@ -281,6 +282,7 @@ public class OreDictManager {
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
 		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos);
+		OSMIRIDIUM	.nugget(nugget_osmiridium)								.ingot(ingot_osmiridium);
 
 		/*
 		 * DUST AND GEM ORES
