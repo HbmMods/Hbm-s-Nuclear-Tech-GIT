@@ -58,8 +58,8 @@ public class RenderTestCable implements ISimpleBlockRenderingHandler {
 
 		boolean pX = world.getTileEntity(x + 1, y, z) instanceof IEnergyConnector;
 		boolean nX = world.getTileEntity(x - 1, y, z) instanceof IEnergyConnector;
-		boolean pY = world.getTileEntity(x, y + 1, z) instanceof IEnergyConnector;
-		boolean nY = world.getTileEntity(x, y - 1, z) instanceof IEnergyConnector;
+		boolean pY = y > 255 ? false : world.getTileEntity(x, y + 1, z) instanceof IEnergyConnector;
+		boolean nY = y < 0 ? false : world.getTileEntity(x, y - 1, z) instanceof IEnergyConnector;
 		boolean pZ = world.getTileEntity(x, y, z + 1) instanceof IEnergyConnector;
 		boolean nZ = world.getTileEntity(x, y, z - 1) instanceof IEnergyConnector;
 		
