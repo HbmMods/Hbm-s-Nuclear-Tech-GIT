@@ -137,6 +137,10 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			plasma.setTankType(FluidType.PLASMA_DT);
 			return;
 		}
+		if(types.contains(FluidType.DEUTERIUM) && types.contains(FluidType.HELIUM3)) {
+			plasma.setTankType(FluidType.PLASMA_DH3);
+			return;
+		}
 		if(types.contains(FluidType.DEUTERIUM) && types.contains(FluidType.HYDROGEN)) {
 			plasma.setTankType(FluidType.PLASMA_HD);
 			return;

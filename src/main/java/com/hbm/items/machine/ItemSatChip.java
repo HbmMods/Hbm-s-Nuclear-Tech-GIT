@@ -34,6 +34,9 @@ public class ItemSatChip extends Item {
 		if(this == ModItems.sat_miner)
 			list.add("Will deliver ore powders to a cargo landing pad.");
 		
+		if(this == ModItems.sat_lunar_miner)
+			list.add("Mines moon turf to deliver it to a cargo landing pad.");
+		
 		if(this == ModItems.sat_radar)
 			list.add("Shows a map of active entities.");
 		

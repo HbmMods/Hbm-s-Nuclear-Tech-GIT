@@ -1466,6 +1466,9 @@ public class MachineRecipes {
 		case FRACKSOL:
 			list.add(new ItemStack(ModItems.sulfur, 1));
 			break;
+		case HELIUM3:
+			list.add(new ItemStack(ModBlocks.moon_turf, 8));
+			break;
 		default:
 			break;
 		}
@@ -2016,6 +2019,8 @@ public class MachineRecipes {
         case FRACKSOL:
 			output[0] = new FluidStack(1000, FluidType.FRACKSOL);
         	break;
+        case HELIUM3:
+			output[0] = new FluidStack(1000, FluidType.HELIUM3);
 		default:
 			break;
 		}
