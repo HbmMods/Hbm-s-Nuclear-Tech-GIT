@@ -812,6 +812,7 @@ public class ModItems {
 	public static Item canister_naphtha;
 	public static Item canister_lightoil;
 	public static Item canister_biofuel;
+	public static Item canister_ethanol;
 
 	public static Item gas_empty;
 	public static Item gas_full;
@@ -3197,6 +3198,7 @@ public class ModItems {
 		canister_naphtha = new ItemCustomLore().setUnlocalizedName("canister_naphtha").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_naphtha");
 		canister_lightoil = new ItemCustomLore().setUnlocalizedName("canister_lightoil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_lightoil");
 		canister_biofuel = new ItemCustomLore().setUnlocalizedName("canister_biofuel").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_biofuel");
+		canister_ethanol = new ItemCustomLore().setUnlocalizedName("canister_ethanol").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_ethanol");
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
 		gas_full = new Item().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_full");
 		gas_petroleum = new Item().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_petroleum");
@@ -6137,6 +6139,7 @@ public class ModItems {
 		GameRegistry.registerItem(canister_reoil, canister_reoil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_petroil, canister_petroil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_biofuel, canister_biofuel.getUnlocalizedName());
+		GameRegistry.registerItem(canister_ethanol, canister_ethanol.getUnlocalizedName());
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
 		GameRegistry.registerItem(canister_gasoline, canister_gasoline.getUnlocalizedName());
 		GameRegistry.registerItem(canister_fracksol, canister_fracksol.getUnlocalizedName());
