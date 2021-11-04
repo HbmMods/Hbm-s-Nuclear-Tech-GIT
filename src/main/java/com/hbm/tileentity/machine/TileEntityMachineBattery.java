@@ -72,8 +72,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		switch(i)
-		{
+		
+		switch(i) {
 		case 0:
 			if(stack.getItem() instanceof IBatteryItem)
 				return true;
@@ -98,12 +98,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		
 		slots = new ItemStack[getSizeInventory()];
 		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
+		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
+			if(b0 >= 0 && b0 < slots.length) {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
@@ -119,12 +117,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		
 		NBTTagList list = new NBTTagList();
 		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
@@ -133,10 +129,9 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -199,19 +194,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
 						con.getPowerNet().subscribe(this);
 				}
-			}
+			}*/
 			//////////////////////////////////////////////////////////////////////
 			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;*/
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 			
-			if(mode == 1 || mode == 2)
-			{
+			if(mode == 1 || mode == 2) {
 				age++;
-				if(age >= 20)
-				{
+				if(age >= 20) {
 					age = 0;
 				}
-				
+
 				if(age == 9 || age == 19)
 					ffgeuaInit();
 			}

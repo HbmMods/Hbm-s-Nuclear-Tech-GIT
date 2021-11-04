@@ -141,7 +141,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			
 			if(recipe.getKey() instanceof ItemStack) {
 
-				if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
+				if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()))
 					this.arecipes.add(new RecipeSet(recipe.getKey(), recipe.getValue()));
 				
 			} else if (recipe.getKey() instanceof ArrayList) {
@@ -149,7 +149,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				for(Object o : (ArrayList)recipe.getKey()) {
 					ItemStack stack = (ItemStack)o;
 
-					if (NEIServerUtils.areStacksSameType(ingredient, stack))
+					if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, stack))
 						this.arecipes.add(new RecipeSet(stack, recipe.getValue()));
 				}
 			}
@@ -174,12 +174,6 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-
-		/*int index = 0;
-		for(Double chance : rec.chances) {
-			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 84, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
-			index++;
-		}*/
 		
 		for(int i = 0; i < rec.chances.size(); i++) {
 			
