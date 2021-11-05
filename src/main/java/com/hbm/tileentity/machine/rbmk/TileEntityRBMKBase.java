@@ -68,7 +68,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	/**
 	 * Approx melting point of steel
-	 * This metric won't be used because fuel tends to melt much earlier than that
+	 * Fuels often burn much hotter than this but it won't affect the column too much due to low diffusion
 	 * @return
 	 */
 	public double maxHeat() {
@@ -88,6 +88,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		return true;
 	}
 	
+	//unused
 	public int trackingRange() {
 		return 25;
 	}
@@ -96,9 +97,17 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.worldObj.theProfiler.startSection("rbmkBase_heat_movement");
 			moveHeat();
-			if(RBMKDials.getReasimBoilers(worldObj)) boilWater();
+			if(RBMKDials.getReasimBoilers(worldObj)) {
+				this.worldObj.theProfiler.endStartSection("rbmkBase_reasim_boilers");
+				boilWater();
+			}
+
+			this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
 			coolPassively();
+			this.worldObj.theProfiler.endSection();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			this.writeToNBT(data);
