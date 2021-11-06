@@ -204,7 +204,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			
 			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
 				generateSteam();
-				this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 2000));
+				this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 1800));
 			}
 
 			checkIfMeltdown();
@@ -285,11 +285,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
 			this.heat += rod.heat;
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
+			
+			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
+				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
+				break;
+			}
 		}
-
-                if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
-			slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
-                }
 	}
 	
 	private void checkIfMeltdown() {
