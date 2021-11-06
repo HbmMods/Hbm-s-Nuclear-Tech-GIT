@@ -1,13 +1,20 @@
 package com.hbm.blocks.generic;
 
 import java.util.List;
+import java.util.Random;
+
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,6 +49,40 @@ public class BlockBobble extends BlockContainer {
 	}
 
 	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		
+		if(!world.isRemote) {
+			TileEntityBobble entity = (TileEntityBobble) world.getTileEntity(x, y, z);
+			if(entity != null) {
+				EntityItem item = new EntityItem(world, x + 0.5, y, z + 0.5, new ItemStack(this, 1, entity.type.ordinal()));
+				world.spawnEntityInWorld(item);
+			}
+		}
+		
+		super.breakBlock(world, x, y, z, block, meta);
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(world.isRemote) {
+			return true;
+			
+		} else if(!player.isSneaking()) {
+			world.setBlockToAir(x, y, z);
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		
@@ -61,7 +102,8 @@ public class BlockBobble extends BlockContainer {
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		float f = 0.0625F;
+		this.setBlockBounds(5.5F * f, 0.0F, 5.5F * f, 1.0F - 5.5F * f, 0.625F, 1.0F - 5.5F * f);
 	}
 
 	@Override
@@ -111,18 +153,22 @@ public class BlockBobble extends BlockContainer {
 	
 	public static enum BobbleType {
 		
-		NONE("null", "null", null, null);
+		NONE("null", "null", null, null, false),
+		BOB("HbMinecraft", "HbMinecraft", "Hbm's Nuclear Tech Mod", "eat my shit, tteabag", false),
+		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket
 		public String contribution;	//what contributions this person has made, if applicable
 		public String inscription;	//the flavor text
+		public boolean skinLayers;
 		
-		private BobbleType(String name, String label, String contribution, String inscription) {
+		private BobbleType(String name, String label, String contribution, String inscription, boolean layers) {
 			this.name = name;
 			this.label = label;
 			this.contribution = contribution;
 			this.inscription = inscription;
+			this.skinLayers = layers;
 		}
 	}
 }

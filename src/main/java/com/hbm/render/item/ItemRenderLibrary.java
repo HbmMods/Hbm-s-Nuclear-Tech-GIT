@@ -5,12 +5,15 @@ import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderLibrary {
@@ -1128,6 +1131,16 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.fracking_tower_tex); ResourceManager.fracking_tower.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.bobblehead), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3.5, 0);
+				GL11.glScaled(10, 10, 10);
+			}
+			public void renderCommonWithStack(ItemStack stack) {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				RenderBobble.instance.renderBobble(BobbleType.values()[stack.getItemDamage()]);
 			}});
 	}
 	

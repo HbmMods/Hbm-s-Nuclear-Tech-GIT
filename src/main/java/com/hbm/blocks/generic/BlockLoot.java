@@ -89,12 +89,7 @@ public class BlockLoot extends BlockContainer {
 			return true;
 			
 		} else if(!player.isSneaking()) {
-			
-			TileEntityLoot entity = (TileEntityLoot) world.getTileEntity(x, y, z);
-			if(entity != null) {
-				world.setBlockToAir(x, y, z);
-				player.inventoryContainer.detectAndSendChanges();
-			}
+			world.setBlockToAir(x, y, z);
 			return true;
 			
 		} else {
