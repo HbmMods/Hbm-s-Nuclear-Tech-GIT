@@ -78,8 +78,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
-				
+
+				this.worldObj.theProfiler.startSection("rbmkRod_flux_spread");
 				spreadFlux(rType, fluxOut);
+				this.worldObj.theProfiler.endSection();
 				
 				hasRod = true;
 				
@@ -192,7 +194,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		
 		//return the neutrons back to this with no further action required
 		if(te instanceof TileEntityRBMKReflector) {
-			this.receiveFlux(stream, flux);
+			this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux);
 			return 0;
 		}
 		

@@ -1,14 +1,19 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemWasteLong;
+import com.hbm.items.special.ItemWasteShort;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Triplet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -202,57 +207,45 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IS
 		return i >= 12;
 	}
 	
-	private int getPowerFromItem(ItemStack stack) {
-		Item item = stack.getItem();
+	public static final HashMap<ComparableStack, Triplet<Integer, Integer, ItemStack>> fuels = new HashMap();
+	
+	static {
 
-		if(item == ModItems.nuclear_waste_short)
-			return 150;
-		if(item == ModItems.nuclear_waste_long)
-			return 50;
-
-		if(item == ModItems.nuclear_waste_short_tiny)
-			return 15;
-		if(item == ModItems.nuclear_waste_long_tiny)
-			return 5;
-
-		if(item == ModItems.scrap_nuclear)
-			return 5;
+		for(int i = 0; i < ItemWasteShort.WasteClass.values().length; i++) {
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short, 1, i),		new Triplet<Integer, Integer, ItemStack>(150,	30 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(15,	3 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, i)));
+		}
+		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long, 1, i),			new Triplet<Integer, Integer, ItemStack>(50,	2 * 60 * 60 * 20,	new ItemStack(ModItems.nuclear_waste_long_depleted, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(5,		12 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, i)));
+		}
 		
-		return 0;
+		fuels.put(		new ComparableStack(ModItems.scrap_nuclear),					new Triplet<Integer, Integer, ItemStack>(5,		5 * 60 * 20,		null));
+	}
+	
+	private Triplet<Integer, Integer, ItemStack> grabResult(ItemStack stack) {
+		return fuels.get(new ComparableStack(stack).makeSingular());
+	}
+	
+	private int getPowerFromItem(ItemStack stack) {
+		Triplet<Integer, Integer, ItemStack> result = grabResult(stack);
+		if(result == null)
+			return 0;
+		return result.getX();
 	}
 	
 	private int getDurationFromItem(ItemStack stack) {
-		Item item = stack.getItem();
-
-		if(item == ModItems.nuclear_waste_short)
-			return 30 * 60 * 20;
-		if(item == ModItems.nuclear_waste_long)
-			return 2 * 60 * 60 * 20;
-
-		if(item == ModItems.nuclear_waste_short_tiny)
-			return 3 * 60 * 20;
-		if(item == ModItems.nuclear_waste_long_tiny)
-			return 12 * 60 * 20;
-
-		if(item == ModItems.scrap_nuclear)
-			return 5 * 60 * 20;
-		
-		return 0;
+		Triplet<Integer, Integer, ItemStack> result = grabResult(stack);
+		if(result == null)
+			return 0;
+		return result.getY();
 	}
 	
 	private ItemStack getOutputFromItem(ItemStack stack) {
-		Item item = stack.getItem();
-
-		if(item == ModItems.nuclear_waste_short)
-			return new ItemStack(ModItems.nuclear_waste_short_depleted, 1, stack.getItemDamage());
-		if(item == ModItems.nuclear_waste_long)
-			return new ItemStack(ModItems.nuclear_waste_long_depleted, 1, stack.getItemDamage());
-		if(item == ModItems.nuclear_waste_short_tiny)
-			return new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, stack.getItemDamage());
-		if(item == ModItems.nuclear_waste_long_tiny)
-			return new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, stack.getItemDamage());
-		
-		return null;
+		Triplet<Integer, Integer, ItemStack> result = grabResult(stack);
+		if(result == null)
+			return null;
+		return result.getZ();
 	}
 
 	@Override

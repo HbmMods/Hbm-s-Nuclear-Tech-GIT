@@ -46,7 +46,11 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		if(!worldObj.isRemote) {
 			
 			if(this.worldObj.getTotalWorldTime() % 10 == 0) {
+
+				this.worldObj.theProfiler.startSection("rbmkConsole_rescan");
 				rescan();
+				this.worldObj.theProfiler.endSection();
+				
 				prepareNetworkPack();
 			}
 		}

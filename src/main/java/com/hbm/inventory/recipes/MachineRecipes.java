@@ -1474,6 +1474,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.fluorite, 8));
 			list.add(new ItemStack(ModItems.nugget_bismuth, 4));
 			break;
+		case ETHANOL:
+			list.add(new ItemStack(ModItems.biomass, 6));
+			break;
 		default:
 			break;
 		}
@@ -2032,6 +2035,9 @@ public class MachineRecipes {
         	break;
         case OSMIRIDIUM_DEATH:
 			output[0] = new FluidStack(1000, FluidType.DEATH);
+        	break;
+        case ETHANOL:
+			output[0] = new FluidStack(1000, FluidType.ETHANOL);
         	break;
 		default:
 			break;
