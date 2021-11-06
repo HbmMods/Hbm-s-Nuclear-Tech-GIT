@@ -320,7 +320,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		return rod * 100 / rodMax;
 	}
 
-	@Override
+	/*@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
@@ -401,17 +401,17 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 			if(rods > 0 && coreHeat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
 
-				/*
-				 * List<Entity> list = (List<Entity>)
-				 * worldObj.getEntitiesWithinAABBExcludingEntity(null,
-				 * AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 -
-				 * 5, zCoord + 0.5 - 5, xCoord + 0.5 + 5, yCoord + 1.5 + 5,
-				 * zCoord + 0.5 + 5));
-				 * 
-				 * for (Entity e : list) { if (e instanceof EntityLivingBase)
-				 * Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
-				 * }
-				 */
+				
+				  List<Entity> list = (List<Entity>)
+				  worldObj.getEntitiesWithinAABBExcludingEntity(null,
+				  AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 -
+				  5, zCoord + 0.5 - 5, xCoord + 0.5 + 5, yCoord + 1.5 + 5,
+				  zCoord + 0.5 + 5));
+				  
+				  for (Entity e : list) { if (e instanceof EntityLivingBase)
+				  Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
+				  }
+				 
 
 				float rad = (float) coreHeat / (float) maxCoreHeat * 50F;
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
@@ -425,7 +425,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 2), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, hullHeat, 3), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
-	}
+	}*/
 
 	@SuppressWarnings("incomplete-switch")
 	private void generateSteam() {

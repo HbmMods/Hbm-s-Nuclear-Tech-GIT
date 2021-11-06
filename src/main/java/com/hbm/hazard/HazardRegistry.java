@@ -183,7 +183,7 @@ public class HazardRegistry {
 		HazardSystem.register(rod_zirnox_plutonium_fuel_depleted, makeData(RADIATION, 110F));
 		HazardSystem.register(rod_zirnox_u233_fuel_depleted, makeData(RADIATION, 120F));
 		HazardSystem.register(rod_zirnox_u235_fuel_depleted, makeData(RADIATION, 110F));
-		HazardSystem.register(rod_zirnox_les_fuel_depleted, makeData(RADIATION, 120F).addEntry(BLINDING, 5F));
+		HazardSystem.register(rod_zirnox_les_fuel_depleted, new HazardData().addEntry(RADIATION, 120F).addEntry(BLINDING, 5F));
 		
 		HazardSystem.register(waste_natural_uranium, makeData(RADIATION, 30F));
 		HazardSystem.register(waste_uranium, makeData(RADIATION, 30F));
@@ -193,14 +193,23 @@ public class HazardRegistry {
 		HazardSystem.register(waste_u233, makeData(RADIATION, 50F));
 		HazardSystem.register(waste_u235, makeData(RADIATION, 45F));
 		HazardSystem.register(waste_schrabidium, new HazardData().addEntry(RADIATION, 50F).addEntry(HOT, 5F));
-		HazardSystem.register(waste_natural_uranium_hot, makeData(RADIATION, 35F).addEntry(HOT, 5F));
+		HazardSystem.register(waste_natural_uranium_hot, new HazardData().addEntry(RADIATION, 35F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_uranium_hot, new HazardData().addEntry(RADIATION, 40F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_thorium_hot, new HazardData().addEntry(RADIATION, 30F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_plutonium_hot, new HazardData().addEntry(RADIATION, 55F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_mox_hot, new HazardData().addEntry(RADIATION, 50F).addEntry(HOT, 5F));
-		HazardSystem.register(waste_u233_hot, makeData(RADIATION, 60F).addEntry(HOT, 5F));
-		HazardSystem.register(waste_u235_hot, makeData(RADIATION, 55F).addEntry(HOT, 5F));
+		HazardSystem.register(waste_u233_hot, new HazardData().addEntry(RADIATION, 60F).addEntry(HOT, 5F));
+		HazardSystem.register(waste_u235_hot, new HazardData().addEntry(RADIATION, 55F).addEntry(HOT, 5F));
 		HazardSystem.register(waste_schrabidium_hot, new HazardData().addEntry(RADIATION, 60F).addEntry(HOT, 5F).addEntry(BLINDING, 5F));
+		
+		HazardSystem.register(debris_graphite, new HazardData().addEntry(RADIATION, 70F).addEntry(HOT, 5F));
+		HazardSystem.register(debris_metal, makeData(RADIATION, 5F));
+		HazardSystem.register(debris_fuel, new HazardData().addEntry(RADIATION, 500F).addEntry(HOT, 5F));
+		
+		HazardSystem.register(debris_concrete, makeData(RADIATION, 30F));
+		HazardSystem.register(debris_exchanger, makeData(RADIATION, 25F));
+		HazardSystem.register(debris_shrapnel, makeData(RADIATION, 2.5F));
+		HazardSystem.register(debris_element, makeData(RADIATION, 100F));
 		
 		HazardSystem.register(nugget_uranium_fuel, makeData(RADIATION, uf * nugget));
 		HazardSystem.register(billet_uranium_fuel, makeData(RADIATION, uf * billet));
