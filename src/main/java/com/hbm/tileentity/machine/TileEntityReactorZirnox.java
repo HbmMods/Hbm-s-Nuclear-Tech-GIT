@@ -285,12 +285,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
 			this.heat += rod.heat;
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
-
-			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
-				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
-				return;
-			}
 		}
+
+                if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
+			slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
+                }
 	}
 	
 	private void checkIfMeltdown() {
