@@ -2,28 +2,25 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.items.special.ItemHazard;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemFuelRod extends ItemHazard {
+public class ItemFuelRod extends Item {
 
 	public int lifeTime;
 	public int heat;
 	
-	public ItemFuelRod(float radiation, boolean blinding, int life, int heat) {
+	public ItemFuelRod(int life, int heat) {
 		super();
 		this.lifeTime = life;
 		this.heat = heat;
 		this.canRepair = false;
 		
-		this.addRadiation(radiation);
-		if(blinding)
-			this.addBlinding();
 	}
 	
 	@Override

@@ -10,8 +10,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemZirnoxBreedingRod extends ItemZirnoxRod {
 
-	public ItemZirnoxBreedingRod(float radiation, boolean blinding, int life, int heat) {
-		super(radiation, blinding, life, heat);
+	public ItemZirnoxBreedingRod(int life, int heat) {
+		super(life, heat);
 	}
 	
 	@Override

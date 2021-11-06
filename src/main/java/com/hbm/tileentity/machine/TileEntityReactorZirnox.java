@@ -49,10 +49,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	
 	private static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_natural_uranium_fuel), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_uranium_fuel), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_th232), new ItemStack(ModItems.rod_zirnox_thorium_fuel));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_thorium_fuel), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_mox_fuel), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_plutonium_fuel), new ItemStack(ModItems.rod_zirnox_plutonium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u233_fuel), new ItemStack(ModItems.rod_zirnox_u233_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u235_fuel), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_les_fuel), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_lithium), new ItemStack(ModItems.rod_zirnox_tritium));
 	}
 	
 	public TileEntityReactorZirnox() {
@@ -198,7 +204,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			
 			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
 				generateSteam();
-				this.heat -= (int) ((float)this.heat * (0.06 * this.carbonDioxide.getFill() / 16000));
+				this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 2000));
 			}
 
 			checkIfMeltdown();

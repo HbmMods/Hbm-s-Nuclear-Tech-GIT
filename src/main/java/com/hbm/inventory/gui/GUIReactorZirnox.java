@@ -51,7 +51,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn1);
 		}
 
-		if(zirnox.carbonDioxide.getFill() <= 8000) {
+		if(zirnox.carbonDioxide.getFill() < 4000) {
 			String[] warn2 = new String[] { "Error: CO2 is required for",
 					"the reactor to function properly!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn2);
