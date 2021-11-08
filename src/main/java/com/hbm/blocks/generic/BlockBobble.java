@@ -3,9 +3,13 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -60,6 +64,9 @@ public class BlockBobble extends BlockContainer {
 			TileEntityBobble entity = (TileEntityBobble) world.getTileEntity(x, y, z);
 			if(entity != null) {
 				EntityItem item = new EntityItem(world, x + 0.5, y, z + 0.5, new ItemStack(this, 1, entity.type.ordinal()));
+				item.motionX = 0;
+				item.motionY = 0;
+				item.motionZ = 0;
 				world.spawnEntityInWorld(item);
 			}
 		}
@@ -71,10 +78,7 @@ public class BlockBobble extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
-			return true;
-			
-		} else if(!player.isSneaking()) {
-			world.setBlockToAir(x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_bobble, world, x, y, z);
 			return true;
 			
 		} else {
@@ -154,7 +158,20 @@ public class BlockBobble extends BlockContainer {
 	public static enum BobbleType {
 		
 		NONE("null", "null", null, null, false),
-		BOB("HbMinecraft", "HbMinecraft", "Hbm's Nuclear Tech Mod", "eat my shit, tteabag", false),
+		//vault tec bobbleheads
+		STRENGTH("Strength", "Strength", null, "It's essential to give your arguments impact.", false),
+		PERCEPTION("Perception", "Perception", null, "Only through observation will you perceive weakness.", false),
+		ENDURANCE("Endurance", "Endurance", null, "Always be ready to take one for the team.", false),
+		CHARISMA("Charisma", "Charisma", null, "Nothing says pizzaz like a winning smile.", false),
+		INTELLIGENCE("Intelligence", "Intelligence", null, "It takes the smartest individuals to realize$there's always more to learn.", false),
+		AGILITY("Agility", "Agility", null, "Never be afraid to dodge the sensitive issues.", false),
+		LUCK("Luck", "Luck", null, "There's only one way to give 110%.", false),
+		//contributor bobbles
+		BOB("Robert \"The Bobcat\" Katzinsky", "HbMinecraft", "Hbm's Nuclear Tech Mod", "how did i get here?", false),
+		FRIZZLE("Frooz", "Frooz", "Weapon models", "BLOOD IS FUEL", true),
+		PU238("Pu-238", "Pu-238", "Improved Tom impact mechanics", null, false),
+		VT("VT-6/24", "VT-6/24", "Balefire warhead model and general texturework", "You cannot unfuck a horse.", true),
+		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 
 		public String name;			//the title of the tooltip

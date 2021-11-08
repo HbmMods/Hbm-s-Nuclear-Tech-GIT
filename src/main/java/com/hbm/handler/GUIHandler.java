@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.machine.NTMAnvil;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.*;
@@ -1729,6 +1730,8 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIBook(player.inventory);
 		case ModItems.guiID_item_guide:
 			return new GUIScreenGuide(player);
+		case ModItems.guiID_item_bobble:
+			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
 		}
 		return null;
 	}

@@ -186,7 +186,19 @@ public class AnvilRecipes {
 						new ComparableStack(Items.leather, 4),
 						new ComparableStack(Items.feather, 24)
 				}, new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
-
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.deuterium_filter, 3),
+						new ComparableStack(ModItems.hull_big_steel, 5),
+						new ComparableStack(ModBlocks.concrete_smooth, 8),
+						new ComparableStack(ModBlocks.concrete_asbestos, 4),
+						new ComparableStack(ModBlocks.steel_scaffold, 16),
+						new ComparableStack(ModBlocks.deco_pipe_quad, 12),
+						new OreDictStack("dustSulfur", 32),
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(5));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 1),

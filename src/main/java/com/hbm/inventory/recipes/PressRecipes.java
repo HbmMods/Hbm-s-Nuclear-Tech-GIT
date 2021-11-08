@@ -1,6 +1,7 @@
 package com.hbm.inventory.recipes;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -29,8 +30,13 @@ public class PressRecipes {
 		
 		StampType type = ((ItemStamp) stamp.getItem()).type;
 		
-		Pair<AStack, StampType> key = new Pair<AStack, StampType>(new ComparableStack(ingredient), type);
-		return recipes.get(key);
+		for(Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
+			
+			if(recipe.getKey().getValue() == type && recipe.getKey().getKey().matchesRecipe(ingredient, true))
+				return recipe.getValue();
+		}
+		
+		return null;
 	}
 	
 	public static void register() {
@@ -67,9 +73,9 @@ public class PressRecipes {
 		makeRecipe(StampType.WIRE, new OreDictStack(ALLOY.ingot()),		new ItemStack(ModItems.wire_advanced_alloy, 8));
 		makeRecipe(StampType.WIRE, new OreDictStack(MAGTUNG.ingot()),	new ItemStack(ModItems.wire_magnetized_tungsten, 8));
 
-		makeRecipe(StampType.PLATE, new ComparableStack(ModItems.circuit_raw),				ModItems.circuit_aluminium);
-		makeRecipe(StampType.PLATE, new ComparableStack(ModItems.circuit_bismuth_raw),		ModItems.circuit_bismuth);
-		makeRecipe(StampType.PLATE, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
+		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_raw),				ModItems.circuit_aluminium);
+		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_bismuth_raw),		ModItems.circuit_bismuth);
+		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
 
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.gun_revolver_iron_ammo);
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.gun_revolver_ammo);
