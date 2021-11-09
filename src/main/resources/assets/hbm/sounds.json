@@ -149,6 +149,7 @@
     "weapon.cDeploy": {"category": "player", "sounds": [{"name": "weapon/cDeploy", "stream": false}]},
     "weapon.cSwing": {"category": "player", "sounds": [{"name": "weapon/cSwing", "stream": false}]},
     "weapon.extinguisher": {"category": "player", "sounds": [{"name": "weapon/extinguisher", "stream": false}]},
+    "weapon.robin_explosion": {"category": "player", "sounds": [{"name": "weapon/robin_explosion", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

@@ -871,6 +871,7 @@ public class ModItems {
 	public static Item can_luna;
 	public static Item can_bepis;
 	public static Item can_breen;
+	public static Item mucho_mango;
 	public static Item bottle_empty;
 	public static Item bottle_nuka;
 	public static Item bottle_cherry;
@@ -1237,6 +1238,7 @@ public class ModItems {
 	public static Item missile_bhole;
 	public static Item missile_schrabidium;
 	public static Item missile_emp;
+	public static Item missile_shuttle;
 
 	public static Item mp_thruster_10_kerosene;
 	public static Item mp_thruster_10_kerosene_tec;
@@ -3823,6 +3825,7 @@ public class ModItems {
 		missile_bhole = new Item().setUnlocalizedName("missile_bhole").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_bhole");
 		missile_schrabidium = new Item().setUnlocalizedName("missile_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_schrabidium");
 		missile_emp = new Item().setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_emp");
+		missile_shuttle = new ItemMissileShuttle().setUnlocalizedName("missile_shuttle").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_shuttle");
 		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_carrier");
 		missile_soyuz = new ItemSoyuz().setUnlocalizedName("missile_soyuz").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz");
 		missile_soyuz_lander = new ItemCustomLore().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
@@ -4332,6 +4335,7 @@ public class ModItems {
 		peas = new ItemPeas().setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
 		marshmallow = new ItemMarshmallow().setUnlocalizedName("marshmallow").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":marshmallow");
 		cheese = new ItemLemon(5, 10, false).setUnlocalizedName("cheese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cheese");
+		mucho_mango = new ItemMuchoMango(10).setUnlocalizedName("mucho_mango").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":mucho_mango");
 
 		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		reacher = new Item().setUnlocalizedName("reacher").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":reacher");
@@ -6700,6 +6704,7 @@ public class ModItems {
 		GameRegistry.registerItem(missile_bhole, missile_bhole.getUnlocalizedName());
 		GameRegistry.registerItem(missile_schrabidium, missile_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
+		GameRegistry.registerItem(missile_shuttle, missile_shuttle.getUnlocalizedName());
 		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz, missile_soyuz.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz_lander, missile_soyuz_lander.getUnlocalizedName());
@@ -7389,6 +7394,7 @@ public class ModItems {
 		GameRegistry.registerItem(canteen_13, canteen_13.getUnlocalizedName());
 		GameRegistry.registerItem(canteen_vodka, canteen_vodka.getUnlocalizedName());
 		GameRegistry.registerItem(canteen_fab, canteen_fab.getUnlocalizedName());
+		GameRegistry.registerItem(mucho_mango, mucho_mango.getUnlocalizedName());
 		
 		//Energy Drinks
 		GameRegistry.registerItem(can_empty, can_empty.getUnlocalizedName());

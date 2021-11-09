@@ -258,6 +258,9 @@ public class LaunchPad extends BlockContainer implements IBomb {
 			if(entity.slots[0].getItem() == ModItems.missile_volcano) {
 				missile = new EntityMissileVolcano(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
 			}
+			if(entity.slots[0].getItem() == ModItems.missile_shuttle) {
+				missile = new EntityMissileShuttle(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+			}
 
 			world.spawnEntityInWorld(missile);
 			world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);

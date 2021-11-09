@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
@@ -18,13 +19,11 @@ public class TEMissilePacket implements IMessage {
 	int z;
 	int type;
 
-	public TEMissilePacket()
-	{
-		
-	}
+	public TEMissilePacket() { }
 
-	public TEMissilePacket(int x, int y, int z, ItemStack stack)
-	{
+	@Spaghetti("die")
+	public TEMissilePacket(int x, int y, int z, ItemStack stack) {
+		
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -82,6 +81,8 @@ public class TEMissilePacket implements IMessage {
 				type = 25;
 			if(stack.getItem() == ModItems.missile_volcano)
 				type = 26;
+			if(stack.getItem() == ModItems.missile_shuttle)
+				type = 27;
 			
 		}
 	}

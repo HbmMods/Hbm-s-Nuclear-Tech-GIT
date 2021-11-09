@@ -738,6 +738,18 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_aluminium, 3)
 			}, 100);
 		
+		makeRecipe(new ComparableStack(ModItems.missile_shuttle, 1), new AStack[] {
+				new ComparableStack(ModItems.missile_generic, 2),
+				new ComparableStack(ModItems.missile_strong, 1),
+				new OreDictStack(KEY_ORANGE, 5),
+				new ComparableStack(ModItems.canister_gasoline, 24),
+				new OreDictStack(FIBER.ingot(), 12),
+				new ComparableStack(ModItems.circuit_copper, 2),
+				new ComparableStack(ModItems.ingot_semtex, 8),
+				new OreDictStack(KEY_ANYPANE, 6),
+				new OreDictStack(STEEL.plate(), 4),
+		}, 100);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_difurnace_rtg_off, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_difurnace_off, 1),
 				new ComparableStack(ModItems.rtg_unit, 3),
