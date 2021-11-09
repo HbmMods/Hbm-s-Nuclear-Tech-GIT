@@ -759,7 +759,10 @@ public class AssemblerRecipes {
 			makeRecipe(new ComparableStack(ModBlocks.reactor_computer, 1), new AStack[] {new ComparableStack(ModBlocks.reactor_conductor, 2), new ComparableStack(ModItems.circuit_targeting_tier3, 4), new ComparableStack(ModItems.circuit_gold, 1), },250);
 			makeRecipe(new ComparableStack(ModBlocks.machine_radgen, 1), new AStack[] {new OreDictStack(STEEL.ingot(), 8), new OreDictStack(STEEL.block(), 32), new ComparableStack(ModItems.coil_magnetized_tungsten, 6), new ComparableStack(ModItems.wire_magnetized_tungsten, 24), new ComparableStack(ModItems.circuit_gold, 4), new ComparableStack(ModItems.reactor_core, 3), new OreDictStack(STAR.ingot(), 1), new OreDictStack("dyeRed", 1), },400);
 			makeRecipe(new ComparableStack(ModBlocks.machine_reactor, 1), new AStack[] {new ComparableStack(ModItems.reactor_core, 1), new OreDictStack(STEEL.ingot(), 12), new OreDictStack(PB.plate(), 16), new ComparableStack(ModBlocks.reinforced_glass, 4), new OreDictStack(ASBEST.ingot(), 4), new OreDictStack(TCALLOY.ingot(), 4)},150);
-		
+			//had to add back so duna probe isn't uncraftable until new reactor crafting component comes
+			makeRecipe(new ComparableStack(ModBlocks.machine_reactor_small, 1), new AStack[] {new OreDictStack(STEEL.ingot(), 6), new OreDictStack(POLY.ingot(), 4), new OreDictStack(PB.plate(), 8), new OreDictStack(CU.plate(), 4), new OreDictStack(PB.ingot(), 12), new OreDictStack(MINGRADE.ingot(), 6), new ComparableStack(ModItems.circuit_copper, 8), new ComparableStack(ModItems.circuit_red_copper, 4), },300);
+
+			
 		} else {
 			addTantalium(new ComparableStack(ModBlocks.machine_centrifuge, 1), 5);
 			addTantalium(new ComparableStack(ModBlocks.machine_gascent, 1), 25);
