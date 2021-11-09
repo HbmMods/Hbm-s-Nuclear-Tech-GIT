@@ -85,10 +85,18 @@ public class FluidContainerRegistry {
 		
 		for(int i = 1; i < FluidType.values().length; i++) {
 			
-			if(!FluidType.values()[i].hasNoContainer()) {
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), FluidType.getEnum(i), 1000));
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), FluidType.getEnum(i), 16000));
-			}
+			FluidType type = FluidType.values()[i];
+			
+			if(type.hasNoContainer())
+				continue;
+
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, i), new ItemStack(ModItems.fluid_tank_lead_empty), FluidType.getEnum(i), 1000));
+			
+			if(type.needsLeadContainer())
+				continue;
+			
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), FluidType.getEnum(i), 1000));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), FluidType.getEnum(i), 16000));
 		}
 	}
 	
