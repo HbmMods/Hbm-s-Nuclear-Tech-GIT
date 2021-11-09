@@ -3,11 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -167,7 +164,7 @@ public class BlockBobble extends BlockContainer {
 		AGILITY("Agility", "Agility", null, "Never be afraid to dodge the sensitive issues.", false),
 		LUCK("Luck", "Luck", null, "There's only one way to give 110%.", false),
 		//contributor bobbles
-		BOB("Robert \"The Bobcat\" Katzinsky", "HbMinecraft", "Hbm's Nuclear Tech Mod", "how did i get here?", false),
+		BOB("Robert \"The Bobcat\" Katzinsky", "HbMinecraft", "Hbm's Nuclear Tech Mod", "I know where you live, " + System.getProperty("user.name"), false),
 		FRIZZLE("Frooz", "Frooz", "Weapon models", "BLOOD IS FUEL", true),
 		PU238("Pu-238", "Pu-238", "Improved Tom impact mechanics", null, false),
 		VT("VT-6/24", "VT-6/24", "Balefire warhead model and general texturework", "You cannot unfuck a horse.", true),

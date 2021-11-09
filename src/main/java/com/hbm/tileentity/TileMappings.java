@@ -237,6 +237,8 @@ public class TileMappings {
 		map.put(TileEntityCondenser.class, "tileentity_condenser");
 		map.put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
 		map.put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");
+		map.put(TileEntityDeuteriumExtractor.class, "tileentity_deuterium_extractor");
+		map.put(TileEntityDeuteriumTower.class, "tileentity_deuterium_tower");
 		
 		map.put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		map.put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
