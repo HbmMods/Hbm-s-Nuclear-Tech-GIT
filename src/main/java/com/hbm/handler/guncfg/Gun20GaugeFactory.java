@@ -206,8 +206,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge;
-		bullet.dmgMin = 1;
-		bullet.dmgMax = 3;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 5;
 		
 		return bullet;
 	}
@@ -217,8 +217,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge_slug;
-		bullet.dmgMin = 10;
-		bullet.dmgMax = 15;
+		bullet.dmgMin = 18;
+		bullet.dmgMax = 22;
 		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		
@@ -230,8 +230,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge_flechette;
-		bullet.dmgMin = 3;
-		bullet.dmgMax = 6;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 15;
 		bullet.wear = 15;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
@@ -245,8 +245,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge_incendiary;
-		bullet.dmgMin = 1;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 6;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
@@ -259,8 +259,8 @@ public class Gun20GaugeFactory {
 		
 		bullet.ammo = ModItems.ammo_20gauge_shrapnel;
 		bullet.wear = 15;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 6;
+		bullet.dmgMin = 7;
+		bullet.dmgMax = 12;
 		bullet.ricochetAngle = 15;
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
@@ -273,8 +273,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge_explosive;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 7;
+		bullet.dmgMax = 12;
 		bullet.wear = 25;
 		bullet.explosive = 0.5F;
 		
@@ -286,8 +286,8 @@ public class Gun20GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_20gauge_caustic;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 6;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 7;
 		bullet.wear = 25;
 		bullet.caustic = 5;
 		bullet.doesRicochet = false;

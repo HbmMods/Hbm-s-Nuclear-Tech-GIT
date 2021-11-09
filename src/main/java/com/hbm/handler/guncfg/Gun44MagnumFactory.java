@@ -172,8 +172,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 7;
+		bullet.dmgMin = 18;
+		bullet.dmgMax = 26;
 		
 		return bullet;
 	}
@@ -183,8 +183,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_ap;
-		bullet.dmgMin = 7;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 25;
+		bullet.dmgMax = 32;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -196,8 +196,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_du;
-		bullet.dmgMin = 7;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 28;
+		bullet.dmgMax = 40;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -209,8 +209,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_phosphorus;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 7;
+		bullet.dmgMin = 18;
+		bullet.dmgMax = 26;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
@@ -243,8 +243,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_star;
-		bullet.dmgMin = 14;
-		bullet.dmgMax = 20;
+		bullet.dmgMin = 42;
+		bullet.dmgMax = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		
@@ -256,8 +256,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_pip;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 5;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
@@ -293,8 +293,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_bj;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 5;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
@@ -331,8 +331,8 @@ public class Gun44MagnumFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_silver;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 5;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		

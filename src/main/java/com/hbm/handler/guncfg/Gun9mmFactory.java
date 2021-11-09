@@ -81,8 +81,8 @@ public class Gun9mmFactory {
 		
 		bullet.ammo = ModItems.ammo_9mm;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 14;
 		
 		return bullet;
 	}
@@ -93,8 +93,8 @@ public class Gun9mmFactory {
 		
 		bullet.ammo = ModItems.ammo_9mm_ap;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 18;
+		bullet.dmgMax = 20;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
 		
@@ -107,8 +107,8 @@ public class Gun9mmFactory {
 		
 		bullet.ammo = ModItems.ammo_9mm_du;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 22;
+		bullet.dmgMax = 26;
 		bullet.leadChance = 50;
 		bullet.wear = 25;
 		

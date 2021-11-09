@@ -65,8 +65,8 @@ public class Gun22LRFactory {
 		
 		bullet.ammo = ModItems.ammo_22lr;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 2;
-		bullet.dmgMax = 4;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 8;
 		
 		return bullet;
 	}
@@ -77,8 +77,8 @@ public class Gun22LRFactory {
 		
 		bullet.ammo = ModItems.ammo_22lr_ap;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 16;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
 		
