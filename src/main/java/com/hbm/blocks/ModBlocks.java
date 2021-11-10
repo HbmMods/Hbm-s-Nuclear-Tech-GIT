@@ -431,6 +431,7 @@ public class ModBlocks {
 	public static Block waste_trinitite;
 	public static Block waste_trinitite_red;
 	public static Block waste_log;
+	public static Block waste_leaves;
 	public static Block waste_planks;
 	public static Block frozen_dirt;
 	public static Block frozen_grass;
@@ -968,6 +969,9 @@ public class ModBlocks {
 
 	public static Block machine_reactor_small;
 	public static final int guiID_reactor_small = 65;
+	public static Block reactor_zirnox;
+	public static final int guiID_reactor_zirnox = 124;
+	public static Block zirnox_destroyed;
 
 	public static Block machine_controller;
 	public static final int guiID_machine_controller = 78;
@@ -1089,6 +1093,7 @@ public class ModBlocks {
 	public static Block gas_radon;
 	public static Block gas_radon_dense;
 	public static Block gas_radon_tomb;
+	public static Block gas_meltdown;
 	public static Block gas_monoxide;
 	public static Block gas_asbestos;
 	public static Block gas_coal;
@@ -1606,6 +1611,7 @@ public class ModBlocks {
 		waste_trinitite = new BlockOre(Material.sand).setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
 		waste_trinitite_red = new BlockOre(Material.sand).setBlockName("waste_trinitite_red").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite_red");
 		waste_log = new WasteLog(Material.wood).setBlockName("waste_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(2.5F);
+		waste_leaves = new WasteLeaves(Material.leaves).setBlockName("waste_leaves").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setBlockTextureName(RefStrings.MODID + ":waste_leaves");
 		waste_planks = new BlockOre(Material.wood).setBlockName("waste_planks").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_planks");
 		frozen_dirt = new BlockOre(Material.ground).setBlockName("frozen_dirt").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_dirt");
 		frozen_grass = new WasteEarth(Material.ground, false).setBlockName("frozen_grass").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
@@ -2026,6 +2032,8 @@ public class ModBlocks {
 		machine_epress = new MachineEPress(Material.iron).setBlockName("machine_epress").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_epress");
 		machine_selenium = new MachineSeleniumEngine(Material.iron).setBlockName("machine_selenium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_selenium");
 		machine_reactor_small = new MachineReactorSmall(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
+		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(100.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
@@ -2090,6 +2098,7 @@ public class ModBlocks {
 		gas_radon = new BlockGasRadon().setBlockName("gas_radon").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon");
 		gas_radon_dense = new BlockGasRadonDense().setBlockName("gas_radon_dense").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon_dense");
 		gas_radon_tomb = new BlockGasRadonTomb().setBlockName("gas_radon_tomb").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon_tomb");
+		gas_meltdown = new BlockGasMeltdown().setBlockName("gas_meltdown").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_meltdown");
 		gas_monoxide = new BlockGasMonoxide().setBlockName("gas_monoxide").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_monoxide");
 		gas_asbestos = new BlockGasAsbestos().setBlockName("gas_asbestos").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_asbestos");
 		gas_coal = new BlockGasCoal().setBlockName("gas_coal").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_coal");
@@ -2589,6 +2598,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(waste_trinitite, waste_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_trinitite_red, waste_trinitite_red.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_log, waste_log.getUnlocalizedName());
+		GameRegistry.registerBlock(waste_leaves, waste_leaves.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_planks, waste_planks.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_grass, frozen_grass.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_dirt, frozen_dirt.getUnlocalizedName());
@@ -2787,6 +2797,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_generator, machine_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_controller, machine_controller.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_reactor_small, machine_reactor_small.getUnlocalizedName());
+		GameRegistry.registerBlock(reactor_zirnox, reactor_zirnox.getUnlocalizedName());
+		GameRegistry.registerBlock(zirnox_destroyed, zirnox_destroyed.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_industrial_generator, machine_industrial_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_radgen, machine_radgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
@@ -3146,6 +3158,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_radon, gas_radon.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_radon_dense, gas_radon_dense.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_radon_tomb, gas_radon_tomb.getUnlocalizedName());
+		GameRegistry.registerBlock(gas_meltdown, gas_meltdown.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_monoxide, gas_monoxide.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_asbestos, gas_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_coal, gas_coal.getUnlocalizedName());

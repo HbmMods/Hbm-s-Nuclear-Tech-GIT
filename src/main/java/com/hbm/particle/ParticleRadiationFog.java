@@ -84,7 +84,7 @@ public class ParticleRadiationFog extends EntityFX {
 		
 		float alpha = 0;
 		
-		alpha = (float) Math.sin(particleAge * Math.PI / (400F)) * 0.25F;
+		alpha = (float) Math.sin(particleAge * Math.PI / (400F)) * 0.125F;
 
         GL11.glColor4f(0.85F, 0.9F, 0.5F, alpha);
 		GL11.glDisable(GL11.GL_LIGHTING);

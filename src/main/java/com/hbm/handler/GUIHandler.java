@@ -860,6 +860,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		
+		case ModBlocks.guiID_reactor_zirnox: {
+			if(entity instanceof TileEntityReactorZirnox) {
+				return new ContainerReactorZirnox(player.inventory, (TileEntityReactorZirnox) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1706,6 +1713,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_difurnace: {
 			if (entity instanceof TileEntityDiFurnaceRTG) {
 				return new GUIMachineDiFurnaceRTG(player.inventory, (TileEntityDiFurnaceRTG) entity);
+			}
+			return null;
+		}
+		
+		case ModBlocks.guiID_reactor_zirnox: {
+			if(entity instanceof TileEntityReactorZirnox) {
+				return new GUIReactorZirnox(player.inventory, (TileEntityReactorZirnox) entity);
 			}
 			return null;
 		}

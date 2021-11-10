@@ -77,9 +77,9 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor imple
 
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord,
+					xCoord - 1,
 					yCoord,
-					zCoord,
+					zCoord - 1,
 					xCoord + 2,
 					yCoord + 10,
 					zCoord + 2

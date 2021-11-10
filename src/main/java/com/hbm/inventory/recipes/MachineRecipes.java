@@ -1477,6 +1477,10 @@ public class MachineRecipes {
 		case ETHANOL:
 			list.add(new ItemStack(ModItems.biomass, 6));
 			break;
+		case METH:
+			list.add(new ItemStack(Items.wheat, 1));
+			list.add(new ItemStack(Items.dye, 2, 3));
+			break;
 		default:
 			break;
 		}
@@ -1726,6 +1730,13 @@ public class MachineRecipes {
 		case OSMIRIDIUM_DEATH:
 			input[0] = new FluidStack(1000, FluidType.ACID);
         	break;
+		case METH:
+			input[0] = new FluidStack(400, FluidType.LUBRICANT);
+			input[1] = new FluidStack(400, FluidType.ACID);
+			break;
+		case CO2:
+			input[0] = new FluidStack(1000, FluidType.GAS);
+			break;
 		default:
 			break;
 		}
@@ -1883,6 +1894,10 @@ public class MachineRecipes {
 		case TEL:
 			output[0] = new ItemStack(ModItems.antiknock, 1);
 			break;
+		case METH:
+			output[0] = new ItemStack(ModItems.chocolate, 2);
+			output[1] = new ItemStack(ModItems.chocolate, 2);
+			break;
 		default:
 			break;
 		}
@@ -2038,6 +2053,9 @@ public class MachineRecipes {
         	break;
         case ETHANOL:
 			output[0] = new FluidStack(1000, FluidType.ETHANOL);
+        	break;
+        case CO2:
+        	output[0] = new FluidStack(1000, FluidType.CARBONDIOXIDE);
         	break;
 		default:
 			break;

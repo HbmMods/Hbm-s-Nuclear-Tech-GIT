@@ -42,9 +42,11 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_lead, 1), new Object[] { ModItems.rod_empty, PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 6), new Object[] { ModItems.rod_lead });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_lithium, 1), new Object[] { ModItems.rod_empty, LI.ingot() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_zirnox_lithium), new Object[] { ModItems.rod_zirnox_empty, LI.ingot(), LI.ingot() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.lithium, 1), new Object[] { ModItems.rod_lithium });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 1), new Object[] { ModItems.rod_tritium, ModItems.cell_empty });
-
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { ModItems.rod_zirnox_tritium, ModItems.cell_empty, ModItems.cell_empty });
+		
 		//Dual rods
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_empty, 2), new Object[] { ModItems.rod_dual_empty });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual_empty, 1), new Object[] { ModItems.rod_empty, ModItems.rod_empty });
@@ -101,6 +103,29 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_lithium, 1), new Object[] { ModItems.rod_quad_empty, LI.ingot(), LI.ingot(), LI.ingot(), LI.ingot() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.lithium, 4), new Object[] { ModItems.rod_quad_lithium });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 4), new Object[] { ModItems.rod_quad_tritium, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty });
+		
+		//Zirnox Fuel
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rod_zirnox_empty, 4), new Object[] { "Z Z", "ZBZ", "Z Z", 'Z', "nuggetZirconium", 'B', "ingotBeryllium" }));
+		addZIRNOXRod(ModItems.billet_uranium, ModItems.rod_zirnox_natural_uranium_fuel);
+		addZIRNOXRod(ModItems.billet_uranium_fuel, ModItems.rod_zirnox_uranium_fuel);
+		addZIRNOXRod(ModItems.billet_th232, ModItems.rod_zirnox_th232);
+		addZIRNOXRod(ModItems.billet_thorium_fuel, ModItems.rod_zirnox_thorium_fuel);
+		addZIRNOXRod(ModItems.billet_mox_fuel, ModItems.rod_zirnox_mox_fuel);
+		addZIRNOXRod(ModItems.billet_plutonium_fuel, ModItems.rod_zirnox_plutonium_fuel);
+		addZIRNOXRod(ModItems.billet_u233, ModItems.rod_zirnox_u233_fuel);
+		addZIRNOXRod(ModItems.billet_u235, ModItems.rod_zirnox_u235_fuel);
+		addZIRNOXRod(ModItems.billet_les, ModItems.rod_zirnox_les_fuel);
+
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_natural_uranium_hot, 2), new Object[] { ModItems.rod_zirnox_natural_uranium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium_hot, 2), new Object[] { ModItems.rod_zirnox_uranium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium_hot, 2), new Object[] { ModItems.rod_zirnox_thorium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox_hot, 2), new Object[] { ModItems.rod_zirnox_mox_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium_hot, 2), new Object[] { ModItems.rod_zirnox_plutonium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u233_hot, 2), new Object[] { ModItems.rod_zirnox_u233_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u235_hot, 2), new Object[] { ModItems.rod_zirnox_u235_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium_hot, 2), new Object[] { ModItems.rod_zirnox_les_fuel_depleted });
+
+
 
 		//Pile fuel
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_uranium, 1), new Object[] { " U ", "PUP", " U ", 'P', IRON.plate(), 'U', U.billet() });
@@ -217,5 +242,10 @@ public class RodRecipes {
 	}
 	public static void addRBMKRod(Item billet, Item out) {
 		CraftingManager.addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
+	}
+	
+	//Fill rods with 2 billets
+	public static void addZIRNOXRod(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_zirnox_empty, billet, billet });
 	}
 }

@@ -64,6 +64,7 @@ public class Fluids {
 	public static FluidType PLASMA_HT;
 	public static FluidType PLASMA_XM;
 	public static FluidType PLASMA_BF;
+	public static FluidType CARBONDIOXIDE;
 	
 	public static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	public static final List<FluidType> metaOrder = new ArrayList();
@@ -138,7 +139,7 @@ public class Fluids {
 		PLASMA_XM =			new FluidType(0xC6A5FF, 11, 1, 2, 0, 4, 1, EnumSymbol.RADIATION, "hbmfluid.plasma_xm", 4250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		PLASMA_BF =			new FluidType(0xA7F1A3, 12, 1, 2, 4, 5, 4, EnumSymbol.ANTIMATTER, "hbmfluid.plasma_bf", 8500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		// v v v v v v v v
-		
+		CARBONDIOXIDE =		new FluidType(0x404040, 6, 2, 2, 3, 0, 0, EnumSymbol.ASPHYXIANT, "hbmfluid.carbondioxide");
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -156,6 +157,7 @@ public class Fluids {
 		metaOrder.add(ULTRAHOTSTEAM);
 		metaOrder.add(SPENTSTEAM);
 		//coolants
+		metaOrder.add(CARBONDIOXIDE);
 		metaOrder.add(COOLANT);
 		metaOrder.add(CRYOGEL);
 		//pure elements, cyogenic gasses

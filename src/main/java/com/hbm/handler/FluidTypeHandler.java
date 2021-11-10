@@ -98,7 +98,8 @@ public class FluidTypeHandler {
 		HELIUM3			(0xFCF0C4,	7,	2,	2,	3,	4,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.helium3"),
 		DEATH			(0x717A88,	8,	2,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER),
 		ETHANOL			(0xe0ffff,	9,	2,	2,	2,	3,	0,	EnumSymbol.NONE,		"hbmfluid.ethanol"),
-		HEAVYWATER		(0x00a0b0,	10,	2,	2,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.heavywater");
+		HEAVYWATER		(0x00a0b0,	10,	2,	2,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.heavywater"),
+		CARBONDIOXIDE	(0x747474,	6,	2,	2,	3,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.carbondioxide");
 
 		//Approximate HEX Color of the fluid, used for pipe rendering
 		private int color;

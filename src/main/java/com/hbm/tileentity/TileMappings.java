@@ -245,6 +245,9 @@ public class TileMappings {
 		map.put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");
 		map.put(TileEntityMachineGasFlare.class, "tileentity_gasflare");
 		map.put(TileEntityMachineRefinery.class, "tileentity_refinery");
+		
+		map.put(TileEntityReactorZirnox.class, "tileentity_zirnox");
+		map.put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");
 	}
 	
 	private static void putPile() {
