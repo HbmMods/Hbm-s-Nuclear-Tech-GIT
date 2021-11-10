@@ -79,8 +79,20 @@ public abstract class BlockGasBase extends Block {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 
-		if(!world.isRemote)
+		if(!world.isRemote) {
+			
+			if(world.getBlockMetadata(x, y, z) == 0)
+				world.scheduleBlockUpdate(x, y, z, this, 10);
+		}
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		
+		if(world.getBlockMetadata(x, y, z) != 0) {
+			world.setBlockMetadataWithNotify(x, y, z, 0, 4);
 			world.scheduleBlockUpdate(x, y, z, this, 10);
+		}
 	}
 
 	@Override

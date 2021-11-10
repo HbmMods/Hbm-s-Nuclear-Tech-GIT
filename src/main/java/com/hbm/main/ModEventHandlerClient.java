@@ -865,14 +865,17 @@ public class ModEventHandlerClient {
 		event.green = 0.0F;
 		event.blue = 0.0F;
 	}*/
-	
+
 	public static IIcon particleBase;
+	public static IIcon particleLeaf;
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		
-		if(event.map.getTextureType() == 0)
+		if(event.map.getTextureType() == 0) {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
+		}
 	}
 
 	@SubscribeEvent

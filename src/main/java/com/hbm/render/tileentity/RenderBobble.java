@@ -31,6 +31,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_pu238 = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/pellet.png");
 	public static final ResourceLocation bobble_frizzle = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/frizzle.png");
 	public static final ResourceLocation bobble_vt = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vt.png");
+	public static final ResourceLocation bobble_doc = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/doctor17ph.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -74,6 +75,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case PU238:		texman.bindTexture(bobble_pu238); break;
 		case FRIZZLE:	texman.bindTexture(bobble_frizzle); break;
 		case VT:		texman.bindTexture(bobble_vt); break;
+		case DOC:		texman.bindTexture(bobble_doc); break;
 		case CIRNO:		texman.bindTexture(bobble_cirno); break;
 		default:		texman.bindTexture(ResourceManager.universal);
 		}
@@ -149,15 +151,12 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			rotRightArm = new double[]{-135, -45, 0};
 			rotRightLeg = new double[]{-5, 0, 0};
 			break;
-		case BOB: break;
-		case PU238: break;
 		case VT:
 			rotLeftArm = new double[]{0, -45, 60};
 			rotRightArm = new double[]{0, 0, 45};
 			rotLeftLeg = new double[]{2, 0, 0};
 			rotRightLeg = new double[]{-2, 0, 0};
 			break;
-		case CIRNO: break;
 		}
 	}
 	

@@ -36,14 +36,14 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, battery.power, battery.maxPower);
 		
 		long delta = battery.log[19] - battery.log[0];
-		String deltaText = Library.getShortNumber(delta) + "HE/s";
+		String deltaText = Library.getShortNumber(Math.abs(delta)) + "HE/s";
 		
 		if(delta > 0)
 			deltaText = EnumChatFormatting.GREEN + "+" + deltaText;
 		else if(delta < 0)
-			deltaText = EnumChatFormatting.RED + "+" + deltaText;
+			deltaText = EnumChatFormatting.RED + "-" + deltaText;
 		else
-			deltaText = EnumChatFormatting.YELLOW + deltaText;
+			deltaText = EnumChatFormatting.YELLOW + "+" + deltaText;
 
 		String[] info = {
 				Library.getShortNumber(battery.power) + "/" + Library.getShortNumber(battery.maxPower) + "HE",

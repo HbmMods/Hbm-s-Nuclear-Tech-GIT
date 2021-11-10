@@ -43,15 +43,20 @@ public class WasteLeaves extends Block {
 		super.updateTick(world, x, y, z, rand);
 	}
 
-	/*@Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "deadleaf");
-		MainRegistry.proxy.effectNT(data);
-	}*/
+		if(rand.nextInt(5) == 0 && world.getBlock(x, y - 1, z).getMaterial() == Material.air) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "deadleaf");
+			data.setDouble("posX", x + rand.nextDouble());
+			data.setDouble("posY", y - 0.05);
+			data.setDouble("posZ", z + rand.nextDouble());
+			MainRegistry.proxy.effectNT(data);
+		}
+	}
 
 	public boolean renderAsNormalBlock() {
 		return false;
