@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource, IEnergyConnector {
 	
+	public long[] log = new long[20];
 	public long power = 0;
 	public long maxPower = 1000000;
 	
@@ -218,6 +219,15 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
 			this.networkPack(nbt, 20);
+		}
+		
+		if(worldObj.isRemote) {
+			
+			for(int i = 1; i < this.log.length; i++) {
+				this.log[i - 1] = this.log[i];
+			}
+			
+			this.log[19] = this.power;
 		}
 	}
 

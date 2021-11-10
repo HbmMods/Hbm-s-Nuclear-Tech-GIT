@@ -97,7 +97,7 @@ public class BlockBobble extends BlockContainer {
 		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
 		
 		TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(x, y, z);
-		bobble.type = BobbleType.values()[stack.getItemDamage() % BobbleType.values().length];
+		bobble.type = BobbleType.values()[Math.abs(stack.getItemDamage()) % BobbleType.values().length];
 		bobble.markDirty();
 	}
 	
@@ -142,7 +142,7 @@ public class BlockBobble extends BlockContainer {
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
-			this.type = BobbleType.values()[nbt.getByte("type") % BobbleType.values().length];
+			this.type = BobbleType.values()[Math.abs(nbt.getByte("type")) % BobbleType.values().length];
 		}
 
 		@Override

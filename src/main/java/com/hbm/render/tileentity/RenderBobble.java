@@ -106,6 +106,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		rotHead = new double[]{0, 0, 0};
 	}
 	
+	@SuppressWarnings("incomplete-switch") // shut up
 	public void setupFigurineRotation(BobbleType type) {
 		switch(type) {
 		case STRENGTH:
