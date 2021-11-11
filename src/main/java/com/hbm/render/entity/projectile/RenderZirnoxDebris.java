@@ -14,10 +14,8 @@ import net.minecraft.util.ResourceLocation;
 public class RenderZirnoxDebris extends Render {
 
 	//for fallback only
-	private static final ResourceLocation tex_base = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_side.png");
-	private static final ResourceLocation tex_element = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element.png");
-	private static final ResourceLocation tex_blank = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_blank.png");
 	private static final ResourceLocation tex_graphite = new ResourceLocation(RefStrings.MODID + ":textures/blocks/block_graphite.png");
+	private static final ResourceLocation tex_rod = new ResourceLocation(RefStrings.MODID + ":textures/models/machines/zirnox_deb_element.png");
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
@@ -32,21 +30,23 @@ public class RenderZirnoxDebris extends Render {
 
 		DebrisType type = debris.getType();
 
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		switch(type) {
-		case BLANK: bindTexture(tex_blank); ResourceManager.deb_blank.renderAll(); break;
-		case ELEMENT: bindTexture(tex_element); ResourceManager.deb_element.renderAll(); break;
-		case SHRAPNEL: bindTexture(tex_blank); ResourceManager.deb_blank.renderAll(); break;
+		case BLANK: bindTexture(ResourceManager.zirnox_tex); ResourceManager.deb_zirnox_blank.renderAll(); break;
+		case ELEMENT: bindTexture(tex_rod); ResourceManager.deb_zirnox_element.renderAll(); break;
+		case SHRAPNEL: bindTexture(ResourceManager.zirnox_tex); ResourceManager.deb_zirnox_shrapnel.renderAll(); break;
 		case GRAPHITE: bindTexture(tex_graphite); ResourceManager.deb_graphite.renderAll(); break;
-		case CONCRETE: bindTexture(tex_blank); ResourceManager.deb_lid.renderAll(); break;
-		case EXCHANGER: bindTexture(tex_blank); ResourceManager.deb_lid.renderAll(); break;
+		case CONCRETE: bindTexture(ResourceManager.zirnox_destroyed_tex); ResourceManager.deb_zirnox_concrete.renderAll(); break;
+		case EXCHANGER: bindTexture(ResourceManager.zirnox_tex); ResourceManager.deb_zirnox_exchanger.renderAll(); break;
 		default: break;
 		}
+		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return tex_base;
+		return tex_graphite;
 	}
 }

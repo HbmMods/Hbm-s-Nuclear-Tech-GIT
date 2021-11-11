@@ -52,10 +52,10 @@ public class EntityZirnoxDebris extends EntityDebrisBase {
 
 			switch(this.getType()) {
 			case BLANK: this.setSize(0.5F, 0.5F); break;
-			case ELEMENT: this.setSize(1F, 1F); break;
+			case ELEMENT: this.setSize(0.75F, 0.5F); break;
 			case SHRAPNEL: this.setSize(0.5F, 0.5F); break;
 			case GRAPHITE: this.setSize(0.25F, 0.25F); break;
-			case CONCRETE: this.setSize(1F, 0.5F); break;
+			case CONCRETE: this.setSize(0.75F, 0.5F); break;
 			case EXCHANGER: this.setSize(1F, 0.5F); break;
 			}
 

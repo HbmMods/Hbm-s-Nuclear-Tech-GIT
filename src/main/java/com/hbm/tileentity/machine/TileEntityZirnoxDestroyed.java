@@ -3,10 +3,13 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,6 +26,15 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			radiate(worldObj, this.xCoord, this.yCoord, this.zCoord);
+			
+			if(this.worldObj.getTotalWorldTime() % 50 == 0) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "rbmkflame");
+				data.setInteger("maxAge", 90);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.25 + worldObj.rand.nextDouble() * 0.5, yCoord + 1.75, zCoord + 0.25 + worldObj.rand.nextDouble() * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1.75, zCoord + 0.5, 75));
+				MainRegistry.proxy.effectNT(data);
+				worldObj.playSoundEffect(xCoord + 0.5F, yCoord + 0.5, zCoord + 0.5, "fire.fire", 1.0F + worldObj.rand.nextFloat(), worldObj.rand.nextFloat() * 0.7F + 0.3F);
+			}
 		}
 	}
 
@@ -66,7 +78,7 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 	}
 
 	public AxisAlignedBB getRenderBoundingBox() {
-		return AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 1, zCoord + 3);
+		return AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord, zCoord - 3, xCoord + 4, yCoord + 3, zCoord + 4);
 	}
 
 	@SideOnly(Side.CLIENT)

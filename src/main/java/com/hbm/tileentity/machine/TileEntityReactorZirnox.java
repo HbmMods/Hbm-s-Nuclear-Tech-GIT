@@ -302,14 +302,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void spawnDebris(DebrisType type) {
 
 		EntityZirnoxDebris debris = new EntityZirnoxDebris(worldObj, xCoord + 0.5D, yCoord + 4D, zCoord + 0.5D, type);
-		debris.motionX = worldObj.rand.nextGaussian() * 1.25D;
-		debris.motionZ = worldObj.rand.nextGaussian() * 1.25D;
+		debris.motionX = worldObj.rand.nextGaussian() * 0.75D;
+		debris.motionZ = worldObj.rand.nextGaussian() * 0.75D;
 		debris.motionY = 0.01D + worldObj.rand.nextDouble() * 1.25D;
 
 		if(type == DebrisType.CONCRETE) {
-			debris.motionX *= 0.5D;
-			debris.motionY += 0.5D;
-			debris.motionZ *= 0.5D;
+			debris.motionX *= 0.25D;
+			debris.motionY += worldObj.rand.nextDouble();
+			debris.motionZ *= 0.25D;
 		}
 
 		if(type == DebrisType.EXCHANGER) {
@@ -322,15 +322,20 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	private void zirnoxDebris() {
-		for (int i = 0; i < 2; i++) {
-			spawnDebris(DebrisType.CONCRETE);
+		
+		for(int i = 0; i < 2; i++) {
 			spawnDebris(DebrisType.EXCHANGER);
 		}
-		for (int i = 0; i < 20; i++) {
+		
+		for(int i = 0; i < 20; i++) {
+			spawnDebris(DebrisType.CONCRETE);
 			spawnDebris(DebrisType.BLANK);
+		}
+		
+		for(int i = 0; i < 10; i++) {
 			spawnDebris(DebrisType.ELEMENT);
-			spawnDebris(DebrisType.SHRAPNEL);
 			spawnDebris(DebrisType.GRAPHITE);
+			spawnDebris(DebrisType.SHRAPNEL);
 		}
 
 	}
