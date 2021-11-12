@@ -544,7 +544,7 @@ public class ModEventHandler {
 		}
 	}
 
-	//TODO: move all of this insto its own event handler
+	//TODO: move all of this into its own event handler
 	/// TOM STUFF ///
 	/// TOM STUFF ///
 	/// TOM STUFF ///
