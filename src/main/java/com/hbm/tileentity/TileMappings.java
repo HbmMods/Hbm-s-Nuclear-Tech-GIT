@@ -191,8 +191,6 @@ public class TileMappings {
 		map.put(TileEntityWatz.class, "tileentity_watz");
 		map.put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		map.put(TileEntityMachineOrbus.class, "tileentity_orbus");
-		map.put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
-		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
 
 		map.put(TileEntityLoot.class, "tileentity_ntm_loot");
 		map.put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
@@ -245,6 +243,9 @@ public class TileMappings {
 		map.put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");
 		map.put(TileEntityMachineGasFlare.class, "tileentity_gasflare");
 		map.put(TileEntityMachineRefinery.class, "tileentity_refinery");
+		map.put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
+		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
+		map.put(TileEntityMachineCatalyticCracker.class, "tileentity_catalytic_cracker");
 		
 		map.put(TileEntityReactorZirnox.class, "tileentity_zirnox");
 		map.put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");

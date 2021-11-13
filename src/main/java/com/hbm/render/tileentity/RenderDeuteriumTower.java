@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
 public class RenderDeuteriumTower extends TileEntitySpecialRenderer {
+	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 
@@ -41,5 +42,4 @@ public class RenderDeuteriumTower extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
-
 }
