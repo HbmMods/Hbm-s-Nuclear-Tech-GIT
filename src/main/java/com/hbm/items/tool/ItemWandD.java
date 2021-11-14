@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
+import com.hbm.world.dungeon.Bunker;
+import com.hbm.world.dungeon.Relay;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +36,7 @@ public class ItemWandD extends Item {
 			
 			int r = 5;
 			
-			for(int i = x - r; i <= x + r; i++) {
+			/*for(int i = x - r; i <= x + r; i++) {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
 						
@@ -42,7 +44,9 @@ public class ItemWandD extends Item {
 						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
-			}
+			}*/
+			
+			new Bunker().generate(world, world.rand, x, y, z);
 			
 			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);

@@ -40,20 +40,32 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void initSideInfo() {
 		
-		/*if(!this.enableAO)
+		if(!this.enableAO)
 			return;
+		
+		/*
+		 * so what's the actual solution here? instantiating the VertInfos with TL red being 1 causes all faces to be red on the top left, so there's
+		 * no translation issues here. perhaps i have to rotate the light and color info before instantiating the infos? afterwards is no good because
+		 * of the avg calculations. either way forge is a fucking liar when saying "ayy lmao this is the color of the top left" no it fucking ain't,
+		 * it's only the color in ONE PARTICULAR SIDE. well thanks for that i think that's rather poggers, lex.
+		 */
 
-		this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
-		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
-		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
-		this.br = new VertInfo(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, this.brightnessBottomRight);
+		float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
+		float green = (colorGreenTopLeft + colorGreenTopRight + colorGreenBottomLeft + colorGreenBottomRight) / 4F;
+		float blue = (colorBlueTopLeft + colorBlueTopRight + colorBlueBottomLeft + colorBlueBottomRight) / 4F;
+		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;
+		
+		this.tl = new VertInfo(red, green, blue, light);
+		this.tr = new VertInfo(red, green, blue, light);
+		this.bl = new VertInfo(red, green, blue, light);
+		this.br = new VertInfo(red, green, blue, light);
 
 		this.tc = VertInfo.avg(tl, tr);
 		this.bc = VertInfo.avg(bl, br);
 		this.cl = VertInfo.avg(tl, bl);
 		this.cr = VertInfo.avg(tr, br);
 		
-		this.cc = VertInfo.avg(tl, tr, bl, br);*/
+		this.cc = VertInfo.avg(tl, tr, bl, br);
 	}
 
 	@Override
@@ -218,10 +230,10 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
-		/*if(this.enableAO) {
+		if(this.enableAO) {
 			tess.setColorOpaque_F(info.red, info.green, info.blue);
 			tess.setBrightness(info.brightness);
-		}*/
+		}
 		
 		tess.addVertexWithUV(x, y, z, u, v);
 	}

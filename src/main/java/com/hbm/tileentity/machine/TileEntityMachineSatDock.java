@@ -313,9 +313,9 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	};
 	
 	private WeightedRandomObject[] lunarCargo = new WeightedRandomObject[] {
-			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 10), 5),
-			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 7), 7),
-			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 5), 5),
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 48), 5),
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 32), 7),
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 16), 5),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_lithium, 3), 5),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 5),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_iron, 1), 1),

@@ -881,6 +881,7 @@ public class MainRegistry {
 		AnvilRecipes.register();
 		PressRecipes.register();
 		RefineryRecipes.registerFractions();
+		RefineryRecipes.registerCracking();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();

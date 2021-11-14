@@ -822,8 +822,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'C', ModItems.board_copper });
-		addRecipeAuto(new ItemStack(ModBlocks.machine_fracking_tower), new Object[] { "NDN", "PRP", "CRC", 'N', NB.ingot(), 'D', ModBlocks.machine_well, 'P', ModItems.plate_desh, 'R', ModItems.pipes_steel, 'C', ModBlocks.concrete_smooth });
-		//addShapelessAuto(new ItemStack(ModItems.canister_fracksol, 4), new Object[] { "dustSulfur", "dustSulfur", "dustSulfur", "dustSulfur", ModItems.gas_petroleum, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty, ModItems.canister_empty });
 		
 		if(GeneralConfig.enableBabyMode) {
 			addShapelessAuto(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

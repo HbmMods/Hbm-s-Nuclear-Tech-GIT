@@ -36,7 +36,7 @@ public class WasteLeaves extends Block {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if(rand.nextInt(300) == 0) {
+		if(rand.nextInt(60) == 0) {
 			world.setBlockToAir(x, y, z);
 		}
 
@@ -48,7 +48,7 @@ public class WasteLeaves extends Block {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 		
-		if(rand.nextInt(5) == 0 && world.getBlock(x, y - 1, z).getMaterial() == Material.air) {
+		if(rand.nextInt(7) == 0 && world.getBlock(x, y - 1, z).getMaterial() == Material.air) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "deadleaf");
 			data.setDouble("posX", x + rand.nextDouble());

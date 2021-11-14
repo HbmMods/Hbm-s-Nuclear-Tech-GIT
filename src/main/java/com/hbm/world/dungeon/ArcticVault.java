@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.main.MainRegistry;
@@ -53,9 +55,21 @@ public class ArcticVault {
 			int iz = z - 4 + world.rand.nextInt(10);
 			
 			if(world.getBlock(ix, y + 1, iz) == Blocks.snow_layer) {
-				MetaBlock b = DungeonToolbox.getRandom(crates, world.rand);
-				world.setBlock(ix, y + 1, iz, b.block, b.meta, 2);
-				world.setBlock(ix, y + 2, iz, Blocks.snow_layer);
+				
+				if(i == 0) {
+					world.setBlock(ix, y + 1, iz, ModBlocks.bobblehead, world.rand.nextInt(16), 3);
+					TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(ix, y + 1, iz);
+					
+					if(bobble != null) {
+						bobble.type = BobbleType.values()[world.rand.nextInt(BobbleType.values().length - 1) + 1];
+						bobble.markDirty();
+					}
+					
+				} else {
+					MetaBlock b = DungeonToolbox.getRandom(crates, world.rand);
+					world.setBlock(ix, y + 1, iz, b.block, b.meta, 2);
+					world.setBlock(ix, y + 2, iz, Blocks.snow_layer);
+				}
 			}
 		}
 		
