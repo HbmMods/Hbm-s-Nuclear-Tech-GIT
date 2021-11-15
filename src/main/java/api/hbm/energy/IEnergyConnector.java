@@ -4,6 +4,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * For anything that connects to power and can be transferred power to, the bottom-level interface.
+ * This is mean for TILE ENTITIES
  * @author hbm
  */
 public interface IEnergyConnector {
