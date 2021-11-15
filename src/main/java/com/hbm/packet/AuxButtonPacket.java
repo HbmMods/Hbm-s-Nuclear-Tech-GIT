@@ -293,7 +293,7 @@ public class AuxButtonPacket implements IMessage {
 					if(m.id == 1) {
 						int fill = zirnox.carbonDioxide.getFill();
 						zirnox.carbonDioxide.setFill(fill - 1000);
-						if(fill < 0) {
+						if(zirnox.carbonDioxide.getFill() < 0) {
 							zirnox.carbonDioxide.setFill(0);
 						}
 					}

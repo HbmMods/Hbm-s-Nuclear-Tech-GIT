@@ -1737,6 +1737,9 @@ public class MachineRecipes {
 		case CO2:
 			input[0] = new FluidStack(1000, FluidType.GAS);
 			break;
+		case HEAVY_ELECTROLYSIS:
+			input[0] = new FluidStack(8000, FluidType.HEAVYWATER);
+			break;
 		default:
 			break;
 		}
@@ -2056,6 +2059,10 @@ public class MachineRecipes {
         	break;
         case CO2:
         	output[0] = new FluidStack(1000, FluidType.CARBONDIOXIDE);
+        	break;
+        case HEAVY_ELECTROLYSIS:
+        	output[0] = new FluidStack(400, FluidType.DEUTERIUM);
+			output[1] = new FluidStack(400, FluidType.OXYGEN);
         	break;
 		default:
 			break;

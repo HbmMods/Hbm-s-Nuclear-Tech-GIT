@@ -133,7 +133,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11)
-			if(itemStack.getItem() instanceof ItemFuelRod)
+			if(itemStack.getItem().getClass() == ItemFuelRod.class)
 				return true;
 		if(i == 12)
 			if(itemStack.getItem() == ModItems.rod_water || itemStack.getItem() == ModItems.rod_dual_water || itemStack.getItem() == ModItems.rod_quad_water || itemStack.getItem() == Items.water_bucket)
@@ -308,7 +308,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		for(int i = 0; i < 12; i++) {
 
-			if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod) {
+			if(slots[i] != null && slots[i].getItem().getClass() == ItemFuelRod.class) {
 				rodMax += ((ItemFuelRod) slots[i].getItem()).lifeTime;
 				rod += ((ItemFuelRod) slots[i].getItem()).lifeTime - ItemFuelRod.getLifeTime(slots[i]);
 			}
@@ -362,7 +362,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 				for(int i = 0; i < 12; i++) {
 					
 					if(slots[i] != null) {
-						if(slots[i].getItem() instanceof ItemFuelRod)
+						if(slots[i].getItem().getClass() == ItemFuelRod.class)
 							decay(i);
 						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
@@ -586,7 +586,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 		for(int i = 0; i < 12; i++) {
 
-			if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod)
+			if(slots[i] != null && slots[i].getItem().getClass() == ItemFuelRod.class)
 				count++;
 		}
 
@@ -598,7 +598,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			return false;
 
 		if(slots[id] != null)
-			return slots[id].getItem() instanceof ItemFuelRod;
+			return slots[id].getItem().getClass() == ItemFuelRod.class;
 
 		return false;
 	}

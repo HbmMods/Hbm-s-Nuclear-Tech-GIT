@@ -107,7 +107,8 @@ public class ItemChemistryTemplate extends Item {
 		OSMIRIDIUM_DEATH,
 		ETHANOL,
 		METH,
-		CO2;
+		CO2,
+		HEAVY_ELECTROLYSIS;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -315,6 +316,8 @@ public class ItemChemistryTemplate extends Item {
         	return 30;
         case CO2:
         	return 60;
+        case HEAVY_ELECTROLYSIS:
+        	return 150;
         default:
         	return 100;
         }
