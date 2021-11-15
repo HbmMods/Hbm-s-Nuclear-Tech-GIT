@@ -1,5 +1,7 @@
 package api.hbm.energy;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -34,4 +36,23 @@ public interface IEnergyConnector {
 	 * @return
 	 */
 	public long getMaxPower();
+	
+	/**
+	 * Basic implementation of subscribing to a nearby power grid
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public default void trySubscribe(World world, int x, int y, int z) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof IEnergyConductor) {
+			IEnergyConductor con = (IEnergyConductor) te;
+			
+			if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
+				con.getPowerNet().subscribe(this);
+		}
+	}
 }

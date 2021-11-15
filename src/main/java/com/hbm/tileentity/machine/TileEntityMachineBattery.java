@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.MachineBattery;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
+import api.hbm.energy.IEnergyUser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource, IEnergyConnector {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser {
 	
 	public long[] log = new long[20];
 	public long power = 0;
@@ -36,8 +35,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {0, 1};
 	private static final int[] slots_side = new int[] {1};
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	
 	private String customName;
 	
@@ -162,11 +159,13 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
+			
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 		
 			short mode = (short) this.getRelevantMode();
 			
 			//////////////////////////////////////////////////////////////////////
-			/*for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				
 				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 				
@@ -195,20 +194,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
 						con.getPowerNet().subscribe(this);
 				}
-			}*/
-			//////////////////////////////////////////////////////////////////////
-			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
-			
-			if(mode == 1 || mode == 2) {
-				age++;
-				if(age >= 20) {
-					age = 0;
-				}
-
-				if(age == 9 || age == 19)
-					ffgeuaInit();
 			}
+			//////////////////////////////////////////////////////////////////////
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
@@ -241,39 +228,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void setPower(long i) {
-		power = i;
-	}
-
-	@Override
 	public long getPower() {
 		return power;
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
 	}
 	
 	public short getRelevantMode() {
@@ -292,26 +248,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			return this.getPower();
 		
 		return maxPower;
-	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 	
 	/*
@@ -337,4 +273,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return true;
 	}
 
+	@Override
+	public void setPower(long power) {
+		this.power = power;
+	}
 }

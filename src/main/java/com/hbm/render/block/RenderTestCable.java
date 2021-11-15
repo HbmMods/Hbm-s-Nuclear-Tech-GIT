@@ -3,6 +3,7 @@ package com.hbm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.test.TestConductor;
+import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
@@ -59,12 +60,12 @@ public class RenderTestCable implements ISimpleBlockRenderingHandler {
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-		boolean pX = canConnect(world, x + 1, y, z, ForgeDirection.EAST);
-		boolean nX = canConnect(world, x - 1, y, z, ForgeDirection.WEST);
-		boolean pY = canConnect(world, x, y + 1, z, ForgeDirection.UP);
-		boolean nY = canConnect(world, x, y - 1, z, ForgeDirection.DOWN);
-		boolean pZ = canConnect(world, x, y, z + 1, ForgeDirection.SOUTH);
-		boolean nZ = canConnect(world, x, y, z - 1, ForgeDirection.NORTH);
+		boolean pX = Library.canConnect(world, x + 1, y, z, Library.POS_X);
+		boolean nX = Library.canConnect(world, x - 1, y, z, Library.NEG_X);
+		boolean pY = Library.canConnect(world, x, y + 1, z, Library.POS_Y);
+		boolean nY = Library.canConnect(world, x, y - 1, z, Library.NEG_Y);
+		boolean pZ = Library.canConnect(world, x, y, z + 1, Library.POS_Z);
+		boolean nZ = Library.canConnect(world, x, y, z - 1, Library.NEG_Z);
 		
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
 
@@ -88,31 +89,6 @@ public class RenderTestCable implements ISimpleBlockRenderingHandler {
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);
 
 		return true;
-	}
-	
-	private boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		
-		if(y > 255 || y < 0)
-			return false;
-		
-		Block b = world.getBlock(x, y, z);
-		TileEntity te = world.getTileEntity(x, y, z);
-		
-		if(b instanceof IEnergyConnectorBlock) {
-			IEnergyConnectorBlock con = (IEnergyConnectorBlock) b;
-			
-			if(con.canConnect(world, x, y, z, dir))
-				return true;
-		}
-		
-		if(te instanceof IEnergyConnectorBlock) {
-			IEnergyConnector con = (IEnergyConnector) te;
-			
-			if(con.canConnect(dir))
-				return true;
-		}
-		
-		return false;
 	}
 
 	@Override

@@ -33,22 +33,22 @@ public class RenderRTG extends TileEntitySpecialRenderer {
         int iy = te.yCoord;
         int iz = te.zCoord;
 
-        if(Library.checkCableConnectables(te.getWorldObj(), ix + 1, iy, iz))
+        if(Library.canConnect(te.getWorldObj(), ix + 1, iy, iz, Library.POS_X))
             ResourceManager.rtg.renderPart("Connector");
         
-        if(Library.checkCableConnectables(te.getWorldObj(), ix - 1, iy, iz)) {
+        if(Library.canConnect(te.getWorldObj(), ix - 1, iy, iz, Library.NEG_X)) {
     		GL11.glRotatef(180, 0F, 1F, 0F);
             ResourceManager.rtg.renderPart("Connector");
     		GL11.glRotatef(-180, 0F, 1F, 0F);
         }
         
-        if(Library.checkCableConnectables(te.getWorldObj(), ix, iy, iz - 1)) {
+        if(Library.canConnect(te.getWorldObj(), ix, iy, iz - 1, Library.NEG_Z)) {
     		GL11.glRotatef(90, 0F, 1F, 0F);
             ResourceManager.rtg.renderPart("Connector");
     		GL11.glRotatef(-90, 0F, 1F, 0F);
         }
         
-        if(Library.checkCableConnectables(te.getWorldObj(), ix, iy, iz + 1)) {
+        if(Library.canConnect(te.getWorldObj(), ix, iy, iz + 1, Library.POS_Z)) {
     		GL11.glRotatef(-90, 0F, 1F, 0F);
             ResourceManager.rtg.renderPart("Connector");
     		GL11.glRotatef(90, 0F, 1F, 0F);
