@@ -23,7 +23,9 @@ public interface IEnergyConnector {
 	 * @param dir
 	 * @return
 	 */
-	public boolean canConnect(ForgeDirection dir);
+	public default boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN;
+	}
 	
 	/**
 	 * The current power of either the machine or an entire network

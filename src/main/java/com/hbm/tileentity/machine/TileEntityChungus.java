@@ -6,10 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
@@ -17,6 +15,7 @@ import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFluidSource, ISource, INBTPacketReceiver {
+public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFluidSource, IEnergyGenerator, INBTPacketReceiver {
 
 	public long power;
 	public static final long maxPower = 100000000000L;
@@ -33,7 +32,6 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	public float rotor;
 	public float lastRotor;
 	
-	public List<IConsumer> list1 = new ArrayList();
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
 	public FluidTank[] tanks;
@@ -65,6 +63,9 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 			
 			power += (Integer)outs[3] * cycles;
 			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			this.sendPower(worldObj, xCoord + dir.offsetX * 11, yCoord, zCoord + dir.offsetZ * 11, dir);
+			
 			if(power > maxPower)
 				power = maxPower;
 			
@@ -74,7 +75,6 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 				turnTimer = 25;
 			
 			this.fillFluidInit(tanks[1].getTankType());
-			this.ffgeuaInit();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -135,17 +135,6 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ffgeua(xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, getTact());
 	}
 
 	@Override
@@ -224,26 +213,6 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	public void clearFluidList(FluidType type) {
 		list2.clear();
 	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list1;
-	}
-
-	@Override
-	public void clearList() {
-		this.list1.clear();
-	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -254,5 +223,25 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
+	public void setPower(long power) {
+		this.power = power;
 	}
 }

@@ -293,8 +293,12 @@ public class MainRegistry {
 		
 		TileMappings.writeMappings();
 		
-		for(Entry<Class<? extends TileEntity>, String> e : TileMappings.map.entrySet()) {
-			GameRegistry.registerTileEntity(e.getKey(), e.getValue());
+		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
+			
+			if(e.getValue().length == 1)
+				GameRegistry.registerTileEntity(e.getKey(), e.getValue()[0]);
+			else
+				GameRegistry.registerTileEntityWithAlternatives(e.getKey(), e.getValue()[0], e.getValue());
 		}
 
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ModItems.armor_polish), 1, 1, 3));

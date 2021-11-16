@@ -1,10 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -14,7 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IConsumer {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -36,6 +36,8 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			int demand = (int) Math.pow(watts, 4);
@@ -84,6 +86,12 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		}
 	}
 	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+	}
+	
 	public void networkUnpack(NBTTagCompound data) {
 
 		power = data.getLong("power");
@@ -113,6 +121,11 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	public long getMaxPower() {
 		return this.maxPower;
 	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN;
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -121,8 +134,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 	

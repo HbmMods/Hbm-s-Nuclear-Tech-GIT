@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -19,6 +18,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-public class TileEntityITER extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, IFluidSource {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -160,6 +160,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			
 			this.networkPack(data, 250);
 			/// END Notif packets ///
+
+			this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord);
+			this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord);
 			
 		} else {
 			

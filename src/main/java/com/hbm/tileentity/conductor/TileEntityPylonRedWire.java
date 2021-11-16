@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
 import com.hbm.packet.NBTPacket;
@@ -13,6 +11,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPylonDestructorPacket;
 import com.hbm.packet.TEPylonSenderPacket;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.network.TileEntityCableBaseNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -22,9 +21,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityPylonRedWire extends TileEntity implements IConductor, INBTPacketReceiver {
+public class TileEntityPylonRedWire extends TileEntityCableBaseNT implements INBTPacketReceiver {
 	
-	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();
 	public List<int[]> connected = new ArrayList<int[]>();
 	public boolean scheduleConnectionCheck = false;
 	public int[][] scheduleBuffer;

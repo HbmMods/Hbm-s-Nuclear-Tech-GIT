@@ -8,7 +8,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.recipes.HadronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -18,6 +17,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -28,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHadron extends TileEntityMachineBase implements IConsumer {
+public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -254,6 +254,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+	
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return false;
 	}
 	
 	public class Particle {

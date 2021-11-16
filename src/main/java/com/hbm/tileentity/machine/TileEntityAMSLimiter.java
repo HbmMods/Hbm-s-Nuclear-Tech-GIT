@@ -7,7 +7,6 @@ import java.util.Random;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -28,7 +27,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -376,23 +375,6 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	
 	public int getHeatScaled(int i) {
 		return (heat * i) / maxHeat;
-	}
-
-	@Override
-	public void setPower(long i) {
-		power = i;
-		
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-		
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
 	}
 
 	@Override

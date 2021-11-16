@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
@@ -32,7 +30,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityAMSBase extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -49,7 +47,6 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public int mode = 0;
 	public boolean locked = false;
 	public FluidTank[] tanks;
-	public List<IConsumer> list = new ArrayList();
 	public int color = -1;
 	
 	Random rand = new Random();
@@ -247,9 +244,6 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				{
 					age = 0;
 				}
-				
-				if(age == 9 || age == 19)
-					ffgeuaInit();
 
 				tanks[0].setType(0, 1, slots);
 				tanks[1].setType(2, 3, slots);
@@ -534,51 +528,6 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public void setType(FluidType type, int index) {
 		if(index < 4 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 	
 	@Override

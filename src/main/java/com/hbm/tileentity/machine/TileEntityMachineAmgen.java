@@ -5,21 +5,19 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 
+import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAmgen extends TileEntity implements ISource {
+public class TileEntityMachineAmgen extends TileEntity implements IEnergyGenerator {
 
-	public List<IConsumer> list = new ArrayList();
 	public long power;
 	public long maxPower = 500;
-	boolean tact = false;
 	
 	@Override
 	public void updateEntity() {
@@ -80,53 +78,24 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 			
 			if(power > maxPower)
 				power = maxPower;
-
-			tact = false;
-			ffgeuaInit();
-			tact = true;
-			ffgeuaInit();
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		}
 	}
 
 	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public boolean getTact() {
-		return tact;
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return list;
+	public long getMaxPower() {
+		return this.maxPower;
 	}
-
-	@Override
-	public void clearList() {
-		list.clear();
-	}
-
 }
