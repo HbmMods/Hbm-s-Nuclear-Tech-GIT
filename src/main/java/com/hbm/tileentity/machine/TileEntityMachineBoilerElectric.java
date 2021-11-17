@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -18,6 +17,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -26,8 +26,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBoilerElectric extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IConsumer {
+public class TileEntityMachineBoilerElectric extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser {
 
 	private ItemStack slots[];
 	
@@ -225,6 +226,8 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 		
 		if(!worldObj.isRemote)
 		{
+			this.updateConnections();
+			
 			age++;
 			if(age >= 20)
 			{
@@ -303,6 +306,12 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 		if(mark) {
 			this.markDirty();
 		}
+	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 	}
 	
 	public boolean isItemValid() {

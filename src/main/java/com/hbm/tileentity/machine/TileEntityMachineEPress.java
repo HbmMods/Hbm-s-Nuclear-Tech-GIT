@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
@@ -9,6 +8,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,8 +20,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 
@@ -200,8 +201,10 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 	
 	@Override
 	public void updateEntity() {
-		if(!worldObj.isRemote)
-		{
+		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
+			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
@@ -265,6 +268,12 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
+	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 	}
 
 	public long getPowerScaled(int i) {

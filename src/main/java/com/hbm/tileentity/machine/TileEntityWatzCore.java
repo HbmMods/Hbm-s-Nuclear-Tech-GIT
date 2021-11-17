@@ -8,12 +8,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IReactor;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
@@ -23,6 +21,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -32,8 +31,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidSource {
+public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidSource {
 
 	public long power;
 	public final static long maxPower = 100000000;
@@ -51,7 +51,6 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	
 	private ItemStack slots[];
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public List<IFluidAcceptor> list1 = new ArrayList();
 	public FluidTank tank;
 	
@@ -550,9 +549,11 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				if (age >= 20) {
 					age = 0;
 				}
+
+				this.sendPower(worldObj, xCoord, yCoord + 7, zCoord, ForgeDirection.UP);
+				this.sendPower(worldObj, xCoord, yCoord - 7, zCoord, ForgeDirection.DOWN);
 	
 				if (age == 9 || age == 19) {
-					ffgeuaInit();
 					fillFluidInit(tank.getTankType());
 				}
 	
@@ -664,18 +665,6 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			}
 		}
 	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 7, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 7, this.zCoord, getTact());
-	}
 	
 	@Override
 	public boolean getTact() {
@@ -688,23 +677,18 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 
 	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 
 	@Override

@@ -2,9 +2,9 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.ModDamageSource;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -13,8 +13,9 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRadiobox extends TileEntity implements IConsumer {
+public class TileEntityRadiobox extends TileEntity implements IEnergyUser {
 	
 	long power;
 	public static long maxPower = 500000;
@@ -22,6 +23,9 @@ public class TileEntityRadiobox extends TileEntity implements IConsumer {
 	
 	@Override
 	public void updateEntity() {
+		
+		if(!worldObj.isRemote)
+			this.updateConnections();
 
 		if(!worldObj.isRemote && this.getBlockMetadata() > 5 && (power >= 25000 || infinite)) {
 			
@@ -36,6 +40,12 @@ public class TileEntityRadiobox extends TileEntity implements IConsumer {
 			for(IMob entity : entities)
 				((Entity)entity).attackEntityFrom(ModDamageSource.enervation, 20.0F);
 		}
+	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 	}
 	
 	@Override

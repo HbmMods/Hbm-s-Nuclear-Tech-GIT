@@ -57,4 +57,15 @@ public interface IEnergyConnector {
 				con.getPowerNet().subscribe(this);
 		}
 	}
+	public default void tryUnsubscribe(World world, int x, int y, int z) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof IEnergyConductor) {
+			IEnergyConductor con = (IEnergyConductor) te;
+			
+			if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
+				con.getPowerNet().unsubscribe(this);
+		}
+	}
 }

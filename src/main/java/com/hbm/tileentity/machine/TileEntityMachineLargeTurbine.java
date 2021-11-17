@@ -5,16 +5,15 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,12 +21,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, ISource {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator {
 
 	public long power;
 	public static final long maxPower = 100000000;
 	public int age = 0;
-	public List<IConsumer> list1 = new ArrayList();
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 	
@@ -60,7 +58,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 			
 			fillFluidInit(tanks[1].getTankType());
-			ffgeuaInit();
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			this.sendPower(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
@@ -141,19 +141,6 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ffgeua(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, getTact());
 	}
 
 	@Override
@@ -239,23 +226,18 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return list1;
-	}
-
-	@Override
-	public void clearList() {
-		this.list1.clear();
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 	
 	@Override

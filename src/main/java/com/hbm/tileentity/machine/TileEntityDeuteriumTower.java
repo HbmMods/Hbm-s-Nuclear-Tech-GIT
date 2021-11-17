@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.FluidTank;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor implements IConsumer {
+public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
 	public static final long maxPower = 10000000;
 
@@ -68,6 +67,31 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor imple
 		fillFluid(this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1, getTact(), type);
 		fillFluid(this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0, getTact(), type);
 		fillFluid(this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1, getTact(), type);
+	}
+	
+	protected void updateConnections() {
+		
+		int offsetX = 0;
+		int offsetZ = 0;
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		offsetX = -dir.offsetX;
+		offsetZ = -rot.offsetZ;
+		
+		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
+			offsetX = rot.offsetX;
+			offsetZ = dir.offsetZ;
+		}
+
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1);
+		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0);
+		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1);
 	}
 
 	AxisAlignedBB bb = null;

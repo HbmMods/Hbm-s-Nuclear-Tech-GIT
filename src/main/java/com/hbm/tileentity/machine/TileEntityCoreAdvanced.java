@@ -1,12 +1,12 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFactory;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventory, IFactory, IConsumer {
+public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventory, IFactory, IEnergyUser {
 	
 	public int progress = 0;
 	public long power = 0;
@@ -233,6 +233,19 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 
 	@Override
 	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.factory_advanced_conductor)
+				this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord);
+			else
+				this.tryUnsubscribe(worldObj, xCoord, yCoord + 2, zCoord);
+			
+			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.factory_advanced_conductor)
+				this.trySubscribe(worldObj, xCoord, yCoord - 2, zCoord);
+			else
+				this.tryUnsubscribe(worldObj, xCoord, yCoord - 2, zCoord);
+		}
+		
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_advanced)
 		{
 			this.power = (int) ((IBatteryItem)slots[22].getItem()).getCharge(slots[22]);

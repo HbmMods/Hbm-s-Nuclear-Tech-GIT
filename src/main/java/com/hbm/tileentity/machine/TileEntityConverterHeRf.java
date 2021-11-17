@@ -1,9 +1,9 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.calc.Location;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntityMachineBase implements IConsumer, IEnergyHandler {
+public class TileEntityConverterHeRf extends TileEntityMachineBase implements IEnergyUser, IEnergyHandler {
 	
 	public TileEntityConverterHeRf() {
 		super(0);
@@ -33,6 +33,9 @@ public class TileEntityConverterHeRf extends TileEntityMachineBase implements IC
 	@Override
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 			
 			storage.setCapacity((int)power * 4);
 			storage.setEnergyStored((int)power * 4);

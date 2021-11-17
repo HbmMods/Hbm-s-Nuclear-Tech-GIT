@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
@@ -11,10 +10,12 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyUser {
 
 	public long power = 0;
 	public int process = 0;
@@ -149,6 +150,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
 		if (!worldObj.isRemote) {
 			
+			this.updateConnections();
+			
 			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 
 			if(canProcess()) {
@@ -178,6 +181,12 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 				}
 			}
 		}
+	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 	}
 	
     public void onChunkUnload() {

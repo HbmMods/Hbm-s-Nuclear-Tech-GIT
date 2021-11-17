@@ -11,7 +11,6 @@ import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -23,6 +22,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +31,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IConsumer {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -68,6 +68,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 
 			age++;
 			if(age >= 20)
@@ -150,6 +152,18 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			coolant.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			amat.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
+	}
+	
+	private void updateConnections()  {
+
+		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1);
+		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord - 1);
+		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord + 1);
+		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 3);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 3);
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

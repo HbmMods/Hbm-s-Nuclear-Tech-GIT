@@ -7,12 +7,12 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IConsumer {
+public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -45,6 +45,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 
 			/// START Managing all the internal stuff ///
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -119,6 +121,20 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			data.setLong("power", power);
 			this.networkPack(data, 50);
 			/// END Notif packets ///
+		}
+	}
+	
+	private void updateConnections()  {
+		
+		this.getBlockMetadata();
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata);
+		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
+		
+		for(int i = 1; i < 4; i++) {
+			for(int j = -1; j < 2; j++) {
+				this.trySubscribe(worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2);
+			}
 		}
 	}
 	

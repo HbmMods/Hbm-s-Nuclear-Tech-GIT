@@ -2,11 +2,11 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineTeleporter extends TileEntity implements IConsumer {
+public class TileEntityMachineTeleporter extends TileEntity implements IEnergyUser {
 
 	public long power = 0;
 	public int targetX = 0;
@@ -55,6 +55,8 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 		boolean b0 = false;
 		
 		if (!this.worldObj.isRemote) {
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			
 			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
 					AxisAlignedBB.getBoundingBox(this.xCoord - 0.25, this.yCoord, this.zCoord - 0.25, this.xCoord + 1.5,
 							this.yCoord + 2, this.zCoord + 1.5));

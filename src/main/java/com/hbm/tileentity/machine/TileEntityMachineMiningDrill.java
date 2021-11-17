@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -18,6 +17,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer, IMiningDrill {
+public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IEnergyUser, IMiningDrill {
 
 	public long power;
 	public int warning;
@@ -85,6 +85,8 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			this.consumption = 100;
 			this.timer = 50;
@@ -204,6 +206,19 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 			PacketDispatcher.wrapper.sendToAllAround(new TEDrillPacket(xCoord, yCoord, zCoord, rotation, torque), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		}
+	}
+	
+	private void updateConnections()  {
+		this.getBlockMetadata();
+		
+		if(this.blockMetadata == 5 || this.blockMetadata == 4) {
+			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord);
+			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord);
+			
+		} else if(this.blockMetadata == 3 || this.blockMetadata == 2) {
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2);
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2);
 		}
 	}
 	

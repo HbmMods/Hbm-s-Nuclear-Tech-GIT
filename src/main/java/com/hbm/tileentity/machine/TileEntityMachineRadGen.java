@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
@@ -15,6 +13,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
 
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
@@ -25,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntityMachineBase implements ISource {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyGenerator {
 
 	public int[] progress = new int[12];
 	public int[] maxProgress = new int[12];
@@ -34,7 +33,6 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IS
 	
 	public long power;
 	public static final long maxPower = 1000000;
-	public List<IConsumer> list = new ArrayList();
 	
 	public boolean isOn = false;
 
@@ -51,10 +49,9 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IS
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				ffgeuaInit();
-			}
+
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			this.sendPower(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
 			
 			//check if reload necessary for any queues
 			for(int i = 0; i < 12; i++) {
@@ -249,39 +246,18 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void ffgeuaInit() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ffgeua(this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, getTact());
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
+	public void setPower(long i) {
 		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 	
 	@Override

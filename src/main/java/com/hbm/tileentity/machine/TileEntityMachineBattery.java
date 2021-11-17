@@ -161,40 +161,9 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
 			
 			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
-		
-			short mode = (short) this.getRelevantMode();
 			
 			//////////////////////////////////////////////////////////////////////
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				
-				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-				
-				// first we make sure we're not subscribed to the network that we'll be supplying
-				if(te instanceof IEnergyConductor) {
-					IEnergyConductor con = (IEnergyConductor) te;
-					
-					if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
-						con.getPowerNet().unsubscribe(this);
-				}
-				
-				//then we add energy
-				if(mode == 1 || mode == 2) {
-					if(te instanceof IEnergyConnector) {
-						IEnergyConnector con = (IEnergyConnector) te;
-						long oldPower = this.power;
-						long transfer = this.power - con.transferPower(this.power);
-						this.power = oldPower - transfer;
-					}
-				}
-				
-				//then we subscribe if possible
-				if(te instanceof IEnergyConductor) {
-					IEnergyConductor con = (IEnergyConductor) te;
-					
-					if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
-						con.getPowerNet().subscribe(this);
-				}
-			}
+			this.transmitPower();
 			//////////////////////////////////////////////////////////////////////
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -215,6 +184,42 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 			
 			this.log[19] = this.power;
+		}
+	}
+	
+	protected void transmitPower() {
+		
+		short mode = (short) this.getRelevantMode();
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			
+			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			
+			// first we make sure we're not subscribed to the network that we'll be supplying
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				
+				if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
+					con.getPowerNet().unsubscribe(this);
+			}
+			
+			//then we add energy
+			if(mode == 1 || mode == 2) {
+				if(te instanceof IEnergyConnector) {
+					IEnergyConnector con = (IEnergyConnector) te;
+					long oldPower = this.power;
+					long transfer = this.power - con.transferPower(this.power);
+					this.power = oldPower - transfer;
+				}
+			}
+			
+			//then we subscribe if possible
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				
+				if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
+					con.getPowerNet().subscribe(this);
+			}
 		}
 	}
 

@@ -8,9 +8,7 @@ import com.google.common.collect.HashBiMap;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -26,7 +24,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource, IFluidAcceptor {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -49,7 +47,6 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public FluidTank[] tanks;
 	
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 
 	public TileEntityMachineIGenerator() {
 		super(15);
@@ -73,9 +70,6 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			if (age >= 20) {
 				age = 0;
 			}
-
-			if (age == 9 || age == 19)
-				ffgeuaInit();
 
 			tanks[0].loadTank(7, 8, slots);
 			tanks[1].loadTank(9, 10, slots);
@@ -387,62 +381,6 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public void setDialByAngle(float angle) {
 		this.limiter = (angle - 45F) / 270F;
 		ignoreNext = 5;
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		
-		int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
-		
-		boolean tact = this.getTact();
-		
-		for(int iy = 0; iy <= 1; iy++) {
-			for(int ix = -rot[4]; ix <= rot[5]; ix++) {
-				for(int iz = -rot[2]; iz <= rot[3]; iz++) {
-					
-					if(ix == -rot[4] || ix == rot[5] || iz == -rot[2] || iz == rot[3]) {
-						
-						ffgeua(xCoord + dir.offsetX * 2 + ix, yCoord + iy, zCoord + dir.offsetZ * 2 + iz, tact);
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
-		return this.power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return this.list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 
 	@Override

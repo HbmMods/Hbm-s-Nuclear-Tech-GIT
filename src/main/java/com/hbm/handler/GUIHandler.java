@@ -280,13 +280,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_reix_mainframe: {
-			if(entity instanceof TileEntityReiXMainframe) {
-				return new ContainerReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_industrial_generator: {
 			if(entity instanceof TileEntityMachineIGenerator) {
 				return new ContainerIGenerator(player.inventory, (TileEntityMachineIGenerator) entity);
@@ -1132,13 +1125,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_nuke_custom: {
 			if(entity instanceof TileEntityNukeCustom) {
 				return new GUINukeCustom(player.inventory, (TileEntityNukeCustom) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_reix_mainframe: {
-			if(entity instanceof TileEntityReiXMainframe) {
-				return new GUIReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
 			}
 			return null;
 		}

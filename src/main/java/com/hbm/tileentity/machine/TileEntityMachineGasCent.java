@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -17,6 +16,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineGasCent extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineGasCent extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
@@ -280,6 +280,8 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.setType(1, 2, slots);

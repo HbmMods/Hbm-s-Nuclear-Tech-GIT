@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -17,6 +15,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -24,8 +23,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSeleniumEngine extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineSeleniumEngine extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -33,8 +33,6 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	public int soundCycle = 0;
 	public static final long maxPower = 250000;
 	public long powerCap = 250000;
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
 	public int pistonCount = 0;
 
@@ -215,13 +213,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		
 		if (!worldObj.isRemote) {
 			
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19)
-				ffgeuaInit();
+			this.sendPower(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 			
 			pistonCount = countPistons();
 
@@ -315,43 +307,18 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
+	public void setPower(long i) {
 		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 
 	@Override
