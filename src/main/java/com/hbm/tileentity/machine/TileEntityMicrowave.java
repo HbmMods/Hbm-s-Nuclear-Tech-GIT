@@ -1,9 +1,9 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMicrowave extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 50000;
@@ -35,6 +35,8 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IConsu
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 			
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			

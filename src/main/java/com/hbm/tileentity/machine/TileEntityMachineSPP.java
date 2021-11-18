@@ -4,33 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 
+import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineSPP extends TileEntity implements ISource {
+public class TileEntityMachineSPP extends TileEntity implements IEnergyGenerator {
 	
 	public long power;
 	public static final long maxPower = 100000;
 	public int age = 0;
 	public int gen = 0;
-	public List<IConsumer> list = new ArrayList();
 	
 	@Override
 	public void updateEntity() {
 		
-		age++;
-		if(age >= 20)
-			age -= 20;
-		if(age == 9 || age == 19)
-			ffgeuaInit();
-		
 		if(!worldObj.isRemote) {
-			//if(age == 1)
+
+			this.sendPower(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
+			this.sendPower(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
+			this.sendPower(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0)
 				gen = checkStructure() * 15;
+			
 			if(gen > 0)
 				power += gen;
 			if(power > maxPower)
@@ -75,47 +75,18 @@ public class TileEntityMachineSPP extends TileEntity implements ISource {
 	}
 
 	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return this.power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return this.list;
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 
 }

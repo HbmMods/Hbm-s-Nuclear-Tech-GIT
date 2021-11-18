@@ -17,6 +17,14 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	}
 
 	@Override
+	protected void updateConnections() {
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2);
+	}
+
+	@Override
 	public long getMaxPower() {
 		return 100_000;
 	}

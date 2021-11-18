@@ -26,6 +26,11 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
+	protected void updateConnections() {
+		this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+	}
+
+	@Override
 	public long getMaxPower() {
 		return 5_000_000;
 	}
@@ -109,5 +114,4 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	public int getMaxFluidFill(FluidType type) {
 		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
 	}
-
 }
