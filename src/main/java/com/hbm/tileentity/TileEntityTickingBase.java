@@ -33,5 +33,6 @@ public abstract class TileEntityTickingBase extends TileEntity implements INBTPa
 	
 	public void networkUnpack(NBTTagCompound nbt) { }
 	
+	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }
 }

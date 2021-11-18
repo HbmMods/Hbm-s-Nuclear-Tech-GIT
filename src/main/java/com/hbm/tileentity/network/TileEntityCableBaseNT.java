@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCableBaseNT extends TileEntity implements IEnergyConductor {
 	
-	private IPowerNet network;
+	protected IPowerNet network;
 
 	@Override
 	public void updateEntity() {

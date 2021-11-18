@@ -30,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
+@Deprecated //use the NBT control packet instead
 public class AuxButtonPacket implements IMessage {
 
 	int x;
@@ -274,6 +275,7 @@ public class AuxButtonPacket implements IMessage {
 				}
 				
 				/// yes ///
+				//no fuck off
 				if(te instanceof TileEntityMachineBase) {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
 					base.handleButtonPacket(m.value, m.id);

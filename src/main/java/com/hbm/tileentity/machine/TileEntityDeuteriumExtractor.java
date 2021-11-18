@@ -47,7 +47,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			age++;
-			if(age >= 2) {
+			if(age >= 10) {
 				age = 0;
 				if(hasPower() && hasEnoughWater()) {
 					int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());

@@ -193,6 +193,7 @@ public class TileMappings {
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 
 		put(TileEntityCableBaseNT.class, "tileentity_cable", "tileentity_wirecoated");
+		put(TileEntityCableSwitch.class, "tileentity_cable_switch");
 		
 		putBombs();
 		putTurrets();

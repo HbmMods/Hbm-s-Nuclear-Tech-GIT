@@ -14,25 +14,19 @@ public class PlayerInformPacket implements IMessage {
 
 	String dmesg = "";
 
-	public PlayerInformPacket()
-	{
-		
-	}
+	public PlayerInformPacket() { }
 
-	public PlayerInformPacket(String dmesg)
-	{
+	public PlayerInformPacket(String dmesg) {
 		this.dmesg = dmesg;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		
 		dmesg = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		
 		ByteBufUtils.writeUTF8String(buf, dmesg);
 	}
 
@@ -42,7 +36,6 @@ public class PlayerInformPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(PlayerInformPacket m, MessageContext ctx) {
 			try {
-				
 				MainRegistry.proxy.displayTooltip(m.dmesg);
 				
 			} catch (Exception x) { }

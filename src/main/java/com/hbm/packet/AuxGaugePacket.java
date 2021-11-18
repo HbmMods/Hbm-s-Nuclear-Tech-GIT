@@ -37,7 +37,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
 @Spaghetti("Changing all machines to use TileEntityMachineBase will reduce the total chaos in this class")
-@Deprecated
+@Deprecated //use the NBT packet instead
 public class AuxGaugePacket implements IMessage {
 
 	int x;

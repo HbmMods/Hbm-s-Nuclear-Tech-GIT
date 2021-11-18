@@ -11,12 +11,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
-	public static final long maxPower = 10000000;
+	public static final long maxPower = 1000000;
 
 	public TileEntityDeuteriumTower() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 5000000, 0);
-		tanks[1] = new FluidTank(FluidType.HEAVYWATER, 500000, 0);
+		tanks[0] = new FluidTank(FluidType.WATER, 50000, 0);
+		tanks[1] = new FluidTank(FluidType.HEAVYWATER, 5000, 0);
 	}
 
 	public void fillFluidInit(FluidType type) {

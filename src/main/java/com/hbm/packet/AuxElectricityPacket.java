@@ -10,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated //use the NBT packet instead
 public class AuxElectricityPacket implements IMessage {
 
 	int x;

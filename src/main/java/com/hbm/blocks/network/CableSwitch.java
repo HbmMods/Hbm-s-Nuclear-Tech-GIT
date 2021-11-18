@@ -2,6 +2,7 @@ package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
+import com.hbm.tileentity.network.TileEntityCableSwitch;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +38,7 @@ public class CableSwitch extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityCableBaseNT(); //TODO: extends this and implement switching
+		return new TileEntityCableSwitch();
 	}
 	
 	@Override
@@ -55,6 +56,9 @@ public class CableSwitch extends BlockContainer {
 				world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 				world.playSoundEffect(x, y, z, "hbm:block.reactorStart", 1.0F, 0.85F);
 			}
+			
+			TileEntityCableSwitch te = (TileEntityCableSwitch) world.getTileEntity(x, y, z);
+			te.updateState();
 			
 			return true;
 		} else {
