@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ModEventHandler;
 import com.hbm.render.model.ModelPylon;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
+import com.hbm.tileentity.network.TileEntityPylon;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -28,7 +28,7 @@ public class RenderPylon extends TileEntitySpecialRenderer {
 	
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
-		TileEntityPylonRedWire pyl = (TileEntityPylonRedWire)te;
+		TileEntityPylon pyl = (TileEntityPylon)te;
 		GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F - ((1F / 16F) * 14F), (float) z + 0.5F);
 			GL11.glRotatef(180, 0F, 0F, 1F);

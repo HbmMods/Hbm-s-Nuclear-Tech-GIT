@@ -5,9 +5,9 @@ import java.util.List;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.FluidTank;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
+import com.hbm.tileentity.network.TileEntityPylon;
 
 import api.hbm.energy.IEnergyConnector;
 import net.minecraft.block.Block;
@@ -95,7 +95,7 @@ public class ItemAnalyzer extends Item {
 							"Duct Type: " + I18n.format(((IFluidDuct)te).getType().getUnlocalizedName())));
 				}
 				
-				if(te instanceof TileEntityPylonRedWire) {
+				if(te instanceof TileEntityPylon) {
 					
 					/**
 					 * this is a smoldering crater

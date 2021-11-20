@@ -29,7 +29,7 @@ public class TileEntityMachineMiniRTG extends TileEntity implements IEnergyGener
 				power = getMaxPower();
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord, yCoord, zCoord, dir);
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		}
 	}
 

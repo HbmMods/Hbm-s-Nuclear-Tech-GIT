@@ -22,10 +22,10 @@ import com.hbm.tileentity.conductor.TileEntityGasDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
+import com.hbm.tileentity.network.TileEntityPylon;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
@@ -119,7 +119,7 @@ public class Library {
 				return true;
 		}
 		
-		if(te instanceof IEnergyConnectorBlock) {
+		if(te instanceof IEnergyConnector) {
 			IEnergyConnector con = (IEnergyConnector) te;
 			
 			if(con.canConnect(dir))

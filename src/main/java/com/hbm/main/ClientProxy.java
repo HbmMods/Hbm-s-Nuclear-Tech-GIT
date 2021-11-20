@@ -86,6 +86,7 @@ import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.oil.TileEntitySpacer;
 import com.hbm.tileentity.machine.rbmk.*;
+import com.hbm.tileentity.network.TileEntityPylon;
 import com.hbm.tileentity.turret.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -234,7 +235,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGasDuct.class, new RenderGasDuct());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidDuct.class, new RenderFluidDuct());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRFDuct.class, new RenderRFCable());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonRedWire.class, new RenderPylon());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylon.class, new RenderPylon());
 		//multiblocks
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructureMarker.class, new RenderStructureMaker());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMultiblock.class, new RenderMultiblock());

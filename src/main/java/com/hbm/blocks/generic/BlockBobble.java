@@ -79,7 +79,7 @@ public class BlockBobble extends BlockContainer {
 			return true;
 			
 		} else {
-			return false;
+			return true;
 		}
 	}
 
@@ -169,6 +169,7 @@ public class BlockBobble extends BlockContainer {
 		PU238("Pu-238", "Pu-238", "Improved Tom impact mechanics", null, false),
 		VT("VT-6/24", "VT-6/24", "Balefire warhead model and general texturework", "You cannot unfuck a horse.", true),
 		DOC("The Doctor", "Doctor17PH", "Russian localization, lunar miner", "Perhaps the moon rocks were too expensive", true),
+		BLUEHAT("The Blue Hat", "The Blue Hat", "Textures", "there's a listening device in this bobblehead$don't touch it thanks", true),
 		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 

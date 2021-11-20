@@ -32,6 +32,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_frizzle = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/frizzle.png");
 	public static final ResourceLocation bobble_vt = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vt.png");
 	public static final ResourceLocation bobble_doc = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/doctor17ph.png");
+	public static final ResourceLocation bobble_blue = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/thebluehat.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -57,9 +58,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
-		TextureManager texman = Minecraft.getMinecraft().getTextureManager();
-		
-		texman.bindTexture(socket);
+		bindTexture(socket);
 		bobble.renderPart("Socket");
 		
 		switch(type) {
@@ -69,21 +68,26 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case CHARISMA:
 		case INTELLIGENCE:
 		case AGILITY:
-		case LUCK:		texman.bindTexture(bobble_vaultboy); break;
+		case LUCK:		bindTexture(bobble_vaultboy); break;
 			
-		case BOB:		texman.bindTexture(bobble_hbm); break;
-		case PU238:		texman.bindTexture(bobble_pu238); break;
-		case FRIZZLE:	texman.bindTexture(bobble_frizzle); break;
-		case VT:		texman.bindTexture(bobble_vt); break;
-		case DOC:		texman.bindTexture(bobble_doc); break;
-		case CIRNO:		texman.bindTexture(bobble_cirno); break;
-		default:		texman.bindTexture(ResourceManager.universal);
+		case BOB:		bindTexture(bobble_hbm); break;
+		case PU238:		bindTexture(bobble_pu238); break;
+		case FRIZZLE:	bindTexture(bobble_frizzle); break;
+		case VT:		bindTexture(bobble_vt); break;
+		case DOC:		bindTexture(bobble_doc); break;
+		case BLUEHAT:	bindTexture(bobble_blue); break;
+		case CIRNO:		bindTexture(bobble_cirno); break;
+		default:		bindTexture(ResourceManager.universal);
 		}
 		
 		switch(type) {
 		case PU238:	renderPellet(type); break;
 		default: renderGuy(type);
 		}
+		
+		GL11.glPushMatrix();
+		renderPost(type);
+		GL11.glPopMatrix();
 		
 		renderSocket(type);
 	}
@@ -156,6 +160,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			rotRightArm = new double[]{0, 0, 45};
 			rotLeftLeg = new double[]{2, 0, 0};
 			rotRightLeg = new double[]{-2, 0, 0};
+			break;
+		case BLUEHAT:
+			rotLeftArm = new double[]{0, 90, 60};
 			break;
 		}
 	}
@@ -278,6 +285,24 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
+
+	/*
+	 * RENDER ADDITIONAL ITEMS
+	 */
+	@SuppressWarnings("incomplete-switch")
+	public void renderPost(BobbleType type) {
+		switch(type) {
+		case BLUEHAT:
+			double scale = 0.0625D;
+			GL11.glTranslated(0D, 0.875D, -0.5D);
+			GL11.glRotated(-90, 0, 1, 0);
+			GL11.glRotated(-160, 0, 0, 1);
+			GL11.glScaled(scale, scale, scale);
+			bindTexture(ResourceManager.hev_helmet);
+			ResourceManager.armor_hev.renderPart("Head");
+			break;
+		}
+	}
 	
 	public void renderOrigin() {
 
@@ -344,4 +369,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
+	@Override
+	protected void bindTexture(ResourceLocation loc) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
+	}
 }

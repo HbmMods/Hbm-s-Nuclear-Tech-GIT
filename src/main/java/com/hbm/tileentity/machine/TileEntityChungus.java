@@ -64,7 +64,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 			power += (Integer)outs[3] * cycles;
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord + dir.offsetX * 11, yCoord, zCoord + dir.offsetZ * 11, dir);
+			this.sendPower(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir);
 			
 			if(power > maxPower)
 				power = maxPower;

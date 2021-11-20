@@ -1,5 +1,10 @@
 package api.hbm.energy;
 
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -49,13 +54,23 @@ public interface IEnergyConnector {
 	public default void trySubscribe(World world, int x, int y, int z) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
+		boolean red = false;
+		
 		
 		if(te instanceof IEnergyConductor) {
 			IEnergyConductor con = (IEnergyConductor) te;
 			
 			if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
 				con.getPowerNet().subscribe(this);
+			
+			if(con.getPowerNet() != null)
+				red = true;
 		}
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "vanillaExt");
+		data.setString("mode", red ? "reddust" : "bluedust");
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
 	}
 	public default void tryUnsubscribe(World world, int x, int y, int z) {
 

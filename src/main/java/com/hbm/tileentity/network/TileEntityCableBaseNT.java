@@ -18,26 +18,31 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
 			this.setPowerNet(null);
 			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				
-				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-				
-				if(te instanceof IEnergyConductor) {
-					
-					IEnergyConductor conductor = (IEnergyConductor) te;
-					
-					if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-						conductor.getPowerNet().joinLink(this);
-					}
-					
-					if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-						conductor.getPowerNet().joinNetworks(this.getPowerNet());
-					}
-				}
-			}
+			this.connect();
 			
 			if(this.getPowerNet() == null) {
 				new PowerNet().joinLink(this);
+			}
+		}
+	}
+	
+	protected void connect() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			
+			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			
+			if(te instanceof IEnergyConductor) {
+				
+				IEnergyConductor conductor = (IEnergyConductor) te;
+				
+				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
+					conductor.getPowerNet().joinLink(this);
+				}
+				
+				if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
+					conductor.getPowerNet().joinNetworks(this.getPowerNet());
+				}
 			}
 		}
 	}
