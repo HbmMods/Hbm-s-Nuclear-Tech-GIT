@@ -45,7 +45,6 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 			tanks[0].setFill(tanks[0].getFill() - convert);
-			tanks[1].setFill(tanks[1].getFill() + convert);
 			
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			

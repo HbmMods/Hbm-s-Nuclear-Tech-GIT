@@ -5,16 +5,21 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -164,6 +169,10 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case BLUEHAT:
 			rotLeftArm = new double[]{0, 90, 60};
 			break;
+		case FRIZZLE:
+			rotLeftArm = new double[]{0, 15, 45};
+			rotRightArm = new double[]{0, 0, 80};
+			break;
 		}
 	}
 	
@@ -300,6 +309,29 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			GL11.glScaled(scale, scale, scale);
 			bindTexture(ResourceManager.hev_helmet);
 			ResourceManager.armor_hev.renderPart("Head");
+			break;
+		case FRIZZLE:
+			GL11.glPushMatrix();
+			GL11.glTranslated(0.7, 1.7, 0.4);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(-90, 0, 1, 0);
+			GL11.glRotated(-10, 1, 0, 0);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_dark); ResourceManager.ff_nightmare.renderPart("Grip");
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_normal); ResourceManager.ff_nightmare.renderPart("Dark");
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_bright); ResourceManager.ff_nightmare.renderPart("Light");
+			GL11.glPopMatrix();
+			
+			bindTexture(TextureMap.locationItemsTexture);
+			IIcon icon = new ItemStack(ModItems.coin_siege, 1, 5).getIconIndex();
+			float f14 = icon.getMinU();
+			float f15 = icon.getMaxU();
+			float f4 = icon.getMinV();
+			float f5 = icon.getMaxV();
+			
+			GL11.glTranslated(0.3, 1.4, -0.2);
+			GL11.glRotated(-100, 1, 0, 0);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 			break;
 		}
 	}

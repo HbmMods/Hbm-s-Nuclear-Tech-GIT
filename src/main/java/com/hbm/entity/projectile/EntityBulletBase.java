@@ -84,9 +84,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 		
-		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
-		this.posY -= 0.10000000149011612D;
-		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+		double sideOffset = 0.16D;
+		
+		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
+		this.posY -= 0.1D;
+		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
 		this.setPosition(this.posX, this.posY, this.posZ);
 		
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
@@ -190,7 +192,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	@Override
 	public void onUpdate() {
-		
 		super.onUpdate();
 		
 		if(config == null)
@@ -198,6 +199,22 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		if(config == null){
 			this.setDead();
+			return;
+		}
+		
+		if(this.config.blackPowder) {
+			this.setDead();
+			
+			for(int i = 0; i < 15; i++) {
+				double mod = rand.nextDouble();
+				this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ,
+						(this.motionX + rand.nextGaussian() * 0.05) * mod,
+						(this.motionY + rand.nextGaussian() * 0.05) * mod,
+						(this.motionZ + rand.nextGaussian() * 0.05) * mod);
+			}
+			
+			double mod = 0.5;
+			this.worldObj.spawnParticle("flame", this.posX + this.motionX * mod, this.posY + this.motionY * mod, this.posZ + this.motionZ * mod, 0, 0, 0);
 			return;
 		}
 		

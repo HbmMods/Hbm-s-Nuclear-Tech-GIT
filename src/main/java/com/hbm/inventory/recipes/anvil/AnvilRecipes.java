@@ -197,7 +197,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModBlocks.deco_pipe_quad, 12),
 						new OreDictStack("dustSulfur", 32),
 				},
-				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(5));
+				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(4));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
