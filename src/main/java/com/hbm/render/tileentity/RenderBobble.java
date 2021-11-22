@@ -38,6 +38,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_vt = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vt.png");
 	public static final ResourceLocation bobble_doc = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/doctor17ph.png");
 	public static final ResourceLocation bobble_blue = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/thebluehat.png");
+	public static final ResourceLocation bobble_pheo = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/pheo.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -81,6 +82,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VT:		bindTexture(bobble_vt); break;
 		case DOC:		bindTexture(bobble_doc); break;
 		case BLUEHAT:	bindTexture(bobble_blue); break;
+		case PHEO:		bindTexture(bobble_pheo); break;
 		case CIRNO:		bindTexture(bobble_cirno); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
@@ -336,6 +338,10 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		}
 	}
 	
+	/*
+	 * Creates a small diamond at 0/0, useful for figuring out where the translation is at
+	 * to determine the rotation point
+	 */
 	public void renderOrigin() {
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -401,6 +407,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
+	/*
+	 * Override with Minecraft.getMinecraft()'s texman to prevent NPEs when invoked statically
+	 */
 	@Override
 	protected void bindTexture(ResourceLocation loc) {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(loc);

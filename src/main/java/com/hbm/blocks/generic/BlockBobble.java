@@ -170,6 +170,7 @@ public class BlockBobble extends BlockContainer {
 		VT("VT-6/24", "VT-6/24", "Balefire warhead model and general texturework", "You cannot unfuck a horse.", true),
 		DOC("The Doctor", "Doctor17PH", "Russian localization, lunar miner", "Perhaps the moon rocks were too expensive", true),
 		BLUEHAT("The Blue Hat", "The Blue Hat", "Textures", "there's a listening device in this bobblehead$don't touch it thanks", true),
+		PHEO("Pheo", "Pheonix", "Deuterium machines, tantalium textures, Reliant Rocket", "RUN TO THE BEDROOM, ON THE SUITCASE ON THE LEFT,$YOU'LL FIND MY FAVORITE AXE", true),
 		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 

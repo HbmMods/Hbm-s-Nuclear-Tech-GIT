@@ -69,16 +69,20 @@ public class GUIScreenBobble extends GuiScreen {
 			this.fontRendererObj.drawStringWithShadow(title, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(title) / 2), nextLevel, 0x00ff00);
 			
 			nextLevel += 10;
-			
-			String text = this.bobble.type.contribution;
-			this.fontRendererObj.drawStringWithShadow(text, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(text) / 2), nextLevel, 0x009900);
 
-			nextLevel += 20;
+
+			String[] list = this.bobble.type.contribution.split("\\$");
+			for(String text : list) {
+				this.fontRendererObj.drawStringWithShadow(text, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(text) / 2), nextLevel, 0x009900);
+				nextLevel += 10;
+			}
+
+			nextLevel += 10;
 		}
 		
 		if(this.bobble.type.inscription != null) {
 
-			String title = "The bottom has following inscription:";
+			String title = "On the bottom is the following inscription:";
 			this.fontRendererObj.drawStringWithShadow(title, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(title) / 2), nextLevel, 0x00ff00);
 			
 			nextLevel += 10;
