@@ -129,23 +129,23 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		case 5:
 			return new int[] { 4, 6, 12 };
 		case 6:
-			return new int[] { 1, 5, 13 };
+			return new int[] { 5, 13 };
 		case 7:
 			return new int[] { 0, 8, 14 };
 		case 8:
 			return new int[] { 1, 7, 9, 15 };
 		case 9:
-			return new int[] { 4, 8, 16};
+			return new int[] { 2, 8, 16};
 		case 10:
-			return new int[] { 11, 17 };
+			return new int[] { 3, 11, 17 };
 		case 11:
-			return new int[] { 10, 12, 18 };
+			return new int[] { 4, 10, 12, 18 };
 		case 12:
-			return new int[] { 11, 13, 19 };
+			return new int[] { 5, 11, 13, 19 };
 		case 13:
-			return new int[] { 12, 20 };
+			return new int[] { 6, 12, 20 };
 		case 14:
-			return new int[] { 7, 15, 21 };
+			return new int[] { 7, 15, 21 }; 
 		case 15:
 			return new int[] { 8, 14, 16, 22 };
 		case 16:
@@ -224,13 +224,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 
 		// function of SHS produced per tick
-		// maxes out at heat% * tank capacity / 20
-		double Steam = (((double) heat / (double) maxHeat) * ((double) water.getMaxFill() / 50D));
+		// heat% * 64 * 10 (should get rid of any rounding errors)
+		int Water = (int) ((float)heat / maxHeat) * 64;
+		int Steam = Water * 10;
 
-		double Water = Steam /= 10;
-
-		water.setFill(water.getFill() - (int) Math.ceil(Water));
-		steam.setFill(steam.getFill() + (int) Math.floor(Steam));
+		water.setFill(water.getFill() - Water);
+		steam.setFill(steam.getFill() + Steam);
 
 		if(water.getFill() < 0)
 			water.setFill(0);
