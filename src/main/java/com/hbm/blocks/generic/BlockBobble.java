@@ -171,6 +171,9 @@ public class BlockBobble extends BlockContainer {
 		DOC("The Doctor", "Doctor17PH", "Russian localization, lunar miner", "Perhaps the moon rocks were too expensive", true),
 		BLUEHAT("The Blue Hat", "The Blue Hat", "Textures", "there's a listening device in this bobblehead$don't touch it thanks", true),
 		PHEO("Pheo", "Pheonix", "Deuterium machines, tantalium textures, Reliant Rocket", "RUN TO THE BEDROOM, ON THE SUITCASE ON THE LEFT,$YOU'LL FIND MY FAVORITE AXE", true),
+		ADAM29("Adam29", "Adam29", "Ethanol, liquid petroleum gas", "You know, nukes are really quite beatiful.$It's like watching a star be born for a split second.", true),
+		UFFR("UFFR", "UFFR", "All sorts of things from his PR", "fried shrimp", false),
+		VAER("vaer", "vaer", "ZIRNOX", "taken de family out to the weekend cigarette festival", true),
 		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 

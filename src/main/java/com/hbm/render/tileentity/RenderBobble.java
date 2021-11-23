@@ -8,12 +8,14 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.model.ModelUboinik;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -39,6 +41,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_doc = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/doctor17ph.png");
 	public static final ResourceLocation bobble_blue = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/thebluehat.png");
 	public static final ResourceLocation bobble_pheo = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/pheo.png");
+	public static final ResourceLocation bobble_adam = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/adam29.png");
+	public static final ResourceLocation bobble_uffr = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/uffr.png");
+	public static final ResourceLocation bobble_vaer = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vaer.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -84,11 +89,15 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case BLUEHAT:	bindTexture(bobble_blue); break;
 		case PHEO:		bindTexture(bobble_pheo); break;
 		case CIRNO:		bindTexture(bobble_cirno); break;
+		case ADAM29:	bindTexture(bobble_adam); break;
+		case UFFR:		bindTexture(bobble_uffr); break;
+		case VAER:		bindTexture(bobble_vaer); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
 		switch(type) {
 		case PU238:	renderPellet(type); break;
+		case UFFR:	renderFumo(type); break;
 		default: renderGuy(type);
 		}
 		
@@ -175,6 +184,17 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			rotLeftArm = new double[]{0, 15, 45};
 			rotRightArm = new double[]{0, 0, 80};
 			break;
+		case ADAM29:
+			rotRightArm = new double[]{0, 0, 60};
+			break;
+		case PHEO:
+			rotLeftArm = new double[]{0, 0, 80};
+			rotRightArm = new double[]{0, 0, 45};
+			break;
+		case VAER:
+			rotLeftArm = new double[]{0, -5, 45};
+			rotRightArm = new double[]{0, 15, 45};
+			break;
 		}
 	}
 	
@@ -259,6 +279,13 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		if(type == BobbleType.VT)
 			bobble.renderPart("Horn");
 		
+		if(type == BobbleType.VAER) {
+			GL11.glTranslated(0.25, 1.9, 0.075);
+			GL11.glRotated(-60, 0, 0, 1);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			this.renderItem(new ItemStack(ModItems.cigarette));
+		}
+		
 		GL11.glPopMatrix();
 		
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
@@ -296,7 +323,30 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
+	
+	public void renderFumo(BobbleType type) {
 
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		bobble.renderPart("Fumo");
+		
+		double speed = 0.005;
+		double amplitude = 1;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0.75, 0);
+		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed) * amplitude, 1, 0, 0);
+		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed + (Math.PI * 0.5)) * amplitude, 0, 0, 1);
+		GL11.glTranslated(0, -0.75, 0);
+
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		bobble.renderPart("FumoHead");
+		
+		GL11.glPopMatrix();
+	}
+
+	private ModelUboinik shotgun = new ModelUboinik();
+	private ResourceLocation shot_tex = new ResourceLocation(RefStrings.MODID +":textures/models/ModelUboinik.png");
+	
 	/*
 	 * RENDER ADDITIONAL ITEMS
 	 */
@@ -323,19 +373,61 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_bright); ResourceManager.ff_nightmare.renderPart("Light");
 			GL11.glPopMatrix();
 			
-			bindTexture(TextureMap.locationItemsTexture);
-			IIcon icon = new ItemStack(ModItems.coin_siege, 1, 5).getIconIndex();
-			float f14 = icon.getMinU();
-			float f15 = icon.getMaxU();
-			float f4 = icon.getMinV();
-			float f5 = icon.getMaxV();
-			
 			GL11.glTranslated(0.3, 1.4, -0.2);
 			GL11.glRotated(-100, 1, 0, 0);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+			renderItem(new ItemStack(ModItems.coin_siege, 1, 5));
+			break;
+		case ADAM29:
+			GL11.glTranslated(0.45, 1.15, 0.4);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			renderItem(new ItemStack(ModItems.coffee));
+			break;
+		case PHEO:
+			GL11.glTranslated(0.5, 1.15, 0.45);
+			GL11.glRotated(-60, 1, 0, 0);
+			GL11.glScaled(2, 2, 2);
+			this.bindTexture(ResourceManager.shimmer_axe_tex);
+			ResourceManager.shimmer_axe.renderAll();
+			break;
+		case BOB:
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			this.bindTexture(ResourceManager.mini_nuke_tex);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glPushMatrix();
+			GL11.glTranslated(0.75, 1, 0.9);
+			for(int i = 0; i < 3; i++) {
+				ResourceManager.projectiles.renderPart("MiniNuke");
+				GL11.glTranslated(-0.75, 0, 0);
+			}
+			GL11.glPopMatrix();
+			this.bindTexture(ResourceManager.mini_mirv_tex);
+			GL11.glTranslated(0, 0.75, -0.9);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90, 1, 0, 0);
+			ResourceManager.projectiles.renderPart("MiniMIRV");
+			GL11.glShadeModel(GL11.GL_FLAT);
+			break;
+		case VAER:
+			this.bindTexture(shot_tex);
+			GL11.glTranslated(0.6, 1.5, 0);
+			GL11.glRotated(140, 0, 0, 1);
+			GL11.glRotated(-60, 0, 1, 0);
+			GL11.glTranslated(-0.2, 0, 0);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			shotgun.renderDud(0.0625F);
 			break;
 		}
+	}
+	
+	private void renderItem(ItemStack stack) {
+		bindTexture(TextureMap.locationItemsTexture);
+		IIcon icon = stack.getIconIndex();
+		float f14 = icon.getMinU();
+		float f15 = icon.getMaxU();
+		float f4 = icon.getMinV();
+		float f5 = icon.getMaxV();
+		ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 	}
 	
 	/*
