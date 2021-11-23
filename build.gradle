@@ -55,10 +55,10 @@ repositories {
 		name = 'ModMaven'
 		url = 'https://modmaven.dev'
 	}
-	maven {
-		name = "CurseForge"
-		url = "https://minecraft.curseforge.com/api/maven/"
-	}
+	//maven {
+	//	name = "CurseForge"
+	//	url = "https://minecraft.curseforge.com/api/maven/"
+	//}
 }
 
 dependencies {
@@ -71,7 +71,7 @@ dependencies {
 	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
 	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 
-	compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
+	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 }
 
 processResources {

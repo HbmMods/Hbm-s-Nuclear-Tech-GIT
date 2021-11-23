@@ -51,6 +51,7 @@ public class ModBlocks {
 	public static Block test_charge;
 	public static Block test_conductor;
 	public static Block test_ct;
+	public static Block test_rail;
 
 	public static Block ore_uranium;
 	public static Block ore_uranium_scorched;
@@ -1232,6 +1233,7 @@ public class ModBlocks {
 		test_charge = new TestCharge(Material.iron).setBlockName("test_charge").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		test_conductor = new TestConductor(Material.iron).setBlockName("test_conductor").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cable_neo");
 		test_ct = new TestCT(Material.iron).setBlockName("test_ct").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ct");
+		test_rail = new TestRail(Material.iron).setBlockName("test_rail").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_rail");
 		
 		ore_uranium = new BlockOutgas(Material.rock, true, 5, false).setBlockName("ore_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
 		ore_uranium_scorched = new BlockOutgas(Material.rock, true, 5, false).setBlockName("ore_uranium_scorched").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium_scorched");
@@ -2219,6 +2221,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(test_conductor, test_conductor.getUnlocalizedName());
 		GameRegistry.registerBlock(test_ct, test_ct.getUnlocalizedName());
+		GameRegistry.registerBlock(test_rail, test_rail.getUnlocalizedName());
 
 		//Ores
 		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
