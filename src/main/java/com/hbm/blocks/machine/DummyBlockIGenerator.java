@@ -20,12 +20,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class DummyBlockIGenerator extends BlockContainer implements IDummy {
-	
-	public static boolean safeBreak = false;
+public class DummyBlockIGenerator extends DummyOldBase {
 
-	public DummyBlockIGenerator(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public DummyBlockIGenerator(Material mat, boolean port) {
+		super(mat, port);
 	}
 
 	@Override

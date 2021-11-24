@@ -47,5 +47,14 @@ public class TestRail extends BlockContainer {
 
 		if(!(player instanceof EntityPlayer))
 			return;
+
+		world.setBlock(x + 1,	y,	z + 1,	this, 1, 3);
+		world.setBlock(x + 1,	y,	z,		this, 2, 3);
+		world.setBlock(x + 1,	y,	z - 1,	this, 3, 3);
+		world.setBlock(x,		y,	z + 1,	this, 4, 3);
+		world.setBlock(x,		y,	z - 1,	this, 5, 3);
+		world.setBlock(x - 1,	y,	z + 1,	this, 6, 3);
+		world.setBlock(x - 1,	y,	z,		this, 7, 3);
+		world.setBlock(x - 1,	y,	z - 1,	this, 8, 3);
 	}
 }
