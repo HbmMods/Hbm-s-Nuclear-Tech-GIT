@@ -37,6 +37,7 @@ import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
@@ -840,6 +841,8 @@ public class ModItems {
 	public static Item syringe_metal_super;
 	public static Item syringe_taint;
 	public static Item syringe_mkunicorn;
+	public static Item iv_empty;
+	public static Item iv_blood;
 	public static Item radaway;
 	public static Item radaway_strong;
 	public static Item radaway_flush;
@@ -3263,6 +3266,18 @@ public class ModItems {
 		syringe_metal_super = new ItemSyringe().setUnlocalizedName("syringe_metal_super").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_metal_super");
 		syringe_taint = new ItemSyringe().setUnlocalizedName("syringe_taint").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_taint");
 		syringe_mkunicorn = new ItemSyringe().setUnlocalizedName("syringe_mkunicorn").setFull3D().setCreativeTab(null).setTextureName(RefStrings.MODID + ":syringe_mkunicorn");
+
+		iv_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			stack.stackSize--;
+			user.attackEntityFrom(DamageSource.magic, 5F);
+			ItemSimpleConsumable.tryAddItem(user, new ItemStack(ModItems.iv_blood)); //are references resolved when the lambda is created or when it is called? must run some tests on this
+		}).setUnlocalizedName("iv_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_empty");
+		iv_blood = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			stack.stackSize--;
+			user.heal(5F);
+			ItemSimpleConsumable.tryAddItem(user, new ItemStack(ModItems.iv_empty));
+		}).setUnlocalizedName("iv_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_blood");
+		
 		med_bag = new ItemSyringe().setUnlocalizedName("med_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_bag");
 		radaway = new ItemSyringe().setUnlocalizedName("radaway").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radaway");
 		radaway_strong = new ItemSyringe().setUnlocalizedName("radaway_strong").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radaway_strong");
@@ -7470,6 +7485,8 @@ public class ModItems {
 		GameRegistry.registerItem(syringe_taint, syringe_taint.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_mkunicorn, syringe_mkunicorn.getUnlocalizedName());
 		GameRegistry.registerItem(med_bag, med_bag.getUnlocalizedName());
+		GameRegistry.registerItem(iv_empty, iv_empty.getUnlocalizedName());
+		GameRegistry.registerItem(iv_blood, iv_blood.getUnlocalizedName());
 		GameRegistry.registerItem(radaway, radaway.getUnlocalizedName());
 		GameRegistry.registerItem(radaway_strong, radaway_strong.getUnlocalizedName());
 		GameRegistry.registerItem(radaway_flush, radaway_flush.getUnlocalizedName());

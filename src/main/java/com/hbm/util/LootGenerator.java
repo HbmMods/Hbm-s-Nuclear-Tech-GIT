@@ -52,8 +52,8 @@ public class LootGenerator {
 				addItemWithDeviation(loot, world.rand, new ItemStack(syringe), 0.125, i * 0.03125, 0.25);
 			}
 			
-			int type = world.rand.nextInt(5);
-			Item syringe = type < 2 ? ModItems.radaway : type < 4 ? ModItems.radx : ModItems.siox;
+			int type = world.rand.nextInt(8);
+			Item syringe = type < 2 ? ModItems.radaway : type < 4 ? ModItems.radx : type < 7 ? ModItems.iv_blood : ModItems.siox;
 			addItemWithDeviation(loot, world.rand, new ItemStack(syringe), -0.25, 0, -0.125);
 		}
 	}
