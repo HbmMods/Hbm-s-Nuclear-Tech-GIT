@@ -131,12 +131,12 @@ public class ConsumableRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.med_bag, 1), new Object[] { "LL", "SI", "LL", 'L', ModItems.plate_polymer, 'S', ModItems.syringe_metal_super, 'I', ModItems.radaway });
 		
 		//IV Bags
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.iv_blood, 4), new Object[] { "S", "I", "S", 'S', ModItems.plate_polymer, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.iv_empty, 4), new Object[] { "S", "I", "S", 'S', ModItems.plate_polymer, 'I', IRON.plate() });
 		
 		//Radaway
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.radaway, 1), new Object[] { "S", "M", "W", 'S', ModItems.plate_polymer, 'M', ModBlocks.mush, 'W', Items.potionitem });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.radaway_strong, 1), new Object[] { "S", "M", "W", 'S', Items.pumpkin_seeds, 'M', ModBlocks.mush, 'W', ModItems.radaway });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.radaway_flush, 1), new Object[] { "S", "M", "W", 'S', I.dust(), 'M', ModBlocks.mush, 'W', ModItems.radaway_strong });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.radaway, 1), new Object[] { ModItems.iv_blood, COAL.dust(), Items.pumpkin_seeds });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.radaway_strong, 1), new Object[] { ModItems.radaway, ModBlocks.mush });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.radaway_flush, 1), new Object[] { ModItems.radaway_strong, I.dust() });
 
 		//Cladding
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cladding_paint, 1), new Object[] { PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), Items.clay_ball, Items.glass_bottle });
