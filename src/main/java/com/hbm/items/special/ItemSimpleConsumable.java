@@ -15,7 +15,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemSimpleConsumable extends Item {
+public class ItemSimpleConsumable extends ItemCustomLore {
 	
 	//if java is giving me the power of generics and delegates then i'm going to use them, damn it!
 	private BiConsumer<ItemStack, EntityPlayer> useAction;

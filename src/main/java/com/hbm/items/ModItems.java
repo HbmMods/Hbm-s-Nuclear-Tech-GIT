@@ -23,6 +23,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.hbm.util.EnchantmentUtil;
 
 import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -843,6 +844,8 @@ public class ModItems {
 	public static Item syringe_mkunicorn;
 	public static Item iv_empty;
 	public static Item iv_blood;
+	public static Item iv_xp_empty;
+	public static Item iv_xp;
 	public static Item radaway;
 	public static Item radaway_strong;
 	public static Item radaway_flush;
@@ -3276,6 +3279,18 @@ public class ModItems {
 			ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.radaway", new ItemStack(ModItems.iv_empty));
 			user.heal(5F);
 		}).setUnlocalizedName("iv_blood").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_blood");
+		
+		iv_xp_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			if(user.experienceTotal >= 100) {
+				ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_xp));
+				EnchantmentUtil.setExperience(user, user.experienceTotal - 100);
+			}
+		}).setUnlocalizedName("iv_xp_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_xp_empty");
+		
+		iv_xp = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "random.orb", new ItemStack(ModItems.iv_xp_empty));
+			EnchantmentUtil.addExperience(user, 100, false);
+		}).setUnlocalizedName("iv_xp").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_xp");
 		
 		radaway = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
 			ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.radaway", new ItemStack(ModItems.iv_empty));
@@ -7498,6 +7513,8 @@ public class ModItems {
 		GameRegistry.registerItem(med_bag, med_bag.getUnlocalizedName());
 		GameRegistry.registerItem(iv_empty, iv_empty.getUnlocalizedName());
 		GameRegistry.registerItem(iv_blood, iv_blood.getUnlocalizedName());
+		GameRegistry.registerItem(iv_xp_empty, iv_xp_empty.getUnlocalizedName());
+		GameRegistry.registerItem(iv_xp, iv_xp.getUnlocalizedName());
 		GameRegistry.registerItem(radaway, radaway.getUnlocalizedName());
 		GameRegistry.registerItem(radaway_strong, radaway_strong.getUnlocalizedName());
 		GameRegistry.registerItem(radaway_flush, radaway_flush.getUnlocalizedName());
