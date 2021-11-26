@@ -41,6 +41,8 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 				"  Reclaimed Oil (100 HE/t)",
 				"  Petroil (125 HE/t)",
 				"  Biofuel (200 HE/t)",
+				"  LPG (215 HE/t)",
+				"  Ethanol (90 HE/t)",
 				"  Leaded Gasoline (700 HE/t)",
 				"  NITAN Superfuel (2500 HE/t)",
 				"(These numbers are base values,",

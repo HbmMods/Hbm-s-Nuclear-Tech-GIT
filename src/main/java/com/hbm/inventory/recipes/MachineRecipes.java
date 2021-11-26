@@ -1651,7 +1651,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
         case ETHANOL:
-			list.add(new ItemStack(ModItems.biomass, 6));
+			list.add(new ItemStack(Items.sugar, 6));
 			break;
         case YELLOWCAKE:
 			list.add(new ItemStack(ModItems.powder_uranium, 1));
