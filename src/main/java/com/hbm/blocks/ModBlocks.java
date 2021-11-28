@@ -2036,7 +2036,7 @@ public class ModBlocks {
 		machine_epress = new MachineEPress(Material.iron).setBlockName("machine_epress").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_epress");
 		machine_selenium = new MachineSeleniumEngine(Material.iron).setBlockName("machine_selenium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_selenium");
 		machine_reactor_small = new MachineReactorSmall(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
-		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(100.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 

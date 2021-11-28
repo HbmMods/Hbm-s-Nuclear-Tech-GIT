@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 
@@ -22,16 +23,16 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	
 	private String customName;
 	
-	private static final HashMap<ItemStack, ItemStack> wasteMap = new HashMap<ItemStack, ItemStack>();
+	private static final HashMap<ComparableStack, ItemStack> wasteMap = new HashMap<ComparableStack, ItemStack>();
 	static {
-		wasteMap.put(new ItemStack(ModItems.waste_natural_uranium_hot), new ItemStack(ModItems.waste_natural_uranium));
-		wasteMap.put(new ItemStack(ModItems.waste_uranium_hot), new ItemStack(ModItems.waste_uranium));
-		wasteMap.put(new ItemStack(ModItems.waste_thorium_hot), new ItemStack(ModItems.waste_thorium));
-		wasteMap.put(new ItemStack(ModItems.waste_mox_hot), new ItemStack(ModItems.waste_mox));
-		wasteMap.put(new ItemStack(ModItems.waste_plutonium_hot), new ItemStack(ModItems.waste_plutonium));
-		wasteMap.put(new ItemStack(ModItems.waste_u233_hot), new ItemStack(ModItems.waste_u233));
-		wasteMap.put(new ItemStack(ModItems.waste_u235_hot), new ItemStack(ModItems.waste_u235));
-		wasteMap.put(new ItemStack(ModItems.waste_schrabidium_hot), new ItemStack(ModItems.waste_schrabidium));
+		wasteMap.put(new ComparableStack(ModItems.waste_natural_uranium_hot), new ItemStack(ModItems.waste_natural_uranium));
+		wasteMap.put(new ComparableStack(ModItems.waste_uranium_hot), new ItemStack(ModItems.waste_uranium));
+		wasteMap.put(new ComparableStack(ModItems.waste_thorium_hot), new ItemStack(ModItems.waste_thorium));
+		wasteMap.put(new ComparableStack(ModItems.waste_mox_hot), new ItemStack(ModItems.waste_mox));
+		wasteMap.put(new ComparableStack(ModItems.waste_plutonium_hot), new ItemStack(ModItems.waste_plutonium));
+		wasteMap.put(new ComparableStack(ModItems.waste_u233_hot), new ItemStack(ModItems.waste_u233));
+		wasteMap.put(new ComparableStack(ModItems.waste_u235_hot), new ItemStack(ModItems.waste_u235));
+		wasteMap.put(new ComparableStack(ModItems.waste_schrabidium_hot), new ItemStack(ModItems.waste_schrabidium));
 	}
 	
 	public TileEntityWasteDrum() {
@@ -106,9 +107,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		
-		Item item = itemStack.getItem();
-		return wasteMap.keySet().contains(item) || item instanceof ItemRBMKRod;
+		return wasteMap.keySet().contains(new ComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
 	}
 	
 	@Override
@@ -182,14 +181,11 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-
-		Item item = itemStack.getItem();
-		
-		if(item instanceof ItemRBMKRod) {
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {	
+		if(itemStack.getItem() instanceof ItemRBMKRod) {
 			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
 		} else {
-			return wasteMap.containsValue(item);
+			return wasteMap.containsValue(getStackInSlot(i));
 		}
 	}
 
@@ -229,8 +225,8 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 							
 						} else if(worldObj.rand.nextInt(r) == 0) {
 
-							if(wasteMap.keySet().contains(slots[i].getItem())) {
-								slots[i] = wasteMap.get(new ItemStack(slots[i].getItem()));
+							if(wasteMap.keySet().contains(new ComparableStack(getStackInSlot(i)))) {
+								slots[i] = wasteMap.get(new ComparableStack(getStackInSlot(i)));
 							}
 						}
 					}
