@@ -19,7 +19,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -287,6 +289,10 @@ public abstract class WeaponAbility {
 					living.entityDropItem(new ItemStack(Items.skull, 1, 2), 0.0F);
 				} else if(living instanceof EntityCreeper) {
 					living.entityDropItem(new ItemStack(Items.skull, 1, 4), 0.0F);
+				} else if(living instanceof EntityMagmaCube) {
+					living.entityDropItem(new ItemStack(Items.magma_cream, 3), 0.0F);
+				} else if(living instanceof EntitySlime) {
+					living.entityDropItem(new ItemStack(Items.slime_ball, 3), 0.0F);
 				} else if(living instanceof EntityPlayer) {
 					
 					ItemStack head = new ItemStack(Items.skull, 1, 3);
