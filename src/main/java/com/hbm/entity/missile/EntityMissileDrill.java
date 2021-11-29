@@ -26,7 +26,7 @@ public class EntityMissileDrill extends EntityMissileBaseAdvanced {
 	public void onImpact() {
 		for(int i = 0; i < 30; i++)
 		{
-			ExplosionNT explosion = new ExplosionNT(worldObj, this, this.posX, this.posY - 1, this.posZ, 10F);
+			ExplosionNT explosion = new ExplosionNT(worldObj, this, this.posX, this.posY - i, this.posZ, 10F);
 			explosion.addAllAttrib(ExAttrib.ERRODE);
 			explosion.explode(); //an explosion exploded!
 		}
