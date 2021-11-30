@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.interfaces.Untested;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -25,6 +27,8 @@ public class ExplosionNukeRay {
 	int startCir;
 	public boolean isAusf3Complete = false;
 	
+	private double overrideRange = 0;
+	
 	public ExplosionNukeRay(World world, int x, int y, int z, int strength, int count, int speed, int length) {
 		this.world = world;
 		this.posX = x;
@@ -39,6 +43,9 @@ public class ExplosionNukeRay {
 		//Mk 4.5, must be int32
 		this.startY = 0;
 		this.startCir = 0;
+		
+		//starts at around 80, becomes 8 at length 500
+		this.overrideRange = Math.max((Math.log(length) * 4 - 2.5D) * 10, 0);
 	}
 	
 	/*public void processBunch(int count) {
@@ -147,6 +154,7 @@ public class ExplosionNukeRay {
 		processed += count;
 	}
 	
+	@Untested //override range
 	public void collectTip(int count) {
 		
 		for(int k = 0; k < count; k++) {
@@ -177,12 +185,22 @@ public class ExplosionNukeRay {
 					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 1.25);
 				else
 					res -= Math.pow(Blocks.air.getExplosionResistance(null), 1.25);
+				
+				/*
+				 * Blast resistance calculations are still done to preserve the general shape,
+				 * but if the blast were to be stopped within this range we go through with it anyway.
+				 * There is currently no blast resistance limit on this, could change in the future.
+				 */
+				boolean inOverrideRange = this.overrideRange >= length;
 
-				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+				if((res > 0 || inOverrideRange) && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);
 				}
 				
-				if(res <= 0 || i + 1 >= this.length) {
+				/*
+				 * Only stop if we are either out of range or if the remaining strength is 0 while being outside the override range
+				 */
+				if((res <= 0 && !inOverrideRange) || i + 1 >= this.length) {
 					if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null)
 						affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
 					break;

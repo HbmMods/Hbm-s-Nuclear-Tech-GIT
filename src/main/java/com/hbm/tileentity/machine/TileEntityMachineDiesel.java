@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -132,25 +133,23 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		return getHEFromFuel() > 0;
 	}
 	
+	public static final HashMap<FluidType, Integer> fuels = new HashMap();
+	
+	static {
+		fuels.put(FluidType.HYDROGEN,	10);
+		fuels.put(FluidType.DIESEL,		500);
+		fuels.put(FluidType.PETROIL,	300);
+		fuels.put(FluidType.BIOFUEL,	400);
+		fuels.put(FluidType.GASOLINE,	1500);
+		fuels.put(FluidType.NITAN,		5000);
+		fuels.put(FluidType.LPG,		450);
+		fuels.put(FluidType.ETHANOL,	200);
+	}
+	
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
-		if(type.name().equals(FluidType.HYDROGEN.name()))
-			return 10;
-		if(type.name().equals(FluidType.DIESEL.name()))
-			return 500;
-		if(type.name().equals(FluidType.PETROIL.name()))
-			return 300;
-		if(type.name().equals(FluidType.BIOFUEL.name()))
-			return 400;
-		if(type.name().equals(FluidType.GASOLINE.name()))
-			return 1500;
-		if(type.name().equals(FluidType.NITAN.name()))
-			return 5000;
-		if(type.name().equals(FluidType.LPG.name()))
-			return 450;
-		if(type.name().equals(FluidType.ETHANOL.name()))
-			return 200;
-		return 0;
+		Integer value = fuels.get(type);
+		return value != null ? value : null;
 	}
 
 	public void generate() {
@@ -166,7 +165,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				if (soundCycle >= 3)
 					soundCycle = 0;
 
-				tank.setFill(tank.getFill() - 10);
+				tank.setFill(tank.getFill() - 1);
 				if (tank.getFill() < 0)
 					tank.setFill(0);
 

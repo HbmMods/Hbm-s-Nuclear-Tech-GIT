@@ -28,52 +28,12 @@ public class TileEntityMachineAmgen extends TileEntity implements IEnergyGenerat
 			
 			if(block == ModBlocks.machine_amgen) {
 				float rad = ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord);
-				
 				power += rad;
-				
 				ChunkRadiationManager.proxy.decrementRad(worldObj, xCoord, yCoord, zCoord, 5F);
 				
 			} else if(block == ModBlocks.machine_geo) {
-				
-				Block b = worldObj.getBlock(xCoord, yCoord - 1, zCoord);
-				
-				if(b == ModBlocks.geysir_water) {
-					power += 75;
-				} else if(b == ModBlocks.geysir_chlorine) {
-					power += 100;
-				} else if(b == ModBlocks.geysir_vapor) {
-					power += 50;
-				} else if(b == ModBlocks.geysir_nether) {
-					power += 500;
-				} else if(b == Blocks.lava) {
-					power += 100;
-					
-					if(worldObj.rand.nextInt(1200) == 0) {
-						worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.obsidian);
-					}
-				} else if(b == Blocks.flowing_lava) {
-					power += 25;
-					
-					if(worldObj.rand.nextInt(600) == 0) {
-						worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.cobblestone);
-					}
-				}
-				
-				b = worldObj.getBlock(xCoord, yCoord + 1, zCoord);
-				
-				if(b == Blocks.lava) {
-					power += 100;
-					
-					if(worldObj.rand.nextInt(1200) == 0) {
-						worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.obsidian);
-					}
-				} else if(b == Blocks.flowing_lava) {
-					power += 25;
-					
-					if(worldObj.rand.nextInt(600) == 0) {
-						worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.cobblestone);
-					}
-				}
+				this.checkGeoInteraction(xCoord, yCoord + 1, zCoord);
+				this.checkGeoInteraction(xCoord, yCoord - 1, zCoord);
 			}
 			
 			if(power > maxPower)
@@ -81,6 +41,33 @@ public class TileEntityMachineAmgen extends TileEntity implements IEnergyGenerat
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+		}
+	}
+	
+	private void checkGeoInteraction(int x, int y, int z) {
+		
+		Block b = worldObj.getBlock(x, y, z);
+		
+		if(b == ModBlocks.geysir_water) {
+			power += 75;
+		} else if(b == ModBlocks.geysir_chlorine) {
+			power += 100;
+		} else if(b == ModBlocks.geysir_vapor) {
+			power += 50;
+		} else if(b == ModBlocks.geysir_nether) {
+			power += 500;
+		} else if(b == Blocks.lava) {
+			power += 100;
+			
+			if(worldObj.rand.nextInt(6000) == 0) {
+				worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.obsidian);
+			}
+		} else if(b == Blocks.flowing_lava) {
+			power += 25;
+			
+			if(worldObj.rand.nextInt(3000) == 0) {
+				worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.cobblestone);
+			}
 		}
 	}
 

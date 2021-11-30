@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
@@ -24,11 +26,13 @@ public class EntityMissileDrill extends EntityMissileBaseAdvanced {
 	public void onImpact() {
 		for(int i = 0; i < 30; i++)
 		{
-			this.worldObj.createExplosion(this, this.posX, this.posY - i, this.posZ, 10F, true);
+			ExplosionNT explosion = new ExplosionNT(worldObj, this, this.posX, this.posY - i, this.posZ, 10F);
+			explosion.addAllAttrib(ExAttrib.ERRODE);
+			explosion.explode(); //an explosion exploded!
 		}
 		ExplosionLarge.spawnParticles(worldObj, this.posX, this.posY, this.posZ, 25);
 		ExplosionLarge.spawnShrapnels(worldObj, this.posX, this.posY, this.posZ, 12);
-		ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 12);
+		ExplosionLarge.jolt(worldObj, this.posX, this.posY, this.posZ, 10, 50, 1);
 	}
 
 	@Override

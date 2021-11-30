@@ -1,15 +1,23 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineDiesel extends GuiInfoContainer {
@@ -32,20 +40,17 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.powerCap);
 
-		String[] text = new String[] { "Accepted Fuels:",
-				"  Diesel (500 HE/t)",
-				"  Petroil (300 HE/t)",
-				"  Biofuel (400 HE/t)",
-				"  Ethanol (200 HE/t)",
-				"  LPG (450 HE/t)",
-				"  Hydrogen (10 HE/t)",
-				"  Leaded Gasoline (1500 HE/t)",
-				"  NITAN Superfuel (5000 HE/t)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		List<String> text = new ArrayList();
+		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
+		
+		for(Entry<FluidType, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
+			text.add("  " + I18nUtil.resolveKey(entry.getKey().getUnlocalizedName()) + " (" + entry.getValue() + " HE/t)");
+		}
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text.toArray(new String[0]));
 		
 		String[] text1 = new String[] { "Fuel consumption rate:",
-				"  10 mB/t",
-				"  200 mB/s",
+				"  1 mB/t",
+				"  20 mB/s",
 				"(Consumption rate is constant)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 		

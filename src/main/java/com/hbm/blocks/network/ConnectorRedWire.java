@@ -1,20 +1,20 @@
 package com.hbm.blocks.network;
 
-import com.hbm.tileentity.network.TileEntityPylon;
+import com.hbm.tileentity.network.TileEntityConnector;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class PylonRedWire extends PylonBase {
+public class ConnectorRedWire extends PylonBase {
 
-	public PylonRedWire(Material material) {
-		super(material);
+	public ConnectorRedWire(Material mat) {
+		super(mat);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityPylon();
+		return new TileEntityConnector();
 	}
+
 }

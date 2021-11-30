@@ -202,8 +202,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			return;
 		}
 		
-		if(this.config.blackPowder) {
-			this.setDead();
+		if(this.config.blackPowder && this.ticksExisted == 1) {
 			
 			for(int i = 0; i < 15; i++) {
 				double mod = rand.nextDouble();
@@ -215,7 +214,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			
 			double mod = 0.5;
 			this.worldObj.spawnParticle("flame", this.posX + this.motionX * mod, this.posY + this.motionY * mod, this.posZ + this.motionZ * mod, 0, 0, 0);
-			return;
 		}
 		
 		if(config.maxAge == 0) {
