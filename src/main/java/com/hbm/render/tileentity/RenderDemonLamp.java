@@ -69,7 +69,7 @@ public class RenderDemonLamp extends TileEntitySpecialRenderer {
 				tess.setColorRGBA_F(0F, 0.75F, 1F, 0F);
 				tess.addVertex(vec.xCoord * far, 0.5D + j * 0.125D + height, vec.zCoord * far);
 				
-				vec.rotateAroundY((float)Math.PI * 2F / 16F);
+				vec.rotateAroundY((float)(Math.PI * 2D / 16D));
 	
 				tess.addVertex(vec.xCoord * far, 0.5D + j * 0.125D + height, vec.zCoord * far);
 				tess.setColorRGBA_F(0F, 0.75F, 1F, 0.25F);

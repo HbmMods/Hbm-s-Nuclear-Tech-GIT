@@ -14,7 +14,20 @@ public class RenderConnector extends RenderPylonBase {
 		TileEntityConnector con = (TileEntityConnector) te;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		
+		GL11.glTranslated(x + 0.5D, y + 0.5D, z + 0.5D);
+		
+		switch(te.getBlockMetadata()) {
+		case 0: GL11.glRotated(180, 1, 0, 0); break;
+		case 1: break;
+		case 2: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(180, 0, 0, 1); break;
+		case 3: GL11.glRotated(90, 1, 0, 0); break;
+		case 4: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(90, 0, 0, 1); break;
+		case 5: GL11.glRotated(90, 1, 0, 0); GL11.glRotated(270, 0, 0, 1); break;
+		}
+
+		GL11.glTranslated(0, -0.5F, 0);
+		
 		double s = 0.5;
 		GL11.glScaled(s, s, s);
 		bindTexture(ResourceManager.universal);

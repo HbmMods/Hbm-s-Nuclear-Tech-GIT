@@ -17,4 +17,8 @@ public class ConnectorRedWire extends PylonBase {
 		return new TileEntityConnector();
 	}
 
+	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
+		return side;
+	}
 }

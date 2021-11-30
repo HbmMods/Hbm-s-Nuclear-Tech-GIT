@@ -1475,7 +1475,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.nugget_bismuth, 4));
 			break;
 		case ETHANOL:
-			list.add(new ItemStack(ModItems.biomass, 6));
+			list.add(new ItemStack(Items.sugar, 6));
 			break;
 		case METH:
 			list.add(new ItemStack(Items.wheat, 1));
