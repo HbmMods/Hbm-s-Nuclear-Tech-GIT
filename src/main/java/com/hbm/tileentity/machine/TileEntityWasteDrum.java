@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
@@ -196,18 +197,11 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 			
 			int water = 0;
 
-			if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.water || worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.water || worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.flowing_water)
-				water++;
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == Blocks.water || worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == Blocks.flowing_water) {
+					water++;
+				}
+			}
 			
 			if(water > 0) {
 				
@@ -225,8 +219,9 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 							
 						} else if(worldObj.rand.nextInt(r) == 0) {
 
-							if(wasteMap.keySet().contains(new ComparableStack(getStackInSlot(i)))) {
-								slots[i] = wasteMap.get(new ComparableStack(getStackInSlot(i)));
+							ComparableStack comp = new ComparableStack(getStackInSlot(i));
+							if(wasteMap.keySet().contains(comp)) {
+								slots[i] = wasteMap.get(comp).copy();
 							}
 						}
 					}
