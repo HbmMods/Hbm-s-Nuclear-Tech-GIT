@@ -84,14 +84,14 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 			offsetZ = dir.offsetZ;
 		}
 
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1);
-		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0);
-		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1, ForgeDirection.UNKNOWN); //TODO: figure this one out without dying
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1, ForgeDirection.UNKNOWN);
 	}
 
 	AxisAlignedBB bb = null;

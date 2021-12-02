@@ -353,4 +353,9 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		
 		return list;
 	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir == ForgeDirection.DOWN;
+	}
 }

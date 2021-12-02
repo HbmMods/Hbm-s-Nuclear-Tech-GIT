@@ -1,6 +1,7 @@
 package com.hbm.tileentity.network;
 
 import api.hbm.energy.IEnergyConductor;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -24,14 +25,19 @@ public class TileEntityConnector extends TileEntityPylonBase {
 
 	@Override
 	protected void connect() {
+		
+		super.connect();
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 		
 		TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 		
 		if(te instanceof IEnergyConductor) {
 			
 			IEnergyConductor conductor = (IEnergyConductor) te;
+			
+			if(!conductor.canConnect(dir.getOpposite()))
+				return;
 			
 			if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
 				conductor.getPowerNet().joinLink(this);
@@ -41,5 +47,10 @@ public class TileEntityConnector extends TileEntityPylonBase {
 				conductor.getPowerNet().joinNetworks(this.getPowerNet());
 			}
 		}
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir == ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 	}
 }

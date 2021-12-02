@@ -40,6 +40,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				
 				float count = 10;
 				Vec3 delta = Vec3.createVectorHelper(conX1 - conX0, conY1 - conY0, conZ1 - conZ0);
+				double hang = delta.lengthVector() / 15D;
 				
 				for(float j = 0; j < count; j++) {
 					
@@ -47,7 +48,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 					
 					double ja = j + 0.5D;
 					double ix = conX0 + delta.xCoord / (double)(count * 2) * ja;
-					double iy = conY0 + delta.yCoord / (double)(count * 2) * ja - Math.sin(j / count * Math.PI * 0.5);
+					double iy = conY0 + delta.yCoord / (double)(count * 2) * ja - Math.sin(j / count * Math.PI * 0.5) * hang;
 					double iz = conZ0 + delta.zCoord / (double)(count * 2) * ja;
 					
 					//pylon.getWorldObj().spawnParticle("reddust", ix, iy, iz, 0.01 + j * 0.1, 0, 0);
@@ -59,10 +60,10 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 					
 					drawPowerLine(
 							x + myOffset.xCoord + (wX * j / count),
-							y + myOffset.yCoord + (wY * j / count) - Math.sin(j / count * Math.PI * 0.5),
+							y + myOffset.yCoord + (wY * j / count) - Math.sin(j / count * Math.PI * 0.5) * hang,
 							z + myOffset.zCoord + (wZ * j / count),
 							x + myOffset.xCoord + (wX * k / count),
-							y + myOffset.yCoord + (wY * k / count) - Math.sin(k / count * Math.PI * 0.5),
+							y + myOffset.yCoord + (wY * k / count) - Math.sin(k / count * Math.PI * 0.5) * hang,
 							z + myOffset.zCoord + (wZ * k / count));
 				}
 			}

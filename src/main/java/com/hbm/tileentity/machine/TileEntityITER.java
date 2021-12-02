@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource {
 	
@@ -161,8 +162,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			this.networkPack(data, 250);
 			/// END Notif packets ///
 
-			this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord);
-			this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord);
+			this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
+			this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
 			
 		} else {
 			

@@ -213,12 +213,12 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		this.getBlockMetadata();
 		
 		if(this.blockMetadata == 5 || this.blockMetadata == 4) {
-			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord);
+			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
 			
 		} else if(this.blockMetadata == 3 || this.blockMetadata == 2) {
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2);
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2);
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
 		}
 	}
 	

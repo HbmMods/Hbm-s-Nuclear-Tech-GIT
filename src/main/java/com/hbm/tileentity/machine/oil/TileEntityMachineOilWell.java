@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.oil;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -18,10 +19,10 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 
 	@Override
 	protected void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2);
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
 	}
 
 	@Override

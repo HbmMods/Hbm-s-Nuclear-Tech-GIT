@@ -28,10 +28,8 @@ public class RenderConnector extends RenderPylonBase {
 
 		GL11.glTranslated(0, -0.5F, 0);
 		
-		double s = 0.5;
-		GL11.glScaled(s, s, s);
-		bindTexture(ResourceManager.universal);
-		ResourceManager.barrel.renderAll();
+		bindTexture(ResourceManager.connector_tex);
+		ResourceManager.connector.renderAll();
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();

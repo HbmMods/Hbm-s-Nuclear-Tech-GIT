@@ -68,7 +68,7 @@ public interface IEnergyUser extends IEnergyConnector {
 		if(te instanceof IEnergyConnector) {
 			IEnergyConnector con = (IEnergyConnector) te;
 			
-			if(con.canConnect(dir)) {
+			if(con.canConnect(dir.getOpposite())) {
 				long oldPower = this.getPower();
 				long transfer = oldPower - con.transferPower(oldPower);
 				this.setPower(oldPower - transfer);
@@ -85,15 +85,17 @@ public interface IEnergyUser extends IEnergyConnector {
 			}
 		}
 		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "vanillaExt");
-		data.setString("mode", red ? "reddust" : "greendust");
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+		if(particleDebug) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", red ? "reddust" : "greendust");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+		}
 	}
 	
 	public default void updateStandardConnections(World world, int x, int y, int z) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			this.trySubscribe(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir);
 	}
 }

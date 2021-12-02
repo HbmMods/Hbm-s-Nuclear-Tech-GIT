@@ -38,6 +38,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill {
 	
@@ -178,7 +179,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 	
 	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord);
+		this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

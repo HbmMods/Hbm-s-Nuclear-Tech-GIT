@@ -313,7 +313,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

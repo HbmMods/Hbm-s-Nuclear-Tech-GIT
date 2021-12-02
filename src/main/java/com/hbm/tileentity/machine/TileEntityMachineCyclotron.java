@@ -156,14 +156,14 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	
 	private void updateConnections()  {
 
-		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1);
-		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord - 1);
-		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord + 1);
-		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 3);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 3);
+		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord - 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord + 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 3, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z);
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
