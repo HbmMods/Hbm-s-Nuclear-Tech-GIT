@@ -6,9 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockColored extends ItemBlockBlastInfo {
+public class ItemBlockColoredConcrete extends ItemBlockBlastInfo {
 
-	public ItemBlockColored(Block block) {
+	public ItemBlockColoredConcrete(Block block) {
 		super(block);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);

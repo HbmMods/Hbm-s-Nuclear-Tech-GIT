@@ -1,12 +1,19 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
+import com.hbm.blocks.ITooltipProvider;
+import com.hbm.util.I18nUtil;
+
 import api.hbm.item.IDepthRockTool;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class BlockDepth extends Block {
+public class BlockDepth extends Block implements ITooltipProvider {
 
 	public BlockDepth() {
 		super(Material.rock);
@@ -24,5 +31,10 @@ public class BlockDepth extends Block {
 		}
 		
 		return super.getPlayerRelativeBlockHardness(player, world, x, y, z);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.tile.depth"));
 	}
 }
