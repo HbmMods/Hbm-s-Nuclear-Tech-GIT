@@ -286,7 +286,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
 
 			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
-				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)));
+				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)).copy());
 				break;
 			}
 		}

@@ -225,10 +225,10 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	private void updateConnections() {
 
 		for(int i = -4; i <= 4; i++) {
-			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord + 5);
-			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord - 5);
-			this.trySubscribe(worldObj, xCoord + 5, yCoord, zCoord + i);
-			this.trySubscribe(worldObj, xCoord - 5, yCoord, zCoord + i);
+			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord + 5, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
+			this.trySubscribe(worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
 		}
 	}
 	

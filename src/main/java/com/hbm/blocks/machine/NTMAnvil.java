@@ -1,5 +1,8 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -16,12 +19,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class NTMAnvil extends BlockFalling {
+public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 	
 	public final int tier;
 
@@ -129,5 +133,10 @@ public class NTMAnvil extends BlockFalling {
 			this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 0.75F, 1.0F);
 		
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		list.add(EnumChatFormatting.GOLD + "Tier " + tier + " Anvil");
 	}
 }

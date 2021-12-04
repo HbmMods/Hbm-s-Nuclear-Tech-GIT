@@ -316,14 +316,14 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 	
 	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1);
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2);
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
 	}
 	
 	public long getPowerScaled(long i) {

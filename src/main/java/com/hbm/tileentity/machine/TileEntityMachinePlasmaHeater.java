@@ -133,7 +133,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		
 		for(int i = 1; i < 4; i++) {
 			for(int j = -1; j < 2; j++) {
-				this.trySubscribe(worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2);
+				this.trySubscribe(worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2, j < 0 ? ForgeDirection.DOWN : ForgeDirection.UP);
 			}
 		}
 	}

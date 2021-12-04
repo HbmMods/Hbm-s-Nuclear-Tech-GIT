@@ -26,6 +26,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
 
@@ -60,7 +61,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 
 		if (!worldObj.isRemote) {
 			
-			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord);
+			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);

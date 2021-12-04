@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoreTitanium extends TileEntity implements ISidedInventory, IFactory, IEnergyUser {
 	
@@ -238,12 +239,12 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 		
 		if(!worldObj.isRemote) {
 			if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.factory_titanium_conductor)
-				this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord);
+				this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 			else
 				this.tryUnsubscribe(worldObj, xCoord, yCoord + 2, zCoord);
 			
 			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.factory_titanium_conductor)
-				this.trySubscribe(worldObj, xCoord, yCoord - 2, zCoord);
+				this.trySubscribe(worldObj, xCoord, yCoord - 2, zCoord, ForgeDirection.DOWN);
 			else
 				this.tryUnsubscribe(worldObj, xCoord, yCoord - 2, zCoord);
 		}

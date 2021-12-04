@@ -1,5 +1,6 @@
 package com.hbm.blocks.network;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 
 import net.minecraft.block.Block;
@@ -8,7 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public abstract class PylonBase extends BlockContainer {
+public abstract class PylonBase extends BlockContainer implements ITooltipProvider {
 
 	protected PylonBase(Material p_i45386_1_) {
 		super(p_i45386_1_);

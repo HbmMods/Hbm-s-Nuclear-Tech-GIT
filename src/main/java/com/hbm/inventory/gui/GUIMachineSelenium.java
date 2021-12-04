@@ -1,15 +1,23 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineSelenium extends GuiInfoContainer {
@@ -31,26 +39,23 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 18, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 108, 160, 16, diFurnace.power, diFurnace.powerCap);
+
+		List<String> text = new ArrayList();
+		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
 		
-		String[] text = new String[] { "Accepted Fuels:",
-				"  Industrial Oil (50 HE/t)",
-				"  Heating Oil (75 HE/t)",
-				"  Hydrogen (500 HE/t)",
-				"  Diesel (225 HE/t)",
-				"  Kerosene (300 HE/t)",
-				"  Reclaimed Oil (100 HE/t)",
-				"  Petroil (125 HE/t)",
-				"  Biofuel (200 HE/t)",
-				"  Leaded Gasoline (700 HE/t)",
-				"  NITAN Superfuel (2500 HE/t)",
-				"(These numbers are base values,",
-				"actual output is based",
-				"on piston count)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		for(Entry<FluidType, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
+			text.add("  " + I18nUtil.resolveKey(entry.getKey().getUnlocalizedName()) + " (" + entry.getValue() + " HE/t)");
+		}
+
+		text.add(EnumChatFormatting.ITALIC + "(These numbers are base values,");
+		text.add(EnumChatFormatting.ITALIC + "actual output is based");
+		text.add(EnumChatFormatting.ITALIC + "on piston count)");
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text.toArray(new String[0]));
 		
 		String[] text1 = new String[] { "Fuel consumption rate:",
-				"  5 mB/t",
-				"  100 mB/s",
+				"  1 mB/t",
+				"  20 mB/s",
 				"(Consumption rate per piston)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 		

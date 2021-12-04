@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -255,29 +256,27 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		return getHEFromFuel() > 0;
 	}
 	
+	public static final HashMap<FluidType, Integer> fuels = new HashMap();
+	
+	static {
+		fuels.put(FluidType.SMEAR,		50);
+		fuels.put(FluidType.HEATINGOIL,	75);
+		fuels.put(FluidType.HYDROGEN,	5);
+		fuels.put(FluidType.DIESEL,		225);
+		fuels.put(FluidType.KEROSENE,	300);
+		fuels.put(FluidType.RECLAIMED,	100);
+		fuels.put(FluidType.PETROIL,	125);
+		fuels.put(FluidType.BIOFUEL,	200);
+		fuels.put(FluidType.GASOLINE,	700);
+		fuels.put(FluidType.NITAN,		2500);
+		fuels.put(FluidType.LPG,		200);
+		fuels.put(FluidType.ETHANOL,	75);
+	}
+	
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
-		if(type.name().equals(FluidType.SMEAR.name()))
-			return 50;
-		if(type.name().equals(FluidType.HEATINGOIL.name()))
-			return 75;
-		if(type.name().equals(FluidType.HYDROGEN.name()))
-			return 5;
-		if(type.name().equals(FluidType.DIESEL.name()))
-			return 225;
-		if(type.name().equals(FluidType.KEROSENE.name()))
-			return 300;
-		if(type.name().equals(FluidType.RECLAIMED.name()))
-			return 100;
-		if(type.name().equals(FluidType.PETROIL.name()))
-			return 125;
-		if(type.name().equals(FluidType.BIOFUEL.name()))
-			return 200;
-		if(type.name().equals(FluidType.GASOLINE.name()))
-			return 700;
-		if(type.name().equals(FluidType.NITAN.name()))
-			return 2500;
-		return 0;
+		Integer value = fuels.get(type);
+		return value != null ? value : null;
 	}
 
 	public void generate() {
@@ -294,8 +293,8 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 				if (soundCycle >= 3)
 					soundCycle = 0;
 
-				tank.setFill(tank.getFill() - this.pistonCount * 5);
-				if (tank.getFill() < 0)
+				tank.setFill(tank.getFill() - this.pistonCount);
+				if(tank.getFill() < 0)
 					tank.setFill(0);
 
 				power += getHEFromFuel() * Math.pow(this.pistonCount, 1.15D);
@@ -353,5 +352,10 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		list.add(tank);
 		
 		return list;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir == ForgeDirection.DOWN;
 	}
 }

@@ -200,11 +200,11 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	}
 	
 	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1);
-		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
 	
 	@Override

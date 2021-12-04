@@ -103,13 +103,13 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 
 		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			this.trySubscribe(worldObj, xCoord + 2, yCoord + 5, zCoord);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord + 5, zCoord);
+			this.trySubscribe(worldObj, xCoord + 2, yCoord + 5, zCoord, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 2, yCoord + 5, zCoord, Library.NEG_X);
 		}
 
 		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord + 2);
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord - 2);
+			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z);
 		}
 	}
 	

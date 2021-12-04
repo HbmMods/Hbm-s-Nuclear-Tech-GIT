@@ -9,9 +9,12 @@ import com.hbm.world.dungeon.Bunker;
 import com.hbm.world.dungeon.Relay;
 import com.hbm.world.generator.CellularDungeonFactory;
 
+import api.hbm.energy.IEnergyConductor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -32,11 +35,17 @@ public class ItemWandD extends Item {
 			//int y = world.getHeightValue(x, z);
 			int y = pos.blockY;
 			
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				player.addChatComponentMessage(new ChatComponentText("" + con.getPowerNet()));
+			}
+			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
-			int r = 5;
+			/*int r = 5;
 			
-			/*for(int i = x - r; i <= x + r; i++) {
+			for(int i = x - r; i <= x + r; i++) {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
 						
@@ -46,7 +55,7 @@ public class ItemWandD extends Item {
 				}
 			}*/
 			
-			new Bunker().generate(world, world.rand, x, y, z);
+			//new Bunker().generate(world, world.rand, x, y, z);
 			
 			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);

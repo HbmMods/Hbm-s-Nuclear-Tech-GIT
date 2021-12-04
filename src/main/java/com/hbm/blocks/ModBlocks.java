@@ -691,6 +691,7 @@ public class ModBlocks {
 
 	public static Block red_wire_coated;
 	public static Block red_cable;
+	public static Block red_connector;
 	public static Block red_pylon;
 	public static Block cable_switch;
 	public static Block machine_detector;
@@ -1477,7 +1478,7 @@ public class ModBlocks {
 		lamp_tritium_green_off = new ReinforcedLamp(Material.redstoneLight, false).setBlockName("lamp_tritium_green_off").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_green_off");
 		lamp_tritium_green_on = new ReinforcedLamp(Material.redstoneLight, true).setBlockName("lamp_tritium_green_on").setStepSound(Block.soundTypeGlass).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_green_on");
 		lamp_tritium_blue_off = new ReinforcedLamp(Material.redstoneLight, false).setBlockName("lamp_tritium_blue_off").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_blue_off");
-		lamp_tritium_blue_on = new ReinforcedLamp(Material.redstoneLight, true).setBlockName("lamp_tritium_blue_on").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_blue_on");
+		lamp_tritium_blue_on = new ReinforcedLamp(Material.redstoneLight, true).setBlockName("lamp_tritium_blue_on").setStepSound(Block.soundTypeGlass).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_blue_on");
 
 		lamp_uv_off = new UVLamp(false).setBlockName("lamp_uv_off").setCreativeTab(MainRegistry.blockTab);
 		lamp_uv_on = new UVLamp(true).setBlockName("lamp_uv_on").setCreativeTab(null);
@@ -1792,6 +1793,7 @@ public class ModBlocks {
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
 		red_cable = new BlockCable(Material.iron).setBlockName("red_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cable_neo");
 		rf_cable = new BlockRFCable(Material.iron).setBlockName("rf_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rf_cable_icon");
+		red_connector = new ConnectorRedWire(Material.iron).setBlockName("red_connector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_connector");
 		red_pylon = new PylonRedWire(Material.iron).setBlockName("red_pylon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		cable_switch = new CableSwitch(Material.iron).setBlockName("cable_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cable_switch_off");
 		machine_detector = new PowerDetector(Material.iron).setBlockName("machine_detector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_detector_off");
@@ -2258,9 +2260,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_coltan, ore_coltan.getUnlocalizedName());
 		
 		//Stone clusters
-		GameRegistry.registerBlock(cluster_iron, ItemBlockCluster.class, cluster_iron.getUnlocalizedName());
-		GameRegistry.registerBlock(cluster_titanium, ItemBlockCluster.class, cluster_titanium.getUnlocalizedName());
-		GameRegistry.registerBlock(cluster_aluminium, ItemBlockCluster.class, cluster_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_iron, ItemBlockBase.class, cluster_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_titanium, ItemBlockBase.class, cluster_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_aluminium, ItemBlockBase.class, cluster_aluminium.getUnlocalizedName());
 		
 		//Bedrock ores
 		GameRegistry.registerBlock(ore_bedrock_coltan, ore_bedrock_coltan.getUnlocalizedName());
@@ -2307,20 +2309,20 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_gneiss_gas, ore_gneiss_gas.getUnlocalizedName());
 		
 		//Depth ores
-		GameRegistry.registerBlock(ore_depth_cinnebar, ItemBlockDepth.class, ore_depth_cinnebar.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_depth_zirconium, ItemBlockDepth.class, ore_depth_zirconium.getUnlocalizedName());
-		GameRegistry.registerBlock(cluster_depth_iron, ItemBlockDepth.class, cluster_depth_iron.getUnlocalizedName());
-		GameRegistry.registerBlock(cluster_depth_titanium, ItemBlockDepth.class, cluster_depth_titanium.getUnlocalizedName());
-		GameRegistry.registerBlock(cluster_depth_tungsten, ItemBlockDepth.class, cluster_depth_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_depth_cinnebar, ItemBlockBase.class, ore_depth_cinnebar.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_depth_zirconium, ItemBlockBase.class, ore_depth_zirconium.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_depth_iron, ItemBlockBase.class, cluster_depth_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_depth_titanium, ItemBlockBase.class, cluster_depth_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(cluster_depth_tungsten, ItemBlockBase.class, cluster_depth_tungsten.getUnlocalizedName());
 		
 		//Nether depth ores
-		GameRegistry.registerBlock(ore_depth_nether_neodymium, ItemBlockDepth.class, ore_depth_nether_neodymium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_depth_nether_neodymium, ItemBlockBase.class, ore_depth_nether_neodymium.getUnlocalizedName());
 		
 		//Basalt ores
 		GameRegistry.registerBlock(basalt_sulfur, basalt_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_fluorite, basalt_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_asbestos, basalt_asbestos.getUnlocalizedName());
-		GameRegistry.registerBlock(basalt_gem, ItemBlockCluster.class, basalt_gem.getUnlocalizedName());
+		GameRegistry.registerBlock(basalt_gem, ItemBlockBase.class, basalt_gem.getUnlocalizedName());
 		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
@@ -2337,13 +2339,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gneiss_brick, gneiss_brick.getUnlocalizedName());
 		GameRegistry.registerBlock(gneiss_tile, gneiss_tile.getUnlocalizedName());
 		GameRegistry.registerBlock(gneiss_chiseled, gneiss_chiseled.getUnlocalizedName());
-		GameRegistry.registerBlock(stone_depth, ItemBlockDepth.class, stone_depth.getUnlocalizedName());
-		GameRegistry.registerBlock(depth_brick, ItemBlockDepth.class, depth_brick.getUnlocalizedName());
-		GameRegistry.registerBlock(depth_tiles, ItemBlockDepth.class, depth_tiles.getUnlocalizedName());
-		GameRegistry.registerBlock(stone_depth_nether, ItemBlockDepth.class, stone_depth_nether.getUnlocalizedName());
-		GameRegistry.registerBlock(depth_nether_brick, ItemBlockDepth.class, depth_nether_brick.getUnlocalizedName());
-		GameRegistry.registerBlock(depth_nether_tiles, ItemBlockDepth.class, depth_nether_tiles.getUnlocalizedName());
-		GameRegistry.registerBlock(depth_dnt, ItemBlockDepth.class, depth_dnt.getUnlocalizedName());
+		GameRegistry.registerBlock(stone_depth, ItemBlockBase.class, stone_depth.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_brick, ItemBlockBase.class, depth_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_tiles, ItemBlockBase.class, depth_tiles.getUnlocalizedName());
+		GameRegistry.registerBlock(stone_depth_nether, ItemBlockBase.class, stone_depth_nether.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_nether_brick, ItemBlockBase.class, depth_nether_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_nether_tiles, ItemBlockBase.class, depth_nether_tiles.getUnlocalizedName());
+		GameRegistry.registerBlock(depth_dnt, ItemBlockBase.class, depth_dnt.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt, basalt.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_smooth, basalt_smooth.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_brick, basalt_brick.getUnlocalizedName());
@@ -2411,13 +2413,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ancient_scrap, ItemBlockHazard.class, ancient_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_corium, ItemBlockHazard.class, block_corium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_corium_cobble, ItemBlockHazard.class, block_corium_cobble.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schraranium, ItemBlockSchrabidium.class, block_schraranium.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schrabidium, ItemBlockSchrabidium.class, block_schrabidium.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schrabidate, ItemBlockSchrabidium.class, block_schrabidate.getUnlocalizedName());
-		GameRegistry.registerBlock(block_solinium, ItemBlockSchrabidium.class, block_solinium.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schrabidium_fuel, ItemBlockSchrabidium.class, block_schrabidium_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schraranium, ItemBlockBase.class, block_schraranium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium, ItemBlockBase.class, block_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidate, ItemBlockBase.class, block_schrabidate.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solinium, ItemBlockBase.class, block_solinium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium_fuel, ItemBlockBase.class, block_schrabidium_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_euphemium, ItemBlockLore.class, block_euphemium.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schrabidium_cluster, ItemBlockSchrabidium.class, block_schrabidium_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium_cluster, ItemBlockBase.class, block_schrabidium_cluster.getUnlocalizedName());
 		GameRegistry.registerBlock(block_euphemium_cluster, ItemBlockLore.class, block_euphemium_cluster.getUnlocalizedName());
 		GameRegistry.registerBlock(block_dineutronium, block_dineutronium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_magnetized_tungsten, block_magnetized_tungsten.getUnlocalizedName());
@@ -2490,7 +2492,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reinforced_stone, ItemBlockBlastInfo.class, reinforced_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(reinforced_ducrete, ItemBlockBlastInfo.class, reinforced_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_smooth, ItemBlockBlastInfo.class, concrete_smooth.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_colored, ItemBlockColored.class, concrete_colored.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_colored, ItemBlockColoredConcrete.class, concrete_colored.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete, ItemBlockBlastInfo.class, concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_asbestos, ItemBlockBlastInfo.class, concrete_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(ducrete_smooth, ItemBlockBlastInfo.class, ducrete_smooth.getUnlocalizedName());
@@ -2571,30 +2573,30 @@ public class ModBlocks {
 		GameRegistry.registerBlock(steel_beam, steel_beam.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_scaffold, steel_scaffold.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_grate, steel_grate.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe, ItemBlockDecoPipe.class, deco_pipe.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rusted, ItemBlockDecoPipe.class, deco_pipe_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_green, ItemBlockDecoPipe.class, deco_pipe_green.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_green_rusted, ItemBlockDecoPipe.class, deco_pipe_green_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_red, ItemBlockDecoPipe.class, deco_pipe_red.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_marked, ItemBlockDecoPipe.class, deco_pipe_marked.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim, ItemBlockDecoPipe.class, deco_pipe_rim.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim_rusted, ItemBlockDecoPipe.class, deco_pipe_rim_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim_green, ItemBlockDecoPipe.class, deco_pipe_rim_green.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim_green_rusted, ItemBlockDecoPipe.class, deco_pipe_rim_green_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim_red, ItemBlockDecoPipe.class, deco_pipe_rim_red.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_rim_marked, ItemBlockDecoPipe.class, deco_pipe_rim_marked.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed, ItemBlockDecoPipe.class, deco_pipe_framed.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed_rusted, ItemBlockDecoPipe.class, deco_pipe_framed_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed_green, ItemBlockDecoPipe.class, deco_pipe_framed_green.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed_green_rusted, ItemBlockDecoPipe.class, deco_pipe_framed_green_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed_red, ItemBlockDecoPipe.class, deco_pipe_framed_red.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_framed_marked, ItemBlockDecoPipe.class, deco_pipe_framed_marked.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad, ItemBlockDecoPipe.class, deco_pipe_quad.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad_rusted, ItemBlockDecoPipe.class, deco_pipe_quad_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad_green, ItemBlockDecoPipe.class, deco_pipe_quad_green.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad_green_rusted, ItemBlockDecoPipe.class, deco_pipe_quad_green_rusted.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad_red, ItemBlockDecoPipe.class, deco_pipe_quad_red.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_pipe_quad_marked, ItemBlockDecoPipe.class, deco_pipe_quad_marked.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe, ItemBlockBase.class, deco_pipe.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rusted, ItemBlockBase.class, deco_pipe_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_green, ItemBlockBase.class, deco_pipe_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_green_rusted, ItemBlockBase.class, deco_pipe_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_red, ItemBlockBase.class, deco_pipe_red.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_marked, ItemBlockBase.class, deco_pipe_marked.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim, ItemBlockBase.class, deco_pipe_rim.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_rusted, ItemBlockBase.class, deco_pipe_rim_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_green, ItemBlockBase.class, deco_pipe_rim_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_green_rusted, ItemBlockBase.class, deco_pipe_rim_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_red, ItemBlockBase.class, deco_pipe_rim_red.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_rim_marked, ItemBlockBase.class, deco_pipe_rim_marked.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed, ItemBlockBase.class, deco_pipe_framed.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed_rusted, ItemBlockBase.class, deco_pipe_framed_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed_green, ItemBlockBase.class, deco_pipe_framed_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed_green_rusted, ItemBlockBase.class, deco_pipe_framed_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed_red, ItemBlockBase.class, deco_pipe_framed_red.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_framed_marked, ItemBlockBase.class, deco_pipe_framed_marked.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad, ItemBlockBase.class, deco_pipe_quad.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_rusted, ItemBlockBase.class, deco_pipe_quad_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_green, ItemBlockBase.class, deco_pipe_quad_green.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_green_rusted, ItemBlockBase.class, deco_pipe_quad_green_rusted.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_red, ItemBlockBase.class, deco_pipe_quad_red.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_pipe_quad_marked, ItemBlockBase.class, deco_pipe_quad_marked.getUnlocalizedName());
 		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
@@ -2768,16 +2770,16 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomber, bomber.getUnlocalizedName());
 		
 		//Machines
-		GameRegistry.registerBlock(anvil_iron, ItemBlockAnvil.class, anvil_iron.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_lead, ItemBlockAnvil.class, anvil_lead.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_steel, ItemBlockAnvil.class, anvil_steel.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_meteorite, ItemBlockAnvil.class, anvil_meteorite.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_starmetal, ItemBlockAnvil.class, anvil_starmetal.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_ferrouranium, ItemBlockAnvil.class, anvil_ferrouranium.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_bismuth, ItemBlockAnvil.class, anvil_bismuth.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_schrabidate, ItemBlockAnvil.class, anvil_schrabidate.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_dnt, ItemBlockAnvil.class, anvil_dnt.getUnlocalizedName());
-		GameRegistry.registerBlock(anvil_murky, ItemBlockAnvil.class, anvil_murky.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_iron, ItemBlockBase.class, anvil_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_lead, ItemBlockBase.class, anvil_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_steel, ItemBlockBase.class, anvil_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_meteorite, ItemBlockBase.class, anvil_meteorite.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_starmetal, ItemBlockBase.class, anvil_starmetal.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_ferrouranium, ItemBlockBase.class, anvil_ferrouranium.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_bismuth, ItemBlockBase.class, anvil_bismuth.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_schrabidate, ItemBlockBase.class, anvil_schrabidate.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_dnt, ItemBlockBase.class, anvil_dnt.getUnlocalizedName());
+		GameRegistry.registerBlock(anvil_murky, ItemBlockBase.class, anvil_murky.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
@@ -2825,15 +2827,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_plating_striped, hadron_plating_striped.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_plating_glass, hadron_plating_glass.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_plating_voltz, hadron_plating_voltz.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_alloy, ItemHadronCoil.class, hadron_coil_alloy.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_gold, ItemHadronCoil.class, hadron_coil_gold.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_neodymium, ItemHadronCoil.class, hadron_coil_neodymium.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_magtung, ItemHadronCoil.class, hadron_coil_magtung.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_schrabidium, ItemHadronCoil.class, hadron_coil_schrabidium.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_schrabidate, ItemHadronCoil.class, hadron_coil_schrabidate.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_starmetal, ItemHadronCoil.class, hadron_coil_starmetal.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_chlorophyte, ItemHadronCoil.class, hadron_coil_chlorophyte.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_coil_mese, ItemHadronCoil.class, hadron_coil_mese.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_alloy, ItemBlockBase.class, hadron_coil_alloy.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_gold, ItemBlockBase.class, hadron_coil_gold.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_neodymium, ItemBlockBase.class, hadron_coil_neodymium.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_magtung, ItemBlockBase.class, hadron_coil_magtung.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_schrabidium, ItemBlockBase.class, hadron_coil_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_schrabidate, ItemBlockBase.class, hadron_coil_schrabidate.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_starmetal, ItemBlockBase.class, hadron_coil_starmetal.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_chlorophyte, ItemBlockBase.class, hadron_coil_chlorophyte.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_coil_mese, ItemBlockBase.class, hadron_coil_mese.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_power, hadron_power.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_power_10m, hadron_power_10m.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_power_100m, hadron_power_100m.getUnlocalizedName());
@@ -2872,7 +2874,8 @@ public class ModBlocks {
 		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
-		GameRegistry.registerBlock(red_pylon, red_pylon.getUnlocalizedName());
+		GameRegistry.registerBlock(red_connector, ItemBlockBase.class, red_connector.getUnlocalizedName());
+		GameRegistry.registerBlock(red_pylon, ItemBlockBase.class, red_pylon.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_switch, cable_switch.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_detector, machine_detector.getUnlocalizedName());
 		GameRegistry.registerBlock(rf_cable, rf_cable.getUnlocalizedName());

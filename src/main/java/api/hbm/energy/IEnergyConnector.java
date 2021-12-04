@@ -1,5 +1,6 @@
 package api.hbm.energy;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -51,14 +52,16 @@ public interface IEnergyConnector {
 	 * @param y
 	 * @param z
 	 */
-	public default void trySubscribe(World world, int x, int y, int z) {
+	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
 		boolean red = false;
 		
-		
 		if(te instanceof IEnergyConductor) {
 			IEnergyConductor con = (IEnergyConductor) te;
+			
+			if(!con.canConnect(dir.getOpposite().getOpposite()))
+				return;
 			
 			if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
 				con.getPowerNet().subscribe(this);
@@ -67,11 +70,14 @@ public interface IEnergyConnector {
 				red = true;
 		}
 		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "vanillaExt");
-		data.setString("mode", red ? "reddust" : "bluedust");
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+		if(particleDebug) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", red ? "reddust" : "bluedust");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+		}
 	}
+	
 	public default void tryUnsubscribe(World world, int x, int y, int z) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -83,4 +89,6 @@ public interface IEnergyConnector {
 				con.getPowerNet().unsubscribe(this);
 		}
 	}
+	
+	public static final boolean particleDebug = false;
 }
