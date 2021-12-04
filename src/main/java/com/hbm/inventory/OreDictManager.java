@@ -242,7 +242,7 @@ public class OreDictManager {
 		NP237	.rad(HazardRegistry.np237)					.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
 		PO210	.rad(HazardRegistry.po210)	.hot(3)			.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
 		TC99	.rad(HazardRegistry.tc99)					.nugget(nugget_technetium)	.billet(billet_technetium)	.ingot(ingot_technetium);
-		RA226	.rad(HazardRegistry.ra226)					.nugget(nugget_ra226);
+		RA226	.rad(HazardRegistry.ra226)					.nugget(nugget_ra226)		.billet(billet_ra226)		.ingot(ingot_ra226)			.dust(powder_ra226)										.block(block_ra226);
 		CO60	.rad(HazardRegistry.co60)	.hot(1)			.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
 		AU198	.rad(HazardRegistry.au198)	.hot(5)			.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
 		SA326	.rad(HazardRegistry.sa326)	.blinding(3F)	.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium);

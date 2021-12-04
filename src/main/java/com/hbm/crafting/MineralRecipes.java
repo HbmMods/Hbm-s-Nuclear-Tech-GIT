@@ -33,6 +33,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_boron, ModItems.powder_boron_tiny);
 		add1To9Pair(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
 		add1To9Pair(ModBlocks.block_lanthanium, ModItems.ingot_lanthanium);
+		add1To9Pair(ModBlocks.block_ra226, ModItems.ingot_ra226);
 		add1To9Pair(ModBlocks.block_actinium, ModItems.ingot_actinium);
 		add1To9Pair(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
 		add1To9Pair(ModBlocks.block_coltan, ModItems.fragment_coltan);
@@ -54,6 +55,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_technetium, ModItems.nugget_technetium);
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);
 		add1To9Pair(ModItems.ingot_au198, ModItems.nugget_au198);
+		add1To9Pair(ModItems.ingot_ra226, ModItems.nugget_ra226);
 
 		add1To9Pair(ModItems.ingot_pu241, ModItems.nugget_pu241);
 		add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);
@@ -95,6 +97,7 @@ public class MineralRecipes {
 		addBillet(ModItems.billet_polonium,				ModItems.ingot_polonium,			ModItems.nugget_polonium, "nuggetPolonium");
 		addBillet(ModItems.billet_technetium,			ModItems.ingot_technetium,			ModItems.nugget_technetium, "nuggetTechnetium");
 		addBillet(ModItems.billet_au198,				ModItems.ingot_au198,				ModItems.nugget_au198, "nuggetGold198");
+		addBillet(ModItems.billet_ra226,				ModItems.ingot_ra226,				ModItems.nugget_ra226, "nuggetRa226");
 		addBillet(ModItems.billet_schrabidium,			ModItems.ingot_schrabidium,			ModItems.nugget_schrabidium, "nuggetSchrabidium");
 		addBillet(ModItems.billet_solinium,				ModItems.ingot_solinium,			ModItems.nugget_solinium, "nuggetSolinium");
 		addBillet(ModItems.billet_uranium_fuel,			ModItems.ingot_uranium_fuel,		ModItems.nugget_uranium_fuel);
