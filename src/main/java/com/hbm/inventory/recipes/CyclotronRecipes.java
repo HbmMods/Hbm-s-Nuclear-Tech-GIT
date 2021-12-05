@@ -70,6 +70,7 @@ public class CyclotronRecipes {
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_gold), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.nugget_mercury), new ItemStack(ModItems.powder_polonium), caA);
+		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_lead), new ItemStack(ModItems.powder_ra226),caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);
 		/// CARBON END ///

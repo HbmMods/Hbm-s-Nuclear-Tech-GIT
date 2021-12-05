@@ -81,6 +81,7 @@ public class ModItems {
 	public static Item ingot_technetium;
 	public static Item ingot_co60;
 	public static Item ingot_au198;
+	public static Item ingot_ra226;
 	public static Item ingot_titanium;
 	public static Item ingot_cobalt;
 	public static Item sulfur;
@@ -184,6 +185,7 @@ public class ModItems {
 	public static Item billet_technetium;
 	public static Item billet_co60;
 	public static Item billet_au198;
+	public static Item billet_ra226;
 	public static Item billet_schrabidium;
 	public static Item billet_solinium;
 	public static Item billet_australium;
@@ -350,6 +352,7 @@ public class ModItems {
 	public static Item powder_polonium;
 	public static Item powder_co60;
 	public static Item powder_au198;
+	public static Item powder_ra226;
 	public static Item powder_i131;
 	public static Item powder_i131_tiny;
 	public static Item powder_xe135;
@@ -2564,6 +2567,7 @@ public class ModItems {
 		ingot_technetium = new ItemHazard().addRadiation(ItemHazard.tc99 * ItemHazard.ingot).toItem().setUnlocalizedName("ingot_technetium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_technetium");
 		ingot_co60 = new ItemHazard().addRadiation(ItemHazard.co60 * ItemHazard.ingot).addFire(5).toItem().setUnlocalizedName("ingot_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_co60");
 		ingot_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.ingot).addFire(15).toItem().setUnlocalizedName("ingot_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_au198");
+		ingot_ra226 = new ItemHazard().addRadiation(ItemHazard.ra226 * ItemHazard.ingot).toItem().setUnlocalizedName("ingot_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_ra226");
 		ingot_titanium = new Item().setUnlocalizedName("ingot_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_titanium");
 		ingot_cobalt = new Item().setUnlocalizedName("ingot_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cobalt");
 		ingot_boron = new Item().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_boron");
@@ -2657,6 +2661,7 @@ public class ModItems {
 		billet_technetium = new ItemHazard().addRadiation(ItemHazard.tc99 * ItemHazard.billet).toItem().setUnlocalizedName("billet_technetium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_technetium");
 		billet_co60 = new ItemHazard().addRadiation(ItemHazard.co60 * ItemHazard.billet).addFire(5).toItem().setUnlocalizedName("billet_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_co60");
 		billet_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.billet).addFire(15).toItem().setUnlocalizedName("billet_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_au198");
+		billet_ra226 = new ItemHazard().addRadiation(ItemHazard.ra226 * ItemHazard.billet).toItem().setUnlocalizedName("billet_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_ra226");
 		billet_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.billet, false, true).setUnlocalizedName("billet_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_schrabidium");
 		billet_solinium = new ItemHazard(ItemHazard.sa327 * ItemHazard.billet, false, true).setUnlocalizedName("billet_solinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_solinium");
 		billet_australium = new ItemHazard().setUnlocalizedName("billet_australium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_australium");
@@ -2836,6 +2841,7 @@ public class ModItems {
 		powder_cs137 = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addHydroReactivity().addFire(5).toItem().setUnlocalizedName("powder_cs137").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137");
 		powder_cs137_tiny = new ItemHazard().addRadiation(ItemHazard.cs137 * ItemHazard.powder).addHydroReactivity().addFire(5).toItem().setUnlocalizedName("powder_cs137_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cs137_tiny");
 		powder_au198 = new ItemHazard().addRadiation(ItemHazard.au198 * ItemHazard.powder).addFire(15).toItem().setUnlocalizedName("powder_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_au198");
+		powder_ra226 = new ItemHazard().addRadiation(ItemHazard.ra226 * ItemHazard.powder).toItem().setUnlocalizedName("powder_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ra226");
 		powder_at209 = new ItemHazard().addRadiation(ItemHazard.at209 * ItemHazard.powder).addFire(15).addBlinding().toItem().setUnlocalizedName("powder_at209").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_at209");
 		powder_schrabidium = new ItemHazard(ItemHazard.sa326 * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidium");
 		powder_schrabidate = new ItemHazard(ItemHazard.sb * ItemHazard.powder, true, true).setUnlocalizedName("powder_schrabidate").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidate");
@@ -5600,6 +5606,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_technetium, ingot_technetium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_co60, ingot_co60.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_au198, ingot_au198.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_ra226, ingot_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_titanium, ingot_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_copper, ingot_copper.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_red_copper, ingot_red_copper.getUnlocalizedName());
@@ -5689,6 +5696,7 @@ public class ModItems {
 		GameRegistry.registerItem(billet_technetium, billet_technetium.getUnlocalizedName());
 		GameRegistry.registerItem(billet_co60, billet_co60.getUnlocalizedName());
 		GameRegistry.registerItem(billet_au198, billet_au198.getUnlocalizedName());
+		GameRegistry.registerItem(billet_ra226, billet_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(billet_schrabidium, billet_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(billet_solinium, billet_solinium.getUnlocalizedName());
 		GameRegistry.registerItem(billet_australium, billet_australium.getUnlocalizedName());
@@ -5747,6 +5755,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_cs137, powder_cs137.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cs137_tiny, powder_cs137_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_au198, powder_au198.getUnlocalizedName());
+		GameRegistry.registerItem(powder_ra226, powder_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(powder_at209, powder_at209.getUnlocalizedName());
 		GameRegistry.registerItem(powder_titanium, powder_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_copper, powder_copper.getUnlocalizedName());

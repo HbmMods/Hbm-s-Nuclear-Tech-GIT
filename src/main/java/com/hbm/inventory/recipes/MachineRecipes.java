@@ -1481,6 +1481,10 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.wheat, 1));
 			list.add(new ItemStack(Items.dye, 2, 3));
 			break;
+		case DUCRETE:
+			list.add(new ItemStack(Blocks.sand, 8));
+			list.add(new ItemStack(ModItems.ingot_u238, 10));
+			list.add(new ItemStack(Items.clay_ball, 4));
 		default:
 			break;
 		}
@@ -1740,6 +1744,8 @@ public class MachineRecipes {
 		case HEAVY_ELECTROLYSIS:
 			input[0] = new FluidStack(8000, FluidType.HEAVYWATER);
 			break;
+		case DUCRETE:
+			input[0] = new FluidStack(2000, FluidType.WATER);
 		default:
 			break;
 		}
@@ -1901,6 +1907,11 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.chocolate, 2);
 			output[1] = new ItemStack(ModItems.chocolate, 2);
 			break;
+		case DUCRETE:
+			output[0] = new ItemStack(ModBlocks.ducrete_smooth, 4);
+			output[1] = new ItemStack(ModBlocks.ducrete_smooth, 4);
+			output[2] = new ItemStack(ModBlocks.ducrete_smooth, 4);
+			output[3] = new ItemStack(ModBlocks.ducrete_smooth, 4);
 		default:
 			break;
 		}

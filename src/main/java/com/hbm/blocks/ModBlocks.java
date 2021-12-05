@@ -240,6 +240,7 @@ public class ModBlocks {
 	public static Block block_graphite_source;
 	public static Block block_boron;
 	public static Block block_lanthanium;
+	public static Block block_ra226;
 	public static Block block_actinium;
 	public static Block block_tritium;
 	public static Block block_semtex;
@@ -1425,6 +1426,7 @@ public class ModBlocks {
 		block_graphite_source = new BlockGraphiteSource().setBlockName("block_graphite_source");
 		block_boron = new BlockBeaconable(Material.iron).setBlockName("block_boron").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_boron");
 		block_lanthanium = new BlockBeaconable(Material.iron).setBlockName("block_lanthanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lanthanium");
+		block_ra226 = new BlockHazard().makeBeaconable().addRadiation(ItemHazard.ra226 * ItemHazard.block).toBlock().setBlockName("block_ra226").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_ra226");
 		block_actinium = new BlockBeaconable(Material.iron).setBlockName("block_actinium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_actinium");
 		block_tritium = new BlockRotatablePillar(Material.glass, RefStrings.MODID + ":block_tritium_top").setBlockName("block_tritium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGlass).setHardness(3.0F).setResistance(2.0F).setBlockTextureName(RefStrings.MODID + ":block_tritium_side");
 		block_semtex = new BlockSemtex(Material.tnt).setBlockName("block_semtex").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(2.0F).setBlockTextureName(RefStrings.MODID + ":block_semtex");
@@ -2432,6 +2434,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_daffergon, ItemOreBlock.class, block_daffergon.getUnlocalizedName());
 		GameRegistry.registerBlock(block_verticium, ItemOreBlock.class, block_verticium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lanthanium, block_lanthanium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_ra226, block_ra226.getUnlocalizedName());
 		GameRegistry.registerBlock(block_actinium, block_actinium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_tritium, block_tritium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_semtex, block_semtex.getUnlocalizedName());

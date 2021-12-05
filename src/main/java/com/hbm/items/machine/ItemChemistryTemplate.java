@@ -108,7 +108,8 @@ public class ItemChemistryTemplate extends Item {
 		ETHANOL,
 		METH,
 		CO2,
-		HEAVY_ELECTROLYSIS;
+		HEAVY_ELECTROLYSIS,
+		DUCRETE;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -317,6 +318,8 @@ public class ItemChemistryTemplate extends Item {
         case CO2:
         	return 60;
         case HEAVY_ELECTROLYSIS:
+        	return 150;
+        case DUCRETE:
         	return 150;
         default:
         	return 100;
