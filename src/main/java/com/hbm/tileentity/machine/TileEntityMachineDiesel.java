@@ -149,7 +149,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
 		Integer value = fuels.get(type);
-		return value != null ? value : null;
+		return value != null ? value : 0;
 	}
 
 	public void generate() {

@@ -44,6 +44,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_adam = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/adam29.png");
 	public static final ResourceLocation bobble_uffr = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/uffr.png");
 	public static final ResourceLocation bobble_vaer = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vaer.png");
+	public static final ResourceLocation bobble_nos = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/nos.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -92,6 +93,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case ADAM29:	bindTexture(bobble_adam); break;
 		case UFFR:		bindTexture(bobble_uffr); break;
 		case VAER:		bindTexture(bobble_vaer); break;
+		case NOS:		bindTexture(bobble_nos); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -284,6 +286,15 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			GL11.glRotated(-60, 0, 0, 1);
 			GL11.glScaled(0.5, 0.5, 0.5);
 			this.renderItem(new ItemStack(ModItems.cigarette));
+		}
+		
+		if(type == BobbleType.NOS) {
+			GL11.glTranslated(0, 1.75, 0);
+			GL11.glRotated(180, 1, 0, 0);
+			double scale = 0.095D;
+			GL11.glScaled(scale, scale, scale);
+			this.bindTexture(ResourceManager.hat);
+			ResourceManager.armor_hat.renderAll();
 		}
 		
 		GL11.glPopMatrix();
