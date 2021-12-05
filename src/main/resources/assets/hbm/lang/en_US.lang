@@ -191,6 +191,7 @@ chem.CORDITE=Cordite Production
 chem.CRYOGEL=Cryogel Mixing
 chem.DESH=Desh Production
 chem.DEUTERIUM=Deuterium Extraction
+chem.DUCRETE=Ducrete Production
 chem.DYN_DNT=Dineutronium Dynosynthesis
 chem.DYN_EUPH=Euphemium Dynosynthesis
 chem.DYN_SCHRAB=Schrabidium Dynosynthesis

@@ -63,6 +63,7 @@ public class ChemplantRecipes {
 		recipes.add(new ChemRecipe("TEL", 0));
 		recipes.add(new ChemRecipe("GASOLINE", 0));
 		recipes.add(new ChemRecipe("FRACKSOL", 0));
+		recipes.add(new ChemRecipe("DUCRETE", 0));
 		
 	}
 	

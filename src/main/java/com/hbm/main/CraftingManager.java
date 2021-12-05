@@ -346,6 +346,10 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.brick_concrete_mossy, 8), new Object[] { "CCC", "CVC", "CCC", 'C', ModBlocks.brick_concrete, 'V', Blocks.vine });
 		addRecipeAuto(new ItemStack(ModBlocks.brick_concrete_cracked, 6), new Object[] { " C " , "C C", " C ", 'C', ModBlocks.brick_concrete });
 		addRecipeAuto(new ItemStack(ModBlocks.brick_concrete_broken, 6), new Object[] { " C " , "C C", " C ", 'C', ModBlocks.brick_concrete_cracked });
+		addRecipeAuto(new ItemStack(ModBlocks.ducrete, 4), new Object[] { "DD", "DD", 'D', ModBlocks.ducrete_smooth });
+		addRecipeAuto(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] {"CDC", "DLD", "CDC", 'D', ModBlocks.ducrete_smooth, 'C', Items.clay_ball, 'L', ModItems.plate_lead });
+		addRecipeAuto(new ItemStack(ModBlocks.brick_ducrete, 4), new Object[] {"CDC", "DLD", "CDC", 'D', ModBlocks.ducrete, 'C', Items.clay_ball, 'L', ModItems.plate_lead });
+		addRecipeAuto(new ItemStack(ModBlocks.reinforced_ducrete, 4), new Object[] {"DSD", "SUS", "DSD", 'D', ModBlocks.brick_ducrete, 'S', ModItems.plate_steel, 'U', ModItems.ingot_u238 });
 		addRecipeAuto(new ItemStack(ModBlocks.brick_obsidian, 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.obsidian });
 		addRecipeAuto(new ItemStack(ModBlocks.meteor_polished, 4), new Object[] { "CC", "CC", 'C', ModBlocks.block_meteor_broken });
 		addRecipeAuto(new ItemStack(ModBlocks.meteor_pillar, 2), new Object[] { "C", "C", 'C', ModBlocks.meteor_polished });
