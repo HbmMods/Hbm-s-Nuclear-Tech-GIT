@@ -374,7 +374,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	
 	private void generate() {
 		
-		int consumption = (maxFuel / cycleDuration) * rods / 100;
+		int consumption = (int) (((double)maxFuel / cycleDuration) * rods / 100);
 		
 		if(consumption > fuel)
 			consumption = fuel;
@@ -385,7 +385,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		fuel -= consumption;
 		waste += consumption;
 		
-		int heat = (consumption / size) * type.heat / fuelMult;
+		int heat = (int) (((double)consumption / size) * type.heat / fuelMult);
 		
 		this.coreHeat += heat;
 		
