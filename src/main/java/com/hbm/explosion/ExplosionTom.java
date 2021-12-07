@@ -106,25 +106,19 @@ public class ExplosionTom
 				
 				if(y == 0)
 					break;
-				if(y<=threshold+2 && worldObj.getBlock(pX, y, pZ) != Blocks.air)
-				{
-					if(worldObj.rand.nextInt(499)<1)
-					{
+				
+				if(y <= threshold + 2 && worldObj.getBlock(pX, y, pZ) != Blocks.air) {
+					
+					if(worldObj.rand.nextInt(499) < 1) {
 						worldObj.setBlock(pX, y, pZ, ModBlocks.ore_tektite_osmiridium);
-					}
-					else
-					{
+					} else {
 						worldObj.setBlock(pX, y, pZ, ModBlocks.tektite);
 					}
-				}
-				else
-				{
-					if(y>16)
-					{
+					
+				} else {
+					if(y > 16) {
 						worldObj.setBlockToAir(pX, y, pZ);
-					}
-					else
-					{
+					} else {
 						worldObj.setBlock(pX, y, pZ, Blocks.lava, 0, 2);
 					}
 

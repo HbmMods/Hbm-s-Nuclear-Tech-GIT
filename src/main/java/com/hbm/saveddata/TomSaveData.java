@@ -17,16 +17,17 @@ public class TomSaveData extends WorldSavedData {
 	public static float dust;
 	public static float fire;
 	public static boolean impact;
-   
+
    public static TomSaveData forWorld(World world) {
       TomSaveData result = (TomSaveData)world.perWorldStorage.loadData(TomSaveData.class, "impactData");
+      
       if (result == null) {         
     	 world.perWorldStorage.setData(key, new TomSaveData(key));
          result = (TomSaveData)world.perWorldStorage.loadData(TomSaveData.class, "impactData");    	  
       }
       return result;
    }
-   
+
    private NBTTagCompound data = new NBTTagCompound();
 
    public TomSaveData(String tagName) {

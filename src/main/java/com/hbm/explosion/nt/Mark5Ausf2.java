@@ -10,6 +10,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+/*
+ * Turns out segmenting makes the craters ugly and, for whatever reason, doesn't actually improve performance (??????)
+ * Ausf3 will use the same approach as MK4 but with some optimizations regarding setBlock redundancy and getBlock operations
+ * See: docvt7
+ */
 public class Mark5Ausf2 implements IExplosionLogic {
 
 	//holds rays after being calculated up to where the blocks get removed

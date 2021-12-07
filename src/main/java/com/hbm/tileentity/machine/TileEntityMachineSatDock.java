@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.SatelliteLunarMiner;
 import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.util.WeightedRandomObject;
 
@@ -212,7 +213,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			    
 			    int delay = 10 * 60 * 1000;
 			    
-			    if(sat != null && sat instanceof SatelliteMiner) {
+			    if(sat instanceof SatelliteMiner) {
 			    	
 			    	SatelliteMiner miner = (SatelliteMiner)sat;
 			    	
@@ -222,6 +223,10 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			        	rocket.posX = xCoord + 0.5;
 			        	rocket.posY = 300;
 			        	rocket.posZ = zCoord + 0.5;
+			        	
+			        	if(sat instanceof SatelliteLunarMiner)
+			        		rocket.cargoType = 1;
+			        	
 			        	rocket.getDataWatcher().updateObject(17, freq);
 			        	worldObj.spawnEntityInWorld(rocket);
 			        	miner.lastOp = System.currentTimeMillis();
@@ -245,7 +250,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		    		}
 		    		
 		    		if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
-		    			unloadCargo();
+		    			unloadCargo(rocket.cargoType);
 		    		}
 		    	}
 		    }
@@ -259,11 +264,16 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	
 	static Random rand = new Random();
 	
-	private void unloadCargo() {
+	private void unloadCargo(int type) {
 		
 		int items = rand.nextInt(6) + 10;
 		
-		rand = new Random();
+		WeightedRandomObject[] cargo;
+		
+		if(type == 0)
+			cargo = this.standardCargo;
+		else
+			cargo = this.lunarCargo;
 		
 		for(int i = 0; i < items; i++) {
 			
@@ -272,7 +282,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		}
 	}
 	
-	private WeightedRandomObject[] cargo = new WeightedRandomObject[] {
+	private WeightedRandomObject[] standardCargo = new WeightedRandomObject[] {
 			new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 10),
 			new WeightedRandomObject(new ItemStack(ModItems.powder_titanium, 2), 8),
@@ -300,6 +310,16 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_trixite, 1), 1),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_starmetal, 1), 1),
 			new WeightedRandomObject(new ItemStack(ModItems.crystal_lithium, 2), 4)
+	};
+	
+	private WeightedRandomObject[] lunarCargo = new WeightedRandomObject[] {
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 48), 5),
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 32), 7),
+			new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 16), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_lithium, 3), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_iron, 1), 1),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_lithium, 1), 1),
 	};
 	
 	private void addToInv(ItemStack stack) {

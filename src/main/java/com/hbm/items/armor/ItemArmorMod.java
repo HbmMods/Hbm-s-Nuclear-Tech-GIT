@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,8 +30,11 @@ public class ItemArmorMod extends Item {
 		this.chestplate = chestplate;
 		this.leggings = leggings;
 		this.boots = boots;
+		
+		this.setMaxStackSize(1);
+		this.setCreativeTab(MainRegistry.consumableTab);
 	}
-    
+	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.DARK_PURPLE + "Applicable to:");

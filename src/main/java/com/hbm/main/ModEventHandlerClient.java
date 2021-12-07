@@ -6,7 +6,10 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -67,6 +70,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -83,6 +87,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -130,7 +136,14 @@ public class ModEventHandlerClient {
 
 		/// DODD DIAG HOOK FOR RBMK
 		if(event.type == ElementType.CROSSHAIRS) {
-			TileEntityRBMKBase.diagnosticPrintHook(event);
+			Minecraft mc = Minecraft.getMinecraft();
+			World world = mc.theWorld;
+			MovingObjectPosition mop = mc.objectMouseOver;
+			ScaledResolution resolution = event.resolution;
+			
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			}
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -401,9 +414,25 @@ public class ModEventHandlerClient {
 	@Spaghetti("please get this shit out of my face")
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if(player != null && mc.theWorld != null) {
+			int i = MathHelper.floor_double(player.posX);
+			int j = MathHelper.floor_double(player.posY);
+			int k = MathHelper.floor_double(player.posZ);
+			Block block = mc.theWorld.getBlock(i, j, k);
+			
+			if(block == ModBlocks.vacuum) {
+				e.result = null;
+				return;
+			}
+		}
+		
 		ResourceLocation r = e.sound.getPositionedSoundLocation();
 
-		WorldClient wc = Minecraft.getMinecraft().theWorld;
+		WorldClient wc = mc.theWorld;
 		
 		//Alright, alright, I give the fuck up, you've wasted my time enough with this bullshit. You win.
 		//A winner is you.
@@ -458,7 +487,7 @@ public class ModEventHandlerClient {
 			if(!sounds.init || sounds.isDonePlaying()) {
 				sounds.init = true;
 				sounds.setDone(false);
-				Minecraft.getMinecraft().getSoundHandler().playSound(sounds);
+				mc.getSoundHandler().playSound(sounds);
 			}
 		}
 	}
@@ -637,15 +666,13 @@ public class ModEventHandlerClient {
 			
 			World world = Minecraft.getMinecraft().theWorld;
 			
-			if(world != null && world.provider instanceof WorldProviderSurface) {// && !RenderNTMSkybox.didLastRender) {
+			if(world != null && world.provider instanceof WorldProviderSurface) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
 				if(!(sky instanceof RenderNTMSkybox)) {
 					world.provider.setSkyRenderer(new RenderNTMSkybox());
 				}
 			}
-			
-			//RenderNTMSkybox.didLastRender = false;
 		}
 	}
 	
@@ -838,14 +865,17 @@ public class ModEventHandlerClient {
 		event.green = 0.0F;
 		event.blue = 0.0F;
 	}*/
-	
+
 	public static IIcon particleBase;
+	public static IIcon particleLeaf;
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		
-		if(event.map.getTextureType() == 0)
+		if(event.map.getTextureType() == 0) {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
+		}
 	}
 
 	@SubscribeEvent

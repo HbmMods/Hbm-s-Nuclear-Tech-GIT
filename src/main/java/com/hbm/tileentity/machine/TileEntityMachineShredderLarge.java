@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.Random;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -18,7 +17,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineShredderLarge extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineShredderLarge extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
 
@@ -204,23 +203,6 @@ public class TileEntityMachineShredderLarge extends TileEntity implements ISided
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 		
-	}
-
-	@Override
-	public void setPower(long i) {
-		power = i;
-		
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-		
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
 	}
 	
 	@Override

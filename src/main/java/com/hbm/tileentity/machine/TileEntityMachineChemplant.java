@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -24,6 +23,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEChemplantPacket;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +39,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
 
@@ -242,24 +242,26 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	
 	@Override
 	public void updateEntity() {
-		
-		this.consumption = 100;
-		this.speed = 100;
-		
-		UpgradeManager.eval(slots, 1, 3);
-
-		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-		int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		
-		speed -= speedLevel * 25;
-		consumption += speedLevel * 300;
-		speed += powerLevel * 5;
-		consumption -= powerLevel * 30;
-		speed /= (overLevel + 1);
-		consumption *= (overLevel + 1);
 
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
+			
+			this.consumption = 100;
+			this.speed = 100;
+			
+			UpgradeManager.eval(slots, 1, 3);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			speed -= speedLevel * 25;
+			consumption += speedLevel * 300;
+			speed += powerLevel * 5;
+			consumption -= powerLevel * 30;
+			speed /= (overLevel + 1);
+			consumption *= (overLevel + 1);
 			
 			isProgressing = false;
 			
@@ -436,6 +438,35 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
+	}
+	
+	private void updateConnections() {
+		this.getBlockMetadata();
+		
+		if(this.blockMetadata == 5) {
+			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
+			this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
+			
+		} else if(this.blockMetadata == 3) {
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
+			this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3, Library.POS_Z);
+			
+		} else if(this.blockMetadata == 4) {
+			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
+			this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
+			
+		} else if(this.blockMetadata == 2) {
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
+			this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
+		}
 	}
 
 	public boolean tryExchangeTemplates(TileEntity te1, TileEntity te2) {

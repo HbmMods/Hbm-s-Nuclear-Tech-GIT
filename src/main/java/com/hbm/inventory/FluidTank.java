@@ -275,6 +275,12 @@ public class FluidTank {
 			if(type.traits.contains(FluidTrait.CORROSIVE_2))
 				list.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
 			
+			if(type.traits.contains(FluidTrait.NO_CONTAINER))
+				list.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
+			
+			if(type.traits.contains(FluidTrait.LEAD_CONTAINER))
+				list.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");
+			
 			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
 	}

@@ -13,6 +13,7 @@ public class FluidTypeHandler {
 		AMAT,
 		CORROSIVE,
 		CORROSIVE_2,
+		LEAD_CONTAINER,
 		NO_CONTAINER,
 		NO_ID;
 	}
@@ -53,6 +54,7 @@ public class FluidTypeHandler {
 		
 		GAS				(0xfffeed,	13,	1,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.gas"),
 		PETROLEUM		(0x7cb7c9,	7,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.petroleum"),
+		LPG				(0x4747EA,	5,	2,	2,	1,	3,	1,	EnumSymbol.NONE,		"hbmfluid.lpg"),
 		
 		BIOGAS			(0xbfd37c,	12,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.biogas"),
 		BIOFUEL			(0xeef274,	13,	2,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.biofuel"),
@@ -60,30 +62,30 @@ public class FluidTypeHandler {
 		NITAN			(0x8018ad,	15,	2,	1,	2,	4,	1,	EnumSymbol.NONE,		"hbmfluid.nitan"),
 		
 		UF6				(0xD1CEBE,	14,	1,	1,	4,	0,	2,	EnumSymbol.RADIATION,	"hbmfluid.uf6", FluidTrait.CORROSIVE),
-		PUF6			(0x4C4C4C,	15,	1,	1,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.puf6", FluidTrait.CORROSIVE),
-		SAS3			(0x4ffffc,	14,	2,	1,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3", FluidTrait.CORROSIVE),
-		SCHRABIDIC		(0x006B6B,	14,	1,	2,	5,	0,	5,	EnumSymbol.ACID,		"hbmfluid.schrabidic", FluidTrait.CORROSIVE_2),
+		PUF6			(0x4C4C4C,	15,	1,	1,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.puf6", FluidTrait.CORROSIVE, FluidTrait.LEAD_CONTAINER),
+		SAS3			(0x4ffffc,	14,	2,	1,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3", FluidTrait.CORROSIVE, FluidTrait.LEAD_CONTAINER),
+		SCHRABIDIC		(0x006B6B,	14,	1,	2,	5,	0,	5,	EnumSymbol.ACID,		"hbmfluid.schrabidic", FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER),
 		
 		AMAT			(0x010101,	0,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.amat", FluidTrait.AMAT),
 		ASCHRAB			(0xb50000,	1,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.aschrab", FluidTrait.AMAT),
 
 		ACID			(0xfff7aa,	10,	2,	1,	3,	0,	3,	EnumSymbol.OXIDIZER,	"hbmfluid.acid", FluidTrait.CORROSIVE),
-		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", FluidTrait.CORROSIVE_2),
+		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER),
 		CRYOGEL			(0x32ffff,	0,	1,	2,	2,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.cryogel", -170),
 		
 		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen"),
 		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen"),
 		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),
-		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", 1500, FluidTrait.CORROSIVE),
+		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", 1500, FluidTrait.CORROSIVE, FluidTrait.LEAD_CONTAINER),
 		
 		MERCURY			(0x808080,	7,	1,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.mercury"),
 		PAIN			(0x938541,	15,	1,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.pain", 300, FluidTrait.CORROSIVE),
 
-		WASTEFLUID		(0x544400,	0,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastefluid", FluidTrait.NO_CONTAINER),
-		WASTEGAS		(0xB8B8B8,	1,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastegas", FluidTrait.NO_CONTAINER),
+		WASTEFLUID		(0x544400,	0,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastefluid", FluidTrait.LEAD_CONTAINER),
+		WASTEGAS		(0xB8B8B8,	1,	2,	2,	2,	0,	1,	EnumSymbol.RADIATION,	"hbmfluid.wastegas", FluidTrait.LEAD_CONTAINER),
 
 		GASOLINE		(0x445772,	2,	2,	2,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.gasoline"),
-		SPENTSTEAM		(0x445772,	3,	2,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.spentsteam", FluidTrait.NO_CONTAINER),
+		SPENTSTEAM		(0x445772,	3,	2,	2,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.spentsteam"),
 		FRACKSOL		(0x798A6B,	4,	2,	2,	1,	3,	3,	EnumSymbol.ACID,		"hbmfluid.fracksol", FluidTrait.CORROSIVE),
 		
 		PLASMA_DT		(0xF7AFDE,	8,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
@@ -91,8 +93,14 @@ public class FluidTypeHandler {
 		PLASMA_HT		(0xD1ABF2,	10,	1,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_ht", 3000, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
 		PLASMA_XM		(0xC6A5FF,	11,	1,	2,	0,	4,	1,	EnumSymbol.RADIATION,	"hbmfluid.plasma_xm", 4250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
 		PLASMA_BF		(0xA7F1A3,	12,	1,	2,	4,	5,	4,	EnumSymbol.ANTIMATTER,	"hbmfluid.plasma_bf", 8500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
-		
-		DEATH			(0x717A88,	15,	1,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.death", 300, FluidTrait.CORROSIVE_2);
+		PLASMA_DH3		(0xFF83AA,	6,	2,	2,	0,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.plasma_dh3", 3480, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID),
+
+		HELIUM3			(0xFCF0C4,	7,	2,	2,	3,	4,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.helium3"),
+		DEATH			(0x717A88,	8,	2,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER),
+		ETHANOL			(0xe0ffff,	9,	2,	2,	2,	3,	0,	EnumSymbol.NONE,		"hbmfluid.ethanol"),
+		HEAVYWATER		(0x00a0b0,	10,	2,	2,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.heavywater"),
+		CARBONDIOXIDE	(0x747474,	11,	2,	2,	3,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.carbondioxide");
+
 		//Approximate HEX Color of the fluid, used for pipe rendering
 		private int color;
 		//X position of the fluid on the sheet, the "row"
@@ -200,6 +208,10 @@ public class FluidTypeHandler {
 		
 		public boolean hasNoContainer() {
 			return this.traits.contains(FluidTrait.NO_CONTAINER);
+		}
+		
+		public boolean needsLeadContainer() {
+			return this.traits.contains(FluidTrait.LEAD_CONTAINER);
 		}
 		
 		public boolean hasNoID() {

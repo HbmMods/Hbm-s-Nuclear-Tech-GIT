@@ -23,6 +23,18 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	}
 
 	@Override
+	protected void updateConnections() {
+		this.getBlockMetadata();
+		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 2 + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2 + dir.offsetZ * 2, ForgeDirection.UNKNOWN); //brain overheating, do this shit somewhen else
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 2 + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 4 - dir.offsetZ * 2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 4 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 4 + dir.offsetZ * 2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 4 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 2, ForgeDirection.UNKNOWN);
+	}
+
+	@Override
 	public long getMaxPower() {
 		return 250_000;
 	}

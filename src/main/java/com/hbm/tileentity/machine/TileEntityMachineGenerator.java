@@ -7,10 +7,8 @@ import java.util.Random;
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
@@ -29,7 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
@@ -38,8 +36,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public long power;
 	public final long powerMax = 100000;
 	public boolean isLoaded = false;
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public FluidTank[] tanks;
 	
 	private static final int[] slots_top = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -275,15 +271,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 
 	@Override
 	public void updateEntity() {
-
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
 		
 		if(!worldObj.isRemote)
 		{
@@ -529,52 +516,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
     	worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
     	ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
     	worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 
 	@Override

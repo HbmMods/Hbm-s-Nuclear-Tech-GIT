@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -17,6 +15,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.world.machine.FWatz;
 
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -27,7 +26,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public final static long maxPower = 10000000000L;
@@ -38,8 +37,6 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	Random rand = new Random();
 	
 	private ItemStack slots[];
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	
 	private String customName;
 
@@ -266,13 +263,10 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	public void updateEntity() {
 		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
 
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19)
-				ffgeuaInit();
+			this.sendPower(worldObj, xCoord + 10, yCoord - 11, zCoord, Library.POS_X);
+			this.sendPower(worldObj, xCoord - 10, yCoord - 11, zCoord, Library.NEG_X);
+			this.sendPower(worldObj, xCoord, yCoord - 11, zCoord + 10, Library.POS_Z);
+			this.sendPower(worldObj, xCoord, yCoord - 11, zCoord - 10, Library.NEG_Z);
 
 			if (hasFuse() && getSingularityType() > 0) {
 				if(cooldown) {
@@ -374,49 +368,20 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	public boolean isRunning() {
 		return FWatz.getPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord) && this.isStructureValid(worldObj);
 	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord + 10, this.yCoord - 11, this.zCoord, getTact());
-		ffgeua(this.xCoord - 10, this.yCoord - 11, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 11, this.zCoord + 10, getTact());
-		ffgeua(this.xCoord, this.yCoord - 11, this.zCoord - 10, getTact());
-	}
 	
 	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 
 	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 
 	@Override

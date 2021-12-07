@@ -5,11 +5,9 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -26,13 +24,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public final static long maxPower = 100000000;
 	private ItemStack slots[];
 	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public FluidTank tanks[];
 	
 	private String customName;
@@ -203,6 +200,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public boolean isStructureValid(World world) {
 		
 		//...and I wrote all of this by hand! Ha!
+		//update, about 5 years later: what the fuck was wrong with me
 		
 		if(world.getBlock(this.xCoord + 5, this.yCoord - 2, this.zCoord - 3) == ModBlocks.fusion_conductor &&
 				world.getBlock(this.xCoord + 5, this.yCoord - 2, this.zCoord - 2) == ModBlocks.fusion_conductor &&
@@ -974,14 +972,6 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 
 	@Override
 	public void updateEntity() {
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
 		
 		if(!worldObj.isRemote)
 		{
@@ -1203,48 +1193,6 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public void removePlasma(int x, int y, int z) {
 		if(worldObj.getBlock(x, y, z) == ModBlocks.plasma)
 			worldObj.setBlock(x, y, z, Blocks.air);
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 3, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 3, this.zCoord, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
-		return power;
-	}
-
-	@Override
-	public void setSPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
 	}
 
 	@Override

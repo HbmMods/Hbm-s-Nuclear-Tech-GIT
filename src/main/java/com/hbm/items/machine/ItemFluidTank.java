@@ -25,8 +25,19 @@ public class ItemFluidTank extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		
-		for(int i = 1; i < FluidType.values().length; ++i) {
-			if(!FluidType.values()[i].hasNoContainer()) {
+		for(int i = 1; i < FluidType.values().length; i++) {
+			
+			FluidType type = FluidType.values()[i];
+			
+			if(type.hasNoContainer())
+				continue;
+			
+			if(type.needsLeadContainer()) {
+				if(this == ModItems.fluid_tank_lead_full) {
+					list.add(new ItemStack(item, 1, i));
+				}
+				
+			} else {
 				list.add(new ItemStack(item, 1, i));
 			}
 		}
@@ -56,6 +67,8 @@ public class ItemFluidTank extends Item {
 
 		if(this == ModItems.fluid_tank_full)
 			this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_overlay");
+		if(this == ModItems.fluid_tank_lead_full)
+			this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_lead_overlay");
 		if(this == ModItems.fluid_barrel_full)
 			this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_barrel_overlay");
 	}

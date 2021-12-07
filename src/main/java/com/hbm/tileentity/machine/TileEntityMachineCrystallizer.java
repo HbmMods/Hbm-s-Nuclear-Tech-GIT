@@ -3,8 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
@@ -14,14 +14,16 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IConsumer, IFluidAcceptor {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -49,6 +51,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.loadTank(3, 4, slots);
@@ -91,6 +95,21 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					prevAngle -= 360;
 				}
 			}
+		}
+	}
+	
+	private void updateConnections() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+
+		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
+			this.trySubscribe(worldObj, xCoord + 2, yCoord + 5, zCoord, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 2, yCoord + 5, zCoord, Library.NEG_X);
+		}
+
+		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z);
 		}
 	}
 	

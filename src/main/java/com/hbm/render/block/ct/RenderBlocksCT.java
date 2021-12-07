@@ -42,16 +42,23 @@ public class RenderBlocksCT extends RenderBlocks {
 		
 		if(!this.enableAO)
 			return;
+		
+		/*
+		 * so what's the actual solution here? instantiating the VertInfos with TL red being 1 causes all faces to be red on the top left, so there's
+		 * no translation issues here. perhaps i have to rotate the light and color info before instantiating the infos? afterwards is no good because
+		 * of the avg calculations. either way forge is a fucking liar when saying "ayy lmao this is the color of the top left" no it fucking ain't,
+		 * it's only the color in ONE PARTICULAR SIDE. well thanks for that i think that's rather poggers, lex.
+		 */
 
-		/*this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
-		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
-		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
-		this.br = new VertInfo(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, this.brightnessBottomRight);*/
-
-		this.tl = new VertInfo(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, this.brightnessTopLeft);
-		this.tr = new VertInfo(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, this.brightnessTopRight);
-		this.bl = new VertInfo(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, this.brightnessBottomLeft);
-		this.br = new VertInfo(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, this.brightnessBottomRight);
+		float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
+		float green = (colorGreenTopLeft + colorGreenTopRight + colorGreenBottomLeft + colorGreenBottomRight) / 4F;
+		float blue = (colorBlueTopLeft + colorBlueTopRight + colorBlueBottomLeft + colorBlueBottomRight) / 4F;
+		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;
+		
+		this.tl = new VertInfo(red, green, blue, light);
+		this.tr = new VertInfo(red, green, blue, light);
+		this.bl = new VertInfo(red, green, blue, light);
+		this.br = new VertInfo(red, green, blue, light);
 
 		this.tc = VertInfo.avg(tl, tr);
 		this.bc = VertInfo.avg(bl, br);
@@ -201,12 +208,12 @@ public class RenderBlocksCT extends RenderBlocks {
 		drawSubFace(fcc, this.cc, fcr, this.cr, fbc, this.bc, fbr, this.br, ibr);
 	}
 	
-	/// ORDER: GOD IS DEAD ///
+	/// ORDER: LEXICAL ///
 	private void drawSubFace(double[] ftl, VertInfo ntl, double[] ftr, VertInfo ntr, double[] fbl, VertInfo nbl, double[] fbr, VertInfo nbr, IIcon icon) {
 		
 		boolean debugColor = false;
 		
-		/// ORDER: I DON'T FUCKING KNOW AT THIS POINT ///
+		/// ORDER: ROTATIONAL ///
 		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);
 		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
 		if(debugColor) tess.setColorOpaque_F(1F, 0F, 0F);

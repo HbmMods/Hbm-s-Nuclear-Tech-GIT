@@ -1,8 +1,6 @@
 package com.hbm.packet;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
-
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -12,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated //use the NBT packet instead
 public class AuxElectricityPacket implements IMessage {
 
 	int x;
@@ -54,17 +53,13 @@ public class AuxElectricityPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(AuxElectricityPacket m, MessageContext ctx) {
 			try {
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te != null && te instanceof IConsumer) {
-					
-				IConsumer gen = (IConsumer) te;
-				gen.setPower(m.charge);
-			} else if (te != null && te instanceof ISource) {
-					
-				ISource gen = (ISource) te;
-				gen.setSPower(m.charge);
-			}
+				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
+	
+				if (te instanceof IEnergyUser) {
+						
+					IEnergyUser gen = (IEnergyUser) te;
+					gen.setPower(m.charge);
+				}
 			} catch (Exception x) { }
 			return null;
 		}

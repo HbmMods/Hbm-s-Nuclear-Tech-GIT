@@ -8,12 +8,12 @@ import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTeslaCrab;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -27,8 +27,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTesla extends TileEntityMachineBase implements IConsumer {
+public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 100000;
@@ -51,6 +52,8 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			this.targets.clear();
 			
@@ -79,6 +82,12 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 			
 			this.networkPack(data, 100);
 		}
+	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 	
 	public static List<double[]> zap(World worldObj, double x, double y, double z, double radius, Entity source) {

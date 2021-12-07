@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -19,6 +18,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IConsumer, IFluidSource {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource {
 	
 	public int indicator = 0;
 	
@@ -69,6 +69,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			this.tanks[0].unloadTank(1, 2, slots);
 			this.tanks[1].unloadTank(3, 4, slots);
@@ -131,6 +133,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.sendUpdate();
 		}
 	}
+	
+	protected abstract void updateConnections();
 	
 	public void sendUpdate() {
 		NBTTagCompound data = new NBTTagCompound();

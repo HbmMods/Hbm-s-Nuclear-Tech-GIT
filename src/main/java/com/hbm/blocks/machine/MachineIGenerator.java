@@ -48,7 +48,7 @@ public class MachineIGenerator extends BlockDummyable {
 		return false;
 	}
 	
-	/*@Override
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
@@ -69,53 +69,22 @@ public class MachineIGenerator extends BlockDummyable {
 		} else {
 			return false;
 		}
-	}*/
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		this.makeExtra(world, x + dir.offsetX * (o - 3), y, z + dir.offsetZ * (o - 3));
+		this.makeExtra(world, x + dir.offsetX * (o + 2), y, z + dir.offsetZ * (o + 2));
+	}
 
 	@Override
 	public int[] getDimensions() {
-		return new int [] {1,0,2,2,2,4};
+		return new int [] {2, 0, 3, 2, 1, 1};
 	}
 
 	@Override
 	public int getOffset() {
 		return 2;
-	}
-	
-	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir))
-			return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {5,0,2,2,8,-2}, x, y, z, dir))
-			return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,0,2,2,-4,8}, x, y, z, dir))
-			return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {3,-2,1,1,-1,3}, x, y, z, dir))
-			return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,-2,1,1,1,0}, x, y, z, dir))
-			return false;
-		
-		return true;
-	}
-	
-	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {5,0,2,2,8,-2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,0,2,2,-4,8}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {3,-2,1,1,-1,3}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int [] {4,-2,1,1,1,0}, this, dir);
-		
-		/*int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
-		
-		for(int iy = 0; iy <= 1; iy++) {
-			for(int ix = -rot[4]; ix <= rot[5]; ix++) {
-				for(int iz = -rot[2]; iz <= rot[3]; iz++) {
-					
-					if(ix == -rot[4] || ix == rot[5] || iz == -rot[2] || iz == rot[3]) {
-						this.makeExtra(world, x + dir.offsetX * o + ix, y + iy, z + dir.offsetZ * o + iz);
-					}
-				}
-			}
-		}*/
 	}
 }

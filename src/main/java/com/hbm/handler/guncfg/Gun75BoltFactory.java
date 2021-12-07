@@ -91,8 +91,8 @@ public class Gun75BoltFactory {
 		bullet.ammo = ModItems.ammo_75bolt;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 24;
-		bullet.dmgMax = 32;
+		bullet.dmgMin = 74;
+		bullet.dmgMax = 82;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 		
@@ -129,8 +129,8 @@ public class Gun75BoltFactory {
 		bullet.ammo = ModItems.ammo_75bolt_incendiary;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 26;
-		bullet.dmgMax = 36;
+		bullet.dmgMin = 72;
+		bullet.dmgMax = 76;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 
@@ -167,8 +167,8 @@ public class Gun75BoltFactory {
 		bullet.ammo = ModItems.ammo_75bolt_he;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 32;
-		bullet.dmgMax = 48;
+		bullet.dmgMin = 94;
+		bullet.dmgMax = 100;
 		bullet.doesRicochet = false;
 		bullet.explosive = 2.5F;
 		bullet.blockDamage = false;

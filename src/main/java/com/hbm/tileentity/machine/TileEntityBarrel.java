@@ -106,11 +106,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
-		if(tank.getTankType() == FluidType.WATER && ModEventHandler.fire>0)
-		{
+		if(tank.getTankType() == FluidType.WATER && ModEventHandler.fire > 0) {
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-			if(light >7)
-			{
+			
+			if(light > 7) {
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 			}
 		}

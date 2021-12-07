@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -12,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
 	
@@ -320,22 +319,5 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 				process = 0;
 			}
 		}
-	}
-
-	@Override
-	public void setPower(long i) {
-		power = i;
-		
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-		
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
 	}
 }

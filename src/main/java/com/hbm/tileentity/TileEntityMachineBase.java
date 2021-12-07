@@ -164,6 +164,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	
 	public void networkUnpack(NBTTagCompound nbt) { }
 	
+	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }
 	
 	@Override

@@ -2,13 +2,19 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityBlockSpider;
 import com.hbm.lib.Library;
+import com.hbm.world.dungeon.Bunker;
+import com.hbm.world.dungeon.Relay;
 import com.hbm.world.generator.CellularDungeonFactory;
 
+import api.hbm.energy.IEnergyConductor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -29,16 +35,27 @@ public class ItemWandD extends Item {
 			//int y = world.getHeightValue(x, z);
 			int y = pos.blockY;
 			
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				player.addChatComponentMessage(new ChatComponentText("" + con.getPowerNet()));
+			}
+			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
-			for(int i = x - 10; i <= x + 10; i++) {
-				for(int j = y - 10; j <= y + 10; j++) {
-					for(int k = z - 10; k <= z + 10; k++) {
+			/*int r = 5;
+			
+			for(int i = x - r; i <= x + r; i++) {
+				for(int j = y - r; j <= y + r; j++) {
+					for(int k = z - r; k <= z + r; k++) {
 						
-						world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+						world.setBlock(i, j, k, ModBlocks.vacuum);
+						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
-			}
+			}*/
+			
+			//new Bunker().generate(world, world.rand, x, y, z);
 			
 			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);

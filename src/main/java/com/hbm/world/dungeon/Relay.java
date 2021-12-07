@@ -5,12 +5,16 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCrateIron;
+import com.hbm.util.LootGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -655,6 +659,19 @@ public class Relay extends WorldGenerator
 		
 		if(world.rand.nextInt(5) == 0) {
 			((TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10)).setInventorySlotContents(11, new ItemStack(ModItems.morning_glory));
+		}
+		
+		if(world.rand.nextInt(10) > 0) {
+			LootGenerator.setBlock(world, x + 6, y + 1, z + 10);
+			LootGenerator.lootCapNuke(world, x + 6, y + 1, z + 10);
+		} else {
+			world.setBlock(x + 6, y + 1, z + 10, ModBlocks.bobblehead, 2, 3);
+			TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(x + 6, y + 1, z + 10);
+			
+			if(bobble != null) {
+				bobble.type = BobbleType.values()[world.rand.nextInt(BobbleType.values().length - 1) + 1];
+				bobble.markDirty();
+			}
 		}
 		
 		world.setBlock(x + 7, y + 0, z + 10, Blocks.brick_block, 0, 3);

@@ -44,15 +44,14 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
-			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			tanks[0].setFill(tanks[0].getFill() - convert);
-			if(ModEventHandler.fire>0 && light >7)//Make both steam and water evaporate during firestorms...
-			{				
-				tanks[1].setFill(tanks[1].getFill() - convert);	
-			}
-			else
-			{
-				tanks[1].setFill(tanks[1].getFill() + convert);	
+			
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			
+			if(ModEventHandler.fire > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
+				tanks[1].setFill(tanks[1].getFill() - convert);
+			} else {
+				tanks[1].setFill(tanks[1].getFill() + convert);
 			}
 			
 			fillFluidInit(tanks[1].getTankType());

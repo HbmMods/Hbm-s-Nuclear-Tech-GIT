@@ -8,16 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -27,17 +26,16 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
 	public long power;
 	public int burnTime;
 	public static final long maxPower = 100000;
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
 	
 	private static final int[] slots_top = new int[] {1};
@@ -223,17 +221,11 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	
 	@Override
 	public void updateEntity() {
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
 
-		if(!worldObj.isRemote)
-		{
+		if(!worldObj.isRemote) {
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		
 			//Water
 			tank.loadTank(0, 3, slots);
@@ -306,49 +298,18 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 
 	@Override

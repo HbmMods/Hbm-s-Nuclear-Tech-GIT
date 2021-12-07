@@ -37,6 +37,7 @@
     "block.rbmk_explosion": {"category": "block", "sounds": [{"name": "block/rbmk_explosion", "stream": false}]},
     "block.rbmk_az5_cover": {"category": "block", "sounds": [{"name": "block/rbmk_az5_cover", "stream": false}]},
     "block.chungusLever": {"category": "block", "sounds": [{"name": "block/chungusLever", "stream": false}]},
+    "block.bobble": {"category": "block", "sounds": [{"name": "block/bobble", "stream": false}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
@@ -148,6 +149,7 @@
     "weapon.cDeploy": {"category": "player", "sounds": [{"name": "weapon/cDeploy", "stream": false}]},
     "weapon.cSwing": {"category": "player", "sounds": [{"name": "weapon/cSwing", "stream": false}]},
     "weapon.extinguisher": {"category": "player", "sounds": [{"name": "weapon/extinguisher", "stream": false}]},
+    "weapon.robin_explosion": {"category": "player", "sounds": [{"name": "weapon/robin_explosion", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

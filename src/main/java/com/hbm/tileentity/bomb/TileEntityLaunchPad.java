@@ -1,11 +1,11 @@
 package com.hbm.tileentity.bomb;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissilePacket;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,8 +16,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IEnergyUser {
 
 	public ItemStack slots[];
 	
@@ -187,14 +188,23 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void updateEntity() {
-
-		
-		power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 		
 		if(!worldObj.isRemote) {
+			
+			power = Library.chargeTEFromItems(slots, 2, power, maxPower);
+			this.updateConnections();
+			
 			PacketDispatcher.wrapper.sendToAllAround(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
+	}
+	
+	private void updateConnections() {
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
 	
 	@Override
@@ -220,10 +230,29 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	}
 	
 	@Override
+	public long transferPower(long power) {
+		
+		this.power += power;
+		
+		if(this.power > this.getMaxPower()) {
+			
+			long overshoot = this.power - this.getMaxPower();
+			this.power = this.getMaxPower();
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
 	}
-
 }

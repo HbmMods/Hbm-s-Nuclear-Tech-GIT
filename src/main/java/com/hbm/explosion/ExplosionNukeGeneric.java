@@ -31,8 +31,6 @@ import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -41,6 +39,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.turret.TileEntityTurretBase;
 import com.hbm.util.ArmorUtil;
 
+import api.hbm.energy.IEnergyUser;
 import cofh.api.energy.IEnergyProvider;
 
 public class ExplosionNukeGeneric {
@@ -594,16 +593,9 @@ public class ExplosionNukeGeneric {
 			Block b = world.getBlock(x,y,z);
 			TileEntity te = world.getTileEntity(x, y, z);
 			
-			if (te != null && te instanceof ISource) {
+			if (te != null && te instanceof IEnergyUser) {
 				
-				((ISource)te).setSPower(0);
-				
-				if(random.nextInt(5) < 1)
-					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
-			}
-			if (te != null && te instanceof IConsumer) {
-				
-				((IConsumer)te).setPower(0);
+				((IEnergyUser)te).setPower(0);
 				
 				if(random.nextInt(5) < 1)
 					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);

@@ -26,12 +26,10 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
 	public TileEntityMachineFractionTower() {
-		super();
-		
 		tanks = new FluidTank[3];
 		tanks[0] = new FluidTank(FluidType.HEAVYOIL, 4000, 0);
-		tanks[1] = new FluidTank(FluidType.BITUMEN, 4000, 0);
-		tanks[2] = new FluidTank(FluidType.SMEAR, 4000, 0);
+		tanks[1] = new FluidTank(FluidType.BITUMEN, 4000, 1);
+		tanks[2] = new FluidTank(FluidType.SMEAR, 4000, 2);
 	}
 	
 	@Override

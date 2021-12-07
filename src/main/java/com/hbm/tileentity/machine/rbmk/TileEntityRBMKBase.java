@@ -68,7 +68,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	/**
 	 * Approx melting point of steel
-	 * This metric won't be used because fuel tends to melt much earlier than that
+	 * Fuels often burn much hotter than this but it won't affect the column too much due to low diffusion
 	 * @return
 	 */
 	public double maxHeat() {
@@ -88,6 +88,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		return true;
 	}
 	
+	//unused
 	public int trackingRange() {
 		return 25;
 	}
@@ -96,9 +97,17 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.worldObj.theProfiler.startSection("rbmkBase_heat_movement");
 			moveHeat();
-			if(RBMKDials.getReasimBoilers(worldObj)) boilWater();
+			if(RBMKDials.getReasimBoilers(worldObj)) {
+				this.worldObj.theProfiler.endStartSection("rbmkBase_reasim_boilers");
+				boilWater();
+			}
+
+			this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
 			coolPassively();
+			this.worldObj.theProfiler.endSection();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			this.writeToNBT(data);
@@ -205,16 +214,15 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	
 	protected void coolPassively() {
 		
-			
-		if(ModEventHandler.fire > 0)
-		{
-			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);			
-			if(heat < 20+(480*(light/15)))
-			{
-				this.heat+=this.passiveCooling()*2;
+		if(ModEventHandler.fire > 0) {
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			if(heat < 20 + (480 * (light / 15))) {
+				this.heat += this.passiveCooling() * 2;
 			}
 		}
+		
 		this.heat -= this.passiveCooling();
+		
 		if(heat < 20)
 			heat = 20D;
 	}
@@ -267,63 +275,58 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void diagnosticPrintHook(RenderGameOverlayEvent.Pre event) {
+	public static void diagnosticPrintHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
 
 		Minecraft mc = Minecraft.getMinecraft();
-		World world = mc.theWorld;
-		MovingObjectPosition mop = mc.objectMouseOver;
 		ScaledResolution resolution = event.resolution;
-		
-		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof RBMKBase) {
-			
-			RBMKBase rbmk = (RBMKBase)world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-			int[] pos = rbmk.findCore(world, mop.blockX, mop.blockY, mop.blockZ);
-			
-			if(pos == null)
-				return;
-			
-			TileEntityRBMKBase te = (TileEntityRBMKBase)world.getTileEntity(pos[0], pos[1], pos[2]);
-			NBTTagCompound flush = new NBTTagCompound();
-			te.getDiagData(flush);
-			Set<String> keys = flush.func_150296_c();
-			
-			GL11.glPushMatrix();
-			
-			int pX = resolution.getScaledWidth() / 2 + 8;
-			int pZ = resolution.getScaledHeight() / 2;
-			
-			List<String> exceptions = new ArrayList();
-			exceptions.add("x");
-			exceptions.add("y");
-			exceptions.add("z");
-			exceptions.add("items");
-			exceptions.add("id");
 
-			String title = "Dump of Ordered Data Diagnostic (DODD)";
-			mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);
-			mc.fontRenderer.drawString(title, pX, pZ - 20, 0x00FF00);
+		RBMKBase rbmk = (RBMKBase) world.getBlock(x, y, z);
+		int[] pos = rbmk.findCore(world, x, y, z);
 
-			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX + 1, pZ - 9, 0x606000);
-			mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX, pZ - 10, 0xffff00);
-			
-			String[] ents = new String[keys.size()];
-			keys.toArray(ents);
-			Arrays.sort(ents);
-			
-			for(String key : ents) {
-				
-				if(exceptions.contains(key))
-					continue;
-				
-				mc.fontRenderer.drawString(key + ": " + flush.getTag(key), pX, pZ, 0xFFFFFF);
-				pZ += 10;
-			}
+		if(pos == null)
+			return;
 
-			GL11.glDisable(GL11.GL_BLEND);
+		TileEntityRBMKBase te = (TileEntityRBMKBase) world.getTileEntity(pos[0], pos[1], pos[2]);
+		NBTTagCompound flush = new NBTTagCompound();
+		te.getDiagData(flush);
+		Set<String> keys = flush.func_150296_c();
 
-			GL11.glPopMatrix();
-			Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+		GL11.glPushMatrix();
+
+		int pX = resolution.getScaledWidth() / 2 + 8;
+		int pZ = resolution.getScaledHeight() / 2;
+
+		List<String> exceptions = new ArrayList();
+		exceptions.add("x");
+		exceptions.add("y");
+		exceptions.add("z");
+		exceptions.add("items");
+		exceptions.add("id");
+
+		String title = "Dump of Ordered Data Diagnostic (DODD)";
+		mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);
+		mc.fontRenderer.drawString(title, pX, pZ - 20, 0x00FF00);
+
+		mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX + 1, pZ - 9, 0x606000);
+		mc.fontRenderer.drawString(I18nUtil.resolveKey(rbmk.getUnlocalizedName() + ".name"), pX, pZ - 10, 0xffff00);
+
+		String[] ents = new String[keys.size()];
+		keys.toArray(ents);
+		Arrays.sort(ents);
+
+		for(String key : ents) {
+
+			if(exceptions.contains(key))
+				continue;
+
+			mc.fontRenderer.drawString(key + ": " + flush.getTag(key), pX, pZ, 0xFFFFFF);
+			pZ += 10;
 		}
+
+		GL11.glDisable(GL11.GL_BLEND);
+
+		GL11.glPopMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public void onOverheat() {

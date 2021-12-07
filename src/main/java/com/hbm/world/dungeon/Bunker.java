@@ -5,6 +5,8 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
@@ -281,7 +283,19 @@ public class Bunker extends WorldGenerator {
 		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest) {
 			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest) world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2) + 6);
 		}
-		world.setBlock(x + 2, y + -23, z + 1, ModBlocks.geiger, 2, 3);
+		
+		if(world.rand.nextInt(10) > 0) {
+			world.setBlock(x + 2, y + -23, z + 1, ModBlocks.geiger, 2, 3);
+		} else {
+			world.setBlock(x + 2, y + -23, z + 1, ModBlocks.bobblehead, 0, 3);
+			TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(x + 2, y + -23, z + 1);
+			
+			if(bobble != null) {
+				bobble.type = BobbleType.values()[world.rand.nextInt(BobbleType.values().length - 1) + 1];
+				bobble.markDirty();
+			}
+		}
+		
 		world.setBlock(x + 3, y + -24, z + 1, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 1, Block1, 0, 3);

@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -22,6 +21,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 
+import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -33,8 +33,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchTable extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityLaunchTable extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -165,6 +166,9 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 		if (!worldObj.isRemote) {
 			
 			updateTypes();
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0)
+				this.updateConnections();
 
 			tanks[0].loadTank(2, 6, slots);
 			tanks[1].loadTank(3, 7, slots);
@@ -215,6 +219,16 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
 				}
 			}
+		}
+	}
+	
+	private void updateConnections() {
+
+		for(int i = -4; i <= 4; i++) {
+			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord + 5, Library.POS_Z);
+			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
+			this.trySubscribe(worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
+			this.trySubscribe(worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
 		}
 	}
 	
@@ -540,5 +554,25 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+	
+	@Override
+	public long transferPower(long power) {
+		
+		this.power += power;
+		
+		if(this.power > this.getMaxPower()) {
+			
+			long overshoot = this.power - this.getMaxPower();
+			this.power = this.getMaxPower();
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && dir != ForgeDirection.UNKNOWN;
 	}
 }

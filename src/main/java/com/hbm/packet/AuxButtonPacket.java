@@ -18,6 +18,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
+import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -29,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
+@Deprecated //use the NBT control packet instead
 public class AuxButtonPacket implements IMessage {
 
 	int x;
@@ -273,6 +275,7 @@ public class AuxButtonPacket implements IMessage {
 				}
 				
 				/// yes ///
+				//no fuck off
 				if(te instanceof TileEntityMachineBase) {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
 					base.handleButtonPacket(m.value, m.id);
@@ -280,6 +283,23 @@ public class AuxButtonPacket implements IMessage {
 				if(te instanceof TileEntityTickingBase) {
 					TileEntityTickingBase base = (TileEntityTickingBase)te;
 					base.handleButtonPacket(m.value, m.id);
+				}
+				
+				if(te instanceof TileEntityReactorZirnox) {
+					TileEntityReactorZirnox zirnox = (TileEntityReactorZirnox)te;
+
+					if(m.id == 0) {
+						zirnox.isOn = !zirnox.isOn;
+					}
+
+					if(m.id == 1) {
+						int fill = zirnox.carbonDioxide.getFill();
+						zirnox.carbonDioxide.setFill(fill - 1000);
+						if(zirnox.carbonDioxide.getFill() < 0) {
+							zirnox.carbonDioxide.setFill(0);
+						}
+					}
+
 				}
 				
 				//why make new packets when you can just abuse and uglify the existing ones?

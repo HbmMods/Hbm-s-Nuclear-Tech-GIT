@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -72,16 +71,7 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.inventory.*;
-import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.inventory.recipes.BreederRecipes;
-import com.hbm.inventory.recipes.CentrifugeRecipes;
-import com.hbm.inventory.recipes.CrystallizerRecipes;
-import com.hbm.inventory.recipes.CyclotronRecipes;
-import com.hbm.inventory.recipes.HadronRecipes;
-import com.hbm.inventory.recipes.MagicRecipes;
-import com.hbm.inventory.recipes.RefineryRecipes;
-import com.hbm.inventory.recipes.SILEXRecipes;
-import com.hbm.inventory.recipes.ShredderRecipes;
+import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
@@ -303,8 +293,12 @@ public class MainRegistry {
 		
 		TileMappings.writeMappings();
 		
-		for(Entry<Class<? extends TileEntity>, String> e : TileMappings.map.entrySet()) {
-			GameRegistry.registerTileEntity(e.getKey(), e.getValue());
+		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
+			
+			if(e.getValue().length == 1)
+				GameRegistry.registerTileEntity(e.getKey(), e.getValue()[0]);
+			else
+				GameRegistry.registerTileEntityWithAlternatives(e.getKey(), e.getValue()[0], e.getValue());
 		}
 
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ModItems.armor_polish), 1, 1, 3));
@@ -474,6 +468,8 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityQuasar.class, "entity_digamma_quasar", 157, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntitySpear.class, "entity_digamma_spear", 158, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityMissileVolcano.class, "entity_missile_volcano", 159, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityMissileShuttle.class, "entity_missile_shuttle", 160, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 161, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -887,7 +883,9 @@ public class MainRegistry {
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
+		PressRecipes.register();
 		RefineryRecipes.registerFractions();
+		RefineryRecipes.registerCracking();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();

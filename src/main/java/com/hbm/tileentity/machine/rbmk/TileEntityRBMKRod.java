@@ -10,12 +10,13 @@ import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver {
+public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable {
 	
 	//amount of "neutron energy" buffered for the next tick to use for the reaction
 	public double fluxFast;
@@ -77,8 +78,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
-				
+
+				this.worldObj.theProfiler.startSection("rbmkRod_flux_spread");
 				spreadFlux(rType, fluxOut);
+				this.worldObj.theProfiler.endSection();
 				
 				hasRod = true;
 				
@@ -191,7 +194,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		
 		//return the neutrons back to this with no further action required
 		if(te instanceof TileEntityRBMKReflector) {
-			this.receiveFlux(stream, flux);
+			this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux);
 			return 0;
 		}
 		
@@ -312,5 +315,32 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		}
 		
 		return data;
+	}
+
+	@Override
+	public boolean canLoad(ItemStack toLoad) {
+		return toLoad != null && slots[0] == null;
+	}
+
+	@Override
+	public void load(ItemStack toLoad) {
+		slots[0] = toLoad.copy();
+		this.markDirty();
+	}
+
+	@Override
+	public boolean canUnload() {
+		return slots[0] != null;
+	}
+
+	@Override
+	public ItemStack provideNext() {
+		return slots[0];
+	}
+
+	@Override
+	public void unload() {
+		slots[0] = null;
+		this.markDirty();
 	}
 }

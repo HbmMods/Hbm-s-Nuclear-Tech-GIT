@@ -11,13 +11,13 @@ import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -37,13 +37,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * More over-engineered than ever, but chopping this thing into the smallest possible pieces makes it easier for my demented brain to comprehend
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IConsumer, IControlReceiver {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyUser, IControlReceiver {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -144,6 +145,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(!worldObj.isRemote) {
 			
+			this.updateConnections();
+			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
 				this.stattrak++;
@@ -234,6 +237,24 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					this.lastRotationYaw -= Math.PI * 2;
 			}
 		}
+	}
+	
+	private void updateConnections() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		//how did i even make this? what???
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
 	}
 
 	@Override

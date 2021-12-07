@@ -46,7 +46,11 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		if(!worldObj.isRemote) {
 			
 			if(this.worldObj.getTotalWorldTime() % 10 == 0) {
+
+				this.worldObj.theProfiler.startSection("rbmkConsole_rescan");
 				rescan();
+				this.worldObj.theProfiler.endSection();
+				
 				prepareNetworkPack();
 			}
 		}
@@ -270,7 +274,9 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		ABSORBER(60),
 		REFLECTOR(70),
 		OUTGASSER(80),
-		BREEDER(100);
+		BREEDER(100),
+		STORAGE(110),
+		COOLER(120);
 		
 		public int offset;
 		

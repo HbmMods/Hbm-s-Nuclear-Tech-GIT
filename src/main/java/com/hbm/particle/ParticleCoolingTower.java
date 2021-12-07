@@ -85,6 +85,8 @@ public class ParticleCoolingTower extends EntityFX {
 
 	public void renderParticle(Tessellator tess, float interp, float fX, float fY, float fZ, float sX, float sZ) {
 
+		tess.setNormal(0.0F, 1.0F, 0.0F);
+		
 		tess.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 
 		float scale = this.particleScale;

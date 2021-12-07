@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -22,6 +21,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 
+import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -36,8 +36,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntityCompactLauncher extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser {
 
 	private ItemStack slots[];
 
@@ -178,6 +179,8 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
+
+			this.updateConnections();
 			
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -220,6 +223,21 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				}
 			}
 		}
+	}
+	
+	private void updateConnections() {
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord - 1, zCoord + 1, Library.NEG_Y);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord - 1, zCoord - 1, Library.NEG_Y);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord - 1, zCoord + 1, Library.NEG_Y);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord - 1, zCoord - 1, Library.NEG_Y);
 	}
 	
 	public boolean canLaunch() {
@@ -557,5 +575,25 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+
+	@Override
+	public long transferPower(long power) {
+		
+		this.power += power;
+		
+		if(this.power > this.getMaxPower()) {
+			
+			long overshoot = this.power - this.getMaxPower();
+			this.power = this.getMaxPower();
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
 	}
 }

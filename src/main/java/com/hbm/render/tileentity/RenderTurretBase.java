@@ -10,6 +10,7 @@ import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class RenderTurretBase extends TileEntitySpecialRenderer {
 	
@@ -21,23 +22,22 @@ public abstract class RenderTurretBase extends TileEntitySpecialRenderer {
 		int y = turret.yCoord;
 		int z = (int)(turret.zCoord + pos.zCoord);
 
-		checkPlug(turret.getWorldObj(), x - 2, y, z, power, fluid, type, 0, 0, 0);
-		checkPlug(turret.getWorldObj(), x - 2, y, z - 1, power, fluid, type, 0, -1, 0);
+		checkPlug(turret.getWorldObj(), x - 2, y, z, power, fluid, type, 0, 0, 0, Library.NEG_X);
+		checkPlug(turret.getWorldObj(), x - 2, y, z - 1, power, fluid, type, 0, -1, 0, Library.NEG_X);
 		
-		checkPlug(turret.getWorldObj(), x - 1, y, z + 1, power, fluid, type, 0, -1, 90);
-		checkPlug(turret.getWorldObj(), x, y, z + 1, power, fluid, type, 0, 0, 90);
+		checkPlug(turret.getWorldObj(), x - 1, y, z + 1, power, fluid, type, 0, -1, 90, Library.POS_Z);
+		checkPlug(turret.getWorldObj(), x, y, z + 1, power, fluid, type, 0, 0, 90, Library.POS_Z);
 
-		checkPlug(turret.getWorldObj(), x + 1, y, z, power, fluid, type, 0, -1, 180);
-		checkPlug(turret.getWorldObj(), x + 1, y, z - 1, power, fluid, type, 0, 0, 180);
+		checkPlug(turret.getWorldObj(), x + 1, y, z, power, fluid, type, 0, -1, 180, Library.POS_X);
+		checkPlug(turret.getWorldObj(), x + 1, y, z - 1, power, fluid, type, 0, 0, 180, Library.POS_X);
 
-		checkPlug(turret.getWorldObj(), x, y, z - 2, power, fluid, type, 0, -1, 270);
-		checkPlug(turret.getWorldObj(), x - 1, y, z - 2, power, fluid, type, 0, 0, 270);
+		checkPlug(turret.getWorldObj(), x, y, z - 2, power, fluid, type, 0, -1, 270, Library.NEG_Z);
+		checkPlug(turret.getWorldObj(), x - 1, y, z - 2, power, fluid, type, 0, 0, 270, Library.NEG_Z);
 	}
 	
-	private void checkPlug(World world, int x, int y, int z, boolean power, boolean fluid, FluidType type, int ox, int oz, int rot) {
+	private void checkPlug(World world, int x, int y, int z, boolean power, boolean fluid, FluidType type, int ox, int oz, int rot, ForgeDirection dir) {
 		
-		if( (power && Library.checkCableConnectables(world, x, y, z)) ||
-			(fluid && Library.checkFluidConnectables(world, x, y, z, type)) ) {
+		if((power && Library.canConnect(world, x, y, z, dir)) || (fluid && Library.checkFluidConnectables(world, x, y, z, type))) {
 			
 			GL11.glPushMatrix();
 			GL11.glRotated(rot, 0, 1, 0);

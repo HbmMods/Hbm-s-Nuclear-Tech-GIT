@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.handler.MissileStruct;
 import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -16,6 +15,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,8 +26,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -59,6 +60,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
+			
+			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);
@@ -301,7 +304,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		if(mode == 1)
 			return 0;
 		
-		if(slots[2] != null && slots[2].getItem() == ModItems.sat_gerald) {
+		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItem() == ModItems.sat_lunar_miner)) {
 			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander)
 				return 2;
 			return 1;

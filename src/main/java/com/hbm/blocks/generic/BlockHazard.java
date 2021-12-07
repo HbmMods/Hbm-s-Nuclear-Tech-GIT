@@ -1,7 +1,10 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IItemHazard;
 import com.hbm.main.MainRegistry;
@@ -11,12 +14,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHazard extends Block implements IItemHazard {
+public class BlockHazard extends Block implements IItemHazard, ITooltipProvider {
 	
 	ItemHazardModule module;
 	
@@ -159,5 +165,21 @@ public class BlockHazard extends Block implements IItemHazard {
 		SCHRAB,
 		FLAMES,
 		LAVAPOP
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }
+
+	@Override
+	public EnumRarity getRarity(ItemStack stack) {
+		
+		if(this == ModBlocks.block_schraranium
+				|| this == ModBlocks.block_schraranium
+				|| this == ModBlocks.block_schrabidate
+				|| this == ModBlocks.block_solinium
+				|| this == ModBlocks.block_schrabidium_fuel)
+			return EnumRarity.rare;
+		
+		return EnumRarity.common;
 	}
 }

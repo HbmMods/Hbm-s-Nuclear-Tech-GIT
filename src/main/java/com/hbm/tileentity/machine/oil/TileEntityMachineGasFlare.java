@@ -7,16 +7,15 @@ import java.util.Random;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,14 +27,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
 	public long power;
 	public static final long maxPower = 100000;
-	public int age = 0;
-	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
 	
 	private static final int[] slots_top = new int[] {1};
@@ -213,13 +210,12 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	@Override
 	public void updateEntity() {
 		
-		age++;
-		if(age >= 20)
-			age -= 20;
-		if(age == 9 || age == 19)
-			ffgeuaInit();
-		
 		if(!worldObj.isRemote) {
+
+			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.sendPower(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
 			
 			tank.loadTank(1, 2, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -234,7 +230,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	    		worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, this.xCoord + 0.5F, this.yCoord + 11F, this.zCoord + 0.5F, 0.0, 0.0, 0.0));
 				ExplosionThermo.setEntitiesOnFire(worldObj, this.xCoord, this.yCoord + 11, zCoord, 5);
 	    		
-	    		if(age % 5 == 0)
+	    		if(worldObj.getTotalWorldTime() % 5 == 0)
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", 1.5F, 1F);
 			}
 			
@@ -258,46 +254,18 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
-		
-	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public long getSPower() {
+	public long getPower() {
 		return this.power;
 	}
 
 	@Override
-	public void setSPower(long i) {
-		this.power = i;
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return this.list;
+	public void setPower(long i) {
+		this.power = i;
 	}
 
 	@Override

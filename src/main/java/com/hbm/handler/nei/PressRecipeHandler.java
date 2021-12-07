@@ -3,22 +3,33 @@ package com.hbm.handler.nei;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.interfaces.Untested;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.gui.GUIMachineEPress;
 import com.hbm.inventory.gui.GUIMachinePress;
 import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemStamp;
+import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.Tuple.Pair;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@Untested
 public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
@@ -29,46 +40,23 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
 		PositionedStack result;
+		PositionedStack stamp;
 
-		public ArrayList<Fuel> fuels = new ArrayList<Fuel>();
-
-		public SmeltingSet(List<ItemStack> stamp, ItemStack input, ItemStack result) {
-			input.stackSize = 1;
-			this.input = new PositionedStack(input, 83 - 35, 5 + 36 + 1);
+		public SmeltingSet(Object stamp, AStack input, ItemStack result) {
+			this.input = new PositionedStack(input.extractForNEI(), 83 - 35, 5 + 36 + 1);
 			this.result = new PositionedStack(result, 83 + 28, 5 + 18 + 1);
-
-			if(stamp.isEmpty())
-				fuels.add(new Fuel(new ItemStack(ModItems.nothing)));
-			else
-				for(ItemStack sta : stamp)
-					fuels.add(new Fuel(sta));
+			this.stamp = new PositionedStack(stamp, 83 - 35, 6, false);
 		}
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] { input }));
-		}
-
-		@Override
-		public List<PositionedStack> getOtherStacks() {
-			List<PositionedStack> stacks = new ArrayList<PositionedStack>();
-			stacks.add(fuels.get((cycleticks / 24) % fuels.size()).stack);
-			return stacks;
+			return getCycledIngredients(cycleticks / 48, Arrays.asList(input, stamp));
 		}
 
 		@Override
 		public PositionedStack getResult() {
 			return result;
 		}
-	}
-
-	public static class Fuel {
-		public Fuel(ItemStack ingred) {
-
-			this.stack = new PositionedStack(ingred, 83 - 35, 6, false);
-		}
-
-		public PositionedStack stack;
 	}
 
 	@Override
@@ -84,9 +72,11 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if((outputId.equals("pressing")) && getClass() == PressRecipeHandler.class) {
-			Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
-			for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((List<ItemStack>) recipe.getKey()[0], (ItemStack) recipe.getKey()[1], (ItemStack) recipe.getValue()));
+			
+			HashMap<Pair<AStack, StampType>, ItemStack> recipes = PressRecipes.recipes;
+			
+			for(Map.Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
+				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), recipe.getKey().getKey(), recipe.getValue()));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -95,10 +85,12 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
-		for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue(), result))
-				this.arecipes.add(new SmeltingSet((List<ItemStack>) recipe.getKey()[0], (ItemStack) recipe.getKey()[1], (ItemStack) recipe.getValue()));
+		
+		HashMap<Pair<AStack, StampType>, ItemStack> recipes = PressRecipes.recipes;
+		
+		for(Map.Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
+			if(NEIServerUtils.areStacksSameType(recipe.getValue(), result))
+				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), recipe.getKey().getKey(), recipe.getValue()));
 		}
 	}
 
@@ -113,19 +105,17 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getPressRecipes();
-		for(Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-
-			boolean b = false;
-			for(int i = 0; i < ((List<ItemStack>) recipe.getKey()[0]).size(); i++) {
-				if(NEIServerUtils.areStacksSameType(((List<ItemStack>) recipe.getKey()[0]).get(i), ingredient)) {
-					b = true;
-					break;
-				}
-			}
-
-			if(b || NEIServerUtils.areStacksSameType(ingredient, (ItemStack) recipe.getKey()[1]))
-				this.arecipes.add(new SmeltingSet((List<ItemStack>) recipe.getKey()[0], (ItemStack) recipe.getKey()[1], (ItemStack) recipe.getValue()));
+		
+		HashMap<Pair<AStack, StampType>, ItemStack> recipes = PressRecipes.recipes;
+		
+		for(Map.Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
+			AStack in = recipe.getKey().getKey();
+			StampType stamp = recipe.getKey().getValue();
+			
+			if(in.matchesRecipe(ingredient, true))
+				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), new ComparableStack(ingredient), recipe.getValue()));
+			else if(ingredient.getItem() instanceof ItemStamp && ((ItemStamp)ingredient.getItem()).type == stamp)
+				this.arecipes.add(new SmeltingSet(ingredient, recipe.getKey().getKey(), recipe.getValue()));
 		}
 	}
 
@@ -137,23 +127,15 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		// transferRectsRec = new LinkedList<RecipeTransferRect>();
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
-		// guiRec = new LinkedList<Class<? extends GuiContainer>>();
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
 		transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6, 23, 24, 18), "pressing"));
 		transferRectsGui.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "pressing"));
-		// guiRec.add(GuiRecipe.class);
 		guiGui.add(GUIMachinePress.class);
 		guiGui.add(GUIMachineEPress.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
-		// RecipeTransferRectHandler.registerRectsToGuis(guiRec,
-		// transferRectsRec);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
-
-		// for(Class<? extends GuiContainer> r : getRecipeTransferRectGuis())
-		// System.out.println(r.toString());
 	}
 
 	@Override

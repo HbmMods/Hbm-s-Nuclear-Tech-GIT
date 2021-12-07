@@ -3,13 +3,13 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFFPacket;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,8 +22,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityForceField extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityForceField extends TileEntity implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 	
@@ -232,6 +233,8 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 		if(!worldObj.isRemote) {
 			
+			updateConnections();
+			
 			int rStack = 0;
 			int hStack = 0;
 			radius = 16;
@@ -434,7 +437,6 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	@Override
 	public void setPower(long i) {
 		power = i;
-		
 	}
 
 	@Override
@@ -446,6 +448,19 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
+	}
+	
+	private void updateConnections() {
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
 
 	@Override

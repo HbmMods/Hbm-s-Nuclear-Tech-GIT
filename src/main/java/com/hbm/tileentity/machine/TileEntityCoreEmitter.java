@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,7 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, ILaserable {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -50,6 +50,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
+			
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
@@ -239,6 +241,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 	}
 
 	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
 	public void addEnergy(World world, int x, int y, int z, long energy, ForgeDirection dir) {
 		
 		//do not accept lasers from the front
@@ -281,5 +288,4 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 		nbt.setBoolean("isOn", isOn);
 		tank.writeToNBT(nbt, "tank");
 	}
-
 }

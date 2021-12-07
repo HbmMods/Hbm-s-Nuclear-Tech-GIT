@@ -35,7 +35,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
 	public static final int maxBlacklung = 60 * 60 * 20;
-	private int Fibrosis;
+	private int fibrosis;
 	public static final int maxFibrosis = 60 * 60 * 30;
 	private float radEnv;
 	private float radBuf;
@@ -212,14 +212,14 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// PULMONARY FIBROSIS ///
 	public static int getFibrosis(EntityLivingBase entity) {
-		return getData(entity).Fibrosis;
+		return getData(entity).fibrosis;
 	}
 	
 	public static void setFibrosis(EntityLivingBase entity, int fibrosis) {
-		getData(entity).Fibrosis = fibrosis;
+		getData(entity).fibrosis = fibrosis;
 		
 		if (fibrosis >= maxFibrosis) {
-			getData(entity).Fibrosis = 0;
+			getData(entity).fibrosis = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}
 	}
@@ -260,6 +260,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_bomb", bombTimer);
 		props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
+		props.setInteger("hfr_fibrosis", fibrosis);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -282,6 +283,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			bombTimer = props.getInteger("hfr_bomb");
 			contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
+			fibrosis = props.getInteger("hfr_fibrosis");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			

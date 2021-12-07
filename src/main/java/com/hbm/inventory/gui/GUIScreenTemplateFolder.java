@@ -13,6 +13,8 @@ import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemStamp;
+import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -52,26 +54,33 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		if(player.getHeldItem().getItem() == ModItems.template_folder) {
 
 			// Stamps
-			for(Item i : MachineRecipes.stamps_plate)
-				allStacks.add(new ItemStack(i));
-			for(Item i : MachineRecipes.stamps_wire)
-				allStacks.add(new ItemStack(i));
-			for(Item i : MachineRecipes.stamps_circuit)
-				allStacks.add(new ItemStack(i));
+			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE))
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE))
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT))
+				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+			
 			// Tracks
-			for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
+			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
+			}
 			// Fluid IDs
-			for(int i = 1; i < FluidType.values().length; i++)
-				if(!FluidType.values()[i].hasNoID())
+			for(int i = 1; i < FluidType.values().length; i++) {
+				if(!FluidType.values()[i].hasNoID()) {
 					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+				}
+			}
 			// Assembly Templates
-			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
-				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null)
+			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
+				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null) {
 					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+				}
+			}
 			// Chemistry Templates
-			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
+			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
+			}
 		} else {
 
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {

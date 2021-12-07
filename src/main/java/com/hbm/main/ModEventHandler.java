@@ -59,7 +59,6 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -118,7 +117,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.DimensionManager;
@@ -151,11 +149,12 @@ import net.minecraftforge.event.world.WorldEvent;
 
 public class ModEventHandler {
 	
-	public static int meteorShower = 0;
-	static Random rand = new Random();
+	//////////////////////////////////////////
+	private static Random rand = new Random();
 	public static float dust;
 	public static float fire;
 	public static boolean impact;
+	//////////////////////////////////////////
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -544,217 +543,184 @@ public class ModEventHandler {
 			}
 		}
 	}
-	
+
+	//TODO: move all of this into its own event handler
+	/// TOM STUFF ///
+	/// TOM STUFF ///
+	/// TOM STUFF ///
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
 		DimensionManager.unregisterProviderType(0);
 		DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onUnload(WorldEvent.Unload event) {
-		//We don't want Tom's impact data transferring between worlds.
+		// We don't want Tom's impact data transferring between worlds.
 		TomSaveData data = TomSaveData.forWorld(event.world);
-		this.fire=0;
-		this.dust=0;
-		this.impact=false;
-		data.fire=0;
-		data.dust=0;
-		data.impact=false;
+		this.fire = 0;
+		this.dust = 0;
+		this.impact = false;
+		data.fire = 0;
+		data.dust = 0;
+		data.impact = false;
 	}
-	
+
 	@SubscribeEvent
 	public void extinction(EntityJoinWorldEvent event) {
-		if(impact == true)
-		{
-			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase)
-			{
-				EntityLivingBase living = (EntityLivingBase)event.entity;
-				if(event.world.provider.dimensionId == 0)
-				{
-					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob) && !living.isChild())
-					{
+		if(impact == true) {
+			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) event.entity;
+				if(event.world.provider.dimensionId == 0) {
+					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob) && !living.isChild()) {
 						event.setCanceled(true);
 					}
 				}
-				if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20)
-				{
+				if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20) {
 					Random rand = new Random();
-					if(rand.nextInt(9)!=0)
-					{
+					if(rand.nextInt(9) != 0) {
 						event.setCanceled(true);
 					}
 				}
-			}	
+			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void villages(BiomeEvent.GetVillageBlockID event) {
 		Block b = event.original;
 		Material mat = event.original.getMaterial();
-		if(event.biome == null)
-		{
+		
+		if(event.biome == null) {
 			return;
 		}
-		if(impact == true)
-		{
-			if(mat==Material.wood || mat==Material.glass || b==Blocks.ladder || b instanceof BlockCrops || b==Blocks.chest || b instanceof BlockDoor|| mat==Material.cloth || mat==Material.water)
-			{
-				//System.out.println("Replacing village blocks");
-				event.replacement=Blocks.air;				
-			}
-			else if(b == Blocks.cobblestone || b == Blocks.stonebrick)
-			{
-				if(rand.nextInt(3)==1)
-				{
-					event.replacement=Blocks.gravel;
+		
+		if(impact == true) {
+			if(mat == Material.wood || mat == Material.glass || b == Blocks.ladder || b instanceof BlockCrops ||
+					b == Blocks.chest || b instanceof BlockDoor || mat == Material.cloth || mat == Material.water) {
+				event.replacement = Blocks.air;
+				
+			} else if(b == Blocks.cobblestone || b == Blocks.stonebrick) {
+				if(rand.nextInt(3) == 1) {
+					event.replacement = Blocks.gravel;
 				}
-			}
-			else if(b == Blocks.sandstone)
-			{
-				if(rand.nextInt(3)==1)
-				{
-					event.replacement=Blocks.sand;
+			} else if(b == Blocks.sandstone) {
+				if(rand.nextInt(3) == 1) {
+					event.replacement = Blocks.sand;
 				}
+			} else if(b == Blocks.farmland) {
+				event.replacement = Blocks.dirt;
 			}
-			else if(b == Blocks.farmland)
-			{
-				event.replacement=Blocks.dirt;
-			}	
 		}
-		if(event.replacement!=null)
-		{
+		
+		if(event.replacement != null) {
 			event.setResult(Result.DENY);
 		}
-		//}
 	}
-	
+
 	@SubscribeEvent
-	public void postImpactGeneration(BiomeEvent event)
-	{
-		///Disables post-impact surface replacement for superflat worlds because they are retarded and crash with a NullPointerException if you try to look for biome-specific blocks. 		
-		if(event.biome != null)
-		{
-			if(event.biome.topBlock != null)
-			{
-				if(event.biome.topBlock==Blocks.grass)
-				{			
-					if(impact == true && (dust > 0 || fire > 0))
-					{
-						//if(dust > 0 || fire > 0)
-						//{
-							final Block newtop =ModBlocks.impact_dirt;
-							event.biome.topBlock=newtop;	
-						/*}
-						else
-						{			
-							event.biome.topBlock=Blocks.grass;
-						}*/
-					}			
-					else
-					{			
-						event.biome.topBlock=Blocks.grass;
+	public void postImpactGeneration(BiomeEvent event) {
+		/// Disables post-impact surface replacement for superflat worlds
+		/// because they are retarded and crash with a NullPointerException if
+		/// you try to look for biome-specific blocks.
+		if(event.biome != null) {
+			if(event.biome.topBlock != null) {
+				if(event.biome.topBlock == Blocks.grass) {
+					if(impact == true && (dust > 0 || fire > 0)) {
+						// if(dust > 0 || fire > 0)
+						// {
+						final Block newtop = ModBlocks.impact_dirt;
+						event.biome.topBlock = newtop;
+						/*
+						 * } else { event.biome.topBlock=Blocks.grass; }
+						 */
+					} else {
+						event.biome.topBlock = Blocks.grass;
 					}
-				}	
-			}				
-		}		
-	}
-	
-	@SubscribeEvent
-	public void postImpactDecoration(DecorateBiomeEvent.Decorate event)
-	{
-		if(impact == true)
-		{
-			EventType type = event.type;
-			if(dust > 0 || fire > 0)
-			{
-				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.GRASS || type == event.type.REED || type == event.type.FLOWERS || type == event.type.DEAD_BUSH || type == event.type.CACTUS
-						|| type == event.type.PUMPKIN || type == event.type.LILYPAD)
-				{
-					event.setResult(Result.DENY);
-				}	
+				}
 			}
-			else if(dust == 0 && fire == 0)
-			{
-				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS)
-				{
-					if(event.world.rand.nextInt(9)==0)
-					{
+		}
+	}
+
+	@SubscribeEvent
+	public void postImpactDecoration(DecorateBiomeEvent.Decorate event) {
+		
+		if(impact == true) {
+			EventType type = event.type;
+			
+			if(dust > 0 || fire > 0) {
+				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.GRASS || type == event.type.REED || type == event.type.FLOWERS || type == event.type.DEAD_BUSH
+						|| type == event.type.CACTUS || type == event.type.PUMPKIN || type == event.type.LILYPAD) {
+					event.setResult(Result.DENY);
+				}
+				
+			} else if(dust == 0 && fire == 0) {
+				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS) {
+					if(event.world.rand.nextInt(9) == 0) {
 						event.setResult(Result.DEFAULT);
-					}
-					else
-					{
+					} else {
 						event.setResult(Result.DENY);
 					}
 				}
-				if(type == event.type.GRASS || type == event.type.REED)
-				{
+				
+				if(type == event.type.GRASS || type == event.type.REED) {
 					event.setResult(Result.DEFAULT);
 				}
 			}
-		}
-		else
-		{
+			
+		} else {
 			event.setResult(Result.DEFAULT);
 		}
 	}
-	
-    @SubscribeEvent
-    public void populateChunk(PopulateChunkEvent.Post event)
-    {
-		if(impact == true)
-		{
-			Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
-	        for (ExtendedBlockStorage storage : chunk.getBlockStorageArray()) {
-	            if (storage != null) {
-	                for (int x = 0; x < 16; ++x) {
-	                    for (int y = 0; y < 16; ++y) {
-	                        for (int z = 0; z < 16; ++z) {
-	                        	//if(storage.getYLocation()>16) {
-	                        		if(dust >0.25 || fire >0)
-	                        		{
-	                        			if (storage.getBlockByExtId(x, y, z) == Blocks.grass) {
-	                        				storage.func_150818_a(x, y, z, ModBlocks.impact_dirt);
-	                        			}
-	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
-	                        				storage.func_150818_a(x, y, z, Blocks.air);
-	                        			}
-	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
-	                        				storage.func_150818_a(x, y, z, Blocks.air);
-	                        			}
-	                        			else if (storage.getBlockByExtId(x, y, z).getMaterial()==Material.leaves) {
-	                        				storage.func_150818_a(x, y, z, Blocks.air);
-	                        			}
-	                        			else if (storage.getBlockByExtId(x, y, z).getMaterial()==Material.plants) {
-	                        				storage.func_150818_a(x, y, z, Blocks.air);
-	                        			}
-	                        			else if (storage.getBlockByExtId(x, y, z) instanceof BlockBush) {
-	                        				storage.func_150818_a(x, y, z, Blocks.air);
-	                        			}
 
-	                        		}
-	                        	//}
-	                        }
-	                    }
-	                }
-	            }
-	        }
-		}        
-    }
+	@SubscribeEvent
+	public void populateChunk(PopulateChunkEvent.Post event) {
+		if(impact == true) {
+			Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
+			
+			for(ExtendedBlockStorage storage : chunk.getBlockStorageArray()) {
+				
+				if(storage != null) {
+					
+					for(int x = 0; x < 16; ++x) {
+						for(int y = 0; y < 16; ++y) {
+							for(int z = 0; z < 16; ++z) {
+								
+								if(dust > 0.25 || fire > 0) {
+									if(storage.getBlockByExtId(x, y, z) == Blocks.grass) {
+										storage.func_150818_a(x, y, z, ModBlocks.impact_dirt);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
+										storage.func_150818_a(x, y, z, Blocks.air);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
+										storage.func_150818_a(x, y, z, Blocks.air);
+									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.leaves) {
+										storage.func_150818_a(x, y, z, Blocks.air);
+									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.plants) {
+										storage.func_150818_a(x, y, z, Blocks.air);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockBush) {
+										storage.func_150818_a(x, y, z, Blocks.air);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/// TOM STUFF ///
+	/// TOM STUFF ///
+	/// TOM STUFF ///
 	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
-		
-		/////
-		//try {
-		/////
-		
-		///TOM IMPACT START///
-		if(event.world != null && !event.world.isRemote && event.phase == Phase.START)
-		{
-			float settle = 1F/14400000F; ///600 days to completely clear all dust. 
-			float cool = 1F/24000F;///One MC day between initial impact and total darkness.
+
+		/// TOM IMPACT START///
+		if(event.world != null && !event.world.isRemote && event.phase == Phase.START) {
+			float settle = 1F / 14400000F; /// 600 days to completely clear all
+											/// dust.
+			float cool = 1F / 24000F;/// One MC day between initial impact and
+										/// total darkness.
 			ImpactWorldHandler.impactEffects(event.world);
 			TomSaveData data = TomSaveData.forWorld(event.world);
 			NBTTagCompound tag = data.getData();
@@ -762,16 +728,14 @@ public class ModEventHandler {
 			float firestorm = tag.getFloat("fire");
 			boolean hasImpacted = tag.getBoolean("impact");
 			data.impact = hasImpacted;
-			if(atmosphericDust>0 && firestorm == 0)
-			{
-				tag.setFloat("dust", Math.max(0, atmosphericDust-settle));
+			if(atmosphericDust > 0 && firestorm == 0) {
+				tag.setFloat("dust", Math.max(0, atmosphericDust - settle));
 				data.markDirty();
 				data.dust = atmosphericDust;
 			}
-			if(firestorm>0)
-			{
-				tag.setFloat("fire", Math.max(0,(firestorm-cool)));
-				tag.setFloat("dust", Math.min(1,(atmosphericDust+cool)));
+			if(firestorm > 0) {
+				tag.setFloat("fire", Math.max(0, (firestorm - cool)));
+				tag.setFloat("dust", Math.min(1, (atmosphericDust + cool)));
 				data.markDirty();
 				data.fire = firestorm;
 				data.dust = atmosphericDust;
@@ -780,42 +744,8 @@ public class ModEventHandler {
 			fire = data.fire;
 			impact = data.impact;
 		}
-		///TOM IMPACT END///
+		/// TOM IMPACT END///
 		
-		/// METEOR SHOWER START ///
-		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && GeneralConfig.enableMeteorStrikes) {
-			if(event.world.rand.nextInt(meteorShower > 0 ? WorldConfig.meteorShowerChance : WorldConfig.meteorStrikeChance) == 0) {
-				if(!event.world.playerEntities.isEmpty()) {
-					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
-					
-					if(p != null && p.dimension == 0) {
-						EntityMeteor meteor = new EntityMeteor(event.world);
-						meteor.setPositionAndRotation(p.posX + event.world.rand.nextInt(201) - 100, 384, p.posZ + event.world.rand.nextInt(201) - 100, 0, 0);
-						meteor.motionX = event.world.rand.nextDouble() - 0.5;
-						meteor.motionY = -2.5;
-						meteor.motionZ = event.world.rand.nextDouble() - 0.5;
-						event.world.spawnEntityInWorld(meteor);
-					}
-				}
-			}
-			
-			if(meteorShower > 0) {
-				meteorShower--;
-				if(meteorShower == 0 && GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("Ended meteor shower.");
-			}
-			
-			if(event.world.rand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
-				meteorShower = 
-						(int)(WorldConfig.meteorShowerDuration * 0.75 + 
-								WorldConfig.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
-			}
-		}
-		/// METEOR SHOWER END ///
-
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
 			
@@ -837,11 +767,12 @@ public class ModEventHandler {
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
-						if(entity.worldObj.provider.dimensionId == 0 && fire >0 && dust <0.75f && event.world.getSavedLightValue(EnumSkyBlock.Sky, (int)entity.posX, (int)entity.posY, (int)entity.posZ)>7)
-						{
+						
+						if(entity.worldObj.provider.dimensionId == 0 && fire > 0 && dust < 0.75f && event.world.getSavedLightValue(EnumSkyBlock.Sky, (int) entity.posX, (int) entity.posY, (int) entity.posZ) > 7) {
 							entity.setFire(10);
 							entity.attackEntityFrom(DamageSource.onFire, 2);
 						}
+						
 						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 							continue;
 						

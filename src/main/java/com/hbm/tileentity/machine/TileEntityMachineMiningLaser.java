@@ -7,7 +7,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -24,6 +23,7 @@ import com.hbm.util.InventoryUtil;
 
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -38,8 +38,9 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer, IFluidSource, IMiningDrill {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill {
 	
 	public long power;
 	public int age = 0;
@@ -77,6 +78,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 
 			age++;
 			if (age >= 20) {
@@ -173,6 +176,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			this.networkPack(data, 250);
 		}
+	}
+	
+	private void updateConnections() {
+		this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

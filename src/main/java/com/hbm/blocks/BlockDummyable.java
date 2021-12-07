@@ -130,7 +130,9 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(!(player instanceof EntityPlayer))
 			return;
 
+		safeRem = true;
 		world.setBlockToAir(x, y, z);
+		safeRem = false;
 
 		EntityPlayer pl = (EntityPlayer) player;
 
@@ -195,7 +197,6 @@ public abstract class BlockDummyable extends BlockContainer {
 	}
 
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
 	}
 

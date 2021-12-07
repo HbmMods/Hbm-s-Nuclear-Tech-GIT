@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -17,6 +16,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +28,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRefinery extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineRefinery extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
 
@@ -254,6 +254,8 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 		if (!worldObj.isRemote) {
 			
+			this.updateConnections();
+			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			age++;
@@ -311,6 +313,17 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 			}
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
+	}
+	
+	private void updateConnections() {
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
+		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
+		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
 	}
 	
 	public long getPowerScaled(long i) {

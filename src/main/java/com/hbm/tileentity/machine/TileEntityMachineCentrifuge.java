@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -9,6 +8,7 @@ import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,7 +23,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 //TODO: move this trash to TileEntityMachineBase
 //no seriously, this is dreadful
-public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 
@@ -260,6 +260,8 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 

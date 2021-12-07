@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+//@invtweaks.api.container.ChestContainer
 public class ContainerCrateSteel extends Container {
 
 	private TileEntityCrateSteel diFurnace;

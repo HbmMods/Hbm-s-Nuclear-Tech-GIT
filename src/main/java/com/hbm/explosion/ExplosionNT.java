@@ -33,7 +33,7 @@ public class ExplosionNT extends Explosion {
 
 	private Random explosionRNG = new Random();
 	private World worldObj;
-	protected int field_77289_h = 16;
+	protected int resolution = 16;
 	protected Map affectedEntities = new HashMap();
 
 	public static final List<ExAttrib> nukeAttribs = Arrays.asList(new ExAttrib[] { ExAttrib.FIRE, ExAttrib.NOPARTICLE, ExAttrib.NOSOUND, ExAttrib.NODROP, ExAttrib.NOHURT });
@@ -53,8 +53,13 @@ public class ExplosionNT extends Explosion {
 		return this;
 	}
 
+	public ExplosionNT addAllAttrib(ExAttrib... attrib) {
+		for(ExAttrib a : attrib) atttributes.add(a);
+		return this;
+	}
+
 	public ExplosionNT overrideResolution(int res) {
-		field_77289_h = res;
+		resolution = res;
 		return this;
 	}
 
@@ -69,44 +74,51 @@ public class ExplosionNT extends Explosion {
 		int i;
 		int j;
 		int k;
-		double d5;
-		double d6;
-		double d7;
+		double currentX;
+		double currentY;
+		double currentZ;
 
-		for(i = 0; i < this.field_77289_h; ++i) {
-			for(j = 0; j < this.field_77289_h; ++j) {
-				for(k = 0; k < this.field_77289_h; ++k) {
-					if(i == 0 || i == this.field_77289_h - 1 || j == 0 || j == this.field_77289_h - 1 || k == 0 || k == this.field_77289_h - 1) {
-						double d0 = (double) ((float) i / ((float) this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-						double d1 = (double) ((float) j / ((float) this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-						double d2 = (double) ((float) k / ((float) this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-						double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-						d0 /= d3;
-						d1 /= d3;
-						d2 /= d3;
-						float f1 = this.explosionSize * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
-						d5 = this.explosionX;
-						d6 = this.explosionY;
-						d7 = this.explosionZ;
+		for(i = 0; i < this.resolution; ++i) {
+			for(j = 0; j < this.resolution; ++j) {
+				for(k = 0; k < this.resolution; ++k) {
+					
+					if(i == 0 || i == this.resolution - 1 || j == 0 || j == this.resolution - 1 || k == 0 || k == this.resolution - 1) {
+						
+						double d0 = (double) ((float) i / ((float) this.resolution - 1.0F) * 2.0F - 1.0F);
+						double d1 = (double) ((float) j / ((float) this.resolution - 1.0F) * 2.0F - 1.0F);
+						double d2 = (double) ((float) k / ((float) this.resolution - 1.0F) * 2.0F - 1.0F);
+						
+						double dist = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+						d0 /= dist;
+						d1 /= dist;
+						d2 /= dist;
+						
+						float remainingPower = this.explosionSize * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
+						currentX = this.explosionX;
+						currentY = this.explosionY;
+						currentZ = this.explosionZ;
 
-						for(float f2 = 0.3F; f1 > 0.0F; f1 -= f2 * 0.75F) {
-							int j1 = MathHelper.floor_double(d5);
-							int k1 = MathHelper.floor_double(d6);
-							int l1 = MathHelper.floor_double(d7);
-							Block block = this.worldObj.getBlock(j1, k1, l1);
+						for(float step = 0.3F; remainingPower > 0.0F; remainingPower -= step * 0.75F) {
+							int xPos = MathHelper.floor_double(currentX);
+							int yPos = MathHelper.floor_double(currentY);
+							int zPos = MathHelper.floor_double(currentZ);
+							Block block = this.worldObj.getBlock(xPos, yPos, zPos);
 
 							if(block.getMaterial() != Material.air) {
-								float f3 = this.exploder != null ? this.exploder.func_145772_a(this, this.worldObj, j1, k1, l1, block) : block.getExplosionResistance(this.exploder, worldObj, j1, k1, l1, explosionX, explosionY, explosionZ);
-								f1 -= (f3 + 0.3F) * f2;
+								float resistance = this.exploder != null ? this.exploder.func_145772_a(this, this.worldObj, xPos, yPos, zPos, block) : block.getExplosionResistance(this.exploder, worldObj, xPos, yPos, zPos, explosionX, explosionY, explosionZ);
+								remainingPower -= (resistance + 0.3F) * step;
 							}
 
-							if(block != Blocks.air && f1 > 0.0F && (this.exploder == null || this.exploder.func_145774_a(this, this.worldObj, j1, k1, l1, block, f1))) {
-								hashset.add(new ChunkPosition(j1, k1, l1));
+							if(block != Blocks.air && remainingPower > 0.0F && (this.exploder == null || this.exploder.func_145774_a(this, this.worldObj, xPos, yPos, zPos, block, remainingPower))) {
+								hashset.add(new ChunkPosition(xPos, yPos, zPos));
+								
+							} else if(this.has(ExAttrib.ERRODE) && errosion.containsKey(block)) {
+								hashset.add(new ChunkPosition(xPos, yPos, zPos));
 							}
 
-							d5 += d0 * (double) f2;
-							d6 += d1 * (double) f2;
-							d7 += d2 * (double) f2;
+							currentX += d0 * (double) step;
+							currentY += d1 * (double) step;
+							currentZ += d2 * (double) step;
 						}
 					}
 				}
@@ -133,25 +145,25 @@ public class ExplosionNT extends Explosion {
 				double d4 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double) this.explosionSize;
 
 				if(d4 <= 1.0D) {
-					d5 = entity.posX - this.explosionX;
-					d6 = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
-					d7 = entity.posZ - this.explosionZ;
-					double d9 = (double) MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+					currentX = entity.posX - this.explosionX;
+					currentY = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
+					currentZ = entity.posZ - this.explosionZ;
+					double d9 = (double) MathHelper.sqrt_double(currentX * currentX + currentY * currentY + currentZ * currentZ);
 
 					if(d9 != 0.0D) {
-						d5 /= d9;
-						d6 /= d9;
-						d7 /= d9;
+						currentX /= d9;
+						currentY /= d9;
+						currentZ /= d9;
 						double d10 = (double) this.worldObj.getBlockDensity(vec3, entity.boundingBox);
 						double d11 = (1.0D - d4) * d10;
 						entity.attackEntityFrom(DamageSource.setExplosionSource(this), (float) ((int) ((d11 * d11 + d11) / 2.0D * 8.0D * (double) this.explosionSize + 1.0D)));
 						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-						entity.motionX += d5 * d8;
-						entity.motionY += d6 * d8;
-						entity.motionZ += d7 * d8;
+						entity.motionX += currentX * d8;
+						entity.motionY += currentY * d8;
+						entity.motionZ += currentZ * d8;
 
 						if(entity instanceof EntityPlayer) {
-							this.affectedEntities.put((EntityPlayer) entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
+							this.affectedEntities.put((EntityPlayer) entity, Vec3.createVectorHelper(currentX * d11, currentY * d11, currentZ * d11));
 						}
 					}
 				}
@@ -212,7 +224,19 @@ public class ExplosionNT extends Explosion {
 				}
 
 				if(block.getMaterial() != Material.air) {
-					if(block.canDropFromExplosion(this) && !has(ExAttrib.NODROP)) {
+					
+					boolean doesErrode = false;
+					Block errodesInto = Blocks.air;
+					
+					if(this.has(ExAttrib.ERRODE) && this.explosionRNG.nextFloat() < 0.6F) { //errosion has a 60% chance to occour
+						
+						if(errosion.containsKey(block)) {
+							doesErrode = true;
+							errodesInto = errosion.get(block);
+						}
+					}
+					
+					if(block.canDropFromExplosion(this) && !has(ExAttrib.NODROP) && !doesErrode) {
 						float chance = 1.0F;
 
 						if(!has(ExAttrib.ALLDROP))
@@ -224,6 +248,10 @@ public class ExplosionNT extends Explosion {
 					block.onBlockExploded(this.worldObj, i, j, k, this);
 					
 					if(block.isNormalCube()) {
+						
+						if(doesErrode) {
+							this.worldObj.setBlock(i, j, k, errodesInto);
+						}
 						
 						if(has(ExAttrib.DIGAMMA)) {
 							this.worldObj.setBlock(i, j, k, ModBlocks.ash_digamma);
@@ -300,12 +328,22 @@ public class ExplosionNT extends Explosion {
 		DIGAMMA_CIRCUIT,
 		LAVA,		//again the same thing but lava
 		LAVA_V,		//again the same thing but volcaniclava
+		ERRODE,		//will turn select blocks into gravel or sand
 		ALLMOD,		//block placer attributes like fire are applied for all destroyed blocks
 		ALLDROP,	//miner TNT!
 		NODROP,		//the opposite
 		NOPARTICLE,
 		NOSOUND,
 		NOHURT
+	}
+	
+	public static final HashMap<Block, Block> errosion = new HashMap();
+	
+	static {
+		errosion.put(ModBlocks.concrete, Blocks.gravel);
+		errosion.put(ModBlocks.concrete_smooth, Blocks.gravel);
+		errosion.put(ModBlocks.brick_concrete, ModBlocks.brick_concrete_broken);
+		errosion.put(ModBlocks.brick_concrete_broken, Blocks.gravel);
 	}
 
 }

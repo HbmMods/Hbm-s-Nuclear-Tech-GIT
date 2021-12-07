@@ -268,6 +268,43 @@ public class ModelUboinik extends ModelBase {
 		Handle.render(f5);
 		StockBottom.render(f5);
 	}
+	
+	public void renderDud(float f5) {
+		Barrel.render(f5);
+		ConnectorFront.render(f5);
+		ConnectorBack.render(f5);
+		Grip.render(f5);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		Coil.render(f5);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		FrontBase.render(f5);
+		FrontTip.render(f5);
+		DrumCenter.render(f5);
+		DrumBack.render(f5);
+		DrumBottom.render(f5);
+		Shell5.render(f5);
+		Shell4.render(f5);
+		Shell3.render(f5);
+		Shell2.render(f5);
+		Shell1.render(f5);
+		Shell6.render(f5);
+		Clip1.render(f5);
+		Clip2.render(f5);
+		Clip3.render(f5);
+		ChamberBack.render(f5);
+		ChamberBackConnector.render(f5);
+		ChamberTop.render(f5);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		Chamber.render(f5);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		Stock.render(f5);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		TriggerFrame.render(f5);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		Trigger.render(f5);
+		Handle.render(f5);
+		StockBottom.render(f5);
+	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;

@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 
@@ -11,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
@@ -19,6 +23,18 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 	
 	private String customName;
+	
+	private static final HashMap<ComparableStack, ItemStack> wasteMap = new HashMap<ComparableStack, ItemStack>();
+	static {
+		wasteMap.put(new ComparableStack(ModItems.waste_natural_uranium_hot), new ItemStack(ModItems.waste_natural_uranium));
+		wasteMap.put(new ComparableStack(ModItems.waste_uranium_hot), new ItemStack(ModItems.waste_uranium));
+		wasteMap.put(new ComparableStack(ModItems.waste_thorium_hot), new ItemStack(ModItems.waste_thorium));
+		wasteMap.put(new ComparableStack(ModItems.waste_mox_hot), new ItemStack(ModItems.waste_mox));
+		wasteMap.put(new ComparableStack(ModItems.waste_plutonium_hot), new ItemStack(ModItems.waste_plutonium));
+		wasteMap.put(new ComparableStack(ModItems.waste_u233_hot), new ItemStack(ModItems.waste_u233));
+		wasteMap.put(new ComparableStack(ModItems.waste_u235_hot), new ItemStack(ModItems.waste_u235));
+		wasteMap.put(new ComparableStack(ModItems.waste_schrabidium_hot), new ItemStack(ModItems.waste_schrabidium));
+	}
 	
 	public TileEntityWasteDrum() {
 		slots = new ItemStack[12];
@@ -92,20 +108,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		
-		Item item = itemStack.getItem();
-		
-		if(item == ModItems.waste_mox_hot || 
-				item == ModItems.waste_plutonium_hot || 
-				item == ModItems.waste_schrabidium_hot || 
-				item == ModItems.waste_thorium_hot || 
-				item == ModItems.waste_uranium_hot)
-			return true;
-		
-		if(item instanceof ItemRBMKRod)
-			return true;
-		
-		return false;
+		return wasteMap.keySet().contains(new ComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
 	}
 	
 	@Override
@@ -179,22 +182,12 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-
-		Item item = itemStack.getItem();
-		
-		if(item == ModItems.waste_mox || 
-				item == ModItems.waste_plutonium || 
-				item == ModItems.waste_schrabidium || 
-				item == ModItems.waste_thorium || 
-				item == ModItems.waste_uranium)
-			return true;
-		
-		if(item instanceof ItemRBMKRod) {
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {	
+		if(itemStack.getItem() instanceof ItemRBMKRod) {
 			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
+		} else {
+			return wasteMap.containsValue(getStackInSlot(i));
 		}
-		
-		return false;
 	}
 
 	@Override
@@ -204,18 +197,11 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 			
 			int water = 0;
 
-			if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.water || worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.water || worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.flowing_water)
-				water++;
-			if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.flowing_water)
-				water++;
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == Blocks.water || worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == Blocks.flowing_water) {
+					water++;
+				}
+			}
 			
 			if(water > 0) {
 				
@@ -233,16 +219,10 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 							
 						} else if(worldObj.rand.nextInt(r) == 0) {
 
-							if(slots[i].getItem() == ModItems.waste_uranium_hot)
-								slots[i] = new ItemStack(ModItems.waste_uranium);
-							else if(slots[i].getItem() == ModItems.waste_plutonium_hot)
-								slots[i] = new ItemStack(ModItems.waste_plutonium);
-							else if(slots[i].getItem() == ModItems.waste_thorium_hot)
-								slots[i] = new ItemStack(ModItems.waste_thorium);
-							else if(slots[i].getItem() == ModItems.waste_mox_hot)
-								slots[i] = new ItemStack(ModItems.waste_mox);
-							else if(slots[i].getItem() == ModItems.waste_schrabidium_hot)
-								slots[i] = new ItemStack(ModItems.waste_schrabidium);
+							ComparableStack comp = new ComparableStack(getStackInSlot(i));
+							if(wasteMap.keySet().contains(comp)) {
+								slots[i] = wasteMap.get(comp).copy();
+							}
 						}
 					}
 				}

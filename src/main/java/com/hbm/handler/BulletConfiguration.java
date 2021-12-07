@@ -64,6 +64,8 @@ public class BulletConfiguration {
 	//whether the bullet should stay alive after colliding with a block
 	public boolean liveAfterImpact;
 	
+	public boolean blackPowder = true;
+	
 	//bullet effects
 	public List<PotionEffect> effects;
 	public int incendiary;

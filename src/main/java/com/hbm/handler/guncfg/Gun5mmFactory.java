@@ -83,8 +83,8 @@ public class Gun5mmFactory {
 		
 		bullet.ammo = ModItems.ammo_5mm;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 3;
-		bullet.dmgMax = 5;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 14;
 		
 		return bullet;
 	}
@@ -95,8 +95,8 @@ public class Gun5mmFactory {
 		
 		bullet.ammo = ModItems.ammo_5mm_explosive;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 4;
-		bullet.dmgMax = 7;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 32;
 		bullet.explosive = 1F;
 		bullet.wear = 25;
 		
@@ -109,8 +109,8 @@ public class Gun5mmFactory {
 		
 		bullet.ammo = ModItems.ammo_5mm_du;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 36;
+		bullet.dmgMax = 40;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -123,8 +123,8 @@ public class Gun5mmFactory {
 		
 		bullet.ammo = ModItems.ammo_5mm_star;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 12;
-		bullet.dmgMax = 20;
+		bullet.dmgMin = 46;
+		bullet.dmgMax = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		

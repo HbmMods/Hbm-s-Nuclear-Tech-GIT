@@ -63,6 +63,7 @@ public class ItemChemistryTemplate extends Item {
 		SF_BIOFUEL,
 		BP_BIOGAS,
 		BP_BIOFUEL,
+		LPG,
 		OIL_SAND,
 		ASPHALT,
 		COOLANT,
@@ -102,7 +103,13 @@ public class ItemChemistryTemplate extends Item {
 		TEL,
 		GASOLINE,
 		FRACKSOL,
-		OSMIRIDIUM_DEATH;
+		HELIUM3,
+		OSMIRIDIUM_DEATH,
+		ETHANOL,
+		METH,
+		CO2,
+		HEAVY_ELECTROLYSIS,
+		DUCRETE;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -244,6 +251,8 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case BP_BIOFUEL:
         	return 100;
+        case LPG:
+        	return 100;
         case YELLOWCAKE:
         	return 250;
         case UF6:
@@ -298,8 +307,20 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case FRACKSOL:
         	return 20;
+		case HELIUM3:
+        	return 200;
         case OSMIRIDIUM_DEATH:
         	return 240;
+        case ETHANOL:
+        	return 50;
+        case METH:
+        	return 30;
+        case CO2:
+        	return 60;
+        case HEAVY_ELECTROLYSIS:
+        	return 150;
+        case DUCRETE:
+        	return 150;
         default:
         	return 100;
         }

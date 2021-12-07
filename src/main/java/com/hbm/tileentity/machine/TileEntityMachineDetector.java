@@ -1,10 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IConsumer;
-
+import api.hbm.energy.IEnergyUser;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDetector extends TileEntity implements IConsumer {
+public class TileEntityMachineDetector extends TileEntity implements IEnergyUser {
 	
 	long power;
 
@@ -12,6 +12,8 @@ public class TileEntityMachineDetector extends TileEntity implements IConsumer {
     public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			int meta = this.getBlockMetadata();
 			int state = 0;
@@ -27,6 +29,12 @@ public class TileEntityMachineDetector extends TileEntity implements IConsumer {
 			}
 		}
 	}
+	
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+	}
 
 	@Override
 	public void setPower(long i) {
@@ -40,7 +48,7 @@ public class TileEntityMachineDetector extends TileEntity implements IConsumer {
 
 	@Override
 	public long getMaxPower() {
-		return 20;
+		return 5;
 	}
 
 }

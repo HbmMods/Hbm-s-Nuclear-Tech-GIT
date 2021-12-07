@@ -3,22 +3,19 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IEnergyGenerator;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntityMachineBase implements ISource, IEnergyHandler {
+public class TileEntityConverterRfHe extends TileEntityMachineBase implements IEnergyGenerator, IEnergyHandler {
 	
 	public long power;
 	public long maxPower = 500000000;
-	public List<IConsumer> list = new ArrayList();
-	public boolean tact;
 	public EnergyStorage storage = new EnergyStorage(2000000000, 2000000000, 2000000000);
 	
 	public int buf;
@@ -42,10 +39,9 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 			
 			buf = storage.getEnergyStored();
 
-			tact = false;
-			ffgeuaInit();
-			tact = true;
-			ffgeuaInit();
+
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			storage.setEnergyStored((int)power * 4);
 			
@@ -89,27 +85,6 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 		
 		return storage.getMaxEnergyStored();
 	}
-
-	@Override
-	public void ffgeua(int x, int y, int z, boolean newTact) {
-
-		Library.ffgeua(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-	}
-	
-	@Override
-	public boolean getTact() {
-		return tact;
-	}
 	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
@@ -120,23 +95,18 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public long getSPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(long i) {
+	public void setPower(long i) {
 		this.power = i;
 	}
 
 	@Override
-	public List<IConsumer> getList() {
-		return list;
-	}
-
-	@Override
-	public void clearList() {
-		this.list.clear();
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 	
 	@Override
@@ -159,5 +129,4 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		return 0;
 	}
-
 }

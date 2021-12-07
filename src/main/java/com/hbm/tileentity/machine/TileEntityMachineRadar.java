@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Untested;
 import com.hbm.tileentity.TileEntityTickingBase;
 
+import api.hbm.energy.IEnergyUser;
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import cpw.mods.fml.relauncher.Side;
@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRadar extends TileEntityTickingBase implements IConsumer {
+public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser {
 
 	public List<Entity> entList = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
@@ -50,6 +50,9 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 			return;
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			
 			nearbyMissiles.clear();
 			
 			if(power > 0) {

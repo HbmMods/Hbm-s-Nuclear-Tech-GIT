@@ -141,8 +141,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		
 		return bullet;
 	}
@@ -153,8 +153,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_incendiary;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
@@ -167,8 +167,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_phosphorus;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 18;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 36;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
@@ -202,8 +202,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_explosive;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 25;
+		bullet.dmgMin = 60;
+		bullet.dmgMax = 64;
 		bullet.wear = 25;
 		bullet.explosive = 1;
 		
@@ -216,8 +216,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_ap;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 25;
-		bullet.dmgMax = 30;
+		bullet.dmgMin = 62;
+		bullet.dmgMax = 68;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -230,8 +230,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_du;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 40;
-		bullet.dmgMax = 45;
+		bullet.dmgMin = 80;
+		bullet.dmgMax = 86;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -244,8 +244,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_star;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 50;
-		bullet.dmgMax = 70;
+		bullet.dmgMin = 98;
+		bullet.dmgMax = 102;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		
@@ -308,8 +308,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 25;
+		bullet.dmgMin = 50;
+		bullet.dmgMax = 54;
 		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		return bullet;
@@ -321,8 +321,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette_am;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 50;
-		bullet.dmgMax = 65;
+		bullet.dmgMin = 60;
+		bullet.dmgMax = 64;
 		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {
@@ -348,8 +348,8 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo = ModItems.ammo_50bmg_flechette_po;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 30;
-		bullet.dmgMax = 40;
+		bullet.dmgMin = 60;
+		bullet.dmgMax = 64;
 		bullet.style = bullet.STYLE_FLECHETTE;
 		
 		bullet.bHit = new IBulletHitBehavior() {

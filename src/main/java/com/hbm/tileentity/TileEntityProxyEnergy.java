@@ -1,11 +1,11 @@
 package com.hbm.tileentity;
 
-import com.hbm.interfaces.IConsumer;
-
+import api.hbm.energy.IEnergyUser;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 //can be used as a soruce too since the core TE handles that anyway
-public class TileEntityProxyEnergy extends TileEntityProxyBase implements IConsumer {
+public class TileEntityProxyEnergy extends TileEntityProxyBase implements IEnergyUser {
 	
     public boolean canUpdate()
     {
@@ -17,8 +17,8 @@ public class TileEntityProxyEnergy extends TileEntityProxyBase implements IConsu
 		
 		TileEntity te = getTE();
 		
-		if(te instanceof IConsumer) {
-			((IConsumer)te).setPower(i);
+		if(te instanceof IEnergyUser) {
+			((IEnergyUser)te).setPower(i);
 		}
 	}
 
@@ -27,8 +27,8 @@ public class TileEntityProxyEnergy extends TileEntityProxyBase implements IConsu
 		
 		TileEntity te = getTE();
 		
-		if(te instanceof IConsumer) {
-			return ((IConsumer)te).getPower();
+		if(te instanceof IEnergyUser) {
+			return ((IEnergyUser)te).getPower();
 		}
 		
 		return 0;
@@ -39,10 +39,30 @@ public class TileEntityProxyEnergy extends TileEntityProxyBase implements IConsu
 		
 		TileEntity te = getTE();
 		
-		if(te instanceof IConsumer) {
-			return ((IConsumer)te).getMaxPower();
+		if(te instanceof IEnergyUser) {
+			return ((IEnergyUser)te).getMaxPower();
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public long transferPower(long power) {
+		
+		if(getTE() instanceof IEnergyUser) {
+			return ((IEnergyUser)getTE()).transferPower(power);
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		
+		if(getTE() instanceof IEnergyUser) {
+			return ((IEnergyUser)getTE()).canConnect(dir);
+		}
+		
+		return false;
 	}
 }

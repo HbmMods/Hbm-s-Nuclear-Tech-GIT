@@ -3,7 +3,7 @@ package com.hbm.blocks.network;
 import com.hbm.render.block.ct.CT;
 import com.hbm.render.block.ct.CTStitchReceiver;
 import com.hbm.render.block.ct.IBlockCT;
-import com.hbm.tileentity.conductor.TileEntityWireCoated;
+import com.hbm.tileentity.network.TileEntityCableBaseNT;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ public class WireCoated extends BlockContainer implements IBlockCT {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityWireCoated();
+		return new TileEntityCableBaseNT();
 	}
 
 	@Override

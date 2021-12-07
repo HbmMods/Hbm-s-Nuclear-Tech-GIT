@@ -7,34 +7,29 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConductor;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyInventory;
-import com.hbm.tileentity.conductor.TileEntityCable;
-import com.hbm.tileentity.conductor.TileEntityCableSwitch;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
-import com.hbm.tileentity.conductor.TileEntityWireCoated;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
+import com.hbm.tileentity.network.TileEntityPylon;
 
 import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyConnector;
+import api.hbm.energy.IEnergyConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,7 +39,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Spaghetti("this whole class")
 public class Library {
@@ -96,37 +93,39 @@ public class Library {
 		
 		return player.getHeldItem().getItem() == item;
 	}
+
+	public static final ForgeDirection POS_X = ForgeDirection.EAST;
+	public static final ForgeDirection NEG_X = ForgeDirection.WEST;
+	public static final ForgeDirection POS_Y = ForgeDirection.UP;
+	public static final ForgeDirection NEG_Y = ForgeDirection.DOWN;
+	public static final ForgeDirection POS_Z = ForgeDirection.SOUTH;
+	public static final ForgeDirection NEG_Z = ForgeDirection.NORTH;
 	
-	public static boolean checkCableConnectables(World world, int x, int y, int z)
-	{
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if((tileentity != null && (tileentity instanceof IConductor ||
-				tileentity instanceof IConsumer ||
-				tileentity instanceof ISource)) ||
-				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
-				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
-				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
-				world.getBlock(x, y, z) == ModBlocks.watz_conductor ||
-				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_assembler ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table)
-		{
-			return true;
+	/*
+	 * Is putting this into this trash can a good idea? No. Do I have a better idea? Not currently.
+	 */
+	public static boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		
+		if(y > 255 || y < 0)
+			return false;
+		
+		Block b = world.getBlock(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(b instanceof IEnergyConnectorBlock) {
+			IEnergyConnectorBlock con = (IEnergyConnectorBlock) b;
+			
+			if(con.canConnect(world, x, y, z, dir))
+				return true;
 		}
+		
+		if(te instanceof IEnergyConnector) {
+			IEnergyConnector con = (IEnergyConnector) te;
+			
+			if(con.canConnect(dir))
+				return true;
+		}
+		
 		return false;
 	}
 	
@@ -161,19 +160,6 @@ public class Library {
 		
 		if(world.getBlock(x, y, z) == ModBlocks.machine_mining_laser && tileentity instanceof TileEntityProxyInventory)
 			return true;
-		
-		return false;
-	}
-	
-	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, ISource that) {
-		
-		for(UnionOfTileEntitiesAndBooleans union : list)
-		{
-			if(union.source == that)
-			{
-				return true;
-			}
-		}
 		
 		return false;
 	}
@@ -421,244 +407,13 @@ public class Library {
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
 	//TODO: bring back the @Cursed annotation just for garbage like this
-	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
-		Block block = worldObj.getBlock(x, y, z);
-		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
-
-		//Factories
-		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y - 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y - 1, z);
-		}
-		//Derrick
-		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_well)
-		{
-			tileentity = worldObj.getTileEntity(x + 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_well)
-		{
-			tileentity = worldObj.getTileEntity(x - 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_well)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 1);
-		}
-		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_well)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 1);
-		}
-		//Mining Drill
-		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_drill)
-		{
-			tileentity = worldObj.getTileEntity(x + 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_drill)
-		{
-			tileentity = worldObj.getTileEntity(x - 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_drill)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 1);
-		}
-		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_drill)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 1);
-		}
-		//Assembler
-		if(block == ModBlocks.dummy_port_assembler)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Chemplant
-		if(block == ModBlocks.dummy_port_chemplant)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Refinery
-		if(block == ModBlocks.dummy_port_refinery)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Pumpjack
-		if(block == ModBlocks.dummy_port_pumpjack)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//AMS Limiter
-		if(block == ModBlocks.dummy_port_ams_limiter)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//AMS Emitter
-		if(block == ModBlocks.dummy_port_ams_emitter)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Launchers
-		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
+	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
 		
-		if(tileentity instanceof IConductor)
-		{
-			if(tileentity instanceof TileEntityCable)
-			{
-				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityCable)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
-								ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
-								ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
-								ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
-								ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
-								ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
-							}
-						}
-					}
-				} else {
-					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityWireCoated)
-			{
-				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
-								ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
-								ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
-								ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
-								ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
-								ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
-							}
-						}
-					}
-				} else {
-					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityCableSwitch)
-			{
-				if(tileentity.getBlockMetadata() == 1) {
-					if(Library.checkUnionList(((TileEntityCableSwitch)tileentity).uoteab, that))
-					{
-						for(int i = 0; i < ((TileEntityCableSwitch)tileentity).uoteab.size(); i++)
-						{
-							if(((TileEntityCableSwitch)tileentity).uoteab.get(i).source == that)
-							{
-								if(((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked != newTact)
-								{
-									((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked = newTact;
-									ffgeua(x, y + 1, z, that.getTact(), that, worldObj);
-									ffgeua(x, y - 1, z, that.getTact(), that, worldObj);
-									ffgeua(x - 1, y, z, that.getTact(), that, worldObj);
-									ffgeua(x + 1, y, z, that.getTact(), that, worldObj);
-									ffgeua(x, y, z - 1, that.getTact(), that, worldObj);
-									ffgeua(x, y, z + 1, that.getTact(), that, worldObj);
-								}
-							}
-						}
-					} else {
-						((TileEntityCableSwitch)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
-					}
-				} else {
-					((TileEntityCableSwitch)tileentity).uoteab.clear();
-				}
-			}
-			if(tileentity instanceof TileEntityPylonRedWire)
-			{
-				if(Library.checkUnionList(((TileEntityPylonRedWire)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityPylonRedWire)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityPylonRedWire)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked = newTact;
-								for(int j = 0; j < ((TileEntityPylonRedWire)tileentity).connected.size(); j++) {
-									int[] pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
-									if(pylon != null) {
-										ffgeua(pylon[0] + 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
-										ffgeua(pylon[0] - 1, pylon[1], pylon[2], that.getTact(), that, worldObj);
-										ffgeua(pylon[0], pylon[1] + 1, pylon[2], that.getTact(), that, worldObj);
-										ffgeua(pylon[0], pylon[1] - 1, pylon[2], that.getTact(), that, worldObj);
-										ffgeua(pylon[0], pylon[1], pylon[2] + 1, that.getTact(), that, worldObj);
-										ffgeua(pylon[0], pylon[1], pylon[2] - 1, that.getTact(), that, worldObj);
-										
-										ffgeua(pylon[0], pylon[1], pylon[2], that.getTact(), that, worldObj);
-									}
-								}
-							}
-						}
-					}
-				} else {
-					((TileEntityPylonRedWire)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
-				}
-			}
-		}
-		
-		//TE will not be added as consumer if:
-		// -TE is the source (will not send to itself)
-		// -TE is already full
-		// -TE is a battery set to output only
-		// -TE as well as source are transformers of the same frequency
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts) &&
-				tileentity != that && ((IConsumer)tileentity).getPower() < ((IConsumer)tileentity).getMaxPower() &&
-				!(tileentity instanceof TileEntityMachineTransformer && that instanceof TileEntityMachineTransformer &&
-						((TileEntityMachineTransformer)tileentity).delay == ((TileEntityMachineTransformer)that).delay))
-		{
-			that.getList().add((IConsumer)tileentity);
-		}
-		
-		if(!newTact)
-		{
-			int size = that.getList().size();
-			if(size > 0)
-			{
-				long part = that.getSPower() / size;
-				for(IConsumer consume : that.getList())
-				{
-					if(consume.getPower() < consume.getMaxPower())
-					{
-						if(consume.getMaxPower() - consume.getPower() >= part)
-						{
-							that.setSPower(that.getSPower()-part);
-							consume.setPower(consume.getPower() + part);
-						} else {
-							that.setSPower(that.getSPower() - (consume.getMaxPower() - consume.getPower()));
-							consume.setPower(consume.getMaxPower());
-						}
-					}
-				}
-			}
-			that.clearList();
-		}
+		/*
+		 * This here smoldering crater is all that remains from the old energy system.
+		 * In loving memory, 2016-2021.
+		 * You won't be missed.
+		 */
 	}
 	
 	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) {

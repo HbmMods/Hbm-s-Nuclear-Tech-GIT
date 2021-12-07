@@ -13,6 +13,7 @@ public class FusionRecipes {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 1200;
+		case PLASMA_DH3: return 600;
 		case PLASMA_HD: return 1200;
 		case PLASMA_HT: return 1200;
 		case PLASMA_XM: return 2400;
@@ -25,6 +26,7 @@ public class FusionRecipes {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 1;
+		case PLASMA_DH3: return 2;
 		case PLASMA_HD: return 1;
 		case PLASMA_HT: return 1;
 		case PLASMA_XM: return 3; 
@@ -37,6 +39,7 @@ public class FusionRecipes {
 		
 		switch(plasma) {
 		case PLASMA_DT: return new ItemStack(ModItems.pellet_charged);
+		case PLASMA_DH3: return new ItemStack(ModItems.pellet_charged);
 		case PLASMA_HD: return new ItemStack(ModItems.pellet_charged);
 		case PLASMA_HT: return new ItemStack(ModItems.pellet_charged);
 		case PLASMA_XM: return new ItemStack(ModItems.powder_chlorophyte);
@@ -49,6 +52,7 @@ public class FusionRecipes {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 30;
+		case PLASMA_DH3: return 50;
 		case PLASMA_HD: return 20;
 		case PLASMA_HT: return 25;
 		case PLASMA_XM: return 60; 
@@ -62,6 +66,7 @@ public class FusionRecipes {
 		HashMap<ItemStack, ItemStack> map = new HashMap();
 
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DT.ordinal()), getByproduct(FluidType.PLASMA_DT));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DH3.ordinal()), getByproduct(FluidType.PLASMA_DH3));
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HD.ordinal()), getByproduct(FluidType.PLASMA_HD));
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HT.ordinal()), getByproduct(FluidType.PLASMA_HT));
 		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_XM.ordinal()), getByproduct(FluidType.PLASMA_XM));
