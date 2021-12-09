@@ -175,6 +175,7 @@ public class BlockBobble extends BlockContainer {
 		UFFR("UFFR", "UFFR", "All sorts of things from his PR", "fried shrimp", false),
 		VAER("vaer", "vaer", "ZIRNOX", "taken de family out to the weekend cigarette festival", true),
 		NOS("Dr Nostalgia", "Dr Nostalgia", "SSG and Vortex models", "Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie", true),
+		DRILLGON("Drillgon200", "Drillgon200", "1.12 Port", null, false),
 		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 
