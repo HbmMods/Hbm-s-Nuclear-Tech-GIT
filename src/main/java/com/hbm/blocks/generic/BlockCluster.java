@@ -58,14 +58,11 @@ public class BlockCluster extends Block implements IDrillInteraction, ITooltipPr
 	
 	private Item getDrop() {
 
-		if(this == ModBlocks.cluster_iron)
-			return ModItems.crystal_iron;
-		if(this == ModBlocks.cluster_titanium)
-			return ModItems.crystal_titanium;
-		if(this == ModBlocks.cluster_aluminium)
-			return ModItems.crystal_aluminium;
-		if(this == ModBlocks.basalt_gem)
-			return ModItems.gem_volcanic;
+		if(this == ModBlocks.cluster_iron)		return ModItems.crystal_iron;
+		if(this == ModBlocks.cluster_titanium)	return ModItems.crystal_titanium;
+		if(this == ModBlocks.cluster_aluminium)	return ModItems.crystal_aluminium;
+		if(this == ModBlocks.cluster_copper)	return ModItems.crystal_copper;
+		if(this == ModBlocks.basalt_gem)		return ModItems.gem_volcanic;
 		
 		return null;
 	}
