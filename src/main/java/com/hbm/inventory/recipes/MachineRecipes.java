@@ -1483,7 +1483,7 @@ public class MachineRecipes {
 			break;
 		case DUCRETE:
 			list.add(new ItemStack(Blocks.sand, 8));
-			list.add(new ItemStack(ModItems.ingot_u238, 10));
+			list.add(new ItemStack(ModItems.billet_u238, 2));
 			list.add(new ItemStack(Items.clay_ball, 4));
 		default:
 			break;
