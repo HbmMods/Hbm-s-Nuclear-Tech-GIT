@@ -23,6 +23,8 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 		
 		if(!worldObj.isRemote) {
 			
+			this.transmitPower();
+			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
 			
@@ -40,6 +42,12 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 				rotation -= 360;
 				prevRotation -= 360;
 			}
+			
+			for(int i = 1; i < this.log.length; i++) {
+				this.log[i - 1] = this.log[i];
+			}
+			
+			this.log[19] = this.power;
 		}
 	}
 	

@@ -210,7 +210,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord, yCoord, zCoord, dir);
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite());
 			
 			heat = 0;
 			
