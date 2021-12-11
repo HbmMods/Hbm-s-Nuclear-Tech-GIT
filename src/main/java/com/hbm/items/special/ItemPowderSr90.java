@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.hbm.lib.HelveticaFont;
 import com.hbm.main.ResourceManager;
 
+import api.hbm.HbmFonts;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -21,8 +22,7 @@ public class ItemPowderSr90 extends Item {
 	/*@Override
 	@SideOnly(Side.CLIENT)
 	public FontRenderer getFontRenderer(ItemStack stack) {
-		HelveticaFont helvetica = new HelveticaFont(Minecraft.getMinecraft().gameSettings, ResourceManager.helvetica_tex, Minecraft.getMinecraft().renderEngine, true);
-		return helvetica;
+		return HbmFonts.getHelveticaFont();
 	}
 	
 	/*

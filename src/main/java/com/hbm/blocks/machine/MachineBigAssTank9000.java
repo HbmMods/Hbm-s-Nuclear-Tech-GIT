@@ -1,4 +1,4 @@
-package com.hbm.blocks.machine;
+	package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;

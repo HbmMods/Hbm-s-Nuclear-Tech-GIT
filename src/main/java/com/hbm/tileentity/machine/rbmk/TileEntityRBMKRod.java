@@ -53,7 +53,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			
 			if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 				
-				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem	());
 				
 				double fluxIn = fluxFromType(rod.nType);
 				//System.out.println(fluxIn + " - " + this.fluxFast + " - " + this.fluxSlow);

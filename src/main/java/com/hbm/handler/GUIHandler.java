@@ -9,6 +9,7 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.candu.TileEntityCanduCore;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 
@@ -848,6 +849,18 @@ public class GUIHandler implements IGuiHandler {
 				return new ContainerTurretBase(player.inventory, (TileEntityTurretFritz) entity);
 			}
 			return null;
+		}
+		
+		case ModBlocks.guiID_candu_core: {
+			if(entity instanceof TileEntityCanduCore) {
+				return new ContainerCanduCore(player.inventory, (TileEntityCanduCore) entity);
+			}
+		}
+		
+		case ModBlocks.guiID_machine_electrolysis_cell: {
+			if(entity instanceof TileEntityElectrolysisCell) {
+				return new ContainerElectrolysisCell(player.inventory, (TileEntityElectrolysisCell) entity);
+			}
 		}
 		}
 		// NON-TE CONTAINERS
@@ -1690,6 +1703,19 @@ public class GUIHandler implements IGuiHandler {
 				return new GUITurretFritz(player.inventory, (TileEntityTurretFritz) entity);
 			}
 			return null;
+		}
+		
+		case ModBlocks.guiID_candu_core: {
+			if(entity instanceof TileEntityCanduCore) {
+				return new GUICanduCore(player.inventory, (TileEntityCanduCore) entity);
+			}
+			return null;
+		}
+		
+		case ModBlocks.guiID_machine_electrolysis_cell: {
+			if(entity instanceof TileEntityElectrolysisCell) {
+				return new GUIElectrolysisCell(player.inventory, (TileEntityElectrolysisCell) entity);
+			}
 		}
 		}
 		// ITEM GUIS

@@ -135,6 +135,9 @@ public class ToolRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', "ingotLead", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.hand_drill), new Object[] { " D", "S ", " S", 'D', "ingotDuraSteel", 'S', Items.stick }));
 		
+		//Instruments
+		GameRegistry.addRecipe(new ItemStack(ModItems.gabriel_horn, 1), new Object[] { "PIB", "  S", "PIB", 'P', ModItems.plate_gold, 'I', Items.gold_ingot, 'B', Item.getItemFromBlock(Blocks.gold_block), 'S', ModItems.singularity });
+		
 		//Bobmazon
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bobmazon_materials), new Object[] { Items.book, Items.gold_nugget, Items.string });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bobmazon_machines), new Object[] { Items.book, Items.gold_nugget, new ItemStack(Items.dye, 1, 1) });

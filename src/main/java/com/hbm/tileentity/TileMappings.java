@@ -6,6 +6,7 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.candu.TileEntityCanduCore;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.network.*;
@@ -194,6 +195,10 @@ public class TileMappings {
 		map.put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		map.put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
 		map.put(TileEntitySpacer.class, "tileentity_fraction_spacer");
+		map.put(TileEntityDeuteriumExtractor.class, "tileentity_deuterium_extractor");
+		map.put(TileEntityDeuteriumTower.class, "tileentity_deuterium_tower");
+		map.put(TileEntityCanduCore.class, "tileentity_candu_core");
+		map.put(TileEntityElectrolysisCell.class, "tileentity_electrolysis_cell");
 		
 		putBombs();
 		putTurrets();

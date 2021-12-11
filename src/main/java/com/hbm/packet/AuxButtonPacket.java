@@ -10,6 +10,7 @@ import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
+import com.hbm.tileentity.machine.TileEntityElectrolysisCell;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
@@ -140,6 +141,8 @@ public class AuxButtonPacket implements IMessage {
 						reactor.tanks[2].setTankType(type);
 						reactor.tanks[2].setFill(fill);
 					}
+					
+					//ay carumba
 				}
 				
 				if (te instanceof TileEntityRadioRec) {
@@ -307,7 +310,7 @@ public class AuxButtonPacket implements IMessage {
 				
 				if (te instanceof TileEntityMachineMiningLaser) {
 					TileEntityMachineMiningLaser laser = (TileEntityMachineMiningLaser)te;
-
+					
 					laser.isOn = !laser.isOn;
 				}
 				

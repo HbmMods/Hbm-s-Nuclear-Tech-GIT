@@ -13,6 +13,8 @@ import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,6 +52,7 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HelveticaFont;
 import com.hbm.particle.*;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -72,9 +75,11 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.candu.TileEntityCanduCore;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 
+import api.hbm.HbmFonts;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -192,6 +197,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTowerLarge.class, new RenderLargeTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTowerSmall.class, new RenderSmallTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDeuteriumTower.class, new RenderDeuteriumTower());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolysisCell.class, new RenderElectrolysisCell());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSEmitter.class, new RenderAMSEmitter());
@@ -234,6 +240,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKReflector.class, new RenderRBMKLid());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRod.class, new RenderRBMKLid());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRBMKRodReaSim.class, new RenderRBMKLid());
+		//CANDU
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCanduCore.class, new RenderCanduCore());
 		//ITER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITER.class, new RenderITER());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePlasmaHeater.class, new RenderPlasmaHeater());
@@ -250,6 +258,13 @@ public class ClientProxy extends ServerProxy {
 		
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
+		
+		//Font renderers
+		/*HbmFonts.setHelveticaFont(new HelveticaFont(Minecraft.getMinecraft().gameSettings, ResourceManager.helvetica_tex, Minecraft.getMinecraft().renderEngine, true));
+		if(Minecraft.getMinecraft().getResourceManager() instanceof IReloadableResourceManager) {
+			((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(HbmFonts.getHelveticaFont());
+			((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener((IResourceManagerReloadListener) new ResourceManager());
+		}*/
 		
 		//test crap
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_container), new ItemRenderTestContainer());
@@ -288,6 +303,8 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.diamond_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.mese_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.crucible, new ItemRenderCrucible());
+		//doot
+		MinecraftForgeClient.registerItemRenderer(ModItems.gabriel_horn, new ItemRenderGabrielsHorn());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());

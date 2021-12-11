@@ -28,9 +28,9 @@ public class MachinePress extends BlockContainer {
 	
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return Item.getItemFromBlock(ModBlocks.machine_press);
-    }
+	{
+		return Item.getItemFromBlock(ModBlocks.machine_press);
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {

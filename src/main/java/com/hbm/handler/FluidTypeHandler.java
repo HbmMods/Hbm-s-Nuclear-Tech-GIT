@@ -76,6 +76,9 @@ public class FluidTypeHandler {
 		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", FluidTrait.CORROSIVE_2),
 		CRYOGEL			(0x32ffff,	0,	1,	2,	2,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.cryogel", -170),
 		
+		HIACID			(0x6f2060,	9,	2,	2,	3,	0,	0,	EnumSymbol.ACID,		"hbmfluid.hiacid", FluidTrait.CORROSIVE),
+		HBRACID			(0xa02020,	10,	2,	2,	3,	0,	0,	EnumSymbol.ACID,		"hbmfluid.hbracid", FluidTrait.CORROSIVE),
+		
 		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen"),
 		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen"),
 		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),

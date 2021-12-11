@@ -5,12 +5,16 @@ import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCANDUBundle;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderDemonLamp;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderLibrary {
@@ -1105,9 +1109,47 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glRotated(180, 0, 1, 0);
 				GL11.glScaled(0.5, 0.5, 0.5);
-		        GL11.glShadeModel(GL11.GL_SMOOTH);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.deuterium_tower_tex);  ResourceManager.deuterium_tower.renderAll();
-		        GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(ModItems.bundle_CANDU_test, new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -5.5, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glRotated(180, 0, 1, 0);
+				GL11.glScaled(1, 1, 1);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.bundle_CANDU_test_tex);  ResourceManager.bundle_CANDU.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(ModItems.bundle_CANDU_heu235, new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -5.5, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glRotated(180, 0, 1, 0);
+				GL11.glScaled(1, 1, 1);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.bundle_CANDU_heu235_tex);  ResourceManager.bundle_CANDU.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_electrolysis_cell), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(3D, 3D, 3D);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5D, 0.5D, 0.5D);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.electrolysis_cell_tex); ResourceManager.electrolysis_cell.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 	}

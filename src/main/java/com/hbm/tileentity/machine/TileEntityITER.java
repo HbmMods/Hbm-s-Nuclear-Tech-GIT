@@ -273,7 +273,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 
 	@Override
 	public void handleButtonPacket(int value, int meta) {
-		
 		if(meta == 0) {
 			this.isOn = !this.isOn;
 		}

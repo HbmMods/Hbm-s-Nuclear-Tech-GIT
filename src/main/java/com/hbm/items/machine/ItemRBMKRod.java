@@ -22,7 +22,7 @@ public class ItemRBMKRod extends Item {
 	
 	public ItemRBMKPellet pellet;
 	public String fullName = "";			//full name of the fuel rod
-	public double reactivity;					//endpoint of the function
+	public double reactivity;				//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
 	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
 	public double xGen = 0.5D;				//multiplier for xenon production
@@ -212,7 +212,7 @@ public class ItemRBMKRod extends Item {
 		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
 		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC");		//x^2 / 100 * reactivity
-		
+			
 		public String title = "";
 		
 		private EnumBurnFunc(String title) {

@@ -151,6 +151,9 @@ public class ResourceManager {
 	//Deuterium Tower
 	public static final IModelCustom deuterium_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/machine_deuterium_tower.obj"));
 	
+	//Electrolysis Cell
+	public static final IModelCustom electrolysis_cell = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/machine_electrolysis_cell.obj"));
+	
 	//Anti Mass Spectrometer
 	public static final IModelCustom ams_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_base.obj"));
 	public static final IModelCustom ams_emitter = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_emitter.obj"));
@@ -182,6 +185,9 @@ public class ResourceManager {
 	
 	//Breeder
 	public static final IModelCustom breeder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/breeder.obj"));
+	
+	//CANDU
+	public static final IModelCustom CANDU_core = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/candu/CANDU_core.obj"));
 	
 	//ITER
 	public static final IModelCustom iter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/iter.obj"));
@@ -365,6 +371,9 @@ public class ResourceManager {
 	//Deuterium Tower
 	public static final ResourceLocation deuterium_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/machine_deuterium_tower.png");
 	
+	//Electrolysis cell
+	public static final ResourceLocation electrolysis_cell_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/machine_electrolysis_cell.png");
+	
 	//IGen
 	public static final ResourceLocation igen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen.png");
 	public static final ResourceLocation igen_rotor = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen_rotor.png");
@@ -462,6 +471,9 @@ public class ResourceManager {
 
 	//Breeder
 	public static final ResourceLocation breeder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/breeder.png");
+	
+	//CANDU
+	public static final ResourceLocation CANDU_core_tex = new ResourceLocation(RefStrings.MODID, "textures/models/candu/CANDU_core.png");
 	
 	//ITER
 	public static final ResourceLocation iter_glass = new ResourceLocation(RefStrings.MODID, "textures/models/iter/glass.png");
@@ -565,6 +577,9 @@ public class ResourceManager {
 	
 	////Obj Items
 	
+	//CANDU
+	public static final IModelCustom bundle_CANDU = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/candu/CANDU_bundle.obj"));
+	
 	//Shimmer Sledge
 	public static final IModelCustom shimmer_sledge = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shimmer_sledge.obj"));
 	public static final IModelCustom shimmer_axe = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shimmer_axe.obj"));
@@ -572,6 +587,8 @@ public class ResourceManager {
 	public static final IModelCustom pch = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/pch.obj"));
 	public static final IModelCustom gavel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/gavel.obj"));
 	public static final IModelCustom crucible = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/crucible.obj"));
+	
+	public static final IModelCustom gabriel_horn = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/gabriels_horn.obj"));
 
 	public static final IModelCustom brimstone = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/brimstone.obj"));
 	public static final IModelCustom hk69 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/hk69.obj"));
@@ -609,6 +626,12 @@ public class ResourceManager {
 	public static final IModelCustom armor_solstice = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/solstice.obj"));
 	
 	////Texture Items
+	
+	//CANDU
+	//CANDU fuel
+	public static final ResourceLocation bundle_CANDU_test_tex = new ResourceLocation(RefStrings.MODID, "textures/models/candu/CANDU_bundle_test.png");
+		
+	public static final ResourceLocation bundle_CANDU_heu235_tex = new ResourceLocation(RefStrings.MODID, "textures/models/candu/CANDU_bundle_heu235.png");
 
 	//Shimmer Sledge
 	public static final ResourceLocation shimmer_sledge_tex = new ResourceLocation(RefStrings.MODID, "textures/models/shimmer_sledge.png");
@@ -624,6 +647,8 @@ public class ResourceManager {
 	public static final ResourceLocation crucible_hilt = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/crucible_hilt.png");
 	public static final ResourceLocation crucible_guard = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/crucible_guard.png");
 	public static final ResourceLocation crucible_blade = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/crucible_blade.png");
+	
+	public static final ResourceLocation gabriels_horn_tex = new ResourceLocation(RefStrings.MODID, "textures/models/gabriels_horn.png");
 
 	public static final ResourceLocation brimstone_tex = new ResourceLocation(RefStrings.MODID, "textures/models/brimstone.png");
 	public static final ResourceLocation hk69_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/hk69.png");

@@ -203,6 +203,8 @@
     "fm.mug":  {"category": "block", "sounds": [{"name": "mug", "stream": false}]},
     "fm.sample":  {"category": "block", "sounds": [{"name": "sample", "stream": false}]},
     
+    "instrument.trumpet_doot": {"category": "player", "sounds" : [{"name": "instrument/trumpet_doot", "stream": false}]},
+    
     "alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
     "alarm.apcPass": {"category": "record", "sounds": [{"name": "alarm/apcPass", "stream": false}]},

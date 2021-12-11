@@ -16,6 +16,7 @@ import com.hbm.packet.TEFluidPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -247,6 +248,25 @@ public class FluidTank {
 		int i = (fluid * height) / maxFluid;
 		gui.drawTexturedModalRect(x, y - i, tx, ty - i, width, i);
 	}
+	
+	//Used in the GUI rendering, renders the fluid in the container with progress, but this time rotated 90 degrees to the right. If you want rotation to the left, tough luck
+	public void renderTankRot(GuiContainer gui, int x, int y, int tx, int ty, int width, int height, float zLevel) {
+		
+		int i = (fluid * height) / maxFluid;
+		int j = (fluid * width) / maxFluid;
+		float f = 0.00390625F;
+		float f1 = 0.00390625F;
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		
+		tessellator.addVertexWithUV((double)(x + j), (double)(y), (double)zLevel, (double)((float)(tx) * f), (double)((float)(ty - j) * f1));
+		tessellator.addVertexWithUV((double)(x + j), (double)(y - height), (double)zLevel, (double)((float)(tx + height) * f), (double)((float)(ty - j) * f1));
+		tessellator.addVertexWithUV((double)(x + j - j), (double)(y - height), (double)zLevel, (double)((float)(tx + height) * f), (double)((float)(ty - j + j) * f1));
+		tessellator.addVertexWithUV((double)(x + j - j), (double)(y), (double)zLevel, (double)((float)(tx) * f), (double)((float)(ty - j + j) * f1));
+		
+		tessellator.draw();
+	}
+	
 
 	public void renderTankInfo(GuiContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(gui instanceof GuiInfoContainer)
