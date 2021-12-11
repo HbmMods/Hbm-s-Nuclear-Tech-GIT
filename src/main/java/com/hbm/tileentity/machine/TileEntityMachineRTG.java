@@ -24,7 +24,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	public int heat;
 	public final int heatMax = 150;
 	public long power;
-	public final long powerMax = 90000;
+	public final long powerMax = 100000;
 	
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 0 };
@@ -238,7 +238,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			if(heat > heatMax)
 				heat = heatMax;
 			
-			power += heat;
+			power += heat * 10;
 			if(power > powerMax)
 				power = powerMax;
 			

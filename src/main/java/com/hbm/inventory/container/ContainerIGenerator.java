@@ -18,81 +18,66 @@ public class ContainerIGenerator extends Container {
 		
 		igen = te;
 		
-		//Solid Fuel
-		this.addSlotToContainer(new Slot(te, 0, 5, 27));
-		//RTG In
-		this.addSlotToContainer(new Slot(te, 1, 41, 63));
-		//RTG Out
-		this.addSlotToContainer(new SlotMachineOutput(te, 2, 41, 99));
-		//Thermo Slots
-		this.addSlotToContainer(new Slot(te, 3, 68, 36));
-		this.addSlotToContainer(new Slot(te, 4, 86, 36));
-		this.addSlotToContainer(new Slot(te, 5, 104, 36));
 		//Battery
-		this.addSlotToContainer(new Slot(te, 6, 86, 108));
-		//Water In
-		this.addSlotToContainer(new Slot(te, 7, 131, 27));
-		//Water Out
-		this.addSlotToContainer(new SlotMachineOutput(te, 8, 167, 27));
-		//Fuel In
-		this.addSlotToContainer(new Slot(te, 9, 131, 63));
-		//Fuel Out
-		this.addSlotToContainer(new SlotMachineOutput(te, 10, 167, 63));
-		//ID In
-		this.addSlotToContainer(new Slot(te, 11, 131, 81));
-		//ID Out
-		this.addSlotToContainer(new SlotMachineOutput(te, 12, 167, 81));
-		//Lube In
-		this.addSlotToContainer(new Slot(te, 13, 131, 99));
-		//Lube Out
-		this.addSlotToContainer(new SlotMachineOutput(te, 14, 167, 99));
-		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 14 + j * 18, 84 + i * 18 + 56));
+		this.addSlotToContainer(new Slot(te, 0, 8, 134));
+		//Water
+		this.addSlotToContainer(new Slot(te, 1, 62, 112));
+		this.addSlotToContainer(new SlotMachineOutput(te, 2, 154, 112));
+		//Solid Fuel
+		this.addSlotToContainer(new Slot(te, 3, 67, 51));
+		this.addSlotToContainer(new Slot(te, 4, 85, 51));
+		this.addSlotToContainer(new Slot(te, 5, 67, 87));
+		this.addSlotToContainer(new Slot(te, 6, 85, 87));
+		//Lubricant
+		this.addSlotToContainer(new Slot(te, 7, 132, 33));
+		this.addSlotToContainer(new SlotMachineOutput(te, 8, 132, 51));
+		//Fuel
+		this.addSlotToContainer(new Slot(te, 9, 132, 69));
+		this.addSlotToContainer(new SlotMachineOutput(te, 10, 132, 87));
+		//RTG
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 2; j++) {
+				this.addSlotToContainer(new Slot(te, 11 + i * 2 + j, 15 + j * 18, 35 + i * 18));
 			}
 		}
 		
-		for(int i = 0; i < 9; i++)
-		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 14 + i * 18, 142 + 56));
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 71));
+			}
+		}
+
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 71));
 		}
 	}
 	
-	//TODO: use smart shift click magic
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
-		
-		if (var4 != null && var4.getHasStack())
-		{
+
+		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			
-            if (par2 <= 14) {
-				if (!this.mergeItemStack(var5, 15, this.inventorySlots.size(), true))
-				{
+
+			if(par2 <= 20) {
+				if(!this.mergeItemStack(var5, 21, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				return null;
 			}
-            
-			if (var5.stackSize == 0)
-			{
+
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

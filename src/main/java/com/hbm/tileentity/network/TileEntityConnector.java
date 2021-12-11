@@ -50,7 +50,7 @@ public class TileEntityConnector extends TileEntityPylonBase {
 	}
 
 	@Override
-	public boolean canConnect(ForgeDirection dir) {
-		return dir == ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+	public boolean canConnect(ForgeDirection dir) { //i've about had it with your fucking bullshit
+		return true;
 	}
 }

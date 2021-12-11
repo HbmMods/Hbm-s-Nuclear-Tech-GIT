@@ -43,7 +43,7 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
 		
 		for(int i = 0; i < pellets.size(); i++) {
 			ItemRTGPellet pellet = pellets.get(i);
-			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtgBFurnace.pellet", I18nUtil.resolveKey(pellet.getUnlocalizedName()), pellet.getHeat());
+			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtgBFurnace.pellet", I18nUtil.resolveKey(pellet.getUnlocalizedName() + ".name"), pellet.getHeat());
 		}
 		
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);

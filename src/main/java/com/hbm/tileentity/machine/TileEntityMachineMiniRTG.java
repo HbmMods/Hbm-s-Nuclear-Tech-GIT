@@ -23,7 +23,7 @@ public class TileEntityMachineMiniRTG extends TileEntity implements IEnergyGener
 			if(this.getBlockType() == ModBlocks.machine_powerrtg)
 				power += 2500;
 			else
-				power += 70;
+				power += 700;
 			
 			if(power > getMaxPower())
 				power = getMaxPower();

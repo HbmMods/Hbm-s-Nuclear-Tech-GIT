@@ -174,6 +174,7 @@ public class BlockBobble extends BlockContainer {
 		ADAM29("Adam29", "Adam29", "Ethanol, liquid petroleum gas", "You know, nukes are really quite beatiful.$It's like watching a star be born for a split second.", true),
 		UFFR("UFFR", "UFFR", "All sorts of things from his PR", "fried shrimp", false),
 		VAER("vaer", "vaer", "ZIRNOX", "taken de family out to the weekend cigarette festival", true),
+		NOS("Dr Nostalgia", "Dr Nostalgia", "SSG and Vortex models", "Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie", true),
 		//testing garbage. why is she so dumb?
 		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
 

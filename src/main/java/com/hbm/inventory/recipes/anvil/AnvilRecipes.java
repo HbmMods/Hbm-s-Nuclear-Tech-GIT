@@ -168,6 +168,16 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(STEEL.ingot(), 6),
+						new OreDictStack(IRON.plate(), 8),
+						new OreDictStack(POLYMER.ingot(), 4),
+						new ComparableStack(ModItems.generator_steel, 2),
+						new ComparableStack(ModItems.turbine_titanium, 1),
+						new ComparableStack(ModItems.thermo_element, 3)
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_industrial_generator))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModBlocks.brick_concrete, 64),
 						new ComparableStack(Blocks.iron_bars, 128),
 						new ComparableStack(ModBlocks.machine_condenser, 5),
@@ -497,19 +507,6 @@ public class AnvilRecipes {
 				new ComparableStack(ModItems.pile_rod_boron), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)),
 						new AnvilOutput(new ItemStack(Items.stick, 2))
-						}).setTier(2));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModBlocks.machine_industrial_generator), new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModBlocks.machine_coal_off, 2)),
-						new AnvilOutput(new ItemStack(ModBlocks.machine_boiler_off, 2)),
-						new AnvilOutput(new ItemStack(ModBlocks.machine_large_turbine, 1)),
-						new AnvilOutput(new ItemStack(ModBlocks.machine_transformer, 1)),
-						new AnvilOutput(new ItemStack(ModBlocks.steel_scaffold, 20)),
-						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 12)),
-						new AnvilOutput(new ItemStack(ModItems.plate_lead, 8)),
-						new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 12)),
-						new AnvilOutput(new ItemStack(ModItems.pipes_steel, 1))
 						}).setTier(2));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
