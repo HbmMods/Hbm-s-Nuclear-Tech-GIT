@@ -15,6 +15,7 @@ import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -162,10 +163,10 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 		fillFluid(xCoord - dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 4 + rot.offsetZ * 1, this.getTact(), type);
 		fillFluid(xCoord - dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 4 - rot.offsetZ * 2, this.getTact(), type);
 
-		fillFluid(xCoord + dir.offsetX * 3 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
-		fillFluid(xCoord + dir.offsetX * 3 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 3 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 3 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
+		fillFluid(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
+		fillFluid(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
+		fillFluid(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
+		fillFluid(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
 	}
 
 	@Override
