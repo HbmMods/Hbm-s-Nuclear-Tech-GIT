@@ -49,6 +49,7 @@ public class CraftingManager {
 		
 		//TODO: find out what this actually did
 		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("hbm:mku", MKUCraftingHandler.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
 	}
 
 	public static void AddCraftingRec() {
