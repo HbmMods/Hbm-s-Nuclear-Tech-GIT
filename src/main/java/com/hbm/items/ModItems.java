@@ -15,6 +15,7 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.items.machine.ItemRBMKRod.EnumBurnFunc;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.items.special.*;
+import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.*;
 import com.hbm.items.tool.ItemToolAbility.EnumToolType;
 import com.hbm.items.weapon.*;
@@ -506,6 +507,9 @@ public class ModItems {
 	public static Item circuit_bismuth;
 	public static Item circuit_tantalium_raw;
 	public static Item circuit_tantalium;
+	public static ItemEnumMulti circuit_star_piece;
+	public static ItemEnumMulti circuit_star_component;
+	public static Item circuit_star;
 
 	public static Item mechanism_revolver_1;
 	public static Item mechanism_revolver_2;
@@ -1137,6 +1141,7 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
 
+	public static Item scrap_plastic;
 	public static Item scrap;
 	public static Item scrap_nuclear;
 	public static Item trinitite;
@@ -3058,6 +3063,9 @@ public class ModItems {
 		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth");
 		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
 		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium");
+		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
+		circuit_star_component = (ItemEnumMulti) new ItemCircuitStarComponent().setUnlocalizedName("circuit_star_component").setCreativeTab(null);
+		circuit_star = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_star").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_star");
 		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
 		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
 		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
@@ -3862,6 +3870,7 @@ public class ModItems {
 		nuclear_waste_tiny = new ItemNuclearWaste().setUnlocalizedName("nuclear_waste_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_tiny");
 		nuclear_waste_vitrified = new ItemNuclearWaste().setUnlocalizedName("nuclear_waste_vitrified").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_vitrified");
 		nuclear_waste_vitrified_tiny = new ItemNuclearWaste().setUnlocalizedName("nuclear_waste_vitrified_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_vitrified_tiny");
+		scrap_plastic = new ItemPlasticScrap().setUnlocalizedName("scrap_plastic").setTextureName(RefStrings.MODID + ":scrap_plastic");
 		scrap = new Item().setUnlocalizedName("scrap").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scrap");
 		scrap_nuclear = new Item().setUnlocalizedName("scrap_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scrap_nuclear");
 		containment_box = new ItemLeadBox().setUnlocalizedName("containment_box").setCreativeTab(null).setTextureName(RefStrings.MODID + ":containment_box");
@@ -6121,6 +6130,9 @@ public class ModItems {
 		GameRegistry.registerItem(circuit_bismuth, circuit_bismuth.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_tantalium_raw, circuit_tantalium_raw.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_tantalium, circuit_tantalium.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_star_piece, circuit_star_piece.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_star_component, circuit_star_component.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_star, circuit_star.getUnlocalizedName());
 		
 		//Military Circuits
 		GameRegistry.registerItem(circuit_targeting_tier1, circuit_targeting_tier1.getUnlocalizedName());
@@ -6805,6 +6817,7 @@ public class ModItems {
 		GameRegistry.registerItem(debris_element, debris_element.getUnlocalizedName());
 		GameRegistry.registerItem(undefined, undefined.getUnlocalizedName());
 		
+		GameRegistry.registerItem(scrap_plastic, scrap_plastic.getUnlocalizedName());
 		GameRegistry.registerItem(scrap, scrap.getUnlocalizedName());
 		GameRegistry.registerItem(scrap_nuclear, scrap_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(trinitite, trinitite.getUnlocalizedName());

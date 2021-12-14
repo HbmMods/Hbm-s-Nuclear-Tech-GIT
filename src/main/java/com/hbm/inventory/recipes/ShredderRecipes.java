@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -300,6 +301,14 @@ public class ShredderRecipes {
 		for(int i = 0; i < 16; i++) {
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
+		}
+		
+		/*
+		 * Shredding bobbleheads
+		 */
+		for(int i = 0; i < BobbleType.values().length; i++) {
+			BobbleType type = BobbleType.values()[i];
+			ShredderRecipes.setRecipe(new ItemStack(ModBlocks.bobblehead, 1, i), new ItemStack(ModItems.scrap_plastic, 1, type.scrap.ordinal()));
 		}
 		
 		/*
