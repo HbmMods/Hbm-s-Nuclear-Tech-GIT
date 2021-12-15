@@ -15,8 +15,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -45,6 +43,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_uffr = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/uffr.png");
 	public static final ResourceLocation bobble_vaer = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vaer.png");
 	public static final ResourceLocation bobble_nos = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/nos.png");
+	public static final ResourceLocation bobble_drillgon = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/drillgon200.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 
 	@Override
@@ -94,12 +93,14 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case UFFR:		bindTexture(bobble_uffr); break;
 		case VAER:		bindTexture(bobble_vaer); break;
 		case NOS:		bindTexture(bobble_nos); break;
+		case DRILLGON:	bindTexture(bobble_drillgon); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
 		switch(type) {
-		case PU238:	renderPellet(type); break;
-		case UFFR:	renderFumo(type); break;
+		case PU238:		renderPellet(type); break;
+		case UFFR:		renderFumo(type); break;
+		case DRILLGON:	renderDrillgon(type); break;
 		default: renderGuy(type);
 		}
 		
@@ -353,6 +354,10 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		bobble.renderPart("FumoHead");
 		
 		GL11.glPopMatrix();
+	}
+	
+	public void renderDrillgon(BobbleType type) {
+		bobble.renderPart("Drillgon");
 	}
 
 	private ModelUboinik shotgun = new ModelUboinik();
