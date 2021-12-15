@@ -3063,7 +3063,7 @@ public class ModItems {
 		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth");
 		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
 		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium");
-		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
+		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
 		circuit_star_component = (ItemEnumMulti) new ItemCircuitStarComponent().setUnlocalizedName("circuit_star_component").setCreativeTab(null);
 		circuit_star = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_star").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_star");
 		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");

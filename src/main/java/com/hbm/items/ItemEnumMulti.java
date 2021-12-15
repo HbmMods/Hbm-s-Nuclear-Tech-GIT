@@ -18,11 +18,13 @@ public class ItemEnumMulti extends Item {
 	
 	//hell yes, now we're thinking with enums!
 	private Class<? extends Enum> theEnum;
+	private boolean multiName;
 	private boolean multiTexture;
 
-	public ItemEnumMulti(Class<? extends Enum> theEnum, boolean multiTexture) {
+	public ItemEnumMulti(Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
 		this.setHasSubtypes(true);
 		this.theEnum = theEnum;
+		this.multiName = multiName;
 		this.multiTexture = multiTexture;
 	}
 
@@ -84,5 +86,17 @@ public class ItemEnumMulti extends Item {
 	
 	public ItemStack stackFromEnum(Enum num) {
 		return stackFromEnum(1, num);
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		
+		if(multiName) {
+			
+			Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+		} else {
+			return super.getUnlocalizedName(stack);
+		}
 	}
 }

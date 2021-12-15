@@ -8,10 +8,13 @@ import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
+import com.hbm.util.Compat;
+import com.hbm.util.Compat.ReikaIsotope;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class HazardRegistry {
 
@@ -35,6 +38,23 @@ public class HazardRegistry {
 	//PU241		            14a		β−	025.00Rad/s	Spicy
 	//AM241		           432a		α	008.50Rad/s
 	//AM242		           141a		β−	009.50Rad/s
+
+	//simplified groups for ReC compat
+	public static final float gen_S = 10_000F;
+	public static final float gen_H = 2_000F;
+	public static final float gen_10D = 100F;
+	public static final float gen_100D = 80F;
+	public static final float gen_1Y = 50F;
+	public static final float gen_10Y = 30F;
+	public static final float gen_100Y = 10F;
+	public static final float gen_1K = 7.5F;
+	public static final float gen_10K = 6.25F;
+	public static final float gen_100K = 5F;
+	public static final float gen_1M = 2.5F;
+	public static final float gen_10M = 1.5F;
+	public static final float gen_100M = 1F;
+	public static final float gen_1B = 0.5F;
+	public static final float gen_10B = 0.1F;
 
 	public static final float co60 = 30.0F;
 	public static final float tc99 = 2.75F;
@@ -301,7 +321,17 @@ public class HazardRegistry {
 		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
 		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		
-		//TODO
+		/*
+		 * ReC compat
+		 */
+		Item recWaste = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_waste");
+		if(recWaste != null) {
+			for(ReikaIsotope i : ReikaIsotope.values()) {
+				if(i.getRad() > 0) {
+					HazardSystem.register(new ItemStack(recWaste, 1, i.ordinal()), makeData(RADIATION, i.getRad()));
+				}
+			}
+		}
 	}
 	
 	public static void registerTrafos() {
