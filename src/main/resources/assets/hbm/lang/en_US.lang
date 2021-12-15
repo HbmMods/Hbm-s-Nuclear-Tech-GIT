@@ -823,6 +823,7 @@ item.battery_red_cell_6.name=Sixfold Redstone Power Cell
 item.battery_sc_americium.name=Self-Charging Americium-241 Battery
 item.battery_sc_gold.name=Self-Charging Gold-198 Battery
 item.battery_sc_plutonium.name=Self-Charging Plutonium-238 Battery
+item.battery_sc_plutonium_mix.name=Self-Charging Reactor-Grade Plutonium Battery
 item.battery_sc_polonium.name=Self-Charging Polonium-210 Battery
 item.battery_sc_technetium.name=Self-Charging Technetium-99 Battery
 item.battery_sc_uranium.name=Self-Charging Uranium-238 Battery
