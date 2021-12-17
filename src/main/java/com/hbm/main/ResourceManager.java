@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class ResourceManager {
 	
-	public static final Shader test_shader = ShaderManager.loadShader(new ResourceLocation(RefStrings.MODID, "shaders/test_shader"));
+	//public static final Shader test_shader = ShaderManager.loadShader(new ResourceLocation(RefStrings.MODID, "shaders/test_shader"));
 
 	//God
 	public static final IModelCustom error = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/error.obj"));

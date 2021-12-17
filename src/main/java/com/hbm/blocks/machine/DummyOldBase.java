@@ -68,6 +68,6 @@ public abstract class DummyOldBase extends BlockContainer implements IDummy, IEn
 
 	@Override
 	public boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		return true;
+		return port;
 	}
 }

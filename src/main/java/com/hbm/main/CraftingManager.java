@@ -13,6 +13,8 @@ import com.hbm.inventory.OreDictManager;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
+import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.util.EnchantmentUtil;
 
 import net.minecraft.block.Block;
@@ -49,6 +51,7 @@ public class CraftingManager {
 		
 		//TODO: find out what this actually did
 		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("hbm:mku", MKUCraftingHandler.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
 	}
 
 	public static void AddCraftingRec() {
@@ -880,6 +883,41 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModBlocks.rbmk_boiler, 1), new Object[] { "CPC", "CRC", "CPC", 'C', ModItems.board_copper, 'P', ModItems.pipes_steel, 'R', ModBlocks.rbmk_blank });
 			addRecipeAuto(new ItemStack(ModBlocks.rbmk_cooler, 1), new Object[] { "IGI", "GCG", "IGI", 'C', ModBlocks.rbmk_blank, 'I', ModItems.plate_polymer, 'G', ModBlocks.steel_grate });
 		}
+		
+		addShapelessAuto(ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CHIPSET), new Object[] {
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_BIOS),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_BUS),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_CHIPSET),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_CMOS),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_IO),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_NORTH),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_SOUTH)
+		});
+		
+		addShapelessAuto(ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CPU), new Object[] {
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_CACHE),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_CLOCK),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_EXT),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_LOGIC),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_REGISTER),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CPU_SOCKET)
+		});
+		
+		addShapelessAuto(ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.RAM), new Object[] {
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_SOCKET),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_16K_A),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_16K_B),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_16K_C),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_16K_D)
+		});
+		
+		addShapelessAuto(new ItemStack(ModItems.circuit_star), new Object[] {
+				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CHIPSET),
+				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CPU),
+				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.RAM),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_TRANSISTOR),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_BLANK)
+		});
 	}
 	
 	public static void crumple() {
