@@ -20,8 +20,10 @@ public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
 	@Override
 	public void updateEntity() {
 		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+		if(!worldObj.isRemote) {
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
 		}
 	}
 

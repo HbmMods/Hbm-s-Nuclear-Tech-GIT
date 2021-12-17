@@ -314,7 +314,7 @@ public class ShredderRecipes {
 		/*
 		 * GC COMPAT
 		 */
-		Item gcMoonBlock = Compat.tryLoadItem("GalacticraftCore", "moonBlock");
+		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
 		if(gcMoonBlock != null) {
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
@@ -323,9 +323,9 @@ public class ShredderRecipes {
 		/*
 		 * AR COMPAT
 		 */
-		Item arMoonTurf = Compat.tryLoadItem("advancedrocketry", "turf");
+		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
 		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
-		Item arMoonTurfDark = Compat.tryLoadItem("advancedrocketry", "turfDark");
+		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
 		if(arMoonTurfDark != null) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
 	}
 	

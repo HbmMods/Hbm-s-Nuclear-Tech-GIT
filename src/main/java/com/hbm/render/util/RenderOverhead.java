@@ -1,6 +1,12 @@
 package com.hbm.render.util;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.lwjgl.opengl.GL11;
+
+import com.hbm.util.Tuple.Pair;
+import com.hbm.util.Tuple.Triplet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -95,6 +101,86 @@ public class RenderOverhead {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glPopMatrix();
 		}
+	}
+	
+	public static final HashMap<Triplet<Integer, Integer, Integer>, Pair<double[], Integer>> markers = new HashMap();
+	
+	public static void renderMarkers(float partialTicks) {
+		
+		if(markers.isEmpty())
+			return;
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
+		double y =  player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
+		double z =  player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+
+		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_POINT_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_LINES);
+		
+		for(Entry<Triplet<Integer, Integer, Integer>, Pair<double[], Integer>> entry : markers.entrySet()) {
+			Triplet<Integer, Integer, Integer> pos = entry.getKey();
+			Pair<double[], Integer> pars = entry.getValue();
+
+			int pX = pos.getX();
+			int pY = pos.getY();
+			int pZ = pos.getZ();
+			
+			int color = pars.getValue();
+			double[] bounds = pars.getKey();
+			double minX = bounds[0];
+			double minY = bounds[1];
+			double minZ = bounds[2];
+			double maxX = bounds[3];
+			double maxY = bounds[4];
+			double maxZ = bounds[5];
+			
+			tess.setColorOpaque_I(color);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+		}
+		
+		tess.draw();
+		
+		tess.setColorOpaque_F(1F, 1F, 1F);
+		
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_POINT_SMOOTH);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glPopMatrix();
 	}
 	
 	public static void renderThermalSight(float partialTicks) {
