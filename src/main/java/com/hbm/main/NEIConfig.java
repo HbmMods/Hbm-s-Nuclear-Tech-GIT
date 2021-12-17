@@ -98,7 +98,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_radgen));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_gascent));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_uf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
