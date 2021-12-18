@@ -5,7 +5,7 @@ import com.hbm.items.ItemEnumMulti;
 public class ItemCircuitStarComponent extends ItemEnumMulti {
 
 	public ItemCircuitStarComponent() {
-		super(CircuitComponentType.class, true);
+		super(CircuitComponentType.class, true, true);
 	}
 	
 	public static enum CircuitComponentType {

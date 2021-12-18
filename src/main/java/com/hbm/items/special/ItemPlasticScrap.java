@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 public class ItemPlasticScrap extends ItemEnumMulti {
 
 	public ItemPlasticScrap() {
-		super(ScrapType.class, false);
+		super(ScrapType.class, false, false);
 		this.setCreativeTab(null);
 	}
 	

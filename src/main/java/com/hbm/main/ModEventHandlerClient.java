@@ -755,6 +755,8 @@ public class ModEventHandlerClient {
 		}
 
 		GL11.glPopMatrix();
+		
+		RenderOverhead.renderMarkers(event.partialTicks);
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 			ItemStack plate = player.inventory.armorInventory[2];
