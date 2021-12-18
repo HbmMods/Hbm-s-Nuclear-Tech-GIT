@@ -37,6 +37,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor {
 	
+	public byte age;
 	public long power;
 	public int progress;
 	public boolean isProgressing;
@@ -59,7 +60,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		super(9); //6 slots
 		tank = new FluidTank(FluidType.UF6, 4000, 0);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
-		
+		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
 	
 	@Override
@@ -132,66 +133,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		return (power * i) / maxPower;
 	}
 	
-	private boolean canProcess() {
-		
-		if(power > 0 && this.tank.getFill() >= MachineRecipes.getFluidConsumedGasCent(tank.getTankType())) {
-			
-			List<GasCentOutput> list = MachineRecipes.getGasCentOutput(tank.getTankType());
-			
-			if(list == null)
-				return false;
-			
-			if(list.size() < 1 || list.size() > 4)
-				return false;
-			
-			for(int i = 0; i < list.size(); i++) {
-				
-				int slot = i + 5;
-				
-				if(slots[slot] == null)
-					continue;
-				
-				if(slots[slot].getItem() == list.get(i).output.getItem() &&
-						slots[slot].getItemDamage() == list.get(i).output.getItemDamage() &&
-						slots[slot].stackSize + list.get(i).output.stackSize <= slots[slot].getMaxStackSize())
-					continue;
-				
-				return false;
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private void process() {
-
-		List<GasCentOutput> out = MachineRecipes.getGasCentOutput(tank.getTankType());
-		this.progress = 0;
-		tank.setFill(tank.getFill() - MachineRecipes.getFluidConsumedGasCent(tank.getTankType()));
-		
-		List<GasCentOutput> random = new ArrayList();
-		
-		for(int i = 0; i < out.size(); i++) {
-			for(int j = 0; j < out.get(i).weight; j++) {
-				random.add(out.get(i));
-			}
-		}
-		
-		Collections.shuffle(random);
-		
-		GasCentOutput result = random.get(worldObj.rand.nextInt(random.size()));
-		
-		int slot = result.slot + 4;
-		
-		if(slots[slot] == null) {
-			slots[slot] = result.output.copy();
-		} else {
-			slots[slot].stackSize += result.output.stackSize;
-		}
-	}
-	
 	private boolean canEnrich() {
 		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() <= outputTank.getMaxFill()) {
 			
@@ -231,7 +172,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		inputTank.setFill(inputTank.getFill() - inputTank.getTankType().getFluidConsumed()); 
 		outputTank.setFill(outputTank.getFill() + inputTank.getTankType().getFluidProduced()); 
 		
-		for(byte i = 0; i < output.length + 2 && i < 3; i++) {
+		for(byte i = 0; i < output.length && i < 3; i++) {
 			if(slots[i + 2] == null) {
 				slots[i + 2] = output[i].copy();
 			} else {
@@ -240,21 +181,32 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		}
 	}
 	
-	private void attemptTransfer() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		TileEntity te = worldObj.getTileEntity(this.xCoord + dir.offsetX, this.yCoord, this.zCoord + dir.offsetZ);
-		
+	private void attemptConversion() {
+		if(inputTank.getFill() <= inputTank.getMaxFill() && tank.getFill() > 0) {
+			int fill = inputTank.getMaxFill() - inputTank.getFill();
+			
+			if(tank.getFill() >= fill) {
+				tank.setFill(tank.getFill() - fill);
+				inputTank.setFill(inputTank.getFill() + fill);
+			} else {
+				inputTank.setFill(inputTank.getFill() + tank.getFill());
+				tank.setFill(0);
+			}
+		}
+	}
+	
+	private boolean attemptTransfer(TileEntity te) {
 		if(te instanceof TileEntityMachineGasCent) {
 			TileEntityMachineGasCent gasCent = (TileEntityMachineGasCent) te;
 			
 			if(gasCent.tank.getFill() == 0 && gasCent.tank.getTankType() == this.tank.getTankType()) {
 				if(gasCent.inputTank.getTankType() != this.outputTank.getTankType()) {
-					gasCent.inputTank.setTankType(this.inputTank.getTankType().getOutputFluid());
-					gasCent.outputTank.setTankType(this.inputTank.getTankType().getOutputFluid().getOutputFluid());
+					gasCent.inputTank.setTankType(this.outputTank.getTankType());
+					gasCent.outputTank.setTankType(this.outputTank.getTankType().getOutputFluid());
 				}
 				//whew boy, so many nested if statements! this calls for a celebration!
 				
-				if(gasCent.inputTank.getFill() <= gasCent.inputTank.getMaxFill() && this.outputTank.getFill() > 0) {
+				if(gasCent.inputTank.getFill() < gasCent.inputTank.getMaxFill() && this.outputTank.getFill() > 0) {
 					int fill = gasCent.inputTank.getMaxFill() - gasCent.inputTank.getFill();
 					
 					if(this.outputTank.getFill() >= fill) {
@@ -265,8 +217,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 						this.outputTank.setFill(0);
 					}
 				}
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
@@ -282,66 +236,14 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tank.setType(1, 2, slots);
-			tank.loadTank(3, 4, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
-			if(canProcess()) {
-				
-				isProgressing = true;
-				
-				this.progress++;
-				
-				this.power -= 200;
-				
-				if(this.power < 0) {
-					power = 0;
-					this.progress = 0;
-				}
-				
-				if(progress >= processingSpeed) {
-					process();
-				}
-				
-			} else {
-				isProgressing = false;
-				this.progress = 0;
-			}
-
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, progress, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-		}
-	}
-	
-	//@Override
-	public void updatEntity() {
-
-		if(!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
-
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.setType(1, 1, slots);
 			
 			if(inputTank.getTankType() == PseudoFluidType.PF6 || inputTank.getTankType() == PseudoFluidType.NUF6) {
 				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-				
-				if(inputTank.getFill() <= inputTank.getMaxFill() && tank.getFill() > 0) {
-					int fill = inputTank.getMaxFill() - inputTank.getFill();
-					
-					if(tank.getFill() >= fill) {
-						tank.setFill(tank.getFill() - fill);
-						inputTank.setFill(inputTank.getFill() + fill);
-					} else {
-						inputTank.setFill(inputTank.getFill() + tank.getFill());
-						tank.setFill(0);
-					}
-				}
+				attemptConversion();
 			}
 			
-			if(canProcess()) {
+			if(canEnrich()) {
 				
 				isProgressing = true;
 				
@@ -355,12 +257,31 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				}
 				
 				if(progress >= processingSpeed) {
-					process();
+					enrich();
 				}
 				
 			} else {
 				isProgressing = false;
 				this.progress = 0;
+			}
+			
+			age++;
+			if(age >= 10) {
+				age = 0;
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				TileEntity te = worldObj.getTileEntity(this.xCoord - dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ);
+				
+				if(attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
+					if(this.outputTank.getFill() >= 100 && (slots[3] == null || slots[3].getItem() == ModItems.nugget_uranium_fuel)) {
+						this.outputTank.setFill(this.outputTank.getFill() - 100);
+						if(slots[3] == null) {
+							slots[3] = new ItemStack(ModItems.nugget_uranium_fuel, 1);
+						} else {
+							slots[3].stackSize += 1;
+						}
+					}
+				}
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
