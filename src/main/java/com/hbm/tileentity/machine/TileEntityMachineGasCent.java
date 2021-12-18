@@ -12,7 +12,6 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
-import com.hbm.inventory.recipes.MachineRecipes.GasCentOutput;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -48,16 +47,15 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public PseudoFluidTank inputTank;
 	public PseudoFluidTank outputTank;
 	
-	private static final int[] slots_top = new int[] {3};
-	private static final int[] slots_bottom = new int[] {5, 6, 7, 8};
-	private static final int[] slots_side = new int[] {0, 3};
+	private static final int[] slots_top = new int[] {0};
+	private static final int[] slots_bottom = new int[] {2, 3, 4};
+	private static final int[] slots_side = new int[] { };
 	
 	private String customName;
 	
-	//TODO add inter-TE communications (outputting pseudofluids to other gascents, setting pseudofluidtype for other gascents, etc.)
-	//Check the TileEntityPileBase for how to do this, tis pretty easy
+	//TODO Add Machine Upgrades that speed up gas cent, required for enrichment past HEUF6; add dynamic output size like silex (?); fix puf6
 	public TileEntityMachineGasCent() {
-		super(9); //6 slots
+		super(6); 
 		tank = new FluidTank(FluidType.UF6, 4000, 0);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
 		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
@@ -122,7 +120,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1;
+		return (i != 0 && i != 1) || j == 1;
 	}
 	
 	public int getCentrifugeProgressScaled(int i) {
@@ -131,6 +129,15 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	public long getPowerRemainingScaled(int i) {
 		return (power * i) / maxPower;
+	}
+	
+	public int getTankScaled(int i, int id) {
+		if(id == 0) {
+			return (this.inputTank.getFill() * i) / inputTank.getMaxFill();
+		} else if(id == 1) {
+			return (this.outputTank.getFill() * i) / outputTank.getMaxFill();
+		}
+		return i;
 	}
 	
 	private boolean canEnrich() {
@@ -226,6 +233,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
+		this.inputTank.setTankType(PseudoFluidType.valueOf(data.getString("inputType")));
+		this.outputTank.setTankType(PseudoFluidType.valueOf(data.getString("outputType")));
+		this.inputTank.setFill(data.getInteger("inputFill"));
+		this.outputTank.setFill(data.getInteger("outputFill"));
 	}
 	
 	@Override
@@ -273,12 +284,12 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				TileEntity te = worldObj.getTileEntity(this.xCoord - dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ);
 				
 				if(attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
-					if(this.outputTank.getFill() >= 100 && (slots[3] == null || slots[3].getItem() == ModItems.nugget_uranium_fuel)) {
+					if(this.outputTank.getFill() >= 100 && (slots[4] == null || slots[4].getItem() == ModItems.nugget_uranium_fuel) && slots[4].stackSize + 1 <= slots[4].getMaxStackSize()) {
 						this.outputTank.setFill(this.outputTank.getFill() - 100);
-						if(slots[3] == null) {
-							slots[3] = new ItemStack(ModItems.nugget_uranium_fuel, 1);
+						if(slots[4] == null) {
+							slots[4] = new ItemStack(ModItems.nugget_uranium_fuel, 1);
 						} else {
-							slots[3].stackSize += 1;
+							slots[4].stackSize += 1;
 						}
 					}
 				}
@@ -287,6 +298,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
+			data.setInteger("inputFill", inputTank.getFill());
+			data.setInteger("outputFill", outputTank.getFill());
+			data.setString("inputType", inputTank.getTankType().toString());
+			data.setString("outputType", outputTank.getTankType().toString());
 			this.networkPack(data, 50);
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));

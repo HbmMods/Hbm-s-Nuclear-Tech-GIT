@@ -15,11 +15,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIMachineGasCent extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/centrifuge_gas.png");
-	private TileEntityMachineGasCent diFurnace;
+	private TileEntityMachineGasCent gasCent;
 	
 	public GUIMachineGasCent(InventoryPlayer invPlayer, TileEntityMachineGasCent tedf) {
 		super(new ContainerMachineGasCent(invPlayer, tedf));
-		diFurnace = tedf;
+		gasCent = tedf;
 
 		this.xSize = 176;
 		this.ySize = 168;
@@ -28,17 +28,16 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-
-		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 69 - 52, 16, 52);
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 98, guiTop + 30, 6, 32, mouseX, mouseY, new String[] {String.valueOf((int)((double)diFurnace.progress / (double)diFurnace.processingSpeed * 100D)) + "%"});
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 30, 8, 33, mouseX, mouseY, new String[] {gasCent.inputTank.getTankType().getName(), gasCent.inputTank.getFill() + " / " + gasCent.inputTank.getMaxFill() + " mB"});
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 114, guiTop + 30, 8, 33, mouseX, mouseY, new String[] {gasCent.outputTank.getTankType().getName(), gasCent.outputTank.getFill() + " / " + gasCent.outputTank.getMaxFill() + " mB"});
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, diFurnace.power, diFurnace.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, gasCent.power, gasCent.maxPower);
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.gasCent.hasCustomInventoryName() ? this.gasCent.getInventoryName() : I18n.format(this.gasCent.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -50,13 +49,32 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int i = (int)diFurnace.getPowerRemainingScaled(34);
+		int i = (int)gasCent.getPowerRemainingScaled(34);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
 
-		int j = (int)diFurnace.getCentrifugeProgressScaled(33);
-		drawTexturedModalRect(guiLeft + 98, guiTop + 63 - j, 192, 32 - j, 6, j);
+		int j = (int)gasCent.getCentrifugeProgressScaled(33);
+		drawTexturedModalRect(guiLeft + 74, guiTop + 37, 208, 0, j, 12);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
-		diFurnace.tank.renderTank(this, guiLeft + 53, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		int a = gasCent.getTankScaled(32, 0);
+		switch (gasCent.inputTank.getTankType()) {
+			case PF6:
+				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 200, 31 - a, 8, a);
+				break;
+			case NONE:
+				break;
+			default:
+				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 192, 31 - a, 8, a);
+		}
+		
+		int b = gasCent.getTankScaled(32, 1);
+		switch (gasCent.outputTank.getTankType()) {
+			case PF6:
+				drawTexturedModalRect(guiLeft + 114, guiTop + 62 - b, 200, 31 - b, 8, b);
+				break;
+			case NONE:
+				break;
+			default:
+				drawTexturedModalRect(guiLeft + 114, guiTop + 62 - b, 192, 31 - b, 8, b);
+		}
 	}
 }

@@ -12,25 +12,22 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineGasCent extends Container {
 	
-	private TileEntityMachineGasCent diFurnace;
+	private TileEntityMachineGasCent gasCent;
 	
 	public ContainerMachineGasCent(InventoryPlayer invPlayer, TileEntityMachineGasCent tedf) {
 		
-		diFurnace = tedf;
+		gasCent = tedf;
 
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 53));
 		//Fluid ID IO
-		this.addSlotToContainer(new Slot(tedf, 1, 35, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 35, 53));
-		//Fluid IO
-		this.addSlotToContainer(new Slot(tedf, 3, 71, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 71, 53));
+		this.addSlotToContainer(new Slot(tedf, 1, 30, 35));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 134, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 152, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 7, 134, 53));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 152, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 133, 26));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 133, 44));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 151, 35));
+		//upgrade
+		this.addSlotToContainer(new Slot(tedf, 5, 81, 18));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -52,35 +49,35 @@ public class ContainerMachineGasCent extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
 		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+		Slot slot = (Slot) this.inventorySlots.get(index);
 		
-		if (var4 != null && var4.getHasStack())
+		if (slot != null && slot.getHasStack())
 		{
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
+			ItemStack stack = slot.getStack();
+			var3 = stack.copy();
 			
-            if (par2 <= 8) {
-				if (!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true))
+            if (index <= 5) {
+				if (!this.mergeItemStack(stack, 6, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 2, false))
+			else if (!this.mergeItemStack(stack, 0, 2, false))
 			{
-				if (!this.mergeItemStack(var5, 3, 4, false))
+				if (!this.mergeItemStack(stack, 3, 4, false))
 					return null;
 			}
 			
-			if (var5.stackSize == 0)
+			if (stack.stackSize == 0)
 			{
-				var4.putStack((ItemStack) null);
+				slot.putStack((ItemStack) null);
 			}
 			else
 			{
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 		
@@ -89,6 +86,6 @@ public class ContainerMachineGasCent extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return diFurnace.isUseableByPlayer(player);
+		return gasCent.isUseableByPlayer(player);
 	}
 }

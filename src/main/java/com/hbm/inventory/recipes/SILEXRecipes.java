@@ -28,9 +28,9 @@ public class SILEXRecipes {
 
 		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()), new ComparableStack(ModItems.ingot_uranium));
 		dictTranslation.put("dustUranium", "ingotUranium");
-		recipes.put("ingotUranium", new SILEXRecipe(900, 100)
+		recipes.put("ingotUranium", new SILEXRecipe(1200, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 1))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 8))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 11))
 				);
 		
 		recipes.put(new ComparableStack(ModItems.ingot_pu_mix), new SILEXRecipe(900, 100)
