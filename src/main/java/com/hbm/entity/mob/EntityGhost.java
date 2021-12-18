@@ -21,6 +21,8 @@ public class EntityGhost extends EntityCreature {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(2, new EntityAILookIdle(this));
+		
+		this.renderDistanceWeight *= 10;
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class EntityGhost extends EntityCreature {
 		super.onUpdate();
 		
 		if(!worldObj.isRemote) {
-			double despawnRange = 100;
+			double despawnRange = 50;
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(despawnRange, despawnRange, despawnRange));
 			if(!players.isEmpty())
 				this.setDead();

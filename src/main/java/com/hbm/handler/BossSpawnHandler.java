@@ -6,9 +6,11 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityGhost;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
@@ -117,6 +119,23 @@ public class BossSpawnHandler {
 		
 		if(GeneralConfig.enableMeteorStrikes && !world.isRemote) {
 			meteorUpdate(world);
+		}
+		
+		if(world.getTotalWorldTime() % 20 == 0) {
+			
+			if(world.rand.nextInt(5) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
+				
+				EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
+				
+				if(HbmLivingProps.getDigamma(player) > 0) {
+					Vec3 vec = Vec3.createVectorHelper(75, 0, 0);
+					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
+					double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian();
+					double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian();
+					double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+					trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityGhost(world));
+				}
+			}
 		}
 	}
 	

@@ -3,12 +3,11 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderWeaponFFMG42 implements IItemRenderer {
 	
@@ -38,8 +37,10 @@ public class ItemRenderWeaponFFMG42 implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.mg42_tex);
+		boolean renderMag = true;
 		
 		switch(type) {
 		
@@ -50,6 +51,21 @@ public class ItemRenderWeaponFFMG42 implements IItemRenderer {
 			GL11.glRotated(-25, 0, 0, 1);
 			GL11.glTranslated(-0.125, 0, 0);
 			GL11.glScaled(s0, s0, s0);
+			
+			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+			GL11.glTranslated(recoil[0] * 0.25, 0, 0);
+			
+			double[] reload = HbmAnimations.getRelevantTransformation("MAG");
+			GL11.glRotated(reload[1] * 15, 1, 0, 0);
+			
+			GL11.glPushMatrix();
+			
+			GL11.glRotated(reload[1] * -45, 1, 0, 0);
+			GL11.glTranslated(0, reload[1] * 0.25, -reload[1]);
+			ResourceManager.mg42.renderPart("Mag");
+			GL11.glPopMatrix();
+			
+			renderMag = false;
 			
 			break;
 			
@@ -86,8 +102,9 @@ public class ItemRenderWeaponFFMG42 implements IItemRenderer {
 		default: break;
 		}
 
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.mg42.renderAll();
+		ResourceManager.mg42.renderPart("Gun");
+		if(renderMag) ResourceManager.mg42.renderPart("Mag");
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
