@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.gui.GUIMachineRefinery;
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.RefStrings;
 
