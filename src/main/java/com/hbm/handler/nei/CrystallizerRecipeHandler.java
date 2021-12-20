@@ -93,8 +93,13 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 		
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 			
-			if (NEIServerUtils.areStacksSameTypeCrafting((ItemStack)recipe.getValue(), result))
+			if(NEIServerUtils.areStacksSameTypeCrafting((ItemStack)recipe.getValue(), result)) {
+				
+				if(recipe.getKey() instanceof ItemStack && ((ItemStack)recipe.getKey()).getItem() == ModItems.scrap_plastic)
+					continue;
+				
 				this.arecipes.add(new RecipeSet(recipe.getKey(), (ItemStack)recipe.getValue()));
+			}
 		}
 	}
 
@@ -112,6 +117,9 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
+		
+		if(ingredient.getItem() == ModItems.scrap_plastic)
+			return;
 
 		Map<Object, Object> recipes = CrystallizerRecipes.getRecipes();
 		

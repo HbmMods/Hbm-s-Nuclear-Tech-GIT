@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class SmeltingRecipes {
 	
@@ -163,6 +164,8 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.meteorite_sword, ItemHot.heatUp(new ItemStack(ModItems.meteorite_sword_seared)), 1.0F);
 
 		GameRegistry.addSmelting(ModItems.battery_steam, ItemBattery.getFullBattery(ModItems.battery_steam), 1.0F);
+		
+		GameRegistry.addSmelting(new ItemStack(ModItems.scrap_plastic, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.ingot_polymer), 0.1F);
 		
 		for(int i = 0; i < 10; i++)
 			GameRegistry.addSmelting(new ItemStack(ModItems.ingot_steel_dusted, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_steel_dusted, 1, i)), 1.0F);
