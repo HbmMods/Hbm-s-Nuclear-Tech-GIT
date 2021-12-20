@@ -12,6 +12,10 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -29,7 +33,7 @@ public class Gun50BMGFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 6;
+		config.rateOfFire = 1;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
@@ -38,14 +42,28 @@ public class Gun50BMGFactory {
 		config.ammoCap = 50;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_BOX;
-		config.durability = 2000;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 15 * 50 * 10; //15 * capacity * default wear
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.calShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Maxim gun";
-		config.manufacturer = "Hiram Maxim";
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				);
+		
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, -1, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+						)
+				);
+		
+		config.name = "Universal-Maschinengewehr Modell 42 - .50 Mod";
+		config.manufacturer = "Wilhelm-Gustloff-Werke";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);

@@ -14,7 +14,7 @@ public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
 
 	@Override
 	public boolean canUpdate() {
-		return this.worldObj != null && this.worldObj.getTotalWorldTime() % 20 == 0;
+		return true; //yeah idk wtf happened with the old behavior and honestly i'm not keen on figuring that one out
 	}
 	
 	@Override

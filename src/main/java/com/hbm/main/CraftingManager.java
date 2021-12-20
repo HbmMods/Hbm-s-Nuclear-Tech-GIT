@@ -22,6 +22,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
@@ -368,8 +369,10 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.block_niter_reinforced, 1), new Object[] { "TCT", "CNC", "TCT", 'T', TCALLOY.ingot(), 'C', ModBlocks.concrete, 'N', KNO.block() });
 		
 		for(int i = 0; i < 16; i++) {
-			addRecipeAuto(new ItemStack(ModBlocks.concrete_colored, 8, i), new Object[] { "CCC", "CDC", "CCC", 'C', ModBlocks.concrete_smooth, 'D', new ItemStack(Items.dye, 1, 15 - i) });
-			addRecipeAuto(new ItemStack(ModBlocks.concrete_colored, 8, i), new Object[] { "CCC", "CDC", "CCC", 'C', ModBlocks.concrete_colored, 'D', new ItemStack(Items.dye, 1, 15 - i) });
+			String dyeName = ItemDye.field_150923_a[15 - i];
+			dyeName = "dye" + dyeName.substring(0, 1).toUpperCase() + dyeName.substring(1);
+			addRecipeAuto(new ItemStack(ModBlocks.concrete_colored, 8, i), new Object[] { "CCC", "CDC", "CCC", 'C', ModBlocks.concrete_smooth, 'D', dyeName });
+			addRecipeAuto(new ItemStack(ModBlocks.concrete_colored, 8, i), new Object[] { "CCC", "CDC", "CCC", 'C', ModBlocks.concrete_colored, 'D', dyeName });
 		}
 		addShapelessAuto(new ItemStack(ModBlocks.concrete_smooth, 1), new Object[] { ModBlocks.concrete_colored });
 
