@@ -13,6 +13,7 @@ import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
@@ -53,10 +54,9 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	private String customName;
 	
-	//TODO Add Machine Upgrades that speed up gas cent, required for enrichment past HEUF6; add dynamic output size like silex (?); fix puf6
 	public TileEntityMachineGasCent() {
 		super(6); 
-		tank = new FluidTank(FluidType.UF6, 4000, 0);
+		tank = new FluidTank(FluidType.UF6, 2000, 0);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
 		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
@@ -124,7 +124,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 	
 	public int getCentrifugeProgressScaled(int i) {
-		return (progress * i) / processingSpeed;
+		return (progress * i) / getProcessingSpeed();
 	}
 	
 	public long getPowerRemainingScaled(int i) {
@@ -144,6 +144,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() <= outputTank.getMaxFill()) {
 			
 			ItemStack[] list = inputTank.getTankType().getOutput();
+			
+			if(this.inputTank.getTankType() == PseudoFluidType.HEUF6)
+				if(!(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed))
+					return false;
 			
 			if(list == null)
 				return false;
@@ -211,7 +215,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 					gasCent.inputTank.setTankType(this.outputTank.getTankType());
 					gasCent.outputTank.setTankType(this.outputTank.getTankType().getOutputFluid());
 				}
-				//whew boy, so many nested if statements! this calls for a celebration!
 				
 				if(gasCent.inputTank.getFill() < gasCent.inputTank.getMaxFill() && this.outputTank.getFill() > 0) {
 					int fill = gasCent.inputTank.getMaxFill() - gasCent.inputTank.getFill();
@@ -247,7 +250,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tank.setType(1, 1, slots);
+			setTankType(1);
 			
 			if(inputTank.getTankType() == PseudoFluidType.PF6 || inputTank.getTankType() == PseudoFluidType.NUF6) {
 				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -260,16 +263,19 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				
 				this.progress++;
 				
-				this.power -= 200;
+				if(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed)
+					this.power -= 300;
+				else
+					this.power -= 200;
 				
 				if(this.power < 0) {
 					power = 0;
 					this.progress = 0;
 				}
 				
-				if(progress >= processingSpeed) {
+				if(progress >= getProcessingSpeed())
 					enrich();
-				}
+
 				
 			} else {
 				isProgressing = false;
@@ -305,8 +311,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			this.networkPack(data, 50);
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, progress, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
@@ -326,6 +330,13 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public long getMaxPower() {
 		return maxPower;
 	}
+	
+	public int getProcessingSpeed() {
+		if(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed) {
+			return processingSpeed - 75;
+		}
+		return processingSpeed;
+	}
 
 	@Override
 	public void setFillstate(int fill, int index) {
@@ -335,12 +346,31 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	@Override
 	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
-		if(tank.getTankType() == FluidType.UF6) {
-			inputTank.setTankType(PseudoFluidType.NUF6);
-			outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
-		} else if(tank.getTankType() == FluidType.PUF6) {
-			inputTank.setTankType(PseudoFluidType.PF6);
-			outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
+	}
+	
+	public void setTankType(int in) {
+		
+		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
+			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+			
+			if(tank.getTankType() != newType) {
+				tank.setTankType(newType);
+				tank.setFill(0);
+				
+				switch(newType) {
+				case UF6:
+					inputTank.setTankType(PseudoFluidType.NUF6);
+					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
+					break;
+				case PUF6:
+					inputTank.setTankType(PseudoFluidType.PF6);
+					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
+					break;
+				default:
+					break;
+				}
+			}
+			return;
 		}
 	}
 

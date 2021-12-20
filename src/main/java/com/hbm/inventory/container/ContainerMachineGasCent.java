@@ -27,7 +27,7 @@ public class ContainerMachineGasCent extends Container {
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 133, 44));
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 151, 35));
 		//upgrade
-		this.addSlotToContainer(new Slot(tedf, 5, 81, 18));
+		this.addSlotToContainer(new Slot(tedf, 5, 82, 19));
 		
 		for(int i = 0; i < 3; i++)
 		{

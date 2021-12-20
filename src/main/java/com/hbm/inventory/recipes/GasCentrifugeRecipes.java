@@ -1,5 +1,6 @@
 package com.hbm.inventory.recipes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,43 +59,57 @@ public class GasCentrifugeRecipes {
 		
 	};
 	
-	public static class GasCentRecipe {
-		ItemStack[] output;
-		int type;
-		int quantity;
+	//Recipes for NEI
+	public static List<ItemStack> getGasCentOutputs(FluidType fluid) {
+		List<ItemStack> outputs = new ArrayList(4);
 		
-		public GasCentRecipe(ItemStack[] output, int ordinal, int quantity) {
-			this.output = output;
-			this.type = ordinal;
-			this.quantity = quantity;	
-		}
-		
-		public ItemStack[] getOutputs() {
-			return this.output;
-		}
-		
-		public int getOrdinal() {
-			return this.type;
-		}
-		
-		public int getQuantity() {
-			return this.quantity;
+		switch(fluid) {
+		case UF6:
+			outputs.add(new ItemStack(ModItems.nugget_u238, 11));
+			outputs.add(new ItemStack(ModItems.nugget_u235, 1)); 
+			outputs.add(new ItemStack(ModItems.fluorite, 4));
+			return outputs;
+		case PUF6:
+			outputs.add(new ItemStack(ModItems.nugget_pu238, 3));
+			outputs.add(new ItemStack(ModItems.nugget_pu_mix, 6));
+			outputs.add(new ItemStack(ModItems.fluorite, 3));
+			return outputs;
+		default:
+			return null;
 		}
 	}
 	
-	static GasCentRecipe[] Recipes = new GasCentRecipe[] {new GasCentRecipe( new ItemStack[] {new ItemStack(ModItems.nugget_u238, 11), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 4)}, FluidType.UF6.ordinal(), 1200), new GasCentRecipe( new ItemStack[] {new ItemStack(ModItems.nugget_pu238, 3), new ItemStack(ModItems.nugget_pu_mix, 6), new ItemStack(ModItems.fluorite, 3)}, FluidType.PUF6.ordinal(), 900)};
-
+	public static int getQuantityRequired(FluidType fluid) {
+		switch(fluid) {
+		case UF6:
+			return 1200;
+		case PUF6:
+			return 900;
+		default:
+			return 0;
+		}
+	}
+	
 	public static Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < FluidType.values().length; i++) {
+			if(getGasCentOutputs(FluidType.getEnum(i)) != null) {
+				List<ItemStack> out = getGasCentOutputs(FluidType.getEnum(i));
+				ItemStack[] outputs = new ItemStack[4];
 				
-				ItemStack[] outputs = Recipes[i].getOutputs();
+				for(int j = 0; j < out.size(); j++) {
+					outputs[j] = out.get(j).copy();
+				}
+				for(int j = 0; j < 4; j++)
+					if(outputs[j] == null)
+						outputs[j] = new ItemStack(ModItems.nothing);
 				
-				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, Recipes[i].getOrdinal());
-				ItemFluidIcon.addQuantity(input, Recipes[i].getQuantity());
+				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, i);
+				ItemFluidIcon.addQuantity(input, getQuantityRequired(FluidType.getEnum(i)));
 				
 				recipes.put(input, outputs);
+			}
 		}
 		
 		return recipes;

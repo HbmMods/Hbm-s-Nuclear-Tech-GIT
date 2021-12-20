@@ -33,6 +33,11 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 114, guiTop + 30, 8, 33, mouseX, mouseY, new String[] {gasCent.outputTank.getTankType().getName(), gasCent.outputTank.getFill() + " / " + gasCent.outputTank.getMaxFill() + " mB"});
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, gasCent.power, gasCent.maxPower);
+		
+		String[] info = new String[] { "Uranium enrichment requires cascades.", "Two-centrifuge cascades will give you", "uranium fuel, four-centrifuge cascades", "will give you total separation."};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, info);
+		String[] info2 = new String[] { "A centrifuge overclocking upgrade is", "required for total isotopic separation."};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 32, 16, 16, guiLeft - 8, guiTop + 32 + 16, info2);
 	}
 	
 	@Override
@@ -76,5 +81,8 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 			default:
 				drawTexturedModalRect(guiLeft + 114, guiTop + 62 - b, 192, 31 - b, 8, b);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 3);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 32, 16, 16, 2);
 	}
 }
