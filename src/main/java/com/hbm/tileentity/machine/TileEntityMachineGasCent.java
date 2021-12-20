@@ -145,7 +145,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			
 			ItemStack[] list = inputTank.getTankType().getOutput();
 			
-			if(this.inputTank.getTankType() == PseudoFluidType.HEUF6)
+			if(this.inputTank.getTankType().getIfHighSpeed())
 				if(!(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed))
 					return false;
 			

@@ -14,26 +14,28 @@ import net.minecraft.item.ItemStack;
 public class GasCentrifugeRecipes {
 	
 	public static enum PseudoFluidType {
-		NONE	(0,		0,		"NONE",		"Empty",		new ItemStack(ModItems.polaroid, 0)),
+		NONE	(0,		0,		"NONE",		"Empty",				false,	new ItemStack(ModItems.polaroid, 0)),
 		
-		NUF6 	(400,	300,	"LEUF6",	"Natural UF6",		new ItemStack(ModItems.nugget_u238, 1)),
-		LEUF6 	(300,	200,	"MEUF6",	"Low Enriched UF6",		new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
-		MEUF6	(200,	100,	"HEUF6",	"Medium Enriched UF6",		new ItemStack(ModItems.nugget_u238, 1)),
-		HEUF6	(300,	0,		"NONE",		"High Enriched UF6",		new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
+		NUF6 	(400,	300,	"LEUF6",	"Natural UF6",			false,	new ItemStack(ModItems.nugget_u238, 1)),
+		LEUF6 	(300,	200,	"MEUF6",	"Low Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
+		MEUF6	(200,	100,	"HEUF6",	"Medium Enriched UF6",	false,	new ItemStack(ModItems.nugget_u238, 1)),
+		HEUF6	(300,	0,		"NONE",		"High Enriched UF6",	true,	new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
 		
-		PF6		(300,	0,		"NONE",		"Plutonium Hexafluoride",		new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1));
+		PF6		(300,	0,		"NONE",		"Plutonium Hexafluoride",	false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1));
 		
 		int fluidConsumed;
 		int fluidProduced;
 		String outputFluid;
 		String name;
+		boolean isHighSpeed;
 		ItemStack[] output;
 		
-		PseudoFluidType(int fluidConsumed, int fluidProduced, String outputFluid, String name, ItemStack... output) {
+		PseudoFluidType(int fluidConsumed, int fluidProduced, String outputFluid, String name, boolean isHighSpeed, ItemStack... output) {
 			this.fluidConsumed = fluidConsumed;
 			this.fluidProduced = fluidProduced;
 			this.outputFluid = outputFluid;
 			this.name = name;
+			this.isHighSpeed = isHighSpeed; 
 			this.output = output;
 		}
 		
@@ -51,6 +53,10 @@ public class GasCentrifugeRecipes {
 		
 		public String getName() {
 			return this.name;
+		}
+		
+		public boolean getIfHighSpeed() {
+			return this.isHighSpeed;
 		}
 		
 		public ItemStack[] getOutput() {
