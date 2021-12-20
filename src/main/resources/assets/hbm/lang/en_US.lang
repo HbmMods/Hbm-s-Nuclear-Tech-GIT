@@ -2687,6 +2687,7 @@ item.upgrade_effect_3.name=Effectiveness Upgrade Mk.III
 item.upgrade_fortune_1.name=Fortune Upgrade Mk.I
 item.upgrade_fortune_2.name=Fortune Upgrade Mk.II
 item.upgrade_fortune_3.name=Fortune Upgrade Mk.III
+item.upgrade_gc_speed.name=Gas Centrifuge Overclocking Upgrade
 item.upgrade_health.name=Emitter Health Upgrade
 item.upgrade_nullifier.name=Scrap Destroyer Upgrade
 item.upgrade_overdrive_1.name=Overdrive Upgrade Mk.I

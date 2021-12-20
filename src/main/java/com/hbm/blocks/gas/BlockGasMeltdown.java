@@ -15,7 +15,6 @@ import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -79,10 +78,12 @@ public class BlockGasMeltdown extends BlockGasBase {
 			if(rand.nextInt(7) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_radon_dense);
 			}
-
-			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5);
-
-			if(rand.nextInt(450) == 0) {
+			
+			if (world.canBlockSeeTheSky(x, y, z)) {
+				ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5);
+			}
+			
+			if(rand.nextInt(400) == 0) {
 				world.setBlockToAir(x, y, z);
 				return;
 			}

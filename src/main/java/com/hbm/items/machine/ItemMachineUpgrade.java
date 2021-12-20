@@ -164,6 +164,12 @@ public class ItemMachineUpgrade extends Item {
 			list.add("50% chance to override worthless items with /dev/zero");
 			list.add("50% chance to move worthless items to /dev/null");
 		}
+		
+		if(this == ModItems.upgrade_gc_speed) {
+			list.add(EnumChatFormatting.RED + "Gas Centrifuge Upgrade");
+			list.add("Allows for total isotopic separation of HEUF6");
+			list.add(EnumChatFormatting.YELLOW + "also your centrifuge goes sicko mode");
+		}
 	}
 	
 	public static enum UpgradeType {
@@ -179,7 +185,8 @@ public class ItemMachineUpgrade extends Item {
 		LM_SMELTER(true),
 		LM_SHREDDER(true),
 		LM_CENTRIFUGE(true),
-		LM_CRYSTALLIZER(true);
+		LM_CRYSTALLIZER(true),
+		GS_SPEED;
 		
 		public boolean mutex = false;
 		
