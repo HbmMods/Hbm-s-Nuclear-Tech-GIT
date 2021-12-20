@@ -22,7 +22,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.reflect.internal.Trees.This;
 
 public class BlockGasMeltdown extends BlockGasBase {
 
