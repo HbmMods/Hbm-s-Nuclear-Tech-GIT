@@ -290,7 +290,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				TileEntity te = worldObj.getTileEntity(this.xCoord - dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ);
 				
 				if(attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
-					if(this.outputTank.getFill() >= 100 && (slots[4] == null || slots[4].getItem() == ModItems.nugget_uranium_fuel) && slots[4].stackSize + 1 <= slots[4].getMaxStackSize()) {
+					if(this.outputTank.getFill() >= 100 && (slots[4] == null || (slots[4].getItem() == ModItems.nugget_uranium_fuel && slots[4].stackSize + 1 <= slots[4].getMaxStackSize()))) {
 						this.outputTank.setFill(this.outputTank.getFill() - 100);
 						if(slots[4] == null) {
 							slots[4] = new ItemStack(ModItems.nugget_uranium_fuel, 1);
