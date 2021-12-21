@@ -34,16 +34,17 @@ public class ItemDosimeter extends Item {
 		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
 		
 		if(world.getTotalWorldTime() % 5 == 0) {
-			if(x > 0) {
+			
+			if(x > 1E-5) {
 				List<Integer> list = new ArrayList<Integer>();
 
 				if(x < 0.5)
 					list.add(0);
 				if(x < 1)
 					list.add(1);
-				if(x < 2)
+				if(x >= 0.5 && x < 2)
 					list.add(2);
-				if(x >= 2)
+				if(x >= 1 && x >= 2)
 					list.add(3);
 			
 				int r = list.get(rand.nextInt(list.size()));
