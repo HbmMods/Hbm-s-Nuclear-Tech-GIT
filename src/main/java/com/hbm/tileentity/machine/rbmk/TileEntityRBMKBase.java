@@ -47,6 +47,15 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver {
 	
+	/*
+	 * ██████╗ ██████╗ ███╗   ███╗██╗  ██╗
+	 * ██╔══██╗██╔══██╗████╗ ████║██║ ██╔╝
+	 * ██████╔╝██████╔╝██╔████╔██║█████╔╝ 
+	 * ██╔══██╗██╔══██╗██║╚██╔╝██║██╔═██╗ 
+	 * ██║  ██║██████╔╝██║ ╚═╝ ██║██║  ██╗
+	 * ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝
+	 */
+	
 	public double heat;
 	
 	public int water;
