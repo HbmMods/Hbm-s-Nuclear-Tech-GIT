@@ -216,6 +216,19 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
 	
+	public static void printDosimeterData(EntityPlayer player) {
+
+		double env = ((int)(HbmLivingProps.getRadBuf(player) * 10D)) / 10D;
+		
+		if(env >= 3.6D)
+			env = 3.6D;
+		
+		String envPrefix = getPreffixFromRad(env);
+		
+		player.addChatMessage(new ChatComponentText("===== ☢ ").appendSibling(new ChatComponentTranslation("geiger.title.dosimeter")).appendSibling(new ChatComponentText(" ☢ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.envRad").appendSibling(new ChatComponentText(" " + envPrefix + env + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+	}
+	
 	public static String getPreffixFromRad(double rads) {
 
 		String chunkPrefix = "";

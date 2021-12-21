@@ -1237,6 +1237,7 @@ public class ModItems {
 	public static Item linker;
 	public static Item reactor_sensor;
 	public static Item oil_detector;
+	public static Item dosimeter;
 	public static Item geiger_counter;
 	public static Item digamma_diagnostic;
 	public static Item survey_scanner;
@@ -2128,6 +2129,7 @@ public class ModItems {
 	public static Item volcanic_pickaxe;
 	public static Item chlorophyte_pickaxe;
 	public static Item mese_pickaxe;
+	public static Item dnt_sword;
 
 	public static Item meteorite_sword;
 	public static Item meteorite_sword_seared;
@@ -4726,6 +4728,7 @@ public class ModItems {
 		turret_control = new ItemTurretControl().setUnlocalizedName("turret_control").setFull3D().setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_control");
 		turret_chip = new ItemTurretChip().setUnlocalizedName("turret_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_chip");
 		turret_biometry = new ItemTurretBiometry().setUnlocalizedName("turret_biometry").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":rei_scanner");
+		dosimeter = new ItemDosimeter().setUnlocalizedName("dosimeter").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":dosimeter");
 		geiger_counter = new ItemGeigerCounter().setUnlocalizedName("geiger_counter").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":geiger_counter");
 		digamma_diagnostic = new ItemDigammaDiagnostic().setUnlocalizedName("digamma_diagnostic").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":digamma_diagnostic");
 		survey_scanner = new ItemSurveyScanner().setUnlocalizedName("survey_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":survey_scanner");
@@ -5309,6 +5312,8 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("mese_pickaxe").setTextureName(RefStrings.MODID + ":mese_pickaxe");
+		
+		dnt_sword = new ItemSwordAbility(12F, 0, matMese).setUnlocalizedName("dnt_sword").setTextureName(RefStrings.MODID + ":dnt_sword");
 
 		ToolMaterial matMeteorite = EnumHelper.addToolMaterial("HBM_METEORITE", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		meteorite_sword = new ItemSwordMeteorite(10F, 0, matMeteorite).setUnlocalizedName("meteorite_sword").setTextureName(RefStrings.MODID + ":meteorite_sword");
@@ -6856,6 +6861,7 @@ public class ModItems {
 		GameRegistry.registerItem(mirror_tool, mirror_tool.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_tool, rbmk_tool.getUnlocalizedName());
 		GameRegistry.registerItem(coltan_tool, coltan_tool.getUnlocalizedName());
+		GameRegistry.registerItem(dosimeter, dosimeter.getUnlocalizedName());
 		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
 		GameRegistry.registerItem(digamma_diagnostic, digamma_diagnostic.getUnlocalizedName());
 		GameRegistry.registerItem(containment_box, containment_box.getUnlocalizedName());
@@ -7474,6 +7480,7 @@ public class ModItems {
 		GameRegistry.registerItem(elec_pickaxe, elec_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_axe, elec_axe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_shovel, elec_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(dnt_sword, dnt_sword.getUnlocalizedName());
 		GameRegistry.registerItem(smashing_hammer, smashing_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(centri_stick, centri_stick.getUnlocalizedName());
 		GameRegistry.registerItem(drax, drax.getUnlocalizedName());

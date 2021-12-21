@@ -393,6 +393,7 @@ geiger.envRad=Gesamte Umgebungsstrahlung:
 geiger.playerRad=Spieler-Kontaminierung:
 geiger.playerRes=Strahlungsresistenz:
 geiger.title=GEIGERZÄHLER
+geiger.title.dosimeter=DOSIMETER
 
 hadron.analysis=Analysiere...
 hadron.buttonOn=Analysekammer (falls vorhanden) ist AN
@@ -1202,6 +1203,7 @@ item.dnt_plate.name=dineutrom brustplatte
 item.door_bunker.name=Bunkertür
 item.door_metal.name=Metalltür
 item.door_office.name=Bürotür
+item.dosimeter.name=Dosimeter
 item.drax.name=Terra-Bohrer
 item.drax_mk2.name=Gehärteter Terra-Bohrer
 item.drax_mk3.name=Schrabidischer Terra-Bohrer

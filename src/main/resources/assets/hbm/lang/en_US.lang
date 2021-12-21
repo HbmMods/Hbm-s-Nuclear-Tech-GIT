@@ -467,6 +467,7 @@ geiger.envRad=Total environmental radiation:
 geiger.playerRad=Player contamination:
 geiger.playerRes=Player resistance:
 geiger.title=GEIGER COUNTER
+geiger.title.dosimeter=DOSIMETER
 
 hadron.analysis=Analyzing...
 hadron.buttonOn=Analysis Chamber (if present) is ON
@@ -1278,6 +1279,7 @@ item.dnt_plate.name=dineutrom chestplate
 item.door_bunker.name=Bunker Door
 item.door_metal.name=Metal Door
 item.door_office.name=Office Door
+item.dosimeter.name=Dosimeter
 item.drill_titanium.name=Titanium Drill
 item.drax.name=Terra Drill
 item.drax_mk2.name=Hardened Terra Drill
