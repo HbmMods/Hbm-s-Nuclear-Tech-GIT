@@ -65,7 +65,7 @@ public class ItemRenderLibrary {
 				GL11.glScaled(4.5, 4.5, 4.5);
 			}
 			public void renderCommon() {
-		        bindTexture(ResourceManager.centrifuge_gas_tex); ResourceManager.centrifuge_new.renderAll();
+				bindTexture(ResourceManager.gascent_tex); ResourceManager.gascent.renderPart("Centrifuge");
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.iter), new ItemRenderBase() {
