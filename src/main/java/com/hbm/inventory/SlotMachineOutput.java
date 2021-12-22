@@ -35,12 +35,16 @@ public class SlotMachineOutput extends Slot {
 			player.triggerAchievement(MainRegistry.achDesh);
 		if(item == ModItems.gem_tantalium)
 			player.triggerAchievement(MainRegistry.achTantalum);
+		if(item == Item.getItemFromBlock(ModBlocks.machine_gascent))
+			player.triggerAchievement(MainRegistry.achGasCent);
 		if(item == Item.getItemFromBlock(ModBlocks.machine_centrifuge))
 			player.triggerAchievement(MainRegistry.achCentrifuge);
 		if(item == ModItems.ingot_schrabidium || item == ModItems.nugget_schrabidium)
 			player.triggerAchievement(MainRegistry.achSchrab);
 		if(item == Item.getItemFromBlock(ModBlocks.machine_crystallizer))
 			player.triggerAchievement(MainRegistry.achAcidizer);
+		if(item == Item.getItemFromBlock(ModBlocks.machine_silex))
+			player.triggerAchievement(MainRegistry.achSILEX);
 		if(item == ModItems.nugget_technetium)
 			player.triggerAchievement(MainRegistry.achTechnetium);
 		if(item == Item.getItemFromBlock(ModBlocks.watz_core))

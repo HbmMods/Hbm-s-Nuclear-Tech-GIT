@@ -211,6 +211,7 @@ public class MainRegistry {
 	public static Achievement achTantalum;
 	public static Achievement achRedBalloons;
 	public static Achievement achManhattan;
+	public static Achievement achGasCent;
 	public static Achievement achCentrifuge;
 	public static Achievement achFOEQ;
 	public static Achievement achSoyuz;
@@ -221,6 +222,7 @@ public class MainRegistry {
 	public static Achievement achTechnetium;
 	public static Achievement achZIRNOXBoom;
 	public static Achievement achChicagoPile;
+	public static Achievement achSILEX;
 	public static Achievement achWatz;
 	public static Achievement achWatzBoom;
 	public static Achievement achRBMK;
@@ -821,6 +823,7 @@ public class MainRegistry {
 		achPolymer = new Achievement("achievement.polymer", "polymer", 9, -1, ModItems.ingot_polymer, achChemplant).initIndependentStat().registerStat();
 		achDesh = new Achievement("achievement.desh", "desh", 9, 2, ModItems.ingot_desh, achChemplant).initIndependentStat().registerStat();
 		achTantalum = new Achievement("achievement.tantalum", "tantalum", 7, 3, ModItems.gem_tantalium, achChemplant).initIndependentStat().setSpecial().registerStat();
+		achGasCent = new Achievement("achievement.gasCent", "gasCent", 13, 2, ModItems.ingot_uranium_fuel, achDesh).initIndependentStat().registerStat();
 		achCentrifuge = new Achievement("achievement.centrifuge", "centrifuge", 12, -2, new ItemStack(ModBlocks.machine_centrifuge), achPolymer).initIndependentStat().registerStat();
 		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 5, 5, ModItems.sat_foeq, achDesh).initIndependentStat().setSpecial().registerStat();
 		achSoyuz = new Achievement("achievement.soyuz", "soyuz", 7, 6, Items.baked_potato, achDesh).initIndependentStat().setSpecial().registerStat();
@@ -831,6 +834,7 @@ public class MainRegistry {
 		achTechnetium = new Achievement("achievement.technetium", "technetium", 15, -2, ModItems.ingot_tcalloy, achCentrifuge).initIndependentStat().registerStat();
 		achZIRNOXBoom = new Achievement("achievement.ZIRNOXBoom", "ZIRNOXBoom", 14, -1, ModItems.debris_element, achCentrifuge).initIndependentStat().setSpecial().registerStat();
 		achChicagoPile = new Achievement("achievement.chicagoPile", "chicagoPile", 13, 0, ModItems.pile_rod_plutonium, achCentrifuge).initIndependentStat().registerStat();
+		achSILEX = new Achievement("achievement.SILEX", "SILEX", 12, 7, new ItemStack(ModBlocks.machine_silex), achAcidizer).initIndependentStat().registerStat();
 		achWatz = new Achievement("achievement.watz", "watz", 14, 3, ModItems.pellet_schrabidium, achSchrab).initIndependentStat().registerStat();
 		achWatzBoom = new Achievement("achievement.watzBoom", "watzBoom", 14, 5, ModItems.bucket_mud, achWatz).initIndependentStat().setSpecial().registerStat();
 		achRBMK = new Achievement("achievement.RBMK", "RBMK", 9, -5, ModItems.rbmk_fuel_ueu, achConcrete).initIndependentStat().registerStat();
@@ -881,6 +885,7 @@ public class MainRegistry {
 				achPolymer,
 				achDesh,
 				achTantalum,
+				achGasCent,
 				achCentrifuge,
 				achFOEQ,
 				achSoyuz,
@@ -891,6 +896,7 @@ public class MainRegistry {
 				achTechnetium,
 				achZIRNOXBoom,
 				achChicagoPile,
+				achSILEX,
 				achWatz,
 				achWatzBoom,
 				achRBMK,
