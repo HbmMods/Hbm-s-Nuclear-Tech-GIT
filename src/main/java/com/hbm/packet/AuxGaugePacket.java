@@ -165,14 +165,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 1)
 						radio.freq = ((double)m.value) / 10D;
 				}
-				if (te instanceof TileEntityMachineCentrifuge) {
-					TileEntityMachineCentrifuge cent = (TileEntityMachineCentrifuge)te;
-					
-					if(m.id == 0)
-						cent.dualCookTime = m.value;
-					if(m.id == 1)
-						cent.isProgressing = m.value == 1;
-				}
 				if (te instanceof TileEntityMachineBoiler) {
 					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
 					

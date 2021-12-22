@@ -17,7 +17,7 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
-		switch(tileEntity.getBlockMetadata() - 10) { //unless vær updated the regular centrifuge too, this is now broken
+		switch(tileEntity.getBlockMetadata() - 10) { // (:
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
