@@ -30,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -649,6 +650,13 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 			}
 			else {
+				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+						AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+				
+				for(EntityPlayer player : players) {
+					player.triggerAchievement(MainRegistry.achWatzBoom);
+				}
+				
 				if (rand.nextInt(10) != 0) {
 					for (int i = -3; i <= 3; i++)
 						for (int j = -5; j <= 5; j++)

@@ -11,6 +11,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -50,6 +51,9 @@ public class EntityNukeExplosionMK4 extends Entity {
 			this.setDead();
 			return;
 		}
+		
+		for(Object player : this.worldObj.playerEntities)
+			((EntityPlayer)player).triggerAchievement(MainRegistry.achManhattan);
 		
 		if(!worldObj.isRemote && fallout && explosion != null) {
 
