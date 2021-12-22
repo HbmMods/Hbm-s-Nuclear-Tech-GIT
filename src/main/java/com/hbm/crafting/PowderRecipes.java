@@ -4,6 +4,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.main.CraftingManager;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -17,6 +18,7 @@ public class PowderRecipes {
 
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_power, 5), new Object[] { REDSTONE.dust(), "dustGlowstone", DIAMOND.dust(), NP237.dust(), MAGTUNG.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ballistite, 3), new Object[] { Items.gunpowder, KNO.dust(), Items.sugar });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_dynamite, 2), new Object[] { KNO.dust(), Items.sugar, Blocks.sand });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_steel_dusted, 1), new Object[] { STEEL.ingot(), COAL.dust() });
 
 		//Gunpowder

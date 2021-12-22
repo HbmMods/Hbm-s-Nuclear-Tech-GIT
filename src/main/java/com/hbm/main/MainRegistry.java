@@ -84,14 +84,12 @@ import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.world.feature.SchistStratum;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -490,6 +488,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityMissileShuttle.class, "entity_missile_shuttle", 160, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 161, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityGhost.class, "entity_ntm_ghost", 162, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityGrenadeDynamite.class, "entity_grenade_dynamite", 163, this, 250, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -769,6 +768,12 @@ public class MainRegistry {
 
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
 				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.stick_dynamite, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World world, IPosition position) {
+				return new EntityGrenadeDynamite(world, position.getX(), position.getY(), position.getZ());
 			}
 		});
 	}
