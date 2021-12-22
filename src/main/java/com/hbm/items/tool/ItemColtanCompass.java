@@ -61,7 +61,7 @@ public class ItemColtanCompass extends Item {
 			TextureMap map = (TextureMap) register;
 			TextureColtass cumpiss = new TextureColtass(this.getIconString());
 			map.setTextureEntry(this.getIconString(), cumpiss);
-			this.itemIcon = cumpiss;
+			this.itemIcon = cumpiss; //apparently i was quite pissed when i wrote this
 		} else {
 			this.itemIcon = register.registerIcon(this.getIconString());
 		}

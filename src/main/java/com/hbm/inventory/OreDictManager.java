@@ -433,7 +433,7 @@ public class OreDictManager {
 		private String[] appendToAll(String prefix) {
 			String[] names = new String[mats.length];
 			for(int i = 0; i < mats.length; i++) {
-				names[i] = "prefix" + mats[i];
+				names[i] = prefix + mats[i];
 			}
 			return names;
 		}
