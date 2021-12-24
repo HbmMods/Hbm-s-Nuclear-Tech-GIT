@@ -62,19 +62,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-
 		power = nbt.getLong("power");
 		progress = nbt.getShort("progress");
-		slots = new ItemStack[getSizeInventory()];
-
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
 	}
 
 	@Override
@@ -82,17 +71,6 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
 		nbt.setShort("progress", (short) progress);
-		NBTTagList list = new NBTTagList();
-
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
 	}
 
 	@Override
