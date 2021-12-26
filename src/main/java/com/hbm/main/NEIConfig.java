@@ -80,7 +80,6 @@ public class NEIConfig implements IConfigureNEI {
 			API.hideItem(new ItemStack(ModItems.ams_core_thingy));
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_centrifuge));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_chemplant));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_cyclotron));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));

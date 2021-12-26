@@ -312,6 +312,15 @@ public class ShredderRecipes {
 		}
 		
 		/*
+		 * Debris shredding
+		 */
+		ShredderRecipes.setRecipe(ModItems.debris_concrete, new ItemStack(ModItems.scrap_nuclear, 2));
+		ShredderRecipes.setRecipe(ModItems.debris_shrapnel, new ItemStack(ModItems.powder_steel_tiny, 5));
+		ShredderRecipes.setRecipe(ModItems.debris_exchanger, new ItemStack(ModItems.powder_steel, 3));
+		ShredderRecipes.setRecipe(ModItems.debris_element, new ItemStack(ModItems.scrap_nuclear, 4));
+		ShredderRecipes.setRecipe(ModItems.debris_metal, new ItemStack(ModItems.powder_steel_tiny, 3));
+		
+		/*
 		 * GC COMPAT
 		 */
 		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");

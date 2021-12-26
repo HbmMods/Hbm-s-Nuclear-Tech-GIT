@@ -1,11 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -23,11 +25,9 @@ import net.minecraft.util.AxisAlignedBB;
 
 //TODO: move this trash to TileEntityMachineBase
 //no seriously, this is dreadful
-public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IEnergyUser {
-
-	private ItemStack slots[];
-
-	public int dualCookTime;
+public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
+	
+	public int progress;
 	public long power;
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
@@ -37,77 +37,14 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	private static final int[] slots_bottom = new int[] { 2, 3, 4, 5 };
 	private static final int[] slots_side = new int[] { 0, 1 };
 
-	private String customName;
-
 	public TileEntityMachineCentrifuge() {
-		slots = new ItemStack[6];
+		super(6);
 	}
-
-	@Override
-	public int getSizeInventory() {
-		return slots.length;
+	
+	public String getName() {
+		return "container.centrifuge";
 	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.centrifuge";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
+	
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
@@ -123,77 +60,26 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null) {
-			if(slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if(slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-
-		power = nbt.getLong("powerTime");
-		dualCookTime = nbt.getShort("CookTime");
-		slots = new ItemStack[getSizeInventory()];
-
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		power = nbt.getLong("power");
+		progress = nbt.getShort("progress");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("powerTime", power);
-		nbt.setShort("cookTime", (short) dualCookTime);
-		NBTTagList list = new NBTTagList();
-
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		nbt.setLong("power", power);
+		nbt.setShort("progress", (short) progress);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return j != 0 || i != 1;
 	}
 
 	public int getCentrifugeProgressScaled(int i) {
-		return (dualCookTime * i) / processingSpeed;
+		return (progress * i) / processingSpeed;
 	}
 
 	public long getPowerRemainingScaled(int i) {
@@ -253,9 +139,15 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	}
 
 	public boolean isProcessing() {
-		return this.dualCookTime > 0;
+		return this.progress > 0;
 	}
-
+	
+	public void networkUnpack(NBTTagCompound data) {
+		this.power = data.getLong("power");
+		this.progress = data.getInteger("progress");
+		this.isProgressing = data.getBoolean("isProgressing");
+	}
+	
 	@Override
 	public void updateEntity() {
 
@@ -279,26 +171,27 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 				isProgressing = false;
 			}
 			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("progress", progress);
+			data.setBoolean("isProgressing", isProgressing);
+			this.networkPack(data, 50);
+			
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power),
-					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0),
-					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(
-					new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1),
 					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord),
 					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 
 		if(hasPower() && canProcess()) {
-			dualCookTime++;
+			progress++;
 
-			if(this.dualCookTime >= TileEntityMachineCentrifuge.processingSpeed) {
-				this.dualCookTime = 0;
+			if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
+				this.progress = 0;
 				this.processItem();
 			}
 		} else {
-			dualCookTime = 0;
+			progress = 0;
 		}
 	}
 

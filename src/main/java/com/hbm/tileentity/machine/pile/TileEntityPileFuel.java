@@ -24,8 +24,8 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 			react();
 			
 			if(this.heat >= this.maxHeat) {
-				worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
-				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 4, true, true);
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.gas_radon_dense);
 			}
 			
 			if(this.progress >= this.maxProgress) {

@@ -208,6 +208,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
+		this.isProgressing = data.getBoolean("isProgressing");
 		this.inputTank.setTankType(PseudoFluidType.valueOf(data.getString("inputType")));
 		this.outputTank.setTankType(PseudoFluidType.valueOf(data.getString("outputType")));
 		this.inputTank.setFill(data.getInteger("inputFill"));
@@ -276,6 +277,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
+			data.setBoolean("isProgressing", isProgressing);
 			data.setInteger("inputFill", inputTank.getFill());
 			data.setInteger("outputFill", outputTank.getFill());
 			data.setString("inputType", inputTank.getTankType().toString());

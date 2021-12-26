@@ -283,11 +283,11 @@ public class GUIScreenBobmazon extends GuiScreen {
 	
 	public enum Requirement {
 
-		STEEL(MainRegistry.bobMetalworks),
-		ASSEMBLY(MainRegistry.bobAssembly),
-		CHEMICS(MainRegistry.bobChemistry),
-		OIL(MainRegistry.bobOil),
-		NUCLEAR(MainRegistry.bobNuclear),
+		STEEL(MainRegistry.achBlastFurnace),
+		ASSEMBLY(MainRegistry.achAssembly),
+		CHEMICS(MainRegistry.achChemplant),
+		OIL(MainRegistry.achDesh),
+		NUCLEAR(MainRegistry.achTechnetium),
 		HIDDEN(MainRegistry.bobHidden);
 		
 		private Requirement(Achievement achievement) {

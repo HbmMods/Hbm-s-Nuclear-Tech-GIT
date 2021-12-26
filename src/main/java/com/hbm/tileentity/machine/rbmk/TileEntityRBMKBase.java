@@ -29,6 +29,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -46,15 +47,6 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  */
 public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver {
-	
-	/*
-	 * ██████╗ ██████╗ ███╗   ███╗██╗  ██╗
-	 * ██╔══██╗██╔══██╗████╗ ████║██║ ██╔╝
-	 * ██████╔╝██████╔╝██╔████╔██║█████╔╝ 
-	 * ██╔══██╗██╔══██╗██║╚██╔╝██║██╔═██╗ 
-	 * ██║  ██║██████╔╝██║ ╚═╝ ██║██║  ██╗
-	 * ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝
-	 */
 	
 	public double heat;
 	
@@ -468,6 +460,13 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		MainRegistry.proxy.effectNT(data);
 		
 		worldObj.playSoundEffect(avgX + 0.5, yCoord + 1, avgZ + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achRBMKBoom);
+		}
 		
 		if(RBMKBase.digamma) {
 			EntitySpear spear = new EntitySpear(worldObj);

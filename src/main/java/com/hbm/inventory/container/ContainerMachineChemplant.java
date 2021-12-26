@@ -76,6 +76,7 @@ private TileEntityMachineChemplant nukeBoy;
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
+			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
 			
             if (par2 <= 20) {
 				if (!this.mergeItemStack(var5, 21, this.inventorySlots.size(), true))

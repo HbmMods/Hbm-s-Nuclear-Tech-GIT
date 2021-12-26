@@ -48,6 +48,7 @@ public class ContainerCentrifuge extends Container {
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
+			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
 			
             if (par2 <= 5) {
 				if (!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true))

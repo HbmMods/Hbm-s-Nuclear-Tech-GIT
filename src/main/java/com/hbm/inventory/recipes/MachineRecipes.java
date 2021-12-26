@@ -1793,10 +1793,10 @@ public class MachineRecipes {
 			output[1] = new ItemStack(ModItems.chocolate, 2);
 			break;
 		case DUCRETE:
-			output[0] = new ItemStack(ModBlocks.ducrete_smooth, 4);
-			output[1] = new ItemStack(ModBlocks.ducrete_smooth, 4);
-			output[2] = new ItemStack(ModBlocks.ducrete_smooth, 4);
-			output[3] = new ItemStack(ModBlocks.ducrete_smooth, 4);
+			output[0] = new ItemStack(ModBlocks.ducrete_smooth, 2);
+			output[1] = new ItemStack(ModBlocks.ducrete_smooth, 2);
+			output[2] = new ItemStack(ModBlocks.ducrete_smooth, 2);
+			output[3] = new ItemStack(ModBlocks.ducrete_smooth, 2);
 		default:
 			break;
 		}

@@ -281,7 +281,14 @@ public class HazardRegistry {
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
-
+		
+		HazardSystem.register(pellet_rtg, new HazardData().addEntry(RADIATION, pu238 * billet * 3).addEntry(HOT, 5F));
+		HazardSystem.register(pellet_rtg_radium, makeData(RADIATION, ra226 * billet * 3));
+		HazardSystem.register(pellet_rtg_weak, makeData(RADIATION, (pu238 + (u238 * 2)) * billet));
+		HazardSystem.register(pellet_rtg_polonium, new HazardData().addEntry(RADIATION, po210 * billet * 3).addEntry(HOT, 5F));
+		HazardSystem.register(pellet_rtg_gold, new HazardData().addEntry(RADIATION, au198 * billet * 3).addEntry(HOT, 5F));
+		HazardSystem.register(pellet_rtg_americium, makeData(RADIATION, am241 * billet * 3));
+		
 		registerRodRadiation(rod_th232, rod_dual_th232, rod_quad_th232, th232);
 		registerRodRadiation(rod_uranium, rod_dual_uranium, rod_quad_uranium, u);
 		registerRodRadiation(rod_u233, rod_dual_u233, rod_quad_u233, u233);
