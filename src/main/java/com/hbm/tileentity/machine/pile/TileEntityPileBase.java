@@ -1,12 +1,18 @@
 package com.hbm.tileentity.machine.pile;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import api.hbm.block.IPileNeutronReceiver;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 public abstract class TileEntityPileBase extends TileEntity {
@@ -40,6 +46,9 @@ public abstract class TileEntityPileBase extends TileEntity {
 			
 			Block b = worldObj.getBlock(x, y, z);
 			
+			if(b == ModBlocks.concrete || b == ModBlocks.concrete_smooth || b == ModBlocks.concrete_asbestos || b == ModBlocks.concrete_colored || b == ModBlocks.brick_concrete)
+				flux *= 0.25;
+			
 			if(b == ModBlocks.block_boron)
 				return;
 			
@@ -60,6 +69,14 @@ public abstract class TileEntityPileBase extends TileEntity {
 				rec.receiveNeutrons(n);
 				return;
 			}
+			
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5));
+			
+			if(entities != null)
+				for(EntityLivingBase e : entities) {
+					
+					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, flux / 2);
+				}
 		}
 	}
 }

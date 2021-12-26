@@ -83,7 +83,7 @@ public class BlockGasMeltdown extends BlockGasBase {
 				ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 5);
 			}
 			
-			if(rand.nextInt(400) == 0) {
+			if(rand.nextInt(350) == 0) {
 				world.setBlockToAir(x, y, z);
 				return;
 			}
