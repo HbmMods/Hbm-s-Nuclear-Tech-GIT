@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -20,6 +22,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMagmaCube;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
@@ -309,6 +312,37 @@ public abstract class WeaponAbility {
 		@Override
 		public String getName() {
 			return "weapon.ability.beheader";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName());
+		}
+	}
+	
+	public static class BobbleAbility extends WeaponAbility {
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+			
+			if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
+				
+				EntityMob mob = (EntityMob) victim;
+				
+				int chance = 1000;
+				
+				if(mob.getMaxHealth() > 20) {
+					chance = 750;
+				}
+				
+				if(world.rand.nextInt(chance) == 0)
+					mob.entityDropItem(new ItemStack(ModBlocks.bobblehead, 1, world.rand.nextInt(BobbleType.values().length - 1) + 1), 0.0F);
+			}
+		}
+
+		@Override
+		public String getName() {
+			return "weapon.ability.bobble";
 		}
 
 		@Override

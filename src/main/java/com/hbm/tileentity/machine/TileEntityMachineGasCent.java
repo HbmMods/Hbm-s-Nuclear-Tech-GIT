@@ -52,8 +52,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	private static final int[] slots_bottom = new int[] {2, 3, 4};
 	private static final int[] slots_side = new int[] { };
 	
-	private String customName;
-	
 	public TileEntityMachineGasCent() {
 		super(6); 
 		tank = new FluidTank(FluidType.UF6, 2000, 0);
@@ -65,28 +63,21 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public String getName() {
 		return "container.gasCentrifuge";
 	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : side == 1 ? slots_top : slots_side;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 		
 		power = nbt.getLong("power");
 		progress = nbt.getShort("progress");
 		tank.readFromNBT(nbt, "tank");
 		inputTank.readFromNBT(nbt, "inputTank");
 		outputTank.readFromNBT(nbt, "outputTank");
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
 	}
 	
 	@Override
@@ -97,26 +88,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		tank.writeToNBT(nbt, "tank");
 		inputTank.writeToNBT(nbt, "inputTank");
 		outputTank.writeToNBT(nbt, "outputTank");
-		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
 	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int meta)
-    {
-        return meta == 0 ? slots_bottom : (meta == 1 ? slots_top : slots_side);
-    }
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
@@ -398,15 +370,21 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		return list;
 	}
 
+	AxisAlignedBB bb = null;
+	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 5, zCoord + 1);
+		}
+		
+		return bb;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 	
@@ -461,44 +439,44 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			type = PseudoFluidType.valueOf(nbt.getString(s + "_type"));
 		}
 		
-		/*		  ______      ______
-		 * 		 _I____I_    _I____I_
-		 * 		/	   \\\  /	   \\\
-		 * 	   |IF{    || ||	 } || |
-		 * 	   | IF{   || ||    }  || |
-		 * 	   |  IF{  || ||   }   || |
-		 * 	   |   IF{ || ||  }    || |
-		 * 	   |	IF{|| || }     || |
-		 *     |	   || ||	   || |
-		 * 	   |	 } || ||IF{	   || |
-		 * 	   |	}  || || IF{   || |
-		 * 	   |   }   || ||  IF{  || |
-		 * 	   |  }    || ||   IF{ || |
-		 * 	   | }     || ||	IF{|| |
-		 * 	   |IF{    || ||	 } || |
-		 * 	   | IF{   || ||    }  || |
-		 * 	   |  IF{  || ||   }   || |
-		 * 	   |   IF{ || ||  }    || |
-		 * 	   |	IF{|| || }     || |
-		 *     |	   || ||	   || |
-		 * 	   |	 } || ||IF{	   || |
-		 * 	   |	}  || || IF{   || |
-		 * 	   |   }   || ||  IF{  || |
-		 * 	   |  }    || ||   IF{ || |
-		 * 	   | }     || ||	IF{|| |
-		 * 	   |IF{    || ||	 } || |
-		 * 	   | IF{   || ||    }  || |
-		 * 	   |  IF{  || ||   }   || |
-		 * 	   |   IF{ || ||  }    || |
-		 * 	   |	IF{|| || }     || |
-		 *     |	   || ||	   || |
-		 * 	   |	 } || ||IF{	   || |
-		 * 	   |	}  || || IF{   || |
-		 * 	   |   }   || ||  IF{  || |
-		 * 	   |  }    || ||   IF{ || |
-		 * 	   | }     || ||	IF{|| |
-		 * 	  _|_______||_||_______||_|_
-		 * 	 |                          |
+		/*        ______      ______
+		 *       _I____I_    _I____I_
+		 *      /      \\\  /      \\\
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{    || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{	   || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{	   || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *    _|_______||_||_______||_|_
+		 *   |                          |
 		 *   |                          |
 		 *   |       |==========|       |
 		 *   |       |NESTED    |       |

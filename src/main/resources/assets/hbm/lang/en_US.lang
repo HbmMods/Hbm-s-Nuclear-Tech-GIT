@@ -3647,6 +3647,7 @@ tool.ability.silktouch=Silk Touch
 tool.ability.smelter=Auto-Smelter
 
 weapon.ability.beheader=Decapitator
+weapon.ability.bobble=Luck of the Collector
 # Should rhyme with the translation for "chainsaw"
 weapon.ability.chainsaw=Painsaw
 weapon.ability.fire=Flaming

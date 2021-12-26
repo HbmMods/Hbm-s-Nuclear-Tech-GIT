@@ -140,6 +140,9 @@ public class HazardRegistry {
 		HazardSystem.register(Items.gunpowder, makeData(EXPLOSIVE, 1F));
 		HazardSystem.register(Blocks.tnt, makeData(EXPLOSIVE, 4F));
 		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 4F));
+		
+		HazardSystem.register(ModItems.ball_dynamite, makeData(EXPLOSIVE, 2F));
+		HazardSystem.register(ModItems.stick_dynamite, makeData(EXPLOSIVE, 1F));
 
 		HazardSystem.register("dustCoal", makeData(COAL, powder));
 		HazardSystem.register("dustTinyCoal", makeData(COAL, powder_tiny));

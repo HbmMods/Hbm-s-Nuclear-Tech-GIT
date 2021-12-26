@@ -68,7 +68,7 @@ public class MachineGasCent extends BlockDummyable implements IMultiblock {
 	
 	@Override
 	public int[] getDimensions() {
-		return new int[] {2, 0, 0, 0, 0, 0,}; 
+		return new int[] {3, 0, 0, 0, 0, 0,}; 
 	}
 
 	@Override

@@ -3569,6 +3569,7 @@ tool.ability.silktouch=Behutsamkeit
 tool.ability.smelter=Auto-Ofen
 
 weapon.ability.beheader=Köpfer
+weapon.ability.bobble=Glück des Sammlers
 # Should rhyme with the translation for "chainsaw"
 weapon.ability.chainsaw=Skelettensäge
 weapon.ability.fire=Flammend

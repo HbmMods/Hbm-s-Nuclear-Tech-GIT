@@ -30,10 +30,16 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
 		}
 
 		if(tileEntity instanceof TileEntityMachineGasCent) {
+			GL11.glRotatef(180, 0F, 1F, 0F);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 			bindTexture(ResourceManager.gascent_tex);
 			ResourceManager.gascent.renderPart("Centrifuge");
 			ResourceManager.gascent.renderPart("Flag");
+			GL11.glShadeModel(GL11.GL_FLAT);
 		}
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		GL11.glPopMatrix();
 	}

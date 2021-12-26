@@ -57,7 +57,7 @@ public class AnvilCraftPacket implements IMessage {
 			if(!recipe.isTierValid(anvil.tier)) //player is using the wrong type of anvil -> bad
 				return null;
 			
-			int count = m.mode == 1 ? 64 : 1;
+			int count = m.mode == 1 ? (recipe.output.size() > 1 ? 64 : (recipe.output.get(0).stack.getMaxStackSize() / recipe.output.get(0).stack.stackSize)) : 1;
 			
 			for(int i = 0; i < count; i++) {
 				

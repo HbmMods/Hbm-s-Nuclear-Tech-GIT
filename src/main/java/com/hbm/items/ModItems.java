@@ -5197,7 +5197,8 @@ public class ModItems {
 		cobalt_hoe = new ModHoe(MainRegistry.tMatCobalt).setUnlocalizedName("cobalt_hoe").setTextureName(RefStrings.MODID + ":cobalt_hoe");
 
 		ToolMaterial matDecCobalt = EnumHelper.addToolMaterial("HBM_COBALT2", 3, 1000, 15.0F, 2.5F, 25).setRepairItem(new ItemStack(ModItems.ingot_cobalt));
-		cobalt_decorated_sword = new ItemSwordAbility(15F, 0, matDecCobalt).setUnlocalizedName("cobalt_decorated_sword").setTextureName(RefStrings.MODID + ":cobalt_decorated_sword");
+		cobalt_decorated_sword = new ItemSwordAbility(15F, 0, matDecCobalt)
+				.addHitAbility(new WeaponAbility.BobbleAbility()).setUnlocalizedName("cobalt_decorated_sword").setTextureName(RefStrings.MODID + ":cobalt_decorated_sword");
 		cobalt_decorated_pickaxe = new ItemToolAbility(6F, 0, matDecCobalt, EnumToolType.PICKAXE)
 				.addBreakAbility(new ToolAbility.RecursionAbility(4))
 				.addBreakAbility(new ToolAbility.HammerAbility(1))
@@ -5219,7 +5220,8 @@ public class ModItems {
 		ToolMaterial matStarmetal = EnumHelper.addToolMaterial("HBM_STARMETAL", 3, 1000, 20.0F, 2.5F, 30).setRepairItem(new ItemStack(ModItems.ingot_starmetal));
 		starmetal_sword = new ItemSwordAbility(25F, 0, matStarmetal)
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(3)).setUnlocalizedName("starmetal_sword").setTextureName(RefStrings.MODID + ":starmetal_sword");
+				.addHitAbility(new WeaponAbility.StunAbility(3))
+				.addHitAbility(new WeaponAbility.BobbleAbility()).setUnlocalizedName("starmetal_sword").setTextureName(RefStrings.MODID + ":starmetal_sword");
 		starmetal_pickaxe = new ItemToolAbility(8F, 0, matStarmetal, EnumToolType.PICKAXE)
 				.addBreakAbility(new ToolAbility.RecursionAbility(6))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
