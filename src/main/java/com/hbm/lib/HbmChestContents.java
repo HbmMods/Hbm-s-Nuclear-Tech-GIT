@@ -186,23 +186,17 @@ public class HbmChestContents {
 	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.missile_incendiary, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.missile_cluster, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.missile_buster, 0, 1, 1, 4),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.launch_pad), 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.designator, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.thruster_small, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.thruster_medium, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.thruster_large, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.warhead_mirvlet, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 1, 1) };
+			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 10) };
 
 	private static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),

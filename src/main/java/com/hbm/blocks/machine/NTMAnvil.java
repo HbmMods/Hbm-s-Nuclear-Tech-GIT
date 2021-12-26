@@ -1,5 +1,7 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
@@ -28,6 +30,8 @@ import net.minecraft.world.World;
 public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 	
 	public final int tier;
+	
+	public static final HashMap<Integer, List<NTMAnvil>> tierMap = new HashMap();
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -38,6 +42,27 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 		this.setHardness(5.0F);
 		this.setResistance(100.0F);
 		this.tier = tier;
+		
+		List<NTMAnvil> anvils = tierMap.get((Integer)tier);
+		if(anvils == null)
+			anvils = new ArrayList();
+		anvils.add(this);
+		tierMap.put((Integer)tier, anvils);
+	}
+	
+	public static List<ItemStack> getAnvilsFromTier(int tier) {
+		List<NTMAnvil> anvils = tierMap.get((Integer)tier);
+		
+		if(anvils != null) {
+			List<ItemStack> stacks = new ArrayList();
+			
+			for(NTMAnvil anvil : anvils)
+				stacks.add(new ItemStack(anvil));
+			
+			return stacks;
+		}
+		
+		return new ArrayList();
 	}
 	
 	@Override
