@@ -160,7 +160,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			return false;
 		
 		//Or is the output slot already full?
-		if(slots[2] != null && slots[2].stackSize >= slots[2].getMaxStackSize())
+		if(slots[2] != null && slots[2].stackSize + result.stackSize > slots[2].getMaxStackSize())
 			return false;
 		
 		return true;
