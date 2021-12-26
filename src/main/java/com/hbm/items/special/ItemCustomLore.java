@@ -62,38 +62,6 @@ public class ItemCustomLore extends Item {
 				list.add("That one's my favourite!");
 		}
 
-		if(this == ModItems.pellet_rtg)
-		{
-			if(MainRegistry.polaroidID == 11)
-				list.add("Contains ~100% Pu238 oxide.");
-			else
-				list.add("RTG fuel pellet for infinite energy! (almost)");
-		}
-
-		if(this == ModItems.pellet_rtg_weak)
-		{
-			if(MainRegistry.polaroidID == 11)
-				list.add("Meh.");
-			else
-				list.add("Cheaper and weaker pellet, now with more U238!");
-		}
-
-		if(this == ModItems.pellet_rtg_polonium)
-		{
-			if(MainRegistry.polaroidID == 11)
-				list.add("Polonium 4 U and me.");
-			else
-				list.add("More powderful RTG pellet, made from finest polonium!");
-		}
-
-		if(this == ModItems.pellet_rtg_gold)
-		{
-			if(MainRegistry.polaroidID == 11)
-				list.add("it's that spicy gold");
-			else
-				list.add("Made from a rare, highly unstable gold isotope.");
-		}
-
 		if(this == ModItems.pellet_cluster)
 		{
 			list.add("Used in multi purpose bombs:");
