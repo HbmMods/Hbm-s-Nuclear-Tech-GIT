@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 public class GasCentrifugeRecipes {
 	
 	public static enum PseudoFluidType {
-		NONE	(0,		0,		"NONE",		"Empty",				false,	new ItemStack(ModItems.polaroid, 0)),
+		NONE	(0,		0,		"NONE",		"Empty",				false,	null),
 		
 		NUF6 	(400,	300,	"LEUF6",	"Natural UF6",			false,	new ItemStack(ModItems.nugget_u238, 1)),
 		LEUF6 	(300,	200,	"MEUF6",	"Low Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),

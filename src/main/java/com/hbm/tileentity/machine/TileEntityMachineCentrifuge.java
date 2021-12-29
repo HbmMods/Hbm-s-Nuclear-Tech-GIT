@@ -23,8 +23,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-//TODO: move this trash to TileEntityMachineBase
-//no seriously, this is dreadful
 public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
 	
 	public int progress;
@@ -45,7 +43,11 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		return "container.centrifuge";
 	}
 	
-
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
+	}
+	
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 2 || i == 3 || i == 4 || i == 5) {
