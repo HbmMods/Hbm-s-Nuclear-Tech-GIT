@@ -1,7 +1,6 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.Spaghetti;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;

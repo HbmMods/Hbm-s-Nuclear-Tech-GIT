@@ -1,22 +1,18 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -242,7 +238,9 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 		Triplet<Integer, Integer, ItemStack> result = grabResult(stack);
 		if(result == null)
 			return null;
-		return result.getZ();
+		if(result.getZ() == null)
+			return null;
+		return result.getZ().copy();
 	}
 
 	@Override
