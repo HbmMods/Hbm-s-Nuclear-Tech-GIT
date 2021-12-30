@@ -86,23 +86,6 @@ public class AuxButtonPacket implements IMessage {
 					
 					if(m.id == 0)
 						reactor.retracting = m.value == 1;
-					
-					if(m.id == 1) {
-						FluidType type = FluidType.STEAM;
-						int fill = reactor.tanks[2].getFill();
-						
-						switch(m.value) {
-						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-						}
-						
-						if(fill > reactor.tanks[2].getMaxFill())
-							fill = reactor.tanks[2].getMaxFill();
-						
-						reactor.tanks[2].setTankType(type);
-						reactor.tanks[2].setFill(fill);
-					}
 				}
 				
 				if (te instanceof TileEntityRadioRec) {
@@ -123,7 +106,7 @@ public class AuxButtonPacket implements IMessage {
 					field.isOn = !field.isOn;
 				}
 				
-				if (te instanceof TileEntityReactorControl) {
+				/*if (te instanceof TileEntityReactorControl) {
 					TileEntityReactorControl control = (TileEntityReactorControl)te;
 					
 					if(m.id == 1)
@@ -181,7 +164,7 @@ public class AuxButtonPacket implements IMessage {
 							}
 						}
 					}
-				}
+				}*/
 				
 				if (te instanceof TileEntityMachineReactorLarge) {
 					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;

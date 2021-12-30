@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
@@ -36,11 +37,11 @@ public class ReactorZirnox extends BlockDummyable implements IMultiblock {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
+		} else if(!player.isSneaking()) {
+			BossSpawnHandler.markFBI(player);
+			
 			int[] pos = this.findCore(world, x, y, z);
 
 			if(pos == null)

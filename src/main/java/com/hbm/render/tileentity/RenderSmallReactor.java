@@ -25,14 +25,14 @@ public class RenderSmallReactor extends TileEntitySpecialRenderer {
 		ResourceManager.reactor_small_base.renderAll();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.0D, reactor.rods / 100D, 0.0D);
+		GL11.glTranslated(0.0D, (double) reactor.rods / reactor.rodsMax, 0.0D);
 
 		bindTexture(ResourceManager.reactor_small_rods_tex);
 		ResourceManager.reactor_small_rods.renderAll();
 
 		GL11.glPopMatrix();
 
-		if(reactor.coreHeat > 0 && reactor.isSubmerged()) {
+		if(reactor.hasHeat() && reactor.isSubmerged()) {
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);

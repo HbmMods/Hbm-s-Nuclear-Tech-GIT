@@ -13,22 +13,10 @@ import net.minecraft.util.EnumChatFormatting;
 public class ItemFuelRod extends Item {
 
 	public int lifeTime;
-	public int heat;
 	
-	public ItemFuelRod(int life, int heat) {
+	public ItemFuelRod(int life) {
 		this.lifeTime = life;
-		this.heat = heat;
 		this.canRepair = false;
-	}
-	
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		
-		list.add(EnumChatFormatting.YELLOW + "[Reactor Fuel Rod]");
-		list.add(EnumChatFormatting.DARK_AQUA + "  Generates " + heat + " heat per tick");
-		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + Library.getShortNumber(lifeTime) + " ticks");
-		
-		super.addInformation(itemstack, player, list, bool);
 	}
 	
 	public static void setLifeTime(ItemStack stack, int time) {

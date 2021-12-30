@@ -26,14 +26,20 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	
 	private static final HashMap<ComparableStack, ItemStack> wasteMap = new HashMap<ComparableStack, ItemStack>();
 	static {
-		wasteMap.put(new ComparableStack(ModItems.waste_natural_uranium_hot), new ItemStack(ModItems.waste_natural_uranium));
-		wasteMap.put(new ComparableStack(ModItems.waste_uranium_hot), new ItemStack(ModItems.waste_uranium));
-		wasteMap.put(new ComparableStack(ModItems.waste_thorium_hot), new ItemStack(ModItems.waste_thorium));
-		wasteMap.put(new ComparableStack(ModItems.waste_mox_hot), new ItemStack(ModItems.waste_mox));
-		wasteMap.put(new ComparableStack(ModItems.waste_plutonium_hot), new ItemStack(ModItems.waste_plutonium));
-		wasteMap.put(new ComparableStack(ModItems.waste_u233_hot), new ItemStack(ModItems.waste_u233));
-		wasteMap.put(new ComparableStack(ModItems.waste_u235_hot), new ItemStack(ModItems.waste_u235));
-		wasteMap.put(new ComparableStack(ModItems.waste_schrabidium_hot), new ItemStack(ModItems.waste_schrabidium));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_natural_uranium, 1, 1)), new ItemStack(ModItems.waste_natural_uranium));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_uranium, 1, 1)), new ItemStack(ModItems.waste_uranium));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_thorium, 1, 1)), new ItemStack(ModItems.waste_thorium));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_mox, 1, 1)), new ItemStack(ModItems.waste_mox));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plutonium, 1, 1)), new ItemStack(ModItems.waste_plutonium));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_u233, 1, 1)), new ItemStack(ModItems.waste_u233));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_u235, 1, 1)), new ItemStack(ModItems.waste_u235));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_schrabidium, 1, 1)), new ItemStack(ModItems.waste_schrabidium));
+		
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_u233, 1, 1)), new ItemStack(ModItems.waste_plate_u233));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_u235, 1, 1)), new ItemStack(ModItems.waste_plate_u235));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_mox, 1, 1)), new ItemStack(ModItems.waste_plate_mox));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_pu239, 1, 1)), new ItemStack(ModItems.waste_plate_pu239));
+		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_sa326, 1, 1)), new ItemStack(ModItems.waste_plate_sa326));
 	}
 	
 	public TileEntityWasteDrum() {

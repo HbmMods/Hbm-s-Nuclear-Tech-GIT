@@ -135,18 +135,6 @@ public class AuxGaugePacket implements IMessage {
 					
 					selenium.powerCap = m.value;
 				}
-				if (te instanceof TileEntityMachineReactorSmall) {
-					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
-					
-					if(m.id == 0)
-						reactor.rods = m.value;
-					if(m.id == 1)
-						reactor.retracting = m.value == 1;
-					if(m.id == 2)
-						reactor.coreHeat = m.value;
-					if(m.id == 3)
-						reactor.hullHeat = m.value;
-				}
 				if (te instanceof TileEntityBomber) {
 					TileEntityBomber bomber = (TileEntityBomber)te;
 					

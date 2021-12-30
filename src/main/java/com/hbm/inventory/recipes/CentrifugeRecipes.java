@@ -30,8 +30,8 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_uranium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 2),
+				new ItemStack(ModItems.nugget_pu_mix, 1),
+				new ItemStack(ModItems.nugget_plutonium, 1),
 				new ItemStack(ModItems.nugget_technetium, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		

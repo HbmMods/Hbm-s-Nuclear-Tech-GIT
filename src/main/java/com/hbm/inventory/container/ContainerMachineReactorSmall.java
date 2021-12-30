@@ -30,12 +30,6 @@ private TileEntityMachineReactorSmall seleniumEngine;
 		this.addSlotToContainer(new Slot(tedf, 10, 98, 90));
 		this.addSlotToContainer(new Slot(tedf, 11, 134, 90));
 		
-		//Fluid IO
-		this.addSlotToContainer(new Slot(tedf, 12, 8, 90));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 8, 108));
-		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 15, 26, 108));
-		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 9; j++)
@@ -61,16 +55,14 @@ private TileEntityMachineReactorSmall seleniumEngine;
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 16) {
-				if (!this.mergeItemStack(var5, 17, this.inventorySlots.size(), true))
+            if (par2 <= 12) {
+				if (!this.mergeItemStack(var5, 13, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			} else {
 				if (!this.mergeItemStack(var5, 0, 13, true))
-					if (!this.mergeItemStack(var5, 14, 15, true))
-						if (!this.mergeItemStack(var5, 16, 17, true))
-							return null;
+					return null;
 			}
             
 			if (var5.stackSize == 0)

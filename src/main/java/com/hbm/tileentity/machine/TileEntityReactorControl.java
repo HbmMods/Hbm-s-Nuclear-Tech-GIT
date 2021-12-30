@@ -206,7 +206,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 	@Override
 	public void updateEntity() {
 
-		if(!worldObj.isRemote)
+		/*if(!worldObj.isRemote)
 		{
         	if(slots[0] != null && slots[0].getItem() == ModItems.reactor_sensor && 
         			slots[0].stackTagCompound != null)
@@ -352,6 +352,6 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         	}
         	
         	PacketDispatcher.wrapper.sendToAllAround(new TEControlPacket(xCoord, yCoord, zCoord, hullHeat, coreHeat, fuel, water, cool, steam, maxWater, maxCool, maxSteam, compression, rods, maxRods, isOn, auto, isLinked), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 30));
-		}
+		}*/
 	}
 }
