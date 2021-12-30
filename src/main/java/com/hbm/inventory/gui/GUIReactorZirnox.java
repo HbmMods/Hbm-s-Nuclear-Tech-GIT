@@ -121,7 +121,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		if(zirnox.water.getFill() <= 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 
-		if(zirnox.carbonDioxide.getFill() <= 8000)
+		if(zirnox.carbonDioxide.getFill() <= 4000)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, 7);
 	}
 

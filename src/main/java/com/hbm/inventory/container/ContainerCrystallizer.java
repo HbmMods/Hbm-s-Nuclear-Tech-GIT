@@ -44,6 +44,7 @@ public class ContainerCrystallizer extends Container {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
+			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
 
 			if(par2 <= diFurnace.getSizeInventory() - 1) {
 				if(!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true)) {

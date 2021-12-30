@@ -66,19 +66,19 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.hazmat_legs_grey, hazGray * legs);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_boots_grey, hazGray * boots);
 
-		Item rec_helmet = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazhelmet");
-		Item rec_chest = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazchest");
-		Item rec_legs = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazlegs");
-		Item rec_boots = Compat.tryLoadItem("ReactorCraft", "reactorcraft_item_hazboots");
+		Item rec_helmet = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazhelmet");
+		Item rec_chest = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazchest");
+		Item rec_legs = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazlegs");
+		Item rec_boots = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazboots");
 		if(rec_helmet != null)	HazmatRegistry.registerHazmat(rec_helmet, hazGray * helmet);
 		if(rec_chest != null)	HazmatRegistry.registerHazmat(rec_chest, hazGray * chest);
 		if(rec_legs != null)	HazmatRegistry.registerHazmat(rec_legs, hazGray * legs);
 		if(rec_boots != null)	HazmatRegistry.registerHazmat(rec_boots, hazGray * boots);
 
-		Item efn_helmet = Compat.tryLoadItem("etfuturum", "netherite_helmet");
-		Item efn_chest = Compat.tryLoadItem("etfuturum", "netherite_chestplate");
-		Item efn_legs = Compat.tryLoadItem("etfuturum", "netherite_leggings");
-		Item efn_boots = Compat.tryLoadItem("etfuturum", "netherite_boots");
+		Item efn_helmet = Compat.tryLoadItem(Compat.MOD_EF, "netherite_helmet");
+		Item efn_chest = Compat.tryLoadItem(Compat.MOD_EF, "netherite_chestplate");
+		Item efn_legs = Compat.tryLoadItem(Compat.MOD_EF, "netherite_leggings");
+		Item efn_boots = Compat.tryLoadItem(Compat.MOD_EF, "netherite_boots");
 		if(efn_helmet != null)	HazmatRegistry.registerHazmat(efn_helmet, star * helmet);
 		if(efn_chest != null)	HazmatRegistry.registerHazmat(efn_chest, star * chest);
 		if(efn_legs != null)	HazmatRegistry.registerHazmat(efn_legs, star * legs);

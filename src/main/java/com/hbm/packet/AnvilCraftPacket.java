@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerAnvil;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.InventoryUtil;
 
@@ -57,7 +58,7 @@ public class AnvilCraftPacket implements IMessage {
 			if(!recipe.isTierValid(anvil.tier)) //player is using the wrong type of anvil -> bad
 				return null;
 			
-			int count = m.mode == 1 ? 64 : 1;
+			int count = m.mode == 1 ? (recipe.output.size() > 1 ? 64 : (recipe.output.get(0).stack.getMaxStackSize() / recipe.output.get(0).stack.stackSize)) : 1;
 			
 			for(int i = 0; i < count; i++) {
 				
@@ -65,9 +66,11 @@ public class AnvilCraftPacket implements IMessage {
 					InventoryUtil.giveChanceStacksToPlayer(p, recipe.output);
 
 					if(recipe.output.get(0).stack.getItem() == Item.getItemFromBlock(ModBlocks.machine_difurnace_off))
-						p.triggerAchievement(MainRegistry.bobMetalworks);
+						p.triggerAchievement(MainRegistry.achBlastFurnace);
 					if(recipe.output.get(0).stack.getItem() == Item.getItemFromBlock(ModBlocks.machine_assembler))
-						p.triggerAchievement(MainRegistry.bobAssembly);
+						p.triggerAchievement(MainRegistry.achAssembly);
+					if(recipe.output.get(0).stack.getItem() == ModItems.billet_pu_mix)
+						p.triggerAchievement(MainRegistry.achChicagoPile);
 					
 				} else {
 					break;

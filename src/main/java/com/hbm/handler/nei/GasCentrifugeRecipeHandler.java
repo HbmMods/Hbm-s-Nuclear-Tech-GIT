@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.gui.GUIMachineGasCent;
+import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
 
 import codechicken.nei.NEIServerUtils;
@@ -25,15 +26,14 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
         PositionedStack result1;
         PositionedStack result2;
         PositionedStack result3;
-        PositionedStack result4;
+
     	
-        public SmeltingSet(ItemStack input, ItemStack result1, ItemStack result2, ItemStack result3, ItemStack result4) {
+        public SmeltingSet(ItemStack input, ItemStack result1, ItemStack result2, ItemStack result3) {
         	input.stackSize = 1;
-            this.input = new PositionedStack(input, 48, 24);
-            this.result1 = new PositionedStack(result1, 129, 6);
-            this.result2 = new PositionedStack(result2, 147, 6);
-            this.result3 = new PositionedStack(result3, 129, 42);
-            this.result4 = new PositionedStack(result4, 147, 42);
+            this.input = new PositionedStack(input, 25, 35 - 11);
+            this.result1 = new PositionedStack(result1, 128, 26 - 11);
+            this.result2 = new PositionedStack(result2, 128, 44 - 11);
+            this.result3 = new PositionedStack(result3, 146, 35 - 11);
         }
 
         @Override
@@ -47,7 +47,6 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
             stacks.add(fuels.get((cycleticks / 48) % fuels.size()).stack);
             stacks.add(result2);
             stacks.add(result3);
-            stacks.add(result4);
         	return stacks;
         }
 
@@ -96,9 +95,9 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
-			Map<Object, Object[]> recipes = MachineRecipes.instance().getGasCentrifugeRecipes();
+			Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -107,10 +106,10 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getGasCentrifugeRecipes();
+		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[2], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[3], result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));
+			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[2], result))
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2]));
 		}
 	}
 
@@ -125,10 +124,10 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getGasCentrifugeRecipes();
+		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));				
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2]));				
 		}
 	}
 	
@@ -139,11 +138,11 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
     @Override
     public void drawExtras(int recipe) {
         drawProgressBar(3, 51 - 45, 176, 0, 16, 34, 480, 7);
-        drawProgressBar(93, 19, 192, -1, 6, 33, 200, 3);
+        drawProgressBar(69, 26, 208, 0, 33, 12, 200, 0);
     }
     
     @Override
     public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(56 * 2, 5 + 18, 54, 18), "gascentprocessing"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(69, 26, 32, 12), "gascentprocessing"));
     }
 }

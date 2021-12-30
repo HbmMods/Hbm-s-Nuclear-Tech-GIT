@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -210,27 +211,19 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord, yCoord, zCoord, dir);
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite());
 			
 			heat = 0;
 			
 			for(int i = 0; i < slots.length; i++) {
-				if(slots[i] != null) {
-					if(slots[i].getItem() == ModItems.pellet_rtg)
-						heat += 5;
-					if(slots[i].getItem() == ModItems.pellet_rtg_weak)
-						heat += 3;
-					if(slots[i].getItem() == ModItems.pellet_rtg_polonium)
-						heat += 25;
-					if(slots[i].getItem() == ModItems.pellet_rtg_americium)
-						heat += 50;
+				
+				if(slots[i] != null && slots[i].getItem() instanceof ItemRTGPellet) {
+					
+					heat += ((ItemRTGPellet)slots[i].getItem()).getHeat();
 					
 					if(slots[i].getItem() == ModItems.pellet_rtg_gold) {
-						
 						if(worldObj.rand.nextInt(60*60*20) == 0)
 							slots[i] = null;
-						else
-							heat += 150;
 					}
 				}
 			}

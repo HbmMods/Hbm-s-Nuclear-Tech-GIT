@@ -39,7 +39,7 @@ public class ItemGeigerCounter extends Item {
 		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
 		
 		if(world.getTotalWorldTime() % 5 == 0) {
-			if(x > 0) {
+			if(x > 1E-5) {
 				List<Integer> list = new ArrayList<Integer>();
 
 				if(x < 1)
@@ -98,5 +98,4 @@ public class ItemGeigerCounter extends Item {
 		
 		return stack;
 	}
-
 }

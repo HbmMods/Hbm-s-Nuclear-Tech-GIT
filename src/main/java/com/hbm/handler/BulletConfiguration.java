@@ -64,7 +64,8 @@ public class BulletConfiguration {
 	//whether the bullet should stay alive after colliding with a block
 	public boolean liveAfterImpact;
 	
-	public boolean blackPowder = true;
+	//creates a "muzzle flash" and a ton of smoke with every projectile spawned
+	public boolean blackPowder = false;
 	
 	//bullet effects
 	public List<PotionEffect> effects;

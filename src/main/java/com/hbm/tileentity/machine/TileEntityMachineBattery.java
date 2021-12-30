@@ -217,8 +217,15 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			if(te instanceof IEnergyConductor) {
 				IEnergyConductor con = (IEnergyConductor) te;
 				
-				if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
-					con.getPowerNet().subscribe(this);
+				if(con.getPowerNet() != null) {
+					if(mode == 1 || mode == 2) {
+						if(con.getPowerNet().isSubscribed(this)) {
+							con.getPowerNet().unsubscribe(this);
+						}
+					} else if(!con.getPowerNet().isSubscribed(this)) {
+						con.getPowerNet().subscribe(this);
+					}
+				}
 			}
 		}
 	}

@@ -62,10 +62,12 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_gascent), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4.5, 4.5, 4.5);
+				GL11.glScaled(3.5, 3.5, 3.5);
 			}
 			public void renderCommon() {
-		        bindTexture(ResourceManager.centrifuge_gas_tex); ResourceManager.centrifuge_new.renderAll();
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.gascent_tex); ResourceManager.gascent.renderPart("Centrifuge");
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.iter), new ItemRenderBase() {
@@ -182,18 +184,18 @@ public class ItemRenderLibrary {
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_industrial_generator), new ItemRenderBase() {
 			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
 				GL11.glScaled(4, 4, 4);
 				GL11.glRotated(90, 0, 1, 0);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glTranslated(0, 0, -0.5);
+				GL11.glScaled(0.75, 0.75, 0.75);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				GL11.glDisable(GL11.GL_CULL_FACE);
-				bindTexture(ResourceManager.igen_tex); ResourceManager.igen.renderPart("Base");
-				bindTexture(ResourceManager.igen_rotor); ResourceManager.igen.renderPart("Rotor");
-				bindTexture(ResourceManager.igen_cog); ResourceManager.igen.renderPart("CogLeft"); ResourceManager.igen.renderPart("CogRight");
-				bindTexture(ResourceManager.igen_pistons); ResourceManager.igen.renderPart("Pistons");
-				bindTexture(ResourceManager.igen_arm); ResourceManager.igen.renderPart("ArmLeft"); ResourceManager.igen.renderPart("ArmRight");
+				bindTexture(ResourceManager.igen_tex);
+				ResourceManager.igen.renderPart("Body");
+				ResourceManager.igen.renderPart("Rotor");
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});

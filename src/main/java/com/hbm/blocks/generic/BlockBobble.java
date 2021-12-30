@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -87,7 +88,7 @@ public class BlockBobble extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		
-		for(int i = 0; i < BobbleType.values().length; i++)
+		for(int i = 1; i < BobbleType.values().length; i++)
 			list.add(new ItemStack(item, 1, i));
 	}
 
@@ -154,42 +155,42 @@ public class BlockBobble extends BlockContainer {
 	
 	public static enum BobbleType {
 		
-		NONE("null", "null", null, null, false),
-		//vault tec bobbleheads
-		STRENGTH("Strength", "Strength", null, "It's essential to give your arguments impact.", false),
-		PERCEPTION("Perception", "Perception", null, "Only through observation will you perceive weakness.", false),
-		ENDURANCE("Endurance", "Endurance", null, "Always be ready to take one for the team.", false),
-		CHARISMA("Charisma", "Charisma", null, "Nothing says pizzaz like a winning smile.", false),
-		INTELLIGENCE("Intelligence", "Intelligence", null, "It takes the smartest individuals to realize$there's always more to learn.", false),
-		AGILITY("Agility", "Agility", null, "Never be afraid to dodge the sensitive issues.", false),
-		LUCK("Luck", "Luck", null, "There's only one way to give 110%.", false),
-		//contributor bobbles
-		BOB("Robert \"The Bobcat\" Katzinsky", "HbMinecraft", "Hbm's Nuclear Tech Mod", "I know where you live, " + System.getProperty("user.name"), false),
-		FRIZZLE("Frooz", "Frooz", "Weapon models", "BLOOD IS FUEL", true),
-		PU238("Pu-238", "Pu-238", "Improved Tom impact mechanics", null, false),
-		VT("VT-6/24", "VT-6/24", "Balefire warhead model and general texturework", "You cannot unfuck a horse.", true),
-		DOC("The Doctor", "Doctor17PH", "Russian localization, lunar miner", "Perhaps the moon rocks were too expensive", true),
-		BLUEHAT("The Blue Hat", "The Blue Hat", "Textures", "there's a listening device in this bobblehead$don't touch it thanks", true),
-		PHEO("Pheo", "Pheonix", "Deuterium machines, tantalium textures, Reliant Rocket", "RUN TO THE BEDROOM, ON THE SUITCASE ON THE LEFT,$YOU'LL FIND MY FAVORITE AXE", true),
-		ADAM29("Adam29", "Adam29", "Ethanol, liquid petroleum gas", "You know, nukes are really quite beatiful.$It's like watching a star be born for a split second.", true),
-		UFFR("UFFR", "UFFR", "All sorts of things from his PR", "fried shrimp", false),
-		VAER("vaer", "vaer", "ZIRNOX", "taken de family out to the weekend cigarette festival", true),
-		NOS("Dr Nostalgia", "Dr Nostalgia", "SSG and Vortex models", "Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie", true),
-		//testing garbage. why is she so dumb?
-		CIRNO("Cirno", "Cirno", "being a dumb ice fairy", "No brain. Head empty.", true);
+		NONE(			"null",								"null",			null,														null,																								false,	ScrapType.BOARD_BLANK),
+		STRENGTH(		"Strength",							"Strength",		null,														"It's essential to give your arguments impact.",													false,	ScrapType.BRIDGE_BIOS),
+		PERCEPTION(		"Perception",						"Perception",	null,														"Only through observation will you perceive weakness.",												false,	ScrapType.BRIDGE_NORTH),
+		ENDURANCE(		"Endurance",						"Endurance",	null,														"Always be ready to take one for the team.",														false,	ScrapType.BRIDGE_SOUTH),
+		CHARISMA(		"Charisma",							"Charisma",		null,														"Nothing says pizzaz like a winning smile.",														false,	ScrapType.BRIDGE_IO),
+		INTELLIGENCE(	"Intelligence",						"Intelligence",	null,														"It takes the smartest individuals to realize$there's always more to learn.",						false,	ScrapType.BRIDGE_BUS),
+		AGILITY(		"Agility",							"Agility",		null,														"Never be afraid to dodge the sensitive issues.",													false,	ScrapType.BRIDGE_CHIPSET),
+		LUCK(			"Luck",								"Luck",			null,														"There's only one way to give 110%.",																false,	ScrapType.BRIDGE_CMOS),
+		BOB(			"Robert \"The Bobcat\" Katzinsky",	"HbMinecraft",	"Hbm's Nuclear Tech Mod",									"I know where you live, " + System.getProperty("user.name"),										false,	ScrapType.CPU_SOCKET),
+		FRIZZLE(		"Frooz",							"Frooz",		"Weapon models",											"BLOOD IS FUEL",																					true,	ScrapType.CPU_CLOCK),
+		PU238(			"Pu-238",							"Pu-238",		"Improved Tom impact mechanics",							null,																								false,	ScrapType.CPU_REGISTER),
+		VT(				"VT-6/24",							"VT-6/24",		"Balefire warhead model and general texturework",			"You cannot unfuck a horse.",																		true,	ScrapType.CPU_EXT),
+		DOC(			"The Doctor",						"Doctor17PH",	"Russian localization, lunar miner",						"Perhaps the moon rocks were too expensive",														true,	ScrapType.CPU_CACHE),
+		BLUEHAT(		"The Blue Hat",						"The Blue Hat",	"Textures",													"there's a listening device in this bobblehead$don't touch it thanks",								true,	ScrapType.MEM_16K_A),
+		PHEO(			"Pheo",								"Pheonix",		"Deuterium machines, tantalium textures, Reliant Rocket",	"RUN TO THE BEDROOM, ON THE SUITCASE ON THE LEFT,$YOU'LL FIND MY FAVORITE AXE",						true,	ScrapType.MEM_16K_B),
+		ADAM29(			"Adam29",							"Adam29",		"Ethanol, liquid petroleum gas",							"You know, nukes are really quite beatiful.$It's like watching a star be born for a split second.",	true,	ScrapType.MEM_16K_C),
+		UFFR(			"UFFR",								"UFFR",			"All sorts of things from his PR",							"fried shrimp",																						false,	ScrapType.MEM_SOCKET),
+		VAER(			"vaer",								"vaer",			"ZIRNOX",													"taken de family out to the weekend cigarette festival",											true,	ScrapType.MEM_16K_D),
+		NOS(			"Dr Nostalgia",						"Dr Nostalgia",	"SSG and Vortex models",									"Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie",					true,	ScrapType.BOARD_TRANSISTOR),
+		DRILLGON(		"Drillgon200",						"Drillgon200",	"1.12 Port",												null,																								false,	ScrapType.CPU_LOGIC),
+		CIRNO(			"Cirno",							"Cirno",		"being a dumb ice fairy",									"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket
 		public String contribution;	//what contributions this person has made, if applicable
 		public String inscription;	//the flavor text
 		public boolean skinLayers;
+		public ScrapType scrap;
 		
-		private BobbleType(String name, String label, String contribution, String inscription, boolean layers) {
+		private BobbleType(String name, String label, String contribution, String inscription, boolean layers, ScrapType scrap) {
 			this.name = name;
 			this.label = label;
 			this.contribution = contribution;
 			this.inscription = inscription;
 			this.skinLayers = layers;
+			this.scrap = scrap;
 		}
 	}
 }

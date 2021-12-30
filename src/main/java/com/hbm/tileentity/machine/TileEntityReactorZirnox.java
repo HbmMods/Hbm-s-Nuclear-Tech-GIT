@@ -22,6 +22,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -63,7 +64,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public TileEntityReactorZirnox() {
 		super(28);
-		steam = new FluidTank(FluidType.HOTSTEAM, 8000, 0);
+		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 8000, 0);
 		carbonDioxide = new FluidTank(FluidType.CARBONDIOXIDE, 16000, 1);
 		water = new FluidTank(FluidType.WATER, 32000, 2);
 	}
@@ -202,9 +203,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 			this.pressure = (int) ((float)this.heat * (1.5 * this.carbonDioxide.getFill() / 16000));
 
-			if(this.heat > 0 && this.heat < maxHeat && this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
-				generateSteam();
-				this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 1800));
+			if(this.heat > 0 && this.heat < maxHeat) {
+				if(this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
+					generateSteam();
+					this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 1800));
+				} else {
+					this.heat -= 10;
+				}
+				
 			}
 
 			checkIfMeltdown();
@@ -224,9 +230,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 
 		// function of SHS produced per tick
-		// heat% * 10 * 10 (should get rid of any rounding errors)
-		int Water = (int) (((float)heat / maxHeat) * 15);
-		int Steam = Water * 10;
+		// heat% * 25 * 1 (should get rid of any rounding errors)
+		int Water = (int) (((float)heat / maxHeat) * 25);
+		int Steam = Water * 1;
 
 		water.setFill(water.getFill() - Water);
 		steam.setFill(steam.getFill() + Steam);
@@ -284,9 +290,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
 			this.heat += rod.heat;
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
-
+			
 			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
-				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id)).copy());
+				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
 		}
@@ -352,12 +358,19 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 12.0F, true);
 		zirnoxDebris();
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achZIRNOXBoom);
+		}
+		
 		if(MobConfig.enableElementals) {
 			@SuppressWarnings("unchecked")
-			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
+			List<EntityPlayer> players2 = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 
-			for(EntityPlayer player : players) {
+			for(EntityPlayer player : players2) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
@@ -390,7 +403,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public int getMaxFluidFill(FluidType type) {
 		switch (type) {
-		case HOTSTEAM: return steam.getMaxFill();
+		case SUPERHOTSTEAM: return steam.getMaxFill();
 		case CARBONDIOXIDE: return carbonDioxide.getMaxFill();
 		case WATER: return water.getMaxFill();
 		default: return 0;
@@ -399,7 +412,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public void setFluidFill(int i, FluidType type) {
 		switch (type) {
-		case HOTSTEAM: steam.setFill(i);
+		case SUPERHOTSTEAM: steam.setFill(i);
 			break;
 		case CARBONDIOXIDE: carbonDioxide.setFill(i);
 			break;
@@ -411,7 +424,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public int getFluidFill(FluidType type) {
 		switch (type) {
-		case HOTSTEAM: return steam.getFill();
+		case SUPERHOTSTEAM: return steam.getFill();
 		case CARBONDIOXIDE: return carbonDioxide.getFill();
 		case WATER: return water.getFill();
 		default: return 0;

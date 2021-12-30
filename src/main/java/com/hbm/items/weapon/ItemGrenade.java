@@ -8,6 +8,7 @@ import com.hbm.entity.grenade.EntityGrenadeBreach;
 import com.hbm.entity.grenade.EntityGrenadeBurst;
 import com.hbm.entity.grenade.EntityGrenadeCloud;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
+import com.hbm.entity.grenade.EntityGrenadeDynamite;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
 import com.hbm.entity.grenade.EntityGrenadeFlare;
@@ -70,6 +71,14 @@ public class ItemGrenade extends Item {
 
 		p_77659_2_.playSoundAtEntity(p_77659_3_, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
+		//TODO:
+		/*
+		 * kill all this stupid bullshit
+		 * make a PROPER grenade entity base class
+		 * have all the grenade items be an NBT stat in the entity instead of having new entities for every fucking grenade type
+		 * register explosion effects with some lambdas to save on LOC
+		 * jesus christ why do i keep doing this
+		 */
 		if (!p_77659_2_.isRemote) {
 			if (this == ModItems.grenade_generic) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeGeneric(p_77659_2_, p_77659_3_));
@@ -201,6 +210,9 @@ public class ItemGrenade extends Item {
 			}
 			if (this == ModItems.nuclear_waste_pearl) {
 				p_77659_2_.spawnEntityInWorld(new EntityWastePearl(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.stick_dynamite) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeDynamite(p_77659_2_, p_77659_3_));
 			}
 		}
 

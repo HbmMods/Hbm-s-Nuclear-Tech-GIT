@@ -10,6 +10,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
@@ -78,6 +79,10 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_treated), new ItemStack(ModItems.meteorite_sword_etched, 1));
 		
 		recipes.put(new ComparableStack(ModItems.powder_impure_osmiridium), new ItemStack(ModItems.crystal_osmiridium));
+		
+		for(int i = 0; i < ScrapType.values().length; i++) {
+			recipes.put(new ComparableStack(ModItems.scrap_plastic, 1, i), new ItemStack(ModItems.circuit_star_piece, 1, i));
+		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		

@@ -1210,20 +1210,11 @@ public class ModEventHandler {
 		if(item == ModItems.gun_revolver_pip) {
 			e.player.addStat(MainRegistry.achC44, 1);
 		}
-		if(item == Item.getItemFromBlock(ModBlocks.machine_difurnace_off)) {
-			e.player.addStat(MainRegistry.bobMetalworks, 1);
+		if(item == Item.getItemFromBlock(ModBlocks.machine_press)) {
+			e.player.triggerAchievement(MainRegistry.achBurnerPress);
 		}
-		if(item == Item.getItemFromBlock(ModBlocks.machine_assembler)) {
-			e.player.addStat(MainRegistry.bobAssembly, 1);
-		}
-		if(item == Item.getItemFromBlock(ModBlocks.brick_concrete)) {
-			e.player.addStat(MainRegistry.bobChemistry, 1);
-		}
-		if(item == Item.getItemFromBlock(ModBlocks.machine_boiler_electric_off)) {
-			e.player.addStat(MainRegistry.bobOil, 1);
-		}
-		if(item == ModItems.ingot_uranium_fuel) {
-			e.player.addStat(MainRegistry.bobNuclear, 1);
+		if(item == ModItems.rbmk_fuel_empty) {
+			e.player.triggerAchievement(MainRegistry.achRBMK);
 		}
 	}
 	
@@ -1246,7 +1237,13 @@ public class ModEventHandler {
 				e.player.inventoryContainer.detectAndSendChanges();
 		}
 	}
-
+	
+	@SubscribeEvent
+	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
+		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_jizz)
+			event.player.triggerAchievement(MainRegistry.achC20_5);
+	}
+	
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) {
 		
@@ -1269,6 +1266,11 @@ public class ModEventHandler {
 				if(event.world.rand.nextInt(2) == 0 && event.world.getBlock(x, y, z) == Blocks.air)
 					event.world.setBlock(x, y, z, ModBlocks.gas_coal);
 			}
+		}
+		
+		if(event.block == ModBlocks.pink_log && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achImpossible)) {
+			event.getPlayer().triggerAchievement(MainRegistry.achImpossible);
+			event.setExpToDrop(3000);
 		}
 	}
 	

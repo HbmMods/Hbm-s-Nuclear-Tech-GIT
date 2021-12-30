@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.Compat;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -108,6 +110,9 @@ public class ShredderRecipes {
 	
 	public static void registerOverrides() {
 
+		/*
+		 * Primary recipes
+		 */
 		ShredderRecipes.setRecipe(ModItems.scrap, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(ModItems.dust, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(Blocks.glowstone, new ItemStack(Items.glowstone_dust, 4));
@@ -177,6 +182,9 @@ public class ShredderRecipes {
 		
 		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass));
 
+		/*
+		 * Crstaly processing
+		 */
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));
 		ShredderRecipes.setRecipe(ModItems.crystal_coal, new ItemStack(ModItems.powder_coal, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_iron, new ItemStack(ModItems.powder_iron, 3));
@@ -205,6 +213,9 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.crystal_starmetal, new ItemStack(ModItems.powder_dura_steel, 6));
 		ShredderRecipes.setRecipe(ModItems.crystal_cobalt, new ItemStack(ModItems.powder_cobalt, 3));
 
+		/*
+		 * Misc recycling
+		 */
 		ShredderRecipes.setRecipe(ModBlocks.steel_poles, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModBlocks.pole_top, new ItemStack(ModItems.powder_tungsten, 4));
 		ShredderRecipes.setRecipe(ModBlocks.tape_recorder, new ItemStack(ModItems.powder_steel, 1));
@@ -230,6 +241,9 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
 
+		/*
+		 * Sellafite scrapping
+		 */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_0, new ItemStack(ModItems.scrap_nuclear, 1));
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_1, new ItemStack(ModItems.scrap_nuclear, 2));
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_2, new ItemStack(ModItems.scrap_nuclear, 3));
@@ -237,6 +251,9 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_4, new ItemStack(ModItems.scrap_nuclear, 7));
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_core, new ItemStack(ModItems.scrap_nuclear, 15));
 
+		/*
+		 * Deco pipe recycling
+		 */
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_rusted, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_green, new ItemStack(ModItems.powder_steel, 1));
@@ -262,6 +279,9 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_red, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_marked, new ItemStack(ModItems.powder_steel, 1));
 
+		/*
+		 * Turret and ammo recycling
+		 */
 		ShredderRecipes.setRecipe(ModBlocks.turret_light, new ItemStack(ModItems.powder_steel, 16));
 		ShredderRecipes.setRecipe(ModBlocks.turret_heavy, new ItemStack(ModItems.powder_steel, 16));
 		ShredderRecipes.setRecipe(ModBlocks.turret_flamer, new ItemStack(ModItems.powder_steel, 16));
@@ -274,12 +294,48 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.turret_rocket_ammo, new ItemStack(Items.gunpowder, 4));
 		ShredderRecipes.setRecipe(ModItems.turret_cwis_ammo, new ItemStack(Items.gunpowder, 4));
 		ShredderRecipes.setRecipe(ModItems.turret_tau_ammo, new ItemStack(ModItems.powder_uranium, 4));
-		ShredderRecipes.setRecipe(ModBlocks.ore_tektite_osmiridium, new ItemStack(ModItems.powder_tektite, 1));
-		
+
+		/*
+		 * Wool and clay scrapping
+		 */
 		for(int i = 0; i < 16; i++) {
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
 		}
+		
+		/*
+		 * Shredding bobbleheads
+		 */
+		for(int i = 0; i < BobbleType.values().length; i++) {
+			BobbleType type = BobbleType.values()[i];
+			ShredderRecipes.setRecipe(new ItemStack(ModBlocks.bobblehead, 1, i), new ItemStack(ModItems.scrap_plastic, 1, type.scrap.ordinal()));
+		}
+		
+		/*
+		 * Debris shredding
+		 */
+		ShredderRecipes.setRecipe(ModItems.debris_concrete, new ItemStack(ModItems.scrap_nuclear, 2));
+		ShredderRecipes.setRecipe(ModItems.debris_shrapnel, new ItemStack(ModItems.powder_steel_tiny, 5));
+		ShredderRecipes.setRecipe(ModItems.debris_exchanger, new ItemStack(ModItems.powder_steel, 3));
+		ShredderRecipes.setRecipe(ModItems.debris_element, new ItemStack(ModItems.scrap_nuclear, 4));
+		ShredderRecipes.setRecipe(ModItems.debris_metal, new ItemStack(ModItems.powder_steel_tiny, 3));
+		
+		/*
+		 * GC COMPAT
+		 */
+		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
+		if(gcMoonBlock != null) {
+			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
+			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
+		}
+		
+		/*
+		 * AR COMPAT
+		 */
+		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
+		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
+		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
+		if(arMoonTurfDark != null) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
 	}
 	
 	/**

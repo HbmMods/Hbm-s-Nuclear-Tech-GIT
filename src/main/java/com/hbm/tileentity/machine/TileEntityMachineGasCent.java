@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.recipes.GasCentrifugeRecipes;
+import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
-import com.hbm.inventory.recipes.MachineRecipes.GasCentOutput;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -28,11 +33,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineGasCent extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
-
-	private ItemStack slots[];
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor {
 	
+	public byte age;
 	public long power;
 	public int progress;
 	public boolean isProgressing;
@@ -40,204 +45,98 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 	public static final int processingSpeed = 200;
 	
 	public FluidTank tank;
+	public PseudoFluidTank inputTank;
+	public PseudoFluidTank outputTank;
 	
-	private static final int[] slots_top = new int[] {3};
-	private static final int[] slots_bottom = new int[] {5, 6, 7, 8};
-	private static final int[] slots_side = new int[] {0, 3};
-	
-	private String customName;
+	private static final int[] slots_top = new int[] {0};
+	private static final int[] slots_bottom = new int[] {2, 3, 4};
+	private static final int[] slots_side = new int[] { };
 	
 	public TileEntityMachineGasCent() {
-		slots = new ItemStack[9];
-		tank = new FluidTank(FluidType.UF6, 8000, 0);
-	}
-
-	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-		return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.gasCentrifuge";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-	
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
-			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
-		}
-	}
-	
-	//You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 2 || i == 3 || i == 4 || i == 5)
-		{
-			return false;
-		}
-		
-		return true;
+		super(6); 
+		tank = new FluidTank(FluidType.UF6, 2000, 0);
+		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
+		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
 	
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
-				slots[i] = null;
-			}
-			
-			return itemStack1;
-		} else {
-			return null;
-		}
+	public String getName() {
+		return "container.gasCentrifuge";
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : side == 1 ? slots_top : slots_side;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 		
-		power = nbt.getLong("powerTime");
-		progress = nbt.getShort("CookTime");
+		power = nbt.getLong("power");
+		progress = nbt.getShort("progress");
 		tank.readFromNBT(nbt, "tank");
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		inputTank.readFromNBT(nbt, "inputTank");
+		outputTank.readFromNBT(nbt, "outputTank");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("powerTime", power);
-		nbt.setShort("cookTime", (short) progress);
+		nbt.setLong("power", power);
+		nbt.setShort("progress", (short) progress);
 		tank.writeToNBT(nbt, "tank");
-		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		inputTank.writeToNBT(nbt, "inputTank");
+		outputTank.writeToNBT(nbt, "outputTank");
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return (i != 0 && i != 1) || j == 1;
 	}
 	
 	public int getCentrifugeProgressScaled(int i) {
-		return (progress * i) / processingSpeed;
+		return (progress * i) / getProcessingSpeed();
 	}
 	
 	public long getPowerRemainingScaled(int i) {
 		return (power * i) / maxPower;
 	}
 	
-	private boolean canProcess() {
-		
-		if(power > 0 && this.tank.getFill() >= MachineRecipes.getFluidConsumedGasCent(tank.getTankType())) {
+	public int getTankScaled(int i, int id) {
+		if(id == 0) {
+			return (this.inputTank.getFill() * i) / inputTank.getMaxFill();
+		} else if(id == 1) {
+			return (this.outputTank.getFill() * i) / outputTank.getMaxFill();
+		}
+		return i;
+	}
+	
+	private boolean canEnrich() {
+		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() <= outputTank.getMaxFill()) {
 			
-			List<GasCentOutput> list = MachineRecipes.getGasCentOutput(tank.getTankType());
+			ItemStack[] list = inputTank.getTankType().getOutput();
+			
+			if(this.inputTank.getTankType().getIfHighSpeed())
+				if(!(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed))
+					return false;
 			
 			if(list == null)
 				return false;
 			
-			if(list.size() < 1 || list.size() > 4)
+			if(list.length < 1 || list.length > 3)
 				return false;
 			
-			for(int i = 0; i < list.size(); i++) {
+			for(int i = 0; i < list.length; i++) {
 				
-				int slot = i + 5;
+				int slot = i + 2;
 				
 				if(slots[slot] == null)
 					continue;
 				
-				if(slots[slot].getItem() == list.get(i).output.getItem() &&
-						slots[slot].getItemDamage() == list.get(i).output.getItemDamage() &&
-						slots[slot].stackSize + list.get(i).output.stackSize <= slots[slot].getMaxStackSize())
+				if(slots[slot].getItem() == list[i].getItem() &&
+						slots[slot].getItemDamage() == list[i].getItemDamage() &&
+						slots[slot].stackSize + list[i].stackSize <= slots[slot].getMaxStackSize())
 					continue;
 				
 				return false;
@@ -249,31 +148,71 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 		return false;
 	}
 	
-	private void process() {
-
-		List<GasCentOutput> out = MachineRecipes.getGasCentOutput(tank.getTankType());
+	private void enrich() {
+		ItemStack[] output = inputTank.getTankType().getOutput();
+		
 		this.progress = 0;
-		tank.setFill(tank.getFill() - MachineRecipes.getFluidConsumedGasCent(tank.getTankType()));
+		inputTank.setFill(inputTank.getFill() - inputTank.getTankType().getFluidConsumed()); 
+		outputTank.setFill(outputTank.getFill() + inputTank.getTankType().getFluidProduced()); 
 		
-		List<GasCentOutput> random = new ArrayList();
-		
-		for(int i = 0; i < out.size(); i++) {
-			for(int j = 0; j < out.get(i).weight; j++) {
-				random.add(out.get(i));
+		for(byte i = 0; i < output.length && i < 3; i++) {
+			if(slots[i + 2] == null) {
+				slots[i + 2] = output[i].copy();
+			} else {
+				slots[i + 2].stackSize += output[i].stackSize;
 			}
 		}
-		
-		Collections.shuffle(random);
-		
-		GasCentOutput result = random.get(worldObj.rand.nextInt(random.size()));
-		
-		int slot = result.slot + 4;
-		
-		if(slots[slot] == null) {
-			slots[slot] = result.output.copy();
-		} else {
-			slots[slot].stackSize += result.output.stackSize;
+	}
+	
+	private void attemptConversion() {
+		if(inputTank.getFill() <= inputTank.getMaxFill() && tank.getFill() > 0) {
+			int fill = inputTank.getMaxFill() - inputTank.getFill();
+			
+			if(tank.getFill() >= fill) {
+				tank.setFill(tank.getFill() - fill);
+				inputTank.setFill(inputTank.getFill() + fill);
+			} else {
+				inputTank.setFill(inputTank.getFill() + tank.getFill());
+				tank.setFill(0);
+			}
 		}
+	}
+	
+	private boolean attemptTransfer(TileEntity te) {
+		if(te instanceof TileEntityMachineGasCent) {
+			TileEntityMachineGasCent gasCent = (TileEntityMachineGasCent) te;
+			
+			if(gasCent.tank.getFill() == 0 && gasCent.tank.getTankType() == this.tank.getTankType()) {
+				if(gasCent.inputTank.getTankType() != this.outputTank.getTankType()) {
+					gasCent.inputTank.setTankType(this.outputTank.getTankType());
+					gasCent.outputTank.setTankType(this.outputTank.getTankType().getOutputFluid());
+				}
+				
+				if(gasCent.inputTank.getFill() < gasCent.inputTank.getMaxFill() && this.outputTank.getFill() > 0) {
+					int fill = gasCent.inputTank.getMaxFill() - gasCent.inputTank.getFill();
+					
+					if(this.outputTank.getFill() >= fill) {
+						this.outputTank.setFill(this.outputTank.getFill() - fill);
+						gasCent.inputTank.setFill(gasCent.inputTank.getFill() + fill);
+					} else {
+						gasCent.inputTank.setFill(gasCent.inputTank.getFill() + this.outputTank.getFill());
+						this.outputTank.setFill(0);
+					}
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+		this.power = data.getLong("power");
+		this.progress = data.getInteger("progress");
+		this.isProgressing = data.getBoolean("isProgressing");
+		this.inputTank.setTankType(PseudoFluidType.valueOf(data.getString("inputType")));
+		this.outputTank.setTankType(PseudoFluidType.valueOf(data.getString("outputType")));
+		this.inputTank.setFill(data.getInteger("inputFill"));
+		this.outputTank.setFill(data.getInteger("outputFill"));
 	}
 	
 	@Override
@@ -284,49 +223,70 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tank.setType(1, 2, slots);
-			tank.loadTank(3, 4, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			setTankType(1);
 			
-			if(canProcess()) {
+			if(inputTank.getTankType() == PseudoFluidType.PF6 || inputTank.getTankType() == PseudoFluidType.NUF6) {
+				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+				attemptConversion();
+			}
+			
+			if(canEnrich()) {
 				
 				isProgressing = true;
 				
 				this.progress++;
 				
-				this.power -= 200;
+				if(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed)
+					this.power -= 300;
+				else
+					this.power -= 200;
 				
 				if(this.power < 0) {
 					power = 0;
 					this.progress = 0;
 				}
 				
-				if(progress >= processingSpeed) {
-					process();
-				}
+				if(progress >= getProcessingSpeed())
+					enrich();
+
 				
 			} else {
 				isProgressing = false;
 				this.progress = 0;
 			}
+			
+			age++;
+			if(age >= 10) {
+				age = 0;
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				TileEntity te = worldObj.getTileEntity(this.xCoord - dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ);
+				
+				if(attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
+					if(this.outputTank.getFill() >= 100 && (slots[4] == null || (slots[4].getItem() == ModItems.nugget_uranium_fuel && slots[4].stackSize + 1 <= slots[4].getMaxStackSize()))) {
+						this.outputTank.setFill(this.outputTank.getFill() - 100);
+						if(slots[4] == null) {
+							slots[4] = new ItemStack(ModItems.nugget_uranium_fuel, 1);
+						} else {
+							slots[4].stackSize += 1;
+						}
+					}
+				}
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("progress", progress);
+			data.setBoolean("isProgressing", isProgressing);
+			data.setInteger("inputFill", inputTank.getFill());
+			data.setInteger("outputFill", outputTank.getFill());
+			data.setString("inputType", inputTank.getTankType().toString());
+			data.setString("outputType", outputTank.getTankType().toString());
+			this.networkPack(data, 50);
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, progress, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
-	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
 	}
 
 	@Override
@@ -344,6 +304,13 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 	public long getMaxPower() {
 		return maxPower;
 	}
+	
+	public int getProcessingSpeed() {
+		if(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed) {
+			return processingSpeed - 75;
+		}
+		return processingSpeed;
+	}
 
 	@Override
 	public void setFillstate(int fill, int index) {
@@ -353,6 +320,32 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 	@Override
 	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
+	}
+	
+	public void setTankType(int in) {
+		
+		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
+			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+			
+			if(tank.getTankType() != newType) {
+				tank.setTankType(newType);
+				tank.setFill(0);
+				
+				switch(newType) {
+				case UF6:
+					inputTank.setTankType(PseudoFluidType.NUF6);
+					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
+					break;
+				case PUF6:
+					inputTank.setTankType(PseudoFluidType.PF6);
+					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
+					break;
+				default:
+					break;
+				}
+			}
+			return;
+		}
 	}
 
 	@Override
@@ -379,4 +372,122 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 		return list;
 	}
 
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 5, zCoord + 1);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
+	public class PseudoFluidTank {
+		PseudoFluidType type;
+		int fluid;
+		int maxFluid;
+		
+		public PseudoFluidTank(PseudoFluidType type, int maxFluid) {
+			this.type = type;
+			this.maxFluid = maxFluid;
+		}
+		
+		public void setFill(int i) {
+			fluid = i;
+		}
+		
+		public void setTankType(PseudoFluidType type) {
+			
+			if(this.type.name().equals(type.name()))
+				return;
+			
+			this.type = type;
+			this.setFill(0);
+		}
+		
+		public PseudoFluidType getTankType() {
+			return type;
+		}
+		
+		public int getFill() {
+			return fluid;
+		}
+		
+		public int getMaxFill() {
+			return maxFluid;
+		}
+		
+		//Called by TE to save fillstate
+		public void writeToNBT(NBTTagCompound nbt, String s) {
+			nbt.setInteger(s, fluid);
+			nbt.setInteger(s + "_max", maxFluid);
+			nbt.setString(s + "_type", type.toString());
+		}
+		
+		//Called by TE to load fillstate
+		public void readFromNBT(NBTTagCompound nbt, String s) {
+			fluid = nbt.getInteger(s);
+			int max = nbt.getInteger(s + "_max");
+			if(max > 0)
+				maxFluid = nbt.getInteger(s + "_max");
+			type = PseudoFluidType.valueOf(nbt.getString(s + "_type"));
+		}
+		
+		/*        ______      ______
+		 *       _I____I_    _I____I_
+		 *      /      \\\  /      \\\
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{    || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{	   || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *     |IF{    || ||     } || |
+		 *     | IF{   || ||    }  || |
+		 *     |  IF{  || ||   }   || |
+		 *     |   IF{ || ||  }    || |
+		 *     |    IF{|| || }     || |
+		 *     |       || ||       || |
+		 *     |     } || ||IF{	   || |
+		 *     |    }  || || IF{   || |
+		 *     |   }   || ||  IF{  || |
+		 *     |  }    || ||   IF{ || |
+		 *     | }     || ||    IF{|| |
+		 *    _|_______||_||_______||_|_
+		 *   |                          |
+		 *   |                          |
+		 *   |       |==========|       |
+		 *   |       |NESTED    |       |
+		 *   |       |IF  (:    |       |
+		 *   |       |STATEMENTS|       |
+		 *   |       |==========|       |
+		 *   |                          |
+		 *   |                          |
+		 *   ----------------------------
+		 */
+	}
 }

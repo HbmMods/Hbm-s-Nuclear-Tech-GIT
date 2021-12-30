@@ -30,7 +30,7 @@ public class SILEXRecipes {
 		dictTranslation.put("dustUranium", "ingotUranium");
 		recipes.put("ingotUranium", new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 1))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 8))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 11))
 				);
 		
 		recipes.put(new ComparableStack(ModItems.ingot_pu_mix), new SILEXRecipe(900, 100)
