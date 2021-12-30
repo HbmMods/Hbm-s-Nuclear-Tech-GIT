@@ -1,29 +1,22 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.recipes.CentrifugeRecipes;
-import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyUser {
 	
 	public int progress;
 	public long power;
@@ -31,9 +24,12 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 200;
 
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 2, 3, 4, 5 };
-	private static final int[] slots_side = new int[] { 0, 1 };
+	/*
+	 * So why do we do this now? You have a funny mekanism/thermal/whatever pipe and you want to output stuff from a side
+	 * that isn't the bottom, what do? Answer: make all slots accessible from all sides and regulate in/output in the 
+	 * dedicated methods. Duh.
+	 */
+	private static final int[] slot_io = new int[] { 0, 2, 3, 4, 5 };
 
 	public TileEntityMachineCentrifuge() {
 		super(6);
@@ -44,21 +40,13 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
-	}
-	
-	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 2 || i == 3 || i == 4 || i == 5) {
-			return false;
-		}
+		return i == 0;
+	}
 
-		if(i == 1) {
-			return itemStack.getItem() instanceof IBatteryItem;
-		}
-
-		return !(itemStack.getItem() instanceof IBatteryItem);
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slot_io;
 	}
 
 	@Override
@@ -77,7 +65,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1;
+		return i > 1;
 	}
 
 	public int getCentrifugeProgressScaled(int i) {
