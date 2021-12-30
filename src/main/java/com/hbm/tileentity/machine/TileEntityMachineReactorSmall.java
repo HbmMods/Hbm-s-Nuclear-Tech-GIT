@@ -36,7 +36,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //TODO: Fix all unneeded methods; fix reactor control; Add seven digit displays for total flux + heat; revamp gui; revamp breeder to rely on reactor and use total flux calcs;
-public class TileEntityMachineReactorSmall extends TileEntityMachineBase implements ISidedInventory {
+public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 
 	public int heat;
 	public final int maxHeat = 50000;

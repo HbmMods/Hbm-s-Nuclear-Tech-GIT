@@ -1,15 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.HashMap;
-
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
+import com.hbm.inventory.recipes.FuelPoolRecipes;
 import com.hbm.items.machine.ItemRBMKRod;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -23,24 +20,6 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 	
 	private String customName;
-	
-	private static final HashMap<ComparableStack, ItemStack> wasteMap = new HashMap<ComparableStack, ItemStack>();
-	static {
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_natural_uranium, 1, 1)), new ItemStack(ModItems.waste_natural_uranium));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_uranium, 1, 1)), new ItemStack(ModItems.waste_uranium));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_thorium, 1, 1)), new ItemStack(ModItems.waste_thorium));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_mox, 1, 1)), new ItemStack(ModItems.waste_mox));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plutonium, 1, 1)), new ItemStack(ModItems.waste_plutonium));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_u233, 1, 1)), new ItemStack(ModItems.waste_u233));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_u235, 1, 1)), new ItemStack(ModItems.waste_u235));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_schrabidium, 1, 1)), new ItemStack(ModItems.waste_schrabidium));
-		
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_u233, 1, 1)), new ItemStack(ModItems.waste_plate_u233));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_u235, 1, 1)), new ItemStack(ModItems.waste_plate_u235));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_mox, 1, 1)), new ItemStack(ModItems.waste_plate_mox));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_pu239, 1, 1)), new ItemStack(ModItems.waste_plate_pu239));
-		wasteMap.put(new ComparableStack(new ItemStack(ModItems.waste_plate_sa326, 1, 1)), new ItemStack(ModItems.waste_plate_sa326));
-	}
 	
 	public TileEntityWasteDrum() {
 		slots = new ItemStack[12];
@@ -114,7 +93,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return wasteMap.keySet().contains(new ComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
+		return FuelPoolRecipes.recipes.keySet().contains(new ComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
 	}
 	
 	@Override
@@ -177,10 +156,9 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return slots_arr;
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return slots_arr;
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -192,7 +170,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 		if(itemStack.getItem() instanceof ItemRBMKRod) {
 			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
 		} else {
-			return wasteMap.containsValue(getStackInSlot(i));
+			return !FuelPoolRecipes.recipes.containsKey(getStackInSlot(i));
 		}
 	}
 
@@ -226,8 +204,8 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 						} else if(worldObj.rand.nextInt(r) == 0) {
 
 							ComparableStack comp = new ComparableStack(getStackInSlot(i));
-							if(wasteMap.keySet().contains(comp)) {
-								slots[i] = wasteMap.get(comp).copy();
+							if(FuelPoolRecipes.recipes.containsKey(comp)) {
+								slots[i] = FuelPoolRecipes.recipes.get(comp).copy();
 							}
 						}
 					}
