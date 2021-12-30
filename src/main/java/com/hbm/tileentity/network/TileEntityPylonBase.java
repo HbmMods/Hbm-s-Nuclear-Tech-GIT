@@ -27,8 +27,8 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
 		double lenSq = len * len;
 		
-		Vec3 firstPos = first.getMountPos();
-		Vec3 secondPos = second.getMountPos();
+		Vec3 firstPos = first.getConnectionPoint();
+		Vec3 secondPos = second.getConnectionPoint();
 		
 		Vec3 delta = Vec3.createVectorHelper(
 				(second.xCoord + secondPos.xCoord) - (first.xCoord + firstPos.xCoord),
@@ -107,8 +107,17 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	}
 	
 	public abstract ConnectionType getConnectionType();
-	public abstract Vec3 getMountPos();
+	public abstract Vec3[] getMountPos();
 	public abstract double getMaxWireLength();
+	
+	public Vec3 getConnectionPoint() {
+		Vec3[] mounts = this.getMountPos();
+		
+		if(mounts == null || mounts.length == 0)
+			return Vec3.createVectorHelper(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+		
+		return mounts[0];
+	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -148,7 +157,8 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	}
 
 	public static enum ConnectionType {
-		SINGLE
+		SINGLE,
+		QUAD
 		//more to follow
 	}
 	

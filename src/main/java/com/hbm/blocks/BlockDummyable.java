@@ -178,7 +178,9 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 
 		if(!world.isRemote) {
-			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
+			//this is separate because the multiblock rotation and the final meta might not be the same
+			int meta = getMetaForCore(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, (EntityPlayer) player, dir.ordinal() + offset);
+			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, meta, 3);
 			fillSpace(world, x, y, z, dir, o);
 		}
 		y -= getHeightOffset();
@@ -188,6 +190,28 @@ public abstract class BlockDummyable extends BlockContainer {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 	
+	/**
+	 * A bit more advanced than the dir modifier, but it is important that the resulting direction meta is in the core range.
+	 * Using the "extra" metas is technically possible but requires a bit of tinkering, e.g. preventing a recursive loop
+	 * in the core finder and making sure the TE uses the right metas.
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param player
+	 * @param original
+	 * @return
+	 */
+	protected int getMetaForCore(World world, int x, int y, int z, EntityPlayer player, int original) {
+		return original;
+	}
+	
+	/**
+	 * Allows to modify the general placement direction as if the player had another rotation.
+	 * Quite basic due to only having 1 param but it's more meant to fix/limit the amount of directions
+	 * @param dir
+	 * @return
+	 */
 	protected ForgeDirection getDirModified(ForgeDirection dir) {
 		return dir;
 	}
@@ -215,12 +239,10 @@ public abstract class BlockDummyable extends BlockContainer {
 		this.safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
 		this.safeRem = false;
-
 	}
 
 	// checks if the dummy metadata is within the extra range
 	public boolean hasExtra(int meta) {
-
 		return meta > 5 && meta < 12;
 	}
 

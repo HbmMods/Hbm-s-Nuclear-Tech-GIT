@@ -13,8 +13,8 @@ public class TileEntityPylon extends TileEntityPylonBase {
 	}
 
 	@Override
-	public Vec3 getMountPos() {
-		return Vec3.createVectorHelper(0.5, 5.4, 0.5);
+	public Vec3[] getMountPos() {
+		return new Vec3[] {Vec3.createVectorHelper(0.5, 5.4, 0.5)};
 	}
 
 	@Override

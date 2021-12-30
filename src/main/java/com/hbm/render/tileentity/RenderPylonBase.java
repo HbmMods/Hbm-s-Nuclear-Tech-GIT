@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	
 	//TODO: adapt this into a more generic form for multi wire pylons
+	@Deprecated
 	public void renderSingleLine(TileEntityPylonBase pyl, double x, double y, double z) {
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
@@ -24,8 +25,8 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 			
 			if(tile instanceof TileEntityPylonBase) {
 				TileEntityPylonBase pylon = (TileEntityPylonBase) tile;
-				Vec3 myOffset = pyl.getMountPos();
-				Vec3 theirOffset = pylon.getMountPos();
+				Vec3 myOffset = pyl.getMountPos()[0];
+				Vec3 theirOffset = pylon.getMountPos()[0];
 
 				double conX0 = pyl.xCoord + myOffset.xCoord;
 				double conY0 = pyl.yCoord + myOffset.yCoord;
@@ -68,6 +69,10 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				}
 			}
 		}
+	}
+	
+	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
+		
 	}
 	
 	public void renderLine(World world, TileEntityPylonBase pyl, double x, double y, double z, double x0, double y0, double z0, double x1, double y1, double z1) {
