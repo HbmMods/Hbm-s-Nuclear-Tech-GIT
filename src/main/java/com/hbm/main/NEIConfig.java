@@ -54,6 +54,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new SmithingRecipeHandler());
 		API.registerRecipeHandler(new AnvilRecipeHandler());
 		API.registerUsageHandler(new AnvilRecipeHandler());
+		API.registerRecipeHandler(new FuelPoolHandler());
+		API.registerUsageHandler(new FuelPoolHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

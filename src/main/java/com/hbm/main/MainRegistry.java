@@ -956,6 +956,7 @@ public class MainRegistry {
 		PressRecipes.register();
 		RefineryRecipes.registerFractions();
 		RefineryRecipes.registerCracking();
+		FuelPoolRecipes.register();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
