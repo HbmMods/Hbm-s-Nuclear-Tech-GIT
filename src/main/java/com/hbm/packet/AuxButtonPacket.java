@@ -81,13 +81,6 @@ public class AuxButtonPacket implements IMessage {
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 				
-				if (te instanceof TileEntityMachineReactorSmall) {
-					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
-					
-					if(m.id == 0)
-						reactor.retracting = m.value == 1;
-				}
-				
 				if (te instanceof TileEntityRadioRec) {
 					TileEntityRadioRec radio = (TileEntityRadioRec)te;
 					

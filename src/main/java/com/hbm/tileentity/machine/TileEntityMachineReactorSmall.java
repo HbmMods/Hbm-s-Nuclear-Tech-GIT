@@ -10,6 +10,7 @@ import com.hbm.blocks.machine.MachineReactorSmall;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
@@ -17,6 +18,7 @@ import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -33,22 +35,24 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-//TODO: Fix all unneeded methods; fix reactor control; Add seven digit displays for total flux + heat; revamp gui; revamp breeder to rely on reactor and use total flux calcs;
-public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
-
+//TODO: fix reactor control;  revamp gui; revamp breeder to rely on reactor and use total flux calcs;
+public class TileEntityMachineReactorSmall extends TileEntityMachineBase implements IControlReceiver {
+	
+	@SideOnly(Side.CLIENT)
+	public double lastLevel;
+	public double level;
+	public double speed = 0.04;
+	public double targetLevel;
+	
 	public int heat;
 	public final int maxHeat = 50000;
-	public int rods;
-	public static final int rodsMax = 50;
-	public boolean retracting = true;
 	public int[] slotFlux = new int[12];
-	int totalFlux = 0;
-
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15 };
-	private static final int[] slots_side = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14 };
+	public int totalFlux = 0;
+	
+	private static final int[] slot_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
 	public TileEntityMachineReactorSmall() {
 		super(12);
@@ -79,21 +83,21 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		heat = nbt.getInteger("heat");
-		rods = nbt.getInteger("rods");
-		retracting = nbt.getBoolean("ret");
+		level = nbt.getDouble("level");
+		targetLevel = nbt.getDouble("targetLevel");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("heat", heat);
-		nbt.setInteger("rods", rods);
-		nbt.setBoolean("ret", retracting);
+		nbt.setDouble("level", level);
+		nbt.setDouble("targetLevel", targetLevel);
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
+		return slot_io;
 	}
 
 	@Override
@@ -110,45 +114,17 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 		return (heat * i) / maxHeat;
 	}
 	
-	public boolean hasHeat() {
-		return heat > 0;
-	}
-	
 	@Override
 	public void updateEntity() {
+		
+		rodControl();
 
 		if(!worldObj.isRemote) {
+			totalFlux = 0;
 			
-			if(retracting && rods > 0) {
-
-				if(rods == rodsMax)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStart", 1.0F, 0.75F);
-				
-				rods --;
-				if(rods == 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStop", 1.0F, 1.0F);
-			}
-			if(!retracting && rods < rodsMax) {
-				
-				if(rods == 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStart", 1.0F, 0.75F);
-				
-				rods ++;
-				
-				if(rods == rodsMax)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStop", 1.0F, 1.0F);
-			}
-			
-			if(rods > rodsMax)
-				rods = rodsMax;
-			if(rods < 0)
-				rods = 0;
-			
-			if(rods > 0)
+			if(level > 0) {
 				reaction();
-				for(byte i = 0; i < slotFlux.length; i++) {
-					totalFlux += slotFlux[i];
-				}
+			}
 			
 			getInteractions();
 			
@@ -169,25 +145,28 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 				this.explode();
 			}
 
-			if(rods > 0 && heat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
+			//change to 3D rad like demon-core
+			if(level > 0 && heat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
 				float rad = (float) heat / (float) maxHeat * 50F;
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("heat", heat);
-			data.setInteger("rods", rods);
-			data.setBoolean("ret", retracting);
+			data.setDouble("level", level);
+			data.setDouble("targetLevel", targetLevel);
 			data.setIntArray("slotFlux", slotFlux);
+			data.setInteger("totalFlux", totalFlux);
 			this.networkPack(data, 150);
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
 		this.heat = data.getInteger("heat");
-		this.rods = data.getInteger("rods");
-		this.retracting = data.getBoolean("ret");
+		this.level = data.getDouble("level");
+		this.targetLevel = data.getDouble("targetLevel");
 		this.slotFlux = data.getIntArray("slotFlux");
+		this.totalFlux = data.getInteger("totalFlux");
 	}
 	
 	private byte getWater() {
@@ -241,7 +220,7 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 
 					TileEntityMachineReactor reactor = (TileEntityMachineReactor) tile;
 
-					if(reactor.charge <= 1 && this.heat > 0) {
+					if(reactor.charge <= 1 && this.totalFlux > 0) {
 						reactor.charge = 1;
 						reactor.heat = (int) Math.floor(heat * 4 / maxHeat) + 1;
 					}
@@ -297,16 +276,18 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 	
 	private void reaction() {
 		for(byte i = 0; i < 12; i++) {
-			if(slots[i] == null) 
+			if(slots[i] == null)  {
+				slotFlux[i] = 0;
 				continue;
+			}
 			
 			if(slots[i].getItem() instanceof ItemPlateFuel) {
 				ItemPlateFuel rod = (ItemPlateFuel) slots[i].getItem();
 				
-				int outFlux = rod.react(worldObj, slots[i], slotFlux[i] + 10);
-				rod.setLifeTime(slots[i], rod.getLifeTime(slots[i]) + outFlux);
+				int outFlux = rod.react(worldObj, slots[i], slotFlux[i] + 1);
 				this.heat += outFlux * 2;
 				slotFlux[i] = 0;
+				totalFlux += outFlux;
 				
 				int[] neighborSlots = getNeighboringSlots(i);
 				
@@ -315,13 +296,15 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 				}
 				
 				for(byte j = 0; j < neighborSlots.length; j++) {
-					slotFlux[neighborSlots[j]] += outFlux * (rods / rodsMax);
+					slotFlux[neighborSlots[j]] += (int) (outFlux * level);
 				}
 				continue;
 			}
 			
 			if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 				slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+			
+			slotFlux[i] = 0;
 		}
 	}
 
@@ -361,7 +344,58 @@ public class TileEntityMachineReactorSmall extends TileEntityMachineBase {
 			}
 		}
 	}
-
+	
+	//Control Rods
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+	
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("level")) {
+			this.setTarget(data.getDouble("level"));
+		}
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStop", 1.0F, 1.0F);
+		
+		this.markDirty();
+	}
+	
+	public void setTarget(double target) {
+		this.targetLevel = target;
+	}
+	
+	public void rodControl() {
+		if(worldObj.isRemote) {
+			
+			this.lastLevel = this.level;
+		
+		} else {
+			
+			if(level < targetLevel) {
+				
+				level += speed;
+				
+				if(level >= targetLevel)
+					level = targetLevel;
+			}
+			
+			if(level > targetLevel) {
+				
+				level -= speed;
+				
+				if(level <= targetLevel)
+					level = targetLevel;
+			}
+		}
+	}
+	
+	public int[] getDisplayData() {
+		int[] data = new int[2];
+		data[0] = this.totalFlux;
+		data[1] = (int) Math.round((this.heat) * 0.00002 * 980 + 20);
+		return data;
+	}
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {

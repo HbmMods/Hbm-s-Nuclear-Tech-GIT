@@ -89,23 +89,15 @@ public class ContainerReactorZirnox extends Container {
 					if(!this.mergeItemStack(stack, 25, 26, true))
 						return null;
 
-			} else {
-
-					if(stack.getItem() instanceof ItemZirnoxRod) {
-
-						if(!this.mergeItemStack(stack, 0, 24, true))
-							return null;
-					}
-				}
+			} else if(!this.mergeItemStack(stack, 0, 24, true))
+						return null;
 			}
-
-			if (stack.stackSize == 0) {
+            if (stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
 		}
-
 		return var3;
     }
 

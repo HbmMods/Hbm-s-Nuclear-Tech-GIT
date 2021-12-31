@@ -1,5 +1,7 @@
 package com.hbm.render.tileentity;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
@@ -23,16 +25,18 @@ public class RenderSmallReactor extends TileEntitySpecialRenderer {
 
 		bindTexture(ResourceManager.reactor_small_base_tex);
 		ResourceManager.reactor_small_base.renderAll();
-
+		
+		double level = (reactor.lastLevel + (reactor.level - reactor.lastLevel) * f);
+		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.0D, (double) reactor.rods / reactor.rodsMax, 0.0D);
+		GL11.glTranslated(0.0D, level, 0.0D);
 
 		bindTexture(ResourceManager.reactor_small_rods_tex);
 		ResourceManager.reactor_small_rods.renderAll();
 
 		GL11.glPopMatrix();
 
-		if(reactor.hasHeat() && reactor.isSubmerged()) {
+		if(reactor.totalFlux > 10 && reactor.isSubmerged()) {
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -45,7 +49,7 @@ public class RenderSmallReactor extends TileEntitySpecialRenderer {
 			for(double d = 0.285; d < 0.7; d += 0.025) {
 
 				tess.startDrawingQuads();
-				tess.setColorRGBA_F(0.4F, 0.9F, 1.0F, 0.15F);
+				tess.setColorRGBA_F(0.4F, 0.9F, 1.0F, 0.025F + (float) (Math.random() * 0.02F) + 0.125F * (reactor.totalFlux / 1000F));
 
 				double top = 1.375;
 				double bottom = 1.375;
