@@ -34,9 +34,9 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		reactor = te;
 		this.xSize = 176;
 		this.ySize = 222;
-		displays[0] = new NumberDisplay(14, 25).setDigitLength(4);
-		displays[1] = new NumberDisplay(12, 63).setDigitLength(3);
-		displays[2] = new NumberDisplay(5, 101).setDigitLength(3);
+		displays[0] = new NumberDisplay(14, 25, 0x08FF00).setDigitLength(4);
+		displays[1] = new NumberDisplay(12, 63, 0x08FF00).setDigitLength(3);
+		displays[2] = new NumberDisplay(5, 101, 0x08FF00).setDigitLength(3);
 	}
 	
 	@Override

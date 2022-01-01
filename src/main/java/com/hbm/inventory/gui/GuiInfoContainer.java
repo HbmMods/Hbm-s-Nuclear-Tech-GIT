@@ -1,10 +1,13 @@
 package com.hbm.inventory.gui;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 
 import javax.annotation.Nonnegative;
+
+import org.lwjgl.opengl.GL11;
 
 import com.google.common.annotations.Beta;
 import com.hbm.lib.Library;
@@ -21,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 public abstract class GuiInfoContainer extends GuiContainer {
 	
 	static final ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
-	protected static final ResourceLocation numDisplays = new ResourceLocation(RefStrings.MODID, "textures/gui/gauges/seven_segment.pn");
 
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
@@ -103,10 +105,8 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		private int displayX;
 		/** The display's Y coordinate **/
 		private int displayY;
-		/** The X coordinate of the reference **/
-		private int referenceX = 10;
-		/** The Y coordinate of the reference **/
-		private int referenceY = 18;
+		/** The display's color, in hexadecimal **/
+		private int color;
 		/** The amount of padding between digits, default 3 **/
 		@Nonnegative
 		private byte padding = 3;
@@ -134,12 +134,23 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		 * Construct a new number display
 		 * @param dX X coordinate of the display
 		 * @param dY Y coordinate of the display
-		 * @param c Color to use, invalid enums will default to yellow
+		 * @param c Enum Color to use, invalid enums will default to yellow
 		 */
 		public NumberDisplay(int x, int y, EnumChatFormatting c)
 		{
 			this(x, y);
-			setupColor(c);
+			setColor(enumToColor(c));
+		}
+		/**
+		 * Construct a new number display
+		 * @param x X coordinate of the display
+		 * @param y Y coordinate of the display
+		 * @param color Color to use, valid hexadecimal value required
+		 */
+		public NumberDisplay(int x, int y, int color)
+		{
+			this(x, y);
+			setColor(color);
 		}
 		/**
 		 * Construct a new number display, color is yellow
@@ -150,26 +161,62 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			displayX = x;
 			displayY = y;
+			setColor(0xFFFF55);
 		}
-		public void setupColor(EnumChatFormatting c)
+		/**
+		 * Returns a hexadecimal from EnumChatFormatting
+		 * @param c Color to use
+		 * @return
+		 */
+		private int enumToColor(EnumChatFormatting c)
 		{
-			byte row = 4, column = 3;
-			switch (c)
-			{
-			case OBFUSCATED:
-			case RESET:
-			case STRIKETHROUGH:
-			case UNDERLINE:
-				break;
-			default:
-				column = (byte) (c.ordinal() % 4);
-				row = (byte) Math.floorDiv(c.ordinal(), 4);
-				break;
-			}
-//			System.out.println(column);
-//			System.out.println(row);
-			referenceY = 6 * row;
-			referenceX = 5 * column;
+			int hex;
+			if(c.isColor())
+				switch(c)
+				{
+				case AQUA:
+					return 0x55FFFF;
+				case BLACK:
+					return 0x000000;
+				case BLUE:
+					return 0x5555FF;
+				case DARK_AQUA:
+					return 0x00AAAA;
+				case DARK_BLUE:
+					return 0x0000AA;
+				case DARK_GRAY:
+					return 0x555555;
+				case DARK_GREEN:
+					return 0x00AA00;
+				case DARK_PURPLE:
+					return 0xAA00AA;
+				case DARK_RED:
+					return 0xAA0000;
+				case GOLD:
+					return 0xFFAA00;
+				case GRAY:
+					return 0xAAAAAA;
+				case GREEN:
+					return 0x55FF55;
+				case LIGHT_PURPLE:
+					return 0xFF55FF;
+				case RED:
+					return 0xFF5555;
+				case WHITE:
+					return 0xFFFFFF;
+				case YELLOW:
+					return 0xFFFF55;
+				default:
+				}
+			
+			return 0xFFFF55;
+		}
+		/**
+		 * Sets color 
+		 * @param color - The color in hexadecimal
+		 **/
+		public void setColor(int color) {
+			this.color = color;
 		}
 		/**
 		 * Draw custom number
@@ -194,10 +241,6 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		/** Draw the previously provided number **/
 		public void drawNumber()
 		{
-//			System.out.println(referenceX);
-//			System.out.println(referenceY);
-			mc.getTextureManager().bindTexture(numDisplays);
-
 			if (isFloat)
 				formatForFloat();
 			drawNumber(toDisp);
@@ -221,7 +264,6 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		/** Draw a single character (requires dispOffset to be set) **/
 		public void drawChar(char num)
 		{
-//			System.out.println(num);
 			switch (num)
 			{
 			case '1':
@@ -313,40 +355,41 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		private void drawHorizontal(int pos)
 		{
 			byte offset = (byte) (pos * 6);
-			renderSegment(guiLeft + displayX + dispOffset + 1, guiTop + displayY + offset, referenceX + 1, referenceY, 4, 1);
-			//System.out.println(referenceX + 1 + ", " + referenceY + ", " + pos);
+			renderSegment(guiLeft + displayX + dispOffset + 1, guiTop + displayY + offset, 4, 1);
 		}
 		
 		private void drawPeriod()
 		{
-			renderSegment(guiLeft + displayX + dispOffset + padding - (int) Math.ceil(padding / 2) + 5, guiTop + displayY + 12, referenceX + 1, referenceY, 1, 1);
+			renderSegment(guiLeft + displayX + dispOffset + padding - (int) Math.ceil(padding / 2) + 5, guiTop + displayY + 12, 1, 1);
 		}
 		
 		private void drawVertical(int posX, int posY)
 		{
 			byte offsetX = (byte) (posX * 5);
 			byte offsetY = (byte) (posY * 6);
-			renderSegment(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + 1, referenceX, referenceY + 1, 1, 5);
+			renderSegment(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + 1, 1, 5);
 		}
 		/**
 		 * drawTexturedModalRect() for cool kids
 		 * @param renX X coordinate to render the part
 		 * @param renY Y coordinate to render the part
-		 * @param refX X coordinate of the reference
-		 * @param refY Y coordinate of the reference
 		 * @param width Relevant for horizontals
 		 * @param height Relevant for verticals
 		 */
-		private void renderSegment(int renX, int renY, int refX, int refY, int width, int height)
+		private void renderSegment(int renX, int renY, int width, int height)
 		{
 			final Tessellator tess = Tessellator.instance;
 			final float z = GuiInfoContainer.this.zLevel;
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			tess.startDrawingQuads();
-	        tess.addVertexWithUV(renX, renY + height, z, refX, (refY + height));
-	        tess.addVertexWithUV(renX + width, renY + height, z, (refX + width), (refY + height));
-	        tess.addVertexWithUV(renX + width, renY + 0, z, (refX + width), refY);
-	        tess.addVertexWithUV(renX, renY, z, refX, refY);
+			tess.setColorOpaque_I(color);
+	        tess.addVertex(renX, renY + height, z);
+	        tess.addVertex(renX + width, renY + height, z);
+	        tess.addVertex(renX + width, renY + 0, z);
+	        tess.addVertex(renX, renY, z);
 			tess.draw();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 
 		public void setNumber(Number num)
