@@ -11,7 +11,14 @@ public class TileEntityPylonLarge extends TileEntityPylonBase {
 
 	@Override
 	public Vec3[] getMountPos() {
-		return null;
+		double topOff = 0.75 + 0.0625;
+		double sideOff = 3.375;
+		return new Vec3[] {
+				Vec3.createVectorHelper(0.5 + sideOff, 11.5 + topOff, 0.5),
+				Vec3.createVectorHelper(0.5 + sideOff, 11.5 - topOff, 0.5),
+				Vec3.createVectorHelper(0.5 - sideOff, 11.5 + topOff, 0.5),
+				Vec3.createVectorHelper(0.5 - sideOff, 11.5 - topOff, 0.5),
+		};
 	}
 
 	@Override
