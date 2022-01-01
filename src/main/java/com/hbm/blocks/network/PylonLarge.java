@@ -21,7 +21,10 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityPylonLarge();
+		
+		if(meta >= 12)
+			return new TileEntityPylonLarge();
+		return null;
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {9, 0, 1, 1, 1, 1};
+		return new int[] {0, 0, 1, 1, 1, 1};
 	}
 
 	@Override

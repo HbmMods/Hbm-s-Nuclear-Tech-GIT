@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.tileentity.network.TileEntityPylonBase;
+import com.hbm.tileentity.network.TileEntityPylonBase.ConnectionType;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -59,7 +60,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 					int lY = brightness / 65536;
 					OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
 					
-					drawPowerLine(
+					drawLineSegment(
 							x + myOffset.xCoord + (wX * j / count),
 							y + myOffset.yCoord + (wY * j / count) - Math.sin(j / count * Math.PI * 0.5) * hang,
 							z + myOffset.zCoord + (wZ * j / count),
@@ -73,10 +74,42 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	
 	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
 		
+		for(int i = 0; i < pyl.connected.size(); i++) {
+
+			int[] wire = pyl.connected.get(i);
+			TileEntity tile = pyl.getWorldObj().getTileEntity(wire[0], wire[1], wire[2]);
+			
+			if(tile instanceof TileEntityPylonBase) {
+				TileEntityPylonBase pylon = (TileEntityPylonBase) tile;
+				
+				Vec3[] m1 = pyl.getMountPos();
+				Vec3[] m2 = pylon.getMountPos();
+				
+				int lineCount = Math.max(pyl.getConnectionType() == ConnectionType.QUAD ? 4 : 1, pylon.getConnectionType() == ConnectionType.QUAD ? 4 : 1);
+				
+				for(int line = 0; line < lineCount; line++) {
+
+					Vec3 first = m1[line % m1.length];
+					Vec3 second = m2[line % m2.length];
+					double sX = second.xCoord + pylon.xCoord - pyl.xCoord;
+					double sY = second.yCoord + pylon.yCoord - pyl.yCoord;
+					double sZ = second.zCoord + pylon.zCoord - pyl.zCoord;
+					
+					renderLine(pyl.getWorldObj(), pyl, x, y, z,
+							first.xCoord,
+							first.yCoord,
+							first.zCoord,
+							first.xCoord + (sX - first.xCoord) * 0.5,
+							first.yCoord + (sY - first.yCoord) * 0.5,
+							first.zCoord + (sZ - first.zCoord) * 0.5);
+				}
+			}
+		}
 	}
 	
 	public void renderLine(World world, TileEntityPylonBase pyl, double x, double y, double z, double x0, double y0, double z0, double x1, double y1, double z1) {
 
+		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		float count = 10;
 		
@@ -98,7 +131,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 			int lY = brightness / 65536;
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
 			
-			drawPowerLine(
+			drawLineSegment(
 					x0 + (deltaX * j / count),
 					y0 + (deltaY * j / count) - Math.sin(j / count * Math.PI * 0.5),
 					z0 + (deltaZ * j / count),
@@ -106,9 +139,12 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 					y0 + (deltaY * k / count) - Math.sin(k / count * Math.PI * 0.5),
 					z0 + (deltaZ * k / count));
 		}
+		GL11.glPopMatrix();
 	}
 	
-	public void drawPowerLine(double x, double y, double z, double a, double b, double c) {
+	public void drawLineSegment(double x, double y, double z, double a, double b, double c) {
+		
+		double girth = 0.03125D;
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -116,24 +152,18 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawing(5);
 		tessellator.setColorOpaque_I(0xBB3311);
-		tessellator.addVertex(x, y + 0.05F, z);
-		tessellator.addVertex(x, y - 0.05F, z);
-		tessellator.addVertex(a, b + 0.05F, c);
-		tessellator.addVertex(a, b - 0.05F, c);
-		tessellator.draw();
-		tessellator.startDrawing(5);
-		tessellator.setColorOpaque_I(0xBB3311);
-		tessellator.addVertex(x + 0.05F, y, z);
-		tessellator.addVertex(x - 0.05F, y, z);
-		tessellator.addVertex(a + 0.05F, b, c);
-		tessellator.addVertex(a - 0.05F, b, c);
-		tessellator.draw();
-		tessellator.startDrawing(5);
-		tessellator.setColorOpaque_I(0xBB3311);
-		tessellator.addVertex(x, y, z + 0.05F);
-		tessellator.addVertex(x, y, z - 0.05F);
-		tessellator.addVertex(a, b, c + 0.05F);
-		tessellator.addVertex(a, b, c - 0.05F);
+		tessellator.addVertex(x, y + girth, z);
+		tessellator.addVertex(x, y - girth, z);
+		tessellator.addVertex(a, b + girth, c);
+		tessellator.addVertex(a, b - girth, c);
+		tessellator.addVertex(x + girth, y, z);
+		tessellator.addVertex(x - girth, y, z);
+		tessellator.addVertex(a + girth, b, c);
+		tessellator.addVertex(a - girth, b, c);
+		tessellator.addVertex(x, y, z + girth);
+		tessellator.addVertex(x, y, z - girth);
+		tessellator.addVertex(a, b, c + girth);
+		tessellator.addVertex(a, b, c - girth);
 		tessellator.draw();
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
