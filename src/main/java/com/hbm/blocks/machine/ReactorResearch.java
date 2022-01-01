@@ -10,7 +10,7 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
+import com.hbm.tileentity.machine.TileEntityReactorResearch;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -29,9 +29,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineReactorSmall extends BlockDummyable implements IMultiblock {
+public class ReactorResearch extends BlockDummyable implements IMultiblock {
 
-	public MachineReactorSmall(Material mat) {
+	public ReactorResearch(Material mat) {
 		super(mat);
 	}
 	
@@ -39,7 +39,7 @@ public class MachineReactorSmall extends BlockDummyable implements IMultiblock {
 	public TileEntity createNewTileEntity(World world, int meta) {
 
 		if(meta >= 12)
-			return new TileEntityMachineReactorSmall();
+			return new TileEntityReactorResearch();
 		if(meta >= 6)
 			return new TileEntityProxyCombo(false, true, true);
 
@@ -58,7 +58,7 @@ public class MachineReactorSmall extends BlockDummyable implements IMultiblock {
 			if(pos == null)
 				return false;
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_small, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_research, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;
@@ -99,9 +99,5 @@ public class MachineReactorSmall extends BlockDummyable implements IMultiblock {
 	@Override
 	public int getOffset() {
 		return 0;
-	}
-
-	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		super.fillSpace(world, x, y, z, dir, o);
 	}
 }

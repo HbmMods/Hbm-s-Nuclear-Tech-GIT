@@ -1,0 +1,388 @@
+package com.hbm.tileentity.machine;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineReactorBreeding;
+import com.hbm.blocks.machine.ReactorResearch;
+import com.hbm.config.MobConfig;
+import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPlateFuel;
+import com.hbm.lib.Library;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
+
+//TODO: fix reactor control;
+public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver {
+	
+	@SideOnly(Side.CLIENT)
+	public double lastLevel;
+	public double level;
+	public double speed = 0.04;
+	public double targetLevel;
+	
+	public int heat;
+	public final int maxHeat = 50000;
+	public int[] slotFlux = new int[12];
+	public int totalFlux = 0;
+	
+	private static final int[] slot_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+
+	public TileEntityReactorResearch() {
+		super(12);
+	}
+	
+	private static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
+	static {
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_u233), new ItemStack(ModItems.waste_plate_u233, 1, 1));
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_u235), new ItemStack(ModItems.waste_plate_u235, 1, 1));
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_mox), new ItemStack(ModItems.waste_plate_mox, 1, 1));
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_pu239), new ItemStack(ModItems.waste_plate_pu239, 1, 1));
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_sa326), new ItemStack(ModItems.waste_plate_sa326, 1, 1));
+	}
+	
+	public String getName() {
+		return "container.reactorResearch";
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		if(i < 12 && i <= 0)
+			if(itemStack.getItem().getClass() == ItemPlateFuel.class)
+				return true;
+		return false;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		heat = nbt.getInteger("heat");
+		level = nbt.getDouble("level");
+		targetLevel = nbt.getDouble("targetLevel");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("heat", heat);
+		nbt.setDouble("level", level);
+		nbt.setDouble("targetLevel", targetLevel);
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slot_io;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		if(i < 12 && i >= 0)
+			if(fuelMap.containsValue(stack))
+				return true;
+		
+		return false;
+
+	}
+	
+	@Override
+	public void updateEntity() {
+		
+		rodControl();
+
+		if(!worldObj.isRemote) {
+			totalFlux = 0;
+			
+			if(level > 0) {
+				reaction();
+			}
+			
+			//getInteractions();
+			
+			if(this.heat > 0) {
+				byte water = getWater();
+				
+				if(water > 0) {
+					this.heat -= (this.heat * (float) 0.07 * water / 12);
+				} else if(water == 0) {
+					this.heat -= 1;
+				}
+			
+				if(this.heat < 0)
+					this.heat = 0;
+			}
+
+			if(this.heat > maxHeat) {
+				this.explode();
+			}
+
+			//change to 3D rad like demon-core
+			if(level > 0 && heat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
+				float rad = (float) heat / (float) maxHeat * 50F;
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("heat", heat);
+			data.setDouble("level", level);
+			data.setDouble("targetLevel", targetLevel);
+			data.setIntArray("slotFlux", slotFlux);
+			data.setInteger("totalFlux", totalFlux);
+			this.networkPack(data, 150);
+		}
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+		this.heat = data.getInteger("heat");
+		this.level = data.getDouble("level");
+		this.targetLevel = data.getDouble("targetLevel");
+		this.slotFlux = data.getIntArray("slotFlux");
+		this.totalFlux = data.getInteger("totalFlux");
+	}
+	
+	private byte getWater() {
+		byte water = 0;
+		
+		for(byte d = 0; d < 6; d++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(d);
+			if(d < 2) {
+				if(worldObj.getBlock(xCoord, yCoord + 1 + dir.offsetY * 2, zCoord).getMaterial() == Material.water)
+					water++;
+			} else {
+				for(byte i = 0; i < 3; i++) {
+					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ).getMaterial() == Material.water)
+						water++;
+				}
+			}
+		}
+		
+		return water;
+	}
+	
+	public boolean isSubmerged() {
+		
+		return worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).getMaterial() == Material.water ||
+				worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).getMaterial() == Material.water;
+	}
+	
+	/*private void getInteractions() {
+		getInteractionForBlock(xCoord + 1, yCoord + 1, zCoord);
+		getInteractionForBlock(xCoord - 1, yCoord + 1, zCoord);
+		getInteractionForBlock(xCoord, yCoord + 1, zCoord + 1);
+		getInteractionForBlock(xCoord, yCoord + 1, zCoord - 1);
+	}
+
+	private void getInteractionForBlock(int x, int y, int z) {
+
+		Block b = worldObj.getBlock(x, y, z);
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+	}*/
+
+	private boolean blocksRad(int x, int y, int z) {
+
+		Block b = worldObj.getBlock(x, y, z);
+
+		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
+			return true;
+
+		if(b.getExplosionResistance(null) >= 100)
+			return true;
+
+		return false;
+	}
+	
+	private int[] getNeighboringSlots(int id) {
+
+		switch(id) {
+		case 0:
+			return new int[] { 1, 5 };
+		case 1:
+			return new int[] { 0, 6 };
+		case 2:
+			return new int[] { 3, 7 };
+		case 3:
+			return new int[] { 2, 4, 8 };
+		case 4:
+			return new int[] { 3, 9 };
+		case 5:
+			return new int[] { 0, 6, 0xA };
+		case 6:
+			return new int[] { 1, 5, 0xB };
+		case 7:
+			return new int[] { 2, 8 };
+		case 8:
+			return new int[] { 3, 7, 9 };
+		case 9:
+			return new int[] { 4, 8 };
+		case 10:
+			return new int[] { 5, 0xB };
+		case 11:
+			return new int[] { 6, 0xA };
+		}
+
+		return null;
+	}
+	
+	private void reaction() {
+		for(byte i = 0; i < 12; i++) {
+			if(slots[i] == null)  {
+				slotFlux[i] = 0;
+				continue;
+			}
+			
+			if(slots[i].getItem() instanceof ItemPlateFuel) {
+				ItemPlateFuel rod = (ItemPlateFuel) slots[i].getItem();
+				
+				int outFlux = rod.react(worldObj, slots[i], slotFlux[i] + 1);
+				this.heat += outFlux * 2;
+				slotFlux[i] = 0;
+				totalFlux += outFlux;
+				
+				int[] neighborSlots = getNeighboringSlots(i);
+				
+				if(ItemPlateFuel.getLifeTime(slots[i]) > rod.lifeTime) {
+					slots[i] = fuelMap.get(new ComparableStack(slots[i])).copy();
+				}
+				
+				for(byte j = 0; j < neighborSlots.length; j++) {
+					slotFlux[neighborSlots[j]] += (int) (outFlux * level);
+				}
+				continue;
+			}
+			
+			if(slots[i].getItem() == ModItems.meteorite_sword_bred)
+				slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+			
+			slotFlux[i] = 0;
+		}
+	}
+
+	private void explode() {
+		
+		for(int i = 0; i < slots.length; i++) {
+			this.slots[i] = null;
+		}
+		
+		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+		
+		for(byte d = 0; d < 6; d++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(d);
+			if(d < 2) {
+				if(worldObj.getBlock(xCoord, yCoord + 1 + dir.offsetY * 2, zCoord).getMaterial() == Material.water)
+					worldObj.setBlockToAir(xCoord, yCoord + 1 + dir.offsetY * 2, zCoord);
+			} else {
+				for(byte i = 0; i < 3; i++) {
+					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ).getMaterial() == Material.water)
+						worldObj.setBlockToAir(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ);
+				}
+			}
+		}
+		
+		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.deco_steel);
+		worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, ModBlocks.corium_block);
+		worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, ModBlocks.deco_steel);
+
+		ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 50);
+		
+		if(MobConfig.enableElementals) {
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
+			
+			for(EntityPlayer player : players) {
+				player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", true);
+			}
+		}
+	}
+	
+	//Control Rods
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+	
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("level")) {
+			this.setTarget(data.getDouble("level"));
+			
+			if(targetLevel != level)
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStop", 1.0F, 1.0F);
+		}
+		
+		this.markDirty();
+	}
+	
+	public void setTarget(double target) {
+		this.targetLevel = target;
+	}
+	
+	public void rodControl() {
+		if(worldObj.isRemote) {
+			
+			this.lastLevel = this.level;
+		
+		} else {
+			
+			if(level < targetLevel) {
+				
+				level += speed;
+				
+				if(level >= targetLevel)
+					level = targetLevel;
+			}
+			
+			if(level > targetLevel) {
+				
+				level -= speed;
+				
+				if(level <= targetLevel)
+					level = targetLevel;
+			}
+		}
+	}
+	
+	public int[] getDisplayData() {
+		int[] data = new int[2];
+		data[0] = this.totalFlux;
+		data[1] = (int) Math.round((this.heat) * 0.00002 * 980 + 20);
+		return data;
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+}

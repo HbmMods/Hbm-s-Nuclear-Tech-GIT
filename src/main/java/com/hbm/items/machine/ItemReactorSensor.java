@@ -18,8 +18,7 @@ public class ItemReactorSensor extends Item {
 		
 		Block b = world.getBlock(x, y, z);
 
-		if (b == ModBlocks.machine_reactor_small || b == ModBlocks.dummy_block_reactor_small
-				|| b == ModBlocks.dummy_port_reactor_small) {
+		if (b == ModBlocks.reactor_research) {
 
 			if (stack.stackTagCompound == null)
 				stack.stackTagCompound = new NBTTagCompound();

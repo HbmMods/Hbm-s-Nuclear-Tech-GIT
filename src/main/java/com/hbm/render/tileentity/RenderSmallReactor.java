@@ -5,7 +5,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
+import com.hbm.tileentity.machine.TileEntityReactorResearch;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,7 +21,7 @@ public class RenderSmallReactor extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-		TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall) tileEntity;
+		TileEntityReactorResearch reactor = (TileEntityReactorResearch) tileEntity;
 
 		bindTexture(ResourceManager.reactor_small_base_tex);
 		ResourceManager.reactor_small_base.renderAll();
@@ -49,7 +49,7 @@ public class RenderSmallReactor extends TileEntitySpecialRenderer {
 			for(double d = 0.285; d < 0.7; d += 0.025) {
 
 				tess.startDrawingQuads();
-				tess.setColorRGBA_F(0.4F, 0.9F, 1.0F, 0.025F + (float) (Math.random() * 0.02F) + 0.125F * (reactor.totalFlux / 1000F));
+				tess.setColorRGBA_F(0.4F, 0.9F, 1.0F, 0.025F + (float) (Math.random() * 0.015F) + (0.125F * reactor.totalFlux / 1000F));
 
 				double top = 1.375;
 				double bottom = 1.375;

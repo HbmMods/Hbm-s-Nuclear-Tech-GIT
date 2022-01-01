@@ -20,8 +20,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new CentrifugeRecipeHandler());
 		API.registerRecipeHandler(new GasCentrifugeRecipeHandler());
 		API.registerUsageHandler(new GasCentrifugeRecipeHandler());
-		API.registerRecipeHandler(new ReactorRecipeHandler());
-		API.registerUsageHandler(new ReactorRecipeHandler());
+		API.registerRecipeHandler(new BreederRecipeHandler());
+		API.registerUsageHandler(new BreederRecipeHandler());
 		API.registerRecipeHandler(new ShredderRecipeHandler());
 		API.registerUsageHandler(new ShredderRecipeHandler());
 		API.registerRecipeHandler(new CMBFurnaceRecipeHandler());
@@ -95,7 +95,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_reactor_small));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_radgen));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
@@ -115,7 +114,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_reactor_small));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_radgen));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));

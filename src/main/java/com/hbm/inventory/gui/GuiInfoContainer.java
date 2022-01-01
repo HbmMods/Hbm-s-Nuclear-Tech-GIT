@@ -22,13 +22,6 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	static final ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
 	protected static final ResourceLocation numDisplays = new ResourceLocation(RefStrings.MODID, "textures/gui/gauges/seven_segment.pn");
-	/** Default text color **/
-	public static final int color0 = 4210752;
-	/** Green computer color **/
-	public static final int color1 = 0x00ff00;
-	public static final char slimCursor = '\u2502';
-	public static final char blockCursor = '\u2588';
-	public static final ResourceLocation keyboard = new ResourceLocation(RefStrings.MODID, "misc.keyPress"); 
 
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);

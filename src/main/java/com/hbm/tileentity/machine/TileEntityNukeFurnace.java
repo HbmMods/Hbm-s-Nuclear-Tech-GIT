@@ -1,6 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.machine.MachineNukeFurnace;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
@@ -111,7 +114,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			return 0;
 		} else {
 
-			int[] power = BreederRecipes.getFuelValue(stack);
+			int[] power = getFuelValue(stack);
 			
 			if(power == null)
 				return 0;
@@ -346,5 +349,82 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			this.markDirty();
 		}
 	}
-
+	
+	private static HashMap<ComparableStack, int[]> fuels = new HashMap();
+	//for the int array: [0] => level (1-4) [1] => amount of operations
+	
+	/* 
+	 * I really don't want to have to do this, but it's better then making a new class, for one TE, for not even recipes but just *fuels*
+	 * 
+	 * Who even uses this furnace? Nobody, but it's better then removing it without prior approval
+	 */
+	public static void registerFuels() {
+		fuels.put(new ComparableStack(ModItems.rod_u233), new int[] {2, 2});
+		fuels.put(new ComparableStack(ModItems.rod_dual_u233), new int[] {2, 4});
+		fuels.put(new ComparableStack(ModItems.rod_quad_u233), new int[] {2, 8});
+		
+		fuels.put(new ComparableStack(ModItems.rod_u235), new int[] {2, 3});
+		fuels.put(new ComparableStack(ModItems.rod_dual_u235), new int[] {2, 6});
+		fuels.put(new ComparableStack(ModItems.rod_quad_u235), new int[] {2, 12});
+		
+		fuels.put(new ComparableStack(ModItems.rod_u238), new int[] {1, 1});
+		fuels.put(new ComparableStack(ModItems.rod_dual_u238), new int[] {1, 2});
+		fuels.put(new ComparableStack(ModItems.rod_quad_u238), new int[] {1, 4});
+		
+		fuels.put(new ComparableStack(ModItems.rod_neptunium), new int[] {2, 3});
+		fuels.put(new ComparableStack(ModItems.rod_dual_neptunium), new int[] {2, 6});
+		fuels.put(new ComparableStack(ModItems.rod_quad_neptunium), new int[] {2, 12});
+		
+		fuels.put(new ComparableStack(ModItems.rod_pu238), new int[] {1, 2});
+		fuels.put(new ComparableStack(ModItems.rod_dual_pu238), new int[] {1, 4});
+		fuels.put(new ComparableStack(ModItems.rod_quad_pu238), new int[] {1, 8});
+		
+		fuels.put(new ComparableStack(ModItems.rod_pu239), new int[] {3, 5});
+		fuels.put(new ComparableStack(ModItems.rod_dual_pu239), new int[] {3, 10});
+		fuels.put(new ComparableStack(ModItems.rod_quad_pu239), new int[] {3, 20});
+		
+		fuels.put(new ComparableStack(ModItems.rod_pu240), new int[] {1, 2});
+		fuels.put(new ComparableStack(ModItems.rod_dual_pu240), new int[] {1, 4});
+		fuels.put(new ComparableStack(ModItems.rod_quad_pu240), new int[] {1, 8});
+		
+		fuels.put(new ComparableStack(ModItems.rod_schrabidium), new int[] {3, 10});
+		fuels.put(new ComparableStack(ModItems.rod_dual_schrabidium), new int[] {3, 20});
+		fuels.put(new ComparableStack(ModItems.rod_quad_schrabidium), new int[] {3, 40});
+		
+		fuels.put(new ComparableStack(ModItems.rod_solinium), new int[] {3, 15});
+		fuels.put(new ComparableStack(ModItems.rod_dual_solinium), new int[] {3, 30});
+		fuels.put(new ComparableStack(ModItems.rod_quad_solinium), new int[] {3, 60});
+		
+		fuels.put(new ComparableStack(ModItems.rod_polonium), new int[] {4, 2});
+		fuels.put(new ComparableStack(ModItems.rod_dual_polonium), new int[] {4, 4});
+		fuels.put(new ComparableStack(ModItems.rod_quad_polonium), new int[] {4, 8});
+		
+		fuels.put(new ComparableStack(ModItems.rod_tritium), new int[] {1, 1});
+		fuels.put(new ComparableStack(ModItems.rod_dual_tritium), new int[] {1, 2});
+		fuels.put(new ComparableStack(ModItems.rod_quad_tritium), new int[] {1, 4});
+		
+		fuels.put(new ComparableStack(ModItems.rod_balefire), new int[] {2, 150});
+		fuels.put(new ComparableStack(ModItems.rod_dual_balefire), new int[] {2, 300});
+		fuels.put(new ComparableStack(ModItems.rod_quad_balefire), new int[] {2, 600});
+		
+		fuels.put(new ComparableStack(ModItems.rod_balefire_blazing), new int[] {4, 75});
+		fuels.put(new ComparableStack(ModItems.rod_dual_balefire_blazing), new int[] {4, 150});
+		fuels.put(new ComparableStack(ModItems.rod_quad_balefire_blazing), new int[] {4, 300});
+	}
+	
+	/**
+	 * Returns an integer array of the fuel value of a certain stack
+	 * @param stack
+	 * @return an integer array (possibly null) with two fields, the HEAT value and the amount of operations
+	 */
+	public static int[] getFuelValue(ItemStack stack) {
+		
+		if(stack == null)
+			return null;
+		
+		ComparableStack sta = new ComparableStack(stack);
+		int[] ret = fuels.get(sta);
+		
+		return ret;
+	}
 }
