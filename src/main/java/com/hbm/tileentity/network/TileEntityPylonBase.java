@@ -116,7 +116,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		if(mounts == null || mounts.length == 0)
 			return Vec3.createVectorHelper(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
 		
-		return mounts[0];
+		return mounts[0].addVector(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
