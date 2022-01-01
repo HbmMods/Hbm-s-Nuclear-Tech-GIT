@@ -25,5 +25,6 @@ public class FuelPoolRecipes {
 		recipes.put(new ComparableStack(new ItemStack(ModItems.waste_plate_mox, 1, 1)), new ItemStack(ModItems.waste_plate_mox));
 		recipes.put(new ComparableStack(new ItemStack(ModItems.waste_plate_pu239, 1, 1)), new ItemStack(ModItems.waste_plate_pu239));
 		recipes.put(new ComparableStack(new ItemStack(ModItems.waste_plate_sa326, 1, 1)), new ItemStack(ModItems.waste_plate_sa326));
+		recipes.put(new ComparableStack(new ItemStack(ModItems.waste_plate_ra226be, 1, 1)), new ItemStack(ModItems.waste_plate_ra226be));
 	}
 }

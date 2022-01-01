@@ -47,7 +47,7 @@ public class ContainerMachineReactorBreeding extends Container {
 					return null;
 				}
             
-            } else if (!this.mergeItemStack(stack, 1, 2, false)) {
+            } else if (!this.mergeItemStack(stack, 0, 1, false)) {
 					return null;
 			}
 			

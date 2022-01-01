@@ -114,6 +114,9 @@ public class GUIReactorResearch extends GuiInfoContainer {
 			for(int x = 0; x < 3; x++)
 				for(int y = 0; y < 3; y++)
 					drawTexturedModalRect(guiLeft + 81 + 36 * x, guiTop + 26 + 36 * y, 176, 0, 8, 8);
+			for(int x = 0; x < 2; x++)
+				for(int y = 0; y < 2; y++)
+					drawTexturedModalRect(guiLeft + 99 + 36 * x, guiTop + 44 + 36 * y, 176, 0, 8, 8);
 		}
 		
 		if(timer > 0) {

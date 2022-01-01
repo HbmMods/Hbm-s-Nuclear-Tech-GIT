@@ -40,7 +40,7 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase {
 			
 			if(canProcess()) {
 				
-				progress += 0.005F * (this.flux / BreederRecipes.getOutput(slots[0]).flux);
+				progress += 0.0025F * (this.flux / BreederRecipes.getOutput(slots[0]).flux);
 				
 				if(this.progress >= 1.0F) {
 					this.progress = 0F;

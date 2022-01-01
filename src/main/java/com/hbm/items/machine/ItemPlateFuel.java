@@ -41,29 +41,35 @@ public class ItemPlateFuel extends ItemFuelRod {
 		LOGARITHM(),
 		SQUARE_ROOT(),
 		NEGATIVE_QUADRATIC(),
-		LINEAR();
+		LINEAR(),
+		PASSIVE();
 		
 		private FunctionEnum() { }
 	}
 	
 	public String getFunctionDesc() {
 		switch(this.function) {
-		case LOGARITHM: return "log10(x + 1) * 0.5 * " + reactivity;
-		case SQUARE_ROOT: return "sqrt(x) * " + reactivity + " / 10";
-		case NEGATIVE_QUADRATIC: return "[x - (x² / 10000)] / 100 * " + reactivity;
-		case LINEAR: return "x / 100 * " + reactivity;
+		case LOGARITHM: return "f(x) = log10(x + 1) * 0.5 * " + reactivity;
+		case SQUARE_ROOT: return "f(x) = sqrt(x) * " + reactivity + " / 10";
+		case NEGATIVE_QUADRATIC: return "f(x) = [x - (x² / 10000)] / 100 * " + reactivity;
+		case LINEAR: return "f(x) = x / 100 * " + reactivity;
+		case PASSIVE: return "f(x) = " + reactivity;
 		default: return "x";
 		}
 	}
 	
 	public int react(World world, ItemStack stack, int flux) {
-		setLifeTime(stack, getLifeTime(stack) + flux);
+		if(this.function != FunctionEnum.PASSIVE)
+			setLifeTime(stack, getLifeTime(stack) + flux);
 		
 		switch(this.function) {
 		case LOGARITHM: return (int) (Math.log10(flux + 1) * 0.5D * reactivity);
 		case SQUARE_ROOT: return (int) (Math.sqrt(flux) * this.reactivity / 10);
 		case NEGATIVE_QUADRATIC: return (int) (Math.max(flux - (flux * flux / 10000) / 100 * reactivity, 0));
 		case LINEAR: return (int) (flux / 100 * reactivity);
+		case PASSIVE:
+			setLifeTime(stack, getLifeTime(stack) + reactivity);
+			return reactivity;
 		default: return 0;
 		}
 	}
