@@ -20,40 +20,39 @@ public class DetMiner extends BlockPillar implements IBomb {
 		super(mat, top);
 	}
 
-    @Override
+	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
-        return null;
-    }
+		return null;
+	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
-		
+	public BombReturnCode explode(World world, int x, int y, int z) {
+
 		if(!world.isRemote) {
-			
+
 			world.func_147480_a(x, y, z, false);
 			ExplosionNT explosion = new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 4);
 			explosion.atttributes.add(ExAttrib.ALLDROP);
 			explosion.atttributes.add(ExAttrib.NOHURT);
 			explosion.doExplosionA();
 			explosion.doExplosionB(false);
-			
+
 			ExplosionLarge.spawnParticles(world, x + 0.5, y + 0.5, z + 0.5, 30);
 		}
+
+		return BombReturnCode.DETONATED;
 	}
 
-    @Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_)
-    {
-        this.explode(world, x, y, z);
-    }
+	@Override
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
+		this.explode(world, x, y, z);
+	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_)
-    {
-        if (world.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-        	this.explode(world, x, y, z);
-        }
-    }
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
+		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			this.explode(world, x, y, z);
+		}
+	}
 
 }

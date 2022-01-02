@@ -15,12 +15,10 @@ public class ContainerDiFurnace extends Container {
 	private TileEntityDiFurnace diFurnace;
 	private int dualCookTime;
 	private int dualPower;
-	private int lastItemBurnTime;
 	
 	public ContainerDiFurnace(InventoryPlayer invPlayer, TileEntityDiFurnace tedf) {
 		dualCookTime = 0;
 		dualPower = 0;
-		lastItemBurnTime = 0;
 		
 		diFurnace = tedf;
 		

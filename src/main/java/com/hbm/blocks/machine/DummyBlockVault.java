@@ -33,22 +33,21 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 		return new TileEntityDummy();
 	}
 
-    @Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int i)
-    {
-    	if(!safeBreak) {
-    		TileEntity te = world.getTileEntity(x, y, z);
-    		if(te != null && te instanceof TileEntityDummy) {
-    			int a = ((TileEntityDummy)te).targetX;
-    			int b = ((TileEntityDummy)te).targetY;
-    			int c = ((TileEntityDummy)te).targetZ;
-    		
-    			if(!world.isRemote)
-    				world.func_147480_a(a, b, c, true);
-    		}
-    	}
-    	world.removeTileEntity(x, y, z);
-    }
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+		if(!safeBreak) {
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te != null && te instanceof TileEntityDummy) {
+				int a = ((TileEntityDummy) te).targetX;
+				int b = ((TileEntityDummy) te).targetY;
+				int c = ((TileEntityDummy) te).targetZ;
+
+				if(!world.isRemote)
+					world.func_147480_a(a, b, c, true);
+			}
+		}
+		world.removeTileEntity(x, y, z);
+	}
 
 	@Override
 	public int getRenderType() {
@@ -64,80 +63,79 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return null;
-    }
 
-    @Override
+	@Override
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+		return null;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public Item getItem(World world, int x, int y, int z)
-    {
-        return Item.getItemFromBlock(ModBlocks.vault_door);
-    }
-	
+	public Item getItem(World world, int x, int y, int z) {
+		return Item.getItemFromBlock(ModBlocks.vault_door);
+	}
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
 		} else if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 			return false;
-			
-		} else if(!player.isSneaking())
-		{
+
+		} else if(!player.isSneaking()) {
 			TileEntity til = world.getTileEntity(x, y, z);
 			if(til != null && til instanceof TileEntityDummy) {
-				int a = ((TileEntityDummy)til).targetX;
-				int b = ((TileEntityDummy)til).targetY;
-				int c = ((TileEntityDummy)til).targetZ;
-						
+				int a = ((TileEntityDummy) til).targetX;
+				int b = ((TileEntityDummy) til).targetY;
+				int c = ((TileEntityDummy) til).targetZ;
+
 				TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
-				if(entity != null)
-				{
+				if(entity != null) {
 					if(entity.canAccess(player))
 						entity.tryToggle();
 				}
 			}
-			
+
 			return true;
 		} else {
 			TileEntity te = world.getTileEntity(x, y, z);
 			if(te != null && te instanceof TileEntityDummy) {
-				int a = ((TileEntityDummy)te).targetX;
-				int b = ((TileEntityDummy)te).targetY;
-				int c = ((TileEntityDummy)te).targetZ;
-						
+				int a = ((TileEntityDummy) te).targetX;
+				int b = ((TileEntityDummy) te).targetY;
+				int c = ((TileEntityDummy) te).targetZ;
+
 				TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
-				if(entity != null)
-				{
+				if(entity != null) {
 					entity.type++;
 					if(entity.type >= entity.maxTypes)
 						entity.type = 0;
 				}
 			}
-			
+
 			return true;
 		}
 	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
-		
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityDummy) {
-			int a = ((TileEntityDummy)te).targetX;
-			int b = ((TileEntityDummy)te).targetY;
-			int c = ((TileEntityDummy)te).targetZ;
-			
-			TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
-			if(entity != null && !entity.isLocked())
-			{
-				entity.tryToggle();
+	public BombReturnCode explode(World world, int x, int y, int z) {
+
+		if(!world.isRemote) {
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te != null && te instanceof TileEntityDummy) {
+				int a = ((TileEntityDummy) te).targetX;
+				int b = ((TileEntityDummy) te).targetY;
+				int c = ((TileEntityDummy) te).targetZ;
+
+				TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
+				if(entity != null && !entity.isLocked()) {
+					entity.tryToggle();
+					return BombReturnCode.TRIGGERED;
+				}
 			}
+			
+			return BombReturnCode.ERROR_INCOMPATIBLE;
 		}
-		
+
+		return BombReturnCode.UNDEFINED;
 	}
 }

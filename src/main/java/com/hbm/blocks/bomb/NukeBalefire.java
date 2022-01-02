@@ -55,14 +55,20 @@ public class NukeBalefire extends BlockMachineBase implements IBomb, IItemHazard
 	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
 		
 		if(!world.isRemote) {
 			TileEntityNukeBalefire bomb = (TileEntityNukeBalefire) world.getTileEntity(x, y, z);
 				
-			if(bomb.isLoaded())
+			if(bomb.isLoaded()) {
 				bomb.explode();
+				return BombReturnCode.DETONATED;
+			}
+			
+			return BombReturnCode.ERROR_MISSING_COMPONENT;
 		}
+		
+		return BombReturnCode.UNDEFINED;
 	}
 
 }
