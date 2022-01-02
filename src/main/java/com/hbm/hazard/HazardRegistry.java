@@ -57,6 +57,7 @@ public class HazardRegistry {
 	public static final float gen_10B = 0.1F;
 
 	public static final float co60 = 30.0F;
+	public static final float sr90 = 15.0F;
 	public static final float tc99 = 2.75F;
 	public static final float i131 = 150.0F;
 	public static final float xe135 = 1250.0F;
@@ -292,6 +293,7 @@ public class HazardRegistry {
 		HazardSystem.register(pellet_rtg, new HazardData().addEntry(RADIATION, pu238 * rtg).addEntry(HOT, 5F));
 		HazardSystem.register(pellet_rtg_radium, makeData(RADIATION, ra226 * rtg));
 		HazardSystem.register(pellet_rtg_weak, makeData(RADIATION, (pu238 + (u238 * 2)) * billet));
+		HazardSystem.register(pellet_rtg_strontium, makeData(RADIATION, sr90 * rtg));
 		HazardSystem.register(pellet_rtg_polonium, new HazardData().addEntry(RADIATION, po210 * rtg).addEntry(HOT, 5F));
 		HazardSystem.register(pellet_rtg_gold, new HazardData().addEntry(RADIATION, au198 * rtg).addEntry(HOT, 5F));
 		HazardSystem.register(pellet_rtg_americium, makeData(RADIATION, am241 * rtg));
