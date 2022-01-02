@@ -175,7 +175,7 @@ public class WasteEarth extends Block {
 		
 		if(this == ModBlocks.burning_earth) {
 			Block b = world.getBlock(x, y + 1, z);
-			if(b instanceof BlockLiquid || b instanceof BlockFluidBase || b.isBlockNormalCube()) {
+			if(b instanceof BlockLiquid || b instanceof BlockFluidBase || b.isNormalCube()) {
 				world.setBlock(x, y, z, Blocks.dirt);
 			}
 		}

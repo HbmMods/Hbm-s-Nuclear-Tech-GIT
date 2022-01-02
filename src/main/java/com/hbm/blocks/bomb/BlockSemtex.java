@@ -1,9 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
@@ -15,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -86,10 +81,13 @@ public class BlockSemtex extends Block implements IBomb {
 	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		
 		if(!world.isRemote) {
 			new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 50).overrideResolution(64).explode();
 			ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
 		}
+		
+		return BombReturnCode.DETONATED;
 	}
 }

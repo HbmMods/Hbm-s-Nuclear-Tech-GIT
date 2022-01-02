@@ -100,6 +100,13 @@ armor.thermal=Wärmebildkamera
 armor.threshold=Schadensschwelle: %s
 armor.vats=Feinde-HUD
 
+bomb.detonated=Erfolgreich gezündet!
+bomb.incompatible=Gerät kann nicht ausgelöst werden!
+bomb.launched=Erfolgreich gestartet!
+bomb.missingComponent=Komponente fehlt!
+bomb.nobomb=Verbundene Position nicht kompatibel oder nicht geladen!
+bomb.triggered=Erfolgreich ausgelöst!
+
 book.test.page1=Testseite 1
 
 chem.ASPHALT=Asphaltherstellung
