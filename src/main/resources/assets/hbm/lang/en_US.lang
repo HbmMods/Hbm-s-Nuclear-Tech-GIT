@@ -140,6 +140,13 @@ armor.thermal=Thermal Sight
 armor.threshold=Damage threshold of %s
 armor.vats=Enemy HUD
 
+bomb.detonated=Detonated successfully!
+bomb.incompatible=Device can not be triggered!
+bomb.launched=Launched successfully!
+bomb.missingComponent=Component missing!
+bomb.nobomb=Linked position incompatible or unloaded!
+bomb.triggered=Triggered successfully!
+
 book.test.cover=HOW 2 SEX
 book.test.page1=Test Page 1
 

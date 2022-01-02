@@ -17,16 +17,16 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class BombFloat extends Block implements IBomb {
-	
-    public World worldObj;
-	
+
+	public World worldObj;
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
 	public BombFloat(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -47,34 +47,34 @@ public class BombFloat extends Block implements IBomb {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
-    {
-    	this.worldObj = p_149695_1_;
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-        	explode(p_149695_1_, x, y, z);
-        }
-    }
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
+		this.worldObj = p_149695_1_;
+		if(p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)) {
+			explode(p_149695_1_, x, y, z);
+		}
+	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
 		world.playSoundEffect(x, y, z, "hbm:weapon.sparkShoot", 5.0f, world.rand.nextFloat() * 0.2F + 0.9F);
-		
+
 		if(!world.isRemote) {
 			world.setBlock(x, y, z, Blocks.air);
-    		if(this == ModBlocks.float_bomb) {
-            	ExplosionChaos.floater(world, x, y, z, 15, 50);
-            	ExplosionChaos.move(world, x, y, z, 15, 0, 50, 0);
-    		}
-    		if(this == ModBlocks.emp_bomb) {
-    			ExplosionNukeGeneric.empBlast(world, x, y, z, 50);
-    			EntityEMPBlast wave = new EntityEMPBlast(world, 50);
-    			wave.posX = x + 0.5;
-    			wave.posY = y + 0.5;
-    			wave.posZ = z + 0.5;
-    			world.spawnEntityInWorld(wave);
-    		}
+			if(this == ModBlocks.float_bomb) {
+				ExplosionChaos.floater(world, x, y, z, 15, 50);
+				ExplosionChaos.move(world, x, y, z, 15, 0, 50, 0);
+			}
+			if(this == ModBlocks.emp_bomb) {
+				ExplosionNukeGeneric.empBlast(world, x, y, z, 50);
+				EntityEMPBlast wave = new EntityEMPBlast(world, 50);
+				wave.posX = x + 0.5;
+				wave.posY = y + 0.5;
+				wave.posZ = z + 0.5;
+				world.spawnEntityInWorld(wave);
+			}
 		}
+		
+		return BombReturnCode.DETONATED;
 	}
 
 }

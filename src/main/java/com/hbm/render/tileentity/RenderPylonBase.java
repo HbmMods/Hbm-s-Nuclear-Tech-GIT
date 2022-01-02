@@ -72,6 +72,14 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		}
 	}
 	
+	/**
+	 * The closest we have to a does-all solution. It will figure out if it needs to draw multiple lines,
+	 * iterate through all the mounting points, try to find the matching mounting points and then draw the lines.
+	 * @param pyl
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
@@ -90,7 +98,25 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				for(int line = 0; line < lineCount; line++) {
 
 					Vec3 first = m1[line % m1.length];
-					Vec3 second = m2[line % m2.length];
+					int secondIndex = line % m2.length;
+					
+					/*
+					 * hacky hacky hack
+					 * this will shift the mount point order by 2 to prevent wires from crossing
+					 * when meta 12 and 15 pylons are connected. this isn't a great solution
+					 * and there's still ways to cross the wires in an ugly way but for now
+					 * it should be enough.
+					 */
+					if(lineCount == 4 && (
+							(pyl.getBlockMetadata() - 10 == 5 && pylon.getBlockMetadata() - 10 == 2) ||
+							(pyl.getBlockMetadata() - 10 == 2 && pylon.getBlockMetadata() - 10 == 5))) {
+						
+						secondIndex += 2;
+						secondIndex %= m2.length;
+					}
+					
+					Vec3 second = m2[secondIndex];
+					
 					double sX = second.xCoord + pylon.xCoord - pyl.xCoord;
 					double sY = second.yCoord + pylon.yCoord - pyl.yCoord;
 					double sZ = second.zCoord + pylon.zCoord - pyl.zCoord;
@@ -107,6 +133,23 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		}
 	}
 	
+	/**
+	 * Renders half a line
+	 * First coords: the relative render position
+	 * Second coords: the pylon's mounting point
+	 * Third coords: the midway point exactly between the mounting points. The "hang" doesn't need to be accounted for, it's calculated in here.
+	 * @param world
+	 * @param pyl
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param x0
+	 * @param y0
+	 * @param z0
+	 * @param x1
+	 * @param y1
+	 * @param z1
+	 */
 	public void renderLine(World world, TileEntityPylonBase pyl, double x, double y, double z, double x0, double y0, double z0, double x1, double y1, double z1) {
 
 		GL11.glPushMatrix();
@@ -142,6 +185,17 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 	
+	/**
+	 * Draws a single segment from the first to the second 3D coordinate.
+	 * Not fantastic but it looks good enough.
+	 * Possible enhancement: remove the draw calls and put those around the drawLineSegment calls for better-er performance
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param a
+	 * @param b
+	 * @param c
+	 */
 	public void drawLineSegment(double x, double y, double z, double a, double b, double c) {
 		
 		double girth = 0.03125D;
@@ -151,7 +205,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawing(5);
-		tessellator.setColorOpaque_I(0xBB3311);
+		tessellator.setColorOpaque_I(LINE_COLOR);
 		tessellator.addVertex(x, y + girth, z);
 		tessellator.addVertex(x, y - girth, z);
 		tessellator.addVertex(a, b + girth, c);
@@ -169,4 +223,6 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
+	
+	public static final int LINE_COLOR = 0xBB3311;
 }

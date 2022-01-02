@@ -25,18 +25,17 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 			return false;
 		
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
-		double lenSq = len * len;
 		
 		Vec3 firstPos = first.getConnectionPoint();
 		Vec3 secondPos = second.getConnectionPoint();
 		
 		Vec3 delta = Vec3.createVectorHelper(
-				(second.xCoord + secondPos.xCoord) - (first.xCoord + firstPos.xCoord),
-				(second.yCoord + secondPos.yCoord) - (first.yCoord + firstPos.yCoord),
-				(second.zCoord + secondPos.zCoord) - (first.zCoord + firstPos.zCoord)
+				(secondPos.xCoord) - (firstPos.xCoord),
+				(secondPos.yCoord) - (firstPos.yCoord),
+				(secondPos.zCoord) - (firstPos.zCoord)
 				);
 		
-		return Math.sqrt(lenSq) >= delta.lengthVector();
+		return len >= delta.lengthVector();
 	}
 	
 	public void addConnection(int x, int y, int z) {

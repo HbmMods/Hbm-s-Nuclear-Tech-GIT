@@ -1,7 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
@@ -17,7 +15,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -34,47 +31,38 @@ public class DetCord extends Block implements IBomb {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		
+
 		super.registerBlockIcons(iconRegister);
-		
+
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":det_nuke_top");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		
+
 		if(this != ModBlocks.det_nuke)
 			return this.blockIcon;
-		
+
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
 
-    @Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_)
-    {
-        this.explode(world, x, y, z);
-    }
+	@Override
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
+		this.explode(world, x, y, z);
+	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_)
-    {
-        if (world.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-        	this.explode(world, x, y, z);
-        }
-    }
-
-    @Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return null;
-    }
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
+		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			this.explode(world, x, y, z);
+		}
+	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		
 		if(!world.isRemote) {
-			
 			world.setBlock(x, y, z, Blocks.air);
 			if(this == ModBlocks.det_cord) {
 				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 1.5F, true);
@@ -93,6 +81,8 @@ public class DetCord extends Block implements IBomb {
 				world.spawnEntityInWorld(entity2);
 			}
 		}
+
+		return BombReturnCode.DETONATED;
 	}
 
 }
