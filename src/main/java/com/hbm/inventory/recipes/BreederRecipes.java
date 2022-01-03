@@ -11,7 +11,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,6 +35,7 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
 	}
 	
+	/** Sets recipes for single, dual, and quad rods **/
 	public static void setRecipe(BreedingRodType inputType, BreedingRodType outputType, int flux) {
 		recipes.put(new ComparableStack(new ItemStack(ModItems.rod, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod, 1, outputType.ordinal()), flux));
 		recipes.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod_dual, 1, outputType.ordinal()), flux * 2));
@@ -58,7 +58,7 @@ public class BreederRecipes {
 		if(stack == null)
 			return null;
 		
-		ComparableStack sta = new ComparableStack(stack);
+		ComparableStack sta = new ComparableStack(stack).makeSingular();
 		return BreederRecipes.recipes.get(sta);
 	}
 	

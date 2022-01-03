@@ -8,8 +8,7 @@ public class ItemBreedingRod extends ItemEnumMulti {
 		super(BreedingRodType.class, true, true);
 	}
 	
-	//TODO: Remove old rods
-	public static enum BreedingRodType {
+	public enum BreedingRodType {
 		LITHIUM,
 		TRITIUM,
 		CO,

@@ -48,6 +48,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	public double targetLevel;
 	
 	public int heat;
+	public byte water;
 	public final int maxHeat = 50000;
 	public int[] slotFlux = new int[12];
 	public int totalFlux = 0;
@@ -84,6 +85,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		heat = nbt.getInteger("heat");
+		water = nbt.getByte("water");
 		level = nbt.getDouble("level");
 		targetLevel = nbt.getDouble("targetLevel");
 	}
@@ -92,6 +94,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("heat", heat);
+		nbt.setByte("water", water);
 		nbt.setDouble("level", level);
 		nbt.setDouble("targetLevel", targetLevel);
 	}
@@ -122,11 +125,9 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 			if(level > 0) {
 				reaction();
 			}
-			
-			//getInteractions();
-			
+						
 			if(this.heat > 0) {
-				byte water = getWater();
+				water = getWater();
 				
 				if(water > 0) {
 					this.heat -= (this.heat * (float) 0.07 * water / 12);
@@ -142,7 +143,6 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				this.explode();
 			}
 
-			//change to 3D rad like demon-core
 			if(level > 0 && heat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
 				float rad = (float) heat / (float) maxHeat * 50F;
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
@@ -150,6 +150,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("heat", heat);
+			data.setByte("water", water);
 			data.setDouble("level", level);
 			data.setDouble("targetLevel", targetLevel);
 			data.setIntArray("slotFlux", slotFlux);
@@ -160,13 +161,14 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	public void networkUnpack(NBTTagCompound data) {
 		this.heat = data.getInteger("heat");
+		this.water = data.getByte("water");
 		this.level = data.getDouble("level");
 		this.targetLevel = data.getDouble("targetLevel");
 		this.slotFlux = data.getIntArray("slotFlux");
 		this.totalFlux = data.getInteger("totalFlux");
 	}
 	
-	private byte getWater() {
+	public byte getWater() {
 		byte water = 0;
 		
 		for(byte d = 0; d < 6; d++) {
@@ -332,9 +334,6 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("level")) {
 			this.setTarget(data.getDouble("level"));
-			
-			if(targetLevel != level)
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.reactorStop", 1.0F, 1.0F);
 		}
 		
 		this.markDirty();

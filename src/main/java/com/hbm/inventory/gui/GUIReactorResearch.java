@@ -51,6 +51,8 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		this.field = new GuiTextField(this.fontRendererObj, guiLeft + 8, guiTop + 99, 33, 16);
 		this.field.setEnableBackgroundDrawing(false);
 		this.field.setMaxStringLength(3);
+		
+		//this.field.setText((int) (reactor.level * 100) + "");
 	}
 	
 	@Override

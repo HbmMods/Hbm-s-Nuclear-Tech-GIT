@@ -15,9 +15,9 @@ public class ControlTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.rod_balefire_blazing != null)
+		if(ModItems.pellet_rtg != null)
 		{
-			return ModItems.rod_balefire_blazing;
+			return ModItems.pellet_rtg;
 		}
 		
 		return Items.iron_pickaxe;

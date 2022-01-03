@@ -564,10 +564,10 @@ public class ModEventHandlerClient {
 		}
 		
 		/// NUCLEAR FURNACE FUELS ///
-		int[] breeder = TileEntityNukeFurnace.getFuelValue(stack);
+		int breeder = TileEntityNukeFurnace.getFuelValue(stack);
 		
-		if(breeder != null) {
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
+		if(breeder != 0) {
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder * 5)));
 		}
 		
 		/// CUSTOM NUKE ///

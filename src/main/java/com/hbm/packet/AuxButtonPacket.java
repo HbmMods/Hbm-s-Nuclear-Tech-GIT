@@ -99,66 +99,6 @@ public class AuxButtonPacket implements IMessage {
 					field.isOn = !field.isOn;
 				}
 				
-				/*if (te instanceof TileEntityReactorControl) {
-					TileEntityReactorControl control = (TileEntityReactorControl)te;
-					
-					if(m.id == 1)
-						control.auto = m.value == 1;
-					
-					if(control.linkY > -1) {
-						TileEntity reac = p.worldObj.getTileEntity(control.linkX, control.linkY, control.linkZ);
-						
-						if (reac instanceof TileEntityMachineReactorSmall) {
-							TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
-							
-							if(m.id == 0)
-								reactor.retracting = m.value == 0;
-							
-							if(m.id == 2) {
-								FluidType type = FluidType.STEAM;
-								int fill = reactor.tanks[2].getFill();
-								
-								switch(m.value) {
-								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								}
-								
-								if(fill > reactor.tanks[2].getMaxFill())
-									fill = reactor.tanks[2].getMaxFill();
-								
-								reactor.tanks[2].setTankType(type);
-								reactor.tanks[2].setFill(fill);
-							}
-						}
-						
-						if (reac instanceof TileEntityMachineReactorLarge) {
-							TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)reac;
-							
-							if(m.id == 0) {
-								reactor.rods = m.value;
-							}
-							
-							if(m.id == 2) {
-								FluidType type = FluidType.STEAM;
-								int fill = reactor.tanks[2].getFill();
-								
-								switch(m.value) {
-								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								}
-								
-								if(fill > reactor.tanks[2].getMaxFill())
-									fill = reactor.tanks[2].getMaxFill();
-								
-								reactor.tanks[2].setTankType(type);
-								reactor.tanks[2].setFill(fill);
-							}
-						}
-					}
-				}*/
-				
 				if (te instanceof TileEntityMachineReactorLarge) {
 					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
 					

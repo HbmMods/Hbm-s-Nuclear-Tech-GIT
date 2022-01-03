@@ -8,6 +8,7 @@ import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.util.Compat;
 import com.hbm.util.Compat.ReikaIsotope;
 
@@ -211,7 +212,7 @@ public class HazardRegistry {
 		HazardSystem.register(rod_zirnox_u233_fuel_depleted, makeData(RADIATION, u233 * rod_dual * 100));
 		HazardSystem.register(rod_zirnox_u235_fuel_depleted, makeData(RADIATION, u235 * rod_dual * 100));
 		HazardSystem.register(rod_zirnox_les_fuel_depleted, new HazardData().addEntry(RADIATION, saf * rod_dual * 100).addEntry(BLINDING, 5F));
-		HazardSystem.register(rod_zirnox_tritium, makeData(RADIATION, 0.01F * rod_dual));
+		HazardSystem.register(rod_zirnox_tritium, makeData(RADIATION, 0.001F * rod_dual));
 		
 		registerOtherWaste(waste_natural_uranium, u * billet * 100);
 		registerOtherWaste(waste_uranium, uf * billet * 100);
@@ -298,21 +299,17 @@ public class HazardRegistry {
 		HazardSystem.register(pellet_rtg_gold, new HazardData().addEntry(RADIATION, au198 * rtg).addEntry(HOT, 5F));
 		HazardSystem.register(pellet_rtg_americium, makeData(RADIATION, am241 * rtg));
 		
-		registerRodRadiation(rod_th232, rod_dual_th232, rod_quad_th232, th232);
-		registerRodRadiation(rod_uranium, rod_dual_uranium, rod_quad_uranium, u);
-		registerRodRadiation(rod_u233, rod_dual_u233, rod_quad_u233, u233);
-		registerRodRadiation(rod_u235, rod_dual_u235, rod_quad_u235, u235);
-		registerRodRadiation(rod_u238, rod_dual_u238, rod_quad_u238, u238);
-		registerRodRadiation(rod_plutonium, rod_dual_plutonium, rod_quad_plutonium, pu);
-		registerRodRadiation(rod_pu238, rod_dual_pu238, rod_quad_pu238, pu238);
-		registerRodRadiation(rod_pu239, rod_dual_pu239, rod_quad_pu239, pu239);
-		registerRodRadiation(rod_pu240, rod_dual_pu240, rod_quad_pu240, pu240);
-		registerRodRadiation(rod_neptunium, rod_dual_neptunium, rod_quad_neptunium, np237);
-		registerRodRadiation(rod_polonium, rod_dual_polonium, rod_quad_polonium, po210);
-		registerRodRadiationExtra(rod_schrabidium, rod_dual_schrabidium, rod_quad_schrabidium, sa326, BLINDING, 3F);
-		registerRodRadiationExtra(rod_solinium, rod_dual_solinium, rod_quad_solinium, sa327, BLINDING, 3F);
-		registerRodRadiation(rod_balefire, rod_dual_balefire, rod_quad_balefire, bf);
-		registerRodRadiationExtra(rod_balefire_blazing, rod_dual_balefire_blazing, rod_quad_balefire_blazing, bfb, HOT, 5F);
+		registerBreedingRodRadiation(BreedingRodType.TRITIUM, 0.001F);
+		registerBreedingRodRadiation(BreedingRodType.CO60, co60);
+		registerBreedingRodRadiation(BreedingRodType.TH232, th232);
+		registerBreedingRodRadiation(BreedingRodType.THF, thf);
+		registerBreedingRodRadiation(BreedingRodType.U235, u235);
+		registerBreedingRodRadiation(BreedingRodType.NP237, np237);
+		registerBreedingRodRadiation(BreedingRodType.PU238, pu238); //it's in a container :)
+		registerBreedingRodRadiation(BreedingRodType.PU239, pu239);
+		registerBreedingRodRadiation(BreedingRodType.RGP, purg);
+		registerBreedingRodRadiation(BreedingRodType.WASTE, wst);
+		registerBreedingRodRadiation(BreedingRodType.URANIUM, u);
 
 		registerRBMKRod(rbmk_fuel_ueu, u * rod_rbmk, u * rod_rbmk * 100);
 		registerRBMKRod(rbmk_fuel_meu, uf * rod_rbmk, uf * rod_rbmk * 100);
@@ -362,18 +359,6 @@ public class HazardRegistry {
 	private static HazardData makeData(HazardTypeBase hazard, float level) { return new HazardData().addEntry(hazard, level); }
 	private static HazardData makeData(HazardTypeBase hazard, float level, boolean override) { return new HazardData().addEntry(hazard, level, override); }
 	
-	private static void registerRodRadiation(Item single, Item dual, Item quad, float base) {
-		HazardSystem.register(single, makeData(RADIATION, base * rod));
-		HazardSystem.register(dual, makeData(RADIATION, base * rod_dual));
-		HazardSystem.register(quad, makeData(RADIATION, base * rod_quad));
-	}
-	
-	private static void registerRodRadiationExtra(Item single, Item dual, Item quad, float base, HazardTypeBase extra, float base2) {
-		HazardSystem.register(single, new HazardData().addEntry(RADIATION, base * rod).addEntry(extra, base2 * rod));
-		HazardSystem.register(dual, new HazardData().addEntry(RADIATION, base * rod_dual).addEntry(extra, base2 * rod_dual));
-		HazardSystem.register(quad, new HazardData().addEntry(RADIATION, base * rod_quad).addEntry(extra, base2 * rod_quad));
-	}
-	
 	private static void registerRBMKPellet(Item pellet, float base, float dep) { registerRBMKPellet(pellet, base, dep, 0F); }
 	private static void registerRBMKPellet(Item pellet, float base, float dep, float blinding) {
 		
@@ -393,6 +378,12 @@ public class HazardRegistry {
 		if(hot) data.addEntry(new HazardEntry(HOT, 0).addMod(new HazardModifierRBMKHot()));
 		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, blinding));
 		HazardSystem.register(rod, data);
+	}
+	
+	private static void registerBreedingRodRadiation(BreedingRodType type, float base) {
+		HazardSystem.register(new ItemStack(ModItems.rod, 1, type.ordinal()), makeData(RADIATION, base));
+		HazardSystem.register(new ItemStack(ModItems.rod_dual, 1, type.ordinal()), makeData(RADIATION, base * rod_dual));
+		HazardSystem.register(new ItemStack(ModItems.rod_quad, 1, type.ordinal()), makeData(RADIATION, base * rod_quad));
 	}
 	
 	private static void registerOtherFuel(Item fuel, float base, float target) {

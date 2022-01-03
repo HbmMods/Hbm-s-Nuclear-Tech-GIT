@@ -5,7 +5,9 @@ import java.util.HashMap;
 import com.hbm.blocks.machine.MachineNukeFurnace;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.BreederRecipes;
+import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.items.special.ItemCustomLore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -22,7 +24,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	public int dualCookTime;
 	public int dualPower;
 	public static final int maxPower = 1000;
-	public static final int processingSpeed = 30;
+	public static final int processingSpeed = 25;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -114,12 +116,9 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			return 0;
 		} else {
 
-			int[] power = getFuelValue(stack);
+			int power = getFuelValue(stack);
 			
-			if(power == null)
-				return 0;
-			
-			return power[0] * power[1] * 5;
+			return power;
 		}
 	}
 	
@@ -350,7 +349,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 		}
 	}
 	
-	private static HashMap<ComparableStack, int[]> fuels = new HashMap();
+	private static HashMap<ComparableStack, Integer> fuels = new HashMap();
 	//for the int array: [0] => level (1-4) [1] => amount of operations
 	
 	/* 
@@ -359,57 +358,22 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	 * Who even uses this furnace? Nobody, but it's better then removing it without prior approval
 	 */
 	public static void registerFuels() {
-		fuels.put(new ComparableStack(ModItems.rod_u233), new int[] {2, 2});
-		fuels.put(new ComparableStack(ModItems.rod_dual_u233), new int[] {2, 4});
-		fuels.put(new ComparableStack(ModItems.rod_quad_u233), new int[] {2, 8});
-		
-		fuels.put(new ComparableStack(ModItems.rod_u235), new int[] {2, 3});
-		fuels.put(new ComparableStack(ModItems.rod_dual_u235), new int[] {2, 6});
-		fuels.put(new ComparableStack(ModItems.rod_quad_u235), new int[] {2, 12});
-		
-		fuels.put(new ComparableStack(ModItems.rod_u238), new int[] {1, 1});
-		fuels.put(new ComparableStack(ModItems.rod_dual_u238), new int[] {1, 2});
-		fuels.put(new ComparableStack(ModItems.rod_quad_u238), new int[] {1, 4});
-		
-		fuels.put(new ComparableStack(ModItems.rod_neptunium), new int[] {2, 3});
-		fuels.put(new ComparableStack(ModItems.rod_dual_neptunium), new int[] {2, 6});
-		fuels.put(new ComparableStack(ModItems.rod_quad_neptunium), new int[] {2, 12});
-		
-		fuels.put(new ComparableStack(ModItems.rod_pu238), new int[] {1, 2});
-		fuels.put(new ComparableStack(ModItems.rod_dual_pu238), new int[] {1, 4});
-		fuels.put(new ComparableStack(ModItems.rod_quad_pu238), new int[] {1, 8});
-		
-		fuels.put(new ComparableStack(ModItems.rod_pu239), new int[] {3, 5});
-		fuels.put(new ComparableStack(ModItems.rod_dual_pu239), new int[] {3, 10});
-		fuels.put(new ComparableStack(ModItems.rod_quad_pu239), new int[] {3, 20});
-		
-		fuels.put(new ComparableStack(ModItems.rod_pu240), new int[] {1, 2});
-		fuels.put(new ComparableStack(ModItems.rod_dual_pu240), new int[] {1, 4});
-		fuels.put(new ComparableStack(ModItems.rod_quad_pu240), new int[] {1, 8});
-		
-		fuels.put(new ComparableStack(ModItems.rod_schrabidium), new int[] {3, 10});
-		fuels.put(new ComparableStack(ModItems.rod_dual_schrabidium), new int[] {3, 20});
-		fuels.put(new ComparableStack(ModItems.rod_quad_schrabidium), new int[] {3, 40});
-		
-		fuels.put(new ComparableStack(ModItems.rod_solinium), new int[] {3, 15});
-		fuels.put(new ComparableStack(ModItems.rod_dual_solinium), new int[] {3, 30});
-		fuels.put(new ComparableStack(ModItems.rod_quad_solinium), new int[] {3, 60});
-		
-		fuels.put(new ComparableStack(ModItems.rod_polonium), new int[] {4, 2});
-		fuels.put(new ComparableStack(ModItems.rod_dual_polonium), new int[] {4, 4});
-		fuels.put(new ComparableStack(ModItems.rod_quad_polonium), new int[] {4, 8});
-		
-		fuels.put(new ComparableStack(ModItems.rod_tritium), new int[] {1, 1});
-		fuels.put(new ComparableStack(ModItems.rod_dual_tritium), new int[] {1, 2});
-		fuels.put(new ComparableStack(ModItems.rod_quad_tritium), new int[] {1, 4});
-		
-		fuels.put(new ComparableStack(ModItems.rod_balefire), new int[] {2, 150});
-		fuels.put(new ComparableStack(ModItems.rod_dual_balefire), new int[] {2, 300});
-		fuels.put(new ComparableStack(ModItems.rod_quad_balefire), new int[] {2, 600});
-		
-		fuels.put(new ComparableStack(ModItems.rod_balefire_blazing), new int[] {4, 75});
-		fuels.put(new ComparableStack(ModItems.rod_dual_balefire_blazing), new int[] {4, 150});
-		fuels.put(new ComparableStack(ModItems.rod_quad_balefire_blazing), new int[] {4, 300});
+		setRecipe(BreedingRodType.TRITIUM, 5);
+		setRecipe(BreedingRodType.CO60, 10);
+		setRecipe(BreedingRodType.THF, 30);
+		setRecipe(BreedingRodType.U235, 50);
+		setRecipe(BreedingRodType.NP237, 30);
+		setRecipe(BreedingRodType.PU238, 20);
+		setRecipe(BreedingRodType.PU239, 50);
+		setRecipe(BreedingRodType.RGP, 30);
+		setRecipe(BreedingRodType.WASTE, 20);
+	}
+	
+	/** Sets power for single, dual, and quad rods **/
+	public static void setRecipe(BreedingRodType type, int power) {
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod, 1, type.ordinal())), power);
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, type.ordinal())), power * 2);
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_quad, 1, type.ordinal())), power * 4);
 	}
 	
 	/**
@@ -417,14 +381,15 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	 * @param stack
 	 * @return an integer array (possibly null) with two fields, the HEAT value and the amount of operations
 	 */
-	public static int[] getFuelValue(ItemStack stack) {
+	public static int getFuelValue(ItemStack stack) {
 		
 		if(stack == null)
-			return null;
+			return 0;
 		
-		ComparableStack sta = new ComparableStack(stack);
-		int[] ret = fuels.get(sta);
+		ComparableStack sta = new ComparableStack(stack).makeSingular();
+		if(fuels.get(sta) != null)
+			return fuels.get(sta);
 		
-		return ret;
+		return 0;
 	}
 }

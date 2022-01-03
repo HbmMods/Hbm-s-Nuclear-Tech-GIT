@@ -131,10 +131,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 			if(itemStack.getItem() instanceof ItemFuelRod)
 				return true;
 		if(i == 9)
-			if(itemStack.getItem() == ModItems.rod_water || itemStack.getItem() == ModItems.rod_dual_water || itemStack.getItem() == ModItems.rod_quad_water || itemStack.getItem() == Items.water_bucket)
+			if(itemStack.getItem() == Items.water_bucket)
 				return true;
 		if(i == 10)
-			if(itemStack.getItem() == ModItems.rod_coolant || itemStack.getItem() == ModItems.rod_dual_coolant || itemStack.getItem() == ModItems.rod_quad_coolant)
+			if(itemStack.getItem() == ModItems.fluid_tank_full)
 				return true;
 		if(i == 11)
 			if(itemStack.getItem() instanceof IBatteryItem)

@@ -226,7 +226,7 @@ public class MachineReactorControl extends BlockContainer {
 		
 		if(entity != null)
 		{
-			return (int)Math.ceil((double)entity.coreHeat * 15D / 50000D);
+			return (int)Math.ceil((double)entity.heat * 15D / 50000D);
 		}
 		
 		return 0;

@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -509,16 +510,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_prototype), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.igniter, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_sas3, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_lead, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_lead, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_neptunium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_neptunium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_lead, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_lead, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad, 4, BreedingRodType.URANIUM.ordinal()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad, 4, BreedingRodType.LEAD.ordinal()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad, 2, BreedingRodType.NP237.ordinal()));
 			
 			giveHaz(world, player, 2);
 		}
