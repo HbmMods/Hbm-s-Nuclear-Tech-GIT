@@ -1,5 +1,10 @@
 package com.hbm.inventory.gui;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -69,8 +74,8 @@ public class GUIReactorControl extends GuiInfoContainer {
 
 		this.fields[0].setText(String.valueOf((int)control.levelUpper));
 		this.fields[1].setText(String.valueOf((int)control.levelLower));
-		this.fields[2].setText(String.valueOf((int)control.heatUpper));
-		this.fields[3].setText(String.valueOf((int)control.heatLower));
+		this.fields[2].setText(String.valueOf((int)control.heatUpper / 50));
+		this.fields[3].setText(String.valueOf((int)control.heatLower / 50));
 	}
 	
 	
@@ -98,11 +103,12 @@ public class GUIReactorControl extends GuiInfoContainer {
 			for(int k = 0; k < 4; k++) {
 				
 				double clamp = k < 2 ? 100 : 1000;
+				int mod = k < 2 ? 1 : 50;
 				
 				if(NumberUtils.isDigits(fields[k].getText())) {
 					int j = (int)MathHelper.clamp_double(Double.parseDouble(fields[k].getText()), 0, clamp);
 					fields[k].setText(j + "");
-					vals[k] = j;
+					vals[k] = j * mod;
 				} else {
 					fields[k].setText("0");
 				}
@@ -128,13 +134,11 @@ public class GUIReactorControl extends GuiInfoContainer {
     }
 	
 	@Override
-	protected void drawGuiContainerForegroundLayer( int i, int j) {
+	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.control.hasCustomInventoryName() ? this.control.getInventoryName() : I18n.format(this.control.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-		
-		
 	}
 	
 	@Override
@@ -143,11 +147,37 @@ public class GUIReactorControl extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		for(int i = 0; i < 4; i++)
-			this.fields[i].drawTextBox();
+		GL11.glPopMatrix();
+		Tessellator tess = Tessellator.instance;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glLineWidth(3F);
+		tess.startDrawing(3);
+		tess.setColorOpaque_I(0x08FF00);
+		
+		double render[] = new double[39];
+		
+		for(int i = 0; i < render.length; i++) {
+			render[i] = control.getTargetLevel(control.function, 0 + i * 50000 / 28);
+		}
+		
+		for(int i = 0; i < render.length; i++) {
+			tess.addVertex(guiLeft + 128 + i, guiTop + 39 + render[i], this.zLevel);
+		}
+		
+		//fuck i will figure this out later
+		/*for(int i = 0; i < render.length; i++) {
+			tess.addVertex(guiLeft + 128 + i, guiTop + 39 + control.getGraphPoint(control.function, 0 + i * 50, 28), this.zLevel);
+		}*/
+		
+		tess.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPushMatrix();
 		
 		for(byte i = 0; i < 3; i++)
 			displays[i].drawNumber(control.getDisplayData()[i]);
+		
+		for(int i = 0; i < 4; i++)
+			this.fields[i].drawTextBox();
 	}
 	
 	@Override

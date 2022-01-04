@@ -89,6 +89,9 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	public TileEntityReactorResearch reactor;
 	
 	public boolean isLinked;
+	
+	public int flux;
+	public double level;
 	public int heat;
 	
 	public double levelLower;
@@ -106,7 +109,6 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 			isLinked = establishLink();
 			
 			if(isLinked) { 
-				this.heat = reactor.heat;
 				
 				double fauxLevel = 0;
 
@@ -120,32 +122,22 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 					fauxLevel = this.levelUpper;
 					
 				} else {
-		
-					switch(this.function) {
-					case LINEAR:
-						fauxLevel = (this.heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.levelLower;
-						break;
-					case QUAD:
-						fauxLevel = Math.pow((this.heat - this.heatLower) / (this.heatUpper - this.heatLower), 2) * (this.levelUpper - this.levelLower) + this.levelLower;
-						break;
-					case LOG:
-						fauxLevel = Math.pow((this.heat - this.heatUpper) / (this.heatLower - this.heatUpper), 2) * (this.levelLower - this.levelUpper) + this.levelUpper;
-						break;
-					default:
-						break;
-					}
+					fauxLevel = getTargetLevel(this.function, this.heat);
 				}
 				
 				double level = MathHelper.clamp_double((fauxLevel * 0.01D), 0D, 1D);
 				
-				NBTTagCompound control = new NBTTagCompound();
-				control.setDouble("level", level);
-				
-				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, reactor.xCoord, reactor.yCoord, reactor.zCoord));
+				if(level != this.level) {
+					NBTTagCompound control = new NBTTagCompound();
+					control.setDouble("level", level);
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, reactor.xCoord, reactor.yCoord, reactor.zCoord));
+				}
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("heat", heat);
+			data.setDouble("level", level);
+			data.setInteger("flux", flux);
 			data.setBoolean("isLinked", isLinked);
 			data.setDouble("levelLower", levelLower);
 			data.setDouble("levelUpper", levelUpper);
@@ -158,6 +150,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	
 	public void networkUnpack(NBTTagCompound data) {
 		this.heat = data.getInteger("heat");
+		this.level = data.getDouble("level");
+		this.flux = data.getInteger("flux");
 		isLinked = data.getBoolean("isLinked");
 		levelLower = data.getDouble("levelLower");
 		levelUpper = data.getDouble("levelUpper");
@@ -185,6 +179,10 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 					if(tile instanceof TileEntityReactorResearch) {
 						reactor = (TileEntityReactorResearch) tile;
 						
+						this.flux = reactor.totalFlux;
+						this.level = reactor.level;
+						this.heat = reactor.heat;
+						
 						return true;
 					}
 				}
@@ -194,11 +192,29 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		return false;
 	}
 	
+	public double getTargetLevel(RodFunction function, int heat) {
+		double fauxLevel = 0;
+		
+		switch(function) {
+		case LINEAR:
+			fauxLevel = (heat - this.heatLower) * ((this.levelUpper - this.levelLower) / (this.heatUpper - this.heatLower)) + this.levelLower;
+			return fauxLevel;
+		case LOG:
+			fauxLevel = Math.pow((heat - this.heatUpper) / (this.heatLower - this.heatUpper), 2) * (this.levelLower - this.levelUpper) + this.levelUpper;
+			return fauxLevel;
+		case QUAD:
+			fauxLevel = Math.pow((heat - this.heatLower) / (this.heatUpper - this.heatLower), 2) * (this.levelUpper - this.levelLower) + this.levelLower;
+			return fauxLevel;
+		default:
+			return 0.0D;
+		}
+	}
+	
 	public int[] getDisplayData() {
-		if(reactor != null) {
+		if(this.isLinked) {
 			int[] data = new int[3];
-			data[0] = (int) reactor.level * 100;
-			data[1] = reactor.totalFlux;
+			data[0] = (int) (this.level * 100);
+			data[1] = this.flux;
 			data[2] = (int) Math.round((this.heat) * 0.00002 * 980 + 20);
 			return data;
 		} else {
@@ -231,174 +247,4 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		QUAD,
 		LOG
 	}
-	
-	/*public int hullHeat;
-	public int coreHeat;
-	public int fuel;
-	public int water;
-	public int cool;
-	public int steam;
-	public int maxWater;
-	public int maxCool;
-	public int maxSteam;
-	public int compression;
-	public int rods;
-	public int maxRods;
-	public boolean isOn;
-	public boolean auto;
-	public boolean isLinkd;
-	public boolean redstoned;
-	private int lastRods = 100;*/
-	
-	/*@Override
-	public void updateEntity() {
-
-		if(!worldObj.isRemote)
-		{
-        	if(slots[0] != null && slots[0].getItem() == ModItems.reactor_sensor && 
-        			slots[0].stackTagCompound != null)
-        	{
-        		int xCoord = slots[0].stackTagCompound.getInteger("x");
-        		int yCoord = slots[0].stackTagCompound.getInteger("y");
-        		int zCoord = slots[0].stackTagCompound.getInteger("z");
-        		
-        		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
-        		
-        		if(b == ModBlocks.machine_reactor_small || b == ModBlocks.reactor_computer) {
-        			linkX = xCoord;
-        			linkY = yCoord;
-        			linkZ = zCoord;
-        		} else if(b == ModBlocks.dummy_block_reactor_small || b == ModBlocks.dummy_port_reactor_small) {
-        			linkX = ((TileEntityDummy)worldObj.getTileEntity(xCoord, yCoord, zCoord)).targetX;
-        			linkY = ((TileEntityDummy)worldObj.getTileEntity(xCoord, yCoord, zCoord)).targetY;
-        			linkZ = ((TileEntityDummy)worldObj.getTileEntity(xCoord, yCoord, zCoord)).targetZ;
-        		} else {
-        			linkY = -1;
-            	}
-        	} else {
-    			linkY = -1;
-        	}
-        	
-        	if(linkY >= 0 && worldObj.getTileEntity(linkX, linkY, linkZ) instanceof TileEntityMachineReactorSmall) {
-        		TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)worldObj.getTileEntity(linkX, linkY, linkZ);
-        		
-        		hullHeat = reactor.hullHeat;
-        		coreHeat = reactor.coreHeat;
-        		fuel = reactor.getFuelPercent();
-        		water = reactor.tanks[0].getFill();
-        		cool = reactor.tanks[1].getFill();
-        		steam = reactor.tanks[2].getFill();
-        		maxWater = reactor.tanks[0].getMaxFill();
-        		maxCool = reactor.tanks[1].getMaxFill();
-        		maxSteam = reactor.tanks[2].getMaxFill();
-        		rods = reactor.rods;
-        		maxRods = reactor.rodsMax;
-        		isOn = !reactor.retracting;
-        		isLinked = true;
-        		
-        		switch(reactor.tanks[2].getTankType()) {
-        		case HOTSTEAM: 
-            		compression = 1; break;
-        		case SUPERHOTSTEAM: 
-            		compression = 2; break;
-            	default:
-            		compression = 0; break;
-        		}
-        		
-        		if(!redstoned) {
-        			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-        				redstoned = true;
-        				reactor.retracting = !reactor.retracting;
-        			}
-        		} else {
-        			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-        				redstoned = false;
-        			}
-        		}
-        		
-        		if(auto && (water < 100 || cool < 100 || coreHeat > (50000 * 0.95)) && fuel > 0) {
-        			reactor.retracting = true;
-        		}
-        		
-        	} else if(linkY >= 0 && worldObj.getTileEntity(linkX, linkY, linkZ) instanceof TileEntityMachineReactorLarge && ((TileEntityMachineReactorLarge)worldObj.getTileEntity(linkX, linkY, linkZ)).checkBody()) {
-        		TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)worldObj.getTileEntity(linkX, linkY, linkZ);
-        		
-        		hullHeat = reactor.hullHeat;
-        		coreHeat = reactor.coreHeat;
-        		fuel = reactor.fuel * 100 / Math.max(1, reactor.maxFuel);
-        		water = reactor.tanks[0].getFill();
-        		cool = reactor.tanks[1].getFill();
-        		steam = reactor.tanks[2].getFill();
-        		maxWater = reactor.tanks[0].getMaxFill();
-        		maxCool = reactor.tanks[1].getMaxFill();
-        		maxSteam = reactor.tanks[2].getMaxFill();
-        		rods = reactor.rods;
-        		maxRods = reactor.rodsMax;
-        		isOn = reactor.rods > 0;
-        		isLinked = true;
-        		
-        		switch(reactor.tanks[2].getTankType()) {
-        		case HOTSTEAM: 
-            		compression = 1; break;
-        		case SUPERHOTSTEAM: 
-            		compression = 2; break;
-            	default:
-            		compression = 0; break;
-        		}
-        		
-        		if(rods != 0)
-        			lastRods = rods;
-        		
-        		if(!redstoned) {
-        			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-        				redstoned = true;
-        				
-        				if(rods == 0)
-        					rods = lastRods;
-        				else
-        					rods = 0;
-        			}
-        		} else {
-        			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-        				redstoned = false;
-        			}
-        		}
-        		
-        		if(auto && (water < 100 || cool < 100 || coreHeat > (50000 * 0.95)) && fuel > 0) {
-        			reactor.rods = 0;
-        		}
-        		
-        	} else {
-        		hullHeat = 0;
-        		coreHeat = 0;
-        		fuel = 0;
-        		water = 0;
-        		cool = 0;
-        		steam = 0;
-        		maxWater = 0;
-        		maxCool = 0;
-        		maxSteam = 0;
-        		rods = 0;
-        		maxRods = 0;
-        		isOn = false;
-        		compression = 0;
-        		isLinked = false;
-        	}
-
-        	if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof BlockRedstoneComparator) {
-        		worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord + 1, worldObj.getBlock(xCoord, yCoord, zCoord + 1), 1);
-        	}
-        	if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof BlockRedstoneComparator) {
-        		worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord - 1, worldObj.getBlock(xCoord, yCoord, zCoord - 1), 1);
-        	}
-        	if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof BlockRedstoneComparator) {
-        		worldObj.scheduleBlockUpdate(xCoord + 1, yCoord, zCoord, worldObj.getBlock(xCoord + 1, yCoord, zCoord), 1);
-        	}
-        	if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof BlockRedstoneComparator) {
-        		worldObj.scheduleBlockUpdate(xCoord - 1, yCoord, zCoord, worldObj.getBlock(xCoord - 1, yCoord, zCoord), 1);
-        	}
-        	
-        	PacketDispatcher.wrapper.sendToAllAround(new TEControlPacket(xCoord, yCoord, zCoord, hullHeat, coreHeat, fuel, water, cool, steam, maxWater, maxCool, maxSteam, compression, rods, maxRods, isOn, auto, isLinked), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 30));
-		}
-	}*/
 }
