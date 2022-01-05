@@ -16,6 +16,7 @@ import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
@@ -530,6 +531,13 @@ public class Library {
 		
 		if(tileentity == that)
 			tileentity = null;
+		
+		if(tileentity instanceof TileEntityProxyBase) {
+			TileEntityProxyBase proxy = (TileEntityProxyBase) tileentity;
+			
+			if(proxy.getTE() == that)
+				tileentity = null;
+		}
 		
 		if(tileentity instanceof IFluidDuct)
 		{

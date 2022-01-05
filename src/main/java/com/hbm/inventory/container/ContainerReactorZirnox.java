@@ -19,7 +19,7 @@ public class ContainerReactorZirnox extends Container {
 	public ContainerReactorZirnox(InventoryPlayer invPlayer, TileEntityReactorZirnox te) {
 		zirnox = te;
 
-		//Rods
+		// Rods
 		this.addSlotToContainer(new Slot(te, 0, 26, 16));
 		this.addSlotToContainer(new Slot(te, 1, 62, 16));
 		this.addSlotToContainer(new Slot(te, 2, 98, 16));
@@ -45,38 +45,35 @@ public class ContainerReactorZirnox extends Container {
 		this.addSlotToContainer(new Slot(te, 22, 62, 124));
 		this.addSlotToContainer(new Slot(te, 23, 98, 124));
 
-		//Fluid IO
+		// Fluid IO
 		this.addSlotToContainer(new Slot(te, 24, 143, 124));
 		this.addSlotToContainer(new SlotMachineOutput(te, 26, 143, 142));
 		this.addSlotToContainer(new Slot(te, 25, 179, 124));
 		this.addSlotToContainer(new SlotMachineOutput(te, 27, 179, 142));
 
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 90));
 			}
 		}
 
-		for(int i = 0; i < 9; i++)
-		{
+		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 232));
 		}
 	}
 
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 
 		ItemStack var3 = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if (slot != null && slot.getHasStack()) {
+		if(slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
 			var3 = stack.copy();
 
-            if (index <= 27) {
-				if (!this.mergeItemStack(stack, 28, this.inventorySlots.size(), true)) {
+			if(index <= 27) {
+				if(!this.mergeItemStack(stack, 28, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
@@ -89,7 +86,7 @@ public class ContainerReactorZirnox extends Container {
 					if(!this.mergeItemStack(stack, 25, 26, true))
 						return null;
 
-			} else {
+				} else {
 
 					if(stack.getItem() instanceof ItemZirnoxRod) {
 
@@ -99,7 +96,7 @@ public class ContainerReactorZirnox extends Container {
 				}
 			}
 
-			if (stack.stackSize == 0) {
+			if(stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
@@ -107,7 +104,7 @@ public class ContainerReactorZirnox extends Container {
 		}
 
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

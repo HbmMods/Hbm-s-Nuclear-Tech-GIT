@@ -2662,7 +2662,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomb_multi, bomb_multi.getUnlocalizedName());
 		GameRegistry.registerBlock(crashed_balefire, crashed_balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fireworks, fireworks.getUnlocalizedName());
-		//GameRegistry.registerBlock(bomb_multi_large, bomb_multi_large.getUnlocalizedName());
 		
 		//Turrets
 		GameRegistry.registerBlock(turret_light, turret_light.getUnlocalizedName());
@@ -2683,6 +2682,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_maxwell, turret_maxwell.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_fritz, turret_fritz.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_brandon, turret_brandon.getUnlocalizedName());
+		
+		//Wall-mounted Explosives
+		GameRegistry.registerBlock(charge_dynamite, charge_dynamite.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());

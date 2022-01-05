@@ -2,9 +2,6 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockCrystal;
-import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -13,9 +10,18 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 
-public class RenderCrystal implements ISimpleBlockRenderingHandler {
+public class RenderBlockRotated implements ISimpleBlockRenderingHandler {
+
+	private int renderID;
+	private IModelCustom model;
+	
+	public RenderBlockRotated(int renderType, IModelCustom IModelCustom) {
+		this.renderID = renderType;
+		this.model = IModelCustom;
+	}
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -28,19 +34,10 @@ public class RenderCrystal implements ISimpleBlockRenderingHandler {
 		if(renderer.hasOverrideBlockTexture()) {
 			iicon = renderer.overrideBlockTexture;
 		}
-		
+
 		GL11.glRotated(180, 0, 1, 0);
 		tessellator.startDrawingQuads();
-
-		if(block == ModBlocks.crystal_power)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_power, iicon, tessellator, 0, false);
-		if(block == ModBlocks.crystal_energy)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_energy, iicon, tessellator, 0, false);
-		if(block == ModBlocks.crystal_robust)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_robust, iicon, tessellator, 0, false);
-		if(block == ModBlocks.crystal_trixite)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_trixite, iicon, tessellator, 0, false);
-		
+		ObjUtil.renderWithIcon((WavefrontObject) model, iicon, tessellator, 0, false);
 		tessellator.draw();
 
 		GL11.glPopMatrix();
@@ -81,16 +78,7 @@ public class RenderCrystal implements ISimpleBlockRenderingHandler {
 			flip = (float)Math.PI * 0.5F;
 
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
-
-		if(block == ModBlocks.crystal_power)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_power, iicon, tessellator, rotation, flip, true);
-		if(block == ModBlocks.crystal_energy)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_energy, iicon, tessellator, rotation, flip, true);
-		if(block == ModBlocks.crystal_robust)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_robust, iicon, tessellator, rotation, flip, true);
-		if(block == ModBlocks.crystal_trixite)
-			ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crystal_trixite, iicon, tessellator, rotation, flip, true);
-		
+		ObjUtil.renderWithIcon((WavefrontObject) model, iicon, tessellator, rotation, flip, true);
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);
 
 		return true;
@@ -103,6 +91,6 @@ public class RenderCrystal implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return BlockCrystal.renderID;
+		return this.renderID;
 	}
 }
