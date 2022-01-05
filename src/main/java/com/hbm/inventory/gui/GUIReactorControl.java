@@ -154,20 +154,9 @@ public class GUIReactorControl extends GuiInfoContainer {
 		tess.startDrawing(3);
 		tess.setColorOpaque_I(0x08FF00);
 		
-		double render[] = new double[39];
-		
-		for(int i = 0; i < render.length; i++) {
-			render[i] = control.getTargetLevel(control.function, 0 + i * 50000 / 28);
+		for(int i = 0; i < 40; i++) {
+			tess.addVertex(guiLeft + 128 + i, guiTop + 39 + MathHelper.clamp_double(control.getTargetLevel(control.function, i * 1250) / 100 * 28, 0, 28), this.zLevel);
 		}
-		
-		for(int i = 0; i < render.length; i++) {
-			tess.addVertex(guiLeft + 128 + i, guiTop + 39 + render[i], this.zLevel);
-		}
-		
-		//fuck i will figure this out later
-		/*for(int i = 0; i < render.length; i++) {
-			tess.addVertex(guiLeft + 128 + i, guiTop + 39 + control.getGraphPoint(control.function, 0 + i * 50, 28), this.zLevel);
-		}*/
 		
 		tess.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);

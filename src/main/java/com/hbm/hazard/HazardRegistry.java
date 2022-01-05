@@ -228,14 +228,14 @@ public class HazardRegistry {
 		registerOtherFuel(plate_fuel_mox, mox * ingot, mox * ingot * 100);
 		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, pu239 * ingot * 100);
 		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, sa326 * ingot * 100);
-		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, rabe * ingot * 100);
+		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, po210 * nugget * 3);
 		
 		registerOtherWaste(waste_plate_u233, u233 * ingot * 100);
 		registerOtherWaste(waste_plate_u235, u235 * ingot * 100);
 		registerOtherWaste(waste_plate_mox, mox * ingot * 100);
 		registerOtherWaste(waste_plate_pu239, pu239 * ingot * 100);
 		registerOtherWaste(waste_plate_sa326, sa326 * ingot * 100);
-		registerOtherWaste(waste_plate_ra226be, rabe * ingot * 100);
+		registerOtherWaste(waste_plate_ra226be, po210 * billet * 3);
 		
 		HazardSystem.register(debris_graphite, new HazardData().addEntry(RADIATION, 70F).addEntry(HOT, 5F));
 		HazardSystem.register(debris_metal, makeData(RADIATION, 5F));

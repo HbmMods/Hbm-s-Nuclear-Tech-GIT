@@ -100,7 +100,6 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	public double heatUpper;
 	public RodFunction function = RodFunction.LINEAR;
 	
-	//TODO: Remove all large reactor functionality for this
 	@Override
 	public void updateEntity() {
 		
