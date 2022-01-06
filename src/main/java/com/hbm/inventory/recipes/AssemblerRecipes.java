@@ -516,7 +516,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_gold, 3),
 			}, 600);
 		
-		makeRecipe(new ComparableStack(ModBlocks.machine_zirnox, 1), new AStack[] {
+		makeRecipe(new ComparableStack(ModBlocks.reactor_zirnox, 1), new AStack[] {
 				new ComparableStack(ModItems.hull_big_steel, 3),
 				new ComparableStack(ModItems.hull_small_steel, 6),
 				new ComparableStack(ModBlocks.steel_scaffold, 4),
