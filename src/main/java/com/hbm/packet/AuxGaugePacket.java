@@ -23,7 +23,6 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.turret.TileEntityTurretCIWS;
 import com.hbm.tileentity.turret.TileEntityTurretCheapo;
-import com.hbm.tileentity.machine.TileEntityReactorResearch;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 

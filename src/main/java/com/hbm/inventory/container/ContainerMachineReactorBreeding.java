@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.items.machine.ItemBreedingRod;
 import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,7 +48,8 @@ public class ContainerMachineReactorBreeding extends Container {
 					return null;
 				}
             
-            } else if (!this.mergeItemStack(stack, 0, 1, false)) {
+            } else if(stack.getItem() instanceof ItemBreedingRod)
+            	if (!this.mergeItemStack(stack, 0, 1, false)) {
 					return null;
 			}
 			

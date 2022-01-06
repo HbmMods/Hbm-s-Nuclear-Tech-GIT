@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.machine.TileEntityReactorResearch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -45,8 +46,7 @@ private TileEntityReactorResearch reactor;
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int index)
-    {
+    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack var3 = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 		
@@ -55,13 +55,16 @@ private TileEntityReactorResearch reactor;
 			var3 = stack.copy();
 			
             if (index <= 12) {
-				if (!this.mergeItemStack(stack, 13, this.inventorySlots.size(), true))
-				{
+				if (!this.mergeItemStack(stack, 13, this.inventorySlots.size(), true)){
 					return null;
 				}
 			} else {
-				if (!this.mergeItemStack(stack, 0, 13, true))
+				if(stack.getItem() instanceof ItemPlateFuel) {
+					if (!this.mergeItemStack(stack, 0, 12, true))
+						return null;
+				} else {
 					return null;
+				}
 			}
 			if (stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);

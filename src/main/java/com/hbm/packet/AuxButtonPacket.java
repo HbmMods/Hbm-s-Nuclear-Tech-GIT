@@ -15,9 +15,7 @@ import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityReactorResearch;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
-import com.hbm.tileentity.machine.TileEntityReactorControl;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
@@ -199,23 +197,6 @@ public class AuxButtonPacket implements IMessage {
 				if(te instanceof TileEntityTickingBase) {
 					TileEntityTickingBase base = (TileEntityTickingBase)te;
 					base.handleButtonPacket(m.value, m.id);
-				}
-				
-				if(te instanceof TileEntityReactorZirnox) {
-					TileEntityReactorZirnox zirnox = (TileEntityReactorZirnox)te;
-
-					if(m.id == 0) {
-						zirnox.isOn = !zirnox.isOn;
-					}
-
-					if(m.id == 1) {
-						int fill = zirnox.carbonDioxide.getFill();
-						zirnox.carbonDioxide.setFill(fill - 1000);
-						if(zirnox.carbonDioxide.getFill() < 0) {
-							zirnox.carbonDioxide.setFill(0);
-						}
-					}
-
 				}
 				
 				//why make new packets when you can just abuse and uglify the existing ones?

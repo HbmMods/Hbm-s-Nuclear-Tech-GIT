@@ -92,6 +92,8 @@ public class ContainerReactorZirnox extends Container {
 
 						if(!this.mergeItemStack(stack, 0, 24, true))
 							return null;
+					} else {
+						return null;
 					}
 				}
 			}
