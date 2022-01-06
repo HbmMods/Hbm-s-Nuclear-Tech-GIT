@@ -5,18 +5,15 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
-import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -38,6 +35,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -132,6 +130,23 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
+	}
+	
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		this.setBeenAttacked();
+		
+		if(source instanceof EntityDamageSource) {
+			EntityDamageSource dmg = (EntityDamageSource) source;
+			
+			if(dmg.damageType.equals("player")) {
+				this.motionX *= -1.5;
+				this.motionY *= -1.5;
+				this.motionZ *= -1.5;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

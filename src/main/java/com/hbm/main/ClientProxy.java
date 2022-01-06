@@ -54,7 +54,6 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemSwordMeteorite;
 import com.hbm.particle.*;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -291,9 +290,9 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		MinecraftForgeClient.registerItemRenderer(ModItems.dnt_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		
-		for(ItemSwordMeteorite sword : ItemSwordMeteorite.swords) {
-		//	MinecraftForgeClient.registerItemRenderer(sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
-		}
+		/*for(ItemSwordMeteorite sword : ItemSwordMeteorite.swords) {
+			MinecraftForgeClient.registerItemRenderer(sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+		}*/
 		
 		
 		//test crap
@@ -627,6 +626,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderCrystal());
 		RenderingRegistry.registerBlockHandler(new RenderTestCable());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCT());
+
+		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 
 		RenderingRegistry.registerBlockHandler(new RenderRBMKRod());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKReflector());
