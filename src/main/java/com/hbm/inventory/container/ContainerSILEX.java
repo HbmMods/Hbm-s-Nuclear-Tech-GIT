@@ -15,14 +15,14 @@ public class ContainerSILEX extends Container {
 
 	public ContainerSILEX(InventoryPlayer invPlayer, TileEntitySILEX te) {
 		silex = te;
-
+		
 		//Input
-		this.addSlotToContainer(new Slot(te, 0, 116, 36));
+		this.addSlotToContainer(new Slot(te, 0, 80, 12));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(te, 1, 44, 36));
+		this.addSlotToContainer(new Slot(te, 1, 8, 24));
 		//Fluid Container
-		this.addSlotToContainer(new Slot(te, 2, 62, 36));
-		this.addSlotToContainer(new Slot(te, 3, 80, 36));
+		this.addSlotToContainer(new Slot(te, 2, 8 + 18, 24));
+		this.addSlotToContainer(new Slot(te, 3, 8 + 18*2, 24));
 		//Output
 		this.addSlotToContainer(new Slot(te, 4, 116, 90));
 		//Output Queue

@@ -10,22 +10,25 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerFEL extends Container {
 
-	private TileEntityFEL microwave;
+	private TileEntityFEL fel;
 
 	public ContainerFEL(InventoryPlayer invPlayer, TileEntityFEL tedf) {
 
-		microwave = tedf;
+		fel = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 53));
+		//battery
+		this.addSlotToContainer(new Slot(tedf, 0, 182, 144));
+		//laser crystal
+		this.addSlotToContainer(new Slot(tedf, 1, 141, 23));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 141));
 		}
 	}
 
@@ -39,11 +42,11 @@ public class ContainerFEL extends Container {
 			var3 = var5.copy();
 
 			if(par2 == 0) {
-				if(!this.mergeItemStack(var5, 1, this.inventorySlots.size(), true)) {
+				if(!this.mergeItemStack(var5, 1, this.inventorySlots.size(), false)) {
 					return null;
 				}
 			} else {
-				if(!this.mergeItemStack(var5, 0, 1, true))
+				if(!this.mergeItemStack(var5, 0, 1, false))
 					return null;
 			}
 
@@ -59,6 +62,6 @@ public class ContainerFEL extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return microwave.isUseableByPlayer(player);
+		return fel.isUseableByPlayer(player);
 	}
 }

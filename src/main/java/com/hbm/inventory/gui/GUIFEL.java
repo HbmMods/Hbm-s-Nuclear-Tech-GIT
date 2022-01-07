@@ -1,10 +1,11 @@
 package com.hbm.inventory.gui;
 
-import org.apache.commons.lang3.math.NumberUtils;
-import org.lwjgl.input.Keyboard;
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerFEL;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -13,87 +14,52 @@ import com.hbm.tileentity.machine.TileEntityFEL;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIFEL extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fel.png");
 	private TileEntityFEL fel;
-	private GuiTextField field;
 
 	public GUIFEL(InventoryPlayer invPlayer, TileEntityFEL laser) {
 		super(new ContainerFEL(invPlayer, laser));
 		this.fel = laser;
 
-		this.xSize = 176;
-		this.ySize = 168;
+		this.xSize = 203;
+		this.ySize = 169;
 	}
-
-	@Override
-	public void initGui() {
-		super.initGui();
-		
-		Keyboard.enableRepeatEvents(true);
-		this.field = new GuiTextField(this.fontRendererObj, guiLeft + 57, guiTop + 57, 29, 12);
-		this.field.setTextColor(-1);
-		this.field.setDisabledTextColour(-1);
-		this.field.setEnableBackgroundDrawing(false);
-		this.field.setMaxStringLength(3);
-		this.field.setText(String.valueOf(fel.watts));
-	}
-
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 16, 18, 9, mouseX, mouseY, new String[] {"Microwave"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 25, 18, 9, mouseX, mouseY, new String[] {"Infrared"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 34, 18, 9, mouseX, mouseY, new String[] {"Visible Light"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 43, 18, 9, mouseX, mouseY, new String[] {"UV"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 52, 18, 9, mouseX, mouseY, new String[] {"X-Ray"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 61, 18, 9, mouseX, mouseY, new String[] {"Gamma Ray"});
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, fel.power, fel.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 182, guiTop + 27, 16, 113, fel.power, fel.maxPower);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		this.field.mouseClicked(x, y, i);
-
-		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
-
-			if(NumberUtils.isNumber(field.getText())) {
-				int j = MathHelper.clamp_int((int) Double.parseDouble(field.getText()), 1, 100);
-				field.setText(j + "");
-				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, j, 1));
-			}
-		}
-
-		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
+		if(guiLeft + 142 <= x && guiLeft + 142 + 29 > x && guiTop + 41 < y && guiTop + 41 + 17 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, 0, 2));
 		}
 		
-		for(int k = 0; k < 6; k++) {
-			
-			if(guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 16 + k * 9 < y && guiTop + 16 + k * 9 + 9 >= y) {
-				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(fel.xCoord, fel.yCoord, fel.zCoord, k, 0));
-			}
-		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.fel.hasCustomInventoryName() ? this.fel.getInventoryName() : I18n.format(this.fel.getInventoryName());
 
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(name, 90 + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 7, 0xffffff);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 98, 4210752);
+		if(fel.missingValidSilex && fel.isOn) {
+			this.fontRendererObj.drawString(I18n.format("ERR."), 55 + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 9, 0xFF0000);
+		} else if(fel.isOn) {
+			this.fontRendererObj.drawString(I18n.format("LIVE"), 54 + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 9, 0x00FF00);
+		}
+		
 	}
 
 	@Override
@@ -101,29 +67,45 @@ public class GUIFEL extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-
-		if(field.isFocused())
-			drawTexturedModalRect(guiLeft + 53, guiTop + 53, 210, 4, 34, 16);
-
+		
 		if(fel.isOn)
-			drawTexturedModalRect(guiLeft + 97, guiTop + 16, 192, 0, 18, 18);
+			drawTexturedModalRect(guiLeft + 142, guiTop + 41, 203, 0, 29, 17);
 		
-		int mode = fel.mode;
-		drawTexturedModalRect(guiLeft + 133, guiTop + 16 + mode * 9, 176, 52 + mode * 9, 18, 9);
+		int k = (int)fel.getPowerScaled(114);
+		drawTexturedModalRect(guiLeft + 182, guiTop + 27 + 113 - k, 203, 17 + 113 - k, 16, k);
 		
-		int i = (int) fel.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
-
-		drawTexturedModalRect(guiLeft + 53, guiTop + 45, 210, 0, fel.watts * 34 / 100, 4);
+		/*drawRect(guiLeft + 118, guiTop + 32, guiLeft + 118 + 18, guiTop + 32 + 18, 0xFFFFFF);
 		
-		this.field.drawTextBox();
-	}
-	
-	@Override
-	protected void keyTyped(char c, int key) {
+		this.drawHorizontalLine(guiTop + 32, guiLeft + 118, guiLeft + 36, 0xFFFFFF);
+		*/
+		int color = !(fel.mode == EnumWavelengths.VISIBLE) ? fel.mode.guiColor : Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 0.5F, 1F) & 16777215;
 		
-		if(!this.field.textboxKeyTyped(c, key)) {
-			super.keyTyped(c, key);
+		if(fel.power > fel.powerReq * Math.pow(2, fel.mode.ordinal()) && fel.isOn && !(fel.mode == EnumWavelengths.NULL) && fel.distance > 0) {
+			
+		
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glLineWidth(5F);
+			
+			Tessellator tessellator = Tessellator.instance;
+			tessellator.startDrawing(1);
+			tessellator.setColorOpaque_I(color);
+			
+			tessellator.addVertex(guiLeft + 113, guiTop + 31.5F, this.zLevel);
+			tessellator.addVertex(guiLeft + 135, guiTop + 31.5F, this.zLevel);
+			tessellator.draw();
+			
+			tessellator.startDrawing(1);
+			tessellator.setColorOpaque_I(color);
+			
+			tessellator.addVertex(0, guiTop + 31.5F, this.zLevel);
+			tessellator.addVertex(guiLeft + 4, guiTop + 31.5F, this.zLevel);
+			tessellator.draw();
+			
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glPopMatrix();
 		}
-	}
+	}	
+	
 }

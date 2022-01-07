@@ -114,14 +114,14 @@ public class BeamPronter {
 					tessellator.draw();
 				}
 			}
-
+			
 			lastX = pX;
 			lastY = pY;
 			lastZ = pZ;
 		}
 
 		if(beam == EnumBeamType.LINE) {
-
+			
 			tessellator.startDrawing(3);
 			tessellator.setColorOpaque_I(innerColor);
 			tessellator.addVertex(0, 0, 0);

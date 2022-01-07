@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.crafting.handlers.MKUCraftingHandler;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMiningLaser;
 import com.hbm.lib.RefStrings;
@@ -24,8 +25,8 @@ public class GUIMiningLaser extends GuiInfoContainer {
 		super(new ContainerMiningLaser(invPlayer, laser));
 		this.laser = laser;
 
-		this.xSize = 176;
-		this.ySize = 222;
+		this.xSize = 204;
+		this.ySize = 250;
 	}
 	
 	@Override
@@ -45,7 +46,7 @@ public class GUIMiningLaser extends GuiInfoContainer {
 				" -Crystallizer (exclusive)",
 				" -Nullifier"};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 87, guiTop + 31, 8, 8, guiLeft + 141, guiTop + 39 + 16, text);
-
+		
 		laser.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 124 - 52, 7, 52);
 	}
 
@@ -68,6 +69,7 @@ public class GUIMiningLaser extends GuiInfoContainer {
 		
 		String width = "" + laser.getWidth();
 		this.fontRendererObj.drawString(width, 43 - this.fontRendererObj.getStringWidth(width) / 2, 26, 0xffffff);
+		
 	}
 	
 	@Override

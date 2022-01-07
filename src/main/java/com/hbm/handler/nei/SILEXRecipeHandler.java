@@ -10,8 +10,11 @@ import java.util.Map;
 import com.hbm.inventory.gui.GUISILEX;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.WeightedRandomObject;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -19,6 +22,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class SILEXRecipeHandler extends TemplateRecipeHandler {
@@ -34,6 +38,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		List<PositionedStack> outputs;
 		List<Double> chances;
 		double produced;
+		EnumWavelengths crystalStrength;
 
 		public RecipeSet(Object input, SILEXRecipe recipe) {
 			
@@ -41,6 +46,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
 			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
+			this.crystalStrength = EnumWavelengths.values()[recipe.laserStrength];
 			
 			double weight = 0;
 			
@@ -192,6 +198,10 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
 		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
+		
+		fontRenderer.drawString(rec.crystalStrength.name, (32 - fontRenderer.getStringWidth(rec.crystalStrength.name) / 2), 8, 0x404040);
+		
+		
 	}
 
 	@Override

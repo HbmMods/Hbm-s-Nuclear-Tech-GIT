@@ -11,6 +11,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.WeightedRandomObject;
@@ -25,7 +26,8 @@ import net.minecraft.util.WeightedRandom;
 
 public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor {
 	
-	public int laser = 0;
+	public EnumWavelengths mode = EnumWavelengths.NULL;
+	public boolean hasLaser;
 	public FluidTank tank;
 	public ComparableStack current;
 	public int currentFill;
@@ -72,14 +74,17 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("fill", currentFill);
 			data.setInteger("progress", progress);
+			data.setString("mode", mode.toString());
 			
 			if(this.current != null) {
 				data.setInteger("item", Item.getIdFromItem(this.current.item));
 				data.setInteger("meta", this.current.meta);
 			}
-
+			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			this.networkPack(data, 50);
+			
+			this.mode = EnumWavelengths.NULL;
 		}
 	}
 	
@@ -87,6 +92,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		
 		this.currentFill = nbt.getInteger("fill");
 		this.progress = nbt.getInteger("progress");
+		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 		
 		if(this.currentFill > 0) {
 			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
@@ -165,12 +171,15 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	
 	private boolean process() {
 		
-		if(current == null || currentFill <= 0)
+		if(current == null || currentFill <= 0 || this.mode == EnumWavelengths.NULL)
 			return false;
 		
 		SILEXRecipe recipe = SILEXRecipes.getOutput(current.toStack());
 		
 		if(recipe == null)
+			return false;
+		
+		if(recipe.laserStrength > this.mode.ordinal())
 			return false;
 		
 		if(currentFill < recipe.fluidConsumed)
@@ -179,7 +188,9 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(slots[4] != null)
 			return false;
 		
-		progress++;
+		int progressSpeed = (int)Math.pow(2, this.mode.ordinal()-recipe.laserStrength+1)/2;
+		
+		progress += progressSpeed;
 		
 		if(progress >= processTime) {
 			
@@ -241,6 +252,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.readFromNBT(nbt);
 		this.tank.readFromNBT(nbt, "tank");
 		this.currentFill = nbt.getInteger("fill");
+		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 		
 		if(this.currentFill > 0) {
 			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
@@ -252,6 +264,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.writeToNBT(nbt);
 		this.tank.writeToNBT(nbt, "tank");
 		nbt.setInteger("fill", this.currentFill);
+		nbt.setString("mode", mode.toString());
 		
 		if(this.current != null) {
 			nbt.setInteger("item", Item.getIdFromItem(this.current.item));
