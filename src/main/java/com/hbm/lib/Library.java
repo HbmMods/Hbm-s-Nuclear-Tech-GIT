@@ -1,13 +1,9 @@
 package com.hbm.lib;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
-import javax.annotation.Nonnegative;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
@@ -28,9 +24,6 @@ import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
-import com.hbm.tileentity.machine.TileEntityMachineTransformer;
-import com.hbm.tileentity.network.TileEntityPylon;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
@@ -86,26 +79,6 @@ public class Library {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
 			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
 			});
-	
-	/**
-	 * Rounds a number to so many significant digits
-	 * @param num The number to round
-	 * @param digits Amount of digits
-	 * @return The rounded double
-	 */
-	public static double roundDecimal(double num, @Nonnegative int digits)
-	{
-		if (digits < 0)
-			throw new IllegalArgumentException("Attempted negative number in non-negative field! Attempted value: " + digits);
-		
-		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
-	}
-	
-	
-	public static boolean getBlink()
-	{
-		return System.currentTimeMillis() % 1000 < 500;
-	}
 	
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
@@ -329,42 +302,6 @@ public class Library {
 		}
 		
 		return list;
-	}
-	
-	public static String getShortNumber(long l) {
-
-		if(l >= Math.pow(10, 18)) {
-			double res = l / Math.pow(10, 18);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "E";
-		}
-		if(l >= Math.pow(10, 15)) {
-			double res = l / Math.pow(10, 15);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "P";
-		}
-		if(l >= Math.pow(10, 12)) {
-			double res = l / Math.pow(10, 12);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "T";
-		}
-		if(l >= Math.pow(10, 9)) {
-			double res = l / Math.pow(10, 9);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "G";
-		}
-		if(l >= Math.pow(10, 6)) {
-			double res = l / Math.pow(10, 6);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "M";
-		}
-		if(l >= Math.pow(10, 3)) {
-			double res = l / Math.pow(10, 3);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "k";
-		}
-		
-		return Long.toString(l);
 	}
 	
 	//not great either but certainly better

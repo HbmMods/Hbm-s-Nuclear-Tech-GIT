@@ -1,9 +1,7 @@
 package com.hbm.blocks.machine;
 
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
@@ -14,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineReactorBreeding extends BlockDummyable implements IMultiblock {
+public class MachineReactorBreeding extends BlockDummyable {
 	
 	public MachineReactorBreeding(Material mat) {
 		super(mat);

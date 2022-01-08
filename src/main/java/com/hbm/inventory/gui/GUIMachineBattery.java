@@ -10,11 +10,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineBattery;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.util.BobMathUtil;
 
 public class GUIMachineBattery extends GuiInfoContainer {
 	
@@ -36,7 +36,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, battery.power, battery.maxPower);
 		
 		long delta = battery.log[19] - battery.log[0];
-		String deltaText = Library.getShortNumber(Math.abs(delta)) + "HE/s";
+		String deltaText = BobMathUtil.getShortNumber(Math.abs(delta)) + "HE/s";
 		
 		if(delta > 0)
 			deltaText = EnumChatFormatting.GREEN + "+" + deltaText;
@@ -46,7 +46,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 			deltaText = EnumChatFormatting.YELLOW + "+" + deltaText;
 
 		String[] info = {
-				Library.getShortNumber(battery.power) + "/" + Library.getShortNumber(battery.maxPower) + "HE",
+				BobMathUtil.getShortNumber(battery.power) + "/" + BobMathUtil.getShortNumber(battery.maxPower) + "HE",
 				deltaText
 		};
 		

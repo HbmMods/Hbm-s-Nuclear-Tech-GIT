@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
@@ -82,7 +82,7 @@ public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryIte
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
     	
-    	list.add("Charge: " + Library.getShortNumber(getCharge(stack)) + " / " + Library.getShortNumber(maxPower));
+    	list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
     	
     	super.addInformation(stack, player, list, ext);
     }

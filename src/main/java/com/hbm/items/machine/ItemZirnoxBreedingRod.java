@@ -2,7 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,6 +19,6 @@ public class ItemZirnoxBreedingRod extends ItemZirnoxRod {
 		
 		list.add(EnumChatFormatting.YELLOW + "[ZIRNOX Breeding Rod]");
 		list.add(EnumChatFormatting.DARK_AQUA + "  Place next to fuel rods to breed");
-		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + Library.getShortNumber(lifeTime) + " ticks");
+		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + BobMathUtil.getShortNumber(lifeTime) + " ticks");
 	}
 }

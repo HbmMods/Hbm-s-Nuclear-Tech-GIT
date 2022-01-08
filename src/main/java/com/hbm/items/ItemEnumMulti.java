@@ -12,7 +12,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 
 public class ItemEnumMulti extends Item {
 	
@@ -65,7 +64,6 @@ public class ItemEnumMulti extends Item {
 	public IIcon getIconFromDamage(int meta) {
 		
 		if(multiTexture) {
-			Enum[] enums = theEnum.getEnumConstants();
 			Enum num = EnumUtil.grabEnumSafely(theEnum, meta);
 			return this.icons[num.ordinal()];
 		} else {

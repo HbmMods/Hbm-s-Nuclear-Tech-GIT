@@ -2,7 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,7 +32,7 @@ public class ItemPlateFuel extends ItemFuelRod {
 		
 		list.add(EnumChatFormatting.YELLOW + "[Reactor Plate Fuel]");
 		list.add(EnumChatFormatting.DARK_AQUA + "   " + getFunctionDesc());
-		list.add(EnumChatFormatting.DARK_AQUA + "   Yield of " + Library.getShortNumber(lifeTime) + " events");
+		list.add(EnumChatFormatting.DARK_AQUA + "   Yield of " + BobMathUtil.getShortNumber(lifeTime) + " events");
 		
 		super.addInformation(itemstack, player, list, bool);
 	}

@@ -1,13 +1,16 @@
 package com.hbm.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnegative;
+
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
 public class BobMathUtil {
 	
@@ -89,5 +92,58 @@ public class BobMathUtil {
 		double prevRange = oldMax - oldMin;
 		double newRange = newMax - newMin;
 		return (((toScale - oldMin) * newRange) / prevRange) + newMin;
+	}
+	
+	/**
+	 * Rounds a number to so many significant digits
+	 * @param num The number to round
+	 * @param digits Amount of digits
+	 * @return The rounded double
+	 */
+	public static double roundDecimal(double num, @Nonnegative int digits) {
+		if(digits < 0)
+			throw new IllegalArgumentException("Attempted negative number in non-negative field! Attempted value: " + digits);
+
+		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public static boolean getBlink() {
+		return System.currentTimeMillis() % 1000 < 500;
+	}
+
+	public static String getShortNumber(long l) {
+	
+		if(l >= Math.pow(10, 18)) {
+			double res = l / Math.pow(10, 18);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "E";
+		}
+		if(l >= Math.pow(10, 15)) {
+			double res = l / Math.pow(10, 15);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "P";
+		}
+		if(l >= Math.pow(10, 12)) {
+			double res = l / Math.pow(10, 12);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "T";
+		}
+		if(l >= Math.pow(10, 9)) {
+			double res = l / Math.pow(10, 9);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "G";
+		}
+		if(l >= Math.pow(10, 6)) {
+			double res = l / Math.pow(10, 6);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "M";
+		}
+		if(l >= Math.pow(10, 3)) {
+			double res = l / Math.pow(10, 3);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "k";
+		}
+		
+		return Long.toString(l);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
 import net.minecraft.init.Items;
@@ -309,7 +308,7 @@ public class HbmChestContents {
 	 *         case 8: spaceship loot (reactor elements, super conductors)
 	 *         case 9: powder loot (secret chest with the five powders for NITAN)
 	 **/
-
+	//what kind of drugs did i take that made me thing this was supposed to be an acceptable way of doing things? what the hell?
 	public static WeightedRandomChestContent[] getLoot(int i) {
 		switch (i) {
 		case 1:

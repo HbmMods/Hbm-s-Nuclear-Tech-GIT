@@ -1,6 +1,5 @@
 package com.hbm.inventory.gui;
 
-import java.awt.Color;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -10,8 +9,8 @@ import javax.annotation.Nonnegative;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.annotations.Beta;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -35,7 +34,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	public void drawElectricityInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
-			gui.drawFluidInfo(new String[] { Library.getShortNumber(power) + "/" + Library.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
+			gui.drawFluidInfo(new String[] { BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
 	}
 	
 	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {
@@ -168,12 +167,9 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		 * @param c Color to use
 		 * @return
 		 */
-		private int enumToColor(EnumChatFormatting c)
-		{
-			int hex;
-			if(c.isColor())
-				switch(c)
-				{
+		private int enumToColor(EnumChatFormatting c) {
+			if(c.isColor()) {
+				switch(c) {
 				case AQUA:
 					return 0x55FFFF;
 				case BLACK:
@@ -208,6 +204,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 					return 0xFFFF55;
 				default:
 				}
+			}
 			
 			return 0xFFFF55;
 		}
@@ -224,7 +221,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		 */
 		public void drawNumber(char[] num)
 		{
-			if (blink && !Library.getBlink())
+			if (blink && !BobMathUtil.getBlink())
 				return;
 				
 			short gap = (short) (digitLength - num.length);
@@ -472,7 +469,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			
 //			char[] proc = new Double(bd.doubleValue()).toString().toCharArray();
 			char[] proc = bd.toString().toCharArray();
-			proc = Double.valueOf(Library.roundDecimal(numIn.doubleValue(), floatPad)).toString().toCharArray();
+			proc = Double.valueOf(BobMathUtil.roundDecimal(numIn.doubleValue(), floatPad)).toString().toCharArray();
 			
 			if (proc.length == digitLength)
 				toDisp = proc;
