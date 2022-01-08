@@ -1,8 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.machine.MachineNukeFurnace;
-import com.hbm.inventory.recipes.BreederRecipes;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.items.special.ItemCustomLore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -19,7 +22,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	public int dualCookTime;
 	public int dualPower;
 	public static final int maxPower = 1000;
-	public static final int processingSpeed = 30;
+	public static final int processingSpeed = 25;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -111,12 +114,9 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			return 0;
 		} else {
 
-			int[] power = BreederRecipes.getFuelValue(stack);
+			int power = getFuelValue(stack);
 			
-			if(power == null)
-				return 0;
-			
-			return power[0] * power[1] * 5;
+			return power;
 		}
 	}
 	
@@ -346,5 +346,48 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			this.markDirty();
 		}
 	}
-
+	
+	private static HashMap<ComparableStack, Integer> fuels = new HashMap();
+	//for the int array: [0] => level (1-4) [1] => amount of operations
+	
+	/* 
+	 * I really don't want to have to do this, but it's better then making a new class, for one TE, for not even recipes but just *fuels*
+	 * 
+	 * Who even uses this furnace? Nobody, but it's better then removing it without prior approval
+	 */
+	public static void registerFuels() {
+		setRecipe(BreedingRodType.TRITIUM, 5);
+		setRecipe(BreedingRodType.CO60, 10);
+		setRecipe(BreedingRodType.THF, 30);
+		setRecipe(BreedingRodType.U235, 50);
+		setRecipe(BreedingRodType.NP237, 30);
+		setRecipe(BreedingRodType.PU238, 20);
+		setRecipe(BreedingRodType.PU239, 50);
+		setRecipe(BreedingRodType.RGP, 30);
+		setRecipe(BreedingRodType.WASTE, 20);
+	}
+	
+	/** Sets power for single, dual, and quad rods **/
+	public static void setRecipe(BreedingRodType type, int power) {
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod, 1, type.ordinal())), power);
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, type.ordinal())), power * 2);
+		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_quad, 1, type.ordinal())), power * 4);
+	}
+	
+	/**
+	 * Returns an integer array of the fuel value of a certain stack
+	 * @param stack
+	 * @return an integer array (possibly null) with two fields, the HEAT value and the amount of operations
+	 */
+	public static int getFuelValue(ItemStack stack) {
+		
+		if(stack == null)
+			return 0;
+		
+		ComparableStack sta = new ComparableStack(stack).makeSingular();
+		if(fuels.get(sta) != null)
+			return fuels.get(sta);
+		
+		return 0;
+	}
 }

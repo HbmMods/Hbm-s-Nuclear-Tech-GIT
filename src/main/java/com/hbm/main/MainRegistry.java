@@ -83,6 +83,7 @@ import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
+import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
 import com.hbm.world.feature.SchistStratum;
@@ -945,7 +946,7 @@ public class MainRegistry {
 		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
 		CentrifugeRecipes.register();
-		BreederRecipes.registerFuels();
+		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
 		CyclotronRecipes.register();

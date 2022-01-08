@@ -13,6 +13,7 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -31,9 +32,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -204,7 +206,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			this.pressure = (int) ((float)this.heat * (1.5 * this.carbonDioxide.getFill() / 16000));
 
 			if(this.heat > 0 && this.heat < maxHeat) {
-				if(this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0) {
+				if(this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0 && this.steam.getFill() < this.steam.getMaxFill()) {
 					generateSteam();
 					this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 1800));
 				} else {
@@ -479,6 +481,27 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+	
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("control")) {
+			this.isOn = !this.isOn;
+		}
+		
+		if(data.hasKey("vent")) {
+			int fill = this.carbonDioxide.getFill();
+			this.carbonDioxide.setFill(fill - 1000);
+			if(this.carbonDioxide.getFill() < 0)
+				this.carbonDioxide.setFill(0);
+		}
+		
+		this.markDirty();
 	}
 
 }

@@ -9,9 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemZirnoxRod extends ItemFuelRod {
-
+	
+	public int heat;
+	
 	public ItemZirnoxRod(int life, int heat) {
-		super(life, heat);
+		super(life);
+		this.heat = heat;
 	}
 
 	@Override

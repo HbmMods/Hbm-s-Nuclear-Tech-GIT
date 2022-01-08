@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerReactorZirnox;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 
@@ -12,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIReactorZirnox extends GuiInfoContainer {
@@ -62,18 +64,23 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 
 	protected void mouseClicked(int x, int y, int i) {
     	super.mouseClicked(x, y, i);
+    	
+		NBTTagCompound control = new NBTTagCompound();
+
 
     	if(guiLeft + 144 <= x && guiLeft + 144 + 14 > x && guiTop + 35 < y && guiTop + 35 + 14 >= y) {
-
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 0));
+    		control.setBoolean("control", true);
+			
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, zirnox.xCoord, zirnox.yCoord, zirnox.zCoord));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.rbmk_az5_cover"), 0.5F));
     	}
 
     	if(guiLeft + 151 <= x && guiLeft + 151 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
-
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(zirnox.xCoord, zirnox.yCoord, zirnox.zCoord, 0, 1));
-    	}
+    		control.setBoolean("vent", true); //sus impostre like amogus
+			
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, zirnox.xCoord, zirnox.yCoord, zirnox.zCoord));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.rbmk_az5_cover"), 0.5F));
+		}
     }
 
 	@Override

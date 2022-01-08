@@ -23,7 +23,6 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.turret.TileEntityTurretCIWS;
 import com.hbm.tileentity.turret.TileEntityTurretCheapo;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 
@@ -134,18 +133,6 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityMachineDiesel selenium = (TileEntityMachineDiesel)te;
 					
 					selenium.powerCap = m.value;
-				}
-				if (te instanceof TileEntityMachineReactorSmall) {
-					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
-					
-					if(m.id == 0)
-						reactor.rods = m.value;
-					if(m.id == 1)
-						reactor.retracting = m.value == 1;
-					if(m.id == 2)
-						reactor.coreHeat = m.value;
-					if(m.id == 3)
-						reactor.hullHeat = m.value;
 				}
 				if (te instanceof TileEntityBomber) {
 					TileEntityBomber bomber = (TileEntityBomber)te;

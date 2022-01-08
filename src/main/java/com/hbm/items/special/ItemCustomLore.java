@@ -96,12 +96,6 @@ public class ItemCustomLore extends Item {
 			list.add("a great taste in shades of green.");
 		}
 		
-		if(this == ModItems.rod_quad_euphemium)
-		{
-			list.add("A quad fuel rod which contains a");
-			list.add("very small ammount of a strange new element.");
-		}
-		
 		if(this == ModItems.ingot_euphemium)
 		{
 			list.add("A very special and yet strange element.");
@@ -126,21 +120,6 @@ public class ItemCustomLore extends Item {
 			list.add("It's glass has a few cracks in it,");
 			list.add("and some shards are missing.");
 			list.add("It stopped ticking at 2:34.");
-		}
-		
-		if(this == ModItems.rod_lithium)
-		{
-			list.add("Turns into Tritium Rod");
-		}
-		
-		if(this == ModItems.rod_dual_lithium)
-		{
-			list.add("Turns into Dual Tritium Rod");
-		}
-		
-		if(this == ModItems.rod_quad_lithium)
-		{
-			list.add("Turns into Quad Tritium Rod");
 		}
 		
 		if(this == ModItems.tritium_deuterium_cake)
@@ -390,7 +369,7 @@ public class ItemCustomLore extends Item {
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
     	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || 
-    			this == ModItems.rod_quad_euphemium || this == ModItems.plate_euphemium || 
+    			this == ModItems.plate_euphemium || 
     			this == ModItems.watch || this == ModItems.powder_iodine || 
     			this == ModItems.powder_thorium || this == ModItems.powder_neodymium || 
     			this == ModItems.powder_neptunium || this == ModItems.powder_astatine || 
@@ -402,8 +381,7 @@ public class ItemCustomLore extends Item {
     		return EnumRarity.epic;
     	}
     	
-    	if(this == ModItems.rod_schrabidium || this == ModItems.rod_dual_schrabidium || 
-    			this == ModItems.rod_quad_schrabidium || this == ModItems.ingot_schrabidium || 
+    	if(this == ModItems.ingot_schrabidium || 
     			this == ModItems.nugget_schrabidium || this == ModItems.plate_schrabidium || 
     			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
     			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 

@@ -84,9 +84,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor: {
-			if(entity instanceof TileEntityMachineReactor) {
-				return new ContainerReactor(player.inventory, (TileEntityMachineReactor) entity);
+		case ModBlocks.guiID_reactor_breeding: {
+			if(entity instanceof TileEntityMachineReactorBreeding) {
+				return new ContainerMachineReactorBreeding(player.inventory, (TileEntityMachineReactorBreeding) entity);
 			}
 			return null;
 		}
@@ -455,9 +455,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor_small: {
-			if(entity instanceof TileEntityMachineReactorSmall) {
-				return new ContainerMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
+		case ModBlocks.guiID_reactor_research: {
+			if(entity instanceof TileEntityReactorResearch) {
+				return new ContainerReactorResearch(player.inventory, (TileEntityReactorResearch) entity);
 			}
 			return null;
 		}
@@ -933,9 +933,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor: {
-			if(entity instanceof TileEntityMachineReactor) {
-				return new GUIMachineReactor(player.inventory, (TileEntityMachineReactor) entity);
+		case ModBlocks.guiID_reactor_breeding: {
+			if(entity instanceof TileEntityMachineReactorBreeding) {
+				return new GUIMachineReactorBreeding(player.inventory, (TileEntityMachineReactorBreeding) entity);
 			}
 			return null;
 		}
@@ -1304,9 +1304,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor_small: {
-			if(entity instanceof TileEntityMachineReactorSmall) {
-				return new GUIMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
+		case ModBlocks.guiID_reactor_research: {
+			if(entity instanceof TileEntityReactorResearch) {
+				return new GUIReactorResearch(player.inventory, (TileEntityReactorResearch) entity);
 			}
 			return null;
 		}

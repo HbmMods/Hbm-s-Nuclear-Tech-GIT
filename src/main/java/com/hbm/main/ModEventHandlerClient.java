@@ -51,6 +51,7 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
+import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry;
@@ -562,13 +563,11 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		/// BREEDING ///
-		int[] breeder = BreederRecipes.getFuelValue(stack);
+		/// NUCLEAR FURNACE FUELS ///
+		int breeder = TileEntityNukeFurnace.getFuelValue(stack);
 		
-		if(breeder != null) {
-			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
+		if(breeder != 0) {
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder * 5)));
 		}
 		
 		/// CUSTOM NUKE ///

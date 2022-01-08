@@ -2,6 +2,7 @@ package com.hbm.crafting;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.main.CraftingManager;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -17,114 +18,60 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class RodRecipes {
 	
 	public static void register() {
-
-		//Single rods
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rod_empty, 16), new Object[] { "SSS", "L L", "SSS", 'S', STEEL.plate(), 'L', PB.plate() });
-		addRodBilletUnload(U, ModItems.billet_uranium, ModItems.rod_uranium);
-		addRodBilletUnload(U233, ModItems.billet_u233, ModItems.rod_u233);
-		addRodBilletUnload(U235, ModItems.billet_u235, ModItems.rod_u235);
-		addRodBilletUnload(U238, ModItems.billet_u238, ModItems.rod_u238);
-		addRodBilletUnload(TH232, ModItems.billet_th232, ModItems.rod_th232);
-		addRodBilletUnload(PU, ModItems.billet_plutonium, ModItems.rod_plutonium);
-		addRodBilletUnload(PU238, ModItems.billet_pu238, ModItems.rod_pu238);
-		addRodBilletUnload(PU239, ModItems.billet_pu239, ModItems.rod_pu239);
-		addRodBilletUnload(PU240, ModItems.billet_pu240, ModItems.rod_pu240);
-		addRodBilletUnload(NP237, ModItems.billet_neptunium, ModItems.rod_neptunium);
-		addRodBilletUnload(PO210, ModItems.billet_polonium, ModItems.rod_polonium);
-		addRodBilletUnload(SA326, ModItems.billet_schrabidium, ModItems.rod_schrabidium);
-		addRodBilletUnload(SA327, ModItems.billet_solinium, ModItems.rod_solinium);
-		addRodBilletUnload(ModItems.egg_balefire_shard, ModItems.rod_balefire);
-		addFuelRodBillet(ModItems.billet_uranium_fuel, ModItems.rod_uranium_fuel);
-		addFuelRodBillet(ModItems.billet_thorium_fuel, ModItems.rod_thorium_fuel);
-		addFuelRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_plutonium_fuel);
-		addFuelRodBillet(ModItems.billet_mox_fuel, ModItems.rod_mox_fuel);
-		addFuelRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_schrabidium_fuel);
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_lead, 1), new Object[] { ModItems.rod_empty, PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 6), new Object[] { ModItems.rod_lead });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_lithium, 1), new Object[] { ModItems.rod_empty, LI.ingot() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_zirnox_lithium), new Object[] { ModItems.rod_zirnox_empty, LI.ingot(), LI.ingot() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.lithium, 1), new Object[] { ModItems.rod_lithium });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 1), new Object[] { ModItems.rod_tritium, ModItems.cell_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { ModItems.rod_zirnox_tritium, ModItems.cell_empty, ModItems.cell_empty });
-		
-		//Dual rods
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_empty, 2), new Object[] { ModItems.rod_dual_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual_empty, 1), new Object[] { ModItems.rod_empty, ModItems.rod_empty });
-		addDualRodBilletUnload(U, ModItems.billet_uranium, ModItems.rod_dual_uranium);
-		addDualRodBilletUnload(U233, ModItems.billet_u233, ModItems.rod_dual_u233);
-		addDualRodBilletUnload(U235, ModItems.billet_u235, ModItems.rod_dual_u235);
-		addDualRodBilletUnload(U238, ModItems.billet_u238, ModItems.rod_dual_u238);
-		addDualRodBilletUnload(TH232, ModItems.billet_th232, ModItems.rod_dual_th232);
-		addDualRodBilletUnload(PU, ModItems.billet_plutonium, ModItems.rod_dual_plutonium);
-		addDualRodBilletUnload(PU238, ModItems.billet_pu238, ModItems.rod_dual_pu238);
-		addDualRodBilletUnload(PU239, ModItems.billet_pu239, ModItems.rod_dual_pu239);
-		addDualRodBilletUnload(PU240, ModItems.billet_pu240, ModItems.rod_dual_pu240);
-		addDualRodBilletUnload(NP237, ModItems.billet_neptunium, ModItems.rod_dual_neptunium);
-		addDualRodBilletUnload(PO210, ModItems.billet_polonium, ModItems.rod_dual_polonium);
-		addDualRodBilletUnload(SA326, ModItems.billet_schrabidium, ModItems.rod_dual_schrabidium);
-		addDualRodBilletUnload(SA327, ModItems.billet_solinium, ModItems.rod_dual_solinium);
-		addDualRodBilletUnload(ModItems.egg_balefire_shard, ModItems.rod_dual_balefire);
-		addDualFuelRodBillet(ModItems.billet_uranium_fuel, ModItems.rod_dual_uranium_fuel);
-		addDualFuelRodBillet(ModItems.billet_thorium_fuel, ModItems.rod_dual_thorium_fuel);
-		addDualFuelRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_dual_plutonium_fuel);
-		addDualFuelRodBillet(ModItems.billet_mox_fuel, ModItems.rod_dual_mox_fuel);
-		addDualFuelRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_dual_schrabidium_fuel);
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual_lead, 1), new Object[] { ModItems.rod_dual_empty, PB.ingot(), PB.nugget(), PB.nugget(), PB.nugget() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 12), new Object[] { ModItems.rod_dual_lead });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual_lithium, 1), new Object[] { ModItems.rod_dual_empty, LI.ingot(), LI.ingot() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.lithium, 2), new Object[] { ModItems.rod_dual_lithium });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { ModItems.rod_dual_tritium, ModItems.cell_empty, ModItems.cell_empty });
-
-		//Quad rods
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_empty, 4), new Object[] { ModItems.rod_quad_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_empty, 1), new Object[] { ModItems.rod_empty, ModItems.rod_empty, ModItems.rod_empty, ModItems.rod_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_empty, 1), new Object[] { ModItems.rod_dual_empty, ModItems.rod_dual_empty });
-		addQuadRodBilletUnload(U, ModItems.billet_uranium, ModItems.rod_quad_uranium);
-		addQuadRodBilletUnload(U233, ModItems.billet_u233, ModItems.rod_quad_u233);
-		addQuadRodBilletUnload(U235, ModItems.billet_u235, ModItems.rod_quad_u235);
-		addQuadRodBilletUnload(U238, ModItems.billet_u238, ModItems.rod_quad_u238);
-		addQuadRodBilletUnload(TH232, ModItems.billet_th232, ModItems.rod_quad_th232);
-		addQuadRodBilletUnload(PU, ModItems.billet_plutonium, ModItems.rod_quad_plutonium);
-		addQuadRodBilletUnload(PU238, ModItems.billet_pu238, ModItems.rod_quad_pu238);
-		addQuadRodBilletUnload(PU239, ModItems.billet_pu239, ModItems.rod_quad_pu239);
-		addQuadRodBilletUnload(PU240, ModItems.billet_pu240, ModItems.rod_quad_pu240);
-		addQuadRodBilletUnload(NP237, ModItems.billet_neptunium, ModItems.rod_quad_neptunium);
-		addQuadRodBilletUnload(PO210, ModItems.billet_polonium, ModItems.rod_quad_polonium);
-		addQuadRodBilletUnload(SA326, ModItems.billet_schrabidium, ModItems.rod_quad_schrabidium);
-		addQuadRodBilletUnload(SA327, ModItems.billet_solinium, ModItems.rod_quad_solinium);
-		addQuadRodBilletUnload(ModItems.egg_balefire_shard, ModItems.rod_quad_balefire);
-		addQuadFuelRodBillet(ModItems.billet_uranium_fuel, ModItems.rod_quad_uranium_fuel);
-		addQuadFuelRodBillet(ModItems.billet_thorium_fuel, ModItems.rod_quad_thorium_fuel);
-		addQuadFuelRodBillet(ModItems.billet_plutonium_fuel, ModItems.rod_quad_plutonium_fuel);
-		addQuadFuelRodBillet(ModItems.billet_mox_fuel, ModItems.rod_quad_mox_fuel);
-		addQuadFuelRodBillet(ModItems.billet_schrabidium_fuel, ModItems.rod_quad_schrabidium_fuel);
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_lead, 1), new Object[] { ModItems.rod_quad_empty, PB.ingot(), PB.ingot(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 24), new Object[] { ModItems.rod_quad_lead });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_lithium, 1), new Object[] { ModItems.rod_quad_empty, LI.ingot(), LI.ingot(), LI.ingot(), LI.ingot() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.lithium, 4), new Object[] { ModItems.rod_quad_lithium });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 4), new Object[] { ModItems.rod_quad_tritium, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty });
 		
 		//Zirnox Fuel
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.rod_zirnox_empty, 4), new Object[] { "Z Z", "ZBZ", "Z Z", 'Z', "nuggetZirconium", 'B', "ingotBeryllium" }));
-		addZIRNOXRod(ModItems.billet_uranium, ModItems.rod_zirnox_natural_uranium_fuel);
+		addZIRNOXRod(U, ModItems.rod_zirnox_natural_uranium_fuel);
 		addZIRNOXRod(ModItems.billet_uranium_fuel, ModItems.rod_zirnox_uranium_fuel);
-		addZIRNOXRod(ModItems.billet_th232, ModItems.rod_zirnox_th232);
+		addZIRNOXRod(TH232, ModItems.rod_zirnox_th232);
 		addZIRNOXRod(ModItems.billet_thorium_fuel, ModItems.rod_zirnox_thorium_fuel);
 		addZIRNOXRod(ModItems.billet_mox_fuel, ModItems.rod_zirnox_mox_fuel);
 		addZIRNOXRod(ModItems.billet_plutonium_fuel, ModItems.rod_zirnox_plutonium_fuel);
-		addZIRNOXRod(ModItems.billet_u233, ModItems.rod_zirnox_u233_fuel);
-		addZIRNOXRod(ModItems.billet_u235, ModItems.rod_zirnox_u235_fuel);
+		addZIRNOXRod(U233, ModItems.rod_zirnox_u233_fuel);
+		addZIRNOXRod(U235, ModItems.rod_zirnox_u235_fuel);
 		addZIRNOXRod(ModItems.billet_les, ModItems.rod_zirnox_les_fuel);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_zirnox_lithium), new Object[] { ModItems.rod_zirnox_empty, LI.ingot(), LI.ingot() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { ModItems.rod_zirnox_tritium, ModItems.cell_empty, ModItems.cell_empty });
 
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_natural_uranium_hot, 2), new Object[] { ModItems.rod_zirnox_natural_uranium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium_hot, 2), new Object[] { ModItems.rod_zirnox_uranium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium_hot, 2), new Object[] { ModItems.rod_zirnox_thorium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox_hot, 2), new Object[] { ModItems.rod_zirnox_mox_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium_hot, 2), new Object[] { ModItems.rod_zirnox_plutonium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u233_hot, 2), new Object[] { ModItems.rod_zirnox_u233_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u235_hot, 2), new Object[] { ModItems.rod_zirnox_u235_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium_hot, 2), new Object[] { ModItems.rod_zirnox_les_fuel_depleted });
-
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_natural_uranium, 2, 1), new Object[] { ModItems.rod_zirnox_natural_uranium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium, 2, 1), new Object[] { ModItems.rod_zirnox_uranium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium, 2, 1), new Object[] { ModItems.rod_zirnox_thorium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox, 2, 1), new Object[] { ModItems.rod_zirnox_mox_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium, 2, 1), new Object[] { ModItems.rod_zirnox_plutonium_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u233, 2, 1), new Object[] { ModItems.rod_zirnox_u233_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_u235, 2, 1), new Object[] { ModItems.rod_zirnox_u235_fuel_depleted });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium, 2, 1), new Object[] { ModItems.rod_zirnox_les_fuel_depleted });
+		
+		//Breeding Rods
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rod_empty, 16), new Object[] { "SSS", "L L", "SSS", 'S', STEEL.plate(), 'L', PB.plate() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_empty, 2), new Object[] { ModItems.rod_dual_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual_empty, 1), new Object[] { ModItems.rod_empty, ModItems.rod_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_empty, 4), new Object[] { ModItems.rod_quad_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_empty, 1), new Object[] { ModItems.rod_empty, ModItems.rod_empty, ModItems.rod_empty, ModItems.rod_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_empty, 1), new Object[] { ModItems.rod_dual_empty, ModItems.rod_dual_empty });
+		
+		addBreedingRod(LI, ModItems.lithium, BreedingRodType.LITHIUM);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 1), new Object[] { new ItemStack(ModItems.rod_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { new ItemStack(ModItems.rod_dual_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 4), new Object[] { new ItemStack(ModItems.rod_quad_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty });
+		addBreedingRod(CO, ModItems.billet_cobalt, BreedingRodType.CO);
+		addBreedingRod(CO60, ModItems.billet_co60, BreedingRodType.CO60);
+		addBreedingRod(TH232, ModItems.billet_th232, BreedingRodType.TH232);
+		addBreedingRod(ModItems.billet_thorium_fuel, BreedingRodType.THF);
+		addBreedingRod(U235, ModItems.billet_u235, BreedingRodType.U235);
+		addBreedingRod(NP237, ModItems.billet_neptunium, BreedingRodType.NP237);
+		addBreedingRod(U238, ModItems.billet_u238, BreedingRodType.U238);
+		addBreedingRod(PU238, ModItems.billet_pu238, BreedingRodType.PU238);
+		addBreedingRod(PU239, ModItems.billet_pu239, BreedingRodType.PU239);
+		addBreedingRod(ModItems.billet_pu_mix, BreedingRodType.RGP);
+		addBreedingRod(ModItems.billet_nuclear_waste, BreedingRodType.WASTE);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod, 1, BreedingRodType.LEAD.ordinal()), new Object[] { ModItems.rod_empty, PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 6), new Object[] { new ItemStack(ModItems.rod_empty, 1, BreedingRodType.LEAD.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual, 1, BreedingRodType.LEAD.ordinal()), new Object[] { ModItems.rod_dual_empty, PB.ingot(), PB.nugget(), PB.nugget(), PB.nugget() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 12), new Object[] { new ItemStack(ModItems.rod_dual_empty, 1, BreedingRodType.LEAD.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal()), new Object[] { ModItems.rod_quad_empty, PB.ingot(), PB.ingot(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 24), new Object[] { new ItemStack(ModItems.rod_quad_empty, 1, BreedingRodType.LEAD.ordinal()) });
+		addBreedingRod(U, ModItems.billet_uranium, BreedingRodType.URANIUM);
 
 
 		//Pile fuel
@@ -163,32 +110,6 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
-
-		//Rod recycling
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_australium, 6), new Object[] { ModItems.rod_australium });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_euphemium, 6), new Object[] { ModItems.rod_euphemium });
-
-		//Waste rod recycling
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.billet_nuclear_waste, 1), new Object[] { ModItems.rod_waste });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.billet_nuclear_waste, 2), new Object[] { ModItems.rod_dual_waste });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.billet_nuclear_waste, 4), new Object[] { ModItems.rod_quad_waste });
-
-		//Depleted fuel recycling
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium_hot, 1), new Object[] { ModItems.rod_uranium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium_hot, 2), new Object[] { ModItems.rod_dual_uranium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium_hot, 4), new Object[] { ModItems.rod_quad_uranium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium_hot, 1), new Object[] { ModItems.rod_thorium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium_hot, 2), new Object[] { ModItems.rod_dual_thorium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_thorium_hot, 4), new Object[] { ModItems.rod_quad_thorium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium_hot, 1), new Object[] { ModItems.rod_plutonium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium_hot, 2), new Object[] { ModItems.rod_dual_plutonium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_plutonium_hot, 4), new Object[] { ModItems.rod_quad_plutonium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox_hot, 1), new Object[] { ModItems.rod_mox_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox_hot, 2), new Object[] { ModItems.rod_dual_mox_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_mox_hot, 4), new Object[] { ModItems.rod_quad_mox_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium_hot, 1), new Object[] { ModItems.rod_schrabidium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium_hot, 2), new Object[] { ModItems.rod_dual_schrabidium_fuel_depleted });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_schrabidium_hot, 4), new Object[] { ModItems.rod_quad_schrabidium_fuel_depleted });
 	}
 	
 	//Fill rods with one billet. For fuels only, therefore no unloading or ore dict
@@ -236,6 +157,42 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(billet, 4), new Object[] { out });
 	}
 	
+	/** Single, dual, quad rod loading + unloading **/
+	public static void addBreedingRod(Item billet, BreedingRodType type) {
+		addBreedingRodLoad(billet, type);
+		addBreedingRodUnload(billet, type);
+	}
+	/** Single, dual, quad rod loading + unloading + oredict **/
+	public static void addBreedingRod(DictFrame mat, Item billet, BreedingRodType type) {
+		addBreedingRodLoad(mat, billet, type);
+		addBreedingRodUnload(mat, billet, type);
+	}
+	
+	/** Single, dual, quad rod loading **/
+	public static void addBreedingRodLoad(Item billet, BreedingRodType type) {
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod, 1, type.ordinal()), new Object[] { ModItems.rod_empty, billet});
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual, 1, type.ordinal()), new Object[] { ModItems.rod_dual_empty, billet, billet});
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad, 1, type.ordinal()), new Object[] { ModItems.rod_quad_empty, billet, billet, billet, billet});
+	}
+	/** Single, dual, quad rod unloading **/
+	public static void addBreedingRodUnload(Item billet, BreedingRodType type) {
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 1), new Object[] { new ItemStack(ModItems.rod, 1, type.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 2), new Object[] { new ItemStack(ModItems.rod_dual, 1, type.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 4), new Object[] { new ItemStack(ModItems.rod_quad, 1, type.ordinal()) });
+	}
+	/** Single, dual, quad rod loading with OreDict **/
+	public static void addBreedingRodLoad(DictFrame mat, Item billet, BreedingRodType type) {
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod, 1, type.ordinal()), new Object[] { ModItems.rod_empty, mat.billet()});
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_dual, 1, type.ordinal()), new Object[] { ModItems.rod_dual_empty, mat.billet(), mat.billet()});
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad, 1, type.ordinal()), new Object[] { ModItems.rod_quad_empty, mat.billet(), mat.billet(), mat.billet(), mat.billet()});
+	}
+	/** Single, dual, quad rod unloading with OreDict **/
+	public static void addBreedingRodUnload(DictFrame mat, Item billet, BreedingRodType type) {
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 1), new Object[] { new ItemStack(ModItems.rod, 1, type.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 2), new Object[] { new ItemStack(ModItems.rod_dual, 1, type.ordinal()) });
+		CraftingManager.addShapelessAuto(new ItemStack(billet, 4), new Object[] { new ItemStack(ModItems.rod_quad, 1, type.ordinal()) });
+	}
+	
 	//Fill rods with 8 billets
 	public static void addRBMKRod(DictFrame mat, Item out) {
 		CraftingManager.addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, mat.billet(), mat.billet(), mat.billet(), mat.billet(), mat.billet(), mat.billet(), mat.billet(), mat.billet() });
@@ -244,8 +201,13 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
 	}
 	
-	//Fill rods with 2 billets
+	/** Fill ZIRNOX rod with two billets **/
 	public static void addZIRNOXRod(Item billet, Item out) {
-		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_zirnox_empty, billet, billet });
+		CraftingManager.addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rod_zirnox_empty, billet, billet });
+	}
+	
+	/** Fill ZIRNOX rod with two billets with OreDict **/
+	public static void addZIRNOXRod(DictFrame mat, Item out) {
+		CraftingManager.addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rod_zirnox_empty, mat.billet(), mat.billet() });
 	}
 }

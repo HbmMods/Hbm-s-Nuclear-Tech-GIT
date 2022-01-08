@@ -208,7 +208,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		int level = FusionRecipes.getBreedingLevel(plasma.getTankType());
 		
-		if(out.heat > level) {
+		if(out.flux > level) {
 			this.progress = 0;
 			return;
 		}

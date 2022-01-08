@@ -32,7 +32,7 @@ public class TileMappings {
 		put(TileEntityNukeMan.class, "tileentity_nukeman");
 		put(TileEntityMachineUF6Tank.class, "tileentity_uf6_tank");
 		put(TileEntityMachinePuF6Tank.class, "tileentity_puf6_tank");
-		put(TileEntityMachineReactor.class, "tileentity_reactor");
+		put(TileEntityMachineReactorBreeding.class, "tileentity_reactor");
 		put(TileEntityNukeFurnace.class, "tileentity_nukefurnace");
 		put(TileEntityRtgFurnace.class, "tileentity_rtgfurnace");
 		put(TileEntityMachineGenerator.class, "tileentity_generator");
@@ -110,7 +110,7 @@ public class TileMappings {
 		put(TileEntityCelPrimeTanks.class, "tileentity_cel_prime_storage");
 		put(TileEntityMachineSeleniumEngine.class, "tileentity_selenium_engine");
 		put(TileEntityMachineSatLinker.class, "tileentity_satlinker");
-		put(TileEntityMachineReactorSmall.class, "tileentity_small_reactor");
+		put(TileEntityReactorResearch.class, "tileentity_small_reactor");
 		put(TileEntityVaultDoor.class, "tileentity_vault_door");
 		put(TileEntityRadiobox.class, "tileentity_radio_broadcaster");
 		put(TileEntityRadioRec.class, "tileentity_radio_receiver");

@@ -221,7 +221,7 @@ public class ItemRBMKRod extends Item {
 	}
 	
 	/**
-	 * @param flux [0;100] ...or at least those are sane levels
+	 * @param reactivity [0;100] ...or at least those are sane levels
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double in, double enrichment) {

@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderSparks;
-import com.hbm.tileentity.machine.TileEntityMachineReactor;
+import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -30,9 +30,9 @@ public class RenderBreeder extends TileEntitySpecialRenderer {
 		case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		}
 		
-		TileEntityMachineReactor breeder = (TileEntityMachineReactor) tile;
+		TileEntityMachineReactorBreeding breeder = (TileEntityMachineReactorBreeding) tile;
         
-		if(breeder.progress > 0)
+		if(breeder.progress > 0.0F)
 			for(int i = 0; i < 3; i++) {
 				GL11.glPushMatrix();
 		        GL11.glRotatef((float) (Math.PI * i), 0F, 1F, 0F);

@@ -1,9 +1,13 @@
 package com.hbm.lib;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import javax.annotation.Nonnegative;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
@@ -83,6 +87,26 @@ public class Library {
 			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
 			});
 	
+	/**
+	 * Rounds a number to so many significant digits
+	 * @param num The number to round
+	 * @param digits Amount of digits
+	 * @return The rounded double
+	 */
+	public static double roundDecimal(double num, @Nonnegative int digits)
+	{
+		if (digits < 0)
+			throw new IllegalArgumentException("Attempted negative number in non-negative field! Attempted value: " + digits);
+		
+		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
+	}
+	
+	
+	public static boolean getBlink()
+	{
+		return System.currentTimeMillis() % 1000 < 500;
+	}
+	
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
 	public static List<String> superuser = new ArrayList<String>();
@@ -152,7 +176,6 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
 				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
@@ -515,11 +538,6 @@ public class Library {
 		}
 		//AMS Base
 		if(block == ModBlocks.dummy_port_ams_base)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Small Nuclear Reactor
-		if(block == ModBlocks.dummy_port_reactor_small)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

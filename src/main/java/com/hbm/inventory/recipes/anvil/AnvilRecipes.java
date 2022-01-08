@@ -173,7 +173,8 @@ public class AnvilRecipes {
 						new OreDictStack(POLYMER.ingot(), 4),
 						new ComparableStack(ModItems.generator_steel, 2),
 						new ComparableStack(ModItems.turbine_titanium, 1),
-						new ComparableStack(ModItems.thermo_element, 3)
+						new ComparableStack(ModItems.thermo_element, 3),
+						new ComparableStack(ModItems.crt_display, 1)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_industrial_generator))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -253,6 +254,12 @@ public class AnvilRecipes {
 		
 		pullFromAssembler(new ComparableStack(ModItems.plate_mixed, 4), 3);
 		
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_u233, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_u233))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_u235, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_u235))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_mox_fuel, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_mox))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_pu239, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_pu239))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_schrabidium, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_sa326))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.billet_ra226be, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_ra226be))).setTier(4));
 	}
 	
 	public static void registerConstructionAmmo() {
@@ -581,7 +588,7 @@ public class AnvilRecipes {
 							new AnvilOutput(new ItemStack(ModItems.pipes_steel, 2))
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(
-					new ComparableStack(ModBlocks.machine_reactor_small), new AnvilOutput[] {
+					new ComparableStack(ModBlocks.reactor_research), new AnvilOutput[] {
 							new AnvilOutput(new ItemStack(ModItems.ingot_steel, 6)),
 							new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1)),
 							new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1), 0.75F),
