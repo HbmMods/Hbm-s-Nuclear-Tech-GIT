@@ -56,8 +56,4 @@ public class WatzFuel extends ItemFuelRod {
 		
 		stack.setItemDamage((int)((double)getLifeTime(stack) / (double)((WatzFuel)stack.getItem()).lifeTime * 100D));
 	}
-	
-	public boolean showDurabilityBar(ItemStack stack) {
-        return false;
-    }
 }
