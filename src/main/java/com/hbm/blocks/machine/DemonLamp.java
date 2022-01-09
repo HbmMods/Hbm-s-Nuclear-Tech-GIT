@@ -1,7 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.tileentity.machine.TileEntityDemonLamp;
 
 import net.minecraft.block.BlockContainer;
@@ -9,23 +7,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class DemonLamp extends BlockContainer implements IItemHazard {
+public class DemonLamp extends BlockContainer {
 	
-	ItemHazardModule module;
-
 	public DemonLamp() {
 		super(Material.iron);
-		this.module = new ItemHazardModule();
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityDemonLamp();
-	}
-
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
 	}
 	
 	@Override

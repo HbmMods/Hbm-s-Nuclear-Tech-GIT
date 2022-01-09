@@ -141,7 +141,7 @@ public class HazardRegistry {
 		
 		HazardSystem.register(Items.gunpowder, makeData(EXPLOSIVE, 1F));
 		HazardSystem.register(Blocks.tnt, makeData(EXPLOSIVE, 4F));
-		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 4F));
+		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 1F));
 		
 		HazardSystem.register(ModItems.ball_dynamite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(ModItems.stick_dynamite, makeData(EXPLOSIVE, 1F));
@@ -193,16 +193,23 @@ public class HazardRegistry {
 		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
 		HazardSystem.register(sand_gold198, makeData(RADIATION, au198 * block * powder_mult));
 		
-		registerOtherFuel(rod_zirnox_natural_uranium_fuel, u * rod_dual, u * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_uranium_fuel, uf * rod_dual, uf * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_th232, th232 * rod_dual, thf * rod_dual);
-		registerOtherFuel(rod_zirnox_thorium_fuel, thf * rod_dual, u233 * rod_dual * 10);
-		registerOtherFuel(rod_zirnox_mox_fuel, mox * rod_dual, mox * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_plutonium_fuel, puf * rod_dual, puf * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_u233_fuel, u233 * rod_dual, u233 * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_u235_fuel, u235 * rod_dual, u235 * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_les_fuel, saf * rod_dual, saf * rod_dual * 100);
-		registerOtherFuel(rod_zirnox_lithium, 0, 0.001F * rod_dual);
+		HazardSystem.register(sellafield_0, makeData(RADIATION, 0.5F));
+		HazardSystem.register(sellafield_1, makeData(RADIATION, 1F));
+		HazardSystem.register(sellafield_2, makeData(RADIATION, 2.5F));
+		HazardSystem.register(sellafield_3, makeData(RADIATION, 4F));
+		HazardSystem.register(sellafield_4, makeData(RADIATION, 5F));	
+		HazardSystem.register(sellafield_core, makeData(RADIATION, 10F));
+		
+		registerOtherFuel(rod_zirnox_natural_uranium_fuel, u * rod_dual, u * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_uranium_fuel, uf * rod_dual, uf * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_th232, th232 * rod_dual, thf * rod_dual, false);
+		registerOtherFuel(rod_zirnox_thorium_fuel, thf * rod_dual, u233 * rod_dual * 10, false);
+		registerOtherFuel(rod_zirnox_mox_fuel, mox * rod_dual, mox * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_plutonium_fuel, puf * rod_dual, puf * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_u233_fuel, u233 * rod_dual, u233 * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_u235_fuel, u235 * rod_dual, u235 * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_les_fuel, saf * rod_dual, saf * rod_dual * 100, false);
+		registerOtherFuel(rod_zirnox_lithium, 0, 0.001F * rod_dual, false);
 		
 		HazardSystem.register(rod_zirnox_natural_uranium_fuel_depleted, makeData(RADIATION, u * rod_dual * 100));
 		HazardSystem.register(rod_zirnox_uranium_fuel_depleted, makeData(RADIATION, uf * rod_dual * 100));
@@ -223,12 +230,21 @@ public class HazardRegistry {
 		registerOtherWaste(waste_mox, mox * billet * 100);
 		registerOtherWaste(waste_schrabidium, saf * billet * 100);
 		
-		registerOtherFuel(plate_fuel_u233, u233 * ingot, u233 * ingot * 100);
-		registerOtherFuel(plate_fuel_u235, u235 * ingot, u235 * ingot * 100);
-		registerOtherFuel(plate_fuel_mox, mox * ingot, mox * ingot * 100);
-		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, pu239 * ingot * 100);
-		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, sa326 * ingot * 100);
-		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, po210 * nugget * 3);
+		registerOtherFuel(pellet_schrabidium, sa326 * ingot * 5, sa326 * ingot * 100, true);
+		registerOtherFuel(pellet_hes, saf * ingot * 5, saf * ingot * 75, true);
+		registerOtherFuel(pellet_mes, saf * ingot * 5, saf * ingot * 50, true);
+		registerOtherFuel(pellet_les, sa326 * ingot * 5, sa326 * ingot * 20, false);
+		registerOtherFuel(pellet_beryllium, 0F, 10F, false);
+		registerOtherFuel(pellet_neptunium, np237 * ingot * 5, np237 * ingot * 25, false);
+		registerOtherFuel(pellet_lead, 0F, 15F, false);
+		registerOtherFuel(pellet_advanced, 0F, 20F, false);
+		
+		registerOtherFuel(plate_fuel_u233, u233 * ingot, u233 * ingot * 100, false);
+		registerOtherFuel(plate_fuel_u235, u235 * ingot, u235 * ingot * 100, false);
+		registerOtherFuel(plate_fuel_mox, mox * ingot, mox * ingot * 100, false);
+		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, pu239 * ingot * 100, false);
+		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, sa326 * ingot * 100, true);
+		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, po210 * nugget * 3, false);
 		
 		registerOtherWaste(waste_plate_u233, u233 * ingot * 100);
 		registerOtherWaste(waste_plate_u235, u235 * ingot * 100);
@@ -336,6 +352,56 @@ public class HazardRegistry {
 		HazardSystem.register(ModItems.fallout, makeData(RADIATION, fo * powder));
 		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
 		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
+		HazardSystem.register(powder_caesium, new HazardData().addEntry(HYDROACTIVE, 1F).addEntry(HOT, 3F));
+		
+		HazardSystem.register(wire_schrabidium, makeData(RADIATION, sa326 * nugget));
+		
+		HazardSystem.register(ore_asbestos, makeData(ASBESTOS, 1F));
+		HazardSystem.register(ore_gneiss_asbestos, makeData(ASBESTOS, 3F));
+		HazardSystem.register(block_asbestos, makeData(ASBESTOS, 1F));
+		HazardSystem.register(brick_asbestos, makeData(ASBESTOS, 1F));
+		HazardSystem.register(tile_lab_broken, makeData(ASBESTOS, 1F));
+		HazardSystem.register(powder_coltan_ore, makeData(ASBESTOS, 3F));
+		
+		//crystals
+		HazardSystem.register(crystal_uranium, makeData(RADIATION, u * crystal));
+		HazardSystem.register(crystal_thorium, makeData(RADIATION, th232 * crystal));
+		HazardSystem.register(crystal_plutonium, makeData(RADIATION, pu * crystal));
+		HazardSystem.register(crystal_schraranium, makeData(RADIATION, sr * crystal));
+		HazardSystem.register(crystal_phosphorus, makeData(HOT, 2F * crystal));
+		HazardSystem.register(crystal_lithium, makeData(HYDROACTIVE, 1F * crystal));
+		HazardSystem.register(ModItems.crystal_trixite, makeData(RADIATION, trx * crystal));
+		
+		//nuke parts
+		HazardSystem.register(gadget_explosive, makeData(EXPLOSIVE, 1F));
+		HazardSystem.register(gadget_explosive8, makeData(EXPLOSIVE, 8F));
+		HazardSystem.register(boy_propellant, makeData(EXPLOSIVE, 2F));
+		HazardSystem.register(boy_igniter, makeData(EXPLOSIVE, 1F));
+		HazardSystem.register(man_explosive, makeData(EXPLOSIVE, 2F));
+		HazardSystem.register(man_explosive8, makeData(EXPLOSIVE, 16F));
+		
+		HazardSystem.register(gadget_core, makeData(RADIATION, pu239 * nugget * 10));
+		HazardSystem.register(boy_target, makeData(RADIATION, u235 * nugget * 8));
+		HazardSystem.register(boy_bullet, makeData(RADIATION, u235 * nugget * 2));
+		HazardSystem.register(man_core, makeData(RADIATION, pu239 * nugget * 10));
+		HazardSystem.register(mike_core, makeData(RADIATION, u238 * nugget * 10));
+		HazardSystem.register(tsar_core, makeData(RADIATION, pu239 * nugget * 15));
+		
+		HazardSystem.register(fleija_propellant, new HazardData().addEntry(RADIATION, 15F).addEntry(EXPLOSIVE, 8F).addEntry(BLINDING, 5F));
+		HazardSystem.register(fleija_core, makeData(RADIATION, 10F));
+		
+		HazardSystem.register(solinium_propellant, makeData(EXPLOSIVE, 10F));
+		HazardSystem.register(solinium_core, new HazardData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 5F));
+		
+		/*
+		 * Blacklist
+		 */
+		HazardSystem.blacklist(new ItemStack(ore_uranium));
+		HazardSystem.blacklist(new ItemStack(ore_gneiss_uranium));
+		HazardSystem.blacklist(new ItemStack(ore_nether_uranium));
+		HazardSystem.blacklist(new ItemStack(ore_meteor_uranium));
+		HazardSystem.blacklist(new ItemStack(ore_thorium));
+
 		
 		/*
 		 * ReC compat
@@ -386,10 +452,12 @@ public class HazardRegistry {
 		HazardSystem.register(new ItemStack(ModItems.rod_quad, 1, type.ordinal()), makeData(RADIATION, base * rod_quad));
 	}
 	
-	private static void registerOtherFuel(Item fuel, float base, float target) {
+	private static void registerOtherFuel(Item fuel, float base, float target, boolean blinding) {
 		
 		HazardData data = new HazardData();
 		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierFuelRadiation(target)));
+		if(blinding)
+			data.addEntry(BLINDING, 5F);
 		HazardSystem.register(fuel, data);
 	}
 	

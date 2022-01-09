@@ -2,27 +2,16 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
-public class BlockLithium extends BlockBeaconable implements IItemHazard {
-
-	ItemHazardModule module;
+public class BlockLithium extends BlockBeaconable {
 
 	public BlockLithium(Material material) {
 		super(material);
-		this.module = new ItemHazardModule();
-	}
-
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
 	}
 
 	private boolean touchesWater(World world, int x, int y, int z) {

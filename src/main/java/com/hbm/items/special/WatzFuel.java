@@ -2,13 +2,14 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.items.machine.ItemFuelRod;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class WatzFuel extends ItemHazard {
+public class WatzFuel extends ItemFuelRod {
 
-	public int lifeTime;
 	public int power;
 	public float powerMultiplier;
 	public int heat;
@@ -25,20 +26,14 @@ public class WatzFuel extends ItemHazard {
 	 * @param decayMultiplier
 	 */
 	
-	public WatzFuel(float radiation, boolean blinding, int lifeTime, int power, float powerMultiplier, int heat, float heatMultiplier, float decayMultiplier) {
-		super();
-		this.lifeTime = lifeTime * 100;
+	public WatzFuel(int lifeTime, int power, float powerMultiplier, int heat, float heatMultiplier, float decayMultiplier) {
+		super(lifeTime * 100);
 		this.power = power/10;
 		this.powerMultiplier = powerMultiplier;
 		this.heat = heat;
 		this.heatMultiplier = heatMultiplier;
 		this.decayMultiplier = decayMultiplier;
 		this.setMaxDamage(100);
-		this.canRepair = false;
-		
-		this.addRadiation(radiation);
-		if(blinding)
-			this.addBlinding();
 	}
 	
 	@Override
@@ -54,13 +49,6 @@ public class WatzFuel extends ItemHazard {
 		super.addInformation(itemstack, player, list, bool);
 	}
 	
-	public static void setLifeTime(ItemStack stack, int time) {
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
-		
-		stack.stackTagCompound.setInteger("life", time);
-	}
-	
 	public static void updateDamage(ItemStack stack) {
 		
 		if(!stack.hasTagCompound())
@@ -69,12 +57,7 @@ public class WatzFuel extends ItemHazard {
 		stack.setItemDamage((int)((double)getLifeTime(stack) / (double)((WatzFuel)stack.getItem()).lifeTime * 100D));
 	}
 	
-	public static int getLifeTime(ItemStack stack) {
-		if(!stack.hasTagCompound()) {
-			stack.stackTagCompound = new NBTTagCompound();
-			return 0;
-		}
-		
-		return stack.stackTagCompound.getInteger("life");
-	}
+	public boolean showDurabilityBar(ItemStack stack) {
+        return false;
+    }
 }
