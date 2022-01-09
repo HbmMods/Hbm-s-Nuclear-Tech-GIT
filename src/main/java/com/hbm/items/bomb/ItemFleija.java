@@ -3,13 +3,13 @@ package com.hbm.items.bomb;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemHazard;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemFleija extends ItemHazard {
+public class ItemFleija extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

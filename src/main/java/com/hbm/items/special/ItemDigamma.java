@@ -10,16 +10,17 @@ import com.hbm.util.I18nUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemDigamma extends ItemHazard {
+public class ItemDigamma extends Item {
 
 	int digamma;
 
-	public ItemDigamma(float radiation, int digamma) {
-		super(radiation);
+	public ItemDigamma(int digamma) {
+		super();
 		
 		//obacht! the particle's digamma value is "ticks until half life" while the superclass' interpretation is "simply add flat value"
 		this.digamma = digamma;

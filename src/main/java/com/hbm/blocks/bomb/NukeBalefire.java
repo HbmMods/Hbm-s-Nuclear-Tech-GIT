@@ -2,8 +2,6 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.machine.BlockMachineBase;
 import com.hbm.interfaces.IBomb;
-import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
 import net.minecraft.block.Block;
@@ -11,20 +9,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class NukeBalefire extends BlockMachineBase implements IBomb, IItemHazard {
-
-	ItemHazardModule module;
+public class NukeBalefire extends BlockMachineBase implements IBomb {
 
 	public NukeBalefire(Material mat, int guiID) {
 		super(mat, guiID);
 		rotatable = true;
-		this.module = new ItemHazardModule(); 
 	}
-	
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
-	}
+
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {

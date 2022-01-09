@@ -5,9 +5,7 @@ import java.util.Random;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
-import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
@@ -21,13 +19,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFallout extends Block implements IItemHazard {
+public class BlockFallout extends Block {
 	
-	ItemHazardModule module;
 
 	public BlockFallout(Material mat) {
 		super(mat);
-		this.module = new ItemHazardModule();
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 
@@ -61,7 +57,6 @@ public class BlockFallout extends Block implements IItemHazard {
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
 
 		if(!world.isRemote) {
-			//player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 1));
 			HbmLivingProps.addCont(player, new ContaminationEffect(1F, 200, false));
 		}
 	}
@@ -81,10 +76,5 @@ public class BlockFallout extends Block implements IItemHazard {
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
-	}
-
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
 	}
 }
