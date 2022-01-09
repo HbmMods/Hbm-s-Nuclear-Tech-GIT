@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.tileentity.TileEntityProxyConductor;
 import com.hbm.tileentity.network.TileEntityPylonBase;
-import com.hbm.tileentity.network.TileEntityPylonLarge;
+import com.hbm.tileentity.network.TileEntitySubstation;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,13 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class PylonLarge extends BlockDummyable implements ITooltipProvider {
+public class Substation extends BlockDummyable implements ITooltipProvider {
 
-	public PylonLarge(Material mat) {
+	public Substation(Material mat) {
 		super(mat);
 	}
 
@@ -27,25 +27,18 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		
 		if(meta >= 12)
-			return new TileEntityPylonLarge();
+			return new TileEntitySubstation();
+		
+		if(meta >= 6)
+			return new TileEntityProxyConductor();
+		
 		return null;
 	}
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		list.add(EnumChatFormatting.GOLD + "Connection Type: " + EnumChatFormatting.YELLOW + "Quadruple");
-		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "100m");
-		list.add(EnumChatFormatting.GOLD + "This pylon requires a substation!");
-	}
-
-	@Override
-	public int[] getDimensions() {
-		return new int[] {13, 0, 1, 1, 1, 1};
-	}
-
-	@Override
-	public int getOffset() {
-		return 0;
+		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "20m");
 	}
 
 	@Override
@@ -61,25 +54,22 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 	}
 
 	@Override
-	protected int getMetaForCore(World world, int x, int y, int z, EntityPlayer player, int original) {
-		
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 180.0F + 0.5D) & 3;
+	public int[] getDimensions() {
+		return new int[] {4, 0, 1, 1, 2, 2};
+	}
 
-		ForgeDirection dir = ForgeDirection.NORTH;
+	@Override
+	public int getOffset() {
+		return 1;
+	}
 
-		if(i == 0) {
-			dir = ForgeDirection.getOrientation(2);
-		}
-		if(i == 1) {
-			dir = ForgeDirection.getOrientation(5);
-		}
-		if(i == 2) {
-			dir = ForgeDirection.getOrientation(3);
-		}
-		if(i == 3) {
-			dir = ForgeDirection.getOrientation(4);
-		}
-		
-		return dir.ordinal() + offset;
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+
+		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o + 1);
+		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o - 1);
+		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o + 1);
+		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o - 1);
 	}
 }

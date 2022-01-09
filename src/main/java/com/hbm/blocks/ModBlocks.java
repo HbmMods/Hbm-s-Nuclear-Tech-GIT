@@ -695,6 +695,7 @@ public class ModBlocks {
 	public static Block red_connector;
 	public static Block red_pylon;
 	public static Block red_pylon_large;
+	public static Block substation;
 	public static Block cable_switch;
 	public static Block machine_detector;
 	public static Block rf_cable;
@@ -1152,10 +1153,6 @@ public class ModBlocks {
 
 	public static Block volcano_core;
 
-	public static Block dummy_block_cyclotron;
-	public static Block dummy_port_cyclotron;
-	public static Block dummy_block_well;
-	public static Block dummy_port_well;
 	public static Block dummy_block_flare;
 	public static Block dummy_port_flare;
 	public static Block dummy_block_drill;
@@ -1792,6 +1789,7 @@ public class ModBlocks {
 		red_connector = new ConnectorRedWire(Material.iron).setBlockName("red_connector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_connector");
 		red_pylon = new PylonRedWire(Material.iron).setBlockName("red_pylon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		red_pylon_large = new PylonLarge(Material.iron).setBlockName("red_pylon_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon_large");
+		substation = new Substation(Material.iron).setBlockName("substation").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":substation");
 		cable_switch = new CableSwitch(Material.iron).setBlockName("cable_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cable_switch_off");
 		machine_detector = new PowerDetector(Material.iron).setBlockName("machine_detector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_detector_off");
 		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid_alt");
@@ -2149,10 +2147,6 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(volcanic_lava_fluid);
 		volcanic_lava_block = new VolcanicBlock(volcanic_lava_fluid, Material.lava).setBlockName("volcanic_lava_block").setResistance(500F);
 
-		dummy_block_cyclotron = new DummyBlockCyclotron(Material.iron, false).setBlockName("dummy_block_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_titanium");
-		dummy_port_cyclotron = new DummyBlockCyclotron(Material.iron, true).setBlockName("dummy_port_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_titanium");
-		dummy_block_well = new BlockGeneric(Material.iron).setBlockName("dummy_block_well").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		dummy_port_well = new BlockGeneric(Material.iron).setBlockName("dummy_port_well").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_flare = new DummyBlockFlare(Material.iron, false).setBlockName("dummy_block_flare").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		dummy_port_flare = new DummyBlockFlare(Material.iron, true).setBlockName("dummy_port_flare").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		dummy_block_drill = new DummyBlockDrill(Material.iron, false).setBlockName("dummy_block_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
@@ -2673,7 +2667,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_brandon, turret_brandon.getUnlocalizedName());
 		
 		//Wall-mounted Explosives
-		GameRegistry.registerBlock(charge_dynamite, charge_dynamite.getUnlocalizedName());
+		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
@@ -2870,6 +2864,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(red_connector, ItemBlockBase.class, red_connector.getUnlocalizedName());
 		GameRegistry.registerBlock(red_pylon, ItemBlockBase.class, red_pylon.getUnlocalizedName());
 		GameRegistry.registerBlock(red_pylon_large, ItemBlockBase.class, red_pylon_large.getUnlocalizedName());
+		GameRegistry.registerBlock(substation, ItemBlockBase.class, substation.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_switch, cable_switch.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_detector, machine_detector.getUnlocalizedName());
 		GameRegistry.registerBlock(rf_cable, rf_cable.getUnlocalizedName());
@@ -3109,10 +3104,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
-		GameRegistry.registerBlock(dummy_block_cyclotron, dummy_block_cyclotron.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_port_cyclotron, dummy_port_cyclotron.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_block_well, dummy_block_well.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_port_well, dummy_port_well.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_flare, dummy_block_flare.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_flare, dummy_port_flare.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_drill, dummy_block_drill.getUnlocalizedName());

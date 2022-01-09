@@ -356,9 +356,6 @@ public class HazardRegistry {
 		
 		HazardSystem.register(wire_schrabidium, makeData(RADIATION, sa326 * nugget));
 		
-		HazardSystem.register(ore_asbestos, makeData(ASBESTOS, 1F));
-		HazardSystem.register(ore_gneiss_asbestos, makeData(ASBESTOS, 3F));
-		HazardSystem.register(block_asbestos, makeData(ASBESTOS, 1F));
 		HazardSystem.register(brick_asbestos, makeData(ASBESTOS, 1F));
 		HazardSystem.register(tile_lab_broken, makeData(ASBESTOS, 1F));
 		HazardSystem.register(powder_coltan_ore, makeData(ASBESTOS, 3F));
@@ -392,6 +389,8 @@ public class HazardRegistry {
 		
 		HazardSystem.register(solinium_propellant, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(solinium_core, new HazardData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 5F));
+		
+		HazardSystem.register(nuke_fstbmb, makeData(DIGAMMA, 0.01F));
 		
 		/*
 		 * Blacklist

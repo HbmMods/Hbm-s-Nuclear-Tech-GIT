@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -23,7 +22,6 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
-import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -52,7 +50,6 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -140,7 +137,6 @@ public class ModEventHandlerClient {
 			Minecraft mc = Minecraft.getMinecraft();
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
-			ScaledResolution resolution = event.resolution;
 			
 			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
 				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);

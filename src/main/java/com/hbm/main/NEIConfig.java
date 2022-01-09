@@ -83,14 +83,12 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_chemplant));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_cyclotron));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_flare));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_fluidtank));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_pumpjack));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_turbofan));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_well));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
@@ -101,14 +99,12 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_chemplant));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_cyclotron));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_drill));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_flare));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_fluidtank));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_pumpjack));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_turbofan));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_well));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));

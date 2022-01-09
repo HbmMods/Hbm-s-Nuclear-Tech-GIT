@@ -134,7 +134,6 @@ public class Library {
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||

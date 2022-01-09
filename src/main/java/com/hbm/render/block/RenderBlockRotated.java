@@ -35,7 +35,9 @@ public class RenderBlockRotated implements ISimpleBlockRenderingHandler {
 			iicon = renderer.overrideBlockTexture;
 		}
 
-		GL11.glRotated(180, 0, 1, 0);
+		GL11.glRotated(-90, 0, 1, 0);
+		GL11.glRotated(-90, 0, 0, 1);
+		GL11.glTranslated(0, 0.375, 0);
 		tessellator.startDrawingQuads();
 		ObjUtil.renderWithIcon((WavefrontObject) model, iicon, tessellator, 0, false);
 		tessellator.draw();

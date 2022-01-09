@@ -7,6 +7,7 @@ import java.util.List;
 import static com.hbm.items.ModItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
@@ -209,6 +210,7 @@ public class OreDictManager {
 	public static final DictFrame ANY_PLASTIC = new DictFrame("AnyPlastic");
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
+	public static final String KEY_ANYCONCRETE = "anyConcrete";
 	
 	public static void registerOres() {
 
@@ -351,6 +353,10 @@ public class OreDictManager {
 		ANY_GUNPOWDER	.dust(Items.gunpowder, ModItems.ballistite, ModItems.cordite);
 		ANY_SMOKELESS	.dust(ModItems.ballistite, ModItems.cordite);
 
+		OreDictionary.registerOre(KEY_ANYCONCRETE, ModBlocks.concrete);
+		OreDictionary.registerOre(KEY_ANYCONCRETE, ModBlocks.concrete_smooth);
+		OreDictionary.registerOre(KEY_ANYCONCRETE, ModBlocks.concrete_asbestos);
+		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
 		OreDictionary.registerOre("oreRareEarth", ore_gneiss_rare);

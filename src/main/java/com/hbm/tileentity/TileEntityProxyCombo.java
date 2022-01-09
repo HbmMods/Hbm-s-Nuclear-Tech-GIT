@@ -6,6 +6,7 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 
+import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -128,8 +129,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyUser) {
-			return ((IEnergyUser)getTile()).getPower();
+		if(getTile() instanceof IEnergyConnector) {
+			return ((IEnergyConnector)getTile()).getPower();
 		}
 		
 		return 0;
@@ -141,8 +142,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyUser) {
-			return ((IEnergyUser)getTile()).getMaxPower();
+		if(getTile() instanceof IEnergyConnector) {
+			return ((IEnergyConnector)getTile()).getMaxPower();
 		}
 		
 		return 0;
@@ -154,8 +155,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!this.power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyUser) {
-			return ((IEnergyUser)getTile()).transferPower(power);
+		if(getTile() instanceof IEnergyConnector) {
+			return ((IEnergyConnector)getTile()).transferPower(power);
 		}
 		
 		return 0;
@@ -167,8 +168,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return false;
 		
-		if(getTile() instanceof IEnergyUser) {
-			return ((IEnergyUser)getTile()).canConnect(dir);
+		if(getTile() instanceof IEnergyConnector) {
+			return ((IEnergyConnector)getTile()).canConnect(dir);
 		}
 		
 		return false;

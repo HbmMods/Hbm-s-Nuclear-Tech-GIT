@@ -31,7 +31,6 @@ public class RodRecipes {
 		addZIRNOXRod(U235, ModItems.rod_zirnox_u235_fuel);
 		addZIRNOXRod(ModItems.billet_les, ModItems.rod_zirnox_les_fuel);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_zirnox_lithium), new Object[] { ModItems.rod_zirnox_empty, LI.ingot(), LI.ingot() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { ModItems.rod_zirnox_tritium, ModItems.cell_empty, ModItems.cell_empty });
 
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_natural_uranium, 2, 1), new Object[] { ModItems.rod_zirnox_natural_uranium_fuel_depleted });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.waste_uranium, 2, 1), new Object[] { ModItems.rod_zirnox_uranium_fuel_depleted });
@@ -51,9 +50,6 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_quad_empty, 1), new Object[] { ModItems.rod_dual_empty, ModItems.rod_dual_empty });
 		
 		addBreedingRod(LI, ModItems.lithium, BreedingRodType.LITHIUM);
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 1), new Object[] { new ItemStack(ModItems.rod_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { new ItemStack(ModItems.rod_dual_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 4), new Object[] { new ItemStack(ModItems.rod_quad_empty, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty });
 		addBreedingRod(CO, ModItems.billet_cobalt, BreedingRodType.CO);
 		addBreedingRod(CO60, ModItems.billet_co60, BreedingRodType.CO60);
 		addBreedingRod(TH232, ModItems.billet_th232, BreedingRodType.TH232);

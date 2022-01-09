@@ -68,7 +68,6 @@ import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
-import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.*;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;

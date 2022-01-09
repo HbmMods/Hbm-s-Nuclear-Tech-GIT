@@ -2,14 +2,11 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.mob.EntityBlockSpider;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
-import com.hbm.world.dungeon.Bunker;
-import com.hbm.world.dungeon.Relay;
-import com.hbm.world.generator.CellularDungeonFactory;
 
 import api.hbm.energy.IEnergyConductor;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,6 +31,14 @@ public class ItemWandD extends Item {
 			int z = pos.blockZ;
 			//int y = world.getHeightValue(x, z);
 			int y = pos.blockY;
+			
+			Block b = world.getBlock(x, y, z);
+			if(b instanceof BlockDummyable) {
+				int[] core = ((BlockDummyable)b).findCore(world, x, y, z);
+				x = core[0];
+				y = core[1];
+				z = core[2];
+			}
 			
 			TileEntity te = world.getTileEntity(x, y, z);
 			if(te instanceof IEnergyConductor) {

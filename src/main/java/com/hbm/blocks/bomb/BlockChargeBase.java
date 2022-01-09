@@ -7,22 +7,37 @@ import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
-import com.hbm.blocks.BlockBase;
+import java.util.List;
+
+import com.hbm.blocks.BlockContainerBase;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.IBomb;
+import com.hbm.tileentity.bomb.TileEntityCharge;
 
 import api.hbm.block.IToolable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockChargeBase extends BlockBase implements IBomb, IToolable {
+public abstract class BlockChargeBase extends BlockContainerBase implements IBomb, IToolable, ITooltipProvider {
+	
+	public static boolean safe = false;
 	
 	public BlockChargeBase() {
 		super(Material.tnt);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new TileEntityCharge();
 	}
 	
 	@Override
@@ -34,7 +49,7 @@ public abstract class BlockChargeBase extends BlockBase implements IBomb, IToola
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-
+	
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
 		return side;
@@ -50,7 +65,7 @@ public abstract class BlockChargeBase extends BlockBase implements IBomb, IToola
 				(dir == WEST && world.isSideSolid(x + 1, y, z, WEST)) ||
 				(dir == EAST && world.isSideSolid(x - 1, y, z, EAST));
 	}
-
+	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		
@@ -61,12 +76,12 @@ public abstract class BlockChargeBase extends BlockBase implements IBomb, IToola
 			this.explode(world, x, y, z);
 		}
 	}
-
+	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
 	}
-
+	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		
@@ -82,13 +97,81 @@ public abstract class BlockChargeBase extends BlockBase implements IBomb, IToola
 		}
 	}
 	
-
+	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool != ToolType.DEFUSER)
 			return false;
+
+		TileEntityCharge charge = (TileEntityCharge) world.getTileEntity(x, y, z);
 		
-		this.dismantle(world, x, y, z);
+		if(charge.started) {
+			charge.started = !charge.started;
+			world.playSoundEffect(x, y, z, "hbm:weapon.fstbmbStart", 1.0F, 1.0F);
+			charge.markDirty();
+		} else {
+			safe = true;
+			this.dismantle(world, x, y, z);
+			safe = false;
+		}
+		
 		return true;
+	}
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+		super.breakBlock(world, x, y, z, block, i);
+		
+		if(!safe)
+			explode(world, x, y, z);
+	}
+	
+	@Override
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
+		this.explode(world, x, y, z);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.YELLOW + "Right-click to change timer.");
+		list.add(EnumChatFormatting.YELLOW + "Sneak-click to arm.");
+		list.add(EnumChatFormatting.RED + "Can only be disarmed and removed with defuser.");
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		} else {
+
+			TileEntityCharge charge = (TileEntityCharge) world.getTileEntity(x, y, z);
+
+			if(!charge.started) {
+				
+				if(player.isSneaking()) {
+					
+					if(charge.timer > 0) {
+						charge.started = true;
+						world.playSoundEffect(x, y, z, "hbm:weapon.fstbmbStart", 1.0F, 1.0F);
+					}
+				} else {
+					
+					if(charge.timer == 0) { charge.timer = 100; }
+					else if(charge.timer == 100) { charge.timer = 200; }
+					else if(charge.timer == 200) { charge.timer = 300; }
+					else if(charge.timer == 300) { charge.timer = 600; }
+					else if(charge.timer == 600) { charge.timer = 1200; }
+					else if(charge.timer == 1200) { charge.timer = 3600; }
+					else if(charge.timer == 3600) { charge.timer = 6000; }
+					else { charge.timer = 0; }
+					
+					world.playSoundEffect(x, y, z, "hbm:item.techBoop", 1.0F, 1.0F);
+				}
+				
+				charge.markDirty();
+			}
+			
+			return false;
+		}
 	}
 }

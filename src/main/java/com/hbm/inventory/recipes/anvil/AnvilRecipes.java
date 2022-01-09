@@ -212,6 +212,26 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(KEY_ANYCONCRETE, 2),
+						new ComparableStack(ModBlocks.steel_scaffold, 8),
+						new ComparableStack(ModItems.plate_polymer, 8),
+						new ComparableStack(ModItems.coil_copper, 4)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.red_pylon_large))).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new OreDictStack(KEY_ANYCONCRETE, 6),
+						new OreDictStack(STEEL.ingot(), 4),
+						new ComparableStack(ModBlocks.steel_scaffold, 2),
+						new ComparableStack(ModItems.plate_polymer, 8),
+						new ComparableStack(ModItems.coil_copper, 2),
+						new ComparableStack(ModItems.coil_copper_torus, 2)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.substation))).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 1),
 						new OreDictStack(PB.plate(), 2),
 						new ComparableStack(ModItems.nuclear_waste, 10)
