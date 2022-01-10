@@ -52,7 +52,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 3))
 				);
 
-		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new SILEXRecipe(900, 100, 3)
+		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new SILEXRecipe(900, 100, 2)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
@@ -71,7 +71,7 @@ public class SILEXRecipes {
 				);
 
 		itemTranslation.put(new ComparableStack(ModItems.powder_lapis), new ComparableStack(Items.dye, 1, 4));
-		recipes.put(new ComparableStack(Items.dye, 1, 4), new SILEXRecipe(100, 100, 1)
+		recipes.put(new ComparableStack(Items.dye, 1, 4), new SILEXRecipe(100, 100, 0)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.sulfur), 4))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
@@ -449,14 +449,14 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_ra226), 3))
 				);
 		
-		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, 1)
+		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, 0)
 				.addOut(new WeightedRandomObject(new ItemStack(Items.flint), 80))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 5))
 				);
 		
-		recipes.put(new ComparableStack(Items.bone, 1), new SILEXRecipe(300, 100, 1)
+		recipes.put(new ComparableStack(Items.bone, 1), new SILEXRecipe(300, 100, 0)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust), 80))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_fire), 10))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_calcium), 10))
@@ -562,6 +562,6 @@ public class SILEXRecipes {
 		public SILEXRecipe addOut(WeightedRandomObject entry) {
 			outputs.add(entry);
 			return this;
-		}
+		} 
 	}
 }

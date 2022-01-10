@@ -24,6 +24,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
@@ -199,7 +200,8 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
 		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
 		
-		fontRenderer.drawString(rec.crystalStrength.name, (32 - fontRenderer.getStringWidth(rec.crystalStrength.name) / 2), 8, 0x404040);
+		String wavelength = (rec.crystalStrength == EnumWavelengths.NULL) ? EnumChatFormatting.WHITE+"N/A" : rec.crystalStrength.name;
+		fontRenderer.drawString(wavelength, (33 - fontRenderer.getStringWidth(wavelength) / 2), 8, 0x404040);
 		
 		
 	}

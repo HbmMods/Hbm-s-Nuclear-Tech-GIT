@@ -16,6 +16,8 @@ import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.entity.Entity;
@@ -23,6 +25,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -36,10 +39,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFEL extends TileEntityMachineBase {
+public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 	
 	public long power;
-	public static final long maxPower = 1000000;
+	public static final long maxPower = 2000000;
 	public static final int powerReq = 2500;
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean isOn;
@@ -183,6 +186,8 @@ public class TileEntityFEL extends TileEntityMachineBase {
 			data.setBoolean("valid", missingValidSilex);
 			data.setInteger("distance", distance);
 			this.networkPack(data, 250);
+			
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	
@@ -264,5 +269,20 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void setPower(long i) {
+		power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
 	}
 }

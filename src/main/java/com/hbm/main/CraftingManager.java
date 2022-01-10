@@ -307,8 +307,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.blades_schrabidium, 1), new Object[] { "PIP", 'P', "plateSchrabidium", 'I', new ItemStack(ModItems.blades_schrabidium, 1, OreDictionary.WILDCARD_VALUE) }));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_co2, 1), new Object[] { "QDQ", "N N", "QDQ", 'Q', ModBlocks.glass_quartz, 'D', "ingotDesh", 'N', "dustNeodymium", 'C', ModItems.undefined }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_bismuth, 1), new Object[] {"QUQ", "CBC", "QTQ", 'Q', ModBlocks.glass_quartz, 'U', "ingotUranium", 'T', "ingotThorium", 'B', ModItems.ingot_bismuth, 'C', ModItems.crystal_rare} ));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_cmb, 1), new Object[] {"QBQ", "CSC", "QBQ", 'Q', ModBlocks.glass_quartz, 'B', "ingotCMBSteel", 'C', "ingotSchrabidium", 'S', ModItems.singularity_counter_resonant} ));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_bismuth, 1), new Object[] {"QUQ", "BCB", "QTQ", 'Q', ModBlocks.glass_quartz, 'U', "ingotUranium", 'T', "ingotThorium", 'B', ModItems.nugget_bismuth, 'C', ModItems.crystal_rare} ));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_cmb, 1), new Object[] {"QBQ", "CSC", "QBQ", 'Q', ModBlocks.glass_quartz, 'B', "ingotCMBSteel", 'C', "ingotSchrabidate", 'S', ModItems.cell_anti_schrabidium} ));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_dnt, 1), new Object[] {"QDQ", "SBS", "QDQ", 'Q', ModBlocks.glass_quartz, 'D', "ingotDineutronium", 'B', ModItems.egg_balefire, 'S', ModItems.powder_spark_mix }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.laser_crystal_digamma, 1), new Object[] {"QUQ", "UEU", "QUQ", 'Q', ModBlocks.glass_quartz, 'U', ModItems.undefined, 'E', ModItems.ingot_electronium } ));
 

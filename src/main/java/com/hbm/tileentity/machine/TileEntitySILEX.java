@@ -171,7 +171,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	
 	private boolean process() {
 		
-		if(current == null || currentFill <= 0 || this.mode == EnumWavelengths.NULL)
+		if(current == null || currentFill <= 0)
 			return false;
 		
 		SILEXRecipe recipe = SILEXRecipes.getOutput(current.toStack());

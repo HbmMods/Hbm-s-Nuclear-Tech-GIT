@@ -3,13 +3,17 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.TileEntityProxyEnergy;
 import com.hbm.tileentity.machine.TileEntityFEL;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineFEL extends BlockDummyable {
 
@@ -22,6 +26,10 @@ public class MachineFEL extends BlockDummyable {
 		
 		if(meta >= 12)
 			return new TileEntityFEL();
+		
+		if(meta == 7)
+			return new TileEntityProxyEnergy();
+		
 		return null;
 	}
 
@@ -52,5 +60,16 @@ public class MachineFEL extends BlockDummyable {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+        
+        this.makeExtra(world, x - dir.offsetX * 4, y+1, z - dir.offsetZ * 4);
+        //world.setBlock(x - dir.offsetX * 4, y+3, z - dir.offsetZ * 4, Blocks.stone);
 	}
 }
