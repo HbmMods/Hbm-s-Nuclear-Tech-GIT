@@ -13,6 +13,7 @@ import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.WeightedRandomObject;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 
@@ -200,7 +201,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
 		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
 		
-		String wavelength = (rec.crystalStrength == EnumWavelengths.NULL) ? EnumChatFormatting.WHITE+"N/A" : rec.crystalStrength.name;
+		String wavelength = (rec.crystalStrength == EnumWavelengths.NULL) ? EnumChatFormatting.WHITE+"N/A" : rec.crystalStrength.textColor + I18nUtil.resolveKey(rec.crystalStrength.name);
 		fontRenderer.drawString(wavelength, (33 - fontRenderer.getStringWidth(wavelength) / 2), 8, 0x404040);
 		
 		

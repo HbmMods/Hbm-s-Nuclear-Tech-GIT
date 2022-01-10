@@ -11,6 +11,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntitySILEX;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -64,7 +65,7 @@ public class GUISILEX extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		
 		if(silex.mode != EnumWavelengths.NULL) {
-			this.fontRendererObj.drawString(silex.mode.name, 100 + (32 - this.fontRendererObj.getStringWidth(silex.mode.name) / 2), 16, 0);
+			this.fontRendererObj.drawString(silex.mode.textColor + I18nUtil.resolveKey(silex.mode.name), 100 + (32 - this.fontRendererObj.getStringWidth(I18nUtil.resolveKey(silex.mode.name)) / 2), 16, 0);
 		}
 	}
 

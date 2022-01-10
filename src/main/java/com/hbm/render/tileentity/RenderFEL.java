@@ -41,10 +41,10 @@ public class RenderFEL extends TileEntitySpecialRenderer {
 		TileEntityFEL fel = (TileEntityFEL) tileEntity;
 		int color = 0xffffff;
 		
-		if(fel.mode.color == 0) {
+		if(fel.mode.renderedBeamColor == 0) {
 			color = Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 0.5F, 0.1F) & 16777215;
 		} else {
-			color = fel.mode.color;
+			color = fel.mode.renderedBeamColor;
 		}
 		int length = fel.distance - 3;
 		GL11.glTranslated(0, 1.5, -1.5);

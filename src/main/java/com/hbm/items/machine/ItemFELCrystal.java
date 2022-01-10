@@ -27,28 +27,30 @@ public class ItemFELCrystal extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		String desc = (stack.getItem() == ModItems.laser_crystal_digamma) ? (EnumChatFormatting.OBFUSCATED + "THERADIANCEOFATHOUSANDSUNS") : (this.getUnlocalizedNameInefficiently(stack) + ".desc");
 		list.add(I18nUtil.resolveKey(desc));
-		list.add(I18nUtil.resolveKey(wavelength.name) + " - " + I18nUtil.resolveKey(this.wavelength.wavelengthRange));
+		list.add(wavelength.textColor + I18nUtil.resolveKey(wavelength.name) + " - " + wavelength.textColor + I18nUtil.resolveKey(this.wavelength.wavelengthRange));
 	}
 			
 	public static enum EnumWavelengths{
-		NULL("la creatura", "6 dollar", 0x010101, 0x010101),
+		NULL("la creatura", "6 dollar", 0x010101, 0x010101, EnumChatFormatting.WHITE),
 			
-		IR(EnumChatFormatting.RED + "wavelengths.name.ir", EnumChatFormatting.RED + "wavelengths.waveRange.ir", 0xBB1010, 0xCC4040),
-		VISIBLE(EnumChatFormatting.GREEN + "wavelengths.name.visible", EnumChatFormatting.GREEN + "wavelengths.waveRange.visible", 0, 0),
-		UV(EnumChatFormatting.AQUA + "wavelengths.name.uv", EnumChatFormatting.AQUA + "wavelengths.waveRange.uv", 0x0A1FC4, 0x00EFFF),
-		GAMMA(EnumChatFormatting.LIGHT_PURPLE + "wavelengths.name.gamma", EnumChatFormatting.LIGHT_PURPLE + "wavelengths.waveRange.gamma", 0x150560, 0xEF00FF),
-		DRX(EnumChatFormatting.DARK_RED + "wavelengths.name.drx", EnumChatFormatting.DARK_RED + "wavelengths.waveRange.drx", 0xFF0000, 0xFF0000);
+		IR("wavelengths.name.ir", "wavelengths.waveRange.ir", 0xBB1010, 0xCC4040, EnumChatFormatting.RED),
+		VISIBLE("wavelengths.name.visible", "wavelengths.waveRange.visible", 0, 0, EnumChatFormatting.GREEN),
+		UV("wavelengths.name.uv", "wavelengths.waveRange.uv", 0x0A1FC4, 0x00EFFF, EnumChatFormatting.AQUA),
+		GAMMA("wavelengths.name.gamma", "wavelengths.waveRange.gamma", 0x150560, 0xEF00FF, EnumChatFormatting.LIGHT_PURPLE),
+		DRX("wavelengths.name.drx", "wavelengths.waveRange.drx", 0xFF0000, 0xFF0000, EnumChatFormatting.DARK_RED);
 		
 		public String name = "";
 		public String wavelengthRange = "";
-		public int color;
+		public int renderedBeamColor;
 		public int guiColor;
+		public EnumChatFormatting textColor;
 		
-		private EnumWavelengths(String name, String wavelength, int color, int guiColor) {
+		private EnumWavelengths(String name, String wavelength, int color, int guiColor, EnumChatFormatting textColor) {
 			this.name = name;
 			this.wavelengthRange = wavelength;
-			this.color = color;
+			this.renderedBeamColor = color;
 			this.guiColor = guiColor;
+			this.textColor = textColor;
 		}
 	}
 }
