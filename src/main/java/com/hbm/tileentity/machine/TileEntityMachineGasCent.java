@@ -113,7 +113,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 	
 	private boolean canEnrich() {
-		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() <= outputTank.getMaxFill()) {
+		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() + this.inputTank.getTankType().getFluidProduced() <= outputTank.getMaxFill()) {
 			
 			ItemStack[] list = inputTank.getTankType().getOutput();
 			

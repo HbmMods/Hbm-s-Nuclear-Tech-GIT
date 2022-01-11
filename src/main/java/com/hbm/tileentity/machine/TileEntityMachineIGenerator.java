@@ -129,6 +129,11 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 					ItemRTGPellet pellet = (ItemRTGPellet) slots[i].getItem();
 					this.spin += pellet.getHeat() * 10;
 					this.hasRTG = true;
+					
+					if(slots[i].getItem() == ModItems.pellet_rtg_gold || slots[i].getItem() == ModItems.pellet_rtg_lead) {
+						if(worldObj.rand.nextInt(60*60*20) == 0)
+							slots[i] = null;
+					}
 				}
 			}
 			

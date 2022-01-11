@@ -84,6 +84,7 @@ public class ModItems {
 	public static Item ingot_co60;
 	public static Item ingot_sr90;
 	public static Item ingot_au198;
+	public static Item ingot_pb200;
 	public static Item ingot_ra226;
 	public static Item ingot_titanium;
 	public static Item ingot_cobalt;
@@ -190,6 +191,7 @@ public class ModItems {
 	public static Item billet_co60;
 	public static Item billet_sr90;
 	public static Item billet_au198;
+	public static Item billet_pb200;
 	public static Item billet_ra226;
 	public static Item billet_schrabidium;
 	public static Item billet_solinium;
@@ -239,6 +241,7 @@ public class ModItems {
 	public static Item nugget_co60;
 	public static Item nugget_sr90;
 	public static Item nugget_au198;
+	public static Item nugget_pb200;
 	public static Item nugget_ra226;
 	public static Item plate_titanium;
 	public static Item plate_aluminium;
@@ -712,6 +715,7 @@ public class ModItems {
 	public static Item pellet_rtg_polonium;
 	public static Item pellet_rtg_actinium;
 	public static Item pellet_rtg_strontium;
+	public static Item pellet_rtg_lead;
 	public static Item pellet_rtg_gold;
 	public static Item pellet_rtg_americium;
 	public static Item pellet_rtg_berkelium;
@@ -2496,6 +2500,7 @@ public class ModItems {
 		ingot_co60 = new Item().setUnlocalizedName("ingot_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_co60");
 		ingot_sr90 = new Item().setUnlocalizedName("ingot_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_sr90");
 		ingot_au198 = new Item().setUnlocalizedName("ingot_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_au198");
+		ingot_pb200 = new Item().setUnlocalizedName("ingot_pb200").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pb200");
 		ingot_ra226 = new Item().setUnlocalizedName("ingot_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_ra226");
 		ingot_titanium = new Item().setUnlocalizedName("ingot_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_titanium");
 		ingot_cobalt = new Item().setUnlocalizedName("ingot_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cobalt");
@@ -2592,6 +2597,7 @@ public class ModItems {
 		billet_co60 = new Item().setUnlocalizedName("billet_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_co60");
 		billet_sr90 = new Item().setUnlocalizedName("billet_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_sr90");
 		billet_au198 = new Item().setUnlocalizedName("billet_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_au198");
+		billet_pb200 = new Item().setUnlocalizedName("billet_pb200").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_pb200");
 		billet_ra226 = new Item().setUnlocalizedName("billet_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_ra226");
 		billet_schrabidium = new Item().setUnlocalizedName("billet_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_schrabidium");
 		billet_solinium = new Item().setUnlocalizedName("billet_solinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_solinium");
@@ -2703,6 +2709,7 @@ public class ModItems {
 		nugget_co60 = new Item().setUnlocalizedName("nugget_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_co60");
 		nugget_sr90 = new Item().setUnlocalizedName("nugget_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_sr90");
 		nugget_au198 = new Item().setUnlocalizedName("nugget_au198").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_au198");
+		nugget_pb200 = new Item().setUnlocalizedName("nugget_pb200").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_pb200");
 		nugget_ra226 = new Item().setUnlocalizedName("nugget_ra226").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_ra226");
 		plate_titanium = new Item().setUnlocalizedName("plate_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_titanium");
 		plate_aluminium = new Item().setUnlocalizedName("plate_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_aluminium");
@@ -3052,6 +3059,7 @@ public class ModItems {
 		pellet_rtg_polonium = new ItemRTGPellet(25).setUnlocalizedName("pellet_rtg_polonium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_polonium");
 		pellet_rtg_actinium = new ItemRTGPellet(20).setUnlocalizedName("pellet_rtg_actinium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_rtg_actinium");
 		pellet_rtg_strontium = new ItemRTGPellet(15).setUnlocalizedName("pellet_rtg_strontium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_rtg_strontium");
+		pellet_rtg_lead = new ItemRTGPellet(200).setUnlocalizedName("pellet_rtg_lead").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_rtg_lead");
 		pellet_rtg_gold = new ItemRTGPellet(150).setUnlocalizedName("pellet_rtg_gold").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_gold");
 		pellet_rtg_americium = new ItemRTGPellet(15).setUnlocalizedName("pellet_rtg_americium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_americium");
 		pellet_rtg_berkelium = new ItemRTGPellet(20).setUnlocalizedName("pellet_rtg_berkelium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_berkelium");
@@ -5462,6 +5470,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_co60, ingot_co60.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_sr90, ingot_sr90.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_au198, ingot_au198.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_pb200, ingot_pb200.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_ra226, ingot_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_titanium, ingot_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_copper, ingot_copper.getUnlocalizedName());
@@ -5556,6 +5565,7 @@ public class ModItems {
 		GameRegistry.registerItem(billet_co60, billet_co60.getUnlocalizedName());
 		GameRegistry.registerItem(billet_sr90, billet_sr90.getUnlocalizedName());
 		GameRegistry.registerItem(billet_au198, billet_au198.getUnlocalizedName());
+		GameRegistry.registerItem(billet_pb200, billet_pb200.getUnlocalizedName());
 		GameRegistry.registerItem(billet_ra226, billet_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(billet_schrabidium, billet_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(billet_solinium, billet_solinium.getUnlocalizedName());
@@ -5775,6 +5785,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_sr90, nugget_sr90.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_technetium, nugget_technetium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_au198, nugget_au198.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_pb200, nugget_pb200.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_ra226, nugget_ra226.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_lead, nugget_lead.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_bismuth, nugget_bismuth.getUnlocalizedName());
@@ -6064,6 +6075,7 @@ public class ModItems {
 		GameRegistry.registerItem(pellet_rtg_polonium, pellet_rtg_polonium.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_rtg_strontium, pellet_rtg_strontium.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_rtg_actinium, pellet_rtg_actinium.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_rtg_lead, pellet_rtg_lead.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_rtg_gold, pellet_rtg_gold.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_rtg_americium, pellet_rtg_americium.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_rtg_berkelium, pellet_rtg_berkelium.getUnlocalizedName());

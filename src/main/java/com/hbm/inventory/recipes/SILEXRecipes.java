@@ -92,9 +92,9 @@ public class SILEXRecipes {
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ueu, 1, i + 5), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 88 - i * 6))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 7 - i * 2))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 8 - i * 2))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 2 + 3 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 2 + 5 * i)) );
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 1 + 5 * i)) );
 			
 			// MEU //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_meu, 1, i), new SILEXRecipe(600, 100)
@@ -217,24 +217,27 @@ public class SILEXRecipes {
 			// LEAUS //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_leaus, 1, i), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_lesser), 90 - i * 20))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 10 + 20 * i)) );
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb200), 10 + 20 * i)) );
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_leaus, 1, i + 5), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_lesser), 89 - i * 20))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 10 + 20 * i)) );
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb200), 10 + 20 * i)) );
 			
 			// HEAUS //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heaus, 1, i), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_lesser), 90 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 5 + 10 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(Items.gold_nugget), 5 + 10 * i)) );
+					.addOut(new WeightedRandomObject(new ItemStack(Items.gold_nugget), 3 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb200), 2 + 4 * i)) );
+
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heaus, 1, i + 5), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_australium_lesser), 89 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 5 + 10 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(Items.gold_nugget), 5 + 10 * i)) );
+					.addOut(new WeightedRandomObject(new ItemStack(Items.gold_nugget), 3 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb200), 2 + 4 * i)) );
 			
 			// BALEFIRE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire, 1, i), new SILEXRecipe(400, 100)
@@ -420,7 +423,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_sr90_tiny), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_i131_tiny), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cs137_tiny), 6))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 53))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 52))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short_depleted, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 2))

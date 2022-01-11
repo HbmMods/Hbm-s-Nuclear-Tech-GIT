@@ -536,6 +536,7 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.stick, 2))
 						}).setTier(2));
 		
+		//RBMK
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.rbmk_moderator), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModBlocks.rbmk_blank, 1)),
@@ -587,6 +588,12 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.tank_steel, 1)),
 						new AnvilOutput(new ItemStack(Blocks.hopper, 1))
 				}).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.rbmk_storage), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModBlocks.rbmk_blank, 1)),
+						new AnvilOutput(new ItemStack(ModBlocks.crate_steel, 2))
+				}).setTier(4));
+
 
 		if(!GeneralConfig.enable528) {
 			
@@ -608,22 +615,25 @@ public class AnvilRecipes {
 							new AnvilOutput(new ItemStack(ModItems.pipes_steel, 2))
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(
+					new ComparableStack(ModBlocks.rbmk_cooler), new AnvilOutput[] {
+							new AnvilOutput(new ItemStack(ModBlocks.rbmk_blank, 1)),
+							new AnvilOutput(new ItemStack(ModBlocks.steel_grate, 4)),
+							new AnvilOutput(new ItemStack(ModItems.plate_polymer, 4))
+					}).setTier(4));
+			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModBlocks.reactor_research), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.ingot_steel, 6)),
-							new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1)),
-							new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1), 0.75F),
-							new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
-							new AnvilOutput(new ItemStack(ModItems.plate_lead, 4)),
-							new AnvilOutput(new ItemStack(ModItems.plate_lead, 2), 0.75F),
-							new AnvilOutput(new ItemStack(ModItems.plate_lead, 2), 0.5F),
-							new AnvilOutput(new ItemStack(ModItems.plate_copper, 3)),
-							new AnvilOutput(new ItemStack(ModItems.plate_copper, 1), 0.5F),
-							new AnvilOutput(new ItemStack(ModItems.ingot_lead, 8)),
-							new AnvilOutput(new ItemStack(ModItems.ingot_lead, 4), 0.75F),
-							new AnvilOutput(new ItemStack(ModItems.ingot_lead, 4), 0.5F),
-							new AnvilOutput(new ItemStack(ModItems.ingot_red_copper, 6)),
-							new AnvilOutput(new ItemStack(ModItems.circuit_copper, 8)),
-							new AnvilOutput(new ItemStack(ModItems.circuit_red_copper, 4)),
+							new AnvilOutput(new ItemStack(ModItems.ingot_steel, 8)),
+							new AnvilOutput(new ItemStack(ModItems.ingot_tcalloy, 4)),
+							new AnvilOutput(new ItemStack(ModItems.motor_desh, 2)),
+							new AnvilOutput(new ItemStack(ModItems.ingot_boron, 5)),
+							new AnvilOutput(new ItemStack(ModItems.ingot_lead, 12)),
+							new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),
+							new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 3)),
+							new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 1), 0.5F),
+							new AnvilOutput(new ItemStack(ModItems.crt_display, 2)),
+							new AnvilOutput(new ItemStack(ModItems.crt_display, 1), 0.5F),
+							new AnvilOutput(new ItemStack(ModItems.circuit_copper, 1)),
+							new AnvilOutput(new ItemStack(ModItems.circuit_copper, 1), 0.5F),
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {

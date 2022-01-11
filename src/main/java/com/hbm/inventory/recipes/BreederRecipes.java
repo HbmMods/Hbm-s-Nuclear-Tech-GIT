@@ -28,7 +28,7 @@ public class BreederRecipes {
 		setRecipe(BreedingRodType.U235, BreedingRodType.NP237, 300);
 		setRecipe(BreedingRodType.NP237, BreedingRodType.PU238, 200);
 		setRecipe(BreedingRodType.PU238, BreedingRodType.PU239, 1000);
-		setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 500);
+		setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 300);
 		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
 		setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
 		
