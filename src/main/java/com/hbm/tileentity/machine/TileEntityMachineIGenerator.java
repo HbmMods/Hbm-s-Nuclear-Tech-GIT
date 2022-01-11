@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -44,9 +44,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public TileEntityMachineIGenerator() {
 		super(21);
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.WATER, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.HEATINGOIL, 16000, 1);
-		tanks[2] = new FluidTank(FluidType.LUBRICANT, 4000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 16000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.HEATINGOIL, 16000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.LUBRICANT, 4000, 2);
 	}
 
 	@Override
@@ -191,25 +191,25 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	public static final int coalGenRate = 50;
-	public static final HashMap<FluidType, Integer> fuels = new HashMap();
+	public static final HashMap<FluidTypeTheOldOne, Integer> fuels = new HashMap();
 	
 	static {
-		fuels.put(FluidType.SMEAR,		50);
-		fuels.put(FluidType.HEATINGOIL,	75);
-		fuels.put(FluidType.HYDROGEN,	5);
-		fuels.put(FluidType.DIESEL,		225);
-		fuels.put(FluidType.KEROSENE,	300);
-		fuels.put(FluidType.RECLAIMED,	100);
-		fuels.put(FluidType.PETROIL,	125);
-		fuels.put(FluidType.BIOFUEL,	200);
-		fuels.put(FluidType.GASOLINE,	700);
-		fuels.put(FluidType.NITAN,		2500);
-		fuels.put(FluidType.LPG,		200);
-		fuels.put(FluidType.ETHANOL,	75);
+		fuels.put(FluidTypeTheOldOne.SMEAR,		50);
+		fuels.put(FluidTypeTheOldOne.HEATINGOIL,	75);
+		fuels.put(FluidTypeTheOldOne.HYDROGEN,	5);
+		fuels.put(FluidTypeTheOldOne.DIESEL,		225);
+		fuels.put(FluidTypeTheOldOne.KEROSENE,	300);
+		fuels.put(FluidTypeTheOldOne.RECLAIMED,	100);
+		fuels.put(FluidTypeTheOldOne.PETROIL,	125);
+		fuels.put(FluidTypeTheOldOne.BIOFUEL,	200);
+		fuels.put(FluidTypeTheOldOne.GASOLINE,	700);
+		fuels.put(FluidTypeTheOldOne.NITAN,		2500);
+		fuels.put(FluidTypeTheOldOne.LPG,		200);
+		fuels.put(FluidTypeTheOldOne.ETHANOL,	75);
 	}
 	
 	public int getPowerFromFuel() {
-		FluidType type = tanks[1].getTankType();
+		FluidTypeTheOldOne type = tanks[1].getTankType();
 		Integer value = fuels.get(type);
 		return value != null ? value : 0;
 	}
@@ -220,18 +220,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
 		
-		if(type == FluidType.WATER)
+		if(type == FluidTypeTheOldOne.WATER)
 			tanks[0].setFill(fill);
-		else if(type == FluidType.LUBRICANT)
+		else if(type == FluidTypeTheOldOne.LUBRICANT)
 			tanks[2].setFill(fill);
 		else if(tanks[1].getTankType() == type)
 			tanks[1].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tanks[index].setTankType(type);
 	}
 
@@ -241,7 +241,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		
 		for(int i = 0; i < 3; i++)
 			if(tanks[i].getTankType() == type)
@@ -251,7 +251,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		
 		for(int i = 0; i < 3; i++)
 			if(tanks[i].getTankType() == type)

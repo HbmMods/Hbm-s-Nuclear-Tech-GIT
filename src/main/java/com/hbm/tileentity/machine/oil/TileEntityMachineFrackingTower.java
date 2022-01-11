@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.world.feature.OilSpot;
@@ -15,9 +15,9 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	public TileEntityMachineFrackingTower() {
 		super();
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
-		tanks[2] = new FluidTank(FluidType.FRACKSOL, 64_000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.GAS, 64_000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.FRACKSOL, 64_000, 2);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
@@ -111,7 +111,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
 	}
 }

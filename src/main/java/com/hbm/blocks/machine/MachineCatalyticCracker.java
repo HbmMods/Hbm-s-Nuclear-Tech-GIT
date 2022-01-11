@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticCracker;
@@ -69,7 +69,7 @@ public class MachineCatalyticCracker extends BlockDummyable {
 						player.addChatComponentMessage(new ChatComponentTranslation("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()).appendSibling(new ChatComponentText(": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB")));
 				} else {
 					
-					FluidType type = FluidType.values()[player.getHeldItem().getItemDamage()];
+					FluidTypeTheOldOne type = FluidTypeTheOldOne.values()[player.getHeldItem().getItemDamage()];
 					cracker.tanks[0].setTankType(type);
 					cracker.markDirty();
 					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Changed type to " + type + "!"));

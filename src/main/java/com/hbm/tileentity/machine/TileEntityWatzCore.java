@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -59,7 +59,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	public TileEntityWatzCore() {
 		slots = new ItemStack[40];
-		tank = new FluidTank(FluidType.WATZ, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.WATZ, 64000, 0);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -705,12 +705,12 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tank.setTankType(type);
 	}
 	
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		fillFluid(this.xCoord + 4, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord - 4, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord, this.zCoord + 4, getTact(), type);
@@ -719,27 +719,27 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 	
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		return tank.getFill();
 	}
 	
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		tank.setFill(i);
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return list1;
 	}
 	
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		list1.clear();
 	}
 

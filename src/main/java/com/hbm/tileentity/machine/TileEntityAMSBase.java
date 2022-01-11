@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -60,10 +60,10 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	public TileEntityAMSBase() {
 		slots = new ItemStack[16];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.COOLANT, 8000, 0);
-		tanks[1] = new FluidTank(FluidType.CRYOGEL, 8000, 1);
-		tanks[2] = new FluidTank(FluidType.DEUTERIUM, 8000, 2);
-		tanks[3] = new FluidTank(FluidType.TRITIUM, 8000, 3);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.COOLANT, 8000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.CRYOGEL, 8000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 8000, 2);
+		tanks[3] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 8000, 3);
 	}
 
 	@Override
@@ -389,22 +389,20 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 		}
 	}
 	
-	private int getCoolingStrength(FluidType type) {
-		switch(type) {
-		case WATER:
+	private int getCoolingStrength(FluidTypeTheOldOne type) {
+		
+		if(type == FluidTypeTheOldOne.WATER)
 			return 5;
-		case OIL:
+		if(type == FluidTypeTheOldOne.OIL)
 			return 15;
-		case COOLANT:
+		if(type == FluidTypeTheOldOne.COOLANT)
 			return this.heat / 250;
-		case CRYOGEL:
+		if(type == FluidTypeTheOldOne.CRYOGEL)
 			return this.heat > heat/2 ? 25 : 5;
-		default:
-			return 0;
-		}
+		return 0;
 	}
 	
-	private int getFuelPower(FluidType type) {
+	private int getFuelPower(FluidTypeTheOldOne type) {
 		switch(type) {
 		case DEUTERIUM:
 			return 50;
@@ -479,7 +477,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -493,7 +491,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -505,7 +503,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -525,7 +523,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 4 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}

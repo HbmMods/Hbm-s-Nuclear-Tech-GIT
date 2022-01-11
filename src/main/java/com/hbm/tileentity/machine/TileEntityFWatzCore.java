@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
@@ -43,9 +43,9 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	public TileEntityFWatzCore() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.COOLANT, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.AMAT, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.ASCHRAB, 64000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.COOLANT, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.AMAT, 64000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.ASCHRAB, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -391,13 +391,13 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
 		else if(type.name().equals(tanks[2].getTankType().name()))
@@ -405,7 +405,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))
@@ -415,7 +415,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))

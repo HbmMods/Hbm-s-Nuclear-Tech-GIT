@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -54,7 +54,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	public TileEntityMachineGasCent() {
 		super(6); 
-		tank = new FluidTank(FluidType.UF6, 2000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.UF6, 2000, 0);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
 		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
@@ -318,14 +318,14 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tank.setTankType(type);
 	}
 	
 	public void setTankType(int in) {
 		
 		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
-			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+			FluidTypeTheOldOne newType = ItemFluidIdentifier.getType(slots[in]);
 			
 			if(tank.getTankType() != newType) {
 				tank.setTankType(newType);
@@ -349,17 +349,17 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}

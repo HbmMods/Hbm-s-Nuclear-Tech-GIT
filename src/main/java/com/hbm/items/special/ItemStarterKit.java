@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
@@ -200,7 +200,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 4, FluidType.COOLANT.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 4, FluidTypeTheOldOne.COOLANT.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_strong, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
@@ -249,8 +249,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.reactor_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 16, FluidType.WATER.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, FluidType.COOLANT.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 16, FluidTypeTheOldOne.WATER.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, FluidTypeTheOldOne.COOLANT.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 3));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 2));

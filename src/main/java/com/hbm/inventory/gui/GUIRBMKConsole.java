@@ -8,7 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -276,13 +276,13 @@ public class GUIRBMKConsole extends GuiScreen {
 				int fs = (int)Math.ceil((col.data.getInteger("steam")) * 8 / col.data.getDouble("maxSteam"));
 				drawTexturedModalRect(guiLeft + x + 6, guiTop + y + size - fs - 1, 46, 191 - fs, 3, fs);
 
-				if(col.data.getShort("type") == FluidType.STEAM.ordinal())
+				if(col.data.getShort("type") == FluidTypeTheOldOne.STEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 1, 44, 183, 2, 2);
-				if(col.data.getShort("type") == FluidType.HOTSTEAM.ordinal())
+				if(col.data.getShort("type") == FluidTypeTheOldOne.HOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 3, 44, 185, 2, 2);
-				if(col.data.getShort("type") == FluidType.SUPERHOTSTEAM.ordinal())
+				if(col.data.getShort("type") == FluidTypeTheOldOne.SUPERHOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 5, 44, 187, 2, 2);
-				if(col.data.getShort("type") == FluidType.ULTRAHOTSTEAM.ordinal())
+				if(col.data.getShort("type") == FluidTypeTheOldOne.ULTRAHOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 7, 44, 189, 2, 2);
 				
 				break;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
@@ -26,7 +26,7 @@ public class SILEXRecipes {
 	
 	public static void register() {
 
-		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()), new ComparableStack(ModItems.ingot_uranium));
+		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.UF6.ordinal()), new ComparableStack(ModItems.ingot_uranium));
 		dictTranslation.put("dustUranium", "ingotUranium");
 		recipes.put("ingotUranium", new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 1))
@@ -43,7 +43,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 6))
 				);
 
-		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, FluidType.PUF6.ordinal()), new ComparableStack(ModItems.ingot_plutonium));
+		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PUF6.ordinal()), new ComparableStack(ModItems.ingot_plutonium));
 		dictTranslation.put("dustPlutonium", "ingotPlutonium");
 		recipes.put("ingotPlutonium", new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu238), 3))
@@ -76,7 +76,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
 				);
 
-		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, FluidType.DEATH.ordinal()), new SILEXRecipe(1000, 1000)
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.DEATH.ordinal()), new SILEXRecipe(1000, 1000)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_impure_osmiridium), 1))
 				);
 		

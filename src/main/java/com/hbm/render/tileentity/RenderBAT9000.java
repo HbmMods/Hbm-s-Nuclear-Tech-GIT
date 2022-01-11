@@ -2,7 +2,8 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.EnumSymbol;
@@ -33,7 +34,7 @@ public class RenderBAT9000 extends TileEntitySpecialRenderer {
 		
 		FluidType type = bat.tank.getTankType();
 		
-		if(type != null && type != FluidType.NONE) {
+		if(type != null && type != Fluids.NONE) {
 
 			RenderHelper.disableStandardItemLighting();
 			GL11.glPushMatrix();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -39,8 +39,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public TileEntityStorageDrum() {
 		super(24);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WASTEFLUID, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.WASTEGAS, 16000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WASTEFLUID, 16000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.WASTEGAS, 16000, 1);
 	}
 
 	@Override
@@ -223,7 +223,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
@@ -233,12 +233,12 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type == tanks[0].getTankType())
 			return tanks[0].getFill();
 		else if(type == tanks[1].getTankType())
@@ -248,7 +248,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
 		else if(type == tanks[1].getTankType())
@@ -256,7 +256,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		if(type == tanks[0].getTankType())
 			return list;
 		if(type == tanks[1].getTankType())
@@ -266,7 +266,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		if(type == tanks[0].getTankType())
 			this.list.clear();
 		if(type == tanks[1].getTankType())
@@ -280,7 +280,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}

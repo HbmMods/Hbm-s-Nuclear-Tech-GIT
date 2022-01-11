@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -22,7 +22,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	public FluidTank steam;
 	
 	public TileEntityRBMKOutlet() {
-		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 32000, 0);
+		steam = new FluidTank(FluidTypeTheOldOne.SUPERHOTSTEAM, 32000, 0);
 	}
 	
 	@Override
@@ -73,12 +73,12 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
 		steam.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		steam.setTankType(type);
 	}
 
@@ -88,18 +88,18 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		return steam.getFill();
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			fillFluid(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ, getTact(), type);
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -108,12 +108,12 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return this.list;
 	}
 
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		this.list.clear();
 	}
 

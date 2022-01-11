@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
@@ -37,9 +37,9 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public TileEntityFusionMultiblock() {
 		slots = new ItemStack[12];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.DEUTERIUM, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.TRITIUM, 64000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 64000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -1202,13 +1202,13 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -1218,7 +1218,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -1230,7 +1230,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))

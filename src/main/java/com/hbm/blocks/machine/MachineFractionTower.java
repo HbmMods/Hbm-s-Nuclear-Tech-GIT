@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
@@ -71,7 +71,7 @@ public class MachineFractionTower extends BlockDummyable {
 					if(world.getTileEntity(pos[0], pos[1] - 3, pos[2]) instanceof TileEntityMachineFractionTower) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You can only change the type in the bottom segment!"));
 					} else {
-						FluidType type = FluidType.values()[player.getHeldItem().getItemDamage()];
+						FluidTypeTheOldOne type = FluidTypeTheOldOne.values()[player.getHeldItem().getItemDamage()];
 						frac.tanks[0].setTankType(type);
 						frac.markDirty();
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Changed type to " + type + "!"));

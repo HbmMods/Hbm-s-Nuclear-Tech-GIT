@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -33,7 +33,7 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 	
 	public TileEntityMachineUF6Tank() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidType.UF6, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.UF6, 64000, 0);
 	}
 
 	@Override
@@ -218,7 +218,7 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -231,12 +231,12 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}

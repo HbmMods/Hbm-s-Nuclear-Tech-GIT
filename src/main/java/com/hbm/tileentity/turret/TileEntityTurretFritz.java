@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -22,7 +22,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	
 	public TileEntityTurretFritz() {
 		super();
-		this.tank = new FluidTank(FluidType.DIESEL, 16000, 0);
+		this.tank = new FluidTank(FluidTypeTheOldOne.DIESEL, 16000, 0);
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	public void updateFiringTick() {
 		
-		if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() >= 10) {
+		if(this.tank.getTankType() == FluidTypeTheOldOne.DIESEL && this.tank.getFill() >= 10) {
 			
 			BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(BulletConfigSyncingUtil.FLA_NORMAL);
 			this.spawnBullet(conf);
@@ -106,7 +106,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			for(int i = 1; i < 10; i++) {
 				
 				if(slots[i] != null && slots[i].getItem() == ModItems.ammo_fuel) {
-					if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
+					if(this.tank.getTankType() == FluidTypeTheOldOne.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
 						this.tank.setFill(this.tank.getFill() + 1000);
 						this.decrStackSize(i, 1);
 					}
@@ -138,22 +138,22 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}

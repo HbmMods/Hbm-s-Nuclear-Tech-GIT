@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.List;
 
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 
@@ -18,7 +18,7 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	public FluidTank water;
 	
 	public TileEntityRBMKInlet() {
-		water = new FluidTank(FluidType.WATER, 32000, 0);
+		water = new FluidTank(FluidTypeTheOldOne.WATER, 32000, 0);
 	}
 	
 	@Override
@@ -67,12 +67,12 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.WATER) water.setFill(fill);
+	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+		if(type == FluidTypeTheOldOne.WATER) water.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index == 0) water.setTankType(type);
 	}
 
@@ -82,14 +82,14 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == FluidType.WATER) return water.getFill();
+	public int getFluidFill(FluidTypeTheOldOne type) {
+		if(type == FluidTypeTheOldOne.WATER) return water.getFill();
 		return 0;
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == FluidType.WATER) return water.getMaxFill();
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+		if(type == FluidTypeTheOldOne.WATER) return water.getMaxFill();
 		return 0;
 	}
 

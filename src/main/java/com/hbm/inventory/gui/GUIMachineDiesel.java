@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.lib.RefStrings;
@@ -43,7 +43,7 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		List<String> text = new ArrayList();
 		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
 		
-		for(Entry<FluidType, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
+		for(Entry<FluidTypeTheOldOne, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
 			text.add("  " + I18nUtil.resolveKey(entry.getKey().getUnlocalizedName()) + " (" + entry.getValue() + " HE/t)");
 		}
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text.toArray(new String[0]));

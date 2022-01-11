@@ -1,6 +1,6 @@
 package com.hbm.interfaces;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
 
 import net.minecraft.item.ItemStack;
 

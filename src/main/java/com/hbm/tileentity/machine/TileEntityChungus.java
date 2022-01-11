@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -39,8 +39,8 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	public TileEntityChungus() {
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.STEAM, 1000000000, 0);
-		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 1000000000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.STEAM, 1000000000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.SPENTSTEAM, 1000000000, 1);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 			
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
-			tanks[1].setTankType((FluidType) outs[0]);
+			tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
 			
 			int processMax = (int) Math.ceil(tanks[0].getFill() / (Integer)outs[2]);				//the maximum amount of cycles total
 			int processSteam = tanks[0].getFill() / (Integer)outs[2];								//the maximum amount of cycles depending on steam
@@ -118,7 +118,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.turnTimer = data.getInteger("operational");
-		this.tanks[0].setTankType(FluidType.values()[data.getInteger("type")]);
+		this.tanks[0].setTankType(FluidTypeTheOldOne.values()[data.getInteger("type")]);
 	}
 	
 	@Override
@@ -138,7 +138,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		dir = dir.getRotation(ForgeDirection.UP);
@@ -148,7 +148,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -158,7 +158,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -166,7 +166,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -176,7 +176,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		
@@ -190,7 +190,7 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -205,12 +205,12 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return list2;
 	}
 	
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		list2.clear();
 	}
 	

@@ -2,14 +2,14 @@ package com.hbm.inventory.recipes;
 
 import java.util.HashMap;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
 
 public class FusionRecipes {
 	
-	public static int getByproductChance(FluidType plasma) {
+	public static int getByproductChance(FluidTypeTheOldOne plasma) {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 1200;
@@ -22,7 +22,7 @@ public class FusionRecipes {
 		}
 	}
 	
-	public static int getBreedingLevel(FluidType plasma) {
+	public static int getBreedingLevel(FluidTypeTheOldOne plasma) {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 1;
@@ -35,7 +35,7 @@ public class FusionRecipes {
 		}
 	}
 	
-	public static ItemStack getByproduct(FluidType plasma) {
+	public static ItemStack getByproduct(FluidTypeTheOldOne plasma) {
 		
 		switch(plasma) {
 		case PLASMA_DT: return new ItemStack(ModItems.pellet_charged);
@@ -48,7 +48,7 @@ public class FusionRecipes {
 		}
 	}
 	
-	public static int getSteamProduction(FluidType plasma) {
+	public static int getSteamProduction(FluidTypeTheOldOne plasma) {
 		
 		switch(plasma) {
 		case PLASMA_DT: return 30;
@@ -65,12 +65,12 @@ public class FusionRecipes {
 		
 		HashMap<ItemStack, ItemStack> map = new HashMap();
 
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DT.ordinal()), getByproduct(FluidType.PLASMA_DT));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DH3.ordinal()), getByproduct(FluidType.PLASMA_DH3));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HD.ordinal()), getByproduct(FluidType.PLASMA_HD));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HT.ordinal()), getByproduct(FluidType.PLASMA_HT));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_XM.ordinal()), getByproduct(FluidType.PLASMA_XM));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_BF.ordinal()), getByproduct(FluidType.PLASMA_BF));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_DT.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_DT));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_DH3.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_DH3));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_HD.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_HD));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_HT.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_HT));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_XM.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_XM));
+		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PLASMA_BF.ordinal()), getByproduct(FluidTypeTheOldOne.PLASMA_BF));
 		
 		return map;
 	}

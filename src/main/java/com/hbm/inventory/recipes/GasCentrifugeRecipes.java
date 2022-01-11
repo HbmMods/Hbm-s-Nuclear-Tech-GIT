@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
@@ -66,7 +66,7 @@ public class GasCentrifugeRecipes {
 	};
 	
 	//Recipes for NEI
-	public static List<ItemStack> getGasCentOutputs(FluidType fluid) {
+	public static List<ItemStack> getGasCentOutputs(FluidTypeTheOldOne fluid) {
 		List<ItemStack> outputs = new ArrayList(4);
 		
 		switch(fluid) {
@@ -85,7 +85,7 @@ public class GasCentrifugeRecipes {
 		}
 	}
 	
-	public static int getQuantityRequired(FluidType fluid) {
+	public static int getQuantityRequired(FluidTypeTheOldOne fluid) {
 		switch(fluid) {
 		case UF6:
 			return 1200;
@@ -99,9 +99,9 @@ public class GasCentrifugeRecipes {
 	public static Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
-		for(int i = 0; i < FluidType.values().length; i++) {
-			if(getGasCentOutputs(FluidType.getEnum(i)) != null) {
-				List<ItemStack> out = getGasCentOutputs(FluidType.getEnum(i));
+		for(int i = 0; i < FluidTypeTheOldOne.values().length; i++) {
+			if(getGasCentOutputs(FluidTypeTheOldOne.getEnum(i)) != null) {
+				List<ItemStack> out = getGasCentOutputs(FluidTypeTheOldOne.getEnum(i));
 				ItemStack[] outputs = new ItemStack[4];
 				
 				for(int j = 0; j < out.size(); j++) {
@@ -112,7 +112,7 @@ public class GasCentrifugeRecipes {
 						outputs[j] = new ItemStack(ModItems.nothing);
 				
 				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, i);
-				ItemFluidIcon.addQuantity(input, getQuantityRequired(FluidType.getEnum(i)));
+				ItemFluidIcon.addQuantity(input, getQuantityRequired(FluidTypeTheOldOne.getEnum(i)));
 				
 				recipes.put(input, outputs);
 			}

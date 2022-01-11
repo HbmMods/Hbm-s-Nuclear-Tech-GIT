@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -41,8 +41,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public TileEntityOilDrillBase() {
 		super(8);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.GAS, 64_000, 1);
 	}
 	
 	@Override
@@ -258,12 +258,12 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		for(FluidTank tank : tanks) {
 			if(type == tank.getTankType()) {
 				return tank.getFill();
@@ -274,7 +274,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		for(FluidTank tank : tanks) {
 			if(type == tank.getTankType()) {
 				tank.setFill(i);
@@ -284,7 +284,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return this.list1;
 		if(type.name().equals(tanks[1].getTankType().name()))
@@ -293,7 +293,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			list1.clear();
 		if(type.name().equals(tanks[1].getTankType().name()))
@@ -307,7 +307,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < tanks.length && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}

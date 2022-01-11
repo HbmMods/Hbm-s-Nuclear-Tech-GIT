@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -49,8 +49,8 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	public TileEntityMachineBoilerElectric() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.STEAM, 16000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 16000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.STEAM, 16000, 1);
 	}
 
 	@Override
@@ -245,9 +245,9 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 			Object[] outs = MachineRecipes.getBoilerOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
+				tanks[1].setTankType(FluidTypeTheOldOne.NONE);
 			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
+				tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);
@@ -325,7 +325,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
@@ -336,7 +336,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -351,7 +351,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -359,7 +359,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -369,7 +369,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		
@@ -383,7 +383,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -398,12 +398,12 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return list;
 	}
 	
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		list.clear();
 	}
 

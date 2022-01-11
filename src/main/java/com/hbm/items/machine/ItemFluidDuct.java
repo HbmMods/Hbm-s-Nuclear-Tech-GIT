@@ -3,7 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +32,7 @@ public class ItemFluidDuct extends Item {
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list)
     {
-        for (int i = 1; i < FluidType.values().length; ++i)
+        for (int i = 1; i < FluidTypeTheOldOne.values().length; ++i)
         {
             list.add(new ItemStack(item, 1, i));
         }
@@ -47,7 +47,7 @@ public class ItemFluidDuct extends Item {
     public String getItemStackDisplayName(ItemStack stack)
     {
         String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        String s1 = ("" + StatCollector.translateToLocal(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
+        String s1 = ("" + StatCollector.translateToLocal(FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
 
         if (s1 != null)
         {
@@ -89,7 +89,7 @@ public class ItemFluidDuct extends Item {
         }
         else
         {
-            int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
+            int j = FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getMSAColor();
 
             if (j < 0)
             {
@@ -150,7 +150,7 @@ public class ItemFluidDuct extends Item {
             world.setBlock(x, y, z, ModBlocks.fluid_duct);
             
             if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuct) {
-            	((TileEntityFluidDuct)world.getTileEntity(x, y, z)).type = FluidType.getEnum(stack.getItemDamage());
+            	((TileEntityFluidDuct)world.getTileEntity(x, y, z)).type = FluidTypeTheOldOne.getEnum(stack.getItemDamage());
             }
             
             world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);

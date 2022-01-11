@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -66,7 +66,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		//slots 1 - 8: upgrades
 		//slots 9 - 29: output
 		super(30);
-		tank = new FluidTank(FluidType.OIL, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.OIL, 64000, 0);
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_oil)) {
 				
-				tank.setTankType(FluidType.OIL); //just to be sure
+				tank.setTankType(FluidTypeTheOldOne.OIL); //just to be sure
 				
 				tank.setFill(tank.getFill() + 500);
 				if(tank.getFill() > tank.getMaxFill())
@@ -604,13 +604,13 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.OIL)
+	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+		if(type == FluidTypeTheOldOne.OIL)
 			tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -620,14 +620,14 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == FluidType.OIL)
+	public int getFluidFill(FluidTypeTheOldOne type) {
+		if(type == FluidTypeTheOldOne.OIL)
 			return tank.getFill();
 		return 0;
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 
 		fillFluid(xCoord + 2, yCoord, zCoord, this.getTact(), type);
 		fillFluid(xCoord - 2, yCoord, zCoord, this.getTact(), type);
@@ -636,7 +636,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
@@ -650,12 +650,12 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return list;
 	}
 
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		list.clear();
 	}
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.lib.Library;
 
@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	
 	public ForgeDirection[] connections = new ForgeDirection[6];
-	public FluidType type = FluidType.OIL;
+	public FluidTypeTheOldOne type = FluidTypeTheOldOne.OIL;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	
 	public TileEntityOilDuct() {
@@ -57,7 +57,7 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	public void readFromNBT(NBTTagCompound nbt)
     {
 		super.readFromNBT(nbt);
-		type = FluidType.OIL;
+		type = FluidTypeTheOldOne.OIL;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	}
 
 	@Override
-	public FluidType getType() {
+	public FluidTypeTheOldOne getType() {
 		return type;
 	}
 }

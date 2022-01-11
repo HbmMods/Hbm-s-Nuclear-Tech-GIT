@@ -10,7 +10,7 @@ import com.hbm.config.MobConfig;
 import com.hbm.entity.projectile.EntityZirnoxDebris;
 import com.hbm.entity.projectile.EntityZirnoxDebris.DebrisType;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
@@ -66,9 +66,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public TileEntityReactorZirnox() {
 		super(28);
-		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 8000, 0);
-		carbonDioxide = new FluidTank(FluidType.CARBONDIOXIDE, 16000, 1);
-		water = new FluidTank(FluidType.WATER, 32000, 2);
+		steam = new FluidTank(FluidTypeTheOldOne.SUPERHOTSTEAM, 8000, 0);
+		carbonDioxide = new FluidTank(FluidTypeTheOldOne.CARBONDIOXIDE, 16000, 1);
+		water = new FluidTank(FluidTypeTheOldOne.WATER, 32000, 2);
 	}
 
 	@Override
@@ -379,12 +379,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
@@ -403,7 +403,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		return false;
 	}
 
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		switch (type) {
 		case SUPERHOTSTEAM: return steam.getMaxFill();
 		case CARBONDIOXIDE: return carbonDioxide.getMaxFill();
@@ -412,7 +412,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		switch (type) {
 		case SUPERHOTSTEAM: steam.setFill(i);
 			break;
@@ -424,7 +424,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		switch (type) {
 		case SUPERHOTSTEAM: return steam.getFill();
 		case CARBONDIOXIDE: return carbonDioxide.getFill();
@@ -445,7 +445,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		switch (index) {
 		case 0: steam.setTankType(type);
 			break;
@@ -466,11 +466,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		return list;
 	}
 
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		return list;
 	}
 
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		list.clear();
 	}
 

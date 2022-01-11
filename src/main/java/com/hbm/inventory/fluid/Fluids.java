@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.common.collect.HashBiMap;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.render.util.EnumSymbol;
 
@@ -62,11 +61,17 @@ public class Fluids {
 	public static FluidType PLASMA_DT;
 	public static FluidType PLASMA_HD;
 	public static FluidType PLASMA_HT;
+	public static FluidType PLASMA_DH3;
 	public static FluidType PLASMA_XM;
 	public static FluidType PLASMA_BF;
 	public static FluidType CARBONDIOXIDE;
-	
+	public static FluidType HELIUM3;
+	public static FluidType DEATH;
+	public static FluidType ETHANOL;
+	public static FluidType HEAVYWATER;
+
 	public static final HashMap<Integer, FluidType> idMapping = new HashMap();
+	public static final HashMap<String, FluidType> nameMapping = new HashMap();
 	public static final List<FluidType> metaOrder = new ArrayList();
 	
 	public static void init() {
@@ -140,6 +145,11 @@ public class Fluids {
 		PLASMA_BF =			new FluidType(0xA7F1A3, 12, 1, 2, 4, 5, 4, EnumSymbol.ANTIMATTER, "hbmfluid.plasma_bf", 8500, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		// v v v v v v v v
 		CARBONDIOXIDE =		new FluidType(0x404040, 6, 2, 2, 3, 0, 0, EnumSymbol.ASPHYXIANT, "hbmfluid.carbondioxide");
+		PLASMA_DH3 =		new FluidType(0xFF83AA, 6, 2, 2, 0, 4, 0, EnumSymbol.RADIATION, "hbmfluid.plasma_dh3", 3480, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
+		HELIUM3 =			new FluidType(0xFCF0C4, 7, 2, 2, 3, 4, 0, EnumSymbol.ASPHYXIANT, "hbmfluid.helium3");
+		DEATH =				new FluidType(0x717A88, 8, 2, 2, 2, 0, 1, EnumSymbol.ACID, "hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER);
+		ETHANOL =			new FluidType(0xe0ffff, 9, 2, 2, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.ethanol");
+		HEAVYWATER =		new FluidType(0x00a0b0, 10, 2, 2, 1, 0, 0, EnumSymbol.NONE, "hbmfluid.heavywater");
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -149,6 +159,7 @@ public class Fluids {
 		metaOrder.add(NONE);
 		//vanilla
 		metaOrder.add(WATER);
+		metaOrder.add(HEAVYWATER);
 		metaOrder.add(LAVA);
 		//steams
 		metaOrder.add(STEAM);
@@ -162,6 +173,7 @@ public class Fluids {
 		metaOrder.add(CRYOGEL);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
+		metaOrder.add(HELIUM3);
 		metaOrder.add(OXYGEN);
 		metaOrder.add(DEUTERIUM);
 		metaOrder.add(TRITIUM);
@@ -184,6 +196,7 @@ public class Fluids {
 		metaOrder.add(GAS);
 		metaOrder.add(PETROLEUM);
 		metaOrder.add(LPG);
+		metaOrder.add(ETHANOL);
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(GASOLINE);
@@ -196,6 +209,7 @@ public class Fluids {
 		metaOrder.add(SAS3);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(PAIN);
+		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
@@ -209,6 +223,7 @@ public class Fluids {
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);
 		metaOrder.add(PLASMA_HT);
+		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
 	}
@@ -216,6 +231,25 @@ public class Fluids {
 	public static int registerSelf(FluidType fluid) {
 		int id = idMapping.size();
 		idMapping.put(id, fluid);
+		nameMapping.put(fluid.getName(), fluid);
 		return id;
+	}
+	
+	public static FluidType fromID(int id) {
+		FluidType fluid = idMapping.get(id);
+		
+		if(fluid == null)
+			fluid = Fluids.NONE;
+		
+		return fluid;
+	}
+	
+	public static FluidType fromName(String name) {
+		FluidType fluid = nameMapping.get(name);
+		
+		if(fluid == null)
+			fluid = Fluids.NONE;
+		
+		return fluid;
 	}
 }

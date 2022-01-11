@@ -1,7 +1,7 @@
 package com.hbm.items.machine;
 
 import java.util.List;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -28,7 +28,7 @@ public class ItemFluidIcon extends Item {
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list)
     {
-        for (int i = 0; i < FluidType.values().length; ++i)
+        for (int i = 0; i < FluidTypeTheOldOne.values().length; ++i)
         {
             list.add(new ItemStack(item, 1, i));
         }
@@ -52,7 +52,7 @@ public class ItemFluidIcon extends Item {
 		return stack;
 	}
 	
-	public static ItemStack make(FluidType fluid, int i) {
+	public static ItemStack make(FluidTypeTheOldOne fluid, int i) {
 		return addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i);
 	}
 	
@@ -66,7 +66,7 @@ public class ItemFluidIcon extends Item {
 
     public String getItemStackDisplayName(ItemStack stack)
     {
-        String s = (I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
+        String s = (I18n.format(FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
 
         if (s != null)
         {
@@ -100,7 +100,7 @@ public class ItemFluidIcon extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack stack, int p_82790_2_) {
-		int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
+		int j = FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getMSAColor();
 
 		if (j < 0) {
 			j = 16777215;

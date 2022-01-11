@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
@@ -44,7 +45,7 @@ public class FluidTank {
 	
 	public void setTankType(FluidType type) {
 		
-		if(this.type.name().equals(type.name()))
+		if(this.type == type)
 			return;
 		
 		this.type = type;
@@ -85,26 +86,26 @@ public class FluidTank {
 	//Fills tank from canisters
 	public void loadTank(int in, int out, ItemStack[] slots) {
 		
-		FluidType inType = FluidType.NONE;
+		FluidType inType = Fluids.NONE;
 		if(slots[in] != null) {
 			
 			//TODO: add IPartiallyFillable case for unloading
 			
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
-			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != FluidType.NONE) {
+			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != Fluids.NONE) {
 				this.fluid = this.maxFluid;
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water && this.type == Fluids.WATER) {
 				this.fluid += 50;
 				if(this.fluid > this.maxFluid)
 					this.fluid = this.maxFluid;
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type == Fluids.WATER) {
 				this.fluid += 500;
 				if(this.fluid > this.maxFluid)
 					this.fluid = this.maxFluid;
@@ -117,7 +118,7 @@ public class FluidTank {
 			return;
 		}
 		
-		if(slots[in] != null && inType.name().equals(type.name()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {
+		if(slots[in] != null && inType.getName().equals(type.getName()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {
 			if(slots[out] == null) {
 				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
 				slots[out] = FluidContainerRegistry.getEmptyContainer(slots[in]);
@@ -181,14 +182,14 @@ public class FluidTank {
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water && this.type.getName().equals(Fluids.WATER.name())) {
 				this.fluid -= 50;
 				if(this.fluid < 0)
 					this.fluid = 0;
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.name().equals(FluidType.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.getName().equals(Fluids.WATER.name())) {
 				this.fluid -= 500;
 				if(this.fluid < 0)
 					this.fluid = 0;
@@ -232,7 +233,7 @@ public class FluidTank {
 		
 		if(slots[in] != null && slots[out] == null && slots[in].getItem() instanceof ItemFluidIdentifier) {
 			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
-			if(!type.name().equals(newType.name())) {
+			if(!type.getName().equals(newType.getName())) {
 				type = newType;
 				slots[out] = slots[in].copy();
 				slots[in] = null;
@@ -303,7 +304,7 @@ public class FluidTank {
 		if(max > 0)
 			maxFluid = nbt.getInteger(s + "_max");
 		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
-		if(type.name().equals(FluidType.NONE.name()))
+		if(type.getName().equals(Fluids.NONE.name()))
 			type = FluidType.getEnumFromName(nbt.getString(s + "_type"));
 	}
 

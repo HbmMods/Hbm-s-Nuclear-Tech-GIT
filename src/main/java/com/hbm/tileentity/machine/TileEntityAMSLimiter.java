@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -53,7 +53,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	
 	public TileEntityAMSLimiter() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidType.COOLANT, 8000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.COOLANT, 8000, 0);
 	}
 
 	@Override
@@ -231,7 +231,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 					warning = 1;
 				}
 				
-				if(tank.getTankType().name().equals(FluidType.CRYOGEL.name())) {
+				if(tank.getTankType().name().equals(FluidTypeTheOldOne.CRYOGEL.name())) {
 					
 					if(tank.getFill() >= 5) {
 						if(heat > 0)
@@ -251,7 +251,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 					} else {
 						heat += efficiency;
 					}
-				} else if(tank.getTankType().name().equals(FluidType.COOLANT.name())) {
+				} else if(tank.getTankType().name().equals(FluidTypeTheOldOne.COOLANT.name())) {
 					
 					if(tank.getFill() >= 5) {
 						if(heat > 0)
@@ -271,7 +271,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 					} else {
 						heat += efficiency;
 					}
-				} else if(tank.getTankType().name().equals(FluidType.WATER.name())) {
+				} else if(tank.getTankType().name().equals(FluidTypeTheOldOne.WATER.name())) {
 					
 					if(tank.getFill() >= 15) {
 						if(heat > 0)
@@ -344,7 +344,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				warning = 3;
 			}
 			
-			tank.setTankType(FluidType.CRYOGEL);
+			tank.setTankType(FluidTypeTheOldOne.CRYOGEL);
 			tank.setFill(tank.getMaxFill());
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -378,13 +378,13 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getFill();
 		else
@@ -392,7 +392,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getMaxFill();
 		else
@@ -405,7 +405,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 			tank.setTankType(type);
 	}
 	

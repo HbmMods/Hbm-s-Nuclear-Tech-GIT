@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -62,10 +62,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	public TileEntityMachineChemplant() {
 		slots = new ItemStack[21];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.NONE, 24000, 0);
-		tanks[1] = new FluidTank(FluidType.NONE, 24000, 1);
-		tanks[2] = new FluidTank(FluidType.NONE, 24000, 2);
-		tanks[3] = new FluidTank(FluidType.NONE, 24000, 3);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 2);
+		tanks[3] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 3);
 	}
 
 	@Override
@@ -540,10 +540,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
 			FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
 
-			tanks[0].setTankType(inputs[0] == null ? FluidType.NONE : inputs[0].type);
-			tanks[1].setTankType(inputs[1] == null ? FluidType.NONE : inputs[1].type);
-			tanks[2].setTankType(outputs[0] == null ? FluidType.NONE : outputs[0].type);
-			tanks[3].setTankType(outputs[1] == null ? FluidType.NONE : outputs[1].type);
+			tanks[0].setTankType(inputs[0] == null ? FluidTypeTheOldOne.NONE : inputs[0].type);
+			tanks[1].setTankType(inputs[1] == null ? FluidTypeTheOldOne.NONE : inputs[1].type);
+			tanks[2].setTankType(outputs[0] == null ? FluidTypeTheOldOne.NONE : outputs[0].type);
+			tanks[3].setTankType(outputs[1] == null ? FluidTypeTheOldOne.NONE : outputs[1].type);
 		}
 	}
 	
@@ -907,13 +907,13 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if(index < 4 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -925,7 +925,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -939,7 +939,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -949,7 +949,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void fillFluidInit(FluidTypeTheOldOne type) {
 		int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
 		if(meta == 5) {
 			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, getTact(), type);
@@ -981,7 +981,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
@@ -995,7 +995,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
+	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[2].getTankType().name()))
 			return list1;
 		if(type.name().equals(tanks[3].getTankType().name()))
@@ -1004,7 +1004,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void clearFluidList(FluidType type) {
+	public void clearFluidList(FluidTypeTheOldOne type) {
 		if(type.name().equals(tanks[2].getTankType().name()))
 			list1.clear();
 		if(type.name().equals(tanks[3].getTankType().name()))

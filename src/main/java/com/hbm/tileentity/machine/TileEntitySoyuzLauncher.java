@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.handler.MissileStruct;
 import com.hbm.entity.missile.EntitySoyuz;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -47,8 +47,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.OXYGEN, 128000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.KEROSENE, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.OXYGEN, 128000, 1);
 	}
 
 	@Override
@@ -356,7 +356,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidTypeTheOldOne type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -372,7 +372,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(fill);
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -380,7 +380,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setType(FluidTypeTheOldOne type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -395,7 +395,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getFluidFill(FluidTypeTheOldOne type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.util.EnumSymbol;
@@ -16,10 +17,9 @@ public class FluidTypeHandler {
 	//if you tough any of this i promise you will regret being born
 	//deprecated means "avoid using in the future" not "fuck with this with your heart's content"
 	//hands off. if you can read this, close this class now.
-	public static class FluidType extends com.hbm.inventory.fluid.FluidType {
-		public static FluidType NONE			= new FluidType (0x888888,	0,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.none"),
+	public static class FluidTypeTheOldOne extends com.hbm.inventory.fluid.FluidType {
 
-		WATER			= new FluidType (0x3333FF,	1,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.water"),
+		/*WATER			= new FluidType (0x3333FF,	1,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.water"),
 		STEAM			= new FluidType (0xe5e5e5,	9,	2,	1,	3,	0,	0,	EnumSymbol.NONE,		"hbmfluid.steam", 100),
 		HOTSTEAM		= new FluidType (0xE7D6D6,	1,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.hotsteam", 300),
 		SUPERHOTSTEAM	= new FluidType (0xE7B7B7,	2,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.superhotsteam", 450),
@@ -97,9 +97,21 @@ public class FluidTypeHandler {
 		DEATH			= new FluidType (0x717A88,	8,	2,	2,	2,	0,	1,	EnumSymbol.ACID,		"hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER),
 		ETHANOL			= new FluidType (0xe0ffff,	9,	2,	2,	2,	3,	0,	EnumSymbol.NONE,		"hbmfluid.ethanol"),
 		HEAVYWATER		= new FluidType (0x00a0b0,	10,	2,	2,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.heavywater"),
-		CARBONDIOXIDE	= new FluidType (0x747474,	11,	2,	2,	3,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.carbondioxide");
+		CARBONDIOXIDE	= new FluidType (0x747474,	11,	2,	2,	3,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.carbondioxide");*/
+				
+		public static FluidType NONE = Fluids.NONE, WATER = Fluids.WATER, STEAM = Fluids.STEAM, HOTSTEAM = Fluids.HOTSTEAM,
+				SUPERHOTSTEAM = Fluids.SUPERHOTSTEAM, ULTRAHOTSTEAM = Fluids.ULTRAHOTSTEAM, COOLANT = Fluids.COOLANT, LAVA = Fluids.LAVA, DEUTERIUM = Fluids.DEUTERIUM,
+				TRITIUM = Fluids.TRITIUM, OIL = Fluids.OIL, HOTOIL = Fluids.HOTOIL, HEAVYOIL = Fluids.HEAVYOIL, BITUMEN = Fluids.BITUMEN, SMEAR = Fluids.SMEAR,
+				HEATINGOIL = Fluids.HEATINGOIL, RECLAIMED = Fluids.RECLAIMED, PETROIL = Fluids.PETROIL, LUBRICANT = Fluids.LUBRICANT, NAPHTHA = Fluids.NAPHTHA,
+				DIESEL = Fluids.DIESEL, LIGHTOIL = Fluids.LIGHTOIL, KEROSENE = Fluids.KEROSENE, GAS = Fluids.GAS, PETROLEUM = Fluids.PETROLEUM, LPG = Fluids.LPG,
+				BIOGAS = Fluids.BIOGAS, BIOFUEL = Fluids.BIOFUEL, NITAN = Fluids.NITAN, UF6 = Fluids.UF6, PUF6 = Fluids.PUF6, SAS3 = Fluids.SAS3, SCHRABIDIC = Fluids.SCHRABIDIC,
+				AMAT = Fluids.AMAT, ASCHRAB = Fluids.ASCHRAB, ACID = Fluids.ACID, WATZ = Fluids.WATZ, CRYOGEL = Fluids.CRYOGEL, HYDROGEN = Fluids.HYDROGEN, OXYGEN = Fluids.OXYGEN,
+				XENON = Fluids.XENON, BALEFIRE = Fluids.BALEFIRE, MERCURY = Fluids.MERCURY, PAIN = Fluids.PAIN, WASTEFLUID = Fluids.WASTEFLUID, WASTEGAS = Fluids.WASTEGAS,
+				GASOLINE = Fluids.GASOLINE, SPENTSTEAM = Fluids.SPENTSTEAM, FRACKSOL = Fluids.FRACKSOL, PLASMA_DT = Fluids.PLASMA_DT, PLASMA_HD = Fluids.PLASMA_HD,
+				PLASMA_HT = Fluids.PLASMA_HT, PLASMA_XM = Fluids.PLASMA_XM, PLASMA_BF = Fluids.PLASMA_BF, PLASMA_DH3 = Fluids.PLASMA_DH3, HELIUM3 = Fluids.HELIUM3,
+				DEATH = Fluids.DEATH, ETHANOL = Fluids.ETHANOL, HEAVYWATER = Fluids.HEAVYWATER, CARBONDIOXIDE = Fluids.CARBONDIOXIDE;
 
-		//Approximate HEX Color of the fluid, used for pipe rendering
+		/*//Approximate HEX Color of the fluid, used for pipe rendering
 		private int color;
 		//X position of the fluid on the sheet, the "row"
 		private int textureX;
@@ -121,46 +133,30 @@ public class FluidTypeHandler {
 		public int reactivity;
 		public EnumSymbol symbol;
 		public int temperature;
-		public List<FluidTrait> traits = new ArrayList();
+		public List<FluidTrait> traits = new ArrayList();*/
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
+		private FluidTypeTheOldOne(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
 			this(color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
+		private FluidTypeTheOldOne(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
 			this(color, x, y, sheet, p, f, r, symbol, name, 0, traits);
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
+		private FluidTypeTheOldOne(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
 			this(color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
+		private FluidTypeTheOldOne(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
 			super(color, x, y, sheet, p, f, r, symbol, name, temperature, traits);
 		}
 		
-		public static com.hbm.inventory.fluid.FluidType[] values() {
+		/*public static com.hbm.inventory.fluid.FluidType[] values() {
 			return Fluids.metaOrder.toArray(new com.hbm.inventory.fluid.FluidType[0]);
-		}
-		
-		public static FluidType getEnum(int i) {
-			if(i < FluidType.values().length)
-				return FluidType.values()[i];
-			else
-				return FluidType.NONE;
-		}
-		
-		public static FluidType getEnumFromName(String s) {
-			
-			for(int i = 0; i < FluidType.values().length; i++)
-				if(FluidType.values()[i].getName().equals(s))
-					return FluidType.values()[i];
-			
-			return FluidType.NONE;
 		}
 		
 		public boolean needsLeadContainer() {
 			return this.traits.contains(FluidTrait.LEAD_CONTAINER);
-		}
+		}*/
 	};
 }

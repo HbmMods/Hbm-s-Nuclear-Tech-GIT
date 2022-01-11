@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidStack;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -69,157 +69,157 @@ public class ChemplantRecipes {
 	
 	public static void registerFuelProcessing() {
 		recipes.add(new ChemRecipe("FP_HEAVYOIL", 50)
-				.inputFluids(new FluidStack(1000, FluidType.HEAVYOIL))
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.HEAVYOIL))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, FluidType.BITUMEN),
-						new FluidStack(RefineryRecipes.heavy_frac_smear * 10, FluidType.SMEAR)
+						new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, FluidTypeTheOldOne.BITUMEN),
+						new FluidStack(RefineryRecipes.heavy_frac_smear * 10, FluidTypeTheOldOne.SMEAR)
 						));
 		recipes.add(new ChemRecipe("FP_SMEAR", 50)
-				.inputFluids(new FluidStack(1000, FluidType.SMEAR))
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.SMEAR))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.smear_frac_heat * 10, FluidType.HEATINGOIL),
-						new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidType.LUBRICANT)
+						new FluidStack(RefineryRecipes.smear_frac_heat * 10, FluidTypeTheOldOne.HEATINGOIL),
+						new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidTypeTheOldOne.LUBRICANT)
 						));
 		recipes.add(new ChemRecipe("FP_NAPHTHA", 50)
-				.inputFluids(new FluidStack(1000, FluidType.NAPHTHA))
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.NAPHTHA))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.napht_frac_heat * 10, FluidType.HEATINGOIL),
-						new FluidStack(RefineryRecipes.napht_frac_diesel * 10, FluidType.DIESEL)
+						new FluidStack(RefineryRecipes.napht_frac_heat * 10, FluidTypeTheOldOne.HEATINGOIL),
+						new FluidStack(RefineryRecipes.napht_frac_diesel * 10, FluidTypeTheOldOne.DIESEL)
 						));
 		recipes.add(new ChemRecipe("FP_LIGHTOIL", 50)
-				.inputFluids(new FluidStack(1000, FluidType.LIGHTOIL))
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.LIGHTOIL))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidType.DIESEL),
-						new FluidStack(RefineryRecipes.light_frac_kero * 10, FluidType.KEROSENE)
+						new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidTypeTheOldOne.DIESEL),
+						new FluidStack(RefineryRecipes.light_frac_kero * 10, FluidTypeTheOldOne.KEROSENE)
 						));
 		recipes.add(new ChemRecipe("FR_REOIL", 30)
-				.inputFluids(new FluidStack(1000, FluidType.SMEAR))
-				.outputFluids(new FluidStack(800, FluidType.RECLAIMED)));
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.SMEAR))
+				.outputFluids(new FluidStack(800, FluidTypeTheOldOne.RECLAIMED)));
 		recipes.add(new ChemRecipe("FR_PETROIL", 30)
 				.inputFluids(
-						new FluidStack(800, FluidType.RECLAIMED),
-						new FluidStack(200, FluidType.LUBRICANT))
-				.outputFluids(new FluidStack(1000, FluidType.PETROIL)));
+						new FluidStack(800, FluidTypeTheOldOne.RECLAIMED),
+						new FluidStack(200, FluidTypeTheOldOne.LUBRICANT))
+				.outputFluids(new FluidStack(1000, FluidTypeTheOldOne.PETROIL)));
 	}
 	
 	public static void registerFuelCracking() {
 		recipes.add(new ChemRecipe("FC_BITUMEN", 100)
 				.inputFluids(
-						new FluidStack(1200, FluidType.BITUMEN),
-						new FluidStack(2400, FluidType.STEAM))
+						new FluidStack(1200, FluidTypeTheOldOne.BITUMEN),
+						new FluidStack(2400, FluidTypeTheOldOne.STEAM))
 				.outputFluids(
-						new FluidStack(1000, FluidType.OIL),
-						new FluidStack(200, FluidType.PETROLEUM)));
+						new FluidStack(1000, FluidTypeTheOldOne.OIL),
+						new FluidStack(200, FluidTypeTheOldOne.PETROLEUM)));
 		recipes.add(new ChemRecipe("FC_I_NAPHTHA", 150)
 				.inputFluids(
-						new FluidStack(1400, FluidType.SMEAR),
-						new FluidStack(800, FluidType.WATER))
-				.outputFluids(new FluidStack(800, FluidType.NAPHTHA)));
+						new FluidStack(1400, FluidTypeTheOldOne.SMEAR),
+						new FluidStack(800, FluidTypeTheOldOne.WATER))
+				.outputFluids(new FluidStack(800, FluidTypeTheOldOne.NAPHTHA)));
 		recipes.add(new ChemRecipe("FC_GAS_PETROLEUM", 100)
 				.inputFluids(
-						new FluidStack(1800, FluidType.GAS),
-						new FluidStack(1200, FluidType.WATER))
-				.outputFluids(new FluidStack(800, FluidType.PETROLEUM)));
+						new FluidStack(1800, FluidTypeTheOldOne.GAS),
+						new FluidStack(1200, FluidTypeTheOldOne.WATER))
+				.outputFluids(new FluidStack(800, FluidTypeTheOldOne.PETROLEUM)));
 		recipes.add(new ChemRecipe("FC_DIESEL_KEROSENE", 150)
 				.inputFluids(
-						new FluidStack(1200, FluidType.DIESEL),
-						new FluidStack(2000, FluidType.STEAM))
-				.outputFluids(new FluidStack(400, FluidType.KEROSENE)));
+						new FluidStack(1200, FluidTypeTheOldOne.DIESEL),
+						new FluidStack(2000, FluidTypeTheOldOne.STEAM))
+				.outputFluids(new FluidStack(400, FluidTypeTheOldOne.KEROSENE)));
 		recipes.add(new ChemRecipe("FC_KEROSENE_PETROLEUM", 150)
 				.inputFluids(
-						new FluidStack(1400, FluidType.KEROSENE),
-						new FluidStack(2000, FluidType.STEAM))
-				.outputFluids(new FluidStack(800, FluidType.PETROLEUM)));
+						new FluidStack(1400, FluidTypeTheOldOne.KEROSENE),
+						new FluidStack(2000, FluidTypeTheOldOne.STEAM))
+				.outputFluids(new FluidStack(800, FluidTypeTheOldOne.PETROLEUM)));
 	}
 	
 	public static void registerCoalCracking() {
 		recipes.add(new ChemRecipe("CC_OIL", 150)
 				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
-				.inputFluids(new FluidStack(1400, FluidType.STEAM))
-				.outputFluids(new FluidStack(2000, FluidType.OIL)));
+				.inputFluids(new FluidStack(1400, FluidTypeTheOldOne.STEAM))
+				.outputFluids(new FluidStack(2000, FluidTypeTheOldOne.OIL)));
 		recipes.add(new ChemRecipe("CC_I", 200)
 				.inputItems(new OreDictStack(COAL.dust(), 6), new ComparableStack(ModItems.oil_tar, 4))
-				.inputFluids(new FluidStack(1800, FluidType.WATER))
-				.outputFluids(new FluidStack(1600, FluidType.SMEAR)));
+				.inputFluids(new FluidStack(1800, FluidTypeTheOldOne.WATER))
+				.outputFluids(new FluidStack(1600, FluidTypeTheOldOne.SMEAR)));
 		recipes.add(new ChemRecipe("CC_HEATING", 250)
 				.inputItems(new OreDictStack(COAL.dust(), 6), new ComparableStack(ModItems.oil_tar, 4))
-				.inputFluids(new FluidStack(2000, FluidType.STEAM))
-				.outputFluids(new FluidStack(1800, FluidType.HEATINGOIL)));
+				.inputFluids(new FluidStack(2000, FluidTypeTheOldOne.STEAM))
+				.outputFluids(new FluidStack(1800, FluidTypeTheOldOne.HEATINGOIL)));
 		recipes.add(new ChemRecipe("CC_HEAVY", 200)
 				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
-				.inputFluids(new FluidStack(1400, FluidType.WATER))
-				.outputFluids(new FluidStack(1800, FluidType.HEAVYOIL)));
+				.inputFluids(new FluidStack(1400, FluidTypeTheOldOne.WATER))
+				.outputFluids(new FluidStack(1800, FluidTypeTheOldOne.HEAVYOIL)));
 		recipes.add(new ChemRecipe("CC_NAPHTHA", 300)
 				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
-				.inputFluids(new FluidStack(2400, FluidType.STEAM))
-				.outputFluids(new FluidStack(2000, FluidType.NAPHTHA)));
+				.inputFluids(new FluidStack(2400, FluidTypeTheOldOne.STEAM))
+				.outputFluids(new FluidStack(2000, FluidTypeTheOldOne.NAPHTHA)));
 	}
 	
 	public static void registerSolidFuel() {
 		recipes.add(new ChemRecipe("SF_OIL", 20)
-				.inputFluids(new FluidStack(350, FluidType.OIL))
+				.inputFluids(new FluidStack(350, FluidTypeTheOldOne.OIL))
 				.outputItems(new ItemStack(ModItems.oil_tar, 1), new ItemStack(ModItems.oil_tar, 1)));
 		recipes.add(new ChemRecipe("SF_HEAVYOIL", 20)
-				.inputFluids(new FluidStack(250, FluidType.HEAVYOIL))
+				.inputFluids(new FluidStack(250, FluidTypeTheOldOne.HEAVYOIL))
 				.outputItems(new ItemStack(ModItems.oil_tar, 1), new ItemStack(ModItems.oil_tar, 1)));
 		recipes.add(new ChemRecipe("SF_SMEAR", 20)
-				.inputFluids(new FluidStack(200, FluidType.SMEAR))
+				.inputFluids(new FluidStack(200, FluidTypeTheOldOne.SMEAR))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_HEATINGOIL", 20)
-				.inputFluids(new FluidStack(100, FluidType.HEATINGOIL))
+				.inputFluids(new FluidStack(100, FluidTypeTheOldOne.HEATINGOIL))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_RECLAIMED", 20)
-				.inputFluids(new FluidStack(200, FluidType.RECLAIMED))
+				.inputFluids(new FluidStack(200, FluidTypeTheOldOne.RECLAIMED))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_PETROIL", 20)
-				.inputFluids(new FluidStack(250, FluidType.PETROIL))
+				.inputFluids(new FluidStack(250, FluidTypeTheOldOne.PETROIL))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_LUBRICANT", 20)
-				.inputFluids(new FluidStack(250, FluidType.LUBRICANT))
+				.inputFluids(new FluidStack(250, FluidTypeTheOldOne.LUBRICANT))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_NAPHTHA", 20)
-				.inputFluids(new FluidStack(300, FluidType.NAPHTHA))
+				.inputFluids(new FluidStack(300, FluidTypeTheOldOne.NAPHTHA))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_DIESEL", 20)
-				.inputFluids(new FluidStack(400, FluidType.DIESEL))
+				.inputFluids(new FluidStack(400, FluidTypeTheOldOne.DIESEL))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_LIGHTOIL", 20)
-				.inputFluids(new FluidStack(450, FluidType.LIGHTOIL))
+				.inputFluids(new FluidStack(450, FluidTypeTheOldOne.LIGHTOIL))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_KEROSENE", 20)
-				.inputFluids(new FluidStack(550, FluidType.KEROSENE))
+				.inputFluids(new FluidStack(550, FluidTypeTheOldOne.KEROSENE))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_GAS", 20)
-				.inputFluids(new FluidStack(750, FluidType.GAS))
+				.inputFluids(new FluidStack(750, FluidTypeTheOldOne.GAS))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_PETROLEUM", 20)
-				.inputFluids(new FluidStack(600, FluidType.PETROLEUM))
+				.inputFluids(new FluidStack(600, FluidTypeTheOldOne.PETROLEUM))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_BIOGAS", 20)
-				.inputFluids(new FluidStack(3500, FluidType.BIOGAS))
+				.inputFluids(new FluidStack(3500, FluidTypeTheOldOne.BIOGAS))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
 		recipes.add(new ChemRecipe("SF_BIOFUEL", 20)
-				.inputFluids(new FluidStack(1500, FluidType.BIOFUEL))
+				.inputFluids(new FluidStack(1500, FluidTypeTheOldOne.BIOFUEL))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));;
 	}
 
 	public static void registerOtherOil() {
 		recipes.add(new ChemRecipe("BP_BIOGAS", 200)
 				.inputItems(new ComparableStack(ModItems.biomass, 16))
-				.outputFluids(new FluidStack(4000, FluidType.BIOGAS)));
+				.outputFluids(new FluidStack(4000, FluidTypeTheOldOne.BIOGAS)));
 		recipes.add(new ChemRecipe("BP_BIOFUEL", 100)
-				.inputFluids(new FluidStack(2000, FluidType.BIOGAS))
-				.outputFluids(new FluidStack(1000, FluidType.BIOFUEL)));
+				.inputFluids(new FluidStack(2000, FluidTypeTheOldOne.BIOGAS))
+				.outputFluids(new FluidStack(1000, FluidTypeTheOldOne.BIOFUEL)));
 		recipes.add(new ChemRecipe("LPG", 100)
-				.inputFluids(new FluidStack(2000, FluidType.PETROLEUM))
-				.outputFluids(new FluidStack(1000, FluidType.LPG)));
+				.inputFluids(new FluidStack(2000, FluidTypeTheOldOne.PETROLEUM))
+				.outputFluids(new FluidStack(1000, FluidTypeTheOldOne.LPG)));
 		recipes.add(new ChemRecipe("OIL_SAND", 200)
 				.inputItems(new ComparableStack(ModBlocks.ore_oil_sand, 16), new ComparableStack(ModItems.oil_tar, 1))
 				.outputItems(new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4))
-				.outputFluids(new FluidStack(1000, FluidType.BITUMEN)));
+				.outputFluids(new FluidStack(1000, FluidTypeTheOldOne.BITUMEN)));
 		recipes.add(new ChemRecipe("ASPHALT", 100)
 				.inputItems(new ComparableStack(Blocks.gravel, 2), new ComparableStack(Blocks.sand, 6))
-				.inputFluids(new FluidStack(1000, FluidType.BITUMEN))
+				.inputFluids(new FluidStack(1000, FluidTypeTheOldOne.BITUMEN))
 				.outputItems(new ItemStack(ModBlocks.asphalt, 4), new ItemStack(ModBlocks.asphalt, 4), new ItemStack(ModBlocks.asphalt, 4), new ItemStack(ModBlocks.asphalt, 4)));
 	}
 	

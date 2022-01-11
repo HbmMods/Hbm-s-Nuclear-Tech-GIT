@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
 import com.hbm.lib.Library;
@@ -30,8 +32,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 	public TileEntityCore() {
 		super(3);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 128000, 1);
 	}
 
 	@Override
@@ -97,8 +99,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 	
 	public void networkUnpack(NBTTagCompound data) {
 
-		tanks[0].setTankType(FluidType.getEnum(data.getInteger("tank0")));
-		tanks[1].setTankType(FluidType.getEnum(data.getInteger("tank1")));
+		tanks[0].setTankType(FluidTypeTheOldOne.getEnum(data.getInteger("tank0")));
+		tanks[1].setTankType(FluidTypeTheOldOne.getEnum(data.getInteger("tank1")));
 		tanks[0].setFill(data.getInteger("fill0"));
 		tanks[1].setFill(data.getInteger("fill1"));
 		field = data.getInteger("field");
@@ -172,32 +174,27 @@ public class TileEntityCore extends TileEntityMachineBase {
 	}
 	
 	public float getFuelEfficiency(FluidType type) {
-		
-		switch(type) {
-
-		case HYDROGEN:
+		if(type == Fluids.HYDROGEN)
 			return 1.0F;
-		case DEUTERIUM:
+		if(type == Fluids.DEUTERIUM)
 			return 1.5F;
-		case TRITIUM:
+		if(type == Fluids.TRITIUM)
 			return 1.7F;
-		case OXYGEN:
+		if(type == Fluids.OXYGEN)
 			return 1.2F;
-		case ACID:
+		if(type == Fluids.ACID)
 			return 1.4F;
-		case XENON:
+		if(type == Fluids.XENON)
 			return 1.5F;
-		case SAS3:
+		if(type == Fluids.SAS3)
 			return 2.0F;
-		case BALEFIRE:
+		if(type == Fluids.BALEFIRE)
 			return 2.5F;
-		case AMAT:
+		if(type == Fluids.AMAT)
 			return 2.2F;
-		case ASCHRAB:
+		if(type == Fluids.ASCHRAB)
 			return 2.7F;
-		default:
-			return 0;
-		}
+		return 0;
 	}
 	
 	//TODO: move stats to the AMSCORE class

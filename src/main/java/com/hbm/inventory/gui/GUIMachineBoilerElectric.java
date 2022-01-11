@@ -2,7 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineBoilerElectric;
 import com.hbm.lib.RefStrings;
@@ -52,7 +52,7 @@ public class GUIMachineBoilerElectric extends GuiInfoContainer {
 				"  of boiling points reached" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 		
-		if(diFurnace.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+		if(diFurnace.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
 			
 			String[] text2 = new String[] { "Error: Liquid can not be boiled!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
@@ -93,7 +93,7 @@ public class GUIMachineBoilerElectric extends GuiInfoContainer {
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		if(dud.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+		if(dud.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		

@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityChungus;
@@ -57,30 +57,30 @@ public class MachineChungus extends BlockDummyable {
 					if(!world.isRemote) {
 						switch(entity.tanks[0].getTankType()) {
 						case STEAM:
-							entity.tanks[0].setTankType(FluidType.HOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.STEAM);
+							entity.tanks[0].setTankType(FluidTypeTheOldOne.HOTSTEAM);
+							entity.tanks[1].setTankType(FluidTypeTheOldOne.STEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
 							break;
 							
 						case HOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.SUPERHOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.HOTSTEAM);
+							entity.tanks[0].setTankType(FluidTypeTheOldOne.SUPERHOTSTEAM);
+							entity.tanks[1].setTankType(FluidTypeTheOldOne.HOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
 							break;
 							
 						case SUPERHOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.ULTRAHOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.SUPERHOTSTEAM);
+							entity.tanks[0].setTankType(FluidTypeTheOldOne.ULTRAHOTSTEAM);
+							entity.tanks[1].setTankType(FluidTypeTheOldOne.SUPERHOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
 							break;
 							
 						default:
 						case ULTRAHOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.STEAM);
-							entity.tanks[1].setTankType(FluidType.SPENTSTEAM);
+							entity.tanks[0].setTankType(FluidTypeTheOldOne.STEAM);
+							entity.tanks[1].setTankType(FluidTypeTheOldOne.SPENTSTEAM);
 							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
 							entity.tanks[1].setFill(0);
 							break;
