@@ -115,6 +115,7 @@ public class FluidType {
 		CORROSIVE,
 		CORROSIVE_2,
 		NO_CONTAINER,
+		LEAD_CONTAINER,
 		NO_ID;
 	}
 }

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerReactorZirnox;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
@@ -17,8 +16,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIReactorZirnox extends GuiInfoContainer {
-	
-	//fuck you
+
+	// fuck you
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/reactors/gui_zirnox.png");
 	private TileEntityReactorZirnox zirnox;
 
@@ -43,45 +42,40 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		String[] info = new String[] { "CO2 transfers heat from the core", "to the water. This will boil", "the water into steam.", "Water Consumption Rate:", "100 mB/t", "2000 mB/s" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, info);
 
-		String[] info2 = new String[] { "Pressure can be reduced by",
-				"reducing the amount of CO2",
-				"in the reactor." };
+		String[] info2 = new String[] { "Pressure can be reduced by", "reducing the amount of CO2", "in the reactor." };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, info2);
 
 		if(zirnox.water.getFill() <= 0) {
-			String[] warn1 = new String[] { "Error: Water is required for",
-					"the reactor to function properly!" };
+			String[] warn1 = new String[] { "Error: Water is required for", "the reactor to function properly!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn1);
 		}
 
 		if(zirnox.carbonDioxide.getFill() < 4000) {
-			String[] warn2 = new String[] { "Error: CO2 is required for",
-					"the reactor to function properly!" };
+			String[] warn2 = new String[] { "Error: CO2 is required for", "the reactor to function properly!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn2);
 		}
 
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
-    	
+		super.mouseClicked(x, y, i);
+
 		NBTTagCompound control = new NBTTagCompound();
 
+		if(guiLeft + 144 <= x && guiLeft + 144 + 14 > x && guiTop + 35 < y && guiTop + 35 + 14 >= y) {
+			control.setBoolean("control", true);
 
-    	if(guiLeft + 144 <= x && guiLeft + 144 + 14 > x && guiTop + 35 < y && guiTop + 35 + 14 >= y) {
-    		control.setBoolean("control", true);
-			
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, zirnox.xCoord, zirnox.yCoord, zirnox.zCoord));
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.rbmk_az5_cover"), 0.5F));
-    	}
-
-    	if(guiLeft + 151 <= x && guiLeft + 151 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
-    		control.setBoolean("vent", true); //sus impostre like amogus
-			
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, zirnox.xCoord, zirnox.yCoord, zirnox.zCoord));
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.rbmk_az5_cover"), 0.5F));
 		}
-    }
+
+		if(guiLeft + 151 <= x && guiLeft + 151 + 36 > x && guiTop + 51 < y && guiTop + 51 + 36 >= y) {
+			control.setBoolean("vent", true); // sus impostre like amogus
+
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, zirnox.xCoord, zirnox.yCoord, zirnox.zCoord));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.rbmk_az5_cover"), 0.5F));
+		}
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
@@ -101,25 +95,25 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 160, guiTop + 108, 238, 0 + 12 * s, 18, 12);
 
 		int c = zirnox.getGaugeScaled(6, 1);
-        drawTexturedModalRect(guiLeft + 142, guiTop + 108, 238, 0 + 12 * c, 18, 12);
+		drawTexturedModalRect(guiLeft + 142, guiTop + 108, 238, 0 + 12 * c, 18, 12);
 
 		int w = zirnox.getGaugeScaled(6, 2);
-        drawTexturedModalRect(guiLeft + 178, guiTop + 108, 238, 0 + 12 * w, 18, 12);
+		drawTexturedModalRect(guiLeft + 178, guiTop + 108, 238, 0 + 12 * w, 18, 12);
 
-        int h = zirnox.getGaugeScaled(12, 3);
-        drawTexturedModalRect(guiLeft + 160, guiTop + 33, 220, 0 + 18 * h, 18, 17);
+		int h = zirnox.getGaugeScaled(12, 3);
+		drawTexturedModalRect(guiLeft + 160, guiTop + 33, 220, 0 + 18 * h, 18, 17);
 
 		int p = zirnox.getGaugeScaled(12, 4);
-        drawTexturedModalRect(guiLeft + 178, guiTop + 33, 220, 0 + 18 * p, 18, 17);
+		drawTexturedModalRect(guiLeft + 178, guiTop + 33, 220, 0 + 18 * p, 18, 17);
 
 		if(zirnox.isOn) {
-				for(int x = 0; x < 4; x++)
-					for(int y = 0; y < 4; y++)
-						drawTexturedModalRect(guiLeft + 7 + 36 * x, guiTop + 15 + 36 * y, 238, 238, 18, 18);
-				for(int x = 0; x < 3; x++)
-					for(int y = 0; y < 3; y++)
-						drawTexturedModalRect(guiLeft + 25 + 36 * x, guiTop + 33 + 36 * y, 238, 238, 18, 18);
-				drawTexturedModalRect(guiLeft + 142, guiTop + 15, 220, 238, 18, 18);
+			for(int x = 0; x < 4; x++)
+				for(int y = 0; y < 4; y++)
+					drawTexturedModalRect(guiLeft + 7 + 36 * x, guiTop + 15 + 36 * y, 238, 238, 18, 18);
+			for(int x = 0; x < 3; x++)
+				for(int y = 0; y < 3; y++)
+					drawTexturedModalRect(guiLeft + 25 + 36 * x, guiTop + 33 + 36 * y, 238, 238, 18, 18);
+			drawTexturedModalRect(guiLeft + 142, guiTop + 15, 220, 238, 18, 18);
 		}
 
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
