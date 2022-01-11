@@ -295,6 +295,7 @@ public class ItemMissile extends Item {
 	}
 	
 	//am i retarded?
+	/* yes */
 	public ItemMissile copy() {
 		
 		ItemMissile part = new ItemMissile();
