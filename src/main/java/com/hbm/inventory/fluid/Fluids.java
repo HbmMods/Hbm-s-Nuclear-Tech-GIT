@@ -70,9 +70,9 @@ public class Fluids {
 	public static FluidType ETHANOL;
 	public static FluidType HEAVYWATER;
 
-	public static final HashMap<Integer, FluidType> idMapping = new HashMap();
-	public static final HashMap<String, FluidType> nameMapping = new HashMap();
-	public static final List<FluidType> metaOrder = new ArrayList();
+	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
+	private static final HashMap<String, FluidType> nameMapping = new HashMap();
+	protected static final List<FluidType> metaOrder = new ArrayList();
 	
 	public static void init() {
 		
@@ -226,9 +226,13 @@ public class Fluids {
 		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
+		
+		if(idMapping.size() != metaOrder.size()) {
+			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaORder size: " + metaOrder.size());
+		}
 	}
 	
-	public static int registerSelf(FluidType fluid) {
+	protected static int registerSelf(FluidType fluid) {
 		int id = idMapping.size();
 		idMapping.put(id, fluid);
 		nameMapping.put(fluid.getName(), fluid);
@@ -251,5 +255,29 @@ public class Fluids {
 			fluid = Fluids.NONE;
 		
 		return fluid;
+	}
+	
+	public static FluidType[] getAll() {
+		return getInOrder(false);
+	}
+	
+	public static FluidType[] getInNiceOrder() {
+		return getInOrder(true);
+	}
+	
+	private static FluidType[] getInOrder(final boolean nice) {
+		FluidType[] all = new FluidType[idMapping.size()];
+		
+		for(int i = 0; i < all.length; i++) {
+			FluidType type = nice ? metaOrder.get(i) : idMapping.get(i);
+			
+			if(type == null) {
+				throw new IllegalStateException("A severe error has occoured with NTM's fluid system! Fluid of the ID " + i + " has returned NULL in the registry!");
+			}
+			
+			all[i] = type;
+		}
+		
+		return all;
 	}
 }

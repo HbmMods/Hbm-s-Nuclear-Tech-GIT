@@ -66,6 +66,7 @@ public class FluidType {
 	public int getColor() {
 		return this.color;
 	}
+	@Deprecated
 	public int getMSAColor() {
 		return this.color;
 	}

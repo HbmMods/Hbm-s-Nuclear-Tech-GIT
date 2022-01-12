@@ -3,7 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class JetpackRegular extends JetpackBase {
 
-	public JetpackRegular(FluidTypeTheOldOne fuel, int maxFuel) {
+	public JetpackRegular(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);
 	}
 

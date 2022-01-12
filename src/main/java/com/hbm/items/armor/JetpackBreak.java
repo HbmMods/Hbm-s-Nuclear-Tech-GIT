@@ -3,7 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -20,7 +20,7 @@ public class JetpackBreak extends JetpackBase {
 
 	public static int maxFuel = 1200;
 
-	public JetpackBreak(FluidTypeTheOldOne fuel, int maxFuel) {
+	public JetpackBreak(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);
 	}
 

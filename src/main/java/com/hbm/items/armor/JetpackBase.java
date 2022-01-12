@@ -3,8 +3,8 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IPartiallyFillable;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
@@ -27,10 +27,10 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFillable {
 
 	private ModelJetPack model;
-	public FluidTypeTheOldOne fuel;
+	public FluidType fuel;
 	public int maxFuel;
 
-	public JetpackBase(FluidTypeTheOldOne fuel, int maxFuel) {
+	public JetpackBase(FluidType fuel, int maxFuel) {
 		super(ArmorModHandler.plate_only, false, true, false, false);
 		this.fuel = fuel;
 		this.maxFuel = maxFuel;
@@ -139,7 +139,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 	}
 
 	@Override
-	public FluidTypeTheOldOne getType(ItemStack stack) {
+	public FluidType getType(ItemStack stack) {
 		return fuel;
 	}
 

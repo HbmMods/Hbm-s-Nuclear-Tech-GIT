@@ -1,13 +1,13 @@
 package com.hbm.inventory;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 
 public class FluidStack {
 	
 	public int fill;
-	public FluidTypeTheOldOne type;
+	public FluidType type;
 	
-	public FluidStack(int fill, FluidTypeTheOldOne type) {
+	public FluidStack(int fill, FluidType type) {
 		this.fill = fill;
 		this.type = type;
 	}

@@ -3,7 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class JetpackVectorized extends JetpackBase {
 
-	public JetpackVectorized(FluidTypeTheOldOne fuel, int maxFuel) {
+	public JetpackVectorized(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);
 	}
 
