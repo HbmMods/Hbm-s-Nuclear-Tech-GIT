@@ -114,7 +114,7 @@ public class OreDictManager {
 	public static final DictFrame RA226 = new DictFrame("Radium226", "Ra226");
 	public static final DictFrame CO60 = new DictFrame("Cobalt60", "Co60");
 	public static final DictFrame AU198 = new DictFrame("Gold198", "Au198");
-	public static final DictFrame PB200 = new DictFrame("Lead200", "Pb200");
+	public static final DictFrame PB209 = new DictFrame("Lead200", "Pb200");
 	public static final DictFrame SA326 = new DictFrame("Schrabidium");
 	public static final DictFrame SA327 = new DictFrame("Solinium");
 	public static final DictFrame SBD = new DictFrame("Schrabidate");
@@ -249,7 +249,7 @@ public class OreDictManager {
 		RA226	.rad(HazardRegistry.ra226)					.nugget(nugget_ra226)		.billet(billet_ra226)		.ingot(ingot_ra226)			.dust(powder_ra226)										.block(block_ra226);
 		CO60	.rad(HazardRegistry.co60)	.hot(1)			.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
 		AU198	.rad(HazardRegistry.au198)	.hot(5)			.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
-		PB200	.rad(HazardRegistry.pb200)	.hot(7)			.nugget(nugget_pb200)		.billet(billet_pb200)		.ingot(ingot_pb200);
+		PB209	.rad(HazardRegistry.pb209)	.hot(7)			.nugget(nugget_pb209)		.billet(billet_pb209)		.ingot(ingot_pb209);
 		SA326	.rad(HazardRegistry.sa326)	.blinding(3F)	.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium);
 		SA327	.rad(HazardRegistry.sa327)	.blinding(3F)	.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
 		SBD		.rad(HazardRegistry.sb)		.blinding(1F)															.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
