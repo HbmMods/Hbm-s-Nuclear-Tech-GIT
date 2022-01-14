@@ -2,6 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +53,7 @@ public class ItemFluidIcon extends Item {
 		return stack;
 	}
 	
-	public static ItemStack make(FluidTypeTheOldOne fluid, int i) {
+	public static ItemStack make(FluidType fluid, int i) {
 		return addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i);
 	}
 	

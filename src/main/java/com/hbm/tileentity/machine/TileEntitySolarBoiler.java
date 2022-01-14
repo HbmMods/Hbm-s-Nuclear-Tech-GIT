@@ -9,6 +9,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -73,7 +74,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER)
 			water.setFill(fill);
 		if(type == FluidTypeTheOldOne.STEAM)
@@ -81,7 +82,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if(index == 0)
 			water.setTankType(type);
 		if(index == 1)
@@ -94,7 +95,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER)
 			return water.getFill();
 		if(type == FluidTypeTheOldOne.STEAM)
@@ -104,13 +105,13 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		fillFluid(this.xCoord, this.yCoord + 3, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -120,7 +121,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER)
 			return water.getMaxFill();
 		if(type == FluidTypeTheOldOne.STEAM)
@@ -130,12 +131,12 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return list;
 	}
 	
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		list.clear();
 	}
 	

@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -265,12 +266,12 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -280,12 +281,12 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		return tank.getFill();
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		return tank.getMaxFill();
 	}
 

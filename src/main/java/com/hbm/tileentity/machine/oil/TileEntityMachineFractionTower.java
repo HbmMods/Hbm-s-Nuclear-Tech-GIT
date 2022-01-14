@@ -7,6 +7,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.util.Tuple.Quartet;
@@ -76,7 +77,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	
 	private void setupTanks() {
 		
-		Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
+		Quartet<FluidType, FluidType, Integer, Integer> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
 		
 		if(quart != null) {
 			tanks[1].setTankType(quart.getW());
@@ -90,7 +91,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	
 	private void fractionate() {
 		
-		Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
+		Quartet<FluidType, FluidType, Integer, Integer> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
 		
 		if(quart != null) {
 			
@@ -132,7 +133,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
 				tank.setFill(fill);
@@ -141,7 +142,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		this.tanks[index].setTankType(type);
 	}
 
@@ -151,7 +152,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
 				return tank.getFill();
@@ -161,7 +162,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else
@@ -169,7 +170,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		
 		for(int i = 2; i < 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -178,7 +179,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
@@ -188,7 +189,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			return list1;
 		if(type.name().equals(tanks[2].getTankType().name()))
@@ -197,7 +198,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			list1.clear();
 		if(type.name().equals(tanks[2].getTankType().name()))

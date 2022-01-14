@@ -114,8 +114,40 @@ public class FluidType {
 	public boolean needsLeadContainer() {
 		return this.traits.contains(FluidTrait.LEAD_CONTAINER);
 	}
+
+	/**
+	 * Called when the tile entity is broken, effectively voiding the fluids.
+	 * @param te
+	 * @param tank
+	 */
+	public void onTankBroken(TileEntity te, FluidTank tank) { }
+	/**
+	 * Called by the tile entity's update loop. Also has an arg for the fluid tank for possible tanks using child-classes that are shielded or treated differently.
+	 * @param te
+	 * @param tank
+	 */
+	public void onTankUpdate(TileEntity te, FluidTank tank) { }
+	/**
+	 * For when the tile entity is releasing this fluid into the world, either by an overflow or (by proxy) when broken.
+	 * @param te
+	 * @param tank
+	 * @param overflowAmount
+	 */
+	public void onFluidRelease(TileEntity te, FluidTank tank, int overflowAmount) { }
+	//public void onFluidTransmit(FluidNetwork net) { }
+	
+	public static enum FluidTrait {
+		AMAT,
+		CORROSIVE,
+		CORROSIVE_2,
+		NO_CONTAINER,
+		LEAD_CONTAINER,
+		NO_ID;
+	}
 	
 	//shitty wrapper delegates, go!
+	//only used for compatibility purposes, these will be removed soon
+	//don't use these, dumbfuck
 	@Deprecated //reason: use the fucking registry you dumbass this isn't a fucking enum anymore, we don't sell lists of all our instances here
 	public static FluidType[] values() {
 		return Fluids.metaOrder.toArray(new FluidType[0]);
@@ -125,7 +157,7 @@ public class FluidType {
 		return Fluids.fromID(i);
 	}
 	@Deprecated //reason: the more time you waste reading this the less time is there for you to use that fucking registry already
-	public static com.hbm.inventory.fluid.FluidType getEnumFromName(String s) {
+	public static FluidType getEnumFromName(String s) {
 		for(int i = 0; i < FluidType.values().length; i++)
 			if(FluidType.values()[i].getName().equals(s))
 				return FluidType.values()[i];
@@ -134,17 +166,5 @@ public class FluidType {
 	@Deprecated //reason: not an enum, again, fuck you
 	public int ordinal() {
 		return this.getID();
-	}
-
-	public void onTankBroken(TileEntity te, FluidTank tank) { }
-	public void onTankUpdate(TileEntity te, FluidTank tank) { }
-	
-	public static enum FluidTrait {
-		AMAT,
-		CORROSIVE,
-		CORROSIVE_2,
-		NO_CONTAINER,
-		LEAD_CONTAINER,
-		NO_ID;
 	}
 }

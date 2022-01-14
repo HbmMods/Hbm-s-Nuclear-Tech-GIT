@@ -8,6 +8,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
@@ -73,12 +74,12 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		steam.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		steam.setTankType(type);
 	}
 
@@ -88,18 +89,18 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		return steam.getFill();
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			fillFluid(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ, getTact(), type);
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -108,12 +109,12 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
 
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return this.list;
 	}
 
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		this.list.clear();
 	}
 

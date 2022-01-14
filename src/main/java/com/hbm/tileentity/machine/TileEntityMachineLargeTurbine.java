@@ -9,6 +9,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -144,7 +145,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		dir = dir.getRotation(ForgeDirection.UP);
@@ -154,7 +155,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -169,7 +170,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -177,7 +178,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -187,7 +188,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		
@@ -201,7 +202,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -216,12 +217,12 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return list2;
 	}
 	
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		list2.clear();
 	}
 

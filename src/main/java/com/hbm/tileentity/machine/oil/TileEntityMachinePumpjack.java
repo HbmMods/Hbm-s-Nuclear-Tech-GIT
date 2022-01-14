@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -122,7 +122,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);

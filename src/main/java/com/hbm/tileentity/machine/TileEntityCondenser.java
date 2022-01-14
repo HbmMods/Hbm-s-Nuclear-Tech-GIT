@@ -8,6 +8,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 
@@ -81,14 +82,14 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			fillFluid(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, getTact(), type);
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -103,7 +104,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -111,7 +112,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -121,7 +122,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		
@@ -135,7 +136,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -150,12 +151,12 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return list;
 	}
 	
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		list.clear();
 	}
 }

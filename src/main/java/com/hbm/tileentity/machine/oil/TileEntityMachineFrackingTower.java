@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
@@ -103,7 +104,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
@@ -111,7 +112,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
 	}
 }

@@ -9,6 +9,7 @@ import com.hbm.blocks.machine.MachineITER;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -147,7 +148,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		//if(plasma.getFill() > 0)
 		//	return;
 		
-		List<FluidTypeTheOldOne> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
+		List<FluidType> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
 
 		if(types.contains(FluidTypeTheOldOne.DEUTERIUM) && types.contains(FluidTypeTheOldOne.TRITIUM)) {
 			plasma.setTankType(FluidTypeTheOldOne.PLASMA_DT);
@@ -202,7 +203,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -214,7 +215,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -224,7 +225,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -245,7 +246,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 		

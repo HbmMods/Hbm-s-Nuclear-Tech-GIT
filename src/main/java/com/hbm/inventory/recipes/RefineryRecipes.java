@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Quartet;
@@ -38,19 +40,19 @@ public class RefineryRecipes {
 	public static final int kero_crack_petro = 60;
 
 	//why didn't i use fluid stacks here? was there a reason?
-	private static Map<FluidTypeTheOldOne, Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer>> fractions = new HashMap();
-	private static Map<FluidTypeTheOldOne, Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer>> cracking = new HashMap();
+	private static Map<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> fractions = new HashMap();
+	private static Map<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> cracking = new HashMap();
 	
 	public static Map<Object, Object[]> getRefineryRecipe() {
 
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		
-		recipes.put(ItemFluidIcon.make(FluidTypeTheOldOne.HOTOIL, 1000),
+		recipes.put(ItemFluidIcon.make(Fluids.HOTOIL, 1000),
 				new ItemStack[] {
-						ItemFluidIcon.make(FluidTypeTheOldOne.HEAVYOIL, oil_frac_heavy * 10),
-						ItemFluidIcon.make(FluidTypeTheOldOne.NAPHTHA, oil_frac_naph * 10),
-						ItemFluidIcon.make(FluidTypeTheOldOne.LIGHTOIL, oil_frac_light * 10),
-						ItemFluidIcon.make(FluidTypeTheOldOne.PETROLEUM, oil_frac_petro * 10),
+						ItemFluidIcon.make(Fluids.HEAVYOIL, oil_frac_heavy * 10),
+						ItemFluidIcon.make(Fluids.NAPHTHA, oil_frac_naph * 10),
+						ItemFluidIcon.make(Fluids.LIGHTOIL, oil_frac_light * 10),
+						ItemFluidIcon.make(Fluids.PETROLEUM, oil_frac_petro * 10),
 						new ItemStack(ModItems.sulfur, 1) });
 		
 		return recipes;
@@ -71,11 +73,11 @@ public class RefineryRecipes {
 		cracking.put(FluidTypeTheOldOne.KEROSENE,	new Quartet(FluidTypeTheOldOne.PETROLEUM,	FluidTypeTheOldOne.NONE,			kero_crack_petro,	0));
 	}
 	
-	public static Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer> getFractions(FluidTypeTheOldOne oil) {
+	public static Quartet<FluidType, FluidType, Integer, Integer> getFractions(FluidType oil) {
 		return fractions.get(oil);
 	}
 	
-	public static Quartet<FluidTypeTheOldOne, FluidTypeTheOldOne, Integer, Integer> getCracking(FluidTypeTheOldOne oil) {
+	public static Quartet<FluidType, FluidType, Integer, Integer> getCracking(FluidType oil) {
 		return cracking.get(oil);
 	}
 }

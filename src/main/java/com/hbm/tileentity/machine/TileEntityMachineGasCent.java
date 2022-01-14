@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -54,7 +55,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	public TileEntityMachineGasCent() {
 		super(6); 
-		tank = new FluidTank(FluidTypeTheOldOne.UF6, 2000, 0);
+		tank = new FluidTank(Fluids.UF6, 2000, 0);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
 		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
@@ -284,7 +285,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			data.setString("outputType", outputTank.getTankType().toString());
 			this.networkPack(data, 50);
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
@@ -318,30 +318,26 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 	
 	public void setTankType(int in) {
 		
 		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
-			FluidTypeTheOldOne newType = ItemFluidIdentifier.getType(slots[in]);
+			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
 			
 			if(tank.getTankType() != newType) {
 				tank.setTankType(newType);
 				tank.setFill(0);
 				
-				switch(newType) {
-				case UF6:
+				if(newType == Fluids.UF6) {
 					inputTank.setTankType(PseudoFluidType.NUF6);
 					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
-					break;
-				case PUF6:
+				}
+				if(newType == Fluids.PUF6) {
 					inputTank.setTankType(PseudoFluidType.PF6);
 					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
-					break;
-				default:
-					break;
 				}
 			}
 			return;
@@ -349,17 +345,17 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}

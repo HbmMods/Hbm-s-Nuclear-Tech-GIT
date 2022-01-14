@@ -6,6 +6,7 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -67,12 +68,12 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER) water.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if(index == 0) water.setTankType(type);
 	}
 
@@ -82,13 +83,13 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER) return water.getFill();
 		return 0;
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == FluidTypeTheOldOne.WATER) return water.getMaxFill();
 		return 0;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidDuct;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	
 	public ForgeDirection[] connections = new ForgeDirection[6];
-	public FluidTypeTheOldOne type = FluidTypeTheOldOne.OIL;
+	public FluidType type = FluidTypeTheOldOne.OIL;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	
 	public TileEntityOilDuct() {
@@ -74,7 +75,7 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	}
 
 	@Override
-	public FluidTypeTheOldOne getType() {
+	public FluidType getType() {
 		return type;
 	}
 }

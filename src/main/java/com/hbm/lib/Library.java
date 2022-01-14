@@ -383,7 +383,7 @@ public class Library {
 		 */
 	}
 	
-	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidTypeTheOldOne type) {
+	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		

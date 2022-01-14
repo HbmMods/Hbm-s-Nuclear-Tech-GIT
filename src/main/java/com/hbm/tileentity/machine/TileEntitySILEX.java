@@ -8,6 +8,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
@@ -114,7 +115,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		return (currentFill * i) / maxFill;
 	}
 	
-	public static final HashMap<FluidTypeTheOldOne, ComparableStack> fluidConversion = new HashMap();
+	public static final HashMap<FluidType, ComparableStack> fluidConversion = new HashMap();
 	
 	static {
 		fluidConversion.put(FluidTypeTheOldOne.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.UF6.ordinal()));
@@ -285,14 +286,14 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		
 		if(type == tank.getTankType())
 			tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -302,7 +303,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		
 		if(type == tank.getTankType())
 			return tank.getFill();
@@ -311,7 +312,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		
 		if(type == tank.getTankType())
 			return tank.getMaxFill();

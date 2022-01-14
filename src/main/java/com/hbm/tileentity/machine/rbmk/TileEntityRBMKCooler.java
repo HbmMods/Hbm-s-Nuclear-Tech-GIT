@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.Entity;
@@ -104,13 +105,13 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -120,12 +121,12 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		return type == tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type == tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 

@@ -3,6 +3,7 @@ package com.hbm.packet;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityTickingBase;
@@ -104,7 +105,7 @@ public class AuxButtonPacket implements IMessage {
 						reactor.rods = m.value;
 					
 					if(m.id == 1) {
-						FluidTypeTheOldOne type = FluidTypeTheOldOne.STEAM;
+						FluidType type = FluidTypeTheOldOne.STEAM;
 						int fill = reactor.tanks[2].getFill();
 						
 						switch(m.value) {

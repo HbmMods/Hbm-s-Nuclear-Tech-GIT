@@ -69,6 +69,7 @@ import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.*;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
@@ -261,6 +262,7 @@ public class MainRegistry {
 		loadConfig(PreEvent);
 		HbmPotion.init();
 		
+		Fluids.init();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
 		proxy.registerRenderInfo();

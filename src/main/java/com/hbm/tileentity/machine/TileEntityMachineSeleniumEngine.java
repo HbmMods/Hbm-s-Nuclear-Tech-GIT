@@ -9,6 +9,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -223,7 +224,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			tank.loadTank(9, 10, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
-			FluidTypeTheOldOne type = tank.getTankType();
+			FluidType type = tank.getTankType();
 			if(type.name().equals(FluidTypeTheOldOne.NITAN.name()))
 				powerCap = maxPower * 10;
 			else
@@ -256,7 +257,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		return getHEFromFuel() > 0;
 	}
 	
-	public static final HashMap<FluidTypeTheOldOne, Integer> fuels = new HashMap();
+	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {
 		fuels.put(FluidTypeTheOldOne.SMEAR,		50);
@@ -274,7 +275,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 	
 	public int getHEFromFuel() {
-		FluidTypeTheOldOne type = tank.getTankType();
+		FluidType type = tank.getTankType();
 		Integer value = fuels.get(type);
 		return value != null ? value : 0;
 	}
@@ -326,22 +327,22 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}

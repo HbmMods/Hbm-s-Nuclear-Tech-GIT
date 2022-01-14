@@ -9,6 +9,7 @@ import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -356,7 +357,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -372,7 +373,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(fill);
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -380,7 +381,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -395,7 +396,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))

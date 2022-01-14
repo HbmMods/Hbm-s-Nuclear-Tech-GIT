@@ -13,6 +13,8 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -154,29 +156,23 @@ public class MachineRecipes {
 	}
 	
 	//return: FluidType, amount produced, amount required, heat required (°C * 100)
-	@SuppressWarnings("incomplete-switch")
-	public static Object[] getBoilerOutput(FluidTypeTheOldOne type) {
+	public static Object[] getBoilerOutput(FluidType type) {
 		
-		switch(type) {
-		case WATER: return new Object[] { FluidTypeTheOldOne.STEAM, 500, 5, 10000 };
-		case STEAM: return new Object[] { FluidTypeTheOldOne.HOTSTEAM, 5, 50, 30000 };
-		case HOTSTEAM: return new Object[] { FluidTypeTheOldOne.SUPERHOTSTEAM, 5, 50, 45000 };
-		case OIL: return new Object[] { FluidTypeTheOldOne.HOTOIL, 5, 5, 35000 };
-		}
+		if(type == Fluids.WATER) return new Object[] { Fluids.STEAM, 500, 5, 10000 };
+		if(type == Fluids.STEAM) return new Object[] { Fluids.HOTSTEAM, 5, 50, 30000 };
+		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 5, 50, 45000 };
+		if(type == Fluids.OIL) return new Object[] { Fluids.HOTOIL, 5, 5, 35000 };
 		
 		return null;
 	}
 	
 	//return: FluidType, amount produced, amount required, HE produced
-	@SuppressWarnings("incomplete-switch")
-	public static Object[] getTurbineOutput(FluidTypeTheOldOne type) {
+	public static Object[] getTurbineOutput(FluidType type) {
 		
-		switch(type) {
-		case STEAM: return new Object[] { FluidTypeTheOldOne.SPENTSTEAM, 5, 500, 50 };
-		case HOTSTEAM: return new Object[] { FluidTypeTheOldOne.STEAM, 50, 5, 100 };
-		case SUPERHOTSTEAM: return new Object[] { FluidTypeTheOldOne.HOTSTEAM, 50, 5, 150 };
-		case ULTRAHOTSTEAM: return new Object[] { FluidTypeTheOldOne.SUPERHOTSTEAM, 50, 5, 250 };
-		}
+		if(type == Fluids.STEAM) return new Object[] { Fluids.SPENTSTEAM, 5, 500, 50 };
+		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.STEAM, 50, 5, 100 };
+		if(type == Fluids.SUPERHOTSTEAM) return new Object[] { Fluids.HOTSTEAM, 50, 5, 150 };
+		if(type == Fluids.ULTRAHOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 50, 5, 250 };
 		
 		return null;
 	}

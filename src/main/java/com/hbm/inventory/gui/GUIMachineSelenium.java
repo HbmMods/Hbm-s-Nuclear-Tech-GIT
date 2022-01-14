@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineSelenium;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -43,7 +44,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 		List<String> text = new ArrayList();
 		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
 		
-		for(Entry<FluidTypeTheOldOne, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
+		for(Entry<FluidType, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
 			text.add("  " + I18nUtil.resolveKey(entry.getKey().getUnlocalizedName()) + " (" + entry.getValue() + " HE/t)");
 		}
 

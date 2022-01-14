@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +27,7 @@ public class TileEntityMachineBAT9000 extends TileEntityBarrel {
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 3, getTact(), type);
 		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 3, getTact(), type);
 		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 3, getTact(), type);

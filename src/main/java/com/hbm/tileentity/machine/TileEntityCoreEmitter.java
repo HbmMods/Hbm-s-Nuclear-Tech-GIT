@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -186,13 +187,13 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getFill();
 		else
@@ -200,7 +201,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getMaxFill();
 		else
@@ -213,7 +214,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 

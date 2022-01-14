@@ -2,6 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +28,7 @@ public class ItemFluidTank extends Item {
 		
 		for(int i = 1; i < FluidTypeTheOldOne.values().length; i++) {
 			
-			FluidTypeTheOldOne type = FluidTypeTheOldOne.values()[i];
+			FluidType type = FluidTypeTheOldOne.values()[i];
 			
 			if(type.hasNoContainer())
 				continue;

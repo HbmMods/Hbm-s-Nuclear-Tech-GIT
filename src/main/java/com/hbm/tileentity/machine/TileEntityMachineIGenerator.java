@@ -8,6 +8,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
@@ -191,7 +192,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	public static final int coalGenRate = 50;
-	public static final HashMap<FluidTypeTheOldOne, Integer> fuels = new HashMap();
+	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {
 		fuels.put(FluidTypeTheOldOne.SMEAR,		50);
@@ -209,7 +210,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	public int getPowerFromFuel() {
-		FluidTypeTheOldOne type = tanks[1].getTankType();
+		FluidType type = tanks[1].getTankType();
 		Integer value = fuels.get(type);
 		return value != null ? value : 0;
 	}
@@ -220,7 +221,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidTypeTheOldOne type) {
+	public void setFluidFill(int fill, FluidType type) {
 		
 		if(type == FluidTypeTheOldOne.WATER)
 			tanks[0].setFill(fill);
@@ -231,7 +232,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 		tanks[index].setTankType(type);
 	}
 
@@ -241,7 +242,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		
 		for(int i = 0; i < 3; i++)
 			if(tanks[i].getTankType() == type)
@@ -251,7 +252,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		
 		for(int i = 0; i < 3; i++)
 			if(tanks[i].getTankType() == type)

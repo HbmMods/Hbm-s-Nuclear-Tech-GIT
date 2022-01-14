@@ -2,16 +2,16 @@ package com.hbm.interfaces;
 
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 
 public interface IFluidSource extends IFluidContainer {
 	
-	void fillFluidInit(FluidTypeTheOldOne type);
+	void fillFluidInit(FluidType type);
 
-	void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type);
+	void fillFluid(int x, int y, int z, boolean newTact, FluidType type);
 
 	boolean getTact();
-	List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type);
-	void clearFluidList(FluidTypeTheOldOne type);
+	List<IFluidAcceptor> getFluidList(FluidType type);
+	void clearFluidList(FluidType type);
 
 }

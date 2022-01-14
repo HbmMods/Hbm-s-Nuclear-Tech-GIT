@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -42,7 +43,7 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 		
 		for(int i = 2; i <= 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);

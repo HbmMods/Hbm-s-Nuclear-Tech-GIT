@@ -5,11 +5,12 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
@@ -26,8 +27,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public TileEntityRBMKBoiler() {
 		super(0);
 
-		feed = new FluidTank(FluidTypeTheOldOne.WATER, 10000, 0);
-		steam = new FluidTank(FluidTypeTheOldOne.STEAM, 1000000, 1);
+		feed = new FluidTank(Fluids.WATER, 10000, 0);
+		steam = new FluidTank(Fluids.STEAM, 1000000, 1);
 	}
 
 	@Override
@@ -65,30 +66,24 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		super.updateEntity();
 	}
 	
-	public double getHeatFromSteam(FluidTypeTheOldOne type) {
-		
-		switch(type) {
-		case STEAM: return 100D;
-		case HOTSTEAM: return 300D;
-		case SUPERHOTSTEAM: return 450D;
-		case ULTRAHOTSTEAM: return 600D;
-		default: return 0D;
-		}
+	public double getHeatFromSteam(FluidType type) {
+		if(type == Fluids.STEAM) return 100D;
+		if(type == Fluids.HOTSTEAM) return 300D;
+		if(type == Fluids.SUPERHOTSTEAM) return 450D;
+		if(type == Fluids.ULTRAHOTSTEAM) return 600D;
+		return 0D;
 	}
 	
-	public double getFactorFromSteam(FluidTypeTheOldOne type) {
-		
-		switch(type) {
-		case STEAM: return 1D;
-		case HOTSTEAM: return 10D;
-		case SUPERHOTSTEAM: return 100D;
-		case ULTRAHOTSTEAM: return 1000D;
-		default: return 0D;
-		}
+	public double getFactorFromSteam(FluidType type) {
+		if(type == Fluids.STEAM) return 1D;
+		if(type == Fluids.HOTSTEAM) return 10D;
+		if(type == Fluids.SUPERHOTSTEAM) return 100D;
+		if(type == Fluids.ULTRAHOTSTEAM) return 1000D;
+		return 0D;
 	}
 
 	@Override
-	public void fillFluidInit(FluidTypeTheOldOne type) {
+	public void fillFluidInit(FluidType type) {
 
 		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
 		
@@ -113,7 +108,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidTypeTheOldOne type) {
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	
@@ -122,7 +117,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
 
 	@Override
-	public void setFluidFill(int i, FluidTypeTheOldOne type) {
+	public void setFluidFill(int i, FluidType type) {
 		
 		if(type == feed.getTankType())
 			feed.setFill(i);
@@ -131,7 +126,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public int getFluidFill(FluidTypeTheOldOne type) {
+	public int getFluidFill(FluidType type) {
 		
 		if(type == feed.getTankType())
 			return feed.getFill();
@@ -142,7 +137,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidTypeTheOldOne type) {
+	public int getMaxFluidFill(FluidType type) {
 		
 		if(type == feed.getTankType())
 			return feed.getMaxFill();
@@ -162,7 +157,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void setType(FluidTypeTheOldOne type, int index) {
+	public void setType(FluidType type, int index) {
 
 		if(index == 0)
 			feed.setTankType(type);
@@ -180,12 +175,12 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 	
 	@Override
-	public List<IFluidAcceptor> getFluidList(FluidTypeTheOldOne type) {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return list;
 	}
 	
 	@Override
-	public void clearFluidList(FluidTypeTheOldOne type) {
+	public void clearFluidList(FluidType type) {
 		list.clear();
 	}
 	
@@ -210,18 +205,16 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
 
-	@SuppressWarnings("incomplete-switch") //shut the up
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("compression")) {
 			
-			switch(steam.getTankType()) {
-			case STEAM: steam.setTankType(FluidTypeTheOldOne.HOTSTEAM); steam.setFill(steam.getFill() / 10); break;
-			case HOTSTEAM: steam.setTankType(FluidTypeTheOldOne.SUPERHOTSTEAM); steam.setFill(steam.getFill() / 10); break;
-			case SUPERHOTSTEAM: steam.setTankType(FluidTypeTheOldOne.ULTRAHOTSTEAM); steam.setFill(steam.getFill() / 10); break;
-			case ULTRAHOTSTEAM: steam.setTankType(FluidTypeTheOldOne.STEAM); steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); break;
-			}
+			FluidType type = steam.getTankType();
+			if(type == Fluids.STEAM) { steam.setTankType(Fluids.HOTSTEAM); steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.HOTSTEAM) { steam.setTankType(Fluids.SUPERHOTSTEAM); steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.SUPERHOTSTEAM) { steam.setTankType(Fluids.ULTRAHOTSTEAM); steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.ULTRAHOTSTEAM) { steam.setTankType(Fluids.STEAM); steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); }
 			
 			this.markDirty();
 		}
@@ -251,7 +244,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		data.setInteger("maxWater", this.feed.getMaxFill());
 		data.setInteger("steam", this.steam.getFill());
 		data.setInteger("maxSteam", this.steam.getMaxFill());
-		data.setShort("type", (short)this.steam.getTankType().ordinal());
+		data.setShort("type", (short)this.steam.getTankType().getID());
 		return data;
 	}
 }
