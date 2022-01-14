@@ -11,13 +11,15 @@ import net.minecraft.tileentity.TileEntity;
 
 import com.hbm.blocks.machine.MachineRtgFurnace;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.util.RTGUtil;
 
 public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
 	
 	public int dualCookTime;
-	public static final int processingSpeed = 100;
+	public static final int processingSpeed = 1000;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {4};
@@ -104,7 +106,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 		
 		for(int i = 1; i <= 3; i++) {
 			
-			if(!(slots[i] != null && (slots[i].getItem() == ModItems.pellet_rtg || slots[i].getItem() == ModItems.pellet_rtg_polonium)))
+			if(!(slots[i] != null && (slots[i].getItem() instanceof ItemRTGPellet)))
 				return false;
 		}
 		
@@ -262,7 +264,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 		{
 			if(hasPower() && canProcess())
 			{
-				dualCookTime++;
+				dualCookTime += RTGUtil.updateRTGs(slots, slots_side);
 				
 				if(this.dualCookTime == TileEntityRtgFurnace.processingSpeed)
 				{

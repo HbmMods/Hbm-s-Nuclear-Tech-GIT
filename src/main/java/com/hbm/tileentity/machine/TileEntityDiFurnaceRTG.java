@@ -3,14 +3,13 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.machine.MachineDiFurnaceRTG;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.machine.ItemRTGPellet;
-import com.hbm.tileentity.IRTGUser;
-import com.hbm.tileentity.IRadioisotopeFuel;
+import com.hbm.util.RTGUtil;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRTGUser
+public class TileEntityDiFurnaceRTG extends TileEntityMachineBase
 {
 	public short progress;
 	private short processSpeed = 0;
@@ -125,7 +124,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 	}
 
 	public boolean hasPower() {
-		processSpeed = (short) updateRTGs(slots, rtgIn);
+		processSpeed = (short) RTGUtil.updateRTGs(slots, rtgIn);
 		return processSpeed >= 15;
 	}
 
@@ -168,16 +167,6 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IRT
 	@Override
 	public String getName() {
 		return "container.diFurnaceRTG";
-	}
-
-	@Override
-	public int getHeat() {
-		return processSpeed;
-	}
-
-	@Override
-	public Class<? extends IRadioisotopeFuel> getDesiredClass() {
-		return ItemRTGPellet.class;
 	}
 
 }

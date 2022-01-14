@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.gas.BlockGasBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,14 +14,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockOutgas extends BlockOre {
 	
+	Block gas;
 	boolean randomTick;
 	int rate;
 	boolean onBreak;
 	boolean onNeighbour;
 	
 
-	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
+	public BlockOutgas(Material mat, Block gas, boolean randomTick, int rate, boolean onBreak) {
 		super(mat);
+		this.gas = gas;
 		this.setTickRandomly(randomTick);
 		this.randomTick = randomTick;
 		this.rate = rate;
@@ -28,42 +31,17 @@ public class BlockOutgas extends BlockOre {
 		this.onNeighbour = false;
 	}
 
-	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
-		this(mat, randomTick, rate, onBreak);
+	public BlockOutgas(Material mat, Block gas, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
+		this(mat, gas, randomTick, rate, onBreak);
 		this.onNeighbour = onNeighbour;
 	}
 
-	public int tickRate(World p_149738_1_) {
+	public int tickRate(World world) {
 		return rate;
 	}
 	
 	protected Block getGas() {
-		
-		if(this == ModBlocks.ore_uranium || this == ModBlocks.ore_uranium_scorched || 
-				this == ModBlocks.ore_gneiss_uranium || this == ModBlocks.ore_gneiss_uranium_scorched || 
-				this == ModBlocks.ore_nether_uranium || this == ModBlocks.ore_nether_uranium_scorched) {
-			return ModBlocks.gas_radon;
-		}
-		
-		if(this == ModBlocks.block_corium_cobble)
-			return ModBlocks.gas_radon;
-		
-		if(this == ModBlocks.ancient_scrap)
-			return ModBlocks.gas_radon_tomb;
-		
-		if(this == ModBlocks.ore_coal_oil_burning || this == ModBlocks.ore_nether_coal) {
-			return ModBlocks.gas_monoxide;
-		}
-		
-		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos ||
-				this == ModBlocks.block_asbestos || this == ModBlocks.deco_asbestos ||
-				this == ModBlocks.brick_asbestos || this == ModBlocks.tile_lab ||
-				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken ||
-				this == ModBlocks.basalt_asbestos) {
-			return ModBlocks.gas_asbestos;
-		}
-		
-		return Blocks.air;
+		return this.gas;
 	}
 
 	@Override

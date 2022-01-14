@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockNetherCoal extends BlockOutgas {
 
 	public BlockNetherCoal(Material mat, boolean randomTick, int rate, boolean onBreak) {
-		super(mat, randomTick, rate, onBreak);
+		super(mat, ModBlocks.gas_monoxide, randomTick, rate, onBreak);
 	}
 
 	@Override

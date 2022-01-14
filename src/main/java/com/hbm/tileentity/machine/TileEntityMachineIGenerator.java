@@ -12,6 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.RTGUtil;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
@@ -31,6 +32,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public int spin;
 	public int[] burn = new int[4];
 	public boolean hasRTG = false;
+	public int[] RTGSlots = new int[]{ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
 	@SideOnly(Side.CLIENT)
 	public float rotation;
@@ -123,19 +125,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			}
 			
 			// RTG ///
-			this.hasRTG = false;
-			for(int i = 11; i < 21; i++) {
-				if(slots[i] != null && slots[i].getItem() instanceof ItemRTGPellet) {
-					ItemRTGPellet pellet = (ItemRTGPellet) slots[i].getItem();
-					this.spin += pellet.getHeat() * 10;
-					this.hasRTG = true;
-					
-					if(slots[i].getItem() == ModItems.pellet_rtg_gold || slots[i].getItem() == ModItems.pellet_rtg_lead) {
-						if(worldObj.rand.nextInt(60*60*20) == 0)
-							slots[i] = null;
-					}
-				}
-			}
+			this.hasRTG = RTGUtil.hasHeat(slots, RTGSlots);
+			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 10;
 			
 			if(this.spin > 0) {
 				

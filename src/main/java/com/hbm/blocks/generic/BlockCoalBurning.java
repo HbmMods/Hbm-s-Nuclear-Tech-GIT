@@ -2,6 +2,8 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -15,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockCoalBurning extends BlockOutgas {
 
 	public BlockCoalBurning(Material mat) {
-		super(mat, false, 1, false);
+		super(mat, ModBlocks.gas_monoxide, false, 1, false);
 		this.setTickRandomly(true);
 	}
 
