@@ -399,9 +399,9 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_technetium), 15))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long_depleted, 1, ItemWasteLong.WasteClass.URANIUM233.ordinal()), new SILEXRecipe(900, 100)
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 65))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 15))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 20))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_lead), 60))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 25))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust_tiny), 15))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.URANIUM233.ordinal()), new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu238), 4))
