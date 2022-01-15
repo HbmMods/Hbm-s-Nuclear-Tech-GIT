@@ -454,6 +454,7 @@ public class ModItems {
 	public static Item powder_paleogenite;
 	public static Item powder_paleogenite_tiny;
 	public static Item powder_impure_osmiridium;
+	public static Item powder_borax;
 
 	public static Item powder_lanthanium;
 	public static Item powder_actinium;
@@ -2877,6 +2878,7 @@ public class ModItems {
 		powder_paleogenite = new Item().setUnlocalizedName("powder_paleogenite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_paleogenite");
 		powder_paleogenite_tiny = new Item().setUnlocalizedName("powder_paleogenite_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_paleogenite_tiny");
 		powder_impure_osmiridium = new Item().setUnlocalizedName("powder_impure_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_impure_osmiridium");
+		powder_borax = new Item().setUnlocalizedName("powder_borax").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_borax");
 		
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");
 		fragment_cobalt = new Item().setUnlocalizedName("fragment_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_cobalt");
@@ -5656,11 +5658,12 @@ public class ModItems {
 		GameRegistry.registerItem(powder_lead, powder_lead.getUnlocalizedName());
 		GameRegistry.registerItem(powder_coltan_ore, powder_coltan_ore.getUnlocalizedName());
 		GameRegistry.registerItem(powder_coltan, powder_coltan.getUnlocalizedName());
+		GameRegistry.registerItem(powder_tantalium, powder_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_tektite, powder_tektite.getUnlocalizedName());
 		GameRegistry.registerItem(powder_paleogenite, powder_paleogenite.getUnlocalizedName());
 		GameRegistry.registerItem(powder_paleogenite_tiny, powder_paleogenite_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_impure_osmiridium, powder_impure_osmiridium.getUnlocalizedName());
-		GameRegistry.registerItem(powder_tantalium, powder_tantalium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_borax, powder_borax.getUnlocalizedName());
 		GameRegistry.registerItem(powder_yellowcake, powder_yellowcake.getUnlocalizedName());
 		GameRegistry.registerItem(powder_beryllium, powder_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_dura_steel, powder_dura_steel.getUnlocalizedName());

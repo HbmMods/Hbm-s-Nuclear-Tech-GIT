@@ -13,16 +13,13 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 //the more i optimize this, the more it starts looking like gregtech
 public class OreDictManager {
@@ -114,7 +111,7 @@ public class OreDictManager {
 	public static final DictFrame RA226 = new DictFrame("Radium226", "Ra226");
 	public static final DictFrame CO60 = new DictFrame("Cobalt60", "Co60");
 	public static final DictFrame AU198 = new DictFrame("Gold198", "Au198");
-	public static final DictFrame PB209 = new DictFrame("Lead200", "Pb200");
+	public static final DictFrame PB209 = new DictFrame("Lead209", "Pb209");
 	public static final DictFrame SA326 = new DictFrame("Schrabidium");
 	public static final DictFrame SA327 = new DictFrame("Solinium");
 	public static final DictFrame SBD = new DictFrame("Schrabidate");
@@ -430,6 +427,7 @@ public class OreDictManager {
 		public String ore() {		return ORE		+ mats[0]; }
 		public String[] nuggets() {		return appendToAll(NUGGET); }
 		public String[] tinys() {		return appendToAll(TINY); }
+		public String[] allNuggets() {		return appendToAll(NUGGET, TINY); }
 		public String[] ingots() {		return appendToAll(INGOT); }
 		public String[] dustTinys() {	return appendToAll(DUSTTINY); }
 		public String[] dusts() {		return appendToAll(DUST); }
@@ -440,10 +438,14 @@ public class OreDictManager {
 		public String[] blocks() {		return appendToAll(BLOCK); }
 		public String[] ores() {		return appendToAll(ORE); }
 		
-		private String[] appendToAll(String prefix) {
-			String[] names = new String[mats.length];
+		private String[] appendToAll(String... prefix) {
+			
+			String[] names = new String[mats.length * prefix.length];
+			
 			for(int i = 0; i < mats.length; i++) {
-				names[i] = prefix + mats[i];
+				for(int j = 0; j < prefix.length; j++) {
+					names[i * prefix.length + j] = prefix[j] + mats[i];
+				}
 			}
 			return names;
 		}

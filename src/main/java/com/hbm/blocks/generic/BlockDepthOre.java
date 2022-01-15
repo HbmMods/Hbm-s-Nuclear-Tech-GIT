@@ -30,6 +30,9 @@ public class BlockDepthOre extends BlockDepth {
 		if(this == ModBlocks.ore_depth_nether_neodymium) {
 			return ModItems.fragment_neodymium;
 		}
+		if(this == ModBlocks.ore_depth_borax) {
+			return ModItems.powder_borax;
+		}
 		
 		return super.getItemDropped(metadata, rand, fortune);
 	}
