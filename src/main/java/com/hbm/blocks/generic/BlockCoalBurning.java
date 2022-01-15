@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockCoalBurning extends BlockOutgas {
 
 	public BlockCoalBurning(Material mat) {
-		super(mat, ModBlocks.gas_monoxide, false, 1, false);
+		super(mat, false, 1, false);
 		this.setTickRandomly(true);
 	}
 

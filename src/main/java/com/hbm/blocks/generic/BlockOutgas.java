@@ -14,16 +14,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockOutgas extends BlockOre {
 	
-	Block gas;
 	boolean randomTick;
 	int rate;
 	boolean onBreak;
 	boolean onNeighbour;
 	
 
-	public BlockOutgas(Material mat, Block gas, boolean randomTick, int rate, boolean onBreak) {
+	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
 		super(mat);
-		this.gas = gas;
 		this.setTickRandomly(randomTick);
 		this.randomTick = randomTick;
 		this.rate = rate;
@@ -31,8 +29,8 @@ public class BlockOutgas extends BlockOre {
 		this.onNeighbour = false;
 	}
 
-	public BlockOutgas(Material mat, Block gas, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
-		this(mat, gas, randomTick, rate, onBreak);
+	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
+		this(mat, randomTick, rate, onBreak);
 		this.onNeighbour = onNeighbour;
 	}
 
@@ -41,7 +39,31 @@ public class BlockOutgas extends BlockOre {
 	}
 	
 	protected Block getGas() {
-		return this.gas;
+		if(this == ModBlocks.ore_uranium || this == ModBlocks.ore_uranium_scorched || 
+				this == ModBlocks.ore_gneiss_uranium || this == ModBlocks.ore_gneiss_uranium_scorched || 
+				this == ModBlocks.ore_nether_uranium || this == ModBlocks.ore_nether_uranium_scorched) {
+			return ModBlocks.gas_radon;
+		}
+		
+		if(this == ModBlocks.block_corium_cobble)
+			return ModBlocks.gas_radon;
+		
+		if(this == ModBlocks.ancient_scrap)
+			return ModBlocks.gas_radon_tomb;
+		
+		if(this == ModBlocks.ore_coal_oil_burning || this == ModBlocks.ore_nether_coal) {
+			return ModBlocks.gas_monoxide;
+		}
+		
+		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos ||
+				this == ModBlocks.block_asbestos || this == ModBlocks.deco_asbestos ||
+				this == ModBlocks.brick_asbestos || this == ModBlocks.tile_lab ||
+				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken ||
+				this == ModBlocks.basalt_asbestos) {
+			return ModBlocks.gas_asbestos;
+		}
+		
+		return Blocks.air;
 	}
 
 	@Override
@@ -74,7 +96,7 @@ public class BlockOutgas extends BlockOre {
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
 		
 		if(onBreak) {
-			world.setBlock(x, y, z, getGas());
+			world.setBlock(x, y, z, this.getGas());
 		}
 		
 		super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, fortune);

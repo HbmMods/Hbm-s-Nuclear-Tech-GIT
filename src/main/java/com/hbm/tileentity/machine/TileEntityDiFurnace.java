@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.util.RTGUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -331,9 +333,10 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 				trigger = false;
 			}
 
-			if (this.slots[2] != null && this.slots[2].getItem() == ModItems.pellet_rtg) {
-
-				this.dualPower = maxPower;
+			if (this.slots[2] != null && (this.slots[2].getItem() instanceof ItemRTGPellet)) {
+				this.dualPower += RTGUtil.updateRTGs(slots, new int[] { 2 });
+				if(this.dualPower > maxPower)
+					this.dualPower = maxPower;
 			}
 			
 			if(trigger)

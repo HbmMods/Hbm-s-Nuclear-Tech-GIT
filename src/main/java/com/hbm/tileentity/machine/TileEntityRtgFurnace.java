@@ -103,14 +103,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean isLoaded() {
-		
-		for(int i = 1; i <= 3; i++) {
-			
-			if(!(slots[i] != null && (slots[i].getItem() instanceof ItemRTGPellet)))
-				return false;
-		}
-		
-		return true;
+		return RTGUtil.hasHeat(slots, slots_side);
 	}
 	
 	@Override
@@ -266,7 +259,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 			{
 				dualCookTime += RTGUtil.updateRTGs(slots, slots_side);
 				
-				if(this.dualCookTime == TileEntityRtgFurnace.processingSpeed)
+				if(this.dualCookTime >= TileEntityRtgFurnace.processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();
@@ -274,6 +267,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 				}
 			}else{
 				dualCookTime = 0;
+				RTGUtil.updateRTGs(slots, slots_side);
 			}
 			
 			boolean trigger = true;

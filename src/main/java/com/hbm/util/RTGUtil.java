@@ -14,20 +14,16 @@ public class RTGUtil {
 	}
 	
 	public static boolean hasHeat(ItemStack[] inventory, int[] rtgSlots) {
-		int heat = 0;
 		for(int slot : rtgSlots) {
 			
 			if(inventory[slot] == null)
 				continue;
 			
-			if(!(inventory[slot].getItem() instanceof ItemRTGPellet))
-				continue;
-			
-			final ItemRTGPellet pellet = (ItemRTGPellet) inventory[slot].getItem();
-			heat += getPower(pellet, inventory[slot]);
+			if(inventory[slot].getItem() instanceof ItemRTGPellet)
+				return true;
 		}
 		
-		return heat > 0;
+		return false;
 	}
 	
 	public static int updateRTGs(ItemStack[] inventory, int[] rtgSlots) {

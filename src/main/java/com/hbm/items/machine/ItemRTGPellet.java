@@ -122,7 +122,7 @@ public class ItemRTGPellet extends Item {
 	}
 	
 	public static short getScaledPower(ItemRTGPellet fuel, ItemStack stack) {
-		return (short) Math.ceil(fuel.getHeat() * (fuel.getLifespan(stack) * fuel.getMaxLifespan()));
+		return (short) Math.ceil(fuel.getHeat() * ((double)fuel.getLifespan(stack) / (double)fuel.getMaxLifespan()));
 	}
 	
 	@Override
