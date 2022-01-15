@@ -62,6 +62,8 @@ public class RodRecipes {
 
 		addBreedingRod(CO, ModItems.billet_cobalt, BreedingRodType.CO);
 		addBreedingRod(CO60, ModItems.billet_co60, BreedingRodType.CO60);
+		addBreedingRod(RA226, ModItems.billet_ra226, BreedingRodType.RA226);
+		addBreedingRod(AC227, ModItems.billet_actinium, BreedingRodType.AC227);
 		addBreedingRod(TH232, ModItems.billet_th232, BreedingRodType.TH232);
 		addBreedingRod(ModItems.billet_thorium_fuel, BreedingRodType.THF);
 		addBreedingRod(U235, ModItems.billet_u235, BreedingRodType.U235);

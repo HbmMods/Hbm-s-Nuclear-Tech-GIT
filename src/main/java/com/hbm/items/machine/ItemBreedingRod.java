@@ -25,6 +25,9 @@ public class ItemBreedingRod extends ItemEnumMulti {
 		
 		//Required for prototype
 		LEAD,
-		URANIUM
+		URANIUM,
+		
+		RA226,
+		AC227
 	}
 }

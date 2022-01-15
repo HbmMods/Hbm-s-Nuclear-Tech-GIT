@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
+	//SR90					29a		β−	015.00Rad/s Spicy
 	//TC99		       211,000a		β−	002.75Rad/s	Spicy
 	//I181		           192h		β−	150.00Rad/s	2 much spice :(
 	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
@@ -30,6 +31,7 @@ public class HazardRegistry {
 	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
+	//AC227					22a		β−	030.00Rad/s Spicy
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
@@ -70,6 +72,7 @@ public class HazardRegistry {
 	public static final float at209 = 2000.0F;
 	public static final float po210 = 75.0F;
 	public static final float ra226 = 7.5F;
+	public static final float ac227 = 30.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
 	public static final float u = 0.35F;
@@ -315,6 +318,7 @@ public class HazardRegistry {
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
 		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
 		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);
+		registerRTGPellet(pellet_rtg_actinium, ac227 * rtg, 0);
 		registerRTGPellet(pellet_rtg_polonium, po210 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_lead, pb209 * rtg, 0, 7F, 5F);
 		registerRTGPellet(pellet_rtg_gold, au198 * rtg, 0, 5F);

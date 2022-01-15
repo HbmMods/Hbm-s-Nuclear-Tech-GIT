@@ -109,6 +109,7 @@ public class OreDictManager {
 	public static final DictFrame PO210 = new DictFrame("Polonium210", "Po210", "Polonium");
 	public static final DictFrame TC99 = new DictFrame("Technetium99", "Tc99");
 	public static final DictFrame RA226 = new DictFrame("Radium226", "Ra226");
+	public static final DictFrame AC227 = new DictFrame("Actinium227", "Ac227");
 	public static final DictFrame CO60 = new DictFrame("Cobalt60", "Co60");
 	public static final DictFrame AU198 = new DictFrame("Gold198", "Au198");
 	public static final DictFrame PB209 = new DictFrame("Lead209", "Pb209");
@@ -180,7 +181,6 @@ public class OreDictManager {
 	 * RARE EARTHS
 	 */
 	public static final DictFrame LA = new DictFrame("Lanthanum");
-	public static final DictFrame AC = new DictFrame("Actinium");
 	public static final DictFrame ZR = new DictFrame("Zirconium");
 	public static final DictFrame ND = new DictFrame("Neodymium");
 	public static final DictFrame CE = new DictFrame("Cerium");
@@ -244,6 +244,7 @@ public class OreDictManager {
 		PO210	.rad(HazardRegistry.po210)	.hot(3)			.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
 		TC99	.rad(HazardRegistry.tc99)					.nugget(nugget_technetium)	.billet(billet_technetium)	.ingot(ingot_technetium);
 		RA226	.rad(HazardRegistry.ra226)					.nugget(nugget_ra226)		.billet(billet_ra226)		.ingot(ingot_ra226)			.dust(powder_ra226)										.block(block_ra226);
+		AC227	.rad(HazardRegistry.ac227)					.nugget(nugget_actinium)	.billet(billet_actinium)	.ingot(ingot_actinium)		.dust(powder_actinium)									.block(block_actinium)		.dustSmall(powder_actinium_tiny);
 		CO60	.rad(HazardRegistry.co60)	.hot(1)			.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
 		AU198	.rad(HazardRegistry.au198)	.hot(5)			.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
 		PB209	.rad(HazardRegistry.pb209)	.blinding(3F)	.hot(7)						.nugget(nugget_pb209)		.billet(billet_pb209)		.ingot(ingot_pb209);
@@ -321,7 +322,6 @@ public class OreDictManager {
 		 * RARE EARTHS
 		 */
 		LA	.nugget(fragment_lanthanium)	.ingot(ingot_lanthanium)										.dustSmall(powder_lanthanium_tiny)	.dust(powder_lanthanium)	.block(block_lanthanium);
-		AC	.nugget(fragment_actinium)		.ingot(ingot_actinium)											.dustSmall(powder_actinium_tiny)	.dust(powder_actinium)		.block(block_actinium);
 		ZR	.nugget(nugget_zirconium)		.ingot(ingot_zirconium)		.billet(billet_zirconium)												.dust(powder_zirconium)		.block(block_zirconium)		.ore(ore_depth_zirconium);
 		ND	.nugget(fragment_neodymium)																		.dustSmall(powder_neodymium_tiny)	.dust(powder_neodymium)									.ore(ore_depth_nether_neodymium);
 		CE	.nugget(fragment_cerium)																		.dustSmall(powder_cerium_tiny)		.dust(powder_cerium);
