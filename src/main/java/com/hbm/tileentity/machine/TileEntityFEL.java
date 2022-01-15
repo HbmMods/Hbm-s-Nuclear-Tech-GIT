@@ -29,6 +29,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -42,11 +43,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 	
 	public long power;
-	public static final long maxPower = 2000000;
-	public static final int powerReq = 2500;
+	public static final long maxPower = 20000000;
+	public static final int powerReq = 1250;
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean isOn;
-	public boolean missingValidSilex;
+	public boolean missingValidSilex = true	;
 	public int distance;
 	public List<EntityLivingBase> entities = new ArrayList();
 	
@@ -79,10 +80,11 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 				
 			} else { this.mode = EnumWavelengths.NULL; }
 			
-			int range = 25;
+			int range = 24;
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			int length = 3;
-			if(this.isOn && power >= powerReq * Math.pow(2, mode.ordinal()) && this.mode != EnumWavelengths.NULL) {
+			boolean silexSpacing = false;
+			if(this.isOn && power >= powerReq * Math.pow(3, mode.ordinal()) && this.mode != EnumWavelengths.NULL) {
 				
 				int distance = this.distance-1;
 				double blx = Math.min(xCoord, xCoord + dir.offsetX * distance) + 0.2;
@@ -103,9 +105,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 					case DRX: HbmLivingProps.incrementDigamma(entity, 0.1F); break;
 					}
 				}
-				//worldObj.setBlock(x, y, z, Blocks.stone);
 				
-				power -= powerReq * ((mode.ordinal() == 0) ? 0 : Math.pow(2, mode.ordinal()));
+				power -= powerReq * ((mode.ordinal() == 0) ? 0 : Math.pow(3, mode.ordinal()));
 				for(int i = 3; i < range; i++) {
 				
 					length = i;
@@ -116,27 +117,25 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 					
 					Block b = worldObj.getBlock(x, y, z);
 					
-					if(!(b.getMaterial().isOpaque())) {
-						if(i >= length) {
-							this.distance = range;
-							this.missingValidSilex = true;
-						}
+					if(!(b.getMaterial().isOpaque()) && b != Blocks.tnt) {
+						this.distance = range;
+						silexSpacing = false;
 						continue;
 					}
 					
-					if(b == ModBlocks.machine_silex && i >= 5) {
+					if(b == ModBlocks.machine_silex) {
 					
 						TileEntity te = worldObj.getTileEntity(x + dir.offsetX, yCoord, z + dir.offsetZ);
 					
 						if(te instanceof TileEntitySILEX) {
 							TileEntitySILEX silex = (TileEntitySILEX) te;
 							int meta = silex.getBlockMetadata() - BlockDummyable.offset;
-							if(rotationIsValid(meta, this.getBlockMetadata() - BlockDummyable.offset)) {
+							if(rotationIsValid(meta, this.getBlockMetadata() - BlockDummyable.offset) && i >= 5 && silexSpacing == false	) {
 								if(silex.mode != this.mode) {
 									silex.mode = this.mode;
-									this.distance = i;
 									this.missingValidSilex = false;
-									break;
+									silexSpacing = true;
+									continue;
 								} 
 							} else {
 								MachineSILEX silexBlock = (MachineSILEX)silex.getBlockType();
@@ -145,7 +144,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 							} 
 						}
 						
-					} else if(b.getMaterial().isOpaque()) {
+					} else if(b.getMaterial().isOpaque() || b == Blocks.tnt) {
 						
 						this.distance = i;
 						
@@ -156,7 +155,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 						} 
 						
 						float hardness = b.getExplosionResistance(null);
-						if(hardness < 6000 && worldObj.rand.nextInt(5) == 0) {
+						if(hardness < 2400 && worldObj.rand.nextInt(5) == 0) {
 							worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
 							Block block = (this.mode != EnumWavelengths.DRX) ? Blocks.fire : (MainRegistry.polaroidID == 11) ? ModBlocks.digamma_matter : ModBlocks.fire_digamma;
 							worldObj.setBlock(x, y, z, block);
@@ -164,19 +163,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 								worldObj.setBlock(x, y-1, z, ModBlocks.ash_digamma);
 						}
 						break;
-					} else {
-						this.distance = range;
-						this.missingValidSilex = true;
-						break;
 					}
-					
 				}
-			} else {
-				this.missingValidSilex = true;
-			}
-			
-			if(this.power < powerReq) {
-				this.distance = range;
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -199,22 +187,6 @@ public class TileEntityFEL extends TileEntityMachineBase implements IConsumer {
 		}
 		 
 		return false;
-	}
-	
-	public boolean blockIsDestructible(Block b) {
-		switch(this.mode) {
-		case DRX:
-			if(b == ModBlocks.depth_dnt) {
-				return false;
-			} else {
-				return true;
-			}
-		default:
-			if(b == ModBlocks.depth_brick || b == ModBlocks.depth_dnt || b == ModBlocks.depth_nether_brick || b == ModBlocks.depth_nether_tiles || b == ModBlocks.depth_tiles || b == ModBlocks.cmb_brick_reinforced || b == Blocks.stone) {
-				return false;
-			}
-		}	
-		return true;
 	}
 
 	@Override
