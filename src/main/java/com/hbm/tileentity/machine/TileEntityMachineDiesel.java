@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -33,7 +34,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	public TileEntityMachineDiesel() {
 		super(5);
-		tank = new FluidTank(FluidType.DIESEL, 16000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.DIESEL, 16000, 0);
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			FluidType type = tank.getTankType();
-			if(type.name().equals(FluidType.NITAN.name()))
+			if(type.name().equals(FluidTypeTheOldOne.NITAN.name()))
 				powerCap = maxPower * 10;
 			else
 				powerCap = maxPower;
@@ -136,14 +137,14 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {
-		fuels.put(FluidType.HYDROGEN,	10);
-		fuels.put(FluidType.DIESEL,		500);
-		fuels.put(FluidType.PETROIL,	300);
-		fuels.put(FluidType.BIOFUEL,	400);
-		fuels.put(FluidType.GASOLINE,	1500);
-		fuels.put(FluidType.NITAN,		5000);
-		fuels.put(FluidType.LPG,		450);
-		fuels.put(FluidType.ETHANOL,	200);
+		fuels.put(FluidTypeTheOldOne.HYDROGEN,	10);
+		fuels.put(FluidTypeTheOldOne.DIESEL,		500);
+		fuels.put(FluidTypeTheOldOne.PETROIL,	300);
+		fuels.put(FluidTypeTheOldOne.BIOFUEL,	400);
+		fuels.put(FluidTypeTheOldOne.GASOLINE,	1500);
+		fuels.put(FluidTypeTheOldOne.NITAN,		5000);
+		fuels.put(FluidTypeTheOldOne.LPG,		450);
+		fuels.put(FluidTypeTheOldOne.ETHANOL,	200);
 	}
 	
 	public int getHEFromFuel() {

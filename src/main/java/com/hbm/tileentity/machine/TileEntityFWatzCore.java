@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -43,9 +44,9 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	public TileEntityFWatzCore() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.COOLANT, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.AMAT, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.ASCHRAB, 64000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.COOLANT, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.AMAT, 64000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.ASCHRAB, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {

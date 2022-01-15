@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
@@ -41,7 +42,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	public TileEntitySILEX() {
 		super(11);
-		tank = new FluidTank(FluidType.ACID, 16000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.ACID, 16000, 0);
 	}
 
 	@Override
@@ -117,9 +118,9 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	public static final HashMap<FluidType, ComparableStack> fluidConversion = new HashMap();
 	
 	static {
-		fluidConversion.put(FluidType.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.UF6.ordinal()));
-		fluidConversion.put(FluidType.PUF6, new ComparableStack(ModItems.fluid_icon, 1, FluidType.PUF6.ordinal()));
-		fluidConversion.put(FluidType.DEATH, new ComparableStack(ModItems.fluid_icon, 1, FluidType.DEATH.ordinal()));
+		fluidConversion.put(FluidTypeTheOldOne.UF6, new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.UF6.ordinal()));
+		fluidConversion.put(FluidTypeTheOldOne.PUF6, new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.PUF6.ordinal()));
+		fluidConversion.put(FluidTypeTheOldOne.DEATH, new ComparableStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.DEATH.ordinal()));
 	}
 	
 	int loadDelay;
@@ -147,7 +148,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(loadDelay > 20)
 			loadDelay = 0;
 		
-		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == FluidType.ACID && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
+		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == FluidTypeTheOldOne.ACID && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
 			SILEXRecipe recipe = SILEXRecipes.getOutput(slots[0]);
 			
 			if(recipe == null)

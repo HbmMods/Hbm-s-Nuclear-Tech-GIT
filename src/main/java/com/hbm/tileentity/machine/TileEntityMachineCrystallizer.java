@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -39,7 +40,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public TileEntityMachineCrystallizer() {
 		super(7);
-		tank = new FluidTank(FluidType.ACID, 8000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.ACID, 8000, 0);
 	}
 
 	@Override

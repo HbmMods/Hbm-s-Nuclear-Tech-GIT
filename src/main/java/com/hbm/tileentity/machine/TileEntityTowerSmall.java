@@ -1,7 +1,8 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,8 +15,8 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 	
 	public TileEntityTowerSmall() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.SPENTSTEAM, 1000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 1000, 1);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1000, 0);
+		tanks[1] = new FluidTank(Fluids.WATER, 1000, 1);
 	}
 	
 	@Override

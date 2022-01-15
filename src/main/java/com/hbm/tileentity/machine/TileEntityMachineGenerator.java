@@ -6,10 +6,11 @@ import java.util.Random;
 
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
@@ -47,8 +48,8 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public TileEntityMachineGenerator() {
 		slots = new ItemStack[14];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 32000, 0);
-		tanks[1] = new FluidTank(FluidType.COOLANT, 16000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 32000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.COOLANT, 16000, 1);
 	}
 
 	@Override

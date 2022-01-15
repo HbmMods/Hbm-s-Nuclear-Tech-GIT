@@ -7,7 +7,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
@@ -66,8 +66,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			}
 			// Fluid IDs
-			for(int i = 1; i < FluidType.values().length; i++) {
-				if(!FluidType.values()[i].hasNoID()) {
+			for(int i = 1; i < FluidTypeTheOldOne.values().length; i++) {
+				if(!FluidTypeTheOldOne.values()[i].hasNoID()) {
 					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
 				}
 			}

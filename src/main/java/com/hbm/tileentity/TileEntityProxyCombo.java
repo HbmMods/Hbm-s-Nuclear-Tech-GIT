@@ -2,9 +2,9 @@ package com.hbm.tileentity;
 
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;

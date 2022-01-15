@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -41,8 +42,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public TileEntityOilDrillBase() {
 		super(8);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.GAS, 64_000, 1);
 	}
 	
 	@Override

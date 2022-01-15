@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTrait;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -30,7 +31,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	
 	public TileEntityMachineFluidTank() {
 		super(6);
-		tank = new FluidTank(FluidType.NONE, 256000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.NONE, 256000, 0);
 	}
 
 	@Override

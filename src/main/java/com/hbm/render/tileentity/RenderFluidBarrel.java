@@ -2,7 +2,8 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.tileentity.machine.TileEntityBarrel;
@@ -25,7 +26,7 @@ public class RenderFluidBarrel extends TileEntitySpecialRenderer {
 			TileEntityBarrel barrel = (TileEntityBarrel)te;
 			FluidType type = barrel.tank.getTankType();
 			
-			if(type != FluidType.NONE) {
+			if(type != Fluids.NONE) {
 				
 				RenderHelper.disableStandardItemLighting();
 				GL11.glPushMatrix();

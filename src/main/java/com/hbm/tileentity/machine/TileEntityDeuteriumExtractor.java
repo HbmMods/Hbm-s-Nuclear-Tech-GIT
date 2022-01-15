@@ -3,10 +3,11 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -28,8 +29,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	public TileEntityDeuteriumExtractor() {
 		super(0);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 1000, 0);
-		tanks[1] = new FluidTank(FluidType.HEAVYWATER, 100, 0);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 1000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.HEAVYWATER, 100, 0);
 	}
 
 	@Override

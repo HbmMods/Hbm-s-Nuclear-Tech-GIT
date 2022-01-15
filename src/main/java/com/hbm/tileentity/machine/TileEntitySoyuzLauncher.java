@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.hbm.handler.MissileStruct;
 import com.hbm.entity.missile.EntitySoyuz;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -47,8 +48,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.OXYGEN, 128000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.KEROSENE, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.OXYGEN, 128000, 1);
 	}
 
 	@Override

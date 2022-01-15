@@ -2,7 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;

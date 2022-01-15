@@ -2,7 +2,8 @@ package com.hbm.packet;
 
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityTickingBase;
@@ -104,13 +105,13 @@ public class AuxButtonPacket implements IMessage {
 						reactor.rods = m.value;
 					
 					if(m.id == 1) {
-						FluidType type = FluidType.STEAM;
+						FluidType type = FluidTypeTheOldOne.STEAM;
 						int fill = reactor.tanks[2].getFill();
 						
 						switch(m.value) {
-						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
+						case 0: type = FluidTypeTheOldOne.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 1: type = FluidTypeTheOldOne.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 2: type = FluidTypeTheOldOne.STEAM; fill = (int)Math.floor(fill * 100); break;
 						}
 						
 						if(fill > reactor.tanks[2].getMaxFill())

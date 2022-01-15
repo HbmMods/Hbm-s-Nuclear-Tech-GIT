@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
@@ -14,7 +16,7 @@ import net.minecraft.item.ItemStack;
 public class GasCentrifugeRecipes {
 	
 	public static enum PseudoFluidType {
-		NONE	(0,		0,		"NONE",		"Empty",				false,	null),
+		NONE	(0,		0,		"NONE",		"Empty",				false,	(ItemStack)null),
 		
 		NUF6 	(400,	300,	"LEUF6",	"Natural UF6",			false,	new ItemStack(ModItems.nugget_u238, 1)),
 		LEUF6 	(300,	200,	"MEUF6",	"Low Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
@@ -69,39 +71,30 @@ public class GasCentrifugeRecipes {
 	public static List<ItemStack> getGasCentOutputs(FluidType fluid) {
 		List<ItemStack> outputs = new ArrayList(4);
 		
-		switch(fluid) {
-		case UF6:
+		if(fluid == Fluids.UF6) {
 			outputs.add(new ItemStack(ModItems.nugget_u238, 11));
 			outputs.add(new ItemStack(ModItems.nugget_u235, 1)); 
 			outputs.add(new ItemStack(ModItems.fluorite, 4));
-			return outputs;
-		case PUF6:
+		} else if(fluid == Fluids.PUF6) {
 			outputs.add(new ItemStack(ModItems.nugget_pu238, 3));
 			outputs.add(new ItemStack(ModItems.nugget_pu_mix, 6));
 			outputs.add(new ItemStack(ModItems.fluorite, 3));
-			return outputs;
-		default:
-			return null;
 		}
+		return outputs;
 	}
 	
 	public static int getQuantityRequired(FluidType fluid) {
-		switch(fluid) {
-		case UF6:
-			return 1200;
-		case PUF6:
-			return 900;
-		default:
-			return 0;
-		}
+		if(fluid == Fluids.UF6) return 1200;
+		if(fluid == Fluids.PUF6)return 900;
+		return 0;
 	}
 	
 	public static Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
 		for(int i = 0; i < FluidType.values().length; i++) {
-			if(getGasCentOutputs(FluidType.getEnum(i)) != null) {
-				List<ItemStack> out = getGasCentOutputs(FluidType.getEnum(i));
+			if(getGasCentOutputs(Fluids.fromID(i)) != null) {
+				List<ItemStack> out = getGasCentOutputs(Fluids.fromID(i));
 				ItemStack[] outputs = new ItemStack[4];
 				
 				for(int j = 0; j < out.size(); j++) {
@@ -112,7 +105,7 @@ public class GasCentrifugeRecipes {
 						outputs[j] = new ItemStack(ModItems.nothing);
 				
 				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, i);
-				ItemFluidIcon.addQuantity(input, getQuantityRequired(FluidType.getEnum(i)));
+				ItemFluidIcon.addQuantity(input, getQuantityRequired(Fluids.fromID(i)));
 				
 				recipes.put(input, outputs);
 			}

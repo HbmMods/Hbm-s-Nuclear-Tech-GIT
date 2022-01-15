@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.FluidTypeHandler.FluidTrait;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +20,7 @@ public class TileEntityMachineBAT9000 extends TileEntityBarrel {
 	@Override
 	public void checkFluidInteraction() {
 		
-		if(tank.getTankType().traits.contains(FluidTrait.AMAT)) {
+		if(tank.getTankType().isAntimatter()) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 10, true, true);
 		}

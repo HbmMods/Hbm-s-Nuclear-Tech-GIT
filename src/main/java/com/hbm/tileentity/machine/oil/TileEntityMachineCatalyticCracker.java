@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.util.Tuple.Quartet;
@@ -30,10 +31,10 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	
 	public TileEntityMachineCatalyticCracker() {
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.BITUMEN, 4000, 0);
-		tanks[1] = new FluidTank(FluidType.STEAM, 8000, 1);
-		tanks[2] = new FluidTank(FluidType.OIL, 4000, 2);
-		tanks[3] = new FluidTank(FluidType.PETROLEUM, 4000, 3);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.BITUMEN, 4000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.STEAM, 8000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.OIL, 4000, 2);
+		tanks[3] = new FluidTank(FluidTypeTheOldOne.PETROLEUM, 4000, 3);
 	}
 	
 	@Override
@@ -80,14 +81,14 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 		Quartet<FluidType, FluidType, Integer, Integer> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
-			tanks[1].setTankType(FluidType.STEAM);
+			tanks[1].setTankType(FluidTypeTheOldOne.STEAM);
 			tanks[2].setTankType(quart.getW());
 			tanks[3].setTankType(quart.getX());
 		} else {
-			tanks[0].setTankType(FluidType.NONE);
-			tanks[1].setTankType(FluidType.NONE);
-			tanks[2].setTankType(FluidType.NONE);
-			tanks[3].setTankType(FluidType.NONE);
+			tanks[0].setTankType(FluidTypeTheOldOne.NONE);
+			tanks[1].setTankType(FluidTypeTheOldOne.NONE);
+			tanks[2].setTankType(FluidTypeTheOldOne.NONE);
+			tanks[3].setTankType(FluidTypeTheOldOne.NONE);
 		}
 	}
 	

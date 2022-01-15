@@ -7,12 +7,14 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
@@ -68,9 +70,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	public TileEntityMachineReactorLarge() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.COOLANT, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.STEAM, 32000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.COOLANT, 64000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.STEAM, 32000, 2);
 		type = ReactorFuelType.URANIUM;
 	}
 
@@ -662,7 +664,6 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		}
 	}
 	
-	@SuppressWarnings("incomplete-switch")
 	private void generateSteam() {
 
 		//function of SHS produced per tick
@@ -674,16 +675,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		
 		double water = steam;
 		
-		switch(tanks[2].getTankType()) {
-		case STEAM:
-			water /= 100D;
-			break;
-		case HOTSTEAM:
-			water /= 10;
-			break;
-		case SUPERHOTSTEAM:
-			break;
-		}
+		FluidType type = tanks[2].getTankType();
+		if(type == Fluids.STEAM) water /= 100D;
+		if(type == Fluids.HOTSTEAM) water /= 10;
 		
 		tanks[0].setFill(tanks[0].getFill() - (int)Math.ceil(water));
 		tanks[2].setFill(tanks[2].getFill() + (int)Math.floor(steam));

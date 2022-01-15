@@ -1,8 +1,9 @@
 package com.hbm.packet;
 
 import java.util.Arrays;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidContainer;
+import com.hbm.inventory.fluid.FluidType;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -19,10 +20,7 @@ public class TEFluidPacket implements IMessage {
 	int index;
 	int type;
 
-	public TEFluidPacket()
-	{
-		
-	}
+	public TEFluidPacket() { }
 
 	public TEFluidPacket(int x, int y, int z, int fill, int index, FluidType type)
 	{

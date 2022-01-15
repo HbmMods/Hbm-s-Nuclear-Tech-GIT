@@ -2,7 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.container.ContainerSILEX;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -67,7 +67,7 @@ public class GUISILEX extends GuiInfoContainer {
 		
 		if(silex.tank.getFill() > 0) {
 			
-			if(silex.tank.getTankType() == FluidType.ACID || silex.fluidConversion.containsKey(silex.tank.getTankType())) {
+			if(silex.tank.getTankType() == FluidTypeTheOldOne.ACID || silex.fluidConversion.containsKey(silex.tank.getTankType())) {
 				drawTexturedModalRect(guiLeft + 43, guiTop + 53, 176, 118, 54, 9);
 			} else {
 				drawTexturedModalRect(guiLeft + 43, guiTop + 53, 176, 109, 54, 9);
@@ -81,6 +81,6 @@ public class GUISILEX extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 26, guiTop + 124 - f, 176, 109 - f, 16, f);
 
 		int i = silex.getFluidScaled(52);
-		drawTexturedModalRect(guiLeft + 44, guiTop + 54, 176, silex.tank.getTankType() == FluidType.ACID ? 43 : 50, i, 7);
+		drawTexturedModalRect(guiLeft + 44, guiTop + 54, 176, silex.tank.getTankType() == FluidTypeTheOldOne.ACID ? 43 : 50, i, 7);
 	}
 }

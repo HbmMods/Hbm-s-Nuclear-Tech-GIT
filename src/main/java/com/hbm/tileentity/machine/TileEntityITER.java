@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.FusionRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
@@ -51,9 +52,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public TileEntityITER() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 1280000, 0);
-		tanks[1] = new FluidTank(FluidType.ULTRAHOTSTEAM, 128000, 1);
-		plasma = new FluidTank(FluidType.PLASMA_DT, 16000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 1280000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.ULTRAHOTSTEAM, 128000, 1);
+		plasma = new FluidTank(FluidTypeTheOldOne.PLASMA_DT, 16000, 2);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.HmfController;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
@@ -77,7 +77,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
 		GL11.glTranslated(-0.625, 0, 0.625);
 		
-		if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name()) && chem.isProgressing)
+		if(!chem.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.NONE.name()) && chem.isProgressing)
 			GL11.glRotatef(-rotation, 0F, 1F, 0F);
 		else
 			GL11.glRotatef(-45, 0F, 1F, 0F);
@@ -88,7 +88,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
 		GL11.glTranslated(0.625, 0, 0.625);
 		
-		if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name()) && chem.isProgressing)
+		if(!chem.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name()) && chem.isProgressing)
 			GL11.glRotatef(rotation, 0F, 1F, 0F);
 		else
 			GL11.glRotatef(45, 0F, 1F, 0F);
@@ -114,7 +114,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
         int color = 0;
 
         GL11.glDisable(GL11.GL_LIGHTING);
-        if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name())) {
+        if(!chem.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
             GL11.glPushMatrix();
 	        
 	        if(chem.isProgressing)
@@ -138,7 +138,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 	        GL11.glPopMatrix();
         }
 
-        if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+        if(!chem.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
 	        GL11.glPushMatrix();
 	        
 	        if(chem.isProgressing)

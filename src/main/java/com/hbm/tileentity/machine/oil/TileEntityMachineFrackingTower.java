@@ -1,9 +1,10 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
@@ -15,9 +16,9 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	public TileEntityMachineFrackingTower() {
 		super();
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
-		tanks[2] = new FluidTank(FluidType.FRACKSOL, 64_000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.GAS, 64_000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.FRACKSOL, 64_000, 2);
 	}
 
 	@Override

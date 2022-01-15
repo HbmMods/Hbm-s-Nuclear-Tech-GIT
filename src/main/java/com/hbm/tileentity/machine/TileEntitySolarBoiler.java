@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -28,8 +29,8 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	public HashSet<ChunkCoordinates> secondary = new HashSet();
 	
 	public TileEntitySolarBoiler() {
-		water = new FluidTank(FluidType.WATER, 16000, 0);
-		steam = new FluidTank(FluidType.STEAM, 1600000, 1);
+		water = new FluidTank(FluidTypeTheOldOne.WATER, 16000, 0);
+		steam = new FluidTank(FluidTypeTheOldOne.STEAM, 1600000, 1);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 		if(!worldObj.isRemote) {
 			
 			//if(worldObj.getTotalWorldTime() % 5 == 0) {
-				fillFluidInit(FluidType.STEAM);
+				fillFluidInit(FluidTypeTheOldOne.STEAM);
 			//}
 			
 			int process = heat / 10;
@@ -74,9 +75,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.WATER)
+		if(type == FluidTypeTheOldOne.WATER)
 			water.setFill(fill);
-		if(type == FluidType.STEAM)
+		if(type == FluidTypeTheOldOne.STEAM)
 			steam.setFill(fill);
 	}
 
@@ -95,9 +96,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type == FluidType.WATER)
+		if(type == FluidTypeTheOldOne.WATER)
 			return water.getFill();
-		if(type == FluidType.STEAM)
+		if(type == FluidTypeTheOldOne.STEAM)
 			return steam.getFill();
 		
 		return 0;
@@ -121,9 +122,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type == FluidType.WATER)
+		if(type == FluidTypeTheOldOne.WATER)
 			return water.getMaxFill();
-		if(type == FluidType.STEAM)
+		if(type == FluidTypeTheOldOne.STEAM)
 			return steam.getMaxFill();
 		
 		return 0;

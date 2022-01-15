@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 
@@ -27,8 +28,8 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	
 	public TileEntityCondenser() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.SPENTSTEAM, 100, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 100, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.SPENTSTEAM, 100, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.WATER, 100, 1);
 	}
 	
 	@Override

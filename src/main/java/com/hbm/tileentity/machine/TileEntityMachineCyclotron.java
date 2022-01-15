@@ -10,10 +10,11 @@ import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionThermo;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -55,8 +56,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	public TileEntityMachineCyclotron() {
 		super(16);
 
-		coolant = new FluidTank(FluidType.COOLANT, 32000, 0);
-		amat = new FluidTank(FluidType.AMAT, 8000, 1);
+		coolant = new FluidTank(FluidTypeTheOldOne.COOLANT, 32000, 0);
+		amat = new FluidTank(FluidTypeTheOldOne.AMAT, 8000, 1);
 	}
 
 	@Override
@@ -360,9 +361,9 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.COOLANT)
+		if(type == FluidTypeTheOldOne.COOLANT)
 			coolant.setFill(fill);
-		else if(type == FluidType.AMAT)
+		else if(type == FluidTypeTheOldOne.AMAT)
 			amat.setFill(fill);
 	}
 
@@ -381,9 +382,9 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type == FluidType.COOLANT)
+		if(type == FluidTypeTheOldOne.COOLANT)
 			return coolant.getFill();
-		else if(type == FluidType.AMAT)
+		else if(type == FluidTypeTheOldOne.AMAT)
 			return amat.getFill();
 		
 		return 0;
@@ -426,7 +427,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		
-		if(type == FluidType.COOLANT)
+		if(type == FluidTypeTheOldOne.COOLANT)
 			return coolant.getMaxFill();
 		
 		return 0;

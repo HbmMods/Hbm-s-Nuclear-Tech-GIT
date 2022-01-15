@@ -7,12 +7,13 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IReactor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.items.special.WatzFuel;
@@ -59,7 +60,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	public TileEntityWatzCore() {
 		slots = new ItemStack[40];
-		tank = new FluidTank(FluidType.WATZ, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.WATZ, 64000, 0);
 	}
 	@Override
 	public int getSizeInventory() {

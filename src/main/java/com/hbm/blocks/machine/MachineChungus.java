@@ -1,8 +1,9 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityChungus;
 
@@ -55,35 +56,27 @@ public class MachineChungus extends BlockDummyable {
 					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.chungusLever", 1.5F, 1.0F);
 					
 					if(!world.isRemote) {
-						switch(entity.tanks[0].getTankType()) {
-						case STEAM:
-							entity.tanks[0].setTankType(FluidType.HOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.STEAM);
+						FluidType type = entity.tanks[0].getTankType();
+						if(type == Fluids.STEAM) {
+							entity.tanks[0].setTankType(Fluids.HOTSTEAM);
+							entity.tanks[1].setTankType(Fluids.STEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
-							break;
-							
-						case HOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.SUPERHOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.HOTSTEAM);
+						} else if(type == Fluids.HOTSTEAM) {
+							entity.tanks[0].setTankType(Fluids.SUPERHOTSTEAM);
+							entity.tanks[1].setTankType(Fluids.HOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
-							break;
-							
-						case SUPERHOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.ULTRAHOTSTEAM);
-							entity.tanks[1].setTankType(FluidType.SUPERHOTSTEAM);
+						} else if(type == Fluids.SUPERHOTSTEAM) {
+							entity.tanks[0].setTankType(Fluids.ULTRAHOTSTEAM);
+							entity.tanks[1].setTankType(Fluids.SUPERHOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
-							break;
-							
-						default:
-						case ULTRAHOTSTEAM:
-							entity.tanks[0].setTankType(FluidType.STEAM);
-							entity.tanks[1].setTankType(FluidType.SPENTSTEAM);
+						} else {
+							entity.tanks[0].setTankType(Fluids.STEAM);
+							entity.tanks[1].setTankType(Fluids.SPENTSTEAM);
 							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
 							entity.tanks[1].setFill(0);
-							break;
 						}
 						
 						entity.markDirty();

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -37,9 +38,9 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public TileEntityFusionMultiblock() {
 		slots = new ItemStack[12];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.DEUTERIUM, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.TRITIUM, 64000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 128000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 64000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -37,8 +38,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		super(7);
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 10240000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.STEAM, 512000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.SPENTSTEAM, 10240000, 1);
 	}
 
 	@Override
@@ -71,9 +72,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
+				tanks[1].setTankType(FluidTypeTheOldOne.NONE);
 			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
+				tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
 				
 				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 10F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 10% cap
 				int processSteam = tanks[0].getFill() / (Integer)outs[2];										//the maximum amount of cycles depending on steam

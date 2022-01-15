@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -154,29 +156,23 @@ public class MachineRecipes {
 	}
 	
 	//return: FluidType, amount produced, amount required, heat required (°C * 100)
-	@SuppressWarnings("incomplete-switch")
 	public static Object[] getBoilerOutput(FluidType type) {
 		
-		switch(type) {
-		case WATER: return new Object[] { FluidType.STEAM, 500, 5, 10000 };
-		case STEAM: return new Object[] { FluidType.HOTSTEAM, 5, 50, 30000 };
-		case HOTSTEAM: return new Object[] { FluidType.SUPERHOTSTEAM, 5, 50, 45000 };
-		case OIL: return new Object[] { FluidType.HOTOIL, 5, 5, 35000 };
-		}
+		if(type == Fluids.WATER) return new Object[] { Fluids.STEAM, 500, 5, 10000 };
+		if(type == Fluids.STEAM) return new Object[] { Fluids.HOTSTEAM, 5, 50, 30000 };
+		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 5, 50, 45000 };
+		if(type == Fluids.OIL) return new Object[] { Fluids.HOTOIL, 5, 5, 35000 };
 		
 		return null;
 	}
 	
 	//return: FluidType, amount produced, amount required, HE produced
-	@SuppressWarnings("incomplete-switch")
 	public static Object[] getTurbineOutput(FluidType type) {
 		
-		switch(type) {
-		case STEAM: return new Object[] { FluidType.SPENTSTEAM, 5, 500, 50 };
-		case HOTSTEAM: return new Object[] { FluidType.STEAM, 50, 5, 100 };
-		case SUPERHOTSTEAM: return new Object[] { FluidType.HOTSTEAM, 50, 5, 150 };
-		case ULTRAHOTSTEAM: return new Object[] { FluidType.SUPERHOTSTEAM, 50, 5, 250 };
-		}
+		if(type == Fluids.STEAM) return new Object[] { Fluids.SPENTSTEAM, 5, 500, 50 };
+		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.STEAM, 50, 5, 100 };
+		if(type == Fluids.SUPERHOTSTEAM) return new Object[] { Fluids.HOTSTEAM, 50, 5, 150 };
+		if(type == Fluids.ULTRAHOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 50, 5, 250 };
 		
 		return null;
 	}
@@ -1137,7 +1133,7 @@ public class MachineRecipes {
         	FluidStack[] fluidIn = MachineRecipes.getFluidInputFromTempate(inputs[6]);
         	for(int j = 0; j < fluidIn.length; j++)
         		if(fluidIn[j] != null)
-        			inputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(fluidIn[j].type)), fluidIn[j].fill);
+        			inputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidTypeTheOldOne.values()).indexOf(fluidIn[j].type)), fluidIn[j].fill);
         	
         	ItemStack[] listOut = MachineRecipes.getChemOutputFromTempate(inputs[6]);
         	for(int j = 0; j < listOut.length; j++)
@@ -1147,7 +1143,7 @@ public class MachineRecipes {
         	FluidStack[] fluidOut = MachineRecipes.getFluidOutputFromTempate(inputs[6]);
         	for(int j = 0; j < fluidOut.length; j++)
         		if(fluidOut[j] != null)
-        			outputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(fluidOut[j].type)), fluidOut[j].fill);
+        			outputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidTypeTheOldOne.values()).indexOf(fluidOut[j].type)), fluidOut[j].fill);
         	
         	for(int j = 0; j < inputs.length; j++)
         		if(inputs[j] == null)
@@ -1167,8 +1163,8 @@ public class MachineRecipes {
 
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
-		for(int i = 0; i < FluidType.values().length; i++) {
-			Object[] outs = getBoilerOutput(FluidType.getEnum(i));
+		for(int i = 0; i < FluidTypeTheOldOne.values().length; i++) {
+			Object[] outs = getBoilerOutput(FluidTypeTheOldOne.getEnum(i));
 			
 			if(outs != null) {
 
@@ -1176,7 +1172,7 @@ public class MachineRecipes {
 				in.stackTagCompound = new NBTTagCompound();
 				in.stackTagCompound.setInteger("fill", (Integer) outs[2]);
 				
-				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidType)outs[0]).getID());
+				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidTypeTheOldOne)outs[0]).getID());
 				out.stackTagCompound = new NBTTagCompound();
 				out.stackTagCompound.setInteger("fill", (Integer) outs[1]);
 				
@@ -1386,248 +1382,248 @@ public class MachineRecipes {
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case FP_HEAVYOIL:
-			input[0] = new FluidStack(1000, FluidType.HEAVYOIL);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.HEAVYOIL);
 			break;
         case FP_SMEAR:
-			input[0] = new FluidStack(1000, FluidType.SMEAR);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.SMEAR);
 			break;
         case FP_NAPHTHA:
-			input[0] = new FluidStack(1000, FluidType.NAPHTHA);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.NAPHTHA);
 			break;
         case FP_LIGHTOIL:
-			input[0] = new FluidStack(1000, FluidType.LIGHTOIL);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.LIGHTOIL);
 			break;
         case FR_REOIL:
-			input[0] = new FluidStack(1000, FluidType.SMEAR);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.SMEAR);
 			break;
         case FR_PETROIL:
-			input[0] = new FluidStack(800, FluidType.RECLAIMED);
-			input[1] = new FluidStack(200, FluidType.LUBRICANT);
+			input[0] = new FluidStack(800, FluidTypeTheOldOne.RECLAIMED);
+			input[1] = new FluidStack(200, FluidTypeTheOldOne.LUBRICANT);
 			break;
         case FC_BITUMEN:
-			input[0] = new FluidStack(1200, FluidType.BITUMEN);
-			input[1] = new FluidStack(2400, FluidType.STEAM);
+			input[0] = new FluidStack(1200, FluidTypeTheOldOne.BITUMEN);
+			input[1] = new FluidStack(2400, FluidTypeTheOldOne.STEAM);
 			break;
         case FC_I_NAPHTHA:
-			input[0] = new FluidStack(1400, FluidType.SMEAR);
-			input[1] = new FluidStack(800, FluidType.WATER);
+			input[0] = new FluidStack(1400, FluidTypeTheOldOne.SMEAR);
+			input[1] = new FluidStack(800, FluidTypeTheOldOne.WATER);
 			break;
         case FC_GAS_PETROLEUM:
-			input[0] = new FluidStack(1800, FluidType.GAS);
-			input[1] = new FluidStack(1200, FluidType.WATER);
+			input[0] = new FluidStack(1800, FluidTypeTheOldOne.GAS);
+			input[1] = new FluidStack(1200, FluidTypeTheOldOne.WATER);
 			break;
         case FC_DIESEL_KEROSENE:
-			input[0] = new FluidStack(1200, FluidType.DIESEL);
-			input[1] = new FluidStack(2000, FluidType.STEAM);
+			input[0] = new FluidStack(1200, FluidTypeTheOldOne.DIESEL);
+			input[1] = new FluidStack(2000, FluidTypeTheOldOne.STEAM);
 			break;
         case FC_KEROSENE_PETROLEUM:
-			input[0] = new FluidStack(1400, FluidType.KEROSENE);
-			input[1] = new FluidStack(2000, FluidType.STEAM);
+			input[0] = new FluidStack(1400, FluidTypeTheOldOne.KEROSENE);
+			input[1] = new FluidStack(2000, FluidTypeTheOldOne.STEAM);
 			break;
         case CC_I:
-			input[0] = new FluidStack(1800, FluidType.WATER);
+			input[0] = new FluidStack(1800, FluidTypeTheOldOne.WATER);
 			break;
         case CC_OIL:
-			input[0] = new FluidStack(1400, FluidType.STEAM);
+			input[0] = new FluidStack(1400, FluidTypeTheOldOne.STEAM);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(2000, FluidType.STEAM);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.STEAM);
 			break;
         case CC_HEAVY:
-			input[0] = new FluidStack(1400, FluidType.WATER);
+			input[0] = new FluidStack(1400, FluidTypeTheOldOne.WATER);
 			break;
         case CC_NAPHTHA:
-			input[0] = new FluidStack(2400, FluidType.STEAM);
+			input[0] = new FluidStack(2400, FluidTypeTheOldOne.STEAM);
 			break;
         case ASPHALT:
-			input[0] = new FluidStack(1000, FluidType.BITUMEN);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.BITUMEN);
 			break;
         case CONCRETE:
-			input[0] = new FluidStack(2000, FluidType.WATER);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.WATER);
 			break;
         case CONCRETE_ASBESTOS:
-			input[0] = new FluidStack(2000, FluidType.WATER);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.WATER);
 			break;
         case COOLANT:
-			input[0] = new FluidStack(1800, FluidType.WATER);
+			input[0] = new FluidStack(1800, FluidTypeTheOldOne.WATER);
 			break;
         case CRYOGEL:
-			input[0] = new FluidStack(1800, FluidType.COOLANT);
+			input[0] = new FluidStack(1800, FluidTypeTheOldOne.COOLANT);
 			break;
         case DESH:
         	if(GeneralConfig.enableBabyMode) {
-				input[0] = new FluidStack(200, FluidType.LIGHTOIL);
+				input[0] = new FluidStack(200, FluidTypeTheOldOne.LIGHTOIL);
         	} else {
-				input[0] = new FluidStack(200, FluidType.MERCURY);
-				input[1] = new FluidStack(200, FluidType.LIGHTOIL);
+				input[0] = new FluidStack(200, FluidTypeTheOldOne.MERCURY);
+				input[1] = new FluidStack(200, FluidTypeTheOldOne.LIGHTOIL);
         	}
 			break;
         case PEROXIDE:
-			input[0] = new FluidStack(1000, FluidType.WATER);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WATER);
         	break;
         case CIRCUIT_4:
-			input[0] = new FluidStack(400, FluidType.ACID);
-			input[1] = new FluidStack(200, FluidType.PETROLEUM);
+			input[0] = new FluidStack(400, FluidTypeTheOldOne.ACID);
+			input[1] = new FluidStack(200, FluidTypeTheOldOne.PETROLEUM);
         	break;
         case CIRCUIT_5:
-			input[0] = new FluidStack(800, FluidType.ACID);
-			input[1] = new FluidStack(200, FluidType.MERCURY);
+			input[0] = new FluidStack(800, FluidTypeTheOldOne.ACID);
+			input[1] = new FluidStack(200, FluidTypeTheOldOne.MERCURY);
         	break;
         case SF_OIL:
-			input[0] = new FluidStack(350, FluidType.OIL);
+			input[0] = new FluidStack(350, FluidTypeTheOldOne.OIL);
         	break;
         case SF_HEAVYOIL:
-			input[0] = new FluidStack(250, FluidType.HEAVYOIL);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.HEAVYOIL);
         	break;
         case SF_SMEAR:
-			input[0] = new FluidStack(200, FluidType.SMEAR);
+			input[0] = new FluidStack(200, FluidTypeTheOldOne.SMEAR);
         	break;
         case SF_HEATINGOIL:
-			input[0] = new FluidStack(100, FluidType.HEATINGOIL);
+			input[0] = new FluidStack(100, FluidTypeTheOldOne.HEATINGOIL);
         	break;
         case SF_RECLAIMED:
-			input[0] = new FluidStack(200, FluidType.RECLAIMED);
+			input[0] = new FluidStack(200, FluidTypeTheOldOne.RECLAIMED);
         	break;
         case SF_PETROIL:
-			input[0] = new FluidStack(250, FluidType.PETROIL);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.PETROIL);
         	break;
     	case SF_LUBRICANT:
-			input[0] = new FluidStack(250, FluidType.LUBRICANT);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.LUBRICANT);
         	break;
     	case SF_NAPHTHA:
-			input[0] = new FluidStack(300, FluidType.NAPHTHA);
+			input[0] = new FluidStack(300, FluidTypeTheOldOne.NAPHTHA);
         	break;
     	case SF_DIESEL:
-			input[0] = new FluidStack(400, FluidType.DIESEL);
+			input[0] = new FluidStack(400, FluidTypeTheOldOne.DIESEL);
         	break;
     	case SF_LIGHTOIL:
-			input[0] = new FluidStack(450, FluidType.LIGHTOIL);
+			input[0] = new FluidStack(450, FluidTypeTheOldOne.LIGHTOIL);
         	break;
     	case SF_KEROSENE:
-			input[0] = new FluidStack(550, FluidType.KEROSENE);
+			input[0] = new FluidStack(550, FluidTypeTheOldOne.KEROSENE);
         	break;
     	case SF_GAS:
-			input[0] = new FluidStack(750, FluidType.GAS);
+			input[0] = new FluidStack(750, FluidTypeTheOldOne.GAS);
         	break;
     	case SF_PETROLEUM:
-			input[0] = new FluidStack(600, FluidType.PETROLEUM);
+			input[0] = new FluidStack(600, FluidTypeTheOldOne.PETROLEUM);
         	break;
     	case SF_BIOGAS:
-			input[0] = new FluidStack(3500, FluidType.BIOGAS);
+			input[0] = new FluidStack(3500, FluidTypeTheOldOne.BIOGAS);
         	break;
     	case SF_BIOFUEL:
-			input[0] = new FluidStack(1500, FluidType.BIOFUEL);
+			input[0] = new FluidStack(1500, FluidTypeTheOldOne.BIOFUEL);
         	break;
         case POLYMER:
-			input[0] = new FluidStack(600, FluidType.PETROLEUM);
+			input[0] = new FluidStack(600, FluidTypeTheOldOne.PETROLEUM);
         	break;
         case DEUTERIUM:
-			input[0] = new FluidStack(4000, FluidType.WATER);
+			input[0] = new FluidStack(4000, FluidTypeTheOldOne.WATER);
         	break;
         case STEAM:
-			input[0] = new FluidStack(1000, FluidType.WATER);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WATER);
         	break;
         case LPG:
-			input[0] = new FluidStack(2000, FluidType.PETROLEUM);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.PETROLEUM);
         	break;
         case BP_BIOFUEL:
-			input[0] = new FluidStack(2000, FluidType.BIOGAS);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.BIOGAS);
         	break;
         case YELLOWCAKE:
-			input[0] = new FluidStack(500, FluidType.ACID);
+			input[0] = new FluidStack(500, FluidTypeTheOldOne.ACID);
         	break;
         case UF6:
-			input[0] = new FluidStack(1000, FluidType.WATER);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WATER);
         	break;
         case PUF6:
-			input[0] = new FluidStack(1000, FluidType.WATER);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WATER);
         	break;
         case SAS3:
-			input[0] = new FluidStack(2000, FluidType.ACID);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.ACID);
         	break;
         case NITAN:
-			input[0] = new FluidStack(600, FluidType.KEROSENE);
-			input[1] = new FluidStack(200, FluidType.MERCURY);
+			input[0] = new FluidStack(600, FluidTypeTheOldOne.KEROSENE);
+			input[1] = new FluidStack(200, FluidTypeTheOldOne.MERCURY);
         	break;
         case OIL_SAND:
-			input[0] = new FluidStack(400, FluidType.BITUMEN);
+			input[0] = new FluidStack(400, FluidTypeTheOldOne.BITUMEN);
         	break;
         case CORDITE:
-			input[0] = new FluidStack(200, FluidType.HEATINGOIL);
+			input[0] = new FluidStack(200, FluidTypeTheOldOne.HEATINGOIL);
         	break;
         case KEVLAR:
-			input[0] = new FluidStack(100, FluidType.PETROLEUM);
+			input[0] = new FluidStack(100, FluidTypeTheOldOne.PETROLEUM);
         	break;
         case SOLID_FUEL:
-			input[0] = new FluidStack(200, FluidType.PETROLEUM);
+			input[0] = new FluidStack(200, FluidTypeTheOldOne.PETROLEUM);
         	break;
     	case ELECTROLYSIS:
-			input[0] = new FluidStack(8000, FluidType.WATER);
+			input[0] = new FluidStack(8000, FluidTypeTheOldOne.WATER);
         	break;
     	case XENON:
-			input[0] = new FluidStack(0, FluidType.NONE);
+			input[0] = new FluidStack(0, FluidTypeTheOldOne.NONE);
         	break;
     	case XENON_OXY:
-			input[0] = new FluidStack(250, FluidType.OXYGEN);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.OXYGEN);
         	break;
     	case SATURN:
-			input[0] = new FluidStack(100, FluidType.ACID);
-			input[1] = new FluidStack(50, FluidType.MERCURY);
+			input[0] = new FluidStack(100, FluidTypeTheOldOne.ACID);
+			input[1] = new FluidStack(50, FluidTypeTheOldOne.MERCURY);
         	break;
     	case BALEFIRE:
-			input[0] = new FluidStack(6000, FluidType.KEROSENE);
+			input[0] = new FluidStack(6000, FluidTypeTheOldOne.KEROSENE);
         	break;
     	case SCHRABIDIC:
-			input[0] = new FluidStack(8000, FluidType.SAS3);
-			input[1] = new FluidStack(6000, FluidType.ACID);
+			input[0] = new FluidStack(8000, FluidTypeTheOldOne.SAS3);
+			input[1] = new FluidStack(6000, FluidTypeTheOldOne.ACID);
         	break;
     	case SCHRABIDATE:
-			input[0] = new FluidStack(250, FluidType.SCHRABIDIC);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.SCHRABIDIC);
         	break;
     	case COLTAN_CLEANING:
-			input[0] = new FluidStack(250, FluidType.ACID);
-			input[1] = new FluidStack(500, FluidType.HYDROGEN);
+			input[0] = new FluidStack(250, FluidTypeTheOldOne.ACID);
+			input[1] = new FluidStack(500, FluidTypeTheOldOne.HYDROGEN);
         	break;
     	case COLTAN_PAIN:
-			input[0] = new FluidStack(1000, FluidType.GAS);
-			input[1] = new FluidStack(500, FluidType.OXYGEN);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.GAS);
+			input[1] = new FluidStack(500, FluidTypeTheOldOne.OXYGEN);
         	break;
     	case COLTAN_CRYSTAL:
-			input[0] = new FluidStack(1000, FluidType.PAIN);
-			input[1] = new FluidStack(500, FluidType.ACID);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.PAIN);
+			input[1] = new FluidStack(500, FluidTypeTheOldOne.ACID);
         	break;
 		case VIT_LIQUID:
-			input[0] = new FluidStack(1000, FluidType.WASTEFLUID);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WASTEFLUID);
 			break;
 		case VIT_GAS:
-			input[0] = new FluidStack(1000, FluidType.WASTEGAS);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.WASTEGAS);
 			break;
 		case TEL:
-			input[0] = new FluidStack(100, FluidType.PETROLEUM);
-			input[1] = new FluidStack(1000, FluidType.STEAM);
+			input[0] = new FluidStack(100, FluidTypeTheOldOne.PETROLEUM);
+			input[1] = new FluidStack(1000, FluidTypeTheOldOne.STEAM);
 			break;
 		case GASOLINE:
-			input[0] = new FluidStack(10000, FluidType.PETROIL);
+			input[0] = new FluidStack(10000, FluidTypeTheOldOne.PETROIL);
 			break;
 		case FRACKSOL:
-			input[0] = new FluidStack(100, FluidType.PETROLEUM);
-			input[1] = new FluidStack(1000, FluidType.WATER);
+			input[0] = new FluidStack(100, FluidTypeTheOldOne.PETROLEUM);
+			input[1] = new FluidStack(1000, FluidTypeTheOldOne.WATER);
 			break;
 		case OSMIRIDIUM_DEATH:
-			input[0] = new FluidStack(1000, FluidType.ACID);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.ACID);
         	break;
 		case METH:
-			input[0] = new FluidStack(400, FluidType.LUBRICANT);
-			input[1] = new FluidStack(400, FluidType.ACID);
+			input[0] = new FluidStack(400, FluidTypeTheOldOne.LUBRICANT);
+			input[1] = new FluidStack(400, FluidTypeTheOldOne.ACID);
 			break;
 		case CO2:
-			input[0] = new FluidStack(1000, FluidType.GAS);
+			input[0] = new FluidStack(1000, FluidTypeTheOldOne.GAS);
 			break;
 		case HEAVY_ELECTROLYSIS:
-			input[0] = new FluidStack(8000, FluidType.HEAVYWATER);
+			input[0] = new FluidStack(8000, FluidTypeTheOldOne.HEAVYWATER);
 			break;
 		case DUCRETE:
-			input[0] = new FluidStack(2000, FluidType.WATER);
+			input[0] = new FluidStack(2000, FluidTypeTheOldOne.WATER);
 		default:
 			break;
 		}
@@ -1813,152 +1809,152 @@ public class MachineRecipes {
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case FP_HEAVYOIL:
-			output[0] = new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, FluidType.BITUMEN);
-			output[1] = new FluidStack(RefineryRecipes.heavy_frac_smear * 10, FluidType.SMEAR);
+			output[0] = new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, FluidTypeTheOldOne.BITUMEN);
+			output[1] = new FluidStack(RefineryRecipes.heavy_frac_smear * 10, FluidTypeTheOldOne.SMEAR);
 			break;
         case FP_SMEAR:
-			output[0] = new FluidStack(RefineryRecipes.smear_frac_heat * 10, FluidType.HEATINGOIL);
-			output[1] = new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidType.LUBRICANT);
+			output[0] = new FluidStack(RefineryRecipes.smear_frac_heat * 10, FluidTypeTheOldOne.HEATINGOIL);
+			output[1] = new FluidStack(RefineryRecipes.smear_frac_lube * 10, FluidTypeTheOldOne.LUBRICANT);
 			break;
         case FP_NAPHTHA:
-			output[0] = new FluidStack(RefineryRecipes.napht_frac_heat * 10, FluidType.HEATINGOIL);
-			output[1] = new FluidStack(RefineryRecipes.napht_frac_diesel * 10, FluidType.DIESEL);
+			output[0] = new FluidStack(RefineryRecipes.napht_frac_heat * 10, FluidTypeTheOldOne.HEATINGOIL);
+			output[1] = new FluidStack(RefineryRecipes.napht_frac_diesel * 10, FluidTypeTheOldOne.DIESEL);
 			break;
         case FP_LIGHTOIL:
-			output[0] = new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidType.DIESEL);
-			output[1] = new FluidStack(RefineryRecipes.light_frac_kero * 10, FluidType.KEROSENE);
+			output[0] = new FluidStack(RefineryRecipes.light_frac_diesel * 10, FluidTypeTheOldOne.DIESEL);
+			output[1] = new FluidStack(RefineryRecipes.light_frac_kero * 10, FluidTypeTheOldOne.KEROSENE);
 			break;
         case FR_REOIL:
-			output[0] = new FluidStack(800, FluidType.RECLAIMED);
+			output[0] = new FluidStack(800, FluidTypeTheOldOne.RECLAIMED);
 			break;
         case FR_PETROIL:
-			output[0] = new FluidStack(1000, FluidType.PETROIL);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.PETROIL);
 			break;
         case FC_BITUMEN:
-			output[0] = new FluidStack(1000, FluidType.OIL);
-			output[1] = new FluidStack(200, FluidType.PETROLEUM);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.OIL);
+			output[1] = new FluidStack(200, FluidTypeTheOldOne.PETROLEUM);
 			break;
         case FC_I_NAPHTHA:
-			output[0] = new FluidStack(800, FluidType.NAPHTHA);
+			output[0] = new FluidStack(800, FluidTypeTheOldOne.NAPHTHA);
 			break;
         case FC_GAS_PETROLEUM:
-			output[0] = new FluidStack(800, FluidType.PETROLEUM);
+			output[0] = new FluidStack(800, FluidTypeTheOldOne.PETROLEUM);
 			break;
         case FC_DIESEL_KEROSENE:
-			output[0] = new FluidStack(400, FluidType.KEROSENE);
+			output[0] = new FluidStack(400, FluidTypeTheOldOne.KEROSENE);
 			break;
         case FC_KEROSENE_PETROLEUM:
-			output[0] = new FluidStack(800, FluidType.PETROLEUM);
+			output[0] = new FluidStack(800, FluidTypeTheOldOne.PETROLEUM);
 			break;
         case CC_OIL:
-			output[0] = new FluidStack(2000, FluidType.OIL);
+			output[0] = new FluidStack(2000, FluidTypeTheOldOne.OIL);
 			break;
         case CC_I:
-			output[0] = new FluidStack(1600, FluidType.SMEAR);
+			output[0] = new FluidStack(1600, FluidTypeTheOldOne.SMEAR);
 			break;
         case CC_HEATING:
-			output[0] = new FluidStack(1800, FluidType.HEATINGOIL);
+			output[0] = new FluidStack(1800, FluidTypeTheOldOne.HEATINGOIL);
 			break;
         case CC_HEAVY:
-			output[0] = new FluidStack(1800, FluidType.HEAVYOIL);
+			output[0] = new FluidStack(1800, FluidTypeTheOldOne.HEAVYOIL);
 			break;
         case CC_NAPHTHA:
-			output[0] = new FluidStack(2000, FluidType.NAPHTHA);
+			output[0] = new FluidStack(2000, FluidTypeTheOldOne.NAPHTHA);
 			break;
         case COOLANT:
-			output[0] = new FluidStack(2000, FluidType.COOLANT);
+			output[0] = new FluidStack(2000, FluidTypeTheOldOne.COOLANT);
 			break;
         case CRYOGEL:
-			output[0] = new FluidStack(2000, FluidType.CRYOGEL);
+			output[0] = new FluidStack(2000, FluidTypeTheOldOne.CRYOGEL);
 			break;
         case PEROXIDE:
-			output[0] = new FluidStack(800, FluidType.ACID);
+			output[0] = new FluidStack(800, FluidTypeTheOldOne.ACID);
 			break;
         case DEUTERIUM:
-			output[0] = new FluidStack(500, FluidType.DEUTERIUM);
+			output[0] = new FluidStack(500, FluidTypeTheOldOne.DEUTERIUM);
         	break;
         case STEAM:
-			output[0] = new FluidStack(1000, FluidType.STEAM);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.STEAM);
         	break;
         case BP_BIOGAS:
-			output[0] = new FluidStack(4000, FluidType.BIOGAS);
+			output[0] = new FluidStack(4000, FluidTypeTheOldOne.BIOGAS);
         	break;
         case BP_BIOFUEL:
-			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.BIOFUEL);
         	break;
         case LPG:
-			output[0] = new FluidStack(1000, FluidType.LPG);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.LPG);
         	break;
         case UF6:
-			output[0] = new FluidStack(1200, FluidType.UF6);
+			output[0] = new FluidStack(1200, FluidTypeTheOldOne.UF6);
         	break;
         case PUF6:
-			output[0] = new FluidStack(900, FluidType.PUF6);
+			output[0] = new FluidStack(900, FluidTypeTheOldOne.PUF6);
         	break;
         case SAS3:
-			output[0] = new FluidStack(1000, FluidType.SAS3);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.SAS3);
         	break;
         case NITAN:
-			output[0] = new FluidStack(1000, FluidType.NITAN);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.NITAN);
         	break;
         case OIL_SAND:
-			output[0] = new FluidStack(1000, FluidType.BITUMEN);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.BITUMEN);
         	break;
         case DYN_SCHRAB:
-			output[0] = new FluidStack(50, FluidType.WATZ);
+			output[0] = new FluidStack(50, FluidTypeTheOldOne.WATZ);
         	break;
         case DYN_EUPH:
-			output[0] = new FluidStack(100, FluidType.WATZ);
+			output[0] = new FluidStack(100, FluidTypeTheOldOne.WATZ);
         	break;
         case DYN_DNT:
-			output[0] = new FluidStack(150, FluidType.WATZ);
+			output[0] = new FluidStack(150, FluidTypeTheOldOne.WATZ);
         	break;
         case ELECTROLYSIS:
-			output[0] = new FluidStack(400, FluidType.HYDROGEN);
-			output[1] = new FluidStack(400, FluidType.OXYGEN);
+			output[0] = new FluidStack(400, FluidTypeTheOldOne.HYDROGEN);
+			output[1] = new FluidStack(400, FluidTypeTheOldOne.OXYGEN);
         	break;
         case XENON:
-			output[0] = new FluidStack(50, FluidType.XENON);
+			output[0] = new FluidStack(50, FluidTypeTheOldOne.XENON);
         	break;
         case XENON_OXY:
-			output[0] = new FluidStack(50, FluidType.XENON);
+			output[0] = new FluidStack(50, FluidTypeTheOldOne.XENON);
         	break;
         case BALEFIRE:
-			output[0] = new FluidStack(8000, FluidType.BALEFIRE);
+			output[0] = new FluidStack(8000, FluidTypeTheOldOne.BALEFIRE);
         	break;
         case SCHRABIDIC:
-			output[0] = new FluidStack(16000, FluidType.SCHRABIDIC);
+			output[0] = new FluidStack(16000, FluidTypeTheOldOne.SCHRABIDIC);
         	break;
         case COLTAN_CLEANING:
-			output[0] = new FluidStack(500, FluidType.WATER);
+			output[0] = new FluidStack(500, FluidTypeTheOldOne.WATER);
         	break;
         case COLTAN_PAIN:
-			output[0] = new FluidStack(1000, FluidType.PAIN);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.PAIN);
         	break;
         case COLTAN_CRYSTAL:
-			output[0] = new FluidStack(250, FluidType.WATER);
+			output[0] = new FluidStack(250, FluidTypeTheOldOne.WATER);
         	break;
         case GASOLINE:
-			output[0] = new FluidStack(12000, FluidType.GASOLINE);
+			output[0] = new FluidStack(12000, FluidTypeTheOldOne.GASOLINE);
         	break;
         case FRACKSOL:
-			output[0] = new FluidStack(1000, FluidType.FRACKSOL);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.FRACKSOL);
         	break;
         case HELIUM3:
-			output[0] = new FluidStack(1000, FluidType.HELIUM3);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.HELIUM3);
         	break;
         case OSMIRIDIUM_DEATH:
-			output[0] = new FluidStack(1000, FluidType.DEATH);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.DEATH);
         	break;
         case ETHANOL:
-			output[0] = new FluidStack(1000, FluidType.ETHANOL);
+			output[0] = new FluidStack(1000, FluidTypeTheOldOne.ETHANOL);
         	break;
         case CO2:
-        	output[0] = new FluidStack(1000, FluidType.CARBONDIOXIDE);
+        	output[0] = new FluidStack(1000, FluidTypeTheOldOne.CARBONDIOXIDE);
         	break;
         case HEAVY_ELECTROLYSIS:
-        	output[0] = new FluidStack(400, FluidType.DEUTERIUM);
-			output[1] = new FluidStack(400, FluidType.OXYGEN);
+        	output[0] = new FluidStack(400, FluidTypeTheOldOne.DEUTERIUM);
+			output[1] = new FluidStack(400, FluidTypeTheOldOne.OXYGEN);
         	break;
 		default:
 			break;
@@ -1972,7 +1968,7 @@ public class MachineRecipes {
 		
 		for(FluidContainer con : FluidContainerRegistry.allContainers) {
 			if(con != null) {
-				ItemStack fluid = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(con.type));
+				ItemStack fluid = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidTypeTheOldOne.values()).indexOf(con.type));
 				fluid.stackTagCompound = new NBTTagCompound();
 				fluid.stackTagCompound.setInteger("fill", con.content);
 				map.put(fluid, con.fullContainer);

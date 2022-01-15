@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTrait;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -28,12 +30,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	public TileEntityBarrel() {
 		super(6);
-		tank = new FluidTank(FluidType.NONE, 0, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.NONE, 0, 0);
 	}
 
 	public TileEntityBarrel(int capacity) {
 		super(6);
-		tank = new FluidTank(FluidType.NONE, capacity, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.NONE, capacity, 0);
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		Block b = this.getBlockType();
 		
 		//for when you fill antimatter into a matter tank
-		if(b != ModBlocks.barrel_antimatter && tank.getTankType().traits.contains(FluidTrait.AMAT)) {
+		if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 		}
@@ -106,7 +108,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
-		if(tank.getTankType() == FluidType.WATER && ModEventHandler.fire > 0) {
+		if(tank.getTankType() == Fluids.WATER && ModEventHandler.fire > 0) {
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
 			if(light > 7) {

@@ -2,8 +2,8 @@ package com.hbm.interfaces;
 
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 
 public interface IFluidContainer {
 

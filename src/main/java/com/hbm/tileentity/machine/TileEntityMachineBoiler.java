@@ -5,11 +5,12 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
@@ -47,8 +48,8 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public TileEntityMachineBoiler() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
-		tanks[1] = new FluidTank(FluidType.STEAM, 8000, 1);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 8000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.STEAM, 8000, 1);
 	}
 
 	@Override
@@ -235,9 +236,9 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 			Object[] outs = MachineRecipes.getBoilerOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
+				tanks[1].setTankType(FluidTypeTheOldOne.NONE);
 			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
+				tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);

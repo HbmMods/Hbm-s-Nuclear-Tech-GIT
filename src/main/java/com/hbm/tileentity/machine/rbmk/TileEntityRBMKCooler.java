@@ -3,9 +3,10 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.Entity;
@@ -22,7 +23,7 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	public TileEntityRBMKCooler() {
 		super();
 		
-		this.tank = new FluidTank(FluidType.CRYOGEL, 8000, 0);
+		this.tank = new FluidTank(FluidTypeTheOldOne.CRYOGEL, 8000, 0);
 	}
 	
 	@Override

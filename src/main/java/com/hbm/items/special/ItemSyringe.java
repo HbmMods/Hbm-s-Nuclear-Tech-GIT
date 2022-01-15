@@ -7,7 +7,7 @@ import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
@@ -285,7 +285,7 @@ public class ItemSyringe extends Item {
 
 				IPartiallyFillable fillable = (IPartiallyFillable) jetpack.getItem();
 				
-				if(fillable.getType(jetpack) != FluidType.KEROSENE)
+				if(fillable.getType(jetpack) != FluidTypeTheOldOne.KEROSENE)
 					return stack;
 				
 				int fill = Math.min(fillable.getFill(jetpack) + 1000, fillable.getMaxFill(jetpack));

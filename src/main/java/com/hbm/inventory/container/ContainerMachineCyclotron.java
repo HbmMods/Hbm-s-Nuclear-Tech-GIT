@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.inventory.SlotUpgrade;
@@ -84,11 +84,11 @@ public class ContainerMachineCyclotron extends Container {
 					if(!this.mergeItemStack(stack, 13, 14, true))
 						return null;
 					
-				} else if(FluidContainerRegistry.getFluidContent(stack, FluidType.COOLANT) > 0) {
+				} else if(FluidContainerRegistry.getFluidContent(stack, FluidTypeTheOldOne.COOLANT) > 0) {
 					if(!this.mergeItemStack(stack, 11, 12, true))
 						return null;
 					
-				} else if(FluidContainerRegistry.getFullContainer(stack, FluidType.AMAT) != null) {
+				} else if(FluidContainerRegistry.getFullContainer(stack, FluidTypeTheOldOne.AMAT) != null) {
 					if(!this.mergeItemStack(stack, 9, 10, true))
 						return null;
 					

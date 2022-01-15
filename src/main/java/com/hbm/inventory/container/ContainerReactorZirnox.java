@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.items.machine.ItemZirnoxRod;
@@ -78,11 +78,11 @@ public class ContainerReactorZirnox extends Container {
 				}
 			} else {
 
-				if(FluidContainerRegistry.getFluidContent(stack, FluidType.CARBONDIOXIDE) > 0) {
+				if(FluidContainerRegistry.getFluidContent(stack, FluidTypeTheOldOne.CARBONDIOXIDE) > 0) {
 					if(!this.mergeItemStack(stack, 24, 25, true))
 						return null;
 
-				} else if(FluidContainerRegistry.getFluidContent(stack, FluidType.WATER) > 0) {
+				} else if(FluidContainerRegistry.getFluidContent(stack, FluidTypeTheOldOne.WATER) > 0) {
 					if(!this.mergeItemStack(stack, 25, 26, true))
 						return null;
 

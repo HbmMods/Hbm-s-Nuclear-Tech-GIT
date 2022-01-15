@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidDuct;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.util.I18nUtil;
@@ -55,8 +57,8 @@ public class ItemFluidIdentifier extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		
-		for(int i = 0; i < FluidType.values().length; ++i) {
-			if(!FluidType.values()[i].hasNoID()) {
+		for(int i = 0; i < FluidTypeTheOldOne.values().length; ++i) {
+			if(!FluidTypeTheOldOne.values()[i].hasNoID()) {
 				list.add(new ItemStack(item, 1, i));
 			}
 		}
@@ -71,7 +73,7 @@ public class ItemFluidIdentifier extends Item {
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
 		list.add("");
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".info"));
-		list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
+		list.add("   " + I18n.format(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName()));
 		list.add("");
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage0"));
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage1"));
@@ -80,9 +82,9 @@ public class ItemFluidIdentifier extends Item {
 
 	public static FluidType getType(ItemStack stack) {
 		if(stack != null && stack.getItem() instanceof ItemFluidIdentifier)
-			return FluidType.getEnum(stack.getItemDamage());
+			return Fluids.fromID(stack.getItemDamage());
 		else
-			return FluidType.NONE;
+			return Fluids.NONE;
 	}
 
 	@Override
@@ -91,7 +93,7 @@ public class ItemFluidIdentifier extends Item {
 		if(te instanceof TileEntityFluidDuct) {
 			if(!world.isRemote) {
 				TileEntityFluidDuct duct = (TileEntityFluidDuct) te;
-				FluidType type = FluidType.getEnum(stack.getItemDamage());
+				FluidType type = Fluids.fromID(stack.getItemDamage());
 				if (player.isSneaking()) markDuctsRecursively(world, x, y, z, type);
 				else duct.type = type;
 			}
@@ -158,7 +160,7 @@ public class ItemFluidIdentifier extends Item {
 		if(p_82790_2_ == 0) {
 			return 16777215;
 		} else {
-			int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
+			int j = Fluids.fromID(stack.getItemDamage()).getColor();
 
 			if(j < 0) {
 				j = 16777215;

@@ -6,10 +6,11 @@ import java.util.Random;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionThermo;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -44,7 +45,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	
 	public TileEntityMachineGasFlare() {
 		slots = new ItemStack[3];
-		tank = new FluidTank(FluidType.GAS, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.GAS, 64000, 0);
 	}
 
 	@Override

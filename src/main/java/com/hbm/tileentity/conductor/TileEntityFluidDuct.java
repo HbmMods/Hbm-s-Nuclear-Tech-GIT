@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPipePacket;
@@ -21,7 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 	
 	public ForgeDirection[] connections = new ForgeDirection[6];
-	public FluidType type = FluidType.NONE;
+	public FluidType type = Fluids.NONE;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	
 	public TileEntityFluidDuct() {

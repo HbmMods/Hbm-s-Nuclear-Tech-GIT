@@ -3,10 +3,11 @@ package com.hbm.tileentity.machine.oil;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.util.Tuple.Quartet;
@@ -27,9 +28,9 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	
 	public TileEntityMachineFractionTower() {
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.HEAVYOIL, 4000, 0);
-		tanks[1] = new FluidTank(FluidType.BITUMEN, 4000, 1);
-		tanks[2] = new FluidTank(FluidType.SMEAR, 4000, 2);
+		tanks[0] = new FluidTank(FluidTypeTheOldOne.HEAVYOIL, 4000, 0);
+		tanks[1] = new FluidTank(FluidTypeTheOldOne.BITUMEN, 4000, 1);
+		tanks[2] = new FluidTank(FluidTypeTheOldOne.SMEAR, 4000, 2);
 	}
 	
 	@Override
@@ -82,9 +83,9 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 			tanks[1].setTankType(quart.getW());
 			tanks[2].setTankType(quart.getX());
 		} else {
-			tanks[0].setTankType(FluidType.NONE);
-			tanks[1].setTankType(FluidType.NONE);
-			tanks[2].setTankType(FluidType.NONE);
+			tanks[0].setTankType(FluidTypeTheOldOne.NONE);
+			tanks[1].setTankType(FluidTypeTheOldOne.NONE);
+			tanks[2].setTankType(FluidTypeTheOldOne.NONE);
 		}
 	}
 	

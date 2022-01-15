@@ -3,9 +3,10 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -28,7 +29,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	public TileEntityCoreReceiver() {
 		super(0);
-		tank = new FluidTank(FluidType.CRYOGEL, 64000, 0);
+		tank = new FluidTank(FluidTypeTheOldOne.CRYOGEL, 64000, 0);
 	}
 
 	@Override
