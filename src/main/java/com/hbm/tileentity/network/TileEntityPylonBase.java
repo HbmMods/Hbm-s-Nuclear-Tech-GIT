@@ -24,6 +24,9 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		if(first.getConnectionType() != second.getConnectionType())
 			return false;
 		
+		if(first == second)
+			return false;
+		
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
 		
 		Vec3 firstPos = first.getConnectionPoint();
@@ -60,6 +63,9 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		for(int[] pos : connected) {
 			
 			TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(te == this)
+				continue;
 			
 			if(te instanceof TileEntityPylonBase) {
 				TileEntityPylonBase pylon = (TileEntityPylonBase) te;

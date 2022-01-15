@@ -1163,8 +1163,8 @@ public class MachineRecipes {
 
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
-		for(int i = 0; i < FluidTypeTheOldOne.values().length; i++) {
-			Object[] outs = getBoilerOutput(FluidTypeTheOldOne.getEnum(i));
+		for(int i = 0; i < FluidType.values().length; i++) {
+			Object[] outs = getBoilerOutput(FluidType.getEnum(i));
 			
 			if(outs != null) {
 
@@ -1172,7 +1172,7 @@ public class MachineRecipes {
 				in.stackTagCompound = new NBTTagCompound();
 				in.stackTagCompound.setInteger("fill", (Integer) outs[2]);
 				
-				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidTypeTheOldOne)outs[0]).getID());
+				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidType)outs[0]).getID());
 				out.stackTagCompound = new NBTTagCompound();
 				out.stackTagCompound.setInteger("fill", (Integer) outs[1]);
 				
