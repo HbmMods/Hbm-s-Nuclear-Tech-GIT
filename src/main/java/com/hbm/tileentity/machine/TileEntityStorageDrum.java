@@ -99,8 +99,12 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 						slots[i] = new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, meta);
 					}
 					
-					if((item == ModItems.ingot_au198 || item == ModItems.ingot_pb200) && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
+					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, meta);
+					}
+					
+					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
+						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
 					}
 				}
 			}

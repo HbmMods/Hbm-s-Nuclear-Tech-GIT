@@ -9,6 +9,7 @@ import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
 import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
+import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.util.Compat;
 import com.hbm.util.Compat.ReikaIsotope;
 
@@ -25,6 +26,7 @@ public class HazardRegistry {
 	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
 	//CS137		            30a		β−	020.00Rad/s	Spicy
 	//AU198		            64h		β−	500.00Rad/s	2 much spice :(
+	//PB209					 3h		β−	10,000.00Rad/s mama mia my face is melting off
 	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
@@ -64,7 +66,7 @@ public class HazardRegistry {
 	public static final float xe135 = 1250.0F;
 	public static final float cs137 = 20.0F;
 	public static final float au198 = 500.0F;
-	public static final float pb200 = 1500.0F;
+	public static final float pb209 = 10000.0F;
 	public static final float at209 = 2000.0F;
 	public static final float po210 = 75.0F;
 	public static final float ra226 = 7.5F;
@@ -246,6 +248,7 @@ public class HazardRegistry {
 		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, pu239 * ingot * 100, false);
 		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, sa326 * ingot * 100, true);
 		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, po210 * nugget * 3, false);
+		registerOtherFuel(plate_fuel_pu238be, pube * ingot, pu238 * nugget, false);
 		
 		registerOtherWaste(waste_plate_u233, u233 * ingot * 100);
 		registerOtherWaste(waste_plate_u235, u235 * ingot * 100);
@@ -308,14 +311,15 @@ public class HazardRegistry {
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
-		HazardSystem.register(pellet_rtg, new HazardData().addEntry(RADIATION, pu238 * rtg).addEntry(HOT, 4F));
-		HazardSystem.register(pellet_rtg_radium, makeData(RADIATION, ra226 * rtg));
-		HazardSystem.register(pellet_rtg_weak, makeData(RADIATION, (pu238 + (u238 * 2)) * billet));
-		HazardSystem.register(pellet_rtg_strontium, makeData(RADIATION, sr90 * rtg));
-		HazardSystem.register(pellet_rtg_polonium, new HazardData().addEntry(RADIATION, po210 * rtg).addEntry(HOT, 3F));
-		HazardSystem.register(pellet_rtg_lead, new HazardData().addEntry(RADIATION, pb200 * rtg).addEntry(HOT, 7F));
-		HazardSystem.register(pellet_rtg_gold, new HazardData().addEntry(RADIATION, au198 * rtg).addEntry(HOT, 5F));
-		HazardSystem.register(pellet_rtg_americium, makeData(RADIATION, am241 * rtg));
+		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 4F);
+		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
+		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
+		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);
+		registerRTGPellet(pellet_rtg_polonium, po210 * rtg, 0, 3F);
+		registerRTGPellet(pellet_rtg_lead, pb209 * rtg, 0, 7F, 5F);
+		registerRTGPellet(pellet_rtg_gold, au198 * rtg, 0, 5F);
+		registerRTGPellet(pellet_rtg_americium, am241 * rtg, 0);
+		HazardSystem.register(new ItemStack(pellet_rtg_depleted, 1, DepletedRTGMaterial.NEPTUNIUM.ordinal()), makeData(RADIATION, np237 * rtg));
 		
 		registerBreedingRodRadiation(BreedingRodType.TRITIUM, 0.001F);
 		registerBreedingRodRadiation(BreedingRodType.CO60, co60);
@@ -460,6 +464,17 @@ public class HazardRegistry {
 		if(blinding)
 			data.addEntry(BLINDING, 5F);
 		HazardSystem.register(fuel, data);
+	}
+	
+	private static void registerRTGPellet(Item pellet, float base, float target) { registerRTGPellet(pellet, base, target, 0, 0); }
+	private static void registerRTGPellet(Item pellet, float base, float target, float hot) { registerRTGPellet(pellet, base, target, hot, 0); }
+	
+	private static void registerRTGPellet(Item pellet, float base, float target, float hot, float blinding) {
+		HazardData data = new HazardData();
+		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierRTGRadiation(target)));
+		if(hot > 0) data.addEntry(new HazardEntry(HOT, hot));
+		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, hot));
+		HazardSystem.register(pellet, data);
 	}
 	
 	private static void registerOtherWaste(Item waste, float base) {

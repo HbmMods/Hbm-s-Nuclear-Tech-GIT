@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.gas.BlockGasBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -33,12 +34,11 @@ public class BlockOutgas extends BlockOre {
 		this.onNeighbour = onNeighbour;
 	}
 
-	public int tickRate(World p_149738_1_) {
+	public int tickRate(World world) {
 		return rate;
 	}
 	
 	protected Block getGas() {
-		
 		if(this == ModBlocks.ore_uranium || this == ModBlocks.ore_uranium_scorched || 
 				this == ModBlocks.ore_gneiss_uranium || this == ModBlocks.ore_gneiss_uranium_scorched || 
 				this == ModBlocks.ore_nether_uranium || this == ModBlocks.ore_nether_uranium_scorched) {
@@ -96,7 +96,7 @@ public class BlockOutgas extends BlockOre {
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
 		
 		if(onBreak) {
-			world.setBlock(x, y, z, getGas());
+			world.setBlock(x, y, z, this.getGas());
 		}
 		
 		super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, fortune);

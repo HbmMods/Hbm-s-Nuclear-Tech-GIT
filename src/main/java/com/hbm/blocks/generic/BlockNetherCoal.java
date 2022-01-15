@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;

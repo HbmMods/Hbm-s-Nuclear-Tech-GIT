@@ -4,8 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ReactorResearch;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
-import com.hbm.packet.NBTControlPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto.RBMKFunction;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
@@ -127,9 +125,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 				double level = MathHelper.clamp_double((fauxLevel * 0.01D), 0D, 1D);
 				
 				if(level != this.level) {
-					NBTTagCompound control = new NBTTagCompound();
-					control.setDouble("level", level);
-					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, reactor.xCoord, reactor.yCoord, reactor.zCoord));
+					reactor.setTarget(level);
 				}
 			}
 			

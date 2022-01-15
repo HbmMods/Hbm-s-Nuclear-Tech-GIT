@@ -7,19 +7,23 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.ImmutableSet;
+import com.hbm.config.MachineConfig;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.tileentity.IRadioisotopeFuel;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
+public class ItemRTGPellet extends Item {
 	
 	private short heat = 0;
 	private boolean doesDecay = false;
@@ -52,34 +56,73 @@ public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 			"In the 1920s, uranium was considered a useless byproduct of the production of radium.",
 			"The Manhattan Project referred to refined natural uranium as tuballoy, enriched uranium as oralloy, and depleted uranium as depletalloy."
 	};
-
-	@Override
-	public ItemRTGPellet setDecays(@Nonnull ItemStack itemIn, long life) {
+	
+	public ItemRTGPellet setDecays(DepletedRTGMaterial mat, long life) {
 		doesDecay = true;
-		decayItem = itemIn;
+		decayItem = new ItemStack(ModItems.pellet_rtg_depleted, 1, mat.ordinal());
 		lifespan = life;
 		return this;
 	}
 	
-	@Override
 	public long getMaxLifespan() {
 		return lifespan;
 	}
 
-	@Override
 	public short getHeat() {
 		return heat;
 	}
 
 	@CheckForNull
-	@Override
 	public ItemStack getDecayItem() {
 		return decayItem == null ? null : decayItem.copy();
 	}
 
-	@Override
 	public boolean getDoesDecay() {
-		return doesDecay;
+		return this.doesDecay;
+	}
+	
+	public static ItemStack handleDecay(ItemStack stack, ItemRTGPellet instance) {
+		if (instance.getDoesDecay() && MachineConfig.doRTGsDecay) {
+			if (instance.getLifespan(stack) <= 0)
+				return instance.getDecayItem();
+			else
+				instance.decay(stack);
+		}
+		
+		return stack;
+	}
+	
+	public void decay(ItemStack stack) {
+		if (stack != null && stack.getItem() instanceof ItemRTGPellet) {
+			if (!((ItemRTGPellet) stack.getItem()).getDoesDecay())
+				return;
+			if (stack.hasTagCompound())
+				stack.stackTagCompound.setLong("PELLET_DEPLETION", getLifespan(stack) - 1);
+			else {
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("PELLET_DEPLETION", getMaxLifespan());
+			}
+		}
+	}
+	
+	public long getLifespan(ItemStack stack)
+	{
+		if (stack != null && stack.getItem() instanceof ItemRTGPellet)
+		{
+			if (stack.hasTagCompound())
+				return stack.stackTagCompound.getLong("PELLET_DEPLETION");
+			else
+			{
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("PELLET_DEPLETION", getMaxLifespan());
+				return getMaxLifespan();
+			}
+		}
+		return 0;
+	}
+	
+	public static short getScaledPower(ItemRTGPellet fuel, ItemStack stack) {
+		return (short) Math.ceil(fuel.getHeat() * ((double)fuel.getLifespan(stack) / (double)fuel.getMaxLifespan()));
 	}
 	
 	@Override
@@ -94,20 +137,34 @@ public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		super.addInformation(stack, player, list, bool);
-		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
-		IRadioisotopeFuel.addTooltip(list, stack, bool);
-	}
-
-	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		return getDoesDecay() && getLifespan(stack) != getMaxLifespan();
 	}
-
+	
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return IRadioisotopeFuel.getDuraBar(stack);
+		final ItemRTGPellet instance = (ItemRTGPellet) stack.getItem();
+		return 1D - (double)instance.getLifespan(stack) / (double)instance.getMaxLifespan();
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		super.addInformation(stack, player, list, bool);
+		list.add(I18nUtil.resolveKey(this.getUnlocalizedName().concat(".desc")));
+		final ItemRTGPellet instance = (ItemRTGPellet) stack.getItem();
+		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getHeat()));
+		if (instance.getDoesDecay()) {
+			list.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name"), instance.getDecayItem().stackSize));
+			list.add(BobMathUtil.toPercentage(instance.getLifespan(stack), instance.getMaxLifespan()));
+			if (bool) {
+				list.add("EXTENDED INFO:");
+				list.add(String.format("%s / %s ticks", instance.getLifespan(stack), instance.getMaxLifespan()));
+				final String[] timeLeft = BobMathUtil.ticksToDate(instance.getLifespan(stack));
+				final String[] maxLife = BobMathUtil.ticksToDate(instance.getMaxLifespan());
+				list.add(String.format("Time remaining: %s y, %s d, %s h", (Object[]) timeLeft));
+				list.add(String.format("Maximum life: %s y, %s d, %s h", (Object[]) maxLife));
+			}
+		}
 	}
 
 	public String getData() {
