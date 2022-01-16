@@ -1,12 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.config.MachineConfig;
-import com.hbm.items.ModItems;
+import com.hbm.config.VersatileConfig;
 import com.hbm.items.machine.ItemRTGPellet;
-import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.RTGUtil;
@@ -26,7 +21,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	private ItemStack slots[];
 	
 	public int heat;
-	public final int heatMax = MachineConfig.doRTGsDecay ? 600 : 200;
+	public final int heatMax = VersatileConfig.rtgDecay() ? 600 : 200;
 	public long power;
 	public final long powerMax = 100000;
 	

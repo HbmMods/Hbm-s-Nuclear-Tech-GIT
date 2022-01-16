@@ -21,17 +21,17 @@ import net.minecraft.item.ItemStack;
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
-	//SR90					29a		β−	015.00Rad/s Spicy
+	//SR90		            29a		β−	015.00Rad/s Spicy
 	//TC99		       211,000a		β−	002.75Rad/s	Spicy
 	//I181		           192h		β−	150.00Rad/s	2 much spice :(
 	//XE135		             9h		β−	aaaaaaaaaaaaaaaa
 	//CS137		            30a		β−	020.00Rad/s	Spicy
 	//AU198		            64h		β−	500.00Rad/s	2 much spice :(
-	//PB209					 3h		β−	10,000.00Rad/s mama mia my face is melting off
+	//PB209		             3h		β−	10,000.00Rad/s mama mia my face is melting off
 	//AT209		             5h		β+	like 2k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
-	//AC227					22a		β−	030.00Rad/s Spicy
+	//AC227		            22a		β−	030.00Rad/s Spicy
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
