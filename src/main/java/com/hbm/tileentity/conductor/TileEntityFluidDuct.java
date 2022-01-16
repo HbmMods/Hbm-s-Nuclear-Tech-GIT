@@ -58,19 +58,17 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 		else connections[5] = null;
 	}
 
-    @Override
-	public void readFromNBT(NBTTagCompound nbt)
-    {
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		type = FluidType.getEnum(nbt.getInteger("fluid"));
-    }
+		type = Fluids.fromID(nbt.getInteger("fluid"));
+	}
 
-    @Override
-	public void writeToNBT(NBTTagCompound nbt)
-    {
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("fluid", Arrays.asList(FluidType.values()).indexOf(type));
-    }
+		nbt.setInteger("fluid", type.getID());
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

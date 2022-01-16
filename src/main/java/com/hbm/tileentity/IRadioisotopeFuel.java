@@ -6,6 +6,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import com.hbm.config.MachineConfig;
+import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.lib.Library;
 import com.hbm.util.BobMathUtil;
@@ -90,7 +91,7 @@ public interface IRadioisotopeFuel
 	 */
 	public static ItemStack handleDecay(ItemStack stack, IRadioisotopeFuel instance)
 	{
-		if (instance.getDoesDecay() && MachineConfig.doRTGsDecay)
+		if (instance.getDoesDecay() && VersatileConfig.rtgDecay())
 		{
 			if (instance.getLifespan(stack) <= 0)
 				return instance.getDecayItem();
@@ -132,7 +133,7 @@ public interface IRadioisotopeFuel
 	public static void addTooltip(List<String> tooltip, ItemStack stack, boolean showAdv)
 	{
 		final IRadioisotopeFuel instance = (IRadioisotopeFuel) stack.getItem();
-		tooltip.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getHeat()));
+		tooltip.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && VersatileConfig.scaleRTGPower() ? getScaledPower(instance, stack) : instance.getHeat()));
 		if (instance.getDoesDecay())
 		{
 			tooltip.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name"), instance.getDecayItem().stackSize));

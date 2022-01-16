@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -31,7 +31,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final int demand = 1000;
 	public static final int acidRequired = 500;
 	public short progress;
-	public static final short duration = 600;
+	public short duration = 600;
 	
 	public float angle;
 	public float prevAngle;
@@ -40,7 +40,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public TileEntityMachineCrystallizer() {
 		super(7);
-		tank = new FluidTank(FluidTypeTheOldOne.ACID, 8000, 0);
+		tank = new FluidTank(Fluids.ACID, 8000, 0);
 	}
 
 	@Override
@@ -82,6 +82,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setShort("progress", progress);
+			data.setShort("duration", getDuration());
 			data.setLong("power", power);
 			this.networkPack(data, 25);
 		} else {
@@ -118,6 +119,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		this.power = data.getLong("power");
 		this.progress = data.getShort("progress");
+		this.duration = data.getShort("duration");
 	}
 	
 	private void processItem() {
@@ -201,7 +203,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return Math.min(chance, 0.15F);
 	}
 	
-	public int getDuration() {
+	public short getDuration() {
 		
 		float durationMod = 1;
 		
@@ -215,7 +217,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				durationMod -= 0.75F;
 		}
 		
-		return (int) (duration * Math.max(durationMod, 0.25F));
+		return (short) (600 * Math.max(durationMod, 0.25F));
 	}
 	
 	public int getPowerRequired() {

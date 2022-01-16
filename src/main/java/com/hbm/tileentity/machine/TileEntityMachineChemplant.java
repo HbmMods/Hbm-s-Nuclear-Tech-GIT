@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -12,6 +11,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
@@ -63,10 +63,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	public TileEntityMachineChemplant() {
 		slots = new ItemStack[21];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 2);
-		tanks[3] = new FluidTank(FluidTypeTheOldOne.NONE, 24000, 3);
+		tanks[0] = new FluidTank(Fluids.NONE, 24000, 0);
+		tanks[1] = new FluidTank(Fluids.NONE, 24000, 1);
+		tanks[2] = new FluidTank(Fluids.NONE, 24000, 2);
+		tanks[3] = new FluidTank(Fluids.NONE, 24000, 3);
 	}
 
 	@Override
@@ -541,10 +541,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
 			FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
 
-			tanks[0].setTankType(inputs[0] == null ? FluidTypeTheOldOne.NONE : inputs[0].type);
-			tanks[1].setTankType(inputs[1] == null ? FluidTypeTheOldOne.NONE : inputs[1].type);
-			tanks[2].setTankType(outputs[0] == null ? FluidTypeTheOldOne.NONE : outputs[0].type);
-			tanks[3].setTankType(outputs[1] == null ? FluidTypeTheOldOne.NONE : outputs[1].type);
+			tanks[0].setTankType(inputs[0] == null ? Fluids.NONE : inputs[0].type);
+			tanks[1].setTankType(inputs[1] == null ? Fluids.NONE : inputs[1].type);
+			tanks[2].setTankType(outputs[0] == null ? Fluids.NONE : outputs[0].type);
+			tanks[3].setTankType(outputs[1] == null ? Fluids.NONE : outputs[1].type);
 		}
 	}
 	

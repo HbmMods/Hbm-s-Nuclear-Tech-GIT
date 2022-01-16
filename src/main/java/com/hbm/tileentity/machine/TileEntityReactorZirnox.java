@@ -10,7 +10,6 @@ import com.hbm.config.MobConfig;
 import com.hbm.entity.projectile.EntityZirnoxDebris;
 import com.hbm.entity.projectile.EntityZirnoxDebris.DebrisType;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
@@ -52,7 +51,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank carbonDioxide;
 	public FluidTank water;
 
-	private static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
+	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_natural_uranium_fuel), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_uranium_fuel), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
@@ -68,9 +67,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public TileEntityReactorZirnox() {
 		super(28);
-		steam = new FluidTank(FluidTypeTheOldOne.SUPERHOTSTEAM, 8000, 0);
-		carbonDioxide = new FluidTank(FluidTypeTheOldOne.CARBONDIOXIDE, 16000, 1);
-		water = new FluidTank(FluidTypeTheOldOne.WATER, 32000, 2);
+		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 8000, 0);
+		carbonDioxide = new FluidTank(Fluids.CARBONDIOXIDE, 16000, 1);
+		water = new FluidTank(Fluids.WATER, 32000, 2);
 	}
 
 	@Override

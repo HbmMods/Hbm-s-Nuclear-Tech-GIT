@@ -3,13 +3,13 @@ package com.hbm.tileentity.machine.oil;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -53,11 +53,11 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public TileEntityMachineRefinery() {
 		slots = new ItemStack[12];
 		tanks = new FluidTank[5];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.HOTOIL, 64000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.HEAVYOIL, 16000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.NAPHTHA, 16000, 2);
-		tanks[3] = new FluidTank(FluidTypeTheOldOne.LIGHTOIL, 16000, 3);
-		tanks[4] = new FluidTank(FluidTypeTheOldOne.PETROLEUM, 16000, 4);
+		tanks[0] = new FluidTank(Fluids.HOTOIL, 64000, 0);
+		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 16000, 1);
+		tanks[2] = new FluidTank(Fluids.NAPHTHA, 16000, 2);
+		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 16000, 3);
+		tanks[4] = new FluidTank(Fluids.PETROLEUM, 16000, 4);
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		
 		if(i == 0 && stack.getItem() instanceof IBatteryItem)
 			return true;
-		if(i == 1 && FluidContainerRegistry.getFluidContent(stack, FluidTypeTheOldOne.HOTOIL) > 0)
+		if(i == 1 && FluidContainerRegistry.getFluidContent(stack, Fluids.HOTOIL) > 0)
 			return true;
 		if(stack.getItem() == ModItems.canister_empty) {
 			if(i == 3)

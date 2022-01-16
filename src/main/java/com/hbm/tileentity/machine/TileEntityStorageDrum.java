@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -12,6 +11,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
@@ -40,8 +40,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public TileEntityStorageDrum() {
 		super(24);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.WASTEFLUID, 16000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.WASTEGAS, 16000, 1);
+		tanks[0] = new FluidTank(Fluids.WASTEFLUID, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.WASTEGAS, 16000, 1);
 	}
 
 	@Override

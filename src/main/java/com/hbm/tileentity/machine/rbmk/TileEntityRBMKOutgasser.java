@@ -6,12 +6,12 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.Library;
@@ -31,7 +31,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 	public TileEntityRBMKOutgasser() {
 		super(2);
-		gas = new FluidTank(FluidTypeTheOldOne.TRITIUM, 64000, 0);
+		gas = new FluidTank(Fluids.TRITIUM, 64000, 0);
 	}
 
 	@Override
@@ -76,10 +76,10 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	private static HashMap<Object, ItemStack> recipes = new HashMap();
 	
 	static {
-		recipes.put("blockLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.TRITIUM.ordinal()), 10000));
-		recipes.put("ingotLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.TRITIUM.ordinal()), 1000));
-		recipes.put("dustLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.TRITIUM.ordinal()), 1000));
-		recipes.put(new ComparableStack(ModItems.powder_lithium_tiny), ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidTypeTheOldOne.TRITIUM.ordinal()), 100));
+		recipes.put("blockLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 10000));
+		recipes.put("ingotLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 1000));
+		recipes.put("dustLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 1000));
+		recipes.put(new ComparableStack(ModItems.powder_lithium_tiny), ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 100));
 		recipes.put("ingotGold", new ItemStack(ModItems.ingot_au198));
 		recipes.put("nuggetGold", new ItemStack(ModItems.nugget_au198));
 		recipes.put("dustGold", new ItemStack(ModItems.powder_au198));

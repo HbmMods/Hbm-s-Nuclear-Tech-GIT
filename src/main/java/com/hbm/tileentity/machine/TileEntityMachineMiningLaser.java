@@ -6,12 +6,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
@@ -67,7 +67,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		//slots 1 - 8: upgrades
 		//slots 9 - 29: output
 		super(30);
-		tank = new FluidTank(FluidTypeTheOldOne.OIL, 64000, 0);
+		tank = new FluidTank(Fluids.OIL, 64000, 0);
 	}
 
 	@Override
@@ -348,7 +348,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_oil)) {
 				
-				tank.setTankType(FluidTypeTheOldOne.OIL); //just to be sure
+				tank.setTankType(Fluids.OIL); //just to be sure
 				
 				tank.setFill(tank.getFill() + 500);
 				if(tank.getFill() > tank.getMaxFill())
@@ -606,7 +606,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidTypeTheOldOne.OIL)
+		if(type == Fluids.OIL)
 			tank.setFill(fill);
 	}
 
@@ -622,7 +622,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type == FluidTypeTheOldOne.OIL)
+		if(type == Fluids.OIL)
 			return tank.getFill();
 		return 0;
 	}

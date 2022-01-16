@@ -3,12 +3,12 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -44,8 +44,8 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.STEAM, 64000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.SPENTSTEAM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 64000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128000, 1);
 	}
 
 	@Override
@@ -233,9 +233,9 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidTypeTheOldOne.NONE);
+				tanks[1].setTankType(Fluids.NONE);
 			} else {
-				tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
+				tanks[1].setTankType((FluidType) outs[0]);
 				
 				int processMax = 1200;																//the maximum amount of cycles based on the 1.2k cycle cap (subject to change)
 				int processSteam = tanks[0].getFill() / (Integer)outs[2];							//the maximum amount of cycles depending on steam

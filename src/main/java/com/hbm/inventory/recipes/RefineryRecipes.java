@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -59,18 +58,18 @@ public class RefineryRecipes {
 	}
 	
 	public static void registerFractions() {
-		fractions.put(FluidTypeTheOldOne.HEAVYOIL,	new Quartet(FluidTypeTheOldOne.BITUMEN,		FluidTypeTheOldOne.SMEAR,		heavy_frac_bitu,	heavy_frac_smear));
-		fractions.put(FluidTypeTheOldOne.SMEAR,		new Quartet(FluidTypeTheOldOne.HEATINGOIL,	FluidTypeTheOldOne.LUBRICANT,	smear_frac_heat,	smear_frac_lube));
-		fractions.put(FluidTypeTheOldOne.NAPHTHA,	new Quartet(FluidTypeTheOldOne.HEATINGOIL,	FluidTypeTheOldOne.DIESEL,		napht_frac_heat,	napht_frac_diesel));
-		fractions.put(FluidTypeTheOldOne.LIGHTOIL,	new Quartet(FluidTypeTheOldOne.DIESEL,		FluidTypeTheOldOne.KEROSENE,		light_frac_diesel,	light_frac_kero));
+		fractions.put(Fluids.HEAVYOIL,	new Quartet(Fluids.BITUMEN,		Fluids.SMEAR,		heavy_frac_bitu,	heavy_frac_smear));
+		fractions.put(Fluids.SMEAR,		new Quartet(Fluids.HEATINGOIL,	Fluids.LUBRICANT,	smear_frac_heat,	smear_frac_lube));
+		fractions.put(Fluids.NAPHTHA,	new Quartet(Fluids.HEATINGOIL,	Fluids.DIESEL,		napht_frac_heat,	napht_frac_diesel));
+		fractions.put(Fluids.LIGHTOIL,	new Quartet(Fluids.DIESEL,		Fluids.KEROSENE,	light_frac_diesel,	light_frac_kero));
 	}
 	
 	public static void registerCracking() {
-		cracking.put(FluidTypeTheOldOne.BITUMEN,		new Quartet(FluidTypeTheOldOne.OIL,			FluidTypeTheOldOne.PETROLEUM,	bitumen_crack_oil,	bitumen_crack_petro));
-		cracking.put(FluidTypeTheOldOne.SMEAR,		new Quartet(FluidTypeTheOldOne.NAPHTHA,		FluidTypeTheOldOne.PETROLEUM,	smear_crack_napht,	smear_crack_petro));
-		cracking.put(FluidTypeTheOldOne.GAS,			new Quartet(FluidTypeTheOldOne.PETROLEUM,	FluidTypeTheOldOne.NONE,			gas_crack_petro,	0));
-		cracking.put(FluidTypeTheOldOne.DIESEL,		new Quartet(FluidTypeTheOldOne.KEROSENE,		FluidTypeTheOldOne.PETROLEUM,	diesel_crack_kero,	diesel_crack_petro));
-		cracking.put(FluidTypeTheOldOne.KEROSENE,	new Quartet(FluidTypeTheOldOne.PETROLEUM,	FluidTypeTheOldOne.NONE,			kero_crack_petro,	0));
+		cracking.put(Fluids.BITUMEN,	new Quartet(Fluids.OIL,			Fluids.PETROLEUM,	bitumen_crack_oil,	bitumen_crack_petro));
+		cracking.put(Fluids.SMEAR,		new Quartet(Fluids.NAPHTHA,		Fluids.PETROLEUM,	smear_crack_napht,	smear_crack_petro));
+		cracking.put(Fluids.GAS,		new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			gas_crack_petro,	0));
+		cracking.put(Fluids.DIESEL,		new Quartet(Fluids.KEROSENE,	Fluids.PETROLEUM,	diesel_crack_kero,	diesel_crack_petro));
+		cracking.put(Fluids.KEROSENE,	new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			kero_crack_petro,	0));
 	}
 	
 	public static Quartet<FluidType, FluidType, Integer, Integer> getFractions(FluidType oil) {

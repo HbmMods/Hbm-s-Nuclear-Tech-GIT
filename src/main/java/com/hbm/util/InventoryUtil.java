@@ -1,6 +1,5 @@
 package com.hbm.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -293,7 +292,6 @@ public class InventoryUtil {
 			if(stack != null) {
 				
 				int[] ids = OreDictionary.getOreIDs(stack);
-				List<String> dicts = new ArrayList();
 				
 				for(int id : ids) {
 					if(OreDictionary.getOreName(id).equals(dict)) {
@@ -316,7 +314,6 @@ public class InventoryUtil {
 			if(stack != null) {
 				
 				int[] ids = OreDictionary.getOreIDs(stack);
-				List<String> dicts = new ArrayList();
 				
 				for(int id : ids) {
 					if(OreDictionary.getOreName(id).equals(dict)) {
@@ -329,5 +326,54 @@ public class InventoryUtil {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Turns objects into 2D ItemStack arrays. Index 1: Ingredient slot, index 2: variation (ore dict)
+	 * Handles:<br>
+	 * <ul>
+	 * <li>ItemStack</li>
+	 * <li>ItemStack[]</li>
+	 * <li>AStack</li>
+	 * <li>AStack[]</li>
+	 * </ul>
+	 * @param o
+	 * @return
+	 */
+	public static ItemStack[][] extractObject(Object o) {
+		
+		if(o instanceof ItemStack) {
+			ItemStack[][] stacks = new ItemStack[1][1];
+			stacks[0][0] = ((ItemStack)o).copy();
+			return stacks;
+		}
+		
+		if(o instanceof ItemStack[]) {
+			ItemStack[] ingredients = (ItemStack[]) o;
+			ItemStack[][] stacks = new ItemStack[1][0];
+			stacks[0] = ingredients;
+			return stacks;
+		}
+		
+		if(o instanceof AStack) {
+			AStack astack = (AStack) o;
+			ItemStack[] ext = astack.extractForNEI().toArray(new ItemStack[0]);
+			ItemStack[][] stacks = new ItemStack[1][0];
+			stacks[0] = ext; //untested, do java arrays allow that? the capacity set is 0 after all
+			return stacks;
+		}
+		
+		if(o instanceof AStack[]) {
+			AStack[] ingredients = (AStack[]) o;
+			ItemStack[][] stacks = new ItemStack[ingredients.length][0];
+			
+			for(int i = 0; i < ingredients.length; i++) {
+				stacks[i] = ingredients[i].extractForNEI().toArray(new ItemStack[0]);
+			}
+			
+			return stacks;
+		}
+		
+		return new ItemStack[0][0];
 	}
 }

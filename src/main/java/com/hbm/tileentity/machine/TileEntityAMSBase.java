@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
@@ -62,10 +61,10 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	public TileEntityAMSBase() {
 		slots = new ItemStack[16];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.COOLANT, 8000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.CRYOGEL, 8000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 8000, 2);
-		tanks[3] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 8000, 3);
+		tanks[0] = new FluidTank(Fluids.COOLANT, 8000, 0);
+		tanks[1] = new FluidTank(Fluids.CRYOGEL, 8000, 1);
+		tanks[2] = new FluidTank(Fluids.DEUTERIUM, 8000, 2);
+		tanks[3] = new FluidTank(Fluids.TRITIUM, 8000, 3);
 	}
 
 	@Override
@@ -393,10 +392,10 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	
 	private int getCoolingStrength(FluidType type) {
 		
-		if(type == FluidTypeTheOldOne.WATER) return 5;
-		if(type == FluidTypeTheOldOne.OIL) return 15;
-		if(type == FluidTypeTheOldOne.COOLANT) return this.heat / 250;
-		if(type == FluidTypeTheOldOne.CRYOGEL) return this.heat > heat/2 ? 25 : 5;
+		if(type == Fluids.WATER) return 5;
+		if(type == Fluids.OIL) return 15;
+		if(type == Fluids.COOLANT) return this.heat / 250;
+		if(type == Fluids.CRYOGEL) return this.heat > heat/2 ? 25 : 5;
 		return 0;
 	}
 	

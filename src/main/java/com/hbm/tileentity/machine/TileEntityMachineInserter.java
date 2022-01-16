@@ -3,12 +3,12 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -42,9 +42,9 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	public TileEntityMachineInserter() {
 		slots = new ItemStack[9];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.NONE, 32000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.NONE, 32000, 0);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.NONE, 32000, 0);
+		tanks[0] = new FluidTank(Fluids.NONE, 32000, 0);
+		tanks[1] = new FluidTank(Fluids.NONE, 32000, 0);
+		tanks[2] = new FluidTank(Fluids.NONE, 32000, 0);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -30,12 +29,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	public TileEntityBarrel() {
 		super(6);
-		tank = new FluidTank(FluidTypeTheOldOne.NONE, 0, 0);
+		tank = new FluidTank(Fluids.NONE, 0, 0);
 	}
 
 	public TileEntityBarrel(int capacity) {
 		super(6);
-		tank = new FluidTank(FluidTypeTheOldOne.NONE, capacity, 0);
+		tank = new FluidTank(Fluids.NONE, capacity, 0);
 	}
 
 	@Override

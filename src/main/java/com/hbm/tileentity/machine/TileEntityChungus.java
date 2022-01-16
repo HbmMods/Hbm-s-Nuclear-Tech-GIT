@@ -51,6 +51,13 @@ public class TileEntityChungus extends TileEntity implements IFluidAcceptor, IFl
 			
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
+			//some funky crashfixing for unlikely cases
+			if(outs == null) {
+				tanks[0].setTankType(Fluids.STEAM);
+				tanks[1].setTankType(Fluids.SPENTSTEAM);
+				outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
+			}
+			
 			tanks[1].setTankType((FluidType) outs[0]);
 			
 			int processMax = (int) Math.ceil(tanks[0].getFill() / (Integer)outs[2]);				//the maximum amount of cycles total

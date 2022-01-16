@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.inventory.fluid.FluidType;

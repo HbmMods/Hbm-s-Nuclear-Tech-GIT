@@ -7,7 +7,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -70,9 +69,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	public TileEntityMachineReactorLarge() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 128000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.COOLANT, 64000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.STEAM, 32000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.COOLANT, 64000, 1);
+		tanks[2] = new FluidTank(Fluids.STEAM, 32000, 2);
 		type = ReactorFuelType.URANIUM;
 	}
 

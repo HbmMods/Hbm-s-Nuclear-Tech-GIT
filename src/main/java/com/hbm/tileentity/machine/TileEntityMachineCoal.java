@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.MachineCoal;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -47,7 +47,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	
 	public TileEntityMachineCoal() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidTypeTheOldOne.WATER, 5000, 0);
+		tank = new FluidTank(Fluids.WATER, 5000, 0);
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if(i == 0)
-			if(FluidContainerRegistry.getFluidContent(stack, FluidTypeTheOldOne.WATER) > 0)
+			if(FluidContainerRegistry.getFluidContent(stack, Fluids.WATER) > 0)
 				return true;
 		if(i == 2)
 			if(stack.getItem() instanceof IBatteryItem)

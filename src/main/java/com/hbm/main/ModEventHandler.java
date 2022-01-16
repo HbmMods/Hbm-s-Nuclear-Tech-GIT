@@ -529,15 +529,18 @@ public class ModEventHandler {
 			return;
 		
 		if(event.phase == Phase.START && event.side == Side.CLIENT) {
-			if(BlockAshes.ashes > 256)
-				BlockAshes.ashes = 256;
 			
-			if(BlockAshes.ashes > 0)
-				BlockAshes.ashes -= 2;
+			if(BlockAshes.ashes > 256) BlockAshes.ashes = 256;
+			if(BlockAshes.ashes > 0) BlockAshes.ashes -= 2;
+			if(BlockAshes.ashes < 0) BlockAshes.ashes = 0;
 			
 			if(mc.theWorld.getTotalWorldTime() % 20 == 0) {
 				this.lastBrightness = this.currentBrightness;
 				currentBrightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
+			}
+			
+			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
+				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!");
 			}
 		}
 	}

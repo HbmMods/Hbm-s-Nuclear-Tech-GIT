@@ -3,10 +3,10 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +34,7 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 	
 	public TileEntityMachineUF6Tank() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidTypeTheOldOne.UF6, 64000, 0);
+		tank = new FluidTank(Fluids.UF6, 64000, 0);
 	}
 
 	@Override

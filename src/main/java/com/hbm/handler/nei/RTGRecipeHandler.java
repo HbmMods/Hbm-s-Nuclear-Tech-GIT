@@ -1,0 +1,18 @@
+package com.hbm.handler.nei;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.items.machine.ItemRTGPellet;
+
+import net.minecraft.item.ItemStack;
+
+public class RTGRecipeHandler extends NEIUniversalHandler {
+
+	public RTGRecipeHandler() {
+		super("ntmRTG", "RTG", new ItemStack[] {
+				new ItemStack(ModBlocks.machine_rtg_grey),
+				new ItemStack(ModBlocks.machine_difurnace_rtg_off),
+				new ItemStack(ModBlocks.machine_industrial_generator),
+				new ItemStack(ModBlocks.machine_rtg_furnace_off)
+			}, ItemRTGPellet.getRecipeMap());
+	}
+}

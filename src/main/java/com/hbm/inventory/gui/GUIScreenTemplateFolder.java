@@ -7,9 +7,9 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
@@ -27,7 +27,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -66,9 +65,10 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			}
 			// Fluid IDs
-			for(int i = 1; i < FluidTypeTheOldOne.values().length; i++) {
-				if(!FluidTypeTheOldOne.values()[i].hasNoID()) {
-					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+			FluidType[] fluids = Fluids.getInNiceOrder();
+			for(int i = 1; i < fluids.length; i++) {
+				if(!fluids[i].hasNoID()) {
+					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, fluids[i].getID()));
 				}
 			}
 			// Assembly Templates

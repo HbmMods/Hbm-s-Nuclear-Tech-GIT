@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
@@ -24,41 +24,40 @@ import net.minecraft.world.World;
 
 public class ItemStarterKit extends Item {
 
-    public ItemStarterKit()
-    {
-        this.maxStackSize = 1;
-    }
-    
-    private void giveHaz(World world, EntityPlayer p, int tier) {
-    	
-    	for(int i = 0; i < 4; i++) {
-    		
-    		if(p.inventory.armorInventory[i] != null && !world.isRemote) {
-    			world.spawnEntityInWorld(new EntityItem(world, p.posX, p.posY + p.eyeHeight, p.posZ, p.inventory.armorInventory[i]));
-    		}
-    	}
+	public ItemStarterKit() {
+		this.maxStackSize = 1;
+	}
 
-    	switch(tier) {
-    	case 0:
-	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet);
-	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate);
-	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs);
-	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots);
-	    	break;
-    	case 1:
-	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_red);
-	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_red);
-	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_red);
-	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_red);
-	    	break;
-    	case 2:
-	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_grey);
-	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_grey);
-	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_grey);
-	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_grey);
-	    	break;
-    	}
-    }
+	private void giveHaz(World world, EntityPlayer p, int tier) {
+
+		for(int i = 0; i < 4; i++) {
+
+			if(p.inventory.armorInventory[i] != null && !world.isRemote) {
+				world.spawnEntityInWorld(new EntityItem(world, p.posX, p.posY + p.eyeHeight, p.posZ, p.inventory.armorInventory[i]));
+			}
+		}
+
+		switch(tier) {
+		case 0:
+			p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet);
+			p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate);
+			p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs);
+			p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots);
+			break;
+		case 1:
+			p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_red);
+			p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_red);
+			p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_red);
+			p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_red);
+			break;
+		case 2:
+			p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_grey);
+			p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_grey);
+			p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_grey);
+			p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_grey);
+			break;
+		}
+	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -200,7 +199,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 4, FluidTypeTheOldOne.COOLANT.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 4, Fluids.COOLANT.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_strong, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
@@ -249,8 +248,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.reactor_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 16, FluidTypeTheOldOne.WATER.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, FluidTypeTheOldOne.COOLANT.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 16, Fluids.WATER.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, Fluids.COOLANT.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 3));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 2));

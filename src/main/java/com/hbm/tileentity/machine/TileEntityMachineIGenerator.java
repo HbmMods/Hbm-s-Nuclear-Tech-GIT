@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
@@ -47,9 +47,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public TileEntityMachineIGenerator() {
 		super(21);
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 16000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.HEATINGOIL, 16000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.LUBRICANT, 4000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.HEATINGOIL, 16000, 1);
+		tanks[2] = new FluidTank(Fluids.LUBRICANT, 4000, 2);
 	}
 
 	@Override
@@ -186,18 +186,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {
-		fuels.put(FluidTypeTheOldOne.SMEAR,		50);
-		fuels.put(FluidTypeTheOldOne.HEATINGOIL,	75);
-		fuels.put(FluidTypeTheOldOne.HYDROGEN,	5);
-		fuels.put(FluidTypeTheOldOne.DIESEL,		225);
-		fuels.put(FluidTypeTheOldOne.KEROSENE,	300);
-		fuels.put(FluidTypeTheOldOne.RECLAIMED,	100);
-		fuels.put(FluidTypeTheOldOne.PETROIL,	125);
-		fuels.put(FluidTypeTheOldOne.BIOFUEL,	200);
-		fuels.put(FluidTypeTheOldOne.GASOLINE,	700);
-		fuels.put(FluidTypeTheOldOne.NITAN,		2500);
-		fuels.put(FluidTypeTheOldOne.LPG,		200);
-		fuels.put(FluidTypeTheOldOne.ETHANOL,	75);
+		fuels.put(Fluids.SMEAR,			50);
+		fuels.put(Fluids.HEATINGOIL,	75);
+		fuels.put(Fluids.HYDROGEN,		5);
+		fuels.put(Fluids.DIESEL,		225);
+		fuels.put(Fluids.KEROSENE,		300);
+		fuels.put(Fluids.RECLAIMED,		100);
+		fuels.put(Fluids.PETROIL,		125);
+		fuels.put(Fluids.BIOFUEL,		200);
+		fuels.put(Fluids.GASOLINE,		700);
+		fuels.put(Fluids.NITAN,			2500);
+		fuels.put(Fluids.LPG,			200);
+		fuels.put(Fluids.ETHANOL,		75);
 	}
 	
 	public int getPowerFromFuel() {
@@ -214,9 +214,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
 		
-		if(type == FluidTypeTheOldOne.WATER)
+		if(type == Fluids.WATER)
 			tanks[0].setFill(fill);
-		else if(type == FluidTypeTheOldOne.LUBRICANT)
+		else if(type == Fluids.LUBRICANT)
 			tanks[2].setFill(fill);
 		else if(tanks[1].getTankType() == type)
 			tanks[1].setFill(fill);

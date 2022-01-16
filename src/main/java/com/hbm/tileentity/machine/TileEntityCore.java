@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -32,8 +31,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 	public TileEntityCore() {
 		super(3);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
 	}
 
 	@Override
@@ -99,8 +98,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 	
 	public void networkUnpack(NBTTagCompound data) {
 
-		tanks[0].setTankType(FluidTypeTheOldOne.getEnum(data.getInteger("tank0")));
-		tanks[1].setTankType(FluidTypeTheOldOne.getEnum(data.getInteger("tank1")));
+		tanks[0].setTankType(Fluids.fromID(data.getInteger("tank0")));
+		tanks[1].setTankType(Fluids.fromID(data.getInteger("tank1")));
 		tanks[0].setFill(data.getInteger("fill0"));
 		tanks[1].setFill(data.getInteger("fill1"));
 		field = data.getInteger("field");

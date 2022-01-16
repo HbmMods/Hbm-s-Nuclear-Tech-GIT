@@ -157,6 +157,7 @@ public class OreDictManager {
 	public static final DictFrame F = new DictFrame("Fluorite");
 	public static final DictFrame LIGNITE = new DictFrame("Lignite");
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
+	public static final DictFrame BORAX = new DictFrame("Borax");
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
 	/*
 	 * HAZARDS, MISC
@@ -294,6 +295,7 @@ public class OreDictManager {
 		F													.dust(fluorite)			.block(block_fluorite)	.ore(ore_fluorite, basalt_fluorite);
 		LIGNITE							.gem(lignite)		.dust(powder_lignite)							.ore(ore_lignite);
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)														.ore(ore_cinnebar, ore_depth_cinnebar);
+		BORAX												.dust(powder_borax)								.ore(ore_depth_borax);
 		VOLCANIC						.gem(gem_volcanic)													.ore(basalt_gem);
 		
 		/*

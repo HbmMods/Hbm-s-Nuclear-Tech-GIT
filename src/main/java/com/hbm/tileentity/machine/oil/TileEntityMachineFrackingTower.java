@@ -1,24 +1,22 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 
 public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase implements IFluidAcceptor {
 
 	public TileEntityMachineFrackingTower() {
 		super();
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.GAS, 64_000, 1);
-		tanks[2] = new FluidTank(FluidTypeTheOldOne.FRACKSOL, 64_000, 2);
+		tanks[0] = new FluidTank(Fluids.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(Fluids.GAS, 64_000, 1);
+		tanks[2] = new FluidTank(Fluids.FRACKSOL, 64_000, 2);
 	}
 
 	@Override

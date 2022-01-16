@@ -148,20 +148,17 @@ public class FluidType {
 	//shitty wrapper delegates, go!
 	//only used for compatibility purposes, these will be removed soon
 	//don't use these, dumbfuck
-	@Deprecated //reason: use the fucking registry you dumbass this isn't a fucking enum anymore, we don't sell lists of all our instances here
+	/*@Deprecated //reason: use the fucking registry you dumbass this isn't a fucking enum anymore, we don't sell lists of all our instances here
 	public static FluidType[] values() {
 		return Fluids.metaOrder.toArray(new FluidType[0]);
-	}
+	}*/
 	@Deprecated //reason: not an enum, asshole, use the registry
 	public static FluidType getEnum(int i) {
 		return Fluids.fromID(i);
 	}
 	@Deprecated //reason: the more time you waste reading this the less time is there for you to use that fucking registry already
 	public static FluidType getEnumFromName(String s) {
-		for(int i = 0; i < FluidType.values().length; i++)
-			if(FluidType.values()[i].getName().equals(s))
-				return FluidType.values()[i];
-		return Fluids.NONE;
+		return Fluids.fromName(s);
 	}
 	@Deprecated //reason: not an enum, again, fuck you
 	public int ordinal() {

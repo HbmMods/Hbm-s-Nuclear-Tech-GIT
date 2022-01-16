@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.config.MachineConfig;
+import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.items.machine.ItemRTGPellet;
 
@@ -8,9 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class RTGUtil {
 	
-	public static short getPower(ItemRTGPellet fuel, ItemStack stack)
-	{
-		return MachineConfig.scaleRTGPower ? ItemRTGPellet.getScaledPower(fuel, stack) : fuel.getHeat();
+	public static short getPower(ItemRTGPellet fuel, ItemStack stack) {
+		return VersatileConfig.scaleRTGPower() ? ItemRTGPellet.getScaledPower(fuel, stack) : fuel.getHeat();
 	}
 	
 	public static boolean hasHeat(ItemStack[] inventory, int[] rtgSlots) {

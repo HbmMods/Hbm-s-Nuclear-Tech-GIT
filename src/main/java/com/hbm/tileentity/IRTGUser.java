@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.google.common.annotations.Beta;
 import com.hbm.config.MachineConfig;
+import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.Untested;
 
 import net.minecraft.item.Item;
@@ -28,7 +29,7 @@ public interface IRTGUser
 	
 	public static short getPower(IRadioisotopeFuel fuel, ItemStack stack)
 	{
-		return MachineConfig.scaleRTGPower ? IRadioisotopeFuel.getScaledPower(fuel, stack) : fuel.getHeat();
+		return VersatileConfig.scaleRTGPower() ? IRadioisotopeFuel.getScaledPower(fuel, stack) : fuel.getHeat();
 	}
 	
 	/**

@@ -6,11 +6,11 @@ import java.util.Random;
 
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -53,7 +53,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 	public TileEntityMachineTurbofan() {
 		slots = new ItemStack[3];
-		tank = new FluidTank(FluidTypeTheOldOne.KEROSENE, 64000, 0);
+		tank = new FluidTank(Fluids.KEROSENE, 64000, 0);
 	}
 
 	@Override

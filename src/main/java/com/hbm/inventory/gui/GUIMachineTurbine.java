@@ -2,9 +2,9 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineTurbine;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineTurbine;
 
@@ -33,7 +33,7 @@ public class GUIMachineTurbine extends GuiInfoContainer {
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 69 - 52, 16, 52);
 		
-		if(diFurnace.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
+		if(diFurnace.tanks[1].getTankType().name().equals(Fluids.NONE.name())) {
 			
 			String[] text2 = new String[] { "Error: Invalid fluid!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
@@ -56,23 +56,23 @@ public class GUIMachineTurbine extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(diFurnace.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.STEAM.name())) {
+		if(diFurnace.tanks[0].getTankType().name().equals(Fluids.STEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
 		}
-		if(diFurnace.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.HOTSTEAM.name())) {
+		if(diFurnace.tanks[0].getTankType().name().equals(Fluids.HOTSTEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
 		}
-		if(diFurnace.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.SUPERHOTSTEAM.name())) {
+		if(diFurnace.tanks[0].getTankType().name().equals(Fluids.SUPERHOTSTEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
 		}
-		if(diFurnace.tanks[0].getTankType().name().equals(FluidTypeTheOldOne.ULTRAHOTSTEAM.name())) {
+		if(diFurnace.tanks[0].getTankType().name().equals(Fluids.ULTRAHOTSTEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
 		}
 
 		int i = (int)diFurnace.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);
 		
-		if(diFurnace.tanks[1].getTankType().name().equals(FluidTypeTheOldOne.NONE.name())) {
+		if(diFurnace.tanks[1].getTankType().name().equals(Fluids.NONE.name())) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -92,7 +91,7 @@ public class GasCentrifugeRecipes {
 	public static Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
-		for(int i = 0; i < FluidType.values().length; i++) {
+		for(int i = 0; i < Fluids.getAll().length; i++) {
 			if(getGasCentOutputs(Fluids.fromID(i)) != null) {
 				List<ItemStack> out = getGasCentOutputs(Fluids.fromID(i));
 				ItemStack[] outputs = new ItemStack[4];

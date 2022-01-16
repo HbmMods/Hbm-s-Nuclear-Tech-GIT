@@ -1,6 +1,7 @@
 package com.hbm.packet;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -35,7 +36,7 @@ public class TEFluidPipePacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		type = FluidType.getEnum(buf.readInt());
+		type = Fluids.fromID(buf.readInt());
 	}
 
 	@Override
@@ -43,13 +44,7 @@ public class TEFluidPipePacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-        for (int i = 0; i < FluidType.values().length; ++i)
-        {
-            if(FluidType.values()[i] == type) {
-            	buf.writeInt(i);
-            	break;
-            }
-        }
+    	buf.writeInt(type.getID());
 	}
 
 	public static class Handler implements IMessageHandler<TEFluidPipePacket, IMessage> {

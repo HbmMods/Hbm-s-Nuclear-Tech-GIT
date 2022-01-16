@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -46,7 +46,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	public TileEntityMachineSeleniumEngine() {
 		slots = new ItemStack[14];
-		tank = new FluidTank(FluidTypeTheOldOne.DIESEL, 16000, 0);
+		tank = new FluidTank(Fluids.DIESEL, 16000, 0);
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			FluidType type = tank.getTankType();
-			if(type.name().equals(FluidTypeTheOldOne.NITAN.name()))
+			if(type == Fluids.NITAN)
 				powerCap = maxPower * 10;
 			else
 				powerCap = maxPower;
@@ -260,18 +260,18 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {
-		fuels.put(FluidTypeTheOldOne.SMEAR,		50);
-		fuels.put(FluidTypeTheOldOne.HEATINGOIL,	75);
-		fuels.put(FluidTypeTheOldOne.HYDROGEN,	5);
-		fuels.put(FluidTypeTheOldOne.DIESEL,		225);
-		fuels.put(FluidTypeTheOldOne.KEROSENE,	300);
-		fuels.put(FluidTypeTheOldOne.RECLAIMED,	100);
-		fuels.put(FluidTypeTheOldOne.PETROIL,	125);
-		fuels.put(FluidTypeTheOldOne.BIOFUEL,	200);
-		fuels.put(FluidTypeTheOldOne.GASOLINE,	700);
-		fuels.put(FluidTypeTheOldOne.NITAN,		2500);
-		fuels.put(FluidTypeTheOldOne.LPG,		200);
-		fuels.put(FluidTypeTheOldOne.ETHANOL,	75);
+		fuels.put(Fluids.SMEAR,			50);
+		fuels.put(Fluids.HEATINGOIL,	75);
+		fuels.put(Fluids.HYDROGEN,		5);
+		fuels.put(Fluids.DIESEL,		225);
+		fuels.put(Fluids.KEROSENE,		300);
+		fuels.put(Fluids.RECLAIMED,		100);
+		fuels.put(Fluids.PETROIL,		125);
+		fuels.put(Fluids.BIOFUEL,		200);
+		fuels.put(Fluids.GASOLINE,		700);
+		fuels.put(Fluids.NITAN,			2500);
+		fuels.put(Fluids.LPG,			200);
+		fuels.put(Fluids.ETHANOL,		75);
 	}
 	
 	public int getHEFromFuel() {

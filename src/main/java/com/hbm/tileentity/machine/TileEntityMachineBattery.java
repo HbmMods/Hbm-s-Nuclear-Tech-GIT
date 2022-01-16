@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -73,9 +70,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		
 		switch(i) {
 		case 0:
-			if(stack.getItem() instanceof IBatteryItem)
-				return true;
-			break;
 		case 1:
 			if(stack.getItem() instanceof IBatteryItem)
 				return true;
@@ -162,15 +156,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 			
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+			
+			long prevPower = this.power;
+			
 			//////////////////////////////////////////////////////////////////////
 			this.transmitPower();
 			//////////////////////////////////////////////////////////////////////
 			
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
-			
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", power);
+			nbt.setLong("power", (power + prevPower) / 2);
 			nbt.setLong("maxPower", maxPower);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
@@ -218,7 +214,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				IEnergyConductor con = (IEnergyConductor) te;
 				
 				if(con.getPowerNet() != null) {
-					if(mode == 1 || mode == 2) {
+					if(mode == 2 || mode == 3) {
 						if(con.getPowerNet().isSubscribed(this)) {
 							con.getPowerNet().unsubscribe(this);
 						}

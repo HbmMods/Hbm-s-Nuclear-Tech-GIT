@@ -79,7 +79,6 @@ public class FluidTank {
 	
 	//Called on TE update
 	public void updateTank(int x, int y, int z, int dim) {
-
 		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, 100));
 	}
 	
@@ -294,7 +293,7 @@ public class FluidTank {
 	public void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
 		nbt.setInteger(s + "_max", maxFluid);
-		nbt.setString(s + "_type", type.getName());
+		nbt.setInteger(s + "_type", type.getID());
 	}
 	
 	//Called by TE to load fillstate
@@ -303,9 +302,10 @@ public class FluidTank {
 		int max = nbt.getInteger(s + "_max");
 		if(max > 0)
 			maxFluid = nbt.getInteger(s + "_max");
-		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
+		
+		type = FluidType.getEnumFromName(nbt.getString(s + "_type")); //compat
 		if(type.getName().equals(Fluids.NONE.name()))
-			type = FluidType.getEnumFromName(nbt.getString(s + "_type"));
+			type = Fluids.fromID(nbt.getInteger(s + "_type"));
 	}
 
 }

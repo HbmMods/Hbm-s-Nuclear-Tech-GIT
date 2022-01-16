@@ -3,7 +3,8 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;
@@ -19,144 +20,116 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemFluidDuct extends Item {
-	
+
 	IIcon overlayIcon;
 
-    public ItemFluidDuct()
-    {
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
-    }
+	public ItemFluidDuct() {
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list)
-    {
-        for (int i = 1; i < FluidTypeTheOldOne.values().length; ++i)
-        {
-            list.add(new ItemStack(item, 1, i));
-        }
-    }
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			if(!order[i].hasNoID()) {
+				list.add(new ItemStack(item, 1, order[i].getID()));
+			}
+		}
+	}
 
-    /*public void onCreated(ItemStack stack, World world, EntityPlayer player) {
-    	
-    	if(stack != null)
-    		player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_identifier, 1, stack.getItemDamage()));
-    }*/
+	public String getItemStackDisplayName(ItemStack stack) {
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
 
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        String s1 = ("" + StatCollector.translateToLocal(FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
+		if(s1 != null) {
+			s = s + " " + s1;
+		}
 
-        if (s1 != null)
-        {
-            s = s + " " + s1;
-        }
+		return s;
+	}
 
-        return s;
-    }
-
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
-        return true;
-    }
+	public boolean requiresMultipleRenderPasses() {
+		return true;
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
-        super.registerIcons(p_94581_1_);
-        this.overlayIcon = p_94581_1_.registerIcon("hbm:duct_overlay");
-    }
-    
-    @Override
+	public void registerIcons(IIconRegister p_94581_1_) {
+		super.registerIcons(p_94581_1_);
+		this.overlayIcon = p_94581_1_.registerIcon("hbm:duct_overlay");
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_)
-    {
-        return p_77618_2_ == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
-    }
+	public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_) {
+		return p_77618_2_ == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int p_82790_2_)
-    {
-        if (p_82790_2_ == 0)
-        {
-            return 16777215;
-        }
-        else
-        {
-            int j = FluidTypeTheOldOne.getEnum(stack.getItemDamage()).getMSAColor();
+	public int getColorFromItemStack(ItemStack stack, int p_82790_2_) {
+		if(p_82790_2_ == 0) {
+			return 16777215;
+		} else {
+			int j = Fluids.fromID(stack.getItemDamage()).getColor();
 
-            if (j < 0)
-            {
-                j = 16777215;
-            }
+			if(j < 0) {
+				j = 16777215;
+			}
 
-            return j;
-        }
-    }
-    
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
-    {
-        if (world.getBlock(x, y, z) != Blocks.snow_layer)
-        {
-            if (i == 0)
-            {
-                --y;
-            }
+			return j;
+		}
+	}
 
-            if (i == 1)
-            {
-                ++y;
-            }
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2) {
+		if(world.getBlock(x, y, z) != Blocks.snow_layer) {
+			if(i == 0) {
+				--y;
+			}
 
-            if (i == 2)
-            {
-                --z;
-            }
+			if(i == 1) {
+				++y;
+			}
 
-            if (i == 3)
-            {
-                ++z;
-            }
+			if(i == 2) {
+				--z;
+			}
 
-            if (i == 4)
-            {
-                --x;
-            }
+			if(i == 3) {
+				++z;
+			}
 
-            if (i == 5)
-            {
-                ++x;
-            }
+			if(i == 4) {
+				--x;
+			}
 
-            if (!world.isAirBlock(x, y, z))
-            {
-                return false;
-            }
-        }
+			if(i == 5) {
+				++x;
+			}
 
-        if (!player.canPlayerEdit(x, y, z, i, stack))
-        {
-            return false;
-        }
-        else
-        {
-            --stack.stackSize;
-            world.setBlock(x, y, z, ModBlocks.fluid_duct);
-            
-            if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuct) {
-            	((TileEntityFluidDuct)world.getTileEntity(x, y, z)).type = FluidTypeTheOldOne.getEnum(stack.getItemDamage());
-            }
-            
-            world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);
+			if(!world.isAirBlock(x, y, z)) {
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		if(!player.canPlayerEdit(x, y, z, i, stack)) {
+			return false;
+		} else {
+			--stack.stackSize;
+			world.setBlock(x, y, z, ModBlocks.fluid_duct);
+
+			if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuct) {
+				((TileEntityFluidDuct) world.getTileEntity(x, y, z)).type = Fluids.fromID(stack.getItemDamage());
+			}
+
+			world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);
+
+			return true;
+		}
+	}
 
 }

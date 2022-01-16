@@ -79,7 +79,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			IEnergyConductor con = (IEnergyConductor) te;
 			
 			if(con.getPowerNet() != null) {
-				if(mode == 1 || mode == 2) {
+				if(mode == 2 || mode == 3) {
 					if(con.getPowerNet().isSubscribed(this)) {
 						con.getPowerNet().unsubscribe(this);
 					}

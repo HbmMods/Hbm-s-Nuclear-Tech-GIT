@@ -41,7 +41,11 @@ public class VersatileConfig {
 	}
 	
 	public static boolean rtgDecay() {
-		return GeneralConfig.enable528;
+		return GeneralConfig.enable528 || MachineConfig.doRTGsDecay;
+	}
+	
+	public static boolean scaleRTGPower() {
+		return GeneralConfig.enable528 || MachineConfig.scaleRTGPower;
 	}
 
 	static int minute = 60 * 20;

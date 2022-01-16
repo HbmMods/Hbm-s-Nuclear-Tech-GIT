@@ -60,6 +60,8 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_mercury), new ItemStack(Items.glass_bottle), Fluids.MERCURY, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.nugget_mercury), null, Fluids.MERCURY, 125));
 
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_zirnox_tritium), new ItemStack(ModItems.rod_zirnox_empty), Fluids.TRITIUM, 2000));
+
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 1), new ItemStack(ModItems.tank_waste, 1, 0), Fluids.WATZ, 8000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 2), new ItemStack(ModItems.tank_waste, 1, 1), Fluids.WATZ, 8000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 3), new ItemStack(ModItems.tank_waste, 1, 2), Fluids.WATZ, 8000));
@@ -73,9 +75,10 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.particle_amat), new ItemStack(ModItems.particle_empty), Fluids.AMAT, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.particle_aschrab), new ItemStack(ModItems.particle_empty), Fluids.ASCHRAB, 1000));
 		
-		for(int i = 1; i < FluidType.values().length; i++) {
+		FluidType[] fluids = Fluids.getAll();
+		for(int i = 1; i < fluids.length; i++) {
 			
-			FluidType type = FluidType.values()[i];
+			FluidType type = fluids[i];
 			
 			if(type.hasNoContainer())
 				continue;
@@ -94,7 +97,7 @@ public class FluidContainerRegistry {
 		allContainers.add(con);
 	}
 	
-	public static int getFluidContent(ItemStack stack, com.hbm.inventory.fluid.FluidType type) {
+	public static int getFluidContent(ItemStack stack, FluidType type) {
 		
 		if(stack == null)
 			return 0;

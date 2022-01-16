@@ -5,20 +5,18 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -26,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource {
 
@@ -48,8 +45,8 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public TileEntityMachineBoiler() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.WATER, 8000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.STEAM, 8000, 1);
+		tanks[0] = new FluidTank(Fluids.WATER, 8000, 0);
+		tanks[1] = new FluidTank(Fluids.STEAM, 8000, 1);
 	}
 
 	@Override
@@ -236,9 +233,9 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 			Object[] outs = MachineRecipes.getBoilerOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidTypeTheOldOne.NONE);
+				tanks[1].setTankType(Fluids.NONE);
 			} else {
-				tanks[1].setTankType((FluidTypeTheOldOne) outs[0]);
+				tanks[1].setTankType((FluidType) outs[0]);
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);

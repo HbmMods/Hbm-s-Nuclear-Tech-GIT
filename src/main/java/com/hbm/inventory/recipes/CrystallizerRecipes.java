@@ -61,6 +61,7 @@ public class CrystallizerRecipes {
 		recipes.put("sand", new ItemStack(ModItems.ingot_fiberglass));
 		recipes.put(REDSTONE.block(), new ItemStack(ModItems.nugget_mercury));
 		recipes.put(CINNABAR.crystal(), new ItemStack(ModItems.nugget_mercury, 3));
+		recipes.put(BORAX.dust(), new ItemStack(ModItems.powder_boron_tiny, 3));
 		recipes.put(COAL.block(), new ItemStack(ModBlocks.block_graphite));
 
 		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));

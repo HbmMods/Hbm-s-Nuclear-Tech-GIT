@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -56,6 +57,14 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new AnvilRecipeHandler());
 		API.registerRecipeHandler(new FuelPoolHandler());
 		API.registerUsageHandler(new FuelPoolHandler());
+		
+		//universal boyes
+		API.registerRecipeHandler(new ZirnoxRecipeHandler());
+		API.registerUsageHandler(new ZirnoxRecipeHandler());
+		if(VersatileConfig.rtgDecay()) {
+			API.registerRecipeHandler(new RTGRecipeHandler());
+			API.registerUsageHandler(new RTGRecipeHandler());
+		}
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -35,12 +34,6 @@ public class ItemFluidIdentifier extends Item {
 		this.setMaxDamage(0);
 	}
 
-	/*
-	 * @Override public String getUnlocalizedName(ItemStack stack) { int i =
-	 * stack.getItemDamage(); return super.getUnlocalizedName() + "." +
-	 * FluidType.getEnum(i).getName(); }
-	 */
-
 	public ItemStack getContainerItem(ItemStack stack) {
 		return stack.copy();
 	}
@@ -56,10 +49,10 @@ public class ItemFluidIdentifier extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		
-		for(int i = 0; i < FluidTypeTheOldOne.values().length; ++i) {
-			if(!FluidTypeTheOldOne.values()[i].hasNoID()) {
-				list.add(new ItemStack(item, 1, i));
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			if(!order[i].hasNoID()) {
+				list.add(new ItemStack(item, 1, order[i].getID()));
 			}
 		}
 	}

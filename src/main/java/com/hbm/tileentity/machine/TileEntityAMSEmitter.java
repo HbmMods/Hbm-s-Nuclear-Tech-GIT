@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -52,7 +52,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 	
 	public TileEntityAMSEmitter() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidTypeTheOldOne.COOLANT, 16000, 0);
+		tank = new FluidTank(Fluids.COOLANT, 16000, 0);
 	}
 
 	@Override
@@ -230,7 +230,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 					warning = 1;
 				}
 				
-				if(tank.getTankType().name().equals(FluidTypeTheOldOne.CRYOGEL.name())) {
+				if(tank.getTankType() == Fluids.CRYOGEL) {
 					
 					if(tank.getFill() >= 15) {
 						if(heat > 0)
@@ -250,7 +250,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 					} else {
 						heat += efficiency;
 					}
-				} else if(tank.getTankType().name().equals(FluidTypeTheOldOne.COOLANT.name())) {
+				} else if(tank.getTankType() == Fluids.COOLANT) {
 					
 					if(tank.getFill() >= 15) {
 						if(heat > 0)
@@ -270,7 +270,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 					} else {
 						heat += efficiency;
 					}
-				} else if(tank.getTankType().name().equals(FluidTypeTheOldOne.WATER.name())) {
+				} else if(tank.getTankType() == Fluids.WATER) {
 					
 					if(tank.getFill() >= 45) {
 						if(heat > 0)
@@ -331,7 +331,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 				warning = 3;
 			}
 
-			tank.setTankType(FluidTypeTheOldOne.CRYOGEL);
+			tank.setTankType(Fluids.CRYOGEL);
 			tank.setFill(tank.getMaxFill());
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));

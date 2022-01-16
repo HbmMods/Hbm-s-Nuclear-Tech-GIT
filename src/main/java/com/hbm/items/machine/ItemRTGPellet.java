@@ -1,16 +1,14 @@
 package com.hbm.items.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
-import com.google.common.collect.ImmutableSet;
-import com.hbm.config.MachineConfig;
+import com.hbm.config.VersatileConfig;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
-import com.hbm.tileentity.IRadioisotopeFuel;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
@@ -82,7 +80,7 @@ public class ItemRTGPellet extends Item {
 	}
 	
 	public static ItemStack handleDecay(ItemStack stack, ItemRTGPellet instance) {
-		if (instance.getDoesDecay() && MachineConfig.doRTGsDecay) {
+		if (instance.getDoesDecay() && VersatileConfig.rtgDecay()) {
 			if (instance.getLifespan(stack) <= 0)
 				return instance.getDecayItem();
 			else
@@ -152,7 +150,7 @@ public class ItemRTGPellet extends Item {
 		super.addInformation(stack, player, list, bool);
 		list.add(I18nUtil.resolveKey(this.getUnlocalizedName().concat(".desc")));
 		final ItemRTGPellet instance = (ItemRTGPellet) stack.getItem();
-		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && MachineConfig.scaleRTGPower ? getScaledPower(instance, stack) : instance.getHeat()));
+		list.add(I18nUtil.resolveKey("desc.item.rtgHeat", instance.getDoesDecay() && VersatileConfig.scaleRTGPower() ? getScaledPower(instance, stack) : instance.getHeat()));
 		if (instance.getDoesDecay()) {
 			list.add(I18nUtil.resolveKey("desc.item.rtgDecay", I18nUtil.resolveKey(instance.getDecayItem().getUnlocalizedName() + ".name"), instance.getDecayItem().stackSize));
 			list.add(BobMathUtil.toPercentage(instance.getLifespan(stack), instance.getMaxLifespan()));
@@ -169,5 +167,17 @@ public class ItemRTGPellet extends Item {
 
 	public String getData() {
 		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getHeat(), (getDoesDecay() ? " (decays)" : ""));
+	}
+	
+	public static HashMap<ItemStack, ItemStack> getRecipeMap() {
+		HashMap<ItemStack, ItemStack> map = new HashMap<ItemStack, ItemStack>();
+		
+		for(ItemRTGPellet pellet : pelletList) {
+			if(pellet.decayItem != null) {
+				map.put(new ItemStack(pellet), pellet.decayItem.copy());
+			}
+		}
+		
+		return map;
 	}
 }

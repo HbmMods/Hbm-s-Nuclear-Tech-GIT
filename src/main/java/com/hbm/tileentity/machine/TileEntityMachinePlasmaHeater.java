@@ -6,10 +6,10 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -32,9 +32,9 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public TileEntityMachinePlasmaHeater() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidTypeTheOldOne.DEUTERIUM, 16000, 0);
-		tanks[1] = new FluidTank(FluidTypeTheOldOne.TRITIUM, 16000, 1);
-		plasma = new FluidTank(FluidTypeTheOldOne.PLASMA_DT, 64000, 2);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 16000, 1);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 64000, 2);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
 			
-			if(convert > 0 && plasma.getTankType() != FluidTypeTheOldOne.NONE) {
+			if(convert > 0 && plasma.getTankType() != Fluids.NONE) {
 
 				tanks[0].setFill(tanks[0].getFill() - convert);
 				tanks[1].setFill(tanks[1].getFill() - convert);
@@ -91,7 +91,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 					if(te instanceof TileEntityITER) {
 						TileEntityITER iter = (TileEntityITER)te;
 							
-						if(iter.plasma.getFill() == 0 && this.plasma.getTankType() != FluidTypeTheOldOne.NONE) {
+						if(iter.plasma.getFill() == 0 && this.plasma.getTankType() != Fluids.NONE) {
 							iter.plasma.setTankType(this.plasma.getTankType());
 						}
 							
@@ -150,32 +150,32 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		
 		List<FluidType> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
 
-		if(types.contains(FluidTypeTheOldOne.DEUTERIUM) && types.contains(FluidTypeTheOldOne.TRITIUM)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_DT);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.TRITIUM)) {
+			plasma.setTankType(Fluids.PLASMA_DT);
 			return;
 		}
-		if(types.contains(FluidTypeTheOldOne.DEUTERIUM) && types.contains(FluidTypeTheOldOne.HELIUM3)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_DH3);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.HELIUM3)) {
+			plasma.setTankType(Fluids.PLASMA_DH3);
 			return;
 		}
-		if(types.contains(FluidTypeTheOldOne.DEUTERIUM) && types.contains(FluidTypeTheOldOne.HYDROGEN)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_HD);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.HYDROGEN)) {
+			plasma.setTankType(Fluids.PLASMA_HD);
 			return;
 		}
-		if(types.contains(FluidTypeTheOldOne.HYDROGEN) && types.contains(FluidTypeTheOldOne.TRITIUM)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_HT);
+		if(types.contains(Fluids.HYDROGEN) && types.contains(Fluids.TRITIUM)) {
+			plasma.setTankType(Fluids.PLASMA_HT);
 			return;
 		}
-		if(types.contains(FluidTypeTheOldOne.XENON) && types.contains(FluidTypeTheOldOne.MERCURY)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_XM);
+		if(types.contains(Fluids.XENON) && types.contains(Fluids.MERCURY)) {
+			plasma.setTankType(Fluids.PLASMA_XM);
 			return;
 		}
-		if(types.contains(FluidTypeTheOldOne.BALEFIRE) && types.contains(FluidTypeTheOldOne.AMAT)) {
-			plasma.setTankType(FluidTypeTheOldOne.PLASMA_BF);
+		if(types.contains(Fluids.BALEFIRE) && types.contains(Fluids.AMAT)) {
+			plasma.setTankType(Fluids.PLASMA_BF);
 			return;
 		}
 		
-		plasma.setTankType(FluidTypeTheOldOne.NONE);
+		plasma.setTankType(Fluids.NONE);
 	}
 	
 	public long getPowerScaled(int i) {

@@ -3,11 +3,11 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidTypeTheOldOne;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -44,7 +44,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	
 	public TileEntityMachineCMBFactory() {
 		slots = new ItemStack[6];
-		tank = new FluidTank(FluidTypeTheOldOne.WATZ, 8000, 0);
+		tank = new FluidTank(Fluids.WATZ, 8000, 0);
 	}
 
 	@Override
