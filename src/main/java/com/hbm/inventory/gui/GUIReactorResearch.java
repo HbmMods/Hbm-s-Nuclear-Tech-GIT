@@ -58,7 +58,7 @@ public class GUIReactorResearch extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-				
+		
 		String[] text = new String[] {
 				"The reactor has to be submerged",
 				"in water on its sides to cool.",
@@ -66,6 +66,12 @@ public class GUIReactorResearch extends GuiInfoContainer {
 				"adjacent breeding reactors."
 		};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 14, guiTop + 23, 16, 16, guiLeft - 6, guiTop + 23 + 16, text);
+		
+		String[] text2 = new String[] {
+				"This reactor is fueled with plate fuel.",
+				"The reaction needs a neutron source to start."
+		};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 14, guiTop + 31, 16, 16, guiLeft - 6, guiTop + 31 + 16, text2);
 	}
 	
 	@Override
@@ -137,8 +143,9 @@ public class GUIReactorResearch extends GuiInfoContainer {
 			field.setText(0 + "");
 			displays[2].drawNumber(0);
 		}
-		
+
 		this.drawInfoPanel(guiLeft - 14, guiTop + 23, 16, 16, 3);
+		this.drawInfoPanel(guiLeft - 14, guiTop + 31, 16, 16, 2);
 		
 	}
 	

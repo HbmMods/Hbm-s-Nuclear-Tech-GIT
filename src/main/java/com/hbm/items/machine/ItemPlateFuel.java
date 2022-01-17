@@ -30,7 +30,7 @@ public class ItemPlateFuel extends ItemFuelRod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		list.add(EnumChatFormatting.YELLOW + "[Reactor Plate Fuel]");
+		list.add(EnumChatFormatting.YELLOW + "[Research Reactor Plate Fuel]");
 		list.add(EnumChatFormatting.DARK_AQUA + "   " + getFunctionDesc());
 		list.add(EnumChatFormatting.DARK_AQUA + "   Yield of " + BobMathUtil.getShortNumber(lifeTime) + " events");
 		
