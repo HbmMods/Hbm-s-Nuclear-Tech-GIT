@@ -30,20 +30,22 @@ public class FluidType {
 	public EnumSymbol symbol;
 	public int temperature;
 	public List<FluidTrait> traits = new ArrayList();
+	private String compat;
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
+	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
+		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
 	}
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(color, x, y, sheet, p, f, r, symbol, name, 0, traits);
+	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
+		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, traits);
 	}
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
+	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
+		this(compat, color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
 	}
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
+	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
+		this.compat = compat;
 		this.color = color;
 		this.textureX = x;
 		this.textureY = y;
@@ -85,12 +87,12 @@ public class FluidType {
 	
 	@Deprecated
 	public String name() {
-		return this.getUnlocalizedName();
+		return this.compat;
 	}
 
 	@Deprecated
 	public String getName() {
-		return this.getUnlocalizedName();
+		return this.compat;
 	}
 	
 	public boolean isHot() {
