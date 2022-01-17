@@ -52,6 +52,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
@@ -301,24 +302,6 @@ public class ModEventHandlerClient {
 			renderer.modelArmorChestplate.aimedBow = true;
 		}
 	}
-	
-	//just finish this somewhen i guess
-	/*@SubscribeEvent
-	public void keybindEvent(RenderPlayerEvent.Pre event) {
-		
-		HbmPlayerProps props = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
-		
-		for(EnumKeybind key : EnumKeybind.values()) {
-			
-			boolean last = props.getKeyPressed(key);
-			boolean current = MainRegistry.proxy.getIsKeyPressed(key);
-	
-			if(last != current) {
-				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
-				props.setKeyPressed(key, current);
-			}
-		}
-	}*/
 	
 	@SubscribeEvent
 	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {
@@ -615,14 +598,14 @@ public class ModEventHandlerClient {
 		Tessellator tessellator = Tessellator.instance;
 
 		//int d = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
-		int cX = ModEventHandler.currentBrightness % 65536;
-		int cY = ModEventHandler.currentBrightness / 65536;
-		int lX = ModEventHandler.lastBrightness % 65536;
-		int lY = ModEventHandler.lastBrightness / 65536;
+		int cX = currentBrightness % 65536;
+		int cY = currentBrightness / 65536;
+		int lX = lastBrightness % 65536;
+		int lY = lastBrightness / 65536;
 		float interp = (mc.theWorld.getTotalWorldTime() % 20) * 0.05F;
 		
 		if(mc.theWorld.getTotalWorldTime() == 1)
-			ModEventHandler.lastBrightness = ModEventHandler.currentBrightness;
+			lastBrightness = currentBrightness;
 		
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)(lX + (cX - lX) * interp) / 1.0F, (float)(lY + (cY - lY) * interp) / 1.0F);
 
@@ -651,6 +634,34 @@ public class ModEventHandlerClient {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		GL11.glPopMatrix();
+	}
+
+	public static int currentBrightness = 0;
+	public static int lastBrightness = 0;
+	
+	@SubscribeEvent
+	public void clentTick(ClientTickEvent event) {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if(mc.theWorld == null || mc.thePlayer == null)
+			return;
+		
+		if(event.phase == Phase.START && event.side == Side.CLIENT) {
+			
+			if(BlockAshes.ashes > 256) BlockAshes.ashes = 256;
+			if(BlockAshes.ashes > 0) BlockAshes.ashes -= 2;
+			if(BlockAshes.ashes < 0) BlockAshes.ashes = 0;
+			
+			if(mc.theWorld.getTotalWorldTime() % 20 == 0) {
+				this.lastBrightness = this.currentBrightness;
+				currentBrightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
+			}
+			
+			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
+				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!");
+			}
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -762,10 +773,9 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
+	/*private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 	
 	@SideOnly(Side.CLIENT)
-	//@SubscribeEvent
 	public void onRenderDigammaStar(RenderWorldLastEvent event) {
 		
 		World world = Minecraft.getMinecraft().theWorld;
@@ -807,7 +817,7 @@ public class ModEventHandlerClient {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		
 		GL11.glPopMatrix();
-	}
+	}*/
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void preRenderEventFirst(RenderLivingEvent.Pre event) {

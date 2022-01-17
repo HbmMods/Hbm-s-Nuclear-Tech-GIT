@@ -83,12 +83,14 @@ public class FluidType {
 		return this.name;
 	}
 	
+	@Deprecated
 	public String name() {
-		return getName();
+		return this.getUnlocalizedName();
 	}
-	
+
+	@Deprecated
 	public String getName() {
-		return this.toString();
+		return this.getUnlocalizedName();
 	}
 	
 	public boolean isHot() {
