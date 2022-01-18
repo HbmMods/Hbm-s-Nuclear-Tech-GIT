@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
@@ -29,14 +30,14 @@ public interface IItemAbility {
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(!canHarvestBlock(block, stack))
+		if(!canHarvestBlock(block, stack) || block == Blocks.bedrock)
 			return;
 
 		Block refBlock = world.getBlock(refX, refY, refZ);
 		float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
 		float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
 
-		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || block.getBlockHardness(world, x, y, z) < 0)
+		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || refBlock.getBlockHardness(world, refX, refY, refZ) < 0)
 			return;
 
 		BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world, player.theItemInWorldManager.getGameType(), player, x, y, z);

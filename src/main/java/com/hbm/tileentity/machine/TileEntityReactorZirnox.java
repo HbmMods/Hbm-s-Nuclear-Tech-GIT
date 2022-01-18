@@ -234,7 +234,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 		// function of SHS produced per tick
 		// heat% * 25 * 1 (should get rid of any rounding errors)
-		int Water = (int) (((float)heat / maxHeat) * 25);
+		int Water = (int) (((float)heat / maxHeat) * 25) * 5;
 		int Steam = Water * 1;
 
 		water.setFill(water.getFill() - Water);

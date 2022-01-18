@@ -107,6 +107,10 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 								burnTime *= 1.5;
 							if(fuel.getItem() == ModItems.solid_fuel)
 								burnTime *= 2;
+							if(fuel.getItem() == ModItems.solid_fuel_presto)
+								burnTime *= 4;
+							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet)
+								burnTime *= 10;
 							
 							burn[i] = burnTime;
 							
@@ -127,7 +131,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			// RTG ///
 			this.hasRTG = RTGUtil.hasHeat(slots, RTGSlots);
-			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 10;
+			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 0.1;
 			
 			if(this.spin > 0) {
 				
@@ -143,7 +147,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 					this.tanks[2].setFill(this.tanks[2].getFill() - 1);
 				}
 				
-				this.power += Math.pow(powerGen, 1.15D);
+				this.power += Math.pow(powerGen, 1.1D);
 				
 				if(this.power > this.maxPower)
 					this.power = this.maxPower;
@@ -182,7 +186,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		this.hasRTG = nbt.getBoolean("hasRTG");
 	}
 	
-	public static final int coalGenRate = 50;
+	public static final int coalGenRate = 75;
 	public static final HashMap<FluidType, Integer> fuels = new HashMap();
 	
 	static {

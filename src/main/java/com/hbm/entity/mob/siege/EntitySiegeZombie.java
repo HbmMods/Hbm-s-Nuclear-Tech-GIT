@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.siege;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -19,7 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 
-public class EntitySiegeZombie extends EntityMob {
+public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 
 	public EntitySiegeZombie(World world) {
 		super(world);
