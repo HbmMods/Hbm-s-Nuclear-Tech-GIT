@@ -38,15 +38,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.BombConfig;
-import com.hbm.config.GeneralConfig;
-import com.hbm.config.MachineConfig;
-import com.hbm.config.MobConfig;
-import com.hbm.config.PotionConfig;
-import com.hbm.config.RadiationConfig;
-import com.hbm.config.ToolConfig;
-import com.hbm.config.WeaponConfig;
-import com.hbm.config.WorldConfig;
+import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -54,17 +46,13 @@ import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
-import com.hbm.entity.mob.siege.EntitySiegeZombie;
-import com.hbm.entity.mob.siege.SiegeTier;
+import com.hbm.entity.mob.botprime.*;
+import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.entity.qic.EntitySPV;
 import com.hbm.handler.*;
-import com.hbm.handler.imc.IMCCentrifuge;
-import com.hbm.handler.imc.IMCCrystallizer;
-import com.hbm.handler.imc.IMCHandler;
+import com.hbm.handler.imc.*;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.*;
@@ -80,8 +68,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
 import com.hbm.world.feature.SchistStratum;
@@ -997,7 +984,9 @@ public class MainRegistry {
 	//yes kids, this is where we would usually register commands
 	@EventHandler
 	public void serverStart(FMLServerStartingEvent event) {
-		RBMKDials.createDials(event.getServer().getEntityWorld());
+		World world = event.getServer().getEntityWorld();
+		RBMKDials.createDials(world);
+		SiegeOrchestrator.createGameRules(world);
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {

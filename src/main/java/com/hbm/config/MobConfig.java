@@ -53,14 +53,5 @@ public class MobConfig {
 		
 		enableDucks = CommonConfig.createConfigBool(config, CATEGORY, "12.D00_enableDucks", "Whether pressing O should allow the player to duck", true);
 		enableMobGear = CommonConfig.createConfigBool(config, CATEGORY, "12.D01_enableMobGear", "Whether zombies and skeletons should have additional gear when spawning", true);
-		
-		final String CAT_SIEGE = "SIEGE_MODE";
-		
-		/// TODO ///
 	}
-	
-	public static boolean enableDropships = true;
-	public static boolean enableSiegeBases = true;
-	public static double spawnDist = 64D;
-	public static boolean enableMissiles = false;
 }

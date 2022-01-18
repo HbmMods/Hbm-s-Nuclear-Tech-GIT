@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.util.GameRuleHelper;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.GameRules;
@@ -59,7 +60,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getPassiveCooling(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 5.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 5.0D), 0.0D);
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getColumnHeatFlow(World world) {
-		return MathHelper.clamp_double(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 5.0D), 0.0D, 1.0D);
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 5.0D), 0.0D, 1.0D);
 	}
 	
 	/**
@@ -77,7 +78,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getFuelDiffusionMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_FUEL_DIFFUSION_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_FUEL_DIFFUSION_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -86,7 +87,7 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getFuelHeatProvision(World world) {
-		return MathHelper.clamp_double(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_HEAT_PROVISION), 0.2D), 0.0D, 1.0D);
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_HEAT_PROVISION), 0.2D), 0.0D, 1.0D);
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public class RBMKDials {
 	 * @return [0;15]
 	 */
 	public static int getColumnHeight(World world) {
-		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEIGHT), 4), 2, 16) - 1;
+		return MathHelper.clamp_int(GameRuleHelper.parseInt(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEIGHT), 4), 2, 16) - 1;
 	}
 	
 	/**
@@ -113,7 +114,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getBoilerHeatConsumption(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_BOILER_HEAT_CONSUMPTION), 0.1D), 0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_BOILER_HEAT_CONSUMPTION), 0.1D), 0D);
 	}
 	
 	/**
@@ -122,7 +123,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getControlSpeed(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_CONTROL_SPEED_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_CONTROL_SPEED_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -131,7 +132,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getReactivityMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REACTIVITY_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_REACTIVITY_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -140,7 +141,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getOutgasserMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_OUTGASSER_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_OUTGASSER_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -149,7 +150,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getSurgeMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_SURGE_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_SURGE_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -158,7 +159,7 @@ public class RBMKDials {
 	 * @return [1;100]
 	 */
 	public static int getFluxRange(World world) {
-		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_FLUX_RANGE), 5), 1, 100);
+		return MathHelper.clamp_int(GameRuleHelper.parseInt(world.getGameRules().getGameRuleStringValue(KEY_FLUX_RANGE), 5), 1, 100);
 	}
 	
 	/**
@@ -167,7 +168,7 @@ public class RBMKDials {
 	 * @return [1;100]
 	 */
 	public static int getReaSimRange(World world) {
-		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_RANGE), 10), 1, 100);
+		return MathHelper.clamp_int(GameRuleHelper.parseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_RANGE), 10), 1, 100);
 	}
 	
 	/**
@@ -176,7 +177,7 @@ public class RBMKDials {
 	 * @return [1;24]
 	 */
 	public static int getReaSimCount(World world) {
-		return MathHelper.clamp_int(shittyWorkaroundParseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_COUNT), 6), 1, 24);
+		return MathHelper.clamp_int(GameRuleHelper.parseInt(world.getGameRules().getGameRuleStringValue(KEY_REASIM_COUNT), 6), 1, 24);
 	}
 	
 	/**
@@ -185,7 +186,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getReaSimOutputMod(World world) {
-		return Math.max(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_MOD), 1.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_MOD), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -203,24 +204,6 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getReaSimBoilerSpeed(World world) {
-		return MathHelper.clamp_double(shittyWorkaroundParseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 0.05D), 0.0D, 1.0D);
-	}
-	
-	//why make the double representation accessible in a game rule when you can just force me to add a second pointless parsing operation?
-	public static double shittyWorkaroundParseDouble(String s, double def) {
-		
-		try {
-			return Double.parseDouble(s);
-		} catch(Exception ex) { }
-		
-		return def;
-	}
-	public static int shittyWorkaroundParseInt(String s, int def) {
-		
-		try {
-			return Integer.parseInt(s);
-		} catch(Exception ex) { }
-		
-		return def;
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 0.05D), 0.0D, 1.0D);
 	}
 }
