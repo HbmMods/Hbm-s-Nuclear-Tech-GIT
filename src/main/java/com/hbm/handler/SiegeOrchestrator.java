@@ -125,6 +125,7 @@ public class SiegeOrchestrator {
 	public static final String KEY_WAVE_DURATION = "siegeWaveDuration";
 	public static final String KEY_PAUSE_DURATION = "siegePauseDuration";
 	public static final String KEY_ENABLE_DROPS = "siegeEnableDropships";
+	public static final String KEY_ENABLE_SPAWNS = "siegeEnableGroundSpawning";
 	public static final String KEY_ENABLE_BASES = "siegeEnableBases";
 	public static final String KEY_ENABLE_MISSILES = "siegeEnableMissiles";
 	public static final String KEY_SPAWN_DIST = "siegeSpawnDist";
@@ -145,6 +146,7 @@ public class SiegeOrchestrator {
 			rules.setOrCreateGameRule(KEY_WAVE_DURATION, "" + (20 * 60 * 20));
 			rules.setOrCreateGameRule(KEY_PAUSE_DURATION, "" + (10 * 60 * 20));
 			rules.setOrCreateGameRule(KEY_ENABLE_DROPS, "true");
+			rules.setOrCreateGameRule(KEY_ENABLE_SPAWNS, "false");
 			rules.setOrCreateGameRule(KEY_ENABLE_BASES, "true");
 			rules.setOrCreateGameRule(KEY_ENABLE_MISSILES, "true");
 			rules.setOrCreateGameRule(KEY_SPAWN_DIST, "64");

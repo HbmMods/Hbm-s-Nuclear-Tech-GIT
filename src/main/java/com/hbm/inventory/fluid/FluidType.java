@@ -152,10 +152,6 @@ public class FluidType {
 	//shitty wrapper delegates, go!
 	//only used for compatibility purposes, these will be removed soon
 	//don't use these, dumbfuck
-	/*@Deprecated //reason: use the fucking registry you dumbass this isn't a fucking enum anymore, we don't sell lists of all our instances here
-	public static FluidType[] values() {
-		return Fluids.metaOrder.toArray(new FluidType[0]);
-	}*/
 	@Deprecated //reason: not an enum, asshole, use the registry
 	public static FluidType getEnum(int i) {
 		return Fluids.fromID(i);

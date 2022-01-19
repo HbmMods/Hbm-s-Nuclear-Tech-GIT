@@ -2,6 +2,8 @@ package com.hbm.entity.mob.siege;
 
 import java.util.List;
 
+import com.hbm.handler.SiegeOrchestrator;
+
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -14,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -44,6 +48,36 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("Tier Speed Mod", tier.speedMod, 1));
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health);
 		this.setHealth(this.getMaxHealth());
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float damage) {
+		
+		if(this.isEntityInvulnerable())
+			return false;
+		
+		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
+			return false;
+		
+		SiegeTier tier = this.getTier();
+		
+		if(tier.fireProof && source.isFireDamage())
+			return false;
+		
+		//noFF can't be harmed by other mobs
+		if(tier.noFriendlyFire && source instanceof EntityDamageSource && !(((EntityDamageSource) source).getEntity() instanceof EntityPlayer))
+			return false;
+		
+		damage -= tier.dt;
+		
+		if(damage < 0) {
+			worldObj.playSoundAtEntity(this, "random.break", 5F, 1.0F + rand.nextFloat() * 0.5F);
+			return false;
+		}
+		
+		damage *= (1F - tier.dr);
+		
+		return super.attackEntityFrom(source, damage);
 	}
 	
 	public SiegeTier getTier() {
