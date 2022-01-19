@@ -49,8 +49,10 @@ public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 		
 		SiegeTier tier = this.getTier();
 		
-		if(tier.fireProof && source.isFireDamage())
+		if(tier.fireProof && source.isFireDamage()) {
+			this.extinguish();
 			return false;
+		}
 		
 		if(tier.noFall && source == DamageSource.fall)
 			return false;

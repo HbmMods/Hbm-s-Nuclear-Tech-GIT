@@ -2,9 +2,7 @@ package com.hbm.entity.projectile;
 
 import com.hbm.lib.ModDamageSource;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -69,6 +67,14 @@ public class EntitySiegeLaser extends EntityThrowable {
 	}
 
 	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		
+		if(this.ticksExisted > 100)
+			this.setDead();
+	}
+
+	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		
 		if(mop.typeOfHit == MovingObjectType.ENTITY) {
@@ -107,6 +113,11 @@ public class EntitySiegeLaser extends EntityThrowable {
 				this.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 			}
 		}
+	}
+	
+	@Override
+	protected float getGravityVelocity() {
+		return 0.0F;
 	}
 	
 	@Override

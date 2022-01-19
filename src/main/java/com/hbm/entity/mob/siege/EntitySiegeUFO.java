@@ -2,12 +2,12 @@ package com.hbm.entity.mob.siege;
 
 import java.util.List;
 
+import com.hbm.entity.projectile.EntitySiegeLaser;
 import com.hbm.handler.SiegeOrchestrator;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -26,10 +26,12 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 
 	public int courseChangeCooldown;
 	public int scanCooldown;
+	private int attackCooldown;
 	private Entity target;
 	
 	public EntitySiegeUFO(World p_i1587_1_) {
 		super(p_i1587_1_);
+		this.setSize(1.5F, 1F);
 	}
 
 	@Override
@@ -45,8 +47,8 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 	public void setTier(SiegeTier tier) {
 		this.getDataWatcher().updateObject(12, tier.id);
 
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier("Tier Speed Mod", tier.speedMod, 1));
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(tier.speedMod);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health * 0.25);
 		this.setHealth(this.getMaxHealth());
 	}
 	
@@ -61,8 +63,10 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 		
 		SiegeTier tier = this.getTier();
 		
-		if(tier.fireProof && source.isFireDamage())
+		if(tier.fireProof && source.isFireDamage()) {
+			this.extinguish();
 			return false;
+		}
 		
 		//noFF can't be harmed by other mobs
 		if(tier.noFriendlyFire && source instanceof EntityDamageSource && !(((EntityDamageSource) source).getEntity() instanceof EntityPlayer))
@@ -107,6 +111,29 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 			this.target = null;
 		}
 		
+		if(!worldObj.isRemote) {
+			if(this.attackCooldown > 0) {
+				this.attackCooldown--;
+			}
+			
+			if(this.attackCooldown == 0 && this.target != null) {
+				this.attackCooldown = 20 + rand.nextInt(5);
+				
+				double x = posX;
+				double y = posY;
+				double z = posZ;
+				
+				Vec3 vec = Vec3.createVectorHelper(target.posX - x, target.posY + target.height * 0.5 - y, target.posZ - z).normalize();
+				
+				EntitySiegeLaser laser = new EntitySiegeLaser(worldObj, this);
+				laser.setPosition(x, y, z);
+				laser.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 1F, 0.15F);
+				laser.setColor(0x802000);
+				worldObj.spawnEntityInWorld(laser);
+				this.playSound("hbm:weapon.ballsLaser", 2.0F, 1.0F);
+			}
+		}
+		
 		if(this.scanCooldown <= 0) {
 			List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, this.boundingBox.expand(50, 20, 50));
 			this.target = null;
@@ -145,7 +172,7 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				vec.rotateAroundY((float)Math.PI * 2 * rand.nextFloat());
 				
 				double length = vec.lengthVector();
-				double overshoot = 10;
+				double overshoot = 10 + rand.nextDouble() * 10;
 				
 				int wX = (int)Math.floor(this.target.posX - vec.xCoord / length * overshoot);
 				int wZ = (int)Math.floor(this.target.posZ - vec.zCoord / length * overshoot);
@@ -154,9 +181,10 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				
 				this.courseChangeCooldown = 20 + rand.nextInt(20);
 			} else {
-				int x = (int) Math.floor(posX);
-				int z = (int) Math.floor(posZ);
-				this.setWaypoint(x, Math.max(this.worldObj.getHeightValue(x, z) + 2, (int) this.target.posY + 1),  z);
+				int x = (int) Math.floor(posX + rand.nextGaussian() * 2);
+				int z = (int) Math.floor(posZ + rand.nextGaussian() * 2);
+				this.setWaypoint(x, this.worldObj.getHeightValue(x, z) + 2 + rand.nextInt(3),  z);
+				this.courseChangeCooldown = 60 + rand.nextInt(20);
 			}
 		}
 		
@@ -171,7 +199,7 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 			double deltaZ = this.getZ() - this.posZ;
 			Vec3 delta = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
 			double len = delta.lengthVector();
-			double speed = 1D;
+			double speed = 0.5 + this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 1;
 			
 			if(len > 5) {
 				if(isCourseTraversable(this.getX(), this.getY(), this.getZ(), len)) {

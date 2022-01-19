@@ -1,11 +1,8 @@
 package com.hbm.render.entity.projectile;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntitySiegeLaser;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -102,8 +99,10 @@ public class RenderSiegeLaser extends Render {
 		tess.addVertex(6, 0, 0);
 		tess.addVertex(4, 0.5, -0.5);
 		tess.addVertex(4, 0.5, 0.5);
+		tess.draw();
 
 		// tail
+		tess.startDrawingQuads();
 		tess.setColorOpaque_I(color);
 		tess.addVertex(4, 0.5, -0.5);
 		tess.addVertex(4, 0.5, 0.5);

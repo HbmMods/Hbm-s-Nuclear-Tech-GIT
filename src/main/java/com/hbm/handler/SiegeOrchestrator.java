@@ -1,5 +1,6 @@
 package com.hbm.handler;
 
+import com.hbm.entity.mob.siege.EntitySiegeUFO;
 import com.hbm.entity.mob.siege.EntitySiegeZombie;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.GameRuleHelper;
@@ -113,9 +114,9 @@ public class SiegeOrchestrator {
 	}
 	
 	public static boolean isSiegeMob(Entity entity) {
-		
-		if(entity instanceof EntitySiegeZombie)
-			return true;
+
+		if(entity instanceof EntitySiegeZombie) return true;
+		if(entity instanceof EntitySiegeUFO) return true;
 		
 		return false;
 	}

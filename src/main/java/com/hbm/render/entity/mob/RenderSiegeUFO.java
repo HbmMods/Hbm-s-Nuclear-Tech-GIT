@@ -17,7 +17,7 @@ public class RenderSiegeUFO extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y + 1, z);
+		GL11.glTranslated(x, y + 0.25, z);
 		
 		EntitySiegeUFO ufo = (EntitySiegeUFO) entity;
 		
