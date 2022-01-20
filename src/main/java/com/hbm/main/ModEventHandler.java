@@ -34,6 +34,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -361,6 +362,11 @@ public class ModEventHandler {
 					}
 				}
 			}
+			
+			SiegeOrchestrator.playerDeathHook(player, event.source);
+			
+		} else {
+			SiegeOrchestrator.mobDeathHook(entity, event.source);
 		}
 	}
 	

@@ -3,6 +3,7 @@ package com.hbm.blocks.siege;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.SiegeOrchestrator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,6 +18,9 @@ public class SiegeShield extends SiegeBase {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
+		
+		if(SiegeOrchestrator.siegeMobCount > SiegeOrchestrator.getExpansionThreshold(world))
+			return;
 		
 		int succ = 0;
 		

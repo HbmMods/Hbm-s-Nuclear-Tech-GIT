@@ -145,8 +145,8 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				
 				if(entity instanceof EntityPlayer) {
 					
-					//if(((EntityPlayer)entity).capabilities.isCreativeMode)
-					//	continue;
+					if(((EntityPlayer)entity).capabilities.isCreativeMode)
+						continue;
 					
 					if(((EntityPlayer)entity).isPotionActive(Potion.invisibility.id))
 						continue;
@@ -199,7 +199,7 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 			double deltaZ = this.getZ() - this.posZ;
 			Vec3 delta = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
 			double len = delta.lengthVector();
-			double speed = 0.5 + this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 1;
+			double speed = this.target == null ? 0.25D : 0.5D + this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 1;
 			
 			if(len > 5) {
 				if(isCourseTraversable(this.getX(), this.getY(), this.getZ(), len)) {
