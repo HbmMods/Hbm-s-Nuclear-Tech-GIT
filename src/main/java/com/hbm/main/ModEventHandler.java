@@ -873,6 +873,7 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
+			SiegeOrchestrator.update(event.world);
 		}
 	}
 	

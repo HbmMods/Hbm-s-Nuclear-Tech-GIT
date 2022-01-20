@@ -70,7 +70,7 @@ public class EntitySiegeLaser extends EntityThrowable {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if(this.ticksExisted > 100)
+		if(this.ticksExisted > 60)
 			this.setDead();
 	}
 
@@ -85,18 +85,21 @@ public class EntitySiegeLaser extends EntityThrowable {
 			else
 				dmg = new DamageSource(ModDamageSource.s_laser);
 			
-			mop.entityHit.attackEntityFrom(dmg, this.damage);
+			if(mop.entityHit.attackEntityFrom(dmg, this.damage)) {
+				this.setDead();
+				
+				if(this.incendiary)
+					mop.entityHit.setFire(3);
+				
+				if(this.explosive > 0)
+					this.worldObj.newExplosion(this, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, this.explosive, this.incendiary, false);
+			}
 			
-			if(this.incendiary)
-				mop.entityHit.setFire(3);
-			
-			if(this.explosive > 0)
-				this.worldObj.newExplosion(this, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, this.explosive, false, this.incendiary);
 			
 		} else if(mop.typeOfHit == MovingObjectType.BLOCK) {
 			
 			if(this.explosive > 0) {
-				this.worldObj.newExplosion(this, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, this.explosive, false, this.incendiary);
+				this.worldObj.newExplosion(this, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, this.explosive, this.incendiary, false);
 				
 			} else if(this.incendiary) {
 				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
@@ -112,6 +115,8 @@ public class EntitySiegeLaser extends EntityThrowable {
 			if(this.rand.nextFloat() < this.breakChance) {
 				this.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 			}
+
+			this.setDead();
 		}
 	}
 	

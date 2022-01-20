@@ -1,8 +1,10 @@
 package com.hbm.handler;
 
+import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.mob.siege.EntitySiegeSkeleton;
 import com.hbm.entity.mob.siege.EntitySiegeUFO;
 import com.hbm.entity.mob.siege.EntitySiegeZombie;
+import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.GameRuleHelper;
 
@@ -11,9 +13,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
@@ -29,7 +31,7 @@ public class SiegeOrchestrator {
 	public static void update(World world) {
 		
 		//abort loop if sieges are disabled
-		if(!siegeEnabled(world))
+		if(world.isRemote || !siegeEnabled(world))
 			return;
 
 		int waveTime = getWaveDuration(world);
@@ -44,6 +46,8 @@ public class SiegeOrchestrator {
 		} else if(lastWave && !wave) {
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatBuilder.start("[SIEGE MODE] The wave has ended!").color(EnumChatFormatting.RED).flush());
 		}
+		
+		lastWave = wave;
 		
 		//if we're on pause, do nothing
 		if(!wave)
@@ -82,7 +86,7 @@ public class SiegeOrchestrator {
 		
 		//if the tier has changed, send a broadcast
 		if(prevLevel != level) {
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatBuilder.start("[SIEGE MODE] The siege tier is now " + level + "!").color(EnumChatFormatting.RED).flush());
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatBuilder.start("[SIEGE MODE] The siege tier is now " + (level + 1) + "!").color(EnumChatFormatting.RED).flush());
 		}
 		
 		//every 10s we recount the loaded siege mobs
@@ -92,7 +96,17 @@ public class SiegeOrchestrator {
 	}
 	
 	public static void perPlayerSpawn(EntityPlayer player) {
-		//TODO: either spawn siege mobs outright or dropships, depending on whether dropships are enabled
+		
+		Vec3 vec = Vec3.createVectorHelper(getSpawnDist(player.worldObj), 0, 0);
+		vec.rotateAroundY((float)(player.getRNG().nextFloat() * Math.PI));
+		
+		double x = player.posX + vec.xCoord;
+		double z = player.posZ + vec.zCoord;
+		
+		if(enableMissileSpawn(player.worldObj)) {
+			EntitySiegeDropship ship = new EntitySiegeDropship(player.worldObj, x, 300, z);
+			player.worldObj.spawnEntityInWorld(ship);
+		}
 	}
 	
 	public static void playerDeathHook(EntityPlayer player, DamageSource source) {
@@ -118,16 +132,23 @@ public class SiegeOrchestrator {
 		if(world.isRemote)
 			return;
 		
+		SiegeTier tier = SiegeTier.tiers[level];
+		if(tier == null)
+			tier = SiegeTier.DNT;
+		
 		EntityLiving entity;
 		
 		float f = world.rand.nextFloat();
 		
 		if(f < 0.1F) {
 			entity = new EntitySiegeUFO(world);
+			((EntitySiegeUFO)entity).setTier(tier);
 		} else if(f < 0.4F) {
-			entity = new EntitySiegeSkeleton(world);
+			entity = new EntitySiegeUFO(world);
+			((EntitySiegeUFO)entity).setTier(tier);
 		} else {
 			entity = new EntitySiegeZombie(world);
+			((EntitySiegeZombie)entity).setTier(tier);
 		}
 		
 		entity.setPositionAndRotation(x, y, z, (float)Math.PI * 2F, 0F);
@@ -257,5 +278,9 @@ public class SiegeOrchestrator {
 	
 	public static boolean enableMobSpawning(World world) {
 		return world.getGameRules().getGameRuleBooleanValue(KEY_ENABLE_SPAWNS);
+	}
+	
+	public static boolean enableMissileSpawn(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_ENABLE_MISSILES);
 	}
 }

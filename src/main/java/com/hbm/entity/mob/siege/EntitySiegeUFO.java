@@ -10,9 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
@@ -99,6 +99,10 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				return;
 			}
 		}
+		
+		this.motionX = 0;
+		this.motionY = 0;
+		this.motionZ = 0;
 
 		if(this.courseChangeCooldown > 0) {
 			this.courseChangeCooldown--;
@@ -124,11 +128,16 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				double z = posZ;
 				
 				Vec3 vec = Vec3.createVectorHelper(target.posX - x, target.posY + target.height * 0.5 - y, target.posZ - z).normalize();
+				SiegeTier tier = this.getTier();
 				
 				EntitySiegeLaser laser = new EntitySiegeLaser(worldObj, this);
 				laser.setPosition(x, y, z);
 				laser.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 1F, 0.15F);
 				laser.setColor(0x802000);
+				laser.setDamage(tier.damageMod);
+				laser.setExplosive(tier.laserExplosive);
+				laser.setBreakChance(tier.laserBreak);
+				if(tier.laserIncendiary) laser.setIncendiary();
 				worldObj.spawnEntityInWorld(laser);
 				this.playSound("hbm:weapon.ballsLaser", 2.0F, 1.0F);
 			}
@@ -146,7 +155,7 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				if(entity instanceof EntityPlayer) {
 					
 					if(((EntityPlayer)entity).capabilities.isCreativeMode)
-						continue;
+					//	continue;
 					
 					if(((EntityPlayer)entity).isPotionActive(Potion.invisibility.id))
 						continue;
@@ -181,16 +190,12 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 				
 				this.courseChangeCooldown = 20 + rand.nextInt(20);
 			} else {
-				int x = (int) Math.floor(posX + rand.nextGaussian() * 2);
-				int z = (int) Math.floor(posZ + rand.nextGaussian() * 2);
+				int x = (int) Math.floor(posX + rand.nextGaussian() * 5);
+				int z = (int) Math.floor(posZ + rand.nextGaussian() * 5);
 				this.setWaypoint(x, this.worldObj.getHeightValue(x, z) + 2 + rand.nextInt(3),  z);
 				this.courseChangeCooldown = 60 + rand.nextInt(20);
 			}
 		}
-		
-		this.motionX = 0;
-		this.motionY = 0;
-		this.motionZ = 0;
 		
 		if(this.courseChangeCooldown > 0) {
 			
@@ -265,5 +270,15 @@ public class EntitySiegeUFO extends EntityFlying implements IMob, IRadiationImmu
 	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
 		this.setTier(SiegeTier.tiers[rand.nextInt(SiegeTier.getLength())]);
 		return super.onSpawnWithEgg(data);
+	}
+
+	@Override
+	protected void dropFewItems(boolean byPlayer, int fortune) {
+		
+		if(byPlayer) {
+			for(ItemStack drop : this.getTier().dropItem) {
+				this.entityDropItem(drop.copy(), 0F);
+			}
+		}
 	}
 }
