@@ -3,8 +3,10 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemModGloves;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -25,16 +27,22 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		boolean reacher = false;
 		
-		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
-			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
+		if(target instanceof EntityPlayer) {
+			ItemStack item = ((EntityPlayer) target).inventory.getCurrentItem();
+			if(item != null)
+				reacher = item.getItem() == ModItems.reacher;
+		}
 		
 		level *= stack.stackSize;
 		
 		if(level > 0) {
 			float rad = level / 20F;
 			
-			if(reacher)
+			if(GeneralConfig.enable528 && reacher) {
 				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
+			} else if(reacher) {
+				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for normal mode: x / distance^2
+			}											//Distance is 7 here for balancing purposes, realistically it'd be longer and better
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}

@@ -28,7 +28,7 @@ public class HazardRegistry {
 	//CS137		            30a		β−	020.00Rad/s	Spicy
 	//AU198		            64h		β−	500.00Rad/s	2 much spice :(
 	//PB209		             3h		β−	10,000.00Rad/s mama mia my face is melting off
-	//AT209		             5h		β+	like 2k or sth idk bruv
+	//AT209		             5h		β+	like 7.5k or sth idk bruv
 	//PO210		           138d		α	075.00Rad/s	Spicy
 	//RA226		         1,600a		α	007.50Rad/s
 	//AC227		            22a		β−	030.00Rad/s Spicy
@@ -69,7 +69,7 @@ public class HazardRegistry {
 	public static final float cs137 = 20.0F;
 	public static final float au198 = 500.0F;
 	public static final float pb209 = 10000.0F;
-	public static final float at209 = 2000.0F;
+	public static final float at209 = 7500.0F;
 	public static final float po210 = 75.0F;
 	public static final float ra226 = 7.5F;
 	public static final float ac227 = 30.0F;
@@ -314,7 +314,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
-		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 4F);
+		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
 		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
 		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);

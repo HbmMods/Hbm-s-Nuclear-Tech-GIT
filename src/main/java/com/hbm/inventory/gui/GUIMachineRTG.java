@@ -1,10 +1,14 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineRTG;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -30,11 +34,19 @@ public class GUIMachineRTG extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, rtg.power, rtg.powerMax);
 		
-		String[] text = new String[] { "Accepted Pellets:",
-				"  Regular Pellet (5 HE/t)",
-				"  Weak Pellet (3 HE/t)",
-				"  Polonium Pellet (25 HE/t)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtg.heat", rtg.heat);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 134, guiTop + 17, 16, 52, mouseX, mouseY, heatText);
+		
+		List<ItemRTGPellet> pellets = ItemRTGPellet.pelletList;
+		String[] pelletText = new String[pellets.size() + 1];
+		pelletText[0] = I18nUtil.resolveKey("desc.gui.rtg.pellets");
+		
+		for(int i = 0; i < pellets.size(); i++) {
+			ItemRTGPellet pellet = pellets.get(i);
+			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtg.pelletPower", I18nUtil.resolveKey(pellet.getUnlocalizedName() + ".name"), pellet.getHeat() * 10);
+		}
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);
 	}
 
 	@Override

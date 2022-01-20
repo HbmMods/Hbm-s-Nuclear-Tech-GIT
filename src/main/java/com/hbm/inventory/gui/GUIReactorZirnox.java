@@ -42,7 +42,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		String[] info = new String[] { "CO2 transfers heat from the core", "to the water. This will boil", "the water into steam.", "Water Consumption Rate:", "100 mB/t", "2000 mB/s" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, info);
 
-		String[] info2 = new String[] { "Pressure can be reduced by", "reducing the amount of CO2", "in the reactor." };
+		String[] info2 = new String[] { "Pressure can be reduced by", "reducing the amount of CO2", "in the reactor. Warning:", "this will reduce cooling!" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, info2);
 
 		if(zirnox.water.getFill() <= 0) {
