@@ -39,10 +39,10 @@ public class HazardTypeRadiation extends HazardTypeBase {
 			float rad = level / 20F;
 			
 			if(GeneralConfig.enable528 && reacher) {
-				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
+				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for 528: x / distance^2
 			} else if(reacher) {
-				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for normal mode: x / distance^2
-			}											//Distance is 7 here for balancing purposes, realistically it'd be longer and better
+				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
+			}											
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}
