@@ -3,8 +3,11 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemModGloves;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -19,12 +22,29 @@ public class HazardTypeHot extends HazardTypeBase {
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 		
 		boolean reacher = false;
+		boolean gloves = false;
 		
-		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
-			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
+		if(target instanceof EntityPlayer) {
+			ItemStack item = ((EntityPlayer) target).inventory.getCurrentItem();
+			if(item != null)
+				reacher = item.getItem() == ModItems.reacher;
+			
+			ItemStack armor = target.getEquipmentInSlot(3);
+			if(armor != null) {
+				gloves = armor.getItem() instanceof ItemModGloves || ArmorUtil.checkForHazmat(target);
+				if(!gloves) {
+					ItemStack mod = ArmorModHandler.pryMods(armor)[ArmorModHandler.legs_only];
+					gloves = mod.getItem() instanceof ItemModGloves;
+				}
+			}
+		}
 		
-		if(!reacher && !target.isWet() && level > 0)
-			target.setFire((int) Math.ceil(level));
+		if(!target.isWet() && level > 0) {
+			if(GeneralConfig.enable528 && ((!reacher || !gloves) || level > 3))
+				target.setFire((int) Math.ceil(level));
+			if(((!reacher || !gloves) && level > 2) || (!reacher && !gloves))
+				target.setFire((int) Math.ceil(level));
+		}
 	}
 
 	@Override
