@@ -38,6 +38,8 @@ import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.IAttackHandler;
+import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
@@ -882,13 +884,24 @@ public class ModEventHandler {
 		
 		EntityLivingBase e = event.entityLiving;
 
-		if(e instanceof EntityPlayer && ArmorUtil.checkArmor((EntityPlayer)e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
-			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
-			event.setCanceled(true);
+		if(e instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) e;
+			
+			if(ArmorUtil.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
+				e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				event.setCanceled(true);
+			}
+			
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleAttack(event);
+			
+			for(ItemStack stack : player.inventory.armorInventory) {
+				if(stack != null && stack.getItem() instanceof IAttackHandler) {
+					((IAttackHandler)stack.getItem()).handleAttack(event, stack);
+				}
+			}
 		}
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleAttack(event);
 	}
 	
 	@SubscribeEvent
@@ -932,9 +945,21 @@ public class ModEventHandler {
 			}
 		}
 		
-		/// FSB ARMOR ///
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleHurt(event);
+		if(e instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) e;
+			
+			/// FSB ARMOR ///
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleHurt(event);
+	
+			
+			for(ItemStack stack : player.inventory.armorInventory) {
+				if(stack != null && stack.getItem() instanceof IDamageHandler) {
+					((IDamageHandler)stack.getItem()).handleDamage(event, stack);
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent

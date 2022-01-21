@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -114,6 +115,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void setDigamma(EntityLivingBase entity, float digamma) {
+		
+		if(entity instanceof EntityDuck)
+			digamma = 0.0F;
 		
 		getData(entity).digamma = digamma;
 		
