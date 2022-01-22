@@ -2,26 +2,22 @@ package com.hbm.entity.mob.siege;
 
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
-import com.hbm.handler.SiegeOrchestrator;
 
-import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
-
-	private int attackCooldown;
+public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData {
 	
-	public EntitySiegeUFO(World world) {
+	private int attackCooldown;
+
+	public EntitySiegeCraft(World world) {
 		super(world);
-		this.setSize(1.5F, 1F);
+		this.setSize(7F, 1F);
 	}
 
 	@Override
@@ -34,45 +30,13 @@ public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
 		this.getDataWatcher().updateObject(12, tier.id);
 
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(tier.speedMod);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health * 0.25);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tier.health * 25);
 		this.setHealth(this.getMaxHealth());
 	}
 	
 	public SiegeTier getTier() {
 		SiegeTier tier = SiegeTier.tiers[this.getDataWatcher().getWatchableObjectInt(12)];
 		return tier != null ? tier : SiegeTier.CLAY;
-	}
-	
-	@Override
-	public boolean attackEntityFrom(DamageSource source, float damage) {
-		
-		if(this.isEntityInvulnerable())
-			return false;
-		
-		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
-			return false;
-		
-		SiegeTier tier = this.getTier();
-		
-		if(tier.fireProof && source.isFireDamage()) {
-			this.extinguish();
-			return false;
-		}
-		
-		//noFF can't be harmed by other mobs
-		if(tier.noFriendlyFire && source instanceof EntityDamageSource && !(((EntityDamageSource) source).getEntity() instanceof EntityPlayer))
-			return false;
-		
-		damage -= tier.dt;
-		
-		if(damage < 0) {
-			worldObj.playSoundAtEntity(this, "random.break", 5F, 1.0F + rand.nextFloat() * 0.5F);
-			return false;
-		}
-		
-		damage *= (1F - tier.dr);
-		
-		return super.attackEntityFrom(source, damage);
 	}
 
 	@Override
@@ -104,7 +68,7 @@ public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
 				EntitySiegeLaser laser = new EntitySiegeLaser(worldObj, this);
 				laser.setPosition(x, y, z);
 				laser.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 1F, 0.15F);
-				laser.setColor(0x802000);
+				laser.setColor(0x808080);
 				laser.setDamage(tier.damageMod);
 				laser.setExplosive(tier.laserExplosive);
 				laser.setBreakChance(tier.laserBreak);
@@ -117,6 +81,13 @@ public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
 		if(this.courseChangeCooldown > 0) {
 			approachPosition(this.target == null ? 0.25D : 0.5D + this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 1);
 		}
+	}
+
+	@Override
+	protected void setCourseWithoutTaget() {
+		int x = (int) Math.floor(posX + rand.nextGaussian() * 15);
+		int z = (int) Math.floor(posZ + rand.nextGaussian() * 15);
+		this.setWaypoint(x, this.worldObj.getHeightValue(x, z) + 5 + rand.nextInt(6),  z);
 	}
 
 	@Override
