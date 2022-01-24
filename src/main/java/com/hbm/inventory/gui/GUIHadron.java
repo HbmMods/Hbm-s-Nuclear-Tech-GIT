@@ -100,7 +100,7 @@ public class GUIHadron extends GuiInfoContainer {
 		if(hadron.state == EnumHadronState.NORESULT) {
 			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 30, 30, 30);
 		}
-		if(hadron.state == EnumHadronState.ERROR) {
+		if(hadron.state == EnumHadronState.ERROR_GENERIC) {
 			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 106, 30, 30);
 		}
 		

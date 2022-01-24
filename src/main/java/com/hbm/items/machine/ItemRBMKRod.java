@@ -25,6 +25,7 @@ public class ItemRBMKRod extends Item {
 	public double reactivity;					//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
 	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
+	public EnumDepleteFunction depFunc = EnumDepleteFunction.LINEAR;
 	public double xGen = 0.5D;				//multiplier for xenon production
 	public double xBurn = 50D;				//divider for xenon burnup
 	public double heat = 1D;				//heat produced per outFlux
@@ -84,6 +85,11 @@ public class ItemRBMKRod extends Item {
 
 	public ItemRBMKRod setFunction(EnumBurnFunc func) {
 		this.function = func;
+		return this;
+	}
+
+	public ItemRBMKRod setDepletionFunction(EnumDepleteFunction func) {
+		this.depFunc = func;
 		return this;
 	}
 
@@ -211,7 +217,8 @@ public class ItemRBMKRod extends Item {
 		SIGMOID(EnumChatFormatting.GREEN + "SAFE / SIGMOID"),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
 		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
-		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC");		//x^2 / 100 * reactivity
+		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"),		//x^2 / 100 * reactivity
+		EXPERIMENTAL(EnumChatFormatting.RED + "EXPERIMENTAL / SINE SLOPE");		//x * (sin(x) + 1)
 		
 		public String title = "";
 		
@@ -226,7 +233,7 @@ public class ItemRBMKRod extends Item {
 	 */
 	public double reactivityFunc(double in, double enrichment) {
 		
-		double flux = in * enrichment;
+		double flux = in * reativityModByEnrichment(enrichment);
 		
 		switch(this.function) {
 		case PASSIVE: return selfRate * enrichment;
@@ -237,6 +244,7 @@ public class ItemRBMKRod extends Item {
 		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity / 10D;
 		case LINEAR: return flux / 100D * reactivity;
 		case QUADRATIC: return flux * flux / 10000D * reactivity;
+		case EXPERIMENTAL: return flux * (Math.sin(flux) + 1) * reactivity;
 		}
 		
 		return 0;
@@ -258,9 +266,30 @@ public class ItemRBMKRod extends Item {
 		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity + " / 10";
 		case LINEAR: return x + " / 100 * " + reactivity;
 		case QUADRATIC: return x + "² / 10000 * " + reactivity;
+		case EXPERIMENTAL: return x + " * (sin(" + x + ") + 1) * " + reactivity;
 		}
 		
 		return "ERROR";
+	}
+	
+	public static enum EnumDepleteFunction {
+		LINEAR,			//old function
+		RAISING_SLOPE,	//for breeding fuels such as MEU, maximum of 110% at 28% depletion
+		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
+		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
+		STATIC;			//for arcade-style neutron sources
+	}
+	
+	public double reativityModByEnrichment(double enrichment) {
+		
+		switch(this.depFunc) {
+		default:
+		case LINEAR: return enrichment;
+		case STATIC: return 1D;
+		case BOOSTED_SLOPE: return -enrichment + 1 + Math.sin(enrichment * enrichment * Math.PI);
+		case RAISING_SLOPE: return -enrichment + 1 + (Math.sin(enrichment * Math.PI) / 2D);
+		case GENTLE_SLOPE: return -enrichment + 1 + (Math.sin(enrichment * Math.PI) / 3D);
+		}
 	}
 	
 	/**

@@ -48,7 +48,8 @@ public class ItemGuideBook extends Item {
 	public enum BookType {
 
 		TEST("book.test.cover", 2F, statFacTest()),
-		RBMK("book.rbmk.cover", 1.5F, statFacRBMK());
+		RBMK("book.rbmk.cover", 1.5F, statFacRBMK()),
+		HADRON("book.error.cover", 1.5F, statFacHadron());
 		
 		public List<GuidePage> pages;
 		public float titleScale;
@@ -112,6 +113,17 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk15.png"), 100, 48, 48));
 		pages.add(new GuidePage("book.rbmk.page16").setScale(2F).addTitle("book.rbmk.title16", 0x800000, 1F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk16.png"), 50, 70, 100));
+		return pages;
+	}
+	
+	public static List<GuidePage> statFacHadron() {
+		
+		List<GuidePage> pages = new ArrayList();
+		
+		for(int i = 1; i <= 9; i++) {
+			pages.add(new GuidePage("book.error.page" + i).setScale(2F).addTitle("book.error.title" + i, 0x800000, 1F));
+		}
+		
 		return pages;
 	}
 	

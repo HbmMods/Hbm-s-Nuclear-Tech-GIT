@@ -41,7 +41,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	public EnumHadronState state = EnumHadronState.IDLE;
 	private static final int delaySuccess = 20;
 	private static final int delayNoResult = 60;
-	private static final int delayError = 60;
+	private static final int delayError = 100;
 	
 	public TileEntityHadron() {
 		super(5);
@@ -293,7 +293,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.momentum = 0;
 		}
 		
-		public void expire() {
+		public void expire(EnumHadronState reason) {
 			
 			if(expired)
 				return;
@@ -305,7 +305,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			//System.out.println("Last pos: " + posX + " " + posY + " " + posZ);
 			//Thread.currentThread().dumpStack();
 
-			TileEntityHadron.this.state = EnumHadronState.ERROR;
+			TileEntityHadron.this.state = reason;
 			TileEntityHadron.this.delay = delayError;
 		}
 		
@@ -327,7 +327,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			isCheckExempt = false; //clearing up the exemption we might have held from the previous turn, AFTER stepping
 			
 			if(charge < 0)
-				this.expire();
+				this.expire(EnumHadronState.ERROR_NO_CHARGE);
 		}
 	}
 	
@@ -354,7 +354,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		if(te instanceof TileEntityHadron) {
 
 			if(p.analysis != 3)
-				p.expire();
+				p.expire(EnumHadronState.ERROR_NO_ANALYSIS);
 			else
 				this.finishParticle(p);
 			
@@ -362,7 +362,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		}
 		
 		if(block.getMaterial() != Material.air && block != ModBlocks.hadron_diode)
-			p.expire();
+			p.expire(EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
 		
 		if(block == ModBlocks.hadron_diode)
 			p.isCheckExempt = true;
@@ -433,7 +433,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 						
 						//not a valid coil: kablam!
 						if(coilVal == 0) {
-							p.expire();
+							p.expire(EnumHadronState.ERROR_EXPECTED_COIL);
 						} else {
 							p.momentum += coilVal;
 							p.charge -= coilVal;
@@ -480,7 +480,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 						//System.out.println("Was exempt: " + p.isCheckExempt);
 						//worldObj.setBlock(a, b, c, Blocks.dirt);
 
-						p.expire();
+						p.expire(EnumHadronState.ERROR_MALFORMED_SEGMENT);
 					}
 				}
 			}
@@ -492,7 +492,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			//if the analysis chamber is too big, destroy
 			if(p.analysis > 3)
-				p.expire();
+				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
 			
 			if(p.analysis == 2) {
 				this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
@@ -511,7 +511,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 			//if the analysis stops despite being short of 3 steps in the analysis chamber, destroy
 			if(p.analysis > 0 && p.analysis < 3)
-				p.expire();
+				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_SHORT);
 		}
 	}
 	
@@ -542,7 +542,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			if(diode.getConfig(p.dir.getOpposite().ordinal()) != DiodeConfig.IN) {
 				//it appears as if we have slammed into the side of a diode, ouch
-				p.expire();
+				p.expire(EnumHadronState.ERROR_DIODE_COLLISION);
 			}
 			
 			//there's a diode ahead, turn off checks so we can make the curve
@@ -600,28 +600,22 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			List<ForgeDirection> dirs = getRandomDirs();
 			
-			//System.out.println("Starting as " + dir.name());
-			
 			//let's look at every direction we could go in
 			for(ForgeDirection d : dirs) {
 				
 				if(d == dir || d == dir.getOpposite())
 					continue;
 				
-				//System.out.println("Trying " + d.name());
-				
 				//there is air! we can pass!
 				if(worldObj.getBlock(x + d.offsetX, y + d.offsetY, z + d.offsetZ).getMaterial() == Material.air) {
 					
 					if(validDir == ForgeDirection.UNKNOWN) {
 						validDir = d;
-						//System.out.println("yes");
 					
 					//it seems like there are two or more possible ways, which is not allowed without a diode
 					//sorry kid, nothing personal
 					} else {
-						//System.out.println("what");
-						p.expire();
+						p.expire(EnumHadronState.ERROR_BRANCHING_TURN);
 						return;
 					}
 				}
@@ -632,8 +626,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.isCheckExempt = true;
 			return;
 		}
-		
-		p.expire();
+
+		p.expire(EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
 	}
 	
 	/**
@@ -680,7 +674,16 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		ANALYSIS(0xffff00),
 		NORESULT(0xff8000),
 		SUCCESS(0x00ff00),
-		ERROR(0xff0000);
+		ERROR_NO_CHARGE(0xff0000),
+		ERROR_NO_ANALYSIS(0xff0000),
+		ERROR_OBSTRUCTED_CHANNEL(0xff0000),
+		ERROR_EXPECTED_COIL(0xff0000),
+		ERROR_MALFORMED_SEGMENT(0xff0000),
+		ERROR_ANALYSIS_TOO_LONG(0xff0000),
+		ERROR_ANALYSIS_TOO_SHORT(0xff0000),
+		ERROR_DIODE_COLLISION(0xff0000),
+		ERROR_BRANCHING_TURN(0xff0000),
+		ERROR_GENERIC(0xff0000);
 		
 		public int color;
 		

@@ -15,14 +15,17 @@ import net.minecraft.item.ItemStack;
 public class GasCentrifugeRecipes {
 	
 	public static enum PseudoFluidType {
-		NONE	(0,		0,		"NONE",		"Empty",				false,	(ItemStack[])null),
+		NONE		(0,		0,		"NONE",			"Empty",					false,	(ItemStack[])null),
 		
-		NUF6 	(400,	300,	"LEUF6",	"Natural UF6",			false,	new ItemStack(ModItems.nugget_u238, 1)),
-		LEUF6 	(300,	200,	"MEUF6",	"Low Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
-		MEUF6	(200,	100,	"HEUF6",	"Medium Enriched UF6",	false,	new ItemStack(ModItems.nugget_u238, 1)),
-		HEUF6	(300,	0,		"NONE",		"High Enriched UF6",	true,	new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
+		NUF6 		(400,	300,	"LEUF6",		"Natural UF6",				false,	new ItemStack(ModItems.nugget_u238, 1)),
+		LEUF6 		(300,	200,	"MEUF6",		"Low Enriched UF6",			false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
+		MEUF6		(200,	100,	"HEUF6",		"Medium Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1)),
+		HEUF6		(300,	0,		"NONE",			"High Enriched UF6",		true,	new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
 		
-		PF6		(300,	0,		"NONE",		"Plutonium Hexafluoride",	false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1));
+		PF6			(300,	0,		"NONE",			"Plutonium Hexafluoride",	false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1)),
+
+		MUD			(1000,	500,	"MUD_HEAVY",	"Poisonous Mud",			false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1)),
+		MUD_HEAVY	(500,	0,		"NONE",			"Heavy Mud Fraction",		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1));
 		
 		int fluidConsumed;
 		int fluidProduced;
@@ -78,6 +81,10 @@ public class GasCentrifugeRecipes {
 			outputs.add(new ItemStack(ModItems.nugget_pu238, 3));
 			outputs.add(new ItemStack(ModItems.nugget_pu_mix, 6));
 			outputs.add(new ItemStack(ModItems.fluorite, 3));
+		} else if(fluid == Fluids.WATZ) {
+			outputs.add(new ItemStack(ModItems.powder_iron, 1));
+			outputs.add(new ItemStack(ModItems.powder_lead, 1));
+			outputs.add(new ItemStack(ModItems.nuclear_waste_tiny, 1)); //we have to omit dust here because the NEI handler only supports 3 items
 		}
 		return outputs;
 	}
@@ -85,6 +92,7 @@ public class GasCentrifugeRecipes {
 	public static int getQuantityRequired(FluidType fluid) {
 		if(fluid == Fluids.UF6) return 1200;
 		if(fluid == Fluids.PUF6)return 900;
+		if(fluid == Fluids.WATZ)return 1000;
 		return 0;
 	}
 	
