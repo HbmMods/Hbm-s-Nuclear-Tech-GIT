@@ -116,6 +116,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	public static void setDigamma(EntityLivingBase entity, float digamma) {
 		
+		if(entity.worldObj.isRemote)
+			return;
+		
 		if(entity instanceof EntityDuck)
 			digamma = 0.0F;
 		

@@ -127,6 +127,7 @@ public class BulletConfigSyncingUtil {
 	public static int G4_CLAW = i++;
 	public static int G4_VAMPIRE = i++;
 	public static int G4_VOID = i++;
+	public static int G4_TITAN = i++;
 	public static int G4_SLEEK = i++;
 
 	public static int SPECIAL_OSIPR = i++;
@@ -361,6 +362,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_CLAW, Gun4GaugeFactory.get4GaugeClawConfig());
 		configSet.put(G4_VAMPIRE, Gun4GaugeFactory.get4GaugeVampireConfig());
 		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
+		configSet.put(G4_TITAN, Gun4GaugeFactory.get4GaugeQuackConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
 
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
