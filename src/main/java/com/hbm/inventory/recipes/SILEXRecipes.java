@@ -261,6 +261,22 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 89 - 20 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_balefire), 10 + 20 * i)) );
 			
+			// FLASHLEAD //
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_flashlead, 1, i), new SILEXRecipe(600, 100)
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 44 - 10 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb209), 44 - 10 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 1 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 1 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.flame_pony), 10 + 8 * i)) ); //Change to Pheo's Transschrabidic
+			
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_flashlead, 1, i + 5), new SILEXRecipe(600, 100)
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 2)) //literal how
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 43 - 10 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb209), 43 - 10 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 1 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 1 + 6 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.flame_pony), 10 + 8 * i)) ); //Change to Pheo's Transschrabidic
+			
 			// POBE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_po210be, 1, i), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_polonium), 45 - 10 * i))

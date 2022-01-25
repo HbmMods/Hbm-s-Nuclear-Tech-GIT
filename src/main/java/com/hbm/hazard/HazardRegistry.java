@@ -310,6 +310,7 @@ public class HazardRegistry {
 		HazardSystem.register(ingot_les, makeData(RADIATION, saf * ingot));
 
 		HazardSystem.register(billet_balefire_gold, makeData(RADIATION, au198 * billet));
+		HazardSystem.register(billet_flashlead, new HazardData().addEntry(RADIATION, pb209 * 1.25F * billet).addEntry(HOT, 7F));
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
@@ -346,6 +347,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_mep, purg * rod_rbmk, purg * rod_rbmk * 100);
 		registerRBMKRod(rbmk_fuel_hep239, pu239 * rod_rbmk, pu239 * rod_rbmk * 100);
 		registerRBMKRod(rbmk_fuel_hep241, pu241 * rod_rbmk, pu241 * rod_rbmk * 100);
+		registerRBMKRod(rbmk_fuel_flashlead, pb209 * 1.25F * rod_rbmk, pb209 * nugget * 0.05F * rod_rbmk);
 
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, u * billet * 100);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, uf * billet * 100);
@@ -356,6 +358,7 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_mep, purg * billet, purg * billet * 100);
 		registerRBMKPellet(rbmk_pellet_hep239, pu239 * billet, pu239 * billet * 100);
 		registerRBMKPellet(rbmk_pellet_hep241, pu241 * billet, pu241 * billet * 100);
+		registerRBMKPellet(rbmk_pellet_flashlead, pb209 * 1.25F * billet, pb209 * nugget * 0.05F);
 
 		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
 		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));

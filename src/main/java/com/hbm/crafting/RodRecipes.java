@@ -114,6 +114,7 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_schrabidium_fuel, ModItems.rbmk_fuel_mes);
 		addRBMKRod(ModItems.billet_hes, ModItems.rbmk_fuel_hes);
 		addRBMKRod(ModItems.billet_balefire_gold, ModItems.rbmk_fuel_balefire_gold);
+		addRBMKRod(ModItems.billet_flashlead, ModItems.rbmk_fuel_flashlead);
 		addRBMKRod(ModItems.billet_zfb_bismuth, ModItems.rbmk_fuel_zfb_bismuth);
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
