@@ -2336,6 +2336,7 @@ public class ModItems {
 	public static Item record_glass;
 
 	public static Item book_guide;
+	public static Item holotape_image;
 
 	public static Item polaroid;
 	public static Item glitch;
@@ -2471,6 +2472,7 @@ public class ModItems {
 	public static final int guiID_item_book = 10105;
 	public static final int guiID_item_guide = 10106;
 	public static final int guiID_item_bobble = 10107;
+	public static final int guiID_item_holo_image = 10108;
 
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -5320,6 +5322,7 @@ public class ModItems {
 		record_glass = new ItemModRecord("glass").setUnlocalizedName("record_glass").setCreativeTab(null).setTextureName(RefStrings.MODID + ":record_glass");
 		
 		book_guide = new ItemGuideBook().setUnlocalizedName("book_guide").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":book_guide");
+		holotape_image = new ItemHolotapeImage().setUnlocalizedName("holotape_image").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":holotape");
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
@@ -7794,6 +7797,7 @@ public class ModItems {
 		
 		//wow we're far down the item registry, is this the cellar?
 		GameRegistry.registerItem(book_guide, book_guide.getUnlocalizedName());
+		GameRegistry.registerItem(holotape_image, holotape_image.getUnlocalizedName());
 		
 		//Technical Items
 		GameRegistry.registerItem(smoke1, smoke1.getUnlocalizedName());
