@@ -37,8 +37,6 @@ public class GUIScreenGuide extends GuiScreen {
 		
 		type = BookType.getType(player.getHeldItem().getItemDamage());
 		
-		System.out.println(type.toString());
-		
 		page = -1;
 		maxPage = (int)Math.ceil(type.pages.size() / 2D) - 1;
 

@@ -69,7 +69,7 @@ public class GUIScreenHolotape extends GuiScreen {
 		
 		if(this.holo.getText() != null) {
 			
-			List<String> lines = I18nUtil.autoBreak(this.fontRendererObj, this.holo.getText(), 50);
+			List<String> lines = I18nUtil.autoBreak(this.fontRendererObj, this.holo.getText(), 275);
 			
 			for(String text : lines) {
 				this.fontRendererObj.drawStringWithShadow(text, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(text) / 2), nextLevel, 0x009900);

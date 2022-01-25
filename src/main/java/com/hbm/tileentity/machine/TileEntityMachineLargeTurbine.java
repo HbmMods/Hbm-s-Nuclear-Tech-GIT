@@ -76,7 +76,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 				
-				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 10F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 10% cap
+				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 5F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 20% cap
 				int processSteam = tanks[0].getFill() / (Integer)outs[2];										//the maximum amount of cycles depending on steam
 				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];				//the maximum amount of cycles depending on water
 				
@@ -85,7 +85,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
 				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
 				
-				power += (Integer)outs[3] * cycles;
+				power += ((Integer)outs[3] * cycles) * 1.25; //yields a 25% power conversion bonus
 				
 				if(power > maxPower)
 					power = maxPower;
