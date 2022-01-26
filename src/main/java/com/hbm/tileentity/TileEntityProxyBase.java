@@ -26,7 +26,7 @@ public class TileEntityProxyBase extends TileEntity {
 
 				TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 
-				if(te != null)
+				if(te != null && te != this)
 					return te;
 			}
 		}

@@ -213,7 +213,7 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack(KEY_ANYCONCRETE, 2),
+						new OreDictStack(ANY_CONCRETE.any(), 2),
 						new ComparableStack(ModBlocks.steel_scaffold, 8),
 						new ComparableStack(ModItems.plate_polymer, 8),
 						new ComparableStack(ModItems.coil_copper, 4)
@@ -222,7 +222,7 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack(KEY_ANYCONCRETE, 6),
+						new OreDictStack(ANY_CONCRETE.any(), 6),
 						new OreDictStack(STEEL.ingot(), 4),
 						new ComparableStack(ModBlocks.steel_scaffold, 2),
 						new ComparableStack(ModItems.plate_polymer, 8),

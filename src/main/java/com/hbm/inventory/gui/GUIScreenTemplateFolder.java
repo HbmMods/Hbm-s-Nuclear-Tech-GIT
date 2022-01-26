@@ -18,6 +18,7 @@ import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -114,6 +115,12 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			
 			if(stack.getDisplayName().toLowerCase().contains(sub)) {
 				stacks.add(stack);
+			} else if(stack.getItem() == ModItems.fluid_identifier) {
+				FluidType fluid = Fluids.fromID(stack.getItemDamage());
+				
+				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase().contains(sub)) {
+					stacks.add(stack);
+				}
 			}
 		}
 		
