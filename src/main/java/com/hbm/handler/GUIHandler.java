@@ -1732,6 +1732,8 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenGuide(player);
 		case ModItems.guiID_item_bobble:
 			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
+		case ModItems.guiID_item_holo_image:
+			return new GUIScreenHolotape();
 		}
 		return null;
 	}
