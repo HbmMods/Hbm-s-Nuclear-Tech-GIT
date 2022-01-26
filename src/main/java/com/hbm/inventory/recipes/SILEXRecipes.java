@@ -267,7 +267,7 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb209), 44 - 10 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 1 + 6 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 1 + 6 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.flame_pony), 10 + 8 * i)) ); //Change to Pheo's Transschrabidic
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gh336), 10 + 8 * i)) ); //Reimumunch
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_flashlead, 1, i + 5), new SILEXRecipe(600, 100)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 2)) //literal how
@@ -275,7 +275,7 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb209), 43 - 10 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 1 + 6 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 1 + 6 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.flame_pony), 10 + 8 * i)) ); //Change to Pheo's Transschrabidic
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gh336), 10 + 8 * i)) );
 			
 			// POBE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_po210be, 1, i), new SILEXRecipe(600, 100)

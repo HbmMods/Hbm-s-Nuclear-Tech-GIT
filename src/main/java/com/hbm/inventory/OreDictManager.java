@@ -117,6 +117,7 @@ public class OreDictManager {
 	public static final DictFrame SA327 = new DictFrame("Solinium");
 	public static final DictFrame SBD = new DictFrame("Schrabidate");
 	public static final DictFrame SRN = new DictFrame("Schraranium");
+	public static final DictFrame GH336 = new DictFrame("Ghiorsium336", "Gh336");
 	/*
 	 * STABLE
 	 */
@@ -253,7 +254,8 @@ public class OreDictManager {
 		SA327	.rad(HazardRegistry.sa327)	.blinding(3F)	.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
 		SBD		.rad(HazardRegistry.sb)		.blinding(1F)															.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
 		SRN		.rad(HazardRegistry.sr)		.blinding(1F)															.ingot(ingot_schraranium)															.block(block_schraranium);
-
+		GH336	.rad(HazardRegistry.gh336)					.nugget(nugget_gh336)		.billet(billet_gh336)		.ingot(ingot_gh336);
+		
 		/*
 		 * STABLE
 		 */
