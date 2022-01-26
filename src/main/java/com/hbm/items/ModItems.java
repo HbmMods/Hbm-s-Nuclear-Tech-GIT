@@ -4834,6 +4834,7 @@ public class ModItems {
 				.addEffect(new PotionEffect(Potion.field_76443_y.id, 20, 0))
 				.addEffect(new PotionEffect(HbmPotion.radx.id, 20, 0))
 				.setBlastProtection(0.5F)
+				.setProtectionLevel(500F)
 				//.setGravity(0.02D)
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
@@ -4875,6 +4876,7 @@ public class ModItems {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
+				.setProtectionLevel(1000F)
 				.addResistance("fall", 0F)
 				.addResistance("monoxide", 0F)
 				.setFireproof(true).setUnlocalizedName("fau_helmet").setTextureName(RefStrings.MODID + ":fau_helmet");
