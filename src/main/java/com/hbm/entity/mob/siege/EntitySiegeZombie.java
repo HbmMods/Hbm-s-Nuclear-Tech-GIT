@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.siege;
 
 import com.hbm.handler.SiegeOrchestrator;
+import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
@@ -129,6 +130,8 @@ public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
+			
+			this.entityDropItem(new ItemStack(ModItems.source, 1), 0F);
 		}
 	}
 

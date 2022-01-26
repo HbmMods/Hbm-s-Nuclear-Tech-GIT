@@ -973,6 +973,7 @@ public class ModItems {
 	public static Item coin_worm;
 	public static Item coin_ufo;
 	public static Item coin_siege;
+	public static Item source;
 	
 	public static Item rod_empty;
 	public static Item rod;
@@ -3434,6 +3435,7 @@ public class ModItems {
 		coin_worm = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_worm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_worm");
 		coin_ufo = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_ufo").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_ufo");
 		coin_siege = new ItemSiegeCoin().setUnlocalizedName("coin_siege").setCreativeTab(MainRegistry.consumableTab);
+		source = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("source").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":source");
 
 		recycled_ground = new Item().setUnlocalizedName("recycled_ground").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_ground");
 		recycled_rock = new Item().setUnlocalizedName("recycled_rock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_rock");
@@ -7467,6 +7469,7 @@ public class ModItems {
 		GameRegistry.registerItem(coin_worm, coin_worm.getUnlocalizedName());
 		GameRegistry.registerItem(coin_ufo, coin_ufo.getUnlocalizedName());
 		GameRegistry.registerItem(coin_siege, coin_siege.getUnlocalizedName());
+		GameRegistry.registerItem(source, source.getUnlocalizedName());
 		GameRegistry.registerItem(medal_liquidator, medal_liquidator.getUnlocalizedName());
 		GameRegistry.registerItem(v1, v1.getUnlocalizedName());
 		GameRegistry.registerItem(protection_charm, protection_charm.getUnlocalizedName());

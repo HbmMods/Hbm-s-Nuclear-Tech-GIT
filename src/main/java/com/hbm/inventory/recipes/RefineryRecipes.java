@@ -75,9 +75,9 @@ public class RefineryRecipes {
 	public static void registerCracking() {
 		cracking.put(Fluids.BITUMEN,	new Quartet(Fluids.OIL,			Fluids.PETROLEUM,	bitumen_crack_oil,	bitumen_crack_petro));
 		cracking.put(Fluids.SMEAR,		new Quartet(Fluids.NAPHTHA,		Fluids.PETROLEUM,	smear_crack_napht,	smear_crack_petro));
-		cracking.put(Fluids.GAS,		new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			gas_crack_petro,	0));
+		cracking.put(Fluids.GAS,		new Quartet(Fluids.PETROLEUM,	Fluids.NONE,		gas_crack_petro,	0));
 		cracking.put(Fluids.DIESEL,		new Quartet(Fluids.KEROSENE,	Fluids.PETROLEUM,	diesel_crack_kero,	diesel_crack_petro));
-		cracking.put(Fluids.KEROSENE,	new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			kero_crack_petro,	0));
+		cracking.put(Fluids.KEROSENE,	new Quartet(Fluids.PETROLEUM,	Fluids.NONE,		kero_crack_petro,	0));
 	}
 	
 	public static Quartet<FluidType, FluidType, Integer, Integer> getFractions(FluidType oil) {
