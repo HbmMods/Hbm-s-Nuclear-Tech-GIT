@@ -49,7 +49,7 @@ public class PressRecipes {
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.pellet_coal),				Items.diamond);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.biomass),					ModItems.biomass_compressed);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			ModItems.briquette_lignite);
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.coke),						ModItems.ingot_graphite);
+		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
 
 		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),		ModItems.plate_iron);

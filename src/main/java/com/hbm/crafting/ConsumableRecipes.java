@@ -2,6 +2,7 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.main.CraftingManager;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -120,7 +121,7 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.fmn, 1), new Object[] { COAL.dust(), PO210.dust(), ST.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pirfenidone, 1), new Object[] {COAL.dust(), KNO.dust(), ModItems.nugget_bismuth });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.five_htp, 1), new Object[] { COAL.dust(), EUPH.dust(), ModItems.canteen_fab });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cigarette, 16), new Object[] { ASBESTOS.ingot(), ModItems.oil_tar, PO210.nugget() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cigarette, 16), new Object[] { ASBESTOS.ingot(), ANY_TAR.any(), PO210.nugget() });
 		
 		//Med bags
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.med_bag, 1), new Object[] { "LLL", "SIS", "LLL", 'L', Items.leather, 'S', ModItems.syringe_metal_stimpak, 'I', ModItems.syringe_antidote });

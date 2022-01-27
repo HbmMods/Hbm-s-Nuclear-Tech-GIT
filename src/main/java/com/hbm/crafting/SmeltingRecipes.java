@@ -1,7 +1,10 @@
 package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCokeType;
+import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
 
@@ -93,9 +96,10 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_tantalium, new ItemStack(ModItems.ingot_tantalium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_niobium, new ItemStack(ModItems.ingot_niobium), 1.0F);
 
-		GameRegistry.addSmelting(ModItems.powder_coal, new ItemStack(ModItems.coke), 1.0F);
-		GameRegistry.addSmelting(ModItems.briquette_lignite, new ItemStack(ModItems.coke), 1.0F);
-		GameRegistry.addSmelting(ModItems.oil_tar, new ItemStack(ModItems.powder_coal), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_coal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
+		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE), new ItemStack(ModItems.powder_coal), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK), new ItemStack(ModItems.powder_coal), 1.0F);
 
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
 		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);

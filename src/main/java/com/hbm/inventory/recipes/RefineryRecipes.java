@@ -54,6 +54,14 @@ public class RefineryRecipes {
 						ItemFluidIcon.make(Fluids.PETROLEUM, oil_frac_petro * 10),
 						new ItemStack(ModItems.sulfur, 1) });
 		
+		/*recipes.put(ItemFluidIcon.make(Fluids.HOTCRACKOIL, 1000),
+				new ItemStack[] {
+						ItemFluidIcon.make(Fluids.NAPHTHA_CRACK, oil_frac_heavy * 10),	//fractionates into crack diesel and heating oil
+						ItemFluidIcon.make(Fluids.LIGHTOIL_CRACK, oil_frac_naph * 10),	//fractionates into kerosene and petroleum
+						ItemFluidIcon.make(Fluids.AROMATICS, oil_frac_light * 10),		//used for making bakelite and TNT
+						ItemFluidIcon.make(Fluids.UNSATURATEDS, oil_frac_petro * 10),	//used for all sorts of things, can be processed into petroleum
+						DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM) });*/
+		
 		return recipes;
 	}
 	
@@ -67,9 +75,9 @@ public class RefineryRecipes {
 	public static void registerCracking() {
 		cracking.put(Fluids.BITUMEN,	new Quartet(Fluids.OIL,			Fluids.PETROLEUM,	bitumen_crack_oil,	bitumen_crack_petro));
 		cracking.put(Fluids.SMEAR,		new Quartet(Fluids.NAPHTHA,		Fluids.PETROLEUM,	smear_crack_napht,	smear_crack_petro));
-		cracking.put(Fluids.GAS,		new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			gas_crack_petro,	0));
+		cracking.put(Fluids.GAS,		new Quartet(Fluids.PETROLEUM,	Fluids.NONE,		gas_crack_petro,	0));
 		cracking.put(Fluids.DIESEL,		new Quartet(Fluids.KEROSENE,	Fluids.PETROLEUM,	diesel_crack_kero,	diesel_crack_petro));
-		cracking.put(Fluids.KEROSENE,	new Quartet(Fluids.PETROLEUM,	Fluids.NONE,			kero_crack_petro,	0));
+		cracking.put(Fluids.KEROSENE,	new Quartet(Fluids.PETROLEUM,	Fluids.NONE,		kero_crack_petro,	0));
 	}
 	
 	public static Quartet<FluidType, FluidType, Integer, Integer> getFractions(FluidType oil) {

@@ -3,6 +3,7 @@ package com.hbm.entity.mob.siege;
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
 import com.hbm.handler.SiegeOrchestrator;
+import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
@@ -144,6 +145,8 @@ public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
+			
+			this.entityDropItem(new ItemStack(ModItems.source, 5), 0F);
 		}
 	}
 }

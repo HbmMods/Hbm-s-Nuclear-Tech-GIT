@@ -78,7 +78,14 @@ public class ShredderRecipes {
 		int len = prefix.length();
 		
 		if(name.length() > len && name.substring(0, len).equals(prefix)) {
-			ItemStack dust = getDustByName(name.substring(len));
+			
+			String matName = name.substring(len);
+			
+			//skip over genericized names so we don't accidentally convert item groups
+			if(matName.startsWith("Any"))
+				return;
+			
+			ItemStack dust = getDustByName(matName);
 			
 			if(dust != null && dust.getItem() != ModItems.scrap) {
 				

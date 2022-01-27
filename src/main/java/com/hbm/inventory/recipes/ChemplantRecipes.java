@@ -11,6 +11,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumTarType;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -134,23 +135,23 @@ public class ChemplantRecipes {
 	
 	public static void registerCoalCracking() {
 		recipes.add(new ChemRecipe("CC_OIL", 150)
-				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
+				.inputItems(new OreDictStack(COAL.dust(), 8), new OreDictStack(ANY_TAR.any(), 4))
 				.inputFluids(new FluidStack(1400, Fluids.STEAM))
 				.outputFluids(new FluidStack(2000, Fluids.OIL)));
 		recipes.add(new ChemRecipe("CC_I", 200)
-				.inputItems(new OreDictStack(COAL.dust(), 6), new ComparableStack(ModItems.oil_tar, 4))
+				.inputItems(new OreDictStack(COAL.dust(), 6), new OreDictStack(ANY_TAR.any(), 4))
 				.inputFluids(new FluidStack(1800, Fluids.WATER))
 				.outputFluids(new FluidStack(1600, Fluids.SMEAR)));
 		recipes.add(new ChemRecipe("CC_HEATING", 250)
-				.inputItems(new OreDictStack(COAL.dust(), 6), new ComparableStack(ModItems.oil_tar, 4))
+				.inputItems(new OreDictStack(COAL.dust(), 6), new OreDictStack(ANY_TAR.any(), 4))
 				.inputFluids(new FluidStack(2000, Fluids.STEAM))
 				.outputFluids(new FluidStack(1800, Fluids.HEATINGOIL)));
 		recipes.add(new ChemRecipe("CC_HEAVY", 200)
-				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
+				.inputItems(new OreDictStack(COAL.dust(), 8), new OreDictStack(ANY_TAR.any(), 4))
 				.inputFluids(new FluidStack(1400, Fluids.WATER))
 				.outputFluids(new FluidStack(1800, Fluids.HEAVYOIL)));
 		recipes.add(new ChemRecipe("CC_NAPHTHA", 300)
-				.inputItems(new OreDictStack(COAL.dust(), 8), new ComparableStack(ModItems.oil_tar, 4))
+				.inputItems(new OreDictStack(COAL.dust(), 8), new OreDictStack(ANY_TAR.any(), 4))
 				.inputFluids(new FluidStack(2400, Fluids.STEAM))
 				.outputFluids(new FluidStack(2000, Fluids.NAPHTHA)));
 	}
@@ -158,10 +159,10 @@ public class ChemplantRecipes {
 	public static void registerSolidFuel() {
 		recipes.add(new ChemRecipe("SF_OIL", 20)
 				.inputFluids(new FluidStack(350, Fluids.OIL))
-				.outputItems(new ItemStack(ModItems.oil_tar, 1), new ItemStack(ModItems.oil_tar, 1)));
+				.outputItems(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE), DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)));
 		recipes.add(new ChemRecipe("SF_HEAVYOIL", 20)
 				.inputFluids(new FluidStack(250, Fluids.HEAVYOIL))
-				.outputItems(new ItemStack(ModItems.oil_tar, 1), new ItemStack(ModItems.oil_tar, 1)));
+				.outputItems(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE), DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)));
 		recipes.add(new ChemRecipe("SF_SMEAR", 20)
 				.inputFluids(new FluidStack(200, Fluids.SMEAR))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1), new ItemStack(ModItems.solid_fuel, 1)));
@@ -214,7 +215,7 @@ public class ChemplantRecipes {
 				.inputFluids(new FluidStack(2000, Fluids.PETROLEUM))
 				.outputFluids(new FluidStack(1000, Fluids.LPG)));
 		recipes.add(new ChemRecipe("OIL_SAND", 200)
-				.inputItems(new ComparableStack(ModBlocks.ore_oil_sand, 16), new ComparableStack(ModItems.oil_tar, 1))
+				.inputItems(new ComparableStack(ModBlocks.ore_oil_sand, 16), new OreDictStack(ANY_TAR.any(), 1))
 				.outputItems(new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4))
 				.outputFluids(new FluidStack(1000, Fluids.BITUMEN)));
 		recipes.add(new ChemRecipe("ASPHALT", 100)

@@ -11,8 +11,10 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -1162,7 +1164,7 @@ public class MachineRecipes {
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
 		for(int i = 0; i < Fluids.getAll().length; i++) {
-			Object[] outs = getBoilerOutput(FluidType.getEnum(i));
+			Object[] outs = getBoilerOutput(Fluids.fromID(i));
 			
 			if(outs != null) {
 
@@ -1664,43 +1666,43 @@ public class MachineRecipes {
 		case CIRCUIT_5:
 			output[0] = new ItemStack(ModItems.circuit_schrabidium, 1);
 			break;
-        case SF_OIL:
-			output[0] = new ItemStack(ModItems.oil_tar, 1);
-			output[1] = new ItemStack(ModItems.oil_tar, 1);
+		case SF_OIL:
+			output[0] = DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE);
+			output[1] = DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE);
 			break;
-        case SF_HEAVYOIL:
-			output[0] = new ItemStack(ModItems.oil_tar, 1);
-			output[1] = new ItemStack(ModItems.oil_tar, 1);
+		case SF_HEAVYOIL:
+			output[0] = DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE);
+			output[1] = DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE);
 			break;
-        case SF_SMEAR:
+		case SF_SMEAR:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-        case SF_HEATINGOIL:
+		case SF_HEATINGOIL:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-        case SF_RECLAIMED:
+		case SF_RECLAIMED:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-        case SF_PETROIL:
+		case SF_PETROIL:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-    	case SF_LUBRICANT:
+		case SF_LUBRICANT:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-    	case SF_NAPHTHA:
+		case SF_NAPHTHA:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-    	case SF_DIESEL:
+		case SF_DIESEL:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-    	case SF_LIGHTOIL:
+		case SF_LIGHTOIL:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
@@ -1720,50 +1722,50 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-    	case SF_BIOFUEL:
+		case SF_BIOFUEL:
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
-        case POLYMER:
+		case POLYMER:
 			output[0] = new ItemStack(ModItems.ingot_polymer, 1);
-        	break;
-        case YELLOWCAKE:
+			break;
+		case YELLOWCAKE:
 			output[0] = new ItemStack(ModItems.powder_yellowcake, 1);
-        	break;
-        case UF6:
+			break;
+		case UF6:
 			output[0] = new ItemStack(ModItems.sulfur, 2);
 			break;
-        case DYN_SCHRAB:
+		case DYN_SCHRAB:
 			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
 			output[1] = new ItemStack(ModItems.powder_desh, 12);
 			output[2] = new ItemStack(ModItems.powder_desh_mix, 12);
-        	break;
-        case DYN_EUPH:
+			break;
+		case DYN_EUPH:
 			output[0] = new ItemStack(ModItems.nugget_euphemium, 12);
 			output[1] = new ItemStack(ModItems.powder_schrabidium, 4);
 			output[2] = new ItemStack(ModItems.powder_power, 4);
-        	break;
-        case DYN_DNT:
+			break;
+		case DYN_DNT:
 			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
 			output[1] = new ItemStack(ModItems.powder_euphemium, 8);
 			output[2] = new ItemStack(ModItems.powder_nitan_mix, 8);
-        	break;
-        case CORDITE:
+			break;
+		case CORDITE:
 			output[0] = new ItemStack(ModItems.cordite, 4);
-        	break;
-        case KEVLAR:
+			break;
+		case KEVLAR:
 			output[0] = new ItemStack(ModItems.plate_kevlar, 4);
-        	break;
-        case SOLID_FUEL:
+			break;
+		case SOLID_FUEL:
 			output[0] = new ItemStack(ModItems.rocket_fuel, 4);
-        	break;
-        case SATURN:
+			break;
+		case SATURN:
 			output[0] = new ItemStack(ModItems.ingot_saturnite, 2);
-        	break;
-        case BALEFIRE:
+			break;
+		case BALEFIRE:
 			output[0] = new ItemStack(ModItems.powder_balefire, 1);
-        	break;
-        case SCHRABIDATE:
+			break;
+		case SCHRABIDATE:
 			output[0] = new ItemStack(ModItems.powder_schrabidate, 1);
 			break;
 		case COLTAN_CLEANING:
