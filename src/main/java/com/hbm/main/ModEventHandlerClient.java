@@ -52,6 +52,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.LoggingUtil;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -647,13 +648,13 @@ public class ModEventHandlerClient {
 		
 		if(mc.gameSettings.renderDistanceChunks > 16 && GeneralConfig.enableRenderDistCheck && ! FMLClientHandler.instance().hasOptifine()) {
 			mc.gameSettings.renderDistanceChunks = 16;
-			MainRegistry.logger.error("========================== WARNING ==========================");
-			MainRegistry.logger.error("Dangerous render distance detected: Values over 16 only work on 1.8+ or with Optifine installed!!");
-			MainRegistry.logger.error("Set '1.25_enableRenderDistCheck' in hbm.cfg to 'false' to disable this check.");
-			MainRegistry.logger.error("========================== WARNING ==========================");
-			MainRegistry.logger.error("If you got this error after removing Optifine: Consider deleting your option files after removing mods.");
-			MainRegistry.logger.error("If you got this error after downgrading your Minecraft version: Consider using a launcher that doesn't reuse the same folders for every game instance. MultiMC for example, it's really good and it comes with a dedicated cat button. You like cats, right? Are you using the Microsoft launcher? The one launcher that turns every version switch into a tightrope act because all the old config and options files are still here because different instances all use the same folder structure instead of different folders like a competent launcher would, because some MO-RON thought that this was an acceptable way of doing things? Really? The launcher that circumcises every crashlog into indecipherable garbage, tricking oblivious people into posting that as a \"crash report\", effectively wasting everyone's time? The launcher made by the company that thought it would be HI-LA-RI-OUS to force everyone to use Microsoft accounts, effectively breaking every other launcher until they implement their terrible auth system?");
-			MainRegistry.logger.error("========================== WARNING ==========================");
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
+			LoggingUtil.errorWithHighlight("Dangerous render distance detected: Values over 16 only work on 1.8+ or with Optifine installed!!");
+			LoggingUtil.errorWithHighlight("Set '1.25_enableRenderDistCheck' in hbm.cfg to 'false' to disable this check.");
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
+			LoggingUtil.errorWithHighlight("If you got this error after removing Optifine: Consider deleting your option files after removing mods.");
+			LoggingUtil.errorWithHighlight("If you got this error after downgrading your Minecraft version: Consider using a launcher that doesn't reuse the same folders for every game instance. MultiMC for example, it's really good and it comes with a dedicated cat button. You like cats, right? Are you using the Microsoft launcher? The one launcher that turns every version switch into a tightrope act because all the old config and options files are still here because different instances all use the same folder structure instead of different folders like a competent launcher would, because some MO-RON thought that this was an acceptable way of doing things? Really? The launcher that circumcises every crashlog into indecipherable garbage, tricking oblivious people into posting that as a \"crash report\", effectively wasting everyone's time? The launcher made by the company that thought it would be HI-LA-RI-OUS to force everyone to use Microsoft accounts, effectively breaking every other launcher until they implement their terrible auth system?");
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
 		}
 		
 		if(mc.theWorld == null || mc.thePlayer == null)
