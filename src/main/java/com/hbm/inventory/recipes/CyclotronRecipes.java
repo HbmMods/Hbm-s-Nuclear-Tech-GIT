@@ -39,7 +39,7 @@ public class CyclotronRecipes {
 		makeRecipe(lithium, liAmat, "dustPhosphorus", new ItemStack(ModItems.sulfur), liA);
 		makeRecipe(lithium, liAmat, "dustIron", new ItemStack(ModItems.powder_cobalt), liA);
 		makeRecipe(lithium, liAmat, new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_zirconium), liA);
-		makeRecipe(lithium, liAmat, "dustGold", new ItemStack(ModItems.nugget_mercury), liA);
+		makeRecipe(lithium, liAmat, "dustGold", new ItemStack(ModItems.ingot_mercury), liA);
 		makeRecipe(lithium, liAmat, "dustPolonium", new ItemStack(ModItems.powder_astatine), liA);
 		makeRecipe(lithium, liAmat, "dustLanthanium", new ItemStack(ModItems.powder_cerium), liA);
 		makeRecipe(lithium, liAmat, "dustActinium", new ItemStack(ModItems.powder_thorium), liA);
@@ -69,7 +69,7 @@ public class CyclotronRecipes {
 		makeRecipe(carbon, caAmat, "dustTitanium", new ItemStack(ModItems.powder_cobalt), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_gold), caA);
-		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.nugget_mercury), new ItemStack(ModItems.powder_polonium), caA);
+		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.ingot_mercury), new ItemStack(ModItems.powder_polonium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_lead), new ItemStack(ModItems.powder_ra226),caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);

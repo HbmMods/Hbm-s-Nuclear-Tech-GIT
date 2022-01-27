@@ -492,7 +492,7 @@ public class AssemblerRecipes {
 				new OreDictStack(PB.nugget(), 12),
 			}, 50);
 		makeRecipe(new ComparableStack(ModItems.pellet_mercury, 2), new AStack[] {
-				new ComparableStack(ModItems.nugget_mercury, 1),
+				new ComparableStack(ModItems.ingot_mercury, 1),
 				new OreDictStack(PB.nugget(), 12),
 			}, 50);
 		makeRecipe(new ComparableStack(ModItems.pellet_meteorite, 2), new AStack[] {

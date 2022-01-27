@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.Tuple.Pair;

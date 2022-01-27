@@ -24,6 +24,7 @@ public class MineralRecipes {
 		
 		add1To9Pair(ModItems.dust, ModItems.dust_tiny);
 		add1To9Pair(ModItems.powder_coal, ModItems.powder_coal_tiny);
+		add1To9Pair(ModItems.ingot_mercury, ModItems.nugget_mercury);
 
 		add1To9Pair(ModBlocks.sand_gold, ModItems.powder_gold);
 		add1To9Pair(ModBlocks.sand_gold198, ModItems.powder_au198);
@@ -382,8 +383,8 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.nugget_solinium, 9), new Object[] { "#", '#', ModItems.ingot_solinium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste, 1), new Object[] { "###", "###", "###", '#', ModItems.nuclear_waste_tiny });
 		GameRegistry.addRecipe(new ItemStack(ModItems.nuclear_waste_tiny, 9), new Object[] { "#", '#', ModItems.nuclear_waste });
-		GameRegistry.addRecipe(new ItemStack(ModItems.bottle_mercury, 1), new Object[] { "###", "#B#", "###", '#', ModItems.nugget_mercury, 'B', Items.glass_bottle });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nugget_mercury, 8), new Object[] { "#", '#', ModItems.bottle_mercury });
+		GameRegistry.addRecipe(new ItemStack(ModItems.bottle_mercury, 1), new Object[] { "###", "#B#", "###", '#', ModItems.ingot_mercury, 'B', Items.glass_bottle });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_mercury, 8), new Object[] { "#", '#', ModItems.bottle_mercury });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire, 1), new Object[] { "###", "###", "###", '#', ModItems.egg_balefire_shard });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 9), new Object[] { "#", '#', ModItems.egg_balefire });
 		add1To9Pair(ModItems.powder_paleogenite, ModItems.powder_paleogenite_tiny);
