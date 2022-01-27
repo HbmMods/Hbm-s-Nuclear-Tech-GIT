@@ -45,14 +45,14 @@ public class TileEntityConverterRfHe extends TileEntity implements IEnergyGenera
 		if(simulate)
 			return 0;
 		
-		long capacity = maxReceive * 4L;
+		long capacity = maxReceive / 4L;
 		subBuffer = capacity;
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		}
 		
-		return (int) ((capacity - subBuffer) / 4L);
+		return (int) ((capacity - subBuffer) * 4L);
 	}
 
 	@Override
