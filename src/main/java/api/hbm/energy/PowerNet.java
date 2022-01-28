@@ -121,7 +121,7 @@ public class PowerNet implements IPowerNet {
 			long req = weight.get(i);
 			double fraction = (double)req / (double)totalReq;
 			
-			long given = (int) Math.floor(fraction * power);
+			long given = (long) Math.floor(fraction * power);
 			
 			totalGiven += (given - con.transferPower(given));
 		}

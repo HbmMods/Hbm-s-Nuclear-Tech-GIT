@@ -9,11 +9,16 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIArrowAttack;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -25,6 +30,13 @@ public class EntitySiegeSkeleton extends EntityMob implements IRangedAttackMob, 
 
 	public EntitySiegeSkeleton(World world) {
 		super(world);
+		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(2, new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F));
+		this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(5, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
 	@Override
@@ -66,7 +78,6 @@ public class EntitySiegeSkeleton extends EntityMob implements IRangedAttackMob, 
 	protected void entityInit() {
 		super.entityInit();
 		this.getDataWatcher().addObject(12, (int) 0);
-		this.getDataWatcher().addObject(13, (byte) 0);
 	}
 
 	@Override
@@ -118,20 +129,28 @@ public class EntitySiegeSkeleton extends EntityMob implements IRangedAttackMob, 
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float f) {
-
-		Vec3 vec = Vec3.createVectorHelper(target.posX - posY, target.posY + target.height * 0.5 - (posY + this.getEyeHeight()), target.posZ -posZ).normalize();
+		
+		double x = posX;
+		double y = posY + this.getEyeHeight();
+		double z = posZ;
+		
+		Vec3 vec = Vec3.createVectorHelper(target.posX - x, target.posY + target.getYOffset() + target.height * 0.5 - y, target.posZ - z).normalize();
 		
 		SiegeTier tier = this.getTier();
 		
-		EntitySiegeLaser laser = new EntitySiegeLaser(worldObj, this);
-		laser.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 1F, 0.15F);
-		laser.setColor(0x808080);
-		laser.setDamage(tier.damageMod);
-		laser.setExplosive(tier.laserExplosive);
-		laser.setBreakChance(tier.laserBreak);
-		if(tier.laserIncendiary) laser.setIncendiary();
-		worldObj.spawnEntityInWorld(laser);
-		this.playSound("hbm:weapon.ballsLaser", 2.0F, 1.0F);
+		for(int i = 0; i < 3; i++) {
+			EntitySiegeLaser laser = new EntitySiegeLaser(worldObj, this);
+			laser.setPosition(x, y, z);
+			laser.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 1F, i == 1 ? 0.15F : 5F);
+			laser.setColor(0x808000);
+			laser.setDamage(tier.damageMod);
+			laser.setExplosive(tier.laserExplosive);
+			laser.setBreakChance(tier.laserBreak);
+			if(tier.laserIncendiary) laser.setIncendiary();
+			worldObj.spawnEntityInWorld(laser);
+		}
+		
+		this.playSound("hbm:weapon.ballsLaser", 2.0F, 0.9F + rand.nextFloat() * 0.2F);
 	}
 
 	@Override

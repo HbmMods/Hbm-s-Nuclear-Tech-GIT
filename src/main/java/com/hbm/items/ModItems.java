@@ -1550,6 +1550,11 @@ public class ModItems {
 	public static Item ammo_dart;
 	public static Item ammo_dart_nuclear;
 	public static Item ammo_dart_nerf;
+	public static Item ammo_stinger_rocket;
+	public static Item ammo_stinger_rocket_he;
+	public static Item ammo_stinger_rocket_incendiary;
+	public static Item ammo_stinger_rocket_nuclear;
+	public static Item ammo_stinger_rocket_bones;
 	
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -4178,6 +4183,11 @@ public class ModItems {
 		ammo_dart = new ItemAmmo().setUnlocalizedName("ammo_dart");
 		ammo_dart_nuclear = new ItemAmmo().setUnlocalizedName("ammo_dart_nuclear");
 		ammo_dart_nerf = new ItemAmmo().setUnlocalizedName("ammo_dart_nerf");
+		ammo_stinger_rocket = new ItemAmmo().setUnlocalizedName("ammo_stinger_rocket");
+		ammo_stinger_rocket_he = new ItemAmmo().setUnlocalizedName("ammo_stinger_rocket_he");
+		ammo_stinger_rocket_incendiary = new ItemAmmo().setUnlocalizedName("ammo_stinger_rocket_incendiary");
+		ammo_stinger_rocket_nuclear = new ItemAmmo().setUnlocalizedName("ammo_stinger_rocket_nuclear");
+		ammo_stinger_rocket_bones = new ItemAmmo().setUnlocalizedName("ammo_stinger_rocket_bones");
 		
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
 		gun_karl = new ItemGunBase(GunRocketFactory.getKarlConfig()).setUnlocalizedName("gun_karl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_karl");
@@ -4185,9 +4195,8 @@ public class ModItems {
 		gun_quadro = new ItemGunBase(GunRocketFactory.getQuadroConfig()).setUnlocalizedName("gun_quadro").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_quadro");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_alt");
 		gun_hk69 = new ItemGunBase(GunGrenadeFactory.getHK69Config()).setUnlocalizedName("gun_hk69").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_hk69");
-		gun_stinger = new GunStinger().setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger");
-		gun_skystinger = new GunStinger().setUnlocalizedName("gun_skystinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_skystinger");
-		gun_stinger_ammo = new Item().setUnlocalizedName("gun_stinger_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger_ammo");
+		gun_stinger = new ItemGunBase(GunRocketHomingFactory.getStingerConfig()).setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger");
+		gun_skystinger = new ItemGunBase(GunRocketHomingFactory.getSkyStingerConfig()).setUnlocalizedName("gun_skystinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_skystinger");		gun_stinger_ammo = new Item().setUnlocalizedName("gun_stinger_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger_ammo");
 		gun_revolver_ammo = new Item().setUnlocalizedName("gun_revolver_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_ammo");
 		gun_revolver = new ItemGunBase(Gun357MagnumFactory.getRevolverConfig()).setUnlocalizedName("gun_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver");
 		gun_revolver_saturnite = new ItemGunBase(Gun357MagnumFactory.getRevolverSaturniteConfig()).setUnlocalizedName("gun_revolver_saturnite").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_saturnite");
@@ -7114,6 +7123,11 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_rocket_nuclear, ammo_rocket_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_rpc, ammo_rocket_rpc.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_digamma, ammo_rocket_digamma.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_stinger_rocket, ammo_stinger_rocket.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_stinger_rocket_he, ammo_stinger_rocket_he.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_stinger_rocket_incendiary, ammo_stinger_rocket_incendiary.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_stinger_rocket_nuclear, ammo_stinger_rocket_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_stinger_rocket_bones, ammo_stinger_rocket_bones.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade, ammo_grenade.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_he, ammo_grenade_he.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade_incendiary, ammo_grenade_incendiary.getUnlocalizedName());
