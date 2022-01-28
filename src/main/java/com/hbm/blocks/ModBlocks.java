@@ -831,9 +831,7 @@ public class ModBlocks {
 
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
-
 	public static Block machine_converter_rf_he;
-	public static final int guiID_converter_rf_he = 29;
 
 	public static Block machine_schrabidium_transmutator;
 	public static final int guiID_schrabidium_transmutator = 30;

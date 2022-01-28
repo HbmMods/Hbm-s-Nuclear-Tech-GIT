@@ -35,6 +35,12 @@ public abstract class EntityBurrowingBase extends EntityCreature {
 	protected void updateFallState(double distFallen, boolean onGround) { }
 
 	/**
+	 * ...and we turn off the default AI routines. We don't care about path-finding anyway.
+	 */
+	@Override
+	protected void updateEntityActionState() { }
+
+	/**
 	 * Calls moveFlying to add motion depending on our entity's rotation, then moves. Drag is applied depending on whether it is underground or airborne.
 	 * Called in onLivingUpdate TODO: figure out if strafe and forward are set by one of the superclasses or if this part is pointless
 	 */
@@ -70,6 +76,14 @@ public abstract class EntityBurrowingBase extends EntityCreature {
 	 */
 	public boolean canFly() {
 		return false;
+	}
+
+	/**
+	 * Contrary to its name, all I could find about it was that it controlled some rotation behavior. BoT seems to work fine with it, so we'll use it here too.
+	 */
+	@Override
+	protected boolean isAIEnabled() {
+		return true;
 	}
 
 	/**
