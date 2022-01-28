@@ -78,4 +78,9 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	public FluidType getType() {
 		return type;
 	}
+
+	@Override
+	public boolean setType(FluidType type) {
+		return false;
+	}
 }

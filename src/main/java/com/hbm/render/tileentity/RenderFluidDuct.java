@@ -28,7 +28,7 @@ public class RenderFluidDuct extends TileEntitySpecialRenderer {
 		{
 			if(cable.connections[i] != null)
 			{
-				drawConnection(cable.connections[i], cable.type.getColor());
+				drawConnection(cable.connections[i], cable.getType().getColor());
 			}
 		}
 		GL11.glTranslated(-offsetX, -offsetY, -offsetZ);

@@ -495,7 +495,7 @@ public class Library {
 		
 		if(tileentity instanceof IFluidDuct)
 		{
-			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type.name().equals(type.name()))
+			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).getType() == type)
 			{
 				if(Library.checkUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
 				{
