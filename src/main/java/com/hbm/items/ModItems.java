@@ -2160,6 +2160,7 @@ public class ModItems {
 	public static Item insert_steel;
 	public static Item insert_du;
 	public static Item insert_polonium;
+	public static Item insert_ghiorsium;
 	public static Item insert_era;
 	public static Item insert_yharonite;
 	public static Item insert_doxium;
@@ -3349,6 +3350,7 @@ public class ModItems {
 		insert_steel = new ItemModInsert(1000, 1F, 0.95F, 0.75F, 0.95F).setUnlocalizedName("insert_steel").setTextureName(RefStrings.MODID + ":insert_steel");
 		insert_du = new ItemModInsert(1500, 0.9F, 0.85F, 0.5F, 0.9F).setUnlocalizedName("insert_du").setTextureName(RefStrings.MODID + ":insert_du");
 		insert_polonium = new ItemModInsert(500, 0.9F, 1F, 0.95F, 0.9F).setUnlocalizedName("insert_polonium").setTextureName(RefStrings.MODID + ":insert_polonium");
+		insert_ghiorsium = new ItemModInsert(2000, 0.8F, 0.75F, 0.35F, 0.9F).setUnlocalizedName("insert_ghiorsium").setTextureName(RefStrings.MODID + ":insert_ghiorsium");
 		insert_era = new ItemModInsert(25, 0.5F, 1F, 0.25F, 1F).setUnlocalizedName("insert_era").setTextureName(RefStrings.MODID + ":insert_era");
 		insert_yharonite = new ItemModInsert(9999, 0.01F, 1F, 1F, 1F).setUnlocalizedName("insert_yharonite").setTextureName(RefStrings.MODID + ":insert_yharonite");
 		insert_doxium = new ItemModInsert(9999, 5.0F, 1F, 1F, 1F).setUnlocalizedName("insert_doxium").setTextureName(RefStrings.MODID + ":insert_doxium");
@@ -7534,6 +7536,7 @@ public class ModItems {
 		GameRegistry.registerItem(insert_steel, insert_steel.getUnlocalizedName());
 		GameRegistry.registerItem(insert_du, insert_du.getUnlocalizedName());
 		GameRegistry.registerItem(insert_polonium, insert_polonium.getUnlocalizedName());
+		GameRegistry.registerItem(insert_ghiorsium, insert_ghiorsium.getUnlocalizedName());
 		GameRegistry.registerItem(insert_era, insert_era.getUnlocalizedName());
 		GameRegistry.registerItem(insert_yharonite, insert_yharonite.getUnlocalizedName());
 		GameRegistry.registerItem(insert_doxium, insert_doxium.getUnlocalizedName());
