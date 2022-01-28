@@ -453,7 +453,7 @@ public abstract class ToolAbility {
 			
 			if(mercury > 0) {
 				world.setBlockToAir(x, y, z);
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.nugget_mercury, mercury)));
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ingot_mercury, mercury)));
 			}
 		}
 

@@ -600,9 +600,9 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.BISMUTH.ordinal())), new AnvilOutput[] { 
 				new AnvilOutput(new ItemStack(ModItems.billet_bismuth, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.LEAD.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.nugget_lead, 18)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
+				new AnvilOutput(new ItemStack(ModItems.ingot_lead, 2)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.MERCURY.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.nugget_mercury, 2)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
+				new AnvilOutput(new ItemStack(ModItems.ingot_mercury, 2)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.NEPTUNIUM.ordinal())), new AnvilOutput[] { 
 				new AnvilOutput(new ItemStack(ModItems.billet_neptunium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.ZIRCONIUM.ordinal())), new AnvilOutput[] { 
