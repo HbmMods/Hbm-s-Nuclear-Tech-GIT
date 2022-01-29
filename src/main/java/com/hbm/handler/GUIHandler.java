@@ -210,13 +210,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_converter_he_rf: {
-			if(entity instanceof TileEntityConverterHeRf) {
-				return new ContainerConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_schrabidium_transmutator: {
 			if(entity instanceof TileEntityMachineSchrabidiumTransmutator) {
 				return new ContainerMachineSchrabidiumTransmutator(player.inventory, (TileEntityMachineSchrabidiumTransmutator) entity);
@@ -1048,13 +1041,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_fusion_multiblock: {
 			if(entity instanceof TileEntityFusionMultiblock) {
 				return new GUIFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_converter_he_rf: {
-			if(entity instanceof TileEntityConverterHeRf) {
-				return new GUIConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
 			}
 			return null;
 		}

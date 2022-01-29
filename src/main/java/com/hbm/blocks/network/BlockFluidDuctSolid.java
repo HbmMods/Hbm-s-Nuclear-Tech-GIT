@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blocks.IBlockMultiPass;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 
@@ -10,7 +9,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -65,10 +63,5 @@ public class BlockFluidDuctSolid extends BlockContainer implements IBlockMultiPa
 		}
 		
 		return 0xffffff;
-	}
-
-	@Override
-	public int getColorFromPass(IBlockAccess world, int x, int y, int z, boolean inv) {
-		return 0;
 	}
 }

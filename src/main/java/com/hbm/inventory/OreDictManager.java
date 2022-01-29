@@ -8,7 +8,6 @@ import static com.hbm.items.ModItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.inventory.OreDictManager.DictFrame.*;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
@@ -16,7 +15,6 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
-import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;

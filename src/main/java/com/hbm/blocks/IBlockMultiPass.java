@@ -8,8 +8,6 @@ public interface IBlockMultiPass {
 
 	public int getPasses();
 
-	public int getColorFromPass(IBlockAccess world, int x, int y, int z, boolean inv);
-
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	public static int getRenderType() {
 		return renderID;
