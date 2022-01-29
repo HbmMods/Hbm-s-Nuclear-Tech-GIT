@@ -24,7 +24,7 @@ import com.hbm.main.ModEventHandler;
 
 import java.util.Random;
 
-public class RenderNTMSkybox extends IRenderHandler {
+public class RenderNTMSkyboxImpact extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
 	private static final ResourceLocation moonTexture = new ResourceLocation("textures/environment/moon_phases.png");
@@ -42,7 +42,7 @@ public class RenderNTMSkybox extends IRenderHandler {
 	/// I had to break your compat feature for other mods' skyboxes in order to
 	/// make the skybox render correctly after Tom. Sorry about that. -Pu
 
-	public RenderNTMSkybox() {
+	public RenderNTMSkyboxImpact() {
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();
@@ -171,7 +171,7 @@ public class RenderNTMSkybox extends IRenderHandler {
 		{
 			GL11.glColor4d(1, 1, 1, rain);
 			f10 = 20.0F;
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderNTMSkybox.moonTexture);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderNTMSkyboxImpact.moonTexture);
 			float sinphi = FMLClientHandler.instance().getClient().theWorld.getMoonPhase();
 			final int cosphi = (int) (sinphi % 4);
 			final int var29 = (int) (sinphi / 4 % 2);

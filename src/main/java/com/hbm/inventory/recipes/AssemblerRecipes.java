@@ -738,6 +738,18 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.crystal_diamond, 1)
 			}, 400);
 		
+		makeRecipe(new ComparableStack(Item.getItemFromBlock(ModBlocks.machine_fel), 1), new AStack[] {
+				new ComparableStack(ModBlocks.fusion_conductor, 16),
+				new ComparableStack(ModBlocks.machine_lithium_battery, 2),
+				new OreDictStack(STEEL.ingot(), 16),
+				new OreDictStack(STEEL.plate(), 24),
+				new OreDictStack(POLYMER.ingot(), 8),
+				new ComparableStack(ModItems.circuit_red_copper, 4),
+				new ComparableStack(ModItems.wire_red_copper, 64),
+				new ComparableStack(ModItems.coil_advanced_torus, 16),
+				new ComparableStack(ModItems.circuit_gold, 1)
+		}, 400);
+		
 		makeRecipe(new ComparableStack(ModBlocks.rbmk_blank, 1), new AStack[] {
 				new ComparableStack(ModBlocks.concrete_asbestos, 4),
 				new OreDictStack(STEEL.plate(), 4),

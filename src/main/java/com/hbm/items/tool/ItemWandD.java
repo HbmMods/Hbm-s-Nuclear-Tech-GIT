@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 
 import api.hbm.energy.IEnergyConductor;
 import net.minecraft.block.Block;
@@ -47,10 +48,10 @@ public class ItemWandD extends Item {
 				player.addChatComponentMessage(new ChatComponentText("" + con.getPowerNet()));
 			}*/
 			
-			if(te instanceof TileEntityFluidDuct) {
+			if(te instanceof TileEntityFluidDuctSimple) {
 
-				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuct)te).type.getUnlocalizedName()));
-				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuct)te).type.getID()));
+				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuctSimple)te).getType().getUnlocalizedName()));
+				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuctSimple)te).getType().getID()));
 			}
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);

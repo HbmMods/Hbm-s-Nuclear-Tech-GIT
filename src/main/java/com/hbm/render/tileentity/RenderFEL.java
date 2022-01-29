@@ -5,6 +5,7 @@ import java.awt.Color;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
@@ -38,23 +39,20 @@ public class RenderFEL extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		TileEntityFEL fel = (TileEntityFEL) tileEntity;
-		int color = 0xff0000;
+		int color = 0xffffff;
 		
-		switch(fel.mode) {
-		case 0: color = 0x303000; break;
-		case 1: color = 0xFF1010; break;
-		case 2: color = Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 1F, 0.3F) & 16777215; break;
-		case 3: color = 0x150560; break;
-		case 4: color = 0x054005; break;
-		case 5: color = 0x156015; break;
+		if(fel.mode.renderedBeamColor == 0) {
+			color = Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 0.5F, 0.1F) & 16777215;
+		} else {
+			color = fel.mode.renderedBeamColor;
+		}
+		int length = fel.distance - 3;
+		GL11.glTranslated(0, 1.5, -1.5);
+		if(fel.power > fel.powerReq * Math.pow(2, fel.mode.ordinal()) && fel.isOn && !(fel.mode == EnumWavelengths.NULL) && length > 0) {
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.SPIRAL, EnumBeamType.SOLID, color, color, 0, 1, 0F, 2, 0.0625F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.RANDOM, EnumBeamType.SOLID, color, color, (int)(tileEntity.getWorldObj().getTotalWorldTime() % 1000 / 2), (length / 2) + 1, 0.0625F, 2, 0.0625F);
 		}
 		
-		int length = 25;
-
-		GL11.glTranslated(0, 1.5, -1.5);
-		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.SPIRAL, EnumBeamType.SOLID, color, color, 0, 1, 0F, 2, 0.0625F);
-		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.RANDOM, EnumBeamType.SOLID, color, color, (int)(tileEntity.getWorldObj().getTotalWorldTime() % 1000 / 2), (length / 2) + 1, 0.0625F, 2, 0.0625F);
-
 		GL11.glPopMatrix();
 	}
 }

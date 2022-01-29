@@ -10,8 +10,12 @@ import java.util.Map;
 import com.hbm.inventory.gui.GUISILEX;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.WeightedRandomObject;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -19,7 +23,9 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class SILEXRecipeHandler extends TemplateRecipeHandler {
 
@@ -34,6 +40,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		List<PositionedStack> outputs;
 		List<Double> chances;
 		double produced;
+		EnumWavelengths crystalStrength;
 
 		public RecipeSet(Object input, SILEXRecipe recipe) {
 			
@@ -41,6 +48,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
 			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
+			this.crystalStrength = EnumWavelengths.values()[recipe.laserStrength];
 			
 			double weight = 0;
 			
@@ -141,7 +149,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			
 			if(recipe.getKey() instanceof ItemStack) {
 
-				if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()))
+				if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
 					this.arecipes.add(new RecipeSet(recipe.getKey(), recipe.getValue()));
 				
 			} else if (recipe.getKey() instanceof ArrayList) {
@@ -149,7 +157,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				for(Object o : (ArrayList)recipe.getKey()) {
 					ItemStack stack = (ItemStack)o;
 
-					if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, stack))
+					if (NEIServerUtils.areStacksSameType(ingredient, stack))
 						this.arecipes.add(new RecipeSet(stack, recipe.getValue()));
 				}
 			}
@@ -174,6 +182,12 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+
+		/*int index = 0;
+		for(Double chance : rec.chances) {
+			fontRenderer.drawString(((int)(chance * 10D) / 10D) + "%", 84, 28 + index * 18 - 9 * ((rec.chances.size() + 1) / 2), 0x404040);
+			index++;
+		}*/
 		
 		for(int i = 0; i < rec.chances.size(); i++) {
 			
@@ -186,6 +200,11 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		
 		String am = ((int)(rec.produced * 10D) / 10D) + "x";
 		fontRenderer.drawString(am, 52 - fontRenderer.getStringWidth(am) / 2, 43, 0x404040);
+		
+		String wavelength = (rec.crystalStrength == EnumWavelengths.NULL) ? EnumChatFormatting.WHITE+"N/A" : rec.crystalStrength.textColor + I18nUtil.resolveKey(rec.crystalStrength.name);
+		fontRenderer.drawString(wavelength, (33 - fontRenderer.getStringWidth(wavelength) / 2), 8, 0x404040);
+		
+		
 	}
 
 	@Override

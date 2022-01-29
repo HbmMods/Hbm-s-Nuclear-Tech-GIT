@@ -41,7 +41,8 @@ import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
-import com.hbm.render.world.RenderNTMSkybox;
+import com.hbm.render.world.RenderNTMSkyboxChainloader;
+import com.hbm.render.world.RenderNTMSkyboxImpact;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -688,8 +689,17 @@ public class ModEventHandlerClient {
 			if(world != null && world.provider instanceof WorldProviderSurface) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
-				if(!(sky instanceof RenderNTMSkybox)) {
-					world.provider.setSkyRenderer(new RenderNTMSkybox());
+				
+				if(ModEventHandler.dust > 0 || ModEventHandler.fire > 0) {
+
+					if(!(sky instanceof RenderNTMSkyboxImpact)) {
+						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
+					}
+				} else {
+
+					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
+						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+					}
 				}
 			}
 		}

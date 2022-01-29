@@ -10,31 +10,25 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEFluidPipePacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
+public class TileEntityFluidDuct extends TileEntityFluidDuctSimple {
 	
 	public ForgeDirection[] connections = new ForgeDirection[6];
-	public FluidType type = Fluids.NONE;
-	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	
-	public TileEntityFluidDuct() {
-		
-	}
+	public TileEntityFluidDuct() { }
 	
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new TEFluidPipePacket(xCoord, yCoord, zCoord, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
-		
 		this.updateConnections();
 	}
 	
@@ -57,28 +51,10 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 		if(Library.checkFluidConnectables(this.worldObj, xCoord - 1, yCoord, zCoord, type)) connections[5] = ForgeDirection.WEST;
 		else connections[5] = null;
 	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		type = Fluids.fromID(nbt.getInteger("fluid"));
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setInteger("fluid", type.getID());
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public FluidType getType() {
-		return type;
 	}
 }

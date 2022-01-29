@@ -123,7 +123,7 @@ public class ItemFluidDuct extends Item {
 			world.setBlock(x, y, z, ModBlocks.fluid_duct);
 
 			if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuct) {
-				((TileEntityFluidDuct) world.getTileEntity(x, y, z)).type = Fluids.fromID(stack.getItemDamage());
+				((TileEntityFluidDuct) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);
