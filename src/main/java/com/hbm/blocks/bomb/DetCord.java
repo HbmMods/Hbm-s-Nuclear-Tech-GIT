@@ -1,8 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IBomb.BombReturnCode;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,7 +9,7 @@ import net.minecraft.world.World;
 
 public class DetCord extends Block implements IDetConnectible {
 
-	protected DetCord(Material p_i45394_1_) {
+	public DetCord(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
 	

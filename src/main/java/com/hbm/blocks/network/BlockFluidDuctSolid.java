@@ -52,13 +52,11 @@ public class BlockFluidDuctSolid extends BlockContainer implements IBlockMultiPa
 	}
 
 	@Override
-	public int getColorFromPass(IBlockAccess world, int x, int y, int z, boolean inv) {
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		
 		if(RenderBlockMultipass.currentPass == 0)
 			return 0xffffff;
-		
-		if(inv)
-			return Fluids.NONE.getColor();
 		
 		TileEntityFluidDuctSimple te = (TileEntityFluidDuctSimple) world.getTileEntity(x, y, z);
 		
@@ -67,5 +65,10 @@ public class BlockFluidDuctSolid extends BlockContainer implements IBlockMultiPa
 		}
 		
 		return 0xffffff;
+	}
+
+	@Override
+	public int getColorFromPass(IBlockAccess world, int x, int y, int z, boolean inv) {
+		return 0;
 	}
 }

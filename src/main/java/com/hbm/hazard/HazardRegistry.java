@@ -10,6 +10,7 @@ import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
+import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.util.Compat;
 import com.hbm.util.Compat.ReikaIsotope;
 
@@ -434,8 +435,9 @@ public class HazardRegistry {
 		
 		HazardSystem.register(solinium_propellant, makeData(EXPLOSIVE, 10F));
 		HazardSystem.register(solinium_core, new HazardData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 5F));
-		
+
 		HazardSystem.register(nuke_fstbmb, makeData(DIGAMMA, 0.01F));
+		HazardSystem.register(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), makeData(DIGAMMA, 1F));
 		
 		/*
 		 * Blacklist

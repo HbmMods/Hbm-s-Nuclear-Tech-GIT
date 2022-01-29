@@ -7,6 +7,7 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.lib.Library;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -14,11 +15,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFluidDuctSimple extends TileEntity implements IFluidDuct {
 
+	private FluidType lastType = Fluids.NONE;
 	protected FluidType type = Fluids.NONE;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
+	
+	
+	public ForgeDirection[] connections = new ForgeDirection[6];
 
 	@Override
 	public Packet getDescriptionPacket() {
@@ -63,5 +69,30 @@ public class TileEntityFluidDuctSimple extends TileEntity implements IFluidDuct 
 	@Override
 	public FluidType getType() {
 		return type;
+	}
+	
+	@Override
+	public void updateEntity() {
+		this.updateConnections();
+
+		if(lastType != type) {
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			lastType = type;
+		}
+	}
+	
+	public void updateConnections() {
+		if(Library.checkFluidConnectables(this.worldObj, xCoord, yCoord + 1, zCoord, type)) connections[0] = ForgeDirection.UP;
+		else connections[0] = null;
+		if(Library.checkFluidConnectables(this.worldObj, xCoord, yCoord - 1, zCoord, type)) connections[1] = ForgeDirection.DOWN;
+		else connections[1] = null;
+		if(Library.checkFluidConnectables(this.worldObj, xCoord, yCoord, zCoord - 1, type)) connections[2] = ForgeDirection.NORTH;
+		else connections[2] = null;
+		if(Library.checkFluidConnectables(this.worldObj, xCoord + 1, yCoord, zCoord, type)) connections[3] = ForgeDirection.EAST;
+		else connections[3] = null;
+		if(Library.checkFluidConnectables(this.worldObj, xCoord, yCoord, zCoord + 1, type)) connections[4] = ForgeDirection.SOUTH;
+		else connections[4] = null;
+		if(Library.checkFluidConnectables(this.worldObj, xCoord - 1, yCoord, zCoord, type)) connections[5] = ForgeDirection.WEST;
+		else connections[5] = null;
 	}
 }

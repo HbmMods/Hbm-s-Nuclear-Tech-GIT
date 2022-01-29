@@ -2,8 +2,8 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.bomb.DetCord;
 import com.hbm.blocks.bomb.IDetConnectible;
-import com.hbm.blocks.test.TestConductor;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
@@ -33,7 +33,7 @@ public class RenderDetCord implements ISimpleBlockRenderingHandler {
 		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScaled(1.25D, 1.25D, 1.25D);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "CX", iicon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "CZ", iicon, tessellator, 0, false);
 		tessellator.draw();
 
 		GL11.glPopMatrix();
@@ -60,13 +60,15 @@ public class RenderDetCord implements ISimpleBlockRenderingHandler {
 		boolean pZ = IDetConnectible.isConnectible(world, x, y, z + 1, Library.NEG_Z);
 		boolean nZ = IDetConnectible.isConnectible(world, x, y, z - 1, Library.POS_Z);
 		
+		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
+		
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
 
-		if(pX && nX && !pY && !nY && !pZ && !nZ)
+		if(mask == 0b110000 || mask == 0b100000 || mask == 0b010000)
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "CX", iicon, tessellator, 0, true);
-		else if(!pX && !nX && pY && nY && !pZ && !nZ)
+		else if(mask == 0b001100 || mask == 0b001000 || mask == 0b000100)
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "CY", iicon, tessellator, 0, true);
-		else if(!pX && !nX && !pY && !nY && pZ && nZ)
+		else if(mask == 0b000011 || mask == 0b000010 || mask == 0b000001)
 			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "CZ", iicon, tessellator, 0, true);
 		
 		else {
@@ -91,6 +93,6 @@ public class RenderDetCord implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return TestConductor.renderID;
+		return DetCord.renderID;
 	}
 }
