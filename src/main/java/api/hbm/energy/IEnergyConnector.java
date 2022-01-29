@@ -1,6 +1,5 @@
 package api.hbm.energy;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 

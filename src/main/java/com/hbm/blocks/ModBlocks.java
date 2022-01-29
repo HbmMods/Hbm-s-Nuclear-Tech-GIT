@@ -902,6 +902,9 @@ public class ModBlocks {
 	public static Block machine_deuterium_extractor;
 	public static Block machine_deuterium_tower;
 
+	public static Block machine_liquefactor;
+	public static Block machine_solidifier;
+
 	public static Block machine_chungus;
 	public static Block machine_condenser;
 	public static Block machine_tower_small;
@@ -2059,6 +2062,8 @@ public class ModBlocks {
 		machine_deuterium_extractor = new MachineDeuteriumExtractor(Material.iron).setBlockName("machine_deuterium_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deuterium_extractor_side");
 		machine_deuterium_tower = new DeuteriumTower(Material.iron).setBlockName("machine_deuterium_tower").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		
+		machine_liquefactor = new MachineLiquefactor().setBlockName("machine_liquefactor").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
+		
 		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
 		anvil_lead = new NTMAnvil(Material.iron, 1).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
 		anvil_steel = new NTMAnvil(Material.iron, 2).setBlockName("anvil_steel").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
@@ -2071,7 +2076,7 @@ public class ModBlocks {
 		anvil_osmiridium = new NTMAnvil(Material.iron, 8).setBlockName("anvil_osmiridium").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_osmiridium");
 		anvil_murky = new NTMAnvil(Material.iron, 1916169).setBlockName("anvil_murky").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
 		
-		machine_deaerator = new MachineDeaerator(Material.iron).setBlockName("machine_deaerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deaerator");
+		machine_deaerator = new MachineDeaerator(Material.iron).setBlockName("machine_deaerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		
 		machine_waste_drum = new WasteDrum(Material.iron).setBlockName("machine_waste_drum").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":waste_drum");
 		machine_storage_drum = new StorageDrum(Material.iron, guiID_storage_drum).setBlockName("machine_storage_drum").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_storage_drum");
@@ -2937,6 +2942,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_tower_large, machine_tower_large.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deuterium_extractor, machine_deuterium_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deuterium_tower, machine_deuterium_tower.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_liquefactor, ItemBlockBase.class, machine_liquefactor.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deaerator, machine_deaerator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_waste_drum, machine_waste_drum.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_storage_drum, machine_storage_drum.getUnlocalizedName());

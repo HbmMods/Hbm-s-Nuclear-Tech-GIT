@@ -25,7 +25,21 @@ public class MachineDeaerator extends BlockDummyable {
 
 	@Override
 	public int getOffset() {
+		return 4;
+	}
+
+	@Override
+	public int getRenderType() {
 		return 0;
 	}
 
+	@Override
+	public boolean isOpaqueCube() {
+		return true;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return true;
+	}
 }

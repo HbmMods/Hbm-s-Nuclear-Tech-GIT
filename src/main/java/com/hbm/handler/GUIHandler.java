@@ -27,6 +27,11 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof TileEntityMachineLiquefactor) {
+			return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity);
+		}
+		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
@@ -862,6 +867,11 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof TileEntityMachineLiquefactor) {
+			return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity);
+		}
+		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
