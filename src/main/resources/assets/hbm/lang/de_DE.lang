@@ -438,6 +438,7 @@ hazard.particleFine=Feinstaub
 hazard.sand=Augenreizstoffe
 
 hbm.key=NTM Hotkeys
+hbm.key.calculator=Taschenrechner
 hbm.key.craneLoad=Kran laden/entladen
 hbm.key.craneMoveDown=Kran rückwärts
 hbm.key.craneMoveLeft=Kran nach links
