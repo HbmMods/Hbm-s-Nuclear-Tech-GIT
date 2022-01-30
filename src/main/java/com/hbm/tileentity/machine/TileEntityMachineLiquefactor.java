@@ -14,7 +14,10 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyUser, IFluidSource {
 
@@ -165,7 +168,11 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	@Override
 	public void fillFluidInit(FluidType type) {
 		fillFluid(xCoord, yCoord - 1, zCoord, getTact(), type);
-		fillFluid(xCoord, yCoord + 3, zCoord, getTact(), type);
+		fillFluid(xCoord, yCoord + 4, zCoord, getTact(), type);
+		fillFluid(xCoord + 2, yCoord + 1, zCoord, getTact(), type);
+		fillFluid(xCoord - 2, yCoord + 1, zCoord, getTact(), type);
+		fillFluid(xCoord, yCoord + 1, zCoord + 2, getTact(), type);
+		fillFluid(xCoord, yCoord + 1, zCoord - 2, getTact(), type);
 	}
 
 	@Override
@@ -188,5 +195,30 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	@Override
 	public void clearFluidList(FluidType type) {
 		consumers.clear();
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 4,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

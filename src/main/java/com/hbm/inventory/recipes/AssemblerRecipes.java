@@ -22,12 +22,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
 import static com.hbm.inventory.OreDictManager.*;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.main.MainRegistry;
@@ -920,6 +918,16 @@ public class AssemblerRecipes {
 				new OreDictStack(NB.ingot(), 2),
 				new ComparableStack(ModItems.catalyst_clay, 12),
 				}, 300);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_liquefactor), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 8),
+				new OreDictStack(NB.ingot(), 2),
+				new OreDictStack(CU.plate(), 12),
+				new OreDictStack(ANY_TAR.any(), 8),
+				new ComparableStack(ModItems.catalyst_clay, 4),
+				new ComparableStack(ModItems.coil_tungsten, 8),
+				new ComparableStack(ModItems.tank_steel, 2)
+				}, 200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			

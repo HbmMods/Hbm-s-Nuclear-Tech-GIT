@@ -2065,7 +2065,7 @@ public class ModBlocks {
 		machine_deuterium_extractor = new MachineDeuteriumExtractor(Material.iron).setBlockName("machine_deuterium_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_deuterium_extractor_side");
 		machine_deuterium_tower = new DeuteriumTower(Material.iron).setBlockName("machine_deuterium_tower").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		
-		machine_liquefactor = new MachineLiquefactor().setBlockName("machine_liquefactor").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
+		machine_liquefactor = new MachineLiquefactor().setBlockName("machine_liquefactor").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
 		anvil_lead = new NTMAnvil(Material.iron, 1).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
