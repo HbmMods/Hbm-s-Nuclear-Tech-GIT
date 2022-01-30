@@ -3545,6 +3545,7 @@ tile.machine_puf6_tank.name=Plutonium Hexafluoride Tank
 tile.machine_pumpjack.name=Pumpjack
 tile.machine_radar.name=Radar
 tile.machine_radgen.name=Radiation-Powered Engine
+tile.machine_radiolysis.name=Radioisotope Thermoelectric Generator and Radiolysis Chamber
 tile.machine_reactor.name=Breeding Reactor
 tile.machine_reactor_small.name=Research Reactor
 tile.machine_refinery.name=Oil Refinery

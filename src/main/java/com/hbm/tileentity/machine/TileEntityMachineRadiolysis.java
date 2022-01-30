@@ -27,7 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
-	//TODO: TileMapping, Render file + resource location, container, gui, gui texture, further recipes
+	//TODO: TileMapping, Render file + resource location, container, gui, gui texture, further recipes; add registerRadiolysis to PostLoad
 	
 	public long power;
 	public static final int maxPower = 1000000;
