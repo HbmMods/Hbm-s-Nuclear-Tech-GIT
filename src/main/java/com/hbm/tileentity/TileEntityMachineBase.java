@@ -143,7 +143,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	//was it update? onUpdate? updateTile? did it have any args?
 	//shit i don't know man
 	@Override
-    public abstract void updateEntity();
+	public abstract void updateEntity();
 	
 	@Deprecated
 	public void updateGauge(int val, int id, int range) {

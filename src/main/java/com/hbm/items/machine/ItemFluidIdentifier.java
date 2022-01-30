@@ -8,7 +8,6 @@ import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 import com.hbm.util.I18nUtil;
 
@@ -85,9 +84,10 @@ public class ItemFluidIdentifier extends Item {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileEntityFluidDuctSimple) {
+
+			TileEntityFluidDuctSimple duct = (TileEntityFluidDuctSimple) te;
 			
 			if(!world.isRemote) {
-				TileEntityFluidDuctSimple duct = (TileEntityFluidDuctSimple) te;
 				FluidType type = Fluids.fromID(stack.getItemDamage());
 				
 				if (player.isSneaking()) {
@@ -97,7 +97,7 @@ public class ItemFluidIdentifier extends Item {
 				}
 			}
 			
-			world.markBlockForUpdate(x, y, z);
+			//world.markBlockForUpdate(x, y, z);
 
 			player.swingItem();
 		}
@@ -132,7 +132,7 @@ public class ItemFluidIdentifier extends Item {
 				TileEntity te = world.getTileEntity(nextX, nextY, nextZ);
 				if (te instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple) te).getType() == oldType) {
 					
-					TileEntityFluidDuct nextDuct = (TileEntityFluidDuct) te;
+					TileEntityFluidDuctSimple nextDuct = (TileEntityFluidDuctSimple) te;
 					long connectionsCount = Arrays.stream(nextDuct.connections).filter(Objects::nonNull).count();
 					
 					if (connectionsCount > 1) {

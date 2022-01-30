@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import com.hbm.inventory.gui.GUICalculator;
+import cpw.mods.fml.common.FMLCommonHandler;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.extprop.HbmPlayerProps;
@@ -16,6 +18,7 @@ public class HbmKeybinds {
 
 	public static final String category = "hbm.key";
 
+	public static KeyBinding calculatorKey = new KeyBinding(category + ".calculator", Keyboard.KEY_N, category);
 	public static KeyBinding jetpackKey = new KeyBinding(category + ".toggleBack", Keyboard.KEY_C, category);
 	public static KeyBinding hudKey = new KeyBinding(category + ".toggleHUD", Keyboard.KEY_V, category);
 	public static KeyBinding reloadKey = new KeyBinding(category + ".reload", Keyboard.KEY_R, category);
@@ -25,12 +28,13 @@ public class HbmKeybinds {
 	public static KeyBinding craneLeftKey = new KeyBinding(category + ".craneMoveLeft", Keyboard.KEY_LEFT, category);
 	public static KeyBinding craneRightKey = new KeyBinding(category + ".craneMoveRight", Keyboard.KEY_RIGHT, category);
 	public static KeyBinding craneLoadKey = new KeyBinding(category + ".craneLoad", Keyboard.KEY_RETURN, category);
-	
+
 	public static void register() {
+		ClientRegistry.registerKeyBinding(calculatorKey);
 		ClientRegistry.registerKeyBinding(jetpackKey);
 		ClientRegistry.registerKeyBinding(hudKey);
 		ClientRegistry.registerKeyBinding(reloadKey);
-		
+
 		ClientRegistry.registerKeyBinding(craneUpKey);
 		ClientRegistry.registerKeyBinding(craneDownKey);
 		ClientRegistry.registerKeyBinding(craneLeftKey);
@@ -40,6 +44,9 @@ public class HbmKeybinds {
 	
 	@SubscribeEvent
 	public void keyEvent(KeyInputEvent event) {
+		if (calculatorKey.getIsKeyPressed()) { // handle the calculator client-side only
+			FMLCommonHandler.instance().showGuiScreen(new GUICalculator());
+		}
 		
 		HbmPlayerProps props = HbmPlayerProps.getData(MainRegistry.proxy.me());
 		

@@ -1,16 +1,9 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.interfaces.Untested;
-import com.hbm.lib.Library;
-import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
