@@ -16,6 +16,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -65,6 +66,16 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			data.setInteger("progress", this.progress);
 			this.networkPack(data, 50);
 		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i == 0 && LiquefactionRecipes.getOutput(itemStack) != null;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0 };
 	}
 	
 	public boolean canProcess() {

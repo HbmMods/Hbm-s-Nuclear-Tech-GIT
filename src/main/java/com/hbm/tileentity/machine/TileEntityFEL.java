@@ -67,7 +67,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 		
 		if(!worldObj.isRemote) {
 			
-			//this.trySubscribe(world, x, y, z, dir); TODO
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir);
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(this.isOn && !(this.slots[1] == null)) {
@@ -82,7 +83,6 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 			} else { this.mode = EnumWavelengths.NULL; }
 			
 			int range = 24;
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			int length = 3;
 			boolean silexSpacing = false;
 			if(this.isOn && power >= powerReq * Math.pow(3, mode.ordinal()) && this.mode != EnumWavelengths.NULL) {

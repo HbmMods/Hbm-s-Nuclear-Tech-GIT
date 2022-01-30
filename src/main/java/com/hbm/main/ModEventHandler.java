@@ -65,12 +65,10 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
@@ -78,7 +76,6 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -114,7 +111,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -165,12 +161,16 @@ public class ModEventHandler {
 
 			if(HTTPHandler.newVersion) {
 				event.player.addChatMessage(
-						new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available!")
-						.setChatStyle(new ChatStyle()
-								.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-								.setUnderlined(true)
-								.setColor(EnumChatFormatting.YELLOW)
+						new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
+						.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
+						.appendSibling(new ChatComponentText("[here]")
+								.setChatStyle(new ChatStyle()
+									.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+									.setUnderlined(true)
+									.setColor(EnumChatFormatting.RED)
 								)
+							)
+						.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
 						);
 			}
 			

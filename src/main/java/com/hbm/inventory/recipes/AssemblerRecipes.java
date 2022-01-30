@@ -926,7 +926,8 @@ public class AssemblerRecipes {
 				new OreDictStack(ANY_TAR.any(), 8),
 				new ComparableStack(ModItems.catalyst_clay, 4),
 				new ComparableStack(ModItems.coil_tungsten, 8),
-				new ComparableStack(ModItems.tank_steel, 2)
+				new ComparableStack(ModItems.tank_steel, 2),
+				new ComparableStack(ModItems.inf_water_mk2, 2)
 				}, 200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
