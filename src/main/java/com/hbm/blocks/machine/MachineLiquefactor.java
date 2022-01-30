@@ -2,6 +2,8 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.main.MainRegistry;
@@ -13,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -36,7 +39,7 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {2, 0, 1, 1, 1, 1};
+		return new int[] {3, 0, 1, 1, 1, 1};
 	}
 	
 	@Override
@@ -68,7 +71,7 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 		x = x + dir.offsetX * o;
 		z = z + dir.offsetZ * o;
 
-		this.makeExtra(world, x, y + 2, z);
+		this.makeExtra(world, x, y + 3, z);
 		
 		this.makeExtra(world, x + 1, y + 1, z);
 		this.makeExtra(world, x - 1, y + 1, z);
@@ -77,22 +80,16 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 	}
 
 	@Override
-	public int getRenderType() {
-		return 0;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return true;
-	}
-
-	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		//list.add(EnumChatFormatting.YELLOW + "");
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) { //TODO: just slap some fuckin I18n support in there idfk
+			list.add(EnumChatFormatting.YELLOW + "Powerful universal machine to turn items into fluids.");
+			list.add(EnumChatFormatting.YELLOW + "Comes with versatile catalytic components, heating elements");
+			list.add(EnumChatFormatting.YELLOW + "and a built-in hydrator for petrochemical liquefaction.");
+		} else {
+			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
+		}
 	}
 }

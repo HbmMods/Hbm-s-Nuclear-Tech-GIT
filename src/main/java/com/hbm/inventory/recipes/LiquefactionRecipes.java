@@ -20,10 +20,17 @@ public class LiquefactionRecipes {
 	private static HashMap<Object, FluidStack> recipes = new HashMap();
 	
 	public static void register() {
-
+		
+		//TODO: make sure to either remove chemplant liquefication recipes or to adjust the values to match these
+		
+		//temporary, replace with liquefacted coal (or coal oil? parallel to crude and crack oils perhaps)
+		//if coal oil isn't parallel, we could do coal -> coal oil -> coal tar -> crude oil (or crack oil)
+		//if coal oil is parallel, we might fractionate it into crude or crack oil and coal gasoline
 		recipes.put(COAL.gem(),									new FluidStack(100, Fluids.OIL));
 		recipes.put(COAL.dust(),								new FluidStack(100, Fluids.OIL));
+		//make sure to include bitumen to tar in the solidificator with matching values
 		recipes.put(ANY_TAR.any(),								new FluidStack(100, Fluids.BITUMEN));
+		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),		new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),	new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.stone),			new FluidStack(250, Fluids.LAVA));
@@ -32,6 +39,8 @@ public class LiquefactionRecipes {
 		recipes.put(new ComparableStack(Blocks.snow),			new FluidStack(500, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.ice),			new FluidStack(1000, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.packed_ice),		new FluidStack(1000, Fluids.WATER));
+		
+		//TODO: more recipes as the crack oil derivatives are added
 	}
 	
 	public static FluidStack getOutput(ItemStack stack) {
