@@ -1413,7 +1413,7 @@ tile.red_pylon_large.name=ЛЭП
 tile.charge_dynamite.name=Бомба с таймером
 tile.charge_miner.name=Шахтёрский заряд с таймером
 container.machineLiquefactor=Разжижитель
-tile.machine_liquefactor.name=Промышленная разжижитель
+tile.machine_liquefactor.name=Промышленный разжижитель
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
