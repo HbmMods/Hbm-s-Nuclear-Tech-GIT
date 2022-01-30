@@ -869,8 +869,7 @@ public class ModBlocks {
 	public static Block machine_minirtg;
 	public static Block machine_powerrtg;
 	public static Block machine_radiolysis;
-	public static final int guiID_machine_radiolysis = 125;
-
+	
 	public static Block machine_well;
 	public static Block oil_pipe;
 	public static final int guiID_machine_well = 40;

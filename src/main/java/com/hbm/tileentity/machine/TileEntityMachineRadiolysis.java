@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -21,10 +22,12 @@ import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.energy.IEnergyGenerator;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
 	//TODO: TileMapping, Render file + resource location, container, gui, gui texture, further recipes; add registerRadiolysis to PostLoad
@@ -99,15 +102,20 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			int heat = RTGUtil.updateRTGs(slots, slot_io);
+			int heat = RTGUtil.updateRTGs(slots, slot_rtg);
 			power += heat * 15;
 			
 			if(power > maxPower)
 				power = maxPower;
 			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, dir);
+			this.sendPower(worldObj, xCoord - 2, yCoord, zCoord, dir);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord + 2, dir);
+			this.sendPower(worldObj, xCoord, yCoord, zCoord - 2, dir);
+			
 			tanks[0].setType(10, 11, slots);
 			setupTanks();
-			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(heat > 0) {
 				if(heat >= 100 && worldObj.getTotalWorldTime() % 40 == 0)
@@ -117,9 +125,17 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 					sterilize();
 			}
 			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+					fillFluidInit(tanks[1].getTankType());
+					fillFluidInit(tanks[2].getTankType());
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			this.networkPack(data, 50);
+			
+			for(byte i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	
@@ -135,20 +151,20 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			
 			if(tanks[0].getFill() >= 100 && hasSpace(left, right)) {
 				tanks[0].setFill(tanks[0].getFill() - 100);
-				tanks[1].setFill(tanks[2].getFill() + left);
-				tanks[2].setFill(tanks[3].getFill() + right);
+				tanks[1].setFill(tanks[1].getFill() + left);
+				tanks[2].setFill(tanks[2].getFill() + right);
 			}
 		}
 	}
 	
 	private boolean hasSpace(int left, int right) {
-		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill();
+		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();
 	}
 	
 	private void setupTanks() {
 		
 		Pair<FluidStack, FluidStack> quart = RadiolysisRecipes.getRadiolysis(tanks[0].getTankType());
-		
+				
 		if(quart != null) {
 			tanks[1].setTankType(quart.getKey().type);
 			tanks[2].setTankType(quart.getValue().type);
@@ -254,18 +270,20 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getMaxFill();
-		else
-			return 0;
+		for(FluidTank tank : tanks) {
+			if(tank.getTankType() == type) {
+				return tank.getMaxFill();
+			}
+		}
+		return 0;
 	}
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		fillFluid(xCoord + 1, yCoord, zCoord, this.getTact(), type);
-		fillFluid(xCoord - 1, yCoord, zCoord, this.getTact(), type);
-		fillFluid(xCoord, yCoord, zCoord + 1, this.getTact(), type);
-		fillFluid(xCoord, yCoord, zCoord - 1, this.getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, this.getTact(), type);
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, this.getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, this.getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, this.getTact(), type);
 	}
 
 	@Override
@@ -275,7 +293,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 
 	@Override
 	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 10 == 0;
+		return worldObj.getTotalWorldTime() % 20 < 10;
 	}
 
 	@Override

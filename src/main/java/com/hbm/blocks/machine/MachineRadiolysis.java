@@ -26,7 +26,7 @@ public class MachineRadiolysis extends BlockDummyable {
 		if(meta >= 12)
 			return new TileEntityMachineRadiolysis();
 		if(meta >= 6)
-			return new TileEntityProxyCombo(false, true, true);
+			return new TileEntityProxyCombo(true, true, true);
 		
 		return null;
 	}
@@ -43,7 +43,7 @@ public class MachineRadiolysis extends BlockDummyable {
 			if(pos == null)
 				return false;
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_radiolysis, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

@@ -28,8 +28,13 @@ public class GUIHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		
+		/* yeah, that's better but something like UFFR's system would be best */
 		if(entity instanceof TileEntityMachineLiquefactor) {
 			return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity);
+		}
+		
+		if(entity instanceof TileEntityMachineRadiolysis) {
+			return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity);
 		}
 		
 		switch(ID) {
@@ -870,6 +875,10 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(entity instanceof TileEntityMachineLiquefactor) {
 			return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity);
+		}
+		
+		if(entity instanceof TileEntityMachineRadiolysis) {
+			return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity);
 		}
 		
 		switch(ID) {
