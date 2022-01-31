@@ -30,7 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
-	//TODO: TileMapping, Render file + resource location, container, gui, gui texture, further recipes; add registerRadiolysis to PostLoad
+	//TODO: Render file + resource locations + itemrenderlibrary + clientproxy, gui texture, further recipes
 	
 	public long power;
 	public static final int maxPower = 1000000;
@@ -43,7 +43,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	private static final int[] slot_rtg = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	
 	public TileEntityMachineRadiolysis() {
-		super(14); //10 rtg slots, 2 fluid ID slots (io), 2 irradiation slots (io)
+		super(15); //10 rtg slots, 2 fluid ID slots (io), 2 irradiation slots (io), battery slot
 		tanks = new FluidTank[3];
 		tanks[0] = new FluidTank(Fluids.NONE, 2000, 0);
 		tanks[1] = new FluidTank(Fluids.NONE, 2000, 1);
@@ -102,11 +102,14 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
+			
 			int heat = RTGUtil.updateRTGs(slots, slot_rtg);
-			power += heat * 15;
+			power += heat * 8;
 			
 			if(power > maxPower)
 				power = maxPower;
+			
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, dir);
@@ -178,28 +181,33 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	
 	// Code: pressure, sword, sterilize.
 	private void sterilize() {
-		if(!checkIfValid())
-			return;
-				
-		if(slots[12].getItem() instanceof ItemFood && !(slots[12].getItem() == ModItems.pancake)) {
-			slots[12].stackSize -= 1;
-			if(slots[12].stackSize <= 0)
-				slots[12] = null;
-		}
-		
-		ItemStack output = slots[12].copy();
-		output.stackSize = 1;
-		
-		if(slots[13] == null) {
-			slots[13] = output;
-			slots[13].stackTagCompound.setBoolean("ntmContagion", false);
-		} else if(slots[13].isItemEqual(output) && slots[13].stackSize + output.stackSize <= slots[13].getMaxStackSize()) {
-			slots[12].stackSize -= output.stackSize;
-			if(slots[12].stackSize <= 0)
-				slots[12] = null;
+		if(slots[12] != null) {
+			if(slots[12].getItem() instanceof ItemFood && !(slots[12].getItem() == ModItems.pancake)) {
+				slots[12].stackSize -= 1;
+				if(slots[12].stackSize <= 0)
+					slots[12] = null;
+			}
 			
-			slots[13].stackSize += output.stackSize;
-			slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+			if(!checkIfValid())
+				return;
+			
+			ItemStack output = slots[12].copy();
+			output.stackSize = 1;
+			
+			if(slots[13] == null) {
+				slots[12].stackSize -= output.stackSize;
+				if(slots[12].stackSize <= 0)
+					slots[12] = null;
+				slots[13] = output;
+				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+			} else if(slots[13].isItemEqual(output) && slots[13].stackSize + output.stackSize <= slots[13].getMaxStackSize()) {
+				slots[12].stackSize -= output.stackSize;
+				if(slots[12].stackSize <= 0)
+					slots[12] = null;
+			
+				slots[13].stackSize += output.stackSize;
+				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+			}
 		}
 	}
 	
@@ -270,10 +278,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getMaxFill();
-			}
+		if(tanks[0].getTankType() == type) {
+			return tanks[0].getMaxFill();
 		}
 		return 0;
 	}

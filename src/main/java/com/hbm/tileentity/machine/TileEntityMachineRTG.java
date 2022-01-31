@@ -210,7 +210,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			if(heat > heatMax)
 				heat = heatMax;
 			
-			power += heat * 10;
+			power += heat * 5;
 			if(power > powerMax)
 				power = powerMax;
 			

@@ -30,10 +30,10 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 		
 		radiolysis.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 61, guiTop + 17, 8, 52);
-		radiolysis.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 17, 26, 16);
-		radiolysis.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 53, 26, 16);
+		radiolysis.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 87, guiTop + 17, 12, 16);
+		radiolysis.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 87, guiTop + 53, 12, 16);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, radiolysis.power, radiolysis.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, radiolysis.power, radiolysis.maxPower);
 	}
 	
 	@Override
@@ -51,15 +51,15 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)(radiolysis.getPower() * 52 / radiolysis.getMaxPower());
-		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 240, 52 - i, 16, i);
+		int i = (int)(radiolysis.getPower() * 34 / radiolysis.getMaxPower());
+		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 240, 34 - i, 16, i);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[0].getSheet());
 		radiolysis.tanks[0].renderTank(this, guiLeft + 61, guiTop + 69, radiolysis.tanks[0].getTankType().textureX() * FluidTank.x, radiolysis.tanks[0].getTankType().textureY() * FluidTank.y, 8, 52);
 		
 		for(byte j = 0; j < 2; j++) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[j].getSheet());
-			radiolysis.tanks[j + 1].renderTank(this, guiLeft + 80, guiTop + 33 + j * 36, radiolysis.tanks[j + 1].getTankType().textureX() * FluidTank.x, radiolysis.tanks[j + 1].getTankType().textureY() * FluidTank.y, 26, 16);
+			radiolysis.tanks[j + 1].renderTank(this, guiLeft + 87, guiTop + 33 + j * 36, radiolysis.tanks[j + 1].getTankType().textureX() * FluidTank.x, radiolysis.tanks[j + 1].getTankType().textureY() * FluidTank.y, 12, 16);
 		}
 	}
 }

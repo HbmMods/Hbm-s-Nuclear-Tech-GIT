@@ -131,7 +131,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			// RTG ///
 			this.hasRTG = RTGUtil.hasHeat(slots, RTGSlots);
-			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 0.1;
+			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 0.2;
 			
 			if(this.spin > 0) {
 				

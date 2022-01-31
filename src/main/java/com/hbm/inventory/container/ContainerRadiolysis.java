@@ -31,6 +31,9 @@ public class ContainerRadiolysis extends Container {
 		this.addSlotToContainer(new Slot(tile, 12, 148, 17));
 		this.addSlotToContainer(new SlotMachineOutput(tile, 13, 148, 53));
 		
+		//Battery
+		this.addSlotToContainer(new Slot(tile, 14, 8, 53));
+		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -57,11 +60,11 @@ public class ContainerRadiolysis extends Container {
 			ItemStack stack = slot.getStack();
 			var3 = stack.copy();
 
-			if(index <= 13) {
-				if(!this.mergeItemStack(stack, 14, this.inventorySlots.size(), true)) {
+			if(index <= 14) {
+				if(!this.mergeItemStack(stack, 15, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(stack, 0, 14, false)) {
+			} else if(!this.mergeItemStack(stack, 0, 15, false)) {
 				return null;
 			}
 
