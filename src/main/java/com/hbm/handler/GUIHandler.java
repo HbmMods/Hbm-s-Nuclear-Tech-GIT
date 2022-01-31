@@ -27,10 +27,12 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-		
-		/* yeah, that's better but something like UFFR's system would be best */
+
 		if(entity instanceof TileEntityMachineLiquefactor) {
 			return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity);
+		}
+		if(entity instanceof TileEntityMachineSolidifier) {
+			return new ContainerSolidifier(player.inventory, (TileEntityMachineSolidifier) entity);
 		}
 		
 		if(entity instanceof TileEntityMachineRadiolysis) {

@@ -6,11 +6,9 @@ import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.TileEntityMachineSolidifier;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,9 +17,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineLiquefactor extends BlockDummyable implements ITooltipProvider {
+public class MachineSolidifier extends BlockDummyable implements ITooltipProvider {
 
-	public MachineLiquefactor() {
+	public MachineSolidifier() {
 		super(Material.iron);
 	}
 
@@ -29,7 +27,7 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 	public TileEntity createNewTileEntity(World world, int meta) {
 		
 		if(meta >= 12)
-			return new TileEntityMachineLiquefactor();
+			return new TileEntityMachineSolidifier();
 		
 		if(meta >= extra)
 			return new TileEntityProxyCombo(true, true, true);
@@ -70,14 +68,27 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) { //TODO: just slap some fuckin I18n support in there idfk
-			list.add(EnumChatFormatting.YELLOW + "Powerful universal machine to turn items into fluids.");
-			list.add(EnumChatFormatting.YELLOW + "Comes with versatile catalytic components, heating elements");
-			list.add(EnumChatFormatting.YELLOW + "and a built-in hydrator for petrochemical liquefaction.");
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			list.add(EnumChatFormatting.YELLOW + "beb");
 		} else {
 			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
 					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
 					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
+	}
+
+	@Override
+	public int getRenderType() {
+		return 0;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return true;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return true;
 	}
 }
