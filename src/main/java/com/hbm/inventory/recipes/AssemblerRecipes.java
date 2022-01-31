@@ -931,9 +931,9 @@ public class AssemblerRecipes {
 				}, 200);
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_radiolysis), new AStack[] {
-				new OreDictStack(STEEL.ingot(), 10),
+				new OreDictStack(STEEL.ingot(), 8),
 				new ComparableStack(ModBlocks.steel_beam, 16),
-				new OreDictStack(DURA.ingot(), 12),
+				new OreDictStack(DURA.ingot(), 10),
 				new OreDictStack(DESH.ingot(), 4),
 				new OreDictStack(PB.plate(), 12),
 				new ComparableStack(ModItems.board_copper, 4),
