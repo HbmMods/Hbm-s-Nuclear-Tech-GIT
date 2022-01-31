@@ -115,7 +115,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			this.markDirty();
 		}
 	}
-	
+
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");

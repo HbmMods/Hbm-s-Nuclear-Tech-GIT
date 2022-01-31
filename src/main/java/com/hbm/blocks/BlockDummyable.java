@@ -6,7 +6,9 @@ import java.util.Random;
 
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -336,4 +338,20 @@ public abstract class BlockDummyable extends BlockContainer {
 		return 0;
 	}
 
+	protected boolean standardOpenBehavior(World world, int x, int y, int z, EntityPlayer player, int id) {
+		
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			int[] pos = this.findCore(world, x, y, z);
+
+			if(pos == null)
+				return false;
+
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, id, world, pos[0], pos[1], pos[2]);
+			return true;
+		} else {
+			return true;
+		}
+	}
 }
