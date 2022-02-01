@@ -162,6 +162,7 @@ public class MachineRecipes {
 		if(type == Fluids.STEAM) return new Object[] { Fluids.HOTSTEAM, 5, 50, 30000 };
 		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 5, 50, 45000 };
 		if(type == Fluids.OIL) return new Object[] { Fluids.HOTOIL, 5, 5, 35000 };
+		if(type == Fluids.CRACKOIL) return new Object[] { Fluids.HOTCRACKOIL, 5, 5, 35000 };
 		
 		return null;
 	}
@@ -1469,51 +1470,51 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, Fluids.ACID);
 			input[1] = new FluidStack(200, Fluids.MERCURY);
         	break;
-        case SF_OIL:
-			input[0] = new FluidStack(350, Fluids.OIL);
-        	break;
-        case SF_HEAVYOIL:
-			input[0] = new FluidStack(250, Fluids.HEAVYOIL);
-        	break;
-        case SF_SMEAR:
-			input[0] = new FluidStack(200, Fluids.SMEAR);
-        	break;
-        case SF_HEATINGOIL:
-			input[0] = new FluidStack(100, Fluids.HEATINGOIL);
-        	break;
-        case SF_RECLAIMED:
-			input[0] = new FluidStack(200, Fluids.RECLAIMED);
-        	break;
-        case SF_PETROIL:
-			input[0] = new FluidStack(250, Fluids.PETROIL);
-        	break;
-    	case SF_LUBRICANT:
-			input[0] = new FluidStack(250, Fluids.LUBRICANT);
-        	break;
-    	case SF_NAPHTHA:
-			input[0] = new FluidStack(300, Fluids.NAPHTHA);
-        	break;
-    	case SF_DIESEL:
-			input[0] = new FluidStack(400, Fluids.DIESEL);
-        	break;
-    	case SF_LIGHTOIL:
-			input[0] = new FluidStack(450, Fluids.LIGHTOIL);
-        	break;
-    	case SF_KEROSENE:
-			input[0] = new FluidStack(550, Fluids.KEROSENE);
-        	break;
-    	case SF_GAS:
-			input[0] = new FluidStack(750, Fluids.GAS);
-        	break;
-    	case SF_PETROLEUM:
-			input[0] = new FluidStack(600, Fluids.PETROLEUM);
-        	break;
-    	case SF_BIOGAS:
-			input[0] = new FluidStack(3500, Fluids.BIOGAS);
-        	break;
-    	case SF_BIOFUEL:
-			input[0] = new FluidStack(1500, Fluids.BIOFUEL);
-        	break;
+		case SF_OIL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_OIL * 2, Fluids.OIL);
+			break;
+		case SF_HEAVYOIL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_HEAVY * 2, Fluids.HEAVYOIL);
+			break;
+		case SF_SMEAR:
+			input[0] = new FluidStack(SolidificationRecipes.SF_SMEAR * 2, Fluids.SMEAR);
+			break;
+		case SF_HEATINGOIL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_HEATING * 2, Fluids.HEATINGOIL);
+			break;
+		case SF_RECLAIMED:
+			input[0] = new FluidStack(SolidificationRecipes.SF_RECLAIMED * 2, Fluids.RECLAIMED);
+			break;
+		case SF_PETROIL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_PETROIL * 2, Fluids.PETROIL);
+			break;
+		case SF_LUBRICANT:
+			input[0] = new FluidStack(SolidificationRecipes.SF_LUBE * 2, Fluids.LUBRICANT);
+			break;
+		case SF_NAPHTHA:
+			input[0] = new FluidStack(SolidificationRecipes.SF_NAPH * 2, Fluids.NAPHTHA);
+			break;
+		case SF_DIESEL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_DIESEL * 2, Fluids.DIESEL);
+			break;
+		case SF_LIGHTOIL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_LIGHT * 2, Fluids.LIGHTOIL);
+			break;
+		case SF_KEROSENE:
+			input[0] = new FluidStack(SolidificationRecipes.SF_KEROSENE * 2, Fluids.KEROSENE);
+			break;
+		case SF_GAS:
+			input[0] = new FluidStack(SolidificationRecipes.SF_GAS * 2, Fluids.GAS);
+			break;
+		case SF_PETROLEUM:
+			input[0] = new FluidStack(SolidificationRecipes.SF_PETROLEUM * 2, Fluids.PETROLEUM);
+			break;
+		case SF_BIOGAS:
+			input[0] = new FluidStack(SolidificationRecipes.SF_BIOGAS * 2, Fluids.BIOGAS);
+			break;
+		case SF_BIOFUEL:
+			input[0] = new FluidStack(SolidificationRecipes.SF_BIOFUEL * 2, Fluids.BIOFUEL);
+			break;
         case POLYMER:
 			input[0] = new FluidStack(600, Fluids.PETROLEUM);
         	break;

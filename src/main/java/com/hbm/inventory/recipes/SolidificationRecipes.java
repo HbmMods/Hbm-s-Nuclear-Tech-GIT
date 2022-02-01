@@ -17,17 +17,66 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SolidificationRecipes {
+
+	public static final int SF_OIL =		200;
+	public static final int SF_CRACK =		200;
+	public static final int SF_HEAVY =		150;
+	public static final int SF_BITUMEN =	100;
+	public static final int SF_SMEAR =		100;
+	public static final int SF_HEATING =	50;
+	public static final int SF_RECLAIMED =	100;
+	public static final int SF_PETROIL =	125;
+	public static final int SF_LUBE =		125;
+	public static final int SF_NAPH =		150;
+	public static final int SF_DIESEL =		200;
+	public static final int SF_LIGHT =		225;
+	public static final int SF_KEROSENE =	275;
+	public static final int SF_GAS =		375;
+	public static final int SF_PETROLEUM =	300;
+	public static final int SF_LPG =		150;
+	public static final int SF_BIOGAS =		1750;
+	public static final int SF_BIOFUEL =	750;
+	public static final int SF_COALOIL =	200;
+	//mostly for alternate chemistry, dump into SF if not desired
+	public static final int SF_AROMA =		1000;
+	public static final int SF_UNSAT =		1000;
+	//in the event that these compounds are STILL too useless, add unsat + gas -> kerosene recipe for all those missile junkies
+	//aromatics can be idfk wax or soap or sth, perhaps artificial lubricant?
+	//on that note, add more leaded variants
 	
 	private static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
 	
 	public static void register() {
-		registerRecipe(WATER, 1000, Blocks.ice);
-		registerRecipe(LAVA, 1000, Blocks.obsidian);
 		
-		//temporary recipes with incorrect quantities
-		registerRecipe(OIL, 1000, DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
-		registerRecipe(BITUMEN, 1000, DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
-		registerRecipe(HEATINGOIL, 1000, ModItems.solid_fuel);
+		registerRecipe(WATER,		1000,			Blocks.ice);
+		registerRecipe(LAVA,		1000,			Blocks.obsidian);
+
+		registerRecipe(OIL,			SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(CRACKOIL,	SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
+		registerRecipe(COALOIL,		SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
+		registerRecipe(HEAVYOIL,	SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(BITUMEN,		SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+
+		registerRecipe(SMEAR,			SF_SMEAR,		ModItems.solid_fuel);
+		registerRecipe(HEATINGOIL,		SF_HEATING,		ModItems.solid_fuel);
+		registerRecipe(RECLAIMED,		SF_RECLAIMED,	ModItems.solid_fuel);
+		registerRecipe(PETROIL,			SF_PETROIL,		ModItems.solid_fuel);
+		registerRecipe(LUBRICANT,		SF_LUBE,		ModItems.solid_fuel);
+		registerRecipe(NAPHTHA,			SF_NAPH,		ModItems.solid_fuel);
+		registerRecipe(NAPHTHA_CRACK,	SF_NAPH,		ModItems.solid_fuel);
+		registerRecipe(DIESEL,			SF_DIESEL,		ModItems.solid_fuel);
+		registerRecipe(DIESEL_CRACK,	SF_DIESEL,		ModItems.solid_fuel);
+		registerRecipe(LIGHTOIL,		SF_LIGHT,		ModItems.solid_fuel);
+		registerRecipe(LIGHTOIL_CRACK,	SF_LIGHT,		ModItems.solid_fuel);
+		registerRecipe(KEROSENE,		SF_KEROSENE,	ModItems.solid_fuel);
+		registerRecipe(GAS,				SF_GAS,			ModItems.solid_fuel);
+		registerRecipe(PETROLEUM,		SF_PETROLEUM,	ModItems.solid_fuel);
+		registerRecipe(LPG,				SF_LPG,			ModItems.solid_fuel);
+		registerRecipe(BIOGAS,			SF_BIOGAS,		ModItems.solid_fuel);
+		registerRecipe(BIOFUEL,			SF_BIOFUEL,		ModItems.solid_fuel);
+		registerRecipe(COALOIL,			SF_COALOIL,		ModItems.solid_fuel);
+		registerRecipe(AROMATICS,		SF_AROMA,		ModItems.solid_fuel);
+		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
 	}
 
 	private static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }

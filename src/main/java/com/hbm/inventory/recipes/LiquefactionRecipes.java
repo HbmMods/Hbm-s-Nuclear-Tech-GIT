@@ -21,15 +21,12 @@ public class LiquefactionRecipes {
 	
 	public static void register() {
 		
-		//TODO: make sure to either remove chemplant liquefication recipes or to adjust the values to match these
-		
-		//temporary, replace with liquefacted coal (or coal oil? parallel to crude and crack oils perhaps)
-		//if coal oil isn't parallel, we could do coal -> coal oil -> coal tar -> crude oil (or crack oil)
-		//if coal oil is parallel, we might fractionate it into crude or crack oil and coal gasoline
-		recipes.put(COAL.gem(),									new FluidStack(100, Fluids.OIL));
-		recipes.put(COAL.dust(),								new FluidStack(100, Fluids.OIL));
-		//make sure to include bitumen to tar in the solidificator with matching values
-		recipes.put(ANY_TAR.any(),								new FluidStack(100, Fluids.BITUMEN));
+		//oil processing
+		recipes.put(COAL.gem(),									new FluidStack(100, Fluids.COALOIL));
+		recipes.put(COAL.dust(),								new FluidStack(100, Fluids.COALOIL));
+		recipes.put(KEY_OIL_TAR,								new FluidStack(75, Fluids.BITUMEN));
+		recipes.put(KEY_CRACK_TAR,								new FluidStack(100, Fluids.BITUMEN));
+		recipes.put(KEY_COAL_TAR,								new FluidStack(50, Fluids.BITUMEN));
 		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),		new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),	new FluidStack(250, Fluids.LAVA));

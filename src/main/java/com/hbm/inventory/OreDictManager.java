@@ -61,6 +61,7 @@ public class OreDictManager {
 
 	public static final String KEY_OIL_TAR = "oiltar";
 	public static final String KEY_CRACK_TAR = "cracktar";
+	public static final String KEY_COAL_TAR = "coaltar";
 	
 	/*
 	 * PREFIXES
@@ -288,7 +289,7 @@ public class OreDictManager {
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer);
-		BAKELITE															.ingot(ingot_bakelite);
+		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite);
 		MAGTUNG																.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
@@ -365,15 +366,16 @@ public class OreDictManager {
 		/*
 		 * COLLECTIONS
 		 */
-		ANY_PLASTIC		.ingot(ingot_polymer, ingot_bakelite).dust(powder_polymer);
+		ANY_PLASTIC		.ingot(ingot_polymer, ingot_bakelite).dust(powder_polymer, powder_bakelite);
 		ANY_GUNPOWDER	.dust(Items.gunpowder, ballistite, cordite);
 		ANY_SMOKELESS	.dust(ballistite, cordite);
-		ANY_COKE		.gem(fromAll(coke, EnumCokeType.class));
 		ANY_CONCRETE	.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
+		ANY_COKE		.gem(fromAll(coke, EnumCokeType.class));
 		ANY_TAR			.any(fromAll(oil_tar, EnumTarType.class));
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
+		OreDictionary.registerOre(KEY_COAL_TAR, fromOne(oil_tar, EnumTarType.COAL));
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
