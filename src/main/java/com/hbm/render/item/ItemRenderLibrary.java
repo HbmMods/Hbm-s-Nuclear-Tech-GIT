@@ -1195,7 +1195,7 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-			/*renderers.put(Item.getItemFromBlock(ModBlocks.machine_radiolysis), new ItemRenderBase( ) {
+			renderers.put(Item.getItemFromBlock(ModBlocks.machine_radiolysis), new ItemRenderBase( ) {
 			public void renderInventory() {
 				GL11.glTranslated(0, -2.5, 0);
 				GL11.glScaled(3, 3, 3);
@@ -1204,7 +1204,7 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.radiolysis_tex); ResourceManager.radiolysis.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
-			}});*/
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

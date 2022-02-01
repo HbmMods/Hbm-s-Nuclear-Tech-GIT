@@ -68,20 +68,4 @@ public class MachineRadiolysis extends BlockDummyable {
 		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o + 1);
 		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o - 1);
 	}
-	
-	//Temporary until model made
-	@Override
-	public int getRenderType() {
-		return 0;
-	}
-	
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock() {
-		return true;
-	}
 }

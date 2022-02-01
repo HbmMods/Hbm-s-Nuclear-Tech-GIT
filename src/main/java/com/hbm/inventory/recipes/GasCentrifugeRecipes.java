@@ -69,6 +69,8 @@ public class GasCentrifugeRecipes {
 		
 	};
 	
+	//TODO: Make a Triplet with input fluid, fluid consumed, and itemstack outputs. use that to rework everything below; look at RadiolysisRecipes
+	
 	//Recipes for NEI
 	public static List<ItemStack> getGasCentOutputs(FluidType fluid) {
 		List<ItemStack> outputs = new ArrayList(4);
