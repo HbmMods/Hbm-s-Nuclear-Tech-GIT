@@ -35,6 +35,10 @@ public class GUIHandler implements IGuiHandler {
 			return new ContainerSolidifier(player.inventory, (TileEntityMachineSolidifier) entity);
 		}
 		
+		if(entity instanceof TileEntityMachineRadiolysis) {
+			return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity);
+		}
+		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
@@ -876,6 +880,10 @@ public class GUIHandler implements IGuiHandler {
 		}
 		if(entity instanceof TileEntityMachineSolidifier) {
 			return new GUISolidifier(player.inventory, (TileEntityMachineSolidifier) entity);
+		}
+		
+		if(entity instanceof TileEntityMachineRadiolysis) {
+			return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity);
 		}
 		
 		switch(ID) {

@@ -185,7 +185,7 @@ public class TileMappings {
 		put(TileEntityWatz.class, "tileentity_watz");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
-
+		
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		
@@ -231,6 +231,7 @@ public class TileMappings {
 	
 	private static void putMachines() {
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");
+		put(TileEntityMachineRadiolysis.class, "tileentity_radiolysis");
 		put(TileEntityUVLamp.class, "tileentity_uv_lamp");
 		
 		put(TileEntityCondenser.class, "tileentity_condenser");

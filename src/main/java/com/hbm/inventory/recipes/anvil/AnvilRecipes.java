@@ -19,6 +19,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 
 public class AnvilRecipes {
 
@@ -595,18 +597,6 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModBlocks.rbmk_blank, 1)),
 						new AnvilOutput(new ItemStack(ModBlocks.crate_steel, 2))
 				}).setTier(4));
-		
-		//RTG
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.BISMUTH.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.billet_bismuth, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.LEAD.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.ingot_lead, 2)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.MERCURY.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.ingot_mercury, 2)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.NEPTUNIUM.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.billet_neptunium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(new ItemStack(ModItems.pellet_rtg_depleted, 1, DepletedRTGMaterial.ZIRCONIUM.ordinal())), new AnvilOutput[] { 
-				new AnvilOutput(new ItemStack(ModItems.billet_zirconium, 3)), new AnvilOutput(new ItemStack(ModItems.plate_iron, 1)) }).setTier(3));
 		
 		if(!GeneralConfig.enable528) {
 			

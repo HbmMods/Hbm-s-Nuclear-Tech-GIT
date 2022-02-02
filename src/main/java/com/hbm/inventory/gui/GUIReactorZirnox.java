@@ -7,6 +7,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -36,23 +37,23 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		zirnox.steam.renderTankInfo(this, mouseX, mouseY, guiLeft + 160, guiTop + 108, 18, 12);
 		zirnox.carbonDioxide.renderTankInfo(this, mouseX, mouseY, guiLeft + 142, guiTop + 108, 18, 12);
 		zirnox.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 178, guiTop + 108, 18, 12);
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 160, guiTop + 33, 18, 17, new String[] { "Temperature:", "   " + Math.round((zirnox.heat) * 0.00001 * 480 + 20) + "°C" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 160, guiTop + 33, 18, 17, new String[] { "Temperature:", "   " + Math.round((zirnox.heat) * 0.00001 * 780 + 20) + "°C" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 178, guiTop + 33, 18, 17, new String[] { "Pressure:", "   " + Math.round((zirnox.pressure) * 0.00001 * 30) + " bar" });
-
-		String[] info = new String[] { "CO2 transfers heat from the core", "to the water. This will boil", "the water into steam.", "Water Consumption Rate:", "100 mB/t", "2000 mB/s" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, info);
-
-		String[] info2 = new String[] { "Pressure can be reduced by", "reducing the amount of CO2", "in the reactor. Warning:", "this will reduce cooling!" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, info2);
+		
+		String[] coolantText = I18nUtil.resolveKeyArray("desc.gui.zirnox.coolant");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, coolantText);
+		
+		String[] pressureText = I18nUtil.resolveKeyArray("desc.gui.zirnox.pressure");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, pressureText);
 
 		if(zirnox.water.getFill() <= 0) {
-			String[] warn1 = new String[] { "Error: Water is required for", "the reactor to function properly!" };
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn1);
+			String[] warning1 = I18nUtil.resolveKeyArray("desc.gui.zirnox.warning1");
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warning1);
 		}
 
 		if(zirnox.carbonDioxide.getFill() < 4000) {
-			String[] warn2 = new String[] { "Error: CO2 is required for", "the reactor to function properly!" };
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warn2);
+			String[] warning2 = I18nUtil.resolveKeyArray("desc.gui.zirnox.warning2");
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warning2);
 		}
 
 	}
@@ -123,7 +124,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 
 		if(zirnox.carbonDioxide.getFill() <= 4000)
-			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, 7);
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, 6);
 	}
 
 }

@@ -949,6 +949,8 @@ public class MainRegistry {
 		PressRecipes.register();
 		RefineryRecipes.registerFractions();
 		RefineryRecipes.registerCracking();
+		RadiolysisRecipes.registerRadiolysis();
+		GasCentrifugeRecipes.register();
 		LiquefactionRecipes.register();
 		SolidificationRecipes.register();
 		FuelPoolRecipes.register();

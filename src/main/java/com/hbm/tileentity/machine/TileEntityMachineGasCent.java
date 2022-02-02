@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -36,6 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Spaghetti("I still can't believe this was my idea of a 'rework'")
 public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor {
 	
 	public byte age;
@@ -226,7 +228,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			setTankType(1);
 			
-			if(inputTank.getTankType() == PseudoFluidType.PF6 || inputTank.getTankType() == PseudoFluidType.NUF6) {
+			if(inputTank.getTankType() == PseudoFluidType.PF6 || inputTank.getTankType() == PseudoFluidType.NUF6 || inputTank.getTankType() == PseudoFluidType.MUD) {
 				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 				attemptConversion();
 			}
@@ -334,10 +336,17 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				if(newType == Fluids.UF6) {
 					inputTank.setTankType(PseudoFluidType.NUF6);
 					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
+					return;
 				}
 				if(newType == Fluids.PUF6) {
 					inputTank.setTankType(PseudoFluidType.PF6);
 					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
+					return;
+				}
+				if(newType == Fluids.WATZ) {
+					inputTank.setTankType(PseudoFluidType.MUD);
+					outputTank.setTankType(PseudoFluidType.MUD.getOutputFluid());
+					return;
 				}
 			}
 			return;

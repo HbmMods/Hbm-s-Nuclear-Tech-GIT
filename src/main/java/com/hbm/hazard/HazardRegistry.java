@@ -253,8 +253,8 @@ public class HazardRegistry {
 		registerOtherFuel(plate_fuel_mox, mox * ingot, mox * ingot * 100, false);
 		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, pu239 * ingot * 100, false);
 		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, sa326 * ingot * 100, true);
-		registerOtherFuel(plate_fuel_ra226be, rabe * ingot, po210 * nugget * 3, false);
-		registerOtherFuel(plate_fuel_pu238be, pube * ingot, pu238 * nugget, false);
+		registerOtherFuel(plate_fuel_ra226be, rabe * billet, po210 * nugget * 3, false);
+		registerOtherFuel(plate_fuel_pu238be, pube * billet, pu238 * nugget, false);
 		
 		registerOtherWaste(waste_plate_u233, u233 * ingot * 100);
 		registerOtherWaste(waste_plate_u235, u235 * ingot * 100);
@@ -322,6 +322,7 @@ public class HazardRegistry {
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
 		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
 		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);
+		registerRTGPellet(pellet_rtg_cobalt, co60 * rtg, 0);
 		registerRTGPellet(pellet_rtg_actinium, ac227 * rtg, 0);
 		registerRTGPellet(pellet_rtg_polonium, po210 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_lead, pb209 * rtg, 0, 7F, 5F);
@@ -331,10 +332,13 @@ public class HazardRegistry {
 		
 		registerBreedingRodRadiation(BreedingRodType.TRITIUM, 0.001F);
 		registerBreedingRodRadiation(BreedingRodType.CO60, co60);
+		registerBreedingRodRadiation(BreedingRodType.RA226, ra226);
+		registerBreedingRodRadiation(BreedingRodType.AC227, ac227);
 		registerBreedingRodRadiation(BreedingRodType.TH232, th232);
 		registerBreedingRodRadiation(BreedingRodType.THF, thf);
 		registerBreedingRodRadiation(BreedingRodType.U235, u235);
 		registerBreedingRodRadiation(BreedingRodType.NP237, np237);
+		registerBreedingRodRadiation(BreedingRodType.U238, u238);
 		registerBreedingRodRadiation(BreedingRodType.PU238, pu238); //it's in a container :)
 		registerBreedingRodRadiation(BreedingRodType.PU239, pu239);
 		registerBreedingRodRadiation(BreedingRodType.RGP, purg);

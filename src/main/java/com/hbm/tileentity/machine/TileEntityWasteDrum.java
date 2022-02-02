@@ -170,7 +170,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 		if(itemStack.getItem() instanceof ItemRBMKRod) {
 			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
 		} else {
-			return !FuelPoolRecipes.recipes.containsKey(getStackInSlot(i));
+			return !FuelPoolRecipes.recipes.containsKey(new ComparableStack(getStackInSlot(i)));
 		}
 	}
 

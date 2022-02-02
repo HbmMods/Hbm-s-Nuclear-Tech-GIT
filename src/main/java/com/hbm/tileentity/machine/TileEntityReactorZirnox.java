@@ -203,13 +203,15 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 					}
 				}
 			}
-
-			this.pressure = (int) ((float)this.heat * (1.5 * this.carbonDioxide.getFill() / 16000));
+			
+			//2(fill) + ((x^2 * fill%) / 100,000)
+			this.pressure = (this.carbonDioxide.getFill() * 2) + (int)((float)this.heat * (float)this.heat * ((float)this.carbonDioxide.getFill() / (float)this.carbonDioxide.getMaxFill() / 100000F));
 
 			if(this.heat > 0 && this.heat < maxHeat) {
 				if(this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0 && this.steam.getFill() < this.steam.getMaxFill()) {
 					generateSteam();
-					this.heat -= (int) ((float)this.heat * (Math.sqrt(this.carbonDioxide.getFill()) / 1800));
+					//(x * pressure) / 1,000,000
+					this.heat -= (int) ((float)this.heat * (float)this.pressure / 1000000F);
 				} else {
 					this.heat -= 10;
 				}
@@ -233,19 +235,20 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 
 		// function of SHS produced per tick
-		// heat% * 25 * 1 (should get rid of any rounding errors)
-		int Water = (int) (((float)heat / maxHeat) * 25) * 5;
-		int Steam = Water * 1;
+		// heat - 10256/100000 * pressure / 50,000 * 25 * 3 (should get rid of any rounding errors)
+		if(this.heat > 10256) {
+			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * ((float)pressure / (float)(maxPressure / 2)) * 25F * 3F);
+			int Steam = Water * 1;
+			
+			water.setFill(water.getFill() - Water);
+			steam.setFill(steam.getFill() + Steam);
+			
+			if(water.getFill() < 0)
+				water.setFill(0);
 
-		water.setFill(water.getFill() - Water);
-		steam.setFill(steam.getFill() + Steam);
-
-		if(water.getFill() < 0)
-			water.setFill(0);
-
-		if(steam.getFill() > steam.getMaxFill())
-			steam.setFill(steam.getMaxFill());
-
+			if(steam.getFill() > steam.getMaxFill())
+				steam.setFill(steam.getMaxFill());
+		}
 	}
 
 	private boolean hasFuelRod(int id) {
