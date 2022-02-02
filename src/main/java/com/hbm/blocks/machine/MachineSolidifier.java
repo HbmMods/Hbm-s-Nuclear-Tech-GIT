@@ -76,19 +76,4 @@ public class MachineSolidifier extends BlockDummyable implements ITooltipProvide
 					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
 	}
-
-	@Override
-	public int getRenderType() {
-		return 0;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return true;
-	}
 }

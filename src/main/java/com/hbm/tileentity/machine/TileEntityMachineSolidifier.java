@@ -1,21 +1,24 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.LiquefactionRecipes;
 import com.hbm.inventory.recipes.SolidificationRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Pair;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -40,6 +43,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 		
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
+			tank.setType(4, slots);
 			tank.updateTank(this);
 
 			this.trySubscribe(worldObj, xCoord + 2, yCoord + 1, zCoord, Library.POS_X);
@@ -47,10 +51,81 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord + 2, Library.POS_Z);
 			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord - 2, Library.NEG_Z);
 			
+			if(this.canProcess())
+				this.process();
+			else
+				this.progress = 0;
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
 			this.networkPack(data, 50);
+		}
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return slot == 0;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0 };
+	}
+	
+	public boolean canProcess() {
+		
+		if(this.power < usage)
+			return false;
+		
+		Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
+		
+		if(out == null)
+			return false;
+		
+		int req = out.getKey();
+		ItemStack stack = out.getValue();
+		
+		if(req > tank.getFill())
+			return false;
+		
+		if(slots[0] != null) {
+			
+			if(slots[0].getItem() != stack.getItem())
+				return false;
+			
+			if(slots[0].getItemDamage() != stack.getItemDamage())
+				return false;
+			
+			if(slots[0].stackSize + stack.stackSize > slots[0].getMaxStackSize())
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public void process() {
+		
+		this.power -= usage;
+		
+		progress++;
+		
+		if(progress >= processTime) {
+			
+			Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
+			int req = out.getKey();
+			ItemStack stack = out.getValue();
+			tank.setFill(tank.getFill() - req);
+			
+			if(slots[0] == null) {
+				slots[0] = stack.copy();
+			} else {
+				slots[0].stackSize += stack.stackSize;
+			}
+			
+			progress = 0;
+			
+			this.markDirty();
 		}
 	}
 
@@ -85,6 +160,42 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	AxisAlignedBB bb = null;

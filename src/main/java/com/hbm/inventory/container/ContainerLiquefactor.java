@@ -49,7 +49,7 @@ public class ContainerLiquefactor extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(index <= 2) {
+			if(index <= 3) {
 				if(!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
 					return null;
 				}

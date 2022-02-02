@@ -2,14 +2,15 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.TileEntityMachineSolidifier;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderLiquefactor extends TileEntitySpecialRenderer {
+public class RenderSolidifier extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -18,12 +19,19 @@ public class RenderLiquefactor extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
+
+		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
 		
-		TileEntityMachineLiquefactor liq = (TileEntityMachineLiquefactor) tileEntity;
+		TileEntityMachineSolidifier liq = (TileEntityMachineSolidifier) tileEntity;
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		bindTexture(ResourceManager.liquefactor_tex);
-		ResourceManager.liquefactor.renderPart("Main");
+		bindTexture(ResourceManager.solidifier_tex);
+		ResourceManager.solidifier.renderPart("Main");
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -37,7 +45,7 @@ public class RenderLiquefactor extends TileEntitySpecialRenderer {
 			GL11.glTranslated(0, 1, 0);
 			GL11.glScaled(1, height, 1);
 			GL11.glTranslated(0, -1, 0);
-			ResourceManager.liquefactor.renderPart("Fluid");
+			ResourceManager.solidifier.renderPart("Fluid");
 			GL11.glPopMatrix();
 		}
 		
@@ -47,7 +55,7 @@ public class RenderLiquefactor extends TileEntitySpecialRenderer {
 		GL11.glColor4f(0.75F, 1.0F, 1.0F, 0.15F);
 		GL11.glDepthMask(false);
 		
-		ResourceManager.liquefactor.renderPart("Glass");
+		ResourceManager.solidifier.renderPart("Glass");
 
 		GL11.glDepthMask(true);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);

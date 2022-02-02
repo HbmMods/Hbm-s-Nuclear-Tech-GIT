@@ -20,7 +20,10 @@ public class Fluids {
 	public static FluidType DEUTERIUM;
 	public static FluidType TRITIUM;
 	public static FluidType OIL;
+	public static FluidType CRACKOIL;
+	public static FluidType COALOIL;
 	public static FluidType HOTOIL;
+	public static FluidType HOTCRACKOIL;
 	public static FluidType HEAVYOIL;
 	public static FluidType BITUMEN;
 	public static FluidType SMEAR;
@@ -29,12 +32,17 @@ public class Fluids {
 	public static FluidType PETROIL;
 	public static FluidType LUBRICANT;
 	public static FluidType NAPHTHA;
+	public static FluidType NAPHTHA_CRACK;
 	public static FluidType DIESEL;
+	public static FluidType DIESEL_CRACK;
 	public static FluidType LIGHTOIL;
+	public static FluidType LIGHTOIL_CRACK;
 	public static FluidType KEROSENE;
 	public static FluidType GAS;
 	public static FluidType PETROLEUM;
 	public static FluidType LPG;
+	public static FluidType AROMATICS;			//anything from benzene to phenol and toluene
+	public static FluidType UNSATURATEDS;		//collection of various basic unsaturated compounds like ethylene, acetylene and whatnot
 	public static FluidType BIOGAS;
 	public static FluidType BIOFUEL;
 	public static FluidType NITAN;
@@ -52,10 +60,11 @@ public class Fluids {
 	public static FluidType XENON;
 	public static FluidType BALEFIRE;
 	public static FluidType MERCURY;
-	public static FluidType PAIN;
+	public static FluidType PAIN;				//tantalite solution
 	public static FluidType WASTEFLUID;
 	public static FluidType WASTEGAS;
-	public static FluidType GASOLINE;
+	public static FluidType GASOLINE;			//gasoline, leaded
+	public static FluidType COALGAS;			//coal-based gasoline
 	public static FluidType SPENTSTEAM;
 	public static FluidType FRACKSOL;
 	public static FluidType PLASMA_DT;
@@ -66,7 +75,7 @@ public class Fluids {
 	public static FluidType PLASMA_BF;
 	public static FluidType CARBONDIOXIDE;
 	public static FluidType HELIUM3;
-	public static FluidType DEATH;
+	public static FluidType DEATH;				//osmiridium solution
 	public static FluidType ETHANOL;
 	public static FluidType HEAVYWATER;
 
@@ -110,6 +119,7 @@ public class Fluids {
 		LUBRICANT =			new FluidType("LUBRICANT",0x606060, 10, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.lubricant");
 		NAPHTHA =			new FluidType("NAPHTHA",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha");
 		DIESEL =			new FluidType("DIESEL",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel");
+		DIESEL_CRACK =		new FluidType("DIESEL_CRACK",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel_crack");
 		LIGHTOIL =			new FluidType("LIGHTOIL",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil");
 		KEROSENE =			new FluidType("KEROSENE",0xffa5d2, 12, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.kerosene");
 		GAS =				new FluidType("GAS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.gas");
@@ -136,6 +146,7 @@ public class Fluids {
 		WASTEFLUID =		new FluidType("WASTEFLUID",0x544400, 0, 2, 2, 2, 0, 1, EnumSymbol.RADIATION, "hbmfluid.wastefluid", FluidTrait.NO_CONTAINER);
 		WASTEGAS =			new FluidType("WASTEGAS",0xB8B8B8, 1, 2, 2, 2, 0, 1, EnumSymbol.RADIATION, "hbmfluid.wastegas", FluidTrait.NO_CONTAINER);
 		GASOLINE =			new FluidType("GASOLINE",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.gasoline");
+		COALGAS =			new FluidType("COALGAS",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.coalgas");
 		SPENTSTEAM =		new FluidType("SPENTSTEAM",0x445772, 3, 2, 2, 2, 0, 0, EnumSymbol.NONE, "hbmfluid.spentsteam", FluidTrait.NO_CONTAINER);
 		FRACKSOL =			new FluidType("FRACKSOL",0x798A6B, 4, 2, 2, 1, 3, 3, EnumSymbol.ACID, "hbmfluid.fracksol", FluidTrait.CORROSIVE);
 		PLASMA_DT =			new FluidType("PLASMA_DT",0xF7AFDE, 8, 1, 2, 0, 4, 0, EnumSymbol.RADIATION, "hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
@@ -150,6 +161,13 @@ public class Fluids {
 		DEATH =				new FluidType("DEATH",0x717A88, 8, 2, 2, 2, 0, 1, EnumSymbol.ACID, "hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER);
 		ETHANOL =			new FluidType("ETHANOL",0xe0ffff, 9, 2, 2, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.ethanol");
 		HEAVYWATER =		new FluidType("HEAVYWATER",0x00a0b0, 10, 2, 2, 1, 0, 0, EnumSymbol.NONE, "hbmfluid.heavywater");
+		CRACKOIL =			new FluidType("CRACKOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.crackoil");
+		COALOIL =			new FluidType("COALOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.coaloil");
+		HOTCRACKOIL =		new FluidType("HOTCRACKOIL",0x300900, 8, 2, 1, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.hotcrackoil", 350);
+		NAPHTHA_CRACK =		new FluidType("NAPHTHA_CRACK",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha_crack");
+		LIGHTOIL_CRACK =	new FluidType("LIGHTOIL_CRACK",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil_crack");
+		AROMATICS =			new FluidType("AROMATICS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.aromatics");
+		UNSATURATEDS =		new FluidType("UNSATURATEDS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.unsaturateds");
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -181,25 +199,35 @@ public class Fluids {
 		metaOrder.add(MERCURY);
 		//oils, fuels
 		metaOrder.add(OIL);
+		metaOrder.add(CRACKOIL);
+		metaOrder.add(COALOIL);
 		metaOrder.add(HOTOIL);
+		metaOrder.add(HOTCRACKOIL);
+		//metaOrder.add(HOTCOALOIL);
 		metaOrder.add(HEAVYOIL);
 		metaOrder.add(NAPHTHA);
+		metaOrder.add(NAPHTHA_CRACK);
 		metaOrder.add(LIGHTOIL);
+		metaOrder.add(LIGHTOIL_CRACK);
 		metaOrder.add(BITUMEN);
 		metaOrder.add(SMEAR);
 		metaOrder.add(HEATINGOIL);
 		metaOrder.add(RECLAIMED);
 		metaOrder.add(PETROIL);
 		metaOrder.add(LUBRICANT);
-		metaOrder.add(DIESEL);
-		metaOrder.add(KEROSENE);
 		metaOrder.add(GAS);
 		metaOrder.add(PETROLEUM);
 		metaOrder.add(LPG);
-		metaOrder.add(ETHANOL);
+		metaOrder.add(AROMATICS);
+		metaOrder.add(UNSATURATEDS);
+		metaOrder.add(DIESEL);
+		metaOrder.add(DIESEL_CRACK);
+		metaOrder.add(KEROSENE);
+		metaOrder.add(GASOLINE);
+		metaOrder.add(COALGAS);
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
-		metaOrder.add(GASOLINE);
+		metaOrder.add(ETHANOL);
 		metaOrder.add(NITAN);
 		metaOrder.add(BALEFIRE);
 		//processing fluids

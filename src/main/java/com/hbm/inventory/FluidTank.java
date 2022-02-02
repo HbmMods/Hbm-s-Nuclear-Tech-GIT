@@ -186,14 +186,14 @@ public class FluidTank {
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water && this.type.getName().equals(Fluids.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water && type == Fluids.WATER) {
 				this.fluid -= 50;
 				if(this.fluid < 0)
 					this.fluid = 0;
 				return;
 			}
 			
-			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type.getName().equals(Fluids.WATER.name())) {
+			if(slots[in].getItem() == ModItems.inf_water_mk2 && type == Fluids.WATER) {
 				this.fluid -= 500;
 				if(this.fluid < 0)
 					this.fluid = 0;
@@ -221,27 +221,32 @@ public class FluidTank {
 			}
 		}
 	}
+
+	public void setType(int in, ItemStack[] slots) {
+		setType(in, in, slots);
+	}
 	
 	//Changes tank type
 	public void setType(int in, int out, ItemStack[] slots) {
 		
-		if(in == out && slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
-			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
 			
-			if(type != newType) {
-				type = newType;
-				fluid = 0;
-			}
-			return;
-		}
-		
-		if(slots[in] != null && slots[out] == null && slots[in].getItem() instanceof ItemFluidIdentifier) {
-			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
-			if(!type.getName().equals(newType.getName())) {
-				type = newType;
-				slots[out] = slots[in].copy();
-				slots[in] = null;
-				fluid = 0;
+			if(in == out) {
+				FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+				
+				if(type != newType) {
+					type = newType;
+					fluid = 0;
+				}
+				
+			} else if(slots[out] == null) {
+				FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+				if(type != newType) {
+					type = newType;
+					slots[out] = slots[in].copy();
+					slots[in] = null;
+					fluid = 0;
+				}
 			}
 		}
 	}

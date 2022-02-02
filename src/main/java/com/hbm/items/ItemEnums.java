@@ -16,6 +16,7 @@ public class ItemEnums {
 
 	public static enum EnumTarType {
 		CRUDE,
-		CRACK
+		CRACK,
+		COAL
 	}
 }
