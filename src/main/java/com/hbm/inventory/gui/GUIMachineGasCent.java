@@ -60,10 +60,16 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 		int j = (int)gasCent.getCentrifugeProgressScaled(33);
 		drawTexturedModalRect(guiLeft + 74, guiTop + 37, 208, 0, j, 12);
 		
-		int a = gasCent.getTankScaled(32, 0);
+		int a = gasCent.getTankScaled(31, 0);
 		switch (gasCent.inputTank.getTankType()) {
 			case PF6:
 				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 200, 31 - a, 8, a);
+				break;
+			case MUD:
+				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 192, 63 - a, 8, a);
+				break;
+			case MUD_HEAVY:
+				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 192, 63 - a, 8, a);
 				break;
 			case NONE:
 				break;
@@ -71,10 +77,13 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 				drawTexturedModalRect(guiLeft + 58, guiTop + 62 - a, 192, 31 - a, 8, a);
 		}
 		
-		int b = gasCent.getTankScaled(32, 1);
+		int b = gasCent.getTankScaled(31, 1);
 		switch (gasCent.outputTank.getTankType()) {
 			case PF6:
 				drawTexturedModalRect(guiLeft + 114, guiTop + 62 - b, 200, 31 - b, 8, b);
+				break;
+			case MUD_HEAVY:
+				drawTexturedModalRect(guiLeft + 114, guiTop + 62 - b, 192, 63 - b, 8, b);
 				break;
 			case NONE:
 				break;

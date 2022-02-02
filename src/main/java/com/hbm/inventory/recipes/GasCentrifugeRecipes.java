@@ -2,13 +2,17 @@ package com.hbm.inventory.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.ItemStack;
 
@@ -68,59 +72,37 @@ public class GasCentrifugeRecipes {
 		}
 		
 	};
-	
-	//TODO: Make a Triplet with input fluid, fluid consumed, and itemstack outputs. use that to rework everything below; look at RadiolysisRecipes
-	
-	//Recipes for NEI
-	public static List<ItemStack> getGasCentOutputs(FluidType fluid) {
-		List<ItemStack> outputs = new ArrayList(4);
 		
-		if(fluid == Fluids.UF6) {
-			outputs.add(new ItemStack(ModItems.nugget_u238, 11));
-			outputs.add(new ItemStack(ModItems.nugget_u235, 1)); 
-			outputs.add(new ItemStack(ModItems.fluorite, 4));
-		} else if(fluid == Fluids.PUF6) {
-			outputs.add(new ItemStack(ModItems.nugget_pu238, 3));
-			outputs.add(new ItemStack(ModItems.nugget_pu_mix, 6));
-			outputs.add(new ItemStack(ModItems.fluorite, 3));
-		} else if(fluid == Fluids.WATZ) {
-			outputs.add(new ItemStack(ModItems.powder_iron, 1));
-			outputs.add(new ItemStack(ModItems.powder_lead, 1));
-			outputs.add(new ItemStack(ModItems.nuclear_waste_tiny, 1)); //we have to omit dust here because the NEI handler only supports 3 items
-		}
-		return outputs;
-	}
+	/* Recipe NEI Handler */
+	private static Map<FluidStack, ItemStack[]> gasCent = new HashMap();
 	
-	public static int getQuantityRequired(FluidType fluid) {
-		if(fluid == Fluids.UF6) return 1200;
-		if(fluid == Fluids.PUF6)return 900;
-		if(fluid == Fluids.WATZ)return 1000;
-		return 0;
-	}
-	
+	//Iterators are lots of fun
 	public static Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
-
-		for(int i = 0; i < Fluids.getAll().length; i++) {
-			if(getGasCentOutputs(Fluids.fromID(i)) != null) {
-				List<ItemStack> out = getGasCentOutputs(Fluids.fromID(i));
-				ItemStack[] outputs = new ItemStack[4];
-				
-				for(int j = 0; j < out.size(); j++) {
-					outputs[j] = out.get(j).copy();
-				}
-				for(int j = 0; j < 4; j++)
-					if(outputs[j] == null)
-						outputs[j] = new ItemStack(ModItems.nothing);
-				
-				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, i);
-				ItemFluidIcon.addQuantity(input, getQuantityRequired(Fluids.fromID(i)));
-				
-				recipes.put(input, outputs);
+		Iterator itr = gasCent.entrySet().iterator();
+		
+		while(itr.hasNext()) {
+			Map.Entry entry = (Entry) itr.next();
+			FluidStack input = (FluidStack) entry.getKey();
+			ItemStack[] out = new ItemStack[4];
+			ItemStack[] outputs = (ItemStack[]) entry.getValue();		
+			
+			for(int j = 0; j < outputs.length; j++) {
+				out[j] = outputs[j].copy();
 			}
+			for(int j = 0; j < 4; j++)
+				if(out[j] == null)
+					out[j] = new ItemStack(ModItems.nothing);
+			
+			recipes.put(ItemFluidIcon.make(input.type, input.fill), outputs);
 		}
 		
 		return recipes;
 	}
 	
+	public static void register() {
+		gasCent.put(new FluidStack(1200, Fluids.UF6), new ItemStack[] {new ItemStack(ModItems.nugget_u238, 11), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 4)});
+		gasCent.put(new FluidStack(900, Fluids.PUF6), new ItemStack[] {new ItemStack(ModItems.nugget_pu238, 3), new ItemStack(ModItems.nugget_pu_mix, 6), new ItemStack(ModItems.fluorite, 3)});
+		gasCent.put(new FluidStack(1000, Fluids.WATZ), new ItemStack[] {new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1)});
+	}
 }

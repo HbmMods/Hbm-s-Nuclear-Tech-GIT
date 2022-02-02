@@ -71,7 +71,7 @@ public class GUIReactorResearch extends GuiInfoContainer {
 				"This reactor is fueled with plate fuel.",
 				"The reaction needs a neutron source to start."
 		};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 14, guiTop + 31, 16, 16, guiLeft - 6, guiTop + 31 + 16, text2);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 14, guiTop + 61, 16, 16, guiLeft - 6, guiTop + 61 + 16, text2);
 	}
 	
 	@Override
@@ -145,7 +145,7 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		}
 
 		this.drawInfoPanel(guiLeft - 14, guiTop + 23, 16, 16, 3);
-		this.drawInfoPanel(guiLeft - 14, guiTop + 31, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 14, guiTop + 61, 16, 16, 2);
 		
 	}
 	

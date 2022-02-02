@@ -1,11 +1,15 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerRadiolysis;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineRadiolysis;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -34,6 +38,23 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		radiolysis.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 87, guiTop + 53, 12, 16);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, radiolysis.power, radiolysis.maxPower);
+		
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.radiolysis.desc");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, descText);
+		
+		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtg.heat", radiolysis.heat);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 18, 16, 16, guiLeft - 8, guiTop + 36 + 18 + 16, heatText);
+		
+		List<ItemRTGPellet> pellets = ItemRTGPellet.pelletList;
+		String[] pelletText = new String[pellets.size() + 1];
+		pelletText[0] = I18nUtil.resolveKey("desc.gui.rtg.pellets");
+		
+		for(int i = 0; i < pellets.size(); i++) {
+			ItemRTGPellet pellet = pellets.get(i);
+			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtg.pelletPower", I18nUtil.resolveKey(pellet.getUnlocalizedName() + ".name"), pellet.getHeat() * 10);
+		}
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 36, 16, 16, guiLeft - 8, guiTop + 36 + 36 + 16, pelletText);
 	}
 	
 	@Override
@@ -57,9 +78,14 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[0].getSheet());
 		radiolysis.tanks[0].renderTank(this, guiLeft + 61, guiTop + 69, radiolysis.tanks[0].getTankType().textureX() * FluidTank.x, radiolysis.tanks[0].getTankType().textureY() * FluidTank.y, 8, 52);
 		
+		//For some reason, liquid hydrogen appears as lava. but it doesn't seem to be an issue with any other fuel?
 		for(byte j = 0; j < 2; j++) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[j].getSheet());
 			radiolysis.tanks[j + 1].renderTank(this, guiLeft + 87, guiTop + 33 + j * 36, radiolysis.tanks[j + 1].getTankType().textureX() * FluidTank.x, radiolysis.tanks[j + 1].getTankType().textureY() * FluidTank.y, 12, 16);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 10);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16 + 18, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16 + 36, 16, 16, 3);
 	}
 }

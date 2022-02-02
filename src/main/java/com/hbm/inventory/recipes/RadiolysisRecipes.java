@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Pair;
@@ -19,7 +20,7 @@ public class RadiolysisRecipes {
 	
 	private static Map<FluidType, Pair<FluidStack, FluidStack>> radiolysis = new HashMap(); //fluidstacks :reimumunch:
 	
-	/* I am proud of this but I don't think I should be */
+	/* I am proud of this */
 	public static Map<Object, Object[]> getRecipesForNEI() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		Iterator itr = radiolysis.entrySet().iterator();
@@ -48,11 +49,13 @@ public class RadiolysisRecipes {
 	public static void registerRadiolysis() {
 		radiolysis.put(Fluids.WATER, new Pair(new FluidStack(80, Fluids.ACID), new FluidStack(20, Fluids.HYDROGEN)));
 		
-		radiolysis.put(Fluids.BITUMEN, new Pair(new FluidStack(80, Fluids.OIL), new FluidStack(20, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.SMEAR, new Pair(new FluidStack(60, Fluids.NAPHTHA), new FluidStack(40, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.GAS, new Pair(new FluidStack(50, Fluids.PETROLEUM), new FluidStack(0, Fluids.NONE)));
-		radiolysis.put(Fluids.DIESEL, new Pair(new FluidStack(40, Fluids.KEROSENE), new FluidStack(30, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.KEROSENE, new Pair(new FluidStack(60, Fluids.PETROLEUM), new FluidStack(0, Fluids.NONE)));
+		//now this is poggers
+		radiolysis.put(Fluids.OIL, new Pair(new FluidStack(RefineryRecipes.oil_crack_oil, Fluids.CRACKOIL), new FluidStack(RefineryRecipes.oil_crack_petro, Fluids.PETROLEUM)));
+		radiolysis.put(Fluids.BITUMEN, new Pair(new FluidStack(RefineryRecipes.bitumen_crack_oil, Fluids.OIL), new FluidStack(RefineryRecipes.bitumen_crack_aroma, Fluids.AROMATICS)));
+		radiolysis.put(Fluids.SMEAR, new Pair(new FluidStack(RefineryRecipes.smear_crack_napht, Fluids.NAPHTHA), new FluidStack(RefineryRecipes.smear_crack_petro, Fluids.PETROLEUM)));
+		radiolysis.put(Fluids.GAS, new Pair(new FluidStack(RefineryRecipes.gas_crack_petro, Fluids.PETROLEUM), new FluidStack(RefineryRecipes.gas_crack_unsat, Fluids.UNSATURATEDS)));
+		radiolysis.put(Fluids.DIESEL, new Pair(new FluidStack(RefineryRecipes.diesel_crack_kero, Fluids.KEROSENE), new FluidStack(RefineryRecipes.diesel_crack_petro, Fluids.PETROLEUM)));
+		radiolysis.put(Fluids.KEROSENE, new Pair(new FluidStack(RefineryRecipes.kero_crack_petro, Fluids.PETROLEUM), new FluidStack(0, Fluids.NONE)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getRadiolysis(FluidType input) {

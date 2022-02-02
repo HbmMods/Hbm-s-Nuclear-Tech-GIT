@@ -37,6 +37,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	
 	public long power;
 	public static final int maxPower = 1000000;
+	public int heat;
 
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -80,6 +81,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		super.readFromNBT(nbt);
 		
 		this.power = nbt.getLong("power");
+		this.heat = nbt.getInteger("heat");
 		
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "output1");
@@ -91,6 +93,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		super.writeToNBT(nbt);
 		
 		nbt.setLong("power", power);
+		nbt.setInteger("heat", heat);
 		
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "output1");
@@ -99,6 +102,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
+		this.heat = data.getInteger("heat");
 	}
 	
 	@Override
@@ -107,7 +111,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		if(!worldObj.isRemote) {
 			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
 			
-			int heat = RTGUtil.updateRTGs(slots, slot_rtg);
+			heat = RTGUtil.updateRTGs(slots, slot_rtg);
 			power += heat * 10;
 			
 			if(power > maxPower)
@@ -138,6 +142,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
+			data.setInteger("heat", heat);
 			this.networkPack(data, 50);
 			
 			for(byte i = 0; i < 3; i++)
