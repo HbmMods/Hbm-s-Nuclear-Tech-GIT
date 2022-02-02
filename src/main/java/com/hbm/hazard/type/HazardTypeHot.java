@@ -34,7 +34,9 @@ public class HazardTypeHot extends HazardTypeBase {
 				gloves = armor.getItem() instanceof ItemModGloves || ArmorUtil.checkForHazmat(target);
 				if(!gloves) {
 					ItemStack mod = ArmorModHandler.pryMods(armor)[ArmorModHandler.legs_only];
-					gloves = mod.getItem() instanceof ItemModGloves;
+					
+					if(mod != null)
+						gloves = mod.getItem() instanceof ItemModGloves;
 				}
 			}
 		}

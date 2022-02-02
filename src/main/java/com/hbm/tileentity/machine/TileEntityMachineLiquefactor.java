@@ -88,6 +88,9 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 		
 		FluidStack out = LiquefactionRecipes.getOutput(slots[0]);
 		
+		if(out == null)
+			return false;
+		
 		if(out.type != tank.getTankType() && tank.getFill() > 0)
 			return false;
 		
