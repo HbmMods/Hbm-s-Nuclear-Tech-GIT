@@ -106,28 +106,28 @@ public class Fluids {
 		ULTRAHOTSTEAM =		new FluidType("ULTRAHOTSTEAM",0xE39393, 13, 1, 2, 4, 0, 0, EnumSymbol.NONE, "hbmfluid.ultrahotsteam", 600);
 		COOLANT =			new FluidType("COOLANT",0xd8fcff, 2, 1, 1, 1, 0, 0, EnumSymbol.NONE, "hbmfluid.coolant");
 		LAVA =				new FluidType("LAVA",0xFF3300, 3, 1, 1, 4, 0, 0, EnumSymbol.NOWATER, "hbmfluid.lava", 1200);
-		DEUTERIUM =			new FluidType("DEUTERIUM",0x0000FF, 4, 1, 1, 3, 4, 0, EnumSymbol.NONE, "hbmfluid.deuterium");
-		TRITIUM =			new FluidType("TRITIUM",0x000099, 5, 1, 1, 3, 4, 0, EnumSymbol.RADIATION, "hbmfluid.tritium");
-		OIL =				new FluidType("OIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.oil");
-		HOTOIL =			new FluidType("HOTOIL",0x300900, 8, 2, 1, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.hotoil", 350);
-		HEAVYOIL =			new FluidType("HEAVYOIL",0x141312, 2, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.heavyoil");
+		DEUTERIUM =			new FluidTypeCombustible("DEUTERIUM",0x0000FF, 4, 1, 1, 3, 4, 0, EnumSymbol.NONE, "hbmfluid.deuterium");
+		TRITIUM =			new FluidTypeCombustible("TRITIUM",0x000099, 5, 1, 1, 3, 4, 0, EnumSymbol.RADIATION, "hbmfluid.tritium");
+		OIL =				new FluidTypeFlammable("OIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.oil");
+		HOTOIL =			new FluidTypeFlammable("HOTOIL",0x300900, 8, 2, 1, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.hotoil", 350);
+		HEAVYOIL =			new FluidTypeFlammable("HEAVYOIL",0x141312, 2, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.heavyoil");
 		BITUMEN =			new FluidType("BITUMEN",0x1f2426, 3, 2, 1, 2, 0, 0, EnumSymbol.NONE, "hbmfluid.bitumen");
-		SMEAR =				new FluidType("SMEAR",0x190f01, 7, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.smear");
-		HEATINGOIL =		new FluidType("HEATINGOIL",0x211806, 4, 2, 1, 2, 2, 0, EnumSymbol.NONE, "hbmfluid.heatingoil");
-		RECLAIMED =			new FluidType("RECLAIMED",0x332b22, 8, 1, 1, 2, 2, 0, EnumSymbol.NONE, "hbmfluid.reclaimed");
-		PETROIL =			new FluidType("PETROIL",0x44413d, 9, 1, 1, 1, 3, 0, EnumSymbol.NONE, "hbmfluid.petroil");
+		SMEAR =				new FluidTypeFlammable("SMEAR",0x190f01, 7, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.smear");
+		HEATINGOIL =		new FluidTypeCombustible("HEATINGOIL",0x211806, 4, 2, 1, 2, 2, 0, EnumSymbol.NONE, "hbmfluid.heatingoil");
+		RECLAIMED =			new FluidTypeCombustible("RECLAIMED",0x332b22, 8, 1, 1, 2, 2, 0, EnumSymbol.NONE, "hbmfluid.reclaimed");
+		PETROIL =			new FluidTypeCombustible("PETROIL",0x44413d, 9, 1, 1, 1, 3, 0, EnumSymbol.NONE, "hbmfluid.petroil");
 		LUBRICANT =			new FluidType("LUBRICANT",0x606060, 10, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.lubricant");
-		NAPHTHA =			new FluidType("NAPHTHA",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha");
-		DIESEL =			new FluidType("DIESEL",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel");
-		DIESEL_CRACK =		new FluidType("DIESEL_CRACK",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel_crack");
-		LIGHTOIL =			new FluidType("LIGHTOIL",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil");
-		KEROSENE =			new FluidType("KEROSENE",0xffa5d2, 12, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.kerosene");
-		GAS =				new FluidType("GAS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.gas");
-		PETROLEUM = 		new FluidType("PETROLEUM",0x7cb7c9, 7, 2, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.petroleum");
-		LPG =				new FluidType("LPG",0x4747EA, 5, 2, 2, 1, 3, 1, EnumSymbol.NONE, "hbmfluid.lpg");
-		BIOGAS =			new FluidType("BIOGAS",0xbfd37c, 12, 2, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.biogas");
-		BIOFUEL =			new FluidType("BIOFUEL",0xeef274, 13, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.biofuel");
-		NITAN =				new FluidType("NITAN",0x8018ad, 15, 2, 1, 2, 4, 1, EnumSymbol.NONE, "hbmfluid.nitan");
+		NAPHTHA =			new FluidTypeFlammable("NAPHTHA",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha");
+		DIESEL =			new FluidTypeCombustible("DIESEL",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel");
+		DIESEL_CRACK =		new FluidTypeCombustible("DIESEL_CRACK",0xf2eed5, 11, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.diesel_crack");
+		LIGHTOIL =			new FluidTypeCombustible("LIGHTOIL",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil");
+		KEROSENE =			new FluidTypeCombustible("KEROSENE",0xffa5d2, 12, 1, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.kerosene");
+		GAS =				new FluidTypeFlammable("GAS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.gas");
+		PETROLEUM = 		new FluidTypeFlammable("PETROLEUM",0x7cb7c9, 7, 2, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.petroleum");
+		LPG =				new FluidTypeCombustible("LPG",0x4747EA, 5, 2, 2, 1, 3, 1, EnumSymbol.NONE, "hbmfluid.lpg");
+		BIOGAS =			new FluidTypeFlammable("BIOGAS",0xbfd37c, 12, 2, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.biogas");
+		BIOFUEL =			new FluidTypeCombustible("BIOFUEL",0xeef274, 13, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.biofuel");
+		NITAN =				new FluidTypeCombustible("NITAN",0x8018ad, 15, 2, 1, 2, 4, 1, EnumSymbol.NONE, "hbmfluid.nitan");
 		UF6 =				new FluidType("UF6",0xD1CEBE, 14, 1, 1, 4, 0, 2, EnumSymbol.RADIATION, "hbmfluid.uf6", FluidTrait.CORROSIVE);
 		PUF6 =				new FluidType("PUF6",0x4C4C4C, 15, 1, 1, 4, 0, 4, EnumSymbol.RADIATION, "hbmfluid.puf6", FluidTrait.CORROSIVE);
 		SAS3 =				new FluidType("SAS3",0x4ffffc, 14, 2, 1, 5, 0, 4, EnumSymbol.RADIATION, "hbmfluid.sas3", FluidTrait.CORROSIVE);
@@ -137,7 +137,7 @@ public class Fluids {
 		ACID =				new FluidType("ACID",0xfff7aa, 10, 2, 1, 3, 0, 3, EnumSymbol.OXIDIZER, "hbmfluid.acid", FluidTrait.CORROSIVE);
 		WATZ =				new FluidType("WATZ",0x86653E, 11, 2, 1, 4, 0, 3, EnumSymbol.ACID, "hbmfluid.watz", FluidTrait.CORROSIVE_2);
 		CRYOGEL =			new FluidType("CRYOGEL",0x32ffff, 0, 1, 2, 2, 0, 0, EnumSymbol.CROYGENIC, "hbmfluid.cryogel", -170);
-		HYDROGEN =			new FluidType("HYDROGEN",0x4286f4, 3, 1, 2, 3, 4, 0, EnumSymbol.CROYGENIC, "hbmfluid.hydrogen");
+		HYDROGEN =			new FluidTypeCombustible("HYDROGEN",0x4286f4, 3, 1, 2, 3, 4, 0, EnumSymbol.CROYGENIC, "hbmfluid.hydrogen");
 		OXYGEN =			new FluidType("OXYGEN",0x98bdf9, 4, 1, 2, 3, 0, 0, EnumSymbol.CROYGENIC, "hbmfluid.oxygen");
 		XENON =				new FluidType("XENON",0xba45e8, 5, 1, 2, 0, 0, 0, EnumSymbol.ASPHYXIANT, "hbmfluid.xenon");
 		BALEFIRE =			new FluidType("BALEFIRE",0x28e02e, 6, 1, 2, 4, 4, 3, EnumSymbol.RADIATION, "hbmfluid.balefire", 1500, FluidTrait.CORROSIVE);
@@ -145,8 +145,8 @@ public class Fluids {
 		PAIN =				new FluidType("PAIN",0x938541, 15, 1, 2, 2, 0, 1, EnumSymbol.ACID, "hbmfluid.pain", 300, FluidTrait.CORROSIVE);
 		WASTEFLUID =		new FluidType("WASTEFLUID",0x544400, 0, 2, 2, 2, 0, 1, EnumSymbol.RADIATION, "hbmfluid.wastefluid", FluidTrait.NO_CONTAINER);
 		WASTEGAS =			new FluidType("WASTEGAS",0xB8B8B8, 1, 2, 2, 2, 0, 1, EnumSymbol.RADIATION, "hbmfluid.wastegas", FluidTrait.NO_CONTAINER);
-		GASOLINE =			new FluidType("GASOLINE",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.gasoline");
-		COALGAS =			new FluidType("COALGAS",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.coalgas");
+		GASOLINE =			new FluidTypeCombustible("GASOLINE",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.gasoline");
+		COALGAS =			new FluidTypeCombustible("COALGAS",0x445772, 2, 2, 2, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.coalgas");
 		SPENTSTEAM =		new FluidType("SPENTSTEAM",0x445772, 3, 2, 2, 2, 0, 0, EnumSymbol.NONE, "hbmfluid.spentsteam", FluidTrait.NO_CONTAINER);
 		FRACKSOL =			new FluidType("FRACKSOL",0x798A6B, 4, 2, 2, 1, 3, 3, EnumSymbol.ACID, "hbmfluid.fracksol", FluidTrait.CORROSIVE);
 		PLASMA_DT =			new FluidType("PLASMA_DT",0xF7AFDE, 8, 1, 2, 0, 4, 0, EnumSymbol.RADIATION, "hbmfluid.plasma_dt", 3250, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
@@ -159,15 +159,15 @@ public class Fluids {
 		PLASMA_DH3 =		new FluidType("PLASMA_DH3",0xFF83AA, 6, 2, 2, 0, 4, 0, EnumSymbol.RADIATION, "hbmfluid.plasma_dh3", 3480, FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		HELIUM3 =			new FluidType("HELIUM3",0xFCF0C4, 7, 2, 2, 3, 4, 0, EnumSymbol.ASPHYXIANT, "hbmfluid.helium3");
 		DEATH =				new FluidType("DEATH",0x717A88, 8, 2, 2, 2, 0, 1, EnumSymbol.ACID, "hbmfluid.death", 300, FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER);
-		ETHANOL =			new FluidType("ETHANOL",0xe0ffff, 9, 2, 2, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.ethanol");
+		ETHANOL =			new FluidTypeCombustible("ETHANOL",0xe0ffff, 9, 2, 2, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.ethanol");
 		HEAVYWATER =		new FluidType("HEAVYWATER",0x00a0b0, 10, 2, 2, 1, 0, 0, EnumSymbol.NONE, "hbmfluid.heavywater");
-		CRACKOIL =			new FluidType("CRACKOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.crackoil");
-		COALOIL =			new FluidType("COALOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.coaloil");
-		HOTCRACKOIL =		new FluidType("HOTCRACKOIL",0x300900, 8, 2, 1, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.hotcrackoil", 350);
-		NAPHTHA_CRACK =		new FluidType("NAPHTHA_CRACK",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha_crack");
-		LIGHTOIL_CRACK =	new FluidType("LIGHTOIL_CRACK",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil_crack");
-		AROMATICS =			new FluidType("AROMATICS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.aromatics");
-		UNSATURATEDS =		new FluidType("UNSATURATEDS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.unsaturateds");
+		CRACKOIL =			new FluidTypeFlammable("CRACKOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.crackoil");
+		COALOIL =			new FluidTypeFlammable("COALOIL",0x020202, 6, 1, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.coaloil");
+		HOTCRACKOIL =		new FluidTypeFlammable("HOTCRACKOIL",0x300900, 8, 2, 1, 2, 3, 0, EnumSymbol.NONE, "hbmfluid.hotcrackoil", 350);
+		NAPHTHA_CRACK =		new FluidTypeFlammable("NAPHTHA_CRACK",0x595744, 5, 2, 1, 2, 1, 0, EnumSymbol.NONE, "hbmfluid.naphtha_crack");
+		LIGHTOIL_CRACK =	new FluidTypeFlammable("LIGHTOIL_CRACK",0x8c7451, 6, 2, 1, 1, 2, 0, EnumSymbol.NONE, "hbmfluid.lightoil_crack");
+		AROMATICS =			new FluidTypeFlammable("AROMATICS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.aromatics");
+		UNSATURATEDS =		new FluidTypeFlammable("UNSATURATEDS",0xfffeed, 13, 1, 1, 1, 4, 1, EnumSymbol.NONE, "hbmfluid.unsaturateds");
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -191,10 +191,10 @@ public class Fluids {
 		metaOrder.add(CRYOGEL);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
-		metaOrder.add(HELIUM3);
-		metaOrder.add(OXYGEN);
 		metaOrder.add(DEUTERIUM);
 		metaOrder.add(TRITIUM);
+		metaOrder.add(HELIUM3);
+		metaOrder.add(OXYGEN);
 		metaOrder.add(XENON);
 		metaOrder.add(MERCURY);
 		//oils, fuels
@@ -213,7 +213,6 @@ public class Fluids {
 		metaOrder.add(SMEAR);
 		metaOrder.add(HEATINGOIL);
 		metaOrder.add(RECLAIMED);
-		metaOrder.add(PETROIL);
 		metaOrder.add(LUBRICANT);
 		metaOrder.add(GAS);
 		metaOrder.add(PETROLEUM);
@@ -223,6 +222,7 @@ public class Fluids {
 		metaOrder.add(DIESEL);
 		metaOrder.add(DIESEL_CRACK);
 		metaOrder.add(KEROSENE);
+		metaOrder.add(PETROIL);
 		metaOrder.add(GASOLINE);
 		metaOrder.add(COALGAS);
 		metaOrder.add(BIOGAS);

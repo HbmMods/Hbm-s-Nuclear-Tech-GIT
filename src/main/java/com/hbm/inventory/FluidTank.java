@@ -16,7 +16,9 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -93,7 +95,7 @@ public class FluidTank {
 		FluidType inType = Fluids.NONE;
 		if(slots[in] != null) {
 			
-			//TODO: add IPartiallyFillable case for unloading
+			//TODO: add IPartiallyFillable case for unloading, useful for infinite tanks so they don't need to be hardcoded
 			
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
@@ -252,15 +254,43 @@ public class FluidTank {
 	}
 	
 	//Used in the GUI rendering, renders correct fluid type in container with progress
+	@Deprecated //fuck you
 	public void renderTank(GuiContainer gui, int x, int y, int tx, int ty, int width, int height) {
+		
+		/*
+		 * A message to 2017 Bob: You know you could have included the texture bind in this method, right?
+		 * Why does it always have to be that one extra line for every fucking gauge, which is only good for being failure points?
+		 * Why did you seriously think that was an acceptable way of doing things?
+		 */
 		
 		int i = (fluid * height) / maxFluid;
 		gui.drawTexturedModalRect(x, y - i, tx, ty - i, width, i);
 	}
-
-	public void renderTankInfo(GuiContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if(gui instanceof GuiInfoContainer)
-			renderTankInfo((GuiInfoContainer)gui, mouseX, mouseY, x, y, width, height);
+	
+	/** Not yet tested, in theory the UV should loop, allowing a single quad to properly display the tiling fluid texture. */
+	public void renderTank(int x, int y, double z, int width, int height) {
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(type.getTexture());
+		
+		int i = (fluid * height) / maxFluid;
+		
+		double minX = x;
+		double maxX = x + width;
+		double minY = y + (height - i);
+		double maxY = y + height;
+		
+		double minU = 1 - i / 16;
+		double maxU = 1;
+		double minV = 0;
+		double maxV = width / 16;
+		
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(minX, maxY, z, minU, maxV);
+		tessellator.addVertexWithUV(maxX, maxY, z, maxU, maxV);
+		tessellator.addVertexWithUV(maxX, minY, z, maxU, minV);
+		tessellator.addVertexWithUV(minX, minY, z, minU, minV);
+		tessellator.draw();
 	}
 	
 	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
@@ -270,31 +300,28 @@ public class FluidTank {
 			list.add(I18n.format(this.type.getUnlocalizedName()));
 			list.add(fluid + "/" + maxFluid + "mB");
 
-			if(type.temperature < 0)
+			/*if(type.temperature < 0)
 				list.add(EnumChatFormatting.BLUE + "" + type.temperature + "°C");
-			
 			if(type.temperature > 0)
 				list.add(EnumChatFormatting.RED + "" + type.temperature + "°C");
-			
 			if(type.isAntimatter())
 				list.add(EnumChatFormatting.DARK_RED + "Antimatter");
-			
 			if(type.traits.contains(FluidTrait.CORROSIVE))
 				list.add(EnumChatFormatting.YELLOW + "Corrosive");
-			
 			if(type.traits.contains(FluidTrait.CORROSIVE_2))
 				list.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
-			
 			if(type.traits.contains(FluidTrait.NO_CONTAINER))
 				list.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
-			
 			if(type.traits.contains(FluidTrait.LEAD_CONTAINER))
-				list.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");
+				list.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");*/
+			
+			type.addInfo(list);
 			
 			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
 	}
 	
+	@Deprecated
 	public ResourceLocation getSheet() {
 		return new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids" + this.type.getSheetID() + ".png");
 	}
@@ -314,7 +341,7 @@ public class FluidTank {
 			maxFluid = nbt.getInteger(s + "_max");
 		
 		type = FluidType.getEnumFromName(nbt.getString(s + "_type")); //compat
-		if(type.getName().equals(Fluids.NONE.name()))
+		if(type == Fluids.NONE)
 			type = Fluids.fromID(nbt.getInteger(s + "_type"));
 	}
 
