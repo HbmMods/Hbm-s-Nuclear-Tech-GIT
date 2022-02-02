@@ -256,18 +256,10 @@ public class FluidTank {
 	//Used in the GUI rendering, renders correct fluid type in container with progress
 	@Deprecated //fuck you
 	public void renderTank(GuiContainer gui, int x, int y, int tx, int ty, int width, int height) {
-		
-		/*
-		 * A message to 2017 Bob: You know you could have included the texture bind in this method, right?
-		 * Why does it always have to be that one extra line for every fucking gauge, which is only good for being failure points?
-		 * Why did you seriously think that was an acceptable way of doing things?
-		 */
-		
-		int i = (fluid * height) / maxFluid;
-		gui.drawTexturedModalRect(x, y - i, tx, ty - i, width, i);
+		renderTank(x, y - height, 1, width, height);
 	}
 	
-	/** Not yet tested, in theory the UV should loop, allowing a single quad to properly display the tiling fluid texture. */
+	/** Works flawlessly, now we just have to add alpha compatibility and boom, sexo. */
 	public void renderTank(int x, int y, double z, int width, int height) {
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(type.getTexture());
@@ -279,10 +271,10 @@ public class FluidTank {
 		double minY = y + (height - i);
 		double maxY = y + height;
 		
-		double minU = 1 - i / 16;
-		double maxU = 1;
-		double minV = 0;
-		double maxV = width / 16;
+		double minV = 1D - i / 16D;
+		double maxV = 1D;
+		double minU = 0D;
+		double maxU = width / 16D;
 		
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();

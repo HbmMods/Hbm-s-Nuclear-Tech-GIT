@@ -63,7 +63,7 @@ public class FluidType {
 		this.symbol = symbol;
 		this.temperature = temperature;
 		Collections.addAll(this.traits, traits);
-		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name + ".png");
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
 		
 		this.id = Fluids.registerSelf(this);
 	}
