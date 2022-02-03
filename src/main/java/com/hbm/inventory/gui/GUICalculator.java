@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -25,7 +26,7 @@ public class GUICalculator extends GuiScreen {
 
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-		inputField = new GuiTextField(fontRendererObj, x + 5, y + 5, 210, 13);
+		inputField = new GuiTextField(fontRendererObj, x + 5, y + 8, 210, 13);
 		inputField.setTextColor(-1);
 		inputField.setCanLoseFocus(false);
 		inputField.setFocused(true);
@@ -42,10 +43,12 @@ public class GUICalculator extends GuiScreen {
 		if (!inputField.textboxKeyTyped(p_73869_1_, p_73869_2_))
 			super.keyTyped(p_73869_1_, p_73869_2_);
 
+		String input = inputField.getText().replaceAll("[^\\d+\\-*/^!.()\\sA-Za-z]+", "");
+
 		if (p_73869_1_ == 13 || p_73869_1_ == 10) { // when pressing enter (CR or LF)
 			try {
-				double result = Double.parseDouble(latestResult);
-				String plainStringRepresentation = (new BigDecimal(result)).toPlainString();
+				double result = evaluateExpression(input);
+				String plainStringRepresentation = (new BigDecimal(result, MathContext.DECIMAL64)).toPlainString();
 				GuiScreen.setClipboardString(plainStringRepresentation);
 				inputField.setText(plainStringRepresentation);
 				inputField.setCursorPositionEnd();
@@ -53,8 +56,6 @@ public class GUICalculator extends GuiScreen {
 			} catch (Exception ignored) {}
 			return;
 		}
-
-		String input = inputField.getText().replaceAll("[^\\d+\\-*/^.()\\sA-Za-z]+", "");
 
 		if (input.isEmpty()) {
 			latestResult = "?";
@@ -115,7 +116,9 @@ public class GUICalculator extends GuiScreen {
 				while (!operators.isEmpty() && hasPrecedence(String.valueOf(tokens[i]), operators.peek()))
 					values.push(evaluateOperator(operators.pop().charAt(0), values.pop(), values.pop()));
 				operators.push(Character.toString(tokens[i]));
-			} else if (tokens[i] >= 'A' && tokens[i] <= 'Z' || tokens[i] >= 'a' && tokens[i] <= 'z') {
+			} else if (tokens[i] == '!') {
+				values.push((double) factorial((int) Math.round(values.pop())));
+			}else if (tokens[i] >= 'A' && tokens[i] <= 'Z' || tokens[i] >= 'a' && tokens[i] <= 'z') {
 				StringBuilder charBuffer = new StringBuilder();
 				while (i < tokens.length && (tokens[i] >= 'A' && tokens[i] <= 'Z' || tokens[i] >= 'a' && tokens[i] <= 'z'))
 					charBuffer.append(tokens[i++]);
@@ -229,9 +232,52 @@ public class GUICalculator extends GuiScreen {
 			double exponent = evaluateExpression(input.substring(powerOperatorIndex + 1, exponentExpressionEnd));
 			double result = Math.pow(base, exponent);
 			// use big decimal to avoid scientific notation messing with the calculation
-			input = input.substring(0, baseExpressionStart) + (new BigDecimal(result)).toPlainString() + input.substring(exponentExpressionEnd);
+			input = input.substring(0, baseExpressionStart) + (new BigDecimal(result, MathContext.DECIMAL64)).toPlainString() + input.substring(exponentExpressionEnd);
 		} while (input.contains("^"));
 
 		return input;
+	}
+
+	// TODO Maybe switch the whole calculator to using BigInteger/BigDecimal?
+	// SplitRecursive algorithm
+	private static int factorial(int in) {
+		if (in < 0) throw new IllegalArgumentException("Factorial needs n >= 0");
+		if (in < 2) return 1;
+		int p = 1, r = 1;
+		factorialCurrentN = 1;
+		int h = 0, shift = 0, high = 1;
+		int log2n = log2(in);
+		while (h != in) {
+			shift += h;
+			h = in >> log2n--;
+			int len = high;
+			high = (h - 1) | 1;
+			len = (high - len) / 2;
+
+			if (len > 0) {
+				p *= factorialProduct(len);
+				r *= p;
+			}
+		}
+
+		return r << shift;
+	}
+
+	private static int factorialCurrentN;
+
+	private static int factorialProduct(int in) {
+		int m = in / 2;
+		if (m == 0) return factorialCurrentN += 2;
+		if (in == 2) return (factorialCurrentN += 2) * (factorialCurrentN += 2);
+		return factorialProduct(in - m) * factorialProduct(m);
+	}
+
+	private static int log2(int in) {
+		int log = 0;
+		if((in & 0xffff0000) != 0) { in >>>= 16; log = 16; }
+		if(in >= 256) { in >>>= 8; log += 8; }
+		if(in >= 16) { in >>>= 4; log += 4; }
+		if(in >= 4) { in >>>= 2; log += 2; }
+		return log + (in >>> 1);
 	}
 }
