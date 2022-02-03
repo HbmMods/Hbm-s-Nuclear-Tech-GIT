@@ -9,10 +9,23 @@ import java.util.List;
 
 import javax.annotation.Nonnegative;
 
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BobMathUtil {
+	
+	public static Vec3 interpVec(Vec3 vec1, Vec3 vec2, float interp) {
+		return Vec3.createVectorHelper(
+				interp(vec1.xCoord,  vec2.xCoord, interp),
+				interp(vec1.yCoord,  vec2.yCoord, interp),
+				interp(vec1.zCoord,  vec2.zCoord, interp)
+				);
+	}
+	
+	public static double interp(double x, double y, float interp) {
+		return x + (y - x) * interp;
+	}
 	
 	public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 		
@@ -44,6 +57,14 @@ public class BobMathUtil {
 
 	public static float remap(float num, float min1, float max1, float min2, float max2){
 		return ((num - min1) / (max1 - min1)) * (max2 - min2) + min2;
+	}
+	
+	public static float remap01(float num, float min1, float max1){
+		return (num - min1) / (max1 - min1);
+	}
+	
+	public static float remap01_clamp(float num, float min1, float max1){
+		return MathHelper.clamp_float((num - min1) / (max1 - min1), 0, 1);
 	}
 	
 	public static ForgeDirection[] getShuffledDirs() {

@@ -189,6 +189,8 @@ public class TileMappings {
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		
+		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
+		
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 		put(TileEntityProxyCombo.class, "tileentity_proxy_combo");
