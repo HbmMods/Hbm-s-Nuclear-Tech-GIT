@@ -11,7 +11,6 @@ import com.hbm.animloader.AnimationWrapper;
 import com.hbm.animloader.AnimationWrapper.EndResult;
 import com.hbm.animloader.AnimationWrapper.EndType;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.main.ResourceManager;
 import com.hbm.render.WavefrontObjDisplayList;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -37,7 +36,7 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 		if(buf == null){
 			buf = GLAllocation.createDirectByteBuffer(8*4).asDoubleBuffer();
 		}
-		DoorDecl door = te.doorType;
+		DoorDecl door = te.getDoorType();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(x+0.5, y, z+0.5);

@@ -1,15 +1,12 @@
 
 package com.hbm.tileentity;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.generic.BlockDoorGeneric;
 import com.hbm.interfaces.IAnimatedDoor;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDoorAnimationPacket;
 import com.hbm.sound.AudioWrapper;
@@ -22,15 +19,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAnimatedDoor {
 
 	//0: closed, 1: open, 2: closing, 3: opening
 	public byte state = 0;
-	public DoorDecl doorType;
+	protected DoorDecl doorType;
 	public int openTicks = 0;
 	public long animStartTime = 0;
 	public int redstonePower;
@@ -44,8 +39,8 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	public void updateEntity(){
 		if(state == 3) {
 			openTicks++;
-			if(openTicks >= doorType.timeToOpen()) {
-				openTicks = doorType.timeToOpen();
+			if(openTicks >= getDoorType().timeToOpen()) {
+				openTicks = getDoorType().timeToOpen();
 			}
 		} else if(state == 2) {
 			openTicks--;
@@ -57,7 +52,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		if(worldObj.isRemote) {
 
 		} else {
-			int[][] ranges = doorType.getDoorOpenRanges();
+			int[][] ranges = getDoorType().getDoorOpenRanges();
 			ForgeDirection dir = ForgeDirection.getOrientation(getBlockMetadata() - BlockDummyable.offset);
 			
 			if(state == 3) {
@@ -66,7 +61,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 					
 					int[] range = ranges[i];
 					int[] startPos = new int[] {range[0], range[1], range[2]};
-					float time = doorType.getDoorRangeOpenTime(openTicks, i);
+					float time = getDoorType().getDoorRangeOpenTime(openTicks, i);
 					
 					for(int j = 0; j < Math.abs(range[3]); j++) {
 						
@@ -101,7 +96,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 					int[] range = ranges[i];
 
 					int[] startPos = new int[] {range[0], range[1], range[2]};
-					float time = doorType.getDoorRangeOpenTime(openTicks, i);
+					float time = getDoorType().getDoorRangeOpenTime(openTicks, i);
 					
 					for(int j = Math.abs(range[3])-1; j >= 0; j--) {
 						
@@ -129,7 +124,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 					}
 				}
 			}
-			if(state == 3 && openTicks == doorType.timeToOpen()) {
+			if(state == 3 && openTicks == getDoorType().timeToOpen()) {
 				state = 1;
 			}
 			if(state == 2 && openTicks == 0) {
@@ -160,24 +155,33 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
     	}
 	}
 	
-	//@Override TODO: figure this one out
-	public void onLoad(){
-		doorType = ((BlockDoorGeneric)this.getBlockType()).type;
+	public DoorDecl getDoorType(){
+		
+		if(this.doorType == null)
+			this.doorType = ((BlockDoorGeneric)this.getBlockType()).type;
+		
+		return this.doorType;
 	}
 
 	public boolean tryToggle(EntityPlayer player){
+		
+		System.out.println("start");
+		
 		if(state == 0 && redstonePower > 0){
+			System.out.println("red power > 0");
 			//Redstone "power locks" doors, just like minecraft iron doors
 			return false;
 		}
 		if(this.state == 0) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 3;
+				System.out.println("opening");
 			}
 			return true;
 		} else if(this.state == 1) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 2;
+				System.out.println("closing");
 			}
 			return true;
 		}
@@ -231,13 +235,14 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleNewState(byte state){
+		
 		if(this.state != state) {
 			if(this.state == 0 && state == 3){
 				if(audio == null){
 					//audio = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getOpenSoundLoop(), doorType.getOpenSoundStart(), doorType.getOpenSoundEnd(), SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
 					//audio.startSound();
 				}
-				if(audio2 == null && doorType.getSoundLoop2() != null){
+				if(audio2 == null && getDoorType().getSoundLoop2() != null){
 					//audio2 = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getSoundLoop2(), null, null, SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
 					//audio2.startSound();
 				}
@@ -247,7 +252,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 					//audio = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getCloseSoundLoop(), doorType.getCloseSoundStart(), doorType.getCloseSoundEnd(), SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
 					//audio.startSound();
 				}
-				if(audio2 == null && doorType.getSoundLoop2() != null){
+				if(audio2 == null && getDoorType().getSoundLoop2() != null){
 					//audio2 = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getSoundLoop2(), null, null, SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
 					//audio2.startSound();
 				}
