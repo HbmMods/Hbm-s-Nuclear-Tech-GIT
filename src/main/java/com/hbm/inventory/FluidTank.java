@@ -33,8 +33,6 @@ public class FluidTank {
 	int fluid;
 	int maxFluid;
 	public int index;
-	public static int x = 16;
-	public static int y = 100;
 	
 	public FluidTank(FluidType type, int maxFluid, int index) {
 		this.type = type;
@@ -253,14 +251,18 @@ public class FluidTank {
 		}
 	}
 	
-	//Used in the GUI rendering, renders correct fluid type in container with progress
-	@Deprecated //fuck you
-	public void renderTank(GuiContainer gui, int x, int y, int tx, int ty, int width, int height) {
-		renderTank(x, y - height, 1, width, height);
-	}
-	
-	/** Works flawlessly, now we just have to add alpha compatibility and boom, sexo. */
+	/**
+	 * Renders the fluid texture into a GUI, with the height based on the fill state
+	 * @param x the tank's left side
+	 * @param y the tank's bottom side (convention from the old system, changing it now would be a pain in the ass)
+	 * @param z the GUI's zLevel
+	 * @param width
+	 * @param height
+	 */
+	//TODO: add a directional parameter to allow tanks to grow horizontally
 	public void renderTank(int x, int y, double z, int width, int height) {
+		
+		y -= height;
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(type.getTexture());
 		
@@ -311,11 +313,6 @@ public class FluidTank {
 			
 			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
-	}
-	
-	@Deprecated
-	public ResourceLocation getSheet() {
-		return new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids" + this.type.getSheetID() + ".png");
 	}
 
 	//Called by TE to save fillstate

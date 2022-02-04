@@ -67,6 +67,6 @@ public class GUIBarrel extends GuiInfoContainer {
 		tank.tank.renderTank(this, guiLeft + 71 + 16, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 		tank.tank.renderTank(this, guiLeft + 71 + 32, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 2, 52);*/
 		
-		tank.tank.renderTank(guiLeft + 71, guiTop + 17, this.zLevel, 34, 52);
+		tank.tank.renderTank(guiLeft + 71, guiTop + 69, this.zLevel, 34, 52);
 	}
 }

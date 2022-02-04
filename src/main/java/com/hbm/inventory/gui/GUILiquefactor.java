@@ -57,7 +57,6 @@ public class GUILiquefactor extends GuiInfoContainer {
 		if(i > 0)
 			drawTexturedModalRect(guiLeft + 138, guiTop + 4, 176, 52, 9, 12);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(liquefactor.tank.getSheet());
-		liquefactor.tank.renderTank(this, guiLeft + 71, guiTop + 88, liquefactor.tank.getTankType().textureX() * FluidTank.x, liquefactor.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		liquefactor.tank.renderTank(guiLeft + 71, guiTop + 88, this.zLevel, 16, 52);
 	}
 }

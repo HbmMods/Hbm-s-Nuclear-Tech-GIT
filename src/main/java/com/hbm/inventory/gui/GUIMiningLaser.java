@@ -87,7 +87,6 @@ public class GUIMiningLaser extends GuiInfoContainer {
 		
 		this.drawInfoPanel(guiLeft + 87, guiTop + 31, 8, 8, 8);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(laser.tank.getSheet());
-		laser.tank.renderTank(this, guiLeft + 35, guiTop + 124, laser.tank.getTankType().textureX() * FluidTank.x, laser.tank.getTankType().textureY() * FluidTank.y, 7, 52);
+		laser.tank.renderTank(guiLeft + 35, guiTop + 124, this.zLevel, 7, 52);
 	}
 }

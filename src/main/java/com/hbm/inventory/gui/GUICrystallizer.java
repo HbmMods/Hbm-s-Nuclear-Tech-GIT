@@ -61,7 +61,6 @@ public class GUICrystallizer extends GuiInfoContainer {
 		
 		this.drawInfoPanel(guiLeft + 87, guiTop + 21, 8, 8, 8);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(acidomatic.tank.getSheet());
-		acidomatic.tank.renderTank(this, guiLeft + 44, guiTop + 69, acidomatic.tank.getTankType().textureX() * FluidTank.x, acidomatic.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		acidomatic.tank.renderTank(guiLeft + 44, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

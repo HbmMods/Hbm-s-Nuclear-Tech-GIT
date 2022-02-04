@@ -92,19 +92,6 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		if(!diFurnace.hasAcceptableFuel())
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
-		diFurnace.tank.renderTank(this, guiLeft + 80, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
-
-		/*Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.missileNuclear_tex);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft + 88, guiTop + 110, 50);
-		GL11.glRotatef(System.currentTimeMillis() / 10 % 360, 0, -1, 0);
-		GL11.glTranslatef(60, 0, 0);
-		GL11.glScalef(16, 16, 16);
-		GL11.glRotatef(90, 1, 0, 0);
-		GL11.glRotatef(-90, 0, 0, 1);
-		GL11.glScalef(-1, -1, -1);
-		ResourceManager.missileNuclear.renderAll();
-		GL11.glPopMatrix();*/
+		diFurnace.tank.renderTank(guiLeft + 80, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

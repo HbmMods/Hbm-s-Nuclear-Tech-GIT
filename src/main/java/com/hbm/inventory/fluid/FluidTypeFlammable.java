@@ -13,20 +13,20 @@ public class FluidTypeFlammable extends FluidType {
 	/** How much heat energy (usually translates into HE 1:1) 1000mB hold */
 	protected double energy;
 	
-	public FluidTypeFlammable(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
+	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name) {
+		this(compat, color, p, f, r, symbol, name, 0, new FluidTrait[0]);
 	}
 	
-	public FluidTypeFlammable(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, traits);
+	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
+		this(compat, color, p, f, r, symbol, name, 0, traits);
 	}
 	
-	public FluidTypeFlammable(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
+	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
+		this(compat, color, p, f, r, symbol, name, temperature, new FluidTrait[0]);
 	}
 	
-	public FluidTypeFlammable(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
-		super(compat, color, x, y, sheet, p, f, r, symbol, name, temperature, traits);
+	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
+		super(compat, color, p, f, r, symbol, name, temperature, traits);
 	}
 	
 	public FluidTypeFlammable setHeatEnergy(double energy) {

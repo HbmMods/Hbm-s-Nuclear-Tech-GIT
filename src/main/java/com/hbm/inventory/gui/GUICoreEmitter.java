@@ -103,10 +103,9 @@ public class GUICoreEmitter extends GuiInfoContainer {
 		int i = (int) emitter.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 26, guiTop + 69 - i, 176, 52 - i, 16, i);
 		
-        this.field.drawTextBox();
+		this.field.drawTextBox();
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(emitter.tank.getSheet());
-		emitter.tank.renderTank(this, guiLeft + 8, guiTop + 69, emitter.tank.getTankType().textureX() * FluidTank.x, emitter.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		emitter.tank.renderTank(guiLeft + 8, guiTop + 69, this.zLevel, 16, 52);
 	}
 	
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {

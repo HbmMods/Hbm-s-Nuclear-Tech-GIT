@@ -58,9 +58,7 @@ public class GUICore extends GuiInfoContainer {
 		int j = core.getHeatScaled(52);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 69 - j, 192, 52 - j, 16, j);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(core.tanks[0].getSheet());
-		core.tanks[0].renderTank(this, guiLeft + 26, guiTop + 69, core.tanks[0].getTankType().textureX() * FluidTank.x, core.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(core.tanks[1].getSheet());
-		core.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, core.tanks[1].getTankType().textureX() * FluidTank.x, core.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		core.tanks[0].renderTank(guiLeft + 26, guiTop + 69, this.zLevel, 16, 52);
+		core.tanks[1].renderTank(guiLeft + 134, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

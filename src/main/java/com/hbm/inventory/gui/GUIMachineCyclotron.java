@@ -77,9 +77,7 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 
 		this.drawInfoPanel(guiLeft + 21, guiTop + 75, 8, 8, 8);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.coolant.getSheet());
-		cyclotron.coolant.renderTank(this, guiLeft + 53, guiTop + 124, cyclotron.coolant.getTankType().textureX() * FluidTank.x, cyclotron.coolant.getTankType().textureY() * FluidTank.y, 7, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.amat.getSheet());
-		cyclotron.amat.renderTank(this, guiLeft + 134, guiTop + 124, cyclotron.amat.getTankType().textureX() * FluidTank.x, cyclotron.amat.getTankType().textureY() * FluidTank.y, 7, 34);
+		cyclotron.coolant.renderTank(guiLeft + 53, guiTop + 124, this.zLevel, 7, 52);
+		cyclotron.amat.renderTank(guiLeft + 134, guiTop + 124, this.zLevel, 7, 34);
 	}
 }

@@ -98,10 +98,7 @@ public class GUIMachineBoiler extends GuiInfoContainer {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tanks[0].getSheet());
-		dud.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, dud.tanks[0].getTankType().textureX() * FluidTank.x, dud.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tanks[1].getSheet());
-		dud.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, dud.tanks[1].getTankType().textureX() * FluidTank.x, dud.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		dud.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
+		dud.tanks[1].renderTank(guiLeft + 134, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

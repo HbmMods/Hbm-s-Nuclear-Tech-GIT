@@ -19,12 +19,6 @@ public class FluidType {
 	private int id;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
-	//X position of the fluid on the sheet, the "row"
-	private int textureX;
-	//Y position of the fluid on the sheet, the "column"
-	private int textureY;
-	//ID of the texture sheet the fluid is on
-	private int sheetID;
 	//Unlocalized string ID of the fluid
 	private String unlocalized;
 	
@@ -38,25 +32,22 @@ public class FluidType {
 	
 	private ResourceLocation texture;
 	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
+	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name) {
+		this(compat, color, p, f, r, symbol, name, 0, new FluidTrait[0]);
 	}
 	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, traits);
+	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
+		this(compat, color, p, f, r, symbol, name, 0, traits);
 	}
 	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
+	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
+		this(compat, color, p, f, r, symbol, name, temperature, new FluidTrait[0]);
 	}
 	
-	public FluidType(String name, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String unlocalized, int temperature, FluidTrait... traits) {
+	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol, String unlocalized, int temperature, FluidTrait... traits) {
 		this.stringId = name;
 		this.color = color;
-		this.textureX = x;
-		this.textureY = y;
 		this.unlocalized = unlocalized;
-		this.sheetID = sheet;
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
@@ -84,15 +75,6 @@ public class FluidType {
 
 	public int getColor() {
 		return this.color;
-	}
-	public int textureX() {
-		return this.textureX;
-	}
-	public int textureY() {
-		return this.textureY;
-	}
-	public int getSheetID() {
-		return this.sheetID;
 	}
 	public ResourceLocation getTexture() {
 		return this.texture;
