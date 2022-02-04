@@ -9,9 +9,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
@@ -23,11 +25,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIMachineSelenium extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_selenium.png");
-	private TileEntityMachineSeleniumEngine diFurnace;
+	private TileEntityMachineSeleniumEngine selenium;
 
 	public GUIMachineSelenium(InventoryPlayer invPlayer, TileEntityMachineSeleniumEngine tedf) {
 		super(new ContainerMachineSelenium(invPlayer, tedf));
-		diFurnace = tedf;
+		selenium = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 222;
@@ -37,14 +39,17 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 18, 16, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 108, 160, 16, diFurnace.power, diFurnace.powerCap);
+		selenium.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 18, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 108, 160, 16, selenium.power, selenium.powerCap);
 
 		List<String> text = new ArrayList();
 		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
 		
-		for(Entry<FluidType, Integer> entry : TileEntityMachineDiesel.fuels.entrySet()) {
-			text.add("  " + I18nUtil.resolveKey(entry.getKey().getUnlocalizedName()) + " (" + entry.getValue() + " HE/t)");
+		for(FluidType type : Fluids.getInNiceOrder()) {
+			long energy = selenium.getHEFromFuel(type);
+			
+			if(energy > 0)
+				text.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()) + " (" + BobMathUtil.getShortNumber(energy) + "HE/t)");
 		}
 
 		text.add(EnumChatFormatting.ITALIC + "(These numbers are base values,");
@@ -59,14 +64,14 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 				"(Consumption rate per piston)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 		
-		if(diFurnace.pistonCount < 3) {
+		if(selenium.pistonCount < 3) {
 			
 			String[] text2 = new String[] { "Error: At least three pistons are",
 					"required to operate this radial engine!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
 		}
 		
-		if(!diFurnace.hasAcceptableFuel()) {
+		if(!selenium.hasAcceptableFuel()) {
 			
 			String[] text2 = new String[] { "Error: The currently set fuel type",
 					"is not supported by this engine!" };
@@ -76,7 +81,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.selenium.hasCustomInventoryName() ? this.selenium.getInventoryName() : I18n.format(this.selenium.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -88,34 +93,34 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(diFurnace.power > 0) {
-			int i = (int)diFurnace.getPowerScaled(160);
+		if(selenium.power > 0) {
+			int i = (int)selenium.getPowerScaled(160);
 			
 			i = (int) Math.min(i, 160);
 			
 			drawTexturedModalRect(guiLeft + 8, guiTop + 108, 0, 222, i, 16);
 		}
 		
-		if(diFurnace.tank.getFill() > 0 && diFurnace.hasAcceptableFuel() && diFurnace.pistonCount > 2)
+		if(selenium.tank.getFill() > 0 && selenium.hasAcceptableFuel() && selenium.pistonCount > 2)
 		{
 			drawTexturedModalRect(guiLeft + 115, guiTop + 71, 192, 0, 18, 18);
 		}
 		
-		if(diFurnace.pistonCount > 0)
+		if(selenium.pistonCount > 0)
 		{
-			int k = diFurnace.pistonCount;
+			int k = selenium.pistonCount;
 			drawTexturedModalRect(guiLeft + 26, guiTop + 81, 176, 52 + 16 * k - 16, 16, 16);
 		}
 		
-		if(diFurnace.pistonCount < 3)
+		if(selenium.pistonCount < 3)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
-		if(!diFurnace.hasAcceptableFuel())
+		if(!selenium.hasAcceptableFuel())
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 48, 16, 16, 7);
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		diFurnace.tank.renderTank(guiLeft + 80 + 36, guiTop + 70, this.zLevel, 16, 52);
+		selenium.tank.renderTank(guiLeft + 80 + 36, guiTop + 70, this.zLevel, 16, 52);
 	}
 }

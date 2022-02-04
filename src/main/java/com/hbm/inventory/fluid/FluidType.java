@@ -32,28 +32,14 @@ public class FluidType {
 	
 	private ResourceLocation texture;
 	
-	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, p, f, r, symbol, name, 0, new FluidTrait[0]);
-	}
-	
-	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, p, f, r, symbol, name, 0, traits);
-	}
-	
-	public FluidType(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, p, f, r, symbol, name, temperature, new FluidTrait[0]);
-	}
-	
-	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol, String unlocalized, int temperature, FluidTrait... traits) {
+	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol) {
 		this.stringId = name;
 		this.color = color;
-		this.unlocalized = unlocalized;
+		this.unlocalized = "hbmfluid." + name.toLowerCase();
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
 		this.symbol = symbol;
-		this.temperature = temperature;
-		Collections.addAll(this.traits, traits);
 		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
 		
 		this.id = Fluids.registerSelf(this);
@@ -64,13 +50,17 @@ public class FluidType {
 		return this;
 	}
 	
-	public FluidType addTratis(FluidTrait... traits) {
+	public FluidType addTraits(FluidTrait... traits) {
 		Collections.addAll(this.traits, traits);
 		return this;
 	}
 	
 	public int getID() {
 		return this.id;
+	}
+	
+	public String getName() {
+		return this.stringId;
 	}
 
 	public int getColor() {
@@ -166,10 +156,6 @@ public class FluidType {
 	}
 	@Deprecated
 	public String name() {
-		return this.stringId;
-	}
-	@Deprecated
-	public String getName() {
 		return this.stringId;
 	}
 }

@@ -12,25 +12,13 @@ import net.minecraft.util.EnumChatFormatting;
 public class FluidTypeCombustible extends FluidTypeFlammable {
 	
 	protected FuelGrade fuelGrade;
-	protected double combustionEnergy;
+	protected long combustionEnergy;
 	
-	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, p, f, r, symbol, name, 0, new FluidTrait[0]);
+	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol) {
+		super(compat, color, p, f, r, symbol);
 	}
 	
-	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, p, f, r, symbol, name, 0, traits);
-	}
-	
-	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, p, f, r, symbol, name, temperature, new FluidTrait[0]);
-	}
-	
-	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
-		super(compat, color, p, f, r, symbol, name, temperature, traits);
-	}
-	
-	public FluidTypeCombustible setCombustionEnergy(FuelGrade grade, double energy) {
+	public FluidTypeCombustible setCombustionEnergy(FuelGrade grade, long energy) {
 		this.fuelGrade = grade;
 		this.combustionEnergy = energy;
 		return this;
@@ -39,18 +27,28 @@ public class FluidTypeCombustible extends FluidTypeFlammable {
 	@Override
 	public void addInfo(List<String> info) {
 		super.addInfo(info);
+
+		info.add(EnumChatFormatting.GOLD + "[Combustible]");
 		
 		if(combustionEnergy > 0) {
-			info.add(EnumChatFormatting.GOLD + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber((int) energy) + "HE " + EnumChatFormatting.GOLD + "per bucket used in an engine");
+			info.add(EnumChatFormatting.GOLD + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(combustionEnergy) + "HE " + EnumChatFormatting.GOLD + "per bucket used in an engine");
 			info.add(EnumChatFormatting.GOLD + "Fuel grade: " + EnumChatFormatting.RED + this.fuelGrade.getGrade());
 		}
 	}
 	
+	public long getCombustionEnergy() {
+		return this.combustionEnergy;
+	}
+	
+	public FuelGrade getGrade() {
+		return this.fuelGrade;
+	}
+	
 	public static enum FuelGrade {
-		LOW("Low"),		//heating and industrial oil
-		MEDIUM("Medium"),		//petroil
-		HIGH("High"),		//diesel, gasoline
-		AERO("Aviation");		//kerosene and other light aviation fuels
+		LOW("Low"),			//heating and industrial oil				< star engine, iGen
+		MEDIUM("Medium"),	//petroil									< diesel generator
+		HIGH("High"),		//diesel, gasoline							< HP engine
+		AERO("Aviation");	//kerosene and other light aviation fuels	< turbofan
 		
 		private String grade;
 		

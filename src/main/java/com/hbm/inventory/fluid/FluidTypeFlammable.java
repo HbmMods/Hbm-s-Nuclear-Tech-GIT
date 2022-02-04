@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.render.util.EnumSymbol;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 
@@ -11,25 +12,13 @@ import net.minecraft.util.EnumChatFormatting;
 public class FluidTypeFlammable extends FluidType {
 	
 	/** How much heat energy (usually translates into HE 1:1) 1000mB hold */
-	protected double energy;
+	protected long energy;
 	
-	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, p, f, r, symbol, name, 0, new FluidTrait[0]);
+	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol) {
+		super(compat, color, p, f, r, symbol);
 	}
 	
-	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, p, f, r, symbol, name, 0, traits);
-	}
-	
-	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, p, f, r, symbol, name, temperature, new FluidTrait[0]);
-	}
-	
-	public FluidTypeFlammable(String compat, int color, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
-		super(compat, color, p, f, r, symbol, name, temperature, traits);
-	}
-	
-	public FluidTypeFlammable setHeatEnergy(double energy) {
+	public FluidTypeFlammable setHeatEnergy(long energy) {
 		this.energy = energy;
 		return this;
 	}
@@ -38,7 +27,9 @@ public class FluidTypeFlammable extends FluidType {
 	public void addInfo(List<String> info) {
 		super.addInfo(info);
 		
+		info.add(EnumChatFormatting.YELLOW + "[Flammable]");
+		
 		if(energy > 0)
-			info.add(EnumChatFormatting.YELLOW + "Provides " + EnumChatFormatting.RED + "" + ((int) energy) + "HE " + EnumChatFormatting.YELLOW + "per bucket burned");
+			info.add(EnumChatFormatting.YELLOW + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(energy) + "HE " + EnumChatFormatting.YELLOW + "per bucket burned");
 	}
 }

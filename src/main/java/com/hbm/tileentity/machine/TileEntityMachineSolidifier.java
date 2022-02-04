@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
@@ -164,38 +165,35 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 	@Override
 	public void setFillstate(int fill, int index) {
-		// TODO Auto-generated method stub
-		
+		tank.setFill(fill);
 	}
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		// TODO Auto-generated method stub
-		
+		if(type == tank.getTankType())
+			tank.setFill(fill);
 	}
 
 	@Override
 	public void setType(FluidType type, int index) {
-		// TODO Auto-generated method stub
-		
+		tank.setTankType(type);
 	}
 
 	@Override
 	public List<FluidTank> getTanks() {
-		// TODO Auto-generated method stub
-		return null;
+		List<FluidTank> tanks = new ArrayList();
+		tanks.add(tank);
+		return tanks;
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tank.getTankType() == type ? tank.getFill() : 0;
 	}
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tank.getTankType() == type ? tank.getMaxFill() : 0;
 	}
 	
 	AxisAlignedBB bb = null;

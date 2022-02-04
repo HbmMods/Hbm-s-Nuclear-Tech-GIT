@@ -8,6 +8,7 @@ import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -32,6 +33,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
+@Spaghetti("a")
 public class TileEntityMachineTurbofan extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];

@@ -9,6 +9,8 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.FluidTypeCombustible;
+import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -134,23 +136,32 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		return getHEFromFuel() > 0;
 	}
 	
-	public static final HashMap<FluidType, Integer> fuels = new HashMap();
+	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	
 	static {
-		fuels.put(Fluids.HYDROGEN,	10);
-		fuels.put(Fluids.DIESEL,	500);
-		fuels.put(Fluids.PETROIL,	300);
-		fuels.put(Fluids.BIOFUEL,	400);
-		fuels.put(Fluids.GASOLINE,	1500);
-		fuels.put(Fluids.NITAN,		5000);
-		fuels.put(Fluids.LPG,		450);
-		fuels.put(Fluids.ETHANOL,	200);
+		fuelEfficiency.put(FuelGrade.LOW,		0.5D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	1.0D);
+		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
+		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
 	
-	public int getHEFromFuel() {
-		FluidType type = tank.getTankType();
-		Integer value = fuels.get(type);
-		return value != null ? value : 0;
+	public long getHEFromFuel() {
+		return getHEFromFuel(tank.getTankType());
+	}
+	
+	public static long getHEFromFuel(FluidType type) {
+		
+		if(type instanceof FluidTypeCombustible) {
+			FluidTypeCombustible fuel = (FluidTypeCombustible) type;
+			FuelGrade grade = fuel.getGrade();
+			double efficiency = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0;
+			
+			if(fuel.getGrade() != FuelGrade.LOW) {
+				return (long) (fuel.getCombustionEnergy() / 1000L * efficiency);
+			}
+		}
+		
+		return 0;
 	}
 
 	public void generate() {
