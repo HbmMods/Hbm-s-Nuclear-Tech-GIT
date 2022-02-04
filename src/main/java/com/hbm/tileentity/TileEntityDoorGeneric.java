@@ -7,11 +7,14 @@ import java.util.Set;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.generic.BlockDoorGeneric;
 import com.hbm.interfaces.IAnimatedDoor;
+import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDoorAnimationPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.Rotation;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -30,7 +33,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	public long animStartTime = 0;
 	public int redstonePower;
 	public boolean shouldUseBB = false;
-	public Set<Triplet<Integer, Integer, Integer>> activatedBlocks = new HashSet<>(4);
+	public Set<BlockPos> activatedBlocks = new HashSet<>(4);
 
 	private AudioWrapper audio;
 	private AudioWrapper audio2;
@@ -52,6 +55,9 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		if(worldObj.isRemote) {
 
 		} else {
+			
+			BlockPos pos = new BlockPos(this);
+			
 			int[][] ranges = getDoorType().getDoorOpenRanges();
 			ForgeDirection dir = ForgeDirection.getOrientation(getBlockMetadata() - BlockDummyable.offset);
 			
@@ -60,7 +66,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 				for(int i = 0; i < ranges.length; i++) {
 					
 					int[] range = ranges[i];
-					int[] startPos = new int[] {range[0], range[1], range[2]};
+					BlockPos startPos = new BlockPos(range[0], range[1], range[2]);
 					float time = getDoorType().getDoorRangeOpenTime(openTicks, i);
 					
 					for(int j = 0; j < Math.abs(range[3]); j++) {
@@ -69,22 +75,24 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 							break;
 						
 						for(int k = 0; k < range[4]; k++) {
-							int[] add = new int[] {0, 0, 0};
+							BlockPos add = new BlockPos(0, 0, 0);
 							switch(range[5]){
-							case 0: add = new int[] {0, k, (int)Math.signum(range[3]) * j}; break;
-							case 1: add = new int[] {k, (int)Math.signum(range[3]) * j, 0}; break;
-							case 2: add = new int[] {(int)Math.signum(range[3]) * j, k, 0}; break;
+							case 0: add = new BlockPos(0, k, (int)Math.signum(range[3]) * j); break;
+							case 1: add = new BlockPos(k, (int)Math.signum(range[3]) * j, 0); break;
+							case 2: add = new BlockPos((int)Math.signum(range[3]) * j, k, 0); break;
 							}
-							/*Rotation r = dir.getBlockRotation();
-							if(dir.toEnumFacing().getAxis() == EnumFacing.Axis.X)
-								r = r.add(Rotation.CLOCKWISE_180);
-							int[] finalPos = new int[]{} startPos.add(add).rotate(r).add(pos);
 							
-							if(finalPos.equals(this.pos)) {
-								this.shouldUseBB = true;
+							Rotation r = Rotation.getBlockRotation(dir);
+							if(dir == Library.POS_X || dir == Library.NEG_X)
+								r = r.add(Rotation.CLOCKWISE_180);
+							
+							BlockPos finalPos = startPos.add(add).rotate(r).add(pos);
+							
+							if(finalPos.equals(pos)) {
+								this.shouldUseBB = false;
 							} else {
-								((BlockDummyable)getBlockType()).makeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
-							}_*/ //TODO: whatever just get these errors out of my face
+								((BlockDummyable)getBlockType()).removeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
+							}
 						}
 					}
 				}
@@ -95,7 +103,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 					
 					int[] range = ranges[i];
 
-					int[] startPos = new int[] {range[0], range[1], range[2]};
+					BlockPos startPos = new BlockPos(range[0], range[1], range[2]);
 					float time = getDoorType().getDoorRangeOpenTime(openTicks, i);
 					
 					for(int j = Math.abs(range[3])-1; j >= 0; j--) {
@@ -104,22 +112,24 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 							break;
 						
 						for(int k = 0; k < range[4]; k++) {
-							int[] add = new int[] {0, 0, 0};
+							BlockPos add = new BlockPos(0, 0, 0);
 							switch(range[5]){
-							case 0: add = new int[] {0, k, (int)Math.signum(range[3]) * j}; break;
-							case 1: add = new int[] {k, (int)Math.signum(range[3]) * j, 0}; break;
-							case 2: add = new int[] {(int)Math.signum(range[3]) * j, k, 0}; break;
+							case 0: add = new BlockPos(0, k, (int)Math.signum(range[3]) * j); break;
+							case 1: add = new BlockPos(k, (int)Math.signum(range[3]) * j, 0); break;
+							case 2: add = new BlockPos((int)Math.signum(range[3]) * j, k, 0); break;
 							}
-							
-							/*Rotation r = dir.getBlockRotation();
-							if(dir.toEnumFacing().getAxis() == EnumFacing.Axis.X)
+
+							Rotation r = Rotation.getBlockRotation(dir);
+							if(dir == Library.POS_X || dir == Library.NEG_X)
 								r = r.add(Rotation.CLOCKWISE_180);
+							
 							BlockPos finalPos = startPos.add(add).rotate(r).add(pos);
-							if(finalPos.equals(this.pos)) {
+							
+							if(finalPos.equals(pos)) {
 								this.shouldUseBB = false;
 							} else {
-								((BlockDummyable)getBlockType()).removeExtra(world, finalPos.getX(), finalPos.getY(), finalPos.getZ());
-							}*/ //TODO
+								((BlockDummyable)getBlockType()).removeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
+							}
 						}
 					}
 				}
@@ -148,11 +158,11 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
+		}
 		if(audio2 != null) {
 			audio2.stopSound();
 			audio2 = null;
-    	}
+		}
 	}
 	
 	public DoorDecl getDoorType(){
@@ -304,7 +314,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		NBTTagCompound activatedBlocks = tag.getCompoundTag("activatedBlocks");
 		this.activatedBlocks.clear();
 		for(int i = 0; i < activatedBlocks.func_150296_c().size()/3; i ++){
-			this.activatedBlocks.add(new Triplet(activatedBlocks.getInteger("x"+i), activatedBlocks.getInteger("y"+i), activatedBlocks.getInteger("z"+i)));
+			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x"+i), activatedBlocks.getInteger("y"+i), activatedBlocks.getInteger("z"+i)));
 		}
 		super.readFromNBT(tag);
 	}
@@ -320,7 +330,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		tag.setBoolean("shouldUseBB", shouldUseBB);
 		NBTTagCompound activatedBlocks = new NBTTagCompound();
 		int i = 0;
-		for(Triplet<Integer, Integer, Integer> p : this.activatedBlocks){
+		for(BlockPos p : this.activatedBlocks){
 			activatedBlocks.setInteger("x"+i, p.getX());
 			activatedBlocks.setInteger("y"+i, p.getY());
 			activatedBlocks.setInteger("z"+i, p.getZ());
@@ -349,7 +359,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 
 	public void updateRedstonePower(int x, int y, int z){
 		//Drillgon200: Best I could come up with without having to use dummy tile entities
-		Triplet<Integer, Integer, Integer> pos = new Triplet(x, y, z);
+		BlockPos pos = new BlockPos(x, y, z);
 		boolean powered = worldObj.isBlockIndirectlyGettingPowered(x, y, z);
 		boolean contained = activatedBlocks.contains(pos);
 		if(!contained && powered){
