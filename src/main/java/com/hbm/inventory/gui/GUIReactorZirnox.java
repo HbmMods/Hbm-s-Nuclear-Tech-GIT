@@ -44,7 +44,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, coolantText);
 		
 		String[] pressureText = I18nUtil.resolveKeyArray("desc.gui.zirnox.pressure");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, pressureText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 16, pressureText);
 
 		if(zirnox.water.getFill() <= 0) {
 			String[] warning1 = I18nUtil.resolveKeyArray("desc.gui.zirnox.warning1");
@@ -53,7 +53,7 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 
 		if(zirnox.carbonDioxide.getFill() < 4000) {
 			String[] warning2 = I18nUtil.resolveKeyArray("desc.gui.zirnox.warning2");
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, warning2);
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16 + 16, warning2);
 		}
 
 	}

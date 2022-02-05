@@ -204,8 +204,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 			}
 			
-			//2(fill) + ((x^2 * fill%) / 100,000)
-			this.pressure = (this.carbonDioxide.getFill() * 2) + (int)((float)this.heat * (float)this.heat * ((float)this.carbonDioxide.getFill() / (float)this.carbonDioxide.getMaxFill() / 100000F));
+			//2(fill) + (x * fill%)
+			this.pressure = (this.carbonDioxide.getFill() * 2) + (int)((float)this.heat * ((float)this.carbonDioxide.getFill() / (float)this.carbonDioxide.getMaxFill()));
 
 			if(this.heat > 0 && this.heat < maxHeat) {
 				if(this.water.getFill() > 0 && this.carbonDioxide.getFill() > 0 && this.steam.getFill() < this.steam.getMaxFill()) {
@@ -219,13 +219,13 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			}
 
 			checkIfMeltdown();
-
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("heat", heat);
 			data.setInteger("pressure", pressure);
 			data.setBoolean("isOn", isOn);
 			this.networkPack(data, 150);
-
+			
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			carbonDioxide.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			water.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -233,11 +233,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	private void generateSteam() {
-
+		
 		// function of SHS produced per tick
-		// heat - 10256/100000 * pressure / 50,000 * 25 * 3 (should get rid of any rounding errors)
+		// heat - 10256/100000 * pressure / 50,000 * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
-			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * ((float)pressure / (float)(maxPressure / 2)) * 25F * 3F);
+			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1.5F) * 25F * 5F);
 			int Steam = Water * 1;
 			
 			water.setFill(water.getFill() - Water);

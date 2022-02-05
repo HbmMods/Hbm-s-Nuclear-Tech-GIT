@@ -6,6 +6,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineGasCent;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -34,10 +35,11 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, gasCent.power, gasCent.maxPower);
 		
-		String[] info = new String[] { "Uranium enrichment requires cascades.", "Two-centrifuge cascades will give you", "uranium fuel, four-centrifuge cascades", "will give you total separation."};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, info);
-		String[] info2 = new String[] { "A centrifuge overclocking upgrade is", "required for total isotopic separation."};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 32, 16, 16, guiLeft - 8, guiTop + 32 + 16, info2);
+		String[] enrichmentText = I18nUtil.resolveKeyArray("desc.gui.gasCent.enrichment");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, enrichmentText);
+		
+		String[] transferText = I18nUtil.resolveKeyArray("desc.gui.gasCent.output");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 32, 16, 16, guiLeft - 8, guiTop + 32 + 16, transferText);
 	}
 	
 	@Override

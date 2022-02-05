@@ -40,10 +40,10 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, radiolysis.power, radiolysis.maxPower);
 		
 		String[] descText = I18nUtil.resolveKeyArray("desc.gui.radiolysis.desc");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, descText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, descText);
 		
 		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtg.heat", radiolysis.heat);
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 18, 16, 16, guiLeft - 8, guiTop + 36 + 18 + 16, heatText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 18, 16, 16, guiLeft - 8, guiTop + 16 + 18 + 16, heatText);
 		
 		List<ItemRTGPellet> pellets = ItemRTGPellet.pelletList;
 		String[] pelletText = new String[pellets.size() + 1];
@@ -54,7 +54,7 @@ public class GUIRadiolysis extends GuiInfoContainer {
 			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtg.pelletPower", I18nUtil.resolveKey(pellet.getUnlocalizedName() + ".name"), pellet.getHeat() * 10);
 		}
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 36, 16, 16, guiLeft - 8, guiTop + 36 + 36 + 16, pelletText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 36, 16, 16, guiLeft - 8, guiTop + 16 + 36 + 16, pelletText);
 	}
 	
 	@Override
