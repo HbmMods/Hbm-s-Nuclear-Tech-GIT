@@ -235,9 +235,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 		
 		// function of SHS produced per tick
-		// heat - 10256/100000 * pressure / 50,000 * 25 * 3 (should get rid of any rounding errors)
+		// heat - 10256/100000 * pressure / 50,000 * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
-			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1.5F) * 25F * 4F);
+			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1.5F) * 25F * 5F);
 			int Steam = Water * 1;
 			
 			water.setFill(water.getFill() - Water);
