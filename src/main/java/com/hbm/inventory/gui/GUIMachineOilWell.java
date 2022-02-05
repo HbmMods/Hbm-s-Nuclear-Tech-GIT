@@ -6,6 +6,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -35,6 +36,13 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		if(derrick.tanks.length >= 3) {
 			derrick.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 40, guiTop + 37, 6, 32);
 		}
+		
+		String[] upgradeText = new String[4];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.afterburner");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 156, guiTop + 3, 8, 8, mouseX, mouseY, upgradeText);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, derrick.power, derrick.getMaxPower());
 	}
@@ -71,5 +79,7 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		if(derrick.tanks.length > 2) {
 			derrick.tanks[2].renderTank(guiLeft + 40, guiTop + 69, this.zLevel, 6, 32);
 		}
+		
+		this.drawInfoPanel(guiLeft + 156, guiTop + 3, 8, 8, 8);
 	}
 }
