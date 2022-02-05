@@ -242,6 +242,22 @@ public abstract class BlockDummyable extends BlockContainer {
 		world.setBlock(x, y, z, this, meta + extra, 3);
 		this.safeRem = false;
 	}
+	
+	public void removeExtra(World world, int x, int y, int z) {
+
+		if(world.getBlock(x, y, z) != this)
+			return;
+
+		int meta = world.getBlockMetadata(x, y, z);
+
+		if(meta <= 5 || meta >= 12)
+			return;
+
+		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
+		this.safeRem = true;
+		world.setBlock(x, y, z, this, meta - extra, 3);
+		this.safeRem = false;
+	}
 
 	// checks if the dummy metadata is within the extra range
 	public boolean hasExtra(int meta) {

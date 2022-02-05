@@ -69,6 +69,8 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.registerRecipeHandler(new LiquefactionHandler());
 		API.registerUsageHandler(new LiquefactionHandler());
+		API.registerRecipeHandler(new SolidificationHandler());
+		API.registerUsageHandler(new SolidificationHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

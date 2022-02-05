@@ -55,7 +55,6 @@ public class GUIMachineCMBFactory extends GuiInfoContainer {
 		int j1 = diFurnace.getProgressScaled(24);
 		drawTexturedModalRect(guiLeft + 101 + 9, guiTop + 34, 208, 0, j1 + 1, 16);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
-		diFurnace.tank.renderTank(this, guiLeft + 26, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		diFurnace.tank.renderTank(guiLeft + 26, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

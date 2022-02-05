@@ -57,7 +57,6 @@ public class GUISolidifier extends GuiInfoContainer {
 		if(i > 0)
 			drawTexturedModalRect(guiLeft + 138, guiTop + 4, 176, 52, 9, 12);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(solidifier.tank.getSheet());
-		solidifier.tank.renderTank(this, guiLeft + 35, guiTop + 88, solidifier.tank.getTankType().textureX() * FluidTank.x, solidifier.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		solidifier.tank.renderTank(guiLeft + 35, guiTop + 88, this.zLevel, 16, 52);
 	}
 }

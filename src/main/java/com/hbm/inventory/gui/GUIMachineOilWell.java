@@ -65,15 +65,11 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 34, guiTop + 36, 192, 0, 18, 34);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[0].getSheet());
-		derrick.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[1].getSheet());
-		derrick.tanks[1].renderTank(this, guiLeft + 107, guiTop + 69, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		derrick.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
+		derrick.tanks[1].renderTank(guiLeft + 107, guiTop + 69, this.zLevel, 16, 52);
 		
 		if(derrick.tanks.length > 2) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[2].getSheet());
-			derrick.tanks[2].renderTank(this, guiLeft + 40, guiTop + 69, derrick.tanks[2].getTankType().textureX() * FluidTank.x, derrick.tanks[2].getTankType().textureY() * FluidTank.y, 6, 32);
+			derrick.tanks[2].renderTank(guiLeft + 40, guiTop + 69, this.zLevel, 6, 32);
 		}
 	}
 }

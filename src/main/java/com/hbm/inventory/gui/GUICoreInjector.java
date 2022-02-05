@@ -47,9 +47,7 @@ public class GUICoreInjector extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(injector.tanks[0].getSheet());
-		injector.tanks[0].renderTank(this, guiLeft + 44, guiTop + 69, injector.tanks[0].getTankType().textureX() * FluidTank.x, injector.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(injector.tanks[1].getSheet());
-		injector.tanks[1].renderTank(this, guiLeft + 116, guiTop + 69, injector.tanks[1].getTankType().textureX() * FluidTank.x, injector.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		injector.tanks[0].renderTank(guiLeft + 44, guiTop + 69, this.zLevel, 16, 52);
+		injector.tanks[1].renderTank(guiLeft + 116, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

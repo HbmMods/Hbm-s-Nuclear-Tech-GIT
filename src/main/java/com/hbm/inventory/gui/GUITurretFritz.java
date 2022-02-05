@@ -30,8 +30,7 @@ public class GUITurretFritz extends GUITurretBase {
 		
 		FluidTank tank = ((TileEntityTurretFritz)this.turret).tank;
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(tank.getSheet());
-		tank.renderTank(this, guiLeft + 134, guiTop + 116, tank.getTankType().textureX() * FluidTank.x, tank.getTankType().textureY() * FluidTank.y, 7, 52);
+		tank.renderTank(guiLeft + 134, guiTop + 116, this.zLevel, 7, 52);
 	}
 	
 	protected ResourceLocation getTexture() {

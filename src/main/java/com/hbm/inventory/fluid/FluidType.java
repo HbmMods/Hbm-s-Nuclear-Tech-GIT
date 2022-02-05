@@ -5,9 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 
 public class FluidType {
 
@@ -15,14 +19,8 @@ public class FluidType {
 	private int id;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
-	//X position of the fluid on the sheet, the "row"
-	private int textureX;
-	//Y position of the fluid on the sheet, the "column"
-	private int textureY;
-	//ID of the texture sheet the fluid is on
-	private int sheetID;
 	//Unlocalized string ID of the fluid
-	private String name;
+	private String unlocalized;
 	
 	public int poison;
 	public int flammability;
@@ -30,91 +28,66 @@ public class FluidType {
 	public EnumSymbol symbol;
 	public int temperature;
 	public List<FluidTrait> traits = new ArrayList();
-	private String compat;
+	private String stringId;
 	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
-	}
+	private ResourceLocation texture;
 	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, 0, traits);
-	}
-	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(compat, color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
-	}
-	
-	public FluidType(String compat, int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
-		this.compat = compat;
+	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol) {
+		this.stringId = name;
 		this.color = color;
-		this.textureX = x;
-		this.textureY = y;
-		this.name = name;
-		this.sheetID = sheet;
+		this.unlocalized = "hbmfluid." + name.toLowerCase();
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
 		this.symbol = symbol;
-		this.temperature = temperature;
-		Collections.addAll(this.traits, traits);
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
 		
 		this.id = Fluids.registerSelf(this);
+	}
+	
+	public FluidType setTemp(int temperature) {
+		this.temperature = temperature;
+		return this;
+	}
+	
+	public FluidType addTraits(FluidTrait... traits) {
+		Collections.addAll(this.traits, traits);
+		return this;
 	}
 	
 	public int getID() {
 		return this.id;
 	}
+	
+	public String getName() {
+		return this.stringId;
+	}
 
 	public int getColor() {
 		return this.color;
 	}
-	@Deprecated
-	public int getMSAColor() {
-		return this.color;
-	}
-	public int textureX() {
-		return this.textureX;
-	}
-	public int textureY() {
-		return this.textureY;
-	}
-	public int getSheetID() {
-		return this.sheetID;
+	public ResourceLocation getTexture() {
+		return this.texture;
 	}
 	public String getUnlocalizedName() {
-		return this.name;
-	}
-	
-	@Deprecated
-	public String name() {
-		return this.compat;
-	}
-
-	@Deprecated
-	public String getName() {
-		return this.compat;
+		return this.unlocalized;
 	}
 	
 	public boolean isHot() {
 		return this.temperature >= 100;
 	}
-	
 	public boolean isCorrosive() {
 		return this.traits.contains(FluidTrait.CORROSIVE) || this.traits.contains(FluidTrait.CORROSIVE_2);
 	}
-	
 	public boolean isAntimatter() {
 		return this.traits.contains(FluidTrait.AMAT);
 	}
-	
 	public boolean hasNoContainer() {
 		return this.traits.contains(FluidTrait.NO_CONTAINER);
 	}
-	
 	public boolean hasNoID() {
 		return this.traits.contains(FluidTrait.NO_ID);
 	}
-	
 	public boolean needsLeadContainer() {
 		return this.traits.contains(FluidTrait.LEAD_CONTAINER);
 	}
@@ -140,6 +113,19 @@ public class FluidType {
 	public void onFluidRelease(TileEntity te, FluidTank tank, int overflowAmount) { }
 	//public void onFluidTransmit(FluidNetwork net) { }
 	
+	public void addInfo(List<String> info) {
+
+		if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
+		if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
+		if(isAntimatter()) info.add(EnumChatFormatting.DARK_RED + "Antimatter");
+
+		if(traits.contains(FluidTrait.CORROSIVE_2)) info.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
+		else if(traits.contains(FluidTrait.CORROSIVE)) info.add(EnumChatFormatting.YELLOW + "Corrosive");
+		
+		if(traits.contains(FluidTrait.NO_CONTAINER)) info.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
+		if(traits.contains(FluidTrait.LEAD_CONTAINER)) info.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");
+	}
+	
 	public static enum FluidTrait {
 		AMAT,
 		CORROSIVE,
@@ -163,5 +149,13 @@ public class FluidType {
 	@Deprecated //reason: not an enum, again, fuck you
 	public int ordinal() {
 		return this.getID();
+	}
+	@Deprecated
+	public int getMSAColor() {
+		return this.color;
+	}
+	@Deprecated
+	public String name() {
+		return this.stringId;
 	}
 }

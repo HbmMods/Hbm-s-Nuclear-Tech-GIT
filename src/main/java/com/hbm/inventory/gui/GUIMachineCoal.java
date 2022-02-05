@@ -92,7 +92,6 @@ public class GUIMachineCoal extends GuiInfoContainer {
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tank.getSheet());
-		dud.tank.renderTank(this, guiLeft + 8, guiTop + 69, dud.tank.getTankType().textureX() * FluidTank.x, dud.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		dud.tank.renderTank(guiLeft + 8, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

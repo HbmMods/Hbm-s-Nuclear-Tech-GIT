@@ -63,9 +63,6 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 
 		this.drawInfoPanel(guiLeft + 96, guiTop + 21, 8, 8, 8);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
-		diFurnace.tank.renderTank(this, guiLeft + 53, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
-		diFurnace.tank.renderTank(this, guiLeft + 53 + 16, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
-		diFurnace.tank.renderTank(this, guiLeft + 53 + 32, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 2, 52);
+		diFurnace.tank.renderTank(guiLeft + 53, guiTop + 69, this.zLevel, 34, 52);
 	}
 }

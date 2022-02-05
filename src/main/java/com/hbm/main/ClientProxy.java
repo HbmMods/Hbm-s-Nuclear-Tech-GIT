@@ -72,6 +72,7 @@ import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
+import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -263,6 +264,7 @@ public class ClientProxy extends ServerProxy {
 		//doors
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVaultDoor.class, new RenderVaultDoor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlastDoor.class, new RenderBlastDoor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDoorGeneric.class, new RenderDoorGeneric());
 	}
 
 	@Override
@@ -656,12 +658,13 @@ public class ClientProxy extends ServerProxy {
 		FMLCommonHandler.instance().bus().register(handler);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+		ResourceManager.loadAnimatedModels();
 		
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();
 		registerEntityRenderer();
 		registerBlockRenderer();
-	    
+		
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");
 		RenderingRegistry.addNewArmourRendererPrefix("7");

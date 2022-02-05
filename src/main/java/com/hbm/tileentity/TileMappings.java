@@ -189,6 +189,8 @@ public class TileMappings {
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		
+		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
+		
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 		put(TileEntityProxyCombo.class, "tileentity_proxy_combo");
@@ -240,6 +242,7 @@ public class TileMappings {
 		put(TileEntityDeuteriumExtractor.class, "tileentity_deuterium_extractor");
 		put(TileEntityDeuteriumTower.class, "tileentity_deuterium_tower");
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
+		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");

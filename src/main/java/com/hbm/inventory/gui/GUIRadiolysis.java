@@ -75,13 +75,10 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		int i = (int)(radiolysis.getPower() * 34 / radiolysis.getMaxPower());
 		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 240, 34 - i, 16, i);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[0].getSheet());
-		radiolysis.tanks[0].renderTank(this, guiLeft + 61, guiTop + 69, radiolysis.tanks[0].getTankType().textureX() * FluidTank.x, radiolysis.tanks[0].getTankType().textureY() * FluidTank.y, 8, 52);
+		radiolysis.tanks[0].renderTank(guiLeft + 61, guiTop + 69, this.zLevel, 8, 52);
 		
-		//For some reason, liquid hydrogen appears as lava. but it doesn't seem to be an issue with any other fuel?
 		for(byte j = 0; j < 2; j++) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(radiolysis.tanks[j].getSheet());
-			radiolysis.tanks[j + 1].renderTank(this, guiLeft + 87, guiTop + 33 + j * 36, radiolysis.tanks[j + 1].getTankType().textureX() * FluidTank.x, radiolysis.tanks[j + 1].getTankType().textureY() * FluidTank.y, 12, 16);
+			radiolysis.tanks[j + 1].renderTank(guiLeft + 87, guiTop + 33 + j * 36, this.zLevel, 12, 16);
 		}
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 10);

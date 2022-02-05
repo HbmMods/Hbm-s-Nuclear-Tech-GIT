@@ -132,10 +132,7 @@ public class GUISoyuzLauncher extends GuiInfoContainer {
 		else
 			drawTexturedModalRect(guiLeft + 49, guiTop + 59, 218, 0, 6, 8);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[0].getSheet());
-		launcher.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[1].getSheet());
-		launcher.tanks[1].renderTank(this, guiLeft + 26, guiTop + 88, launcher.tanks[1].getTankType().textureX() * FluidTank.x, launcher.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		launcher.tanks[0].renderTank(guiLeft + 8, guiTop + 88, this.zLevel, 16, 52);
+		launcher.tanks[1].renderTank(guiLeft + 26, guiTop + 88, this.zLevel, 16, 52);
 	}
 }

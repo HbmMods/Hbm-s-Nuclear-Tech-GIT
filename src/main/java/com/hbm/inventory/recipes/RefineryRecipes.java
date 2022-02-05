@@ -115,4 +115,8 @@ public class RefineryRecipes {
 	public static Quartet<FluidType, FluidType, Integer, Integer> getCracking(FluidType oil) {
 		return cracking.get(oil);
 	}
+	
+	protected static Map<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> getCrackingRecipes() {
+		return cracking;
+	}
 }

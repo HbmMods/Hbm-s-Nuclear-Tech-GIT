@@ -56,30 +56,19 @@ public class GUIMachineLargeTurbine extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(turbine.tanks[0].getTankType().name().equals(Fluids.STEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(Fluids.HOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(Fluids.SUPERHOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(Fluids.ULTRAHOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
-		}
+		if(turbine.tanks[0].getTankType() == Fluids.STEAM) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.HOTSTEAM) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.SUPERHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.ULTRAHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
 
 		int i = (int)turbine.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);
 		
-		if(turbine.tanks[1].getTankType().name().equals(Fluids.NONE.name())) {
+		if(turbine.tanks[1].getTankType() == Fluids.NONE) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(turbine.tanks[0].getSheet());
-		turbine.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, turbine.tanks[0].getTankType().textureX() * FluidTank.x, turbine.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(turbine.tanks[1].getSheet());
-		turbine.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, turbine.tanks[1].getTankType().textureX() * FluidTank.x, turbine.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		turbine.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
+		turbine.tanks[1].renderTank(guiLeft + 134, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

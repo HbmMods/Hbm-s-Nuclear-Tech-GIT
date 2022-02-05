@@ -184,9 +184,7 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 80, guiTop + 108, 0, offset, i, 4);
 		}
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
-		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[1].getSheet());
-		diFurnace.tanks[1].renderTank(this, guiLeft + 26, guiTop + 88, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		diFurnace.tanks[0].renderTank(guiLeft + 8, guiTop + 88, this.zLevel, 16, 52);
+		diFurnace.tanks[1].renderTank(guiLeft + 26, guiTop + 88, this.zLevel, 16, 52);
 	}
 }

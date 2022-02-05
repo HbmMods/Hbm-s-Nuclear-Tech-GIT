@@ -3,11 +3,12 @@ package com.hbm.inventory.recipes;
 import static com.hbm.inventory.fluid.Fluids.*;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.ModItems;
 import com.hbm.util.Tuple.Pair;
 
@@ -87,5 +88,21 @@ public class SolidificationRecipes {
 	
 	public static Pair<Integer, ItemStack> getOutput(FluidType type) {
 		return recipes.get(type);
+	}
+
+	public static HashMap<ItemStack, ItemStack> getRecipes() {
+		
+		HashMap<ItemStack, ItemStack> recipes = new HashMap<ItemStack, ItemStack>();
+		
+		for(Entry<FluidType, Pair<Integer, ItemStack>> entry : SolidificationRecipes.recipes.entrySet()) {
+			
+			FluidType type = entry.getKey();
+			int amount = entry.getValue().getKey();
+			ItemStack out = entry.getValue().getValue().copy();
+			
+			recipes.put(ItemFluidIcon.make(type, amount), out);
+		}
+		
+		return recipes;
 	}
 }

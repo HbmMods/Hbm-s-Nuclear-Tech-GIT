@@ -12,6 +12,7 @@ import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.Tuple.Quartet;
 
 import net.minecraft.item.ItemStack;
 
@@ -49,13 +50,28 @@ public class RadiolysisRecipes {
 	public static void registerRadiolysis() {
 		radiolysis.put(Fluids.WATER, new Pair(new FluidStack(80, Fluids.ACID), new FluidStack(20, Fluids.HYDROGEN)));
 		
-		//now this is poggers
-		radiolysis.put(Fluids.OIL, new Pair(new FluidStack(RefineryRecipes.oil_crack_oil, Fluids.CRACKOIL), new FluidStack(RefineryRecipes.oil_crack_petro, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.BITUMEN, new Pair(new FluidStack(RefineryRecipes.bitumen_crack_oil, Fluids.OIL), new FluidStack(RefineryRecipes.bitumen_crack_aroma, Fluids.AROMATICS)));
-		radiolysis.put(Fluids.SMEAR, new Pair(new FluidStack(RefineryRecipes.smear_crack_napht, Fluids.NAPHTHA), new FluidStack(RefineryRecipes.smear_crack_petro, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.GAS, new Pair(new FluidStack(RefineryRecipes.gas_crack_petro, Fluids.PETROLEUM), new FluidStack(RefineryRecipes.gas_crack_unsat, Fluids.UNSATURATEDS)));
-		radiolysis.put(Fluids.DIESEL, new Pair(new FluidStack(RefineryRecipes.diesel_crack_kero, Fluids.KEROSENE), new FluidStack(RefineryRecipes.diesel_crack_petro, Fluids.PETROLEUM)));
-		radiolysis.put(Fluids.KEROSENE, new Pair(new FluidStack(RefineryRecipes.kero_crack_petro, Fluids.PETROLEUM), new FluidStack(0, Fluids.NONE)));
+		//automatically add cracking recipes to the radiolysis recipe list
+		//we want the numbers and types to stay consistent anyway and this will save us a lot of headache later on
+		Map<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> cracking = RefineryRecipes.getCrackingRecipes();
+		
+		if(cracking.isEmpty()) {
+			throw new IllegalStateException("RefineryRecipes.getCrackingRecipes has yielded an empty map while registering the radiolysis recipes! Either the load order is broken or cracking recipes have been removed!");
+		}
+		
+		for(Entry<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> recipe : cracking.entrySet()) {
+			FluidType input = recipe.getKey();
+			FluidType out1 = recipe.getValue().getW();
+			FluidType out2 = recipe.getValue().getX();
+			int amount1 = recipe.getValue().getY();
+			int amount2 = recipe.getValue().getZ();
+			
+			radiolysis.put(input,
+					new Pair(
+							new FluidStack(amount1, out1),
+							new FluidStack(amount2, out2)
+					)
+			);
+		}
 	}
 	
 	public static Pair<FluidStack, FluidStack> getRadiolysis(FluidType input) {
