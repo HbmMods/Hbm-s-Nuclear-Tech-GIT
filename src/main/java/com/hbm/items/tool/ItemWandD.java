@@ -2,18 +2,15 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.BlockDummyable;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.conductor.TileEntityFluidDuct;
-import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 
-import api.hbm.energy.IEnergyConductor;
-import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -25,33 +22,17 @@ public class ItemWandD extends Item {
 		if(world.isRemote)
 			return stack;
 		
-		MovingObjectPosition pos = Library.rayTrace(player, 500, 1);
+		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
 			
-			int x = pos.blockX;
-			int z = pos.blockZ;
-			//int y = world.getHeightValue(x, z);
-			int y = pos.blockY;
+			List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, player.boundingBox.expand(150, 150, 150));
 			
-			Block b = world.getBlock(x, y, z);
-			if(b instanceof BlockDummyable) {
-				int[] core = ((BlockDummyable)b).findCore(world, x, y, z);
-				x = core[0];
-				y = core[1];
-				z = core[2];
-			}
-			
-			TileEntity te = world.getTileEntity(x, y, z);
-			/*if(te instanceof IEnergyConductor) {
-				IEnergyConductor con = (IEnergyConductor) te;
-				player.addChatComponentMessage(new ChatComponentText("" + con.getPowerNet()));
-			}*/
-			
-			if(te instanceof TileEntityFluidDuctSimple) {
-
-				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuctSimple)te).getType().getUnlocalizedName()));
-				player.addChatComponentMessage(new ChatComponentText("" + ((TileEntityFluidDuctSimple)te).getType().getID()));
+			for(EntityLiving e : list) {
+				e.setRevengeTarget(player);
+				e.setAttackTarget(player);
+				e.setLastAttacker(player);
+				e.getNavigator().tryMoveToXYZ(player.posX, player.posY, player.posZ, 2);
 			}
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);

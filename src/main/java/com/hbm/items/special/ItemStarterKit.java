@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -22,11 +23,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
+@Deprecated //not deprecated per se but please stop using it wherever possible
+@Spaghetti("i do not care how much 'optimization' you want to throw at this dumpster fire but there's no saving grace here")
 public class ItemStarterKit extends Item {
-
-	public ItemStarterKit() {
-		this.maxStackSize = 1;
-	}
 
 	private void giveHaz(World world, EntityPlayer p, int tier) {
 
