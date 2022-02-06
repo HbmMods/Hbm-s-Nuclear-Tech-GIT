@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineMiningDrill;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -30,12 +31,12 @@ public class GUIMachineMiningDrill extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
 
-		String[] text = new String[] { "Acceptable upgrades:",
-				" -Red (speed)",
-				" -Blue (energy saving)",
-				" -Green (drill radius)",
-				"Max upgrade level is 3"};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 39, 8, 8, guiLeft + 141, guiTop + 39 + 16, text);
+		String[] upgradeText = new String[4];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.effectiveness");
+		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 39, 8, 8, guiLeft + 100, guiTop + 39 + 16 + 8, upgradeText);
 	}
 	
 	@Override

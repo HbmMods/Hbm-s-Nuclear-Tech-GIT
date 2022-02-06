@@ -6,6 +6,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerCrystallizer;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -32,11 +33,12 @@ public class GUICrystallizer extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, acidomatic.power, acidomatic.maxPower);
 		acidomatic.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 17, 16, 52);
 
-		String[] text = new String[] { "Acceptable upgrades:",
-				" -Speed (stacks to level 3)",
-				" -Effectiveness (stacks to level 3)",
-				" -Overdrive (stacks to level 3)"};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 87, guiTop + 21, 8, 8, guiLeft + 200, guiTop + 45, text);
+		String[] upgradeText = new String[4];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.effectiveness");
+		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.overdrive");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 87, guiTop + 21, 8, 8, guiLeft + 200, guiTop + 45, upgradeText);
 	}
 	
 	@Override

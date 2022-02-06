@@ -7,6 +7,7 @@ import com.hbm.inventory.container.ContainerMachineChemplant;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -38,15 +39,19 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 		
 		if(chemplant.getStackInSlot(4) == null || chemplant.getStackInSlot(4).getItem()!= ModItems.chemistry_template) {
 
-			String[] text = new String[] { "Error: This machine requires a chemistry template!" };
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+			String[] warningText = I18nUtil.resolveKeyArray("desc.gui.chemplant.warning");
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, warningText);
 		}
-
-		String[] text = new String[] { "Acceptable upgrades:",
-				" -Red (speed)",
-				" -Blue (energy saving)",
-				"Max upgrade level is 3"};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 40, 8, 8, guiLeft + 105, guiTop + 40 + 16, text);
+		
+		String[] templateText = I18nUtil.resolveKeyArray("desc.gui.template");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, templateText);
+		
+		String[] upgradeText = new String[3];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 40, 8, 8, guiLeft + 105, guiTop + 40 + 16, upgradeText);
 	}
 
 	@Override
@@ -75,6 +80,8 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 11);
 		
 		chemplant.tanks[0].renderTank(guiLeft + 8, guiTop + 52, this.zLevel, 16, 34);
 		chemplant.tanks[1].renderTank(guiLeft + 26, guiTop + 52, this.zLevel, 16, 34);
