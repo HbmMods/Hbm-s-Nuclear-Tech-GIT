@@ -2272,6 +2272,7 @@ public class ModItems {
 	public static Item hazmat_kit;
 	public static Item hazmat_red_kit;
 	public static Item hazmat_grey_kit;
+	public static Item kit_custom;
 
 	public static Item loot_10;
 	public static Item loot_15;
@@ -4604,6 +4605,7 @@ public class ModItems {
 		hazmat_kit = new ItemStarterKit().setUnlocalizedName("hazmat_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":hazmat_kit");
 		hazmat_red_kit = new ItemStarterKit().setUnlocalizedName("hazmat_red_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":hazmat_red_kit");
 		hazmat_grey_kit = new ItemStarterKit().setUnlocalizedName("hazmat_grey_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":hazmat_grey_kit");
+		kit_custom = new ItemKitCustom().setUnlocalizedName("kit_custom").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":kit");
 
 		loot_10 = new ItemLootCrate().setUnlocalizedName("loot_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":loot_10");
 		loot_15 = new ItemLootCrate().setUnlocalizedName("loot_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":loot_15");
@@ -7875,6 +7877,7 @@ public class ModItems {
 		GameRegistry.registerItem(hazmat_kit, hazmat_kit.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_red_kit, hazmat_red_kit.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_grey_kit, hazmat_grey_kit.getUnlocalizedName());
+		GameRegistry.registerItem(kit_custom, kit_custom.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
 		GameRegistry.registerItem(letter, letter.getUnlocalizedName());
 		
