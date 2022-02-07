@@ -16,7 +16,10 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
@@ -243,7 +246,8 @@ public class EntityEffectHandler {
 					} else {
 						
 						if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("ntmContagion")) {
-							HbmLivingProps.setContagion(player, 3 * hour);
+							if(!ArmorUtil.checkForHaz2(player) || !ArmorRegistry.hasProtection(player, 3, HazardClass.BACTERIA)) //liable to change to hazmat 1 at bob's pleasure
+								HbmLivingProps.setContagion(player, 3 * hour);
 						}
 					}
 				}
@@ -264,7 +268,8 @@ public class EntityEffectHandler {
 						if(ent instanceof EntityLivingBase) {
 							EntityLivingBase living = (EntityLivingBase) ent;
 							if(HbmLivingProps.getContagion(living) <= 0) {
-								HbmLivingProps.setContagion(living, 3 * hour);
+								if(!ArmorUtil.checkForHaz2(living) || !ArmorRegistry.hasProtection(living, 3, HazardClass.BACTERIA)) //liable to change to hazmat 1 at bob's pleasure
+									HbmLivingProps.setContagion(living, 3 * hour);
 							}
 						}
 						
