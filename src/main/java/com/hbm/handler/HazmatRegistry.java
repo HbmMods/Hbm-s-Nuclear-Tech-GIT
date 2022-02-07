@@ -37,7 +37,7 @@ public class HazmatRegistry {
 		double hazRed = 1.0D; // 90%
 		double hazGray = 2D; // 99%
 		double paa = 1.7D; // 97%
-		double liquidator = 2D; // 99%
+		double liquidator = 2.4D; // 99.6%
 
 		double t45 = 1D; // 90%
 		double ajr = 1.3D; // 95%
@@ -48,7 +48,7 @@ public class HazmatRegistry {
 		double security = 0.825D; // 85%
 		double star = 1D; // 90%
 		double cmb = 1.3D; // 95%
-		double schrab = 2.3D; // 99.5%
+		double schrab = 3D; // 99.9%
 		double euph = 10D; // <100%
 		
 		HazmatRegistry.registerHazmat(ModItems.hazmat_helmet, hazYellow * helmet);
