@@ -7,28 +7,21 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.RefineryRecipes;
-import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Quintet;
 
-import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -46,8 +39,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public List<IFluidAcceptor> list4 = new ArrayList();
 
 	private static final int[] slot_access = new int[] {11};
-	
-	private String customName;
 	
 	public TileEntityMachineRefinery() {
 		super(12);
@@ -128,25 +119,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			tanks[0].loadTank(1, 2, slots);
 			
-			int ho = RefineryRecipes.oil_frac_heavy;
-			int nt = RefineryRecipes.oil_frac_naph;
-			int lo = RefineryRecipes.oil_frac_light;
-			int pe = RefineryRecipes.oil_frac_petro;
-			
-			if(power >= 5 && tanks[0].getFill() >= 100 &&
-					tanks[1].getFill() + ho <= tanks[1].getMaxFill() && 
-					tanks[2].getFill() + nt <= tanks[2].getMaxFill() && 
-					tanks[3].getFill() + lo <= tanks[3].getMaxFill() && 
-					tanks[4].getFill() + pe <= tanks[4].getMaxFill()) {
-
-				tanks[0].setFill(tanks[0].getFill() - 100);
-				tanks[1].setFill(tanks[1].getFill() + ho);
-				tanks[2].setFill(tanks[2].getFill() + nt);
-				tanks[3].setFill(tanks[3].getFill() + lo);
-				tanks[4].setFill(tanks[4].getFill() + pe);
-				sulfur += 1;
-				power -= 5;
-			}
+			refine();
 
 			tanks[1].unloadTank(3, 4, slots);
 			tanks[2].unloadTank(5, 6, slots);
@@ -155,16 +128,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			for(int i = 0; i < 5; i++) {
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			}
-			
-			if(sulfur >= maxSulfur) {
-				if(slots[11] == null) {
-					slots[11] = new ItemStack(ModItems.sulfur);
-					sulfur -= maxSulfur;
-				} else if(slots[11] != null && slots[11].getItem() == ModItems.sulfur && slots[11].stackSize < slots[11].getMaxStackSize()) {
-					slots[11].stackSize++;
-					sulfur -= maxSulfur;
-				}
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

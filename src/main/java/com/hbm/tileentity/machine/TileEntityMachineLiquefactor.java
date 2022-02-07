@@ -47,6 +47,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.updateTank(this);
 
+			this.trySubscribe(worldObj, xCoord, yCoord + 4, zCoord, Library.POS_Y);
+			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			this.trySubscribe(worldObj, xCoord + 2, yCoord + 1, zCoord, Library.POS_X);
 			this.trySubscribe(worldObj, xCoord - 2, yCoord + 1, zCoord, Library.NEG_X);
 			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord + 2, Library.POS_Z);

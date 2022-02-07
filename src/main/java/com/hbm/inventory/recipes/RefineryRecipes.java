@@ -13,7 +13,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.Tuple.Quintet;
 
 import net.minecraft.item.ItemStack;
@@ -43,8 +42,8 @@ public class RefineryRecipes {
 	public static final int ncrack_frac_diesel = 70;
 	public static final int lcrack_frac_kero = 70;
 	public static final int lcrack_frac_petro = 30;
-	public static final int coal_frac_coalgas = 70;
-	public static final int coal_frac_natgas = 30;
+	public static final int coal_frac_coalgas = 30;
+	public static final int coal_frac_oil = 70;
 	
 	//cracking in percent
 	public static final int oil_crack_oil = 80;
@@ -107,7 +106,7 @@ public class RefineryRecipes {
 		fractions.put(Fluids.NAPHTHA_CRACK,		new Pair(new FluidStack(Fluids.HEATINGOIL,	ncrack_frac_heat),	new FluidStack(Fluids.DIESEL_CRACK,	ncrack_frac_diesel)));
 		fractions.put(Fluids.LIGHTOIL,			new Pair(new FluidStack(Fluids.DIESEL,		light_frac_diesel),	new FluidStack(Fluids.KEROSENE,		light_frac_kero)));
 		fractions.put(Fluids.LIGHTOIL_CRACK,	new Pair(new FluidStack(Fluids.KEROSENE,	lcrack_frac_kero),	new FluidStack(Fluids.PETROLEUM,	lcrack_frac_petro)));
-		fractions.put(Fluids.COALOIL,			new Pair(new FluidStack(Fluids.COALGAS,		coal_frac_coalgas),	new FluidStack(Fluids.GAS,			coal_frac_natgas)));
+		fractions.put(Fluids.COALOIL,			new Pair(new FluidStack(Fluids.COALGAS,		coal_frac_coalgas),	new FluidStack(Fluids.OIL,			coal_frac_oil)));
 	}
 	
 	public static void registerCracking() {

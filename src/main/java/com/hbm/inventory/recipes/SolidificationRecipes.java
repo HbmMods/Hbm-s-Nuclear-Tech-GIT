@@ -78,7 +78,6 @@ public class SolidificationRecipes {
 		registerRecipe(LPG,				SF_LPG,			ModItems.solid_fuel);
 		registerRecipe(BIOGAS,			SF_BIOGAS,		ModItems.solid_fuel);
 		registerRecipe(BIOFUEL,			SF_BIOFUEL,		ModItems.solid_fuel);
-		registerRecipe(COALOIL,			SF_COALOIL,		ModItems.solid_fuel);
 		registerRecipe(AROMATICS,		SF_AROMA,		ModItems.solid_fuel);
 		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
 	}

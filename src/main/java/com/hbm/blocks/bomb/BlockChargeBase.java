@@ -8,6 +8,7 @@ import static net.minecraftforge.common.util.ForgeDirection.UP;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.BlockContainerBase;
 import com.hbm.blocks.ITooltipProvider;
@@ -18,6 +19,7 @@ import api.hbm.block.IToolable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -53,6 +55,11 @@ public abstract class BlockChargeBase extends BlockContainerBase implements IBom
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
 		return side;
+	}
+	
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
 	}
 	
 	@Override

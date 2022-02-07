@@ -947,6 +947,7 @@ public class MainRegistry {
 		SILEXRecipes.register();
 		AnvilRecipes.register();
 		PressRecipes.register();
+		RefineryRecipes.registerRefinery();
 		RefineryRecipes.registerFractions();
 		RefineryRecipes.registerCracking();
 		RadiolysisRecipes.registerRadiolysis();
