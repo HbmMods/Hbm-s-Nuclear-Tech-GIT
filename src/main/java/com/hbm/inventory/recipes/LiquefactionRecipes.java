@@ -14,6 +14,7 @@ import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
 public class LiquefactionRecipes {
@@ -60,6 +61,12 @@ public class LiquefactionRecipes {
 
 			if(recipes.containsKey(key))
 				return recipes.get(key);
+		}
+		
+		if(stack.getItem() instanceof ItemFood) {
+			ItemFood food = (ItemFood) stack.getItem();
+			float saturation = food.func_150905_g(stack) * food.func_150906_h(stack) * 20; //food val * saturation mod * 2 (constant) * 10 (quanta)
+			return new FluidStack(Fluids.SALIENT, (int) saturation);
 		}
 		
 		return null;

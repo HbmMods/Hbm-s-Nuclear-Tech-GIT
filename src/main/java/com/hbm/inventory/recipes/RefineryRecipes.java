@@ -119,6 +119,10 @@ public class RefineryRecipes {
 		cracking.put(Fluids.KEROSENE,	new Pair(new FluidStack(Fluids.PETROLEUM,	kero_crack_petro),	new FluidStack(Fluids.NONE,			0)));
 	}
 	
+	public static Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> getRefinery(FluidType oil) {
+		return refinery.get(oil);
+	}
+	
 	public static Pair<FluidStack, FluidStack> getFractions(FluidType oil) {
 		return fractions.get(oil);
 	}

@@ -53,6 +53,7 @@ public class SolidificationRecipes {
 		registerRecipe(LAVA,		1000,			Blocks.obsidian);
 		registerRecipe(MERCURY,		125,			ModItems.ingot_mercury);
 		registerRecipe(BIOGAS,		250,			ModItems.biomass_compressed);
+		registerRecipe(SALIENT,		1280,			new ItemStack(ModItems.bio_wafer, 8)); //4 (food val) * 2 (sat mod) * 2 (constant) * 10 (quanta) * 8 (batch size)
 
 		registerRecipe(OIL,			SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,	SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));

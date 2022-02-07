@@ -3,10 +3,12 @@ package com.hbm.tileentity.machine.oil;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -15,6 +17,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Quintet;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -28,8 +31,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
-public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver {
 
 	public long power = 0;
 	public int sulfur = 0;
@@ -174,6 +178,56 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		this.power = nbt.getLong("power");
 	}
 	
+	private void refine() {
+		Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> refinery = RefineryRecipes.getRefinery(tanks[0].getTankType());
+		
+		if(refinery == null) //usually not possible
+			return;
+		
+		FluidStack[] stacks = new FluidStack[] {refinery.getV(), refinery.getW(), refinery.getX(), refinery.getY()};
+		
+		for(int i = 0; i < stacks.length; i++)
+			tanks[i + 1].setTankType(stacks[i].type);
+		
+		if(power < 5 || tanks[0].getFill() < 100)
+			return;
+
+		for(int i = 0; i < stacks.length; i++) {
+			if(tanks[i + 1].getFill() + stacks[i].fill > tanks[i + 1].getMaxFill()) {
+				return;
+			}
+		}
+		
+		tanks[0].setFill(tanks[0].getFill() - 100);
+
+		for(int i = 0; i < stacks.length; i++)
+			tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
+		
+		this.sulfur++;
+		
+		if(this.sulfur >= maxSulfur) {
+			this.sulfur -= maxSulfur;
+			
+			ItemStack out = refinery.getZ();
+			
+			if(out != null) {
+				
+				if(slots[11] == null) {
+					slots[11] = out.copy();
+				} else {
+					
+					if(out.getItem() == slots[11].getItem() && out.getItemDamage() == slots[11].getItemDamage() && slots[11].stackSize + out.stackSize <= slots[11].getMaxStackSize()) {
+						slots[11].stackSize += out.stackSize;
+					}
+				}
+			}
+			
+			this.markDirty();
+		}
+		
+		this.power -= 5;
+	}
+	
 	private void updateConnections() {
 		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
 		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
@@ -309,5 +363,23 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 25;
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+		if(data.hasKey("toggle")) {
+			
+			if(tanks[0].getTankType() == Fluids.HOTOIL) {
+				tanks[0].setTankType(Fluids.HOTCRACKOIL);
+			} else {
+				tanks[0].setTankType(Fluids.HOTOIL);
+			}
+		}
 	}
 }
