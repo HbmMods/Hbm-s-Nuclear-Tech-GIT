@@ -9,6 +9,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.init.Blocks;
@@ -36,6 +37,9 @@ public class LiquefactionRecipes {
 		recipes.put(new ComparableStack(Blocks.snow),			new FluidStack(500, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.ice),			new FluidStack(1000, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.packed_ice),		new FluidStack(1000, Fluids.WATER));
+
+		recipes.put(new ComparableStack(Items.sugar),			new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModItems.biomass),		new FluidStack(250, Fluids.BIOGAS));
 		
 		//TODO: more recipes as the crack oil derivatives are added
 	}
