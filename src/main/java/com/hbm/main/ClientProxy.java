@@ -1300,8 +1300,8 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("ufo".equals(type)) {
-
-			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, 0, 0, 0);
+			double motion = data.getDouble("motion");
+			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * motion, 0, rand.nextGaussian() * motion);
 			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
 		}
 		
