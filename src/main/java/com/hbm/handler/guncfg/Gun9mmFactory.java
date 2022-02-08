@@ -77,7 +77,7 @@ public class Gun9mmFactory {
 	static float inaccuracy = 5;
 	public static BulletConfiguration get9mmConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_9mm;
 		bullet.spread *= inaccuracy;
@@ -89,7 +89,7 @@ public class Gun9mmFactory {
 	
 	public static BulletConfiguration get9mmAPConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_9mm_ap;
 		bullet.spread *= inaccuracy;
@@ -103,7 +103,7 @@ public class Gun9mmFactory {
 	
 	public static BulletConfiguration get9mmDUConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_9mm_du;
 		bullet.spread *= inaccuracy;

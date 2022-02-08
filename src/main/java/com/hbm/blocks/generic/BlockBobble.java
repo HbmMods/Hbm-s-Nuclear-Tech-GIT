@@ -26,6 +26,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -53,6 +54,18 @@ public class BlockBobble extends BlockContainer {
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		
+		TileEntityBobble entity = (TileEntityBobble) world.getTileEntity(x, y, z);
+		
+		if(entity != null) {
+			return new ItemStack(this, 1, entity.type.ordinal());
+		}
+		
+		return super.getPickBlock(target, world, x, y, z, player);
 	}
 
 	@Override

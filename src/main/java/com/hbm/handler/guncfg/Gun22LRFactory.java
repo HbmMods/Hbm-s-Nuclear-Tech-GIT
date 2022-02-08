@@ -61,7 +61,7 @@ public class Gun22LRFactory {
 	static float inaccuracy = 5;
 	public static BulletConfiguration get22LRConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_22lr;
 		bullet.spread *= inaccuracy;
@@ -73,7 +73,7 @@ public class Gun22LRFactory {
 	
 	public static BulletConfiguration get22LRAPConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_22lr_ap;
 		bullet.spread *= inaccuracy;
