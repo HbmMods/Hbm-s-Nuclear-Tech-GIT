@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.lib.Library;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;

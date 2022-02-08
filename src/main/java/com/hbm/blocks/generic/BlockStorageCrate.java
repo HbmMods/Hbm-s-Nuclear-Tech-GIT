@@ -7,11 +7,11 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityCrateIron;
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
-import com.hbm.tileentity.machine.TileEntityCrateTungsten;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.tileentity.machine.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

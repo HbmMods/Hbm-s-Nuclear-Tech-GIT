@@ -23,6 +23,8 @@ import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEChemplantPacket;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.energy.IBatteryItem;

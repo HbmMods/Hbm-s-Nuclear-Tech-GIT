@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerLiquefactor;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;

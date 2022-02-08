@@ -9,8 +9,8 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
-import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

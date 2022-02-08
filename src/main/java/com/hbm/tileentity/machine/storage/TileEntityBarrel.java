@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		if(mode == 2 || mode == 3)
 			return 0;
 		
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
@@ -167,13 +167,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Override
 	public int getFluidFill(FluidType type) {
 		
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			tank.setFill(i);
+		if(type == tank.getTankType()) tank.setFill(i);
 	}
 
 	@Override

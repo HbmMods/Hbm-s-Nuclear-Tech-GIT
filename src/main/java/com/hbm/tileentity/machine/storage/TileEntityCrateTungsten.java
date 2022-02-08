@@ -1,6 +1,7 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.storage;
 
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import api.hbm.block.ILaserable;
 import net.minecraft.entity.player.EntityPlayer;

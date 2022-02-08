@@ -3,7 +3,7 @@ package com.hbm.world.generator.room;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.crafting.handlers.MKUCraftingHandler;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.machine.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.world.generator.CellularDungeon;
 import com.hbm.world.generator.CellularDungeonRoom;
 import com.hbm.world.generator.DungeonToolbox;

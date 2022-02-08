@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.EnumSymbol;
-import com.hbm.tileentity.machine.TileEntityMachineBAT9000;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

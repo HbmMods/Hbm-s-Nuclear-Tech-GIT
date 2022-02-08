@@ -2,7 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.machine.TileEntitySoyuzCapsule;
+import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
