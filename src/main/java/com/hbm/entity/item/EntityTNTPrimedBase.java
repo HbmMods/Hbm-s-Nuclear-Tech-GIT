@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -15,13 +14,13 @@ public class EntityTNTPrimedBase extends Entity {
 
 	public int fuse;
 	private EntityLivingBase tntPlacedBy;
-	public BlockTNTBase bomb;
 
 	public EntityTNTPrimedBase(World world) {
 		super(world);
 		this.preventEntitySpawning = true;
 		this.setSize(0.98F, 0.98F);
 		this.yOffset = this.height / 2.0F;
+		this.fuse = 80;
 	}
 
 	public EntityTNTPrimedBase(World world, double x, double y, double z, EntityLivingBase entity, BlockTNTBase bomb) {
@@ -31,16 +30,17 @@ public class EntityTNTPrimedBase extends Entity {
 		this.motionX = (double) (-((float) Math.sin((double) f)) * 0.02F);
 		this.motionY = 0.2D;
 		this.motionZ = (double) (-((float) Math.cos((double) f)) * 0.02F);
-		this.fuse = 80;
 		this.prevPosX = x;
 		this.prevPosY = y;
 		this.prevPosZ = z;
 		this.tntPlacedBy = entity;
-		this.bomb = bomb;
+		this.dataWatcher.updateObject(12, Block.getIdFromBlock(bomb));
 	}
 
 	@Override
-	protected void entityInit() { }
+	protected void entityInit() {
+		this.dataWatcher.addObject(12, 0);
+	}
 
 	@Override
 	protected boolean canTriggerWalking() {
@@ -54,11 +54,6 @@ public class EntityTNTPrimedBase extends Entity {
 
 	@Override
 	public void onUpdate() {
-		
-		if(bomb == null) {
-			this.setDead();
-			return;
-		}
 		
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
@@ -87,19 +82,23 @@ public class EntityTNTPrimedBase extends Entity {
 	}
 
 	private void explode() {
-		this.bomb.explodeEntity(worldObj, posX, posZ, posZ, this);
+		this.getBomb().explodeEntity(worldObj, posX, posY, posZ, this);
+	}
+	
+	public BlockTNTBase getBomb() {
+		return (BlockTNTBase) Block.getBlockById(this.dataWatcher.getWatchableObjectInt(12));
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setByte("Fuse", (byte) this.fuse);
-		nbt.setInteger("Tile", Block.getIdFromBlock(bomb));
+		nbt.setInteger("Tile", this.dataWatcher.getWatchableObjectInt(12));
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.fuse = nbt.getByte("Fuse");
-		this.bomb = (BlockTNTBase) Block.getBlockById(nbt.getInteger("Tile"));
+		this.dataWatcher.updateObject(12, nbt.getInteger("Tile"));
 	}
 
 	@Override

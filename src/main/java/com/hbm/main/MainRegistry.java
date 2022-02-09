@@ -497,7 +497,8 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntitySiegeSkeleton.class, "entity_meme_skeleton", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x000080);
 		EntityRegistry.registerGlobalEntityID(EntitySiegeUFO.class, "entity_meme_ufo", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x800000);
 		EntityRegistry.registerGlobalEntityID(EntitySiegeCraft.class, "entity_meme_craft", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x808000);
-		EntityRegistry.registerGlobalEntityID(EntitySiegeTunneler.class, "entity_meme_tunneler", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008080);
+		EntityRegistry.registerModEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 167, this, 1000, 1, true); //how about you have a taste of my fucking scrotum?
+		//EntityRegistry.registerGlobalEntityID(EntitySiegeTunneler.class, "entity_meme_tunneler", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008080);
 
 		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 160, this, 1000, 1, true);
 

@@ -428,6 +428,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor)).copy());
 			
 			if(GeneralConfig.enableBabyMode) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },

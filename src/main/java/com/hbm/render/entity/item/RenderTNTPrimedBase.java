@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityTNTPrimedBase;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -43,15 +44,20 @@ public class RenderTNTPrimedBase extends Render {
 
 		f2 = (1.0F - ((float) tnt.fuse - f1 + 1.0F) / 100.0F) * 0.8F;
 		this.bindEntityTexture(tnt);
-		this.blockRenderer.renderBlockAsItem(tnt.bomb, 0, tnt.getBrightness(f1));
-
+		this.blockRenderer.renderBlockAsItem(tnt.getBomb(), 0, tnt.getBrightness(f1));
+		
 		if(tnt.fuse / 5 % 2 == 0) {
+			
+			GL11.glScaled(1.01, 1.01, 1.01);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, f2);
-			this.blockRenderer.renderBlockAsItem(tnt.bomb, 0, 1.0F);
+			boolean prev = this.blockRenderer.useInventoryTint;
+			this.blockRenderer.useInventoryTint = false;
+			this.blockRenderer.renderBlockAsItem(tnt.getBomb(), 0, 1.0F);
+			this.blockRenderer.useInventoryTint = prev;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glEnable(GL11.GL_LIGHTING);

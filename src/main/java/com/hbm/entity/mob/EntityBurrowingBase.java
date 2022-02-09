@@ -1,6 +1,8 @@
 package com.hbm.entity.mob;
 
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 /**

@@ -2665,6 +2665,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomb_multi, bomb_multi.getUnlocalizedName());
 		GameRegistry.registerBlock(crashed_balefire, crashed_balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fireworks, fireworks.getUnlocalizedName());
+		GameRegistry.registerBlock(dynamite, dynamite.getUnlocalizedName());
 		
 		//Turrets
 		GameRegistry.registerBlock(turret_light, turret_light.getUnlocalizedName());
