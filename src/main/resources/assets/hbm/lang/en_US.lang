@@ -3405,6 +3405,7 @@ tile.ducrete_smooth.name=Ducrete
 tile.dummy_block.name=Dummy Block
 tile.dummy_port.name=Dummy Block (Electricity Port)
 tile.dungeon_chain.name=Metal Chain
+tile.dynamite.name=Dynamite
 tile.emp_bomb.name=EMP Device
 tile.factory_advanced_conductor.name=Advanced Factory Electricity Port
 tile.factory_advanced_core.name=Advanced Factory Core Component

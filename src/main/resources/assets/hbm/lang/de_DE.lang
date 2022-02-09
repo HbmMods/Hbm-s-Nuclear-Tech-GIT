@@ -3079,6 +3079,7 @@ tile.ducrete_smooth.name=Ducrete
 tile.dummy_block.name=Dummyblock
 tile.dummy_port.name=Dummyblock (Stromanschluss)
 tile.dungeon_chain.name=Metallkette
+tile.dynamite.name=Dynamit
 tile.emp_bomb.name=EMP-Ladung
 tile.factory_advanced_conductor.name=Fortgeschrittener Fabriksstromanschluss
 tile.factory_advanced_core.name=Fortgeschrittene Fabrikkernkomponente

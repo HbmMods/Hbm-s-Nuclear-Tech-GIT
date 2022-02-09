@@ -934,7 +934,7 @@ public class AssemblerRecipes {
 				new OreDictStack(ANY_CONCRETE.any(), 8),
 				new OreDictStack(NB.ingot(), 2),
 				new OreDictStack(AL.plate(), 12),
-				new OreDictStack(ANY_TAR.any(), 8),
+				new OreDictStack(ANY_PLASTIC.ingot(), 4),
 				new ComparableStack(ModItems.hull_big_steel, 3),
 				new ComparableStack(ModItems.catalyst_clay, 4),
 				new ComparableStack(ModItems.coil_copper, 4),
