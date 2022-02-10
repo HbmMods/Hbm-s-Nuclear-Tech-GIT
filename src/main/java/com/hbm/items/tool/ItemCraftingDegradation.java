@@ -11,6 +11,16 @@ public class ItemCraftingDegradation extends Item {
 		this.setMaxStackSize(1);
 		this.setMaxDamage(durability);
 	}
+
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
+		return false;
+	}
+	
+	@Override
+	public boolean hasContainerItem(ItemStack stack) {
+		return true;
+	}
 	
 	@Override
 	public ItemStack getContainerItem(ItemStack stack) {

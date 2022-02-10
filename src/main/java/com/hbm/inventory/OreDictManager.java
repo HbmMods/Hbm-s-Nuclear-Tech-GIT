@@ -381,12 +381,12 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
 		OreDictionary.registerOre(KEY_COAL_TAR, fromOne(oil_tar, EnumTarType.COAL));
 
-		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, screwdriver);
-		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, screwdriver_desh);
-		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, hand_drill);
-		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, hand_drill_desh);
-		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, chemistry_set);
-		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, chemistry_set_boron);
+		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, new ItemStack(screwdriver, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, new ItemStack(screwdriver_desh, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, new ItemStack(hand_drill, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, new ItemStack(hand_drill_desh, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, new ItemStack(chemistry_set, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, new ItemStack(chemistry_set_boron, 1, OreDictionary.WILDCARD_VALUE));
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);

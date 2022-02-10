@@ -42,8 +42,10 @@ public class ToolboxCraftingHandler implements IRecipe {
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
 			
-			if(stack != null) {
-				stacks.add(stack);
+			if(stack != null && stack.getItem() != ModItems.kit_toolbox_empty) {
+				ItemStack copy = stack.copy();
+				copy.stackSize = 1;
+				stacks.add(copy);
 			}
 		}
 		
