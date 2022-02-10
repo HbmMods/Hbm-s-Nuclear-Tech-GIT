@@ -13,7 +13,7 @@ import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.util.BobMathUtil;
 
 public class GUIMachineBattery extends GuiInfoContainer {

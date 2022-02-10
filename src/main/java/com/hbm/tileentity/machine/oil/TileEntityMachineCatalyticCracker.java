@@ -7,11 +7,13 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
@@ -56,12 +58,12 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	
 	private void crack() {
 		
-		Quartet<FluidType, FluidType, Integer, Integer> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			
-			int left = quart.getY();
-			int right = quart.getZ();
+			int left = quart.getKey().fill;
+			int right = quart.getValue().fill;
 			
 			if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 100 && hasSpace(left, right)) {
 				tanks[0].setFill(tanks[0].getFill() - 100);
@@ -78,12 +80,12 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	
 	private void setupTanks() {
 		
-		Quartet<FluidType, FluidType, Integer, Integer> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			tanks[1].setTankType(Fluids.STEAM);
-			tanks[2].setTankType(quart.getW());
-			tanks[3].setTankType(quart.getX());
+			tanks[2].setTankType(quart.getKey().type);
+			tanks[3].setTankType(quart.getValue().type);
 		} else {
 			tanks[0].setTankType(Fluids.NONE);
 			tanks[1].setTankType(Fluids.NONE);
@@ -182,19 +184,15 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type.name().equals(tanks[2].getTankType().name()))
-			return list1;
-		if(type.name().equals(tanks[3].getTankType().name()))
-			return list2;
+		if(type == tanks[2].getTankType()) return list1;
+		if(type == tanks[3].getTankType()) return list2;
 		return new ArrayList<IFluidAcceptor>();
 	}
 
 	@Override
 	public void clearFluidList(FluidType type) {
-		if(type.name().equals(tanks[2].getTankType().name()))
-			list1.clear();
-		if(type.name().equals(tanks[3].getTankType().name()))
-			list2.clear();
+		if(type == tanks[2].getTankType()) list1.clear();
+		if(type == tanks[3].getTankType()) list2.clear();
 	}
 	
 	AxisAlignedBB bb = null;

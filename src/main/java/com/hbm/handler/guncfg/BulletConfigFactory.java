@@ -89,6 +89,12 @@ public class BulletConfigFactory {
 		
 		return bullet;
 	}
+	public static BulletConfiguration standardPistolConfig() {
+		BulletConfiguration bullet = standardBulletConfig();
+		bullet.style = BulletConfiguration.STYLE_PISTOL;
+		bullet.plink = BulletConfiguration.PLINK_BULLET;
+		return bullet;
+	}
 	
 	public static BulletConfiguration standardBuckshotConfig() {
 		

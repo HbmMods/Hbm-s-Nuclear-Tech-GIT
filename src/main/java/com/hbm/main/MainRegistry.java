@@ -480,6 +480,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityGrenadeDynamite.class, "entity_grenade_dynamite", 163, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntitySiegeLaser.class, "entity_ntm_siege_laser", 164, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntitySiegeDropship.class, "entity_ntm_siege_dropship", 165, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 166, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -496,7 +497,8 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntitySiegeSkeleton.class, "entity_meme_skeleton", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x000080);
 		EntityRegistry.registerGlobalEntityID(EntitySiegeUFO.class, "entity_meme_ufo", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x800000);
 		EntityRegistry.registerGlobalEntityID(EntitySiegeCraft.class, "entity_meme_craft", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x808000);
-		EntityRegistry.registerGlobalEntityID(EntitySiegeTunneler.class, "entity_meme_tunneler", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008080);
+		EntityRegistry.registerModEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 167, this, 1000, 1, true); //how about you have a taste of my fucking scrotum?
+		//EntityRegistry.registerGlobalEntityID(EntitySiegeTunneler.class, "entity_meme_tunneler", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008080);
 
 		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 160, this, 1000, 1, true);
 
@@ -947,6 +949,7 @@ public class MainRegistry {
 		SILEXRecipes.register();
 		AnvilRecipes.register();
 		PressRecipes.register();
+		RefineryRecipes.registerRefinery();
 		RefineryRecipes.registerFractions();
 		RefineryRecipes.registerCracking();
 		RadiolysisRecipes.registerRadiolysis();

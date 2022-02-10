@@ -52,25 +52,14 @@ public class RadiolysisRecipes {
 		
 		//automatically add cracking recipes to the radiolysis recipe list
 		//we want the numbers and types to stay consistent anyway and this will save us a lot of headache later on
-		Map<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> cracking = RefineryRecipes.getCrackingRecipes();
+		Map<FluidType, Pair<FluidStack, FluidStack>> cracking = RefineryRecipes.getCrackingRecipes();
 		
 		if(cracking.isEmpty()) {
 			throw new IllegalStateException("RefineryRecipes.getCrackingRecipes has yielded an empty map while registering the radiolysis recipes! Either the load order is broken or cracking recipes have been removed!");
 		}
 		
-		for(Entry<FluidType, Quartet<FluidType, FluidType, Integer, Integer>> recipe : cracking.entrySet()) {
-			FluidType input = recipe.getKey();
-			FluidType out1 = recipe.getValue().getW();
-			FluidType out2 = recipe.getValue().getX();
-			int amount1 = recipe.getValue().getY();
-			int amount2 = recipe.getValue().getZ();
-			
-			radiolysis.put(input,
-					new Pair(
-							new FluidStack(amount1, out1),
-							new FluidStack(amount2, out2)
-					)
-			);
+		for(Entry<FluidType, Pair<FluidStack, FluidStack>> recipe : cracking.entrySet()) {
+			radiolysis.put(recipe.getKey(), recipe.getValue());
 		}
 	}
 	

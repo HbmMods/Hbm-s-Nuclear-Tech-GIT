@@ -9,6 +9,7 @@ import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.RenderMiscEffects;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
 
@@ -25,6 +26,7 @@ public class RenderSiegeCraft extends Render {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y + 0.5, z);
+		GL11.glPushMatrix();
 
 		EntitySiegeCraft ufo = (EntitySiegeCraft) entity;
 		//BossStatus.setBossStatus(ufo, false);
@@ -58,6 +60,11 @@ public class RenderSiegeCraft extends Render {
 		GL11.glPopAttrib();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
+		if(ufo.getBeam()) {
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/misc/glintBF.png"));
+			RenderMiscEffects.renderClassicGlint(ufo.worldObj, f1, ResourceManager.siege_ufo, "UFO", 0.5F, 1.0F, 1.0F, 5, 1F);
+		}
+		
 		GL11.glColor3f(1F, 1F, 1F);
 		
 		Random rand = new Random(entity.ticksExisted / 4);
@@ -65,7 +72,7 @@ public class RenderSiegeCraft extends Render {
 		GL11.glPushMatrix();
 		for(int i = 0; i < 8; i++) {
 			GL11.glRotated(45D, 0, 1, 0);
-			if(rand.nextInt(5) == 0) {
+			if(rand.nextInt(5) == 0 || ufo.getBeam()) {
 				GL11.glPushMatrix();
 				GL11.glTranslated(4, 0, 0);
 				BeamPronter.prontBeam(Vec3.createVectorHelper(-1.125, 0, 2.875), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x80d0ff, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0);
@@ -73,6 +80,18 @@ public class RenderSiegeCraft extends Render {
 			}
 		}
 		GL11.glPopMatrix();
+		GL11.glPopMatrix();
+
+		if(ufo.getBeam()) {
+			GL11.glPushMatrix();
+			Vec3 delta = ufo.getLockon().addVector(-ufo.posX, -ufo.posY, -ufo.posZ);
+			double length = delta.lengthVector();
+			double scale = 0.1D;
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x101020, 0x101020, entity.ticksExisted / 6, (int)(length / 2 + 1), (float)scale * 1F, 4, 0.25F);
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 2, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 4, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+			GL11.glPopMatrix();
+		}
 		
 		GL11.glPopMatrix();
 	}

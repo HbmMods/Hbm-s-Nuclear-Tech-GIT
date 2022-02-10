@@ -664,13 +664,6 @@ public class Library {
 		return flag;
 	}
 	
-	public static ItemStack carefulCopy(ItemStack stack) {
-		if(stack == null)
-			return null;
-		else
-			return stack.copy();
-	}
-	
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
 		
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));

@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineSolidifier;
+import com.hbm.tileentity.machine.oil.TileEntityMachineSolidifier;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

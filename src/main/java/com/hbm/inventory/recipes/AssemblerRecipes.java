@@ -930,6 +930,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.inf_water_mk2, 2)
 				}, 200);
 		
+		makeRecipe(new ComparableStack(ModBlocks.machine_solidifier), new AStack[] {
+				new OreDictStack(ANY_CONCRETE.any(), 8),
+				new OreDictStack(NB.ingot(), 2),
+				new OreDictStack(AL.plate(), 12),
+				new OreDictStack(ANY_PLASTIC.ingot(), 4),
+				new ComparableStack(ModItems.hull_big_steel, 3),
+				new ComparableStack(ModItems.catalyst_clay, 4),
+				new ComparableStack(ModItems.coil_copper, 4),
+				new ComparableStack(ModItems.tank_steel, 2)
+				}, 200);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_radiolysis), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 8),
 				new OreDictStack(TCALLOY.ingot(), 4),

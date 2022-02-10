@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.TileEntityCrateTungsten;
+import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

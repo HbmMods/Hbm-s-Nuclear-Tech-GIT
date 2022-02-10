@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -75,7 +76,7 @@ public class MachineFractionTower extends BlockDummyable {
 						FluidType type = Fluids.fromID(player.getHeldItem().getItemDamage());
 						frac.tanks[0].setTankType(type);
 						frac.markDirty();
-						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Changed type to " + type + "!"));
+						player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 					}
 				}
 				

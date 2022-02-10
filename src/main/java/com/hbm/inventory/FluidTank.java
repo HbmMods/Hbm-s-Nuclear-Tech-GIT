@@ -3,6 +3,8 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.fluid.FluidType;
@@ -261,7 +263,9 @@ public class FluidTank {
 	 */
 	//TODO: add a directional parameter to allow tanks to grow horizontally
 	public void renderTank(int x, int y, double z, int width, int height) {
-		
+
+		GL11.glEnable(GL11.GL_BLEND);
+
 		y -= height;
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(type.getTexture());
@@ -285,6 +289,8 @@ public class FluidTank {
 		tessellator.addVertexWithUV(maxX, minY, z, maxU, minV);
 		tessellator.addVertexWithUV(minX, minY, z, minU, minV);
 		tessellator.draw();
+
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
@@ -293,24 +299,8 @@ public class FluidTank {
 			List<String> list = new ArrayList();
 			list.add(I18n.format(this.type.getUnlocalizedName()));
 			list.add(fluid + "/" + maxFluid + "mB");
-
-			/*if(type.temperature < 0)
-				list.add(EnumChatFormatting.BLUE + "" + type.temperature + "°C");
-			if(type.temperature > 0)
-				list.add(EnumChatFormatting.RED + "" + type.temperature + "°C");
-			if(type.isAntimatter())
-				list.add(EnumChatFormatting.DARK_RED + "Antimatter");
-			if(type.traits.contains(FluidTrait.CORROSIVE))
-				list.add(EnumChatFormatting.YELLOW + "Corrosive");
-			if(type.traits.contains(FluidTrait.CORROSIVE_2))
-				list.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
-			if(type.traits.contains(FluidTrait.NO_CONTAINER))
-				list.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
-			if(type.traits.contains(FluidTrait.LEAD_CONTAINER))
-				list.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");*/
 			
 			type.addInfo(list);
-			
 			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
 	}
@@ -329,7 +319,7 @@ public class FluidTank {
 		if(max > 0)
 			maxFluid = nbt.getInteger(s + "_max");
 		
-		type = FluidType.getEnumFromName(nbt.getString(s + "_type")); //compat
+		type = Fluids.fromName(nbt.getString(s + "_type")); //compat
 		if(type == Fluids.NONE)
 			type = Fluids.fromID(nbt.getInteger(s + "_type"));
 	}

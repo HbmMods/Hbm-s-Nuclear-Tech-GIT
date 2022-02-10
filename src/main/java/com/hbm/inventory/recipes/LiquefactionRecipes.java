@@ -9,10 +9,12 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
 public class LiquefactionRecipes {
@@ -36,6 +38,9 @@ public class LiquefactionRecipes {
 		recipes.put(new ComparableStack(Blocks.snow),			new FluidStack(500, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.ice),			new FluidStack(1000, Fluids.WATER));
 		recipes.put(new ComparableStack(Blocks.packed_ice),		new FluidStack(1000, Fluids.WATER));
+
+		recipes.put(new ComparableStack(Items.sugar),			new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModItems.biomass),		new FluidStack(250, Fluids.BIOGAS));
 		
 		//TODO: more recipes as the crack oil derivatives are added
 	}
@@ -56,6 +61,12 @@ public class LiquefactionRecipes {
 
 			if(recipes.containsKey(key))
 				return recipes.get(key);
+		}
+		
+		if(stack.getItem() instanceof ItemFood) {
+			ItemFood food = (ItemFood) stack.getItem();
+			float saturation = food.func_150905_g(stack) * food.func_150906_h(stack) * 20; //food val * saturation mod * 2 (constant) * 10 (quanta)
+			return new FluidStack(Fluids.SALIENT, (int) saturation);
 		}
 		
 		return null;

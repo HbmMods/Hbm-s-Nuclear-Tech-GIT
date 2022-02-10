@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

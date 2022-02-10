@@ -31,7 +31,9 @@ public class RenderSiegeTunneler extends Render {
 		this.bindEntityTexture(entity);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		body.renderAll();
+		body.renderPart("Body");
+		GL11.glRotated(System.currentTimeMillis() / 3L % 360, 0, -1, 0);
+		body.renderPart("Drill");
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

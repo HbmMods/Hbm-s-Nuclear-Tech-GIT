@@ -79,6 +79,7 @@ public class Fluids {
 	public static FluidType DEATH;				//osmiridium solution
 	public static FluidType ETHANOL;
 	public static FluidType HEAVYWATER;
+	public static FluidType SALIENT;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -168,6 +169,7 @@ public class Fluids {
 		DIESEL_CRACK =		new FluidTypeCombustible(	"DIESEL_CRACK",		0xf2eed5, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 450_000);
 		AROMATICS =			new FluidTypeFlammable(		"AROMATICS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
 		UNSATURATEDS =		new FluidTypeFlammable(		"UNSATURATEDS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
+		SALIENT =			new FluidType(				"SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -205,7 +207,6 @@ public class Fluids {
 		metaOrder.add(COALOIL);
 		metaOrder.add(HOTOIL);
 		metaOrder.add(HOTCRACKOIL);
-		//metaOrder.add(HOTCOALOIL);
 		metaOrder.add(HEAVYOIL);
 		metaOrder.add(NAPHTHA);
 		metaOrder.add(NAPHTHA_CRACK);
@@ -233,6 +234,7 @@ public class Fluids {
 		metaOrder.add(NITAN);
 		metaOrder.add(BALEFIRE);
 		//processing fluids
+		metaOrder.add(SALIENT);
 		metaOrder.add(ACID);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);

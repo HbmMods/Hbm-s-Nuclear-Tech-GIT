@@ -41,9 +41,7 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.EntityFireworks;
-import com.hbm.entity.item.EntityMinecartTest;
-import com.hbm.entity.item.EntityMovingItem;
+import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
@@ -79,6 +77,7 @@ import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
+import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 
@@ -574,6 +573,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTNTPrimedBase.class, new RenderTNTPrimedBase());
 		//mobs
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintedCreeper.class, new RenderTaintedCreeper());
@@ -1299,8 +1299,8 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("ufo".equals(type)) {
-
-			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, 0, 0, 0);
+			double motion = data.getDouble("motion");
+			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * motion, 0, rand.nextGaussian() * motion);
 			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
 		}
 		

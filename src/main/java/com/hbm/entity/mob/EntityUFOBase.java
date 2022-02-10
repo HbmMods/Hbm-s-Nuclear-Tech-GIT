@@ -167,13 +167,21 @@ public abstract class EntityUFOBase extends EntityFlying implements IMob {
 		int wX = (int)Math.floor(this.target.posX - vec.xCoord / length * overshoot);
 		int wZ = (int)Math.floor(this.target.posZ - vec.zCoord / length * overshoot);
 		
-		this.setWaypoint(wX, Math.max(this.worldObj.getHeightValue(wX, wZ) + 2 + rand.nextInt(2), (int) this.target.posY + rand.nextInt(3)),  wZ);
+		this.setWaypoint(wX, Math.max(this.worldObj.getHeightValue(wX, wZ), (int) this.target.posY) + targetHeightOffset(),  wZ);
+	}
+	
+	protected int targetHeightOffset() {
+		return 2 + rand.nextInt(2);
+	}
+	
+	protected int wanderHeightOffset() {
+		return 2 + rand.nextInt(3);
 	}
 	
 	protected void setCourseWithoutTaget() {
 		int x = (int) Math.floor(posX + rand.nextGaussian() * 5);
 		int z = (int) Math.floor(posZ + rand.nextGaussian() * 5);
-		this.setWaypoint(x, this.worldObj.getHeightValue(x, z) + 2 + rand.nextInt(3),  z);
+		this.setWaypoint(x, this.worldObj.getHeightValue(x, z) + wanderHeightOffset(),  z);
 	}
 
 	public void setWaypoint(int x, int y, int z) {

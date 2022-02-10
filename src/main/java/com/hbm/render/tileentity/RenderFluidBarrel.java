@@ -6,7 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.EnumSymbol;
-import com.hbm.tileentity.machine.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

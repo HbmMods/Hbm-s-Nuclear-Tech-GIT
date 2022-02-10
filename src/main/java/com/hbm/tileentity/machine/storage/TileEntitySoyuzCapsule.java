@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.storage;
 
 import com.hbm.tileentity.TileEntityInventoryBase;
 

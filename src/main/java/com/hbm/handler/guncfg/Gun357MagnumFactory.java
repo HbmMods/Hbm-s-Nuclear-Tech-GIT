@@ -193,7 +193,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevIronConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_iron_ammo;
 		bullet.dmgMin = 8;
@@ -204,7 +204,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSteelConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_ammo;
 		bullet.dmgMin = 18;
@@ -215,7 +215,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevLeadConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_lead_ammo;
 		bullet.dmgMin = 10;
@@ -229,7 +229,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevGoldConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_gold_ammo;
 		bullet.dmgMin = 25;
@@ -240,7 +240,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevDeshConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_357_desh;
 		bullet.dmgMin = 30;
@@ -251,7 +251,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSchrabidiumConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_schrabidium_ammo;
 		bullet.dmgMin = 10000;
@@ -263,7 +263,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevCursedConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
 		bullet.dmgMin = 18;
@@ -274,7 +274,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevNightmareConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
 		bullet.dmgMin = 1;

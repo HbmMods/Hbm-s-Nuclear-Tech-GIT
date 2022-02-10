@@ -3,7 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

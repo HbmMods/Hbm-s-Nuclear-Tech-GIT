@@ -1,4 +1,6 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.storage;
+
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -6,14 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class TileEntitySafe extends TileEntityLockableBase implements ISidedInventory {
+public class TileEntityCrateSteel extends TileEntityLockableBase implements ISidedInventory {
 
 	private ItemStack slots[];
 
 	private String customName;
 
-	public TileEntitySafe() {
-		slots = new ItemStack[15];
+	public TileEntityCrateSteel() {
+		slots = new ItemStack[54];
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class TileEntitySafe extends TileEntityLockableBase implements ISidedInve
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.safe";
+		return this.hasCustomInventoryName() ? this.customName : "container.crateSteel";
 	}
 
 	@Override
@@ -141,7 +143,7 @@ public class TileEntitySafe extends TileEntityLockableBase implements ISidedInve
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		int[] slots = new int[15];
+		int[] slots = new int[54];
 		for(int i = 0; i < slots.length; i++)
 			slots[i] = i;
 		return slots;

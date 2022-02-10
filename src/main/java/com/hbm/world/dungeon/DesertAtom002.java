@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

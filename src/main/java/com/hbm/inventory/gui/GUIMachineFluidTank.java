@@ -7,7 +7,7 @@ import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

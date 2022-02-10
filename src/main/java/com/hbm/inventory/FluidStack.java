@@ -11,4 +11,9 @@ public class FluidStack {
 		this.fill = fill;
 		this.type = type;
 	}
+	
+	public FluidStack(FluidType type, int fill) {
+		this.fill = fill;
+		this.type = type;
+	}
 }

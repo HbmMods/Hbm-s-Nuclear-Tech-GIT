@@ -485,6 +485,7 @@ public class ModBlocks {
 	public static Block crashed_balefire;
 	public static Block rejuvinator;
 	public static Block fireworks;
+	public static Block dynamite;
 
 	public static Block charge_dynamite;
 	public static Block charge_miner;
@@ -1697,6 +1698,7 @@ public class ModBlocks {
 		mine_he = new Landmine(Material.iron).setBlockName("mine_he").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_he");
 		mine_shrap = new Landmine(Material.iron).setBlockName("mine_shrap").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_shrap");
 		mine_fat = new Landmine(Material.iron).setBlockName("mine_fat").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_fat");
+		dynamite = new BlockDynamite().setBlockName("dynamite").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":dynamite");
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -2663,6 +2665,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomb_multi, bomb_multi.getUnlocalizedName());
 		GameRegistry.registerBlock(crashed_balefire, crashed_balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fireworks, fireworks.getUnlocalizedName());
+		GameRegistry.registerBlock(dynamite, dynamite.getUnlocalizedName());
 		
 		//Turrets
 		GameRegistry.registerBlock(turret_light, turret_light.getUnlocalizedName());

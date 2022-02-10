@@ -4,17 +4,22 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineRefinery;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineRefinery extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_refinery.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_refinery.png");
 	private TileEntityMachineRefinery refinery;
 
 	public GUIMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
@@ -36,6 +41,18 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52, refinery.power, refinery.maxPower);
 	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+		
+		if(guiLeft + 64 <= x && guiLeft + 76 > x && guiTop + 20 < y && guiTop + 46 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("toggle", true); //we only need to send one bit, so boolean it is
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, refinery.xCoord, refinery.yCoord, refinery.zCoord));
+		}
+	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
@@ -50,6 +67,9 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(refinery.tanks[0].getTankType() == Fluids.HOTCRACKOIL)
+			drawTexturedModalRect(guiLeft + 64, guiTop + 20, 192, 0, 12, 26);
 
 		int j = (int)refinery.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - j, 176, 52 - j, 16, j);

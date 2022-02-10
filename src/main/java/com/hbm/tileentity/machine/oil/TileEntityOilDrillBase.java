@@ -286,19 +286,15 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return this.list1;
-		if(type.name().equals(tanks[1].getTankType().name()))
-			return this.list2;
+		if(type == tanks[0].getTankType()) return this.list1;
+		if(type == tanks[1].getTankType()) return this.list2;
 		return new ArrayList<IFluidAcceptor>();
 	}
 
 	@Override
 	public void clearFluidList(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			list1.clear();
-		if(type.name().equals(tanks[1].getTankType().name()))
-			list2.clear();
+		if(type == tanks[0].getTankType()) list1.clear();
+		if(type == tanks[1].getTankType()) list2.clear();
 	}
 
 	@Override

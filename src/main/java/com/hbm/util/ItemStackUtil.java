@@ -7,6 +7,13 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemStackUtil {
+	
+	public static ItemStack carefulCopy(ItemStack stack) {
+		if(stack == null)
+			return null;
+		else
+			return stack.copy();
+	}
 
 	/**
 	 * UNSAFE! Will ignore all existing display tags and override them! In its current state, only fit for items we know don't have any display tags!

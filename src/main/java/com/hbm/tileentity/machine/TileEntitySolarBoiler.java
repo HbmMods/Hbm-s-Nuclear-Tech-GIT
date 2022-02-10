@@ -14,6 +14,7 @@ import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
@@ -138,6 +139,22 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.water.readFromNBT(nbt, "water");
+		this.steam.readFromNBT(nbt, "steam");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		this.water.writeToNBT(nbt, "water");
+		this.steam.writeToNBT(nbt, "steam");
 	}
 	
 	AxisAlignedBB bb = null;
