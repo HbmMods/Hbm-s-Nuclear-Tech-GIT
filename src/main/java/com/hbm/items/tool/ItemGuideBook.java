@@ -49,7 +49,8 @@ public class ItemGuideBook extends Item {
 
 		TEST("book.test.cover", 2F, statFacTest()),
 		RBMK("book.rbmk.cover", 1.5F, statFacRBMK()),
-		HADRON("book.error.cover", 1.5F, statFacHadron());
+		HADRON("book.error.cover", 1.5F, statFacHadron()),
+		STARTER("book.starter.cover", 1.5F, statFacStarter());
 		
 		public List<GuidePage> pages;
 		public float titleScale;
@@ -123,6 +124,20 @@ public class ItemGuideBook extends Item {
 		for(int i = 1; i <= 9; i++) {
 			pages.add(new GuidePage("book.error.page" + i).setScale(2F).addTitle("book.error.title" + i, 0x800000, 1F));
 		}
+		
+		return pages;
+	}
+	
+	/* Mmm, maybe I should include something that allows you to have variable textures for the gui + item
+	   That would be something to do after the book is done though
+	 */
+	public static List<GuidePage> statFacStarter() {
+		
+		List<GuidePage> pages = new ArrayList();
+		
+		//TODO: Figure out why non-whole scales stretch and fuck up the text
+		pages.add(new GuidePage("book.starter.page1").setScale(2F).addTitle("book.starter.title1", 0x800000, 1F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter1.png"), 95, 100, 56));
 		
 		return pages;
 	}
