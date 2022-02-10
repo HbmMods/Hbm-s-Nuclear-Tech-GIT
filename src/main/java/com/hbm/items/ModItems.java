@@ -1862,6 +1862,8 @@ public class ModItems {
 	public static Item fuse;
 	public static Item redcoil_capacitor;
 	public static Item titanium_filter;
+	//by using these in crafting table recipes, i'm running the risk of making my recipes too greg-ian (which i don't like)
+	//in the event that i forget about the meaning of the word "sparingly", please throw a brick at my head
 	public static Item screwdriver;
 	public static Item screwdriver_desh;
 	public static Item hand_drill;
@@ -7899,6 +7901,8 @@ public class ModItems {
 		GameRegistry.registerItem(hazmat_grey_kit, hazmat_grey_kit.getUnlocalizedName());
 		GameRegistry.registerItem(kit_custom, kit_custom.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
+		GameRegistry.registerItem(kit_toolbox_empty, kit_toolbox_empty.getUnlocalizedName());
+		GameRegistry.registerItem(kit_toolbox, kit_toolbox.getUnlocalizedName());
 		GameRegistry.registerItem(letter, letter.getUnlocalizedName());
 		
 		//Misile Loot Boxes

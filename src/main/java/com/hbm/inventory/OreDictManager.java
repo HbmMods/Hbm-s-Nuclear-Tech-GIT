@@ -62,6 +62,10 @@ public class OreDictManager {
 	public static final String KEY_OIL_TAR = "oiltar";
 	public static final String KEY_CRACK_TAR = "cracktar";
 	public static final String KEY_COAL_TAR = "coaltar";
+
+	public static final String KEY_TOOL_SCREWDRIVER = "ntmscrewdriver";
+	public static final String KEY_TOOL_HANDDRILL = "ntmhanddrill";
+	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 	
 	/*
 	 * PREFIXES
@@ -376,6 +380,13 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
 		OreDictionary.registerOre(KEY_COAL_TAR, fromOne(oil_tar, EnumTarType.COAL));
+
+		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, screwdriver);
+		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, screwdriver_desh);
+		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, hand_drill);
+		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, hand_drill_desh);
+		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, chemistry_set);
+		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, chemistry_set_boron);
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);

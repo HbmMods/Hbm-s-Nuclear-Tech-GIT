@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.machine.TileEntityConverterRfHe;
+import com.hbm.tileentity.network.TileEntityConverterRfHe;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
