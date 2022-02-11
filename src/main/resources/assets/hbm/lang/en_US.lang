@@ -207,6 +207,12 @@ book.rbmk.page16=§4§lAVOID.
 book.starter.cover=An Industrialist's$Guide to Rebuilding$Society
 book.starter.title1=Introduction
 book.starter.page1=If you're reading this, it's highly likely that society, in one way or another, has collapsed entirely. Governments, countries, and authority are a concept of the past - along with all of the amenities of civilized life. As such, this guide will inform you how to change that by recreating the industry and technology of the past for the improvement of your own life.
+book.starter.title2=Coal & Mustard Gas
+book.starter.page2=Whilst it is impossible to predict the actual state of the world in a post-apocalyptic time, it's not unlikely that war and industry in its current form may not have ended. To protect your own lungs, an effective and cheap way is to urinate on some cloth to make a trench mask, to protect you from coal dust or mustard gas, if you ever encounter either.
+book.starter.title3=Anvils & Presses
+book.starter.page3=The quintessentials to beginning your industrial revitalization is an anvil and a burner press. The anvil will allow you to manually craft together early machinery such as the Assembler, whilst the burner press will let you make plates, wires, and circuits that you cannot hammer together with an anvil.
+book.starter.title4=Templates
+book.starter.page4=In order to stamp metal into useful shapes, assemble machinery, and perform chemical reactions, you will need to create a Machine Template Folder to create the various stamps and templates shown to the right.
 
 #book.rbmk.cover=HOW 2 RBMK:$The Basics$of Reactor$Construction
 #book.rbmk.title1=Introduction
