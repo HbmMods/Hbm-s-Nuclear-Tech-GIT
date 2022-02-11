@@ -2597,6 +2597,7 @@ item.steel_plate.name=Stahlbrustpanzer
 item.steel_shovel.name=Stahlschaufel
 item.steel_sword.name=Stahlschwert
 item.stick_dynamite.name=Stange Dynamit
+item.stick_tnt.name=Stange TNT
 item.stopsign.name=Stopschild-Streitaxt
 item.sulfur.name=Schwefel
 item.survey_scanner.name=Tiefenscanner

@@ -1686,6 +1686,7 @@ public class ModItems {
 	public static Item crucible;
 
 	public static Item stick_dynamite;
+	public static Item stick_tnt;
 	
 	public static Item grenade_generic;
 	public static Item grenade_strong;
@@ -4343,6 +4344,7 @@ public class ModItems {
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
 		
 		stick_dynamite = new ItemGrenade(3).setUnlocalizedName("stick_dynamite").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_dynamite");
+		stick_tnt = new Item().setUnlocalizedName("stick_tnt").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_tnt");
 		
 		grenade_generic = new ItemGrenade(4).setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_generic");
 		grenade_strong = new ItemGrenade(5).setUnlocalizedName("grenade_strong").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_strong");
@@ -7282,6 +7284,7 @@ public class ModItems {
 		
 		//Grenades
 		GameRegistry.registerItem(stick_dynamite, stick_dynamite.getUnlocalizedName()); //heave-ho!
+		GameRegistry.registerItem(stick_tnt, stick_tnt.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_generic, grenade_generic.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_strong, grenade_strong.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_frag, grenade_frag.getUnlocalizedName());

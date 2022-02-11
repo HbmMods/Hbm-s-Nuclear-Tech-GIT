@@ -469,6 +469,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.charge_dynamite, 1), new Object[] { ModItems.stick_dynamite, ModItems.stick_dynamite, ModItems.stick_dynamite, ModItems.ducttape });
 		addRecipeAuto(new ItemStack(ModBlocks.charge_miner, 1), new Object[] { " F ", "FCF", " F ", 'F', Items.flint, 'C', ModBlocks.charge_dynamite });
 		addRecipeAuto(new ItemStack(ModBlocks.dynamite, 1), new Object[] { "DDD", "DSD", "DDD", 'D', ModItems.stick_dynamite, 'S', Items.string });
+		addRecipeAuto(new ItemStack(ModBlocks.tnt, 1), new Object[] { "DDD", "DSD", "DDD", 'D', ModItems.stick_tnt, 'S', Items.string });
 
 		addRecipeAuto(ItemBattery.getEmptyBattery(ModItems.battery_generic), new Object[] { " A ", "PRP", "PRP", 'A', ModItems.wire_aluminium, 'P', AL.plate(), 'R', REDSTONE.dust() });
 		addRecipeAuto(ItemBattery.getEmptyBattery(ModItems.battery_advanced), new Object[] { " A ", "PSP", "PLP", 'A', ModItems.wire_red_copper, 'P', CU.plate(), 'S', "sulfur", 'L', PB.dust() });
