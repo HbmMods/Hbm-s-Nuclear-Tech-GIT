@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.Untested;
 
@@ -30,13 +30,19 @@ public class TileEntityConverterRfHe extends TileEntity implements IEnergyGenera
 	}
 
 	private long subBuffer;
+	private boolean recursionBrake = false;;
 	
 	@Untested
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		
+		if(recursionBrake)
+			return 0;
+		
 		if(simulate)
 			return 0;
+		
+		recursionBrake = true;
 		
 		long capacity = maxReceive / 4L;
 		subBuffer = capacity;
@@ -44,6 +50,8 @@ public class TileEntityConverterRfHe extends TileEntity implements IEnergyGenera
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		}
+		
+		recursionBrake = false;
 		
 		return (int) ((capacity - subBuffer) * 4L);
 	}

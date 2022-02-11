@@ -2,33 +2,36 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import com.hbm.blocks.generic.BlockFlammable;
 import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.util.ChatBuilder;
 
+import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public abstract class BlockTNTBase extends Block {
-	
+public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
+
 	@SideOnly(Side.CLIENT)
 	private IIcon topIcon;
 	@SideOnly(Side.CLIENT)
 	private IIcon bottomIcon;
 
 	public BlockTNTBase() {
-		super(Material.tnt);
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		super(Material.tnt, 15, 100);
 	}
 
 	@Override
@@ -121,5 +124,34 @@ public abstract class BlockTNTBase extends Block {
 		this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
 		this.topIcon = p_149651_1_.registerIcon(this.getTextureName() + "_top");
 		this.bottomIcon = p_149651_1_.registerIcon(this.getTextureName() + "_bottom");
+	}
+	
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool == ToolType.DEFUSER) {
+			if(!world.isRemote) {
+				world.func_147480_a(x, y, z, true);
+				this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			}
+			return true;
+		}
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
+
+		if(!world.isRemote) {
+			int meta = world.getBlockMetadata(x, y, z);
+			
+			if(meta == 0) {
+				world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+				player.addChatComponentMessage(ChatBuilder.start("[ Ignite On Break: Enabled ]").color(EnumChatFormatting.RED).flush());
+			} else {
+				world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+				player.addChatComponentMessage(ChatBuilder.start("[ Ignite On Break: Disabled ]").color(EnumChatFormatting.GOLD).flush());
+			}
+		}
+		
+		return true;
 	}
 }

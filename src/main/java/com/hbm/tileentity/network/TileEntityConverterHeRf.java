@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.network;
 
 import com.hbm.calc.Location;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -60,8 +60,15 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 		return 0;
 	}
 	
+	private boolean recursionBrake = false;
+	
 	@Override
 	public long transferPower(long power) {
+		
+		if(recursionBrake)
+			return power;
+		
+		recursionBrake = true;
 		
 		// we have to limit the transfer amount because otherwise FEnSUs would overflow the RF output, twice
 		long out = Math.min(power, Long.MAX_VALUE / 4);
@@ -81,6 +88,8 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 				toRF -= energyTransferred; //to prevent energy duping
 			}
 		}
+
+		recursionBrake = false;
 		
 		return power - (energyTransferred / 4);
 	}

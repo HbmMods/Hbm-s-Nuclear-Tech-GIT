@@ -14,31 +14,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemKitCustom extends Item {
+public class ItemKitCustom extends ItemKitNBT {
 
 	@SideOnly(Side.CLIENT)
 	IIcon overlay1;
 	@SideOnly(Side.CLIENT)
 	IIcon overlay2;
-	
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
-		ItemStack[] stacks = ItemStackUtil.readStacksFromNBT(stack);
-		
-		if(stacks != null) {
-			
-			for(ItemStack item : stacks) {
-				if(item != null) {
-					player.inventory.addItemStackToInventory(item.copy());
-				}
-			}
-		}
-		
-		stack.stackSize--;
-		
-		return stack;
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
