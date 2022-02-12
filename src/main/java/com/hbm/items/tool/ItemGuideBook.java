@@ -161,20 +161,22 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter2.png"), 105, 82, 40));
 		pages.add(new GuidePage().addTitle("book.starter.title3", 0x800000, 1F)
 				.addText("book.starter.page3", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3a.png"), 10, 95, 39, 54)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3b.png"), 55, 95, 39, 54));
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3a.png"), 10, 95, 28, 45)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3b.png"), 65, 95, 28, 45));
 		pages.add(new GuidePage().addTitle("book.starter.title4", 0x800000, 1F)
-				.addText("book.starter.page4", 1.4F, 0, 0, 64)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/stamp_iron_flat.png"), 72, 30, 32, 32)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/assembly_template.png"), 72, 78, 32, 32)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/chemistry_template.png"), 72, 127, 32, 32));
-		
-		/*pages.add(new GuidePage("book.starter.page1").setScale(2F).addTitle("book.starter.title1", 0x800000, 1F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter1.png"), 96, 101, 56));
-		pages.add(new GuidePage("book.starter.page2").setScale(2F).addTitle("book.starter.title2", 0x800000, 1F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter2.png"), 105, 82, 40));
-		pages.add(new GuidePage("book.starter.page3").setScale(2F).addTitle("book.starter.title3", 0x800000, 1F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3.png"), 105, 82, 40));*/
+				.addText("book.starter.page4", 1.4F, 0, 6, 72)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/template_folder.png"), 72, 30, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/stamp_iron_flat.png"), 72, 60, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/assembly_template.png"), 72, 90, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/chemistry_template.png"), 72, 120, 24, 24));
+		pages.add(new GuidePage().addTitle("book.starter.title5", 0x800000, 1F)
+				.addText("book.starter.page5", 2F));
+		pages.add(new GuidePage().addTitle("book.starter.title6", 0x800000, 1F)
+				.addText("book.starter.page6a", 2F)
+				.addText("book.starter.page6b", 2f, 0, 96, 100)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter6.png"), 9, 89, 84, 36));
+		pages.add(new GuidePage().addTitle("book.starter.title7", 0x800000, 1F)
+				.addText("book.starter.page7", 2F));
 		
 		return pages;
 	}
@@ -187,14 +189,6 @@ public class ItemGuideBook extends Item {
 		
 		public List<GuideText> texts = new ArrayList();
 		public List<GuideImage> images = new ArrayList();
-		
-		/*public String text;
-		public ResourceLocation image;
-		public float scale = 1F;
-		public int x;
-		public int y;
-		public int sizeX;
-		public int sizeY;*/
 		
 		public GuidePage() { }
 		
@@ -215,63 +209,33 @@ public class ItemGuideBook extends Item {
 			return this;
 		}
 		
-		public GuidePage addText(String text, int xOffset, int y, int width) {
-			texts.add(new GuideText(text).setSize(xOffset, y, width));
+		public GuidePage addText(String text, int xOffset, int yOffset, int width) {
+			texts.add(new GuideText(text).setSize(xOffset, yOffset, width));
 			return this;
 		}
 		
-		public GuidePage addText(String text, float scale, int xOffset, int y, int width) {
-			texts.add(new GuideText(text).setSize(xOffset, y, width).setScale(scale));
+		public GuidePage addText(String text, float scale, int xOffset, int yOffset, int width) {
+			texts.add(new GuideText(text).setSize(xOffset, yOffset, width).setScale(scale));
 			return this;
 		}
 		
-		public GuidePage addImage(ResourceLocation image, int x, int y, int sizeX, int sizeY) {
-			images.add(new GuideImage(image, x, y, sizeX, sizeY));
+		public GuidePage addImage(ResourceLocation image, int xOffset, int yOffset, int sizeX, int sizeY) {
+			images.add(new GuideImage(image, xOffset, yOffset, sizeX, sizeY));
 			return this;
 		}
 		
-		public GuidePage addImage(ResourceLocation image, int y, int sizeX, int sizeY) {
-			images.add(new GuideImage(image, -1, y, sizeX, sizeY));
+		//xOffset = -1 for automatic centering
+		public GuidePage addImage(ResourceLocation image, int yOffset, int sizeX, int sizeY) {
+			images.add(new GuideImage(image, -1, yOffset, sizeX, sizeY));
 			return this;
 		}
-		
-		/*public GuidePage(String text) {
-			this.text = text;
-		}
-		
-		public GuidePage setScale(float scale) {
-			this.scale = scale;
-			return this;
-		}
-		
-		public GuidePage addTitle(String title, int color, float scale) {
-			this.title = title;
-			this.titleColor = color;
-			this.titleScale = scale;
-			return this;
-		}
-		
-		public GuidePage addImage(ResourceLocation image, int x, int y, int sizeX, int sizeY) {
-			
-			this.image = image;
-			this.x = x;
-			this.y = y;
-			this.sizeX = sizeX;
-			this.sizeY = sizeY;
-			return this;
-		}
-		
-		//if the x-coord is -1 then it will automatically try to center the image horizontally
-		public GuidePage addImage(ResourceLocation image, int y, int sizeX, int sizeY) {
-			return addImage(image, -1, y, sizeX, sizeY);
-		}*/
 	}
 	
 	public static class GuideText {
 		public String text;
 		public float scale = 1F;
 		public int xOffset = 0;
-		public int y = -1;
+		public int yOffset = -1;
 		public int width = 100;
 		
 		public GuideText(String text) {
@@ -283,9 +247,10 @@ public class ItemGuideBook extends Item {
 			return this;
 		}
 		
-		public GuideText setSize(int xOffset, int y, int width) {
+		//yOffset = -1, xOffset = 0 for default
+		public GuideText setSize(int xOffset, int yOffset, int width) {
 			this.xOffset = xOffset;
-			this.y = y;
+			this.yOffset = yOffset;
 			this.width = width;
 			return this;
 		}
