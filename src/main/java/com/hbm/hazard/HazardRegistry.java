@@ -169,6 +169,7 @@ public class HazardRegistry {
 
 		HazardSystem.register(demon_core_open, makeData(RADIATION, 5F));
 		HazardSystem.register(demon_core_closed, makeData(RADIATION, 100_000F));
+		HazardSystem.register(lamp_demon, makeData(RADIATION, 100_000F));
 
 		HazardSystem.register(cell_tritium, makeData(RADIATION, 0.001F));
 		HazardSystem.register(cell_sas3, makeData().addEntry(RADIATION, sas3).addEntry(BLINDING, 3F));

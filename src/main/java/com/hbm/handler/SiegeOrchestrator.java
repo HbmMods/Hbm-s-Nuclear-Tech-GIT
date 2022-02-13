@@ -1,7 +1,9 @@
 package com.hbm.handler;
 
 import com.hbm.entity.missile.EntitySiegeDropship;
+import com.hbm.entity.mob.siege.EntitySiegeCraft;
 import com.hbm.entity.mob.siege.EntitySiegeSkeleton;
+import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.entity.mob.siege.EntitySiegeUFO;
 import com.hbm.entity.mob.siege.EntitySiegeZombie;
 import com.hbm.entity.mob.siege.SiegeTier;
@@ -140,12 +142,15 @@ public class SiegeOrchestrator {
 		
 		float f = world.rand.nextFloat();
 		
-		if(f < 0.1F) {
+		if(target != null && f < 0.25F && target.posY + 15 < y) {
+			entity = new EntitySiegeTunneler(world);
+			((EntitySiegeTunneler)entity).setTier(tier);
+		} else if(f < 0.1F) {
 			entity = new EntitySiegeUFO(world);
 			((EntitySiegeUFO)entity).setTier(tier);
 		} else if(f < 0.4F) {
-			entity = new EntitySiegeUFO(world);
-			((EntitySiegeUFO)entity).setTier(tier);
+			entity = new EntitySiegeSkeleton(world);
+			((EntitySiegeSkeleton)entity).setTier(tier);
 		} else {
 			entity = new EntitySiegeZombie(world);
 			((EntitySiegeZombie)entity).setTier(tier);
@@ -178,6 +183,8 @@ public class SiegeOrchestrator {
 		if(entity instanceof EntitySiegeZombie) return true;
 		if(entity instanceof EntitySiegeSkeleton) return true;
 		if(entity instanceof EntitySiegeUFO) return true;
+		if(entity instanceof EntitySiegeTunneler) return true;
+		if(entity instanceof EntitySiegeCraft) return true;
 		
 		return false;
 	}

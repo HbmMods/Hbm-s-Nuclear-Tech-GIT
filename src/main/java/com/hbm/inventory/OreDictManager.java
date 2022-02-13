@@ -223,6 +223,8 @@ public class OreDictManager {
 	public static final DictFrame ANY_PLASTIC = new DictFrame("AnyPlastic");		//using the Any prefix means that it's jsut the secondary prefix, and that shape prefixes are applicable
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
+	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
+	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictFrame ANY_TAR = new DictFrame("Tar");
@@ -370,12 +372,14 @@ public class OreDictManager {
 		/*
 		 * COLLECTIONS
 		 */
-		ANY_PLASTIC		.ingot(ingot_polymer, ingot_bakelite).dust(powder_polymer, powder_bakelite);
-		ANY_GUNPOWDER	.dust(Items.gunpowder, ballistite, cordite);
-		ANY_SMOKELESS	.dust(ballistite, cordite);
-		ANY_CONCRETE	.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
-		ANY_COKE		.gem(fromAll(coke, EnumCokeType.class));
-		ANY_TAR			.any(fromAll(oil_tar, EnumTarType.class));
+		ANY_PLASTIC				.ingot(ingot_polymer, ingot_bakelite).dust(powder_polymer, powder_bakelite);
+		ANY_GUNPOWDER			.dust(Items.gunpowder, ballistite, cordite);
+		ANY_SMOKELESS			.dust(ballistite, cordite);
+		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex);
+		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
+		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
+		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
+		ANY_TAR					.any(fromAll(oil_tar, EnumTarType.class));
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));

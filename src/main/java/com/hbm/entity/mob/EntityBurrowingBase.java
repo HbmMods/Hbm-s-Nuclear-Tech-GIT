@@ -1,8 +1,7 @@
 package com.hbm.entity.mob;
 
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
@@ -12,11 +11,17 @@ import net.minecraft.world.World;
 public abstract class EntityBurrowingBase extends EntityCreature {
 
 	protected float airDrag;
+	protected float airDragY;
 	protected float groundDrag;
+	protected float groundDragY;
 
 	public EntityBurrowingBase(World world) {
 		super(world);
 		this.noClip = true;
+		this.airDrag = 0.995F;
+		this.airDragY = 0.997F;
+		this.groundDrag = 0.98F;
+		this.groundDragY = 0.995F;
 	}
 
 	/**
@@ -26,6 +31,16 @@ public abstract class EntityBurrowingBase extends EntityCreature {
 	@Override
 	public float getEyeHeight() {
 		return this.height * 0.5F;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		if(this.isEntityInvulnerable() || source == DamageSource.drown || source == DamageSource.inWall) {
+			return false;
+		}
+		
+		return super.attackEntityFrom(source, amount);
 	}
 
 	/**
@@ -50,9 +65,11 @@ public abstract class EntityBurrowingBase extends EntityCreature {
 	public void moveEntityWithHeading(float strafe, float forward) {
 
 		float drag = this.groundDrag;
+		float dragY = this.groundDragY;
 
 		if(!isEntityInsideOpaqueBlock() && !isInWater() && !handleLavaMovement()) {
 			drag = this.airDrag;
+			dragY = this.airDragY;
 		}
 
 		//misnomer, actually just sets the motion, the moving part happens the line after that
@@ -60,7 +77,7 @@ public abstract class EntityBurrowingBase extends EntityCreature {
 		moveEntity(this.motionX, this.motionY, this.motionZ);
 
 		this.motionX *= drag;
-		this.motionY *= drag;
+		this.motionY *= dragY;
 		this.motionZ *= drag;
 	}
 

@@ -29,6 +29,7 @@ public class ItemWandD extends Item {
 			
 			EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
+			tunneler.onSpawnWithEgg(null);
 			world.spawnEntityInWorld(tunneler);
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
