@@ -183,7 +183,7 @@ public class ItemGuideBook extends Item {
 				.addText("book.starter.page8a", 2F, 0, -1, 50)
 				.addText("book.starter.page8b", 2F, 50, 70, 50)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter8a.png"), 53, 36, 47, 61)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter8b.png"), 0, 102, 47, 61)); //Two images, two columns (prob derrick + oil detector)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter8b.png"), 0, 102, 47, 61));
 		pages.add(new GuidePage().addTitle("book.starter.title9", 0x800000, 1F)
 				.addText("book.starter.page9", 2F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/ingot_polymer.png"), 4, 106, 24, 24)
@@ -193,9 +193,17 @@ public class ItemGuideBook extends Item {
 		pages.add(new GuidePage().addTitle("book.starter.title10", 0x800000, 1F)
 				.addText("book.starter.page10", 2F)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter10.png"), 0, 115, 100, 39));
-		pages.add(new GuidePage().addTitle("book.starter.title11", 0xfece00, 1F)
-				.addText("book.starter.page11a", 3F)
-				.addText("book.starter.page11b", 2F, 0, 20, 100));
+		pages.add(new GuidePage().addTitle("book.starter.title11", 0x800000, 1F)
+				.addText("book.starter.page11", 2F, 0, -1, 60)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter11a.png"), 61, 36, 45, 57)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter11b.png"), 61, 97, 45, 57)); //2 images, one column
+		pages.add(new GuidePage().addTitle("book.starter.title12", 0xfece00, 1F)
+				.addText("book.starter.page12a", 3F)
+				.addText("book.starter.page12b", 2F, 0, 20, 100));
+		pages.add(new GuidePage().addTitle("book.starter.title13", 0x800000, 1F)
+				.addText("book.starter.page13", 2F)); //add image
+		pages.add(new GuidePage().addTitle("book.starter.title14", 0x800000, 1F)
+				.addText("book.starter.page14", 2F)); //add image
 		
 		return pages;
 	}
