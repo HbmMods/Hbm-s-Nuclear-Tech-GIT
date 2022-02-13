@@ -21,7 +21,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 			this.connect();
 			
 			if(this.getPowerNet() == null) {
-				new PowerNet().joinLink(this);
+				this.setPowerNet(new PowerNet().joinLink(this));
 			}
 		}
 	}

@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
+import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ContaminationUtil;
@@ -18,9 +21,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -34,6 +40,57 @@ public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData 
 		this.setSize(7F, 1F);
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float damage) {
+		
+		if(this.isEntityInvulnerable())
+			return false;
+		
+		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
+			return false;
+		
+		SiegeTier tier = this.getTier();
+		
+		if(tier.fireProof && source.isFireDamage()) {
+			this.extinguish();
+			return false;
+		}
+		
+		//noFF can't be harmed by other mobs
+		if(tier.noFriendlyFire && source instanceof EntityDamageSource && !(((EntityDamageSource) source).getEntity() instanceof EntityPlayer))
+			return false;
+		
+		damage -= tier.dt;
+		
+		if(damage < 0) {
+			worldObj.playSoundAtEntity(this, "random.break", 5F, 1.0F + rand.nextFloat() * 0.5F);
+			return false;
+		}
+		
+		damage *= (1F - tier.dr);
+		
+		return super.attackEntityFrom(source, damage);
+	}
+	
+	@Override
+	protected void onDeathUpdate() {
+		
+		this.beamCountdown = 200;
+		this.setBeam(false);
+		
+		this.motionY -= 0.05D;
+		
+		if(this.deathTime == 19 && !worldObj.isRemote) {
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "tinytot");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(this.dimension, posX, posY, posZ, 250));
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		}
+		
+		super.onDeathUpdate();
 	}
 
 	@Override
@@ -129,6 +186,10 @@ public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData 
 					double y = this.target.posY + this.target.height * 0.5;
 					double z = this.target.posZ;
 					this.setLockon(x, y, z);
+					
+					if(this.beamCountdown == 110) {
+						worldObj.playSoundAtEntity(this.target, "hbm:weapon.stingerLockOn", 2F, 0.75F);
+					}
 				}
 				
 				if(this.beamCountdown >= 40 && this.beamCountdown < 100) {

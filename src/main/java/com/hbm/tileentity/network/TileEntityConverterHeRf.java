@@ -1,14 +1,10 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.calc.Location;
-import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IEnergyUser;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -73,7 +69,8 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 		// we have to limit the transfer amount because otherwise FEnSUs would overflow the RF output, twice
 		long out = Math.min(power, Long.MAX_VALUE / 4);
 		int toRF = (int) Math.min(Integer.MAX_VALUE, out * 4);
-		int energyTransferred = 0;
+		int rfTransferred = 0;
+		int totalTransferred = 0;
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 
@@ -81,16 +78,17 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 			TileEntity entity = loc.getTileEntity();
 
 			if(entity != null && entity instanceof IEnergyReceiver) {
-
-				IEnergyReceiver receiver = (IEnergyReceiver) entity;
-				energyTransferred = receiver.receiveEnergy(dir.getOpposite(), toRF, false);
 				
-				toRF -= energyTransferred; //to prevent energy duping
+				IEnergyReceiver receiver = (IEnergyReceiver) entity;
+				rfTransferred = receiver.receiveEnergy(dir.getOpposite(), toRF, false);
+				totalTransferred += rfTransferred;
+				
+				toRF -= rfTransferred; //to prevent energy duping
 			}
 		}
 
 		recursionBrake = false;
 		
-		return power - (energyTransferred / 4);
+		return power - (totalTransferred / 4);
 	}
 }

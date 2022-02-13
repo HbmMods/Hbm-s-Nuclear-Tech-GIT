@@ -2,7 +2,6 @@ package com.hbm.inventory.fluid;
 
 import java.util.List;
 
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.util.BobMathUtil;
 
@@ -30,6 +29,6 @@ public class FluidTypeFlammable extends FluidType {
 		info.add(EnumChatFormatting.YELLOW + "[Flammable]");
 		
 		if(energy > 0)
-			info.add(EnumChatFormatting.YELLOW + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(energy) + "HE " + EnumChatFormatting.YELLOW + "per bucket burned");
+			info.add(EnumChatFormatting.YELLOW + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(energy) + "HE " + EnumChatFormatting.YELLOW + "per bucket");
 	}
 }

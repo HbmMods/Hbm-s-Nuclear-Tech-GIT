@@ -169,7 +169,7 @@ public class Fluids {
 		DIESEL_CRACK =		new FluidTypeCombustible(	"DIESEL_CRACK",		0xf2eed5, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 450_000);
 		AROMATICS =			new FluidTypeFlammable(		"AROMATICS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
 		UNSATURATEDS =		new FluidTypeFlammable(		"UNSATURATEDS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
-		SALIENT =			new FluidType(				"SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE);
+		SALIENT =			new FluidType(69,			"SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
