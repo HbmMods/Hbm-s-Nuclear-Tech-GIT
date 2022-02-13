@@ -158,11 +158,11 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter1.png"), 96, 101, 56));
 		pages.add(new GuidePage().addTitle("book.starter.title2", 0x800000, 1F)
 				.addText("book.starter.page2", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter2.png"), 105, 82, 40));
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/mask_piss.png"), 85, 64, 64)); //smite
 		pages.add(new GuidePage().addTitle("book.starter.title3", 0x800000, 1F)
 				.addText("book.starter.page3", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3a.png"), 10, 95, 28, 45)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3b.png"), 65, 95, 28, 45));
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3.png"), 10, 82, 79, 93) //smite/revisit
+				/*.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3b.png"), 65, 95, 28, 45)*/);
 		pages.add(new GuidePage().addTitle("book.starter.title4", 0x800000, 1F)
 				.addText("book.starter.page4", 1.4F, 0, 6, 72)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/template_folder.png"), 72, 30, 24, 24)
@@ -175,8 +175,27 @@ public class ItemGuideBook extends Item {
 				.addText("book.starter.page6a", 2F)
 				.addText("book.starter.page6b", 2f, 0, 96, 100)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter6.png"), 9, 89, 84, 36));
-		pages.add(new GuidePage().addTitle("book.starter.title7", 0x800000, 1F)
-				.addText("book.starter.page7", 2F));
+		pages.add(new GuidePage()
+				.addText("book.starter.page7a", 2F)
+				.addText("book.starter.page7b", 2F, 0, 95, 100)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter7.png"), 9, 67, 84, 58));
+		pages.add(new GuidePage().addTitle("book.starter.title8", 0x800000, 1F)
+				.addText("book.starter.page8a", 2F, 0, -1, 50)
+				.addText("book.starter.page8b", 2F, 50, 70, 50)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter8a.png"), 53, 36, 47, 61)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter8b.png"), 0, 102, 47, 61)); //Two images, two columns (prob derrick + oil detector)
+		pages.add(new GuidePage().addTitle("book.starter.title9", 0x800000, 1F)
+				.addText("book.starter.page9", 2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/ingot_polymer.png"), 4, 106, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/ingot_desh.png"), 28, 130, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/solid_fuel_presto_triplet.png"), 52, 106, 24, 24)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/canister_gasoline.png"), 76, 130, 24, 24));
+		pages.add(new GuidePage().addTitle("book.starter.title10", 0x800000, 1F)
+				.addText("book.starter.page10", 2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter10.png"), 0, 115, 100, 39));
+		pages.add(new GuidePage().addTitle("book.starter.title11", 0xfece00, 1F)
+				.addText("book.starter.page11a", 3F)
+				.addText("book.starter.page11b", 2F, 0, 20, 100));
 		
 		return pages;
 	}

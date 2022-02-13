@@ -170,7 +170,7 @@ public class GUIScreenGuide extends GuiScreen {
  					float topOffset;
  					
  					if(textBox.yOffset == -1) {
- 	 					topOffset = page.title == null ? 0 : 6 / titleScale;
+ 	 					topOffset = page.title == null ? -10 : 6 / titleScale;
  					} else {
  						topOffset = textBox.yOffset;
  					}
