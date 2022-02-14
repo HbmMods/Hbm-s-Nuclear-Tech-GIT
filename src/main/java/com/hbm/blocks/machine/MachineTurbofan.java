@@ -1,13 +1,17 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -22,10 +26,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineTurbofan extends BlockContainer implements IMultiblock {
+public class MachineTurbofan extends BlockContainer implements IMultiblock, ITooltipProvider {
 
 	public MachineTurbofan(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -316,4 +321,11 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
+		list.add(EnumChatFormatting.YELLOW + "-" + FuelGrade.AERO.getGrade() + ": " + EnumChatFormatting.RED + "100%");
+	}
 }

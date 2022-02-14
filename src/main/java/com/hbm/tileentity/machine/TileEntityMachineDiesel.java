@@ -139,8 +139,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	
 	static {
-		fuelEfficiency.put(FuelGrade.LOW,		0.5D);
-		fuelEfficiency.put(FuelGrade.MEDIUM,	1.0D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
 		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
@@ -217,17 +216,17 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
+		if(type == tank.getTankType())
 			tank.setFill(i);
 	}
 
