@@ -147,7 +147,7 @@ public class ItemGuideBook extends Item {
 	}
 	
 	/* Mmm, maybe I should include something that allows you to have variable textures for the gui + item
-	   That would be something to do after the book is done though
+	   That would be something to do after the book is done though (nah, fuck that)
 	 */
 	public static List<GuidePage> statFacStarter() {
 		
@@ -158,11 +158,10 @@ public class ItemGuideBook extends Item {
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter1.png"), 96, 101, 56));
 		pages.add(new GuidePage().addTitle("book.starter.title2", 0x800000, 1F)
 				.addText("book.starter.page2", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/mask_piss.png"), 85, 64, 64)); //smite
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/mask_piss.png"), 85, 64, 64)); //meh
 		pages.add(new GuidePage().addTitle("book.starter.title3", 0x800000, 1F)
 				.addText("book.starter.page3", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3.png"), 10, 82, 79, 93) //smite/revisit
-				/*.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3b.png"), 65, 95, 28, 45)*/);
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter3.png"), 89, 100, 64));
 		pages.add(new GuidePage().addTitle("book.starter.title4", 0x800000, 1F)
 				.addText("book.starter.page4", 1.4F, 0, 6, 72)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/items/template_folder.png"), 72, 30, 24, 24)
@@ -196,14 +195,24 @@ public class ItemGuideBook extends Item {
 		pages.add(new GuidePage().addTitle("book.starter.title11", 0x800000, 1F)
 				.addText("book.starter.page11", 2F, 0, -1, 60)
 				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter11a.png"), 61, 36, 45, 57)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter11b.png"), 61, 97, 45, 57)); //2 images, one column
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter11b.png"), 61, 97, 45, 57));
 		pages.add(new GuidePage().addTitle("book.starter.title12", 0xfece00, 1F)
 				.addText("book.starter.page12a", 3F)
 				.addText("book.starter.page12b", 2F, 0, 20, 100));
 		pages.add(new GuidePage().addTitle("book.starter.title13", 0x800000, 1F)
-				.addText("book.starter.page13", 2F)); //add image
+				.addText("book.starter.page13", 2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter13.png"), 110, 84, 42));
 		pages.add(new GuidePage().addTitle("book.starter.title14", 0x800000, 1F)
-				.addText("book.starter.page14", 2F)); //add image
+				.addText("book.starter.page14", 2F, 0, 54, 100)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter14.png"), 34, 100, 46));
+		pages.add(new GuidePage().addTitle("book.starter.title15", 0x800000, 1F)
+				.addText("book.starter.page15", 2F));
+		pages.add(new GuidePage().addTitle("book.starter.title16", 0x800000, 1F)
+				.addText("book.starter.page16", 2F));
+		pages.add(new GuidePage());
+		pages.add(new GuidePage().addTitle("book.starter.title18", 0x800000, 1F)
+				.addText("book.starter.page18", 2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter18.png"), 10, 69, 100, 100));
 		
 		return pages;
 	}
