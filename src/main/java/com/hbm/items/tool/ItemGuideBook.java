@@ -70,13 +70,19 @@ public class ItemGuideBook extends Item {
 	public static List<GuidePage> statFacTest() {
 		
 		List<GuidePage> pages = new ArrayList();
-		/*pages.add(new GuidePage("book.test.page1").addTitle("Title LMAO", 0x800000, 1F).setScale(2F).addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
-		pages.add(new GuidePage("book.test.page1").addTitle("LA SEXO", 0x800000, 0.5F).setScale(1.75F).addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
-		pages.add(new GuidePage("test test"));
-		pages.add(new GuidePage("test test test"));
-		pages.add(new GuidePage("test test"));
-		pages.add(new GuidePage("test test test"));
-		pages.add(new GuidePage("test test"));*/
+		
+		pages.add(new GuidePage().addTitle("Title LMAO", 0x800000, 1F)
+				.addText("book.test.page1", 2F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
+		pages.add(new GuidePage().addTitle("LA SEXO", 0x800000, 0.5F)
+				.addText("book.test.page1", 1.75F)
+				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/smileman.png"), 100, 40, 40));
+		pages.add(new GuidePage().addText("test test"));
+		pages.add(new GuidePage().addText("test test test"));
+		pages.add(new GuidePage().addText("test test"));
+		pages.add(new GuidePage().addText("test test test"));
+		pages.add(new GuidePage().addText("test test"));
+		
 		return pages;
 	}
 	
