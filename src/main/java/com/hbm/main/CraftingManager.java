@@ -653,7 +653,6 @@ public class CraftingManager {
 
 		addShapelessAuto(new ItemStack(Items.paper, 1), new Object[] { new ItemStack(ModItems.assembly_template, 1, OreDictionary.WILDCARD_VALUE) });
 		addShapelessAuto(new ItemStack(Items.paper, 1), new Object[] { new ItemStack(ModItems.chemistry_template, 1, OreDictionary.WILDCARD_VALUE) });
-		addShapelessAuto(new ItemStack(ModItems.plate_iron, 1), new Object[] { new ItemStack(ModItems.fluid_identifier, 1, OreDictionary.WILDCARD_VALUE) });
 
 		for(int i = 1; i < Fluids.getAll().length; ++i) {
     		addShapelessAuto(new ItemStack(ModItems.fluid_duct, 1, i), new Object[] { new ItemStack(ModBlocks.fluid_duct, 1), new ItemStack(ModItems.fluid_identifier, 1, i) });
