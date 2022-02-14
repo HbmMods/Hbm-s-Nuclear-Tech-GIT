@@ -7,7 +7,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.tool.ItemGuideBook.BookType;
+import com.hbm.items.tool.ItemGuideBook.GuideImage;
 import com.hbm.items.tool.ItemGuideBook.GuidePage;
+import com.hbm.items.tool.ItemGuideBook.GuideText;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
 
@@ -133,67 +135,77 @@ public class GUIScreenGuide extends GuiScreen {
 			
 			if(defacto < this.type.pages.size()) {
 				
-				GuidePage page = this.type.pages.get(defacto);
+ 				GuidePage page = this.type.pages.get(defacto);
 				
-				float scale = page.scale;
-				String text = I18nUtil.resolveKey(page.text);
-				int width = 100;
-				
-				int widthScaled = (int) (width * scale);
-				List<String> lines = new ArrayList();
-				String[] words = text.split(" ");
-				
-				lines.add(words[0]);
-				int indent = this.fontRendererObj.getStringWidth(words[0]);
-				
-				for(int w = 1; w < words.length; w++) {
-					
-					indent += this.fontRendererObj.getStringWidth(" " + words[w]);
-					
-					if(indent <= widthScaled) {
-						String last = lines.get(lines.size() - 1);
-						lines.set(lines.size() - 1, last += (" " + words[w]));
-					} else {
-						lines.add(words[w]);
-						indent = this.fontRendererObj.getStringWidth(words[w]);
-					}
-				}
-				
-				float titleScale = getOverrideScale(page.titleScale, page.title + ".scale");
-				
-				GL11.glPushMatrix();
-				GL11.glScalef(1F/scale, 1F/scale, 1F);
-				
-				float topOffset = page.title == null ? 0 : 6 / titleScale;
-				
-				for(int l = 0; l < lines.size(); l++) {
-					this.fontRendererObj.drawString(lines.get(l), (int)((guiLeft + 20 + i * sideOffset) * scale), (int)((guiTop + 30 + topOffset) * scale + (12 * l)), 4210752);
-				}
-				
-				GL11.glPopMatrix();
+ 				for(GuideText textBox : page.texts) {
+ 					float scale = textBox.scale;
+ 					String text = I18nUtil.resolveKey(textBox.text);
+ 					int width = textBox.width;
+ 					
+ 					int widthScaled = (int) (width * scale);
+ 					List<String> lines = new ArrayList();
+ 					String[] words = text.split(" ");
+ 					
+ 					lines.add(words[0]);
+ 					int indent = this.fontRendererObj.getStringWidth(words[0]);
+ 					
+ 					for(int w = 1; w < words.length; w++) {
+ 						
+ 						indent += this.fontRendererObj.getStringWidth(" " + words[w]);
+ 						
+ 						if(indent <= widthScaled) {
+ 							String last = lines.get(lines.size() - 1);
+ 							lines.set(lines.size() - 1, last += (" " + words[w]));
+ 						} else {
+ 							lines.add(words[w]);
+ 							indent = this.fontRendererObj.getStringWidth(words[w]);
+ 						}
+ 					}
+ 					
+ 					float titleScale = getOverrideScale(page.titleScale, page.title + ".scale");
+ 					
+ 					GL11.glPushMatrix();
+ 					GL11.glScalef(1F/scale, 1F/scale, 1F);
+ 					
+ 					float topOffset;
+ 					
+ 					if(textBox.yOffset == -1) {
+ 	 					topOffset = page.title == null ? -10 : 6 / titleScale;
+ 					} else {
+ 						topOffset = textBox.yOffset;
+ 					}
+ 					
+ 					for(int l = 0; l < lines.size(); l++) {
+ 						this.fontRendererObj.drawString(lines.get(l), (int)((guiLeft + 20 + i * sideOffset + textBox.xOffset) * scale), (int)((guiTop + 30 + topOffset) * scale + (12 * l)), 4210752);
+ 					}
+ 					
+ 					GL11.glPopMatrix();
+ 				}
 				
 				if(page.title != null) {
 					
-					float tScale = titleScale;
+					float tScale = page.titleScale;
 					String titleLoc = I18nUtil.resolveKey(page.title);
 					
 					GL11.glPushMatrix();
 					GL11.glScalef(1F/tScale, 1F/tScale, 1F);
-					this.fontRendererObj.drawString(titleLoc, (int)((guiLeft + 20 + i * sideOffset + ((width / 2) - (this.fontRendererObj.getStringWidth(titleLoc) / 2 / tScale))) * tScale), (int)((guiTop + 20) * tScale), page.titleColor);
+					this.fontRendererObj.drawString(titleLoc, (int)((guiLeft + 20 + i * sideOffset + ((100 / 2) - (this.fontRendererObj.getStringWidth(titleLoc) / 2 / tScale))) * tScale), (int)((guiTop + 20) * tScale), page.titleColor);
 					
 					GL11.glPopMatrix();
 				}
 				
-				if(page.image != null) {
-					GL11.glColor4f(1F, 1F, 1F, 1F);
-					Minecraft.getMinecraft().getTextureManager().bindTexture(page.image);
-					
-					int ix = page.x;
-					
-					if(ix == -1)
-						ix = width / 2 - page.sizeX / 2;
-					
-					drawImage(guiLeft + 20 + ix + sideOffset * i, guiTop + page.y, page.sizeX, page.sizeY);
+				if(!page.images.isEmpty()) {
+					for(GuideImage image : page.images) {
+						GL11.glColor4f(1F, 1F, 1F, 1F);
+						Minecraft.getMinecraft().getTextureManager().bindTexture(image.image);
+						
+						int ix = image.x;
+						
+						if(ix == -1)
+							ix = 100 / 2 - image.sizeX / 2;
+						
+						drawImage(guiLeft + 20 + ix + sideOffset * i, guiTop + image.y, image.sizeX, image.sizeY);
+					}
 				}
 				
 				String pageLabel = (defacto + 1) + "/" + (this.type.pages.size());
