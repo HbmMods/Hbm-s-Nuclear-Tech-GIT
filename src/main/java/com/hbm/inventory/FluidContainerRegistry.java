@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class FluidContainerRegistry {
 	
@@ -95,6 +96,7 @@ public class FluidContainerRegistry {
 	
 	public static void registerContainer(FluidContainer con) {
 		allContainers.add(con);
+		OreDictionary.registerOre(con.type.getDict(con.content), con.fullContainer);
 	}
 	
 	public static int getFluidContent(ItemStack stack, FluidType type) {
