@@ -30,7 +30,7 @@ public class ItemChemistryTemplate extends Item {
 		//SF - Solid Fuel Production
 		//BP - Biofuel Production
 		
-		FP_HEAVYOIL,
+		FP_HEAVYOIL,					//0
 		FP_SMEAR,
 		FP_NAPHTHA,
 		FP_LIGHTOIL,
@@ -40,7 +40,7 @@ public class ItemChemistryTemplate extends Item {
 		FC_I_NAPHTHA(true),
 		FC_GAS_PETROLEUM(true),
 		FC_DIESEL_KEROSENE(true),
-		FC_KEROSENE_PETROLEUM(true),
+		FC_KEROSENE_PETROLEUM(true),	//10
 		CC_OIL(true),
 		CC_I(true),
 		CC_HEATING(true),
@@ -50,7 +50,7 @@ public class ItemChemistryTemplate extends Item {
 		SF_HEAVYOIL(true),
 		SF_SMEAR(true),
 		SF_HEATINGOIL(true),
-		SF_RECLAIMED(true),
+		SF_RECLAIMED(true),				//20
 		SF_PETROIL(true),
 		SF_LUBRICANT(true),
 		SF_NAPHTHA(true),
@@ -60,7 +60,7 @@ public class ItemChemistryTemplate extends Item {
 		SF_GAS(true),
 		SF_PETROLEUM(true),
 		SF_BIOGAS(true),
-		SF_BIOFUEL(true),
+		SF_BIOFUEL(true),				//30
 		BP_BIOGAS,
 		BP_BIOFUEL,
 		LPG,
@@ -70,7 +70,7 @@ public class ItemChemistryTemplate extends Item {
 		CRYOGEL,
 		DESH,
 		NITAN,
-		PEROXIDE,
+		PEROXIDE,						//40
 		CIRCUIT_4,
 		CIRCUIT_5,
 		POLYMER,
@@ -80,7 +80,7 @@ public class ItemChemistryTemplate extends Item {
 		UF6,
 		PUF6,
 		SAS3,
-		DYN_SCHRAB,
+		DYN_SCHRAB,						//50
 		DYN_EUPH,
 		DYN_DNT,
 		CORDITE,
@@ -90,7 +90,7 @@ public class ItemChemistryTemplate extends Item {
 		SOLID_FUEL,
 		ELECTROLYSIS,
 		XENON,
-		XENON_OXY,
+		XENON_OXY,						//60
 		SATURN,
 		BALEFIRE,
 		SCHRABIDIC,
@@ -100,7 +100,7 @@ public class ItemChemistryTemplate extends Item {
 		COLTAN_CRYSTAL,
 		VIT_LIQUID,
 		VIT_GAS,
-		TEL,
+		TEL,							//70
 		GASOLINE,
 		FRACKSOL,
 		HELIUM3,

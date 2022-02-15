@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 //i love you
@@ -447,6 +448,10 @@ public class OreDictManager {
 		return GeneralConfig.enableReflectorCompat ? "plateDenseLead" : "plateTungCar"; //let's just mangle the name into "tungCar" so that it can't conflict with anything ever
 	}
 	
+	public void registerGroups() {
+		
+	}
+	
 	public static class DictFrame {
 		String[] mats;
 		float hazMult = 1.0F;
@@ -612,4 +617,52 @@ public class OreDictManager {
 			}
 		}
 	}
+	
+	/*public static class DictGroup {
+		
+		private String name;
+		private HashSet<DictFrame> frames = new HashSet();
+		
+		public DictGroup(String name) {
+			this.name = name;
+		}
+		
+		public DictGroup(String name, DictFrame... frames) {
+			this(name);
+			
+			for(DictFrame frame : frames) {
+				this.frames.add(frame);
+			}
+		}
+		
+		public DictGroup prefix(String prefix) {
+			
+			String groupKey = prefix + name;
+			
+			for(DictFrame frame : this.frames) {
+				String key = prefix + frame.mats[0];
+				
+				List<ItemStack> ores = OreDictionary.getOres(key);
+				
+				for(ItemStack stack : ores) {
+					OreDictionary.registerOre(groupKey, stack);
+				}
+			}
+			
+			return this;
+		}
+		
+		public String any() {			return ANY		+ name; }
+		public String nugget() {		return NUGGET	+ name; }
+		public String tiny() {			return TINY		+ name; }
+		public String ingot() {			return INGOT	+ name; }
+		public String dustTiny() {		return DUSTTINY	+ name; }
+		public String dust() {			return DUST		+ name; }
+		public String gem() {			return GEM		+ name; }
+		public String crystal() {		return CRYSTAL	+ name; }
+		public String plate() {			return PLATE	+ name; }
+		public String billet() {		return BILLET	+ name; }
+		public String block() {			return BLOCK	+ name; }
+		public String ore() {			return ORE		+ name; }
+	}*/
 }

@@ -984,6 +984,9 @@ public class MainRegistry {
 		SchistStratum schist = new SchistStratum();
 		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
 		
+		OreDictManager oreMan = new OreDictManager();
+		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
+		
 		PacketDispatcher.registerPackets();
 
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
