@@ -181,29 +181,24 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public boolean getTact() { return worldObj.getTotalWorldTime() % 20 < 10; }
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 
 		if(index == 0)
 			gas.setFill(fill);
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		
 		if(type == gas.getTankType())
 			gas.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 
 		if(index == 0)
 			gas.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return new ArrayList() {{ add(gas); }};
 	}
 
 	@Override

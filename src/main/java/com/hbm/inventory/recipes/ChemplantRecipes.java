@@ -242,17 +242,61 @@ public class ChemplantRecipes {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
-		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100));
-		recipes.add(new ChemRecipe(69, "VIT_GAS", 100));
-		recipes.add(new ChemRecipe(70, "TEL", 40));
-		recipes.add(new ChemRecipe(71, "GASOLINE", 40));
-		recipes.add(new ChemRecipe(72, "FRACKSOL", 20));
-		recipes.add(new ChemRecipe(73, "HELIUM3", 200));
-		recipes.add(new ChemRecipe(74, "OSMIRIDIUM_DEATH", 240));
-		recipes.add(new ChemRecipe(75, "ETHANOL", 50));
-		recipes.add(new ChemRecipe(76, "METH", 30));
-		recipes.add(new ChemRecipe(77, "CO2", 60));
-		recipes.add(new ChemRecipe(78, "HEAVY_ELECTROLYSIS", 150));
+		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
+				.inputItems(new ComparableStack(ModBlocks.sand_lead))
+				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))
+				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
+		recipes.add(new ChemRecipe(69, "VIT_GAS", 100)
+				.inputItems(new ComparableStack(ModBlocks.sand_lead))
+				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1000))
+				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
+		recipes.add(new ChemRecipe(70, "TEL", 40)
+				.inputItems(
+						new OreDictStack(ANY_TAR.any()),
+						new OreDictStack(PB.dust()))
+				.inputFluids(
+						new FluidStack(Fluids.PETROLEUM, 100),
+						new FluidStack(Fluids.STEAM, 1000))
+				.outputItems(new ItemStack(ModItems.antiknock)));
+		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
+				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
+				.outputFluids(new FluidStack(Fluids.GASOLINE, 12_000)));
+		recipes.add(new ChemRecipe(72, "FRACKSOL", 20)
+				.inputItems(new OreDictStack(S.dust()))
+				.inputFluids(
+						new FluidStack(Fluids.PETROLEUM, 100),
+						new FluidStack(Fluids.WATER, 1000))
+				.outputFluids(new FluidStack(Fluids.FRACKSOL, 1000)));
+		recipes.add(new ChemRecipe(73, "HELIUM3", 200)
+				.inputItems(new ComparableStack(ModBlocks.moon_turf, 8))
+				.outputFluids(new FluidStack(Fluids.HELIUM3, 1000)));
+		recipes.add(new ChemRecipe(74, "OSMIRIDIUM_DEATH", 240)
+				.inputItems(
+						new ComparableStack(ModItems.powder_paleogenite),
+						new OreDictStack(F.dust(), 8),
+						new ComparableStack(ModItems.nugget_bismuth, 4))
+				.inputFluids(new FluidStack(Fluids.ACID, 1000))
+				.outputFluids(new FluidStack(Fluids.DEATH, 1000)));
+		recipes.add(new ChemRecipe(75, "ETHANOL", 50)
+				.inputItems(new ComparableStack(Items.sugar, 6))
+				.outputFluids(new FluidStack(Fluids.ETHANOL, 1000)));
+		recipes.add(new ChemRecipe(76, "METH", 30)
+				.inputItems(
+						new ComparableStack(Items.wheat),
+						new ComparableStack(Items.dye, 2, 3))
+				.inputFluids(
+						new FluidStack(Fluids.LUBRICANT, 400),
+						new FluidStack(Fluids.ACID, 400))
+				.outputItems(new ItemStack(ModItems.chocolate, 4)));
+		recipes.add(new ChemRecipe(77, "CO2", 60)
+				.inputFluids(new FluidStack(Fluids.GAS, 1000))
+				.outputFluids(new FluidStack(Fluids.CARBONDIOXIDE, 1000)));
+		recipes.add(new ChemRecipe(78, "HEAVY_ELECTROLYSIS", 150)
+				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 8000))
+				.outputFluids(
+						new FluidStack(Fluids.DEUTERIUM, 400),
+						new FluidStack(Fluids.OXYGEN, 400)));
 		
 	}
 	
@@ -315,10 +359,10 @@ public class ChemplantRecipes {
 
 		private int id;
 		public String name;
-		private AStack[] inputs;
-		private FluidStack[] inputFluids;
-		private ItemStack[] outputs;
-		private FluidStack[] outputFluids;
+		public AStack[] inputs;
+		public FluidStack[] inputFluids;
+		public ItemStack[] outputs;
+		public FluidStack[] outputFluids;
 		private int duration;
 		
 		public ChemRecipe(int index, String name, int duration) {

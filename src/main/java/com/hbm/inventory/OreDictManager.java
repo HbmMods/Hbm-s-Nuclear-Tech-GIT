@@ -1,6 +1,8 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -16,15 +18,21 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 
 //the more i optimize this, the more it starts looking like gregtech
 public class OreDictManager {
+	
+	/** Alternate, additional names for ore dict registration. Used mostly for DictGroups */
+	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap();
 
 	/*
 	 * Standard keys
@@ -225,14 +233,14 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
-	public static final DictFrame ANY_PLASTIC = new DictFrame("AnyPlastic");		//using the Any prefix means that it's jsut the secondary prefix, and that shape prefixes are applicable
+	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's jsut the secondary prefix, and that shape prefixes are applicable
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
 	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
-	public static final DictFrame ANY_TAR = new DictFrame("Tar");
+	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR);
 	
 	public static void registerOres() {
 
@@ -377,14 +385,12 @@ public class OreDictManager {
 		/*
 		 * COLLECTIONS
 		 */
-		ANY_PLASTIC				.ingot(ingot_polymer, ingot_bakelite).dust(powder_polymer, powder_bakelite);
 		ANY_GUNPOWDER			.dust(Items.gunpowder, ballistite, cordite);
 		ANY_SMOKELESS			.dust(ballistite, cordite);
 		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex);
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
-		ANY_TAR					.any(fromAll(oil_tar, EnumTarType.class));
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
@@ -448,8 +454,31 @@ public class OreDictManager {
 		return GeneralConfig.enableReflectorCompat ? "plateDenseLead" : "plateTungCar"; //let's just mangle the name into "tungCar" so that it can't conflict with anything ever
 	}
 	
-	public void registerGroups() {
+	public static void registerGroups() {
+		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true);
+		ANY_TAR.addPrefix(ANY, false);
+	}
+	
+	private static boolean recursionBrake = false;
+	
+	@SubscribeEvent
+	public void onRegisterOre(OreRegisterEvent event) {
 		
+		if(recursionBrake)
+			return;
+		
+		recursionBrake = true;
+		
+		HashSet<String> strings = reRegistration.get(event.Name);
+		
+		if(strings != null) {
+			for(String name : strings) {
+				OreDictionary.registerOre(name, event.Ore);
+				MainRegistry.logger.info("Re-registration for " + event.Name + " to " + name);
+			}
+		}
+		
+		recursionBrake = false;
 	}
 	
 	public static class DictFrame {
@@ -618,51 +647,84 @@ public class OreDictManager {
 		}
 	}
 	
-	/*public static class DictGroup {
+	public static class DictGroup {
 		
-		private String name;
-		private HashSet<DictFrame> frames = new HashSet();
+		private String groupName;
+		private HashSet<String> names = new HashSet();
 		
-		public DictGroup(String name) {
-			this.name = name;
+		public DictGroup(String groupName) {
+			this.groupName = groupName;
+		}
+		public DictGroup(String groupName, String... names) {
+			this(groupName);
+			this.addNames(names);
+		}
+		public DictGroup(String groupName, DictFrame... frames) {
+			this(groupName);
+			this.addFrames(frames);
 		}
 		
-		public DictGroup(String name, DictFrame... frames) {
-			this(name);
-			
-			for(DictFrame frame : frames) {
-				this.frames.add(frame);
-			}
+		public DictGroup addNames(String... names) {
+			for(String mat : names) this.names.add(mat);
+			return this;
+		}
+		public DictGroup addFrames(DictFrame... frames) {
+			for(DictFrame frame : frames) this.addNames(frame.mats);
+			return this;
 		}
 		
-		public DictGroup prefix(String prefix) {
+		/**
+		 * Will add a reregistration entry for every mat name of every added DictFrame for the given prefix
+		 * @param prefix The prefix of both the input and result of the reregistration
+		 * @return
+		 */
+		public DictGroup addPrefix(String prefix, boolean inputPrefix) {
 			
-			String groupKey = prefix + name;
+			String group = prefix + groupName;
 			
-			for(DictFrame frame : this.frames) {
-				String key = prefix + frame.mats[0];
-				
-				List<ItemStack> ores = OreDictionary.getOres(key);
-				
-				for(ItemStack stack : ores) {
-					OreDictionary.registerOre(groupKey, stack);
-				}
+			for(String name : names) {
+				String original = (inputPrefix ? prefix : "") + name;
+				addReRegistration(original, group);
 			}
 			
 			return this;
 		}
+		/**
+		 * Same thing as addPrefix, but the input for the reregistration is not bound by the prefix or any mat names
+		 * @param prefix The prefix for the resulting reregistration entry (in full: prefix + group name)
+		 * @param original The full original ore dict key, not bound by any naming conventions
+		 * @return
+		 */
+		public DictGroup addFixed(String prefix, String original) {
+			
+			String group = prefix + groupName;
+			addReRegistration(original, group);
+			return this;
+		}
 		
-		public String any() {			return ANY		+ name; }
-		public String nugget() {		return NUGGET	+ name; }
-		public String tiny() {			return TINY		+ name; }
-		public String ingot() {			return INGOT	+ name; }
-		public String dustTiny() {		return DUSTTINY	+ name; }
-		public String dust() {			return DUST		+ name; }
-		public String gem() {			return GEM		+ name; }
-		public String crystal() {		return CRYSTAL	+ name; }
-		public String plate() {			return PLATE	+ name; }
-		public String billet() {		return BILLET	+ name; }
-		public String block() {			return BLOCK	+ name; }
-		public String ore() {			return ORE		+ name; }
-	}*/
+		public String any() {			return ANY		+ groupName; }
+		public String nugget() {		return NUGGET	+ groupName; }
+		public String tiny() {			return TINY		+ groupName; }
+		public String ingot() {			return INGOT	+ groupName; }
+		public String dustTiny() {		return DUSTTINY	+ groupName; }
+		public String dust() {			return DUST		+ groupName; }
+		public String gem() {			return GEM		+ groupName; }
+		public String crystal() {		return CRYSTAL	+ groupName; }
+		public String plate() {			return PLATE	+ groupName; }
+		public String billet() {		return BILLET	+ groupName; }
+		public String block() {			return BLOCK	+ groupName; }
+		public String ore() {			return ORE		+ groupName; }
+	}
+	
+	private static void addReRegistration(String original, String additional) {
+		
+		HashSet<String> strings = reRegistration.get(original);
+		
+		if(strings == null)
+			strings = new HashSet();
+		
+		strings.add(additional);
+		
+		reRegistration.put(original, strings);
+	}
 }

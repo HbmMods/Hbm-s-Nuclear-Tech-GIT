@@ -308,7 +308,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 		
@@ -317,7 +317,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFillForTransfer(int i, FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if (type.name().equals(tanks[1].getTankType().name()))
@@ -327,22 +327,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 		
 		if(index == 2)
 			plasma.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		list.add(plasma);
-		
-		return list;
 	}
 
 	@Override
@@ -388,7 +378,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		if (type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))

@@ -117,7 +117,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFillForTransfer(int i, FluidType type) {
 		
 		if(type == feed.getTankType())
 			feed.setFill(i);
@@ -137,7 +137,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		
 		if(type == feed.getTankType())
 			return feed.getMaxFill();
@@ -148,7 +148,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 
 		if(index == 0)
 			feed.setFill(fill);
@@ -157,21 +157,12 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 
 		if(index == 0)
 			feed.setTankType(type);
 		else if(index == 1)
 			steam.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(feed);
-		list.add(steam);
-		
-		return list;
 	}
 	
 	@Override

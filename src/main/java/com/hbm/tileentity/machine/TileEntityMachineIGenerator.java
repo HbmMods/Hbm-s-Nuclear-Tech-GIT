@@ -211,12 +211,12 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		
 		if(type == Fluids.WATER)
 			tanks[0].setFill(fill);
@@ -227,13 +227,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return Arrays.asList(tanks);
 	}
 
 	@Override
@@ -247,7 +242,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		
 		for(int i = 0; i < 3; i++)
 			if(tanks[i].getTankType() == type)

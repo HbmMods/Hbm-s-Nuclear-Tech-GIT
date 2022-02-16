@@ -376,4 +376,28 @@ public class InventoryUtil {
 		
 		return new ItemStack[0][0];
 	}
+	
+	public static boolean doesArrayHaveIngredients(ItemStack[] array, int start, int end, AStack[] ingredients) {
+		ItemStack[] copy = ItemStackUtil.carefulCopyArrayTruncate(array, start, end);
+		
+		AStack[] req = new AStack[ingredients.length];
+		
+		for(int i = 0; i < req.length; i++) {
+			req[i] = ingredients[i] == null ? null : ingredients[i].copy();
+		}
+		
+		for(AStack ingredient : req) {
+			for(ItemStack input : copy) {
+				if(ingredient.matchesRecipe(input, true)) {
+					int size = Math.min(input.stackSize, ingredient.stacksize);
+					
+					//TODO: yada yada yada
+				}
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
 }

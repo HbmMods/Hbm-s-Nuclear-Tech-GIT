@@ -14,6 +14,56 @@ public class ItemStackUtil {
 		else
 			return stack.copy();
 	}
+	
+	/**
+	 * Runs carefulCopy over the entire ItemStack array.
+	 * @param array
+	 * @return
+	 */
+	public static ItemStack[] carefulCopyArray(ItemStack[] array) {
+		return carefulCopyArray(array, 0, array.length - 1);
+	}
+	
+	/**
+	 * Recreates the ItemStack array and only runs carefulCopy over the supplied range. All other fields remain null.
+	 * @param array
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static ItemStack[] carefulCopyArray(ItemStack[] array, int start, int end) {
+		if(array == null)
+			return null;
+		
+		ItemStack[] copy = new ItemStack[array.length];
+		
+		for(int i = start; i <= end; i++) {
+			copy[i] = carefulCopy(array[i]);
+		}
+		
+		return copy;
+	}
+	
+	/**
+	 * Creates a new array that only contains the copied range.
+	 * @param array
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static ItemStack[] carefulCopyArrayTruncate(ItemStack[] array, int start, int end) {
+		if(array == null)
+			return null;
+		
+		int length = end - start + 1;
+		ItemStack[] copy = new ItemStack[length];
+		
+		for(int i = 0; i < length; i++) {
+			copy[i] = carefulCopy(array[start + i]);
+		}
+		
+		return copy;
+	}
 
 	/**
 	 * UNSAFE! Will ignore all existing display tags and override them! In its current state, only fit for items we know don't have any display tags!

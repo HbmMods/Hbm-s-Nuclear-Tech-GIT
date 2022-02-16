@@ -63,23 +63,18 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index == 0) water.setFill(fill);
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		if(type == Fluids.WATER) water.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index == 0) water.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return Arrays.asList(new FluidTank[] {water});
 	}
 
 	@Override
@@ -89,7 +84,7 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		if(type == Fluids.WATER) return water.getMaxFill();
 		return 0;
 	}

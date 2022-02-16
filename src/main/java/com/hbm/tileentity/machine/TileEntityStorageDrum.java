@@ -259,7 +259,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFillForTransfer(int i, FluidType type) {
 		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
 		else if(type == tanks[1].getTankType())
@@ -285,24 +285,15 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-
-		return list;
 	}
 	
 	@Override
