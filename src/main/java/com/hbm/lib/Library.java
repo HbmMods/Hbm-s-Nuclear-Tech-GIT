@@ -619,7 +619,7 @@ public class Library {
 		}
 		
 		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFillForReceive(type) > 0 &&
-				((IFluidAcceptor)tileentity).getMaxFillForReceive(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0) {
+				((IFluidAcceptor)tileentity).getMaxFillForReceive(type) - ((IFluidAcceptor)tileentity).getMaxFillForReceive(type) > 0) {
 			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		
@@ -628,18 +628,18 @@ public class Library {
 			int size = that.getFluidList(type).size();
 			if(size > 0)
 			{
-				int part = that.getFluidFill(type) / size;
+				int part = that.getFluidFillOutgoing(type) / size;
 				for(IFluidAcceptor consume : that.getFluidList(type))
 				{
-					if(consume.getFluidFill(type) < consume.getMaxFillForReceive(type))
+					if(consume.getFluidFillIncoming(type) < consume.getMaxFillForReceive(type))
 					{
-						if(consume.getMaxFillForReceive(type) - consume.getFluidFill(type) >= part)
+						if(consume.getMaxFillForReceive(type) - consume.getFluidFillIncoming(type) >= part)
 						{
-							that.setFillForTransfer(that.getFluidFill(type) - part, type);
-							consume.setFillForTransfer(consume.getFluidFill(type) + part, type);
+							that.setFillForTransferOutgoing(that.getFluidFillOutgoing(type) - part, type);
+							consume.setFillForTransferIncoming(consume.getFluidFillIncoming(type) + part, type);
 						} else {
-							that.setFillForTransfer(that.getFluidFill(type) - (consume.getMaxFillForReceive(type) - consume.getFluidFill(type)), type);
-							consume.setFillForTransfer(consume.getMaxFillForReceive(type), type);
+							that.setFillForTransferOutgoing(that.getFluidFillOutgoing(type) - (consume.getMaxFillForReceive(type) - consume.getFluidFillIncoming(type)), type);
+							consume.setFillForTransferIncoming(consume.getMaxFillForReceive(type), type);
 						}
 					}
 				}

@@ -37,6 +37,10 @@ public class InventoryUtil {
 			return rem;
 	}
 	
+	public static ItemStack tryAddItemToInventory(ItemStack[] inv, ItemStack stack) {
+		return tryAddItemToInventory(inv, 0, inv.length - 1, stack);
+	}
+	
 	/**
 	 * Functionally equal to tryAddItemToInventory, but will not try to create new stacks in empty slots
 	 * @param inv
@@ -156,6 +160,32 @@ public class InventoryUtil {
 		return false;
 	}
 	
+	public static boolean tryConsumeAStack(ItemStack[] inv, int start, int end, AStack stack) {
+		
+		if(stack == null)
+			return true;
+		
+		AStack copy = stack.copy();
+		
+		for(int i = start; i <= end; i++) {
+			ItemStack in = inv[i];
+			
+			if(stack.matchesRecipe(in, true)) {
+				int size = Math.min(copy.stacksize, in.stackSize);
+				
+				in.stackSize -= size;
+				copy.stacksize -= size;
+				
+				if(in.stackSize == 0)
+					inv[i] = null;
+				if(copy.stacksize == 0)
+					return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Compares item, metadata and NBT data of two stacks. Also handles null values!
 	 * @param stack1
@@ -164,29 +194,14 @@ public class InventoryUtil {
 	 */
 	public static boolean doesStackDataMatch(ItemStack stack1, ItemStack stack2) {
 		
-		if(stack1 == null && stack2 == null)
-			return true;
-		
-		if(stack1 == null && stack2 != null)
-			return false;
-		
-		if(stack1 != null && stack2 == null)
-			return false;
-		
-		if(stack1.getItem() != stack2.getItem())
-			return false;
-		
-		if(stack1.getItemDamage() != stack2.getItemDamage())
-			return false;
-		
-		if(!stack1.hasTagCompound() && !stack2.hasTagCompound())
-			return true;
-		
-		if(stack1.hasTagCompound() && !stack2.hasTagCompound())
-			return false;
-		
-		if(!stack1.hasTagCompound() && stack2.hasTagCompound())
-			return false;
+		if(stack1 == null && stack2 == null) return true;
+		if(stack1 == null && stack2 != null) return false;
+		if(stack1 != null && stack2 == null) return false;
+		if(stack1.getItem() != stack2.getItem()) return false;
+		if(stack1.getItemDamage() != stack2.getItemDamage()) return false;
+		if(!stack1.hasTagCompound() && !stack2.hasTagCompound()) return true;
+		if(stack1.hasTagCompound() && !stack2.hasTagCompound()) return false;
+		if(!stack1.hasTagCompound() && stack2.hasTagCompound()) return false;
 		
 		return stack1.getTagCompound().equals(stack2.getTagCompound());
 	}
@@ -381,21 +396,47 @@ public class InventoryUtil {
 		ItemStack[] copy = ItemStackUtil.carefulCopyArrayTruncate(array, start, end);
 		
 		AStack[] req = new AStack[ingredients.length];
-		
 		for(int i = 0; i < req.length; i++) {
 			req[i] = ingredients[i] == null ? null : ingredients[i].copy();
 		}
 		
 		for(AStack ingredient : req) {
+			
+			if(ingredient == null)
+				continue;
+			
 			for(ItemStack input : copy) {
+				
+				if(input == null)
+					continue;
+				
 				if(ingredient.matchesRecipe(input, true)) {
 					int size = Math.min(input.stackSize, ingredient.stacksize);
 					
-					//TODO: yada yada yada
+					ingredient.stacksize -= size;
+					input.stackSize -= size;
+					
+					if(ingredient.stacksize == 0)
+						break;
 				}
 			}
 			
-			return false;
+			//we have iterated over the entire input array and removed all matching entries, yet the ingredient is still not exhausted, meaning the input wasn't enough
+			if(ingredient.stacksize > 0)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean doesArrayHaveSpace(ItemStack[] array, int start, int end, ItemStack[] items) {
+		ItemStack[] copy = ItemStackUtil.carefulCopyArrayTruncate(array, start, end);
+		
+		for(ItemStack item : items) {
+			ItemStack remainder = tryAddItemToInventory(copy, item);
+			if(remainder != null) {
+				return false;
+			}
 		}
 		
 		return true;

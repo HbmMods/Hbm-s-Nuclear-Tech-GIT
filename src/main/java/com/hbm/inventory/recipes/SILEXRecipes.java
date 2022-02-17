@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.util.WeightedRandomObject;
@@ -532,7 +533,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 1))
 				);
 		
-		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, 0)
+		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, EnumWavelengths.VISIBLE)
 				.addOut(new WeightedRandomObject(new ItemStack(Items.flint), 80))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
@@ -627,13 +628,17 @@ public static class SILEXRecipe {
 		
 		public int fluidProduced;
 		public int fluidConsumed;
-		public int laserStrength;
+		public EnumWavelengths laserStrength;
 		public List<WeightedRandomObject> outputs = new ArrayList();
 		
-		public SILEXRecipe(int fluidProduced, int fluidConsumed, int laserStrength) {
+		public SILEXRecipe(int fluidProduced, int fluidConsumed, EnumWavelengths laserStrength) {
 			this.fluidProduced = fluidProduced;
 			this.fluidConsumed = fluidConsumed;
 			this.laserStrength = laserStrength;
+		}
+		
+		public SILEXRecipe(int fluidProduced, int fluidConsumed, int laserStrength) {
+			this(fluidProduced, fluidConsumed, EnumWavelengths.values()[laserStrength]);
 		}
 		
 		public SILEXRecipe addOut(WeightedRandomObject entry) {

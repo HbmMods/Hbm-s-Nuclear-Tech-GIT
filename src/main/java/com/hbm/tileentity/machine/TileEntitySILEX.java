@@ -185,7 +185,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(recipe == null)
 			return false;
 
-		if(recipe.laserStrength > this.mode.ordinal())
+		if(recipe.laserStrength.ordinal() > this.mode.ordinal())
 			return false;
 
 		if(currentFill < recipe.fluidConsumed)
@@ -194,7 +194,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(slots[4] != null)
 			return false;
 
-		int progressSpeed = (int) Math.pow(2, this.mode.ordinal() - recipe.laserStrength + 1) / 2;
+		int progressSpeed = (int) Math.pow(2, this.mode.ordinal() - recipe.laserStrength.ordinal() + 1) / 2;
 
 		progress += progressSpeed;
 
