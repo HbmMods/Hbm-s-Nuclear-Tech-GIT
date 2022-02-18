@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -13,12 +15,14 @@ import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineChemplantNew extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
 
@@ -63,6 +67,22 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+
+			if(!tanks[0].loadTank(17, 19, slots)) tanks[0].unloadTank(17, 19, slots);
+			if(!tanks[1].loadTank(18, 20, slots)) tanks[1].unloadTank(18, 20, slots);
+			
+			tanks[2].unloadTank(9, 11, slots);
+			tanks[3].unloadTank(10, 12, slots);
+			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				this.fillFluidInit(tanks[2].getTankType());
+				this.fillFluidInit(tanks[3].getTankType());
+			}
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.updateConnections();
+			}
+			
 			UpgradeManager.eval(slots, 1, 3);
 
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
@@ -102,6 +122,17 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].readFromNBT(nbt, "t" + i);
 		}
+	}
+	
+	private void updateConnections() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 3,				yCoord,	zCoord + rot.offsetZ * 3,				rot);
+		this.trySubscribe(worldObj, xCoord - rot.offsetX * 2,				yCoord,	zCoord - rot.offsetZ * 2,				rot.getOpposite());
+		this.trySubscribe(worldObj, xCoord + rot.offsetX * 3 + dir.offsetX,	yCoord,	zCoord + rot.offsetZ * 3 + dir.offsetZ, rot);
+		this.trySubscribe(worldObj, xCoord - rot.offsetX * 2 + dir.offsetX,	yCoord,	zCoord - rot.offsetZ * 2 + dir.offsetZ, rot.getOpposite());
 	}
 	
 	private boolean canProcess() {
@@ -195,79 +226,116 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 
 	@Override
 	public long getPower() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.power;
+	}
+
+	@Override
+	public void setPower(long power) {
+		this.power = power;
 	}
 
 	@Override
 	public long getMaxPower() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.maxPower;
 	}
 
 	@Override
 	public void setFillForSync(int fill, int index) {
-		// TODO Auto-generated method stub
-		
+		if(index >= 0 && index < tanks.length) tanks[index].setFill(fill);
 	}
 
 	@Override
 	public void setFillForTransfer(int fill, FluidType type) {
-		// TODO Auto-generated method stub
 		
+		for(FluidTank tank : tanks) {
+			if(tank.getTankType() == type) {
+				tank.setFill(fill);
+				return;
+			}
+		}
 	}
 
 	@Override
 	public void setTypeForSync(FluidType type, int index) {
-		// TODO Auto-generated method stub
-		
+		if(index >= 0 && index < tanks.length) tanks[index].setTankType(type);
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
+		
+		for(FluidTank tank : tanks) {
+			if(tank.getTankType() == type) {
+				return tank.getFill();
+			}
+		}
+		
 		return 0;
 	}
 
 	@Override
 	public int getMaxFillForReceive(FluidType type) {
-		// TODO Auto-generated method stub
+		
+		for(FluidTank tank : tanks) {
+			if(tank.getTankType() == type) {
+				return tank.getMaxFill();
+			}
+		}
+		
 		return 0;
 	}
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		// TODO Auto-generated method stub
 		
+		/*
+		 *  ####
+		 * X####X
+		 * X##O#X
+		 *  ####
+		 */
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		fillFluid(xCoord + rot.offsetX * 3,					yCoord,	zCoord + rot.offsetZ * 3,				this.getTact(), type);
+		fillFluid(xCoord - rot.offsetX * 2,					yCoord,	zCoord - rot.offsetZ * 2,				this.getTact(), type);
+		fillFluid(xCoord + rot.offsetX * 3 + dir.offsetX,	yCoord,	zCoord + rot.offsetZ * 3 + dir.offsetZ,	this.getTact(), type);
+		fillFluid(xCoord - rot.offsetX * 2 + dir.offsetX,	yCoord,	zCoord - rot.offsetZ * 2 + dir.offsetZ,	this.getTact(), type);
 	}
 
 	@Override
 	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		// TODO Auto-generated method stub
-		
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
 	public boolean getTact() {
-		// TODO Auto-generated method stub
-		return false;
+		return worldObj.getTotalWorldTime() % 20 < 10;
 	}
+	
+	List<IFluidAcceptor>[] lists = new List[] {
+		new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList()
+	};
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		for(int i = 0; i < tanks.length; i++) {
+			if(tanks[i].getTankType() == type) {
+				return lists[i];
+			}
+		}
+		
+		return new ArrayList();
 	}
 
 	@Override
 	public void clearFluidList(FluidType type) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void setPower(long power) {
-		// TODO Auto-generated method stub
-		
+		for(int i = 0; i < tanks.length; i++) {
+			if(tanks[i].getTankType() == type) {
+				lists[i].clear();
+			}
+		}
 	}
 }
