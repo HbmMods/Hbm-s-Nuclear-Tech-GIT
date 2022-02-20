@@ -1,7 +1,6 @@
-package com.hbm.tileentity.machine;
+package com.hbm.tileentity.machine.storage;
 
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
@@ -20,18 +19,15 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	@Override
 	public void updateEntity() {
 		
-		this.maxPower = Long.MAX_VALUE;
-		
 		if(!worldObj.isRemote) {
 			
 			this.transmitPower();
 			
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
+			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setLong("power", power);
-			nbt.setLong("maxPower", maxPower);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
 			this.networkPack(nbt, 250);
@@ -94,9 +90,14 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	@Override
 	public long getPowerRemainingScaled(long i) {
 		
-		double powerScaled = (double)power / (double)maxPower;
+		double powerScaled = (double)power / (double)getMaxPower();
 		
 		return (long)(i * powerScaled);
+	}
+
+	@Override
+	public long getMaxPower() {
+		return Long.MAX_VALUE;
 	}
 	
 	public float getSpeed() {

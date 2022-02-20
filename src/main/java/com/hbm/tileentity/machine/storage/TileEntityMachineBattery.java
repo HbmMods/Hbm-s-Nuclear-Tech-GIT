@@ -18,12 +18,15 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	
 	public long[] log = new long[20];
 	public long power = 0;
-	public long maxPower = 1000000;
 	
 	//0: input only
 	//1: buffer
 	//2: output only
 	//3: nothing
+	public static final int mode_input = 0;
+	public static final int mode_buffer = 1;
+	public static final int mode_output = 2;
+	public static final int mode_none = 3;
 	public short redLow = 0;
 	public short redHigh = 2;
 	
@@ -38,12 +41,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public TileEntityMachineBattery() {
 		super(2);
 		slots = new ItemStack[2];
-	}
-	
-	public TileEntityMachineBattery(long maxPower) {
-		super(2);
-		slots = new ItemStack[2];
-		this.maxPower = maxPower;
 	}
 
 	@Override
@@ -146,7 +143,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 
 	public long getPowerRemainingScaled(long i) {
-		return (power * i) / maxPower;
+		return (power * i) / this.getMaxPower();
 	}
 	
 	@Override
@@ -154,20 +151,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
 			
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
-			
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
-			
 			long prevPower = this.power;
 			
 			//////////////////////////////////////////////////////////////////////
 			this.transmitPower();
 			//////////////////////////////////////////////////////////////////////
 			
+			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
+			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
+			
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setLong("power", (power + prevPower) / 2);
-			nbt.setLong("maxPower", maxPower);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
 			this.networkPack(nbt, 20);
@@ -200,7 +194,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 			
 			//then we add energy
-			if(mode == 1 || mode == 2) {
+			if(mode == mode_buffer || mode == mode_output) {
 				if(te instanceof IEnergyConnector) {
 					IEnergyConnector con = (IEnergyConnector) te;
 					long oldPower = this.power;
@@ -214,7 +208,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				IEnergyConductor con = (IEnergyConductor) te;
 				
 				if(con.getPowerNet() != null) {
-					if(mode == 2 || mode == 3) {
+					if(mode == mode_output || mode == mode_none) {
 						if(con.getPowerNet().isSubscribed(this)) {
 							con.getPowerNet().unsubscribe(this);
 						}
@@ -230,7 +224,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void networkUnpack(NBTTagCompound nbt) { 
 
 		this.power = nbt.getLong("power");
-		this.maxPower = nbt.getLong("maxPower");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
 	}
@@ -248,14 +241,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			return this.redLow;
 		}
 	}
+	
+	private long bufferedMax;
 
 	@Override
 	public long getMaxPower() {
 		
-		if(!worldObj.isRemote && getRelevantMode() >= 2)
-			return this.getPower();
+		if(bufferedMax == 0) {
+			bufferedMax = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
+		}
 		
-		return maxPower;
+		return bufferedMax;
 	}
 	
 	/*
@@ -263,6 +259,12 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	 */
 	@Override
 	public long transferPower(long power) {
+
+		int mode =this.getRelevantMode();
+		
+		if(mode == mode_output || mode == mode_none) {
+			return power;
+		}
 		
 		this.power += power;
 		
@@ -274,6 +276,18 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	public long getTransferWeight() {
+
+		int mode =this.getRelevantMode();
+		
+		if(mode == mode_output || mode == mode_none) {
+			return 0;
+		}
+		
+		return Math.max(getMaxPower() - getPower(), 0);
 	}
 
 	@Override

@@ -944,6 +944,7 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
+		ChemplantRecipes.register();
 		CyclotronRecipes.register();
 		HadronRecipes.register();
 		MagicRecipes.register();

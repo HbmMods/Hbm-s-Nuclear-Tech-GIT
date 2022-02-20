@@ -10,11 +10,12 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.ChemplantRecipes;
+import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemStamp;
-import com.hbm.items.machine.ItemChemistryTemplate.EnumChemistryTemplate;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
@@ -80,11 +81,9 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				}
 			}
 			// Chemistry Templates
-			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++) {
-				EnumChemistryTemplate chem = EnumChemistryTemplate.getEnum(i);
-				if(!chem.isDisabled()) {
-					allStacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
-				}
+			for(int i = 0; i < ChemplantRecipes.recipes.size(); i++) {
+				ChemRecipe chem = ChemplantRecipes.recipes.get(i);
+				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, chem.getId()));
 			}
 		} else {
 

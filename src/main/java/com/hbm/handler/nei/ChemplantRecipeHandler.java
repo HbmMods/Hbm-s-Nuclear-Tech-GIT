@@ -17,6 +17,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
+//TODO: destroy this abomination and replace it with something more sensible
 public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 	
     public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
@@ -94,7 +95,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 	
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
+		/*if ((outputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
 			Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet(
@@ -114,12 +115,12 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
-		}
+		}*/
 	}
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
+		/*Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(result, (ItemStack)recipe.getValue()[0]) || 
 					compareFluidStacks(result, (ItemStack)recipe.getValue()[1]) || 
@@ -141,7 +142,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 						(ItemStack)recipe.getValue()[4],
 						(ItemStack)recipe.getValue()[5],
 						(ItemStack)recipe.getKey()[6]));
-		}
+		}*/
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
+		/*Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[0]) || 
 					compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[1]) || 
@@ -178,7 +179,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 						(ItemStack)recipe.getValue()[4],
 						(ItemStack)recipe.getValue()[5],
 						(ItemStack)recipe.getKey()[6]));			
-		}
+		}*/
 	}
 	
 	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {

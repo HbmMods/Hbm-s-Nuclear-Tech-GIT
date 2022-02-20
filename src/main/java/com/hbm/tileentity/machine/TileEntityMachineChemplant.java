@@ -44,6 +44,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
+@Deprecated //shut up and die please
 public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
@@ -300,7 +301,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 
-			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
+			/*FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
 			FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
 			
 			if((MachineRecipes.getChemInputFromTempate(slots[4]) != null || !Library.isArrayEmpty(inputs)) && 
@@ -436,7 +437,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(xCoord + 1.625, yCoord + 3, zCoord + 0.375, 1),
 							new TargetPoint(worldObj.provider.dimensionId, xCoord + 1.625, yCoord + 3, zCoord + 0.375, 50));
 				}
-			}
+			}*/
 			
 			PacketDispatcher.wrapper.sendToAllAround(new TEChemplantPacket(xCoord, yCoord, zCoord, isProgressing), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -540,7 +541,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	
 	private void setContainers() {
 		
-		if(slots[4] == null || (slots[4] != null && !(slots[4].getItem() instanceof ItemChemistryTemplate))) {
+		/*if(slots[4] == null || (slots[4] != null && !(slots[4].getItem() instanceof ItemChemistryTemplate))) {
 		} else {
 			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
 			FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
@@ -549,7 +550,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[1].setTankType(inputs[1] == null ? Fluids.NONE : inputs[1].type);
 			tanks[2].setTankType(outputs[0] == null ? Fluids.NONE : outputs[0].type);
 			tanks[3].setTankType(outputs[1] == null ? Fluids.NONE : outputs[1].type);
-		}
+		}*/
 	}
 	
 	public boolean hasFluidsStored(FluidStack[] fluids) {
@@ -724,7 +725,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	//Loads assembler's input queue from chests
 	public boolean tryFillAssembler(IInventory inventory, int slot) {
 
-		FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
+		/*FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
 		FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
 		
 		if(!((MachineRecipes.getChemInputFromTempate(slots[4]) != null || !Library.isArrayEmpty(inputs)) && 
@@ -754,7 +755,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			if(!flag)
 				return false;
 			
-		}
+		}*/
 		
 		for(int i = 13; i < 17; i++) {
 			

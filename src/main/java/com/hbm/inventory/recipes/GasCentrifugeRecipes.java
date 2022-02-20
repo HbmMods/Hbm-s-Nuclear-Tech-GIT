@@ -1,18 +1,14 @@
 package com.hbm.inventory.recipes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
-import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.ItemStack;
 

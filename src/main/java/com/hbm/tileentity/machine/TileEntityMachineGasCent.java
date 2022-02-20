@@ -1,9 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -11,14 +7,10 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -27,12 +19,8 @@ import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -330,23 +318,26 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
 			
 			if(tank.getTankType() != newType) {
-				tank.setTankType(newType);
-				tank.setFill(0);
+				
+				boolean success = false;
 				
 				if(newType == Fluids.UF6) {
 					inputTank.setTankType(PseudoFluidType.NUF6);
 					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
-					return;
-				}
-				if(newType == Fluids.PUF6) {
+					success = true;
+				} else if(newType == Fluids.PUF6) {
 					inputTank.setTankType(PseudoFluidType.PF6);
 					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
-					return;
-				}
-				if(newType == Fluids.WATZ) {
+					success = true;
+				} else if(newType == Fluids.WATZ) {
 					inputTank.setTankType(PseudoFluidType.MUD);
 					outputTank.setTankType(PseudoFluidType.MUD.getOutputFluid());
-					return;
+					success = true;
+				}
+				
+				if(success) {
+					tank.setTankType(newType);
+					tank.setFill(0);
 				}
 			}
 			return;

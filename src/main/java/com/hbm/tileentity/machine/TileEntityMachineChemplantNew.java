@@ -30,6 +30,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	public static final long maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
+	public boolean isProgressing;
 	
 	public FluidTank[] tanks;
 	
@@ -67,6 +68,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
+			this.isProgressing = false;
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			if(!tanks[0].loadTank(17, 19, slots)) tanks[0].unloadTank(17, 19, slots);
@@ -99,6 +101,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			if(!canProcess()) {
 				this.progress = 0;
 			} else {
+				isProgressing = true;
 				process();
 			}
 			
@@ -106,10 +109,13 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
 			data.setInteger("maxProgress", this.maxProgress);
+			data.setBoolean("isProgressing", isProgressing);
 			
 			for(int i = 0; i < tanks.length; i++) {
 				tanks[i].writeToNBT(data, "t" + i);
 			}
+			
+			this.networkPack(data, 150);
 		}
 	}
 
@@ -118,6 +124,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.maxProgress = nbt.getInteger("maxProgress");
+		this.isProgressing = nbt.getBoolean("isProgressing");
 
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].readFromNBT(nbt, "t" + i);
