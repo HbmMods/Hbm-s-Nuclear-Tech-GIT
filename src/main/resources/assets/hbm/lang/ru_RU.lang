@@ -847,6 +847,8 @@ hbmfluid.naphtha_crack=Крекированная нафта
 hbmfluid.unsaturateds=Непредельные углеводороды
 hbmfluid.salient=Зелёный сойлент
 hbmfluid.coalgas=Угольный газ
+hbmfluid.enderjuice=Эндер-сок
+hbmfluid.xpjuice=Жидкий опыт
 
 //Special for 1.12.2 version//
 fluid.hbmsteam=Пар
@@ -1018,6 +1020,7 @@ chem.HELIUM3=Извлечение гелия-3 из лунного грунта
 chem.HEAVY_ELECTROLYSIS=Электролиз тяжёлой воды
 chem.ETHANOL=Производство этанола
 chem.CO2=Получение CO2 путём сжигания природного газа
+chem.EPEARL=Синтез жемчужин Эндера
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
