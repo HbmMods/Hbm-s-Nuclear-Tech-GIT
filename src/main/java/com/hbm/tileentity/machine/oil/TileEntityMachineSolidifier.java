@@ -186,7 +186,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(fill);
 	}
@@ -202,7 +202,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		return tank.getTankType() == type ? tank.getMaxFill() : 0;
 	}
 	

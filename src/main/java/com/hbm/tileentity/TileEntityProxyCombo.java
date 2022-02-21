@@ -52,13 +52,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		
 		if(!fluid)
 			return;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setFillForTransfer(fill, type);
+			((IFluidAcceptor)getTile()).setFluidFill(fill, type);
 		}
 	}
 
@@ -87,13 +87,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		
 		if(!fluid)
 			return 0;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFillForReceive(type);
+			return ((IFluidAcceptor)getTile()).getMaxFluidFill(type);
 		}
 		
 		return 0;

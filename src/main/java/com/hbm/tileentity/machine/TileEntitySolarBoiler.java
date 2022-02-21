@@ -75,7 +75,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == Fluids.WATER)
 			water.setFill(fill);
 		if(type == Fluids.STEAM)
@@ -117,7 +117,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == Fluids.WATER)
 			return water.getMaxFill();
 		if(type == Fluids.STEAM)

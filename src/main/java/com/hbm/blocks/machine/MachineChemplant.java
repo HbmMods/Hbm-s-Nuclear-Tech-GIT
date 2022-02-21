@@ -43,11 +43,14 @@ public class MachineChemplant extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		x -= dir.offsetX;
+		z -= dir.offsetZ;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
 		this.makeExtra(world, x + rot.offsetX * 2,					y,	z + rot.offsetZ * 2);
 		this.makeExtra(world, x - rot.offsetX * 1,					y,	z - rot.offsetZ * 1);
-		this.makeExtra(world, x + rot.offsetX * 2 + dir.offsetX,	y,	z + rot.offsetZ * 2 + dir.offsetZ);
-		this.makeExtra(world, x - rot.offsetX * 1 + dir.offsetX,	y,	z - rot.offsetZ * 1 + dir.offsetZ);
+		this.makeExtra(world, x + rot.offsetX * 2 - dir.offsetX,	y,	z + rot.offsetZ * 2 - dir.offsetZ);
+		this.makeExtra(world, x - rot.offsetX * 1 - dir.offsetX,	y,	z - rot.offsetZ * 1 - dir.offsetZ);
 	}
 }

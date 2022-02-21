@@ -336,7 +336,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
@@ -346,7 +346,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(i);
 	}

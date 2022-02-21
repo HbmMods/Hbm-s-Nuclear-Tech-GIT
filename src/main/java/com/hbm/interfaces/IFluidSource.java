@@ -13,16 +13,4 @@ public interface IFluidSource extends IFluidContainer {
 	boolean getTact();
 	List<IFluidAcceptor> getFluidList(FluidType type);
 	void clearFluidList(FluidType type);
-
-	/*
-	 * Behavior for overriding when a fluid container has matching types as in and outputs
-	 * Only a temporary fix until the fluid system is rewritten
-	 */
-	default void setFillForTransferOutgoing(int fill, FluidType type) {
-		this.setFillForTransfer(fill, type);
-	}
-	default int getFluidFillOutgoing(FluidType type) {
-		return this.getFluidFill(type);
-	}
-
 }

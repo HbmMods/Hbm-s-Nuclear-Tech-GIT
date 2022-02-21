@@ -28,6 +28,7 @@ import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
@@ -533,6 +534,8 @@ public class ModEventHandler {
 	public void onLoad(WorldEvent.Load event) {
 		DimensionManager.unregisterProviderType(0);
 		DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
+		
+		BobmazonOfferFactory.init();
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)

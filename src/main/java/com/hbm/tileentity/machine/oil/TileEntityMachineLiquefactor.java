@@ -175,7 +175,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(fill);
 	}

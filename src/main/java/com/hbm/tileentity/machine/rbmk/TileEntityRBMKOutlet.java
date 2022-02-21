@@ -74,7 +74,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		steam.setFill(fill);
 	}
 

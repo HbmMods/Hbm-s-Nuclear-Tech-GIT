@@ -730,7 +730,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 	
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		tank.setFill(i);
 	}
 	

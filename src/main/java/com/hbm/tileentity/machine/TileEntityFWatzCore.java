@@ -398,7 +398,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
 		else if(type.name().equals(tanks[2].getTankType().name()))
@@ -416,7 +416,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))

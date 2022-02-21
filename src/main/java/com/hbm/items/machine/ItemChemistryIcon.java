@@ -59,8 +59,6 @@ public class ItemChemistryIcon extends Item {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int i) {
-		int j = MathHelper.clamp_int(i, 0, icons.length - 1);
-		return this.icons[j];
+		return this.icons[ChemplantRecipes.indexMapping.get(i).listing];
 	}
-
 }
