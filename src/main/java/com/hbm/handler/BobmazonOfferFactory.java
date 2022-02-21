@@ -10,6 +10,7 @@ import com.hbm.inventory.gui.GUIScreenBobmazon.Requirement;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemKitCustom;
+import com.hbm.items.special.ItemKitNBT;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -238,22 +239,45 @@ public class BobmazonOfferFactory {
 				new ItemStack(Items.paper, 64),
 				new ItemStack(Items.dye, 64)
 				), Requirement.HIDDEN, 64));
+		
+		special.add(new Offer(ItemKitCustom.create("Maid's Cleaning Utensils", "For the heard to reach spots", 0x00ff00, 0x008000,
+				new ItemStack(ModItems.gun_calamity),
+				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),
+				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),
+				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),
+				new ItemStack(ModItems.ammo_50bmg_star, 64),
+				new ItemStack(ModItems.ammo_50bmg_star, 64),
+				new ItemStack(ModItems.gun_supershotgun),
+				new ItemStack(ModItems.ammo_12gauge_du, 64),
+				new ItemStack(ModItems.ammo_12gauge_du, 64),
+				new ItemStack(ModItems.ammo_12gauge_shrapnel, 64),
+				new ItemStack(ModItems.ammo_12gauge_shrapnel, 64),
+				new ItemStack(ModItems.ammo_12gauge_marauder, 4),
+				new ItemStack(ModItems.gun_sauer),
+				new ItemStack(ModItems.ammo_4gauge, 64),
+				new ItemStack(ModItems.ammo_4gauge_claw, 64),
+				new ItemStack(ModItems.ammo_4gauge_kampf, 64),
+				new ItemStack(ModItems.ammo_4gauge_flechette, 64),
+				new ItemStack(ModItems.ammo_4gauge_void, 64)
+				), Requirement.HIDDEN, 64));
+		
+		special.add(new Offer(ItemKitNBT.create(
+				new ItemStack(ModItems.rod_of_discord).setStackDisplayName("Cock Joke"),
+				new ItemStack(ModItems.canned_jizz, 64).setStackDisplayName("Class A Horse Semen"),
+				new ItemStack(ModItems.pipe_lead).setStackDisplayName("Get Nutted, Dumbass"),
+				new ItemStack(ModItems.gem_alexandrite)
+				).setStackDisplayName("The Nut Bucket"), Requirement.HIDDEN, 64));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {
 		
 		if(stack != null) {
 
-			if(stack.getItem() == ModItems.bobmazon_materials)
-				return materials;
-			if(stack.getItem() == ModItems.bobmazon_machines)
-				return machines;
-			if(stack.getItem() == ModItems.bobmazon_weapons)
-				return weapons;
-			if(stack.getItem() == ModItems.bobmazon_tools)
-				return tools;
-			if(stack.getItem() == ModItems.bobmazon_hidden)
-				return special;
+			if(stack.getItem() == ModItems.bobmazon_materials) return materials;
+			if(stack.getItem() == ModItems.bobmazon_machines) return machines;
+			if(stack.getItem() == ModItems.bobmazon_weapons) return weapons;
+			if(stack.getItem() == ModItems.bobmazon_tools) return tools;
+			if(stack.getItem() == ModItems.bobmazon_hidden) return special;
 		}
 		
 		return null;

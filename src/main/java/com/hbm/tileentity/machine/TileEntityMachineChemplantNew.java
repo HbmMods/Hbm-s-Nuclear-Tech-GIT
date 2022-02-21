@@ -20,8 +20,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineChemplantNew extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
@@ -76,6 +78,9 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			
 			tanks[2].unloadTank(9, 11, slots);
 			tanks[3].unloadTank(10, 12, slots);
+			
+			loadItems();
+			unloadItems();
 			
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				this.fillFluidInit(tanks[2].getTankType());
@@ -228,6 +233,102 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		
 		for(ItemStack out : recipe.outputs) {
 			InventoryUtil.tryAddItemToInventory(slots, 5, 8, out);
+		}
+	}
+	
+	//TODO: move this into a util class
+	private void loadItems() {
+		
+		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[4].getItemDamage());
+		
+		if(recipe != null) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+
+			int x = xCoord - dir.offsetX * 2;
+			int z = zCoord - dir.offsetZ * 2;
+			
+			TileEntity te = worldObj.getTileEntity(x, yCoord, z);
+			
+			if(te instanceof IInventory) {
+				
+				IInventory inv = (IInventory) te;
+				
+				for(AStack ingredient : recipe.inputs) {
+					
+					if(!InventoryUtil.doesArrayHaveIngredients(slots, 13, 16, ingredient)) {
+						
+						for(int i = 0; i < inv.getSizeInventory(); i++) {
+							
+							ItemStack stack = inv.getStackInSlot(i);
+							if(ingredient.matchesRecipe(stack, true)) {
+								
+								for(int j = 13; j <= 16; j++) {
+									
+									if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
+										inv.decrStackSize(i, 1);
+										slots[j].stackSize++;
+										return;
+									}
+								}
+								
+								for(int j = 13; j <= 16; j++) {
+									
+									if(slots[j] == null) {
+										slots[j] = stack.copy();
+										slots[j].stackSize = 1;
+										inv.decrStackSize(i, 1);
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void unloadItems() {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+
+		int x = xCoord - dir.offsetX * 2;
+		int z = zCoord - dir.offsetZ * 2;
+		
+		TileEntity te = worldObj.getTileEntity(x, yCoord, z);
+		
+		if(te instanceof IInventory) {
+			
+			IInventory inv = (IInventory) te;
+			
+			for(int i = 5; i <= 8; i++) {
+				
+				ItemStack out = slots[i];
+				
+				if(out != null) {
+					
+					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						ItemStack target = inv.getStackInSlot(i);
+						
+						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
+							this.decrStackSize(i, 1);
+							target.stackSize++;
+							return;
+						}
+					}
+					
+					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						
+						if(inv.getStackInSlot(j) == null) {
+							inv.setInventorySlotContents(j, out.copy());
+							inv.getStackInSlot(j).stackSize = 1;
+							this.decrStackSize(i, 1);
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 

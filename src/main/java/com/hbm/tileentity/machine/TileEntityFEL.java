@@ -6,20 +6,19 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineSILEX;
-import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -95,8 +94,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 					case VISIBLE: entity.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 60 * 65536, 0));
 					case IR:
 					case UV: entity.setFire(10); break;
-					case GAMMA: HbmLivingProps.incrementRadiation(entity, 25); break;
-					case DRX: HbmLivingProps.incrementDigamma(entity, 0.1F); break;
+					case GAMMA: ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 25); break;
+					case DRX: ContaminationUtil.applyDigammaData(entity, 0.1F); break;
 					}
 				}
 				
@@ -166,8 +165,6 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 			data.setBoolean("valid", missingValidSilex);
 			data.setInteger("distance", distance);
 			this.networkPack(data, 250);
-			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	

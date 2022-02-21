@@ -392,7 +392,7 @@ public class InventoryUtil {
 		return new ItemStack[0][0];
 	}
 	
-	public static boolean doesArrayHaveIngredients(ItemStack[] array, int start, int end, AStack[] ingredients) {
+	public static boolean doesArrayHaveIngredients(ItemStack[] array, int start, int end, AStack... ingredients) {
 		ItemStack[] copy = ItemStackUtil.carefulCopyArrayTruncate(array, start, end);
 		
 		AStack[] req = new AStack[ingredients.length];
