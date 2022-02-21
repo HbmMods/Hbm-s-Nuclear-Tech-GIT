@@ -2,11 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.interfaces.Spaghetti;
-import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.ChemplantRecipes;
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
@@ -72,13 +68,13 @@ public class ItemChemistryTemplate extends Item {
 		try {
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
 			for(int i = 0; i < 4; i++) {
-				if(recipe.outputs.length > i && recipe.outputs[i] != null) {
+				if(recipe.outputs[i] != null) {
 					list.add(recipe.outputs[i].stackSize + "x " + recipe.outputs[i].getDisplayName());
 				}
 			}
 
 			for(int i = 0; i < 2; i++) {
-				if(recipe.outputFluids.length > i && recipe.outputFluids[i] != null) {
+				if(recipe.outputFluids[i] != null) {
 					list.add(recipe.outputFluids[i].fill + "mB " + I18n.format(recipe.outputFluids[i].type.getUnlocalizedName()));
 				}
 			}
@@ -86,13 +82,13 @@ public class ItemChemistryTemplate extends Item {
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 
 			for(int i = 0; i < recipe.inputs.length; i++) {
-				if(recipe.inputs.length > i && recipe.inputs[i] != null) {
+				if(recipe.inputs[i] != null) {
 					list.add(recipe.inputs[i].stacksize + "x " + recipe.inputs[i].extractForCyclingDisplay(20).getDisplayName());
 				}
 			}
 
 			for(int i = 0; i < 2; i++) {
-				if(recipe.inputFluids.length > i && recipe.inputFluids[i] != null) {
+				if(recipe.inputFluids[i] != null) {
 					list.add(recipe.inputFluids[i].fill + "mB " + I18n.format(recipe.inputFluids[i].type.getUnlocalizedName()));
 				}
 			}
@@ -104,5 +100,4 @@ public class ItemChemistryTemplate extends Item {
 			list.add("0x334077-0x6A298F-0xDF3795-0x334077");
 		}
 	}
-
 }

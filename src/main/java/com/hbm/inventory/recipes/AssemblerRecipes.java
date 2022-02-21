@@ -859,6 +859,14 @@ public class AssemblerRecipes {
 					new ComparableStack(ModItems.crt_display, 8),
 				}, 300);
 			
+			makeRecipe(new ComparableStack(ModBlocks.rbmk_crane_console, 1), new AStack[] {
+					new OreDictStack(STEEL.ingot(), 16),
+					new OreDictStack(AL.plate(), 8),
+					new ComparableStack(ModItems.plate_polymer, 4),
+					new ComparableStack(ModItems.circuit_gold, 1),
+					new ComparableStack(ModItems.circuit_tantalium, 10),
+				}, 300);
+			
 			makeRecipe(new ComparableStack(ModBlocks.hadron_core, 1), new AStack[] {
 					new ComparableStack(ModBlocks.hadron_coil_alloy, 24),
 					new OreDictStack(STEEL.ingot(), 8),
