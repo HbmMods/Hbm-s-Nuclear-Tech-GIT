@@ -433,7 +433,11 @@ public class InventoryUtil {
 		ItemStack[] copy = ItemStackUtil.carefulCopyArrayTruncate(array, start, end);
 		
 		for(ItemStack item : items) {
-			ItemStack remainder = tryAddItemToInventory(copy, item);
+			
+			if(item == null)
+				continue;
+			
+			ItemStack remainder = tryAddItemToInventory(copy, item.copy());
 			if(remainder != null) {
 				return false;
 			}

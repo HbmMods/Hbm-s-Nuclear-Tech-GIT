@@ -407,14 +407,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		return false;
 	}
 
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == Fluids.SUPERHOTSTEAM) return steam.getMaxFill();
 		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getMaxFill();
 		if(type == Fluids.WATER) return water.getMaxFill();
 		return 0;
 	}
 
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type == Fluids.SUPERHOTSTEAM) steam.setFill(i);
 		if(type == Fluids.CARBONDIOXIDE) carbonDioxide.setFill(i);
 		if(type == Fluids.WATER) water.setFill(i);

@@ -496,17 +496,17 @@ public class Library {
 		
 		if(tileentity instanceof IFluidDuct)
 		{
-			if(tileentity instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple)tileentity).getType() == type)
+			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).getType().name().equals(type.name()))
 			{
-				if(Library.checkUnionListForFluids(((TileEntityFluidDuctSimple)tileentity).uoteab, that))
+				if(Library.checkUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
 				{
-					for(int i = 0; i < ((TileEntityFluidDuctSimple)tileentity).uoteab.size(); i++)
+					for(int i = 0; i < ((TileEntityFluidDuct)tileentity).uoteab.size(); i++)
 					{
-						if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).source == that)
+						if(((TileEntityFluidDuct)tileentity).uoteab.get(i).source == that)
 						{
-							if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked != newTact)
+							if(((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked != newTact)
 							{
-								((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked = newTact;
+								((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked = newTact;
 								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
@@ -517,7 +517,7 @@ public class Library {
 						}
 					}
 				} else {
-					((TileEntityFluidDuctSimple)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+					((TileEntityFluidDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
 				}
 			}
 			if(tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type.name().equals(type.name()))
@@ -618,8 +618,8 @@ public class Library {
 			}
 		}
 		
-		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFillForReceive(type) > 0 &&
-				((IFluidAcceptor)tileentity).getMaxFillForReceive(type) - ((IFluidAcceptor)tileentity).getMaxFillForReceive(type) > 0) {
+		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFill(type) > 0 &&
+				((IFluidAcceptor)tileentity).getMaxFluidFill(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0) {
 			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		
@@ -628,18 +628,18 @@ public class Library {
 			int size = that.getFluidList(type).size();
 			if(size > 0)
 			{
-				int part = that.getFluidFillOutgoing(type) / size;
+				int part = that.getFluidFill(type) / size;
 				for(IFluidAcceptor consume : that.getFluidList(type))
 				{
-					if(consume.getFluidFillIncoming(type) < consume.getMaxFillForReceive(type))
+					if(consume.getFluidFill(type) < consume.getMaxFluidFill(type))
 					{
-						if(consume.getMaxFillForReceive(type) - consume.getFluidFillIncoming(type) >= part)
+						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
 						{
-							that.setFillForTransferOutgoing(that.getFluidFillOutgoing(type) - part, type);
-							consume.setFillForTransferIncoming(consume.getFluidFillIncoming(type) + part, type);
+							that.setFluidFill(that.getFluidFill(type) - part, type);
+							consume.setFluidFill(consume.getFluidFill(type) + part, type);
 						} else {
-							that.setFillForTransferOutgoing(that.getFluidFillOutgoing(type) - (consume.getMaxFillForReceive(type) - consume.getFluidFillIncoming(type)), type);
-							consume.setFillForTransferIncoming(consume.getMaxFillForReceive(type), type);
+							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
+							consume.setFluidFill(consume.getMaxFluidFill(type), type);
 						}
 					}
 				}

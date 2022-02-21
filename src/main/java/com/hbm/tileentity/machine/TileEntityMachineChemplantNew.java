@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -23,7 +24,9 @@ import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineChemplantNew extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
@@ -69,6 +72,9 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.speed = 100;
+			this.consumption = 100;
 			
 			this.isProgressing = false;
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -138,7 +144,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	
 	private void updateConnections() {
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		this.trySubscribe(worldObj, xCoord + rot.offsetX * 3,				yCoord,	zCoord + rot.offsetZ * 3,				rot);
@@ -169,21 +175,21 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	}
 	
 	private void setupTanks(ChemRecipe recipe) {
-		if(recipe.inputFluids.length > 0) tanks[0].setTankType(recipe.inputFluids[0].type);
-		if(recipe.inputFluids.length > 1) tanks[1].setTankType(recipe.inputFluids[1].type);
-		if(recipe.outputFluids.length > 0) tanks[2].setTankType(recipe.outputFluids[0].type);
-		if(recipe.outputFluids.length > 1) tanks[3].setTankType(recipe.outputFluids[1].type);
+		if(recipe.inputFluids[0] != null) tanks[0].setTankType(recipe.inputFluids[0].type);
+		if(recipe.inputFluids[1] != null) tanks[1].setTankType(recipe.inputFluids[1].type);
+		if(recipe.outputFluids[0] != null) tanks[2].setTankType(recipe.outputFluids[0].type);
+		if(recipe.outputFluids[1] != null) tanks[3].setTankType(recipe.outputFluids[1].type);
 	}
 	
 	private boolean hasRequiredFluids(ChemRecipe recipe) {
-		if(recipe.inputFluids.length > 0 && tanks[0].getFill() < recipe.inputFluids[0].fill) return false;
-		if(recipe.inputFluids.length > 1 && tanks[1].getFill() < recipe.inputFluids[1].fill) return false;
+		if(recipe.inputFluids[0] != null && tanks[0].getFill() < recipe.inputFluids[0].fill) return false;
+		if(recipe.inputFluids[1] != null && tanks[1].getFill() < recipe.inputFluids[1].fill) return false;
 		return true;
 	}
 	
 	private boolean hasSpaceForFluids(ChemRecipe recipe) {
-		if(recipe.outputFluids.length > 0 && tanks[2].getFill() + recipe.outputFluids[0].fill > tanks[2].getMaxFill()) return false;
-		if(recipe.outputFluids.length > 1 && tanks[3].getFill() + recipe.outputFluids[1].fill > tanks[3].getMaxFill()) return false;
+		if(recipe.outputFluids[0] != null && tanks[2].getFill() + recipe.outputFluids[0].fill > tanks[2].getMaxFill()) return false;
+		if(recipe.outputFluids[1] != null && tanks[3].getFill() + recipe.outputFluids[1].fill > tanks[3].getMaxFill()) return false;
 		return true;
 	}
 	
@@ -209,41 +215,48 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			produceFluids(recipe);
 			consumeItems(recipe);
 			produceItems(recipe);
+			this.progress = 0;
+			this.markDirty();
 		}
 	}
 	
 	private void consumeFluids(ChemRecipe recipe) {
-		if(recipe.inputFluids.length > 0) tanks[0].setFill(tanks[0].getFill() - recipe.inputFluids[0].fill);
-		if(recipe.inputFluids.length > 1) tanks[1].setFill(tanks[1].getFill() - recipe.inputFluids[1].fill);
+		if(recipe.inputFluids[0] != null) tanks[0].setFill(tanks[0].getFill() - recipe.inputFluids[0].fill);
+		if(recipe.inputFluids[1] != null) tanks[1].setFill(tanks[1].getFill() - recipe.inputFluids[1].fill);
 	}
 	
 	private void produceFluids(ChemRecipe recipe) {
-		if(recipe.outputFluids.length > 0) tanks[2].setFill(tanks[2].getFill() + recipe.outputFluids[0].fill);
-		if(recipe.outputFluids.length > 1) tanks[3].setFill(tanks[3].getFill() + recipe.outputFluids[1].fill);
+		if(recipe.outputFluids[0] != null) tanks[2].setFill(tanks[2].getFill() + recipe.outputFluids[0].fill);
+		if(recipe.outputFluids[1] != null) tanks[3].setFill(tanks[3].getFill() + recipe.outputFluids[1].fill);
 	}
 	
 	private void consumeItems(ChemRecipe recipe) {
 		
 		for(AStack in : recipe.inputs) {
-			InventoryUtil.tryConsumeAStack(slots, 13, 16, in);
+			if(in != null)
+				InventoryUtil.tryConsumeAStack(slots, 13, 16, in);
 		}
 	}
 	
 	private void produceItems(ChemRecipe recipe) {
 		
 		for(ItemStack out : recipe.outputs) {
-			InventoryUtil.tryAddItemToInventory(slots, 5, 8, out);
+			if(out != null)
+				InventoryUtil.tryAddItemToInventory(slots, 5, 8, out.copy());
 		}
 	}
 	
 	//TODO: move this into a util class
 	private void loadItems() {
 		
+		if(slots[4] == null || slots[4].getItem() != ModItems.chemistry_template)
+			return;
+		
 		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[4].getItemDamage());
 		
 		if(recipe != null) {
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 
 			int x = xCoord - dir.offsetX * 2;
 			int z = zCoord - dir.offsetZ * 2;
@@ -291,10 +304,11 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	
 	private void unloadItems() {
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
-		int x = xCoord - dir.offsetX * 2;
-		int z = zCoord - dir.offsetZ * 2;
+		int x = xCoord + dir.offsetX * 3 + rot.offsetX;
+		int z = zCoord + dir.offsetZ * 3 + rot.offsetZ;
 		
 		TileEntity te = worldObj.getTileEntity(x, yCoord, z);
 		
@@ -309,7 +323,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 				if(out != null) {
 					
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
-						ItemStack target = inv.getStackInSlot(i);
+						ItemStack target = inv.getStackInSlot(j);
 						
 						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
 							this.decrStackSize(i, 1);
@@ -353,7 +367,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
@@ -381,10 +395,11 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
+				
 				return tank.getMaxFill();
 			}
 		}
@@ -445,5 +460,51 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 				lists[i].clear();
 			}
 		}
+	}
+	
+	@Deprecated
+	public void handleButtonPacket(int value, int meta) { }
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
+		
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].readFromNBT(nbt, "t" + i);
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setInteger("progress", progress);
+		
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].writeToNBT(nbt, "t" + i);
+		}
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 2,
+					yCoord,
+					zCoord - 2,
+					xCoord + 3,
+					yCoord + 4,
+					zCoord + 3
+					);
+		}
+		
+		return bb;
 	}
 }

@@ -24,6 +24,12 @@ public class BobmazonOfferFactory {
 	public static List<Offer> special = new ArrayList();
 	
 	public static void init() {
+		
+		materials.clear();
+		machines.clear();
+		weapons.clear();
+		tools.clear();
+		special.clear();
 
 		int inflation = 5;
 		materials.add(new Offer(new ItemStack(ModItems.ingot_uranium), Requirement.NUCLEAR, 6 * inflation));

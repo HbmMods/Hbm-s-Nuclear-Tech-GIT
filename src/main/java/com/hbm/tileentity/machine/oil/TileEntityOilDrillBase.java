@@ -275,7 +275,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		for(FluidTank tank : tanks) {
 			if(type == tank.getTankType()) {
 				tank.setFill(i);

@@ -256,7 +256,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
 				tank.setFill(fill);
@@ -280,7 +280,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(tanks[0].getTankType() == type) {
 			return tanks[0].getMaxFill();
 		}

@@ -350,7 +350,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -368,7 +368,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		

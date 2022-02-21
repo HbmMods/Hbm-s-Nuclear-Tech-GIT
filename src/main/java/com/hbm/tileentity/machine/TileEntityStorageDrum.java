@@ -259,7 +259,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
 		else if(type == tanks[1].getTankType())

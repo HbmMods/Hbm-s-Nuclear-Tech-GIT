@@ -135,7 +135,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		for(FluidTank tank : tanks) {
 			if(tank.getTankType() == type) {
 				tank.setFill(fill);
@@ -159,7 +159,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == tanks[0].getTankType())
 			return tanks[0].getMaxFill();
 		else

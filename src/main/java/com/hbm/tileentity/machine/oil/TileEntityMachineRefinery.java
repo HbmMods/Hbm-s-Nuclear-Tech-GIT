@@ -259,7 +259,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void setFillForTransfer(int fill, FluidType type) {
+	public void setFluidFill(int fill, FluidType type) {
 		
 		for(int i = 0; i < 5; i++) {
 			if(type == tanks[i].getTankType()) {
@@ -286,7 +286,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public int getMaxFillForReceive(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type == tanks[0].getTankType())
 			return tanks[0].getMaxFill();
 		else

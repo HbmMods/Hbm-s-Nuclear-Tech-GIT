@@ -361,6 +361,7 @@ public class ChemplantRecipes {
 	
 	public static class ChemRecipe {
 
+		public int listing;
 		private int id;
 		public String name;
 		public AStack[] inputs;
@@ -373,6 +374,7 @@ public class ChemplantRecipes {
 			this.id = index;
 			this.name = name;
 			this.duration = duration;
+			this.listing = recipes.size();
 			
 			this.inputs = new AStack[4];
 			this.outputs = new ItemStack[4];

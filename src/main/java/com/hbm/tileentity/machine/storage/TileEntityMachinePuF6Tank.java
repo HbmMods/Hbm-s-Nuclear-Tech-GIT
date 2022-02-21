@@ -227,7 +227,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setFillForTransfer(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}
