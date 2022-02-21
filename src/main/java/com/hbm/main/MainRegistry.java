@@ -263,6 +263,7 @@ public class MainRegistry {
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
+		OreDictManager.registerGroups();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -943,6 +944,7 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
+		ChemplantRecipes.register();
 		CyclotronRecipes.register();
 		HadronRecipes.register();
 		MagicRecipes.register();
@@ -983,6 +985,9 @@ public class MainRegistry {
 		
 		SchistStratum schist = new SchistStratum();
 		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
+		
+		OreDictManager oreMan = new OreDictManager();
+		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		
 		PacketDispatcher.registerPackets();
 

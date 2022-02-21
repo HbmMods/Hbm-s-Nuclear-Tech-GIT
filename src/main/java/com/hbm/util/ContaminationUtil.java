@@ -283,7 +283,7 @@ public class ContaminationUtil {
 	 * This system is nice but the cont types are a bit confusing. Cont types should have much better names and multiple cont types should be applicable.
 	 */
 	@SuppressWarnings("incomplete-switch") //just shut up
-	@Deprecated // instead of this does-everything-but-nothing-well solution, please use the ArmorRegistry to check for protection and the HBM Props for applying contamination
+	//instead of this does-everything-but-nothing-well solution, please use the ArmorRegistry to check for protection and the HBM Props for applying contamination. still good for regular radiation tho
 	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
 		
 		if(hazard == HazardType.RADIATION) {

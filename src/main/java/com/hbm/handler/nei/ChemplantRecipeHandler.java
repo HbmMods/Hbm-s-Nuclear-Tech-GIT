@@ -2,13 +2,16 @@ package com.hbm.handler.nei;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
+import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.gui.GUIMachineChemplant;
-import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.ChemplantRecipes;
+import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -18,70 +21,78 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
 public class ChemplantRecipeHandler extends TemplateRecipeHandler {
-	
-    public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
-    public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
-    public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
-    public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-    public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe
-    {
-    	PositionedStack input1;
-		PositionedStack input2;
-		PositionedStack input3;
-		PositionedStack input4;
-		PositionedStack inputF1;
-		PositionedStack inputF2;
-		PositionedStack output1;
-		PositionedStack output2;
-		PositionedStack output3;
-		PositionedStack output4;
-		PositionedStack outputF1;
-		PositionedStack outputF2;
+	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
+	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
+	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
+	public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
+
+	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
+		PositionedStack[] itemIn = new PositionedStack[4];
+		PositionedStack[] fluidIn = new PositionedStack[2];
+		PositionedStack[] itemOut = new PositionedStack[4];
+		PositionedStack[] fluidOut = new PositionedStack[2];
 		PositionedStack template;
-    	
-        public SmeltingSet(ItemStack inputF1, ItemStack inputF2, ItemStack input1,
-        		ItemStack input2, ItemStack input3, ItemStack input4, ItemStack outputF1,
-        		ItemStack outputF2, ItemStack output1, ItemStack output2, ItemStack output3,
-        		ItemStack output4, ItemStack template) {
-            this.inputF1 = new PositionedStack(inputF1, 30, 6);
-            this.inputF2 = new PositionedStack(inputF2, 30 + 18, 6);
-            this.input1 = new PositionedStack(input1, 30, 6 + 18);
-            this.input2 = new PositionedStack(input2, 30 + 18, 6 + 18);
-            this.input3 = new PositionedStack(input3, 30, 6 + 36);
-            this.input4 = new PositionedStack(input4, 30 + 18, 6 + 36);
-            this.outputF1 = new PositionedStack(outputF1, 120, 6);
-            this.outputF2 = new PositionedStack(outputF2, 120 + 18, 6);
-            this.output1 = new PositionedStack(output1, 120, 6 + 18);
-            this.output2 = new PositionedStack(output2, 120 + 18, 6 + 18);
-            this.output3 = new PositionedStack(output3, 120, 6 + 36);
-            this.output4 = new PositionedStack(output4, 120 + 18, 6 + 36);
-            this.template = new PositionedStack(template, 84, 6);
-        }
 
-        @Override
+		public RecipeSet(ChemRecipe recipe) {
+			
+			for(int i = 0; i < recipe.inputs.length; i++) {
+				AStack in = recipe.inputs[i];
+				if(in == null) continue;
+				this.itemIn[i] = new PositionedStack(in.extractForNEI(), 30 + (i % 2) * 18, 24 + (i / 2) * 18);
+			}
+			
+			for(int i = 0; i < recipe.inputFluids.length; i++) {
+				FluidStack in = recipe.inputFluids[i];
+				if(in == null) continue;
+				ItemStack drop = ItemFluidIcon.make(in.type, in.fill);
+				this.fluidIn[i] = new PositionedStack(drop, 30 + (i % 2) * 18, 6);
+			}
+			
+			for(int i = 0; i < recipe.outputs.length; i++) {
+				ItemStack out = recipe.outputs[i];
+				if(out == null) continue;
+				this.itemOut[i] = new PositionedStack(out, 120 + (i % 2) * 18, 24 + (i / 2) * 18);
+			}
+			
+			for(int i = 0; i < recipe.outputFluids.length; i++) {
+				FluidStack out = recipe.outputFluids[i];
+				if(out == null) continue;
+				ItemStack drop = ItemFluidIcon.make(out.type, out.fill);
+				this.fluidOut[i] = new PositionedStack(drop, 120 + (i % 2) * 18, 6);
+			}
+			
+			this.template = new PositionedStack(new ItemStack(ModItems.chemistry_template, 1, recipe.getId()), 84, 6);
+		}
+
+		@Override
 		public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input1, input2, input3, input4, inputF1, inputF2, template}));
-        }
+			List<PositionedStack> stacks = new ArrayList<PositionedStack>();
+			
+			for(PositionedStack stack : itemIn) if(stack != null) stacks.add(stack);
+			for(PositionedStack stack : fluidIn) if(stack != null) stacks.add(stack);
+			stacks.add(template);
+			
+			return getCycledIngredients(cycleticks / 20, stacks);
+		}
 
-        @Override
+		@Override
 		public List<PositionedStack> getOtherStacks() {
-        	List<PositionedStack> stacks = new ArrayList<PositionedStack>();
-            stacks.add(output1);
-            stacks.add(output2);
-            stacks.add(output3);
-            stacks.add(output4);
-            stacks.add(outputF1);
-            stacks.add(outputF2);
-        	return stacks;
-        }
+			List<PositionedStack> stacks = new ArrayList<PositionedStack>();
+			
+			for(PositionedStack stack : itemOut) if(stack != null) stacks.add(stack);
+			for(PositionedStack stack : fluidOut) if(stack != null) stacks.add(stack);
+			stacks.add(template);
+			
+			return stacks;
+		}
 
-        @Override
+		@Override
 		public PositionedStack getResult() {
-            return output1;
-        }
-    }
-    
+			return null;
+		}
+	}
+
 	@Override
 	public String getRecipeName() {
 		return "Chemical Plant";
@@ -91,26 +102,14 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 	public String getGuiTexture() {
 		return RefStrings.MODID + ":textures/gui/nei/gui_nei_chemplant.png";
 	}
-	
+
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
-			Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
-			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet(
-						(ItemStack)recipe.getKey()[0],
-						(ItemStack)recipe.getKey()[1],
-						(ItemStack)recipe.getKey()[2],
-						(ItemStack)recipe.getKey()[3],
-						(ItemStack)recipe.getKey()[4],
-						(ItemStack)recipe.getKey()[5],
-						(ItemStack)recipe.getValue()[0],
-						(ItemStack)recipe.getValue()[1],
-						(ItemStack)recipe.getValue()[2],
-						(ItemStack)recipe.getValue()[3],
-						(ItemStack)recipe.getValue()[4],
-						(ItemStack)recipe.getValue()[5],
-						(ItemStack)recipe.getKey()[6]));
+		
+		if((outputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
+			
+			for(ChemRecipe recipe : ChemplantRecipes.recipes) {
+				this.arecipes.add(new RecipeSet(recipe));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -119,34 +118,35 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
-		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			if (compareFluidStacks(result, (ItemStack)recipe.getValue()[0]) || 
-					compareFluidStacks(result, (ItemStack)recipe.getValue()[1]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[2]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[3]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[4]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[5]))
-				this.arecipes.add(new SmeltingSet(
-						(ItemStack)recipe.getKey()[0],
-						(ItemStack)recipe.getKey()[1],
-						(ItemStack)recipe.getKey()[2],
-						(ItemStack)recipe.getKey()[3],
-						(ItemStack)recipe.getKey()[4],
-						(ItemStack)recipe.getKey()[5],
-						(ItemStack)recipe.getValue()[0],
-						(ItemStack)recipe.getValue()[1],
-						(ItemStack)recipe.getValue()[2],
-						(ItemStack)recipe.getValue()[3],
-						(ItemStack)recipe.getValue()[4],
-						(ItemStack)recipe.getValue()[5],
-						(ItemStack)recipe.getKey()[6]));
+
+		outer:
+		for(ChemRecipe recipe : ChemplantRecipes.recipes) {
+			
+			for(ItemStack out : recipe.outputs) {
+				
+				if(out != null && NEIServerUtils.areStacksSameTypeCrafting(result, out)) {
+					this.arecipes.add(new RecipeSet(recipe));
+					continue outer;
+				}
+			}
+			
+			for(FluidStack out : recipe.outputFluids) {
+				
+				if(out != null) {
+					ItemStack drop = ItemFluidIcon.make(out.type, out.fill);
+					
+					if(compareFluidStacks(result, drop)) {
+						this.arecipes.add(new RecipeSet(recipe));
+						continue outer;
+					}
+				}
+			}
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
+		if((inputId.equals("chemistry")) && getClass() == ChemplantRecipeHandler.class) {
 			loadCraftingRecipes("chemistry", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
@@ -155,64 +155,68 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
-		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[0]) || 
-					compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[1]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[2]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[3]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[4]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[5]) || 
-					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[6]))
-				this.arecipes.add(new SmeltingSet(
-						(ItemStack)recipe.getKey()[0],
-						(ItemStack)recipe.getKey()[1],
-						(ItemStack)recipe.getKey()[2],
-						(ItemStack)recipe.getKey()[3],
-						(ItemStack)recipe.getKey()[4],
-						(ItemStack)recipe.getKey()[5],
-						(ItemStack)recipe.getValue()[0],
-						(ItemStack)recipe.getValue()[1],
-						(ItemStack)recipe.getValue()[2],
-						(ItemStack)recipe.getValue()[3],
-						(ItemStack)recipe.getValue()[4],
-						(ItemStack)recipe.getValue()[5],
-						(ItemStack)recipe.getKey()[6]));			
+
+		outer:
+		for(ChemRecipe recipe : ChemplantRecipes.recipes) {
+			
+			for(AStack in : recipe.inputs) {
+				
+				if(in != null) {
+					List<ItemStack> stacks = in.extractForNEI();
+					
+					for(ItemStack stack : stacks) {
+						if(NEIServerUtils.areStacksSameTypeCrafting(ingredient, stack)) {
+							this.arecipes.add(new RecipeSet(recipe));
+							continue outer;
+						}
+					}
+				}
+			}
+			
+			for(FluidStack in : recipe.inputFluids) {
+				
+				if(in != null) {
+					ItemStack drop = ItemFluidIcon.make(in.type, in.fill);
+					
+					if(compareFluidStacks(ingredient, drop)) {
+						this.arecipes.add(new RecipeSet(recipe));
+						continue outer;
+					}
+				}
+			}
 		}
 	}
-	
+
 	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {
 		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage();
 	}
 
-    @Override
-    public Class<? extends GuiContainer> getGuiClass() {
-        //return GUITestDiFurnace.class;
-    	return null;
-    }
-    
-    @Override
-    public void loadTransferRects() {
-        transferRectsGui = new LinkedList<RecipeTransferRect>();
-        guiGui = new LinkedList<Class<? extends GuiContainer>>();
+	@Override
+	public Class<? extends GuiContainer> getGuiClass() {
+		return null;
+	}
 
-        transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 72, 23, 18 * 3, 18), "chemistry"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "chemistry"));
-        guiGui.add(GUIMachineChemplant.class);
-        RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
-        RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
-    }
+	@Override
+	public void loadTransferRects() {
+		transferRectsGui = new LinkedList<RecipeTransferRect>();
+		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-    @Override
-    public void drawExtras(int recipe) {
+		transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 72, 23, 18 * 3, 18), "chemistry"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "chemistry"));
+		guiGui.add(GUIMachineChemplant.class);
+		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
+		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
+	}
 
-        drawProgressBar(83 - (18 * 4) - 9 + 1, 6, 0, 86, 16, 18 * 3 - 2, 480, 7);
-        
-        drawProgressBar(83 - 3 + 16 + 5 - 36, 5 + 18, 16, 86, 18 * 3, 18, 48, 0);
-    }
+	@Override
+	public void drawExtras(int recipe) {
 
-    @Override
-    public TemplateRecipeHandler newInstance() {
-        return super.newInstance();
-    }
+		drawProgressBar(83 - (18 * 4) - 9 + 1, 6, 0, 86, 16, 18 * 3 - 2, 480, 7);
+		drawProgressBar(83 - 3 + 16 + 5 - 36, 5 + 18, 16, 86, 18 * 3, 18, 48, 0);
+	}
+
+	@Override
+	public TemplateRecipeHandler newInstance() {
+		return super.newInstance();
+	}
 }

@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class FluidContainerRegistry {
 	
@@ -74,6 +75,9 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.particle_hydrogen), new ItemStack(ModItems.particle_empty), Fluids.HYDROGEN, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.particle_amat), new ItemStack(ModItems.particle_empty), Fluids.AMAT, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.particle_aschrab), new ItemStack(ModItems.particle_empty), Fluids.ASCHRAB, 1000));
+
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_xp), new ItemStack(ModItems.iv_xp_empty), Fluids.XPJUICE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.experience_bottle), new ItemStack(Items.glass_bottle), Fluids.XPJUICE, 100));
 		
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
@@ -95,6 +99,7 @@ public class FluidContainerRegistry {
 	
 	public static void registerContainer(FluidContainer con) {
 		allContainers.add(con);
+		OreDictionary.registerOre(con.type.getDict(con.content), con.fullContainer);
 	}
 	
 	public static int getFluidContent(ItemStack stack, FluidType type) {

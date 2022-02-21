@@ -109,7 +109,7 @@ public class PowerNet implements IPowerNet {
 		long totalReq = 0;
 		
 		for(IEnergyConnector con : this.subscribers) {
-			long req = Math.max(con.getMaxPower() - con.getPower(), 0);
+			long req = con.getTransferWeight();
 			weight.add(req);
 			totalReq += req;
 		}

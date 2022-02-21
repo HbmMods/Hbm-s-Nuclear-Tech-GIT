@@ -33,8 +33,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEFluidPacket.Handler.class, TEFluidPacket.class, i++, Side.CLIENT);
 		//Sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedSoundPacket.Handler.class, LoopedSoundPacket.class, i++, Side.CLIENT);
-		//Chemplant piston rotation for rendering
-		wrapper.registerMessage(TEChemplantPacket.Handler.class, TEChemplantPacket.class, i++, Side.CLIENT);
 		//Turret rotation for rendering
 		wrapper.registerMessage(TETurretPacket.Handler.class, TETurretPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template

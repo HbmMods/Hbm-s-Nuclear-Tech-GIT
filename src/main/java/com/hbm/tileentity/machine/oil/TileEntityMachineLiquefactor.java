@@ -170,26 +170,19 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> tanks = new ArrayList();
-		tanks.add(tank);
-		return tanks;
 	}
 
 	@Override

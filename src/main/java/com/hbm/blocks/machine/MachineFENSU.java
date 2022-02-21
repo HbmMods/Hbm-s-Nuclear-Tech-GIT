@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachineFENSU;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;

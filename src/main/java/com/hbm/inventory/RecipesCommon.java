@@ -93,6 +93,14 @@ public class RecipesCommon {
 		 * @return
 		 */
 		public abstract List<ItemStack> extractForNEI();
+		
+		public ItemStack extractForCyclingDisplay(int cycle) {
+			List<ItemStack> list = extractForNEI();
+			
+			cycle *= 50;
+			
+			return list.get((int)(System.currentTimeMillis() % (cycle * list.size()) / cycle));
+		}
 	}
 	
 	public static class ComparableStack extends AStack {

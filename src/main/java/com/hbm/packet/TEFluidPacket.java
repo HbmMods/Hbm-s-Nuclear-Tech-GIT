@@ -62,8 +62,8 @@ public class TEFluidPacket implements IMessage {
 			if (te != null && te instanceof IFluidContainer) {
 					
 				IFluidContainer gen = (IFluidContainer) te;
-				gen.setFillstate(m.fill, m.index);
-				gen.setType(Fluids.fromID(m.type), m.index);
+				gen.setFillForSync(m.fill, m.index);
+				gen.setTypeForSync(Fluids.fromID(m.type), m.index);
 			}
 			} catch(Exception x) { }
 			return null;

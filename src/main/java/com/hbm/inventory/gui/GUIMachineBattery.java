@@ -33,7 +33,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, battery.power, battery.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, battery.power, battery.getMaxPower());
 		
 		long delta = battery.log[19] - battery.log[0];
 		String deltaText = BobMathUtil.getShortNumber(Math.abs(delta)) + "HE/s";
@@ -46,7 +46,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 			deltaText = EnumChatFormatting.YELLOW + "+" + deltaText;
 
 		String[] info = {
-				BobMathUtil.getShortNumber(battery.power) + "/" + BobMathUtil.getShortNumber(battery.maxPower) + "HE",
+				BobMathUtil.getShortNumber(battery.power) + "/" + BobMathUtil.getShortNumber(battery.getMaxPower()) + "HE",
 				deltaText
 		};
 		

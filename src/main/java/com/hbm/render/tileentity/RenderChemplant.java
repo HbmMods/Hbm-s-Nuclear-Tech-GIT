@@ -2,10 +2,11 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.HmfController;
-import com.hbm.tileentity.machine.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineChemplantNew;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,24 +23,22 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
-		switch(tileEntity.getBlockMetadata()) {
-		case 2:
+		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
+		case 5:
 			GL11.glRotatef(180, 0F, 1F, 0F);
-			GL11.glTranslated(0.5D, 0.0D, -0.5D);
+			break;
+		case 2:
+			GL11.glRotatef(270, 0F, 1F, 0F);
 			break;
 		case 4:
-			GL11.glRotatef(270, 0F, 1F, 0F);
-			GL11.glTranslated(0.5D, 0.0D, -0.5D);
+			GL11.glRotatef(0, 0F, 1F, 0F);
 			break;
 		case 3:
-			GL11.glRotatef(0, 0F, 1F, 0F);
-			GL11.glTranslated(0.5D, 0.0D, -0.5D);
-			break;
-		case 5:
 			GL11.glRotatef(90, 0F, 1F, 0F);
-			GL11.glTranslated(0.5D, 0.0D, -0.5D);
 			break;
 		}
+		
+		GL11.glTranslated(-0.5D, 0.0D, 0.5D);
 
 		bindTexture(ResourceManager.chemplant_body_tex);
 
@@ -52,29 +51,28 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 
 	public void renderExtras(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
+		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
-		TileEntityMachineChemplant chem = (TileEntityMachineChemplant) tileEntity;
-		switch(chem.getBlockMetadata()) {
-		case 2:
-			GL11.glTranslated(-1, 0, 0);
+		TileEntityMachineChemplantNew chem = (TileEntityMachineChemplantNew) tileEntity;
+		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
+		case 5:
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			break;
-		case 4:
+		case 2:
 			GL11.glRotatef(270, 0F, 1F, 0F);
 			break;
-		case 3:
-			GL11.glTranslated(0, 0, -1);
+		case 4:
 			GL11.glRotatef(0, 0F, 1F, 0F);
 			break;
-		case 5:
-			GL11.glTranslated(-1, 0, -1);
+		case 3:
 			GL11.glRotatef(90, 0F, 1F, 0F);
 			break;
 		}
-
+		
+		GL11.glTranslated(-0.5D, 0.0D, 0.5D);
+		
 		bindTexture(ResourceManager.chemplant_spinner_tex);
 
 		int rotation = (int) (System.currentTimeMillis() % (360 * 5)) / 5;

@@ -44,6 +44,10 @@ public interface IEnergyConnector {
 	 */
 	public long getMaxPower();
 	
+	public default long getTransferWeight() {
+		return Math.max(getMaxPower() - getPower(), 0);
+	}
+	
 	/**
 	 * Basic implementation of subscribing to a nearby power grid
 	 * @param world

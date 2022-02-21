@@ -386,19 +386,19 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFillForTransfer(int i, FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
 		else if(type.name().equals(tanks[2].getTankType().name()))
@@ -416,22 +416,12 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getMaxFill();
 		else
 			return 0;
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		list.add(tanks[2]);
-		
-		return list;
 	}
 }

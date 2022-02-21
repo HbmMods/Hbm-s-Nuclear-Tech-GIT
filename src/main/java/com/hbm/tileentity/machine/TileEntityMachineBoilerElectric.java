@@ -352,7 +352,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setFillForTransfer(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -370,7 +370,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		
@@ -378,24 +378,15 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 	
 	@Override

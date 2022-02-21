@@ -48,7 +48,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			this.outputs = new ArrayList<PositionedStack>();
 			this.chances = new ArrayList<Double>();
 			this.produced = recipe.fluidProduced / recipe.fluidConsumed;
-			this.crystalStrength = EnumWavelengths.values()[recipe.laserStrength];
+			this.crystalStrength = recipe.laserStrength;
 			
 			double weight = 0;
 			

@@ -139,8 +139,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	
 	static {
-		fuelEfficiency.put(FuelGrade.LOW,		0.5D);
-		fuelEfficiency.put(FuelGrade.MEDIUM,	1.0D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
 		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
@@ -206,36 +205,28 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	public int getMaxFillForReceive(FluidType type) {
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
+	public void setFillForTransfer(int i, FluidType type) {
+		if(type == tank.getTankType())
 			tank.setFill(i);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
 	}
 }

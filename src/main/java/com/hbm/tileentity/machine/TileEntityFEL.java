@@ -5,31 +5,23 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockHazard;
-import com.hbm.blocks.generic.BlockHazardFalling;
 import com.hbm.blocks.machine.MachineSILEX;
-import com.hbm.extprop.HbmLivingProps;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import api.hbm.energy.IEnergyUser;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTNT;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -61,6 +53,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 		return "container.machineFEL";
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	@Spaghetti ("What the fuck were you thinking")
 	public void updateEntity() {
@@ -83,7 +76,6 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 			} else { this.mode = EnumWavelengths.NULL; }
 			
 			int range = 24;
-			int length = 3;
 			boolean silexSpacing = false;
 			if(this.isOn && power >= powerReq * Math.pow(3, mode.ordinal()) && this.mode != EnumWavelengths.NULL) {
 				
@@ -101,17 +93,15 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 					switch(this.mode) {
 					case VISIBLE: entity.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 60 * 65536, 0));
 					case IR:
-					case UV: entity.setFire(65535); break;
-					case GAMMA: HbmLivingProps.incrementRadiation(entity, 25); break;
-					case DRX: HbmLivingProps.incrementDigamma(entity, 0.1F); break;
+					case UV: entity.setFire(10); break;
+					case GAMMA: ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 25); break;
+					case DRX: ContaminationUtil.applyDigammaData(entity, 0.1F); break;
 					}
 				}
 				
 				power -= powerReq * ((mode.ordinal() == 0) ? 0 : Math.pow(3, mode.ordinal()));
 				for(int i = 3; i < range; i++) {
 				
-					length = i;
-					
 					int x = xCoord + dir.offsetX * i;
 					int y = yCoord + 1;
 					int z = zCoord + dir.offsetZ * i;
@@ -175,8 +165,6 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser 
 			data.setBoolean("valid", missingValidSilex);
 			data.setInteger("distance", distance);
 			this.networkPack(data, 250);
-			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	

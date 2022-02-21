@@ -3,10 +3,8 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ItemModGloves;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;

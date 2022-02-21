@@ -14,6 +14,7 @@ import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -54,6 +55,7 @@ public class SolidificationRecipes {
 		registerRecipe(MERCURY,		125,			ModItems.ingot_mercury);
 		registerRecipe(BIOGAS,		250,			ModItems.biomass_compressed);
 		registerRecipe(SALIENT,		1280,			new ItemStack(ModItems.bio_wafer, 8)); //4 (food val) * 2 (sat mod) * 2 (constant) * 10 (quanta) * 8 (batch size)
+		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 
 		registerRecipe(OIL,			SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,	SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));

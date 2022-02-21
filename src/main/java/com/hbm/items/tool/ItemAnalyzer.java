@@ -76,19 +76,6 @@ public class ItemAnalyzer extends Item {
 							"Electricity: " + ((IEnergyConnector)te).getPower() + " HE"));
 				}
 				
-				if(te instanceof IFluidContainer) {
-					
-					player.addChatMessage(new ChatComponentText(
-							"Fluid Tanks:"));
-					
-					List<FluidTank> tanks = ((IFluidContainer)te).getTanks();
-					
-					for(int i = 0; i < tanks.size(); i++) {
-						player.addChatMessage(new ChatComponentText(
-								" *Tank " + (i + 1) + ": " + tanks.get(i).getFill() + "mB " + I18n.format(tanks.get(i).getTankType().getUnlocalizedName())));
-					}
-				}
-				
 				if(te instanceof IFluidDuct) {
 					
 					player.addChatMessage(new ChatComponentText(

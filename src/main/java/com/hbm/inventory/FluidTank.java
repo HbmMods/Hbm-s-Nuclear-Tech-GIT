@@ -90,7 +90,7 @@ public class FluidTank {
 	}
 	
 	//Fills tank from canisters
-	public void loadTank(int in, int out, ItemStack[] slots) {
+	public boolean loadTank(int in, int out, ItemStack[] slots) {
 		
 		FluidType inType = Fluids.NONE;
 		if(slots[in] != null) {
@@ -101,27 +101,27 @@ public class FluidTank {
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != Fluids.NONE) {
 				this.fluid = this.maxFluid;
-				return;
+				return true;
 			}
 			
 			if(slots[in].getItem() == ModItems.inf_water && this.type == Fluids.WATER) {
 				this.fluid += 50;
 				if(this.fluid > this.maxFluid)
 					this.fluid = this.maxFluid;
-				return;
+				return true;
 			}
 			
 			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type == Fluids.WATER) {
 				this.fluid += 500;
 				if(this.fluid > this.maxFluid)
 					this.fluid = this.maxFluid;
-				return;
+				return true;
 			}
 			
 			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
-				return;
+				return false;
 		} else {
-			return;
+			return false;
 		}
 		
 		if(slots[in] != null && inType.getName().equals(type.getName()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {
@@ -141,7 +141,11 @@ public class FluidTank {
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
 			}
+			
+			return true;
 		}
+		
+		return false;
 	}
 	
 	//Fills canisters from tank

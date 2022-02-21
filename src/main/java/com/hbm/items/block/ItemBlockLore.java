@@ -78,11 +78,6 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Come on, get a derrick you doofus.");
 		}
 		
-		if(this.field_150939_a == ModBlocks.machine_mining_laser) {
-			list.add("3x3x3 Multiblock");
-			list.add("Only placeable on a ceiling.");
-		}
-		
 		if(this.field_150939_a == ModBlocks.gravel_diamond) {
 			list.add("There is some kind of joke here,");
 			list.add("but I can't quite tell what it is.");

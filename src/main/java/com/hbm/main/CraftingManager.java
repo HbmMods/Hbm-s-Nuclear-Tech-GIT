@@ -855,9 +855,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(Items.name_tag), new Object[] { "SB ", "BPB", " BP", 'S', Items.string, 'B', ANY_TAR.any(), 'P', Items.paper });
 		addRecipeAuto(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
-		addShapelessAuto(new ItemStack(ModItems.solid_fuel, 10), new Object[] { ModItems.canister_heatingoil, KEY_TOOL_CHEMISTRYSET });
-		addShapelessAuto(new ItemStack(ModItems.solid_fuel, 10), new Object[] { new ItemStack(ModItems.fluid_tank_full, 1, Fluids.HEATINGOIL.getID()), KEY_TOOL_CHEMISTRYSET });
-		addShapelessAuto(new ItemStack(ModItems.solid_fuel, 10), new Object[] { new ItemStack(ModItems.fluid_tank_lead_full, 1, Fluids.HEATINGOIL.getID()), KEY_TOOL_CHEMISTRYSET });
+		addShapelessAuto(new ItemStack(ModItems.solid_fuel, 10), new Object[] { Fluids.HEATINGOIL.getDict(1000), KEY_TOOL_CHEMISTRYSET });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'C', ModItems.board_copper });
 

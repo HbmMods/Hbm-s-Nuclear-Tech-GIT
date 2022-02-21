@@ -351,7 +351,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		
 		if(index == 0)
 			coolant.setFill(fill);
@@ -360,7 +360,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		if(type == Fluids.COOLANT)
 			coolant.setFill(fill);
 		else if(type == Fluids.AMAT)
@@ -368,16 +368,11 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index == 0)
 			coolant.setTankType(type);
 		else if(index == 1)
 			amat.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return Arrays.asList(new FluidTank[] {coolant, amat});
 	}
 
 	@Override
@@ -425,7 +420,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		
 		if(type == Fluids.COOLANT)
 			return coolant.getMaxFill();

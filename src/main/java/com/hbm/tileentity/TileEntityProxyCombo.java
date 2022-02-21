@@ -41,49 +41,36 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		
 		if(!fluid)
 			return;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setFillstate(fill, index);
+			((IFluidAcceptor)getTile()).setFillForSync(fill, index);
 		}
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		
 		if(!fluid)
 			return;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setFluidFill(fill, type);
+			((IFluidAcceptor)getTile()).setFillForTransfer(fill, type);
 		}
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		
 		if(!fluid)
 			return;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setType(type, index);
+			((IFluidAcceptor)getTile()).setTypeForSync(type, index);
 		}
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		
-		if(!fluid)
-			return null;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getTanks();
-		}
-		
-		return null;
 	}
 
 	@Override
@@ -100,13 +87,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		
 		if(!fluid)
 			return 0;
 		
 		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFluidFill(type);
+			return ((IFluidAcceptor)getTile()).getMaxFillForReceive(type);
 		}
 		
 		return 0;

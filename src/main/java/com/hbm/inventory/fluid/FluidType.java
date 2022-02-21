@@ -80,6 +80,9 @@ public class FluidType {
 	public String getUnlocalizedName() {
 		return this.unlocalized;
 	}
+	public String getDict(int quantity) {
+		return "container" + quantity + this.stringId.replace("_", "");
+	}
 	
 	public boolean isHot() {
 		return this.temperature >= 100;

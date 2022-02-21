@@ -110,7 +110,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
 	}
 }

@@ -263,23 +263,18 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
+	public void setFillForTransfer(int fill, FluidType type) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return new ArrayList() {{ add(tank); }};
 	}
 
 	@Override
@@ -288,7 +283,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxFillForReceive(FluidType type) {
 		return tank.getMaxFill();
 	}
 

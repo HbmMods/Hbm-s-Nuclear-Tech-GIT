@@ -497,28 +497,28 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	public int getMaxFillForReceive(FluidType type) {
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
+	public void setFillForTransfer(int i, FluidType type) {
+		if(type == tank.getTankType())
 			tank.setFill(i);
 	}
 	
@@ -532,13 +532,5 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
 	}
 }
