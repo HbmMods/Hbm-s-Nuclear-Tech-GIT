@@ -51,6 +51,18 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 		return Integer.MAX_VALUE / 4;
 	}
 
+	private long lastTransfer = 0;
+	
+	@Override
+	public long getTransferWeight() {
+		
+		if(lastTransfer > 0) {
+			return lastTransfer * 2;
+		} else {
+			return getMaxPower();
+		}
+	}
+
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		return 0;
@@ -88,6 +100,7 @@ public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnec
 		}
 
 		recursionBrake = false;
+		lastTransfer = totalTransferred / 4;
 		
 		return power - (totalTransferred / 4);
 	}

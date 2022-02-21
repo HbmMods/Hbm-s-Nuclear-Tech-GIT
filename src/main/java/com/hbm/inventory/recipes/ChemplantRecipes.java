@@ -297,6 +297,10 @@ public class ChemplantRecipes {
 				.outputFluids(
 						new FluidStack(Fluids.DEUTERIUM, 400),
 						new FluidStack(Fluids.OXYGEN, 400)));
+		recipes.add(new ChemRecipe(80, "EPEARL", 100)
+				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
+				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
+				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
 		
 	}
 	

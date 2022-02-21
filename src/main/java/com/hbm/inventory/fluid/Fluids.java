@@ -80,6 +80,8 @@ public class Fluids {
 	public static FluidType ETHANOL;
 	public static FluidType HEAVYWATER;
 	public static FluidType SALIENT;
+	public static FluidType XPJUICE;
+	public static FluidType ENDERJUICE;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -170,6 +172,8 @@ public class Fluids {
 		AROMATICS =			new FluidTypeFlammable(		"AROMATICS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
 		UNSATURATEDS =		new FluidTypeFlammable(		"UNSATURATEDS",		0xfffeed, 1, 4, 1, EnumSymbol.NONE);
 		SALIENT =			new FluidType(69,			"SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE);
+		XPJUICE =			new FluidType(				"XPJUICE",			0xBBFF09, 0, 0, 0, EnumSymbol.NONE);
+		ENDERJUICE =		new FluidType(				"ENDERJUICE",		0x127766, 0, 0, 0, EnumSymbol.NONE);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -251,6 +255,9 @@ public class Fluids {
 		//nuclear waste
 		metaOrder.add(WASTEFLUID);
 		metaOrder.add(WASTEGAS);
+		//garbage
+		metaOrder.add(XPJUICE);
+		metaOrder.add(ENDERJUICE);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);

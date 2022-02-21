@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Requirement;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.special.ItemKitCustom;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class BobmazonOfferFactory {
@@ -158,12 +161,14 @@ public class BobmazonOfferFactory {
 		tools.add(new Offer(new ItemStack(ModItems.hazmat_red_kit), Requirement.CHEMICS, 100 * inflation));
 		tools.add(new Offer(new ItemStack(ModItems.hazmat_grey_kit), Requirement.OIL, 160 * inflation));
 
+		special.add(new Offer(new ItemStack(Items.iron_ingot, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_steel, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_copper, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_red_copper, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_titanium, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_tungsten, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_cobalt, 64), Requirement.STEEL, 1));
+		special.add(new Offer(new ItemStack(ModItems.ingot_desh, 64), Requirement.STEEL, 1));
 		special.add(new Offer(new ItemStack(ModItems.ingot_tantalium, 64), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.ingot_bismuth, 16), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.ingot_schrabidium, 16), Requirement.STEEL, 5));
@@ -176,6 +181,7 @@ public class BobmazonOfferFactory {
 		special.add(new Offer(new ItemStack(ModItems.ammo_container, 16), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.nuke_starter_kit), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.nuke_advanced_kit), Requirement.STEEL, 5));
+		special.add(new Offer(new ItemStack(ModItems.nuke_commercially_kit), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.boy_kit), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.prototype_kit), Requirement.STEEL, 10));
 		special.add(new Offer(new ItemStack(ModItems.missile_kit), Requirement.STEEL, 5));
@@ -200,11 +206,38 @@ public class BobmazonOfferFactory {
 		special.add(new Offer(new ItemStack(ModItems.sat_laser, 1), Requirement.HIDDEN, 8));
 		special.add(new Offer(new ItemStack(ModItems.sat_gerald, 1), Requirement.HIDDEN, 32));
 		special.add(new Offer(new ItemStack(ModItems.billet_yharonite, 4), Requirement.HIDDEN, 16));
+		special.add(new Offer(new ItemStack(ModItems.ingot_chainsteel, 1), Requirement.HIDDEN, 16));
 		special.add(new Offer(new ItemStack(ModItems.ingot_electronium, 1), Requirement.HIDDEN, 16));
 		special.add(new Offer(new ItemStack(ModItems.book_of_, 1), Requirement.HIDDEN, 16));
+		special.add(new Offer(new ItemStack(ModItems.mese_pickaxe, 1), Requirement.HIDDEN, 16));
 		special.add(new Offer(new ItemStack(ModItems.mysteryshovel, 1), Requirement.HIDDEN, 16));
 		special.add(new Offer(new ItemStack(ModBlocks.ntm_dirt, 1), Requirement.HIDDEN, 16));
 		special.add(new Offer(new ItemStack(ModItems.euphemium_kit, 1), Requirement.HIDDEN, 64));
+		
+		special.add(new Offer(ItemKitCustom.create("Fusion Man", "For the nuclear physicist on the go", 0xff00ff, 0x800080,
+				new ItemStack(ModBlocks.iter),
+				new ItemStack(ModBlocks.plasma_heater),
+				new ItemStack(ModItems.fusion_shield_vaporwave),
+				ItemBattery.getFullBattery(ModItems.battery_spark),
+				new ItemStack(ModBlocks.machine_chemplant, 10),
+				new ItemStack(ModBlocks.machine_fluidtank, 8),
+				new ItemStack(ModBlocks.red_wire_coated, 64),
+				new ItemStack(ModBlocks.red_cable, 64),
+				new ItemStack(ModItems.fluid_barrel_full, 64, Fluids.DEUTERIUM.getID()),
+				new ItemStack(ModItems.fluid_barrel_full, 64, Fluids.TRITIUM.getID()),
+				new ItemStack(ModItems.fluid_barrel_full, 64, Fluids.XENON.getID()),
+				new ItemStack(ModItems.fluid_barrel_full, 64, Fluids.MERCURY.getID()),
+				new ItemStack(ModBlocks.red_pylon_large, 8),
+				new ItemStack(ModBlocks.substation, 4),
+				new ItemStack(ModBlocks.red_pylon, 16),
+				new ItemStack(ModBlocks.red_connector, 64),
+				new ItemStack(ModItems.wiring_red_copper, 1),
+				new ItemStack(ModBlocks.machine_chungus, 1),
+				new ItemStack(ModBlocks.machine_large_turbine, 3),
+				new ItemStack(ModItems.template_folder, 1),
+				new ItemStack(Items.paper, 64),
+				new ItemStack(Items.dye, 64)
+				), Requirement.HIDDEN, 64));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {

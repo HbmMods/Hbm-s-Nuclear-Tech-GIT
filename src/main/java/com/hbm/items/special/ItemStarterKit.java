@@ -65,39 +65,6 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.nuke_starter_kit)
 		{
-			/*player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_difurnace_off, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_uf6_tank, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
-			
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 6));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_red_copper, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_tungsten, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_steel, 12));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_lead, 8));
-		
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_titanium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_aluminium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_iron, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_steel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_lead, 16));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wire_red_copper, 28));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wire_tungsten, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tank_steel, 4));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_uf6, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 16));*/
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.powder_yellowcake, 32));
@@ -128,46 +95,6 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.nuke_advanced_kit)
 		{
-			/*player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_centrifuge), 4));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_reactor), 3));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u235, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u238, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_plutonium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_pu238, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_pu239, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_pu240, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_neptunium, 16));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wire_red_copper, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_tungsten, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper_torus, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tank_steel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.motor, 8));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_aluminium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_titanium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_iron, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_steel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.neutron_reflector, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_lead, 16));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
-
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));*/
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.powder_yellowcake, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.powder_plutonium, 64));
@@ -212,68 +139,33 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.nuke_commercially_kit)
 		{
-			/*player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_generator), 4));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_nuke_furnace_off), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_rtg_furnace_off), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 4));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.red_cable), 64));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.red_wire_coated), 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_pu238, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_pu238, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_dual_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_dual_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_dual_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_dual_mox_fuel, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_water, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_water, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_water, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_water, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_coolant, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_coolant, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_coolant, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_coolant, 1));*/
 
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_pu238, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium_fuel, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_plutonium_fuel, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_mox_fuel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rtg_unit, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.motor, 3));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.reactor_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 16, Fluids.WATER.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, Fluids.COOLANT.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 3));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_nuke_furnace_off, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_furnace_off, 3));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_grey, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.reactor_research, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_lithium_battery, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_strong, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_flush, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_breeding, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_fluidtank, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.billet_pu238be, 40));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u233, 40));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium_fuel, 32));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_plutonium_fuel, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_mox_fuel, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.inf_water_mk2, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.inf_water_mk2, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.inf_water_mk2, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_dual_empty, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_empty, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_tank_lead_empty, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_empty, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.barrel_steel, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_iron, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(Items.dye, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_flush, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.iv_blood, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_filter_combo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_filter_combo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_filter_combo, 1));
 			
 			giveHaz(world, player, 2);
 		}
