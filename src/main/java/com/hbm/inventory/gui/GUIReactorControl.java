@@ -147,7 +147,7 @@ public class GUIReactorControl extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		GL11.glPopMatrix();
+		GL11.glPushMatrix();
 		Tessellator tess = Tessellator.instance;
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glLineWidth(3F);
@@ -160,7 +160,7 @@ public class GUIReactorControl extends GuiInfoContainer {
 		
 		tess.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glPushMatrix();
+		GL11.glPopMatrix();
 		
 		for(byte i = 0; i < 3; i++)
 			displays[i].drawNumber(control.getDisplayData()[i]);

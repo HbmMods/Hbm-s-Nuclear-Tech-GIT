@@ -136,7 +136,6 @@ public class Library {
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
@@ -387,11 +386,6 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
-		//Chemplant
-		if(block == ModBlocks.dummy_port_chemplant)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
 		//Fluid Tank
 		if(block == ModBlocks.dummy_port_fluidtank)
 		{
