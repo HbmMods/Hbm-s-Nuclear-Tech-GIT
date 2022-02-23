@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 
@@ -81,7 +80,7 @@ public class FluidType {
 		return this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "");
+		return "container" + quantity + this.stringId.replace("_", "").toLowerCase();
 	}
 	
 	public boolean isHot() {

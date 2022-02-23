@@ -449,7 +449,8 @@ public class HazardRegistry {
 		HazardSystem.register(solinium_core, makeData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 5F));
 
 		HazardSystem.register(nuke_fstbmb, makeData(DIGAMMA, 0.01F));
-		HazardSystem.register(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), makeData(DIGAMMA, 1F));
+		HazardSystem.register(DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), makeData(DIGAMMA, 1F));
+		HazardSystem.register(holotape_damaged, makeData(DIGAMMA, 1_000F));
 		
 		/*
 		 * Blacklist

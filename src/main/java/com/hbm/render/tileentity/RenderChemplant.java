@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.HmfController;
-import com.hbm.tileentity.machine.TileEntityMachineChemplantNew;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -55,7 +55,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
-		TileEntityMachineChemplantNew chem = (TileEntityMachineChemplantNew) tileEntity;
+		TileEntityMachineChemplant chem = (TileEntityMachineChemplant) tileEntity;
 		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
 		case 5:
 			GL11.glRotatef(180, 0F, 1F, 0F);

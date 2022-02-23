@@ -29,7 +29,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplantNew extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -43,7 +43,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	int consumption = 100;
 	int speed = 100;
 
-	public TileEntityMachineChemplantNew() {
+	public TileEntityMachineChemplant() {
 		super(21);
 		/*
 		 * 0 Battery
