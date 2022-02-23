@@ -46,6 +46,7 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_waste_vitrified, ModItems.nuclear_waste_vitrified);
 		add1To9Pair(ModBlocks.block_niobium, ModItems.ingot_niobium);
 		add1To9Pair(ModBlocks.block_semtex, ModItems.ingot_semtex);
+		add1To9Pair(ModBlocks.block_c4, ModItems.ingot_c4);
 
 		addMineralSet(ModItems.nugget_bismuth, ModItems.ingot_bismuth, ModBlocks.block_bismuth);
 		addMineralSet(ModItems.nugget_tantalium, ModItems.ingot_tantalium, ModBlocks.block_tantalium);

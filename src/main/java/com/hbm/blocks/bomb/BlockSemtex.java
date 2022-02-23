@@ -3,7 +3,6 @@ package com.hbm.blocks.bomb;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
-import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,8 +28,8 @@ public class BlockSemtex extends Block implements IBomb {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		this.blockIcon = p_149651_1_.registerIcon(RefStrings.MODID + ":block_semtex");
-		this.topIcon = p_149651_1_.registerIcon(RefStrings.MODID + ":block_semtex_front");
+		this.blockIcon = p_149651_1_.registerIcon(this.getTextureName());
+		this.topIcon = p_149651_1_.registerIcon(this.getTextureName() + "_front");
 	}
 
 	@SideOnly(Side.CLIENT)

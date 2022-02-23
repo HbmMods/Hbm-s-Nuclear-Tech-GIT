@@ -78,13 +78,30 @@ public class ChemplantRecipes {
 				.inputItems(
 						new OreDictStack(COAL.dust(), 2),
 						new OreDictStack(F.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 600))
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500))
 				.outputItems(new ItemStack(ModItems.ingot_polymer)));
+		recipes.add(new ChemRecipe(81, "BAKELITE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.AROMATICS, 500),
+						new FluidStack(Fluids.PETROLEUM, 500))
+				.outputItems(new ItemStack(ModItems.ingot_bakelite)));
+		recipes.add(new ChemRecipe(82, "RUBBER", 100)
+				.inputItems(new OreDictStack(S.dust()))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputItems(new ItemStack(ModItems.ingot_rubber)));
+		recipes.add(new ChemRecipe(83, "TNT", 150)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500))
+				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
+		recipes.add(new ChemRecipe(84, "C4", 150)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
 		//44, formerly deuterium
 		//45, formerly steam
 		recipes.add(new ChemRecipe(46, "YELLOWCAKE", 250)
 				.inputItems(
-						new OreDictStack(U.billet(), 2), //TODO: that's 12 nuggets right there, check if those numbers match up
+						new OreDictStack(U.billet(), 2), //12 nuggets: the numbers do match up :)
 						new OreDictStack(S.dust(), 2))
 				.inputFluids(new FluidStack(Fluids.ACID, 500))
 				.outputItems(new ItemStack(ModItems.powder_yellowcake)));

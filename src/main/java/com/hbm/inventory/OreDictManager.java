@@ -164,6 +164,7 @@ public class OreDictManager {
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
 	public static final DictFrame POLYMER = new DictFrame("Polymer");
 	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
+	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
 	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
@@ -233,7 +234,7 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
-	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's jsut the secondary prefix, and that shape prefixes are applicable
+	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
 	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
@@ -309,6 +310,7 @@ public class OreDictManager {
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite);
+		RUBBER															.ingot(ingot_rubber);
 		MAGTUNG																.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
@@ -387,7 +389,7 @@ public class OreDictManager {
 		 */
 		ANY_GUNPOWDER			.dust(Items.gunpowder, ballistite, cordite);
 		ANY_SMOKELESS			.dust(ballistite, cordite);
-		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex);
+		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex, ingot_c4);
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
@@ -421,22 +423,22 @@ public class OreDictManager {
 		OreDictionary.registerOre("stairWoodPink", pink_stairs);
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
-		//OreDictionary.registerOre("dye", cinnebar);
+		OreDictionary.registerOre("dye", cinnebar);
 		OreDictionary.registerOre("dyeYellow", sulfur);
-		//OreDictionary.registerOre("dye", sulfur);
+		OreDictionary.registerOre("dye", sulfur);
 		OreDictionary.registerOre("dyeBlack", powder_coal);
-		//OreDictionary.registerOre("dye", powder_coal);
+		OreDictionary.registerOre("dye", powder_coal);
 		OreDictionary.registerOre("dyeBrown", powder_lignite);
-		//OreDictionary.registerOre("dye", powder_lignite);
+		OreDictionary.registerOre("dye", powder_lignite);
 		OreDictionary.registerOre("dyeLightGray", powder_titanium);
-		//OreDictionary.registerOre("dye", powder_titanium);
+		OreDictionary.registerOre("dye", powder_titanium);
 		OreDictionary.registerOre("dyeWhite", fluorite);
-		//OreDictionary.registerOre("dye", fluorite);
+		OreDictionary.registerOre("dye", fluorite);
 		OreDictionary.registerOre("dyeBlue", powder_lapis);
-		//OreDictionary.registerOre("dye", powder_lapis);
+		OreDictionary.registerOre("dye", powder_lapis);
 		OreDictionary.registerOre("dyeBlack", fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre("dyeBlack", fromOne(oil_tar, EnumTarType.CRACK));
-		//OreDictionary.registerOre("dye", oil_tar);
+		OreDictionary.registerOre("dye", oil_tar);
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
 		OreDictionary.registerOre("blockGlass", glass_lead);
