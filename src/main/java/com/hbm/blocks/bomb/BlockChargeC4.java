@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.world.World;
 
 public class BlockChargeC4 extends BlockChargeBase {
@@ -24,8 +25,10 @@ public class BlockChargeC4 extends BlockChargeBase {
 		return BombReturnCode.UNDEFINED;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return BlockChargeDynamite.renderID;
+		return renderID;
 	}
 }

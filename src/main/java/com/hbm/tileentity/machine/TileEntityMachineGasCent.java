@@ -1,9 +1,12 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -42,6 +45,15 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2, 3, 4};
 	private static final int[] slots_side = new int[] { };
+	
+	@Untested
+	private static HashMap<FluidType, PseudoFluidType> fluidConversions = new HashMap();
+	
+	static {
+		fluidConversions.put(Fluids.UF6, PseudoFluidType.NUF6);
+		fluidConversions.put(Fluids.PUF6, PseudoFluidType.PF6);
+		fluidConversions.put(Fluids.WATZ, PseudoFluidType.MUD);
+	}
 	
 	public TileEntityMachineGasCent() {
 		super(6); 
@@ -319,23 +331,11 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			
 			if(tank.getTankType() != newType) {
 				
-				boolean success = false;
+				PseudoFluidType pseudo = fluidConversions.get(newType);
 				
-				if(newType == Fluids.UF6) {
-					inputTank.setTankType(PseudoFluidType.NUF6);
-					outputTank.setTankType(PseudoFluidType.NUF6.getOutputFluid());
-					success = true;
-				} else if(newType == Fluids.PUF6) {
-					inputTank.setTankType(PseudoFluidType.PF6);
-					outputTank.setTankType(PseudoFluidType.PF6.getOutputFluid());
-					success = true;
-				} else if(newType == Fluids.WATZ) {
-					inputTank.setTankType(PseudoFluidType.MUD);
-					outputTank.setTankType(PseudoFluidType.MUD.getOutputFluid());
-					success = true;
-				}
-				
-				if(success) {
+				if(pseudo != null) {
+					inputTank.setTankType(pseudo);
+					outputTank.setTankType(pseudo.getOutputFluid());
 					tank.setTankType(newType);
 					tank.setFill(0);
 				}
