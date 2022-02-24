@@ -267,6 +267,11 @@ public class ChemplantRecipes {
 				.inputItems(new ComparableStack(ModBlocks.sand_lead))
 				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1000))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
+		recipes.add(new ChemRecipe(88, "LUBRICANT", 20)
+				.inputFluids(
+						new FluidStack(Fluids.HEATINGOIL, 500),
+						new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputFluids(new FluidStack(Fluids.LUBRICANT, 1000)));
 		recipes.add(new ChemRecipe(70, "TEL", 40)
 				.inputItems(
 						new OreDictStack(ANY_TAR.any()),
@@ -275,6 +280,14 @@ public class ChemplantRecipes {
 						new FluidStack(Fluids.PETROLEUM, 100),
 						new FluidStack(Fluids.STEAM, 1000))
 				.outputItems(new ItemStack(ModItems.antiknock)));
+		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
+				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
+				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
+		recipes.add(new ChemRecipe(5, "FR_PETROIL", 30)
+				.inputFluids(
+						new FluidStack(800, Fluids.RECLAIMED),
+						new FluidStack(200, Fluids.LUBRICANT))
+				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
 		recipes.add(new ChemRecipe(86, "PETROIL_LEADED", 40)
 				.inputItems(new ComparableStack(ModItems.antiknock))
 				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
@@ -357,14 +370,6 @@ public class ChemplantRecipes {
 						new FluidStack(RefineryRecipes.light_frac_diesel * 10, Fluids.DIESEL),
 						new FluidStack(RefineryRecipes.light_frac_kero * 10, Fluids.KEROSENE)
 						));
-		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
-				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
-				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
-		recipes.add(new ChemRecipe(5, "FR_PETROIL", 30)
-				.inputFluids(
-						new FluidStack(800, Fluids.RECLAIMED),
-						new FluidStack(200, Fluids.LUBRICANT))
-				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
 	}
 
 	public static void registerOtherOil() {

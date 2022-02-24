@@ -24,23 +24,6 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket), Fluids.WATZ, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_schrabidic_acid), new ItemStack(Items.bucket), Fluids.SCHRABIDIC, 1000));
 
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_oil), new ItemStack(ModItems.canister_empty), Fluids.OIL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_smear), new ItemStack(ModItems.canister_empty), Fluids.SMEAR, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_heavyoil), new ItemStack(ModItems.canister_empty), Fluids.HEAVYOIL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_bitumen), new ItemStack(ModItems.canister_empty), Fluids.BITUMEN, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_heatingoil), new ItemStack(ModItems.canister_empty), Fluids.HEATINGOIL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_reoil), new ItemStack(ModItems.canister_empty), Fluids.RECLAIMED, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_petroil), new ItemStack(ModItems.canister_empty), Fluids.PETROIL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_canola), new ItemStack(ModItems.canister_empty), Fluids.LUBRICANT, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_naphtha), new ItemStack(ModItems.canister_empty), Fluids.NAPHTHA, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_fuel), new ItemStack(ModItems.canister_empty), Fluids.DIESEL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_lightoil), new ItemStack(ModItems.canister_empty), Fluids.LIGHTOIL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_kerosene), new ItemStack(ModItems.canister_empty), Fluids.KEROSENE, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_biofuel), new ItemStack(ModItems.canister_empty), Fluids.BIOFUEL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_ethanol), new ItemStack(ModItems.canister_empty), Fluids.ETHANOL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_gasoline), new ItemStack(ModItems.canister_empty), Fluids.GASOLINE, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_fracksol), new ItemStack(ModItems.canister_empty), Fluids.FRACKSOL, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_NITAN), new ItemStack(ModItems.canister_empty), Fluids.NITAN, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full), new ItemStack(ModItems.gas_empty), Fluids.GAS, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_petroleum), new ItemStack(ModItems.gas_empty), Fluids.PETROLEUM, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_lpg), new ItemStack(ModItems.gas_empty), Fluids.LPG, 1000));

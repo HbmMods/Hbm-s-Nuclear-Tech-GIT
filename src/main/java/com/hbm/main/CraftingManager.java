@@ -450,7 +450,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.pellet_gas, 2), new Object[] { Items.water_bucket, "dustGlowstone", STEEL.plate() });
 
 		addRecipeAuto(new ItemStack(ModItems.flame_pony, 1), new Object[] { " O ", "DPD", " O ", 'D', "dyePink", 'O', KEY_YELLOW, 'P', Items.paper });
-		addRecipeAuto(new ItemStack(ModItems.flame_conspiracy, 1), new Object[] { " S ", "STS", " S ", 'S', ModItems.canister_kerosene, 'T', STEEL.ingot() });
+		addRecipeAuto(new ItemStack(ModItems.flame_conspiracy, 1), new Object[] { " S ", "STS", " S ", 'S', Fluids.KEROSENE.getDict(1000), 'T', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.flame_politics, 1), new Object[] { " I ", "IPI", " I ", 'P', Items.paper, 'I', KEY_BLACK });
 		addRecipeAuto(new ItemStack(ModItems.flame_opinion, 1), new Object[] { " R ", "RPR", " R ", 'P', Items.paper, 'R', KEY_RED });
 		
@@ -531,8 +531,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.wiring_red_copper, 1), new Object[] { "PPP", "PIP", "PPP", 'P', STEEL.plate(), 'I', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.tank_waste, 1), new Object[] { "PTP", "PTP", "PTP", 'T', ModItems.tank_steel, 'P', STEEL.plate() });
 		
-		addRecipeAuto(new ItemStack(ModItems.jetpack_tank, 1), new Object[] { " S ", "BKB", " S ", 'S', STEEL.plate(), 'B', ModItems.bolt_tungsten, 'K', ModItems.canister_kerosene });
-		addRecipeAuto(new ItemStack(ModItems.gun_kit_1, 4), new Object[] { "I ", "LB", "P ", 'I', ModItems.plate_polymer, 'L', ModItems.canister_canola, 'B', ModItems.bolt_tungsten, 'P', IRON.plate() });
+		addRecipeAuto(new ItemStack(ModItems.jetpack_tank, 1), new Object[] { " S ", "BKB", " S ", 'S', STEEL.plate(), 'B', ModItems.bolt_tungsten, 'K', Fluids.KEROSENE.getDict(1000) });
+		addRecipeAuto(new ItemStack(ModItems.gun_kit_1, 4), new Object[] { "I ", "LB", "P ", 'I', ModItems.plate_polymer, 'L', Fluids.LUBRICANT.getDict(1000), 'B', ModItems.bolt_tungsten, 'P', IRON.plate() });
 		addRecipeAuto(new ItemStack(ModItems.gun_kit_2, 1), new Object[] { "III", "GLG", "PPP", 'I', ModItems.plate_polymer, 'L', ModItems.ducttape, 'G', ModItems.gun_kit_1, 'P', IRON.plate() });
 
 		addRecipeAuto(new ItemStack(ModItems.igniter, 1), new Object[] { " W", "SC", "CE", 'S', STEEL.plate(), 'W', ModItems.wire_schrabidium, 'C', ModItems.circuit_schrabidium, 'E', EUPH.ingot() });
@@ -855,6 +855,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.rag, 4), new Object[] { "SW", "WS", 'S', Items.string, 'W', Blocks.wool });
 
 		addShapelessAuto(new ItemStack(ModItems.solid_fuel, 10), new Object[] { Fluids.HEATINGOIL.getDict(1000), KEY_TOOL_CHEMISTRYSET });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 2, Fluids.LUBRICANT.getID()), new Object[] { Fluids.HEATINGOIL.getDict(1000), Fluids.UNSATURATEDS.getDict(1000), ModItems.canister_empty, ModItems.canister_empty, KEY_TOOL_CHEMISTRYSET });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_condenser), new Object[] { "SIS", "ICI", "SIS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'C', ModItems.board_copper });
 
@@ -869,7 +870,7 @@ public class CraftingManager {
 		if(GeneralConfig.enableBabyMode) {
 			addShapelessAuto(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
 			addShapelessAuto(new ItemStack(ModItems.ingot_semtex, 3), new Object[] { Items.slime_ball, Blocks.tnt, KNO.dust() });
-			addShapelessAuto(new ItemStack(ModItems.canister_fuel, 1), new Object[] { ModItems.canister_oil, REDSTONE.dust() });
+			addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new Object[] { new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()), REDSTONE.dust(), ModItems.canister_empty });
 
 			addShapelessAuto(new ItemStack(ModBlocks.ore_uranium, 1), new Object[] { ModBlocks.ore_uranium_scorched, Items.water_bucket });
 			addRecipeAuto(new ItemStack(ModBlocks.ore_uranium, 8), new Object[] { "OOO", "OBO", "OOO", 'O', ModBlocks.ore_uranium_scorched, 'B', Items.water_bucket });

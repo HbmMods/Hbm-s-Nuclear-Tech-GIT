@@ -3277,7 +3277,7 @@ public class ModItems {
 		antiknock = new Item().setUnlocalizedName("antiknock").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":antiknock");
 		
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":canister_empty");
-		canister_full = new ItemCanister().setUnlocalizedName("canister_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_full");
+		canister_full = new ItemCanister().setUnlocalizedName("canister_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_smear = new ItemCustomLore().setUnlocalizedName("canister_smear").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_smear");
 		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
 		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_oil");
@@ -3285,7 +3285,7 @@ public class ModItems {
 		canister_kerosene = new ItemCustomLore().setUnlocalizedName("canister_kerosene").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_kerosene");
 		canister_reoil = new ItemCustomLore().setUnlocalizedName("canister_reoil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_reoil");
 		canister_petroil = new ItemCustomLore().setUnlocalizedName("canister_petroil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_petroil");
-		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
+		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
 		canister_gasoline = new ItemCustomLore().setUnlocalizedName("canister_gasoline").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_gasoline");
 		canister_fracksol = new ItemCustomLore().setUnlocalizedName("canister_fracksol").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fracksol");
 		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_superfuel");
@@ -6322,6 +6322,7 @@ public class ModItems {
 		//Canisters
 		GameRegistry.registerItem(antiknock, antiknock.getUnlocalizedName());
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
+		GameRegistry.registerItem(canister_full, canister_full.getUnlocalizedName());
 		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_heavyoil, canister_heavyoil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_bitumen, canister_bitumen.getUnlocalizedName());

@@ -3,6 +3,7 @@ package com.hbm.lib;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
@@ -41,8 +42,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
-			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
-			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.canister_full, Fluids.DIESEL.getID(), 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3)  };
 
@@ -98,8 +99,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 1, 6),
-			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
-			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.canister_full, Fluids.DIESEL.getID(), 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 1, 1),

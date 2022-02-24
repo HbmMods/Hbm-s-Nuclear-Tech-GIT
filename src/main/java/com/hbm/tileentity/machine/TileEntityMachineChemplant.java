@@ -17,10 +17,13 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,7 +91,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			loadItems();
 			unloadItems();
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
+			if(worldObj.getTotalWorldTime() % 1 == 0) {
 				this.fillFluidInit(tanks[2].getTankType());
 				this.fillFluidInit(tanks[3].getTankType());
 			}
@@ -417,7 +420,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		 *  ####
 		 */
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		fillFluid(xCoord + rot.offsetX * 3,					yCoord,	zCoord + rot.offsetZ * 3,				this.getTact(), type);
