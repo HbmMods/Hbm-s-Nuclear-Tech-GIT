@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
 import com.hbm.render.util.EnumSymbol;
@@ -30,7 +31,6 @@ public class Fluids {
 	public static FluidType SMEAR;
 	public static FluidType HEATINGOIL;
 	public static FluidType RECLAIMED;
-	public static FluidType PETROIL;
 	public static FluidType LUBRICANT;
 	public static FluidType NAPHTHA;
 	public static FluidType NAPHTHA_CRACK;
@@ -64,8 +64,12 @@ public class Fluids {
 	public static FluidType PAIN;				//tantalite solution
 	public static FluidType WASTEFLUID;
 	public static FluidType WASTEGAS;
-	public static FluidType GASOLINE;			//gasoline, leaded
+	public static FluidType PETROIL;
+	public static FluidType PETROIL_LEADED;
+	public static FluidType GASOLINE;
+	public static FluidType GASOLINE_LEADED;
 	public static FluidType COALGAS;			//coal-based gasoline
+	public static FluidType COALGAS_LEADED;
 	public static FluidType SPENTSTEAM;
 	public static FluidType FRACKSOL;
 	public static FluidType PLASMA_DT;
@@ -112,12 +116,12 @@ public class Fluids {
 		LAVA =				new FluidType(				"LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200);
 		DEUTERIUM =			new FluidTypeCombustible(	"DEUTERIUM",		0x0000FF, 3, 4, 0, EnumSymbol.NONE);
 		TRITIUM =			new FluidTypeCombustible(	"TRITIUM",			0x000099, 3, 4, 0, EnumSymbol.RADIATION);
-		OIL =				new FluidTypeFlammable(		"OIL",				0x020202, 2, 1, 0, EnumSymbol.NONE);
+		OIL =				new FluidTypeFlammable(		"OIL",				0x020202, 2, 1, 0, EnumSymbol.NONE).addContainers(0x101010, ExtContainer.CANISTER);
 		HOTOIL =			new FluidTypeFlammable(		"HOTOIL",			0x300900, 2, 3, 0, EnumSymbol.NONE).setTemp(350);
-		HEAVYOIL =			new FluidTypeFlammable(		"HEAVYOIL",			0x141312, 2, 1, 0, EnumSymbol.NONE);
-		BITUMEN =			new FluidType(				"BITUMEN",			0x1f2426, 2, 0, 0, EnumSymbol.NONE);
-		SMEAR =				new FluidTypeFlammable(		"SMEAR",			0x190f01, 2, 1, 0, EnumSymbol.NONE);
-		HEATINGOIL =		new FluidTypeCombustible(	"HEATINGOIL",		0x211806, 2, 2, 0, EnumSymbol.NONE);
+		HEAVYOIL =			new FluidTypeFlammable(		"HEAVYOIL",			0x141312, 2, 1, 0, EnumSymbol.NONE).addContainers(0x808000, ExtContainer.CANISTER);
+		BITUMEN =			new FluidType(				"BITUMEN",			0x1f2426, 2, 0, 0, EnumSymbol.NONE).addContainers(0x101080, ExtContainer.CANISTER);
+		SMEAR =				new FluidTypeFlammable(		"SMEAR",			0x190f01, 2, 1, 0, EnumSymbol.NONE).addContainers(0x808030, ExtContainer.CANISTER);
+		HEATINGOIL =		new FluidTypeCombustible(	"HEATINGOIL",		0x211806, 2, 2, 0, EnumSymbol.NONE).addContainers(0x404000, ExtContainer.CANISTER); //TODO: and so forth
 		RECLAIMED =			new FluidTypeCombustible(	"RECLAIMED",		0x332b22, 2, 2, 0, EnumSymbol.NONE);
 		PETROIL =			new FluidTypeCombustible(	"PETROIL",			0x44413d, 1, 3, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 300_000);
 		LUBRICANT =			new FluidType(				"LUBRICANT",		0x606060, 2, 1, 0, EnumSymbol.NONE);
@@ -148,7 +152,7 @@ public class Fluids {
 		PAIN =				new FluidType(				"PAIN",				0x938541, 2, 0, 1, EnumSymbol.ACID).setTemp(300).addTraits(FluidTrait.CORROSIVE);
 		WASTEFLUID =		new FluidType(				"WASTEFLUID",		0x544400, 2, 0, 1, EnumSymbol.RADIATION).addTraits(FluidTrait.NO_CONTAINER);
 		WASTEGAS =			new FluidType(				"WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).addTraits(FluidTrait.NO_CONTAINER);
-		GASOLINE =			new FluidTypeCombustible(	"GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_500_000);
+		GASOLINE =			new FluidTypeCombustible(	"GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_000_000);
 		COALGAS =			new FluidTypeCombustible(	"COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 150_000);
 		SPENTSTEAM =		new FluidType(				"SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(FluidTrait.NO_CONTAINER);
 		FRACKSOL =			new FluidType(				"FRACKSOL",			0x798A6B, 1, 3, 3, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE);
@@ -174,6 +178,9 @@ public class Fluids {
 		SALIENT =			new FluidType(69,			"SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE);
 		XPJUICE =			new FluidType(				"XPJUICE",			0xBBFF09, 0, 0, 0, EnumSymbol.NONE);
 		ENDERJUICE =		new FluidType(				"ENDERJUICE",		0x127766, 0, 0, 0, EnumSymbol.NONE);
+		PETROIL_LEADED =	new FluidTypeCombustible(	"PETROIL_LEADED",	0x44413d, 1, 3, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 450_000);
+		GASOLINE_LEADED =	new FluidTypeCombustible(	"GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_500_000);
+		COALGAS_LEADED =	new FluidTypeCombustible(	"COALGAS_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 250_000);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -230,8 +237,11 @@ public class Fluids {
 		metaOrder.add(DIESEL_CRACK);
 		metaOrder.add(KEROSENE);
 		metaOrder.add(PETROIL);
+		metaOrder.add(PETROIL_LEADED);
 		metaOrder.add(GASOLINE);
+		metaOrder.add(GASOLINE_LEADED);
 		metaOrder.add(COALGAS);
+		metaOrder.add(COALGAS_LEADED);
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(ETHANOL);

@@ -848,8 +848,9 @@ public class ModItems {
 	public static Item inf_water_mk2;
 
 	public static Item antiknock;
-	
+
 	public static Item canister_empty;
+	public static Item canister_full;
 	public static Item canister_smear;
 	public static Item canister_canola;
 	public static Item canister_oil;
@@ -3276,24 +3277,25 @@ public class ModItems {
 		antiknock = new Item().setUnlocalizedName("antiknock").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":antiknock");
 		
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":canister_empty");
-		canister_smear = new ItemCustomLore().setUnlocalizedName("canister_smear").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_smear");
-		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
-		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_oil");
-		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
-		canister_kerosene = new ItemCustomLore().setUnlocalizedName("canister_kerosene").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_kerosene");
-		canister_reoil = new ItemCustomLore().setUnlocalizedName("canister_reoil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_reoil");
-		canister_petroil = new ItemCustomLore().setUnlocalizedName("canister_petroil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_petroil");
-		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
-		canister_gasoline = new ItemCustomLore().setUnlocalizedName("canister_gasoline").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_gasoline");
-		canister_fracksol = new ItemCustomLore().setUnlocalizedName("canister_fracksol").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fracksol");
-		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_superfuel");
-		canister_heavyoil = new ItemCustomLore().setUnlocalizedName("canister_heavyoil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_heavyoil");
-		canister_bitumen = new ItemCustomLore().setUnlocalizedName("canister_bitumen").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_bitumen");
-		canister_heatingoil = new ItemCustomLore().setUnlocalizedName("canister_heatingoil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_heatingoil");
-		canister_naphtha = new ItemCustomLore().setUnlocalizedName("canister_naphtha").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_naphtha");
-		canister_lightoil = new ItemCustomLore().setUnlocalizedName("canister_lightoil").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_lightoil");
-		canister_biofuel = new ItemCustomLore().setUnlocalizedName("canister_biofuel").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_biofuel");
-		canister_ethanol = new ItemCustomLore().setUnlocalizedName("canister_ethanol").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_ethanol");
+		canister_full = new ItemCanister().setUnlocalizedName("canister_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_full");
+		canister_smear = new ItemCustomLore().setUnlocalizedName("canister_smear").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_smear");
+		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
+		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_oil");
+		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
+		canister_kerosene = new ItemCustomLore().setUnlocalizedName("canister_kerosene").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_kerosene");
+		canister_reoil = new ItemCustomLore().setUnlocalizedName("canister_reoil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_reoil");
+		canister_petroil = new ItemCustomLore().setUnlocalizedName("canister_petroil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_petroil");
+		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
+		canister_gasoline = new ItemCustomLore().setUnlocalizedName("canister_gasoline").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_gasoline");
+		canister_fracksol = new ItemCustomLore().setUnlocalizedName("canister_fracksol").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fracksol");
+		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_superfuel");
+		canister_heavyoil = new ItemCustomLore().setUnlocalizedName("canister_heavyoil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_heavyoil");
+		canister_bitumen = new ItemCustomLore().setUnlocalizedName("canister_bitumen").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_bitumen");
+		canister_heatingoil = new ItemCustomLore().setUnlocalizedName("canister_heatingoil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_heatingoil");
+		canister_naphtha = new ItemCustomLore().setUnlocalizedName("canister_naphtha").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_naphtha");
+		canister_lightoil = new ItemCustomLore().setUnlocalizedName("canister_lightoil").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_lightoil");
+		canister_biofuel = new ItemCustomLore().setUnlocalizedName("canister_biofuel").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_biofuel");
+		canister_ethanol = new ItemCustomLore().setUnlocalizedName("canister_ethanol").setCreativeTab(null).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_ethanol");
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
 		gas_full = new Item().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_full");
 		gas_petroleum = new Item().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_petroleum");

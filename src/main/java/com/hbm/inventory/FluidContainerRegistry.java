@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
@@ -83,6 +84,9 @@ public class FluidContainerRegistry {
 		for(int i = 1; i < fluids.length; i++) {
 			
 			FluidType type = fluids[i];
+			
+			if(type.containers.contains(ExtContainer.CANISTER))
+				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 1000));
 			
 			if(type.hasNoContainer())
 				continue;

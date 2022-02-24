@@ -275,10 +275,21 @@ public class ChemplantRecipes {
 						new FluidStack(Fluids.PETROLEUM, 100),
 						new FluidStack(Fluids.STEAM, 1000))
 				.outputItems(new ItemStack(ModItems.antiknock)));
-		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
+		recipes.add(new ChemRecipe(86, "PETROIL_LEADED", 40)
 				.inputItems(new ComparableStack(ModItems.antiknock))
 				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
-				.outputFluids(new FluidStack(Fluids.GASOLINE, 12_000)));
+				.outputFluids(new FluidStack(Fluids.PETROIL_LEADED, 12_000)));
+		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
+				.inputFluids(new FluidStack(Fluids.NAPHTHA, 1000))
+				.outputFluids(new FluidStack(Fluids.GASOLINE, 800)));
+		recipes.add(new ChemRecipe(85, "GASOLINE_LEADED", 40)
+				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputFluids(new FluidStack(Fluids.GASOLINE, 10_000))
+				.outputFluids(new FluidStack(Fluids.GASOLINE_LEADED, 12_000)));
+		recipes.add(new ChemRecipe(87, "COALGAS_LEADED", 40)
+				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputFluids(new FluidStack(Fluids.COALGAS, 10_000))
+				.outputFluids(new FluidStack(Fluids.COALGAS_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(72, "FRACKSOL", 20)
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(
