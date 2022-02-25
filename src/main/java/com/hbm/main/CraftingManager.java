@@ -11,6 +11,7 @@ import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.fluid.Fluids;
 
 import static com.hbm.inventory.OreDictManager.*;
+
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
@@ -467,8 +468,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.emp_bomb, 1), new Object[] { "LML", "LCL", "LML", 'L', PB.plate(), 'M', ModItems.magnetron, 'C', ModItems.circuit_gold });
 		addShapelessAuto(new ItemStack(ModBlocks.charge_dynamite, 1), new Object[] { ModItems.stick_dynamite, ModItems.stick_dynamite, ModItems.stick_dynamite, ModItems.ducttape });
 		addRecipeAuto(new ItemStack(ModBlocks.charge_miner, 1), new Object[] { " F ", "FCF", " F ", 'F', Items.flint, 'C', ModBlocks.charge_dynamite });
-		addRecipeAuto(new ItemStack(ModBlocks.dynamite, 1), new Object[] { "DDD", "DSD", "DDD", 'D', ModItems.stick_dynamite, 'S', Items.string });
-		addRecipeAuto(new ItemStack(ModBlocks.tnt, 1), new Object[] { "DDD", "DSD", "DDD", 'D', ModItems.stick_tnt, 'S', Items.string });
 
 		addRecipeAuto(ItemBattery.getEmptyBattery(ModItems.battery_generic), new Object[] { " A ", "PRP", "PRP", 'A', ModItems.wire_aluminium, 'P', AL.plate(), 'R', REDSTONE.dust() });
 		addRecipeAuto(ItemBattery.getEmptyBattery(ModItems.battery_advanced), new Object[] { " A ", "PSP", "PLP", 'A', ModItems.wire_red_copper, 'P', CU.plate(), 'S', "sulfur", 'L', PB.dust() });
@@ -866,6 +865,24 @@ public class CraftingManager {
 		
 		addShapelessAuto(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), new Object[] { new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_DIGAMMA.ordinal()), KEY_TOOL_SCREWDRIVER, ModItems.ducttape, ModItems.armor_polish });
 		addShapelessAuto(new ItemStack(ModItems.holotape_damaged), new Object[] { DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), ModBlocks.muffler, ModItems.crt_display, ModItems.gem_alexandrite /* placeholder for amplifier */ });
+
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.SMEAR.getID()), new Object[] { ModItems.canister_smear });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.LUBRICANT.getID()), new Object[] { ModItems.canister_canola });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()), new Object[] { ModItems.canister_oil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new Object[] { ModItems.canister_fuel });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.KEROSENE.getID()), new Object[] { ModItems.canister_kerosene });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.RECLAIMED.getID()), new Object[] { ModItems.canister_reoil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.PETROIL.getID()), new Object[] { ModItems.canister_petroil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.GASOLINE_LEADED.getID()), new Object[] { ModItems.canister_gasoline });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.FRACKSOL.getID()), new Object[] { ModItems.canister_fracksol });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.NITAN.getID()), new Object[] { ModItems.canister_NITAN });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.HEAVYOIL.getID()), new Object[] { ModItems.canister_heavyoil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.BITUMEN.getID()), new Object[] { ModItems.canister_bitumen });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.HEATINGOIL.getID()), new Object[] { ModItems.canister_heatingoil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.NAPHTHA.getID()), new Object[] { ModItems.canister_naphtha });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.LIGHTOIL.getID()), new Object[] { ModItems.canister_lightoil });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.BIOFUEL.getID()), new Object[] { ModItems.canister_biofuel });
+		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.ETHANOL.getID()), new Object[] { ModItems.canister_ethanol });
 		
 		if(GeneralConfig.enableBabyMode) {
 			addShapelessAuto(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

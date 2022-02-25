@@ -21,6 +21,10 @@ public class FluidTypeFlammable extends FluidType {
 		this.energy = energy;
 		return this;
 	}
+	
+	public long getHeatEnergy() {
+		return this.energy;
+	}
 
 	@Override
 	public void addInfo(List<String> info) {

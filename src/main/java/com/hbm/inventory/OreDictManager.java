@@ -1,7 +1,6 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -308,9 +307,9 @@ public class OreDictManager {
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
-		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer);
-		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite);
-		RUBBER															.ingot(ingot_rubber);
+		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
+		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
+		RUBBER																.ingot(ingot_rubber)																												.block(block_rubber);
 		MAGTUNG																.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);

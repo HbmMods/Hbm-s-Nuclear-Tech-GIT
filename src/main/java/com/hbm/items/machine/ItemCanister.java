@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 public class ItemCanister extends Item {
 
@@ -35,6 +36,17 @@ public class ItemCanister extends Item {
 				list.add(new ItemStack(item, 1, type.getID()));
 			}
 		}
+	}
+
+	public String getItemStackDisplayName(ItemStack stack) {
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
+
+		if(s1 != null) {
+			s = s + " " + s1;
+		}
+
+		return s;
 	}
 
 	@Override

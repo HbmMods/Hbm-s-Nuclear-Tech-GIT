@@ -34,7 +34,6 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_aluminium, ModItems.ingot_aluminium);
 		add1To9Pair(ModBlocks.block_graphite, ModItems.ingot_graphite);
 		add1To9Pair(ModBlocks.block_boron, ModItems.ingot_boron);
-		add1To9Pair(ModItems.powder_boron, ModItems.powder_boron_tiny);
 		add1To9Pair(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
 		add1To9Pair(ModBlocks.block_lanthanium, ModItems.ingot_lanthanium);
 		add1To9Pair(ModBlocks.block_ra226, ModItems.ingot_ra226);
@@ -42,17 +41,20 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
 		add1To9Pair(ModBlocks.block_coltan, ModItems.fragment_coltan);
 		add1To9Pair(ModBlocks.block_smore, ModItems.ingot_smore);
-		add1To9Pair(ModItems.nuclear_waste_vitrified, ModItems.nuclear_waste_vitrified_tiny);
-		add1To9Pair(ModBlocks.block_waste_vitrified, ModItems.nuclear_waste_vitrified);
 		add1To9Pair(ModBlocks.block_niobium, ModItems.ingot_niobium);
 		add1To9Pair(ModBlocks.block_semtex, ModItems.ingot_semtex);
 		add1To9Pair(ModBlocks.block_c4, ModItems.ingot_c4);
+		add1To9Pair(ModBlocks.block_polymer, ModItems.ingot_polymer);
+		add1To9Pair(ModBlocks.block_bakelite, ModItems.ingot_bakelite);
+		add1To9Pair(ModBlocks.block_rubber, ModItems.ingot_rubber);
 
 		addMineralSet(ModItems.nugget_bismuth, ModItems.ingot_bismuth, ModBlocks.block_bismuth);
 		addMineralSet(ModItems.nugget_tantalium, ModItems.ingot_tantalium, ModBlocks.block_tantalium);
 		addMineralSet(ModItems.nugget_zirconium, ModItems.ingot_zirconium, ModBlocks.block_zirconium);
 		addMineralSet(ModItems.nugget_dineutronium, ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
-		
+		addMineralSet(ModItems.nuclear_waste_vitrified_tiny, ModItems.nuclear_waste_vitrified, ModBlocks.block_waste_vitrified);
+
+		add1To9Pair(ModItems.powder_boron, ModItems.powder_boron_tiny);
 		add1To9Pair(ModItems.powder_sr90, ModItems.powder_sr90_tiny);
 		add1To9Pair(ModItems.powder_xe135, ModItems.powder_xe135_tiny);
 		add1To9Pair(ModItems.powder_cs137, ModItems.powder_cs137_tiny);

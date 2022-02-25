@@ -224,6 +224,9 @@ public class ModBlocks {
 	public static Block block_desh;
 	public static Block block_dura_steel;
 	public static Block block_starmetal;
+	public static Block block_polymer;
+	public static Block block_bakelite;
+	public static Block block_rubber;
 	public static Block block_yellowcake;
 	public static Block block_insulator;
 	public static Block block_fiberglass;
@@ -1418,6 +1421,9 @@ public class ModBlocks {
 		block_desh = new BlockBeaconable(Material.iron).setBlockName("block_desh").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_desh");
 		block_dura_steel = new BlockBeaconable(Material.iron).setBlockName("block_dura_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_dura_steel");
 		block_starmetal = new BlockBeaconable(Material.iron).setBlockName("block_starmetal").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_starmetal");
+		block_polymer = new BlockBeaconable(Material.ground).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
+		block_bakelite = new BlockBeaconable(Material.ground).setBlockName("block_bakelite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_bakelite");
+		block_rubber = new BlockBeaconable(Material.ground).setBlockName("block_rubber").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_rubber");
 		block_yellowcake = new BlockHazardFalling().makeBeaconable().setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
 		block_insulator = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_insulator_top").setBlockName("block_insulator").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_insulator_side");
 		block_fiberglass = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_fiberglass_top").setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
@@ -2446,6 +2452,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_desh, block_desh.getUnlocalizedName());
 		GameRegistry.registerBlock(block_dura_steel, block_dura_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_starmetal, block_starmetal.getUnlocalizedName());
+		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
+		GameRegistry.registerBlock(block_bakelite, block_bakelite.getUnlocalizedName());
+		GameRegistry.registerBlock(block_rubber, block_rubber.getUnlocalizedName());
 		GameRegistry.registerBlock(block_australium, ItemOreBlock.class, block_australium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_weidanium, ItemOreBlock.class, block_weidanium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_reiium, ItemOreBlock.class, block_reiium.getUnlocalizedName());
