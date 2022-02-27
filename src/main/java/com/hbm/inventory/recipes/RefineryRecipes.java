@@ -134,4 +134,40 @@ public class RefineryRecipes {
 	protected static Map<FluidType, Pair<FluidStack, FluidStack>> getCrackingRecipes() {
 		return cracking;
 	}
+	
+	public static HashMap<Object, Object> getFractionRecipesForNEI() {
+
+		HashMap<Object, Object> recipes = new HashMap();
+		
+		for(Entry<FluidType, Pair<FluidStack, FluidStack>> recipe : fractions.entrySet()) {
+			ItemStack[] out = new ItemStack[] {
+					ItemFluidIcon.make(recipe.getValue().getKey()),
+					ItemFluidIcon.make(recipe.getValue().getValue())
+			};
+			
+			recipes.put(ItemFluidIcon.make(recipe.getKey(), 100), out);
+		}
+		
+		return recipes;
+	}
+	
+	public static HashMap<Object, Object> getCrackingRecipesForNEI() {
+
+		HashMap<Object, Object> recipes = new HashMap();
+		
+		for(Entry<FluidType, Pair<FluidStack, FluidStack>> recipe : cracking.entrySet()) {
+			ItemStack[] in = new ItemStack[] {
+					ItemFluidIcon.make(recipe.getKey(), 100),
+					ItemFluidIcon.make(Fluids.STEAM, 200)
+			};
+			ItemStack[] out = new ItemStack[] {
+					ItemFluidIcon.make(recipe.getValue().getKey()),
+					ItemFluidIcon.make(recipe.getValue().getValue())
+			};
+			
+			recipes.put(in, recipe.getValue().getValue().type == Fluids.NONE ? ItemFluidIcon.make(recipe.getValue().getKey()) : out);
+		}
+		
+		return recipes;
+	}
 }

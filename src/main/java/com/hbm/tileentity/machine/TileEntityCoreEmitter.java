@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;

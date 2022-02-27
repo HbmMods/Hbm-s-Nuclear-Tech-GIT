@@ -456,7 +456,7 @@ public class OreDictManager {
 	}
 	
 	public static void registerGroups() {
-		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true);
+		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
 		ANY_TAR.addPrefix(ANY, false);
 	}
 	
@@ -546,6 +546,9 @@ public class OreDictManager {
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
 			return new ItemStack(item, 1, en.ordinal());
+		}
+		public static ItemStack fromOne(Item item, Enum en, int stacksize) {
+			return new ItemStack(item, stacksize, en.ordinal());
 		}
 		/** Same as fromOne but with an array of ItemStacks. The array type is Object[] so that the ODM methods work with it. Generates ItemStacks for the entire enum class. */
 		public static Object[] fromAll(Item item, Class<? extends Enum> en) {

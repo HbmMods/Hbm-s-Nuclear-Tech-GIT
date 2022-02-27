@@ -130,6 +130,17 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			}
 			
 			this.networkPack(data, 150);
+		} else {
+			
+			if(isProgressing && this.worldObj.getTotalWorldTime() % 3 == 0) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				double x = xCoord + 0.5 + dir.offsetX * 1.125 + rot.offsetX * 0.125;
+				double y = yCoord + 3;
+				double z = zCoord + 0.5 + dir.offsetZ * 1.125 + rot.offsetZ * 0.125;
+				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
+			}
 		}
 	}
 

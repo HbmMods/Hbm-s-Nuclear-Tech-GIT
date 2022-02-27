@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.main.CraftingManager;
 
 import net.minecraft.init.Blocks;
@@ -92,6 +93,10 @@ public class ArmorRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_plate, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_plate_jetpack, 'C', ModItems.singularity_spark });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_legs, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_legs, 'C', ModItems.coin_worm });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_boots, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_boots, 'C', ModItems.demon_core_closed });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_helmet, 1), new Object[] { "KPK", "PLP", " F ", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'F', ModItems.gas_mask_filter_combo });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_plate, 1), new Object[] { "P P", "MLM", "PKP", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'M', ModItems.motor_desh });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_legs, 1), new Object[] { "MPM", "KLK", "P P", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'M', ModItems.motor_desh });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_boots, 1), new Object[] { "KLK", "P P", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr });
 
 		//Euphemium armor
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });
