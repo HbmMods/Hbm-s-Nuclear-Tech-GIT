@@ -24,6 +24,7 @@ public class ItemColtanCompass extends Item {
 	public int lastZ = 0;
 	public long lease = 0;
 
+	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean inhand) {
 		
 		if(world.isRemote) {

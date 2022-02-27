@@ -17,10 +17,13 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,7 +32,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplantNew extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -43,7 +46,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 	int consumption = 100;
 	int speed = 100;
 
-	public TileEntityMachineChemplantNew() {
+	public TileEntityMachineChemplant() {
 		super(21);
 		/*
 		 * 0 Battery
@@ -88,7 +91,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			loadItems();
 			unloadItems();
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
+			if(worldObj.getTotalWorldTime() % 1 == 0) {
 				this.fillFluidInit(tanks[2].getTankType());
 				this.fillFluidInit(tanks[3].getTankType());
 			}
@@ -127,6 +130,17 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 			}
 			
 			this.networkPack(data, 150);
+		} else {
+			
+			if(isProgressing && this.worldObj.getTotalWorldTime() % 3 == 0) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				double x = xCoord + 0.5 + dir.offsetX * 1.125 + rot.offsetX * 0.125;
+				double y = yCoord + 3;
+				double z = zCoord + 0.5 + dir.offsetZ * 1.125 + rot.offsetZ * 0.125;
+				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
+			}
 		}
 	}
 
@@ -417,7 +431,7 @@ public class TileEntityMachineChemplantNew extends TileEntityMachineBase impleme
 		 *  ####
 		 */
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		fillFluid(xCoord + rot.offsetX * 3,					yCoord,	zCoord + rot.offsetZ * 3,				this.getTact(), type);

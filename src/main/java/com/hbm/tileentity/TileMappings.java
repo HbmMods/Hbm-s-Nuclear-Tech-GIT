@@ -3,6 +3,7 @@ package com.hbm.tileentity;
 import java.util.HashMap;
 
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -188,6 +189,7 @@ public class TileMappings {
 		
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
+		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
 		
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
 		
@@ -244,7 +246,7 @@ public class TileMappings {
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 
-		put(TileEntityMachineChemplantNew.class, "tileentity_chemical_plant");
+		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
 		put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");

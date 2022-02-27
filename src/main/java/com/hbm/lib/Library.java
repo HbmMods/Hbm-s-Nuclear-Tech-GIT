@@ -18,7 +18,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.TileEntityProxyInventory;
-import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
@@ -490,17 +489,17 @@ public class Library {
 		
 		if(tileentity instanceof IFluidDuct)
 		{
-			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).getType().name().equals(type.name()))
+			if(tileentity instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple)tileentity).getType().name().equals(type.name()))
 			{
-				if(Library.checkUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
+				if(Library.checkUnionListForFluids(((TileEntityFluidDuctSimple)tileentity).uoteab, that))
 				{
-					for(int i = 0; i < ((TileEntityFluidDuct)tileentity).uoteab.size(); i++)
+					for(int i = 0; i < ((TileEntityFluidDuctSimple)tileentity).uoteab.size(); i++)
 					{
-						if(((TileEntityFluidDuct)tileentity).uoteab.get(i).source == that)
+						if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).source == that)
 						{
-							if(((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked != newTact)
+							if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked != newTact)
 							{
-								((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked = newTact;
+								((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked = newTact;
 								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
@@ -511,7 +510,7 @@ public class Library {
 						}
 					}
 				} else {
-					((TileEntityFluidDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+					((TileEntityFluidDuctSimple)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
 				}
 			}
 			if(tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type.name().equals(type.name()))

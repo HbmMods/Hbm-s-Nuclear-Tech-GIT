@@ -279,12 +279,13 @@ public class CentrifugeRecipes {
 		
 		if(quartz != null && !quartz.isEmpty()) {
 			ItemStack qItem = quartz.get(0).copy();
+			qItem.stackSize = 2;
 			
 			recipes.put("oreCertusQuartz", new ItemStack[] {
-					qItem,
-					qItem,
-					qItem,
-					qItem });
+					qItem.copy(),
+					qItem.copy(),
+					qItem.copy(),
+					qItem.copy() });
 		}
 		
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });

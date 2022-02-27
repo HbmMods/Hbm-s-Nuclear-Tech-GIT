@@ -89,7 +89,7 @@ public class CrystallizerRecipes {
 		
 		if(quartz != null && !quartz.isEmpty()) {
 			ItemStack qItem = quartz.get(0).copy();
-			qItem.stackSize = 6;
+			qItem.stackSize = 12;
 			recipes.put("oreCertusQuartz", qItem);
 		}
 		

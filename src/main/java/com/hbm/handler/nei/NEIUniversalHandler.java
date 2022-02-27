@@ -50,7 +50,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			input = new PositionedStack[in.length];
 			for(int i = 0; i < in.length; i++) {
 				ItemStack[] sub = in[i];
-				this.input[i] = new PositionedStack(sub, 48 + i * 18, 24);
+				this.input[i] = new PositionedStack(sub, 48 + i * -18, 24);
 			}
 			output = new PositionedStack[out.length];
 			for(int i = 0; i < out.length; i++) {
@@ -95,8 +95,14 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawBackground(int recipe) {
 		super.drawBackground(recipe);
-		drawTexturedModalRect(47, 23, 5, 87, 18, 18);
-		drawTexturedModalRect(101, 23, 5, 87, 18, 18);
+		
+		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
+		
+		for(int i = 0; i < rec.input.length; i++)
+			drawTexturedModalRect(47 + i * -18, 23, 5, 87, 18, 18);
+		for(int i = 0; i < rec.output.length; i++)
+			drawTexturedModalRect(101 + i * 18, 23, 5, 87, 18, 18);
+		
 		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
 	}
 

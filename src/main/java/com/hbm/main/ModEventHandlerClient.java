@@ -549,7 +549,7 @@ public class ModEventHandlerClient {
 		int breeder = TileEntityNukeFurnace.getFuelValue(stack);
 		
 		if(breeder != 0) {
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder * 5)));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", breeder));
 		}
 		
 		/// CUSTOM NUKE ///

@@ -2,10 +2,11 @@ package com.hbm.inventory.fluid;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 
@@ -19,6 +20,7 @@ public class FluidType {
 	private int id;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
+	private int containerColor = 0xffffff;
 	//Unlocalized string ID of the fluid
 	private String unlocalized;
 	
@@ -27,6 +29,7 @@ public class FluidType {
 	public int reactivity;
 	public EnumSymbol symbol;
 	public int temperature;
+	public Set<ExtContainer> containers = new HashSet();
 	public List<FluidTrait> traits = new ArrayList();
 	private String stringId;
 	
@@ -58,6 +61,12 @@ public class FluidType {
 		return this;
 	}
 	
+	public FluidType addContainers(int color, ExtContainer... containers) {
+		this.containerColor = color;
+		Collections.addAll(this.containers, containers);
+		return this;
+	}
+	
 	public FluidType addTraits(FluidTrait... traits) {
 		Collections.addAll(this.traits, traits);
 		return this;
@@ -74,6 +83,10 @@ public class FluidType {
 	public int getColor() {
 		return this.color;
 	}
+
+	public int getContainerColor() {
+		return this.containerColor;
+	}
 	public ResourceLocation getTexture() {
 		return this.texture;
 	}
@@ -81,7 +94,7 @@ public class FluidType {
 		return this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "");
+		return "container" + quantity + this.stringId.replace("_", "").toLowerCase();
 	}
 	
 	public boolean isHot() {
@@ -144,6 +157,10 @@ public class FluidType {
 		NO_CONTAINER,
 		LEAD_CONTAINER,
 		NO_ID;
+	}
+	
+	public static enum ExtContainer {
+		CANISTER
 	}
 	
 	//shitty wrapper delegates, go!

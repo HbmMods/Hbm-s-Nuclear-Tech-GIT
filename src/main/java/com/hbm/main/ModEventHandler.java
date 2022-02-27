@@ -13,6 +13,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Multimap;
+import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
@@ -61,6 +62,7 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
+import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -1098,6 +1100,18 @@ public class ModEventHandler {
 		
 		if(player.ticksExisted == 100 || player.ticksExisted == 200)
 			CraftingManager.crumple();
+		
+		if(event.phase == TickEvent.Phase.START) {
+			int x = MathHelper.floor_double(player.posX);
+			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.5);
+			int z = MathHelper.floor_double(player.posZ);
+			Block b = player.worldObj.getBlock(x, y, z);
+			
+			if(b instanceof IStepTickReceiver) {
+				IStepTickReceiver step = (IStepTickReceiver) b;
+				step.onPlayerStep(player.worldObj, x, y, z, player);
+			}
+		}
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			

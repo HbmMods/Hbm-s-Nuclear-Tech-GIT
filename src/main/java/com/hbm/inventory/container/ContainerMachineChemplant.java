@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachineChemplantNew;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineChemplant extends Container {
 
-	private TileEntityMachineChemplantNew nukeBoy;
+	private TileEntityMachineChemplant nukeBoy;
 
-	public ContainerMachineChemplant(InventoryPlayer invPlayer, TileEntityMachineChemplantNew tedf) {
+	public ContainerMachineChemplant(InventoryPlayer invPlayer, TileEntityMachineChemplant tedf) {
 		nukeBoy = tedf;
 
 		// Battery

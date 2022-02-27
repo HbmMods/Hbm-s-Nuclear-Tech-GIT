@@ -8,6 +8,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.FluidTypeFlammable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
@@ -187,27 +188,10 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	public static final int coalGenRate = 75;
-	public static final HashMap<FluidType, Integer> fuels = new HashMap();
-	
-	static {
-		fuels.put(Fluids.SMEAR,			50);
-		fuels.put(Fluids.HEATINGOIL,	75);
-		fuels.put(Fluids.HYDROGEN,		5);
-		fuels.put(Fluids.DIESEL,		225);
-		fuels.put(Fluids.KEROSENE,		300);
-		fuels.put(Fluids.RECLAIMED,		100);
-		fuels.put(Fluids.PETROIL,		125);
-		fuels.put(Fluids.BIOFUEL,		200);
-		fuels.put(Fluids.GASOLINE,		700);
-		fuels.put(Fluids.NITAN,			2500);
-		fuels.put(Fluids.LPG,			200);
-		fuels.put(Fluids.ETHANOL,		75);
-	}
 	
 	public int getPowerFromFuel() {
 		FluidType type = tanks[1].getTankType();
-		Integer value = fuels.get(type);
-		return value != null ? value : 0;
+		return type instanceof FluidTypeFlammable ? (int)(((FluidTypeFlammable) type).getHeatEnergy() / 1000L) : 0;
 	}
 
 	@Override

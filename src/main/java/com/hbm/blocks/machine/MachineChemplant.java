@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineChemplantNew;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +19,7 @@ public class MachineChemplant extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		if(meta >= 12) return new TileEntityMachineChemplantNew();
+		if(meta >= 12) return new TileEntityMachineChemplant();
 		if(meta >= 6) return new TileEntityProxyCombo(false, true, true);
 		return null;
 	}

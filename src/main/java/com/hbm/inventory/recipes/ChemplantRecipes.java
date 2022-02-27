@@ -78,13 +78,30 @@ public class ChemplantRecipes {
 				.inputItems(
 						new OreDictStack(COAL.dust(), 2),
 						new OreDictStack(F.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 600))
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500))
 				.outputItems(new ItemStack(ModItems.ingot_polymer)));
+		recipes.add(new ChemRecipe(81, "BAKELITE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.AROMATICS, 500),
+						new FluidStack(Fluids.PETROLEUM, 500))
+				.outputItems(new ItemStack(ModItems.ingot_bakelite)));
+		recipes.add(new ChemRecipe(82, "RUBBER", 100)
+				.inputItems(new OreDictStack(S.dust()))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputItems(new ItemStack(ModItems.ingot_rubber)));
+		recipes.add(new ChemRecipe(83, "TNT", 150)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500))
+				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
+		recipes.add(new ChemRecipe(84, "C4", 150)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
 		//44, formerly deuterium
 		//45, formerly steam
 		recipes.add(new ChemRecipe(46, "YELLOWCAKE", 250)
 				.inputItems(
-						new OreDictStack(U.billet(), 2), //TODO: that's 12 nuggets right there, check if those numbers match up
+						new OreDictStack(U.billet(), 2), //12 nuggets: the numbers do match up :)
 						new OreDictStack(S.dust(), 2))
 				.inputFluids(new FluidStack(Fluids.ACID, 500))
 				.outputItems(new ItemStack(ModItems.powder_yellowcake)));
@@ -250,6 +267,11 @@ public class ChemplantRecipes {
 				.inputItems(new ComparableStack(ModBlocks.sand_lead))
 				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1000))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
+		recipes.add(new ChemRecipe(88, "LUBRICANT", 20)
+				.inputFluids(
+						new FluidStack(Fluids.HEATINGOIL, 500),
+						new FluidStack(Fluids.UNSATURATEDS, 500))
+				.outputFluids(new FluidStack(Fluids.LUBRICANT, 1000)));
 		recipes.add(new ChemRecipe(70, "TEL", 40)
 				.inputItems(
 						new OreDictStack(ANY_TAR.any()),
@@ -258,10 +280,29 @@ public class ChemplantRecipes {
 						new FluidStack(Fluids.PETROLEUM, 100),
 						new FluidStack(Fluids.STEAM, 1000))
 				.outputItems(new ItemStack(ModItems.antiknock)));
-		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
+		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
+				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
+				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
+		recipes.add(new ChemRecipe(5, "FR_PETROIL", 30)
+				.inputFluids(
+						new FluidStack(800, Fluids.RECLAIMED),
+						new FluidStack(200, Fluids.LUBRICANT))
+				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
+		recipes.add(new ChemRecipe(86, "PETROIL_LEADED", 40)
 				.inputItems(new ComparableStack(ModItems.antiknock))
 				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
-				.outputFluids(new FluidStack(Fluids.GASOLINE, 12_000)));
+				.outputFluids(new FluidStack(Fluids.PETROIL_LEADED, 12_000)));
+		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
+				.inputFluids(new FluidStack(Fluids.NAPHTHA, 1000))
+				.outputFluids(new FluidStack(Fluids.GASOLINE, 800)));
+		recipes.add(new ChemRecipe(85, "GASOLINE_LEADED", 40)
+				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputFluids(new FluidStack(Fluids.GASOLINE, 10_000))
+				.outputFluids(new FluidStack(Fluids.GASOLINE_LEADED, 12_000)));
+		recipes.add(new ChemRecipe(87, "COALGAS_LEADED", 40)
+				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputFluids(new FluidStack(Fluids.COALGAS, 10_000))
+				.outputFluids(new FluidStack(Fluids.COALGAS_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(72, "FRACKSOL", 20)
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(
@@ -329,14 +370,6 @@ public class ChemplantRecipes {
 						new FluidStack(RefineryRecipes.light_frac_diesel * 10, Fluids.DIESEL),
 						new FluidStack(RefineryRecipes.light_frac_kero * 10, Fluids.KEROSENE)
 						));
-		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
-				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
-				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
-		recipes.add(new ChemRecipe(5, "FR_PETROIL", 30)
-				.inputFluids(
-						new FluidStack(800, Fluids.RECLAIMED),
-						new FluidStack(200, Fluids.LUBRICANT))
-				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
 	}
 
 	public static void registerOtherOil() {

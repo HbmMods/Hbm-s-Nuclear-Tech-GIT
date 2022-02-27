@@ -152,16 +152,24 @@ public class HazardRegistry {
 		HazardSystem.register(Blocks.tnt, makeData(EXPLOSIVE, 4F));
 		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 1F));
 		
-		HazardSystem.register(ModItems.ball_dynamite, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(ModItems.stick_dynamite, makeData(EXPLOSIVE, 1F));
+		HazardSystem.register(ball_dynamite, makeData(EXPLOSIVE, 2F));
+		HazardSystem.register(ball_tnt, makeData(EXPLOSIVE, 3F));
+		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 5F));
+		HazardSystem.register(ingot_c4, makeData(EXPLOSIVE, 5F));
+		HazardSystem.register(stick_dynamite, makeData(EXPLOSIVE, 1F));
+		HazardSystem.register(stick_tnt, makeData(EXPLOSIVE, 1.5F));
+		HazardSystem.register(stick_semtex, makeData(EXPLOSIVE, 2.5F));
+		HazardSystem.register(stick_c4, makeData(EXPLOSIVE, 2.5F));
+		HazardSystem.register(dynamite, makeData(EXPLOSIVE, 6F));
+		HazardSystem.register(tnt, makeData(EXPLOSIVE, 8F));
 
 		HazardSystem.register("dustCoal", makeData(COAL, powder));
 		HazardSystem.register("dustTinyCoal", makeData(COAL, powder_tiny));
 		HazardSystem.register("dustLignite", makeData(COAL, powder));
 		HazardSystem.register("dustTinyLignite", makeData(COAL, powder_tiny));
-		
-		HazardSystem.register(ingot_semtex, makeData(EXPLOSIVE, 10F));
-		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 40F));
+
+		HazardSystem.register(block_semtex, makeData(EXPLOSIVE, 25F));
+		HazardSystem.register(block_c4, makeData(EXPLOSIVE, 25F));
 		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
 		
@@ -443,7 +451,8 @@ public class HazardRegistry {
 		HazardSystem.register(solinium_core, makeData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 5F));
 
 		HazardSystem.register(nuke_fstbmb, makeData(DIGAMMA, 0.01F));
-		HazardSystem.register(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), makeData(DIGAMMA, 1F));
+		HazardSystem.register(DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), makeData(DIGAMMA, 1F));
+		HazardSystem.register(holotape_damaged, makeData(DIGAMMA, 1_000F));
 		
 		/*
 		 * Blacklist

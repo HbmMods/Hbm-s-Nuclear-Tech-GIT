@@ -207,8 +207,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_fuel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_biofuel, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_full, 16, Fluids.DIESEL.getID()));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_full, 16, Fluids.BIOFUEL.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));

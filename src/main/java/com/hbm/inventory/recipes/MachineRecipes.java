@@ -75,8 +75,8 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_red_copper, 2);
 		}
 
-		if (item.getItem() == ModItems.canister_fuel && item2.getItem() == Items.slime_ball
-				|| item.getItem() == Items.slime_ball && item2.getItem() == ModItems.canister_fuel) {
+		if (item.getItem() == ModItems.canister_full && item.getItemDamage() == Fluids.DIESEL.getID() && item2.getItem() == Items.slime_ball
+				|| item.getItem() == Items.slime_ball && item2.getItem() == ModItems.canister_full && item2.getItemDamage() == Fluids.DIESEL.getID()) {
 			return new ItemStack(ModItems.canister_napalm, 1);
 		}
 
@@ -118,7 +118,7 @@ public class MachineRecipes {
 		if(GeneralConfig.enableBabyMode) {
 			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
 					|| item.getItem() == ModItems.canister_empty && mODE(item2, new String[] { "gemCoal", "dustCoal" })) {
-				return new ItemStack(ModItems.canister_oil );
+				return new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID());
 			}
 		}
 
@@ -414,8 +414,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
-					getFurnaceOutput(new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball) },
+					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
