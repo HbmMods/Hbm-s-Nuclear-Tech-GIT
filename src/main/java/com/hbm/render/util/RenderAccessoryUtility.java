@@ -143,17 +143,17 @@ public class RenderAccessoryUtility {
 		solModel.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
 	}
 	
-	private static ModelBiped wingModel;
-	public static void renderWings(RenderPlayerEvent.SetArmorModel event) {
+	private static ModelBiped[] wingModels = new ModelBiped[10];
+	public static void renderWings(RenderPlayerEvent.SetArmorModel event, int mode) {
 
-		if(wingModel == null)
-			wingModel = new ModelArmorWings(2);
+		if(wingModels[mode] == null)
+			wingModels[mode] = new ModelArmorWings(mode);
 		
 		RenderPlayer renderer = event.renderer;
 		ModelBiped model = renderer.modelArmor;
 		EntityPlayer player = event.entityPlayer;
 
-		wingModel.isSneak = model.isSneak;
+		wingModels[mode].isSneak = model.isSneak;
 		
 		float interp = event.partialRenderTick;
 		float yawHead = player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * interp;
@@ -162,6 +162,6 @@ public class RenderAccessoryUtility {
 		float yawWrapped = MathHelper.wrapAngleTo180_float(yawHead - yawOffset);
 		float pitch = player.rotationPitch;
 		
-		wingModel.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
+		wingModels[mode].render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
 	}
 }

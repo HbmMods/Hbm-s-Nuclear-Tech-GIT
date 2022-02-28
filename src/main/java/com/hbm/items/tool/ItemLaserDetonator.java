@@ -7,8 +7,10 @@ import org.apache.logging.log4j.Level;
 import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemLaserDetonator extends Item {
+public class ItemLaserDetonator extends Item implements IHoldableWeapon {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
@@ -69,5 +71,10 @@ public class ItemLaserDetonator extends Item {
 		}
 
 		return stack;
+	}
+
+	@Override
+	public Crosshair getCrosshair() {
+		return Crosshair.L_ARROWS;
 	}
 }
