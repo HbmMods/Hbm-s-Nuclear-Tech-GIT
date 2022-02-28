@@ -411,10 +411,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				
-				return tank.getMaxFill();
+		for(int i = 0; i < 2; i++) {
+			if(tanks[i].getTankType() == type) {
+				return tanks[i].getMaxFill();
 			}
 		}
 		
