@@ -213,6 +213,14 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 		}
 	}
 	
+	@Override
+	public void markDirty() {
+		
+		if(this.worldObj != null) {
+			this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+		}
+	}
+	
 	protected void coolPassively() {
 		
 		if(ModEventHandler.fire > 0) {
