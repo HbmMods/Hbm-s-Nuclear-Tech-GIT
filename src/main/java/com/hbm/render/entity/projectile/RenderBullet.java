@@ -68,6 +68,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_METEOR: renderMeteor(trail); break;
 			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
 			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
+			case BulletConfiguration.STYLE_BARREL: renderNuke(3); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -217,6 +218,13 @@ public class RenderBullet extends Render {
 		case 2:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/BaleFlare.png"));
 			bf.renderAll(0.0625F); break;
+		case 3:
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
+			bindTexture(ResourceManager.waste_drum_tex);
+			ResourceManager.waste_drum.renderAll();
+			break;
 		}
 
 	}

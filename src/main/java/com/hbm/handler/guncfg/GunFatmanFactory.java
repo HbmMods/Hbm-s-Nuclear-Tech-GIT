@@ -213,7 +213,39 @@ public class GunFatmanFactory {
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
-				if(bullet.worldObj.isRemote) {
+				if(!bullet.worldObj.isRemote) {
+
+					double posX = bullet.posX;
+					double posY = bullet.posY + 0.5;
+					double posZ = bullet.posZ;
+					
+					if(y >= 0) {
+						posX = x + 0.5;
+						posY = y + 1.5;
+						posZ = z + 0.5;
+					}
+					
+					ExplosionLarge.spawnParticles(bullet.worldObj, posX, posY, posZ, 45);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeBarrelConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_pumpkin;
+		bullet.explosive = 3F;
+		bullet.style = bullet.STYLE_BARREL;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
 
 					double posX = bullet.posX;
 					double posY = bullet.posY + 0.5;

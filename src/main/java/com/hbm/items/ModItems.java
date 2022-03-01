@@ -1551,6 +1551,7 @@ public class ModItems {
 	public static Item ammo_nuke_tots;
 	public static Item ammo_nuke_safe;
 	public static Item ammo_nuke_pumpkin;
+	public static Item ammo_nuke_barrel;
 	public static Item ammo_mirv;
 	public static Item ammo_mirv_low;
 	public static Item ammo_mirv_high;
@@ -4216,6 +4217,7 @@ public class ModItems {
 		ammo_nuke_tots = new ItemAmmo().setUnlocalizedName("ammo_nuke_tots");
 		ammo_nuke_safe = new ItemAmmo().setUnlocalizedName("ammo_nuke_safe");
 		ammo_nuke_pumpkin = new ItemAmmo().setUnlocalizedName("ammo_nuke_pumpkin");
+		ammo_nuke_barrel = new ItemAmmo().setUnlocalizedName("ammo_nuke_barrel");
 		ammo_mirv = new ItemAmmo().setUnlocalizedName("ammo_mirv");
 		ammo_mirv_low = new ItemAmmo().setUnlocalizedName("ammo_mirv_low");
 		ammo_mirv_high = new ItemAmmo().setUnlocalizedName("ammo_mirv_high");
@@ -7251,6 +7253,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_nuke_tots, ammo_nuke_tots.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_safe, ammo_nuke_safe.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_pumpkin, ammo_nuke_pumpkin.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_nuke_barrel, ammo_nuke_barrel.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_mirv, ammo_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_mirv_low, ammo_mirv_low.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_mirv_high, ammo_mirv_high.getUnlocalizedName());
