@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -134,7 +135,10 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	public float getShadowSize() {
 		return 7.5F;
 	}
-	
+
+	/**
+	 * BOW
+	 */
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
@@ -142,5 +146,14 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 		if(!worldObj.isRemote && this.posY < -30) {
 			this.setPosition(this.posX + rand.nextGaussian() * 30, 256, this.posZ + rand.nextGaussian() * 30);
 		}
+	}
+
+	@Override
+	protected void updateLeashedState() {
+		
+		if(this.getLeashedToEntity() instanceof EntityLeashKnot)
+			this.getLeashedToEntity().setDead();
+		
+		super.updateLeashedState();
 	}
 }
