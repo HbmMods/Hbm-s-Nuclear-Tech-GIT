@@ -30,7 +30,7 @@ public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
 	@Override
 	public void setPower(long i) {
 		power = i;
-		this.markDirty();
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	@Override

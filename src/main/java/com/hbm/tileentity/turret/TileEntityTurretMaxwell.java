@@ -152,7 +152,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		
 		if(this.target != null && this.getPower() >= demand) {
 
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.microwave, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
 			
 			if(pinkLevel > 0)
 				this.target.setFire(this.pinkLevel * 3);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -17,17 +16,13 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -220,6 +215,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		this.power -= this.consumption;
 		this.progress++;
 		
+		if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_machined)
+			slots[0] = new ItemStack(ModItems.meteorite_sword_treated); //fisfndmoivndlmgindgifgjfdnblfm
+		
 		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[4].getItemDamage());
 		
 		this.maxProgress = recipe.getDuration() * this.speed / 100;
@@ -411,10 +409,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				
-				return tank.getMaxFill();
+		for(int i = 0; i < 2; i++) {
+			if(tanks[i].getTankType() == type) {
+				return tanks[i].getMaxFill();
 			}
 		}
 		
@@ -475,9 +472,6 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			}
 		}
 	}
-	
-	@Deprecated
-	public void handleButtonPacket(int value, int meta) { }
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

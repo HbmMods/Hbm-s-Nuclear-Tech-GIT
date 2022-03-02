@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
@@ -14,29 +13,28 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
 public class TileEntityMachineCatalyticCracker extends TileEntity implements IFluidSource, IFluidAcceptor {
 	
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
 	public List<IFluidAcceptor> list2 = new ArrayList();
+	public List<IFluidAcceptor> list3 = new ArrayList();
 	
 	public TileEntityMachineCatalyticCracker() {
-		tanks = new FluidTank[4];
+		tanks = new FluidTank[5];
 		tanks[0] = new FluidTank(Fluids.BITUMEN, 4000, 0);
 		tanks[1] = new FluidTank(Fluids.STEAM, 8000, 1);
 		tanks[2] = new FluidTank(Fluids.OIL, 4000, 2);
 		tanks[3] = new FluidTank(Fluids.PETROLEUM, 4000, 3);
+		tanks[4] = new FluidTank(Fluids.SPENTSTEAM, 800, 4);
 	}
 	
 	@Override
@@ -52,6 +50,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				fillFluidInit(tanks[2].getTankType());
 				fillFluidInit(tanks[3].getTankType());
+				fillFluidInit(tanks[4].getTankType());
 			}
 		}
 	}
@@ -70,12 +69,13 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 				tanks[1].setFill(tanks[1].getFill() - 200);
 				tanks[2].setFill(tanks[2].getFill() + left);
 				tanks[3].setFill(tanks[3].getFill() + right);
+				tanks[4].setFill(tanks[4].getFill() + 2); //LPS has the density of WATER not STEAM (1%!)
 			}
 		}
 	}
 	
 	private boolean hasSpace(int left, int right) {
-		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill();
+		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill() && tanks[4].getFill() + 200 <= tanks[4].getMaxFill();
 	}
 	
 	private void setupTanks() {
@@ -86,11 +86,13 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 			tanks[1].setTankType(Fluids.STEAM);
 			tanks[2].setTankType(quart.getKey().type);
 			tanks[3].setTankType(quart.getValue().type);
+			tanks[4].setTankType(Fluids.SPENTSTEAM);
 		} else {
 			tanks[0].setTankType(Fluids.NONE);
 			tanks[1].setTankType(Fluids.NONE);
 			tanks[2].setTankType(Fluids.NONE);
 			tanks[3].setTankType(Fluids.NONE);
+			tanks[4].setTankType(Fluids.NONE);
 		}
 	}
 	
@@ -98,7 +100,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 5; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
 	}
 	
@@ -106,13 +108,13 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 5; i++)
 			tanks[i].writeToNBT(nbt, "tank" + i);
 	}
 
 	@Override
 	public void setFillForSync(int fill, int index) {
-		if(index < 4 && tanks[index] != null)
+		if(index < 5 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
@@ -181,6 +183,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		if(type == tanks[2].getTankType()) return list1;
 		if(type == tanks[3].getTankType()) return list2;
+		if(type == tanks[4].getTankType()) return list3;
 		return new ArrayList<IFluidAcceptor>();
 	}
 
@@ -188,6 +191,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public void clearFluidList(FluidType type) {
 		if(type == tanks[2].getTankType()) list1.clear();
 		if(type == tanks[3].getTankType()) list2.clear();
+		if(type == tanks[4].getTankType()) list3.clear();
 	}
 	
 	AxisAlignedBB bb = null;

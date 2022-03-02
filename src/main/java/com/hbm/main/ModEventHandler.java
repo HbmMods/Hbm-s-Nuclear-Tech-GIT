@@ -62,7 +62,6 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
-import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -114,6 +113,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -1004,9 +1004,10 @@ public class ModEventHandler {
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
 				boolean isBob = player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
-				boolean isSol = player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd");
+				boolean isOther = player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd") ||
+						player.getUniqueID().toString().equals(Library.the_NCR) || player.getDisplayName().equals("the_NCR");
 				
-				if(isBob || isSol) {
+				if(isBob || isOther) {
 					
 					ArmorUtil.resetFlightTime(player);
 					
@@ -1029,7 +1030,7 @@ public class ModEventHandler {
 							else
 								player.motionY = cap + 0.15D;
 							
-							if(isSol) {
+							if(isOther) {
 								if(player.getFoodStats().getSaturationLevel() > 0F)
 									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
 								else
@@ -1045,7 +1046,7 @@ public class ModEventHandler {
 							else if(player.motionY < 0)
 								player.motionY = 0;
 
-							if(isSol && !player.onGround) {
+							if(isOther && !player.onGround) {
 								if(player.getFoodStats().getSaturationLevel() > 0F)
 									player.addExhaustion(4F);
 								else

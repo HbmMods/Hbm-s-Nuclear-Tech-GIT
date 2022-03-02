@@ -335,7 +335,9 @@ public class ModEventHandlerClient {
 			if(player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))
 				RenderAccessoryUtility.renderSol(event);
 			if(player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
-				RenderAccessoryUtility.renderWings(event);
+				RenderAccessoryUtility.renderWings(event, 2);
+			if(player.getUniqueID().toString().equals(Library.the_NCR) || player.getDisplayName().equals("the_NCR"))
+				RenderAccessoryUtility.renderWings(event, 3);
 		}
 	}
 

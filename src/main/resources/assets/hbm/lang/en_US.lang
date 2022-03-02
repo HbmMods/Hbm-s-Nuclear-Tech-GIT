@@ -521,6 +521,7 @@ death.attack.laser.item=%1$s was turned into ash by %2$s using %3$s.
 death.attack.lead=%1$s died from lead poisoning.
 death.attack.lunar=%1$s forgot to charge their vital organs.
 death.attack.meteorite=%1$s was hit by a falling rock from outer space.
+death.attack.microwave=%1$s was exploded by microwave radiation.
 death.attack.mku=%1$s died from unknown causes.
 death.attack.monoxide=%1$s forgot to change the batteries in their carbon monoxide detector.
 death.attack.mudPoisoning=%1$s died in poisonous mud.

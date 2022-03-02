@@ -162,7 +162,8 @@ public class RefineryRecipes {
 			};
 			ItemStack[] out = new ItemStack[] {
 					ItemFluidIcon.make(recipe.getValue().getKey()),
-					ItemFluidIcon.make(recipe.getValue().getValue())
+					ItemFluidIcon.make(recipe.getValue().getValue()),
+					ItemFluidIcon.make(Fluids.SPENTSTEAM, 2)
 			};
 			
 			recipes.put(in, recipe.getValue().getValue().type == Fluids.NONE ? ItemFluidIcon.make(recipe.getValue().getKey()) : out);

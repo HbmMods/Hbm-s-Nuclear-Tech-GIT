@@ -160,9 +160,11 @@ public class ModelArmorWings extends ModelArmorBase {
 	}
 	
 	protected ResourceLocation getTexture() {
-		
+
 		if(this.type == 2)
 			return ResourceManager.wings_bob;
+		if(this.type == 3)
+			return ResourceManager.wings_black;
 		
 		return ResourceManager.wings_murk;
 	}

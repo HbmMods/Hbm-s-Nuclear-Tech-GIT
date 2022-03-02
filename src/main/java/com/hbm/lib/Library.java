@@ -60,7 +60,6 @@ public class Library {
 	public static String Hoboy03new = "d7f29d9c-5103-4f6f-88e1-2632ff95973f";
 	public static String Dragon59MC = "dc23a304-0f84-4e2d-b47d-84c8d3bfbcdb";
 	public static String Steelcourage = "ac49720b-4a9a-4459-a26f-bee92160287a";
-	public static String GOD___TM = "57146e3f-16b5-4e9f-b0b8-139bec2ca2cb";
 	public static String ZippySqrl = "03c20435-a229-489a-a1a1-671b803f7017";
 	public static String Schrabby = "3a4a1944-5154-4e67-b80a-b6561e8630b7";
 	public static String SweatySwiggs = "5544aa30-b305-4362-b2c1-67349bb499d5";
@@ -74,6 +73,7 @@ public class Library {
 	public static String Tankish = "609268ad-5b34-49c2-abba-a9d83229af03";
 	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
+	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf

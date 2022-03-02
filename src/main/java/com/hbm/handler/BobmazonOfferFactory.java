@@ -274,6 +274,21 @@ public class BobmazonOfferFactory {
 				new ItemStack(ModItems.pipe_lead).setStackDisplayName("Get Nutted, Dumbass"),
 				new ItemStack(ModItems.gem_alexandrite)
 				).setStackDisplayName("The Nut Bucket"), Requirement.HIDDEN, 64));
+		
+		special.add(new Offer(ItemKitNBT.create(
+				new ItemStack(ModItems.rpa_helmet),
+				new ItemStack(ModItems.rpa_plate),
+				new ItemStack(ModItems.rpa_legs),
+				new ItemStack(ModItems.rpa_boots),
+				new ItemStack(ModItems.gun_lacunae),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64),
+				new ItemStack(ModItems.ammo_5mm_star, 64)
+				).setStackDisplayName("Frenchman's Reward"), Requirement.HIDDEN, 32));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {
