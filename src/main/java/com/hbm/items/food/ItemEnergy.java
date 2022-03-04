@@ -14,6 +14,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -159,6 +160,15 @@ public class ItemEnergy extends Item {
 				HbmLivingProps.incrementBoneCancer(player, 24000F);
 				player.triggerAchievement(MainRegistry.achRadium);
 			}
+			if(this == ModItems.piano_woman) {
+				player.heal(5);
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 20 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 20 * 60 * 20, 1));
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 20 * 20, 1));
+				player.addPotionEffect(new PotionEffect(Potion.hunger.id, 60 * 20, 1));
+				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 60 * 20, 1));
+			}
 		}
 
 		if(!player.capabilities.isCreativeMode && this != ModItems.chocolate_milk) {
@@ -238,6 +248,14 @@ public class ItemEnergy extends Item {
 
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
 			}
+			
+			if(this == ModItems.piano_woman) {
+				if(stack.stackSize <= 0) {
+					return new ItemStack(Items.glass_bottle);
+				}
+
+				player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
+			}
 		}
 
 		return stack;
@@ -262,7 +280,7 @@ public class ItemEnergy extends Item {
 		if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge ||
 				this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk ||
 				this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen ||
-				this == ModItems.coffee || this == ModItems.coffee_radium))
+				this == ModItems.coffee || this == ModItems.coffee_radium || this == ModItems.piano_woman))
 			if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 
@@ -302,6 +320,12 @@ public class ItemEnergy extends Item {
 		if(this == ModItems.chocolate_milk) {
 			list.add("Regular chocolate milk. Safe to drink.");
 			list.add("Totally not made from nitroglycerine.");
+		}
+		if(this == ModItems.piano_woman) {
+			if(MainRegistry.polaroidID == 11)
+				list.add("We do NOT talk about the Mega Santa story.");
+			else
+				list.add("Dorothy's favorite drink.");
 		}
 		if(this == ModItems.bottle_nuka) {
 			list.add("Contains about 210 kcal and 1500 mSv.");

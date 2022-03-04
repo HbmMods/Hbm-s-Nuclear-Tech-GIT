@@ -867,6 +867,7 @@ public class ModItems {
 	public static Item can_bepis;
 	public static Item can_breen;
 	public static Item mucho_mango;
+	public static Item piano_woman;
 	public static Item bottle_empty;
 	public static Item bottle_nuka;
 	public static Item bottle_cherry;
@@ -3353,6 +3354,7 @@ public class ModItems {
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chocolate_milk");
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coffee");
 		coffee_radium = new ItemEnergy().setUnlocalizedName("coffee_radium").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coffee_radium");
+		piano_woman = new ItemEnergy().setUnlocalizedName("piano_woman").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":piano_woman");
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
 		cap_sparkle = new Item().setUnlocalizedName("cap_sparkle").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sparkle");
@@ -7547,6 +7549,7 @@ public class ModItems {
 		GameRegistry.registerItem(can_luna, can_luna.getUnlocalizedName());
 		GameRegistry.registerItem(can_bepis, can_bepis.getUnlocalizedName());
 		GameRegistry.registerItem(can_breen, can_breen.getUnlocalizedName());
+		GameRegistry.registerItem(piano_woman, piano_woman.getUnlocalizedName());
 		
 		//Coffee
 		GameRegistry.registerItem(coffee, coffee.getUnlocalizedName());
