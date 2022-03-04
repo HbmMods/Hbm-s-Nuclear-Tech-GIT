@@ -8,7 +8,6 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ItemModInsert extends ItemArmorMod {
@@ -120,8 +118,8 @@ public class ItemModInsert extends ItemArmorMod {
 		
 		if(speed == 1)
 			return null;
-		
-		Multimap multimap = super.getItemAttributeModifiers();
+
+		Multimap multimap = super.getAttributeModifiers(armor);
 		
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
 				new AttributeModifier(ArmorModHandler.UUIDs[((ItemArmor)armor.getItem()).armorType], "NTM Armor Mod Speed", -1F + speed, 2));

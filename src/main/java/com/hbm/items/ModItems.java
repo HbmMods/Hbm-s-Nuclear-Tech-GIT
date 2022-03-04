@@ -4872,7 +4872,7 @@ public class ModItems {
 		
 		ArmorMaterial aMatDesh = EnumHelper.addArmorMaterial("HBM_DESH", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatDesh.customCraftingMaterial = ModItems.ingot_desh;
-		steamsuit_helmet = new ArmorDesh(aMatDesh, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png").setCap(15F).setMod(0.5F)
+		steamsuit_helmet = new ArmorDesh(aMatDesh, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 216000, 500, 1, 50).setCap(15F).setMod(0.5F)
 				.setFireproof(true)
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 2))
@@ -4880,9 +4880,9 @@ public class ModItems {
 				.addResistance("monoxide", 0F)
 				.addResistance("fall", 0)
 				.setUnlocalizedName("steamsuit_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_helmet");
-		steamsuit_plate = new ArmorDesh(aMatDesh, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_plate");
-		steamsuit_legs = new ArmorDesh(aMatDesh, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_legs");
-		steamsuit_boots = new ArmorDesh(aMatDesh, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_boots");
+		steamsuit_plate = new ArmorDesh(aMatDesh, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 216000, 500, 1, 50).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_plate");
+		steamsuit_legs = new ArmorDesh(aMatDesh, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.STEAM, 216000, 500, 1, 50).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_legs");
+		steamsuit_boots = new ArmorDesh(aMatDesh, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 216000, 500, 1, 50).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_boots");
 		
 		ArmorMaterial aMatAJR = EnumHelper.addArmorMaterial("HBM_T45AJR", 150, new int[] { 3, 8, 6, 3 }, 100);
 		aMatAJR.customCraftingMaterial = ModItems.plate_armor_ajr;

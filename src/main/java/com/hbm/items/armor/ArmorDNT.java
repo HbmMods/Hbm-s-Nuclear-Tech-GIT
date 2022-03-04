@@ -67,7 +67,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
 		/// SPEED ///
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap multimap = super.getAttributeModifiers(stack);
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(speed, "DNT SPEED", 0.25, 0));
 		player.getAttributeMap().removeAttributeModifiers(multimap);
 		

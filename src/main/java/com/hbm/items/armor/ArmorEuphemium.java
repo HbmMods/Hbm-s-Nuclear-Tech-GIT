@@ -15,8 +15,6 @@ import com.hbm.util.ArmorUtil;
 
 public class ArmorEuphemium extends ItemArmor {
 	
-	private String [] armourTypes = new String [] {"euphemium_helmet", "euphemium_chest", "euphemium_legs", "euphemium_boots"};
-	
 	public ArmorEuphemium(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);
 		this.setCreativeTab(null);
@@ -52,14 +50,14 @@ public class ArmorEuphemium extends ItemArmor {
 		}
 	}
 
-    @Override
+	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
-    	
+
 		return EnumRarity.epic;
-    }
-    
-    //do literally nothing lole
-    @Override
-    public void setDamage(ItemStack stack, int damage) {  }
+	}
+
+	//do literally nothing lole
+	@Override
+	public void setDamage(ItemStack stack, int damage) {  }
 
 }

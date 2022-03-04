@@ -3,6 +3,7 @@ package com.hbm.items.armor;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.model.ModelArmorDesh;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,10 +14,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
 
-public class ArmorDesh extends ArmorFSB {
+public class ArmorDesh extends ArmorFSBFueled {
 
-	public ArmorDesh(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorDesh(ArmorMaterial material, int layer, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
+		super(material, layer, slot, texture, fuelType, maxFuel, fillRate, consumption, drain);
 	}
 	
 	@Override

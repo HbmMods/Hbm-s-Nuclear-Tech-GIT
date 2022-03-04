@@ -3,18 +3,12 @@ package com.hbm.items.armor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.render.model.ModelBackTesla;
-import com.hbm.render.util.BeamPronter;
-import com.hbm.render.util.BeamPronter.EnumBeamType;
-import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.machine.TileEntityTesla;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ItemModTesla extends ItemArmorMod {
