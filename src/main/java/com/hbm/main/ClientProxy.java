@@ -81,6 +81,7 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.util.SoundUtil;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -674,6 +675,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.addNewArmourRendererPrefix("7");
 		RenderingRegistry.addNewArmourRendererPrefix("8");
 		RenderingRegistry.addNewArmourRendererPrefix("9");
+		
+		SoundUtil.addSoundCategory("ntmMachines");
 	}
 	
 	@Override

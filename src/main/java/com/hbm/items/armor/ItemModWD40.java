@@ -50,7 +50,7 @@ public class ItemModWD40 extends ItemArmorMod {
 	
 	@Override
 	public Multimap getModifiers(ItemStack armor) {
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap multimap = super.getAttributeModifiers(armor);
 		
 		multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(),
 				new AttributeModifier(ArmorModHandler.UUIDs[((ItemArmor)armor.getItem()).armorType], "NTM Armor Mod Health", 4, 0));
