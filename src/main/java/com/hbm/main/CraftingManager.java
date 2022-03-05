@@ -270,7 +270,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.anvil_murky, 1), new Object[] { "UUU", "UAU", "UUU", 'U', ModItems.undefined, 'A', ModBlocks.anvil_steel });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_fraction_tower), new Object[] { "SHS", "SGS", "SHS", 'S', STEEL.plate(), 'H', ModItems.hull_big_steel, 'G', ModBlocks.steel_grate });
 		addRecipeAuto(new ItemStack(ModBlocks.fraction_spacer), new Object[] { "BHB", 'H', ModItems.hull_big_steel, 'B', Blocks.iron_bars });
-
+		addRecipeAuto(new ItemStack(ModBlocks.custom_part_assembler), new Object[] { "HBH", "STD", "PCP", 'H', ModItems.coil_tungsten, 'B', ItemBattery.getFullBattery(ModItems.battery_advanced), 'S', ModItems.screwdriver, 'T', ModBlocks.machine_armor_table, 'D', ModItems.hand_drill, 'P', ModItems.plate_steel, 'C', ModItems.circuit_copper });
+		
 		addRecipeAuto(new ItemStack(ModBlocks.muffler, 1), new Object[] { "III", "IWI", "III", 'I', ModItems.plate_polymer, 'W', Blocks.wool });
 
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 1), new Object[] { "PIP", "I I", "PIP", 'P', TI.plate(), 'I', TI.ingot() });
