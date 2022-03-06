@@ -3196,6 +3196,8 @@ rbmk.rod.xenon=Xenon poison: %s
 rbmk.rod.coreTemp=Core temperature: %s
 rbmk.rod.skinTemp=Skin temperature: %s / %s
 
+soundCategory.ntmMachines=NTM Machines
+
 tile.absorber.name=Radiation Absorber
 tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber

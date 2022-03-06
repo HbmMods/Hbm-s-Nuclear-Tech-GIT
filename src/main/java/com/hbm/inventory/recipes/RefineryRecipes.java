@@ -166,7 +166,7 @@ public class RefineryRecipes {
 					ItemFluidIcon.make(Fluids.SPENTSTEAM, 2)
 			};
 			
-			recipes.put(in, recipe.getValue().getValue().type == Fluids.NONE ? ItemFluidIcon.make(recipe.getValue().getKey()) : out);
+			recipes.put(in, recipe.getValue().getValue().type == Fluids.NONE ? new ItemStack[] {ItemFluidIcon.make(recipe.getValue().getKey()), ItemFluidIcon.make(Fluids.SPENTSTEAM, 2)} : out);
 		}
 		
 		return recipes;

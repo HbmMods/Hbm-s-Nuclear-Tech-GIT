@@ -2833,6 +2833,8 @@ rbmk.rod.xenon=Xenonvergiftung: %s
 rbmk.rod.coreTemp=Kerntemperatur: %s
 rbmk.rod.skinTemp=Außentemperatur: %s / %s
 
+soundCategory.ntmMachines=NTM Maschinen
+
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber

@@ -23,6 +23,10 @@ public class ToolboxCraftingHandler implements IRecipe {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
 			
 			if(stack != null) {
+				
+				if(stack.getItem().hasContainerItem(stack) || !stack.getItem().doesContainerItemLeaveCraftingGrid(stack))
+					return false;
+				
 				itemCount++;
 				
 				if(stack.getItem() == ModItems.kit_toolbox_empty) {
