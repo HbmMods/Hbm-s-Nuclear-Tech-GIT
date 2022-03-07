@@ -17,7 +17,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.sound.AudioWrapper;
+import com.hbm.sound.nt.ISoundSourceTE;
+import com.hbm.sound.nt.SoundWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
@@ -29,7 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, ISoundSourceTE {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -37,7 +38,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	public int maxProgress = 100;
 	public boolean isProgressing;
 	
-	private AudioWrapper audio;
+	private SoundWrapper audio;
 	
 	public FluidTank[] tanks;
 	
@@ -141,22 +142,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
 			}
 			
-			float volume = this.getVolume(2);
-
-			if(isProgressing && volume > 0) {
-				
-				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, volume, 1.0F);
-					audio.startSound();
-				}
-				
-			} else {
-				
-				if(audio != null) {
-					audio.stopSound();
-					audio = null;
-				}
+			if(this.audio == null) {
+				this.audio = MainRegistry.proxy.getTileSound("hbm:block.chemplantOperate", this);
 			}
+			
+			this.audio.updateSound();
 		}
 	}
 
@@ -169,26 +159,6 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].readFromNBT(nbt, "t" + i);
-		}
-	}
-
-	@Override
-	public void onChunkUnload() {
-
-		if(audio != null) {
-			audio.stopSound();
-			audio = null;
-		}
-	}
-
-	@Override
-	public void invalidate() {
-
-		super.invalidate();
-
-		if(audio != null) {
-			audio.stopSound();
-			audio = null;
 		}
 	}
 	
@@ -555,5 +525,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		}
 		
 		return bb;
+	}
+
+	@Override
+	public boolean isPlaying() {
+		return !this.isInvalid() && this.isProgressing;
 	}
 }
