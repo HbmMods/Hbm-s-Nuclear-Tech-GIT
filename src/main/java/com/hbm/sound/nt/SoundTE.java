@@ -41,6 +41,8 @@ public class SoundTE implements ISound {
 	private float volume;
 	private float pitch;
 	
+	private boolean isSoundOn = false;
+	
 	public SoundTE(String sound, ISoundSourceTE source) {
 		this.sound = new ResourceLocation(sound);
 		this.source = source;
@@ -97,14 +99,21 @@ public class SoundTE implements ISound {
 	public void updateExternally() {
 		
 		SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
-		
-		if(!this.source.isPlaying() && handler.isSoundPlaying(this)) {
+
+		if(isSoundOn && !this.source.isPlaying()) {
 			handler.stopSound(this);
+			isSoundOn = false;
 			return;
 		}
 		
-		if(!handler.isSoundPlaying(this)) {
-			handler.playSound(this);
+		//TODO: drown this class, the minecraft sound handler and the entire fucking game in holy water
+		//no, it won't fix anything but at least the pain will be over
+		
+		if(!isSoundOn && this.source.isPlaying()) {
+			try {
+				handler.playSound(this);
+			} catch(IllegalArgumentException ex) { }
+			isSoundOn = true;
 		}
 		
 		this.volume = this.source.getVolume();
