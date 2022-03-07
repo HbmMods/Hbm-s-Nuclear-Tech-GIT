@@ -71,6 +71,7 @@ import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
+import com.hbm.sound.nt.ISoundSourceTE;
 import com.hbm.sound.nt.SoundWrapper;
 import com.hbm.sound.nt.SoundWrapperClient;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -1557,8 +1558,8 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	@Override
-	public SoundWrapper getTileSound(String sound) {
-		SoundWrapperClient wrapper = new SoundWrapperClient(sound);
+	public SoundWrapper getTileSound(String sound, ISoundSourceTE tile) {
+		SoundWrapperClient wrapper = new SoundWrapperClient(sound, tile);
 		return wrapper;
 	}
 
