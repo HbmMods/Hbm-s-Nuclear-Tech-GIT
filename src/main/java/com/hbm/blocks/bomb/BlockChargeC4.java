@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.explosion.vanillant.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -16,6 +17,7 @@ public class BlockChargeC4 extends BlockChargeBase {
 			safe = false;
 			
 			ExplosionVNT xnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 10F).makeStandard();
+			xnt.setBlockAllocator(new BlockAllocatorStandard(64));
 			xnt.explode();
 			
 			return BombReturnCode.DETONATED;

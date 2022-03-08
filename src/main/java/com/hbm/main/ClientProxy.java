@@ -50,6 +50,7 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.explosion.vanillant.ExplosionEffectStandard;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
@@ -778,6 +779,8 @@ public class ClientProxy extends ServerProxy {
 	public void effectNT(NBTTagCompound data) {
 		
 		World world = Minecraft.getMinecraft().theWorld;
+		
+		System.out.println("FUCK YOU");
 		
 		if(world == null) //might i ask why?
 			return;

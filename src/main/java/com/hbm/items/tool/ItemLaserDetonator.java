@@ -10,10 +10,13 @@ import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -44,19 +47,11 @@ public class ItemLaserDetonator extends Item implements IHoldableWeapon {
 					MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
 				
 				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-				
-				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
-						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
-						.next("] ").color(EnumChatFormatting.DARK_AQUA)
-						.nextTranslation(ret.getUnlocalizedMessage()).color(ret.wasSuccessful() ? EnumChatFormatting.YELLOW : EnumChatFormatting.RED).flush());
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(ret.wasSuccessful() ? EnumChatFormatting.YELLOW : EnumChatFormatting.RED).flush()), (EntityPlayerMP) player);
 				
 			} else {
 				world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-
-				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
-						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
-						.next("] ").color(EnumChatFormatting.DARK_AQUA)
-						.nextTranslation(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).color(EnumChatFormatting.RED).flush());
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).color(EnumChatFormatting.RED).flush()), (EntityPlayerMP) player);
 			}
 		} else {
 			

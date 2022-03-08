@@ -26,6 +26,6 @@ public class BlockChargeSemtex extends BlockChargeBase {
 
 	@Override
 	public int getRenderType() {
-		return BlockChargeDynamite.renderID;
+		return BlockChargeC4.renderID;
 	}
 }

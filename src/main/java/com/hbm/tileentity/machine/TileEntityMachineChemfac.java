@@ -46,22 +46,22 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 
 	@Override
 	public int getRecipeCount() {
-		return 0;
+		return 8;
 	}
 
 	@Override
 	public int getTankCapacity() {
-		return 0;
+		return 32_000;
 	}
 
 	@Override
 	public int getTemplateIndex(int index) {
-		return 0;
+		return 13 + index * 9;
 	}
 
 	@Override
 	public int[] getSlotIndicesFromIndex(int index) {
-		return new int[] {4, 4, 4, 4}; //yeah whatever
+		return new int[] {5 + index * 9, 8 + index * 9, 9 + index * 9, 12 + index * 9};
 	}
 
 	@Override
