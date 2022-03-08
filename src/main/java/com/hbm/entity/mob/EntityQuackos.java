@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -147,6 +148,12 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 			this.setPosition(this.posX + rand.nextGaussian() * 30, 256, this.posZ + rand.nextGaussian() * 30);
 		}
 	}
+
+	/**
+	 * BOW
+	 */
+	@Override
+	public void onDeath(DamageSource sourceOrRatherLackThereof) { }
 
 	@Override
 	protected void updateLeashedState() {

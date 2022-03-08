@@ -32,7 +32,7 @@ public class ExplosionVNT {
 	protected float size;
 	public Entity exploder;
 	
-	public Explosion compat;
+	public Explosion compat; //TODO: override and implement getters for the EVNT's data
 	
 	public ExplosionVNT(World world, double x, double y, double z, float size) {
 		this(world, x, y, z, size, null);
@@ -55,13 +55,13 @@ public class ExplosionVNT {
 		boolean processEntities = entityProcessor != null && playerProcessor != null;
 		
 		HashSet<ChunkPosition> affectedBlocks = null;
-		HashMap<EntityPlayer, Vec3> affectedEntities = null;
+		HashMap<EntityPlayer, Vec3> affectedPlayers = null;
 		
 		if(processBlocks) affectedBlocks = blockAllocator.allocate(this, world, posX, posY, posZ, size);
-		if(processEntities) affectedEntities = entityProcessor.process(this, world, posX, posY, posZ, size);
+		if(processEntities) affectedPlayers = entityProcessor.process(this, world, posX, posY, posZ, size);
 		
 		if(processBlocks) blockProcessor.process(this, world, posX, posY, posZ, affectedBlocks);
-		if(processEntities) playerProcessor.process(this, world, posX, posY, posZ, affectedEntities);
+		if(processEntities) playerProcessor.process(this, world, posX, posY, posZ, affectedPlayers);
 		
 		if(sfx != null) {
 			for(IExplosionSFX fx : sfx) {
@@ -88,6 +88,14 @@ public class ExplosionVNT {
 	}
 	public ExplosionVNT setSFX(IExplosionSFX... sfx) {
 		this.sfx = sfx;
+		return this;
+	}
+	
+	public ExplosionVNT makeStandard() {
+		this.setBlockAllocator(new BlockAllocatorStandard());
+		this.setBlockProcessor(new BlockProcessorStandard());
+		this.setEntityProcessor(new EntityProcessorStandard());
+		this.setPlayerProcessor(new PlayerProcessorStandard());
 		return this;
 	}
 }
