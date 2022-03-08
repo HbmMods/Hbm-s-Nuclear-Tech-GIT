@@ -780,8 +780,6 @@ public class ClientProxy extends ServerProxy {
 		
 		World world = Minecraft.getMinecraft().theWorld;
 		
-		System.out.println("FUCK YOU");
-		
 		if(world == null) //might i ask why?
 			return;
 		
