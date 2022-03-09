@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
 public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
@@ -77,5 +78,24 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	@Override
 	public String getName() {
 		return "container.machineChemFac";
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 5,
+					yCoord,
+					zCoord - 5,
+					xCoord + 5,
+					yCoord + 4,
+					zCoord + 5
+					);
+		}
+		
+		return bb;
 	}
 }
