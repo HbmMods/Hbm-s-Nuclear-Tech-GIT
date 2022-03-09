@@ -76,14 +76,17 @@ public class EntityFalloutRain extends Entity {
 		Set<Long> chunks = new LinkedHashSet<>(); // LinkedHashSet preserves insertion order
 		Set<Long> outerChunks = new LinkedHashSet<>();
 		int outerRange = getScale();
-		for (int angle = 0; angle <= 720; angle++) { // TODO Make this adjust to the fallout's scale
+		// Basically defines something like the step size, but as indirect proportion. The actual angle used for rotation will always end up at 360° for angle == adjustedMaxAngle
+		// So yea, I mathematically worked out that 20 is a good value for this, with the minimum possible being 18 in order to reach all chunks
+		int adjustedMaxAngle = 20 * outerRange / 32; // step size = 20 * chunks / 2
+		for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
 			Vec3 vector = Vec3.createVectorHelper(outerRange, 0, 0);
-			vector.rotateAroundY((float) (angle / 180.0 * Math.PI)); // Ugh, mutable data classes (also, ugh, radians; it uses degrees in 1.18; took me two hours to debug)
+			vector.rotateAroundY((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0))); // Ugh, mutable data classes (also, ugh, radians; it uses degrees in 1.18; took me two hours to debug)
 			outerChunks.add(ChunkCoordIntPair.chunkXZ2Int((int) (posX + vector.xCoord) >> 4, (int) (posZ + vector.zCoord) >> 4));
 		}
-		for (int distance = 0; distance <= outerRange; distance += 8) for (int angle = 0; angle <= 720; angle++) {
+		for (int distance = 0; distance <= outerRange; distance += 8) for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
 			Vec3 vector = Vec3.createVectorHelper(distance, 0, 0);
-			vector.rotateAroundY((float) (angle / 180.0 * Math.PI));
+			vector.rotateAroundY((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0)));
 			long chunkCoord = ChunkCoordIntPair.chunkXZ2Int((int) (posX + vector.xCoord) >> 4, (int) (posZ + vector.zCoord) >> 4);
 			if (!outerChunks.contains(chunkCoord)) chunks.add(chunkCoord);
 		}
@@ -93,7 +96,7 @@ public class EntityFalloutRain extends Entity {
 		Collections.reverse(chunksToProcess); // So it starts nicely from the middle
 		Collections.reverse(outerChunksToProcess);
 	}
-    
+
     private void stomp(int x, int z, double dist) {
     	
     	int depth = 0;
