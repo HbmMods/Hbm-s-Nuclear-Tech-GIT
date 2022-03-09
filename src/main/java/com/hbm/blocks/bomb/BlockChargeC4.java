@@ -1,9 +1,15 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.explosion.vanillant.BlockAllocatorStandard;
+import java.util.List;
+
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class BlockChargeC4 extends BlockChargeBase {
@@ -16,8 +22,9 @@ public class BlockChargeC4 extends BlockChargeBase {
 			world.setBlockToAir(x, y, z);
 			safe = false;
 			
-			ExplosionVNT xnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 10F).makeStandard();
-			xnt.setBlockAllocator(new BlockAllocatorStandard(64));
+			ExplosionVNT xnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 15F).makeStandard();
+			xnt.setBlockAllocator(new BlockAllocatorStandard(32));
+			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
 			xnt.explode();
 			
 			return BombReturnCode.DETONATED;
@@ -31,5 +38,11 @@ public class BlockChargeC4 extends BlockChargeBase {
 	@Override
 	public int getRenderType() {
 		return renderID;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		super.addInformation(stack, player, list, ext);
+		list.add(EnumChatFormatting.BLUE + "Does not drop blocks.");
 	}
 }

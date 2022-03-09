@@ -1,7 +1,9 @@
-package com.hbm.explosion.vanillant;
+package com.hbm.explosion.vanillant.standard;
 
 import java.util.List;
 
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.packet.ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket;
 import com.hbm.packet.PacketDispatcher;
 

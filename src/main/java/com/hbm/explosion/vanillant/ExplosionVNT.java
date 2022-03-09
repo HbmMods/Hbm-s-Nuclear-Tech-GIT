@@ -4,6 +4,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
+import com.hbm.explosion.vanillant.interfaces.IBlockProcessor;
+import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
+import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
+import com.hbm.explosion.vanillant.interfaces.IPlayerProcessor;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
@@ -30,7 +41,7 @@ public class ExplosionVNT {
 	protected double posX;
 	protected double posY;
 	protected double posZ;
-	protected float size;
+	public float size;
 	public Entity exploder;
 
 	private Map compatPlayers = new HashMap();

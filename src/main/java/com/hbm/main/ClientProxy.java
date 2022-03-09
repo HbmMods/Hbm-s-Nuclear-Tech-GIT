@@ -50,7 +50,7 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
-import com.hbm.explosion.vanillant.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;

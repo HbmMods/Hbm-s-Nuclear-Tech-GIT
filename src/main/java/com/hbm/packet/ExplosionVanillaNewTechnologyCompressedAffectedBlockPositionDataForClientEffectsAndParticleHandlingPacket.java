@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hbm.explosion.vanillant.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

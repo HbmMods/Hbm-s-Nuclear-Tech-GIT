@@ -1,7 +1,13 @@
-package com.hbm.explosion.vanillant;
+package com.hbm.explosion.vanillant.standard;
 
 import java.util.HashSet;
 import java.util.Iterator;
+
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.IBlockMutator;
+import com.hbm.explosion.vanillant.interfaces.IBlockProcessor;
+import com.hbm.explosion.vanillant.interfaces.IDropChanceMutator;
+import com.hbm.explosion.vanillant.interfaces.IFortuneMutator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -79,11 +85,20 @@ public class BlockProcessorStandard implements IBlockProcessor {
 	}
 
 	public BlockProcessorStandard setNoDrop() {
-		this.chance = new DropChanceNever();
+		this.chance = new DropChanceMutatorStandard(0F);
 		return this;
 	}
 	public BlockProcessorStandard setAllDrop() {
-		this.chance = new DropChanceAlways();
+		this.chance = new DropChanceMutatorStandard(1F);
+		return this;
+	}
+	public BlockProcessorStandard setFortune(int fortune) {
+		this.fortune = new IFortuneMutator() { //no standard class because we only have one case thus far
+			@Override
+			public int mutateFortune(ExplosionVNT explosion, Block block, int x, int y, int z) {
+				return fortune;
+			}
+		};
 		return this;
 	}
 }
