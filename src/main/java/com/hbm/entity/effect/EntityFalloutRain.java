@@ -1,24 +1,23 @@
 package com.hbm.entity.effect;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.saveddata.AuxSavedData;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.*;
+
 public class EntityFalloutRain extends Entity {
-	
-	public int revProgress;
-	public int radProgress;
+	private boolean firstTick = true; // Of course Vanilla has it private in Entity...
 
 	public EntityFalloutRain(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -35,47 +34,28 @@ public class EntityFalloutRain extends Entity {
 
     @Override
 	public void onUpdate() {
-
         if(!worldObj.isRemote) {
-        	
-        	for(int i = 0; i < BombConfig.fSpeed; i++) {
-        		
-	        	Vec3 vec = Vec3.createVectorHelper(radProgress * 0.5, 0, 0);
-	        	double circum = radProgress * 2 * Math.PI * 2;
-	        	
-	        	///
-	        	if(circum == 0)
-	        		circum = 1;
-	        	///
-	        	
-	        	double part = 360D / circum;
-	        	
-	        	vec.rotateAroundY((float) (part * revProgress));
-	        	
-	        	int x = (int) (posX + vec.xCoord);
-	        	int z = (int) (posZ + vec.zCoord);
-	        	
-	        	//int y = worldObj.getHeightValue(x, z) - 1;
-	        	
-	        	//if(worldObj.getBlock(x, y, z) == Blocks.grass)
-	        	//	worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
-	        	
-	        	double dist = radProgress * 100 / getScale() * 0.5;
-	        	
-	        	stomp(x, z, dist);
-	        	
-	        	revProgress++;
-	        	
-	        	if(revProgress > circum) {
-	        		revProgress = 0;
-	        		radProgress++;
-	        	}
-	        	
-	        	if(radProgress > getScale() * 2D) {
-	        		this.setDead();
-	        	}
-        	}
-        	
+			if (firstTick) {
+				if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
+				firstTick = false;
+			}
+
+			if (!chunksToProcess.isEmpty()) {
+				long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
+				int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+				int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+				for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++)
+					stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
+			} else if (!outerChunksToProcess.isEmpty()) {
+				long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
+				int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+				int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+				for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+					double distance = Math.hypot(x - posX, z - posZ);
+					if (distance <= getScale()) stomp(x, z, distance * 100 / getScale());
+				}
+			} else setDead();
+
         	if(this.isDead) {
         		if(RadiationConfig.rain > 0 && getScale() > 150) {
         			worldObj.getWorldInfo().setRaining(true);
@@ -87,6 +67,32 @@ public class EntityFalloutRain extends Entity {
         	}
         }
     }
+
+	private final List<Long> chunksToProcess = new ArrayList<>();
+	private final List<Long> outerChunksToProcess = new ArrayList<>();
+
+	// Is it worth the effort to split this into a method that can be called over multiple ticks? I'd say it's fast enough anyway...
+	private void gatherChunks() {
+		Set<Long> chunks = new LinkedHashSet<>(); // LinkedHashSet preserves insertion order
+		Set<Long> outerChunks = new LinkedHashSet<>();
+		int outerRange = getScale();
+		for (int angle = 0; angle <= 720; angle++) { // TODO Make this adjust to the fallout's scale
+			Vec3 vector = Vec3.createVectorHelper(outerRange, 0, 0);
+			vector.rotateAroundY((float) (angle / 180.0 * Math.PI)); // Ugh, mutable data classes (also, ugh, radians; it uses degrees in 1.18; took me two hours to debug)
+			outerChunks.add(ChunkCoordIntPair.chunkXZ2Int((int) (posX + vector.xCoord) >> 4, (int) (posZ + vector.zCoord) >> 4));
+		}
+		for (int distance = 0; distance <= outerRange; distance += 8) for (int angle = 0; angle <= 720; angle++) {
+			Vec3 vector = Vec3.createVectorHelper(distance, 0, 0);
+			vector.rotateAroundY((float) (angle / 180.0 * Math.PI));
+			long chunkCoord = ChunkCoordIntPair.chunkXZ2Int((int) (posX + vector.xCoord) >> 4, (int) (posZ + vector.zCoord) >> 4);
+			if (!outerChunks.contains(chunkCoord)) chunks.add(chunkCoord);
+		}
+
+		chunksToProcess.addAll(chunks);
+		outerChunksToProcess.addAll(outerChunks);
+		Collections.reverse(chunksToProcess); // So it starts nicely from the middle
+		Collections.reverse(outerChunksToProcess);
+	}
     
     private void stomp(int x, int z, double dist) {
     	
@@ -103,7 +109,7 @@ public class EntityFalloutRain extends Entity {
     		
     		if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
     			
-    			double d = (double) radProgress / (double) getScale() * 0.5;
+    			double d = dist / 100;
     			
     			double chance = 0.05 - Math.pow((d - 0.6) * 0.5, 2);
     			
@@ -219,33 +225,50 @@ public class EntityFalloutRain extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(16, Integer.valueOf(0));
+		this.dataWatcher.addObject(16, 0);
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		setScale(p_70037_1_.getInteger("scale"));
-		revProgress = p_70037_1_.getInteger("revProgress");
-		radProgress = p_70037_1_.getInteger("radProgress");
+	protected void readEntityFromNBT(NBTTagCompound tag) {
+		setScale(tag.getInteger("scale"));
+		chunksToProcess.addAll(readChunksFromIntArray(tag.getIntArray("chunks")));
+		outerChunksToProcess.addAll(readChunksFromIntArray(tag.getIntArray("outerChunks")));
+	}
+
+	private Collection<Long> readChunksFromIntArray(int[] data) {
+		List<Long> coords = new ArrayList<>();
+		boolean firstPart = true;
+		int x = 0;
+		for (int coord : data) {
+			if (firstPart) x = coord;
+			else coords.add(ChunkCoordIntPair.chunkXZ2Int(x, coord));
+			firstPart = !firstPart;
+		}
+		return coords;
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		p_70014_1_.setInteger("scale", getScale());
-		p_70014_1_.setInteger("revProgress", revProgress);
-		p_70014_1_.setInteger("radProgress", radProgress);
-		
+	protected void writeEntityToNBT(NBTTagCompound tag) {
+		tag.setInteger("scale", getScale());
+		tag.setIntArray("chunks", writeChunksToIntArray(chunksToProcess));
+		tag.setIntArray("outerChunks", writeChunksToIntArray(outerChunksToProcess));
+	}
+
+	private int[] writeChunksToIntArray(List<Long> coords) {
+		int[] data = new int[coords.size() * 2];
+		for (int i = 0; i < coords.size(); i++) {
+			data[i * 2] = (int) (coords.get(i) & Integer.MAX_VALUE);
+			data[i * 2 + 1] = (int) (coords.get(i) >> 32 & Integer.MAX_VALUE);
+		}
+		return data;
 	}
 
 	public void setScale(int i) {
-
-		this.dataWatcher.updateObject(16, Integer.valueOf(i));
+		this.dataWatcher.updateObject(16, i);
 	}
 
 	public int getScale() {
-
 		int scale = this.dataWatcher.getWatchableObjectInt(16);
-		
 		return scale == 0 ? 1 : scale;
 	}
 }
