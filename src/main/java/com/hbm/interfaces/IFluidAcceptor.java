@@ -17,4 +17,8 @@ public interface IFluidAcceptor extends IFluidContainer {
 	public default int getMaxFluidFillForReceive(FluidType type) {
 		return this.getMaxFluidFill(type);
 	}
+	
+	public default void receiveFluid(int amount, FluidType type) {
+		this.setFluidFill(this.getFluidFill(type) + amount, type);
+	}
 }

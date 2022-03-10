@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -31,7 +34,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 
 	public long power;
 	public int[] progress;
-	public int maxProgress = 100;
+	public int[] maxProgress;
 	public boolean isProgressing;
 	
 	public FluidTank[] tanks;
@@ -43,8 +46,9 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		super(scount);
 		
 		int count = this.getRecipeCount();
-		
+
 		progress = new int[count];
+		maxProgress = new int[count];
 		
 		tanks = new FluidTank[4 * count];
 		for(int i = 0; i < 4 * count; i++) {
@@ -131,12 +135,12 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	
 	private boolean hasRequiredItems(ChemRecipe recipe, int index) {
 		int[] indices = getSlotIndicesFromIndex(index);
-		return InventoryUtil.doesArrayHaveIngredients(slots, indices[2], indices[3], recipe.inputs);
+		return InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], recipe.inputs);
 	}
 	
 	private boolean hasSpaceForItems(ChemRecipe recipe, int index) {
 		int[] indices = getSlotIndicesFromIndex(index);
-		return InventoryUtil.doesArrayHaveSpace(slots, indices[0], indices[1], recipe.outputs);
+		return InventoryUtil.doesArrayHaveSpace(slots, indices[2], indices[3], recipe.outputs);
 	}
 	
 	private void process(int index) {
@@ -150,9 +154,9 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		int template = getTemplateIndex(index);
 		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[template].getItemDamage());
 		
-		this.maxProgress = recipe.getDuration() * this.speed / 100;
+		this.maxProgress[index] = recipe.getDuration() * this.speed / 100;
 		
-		if(this.progress[index] >= this.maxProgress) {
+		if(this.progress[index] >= this.maxProgress[index]) {
 			consumeFluids(recipe, index);
 			produceFluids(recipe, index);
 			consumeItems(recipe, index);
@@ -178,7 +182,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		
 		for(AStack in : recipe.inputs) {
 			if(in != null)
-				InventoryUtil.tryConsumeAStack(slots, indices[2], indices[3], in);
+				InventoryUtil.tryConsumeAStack(slots, indices[0], indices[1], in);
 		}
 	}
 	
@@ -188,7 +192,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		
 		for(ItemStack out : recipe.outputs) {
 			if(out != null)
-				InventoryUtil.tryAddItemToInventory(slots, indices[0], indices[1], out.copy());
+				InventoryUtil.tryAddItemToInventory(slots, indices[2], indices[3], out.copy());
 		}
 	}
 	private void loadItems(int index) {
@@ -355,6 +359,62 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 		
 		return maxFill;
+	}
+
+	@Override
+	public int getFluidFillForReceive(FluidType type) {
+		
+		int fill = 0;
+		
+		for(FluidTank tank : tanks) {
+			if(tank.index % 4 < 2 && tank.getTankType() == type) {
+				fill += tank.getFill();
+			}
+		}
+		
+		return fill;
+	}
+
+	@Override
+	public void receiveFluid(int amount, FluidType type) {
+		
+		List<FluidTank> rec = new ArrayList();
+		
+		for(FluidTank tank : tanks) {
+			if(tank.index % 4 < 2 && tank.getTankType() == type) {
+				rec.add(tank);
+			}
+		}
+		
+		if(rec.size() == 0)
+			return;
+		
+		int demand = 0;
+		
+		for(FluidTank tank : rec) {
+			demand += tank.getMaxFill() - tank.getFill();
+		}
+		
+		int part = demand / rec.size(); // dividing ints rounds down anyway
+		
+		for(FluidTank tank : rec) {
+			tank.setFill(tank.getFill() + part);
+			demand -= part;
+		}
+		
+		//getting rid of annoying rounding errors
+		if(demand > 0) {
+			
+			while(demand > 0) {
+				
+				FluidTank tank = rec.get(worldObj.rand.nextInt(rec.size()));
+				if(tank.getFill() < tank.getMaxFill()) {
+					//we do single mB steps because the distribution is more even this way and honestly the remainder can't possibly be that big
+					tank.setFill(tank.getFill() + 1);
+					demand--;
+				}
+			}
+		}
 	}
 
 	public abstract int getRecipeCount();
