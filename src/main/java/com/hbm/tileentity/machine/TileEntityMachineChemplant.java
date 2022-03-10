@@ -16,6 +16,9 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.nt.ISoundSourceTE;
+import com.hbm.sound.nt.SoundWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
@@ -27,13 +30,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, ISoundSourceTE {
 
 	public long power;
 	public static final long maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
 	public boolean isProgressing;
+	
+	private SoundWrapper audio;
 	
 	public FluidTank[] tanks;
 	
@@ -86,7 +91,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			loadItems();
 			unloadItems();
 			
-			if(worldObj.getTotalWorldTime() % 1 == 0) {
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				this.fillFluidInit(tanks[2].getTankType());
 				this.fillFluidInit(tanks[3].getTankType());
 			}
@@ -136,6 +141,12 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				double z = zCoord + 0.5 + dir.offsetZ * 1.125 + rot.offsetZ * 0.125;
 				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
 			}
+			
+			if(this.audio == null) {
+				this.audio = MainRegistry.proxy.getTileSound("hbm:block.chemplantOperate", this);
+			}
+			
+			this.audio.updateSound();
 		}
 	}
 
@@ -514,5 +525,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		}
 		
 		return bb;
+	}
+
+	@Override
+	public boolean isPlaying() {
+		return !this.isInvalid() && this.isProgressing;
 	}
 }

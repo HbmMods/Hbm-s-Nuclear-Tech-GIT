@@ -20,8 +20,8 @@ public class SoundUtil {
 			Map nameMapping = (Map) ReflectionHelper.findField(SoundCategory.class, "field_147168_j").get(null);
 			Map idMapping = (Map) ReflectionHelper.findField(SoundCategory.class, "field_147169_k").get(null);
 			
-			Map mapSoundLevelsOrig = (Map) ReflectionHelper.findField(GameSettings.class, "mapSoundLevels" /* TODO: add obfus case */).get(Minecraft.getMinecraft().gameSettings);
-			Map mapSoundLevels = Maps.newEnumMap(SoundCategory.class); //(Map) ReflectionHelper.findField(GameSettings.class, "mapSoundLevels" /* TODO: add obfus case */).get(Minecraft.getMinecraft().gameSettings);
+			Map mapSoundLevelsOrig = (Map) ReflectionHelper.findField(GameSettings.class, "mapSoundLevels", "field_151446_aD").get(Minecraft.getMinecraft().gameSettings);
+			Map mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
 			
 			nameMapping.put(category.getCategoryName(), category);
 			idMapping.put(Integer.valueOf(category.getCategoryId()), category);

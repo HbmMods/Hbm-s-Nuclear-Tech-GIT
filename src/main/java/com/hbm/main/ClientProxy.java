@@ -50,6 +50,7 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
@@ -71,6 +72,9 @@ import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
+import com.hbm.sound.nt.ISoundSourceTE;
+import com.hbm.sound.nt.SoundWrapper;
+import com.hbm.sound.nt.SoundWrapperClient;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -172,6 +176,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMiningLaser.class, new RenderLaserMiner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssembler.class, new RenderAssembler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemfac.class, new RenderChemfac());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000.class, new RenderBAT9000());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOrbus.class, new RenderOrbus());
@@ -1552,11 +1557,15 @@ public class ClientProxy extends ServerProxy {
 		audio.updatePosition(x, y, z);
 		return audio;
 	}
+	
+	@Override
+	public SoundWrapper getTileSound(String sound, ISoundSourceTE tile) {
+		SoundWrapperClient wrapper = new SoundWrapperClient(sound, tile);
+		return wrapper;
+	}
 
 	@Override
-	public void playSound(String sound, Object data) {
-		
-	}
+	public void playSound(String sound, Object data) { }
 
 	@Override
 	public void displayTooltip(String msg) {

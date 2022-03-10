@@ -1,11 +1,16 @@
 package com.hbm.sound.nt;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
 public interface ISoundSourceTE {
-
-	public Vec3 getSoundLocation();
+	
 	public boolean isPlaying();
+
+	public default Vec3 getSoundLocation() {
+		TileEntity te = (TileEntity) this;
+		return Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 0.5, te.zCoord + 0.5);
+	}
 	
 	public default float getVolume() {
 		return 1F;

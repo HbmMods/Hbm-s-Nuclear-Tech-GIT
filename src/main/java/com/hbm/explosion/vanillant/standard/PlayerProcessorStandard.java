@@ -1,8 +1,10 @@
-package com.hbm.explosion.vanillant;
+package com.hbm.explosion.vanillant.standard;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.IPlayerProcessor;
 import com.hbm.packet.ExplosionKnockbackPacket;
 import com.hbm.packet.PacketDispatcher;
 

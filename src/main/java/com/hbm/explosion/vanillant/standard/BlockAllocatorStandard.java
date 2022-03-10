@@ -1,6 +1,9 @@
-package com.hbm.explosion.vanillant;
+package com.hbm.explosion.vanillant.standard;
 
 import java.util.HashSet;
+
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

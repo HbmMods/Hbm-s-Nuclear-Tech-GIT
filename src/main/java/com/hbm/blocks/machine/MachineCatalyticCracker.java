@@ -1,23 +1,30 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticCracker;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCatalyticCracker extends BlockDummyable {
+public class MachineCatalyticCracker extends BlockDummyable implements ILookOverlay {
 
 	public MachineCatalyticCracker(Material mat) {
 		super(mat);
@@ -49,7 +56,7 @@ public class MachineCatalyticCracker extends BlockDummyable {
 		
 		if(!world.isRemote && !player.isSneaking()) {
 				
-			if(player.getHeldItem() == null || player.getHeldItem().getItem() == ModItems.fluid_identifier) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier) {
 				int[] pos = this.findCore(world, x, y, z);
 					
 				if(pos == null)
@@ -61,20 +68,10 @@ public class MachineCatalyticCracker extends BlockDummyable {
 					return false;
 				
 				TileEntityMachineCatalyticCracker cracker = (TileEntityMachineCatalyticCracker) te;
-				
-				if(player.getHeldItem() == null) {
-					
-					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "=== CATALYTIC CRACKING TOWER ==="));
-
-					for(int i = 0; i < cracker.tanks.length; i++)
-						player.addChatComponentMessage(new ChatComponentTranslation("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()).appendSibling(new ChatComponentText(": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB")));
-				} else {
-					
-					FluidType type = Fluids.fromID(player.getHeldItem().getItemDamage());
-					cracker.tanks[0].setTankType(type);
-					cracker.markDirty();
-					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Changed type to " + type + "!"));
-				}
+				FluidType type = Fluids.fromID(player.getHeldItem().getItemDamage());
+				cracker.tanks[0].setTankType(type);
+				cracker.markDirty();
+				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 				
 				return true;
 			}
@@ -114,5 +111,27 @@ public class MachineCatalyticCracker extends BlockDummyable {
 		this.makeExtra(world, x + dir.offsetX * o + dir.offsetX * 2 - rot.offsetX * 3, y + dir.offsetY * o, z + dir.offsetZ * o + dir.offsetZ * 2 - rot.offsetZ * 3);
 		this.makeExtra(world, x + dir.offsetX * o - dir.offsetX * 2 + rot.offsetX * 2, y + dir.offsetY * o, z + dir.offsetZ * o - dir.offsetZ * 2 + rot.offsetZ * 2);
 		this.makeExtra(world, x + dir.offsetX * o - dir.offsetX * 2 - rot.offsetX * 3, y + dir.offsetY * o, z + dir.offsetZ * o - dir.offsetZ * 2 - rot.offsetZ * 3);
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityMachineCatalyticCracker))
+			return;
+		
+		TileEntityMachineCatalyticCracker cracker = (TileEntityMachineCatalyticCracker) te;
+		
+		List<String> text = new ArrayList();
+
+		for(int i = 0; i < cracker.tanks.length; i++)
+			text.add((i < 2 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()) + ": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB");
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x808000, text);
 	}
 }

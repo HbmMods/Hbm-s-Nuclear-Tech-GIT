@@ -60,9 +60,10 @@ public class AuxParticlePacketNT implements IMessage {
 			
 			if(Minecraft.getMinecraft().theWorld == null)
 				return null;
+
 			
 			try {
-				
+
 				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
 				
 				if(nbt != null)
