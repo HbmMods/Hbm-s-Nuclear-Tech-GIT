@@ -50,7 +50,6 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
@@ -421,6 +420,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter_digamma, new ItemRenderWeaponBolter());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fireext, new ItemRenderFireExt());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ar15, new ItemRenderWeaponAR15());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_detonator, new ItemRenderDetonatorLaser());
 		MinecraftForgeClient.registerItemRenderer(ModItems.detonator_laser, new ItemRenderDetonatorLaser());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12, new ItemRenderWeaponSpas12());
 		//multitool

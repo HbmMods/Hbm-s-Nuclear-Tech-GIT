@@ -628,11 +628,13 @@ public class Library {
 						
 						if(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type) >= part) {
 							that.setFluidFill(that.getFluidFill(type) - part, type);
-							consume.setFluidFillForReceive(consume.getFluidFillForReceive(type) + part, type);
+							consume.receiveFluid(part, type);
+							//consume.setFluidFillForReceive(consume.getFluidFillForReceive(type) + part, type);
 							
 						} else {
 							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type)), type);
-							consume.setFluidFillForReceive(consume.getMaxFluidFillForReceive(type), type);
+							consume.receiveFluid(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type), type);
+							//consume.setFluidFillForReceive(consume.getMaxFluidFillForReceive(type), type);
 						}
 					}
 				}
