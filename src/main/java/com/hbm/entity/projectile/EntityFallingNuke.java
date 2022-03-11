@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -40,7 +41,7 @@ public class EntityFallingNuke extends EntityThrowable {
 	}
 
     protected void entityInit() {
-    	this.dataWatcher.addObject(20, Byte.valueOf((byte)0));
+    	this.dataWatcher.addObject(20, 0);
     }
 	
 	@Override
@@ -82,7 +83,7 @@ public class EntityFallingNuke extends EntityThrowable {
 	public void rotation() {
 
 		this.prevRotationPitch = rotationPitch;
-		
+
 		if(rotationPitch > -75)
 			this.rotationPitch -= 2;
 	}
@@ -90,8 +91,32 @@ public class EntityFallingNuke extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 	}
-	
-    @Override
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
+		tag.setFloat("tnt", tnt);
+		tag.setFloat("nuke", nuke);
+		tag.setFloat("hydro", hydro);
+		tag.setFloat("amat", amat);
+		tag.setFloat("dirty", dirty);
+		tag.setFloat("schrab", schrab);
+		tag.setFloat("euph", euph);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
+		tnt = tag.getFloat("tnt");
+		nuke = tag.getFloat("nuke");
+		hydro = tag.getFloat("hydro");
+		amat = tag.getFloat("amat");
+		dirty = tag.getFloat("dirty");
+		schrab = tag.getFloat("schrab");
+		euph = tag.getFloat("euph");
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
