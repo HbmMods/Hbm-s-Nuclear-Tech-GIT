@@ -160,11 +160,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	public boolean hasAmmo(ItemStack stack, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE || !main) {
+		GunConfiguration config = mainConfig;
+		
+		if(!main)
+			config = altConfig;
+		
+		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
-			return getMag(stack) > 0;
+			return getMag(stack) >= 0 + config.roundsPerCycle;
 		}
 	}
 	
