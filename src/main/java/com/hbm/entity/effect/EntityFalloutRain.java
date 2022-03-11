@@ -1,6 +1,7 @@
 package com.hbm.entity.effect;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.saveddata.AuxSavedData;
@@ -32,6 +33,8 @@ public class EntityFalloutRain extends Entity {
 		this.isImmuneToFire = true;
 	}
 
+	private int tickDelay = BombConfig.fDelay;
+
     @Override
 	public void onUpdate() {
         if(!worldObj.isRemote) {
@@ -40,23 +43,28 @@ public class EntityFalloutRain extends Entity {
 				firstTick = false;
 			}
 
-			if (!chunksToProcess.isEmpty()) {
-				long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
-				int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-				int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
-				for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++)
-					stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
-			} else if (!outerChunksToProcess.isEmpty()) {
-				long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
-				int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-				int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
-				for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
-					double distance = Math.hypot(x - posX, z - posZ);
-					if (distance <= getScale()) stomp(x, z, distance * 100 / getScale());
-				}
-			} else setDead();
+			if (tickDelay == 0) {
+				tickDelay = BombConfig.fDelay;
+				if (!chunksToProcess.isEmpty()) {
+					long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
+					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+					for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++)
+						stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
+				} else if (!outerChunksToProcess.isEmpty()) {
+					long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
+					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+					for (int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) for (int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+						double distance = Math.hypot(x - posX, z - posZ);
+						if (distance <= getScale()) stomp(x, z, distance * 100 / getScale());
+					}
+				} else setDead();
+			}
 
-        	if(this.isDead) {
+			tickDelay--;
+
+			if(this.isDead) {
         		if(RadiationConfig.rain > 0 && getScale() > 150) {
         			worldObj.getWorldInfo().setRaining(true);
     				worldObj.getWorldInfo().setThundering(true);
@@ -97,6 +105,7 @@ public class EntityFalloutRain extends Entity {
 		Collections.reverse(outerChunksToProcess);
 	}
 
+	// TODO cache chunks?
     private void stomp(int x, int z, double dist) {
     	
     	int depth = 0;
@@ -154,7 +163,7 @@ public class EntityFalloutRain extends Entity {
     			return;
     		} else if(b == Blocks.sand) {
     			
-    			if(rand.nextInt(60) == 0)
+    			if(rand.nextInt(20) == 0)
     				worldObj.setBlock(x, y, z, meta == 0 ? ModBlocks.waste_trinitite : ModBlocks.waste_trinitite_red);
     			return;
     		}
@@ -171,9 +180,9 @@ public class EntityFalloutRain extends Entity {
 
 			else if (b == Blocks.coal_ore) {
 				int ra = rand.nextInt(150);
-				if (ra < 7) {
+				if (ra < 20) {
 					worldObj.setBlock(x, y, z, Blocks.diamond_ore);
-				} else if (ra < 10) {
+				} else if (ra < 30) {
 					worldObj.setBlock(x, y, z, Blocks.emerald_ore);
 				}
     			return;

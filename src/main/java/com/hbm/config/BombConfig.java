@@ -23,7 +23,7 @@ public class BombConfig {
 	public static int mk4 = 1024;
 	public static int blastSpeed = 1024;
 	public static int falloutRange = 100;
-	public static int fSpeed = 256;
+	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -88,5 +88,8 @@ public class BombConfig {
 		Property falloutRangeProp = config.get(CATEGORY_NUKE, "6.03_falloutRange", 100);
 		falloutRangeProp.comment = "Radius of fallout area (base radius * value in percent)";
 		falloutRange = falloutRangeProp.getInt();
+		Property falloutDelayProp = config.get(CATEGORY_NUKE, "6.04_falloutDelay", 4);
+		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
+		fDelay = falloutDelayProp.getInt();
 	}
 }
