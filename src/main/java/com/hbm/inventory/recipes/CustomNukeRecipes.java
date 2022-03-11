@@ -22,8 +22,29 @@ public class CustomNukeRecipes {
 		}
 	}
 	
+	/**
+	 * Checks if the OreDict key fits the material, but not the form
+	 * @param frame DictFrame
+	 * @param key Input key
+	 */
 	private static boolean containsMatch(DictFrame frame, String key) {
-		String[] mats = frame.anys();
+		String[] mats = frame.getMaterials();
+		
+		for(String mat : mats) {
+			if(key.contains(mat)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if the OreDict key fits the material and the form thereof.
+	 * @param mats Ore names
+	 * @param key Input key
+	 */
+	private static boolean containsMatch(String[] mats, String key) {
 		
 		for(String mat : mats) {
 			if(mat.contains(key)) {
