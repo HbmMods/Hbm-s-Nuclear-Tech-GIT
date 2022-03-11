@@ -162,7 +162,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(!main)
 			config = altConfig;
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+		if(config.reloadType == mainConfig.RELOAD_NONE) {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
