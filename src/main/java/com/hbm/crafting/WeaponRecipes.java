@@ -9,7 +9,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunB92Cell;
 import com.hbm.main.CraftingManager;
 
-import gnu.trove.impl.unmodifiable.TUnmodifiableByteByteMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
