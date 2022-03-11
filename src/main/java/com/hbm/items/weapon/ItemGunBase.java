@@ -7,12 +7,10 @@ import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HbmKeybinds;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -36,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -110,7 +107,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(HbmKeybinds.reloadKey.getKeyCode()) && (getMag(stack) < mainConfig.ammoCap || (mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0))) {
+				if(Keyboard.isKeyDown(HbmKeybinds.reloadKey.getKeyCode()) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);
@@ -444,7 +441,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
 
-		if(player.isSneaking() && mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0) {
+		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
 			if(this.getMag(stack) == mainConfig.ammoCap) {
 				this.setMag(stack, 0);
@@ -618,7 +615,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(!main)
 			config = altConfig;
 		
-		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
+		if(hasInfinity(stack, config))
 			return;
 
 		
@@ -627,6 +624,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		} else {
 			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
 		}
+	}
+	
+	public boolean hasInfinity(ItemStack stack, GunConfiguration config) {
+		return config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 	}
 	
 	/*//returns main config from itemstack

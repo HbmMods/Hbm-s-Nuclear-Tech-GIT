@@ -3,14 +3,10 @@ package com.hbm.render.item;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderDetonatorLaser implements IItemRenderer {
 	
@@ -87,11 +83,13 @@ public class ItemRenderDetonatorLaser implements IItemRenderer {
 		}
 
 		ResourceManager.detonator_laser.renderPart("Main");
+		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(1F, 0F, 0F);
 		ResourceManager.detonator_laser.renderPart("Lights");
 		GL11.glColor3f(1F, 1F, 1F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
