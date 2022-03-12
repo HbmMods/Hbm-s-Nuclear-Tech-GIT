@@ -257,6 +257,9 @@ public class AnvilRecipes {
 				new AStack[] {new OreDictStack(DESH.ingot(), 4), new OreDictStack(POLYMER.dust(), 2), new OreDictStack(DURA.ingot(), 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_desh, 4))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {new ComparableStack(ModItems.nugget_bismuth, 2), new OreDictStack(U238.billet(), 2), new OreDictStack(NB.dust(), 1)},
+				new AnvilOutput(new ItemStack(ModItems.plate_bismuth, 1))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 2), new OreDictStack(VOLCANIC.gem(), 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_euphemium, 4))).setTier(6));
 		constructionRecipes.add(new AnvilConstructionRecipe(
