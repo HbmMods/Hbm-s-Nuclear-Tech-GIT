@@ -1,9 +1,8 @@
 package com.hbm.tileentity;
 
-import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energy.IEnergyConnector;
@@ -46,8 +45,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!fluid)
 			return;
 		
-		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setFillForSync(fill, index);
+		if(getTile() instanceof IFluidContainer) {
+			((IFluidContainer)getTile()).setFillForSync(fill, index);
 		}
 	}
 
@@ -57,8 +56,44 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!fluid)
 			return;
 		
+		if(getTile() instanceof IFluidContainer) {
+			((IFluidContainer)getTile()).setFluidFill(fill, type);
+		}
+	}
+
+	@Override
+	public int getFluidFillForReceive(FluidType type) {
+		
+		if(!fluid)
+			return 0;
+		
 		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setFluidFill(fill, type);
+			return ((IFluidAcceptor)getTile()).getFluidFillForReceive(type);
+		}
+		return 0;
+	}
+
+	@Override
+	public int getMaxFluidFillForReceive(FluidType type) {
+		
+		if(!fluid)
+			return 0;
+		
+		if(getTile() instanceof IFluidAcceptor) {
+			return ((IFluidAcceptor)getTile()).getMaxFluidFillForReceive(type);
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public void receiveFluid(int amount, FluidType type) {
+		
+		if(!fluid)
+			return;
+		
+		if(getTile() instanceof IFluidAcceptor) {
+			((IFluidAcceptor)getTile()).receiveFluid(amount, type);
 		}
 	}
 
@@ -68,8 +103,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!fluid)
 			return;
 		
-		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).setTypeForSync(type, index);
+		if(getTile() instanceof IFluidContainer) {
+			((IFluidContainer)getTile()).setTypeForSync(type, index);
 		}
 	}
 
@@ -79,8 +114,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!fluid)
 			return 0;
 		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getFluidFill(type);
+		if(getTile() instanceof IFluidContainer) {
+			return ((IFluidContainer)getTile()).getFluidFill(type);
 		}
 		
 		return 0;

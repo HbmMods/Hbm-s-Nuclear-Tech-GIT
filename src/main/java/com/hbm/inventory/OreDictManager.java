@@ -143,21 +143,32 @@ public class OreDictManager {
 	/*
 	 * STABLE
 	 */
+	/** TITANIUM */ 
 	public static final DictFrame TI = new DictFrame("Titanium");
+	/** COPPER */ 
 	public static final DictFrame CU = new DictFrame("Copper");
 	public static final DictFrame MINGRADE = new DictFrame("Mingrade");
 	public static final DictFrame ALLOY = new DictFrame("AdvancedAlloy");
+	/** TUNGSTEN */ 
 	public static final DictFrame W = new DictFrame("Tungsten");
+	/** ALUMINUM */ 
 	public static final DictFrame AL = new DictFrame("Aluminum");
 	public static final DictFrame STEEL = new DictFrame("Steel");
+	/** TECHNETIUM STEEL */ 
 	public static final DictFrame TCALLOY = new DictFrame("TcAlloy");
+	/** LEAD */ 
 	public static final DictFrame PB = new DictFrame("Lead");
 	//public static final DictFrame BI = new DictFrame("Bismuth");
+	/** TANTALUM */ 
 	public static final DictFrame TA = new DictFrame("Tantalum");
 	public static final DictFrame COLTAN = new DictFrame("Coltan");
+	/** NIOBIUM */ 
 	public static final DictFrame NB = new DictFrame("Niobium");
+	/** BERYLLIUM */ 
 	public static final DictFrame BE = new DictFrame("Beryllium");
+	/** COBALT */ 
 	public static final DictFrame CO = new DictFrame("Cobalt");
+	/** BORON */ 
 	public static final DictFrame B = new DictFrame("Boron");
 	public static final DictFrame GRAPHITE = new DictFrame("Graphite");
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
@@ -177,8 +188,11 @@ public class OreDictManager {
 	/*
 	 * DUST AND GEM ORES
 	 */
+	/** SULFUR */ 
 	public static final DictFrame S = new DictFrame("Sulfur");
+	/** SALTPETER/NITER */ 
 	public static final DictFrame KNO = new DictFrame("Saltpeter");
+	/** FLUORITE */ 
 	public static final DictFrame F = new DictFrame("Fluorite");
 	public static final DictFrame LIGNITE = new DictFrame("Lignite");
 	public static final DictFrame COALCOKE = new DictFrame("CoalCoke");
@@ -190,6 +204,7 @@ public class OreDictManager {
 	/*
 	 * HAZARDS, MISC
 	 */
+	/** LITHIUM */ 
 	public static final DictFrame LI = new DictFrame("Lithium");
 	/*
 	 * PHOSPHORUS
@@ -208,18 +223,28 @@ public class OreDictManager {
 	/*
 	 * RARE EARTHS
 	 */
+	/** LANTHANUM */ 
 	public static final DictFrame LA = new DictFrame("Lanthanum");
+	/** ZIRCONIUM */ 
 	public static final DictFrame ZR = new DictFrame("Zirconium");
+	/** NEODYMIUM */ 
 	public static final DictFrame ND = new DictFrame("Neodymium");
+	/** CERIUM */ 
 	public static final DictFrame CE = new DictFrame("Cerium");
 	/*
 	 * NITAN
 	 */
+	/** IODINE */ 
 	public static final DictFrame I = new DictFrame("Iodine");
+	/** ASTATINE */ 
 	public static final DictFrame AT = new DictFrame("Astatine");
+	/** CAESIUM */ 
 	public static final DictFrame CS = new DictFrame("Caesium");
+	/** STRONTIUM */ 
 	public static final DictFrame ST = new DictFrame("Strontium");
+	/** BROMINE */ 
 	public static final DictFrame BR = new DictFrame("Bromine");
+	/** TENNESSINE */ 
 	public static final DictFrame TS = new DictFrame("Tennessine") ;
 	/*
 	 * FISSION FRAGMENTS

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.TileEntityMachineChemfac;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +18,9 @@ public class RenderChemfac extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
-		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
+		TileEntityMachineChemfac chemfac = (TileEntityMachineChemfac) tileEntity;
+		
+		switch(chemfac.getBlockMetadata() - BlockDummyable.offset) {
 		case 5: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		case 2: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
@@ -30,18 +33,18 @@ public class RenderChemfac extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.chemfac_tex);
 		ResourceManager.chemfac.renderPart("Main");
 		
-		float slowdown = 2.5F;
+		float rot = chemfac.prevRot + (chemfac.rot - chemfac.prevRot) * f;
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(1, 0, 0);
-		GL11.glRotated(System.currentTimeMillis() % (int)(360 * slowdown) / slowdown + f, 0, -1, 0);
+		GL11.glRotated(rot, 0, -1, 0);
 		GL11.glTranslated(-1, 0, 0);
 		ResourceManager.chemfac.renderPart("Fan1");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(-1, 0, 0);
-		GL11.glRotated(System.currentTimeMillis() % (int)(360 * slowdown) / slowdown + f, 0, -1, 0);
+		GL11.glRotated(rot, 0, -1, 0);
 		GL11.glTranslated(1, 0, 0);
 		ResourceManager.chemfac.renderPart("Fan2");
 		GL11.glPopMatrix();

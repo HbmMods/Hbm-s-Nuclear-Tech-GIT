@@ -19,6 +19,7 @@ import com.hbm.util.InventoryUtil;
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 
@@ -71,11 +72,12 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				unloadItems(i);
 			}
 			
-			if(worldObj.getTotalWorldTime() % 1 == 0) {
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
 
-				for(int i = 0; i < count; i++) {
-					this.fillFluidInit(tanks[i * 4 + 2].getTankType());
-					this.fillFluidInit(tanks[i * 4 + 3].getTankType());
+				for(FluidTank tank : this.outTanks()) {
+					if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
+						this.fillFluidInit(tank.getTankType());
+					}
 				}
 			}
 
@@ -91,7 +93,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 	}
 	
-	private boolean canProcess(int index) {
+	protected boolean canProcess(int index) {
 		
 		int template = getTemplateIndex(index);
 		
@@ -143,7 +145,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		return InventoryUtil.doesArrayHaveSpace(slots, indices[2], indices[3], recipe.outputs);
 	}
 	
-	private void process(int index) {
+	protected void process(int index) {
 		
 		this.power -= this.consumption;
 		this.progress[index]++;
@@ -307,36 +309,26 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index >= 0 && index < tanks.length) tanks[index].setFill(fill);
-	}
+	public void setFillForSync(int fill, int index) { }
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		
-		//TODO: figure this shit out
-		//also this won't work anyway since there's no difference as of now between setting in or output tanks
-		//the recent rework tried to implement that difference but we all know how that went
-		
-		/*for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-				return;
-			}
-		}*/
-	}
+	public void setFluidFill(int fill, FluidType type) { }
 
 	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index >= 0 && index < tanks.length) tanks[index].setTankType(type);
-	}
+	public void setTypeForSync(FluidType type, int index) { }
 
 	@Override
 	public int getFluidFill(FluidType type) {
 		
 		int fill = 0;
 		
-		for(FluidTank tank : tanks) {
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
+				fill += tank.getFill();
+			}
+		}
+		
+		for(FluidTank tank : outTanks()) {
 			if(tank.getTankType() == type) {
 				fill += tank.getFill();
 			}
@@ -350,12 +342,11 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	public int getMaxFluidFill(FluidType type) {
 		
 		int maxFill = 0;
-		int count = getRecipeCount();
 		
-		for(int i = 0; i < count; i++) {
-
-			if(tanks[i * 4].getTankType() == type) maxFill += tanks[i * 4].getMaxFill();
-			if(tanks[i * 4 + 1].getTankType() == type) maxFill += tanks[i * 4 + 1].getMaxFill();
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
+				maxFill += tank.getMaxFill();
+			}
 		}
 		
 		return maxFill;
@@ -366,22 +357,39 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		
 		int fill = 0;
 		
-		for(FluidTank tank : tanks) {
-			if(tank.index % 4 < 2 && tank.getTankType() == type) {
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
 				fill += tank.getFill();
 			}
 		}
 		
 		return fill;
 	}
+	
+	protected List<FluidTank> inTanks() {
+
+		List<FluidTank> inTanks = new ArrayList();
+		
+		for(int i = 0; i < tanks.length; i++) {
+			FluidTank tank = tanks[i];
+			if(tank.index % 4 < 2) {
+				inTanks.add(tank);
+			}
+		}
+		
+		return inTanks;
+	}
 
 	@Override
 	public void receiveFluid(int amount, FluidType type) {
 		
+		if(amount <= 0)
+			return;
+		
 		List<FluidTank> rec = new ArrayList();
 		
-		for(FluidTank tank : tanks) {
-			if(tank.index % 4 < 2 && tank.getTankType() == type) {
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
 				rec.add(tank);
 			}
 		}
@@ -390,30 +398,136 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			return;
 		
 		int demand = 0;
+		List<Integer> weight = new ArrayList();
 		
 		for(FluidTank tank : rec) {
-			demand += tank.getMaxFill() - tank.getFill();
+			int fillWeight = tank.getMaxFill() - tank.getFill();
+			demand += fillWeight;
+			weight.add(fillWeight);
 		}
 		
-		int part = demand / rec.size(); // dividing ints rounds down anyway
-		
-		for(FluidTank tank : rec) {
-			tank.setFill(tank.getFill() + part);
-			demand -= part;
-		}
-		
-		//getting rid of annoying rounding errors
-		if(demand > 0) {
+		for(int i = 0; i < rec.size(); i++) {
 			
-			while(demand > 0) {
-				
-				FluidTank tank = rec.get(worldObj.rand.nextInt(rec.size()));
-				if(tank.getFill() < tank.getMaxFill()) {
-					//we do single mB steps because the distribution is more even this way and honestly the remainder can't possibly be that big
-					tank.setFill(tank.getFill() + 1);
-					demand--;
-				}
+			if(demand <= 0)
+				break;
+			
+			FluidTank tank = rec.get(i);
+			int fillWeight = weight.get(i);
+			int part = (int) ((long)amount * (long)fillWeight / (long)demand);
+			
+			tank.setFill(tank.getFill() + part);
+		}
+	}
+
+	@Override
+	public int getFluidFillForTransfer(FluidType type) {
+		
+		int fill = 0;
+		
+		for(FluidTank tank : outTanks()) {
+			if(tank.getTankType() == type) {
+				fill += tank.getFill();
 			}
+		}
+		
+		return fill;
+	}
+	
+	@Override
+	public void transferFluid(int amount, FluidType type) {
+		
+		/*
+		 * this whole new fluid mumbo jumbo extra abstraction layer might just be a bandaid
+		 * on the gushing wound that is the current fluid systemm but i'll be damned if it
+		 * didn't at least do what it's supposed to. half a decade and we finally have multi
+		 * tank support for tanks with matching fluid types!!
+		 */
+		if(amount <= 0)
+			return;
+		
+		List<FluidTank> send = new ArrayList();
+		
+		for(FluidTank tank : outTanks()) {
+			if(tank.getTankType() == type) {
+				send.add(tank);
+			}
+		}
+		
+		if(send.size() == 0)
+			return;
+		
+		int offer = 0;
+		List<Integer> weight = new ArrayList();
+		
+		for(FluidTank tank : send) {
+			int fillWeight = tank.getFill();
+			offer += fillWeight;
+			weight.add(fillWeight);
+		}
+		
+		int tracker = amount;
+		
+		for(int i = 0; i < send.size(); i++) {
+			
+			FluidTank tank = send.get(i);
+			int fillWeight = weight.get(i);
+			int part = amount * fillWeight / offer;
+			
+			tank.setFill(tank.getFill() - part);
+			tracker -= part;
+		}
+		
+		//making sure to properly deduct even the last mB lost by rounding errors
+		for(int i = 0; i < 100 && tracker > 0; i++) {
+			
+			FluidTank tank = send.get(i % send.size());
+			
+			if(tank.getFill() > 0) {
+				int total = Math.min(tank.getFill(), tracker);
+				tracker -= total;
+				tank.setFill(tank.getFill() - total);
+			}
+		}
+	}
+	
+	protected List<FluidTank> outTanks() {
+		
+		List<FluidTank> outTanks = new ArrayList();
+		
+		for(int i = 0; i < tanks.length; i++) {
+			FluidTank tank = tanks[i];
+			if(tank.index % 4 > 1) {
+				outTanks.add(tank);
+			}
+		}
+		
+		return outTanks;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getIntArray("progress");
+		
+		if(progress.length == 0)
+			progress = new int[this.getRecipeCount()];
+		
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].readFromNBT(nbt, "t" + i);
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setIntArray("progress", progress);
+		
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].writeToNBT(nbt, "t" + i);
 		}
 	}
 

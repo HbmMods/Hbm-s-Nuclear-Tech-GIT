@@ -766,13 +766,26 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.machine_deuterium_extractor, 1), new AStack[] {
 				new ComparableStack(ModItems.deuterium_filter, 1),
 				new ComparableStack(ModItems.sulfur, 12),
-				new OreDictStack("plateSteel", 8),
-				new OreDictStack("plateAluminum", 4),
+				new OreDictStack(STEEL.plate(), 8),
+				new OreDictStack(AL.plate(), 4),
 				new ComparableStack(ModItems.pipes_steel),
 				new ComparableStack(ModItems.board_copper, 2),
 				new ComparableStack(ModItems.turbine_titanium, 2),
 				new ComparableStack(ModItems.circuit_aluminium, 3)
 			}, 100);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_chemfac, 1), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 48),
+				new OreDictStack(TCALLOY.ingot(), 8),
+				new OreDictStack(NB.ingot(), 4),
+				new OreDictStack(RUBBER.ingot(), 16),
+				new ComparableStack(ModItems.hull_big_steel, 6),
+				new ComparableStack(ModItems.tank_steel, 8),
+				new ComparableStack(ModItems.motor_desh, 4),
+				new ComparableStack(ModItems.coil_tungsten, 24),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.circuit_gold, 3)
+			}, 400);
 		
 		makeRecipe(new ComparableStack(ModItems.missile_shuttle, 1), new AStack[] {
 				new ComparableStack(ModItems.missile_generic, 2),
