@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnaceRTG;
 import com.hbm.inventory.recipes.MachineRecipes;
-import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.util.RTGUtil;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -162,6 +161,11 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return side == 0 ? new int[] {2} : side == 1 ? new int[] {0} : new int[] {1};
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return slot == 2;
 	}
 
 	@Override

@@ -40,6 +40,9 @@ public class GUIChemfac extends GuiInfoContainer {
 			chemfac.tanks[i * 4 + 2].renderTankInfo(this, mouseX, mouseY, offX + 102, offY + 45 - 32, 5, 34);
 			chemfac.tanks[i * 4 + 3].renderTankInfo(this, mouseX, mouseY, offX + 107, offY + 45 - 32, 5, 34);
 		}
+
+		chemfac.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 233, guiTop + 108, 9, 54);
+		chemfac.steam.renderTankInfo(this, mouseX, mouseY, guiLeft + 242, guiTop + 108, 9, 54);
 	}
 	
 	@Override
@@ -74,6 +77,9 @@ public class GUIChemfac extends GuiInfoContainer {
 			chemfac.tanks[i * 4 + 2].renderTank(offX + 103, offY + 46, this.zLevel, 3, 32);
 			chemfac.tanks[i * 4 + 3].renderTank(offX + 108, offY + 46, this.zLevel, 3, 32);
 		}
+
+		chemfac.water.renderTank(guiLeft + 234, guiTop + 161, this.zLevel, 7, 52);
+		chemfac.steam.renderTank(guiLeft + 243, guiTop + 161, this.zLevel, 7, 52);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LMENU))
 		for(int i = 0; i < this.inventorySlots.inventorySlots.size(); i++) {

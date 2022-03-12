@@ -368,10 +368,8 @@ public class Library {
 		return power;
 	}
 	
-	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
-	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
 		
 		/*
@@ -620,21 +618,20 @@ public class Library {
 			int size = that.getFluidList(type).size();
 			
 			if(size > 0) {
-				int part = that.getFluidFill(type) / size;
+				int part = that.getFluidFillForTransfer(type) / size;
 				
 				for(IFluidAcceptor consume : that.getFluidList(type)) {
 					
 					if(consume.getFluidFillForReceive(type) < consume.getMaxFluidFillForReceive(type)) {
 						
 						if(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type) >= part) {
-							that.setFluidFill(that.getFluidFill(type) - part, type);
+							that.transferFluid(part, type);
 							consume.receiveFluid(part, type);
-							//consume.setFluidFillForReceive(consume.getFluidFillForReceive(type) + part, type);
 							
 						} else {
-							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type)), type);
-							consume.receiveFluid(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type), type);
-							//consume.setFluidFillForReceive(consume.getMaxFluidFillForReceive(type), type);
+							int transfer = consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type);
+							that.transferFluid(transfer, type);
+							consume.receiveFluid(transfer, type);
 						}
 					}
 				}
