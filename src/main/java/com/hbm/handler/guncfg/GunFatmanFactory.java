@@ -53,6 +53,7 @@ public class GunFatmanFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_TOTS);
 		config.config.add(BulletConfigSyncingUtil.NUKE_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PUMPKIN);
+		config.config.add(BulletConfigSyncingUtil.NUKE_BARREL);
 		config.durability = 1000;
 		
 		return config;
@@ -117,6 +118,7 @@ public class GunFatmanFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_TOTS);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_PUMPKIN);
+		config.config.add(BulletConfigSyncingUtil.NUKE_BARREL);
 		config.durability = 1000;
 		
 		return config;
@@ -240,7 +242,7 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeBarrelConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_pumpkin;
+		bullet.ammo = ModItems.ammo_nuke_barrel;
 		bullet.explosive = 3F;
 		bullet.style = bullet.STYLE_BARREL;
 		

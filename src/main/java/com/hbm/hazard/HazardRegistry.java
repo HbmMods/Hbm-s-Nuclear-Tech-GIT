@@ -160,8 +160,6 @@ public class HazardRegistry {
 		HazardSystem.register(stick_tnt, makeData(EXPLOSIVE, 1.5F));
 		HazardSystem.register(stick_semtex, makeData(EXPLOSIVE, 2.5F));
 		HazardSystem.register(stick_c4, makeData(EXPLOSIVE, 2.5F));
-		HazardSystem.register(dynamite, makeData(EXPLOSIVE, 6F));
-		HazardSystem.register(tnt, makeData(EXPLOSIVE, 8F));
 
 		HazardSystem.register("dustCoal", makeData(COAL, powder));
 		HazardSystem.register("dustTinyCoal", makeData(COAL, powder_tiny));

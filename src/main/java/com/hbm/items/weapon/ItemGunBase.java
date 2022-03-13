@@ -445,13 +445,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
-
+		
 		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
 			if(this.getMag(stack) == mainConfig.ammoCap) {
 				this.setMag(stack, 0);
 				this.resetAmmoType(stack, world, player);
-				player.playSound("block.pistonOut", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, "tile.piston.out", 1.0F, 1.0F);
 			}
 			
 			return;
@@ -474,6 +474,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	}
 	
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(getMag(stack) == mainConfig.ammoCap && hasInfinity(stack, mainConfig))
+			return true;
 
 		if(getMag(stack) == 0) {
 			

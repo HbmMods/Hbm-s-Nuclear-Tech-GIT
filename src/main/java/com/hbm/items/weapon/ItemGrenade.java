@@ -316,5 +316,4 @@ public class ItemGrenade extends Item {
 	public static int getFuseTicks(Item grenade) {
 		return ((ItemGrenade)grenade).fuse * 20;
 	}
-
 }

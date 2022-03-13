@@ -2,9 +2,23 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.ChatBuilder;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 
 public class GunDetonatorFactory {
 
@@ -33,6 +47,7 @@ public class GunDetonatorFactory {
 		config.manufacturer = "WestTek";
 		
 		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.DET_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_DU_BOLT);
@@ -48,11 +63,51 @@ public class GunDetonatorFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_HIGH);
+		config.config.add(BulletConfigSyncingUtil.NUKE_TOTS);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PUMPKIN);
+		config.config.add(BulletConfigSyncingUtil.NUKE_BARREL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_HIGH);
 		
 		return config;
+	}
+	
+	public static BulletConfiguration getLaserConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = Items.redstone;
+		bullet.spread = 0.0F;
+		bullet.maxAge = 100;
+		bullet.dmgMin = 0;
+		bullet.dmgMax = 0;
+		bullet.leadChance = 0;
+		bullet.doesRicochet = false;
+		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				World world = bullet.worldObj;
+				if(!world.isRemote && y > 0) {
+					Block b = world.getBlock(x, y, z);
+					if(b instanceof IBomb) {
+						BombReturnCode ret = ((IBomb)b).explode(world, x, y, z);
+						
+						if(ret.wasSuccessful() && bullet.shooter instanceof EntityPlayerMP) {
+							EntityPlayerMP player = (EntityPlayerMP) bullet.shooter;
+							world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(EnumChatFormatting.YELLOW).flush()), (EntityPlayerMP) player);
+						}
+					}
+				}
+			}
+		};
+		
+		return bullet;
 	}
 }

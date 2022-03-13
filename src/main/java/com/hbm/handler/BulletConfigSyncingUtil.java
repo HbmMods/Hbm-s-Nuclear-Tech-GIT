@@ -226,6 +226,7 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_AMAT = i++;
 
 	public static int ZOMG_BOLT = i++;
+	public static int DET_BOLT = i++;
 
 	public static int TURBINE = i++;
 
@@ -468,6 +469,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
+		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
