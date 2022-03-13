@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.util.I18nUtil;
 
@@ -60,6 +61,7 @@ public class ArmorFSB extends ItemArmor {
 	public boolean customGeiger = false;
 	public boolean hardLanding = false;
 	public double gravity = 0;
+	public int dashCount = 0;
 	public String step;
 	public String jump;
 	public String fall;
@@ -148,6 +150,11 @@ public class ArmorFSB extends ItemArmor {
 		this.gravity = gravity;
 		return this;
 	}
+	
+	public ArmorFSB setDashCount(int dashCount) {
+		this.dashCount = dashCount;
+		return this;
+	}
 
 	public ArmorFSB setStep(String step) {
 		this.step = step;
@@ -188,6 +195,7 @@ public class ArmorFSB extends ItemArmor {
 		this.customGeiger = original.customGeiger;
 		this.hardLanding = original.hardLanding;
 		this.gravity = original.gravity;
+		this.dashCount = original.dashCount;
 		this.step = original.step;
 		this.jump = original.jump;
 		this.fall = original.fall;
@@ -269,6 +277,10 @@ public class ArmorFSB extends ItemArmor {
 
 		if(gravity != 0) {
 			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
+		}
+		
+		if(dashCount > 0) {
+			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 		}
 
 		if(protectionYield != 100F) {
@@ -448,6 +460,35 @@ public class ArmorFSB extends ItemArmor {
 				} catch(Exception x) {
 				}
 			}
+			
+			boolean v1enabled = true;
+			
+			if(dashCount > 0) {
+				
+				int perDash = 64;
+				
+				HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties("NTM_EXT_PLAYER");
+				
+				props.setDashCount(dashCount);
+
+				if(props.getDashCooldown() <= 0) {
+					
+					if(!player.capabilities.isFlying && player.isSneaking() && props.getStamina() >= perDash) {
+						
+						Vec3 lookingIn = player.getLookVec();
+						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
+						
+						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
+						props.setStamina(props.getStamina() - perDash);
+					}
+				} else {	
+					props.setDashCooldown(props.getDashCooldown() - 1);
+				}
+				
+				if(props.getStamina() < props.getDashCount() * perDash) {
+					props.setStamina(props.getStamina() + 1);
+				}
+			}	
 		}
 	}
 

@@ -20,6 +20,12 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 	
+	public static final int dashCooldownLength = 10;
+	public int dashCooldown = 0;
+	
+	public int totalDashCount = 0;
+	public int stamina = 0;
+	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
 	}
@@ -67,6 +73,33 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		}
 		
 		keysPressed[key.ordinal()] = pressed;
+	}
+	
+	public void setDashCooldown(int cooldown) {
+		this.dashCooldown = cooldown;
+		return;
+	}
+	
+	public int getDashCooldown() {
+		return this.dashCooldown;
+	}
+	
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
+		return;
+	}
+	
+	public int getStamina() {
+		return this.stamina;
+	}
+	
+	public void setDashCount(int count) {
+		this.totalDashCount = count;
+		return;
+	}
+	
+	public int getDashCount() {
+		return this.totalDashCount;
 	}
 
 	@Override

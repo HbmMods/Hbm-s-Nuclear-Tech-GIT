@@ -3,6 +3,7 @@ package com.hbm.render.util;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
@@ -161,6 +162,48 @@ public class RenderScreenOverlay {
         
         GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+	}
+	
+	public static void renderDashBar(ScaledResolution resolution, Gui gui, HbmPlayerProps props) {
+		
+		
+		GL11.glPushMatrix();
+		
+		GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		int posX = 16;
+		int posY = resolution.getScaledHeight() - 48 - 2;
+		
+		mc.renderEngine.bindTexture(misc);
+		
+		gui.drawTexturedModalRect(posX-10, posY, 99, 18, 7, 10); 
+		
+		int stamina = props.getStamina();
+		
+		for(int x = 0; x < props.getDashCount(); x++) {
+			int status = 3;
+			int width = 22;
+			gui.drawTexturedModalRect(posX + (width+2)*x, posY, 76, 48, 30, 10);
+			if(stamina / 64 > x) {
+				status = 1;
+			} else if(stamina / 64 == x) {
+				width = (int)( (float)(stamina % 64) * (width/64F) );
+				status = 2;
+			}
+			gui.drawTexturedModalRect(posX + 24*x, posY, 76, 18+(10*status), width, 10); 
+		}
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glPopMatrix();
+		mc.renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public enum Crosshair {
