@@ -218,7 +218,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(altConfig == null)
 			return;
 
-		BulletConfiguration config = getBeltCfg(player, stack, false);
+		BulletConfiguration config = altConfig.reloadType == altConfig.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
+		
+		//System.out.println(config.ammo.getUnlocalizedName());
 		
 		int bullets = config.bulletsMin;
 		
