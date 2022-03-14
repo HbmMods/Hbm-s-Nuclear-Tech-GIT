@@ -18,8 +18,6 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 

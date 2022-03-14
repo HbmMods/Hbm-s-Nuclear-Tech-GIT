@@ -128,4 +128,7 @@ public class PowerNet implements IPowerNet {
 		
 		return power - totalGiven;
 	}
+
+	@Override
+	public void reevaluate() { }
 }

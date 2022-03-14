@@ -2,7 +2,6 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
@@ -26,6 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -107,7 +107,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(HbmKeybinds.reloadKey.getKeyCode()) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
+				if(GameSettings.isKeyDown(HbmKeybinds.reloadKey) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);

@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public interface IEnergyConnector {
 	
 	/**
-	 * Returns the amount of power that was added
+	 * Returns the amount of power that remains in the source after transfer
 	 * @param power
 	 * @return
 	 */
