@@ -7,6 +7,7 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -446,5 +447,76 @@ public class InventoryUtil {
 		}
 		
 		return true;
+	}
+	
+	public static boolean mergeItemStack(List<Slot> slots, ItemStack stack, int start, int end, boolean reverse) {
+		
+		boolean success = false;
+		int index = start;
+
+		if(reverse) {
+			index = end - 1;
+		}
+
+		Slot slot;
+		ItemStack currentStack;
+
+		if(stack.isStackable()) {
+			while(stack.stackSize > 0 && (!reverse && index < end || reverse && index >= start)) {
+				slot = slots.get(index);
+				currentStack = slot.getStack();
+
+				if(currentStack != null && currentStack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getItemDamage() == currentStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, currentStack)) {
+					int l = currentStack.stackSize + stack.stackSize;
+
+					if(l <= stack.getMaxStackSize()) {
+						stack.stackSize = 0;
+						currentStack.stackSize = l;
+						slot.onSlotChanged();
+						success = true;
+					} else if(currentStack.stackSize < stack.getMaxStackSize()) {
+						stack.stackSize -= stack.getMaxStackSize() - currentStack.stackSize;
+						currentStack.stackSize = stack.getMaxStackSize();
+						slot.onSlotChanged();
+						success = true;
+					}
+				}
+
+				if(reverse) {
+					--index;
+				} else {
+					++index;
+				}
+			}
+		}
+
+		if(stack.stackSize > 0) {
+			if(reverse) {
+				index = end - 1;
+			} else {
+				index = start;
+			}
+
+			while(!reverse && index < end || reverse && index >= start) {
+				slot = slots.get(index);
+				currentStack = slot.getStack();
+
+				if(currentStack == null) {
+					slot.putStack(stack.copy());
+					slot.onSlotChanged();
+					stack.stackSize = 0;
+					success = true;
+					break;
+				}
+
+				if(reverse) {
+					--index;
+				} else {
+					++index;
+				}
+			}
+		}
+
+		return success;
 	}
 }

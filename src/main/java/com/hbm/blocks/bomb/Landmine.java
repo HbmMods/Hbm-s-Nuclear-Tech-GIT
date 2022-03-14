@@ -155,7 +155,8 @@ public class Landmine extends BlockContainer implements IBomb {
 				world.newExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, false, false);
 			}
 			if(this == ModBlocks.mine_he) {
-				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 10F, true, false, false);
+				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 3F, true, false, false);
+				world.newExplosion(null, x + 0.5, y + 2, z + 0.5, 15F, false, false);
 			}
 			if(this == ModBlocks.mine_shrap) {
 				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 1, true, false, false);

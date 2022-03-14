@@ -37,29 +37,32 @@ public class TileEntityLandmine extends TileEntity {
 			if (block == ModBlocks.mine_fat) {
 				range = 2.5D;
 			}
+			
+			if(!isPrimed)
+				range *= 2;
 	
 			List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
-					AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - height, zCoord - range, xCoord + range, yCoord + height, zCoord + range));
+					AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - height, zCoord - range, xCoord + range + 1, yCoord + height, zCoord + range + 1));
 	
 			boolean flag = false;
-			for (Object o : list) {
-	
-				if (o instanceof EntityLivingBase) {
-	
+			for(Object o : list) {
+
+				if(o instanceof EntityLivingBase) {
+
 					flag = true;
-					
+
 					if(isPrimed) {
-						
-						((Landmine)block).explode(worldObj, xCoord, yCoord, zCoord);
+						//why did i do it like that?
+						((Landmine) block).explode(worldObj, xCoord, yCoord, zCoord);
 					}
-	
+
 					return;
 				}
 			}
-			
+
 			if(!isPrimed && !flag) {
-	
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:item.techBoop", 2.0F, 1.0F);
+
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:weapon.fstbmbStart", 3.0F, 1.0F);
 				isPrimed = true;
 			}
 		}

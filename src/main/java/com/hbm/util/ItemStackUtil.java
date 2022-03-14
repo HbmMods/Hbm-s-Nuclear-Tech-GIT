@@ -15,6 +15,15 @@ public class ItemStackUtil {
 			return stack.copy();
 	}
 	
+	public static ItemStack carefulCopyWithSize(ItemStack stack, int size) {
+		if(stack == null)
+			return null;
+		
+		ItemStack copy = stack.copy();
+		copy.stackSize = size;
+		return copy;
+	}
+	
 	/**
 	 * Runs carefulCopy over the entire ItemStack array.
 	 * @param array
