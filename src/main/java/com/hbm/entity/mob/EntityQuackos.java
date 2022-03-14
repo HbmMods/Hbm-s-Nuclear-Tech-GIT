@@ -6,7 +6,6 @@ import com.hbm.items.ModItems;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -108,6 +107,8 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 				fx.setPositionAndRotation(posX + rand.nextDouble() * 20 - 10, posY + rand.nextDouble() * 25, posZ + rand.nextDouble() * 20 - 10, 0, 0);
 				worldObj.spawnEntityInWorld(fx);
 			}
+			
+			dropItem(ModItems.spawn_duck, 3);
 		}
 		this.isDead = true;
 	}
@@ -156,11 +157,7 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	public void onDeath(DamageSource sourceOrRatherLackThereof) { }
 
 	@Override
-	protected void updateLeashedState() {
-		
-		if(this.getLeashedToEntity() instanceof EntityLeashKnot)
-			this.getLeashedToEntity().setDead();
-		
-		super.updateLeashedState();
+	public boolean allowLeashing() {
+		return false;
 	}
 }

@@ -110,6 +110,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.bj_legs, bj * legs);
 		HazmatRegistry.registerHazmat(ModItems.bj_boots, bj * boots);
 
+		HazmatRegistry.registerHazmat(ModItems.steamsuit_helmet, 1.3 * helmet);
+		HazmatRegistry.registerHazmat(ModItems.steamsuit_plate, 1.3 * chest);
+		HazmatRegistry.registerHazmat(ModItems.steamsuit_legs, 1.3 * legs);
+		HazmatRegistry.registerHazmat(ModItems.steamsuit_boots, 1.3 * boots);
+
 		HazmatRegistry.registerHazmat(ModItems.hev_helmet, hev * helmet);
 		HazmatRegistry.registerHazmat(ModItems.hev_plate, hev * chest);
 		HazmatRegistry.registerHazmat(ModItems.hev_legs, hev * legs);

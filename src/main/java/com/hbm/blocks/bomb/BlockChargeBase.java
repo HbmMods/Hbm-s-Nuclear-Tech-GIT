@@ -80,7 +80,7 @@ public abstract class BlockChargeBase extends BlockContainerBase implements IBom
 		
 		if(!world.isSideSolid(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ, dir)) {
 			world.setBlockToAir(x, y, z);
-			this.explode(world, x, y, z);
+			//this.explode(world, x, y, z);
 		}
 	}
 	

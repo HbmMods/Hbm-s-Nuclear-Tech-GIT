@@ -10,7 +10,6 @@ import com.hbm.render.anim.HbmAnimations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -131,24 +130,23 @@ public class ItemRenderWeaponBolter implements IItemRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPushMatrix();
-        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-        
-        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-        String s = ((ItemGunBase)item.getItem()).getMag(item) + "";
-        float f3 = 0.04F;
-        GL11.glTranslatef(0.025F -(font.getStringWidth(s) / 2) * 0.04F, 2.11F, 2.91F);
-        GL11.glScalef(f3, -f3, f3);
-        GL11.glRotatef(45, 1, 0, 0);
-        GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
-        font.drawString(s, 0, 0, 0xff0000);
+		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glPopAttrib();
-        RenderHelper.enableGUIStandardItemLighting();
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		String s = ((ItemGunBase) item.getItem()).getMag(item) + "";
+		float f3 = 0.04F;
+		GL11.glTranslatef(0.025F - (font.getStringWidth(s) / 2) * 0.04F, 2.11F, 2.91F);
+		GL11.glScalef(f3, -f3, f3);
+		GL11.glRotatef(45, 1, 0, 0);
+		GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
+		font.drawString(s, 0, 0, 0xff0000);
+
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 		
 		GL11.glPopMatrix();

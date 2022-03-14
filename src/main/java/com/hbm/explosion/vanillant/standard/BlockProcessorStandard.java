@@ -62,7 +62,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
 					block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ, world.getBlockMetadata(blockX, blockY, blockZ), dropChance, dropFortune);
 				}
 				
-				block.onBlockExploded(world, blockX, blockY, blockZ, null);
+				block.onBlockExploded(world, blockX, blockY, blockZ, explosion.compat);
 			}
 		}
 		

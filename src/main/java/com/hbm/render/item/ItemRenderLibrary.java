@@ -1206,16 +1206,27 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-			renderers.put(Item.getItemFromBlock(ModBlocks.machine_radiolysis), new ItemRenderBase( ) {
-			public void renderInventory() {
-				GL11.glTranslated(0, -2.5, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.radiolysis_tex); ResourceManager.radiolysis.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_radiolysis), new ItemRenderBase( ) {
+		public void renderInventory() {
+			GL11.glTranslated(0, -2.5, 0);
+			GL11.glScaled(3, 3, 3);
+		}
+		public void renderCommon() {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.radiolysis_tex); ResourceManager.radiolysis.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_chemfac), new ItemRenderBase( ) {
+		public void renderInventory() {
+			GL11.glScaled(2.5, 2.5, 2.5);
+		}
+		public void renderCommon() {
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.chemfac_tex); ResourceManager.chemfac.renderPart("Main");
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

@@ -289,6 +289,8 @@ public class BobmazonOfferFactory {
 				new ItemStack(ModItems.ammo_5mm_star, 64),
 				new ItemStack(ModItems.ammo_5mm_star, 64)
 				).setStackDisplayName("Frenchman's Reward"), Requirement.HIDDEN, 32));
+		
+		special.add(new Offer(new ItemStack(ModItems.gun_detonator, 1), Requirement.HIDDEN, 32));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {

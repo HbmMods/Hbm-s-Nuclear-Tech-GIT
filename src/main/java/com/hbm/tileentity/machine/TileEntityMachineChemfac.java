@@ -43,6 +43,10 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		
 		if(!worldObj.isRemote) {
 			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.updateConnections();
+			}
+			
 			this.speed = 100;
 			this.consumption = 100;
 			
@@ -149,6 +153,22 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	@Override
 	public long getMaxPower() {
 		return 10_000_000;
+	}
+	
+	private void updateConnections() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		
+		for(int i = 0; i < 6; i++) {
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) + rot.offsetX * 3, yCoord + 4, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 3, rot);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) - rot.offsetX * 2, yCoord + 4, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 2, rot.getOpposite());
+
+			for(int j = 0; j < 2; j++) {
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) + rot.offsetX * 5, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 5, rot);
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) - rot.offsetX * 4, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 4, rot.getOpposite());
+			}
+		}
 	}
 
 	@Override

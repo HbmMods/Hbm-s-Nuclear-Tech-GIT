@@ -2,7 +2,6 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
@@ -26,6 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -107,7 +107,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(HbmKeybinds.reloadKey.getKeyCode()) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
+				if(GameSettings.isKeyDown(HbmKeybinds.reloadKey) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);
@@ -218,7 +218,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(altConfig == null)
 			return;
 
-		BulletConfiguration config = getBeltCfg(player, stack, false);
+		BulletConfiguration config = altConfig.reloadType == altConfig.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
+		
+		//System.out.println(config.ammo.getUnlocalizedName());
 		
 		int bullets = config.bulletsMin;
 		
@@ -445,13 +447,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
-
+		
 		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
 			if(this.getMag(stack) == mainConfig.ammoCap) {
 				this.setMag(stack, 0);
 				this.resetAmmoType(stack, world, player);
-				player.playSound("block.pistonOut", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, "tile.piston.out", 1.0F, 1.0F);
 			}
 			
 			return;
@@ -474,6 +476,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	}
 	
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(getMag(stack) == mainConfig.ammoCap && hasInfinity(stack, mainConfig))
+			return true;
 
 		if(getMag(stack) == 0) {
 			

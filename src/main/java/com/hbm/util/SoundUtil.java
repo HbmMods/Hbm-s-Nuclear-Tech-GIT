@@ -35,7 +35,7 @@ public class SoundUtil {
 
 			//ReflectionHelper.setPrivateValue(SoundCategory.class, null, nameMapping, "field_147168_j");
 			//ReflectionHelper.setPrivateValue(SoundCategory.class, null, idMapping, "field_147169_k");
-			ReflectionHelper.setPrivateValue(GameSettings.class, Minecraft.getMinecraft().gameSettings, mapSoundLevels, "mapSoundLevels");
+			ReflectionHelper.setPrivateValue(GameSettings.class, Minecraft.getMinecraft().gameSettings, mapSoundLevels, "mapSoundLevels", "field_151446_aD");
 			
 		} catch(Exception e) {
 			e.printStackTrace();

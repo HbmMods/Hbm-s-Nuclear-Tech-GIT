@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -161,7 +162,7 @@ public class FluidTank {
 				partial = ArmorModHandler.pryMods(partial)[ArmorModHandler.plate_only];
 				
 				if(partial == null)
-					return;
+					partial = slots[in];
 			}
 			
 			if(partial.getItem() instanceof IPartiallyFillable) {
@@ -180,7 +181,7 @@ public class FluidTank {
 					}
 				}
 				
-				if(slots[in].getItem() instanceof ItemArmor) {
+				if(slots[in].getItem() instanceof ItemArmor && partial.getItem() instanceof ItemArmorMod) {
 					ArmorModHandler.applyMod(slots[in], partial);
 				}
 				

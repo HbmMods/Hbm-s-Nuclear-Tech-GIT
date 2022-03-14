@@ -22,6 +22,7 @@ import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.boss.EntityDragon;
@@ -549,6 +550,22 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(e.isDead || !e.isEntityAlive())
 			return false;
+
+		
+		List<String> wl = getWhitelist();
+		
+		if(wl != null) {
+			
+			if(e instanceof EntityPlayer) {
+				if(wl.contains(((EntityPlayer)e).getDisplayName())) {
+					return false;
+				}
+			} else if(e instanceof EntityLiving) {
+				if(wl.contains(((EntityLiving)e).getCustomNameTag())) {
+					return false;
+				}
+			}
+		}
 		
 		if(targetAnimals) {
 			
@@ -578,12 +595,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			if(e instanceof FakePlayer)
 				return false;
 			
-			List<String> wl = getWhitelist();
-			
-			if(wl == null || wl.isEmpty())
-				return true;
-			
-			return !wl.contains(((EntityPlayer)e).getDisplayName());
+			return true;
 		}
 		
 		return false;

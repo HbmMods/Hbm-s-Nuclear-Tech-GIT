@@ -12,14 +12,12 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 
 public class AnvilRecipes {
@@ -337,7 +335,7 @@ public class AnvilRecipes {
 			{ModItems.ammo_44_du,	STAR.ingot(),					ModItems.ammo_44_star,			10,	3},
 			{ModItems.ammo_44,		ModItems.pellet_chlorophyte,	ModItems.ammo_44_chlorophyte,	10,	3},
 
-			{ModItems.ammo_5mm,	ModItems.ingot_semtex,			ModItems.ammo_5mm_explosive,	20,	2},
+			{ModItems.ammo_5mm,	ANY_HIGHEXPLOSIVE.ingot(),		ModItems.ammo_5mm_explosive,	20,	2},
 			{ModItems.ammo_5mm,	U238.ingot(),					ModItems.ammo_5mm_du,			20,	2},
 			{ModItems.ammo_5mm,	STAR.ingot(),					ModItems.ammo_5mm_star,			10,	3},
 			{ModItems.ammo_5mm,	ModItems.pellet_chlorophyte,	ModItems.ammo_5mm_chlorophyte,	10,	3},
@@ -351,7 +349,7 @@ public class AnvilRecipes {
 
 			{ModItems.ammo_50bmg,			P_RED.dust(),					ModItems.ammo_50bmg_incendiary,		20,		2},
 			{ModItems.ammo_50bmg,			P_WHITE.ingot(),				ModItems.ammo_50bmg_phosphorus,		20,		2},
-			{ModItems.ammo_50bmg,			ModItems.ingot_semtex,			ModItems.ammo_50bmg_explosive,		20,		2},
+			{ModItems.ammo_50bmg,			ANY_HIGHEXPLOSIVE.ingot(),		ModItems.ammo_50bmg_explosive,		20,		2},
 			{ModItems.ammo_50bmg,			DURA.ingot(),					ModItems.ammo_50bmg_ap,				20,		2},
 			{ModItems.ammo_50bmg,			U238.ingot(),					ModItems.ammo_50bmg_du,				20,		2},
 			{ModItems.ammo_50bmg_du,		STAR.ingot(),					ModItems.ammo_50bmg_star,			10,		3},
