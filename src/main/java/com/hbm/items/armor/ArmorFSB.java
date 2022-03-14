@@ -461,33 +461,42 @@ public class ArmorFSB extends ItemArmor {
 				}
 			}
 			
-			boolean v1enabled = true;
-			
 			if(dashCount > 0) {
 				
-				int perDash = 64;
+				int perDash = 60;
 				
 				HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties("NTM_EXT_PLAYER");
 				
 				props.setDashCount(dashCount);
+				
+				int stamina = props.getStamina();
 
 				if(props.getDashCooldown() <= 0) {
 					
-					if(!player.capabilities.isFlying && player.isSneaking() && props.getStamina() >= perDash) {
+					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
 						
 						Vec3 lookingIn = player.getLookVec();
 						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
+						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
 						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
-						props.setStamina(props.getStamina() - perDash);
+						stamina -= perDash;
 					}
 				} else {	
 					props.setDashCooldown(props.getDashCooldown() - 1);
 				}
 				
-				if(props.getStamina() < props.getDashCount() * perDash) {
-					props.setStamina(props.getStamina() + 1);
+				if(stamina < props.getDashCount() * perDash) {
+					stamina++;
+					
+					if(stamina % perDash == perDash-1) {
+						
+						player.playSound("hbm:player.dashRecharge", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
+						stamina++;
+					}
 				}
+				
+				props.setStamina(stamina);
 			}	
 		}
 	}

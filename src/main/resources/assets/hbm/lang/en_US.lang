@@ -120,6 +120,7 @@ achievement.ZIRNOXBoom=CIRNOX
 armor.blastProtection=Damage modifier of %s against explosions
 armor.cap=Hard damage cap of %s
 armor.damageModifier=Damage modifier of %s against %s
+armor.dash=Grants %s dashes
 armor.electricJetpack=Ion Jetpack
 armor.explosionImmune=Cannot take any damage except from explosions
 armor.fastFall=Fast Fall
