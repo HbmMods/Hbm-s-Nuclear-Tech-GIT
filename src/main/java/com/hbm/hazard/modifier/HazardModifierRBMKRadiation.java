@@ -27,7 +27,7 @@ public class HazardModifierRBMKRadiation extends HazardModifier {
 			
 		} else if(stack.getItem() instanceof ItemRBMKPellet) {
 			
-			level = level + (target - level) * (ItemRBMKPellet.rectify(stack.getItemDamage()) / 4F);
+			level = level + (target - level) * ((ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F);
 			
 			if(ItemRBMKPellet.hasXenon(stack.getItemDamage()))
 				level += HazardRegistry.xe135 * HazardRegistry.nugget;
