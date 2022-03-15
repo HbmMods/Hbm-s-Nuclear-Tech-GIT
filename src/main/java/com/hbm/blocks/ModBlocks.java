@@ -1253,7 +1253,7 @@ public class ModBlocks {
 		test_conductor = new TestConductor(Material.iron).setBlockName("test_conductor").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cable_neo");
 		test_ct = new TestCT(Material.iron).setBlockName("test_ct").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ct");
 		test_rail = new TestRail(Material.iron).setBlockName("test_rail").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_rail");
-		test_bb_bork = new TestRail(Material.iron).setBlockName("test_bb_bork").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_bb_bork");
+		test_bb_bork = new TestBB(Material.iron).setBlockName("test_bb_bork").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_bb_bork");
 		test_bb_inf = new TestBB(Material.iron).setBlockName("test_bb_inf").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_bb_inf");
 		
 		ore_uranium = new BlockOutgas(Material.rock, true, 5, true).setBlockName("ore_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");

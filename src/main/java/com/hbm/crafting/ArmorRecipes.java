@@ -100,7 +100,7 @@ public class ArmorRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_helmet, 1), new Object[] { "DCD", "CXC", " F ", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_helmet, 'F', ModItems.gas_mask_filter });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_plate, 1), new Object[] { "C C", "DXD", "CFC", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_plate, 'F', ModItems.tank_steel });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_legs, 1), new Object[] { "CCC", "DXD", "C C", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_legs });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_legs, 1), new Object[] { "C C", "DXD", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_boots });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_boots, 1), new Object[] { "C C", "DXD", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_boots });
 
 		//Euphemium armor
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });
