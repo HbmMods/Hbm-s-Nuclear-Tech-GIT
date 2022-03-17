@@ -745,7 +745,6 @@ public class ClientProxy extends ServerProxy {
 	@Deprecated
 	@Override
 	public void spawnParticle(double x, double y, double z, String type, float args[]) {
-
 		
 		World world = Minecraft.getMinecraft().theWorld;
 		TextureManager man = Minecraft.getMinecraft().renderEngine;
@@ -789,6 +788,7 @@ public class ClientProxy extends ServerProxy {
 		
 		TextureManager man = Minecraft.getMinecraft().renderEngine;
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
 		Random rand = world.rand;
 		String type = data.getString("type");
 		double x = data.getDouble("posX");
@@ -1095,6 +1095,9 @@ public class ClientProxy extends ServerProxy {
 		
 		if("jetpack".equals(type)) {
 			
+			if(particleSetting == 2)
+				return;
+			
 			Entity ent = world.getEntityByID(data.getInteger("player"));
 			
 			if(ent instanceof EntityPlayer) {
@@ -1132,34 +1135,42 @@ public class ClientProxy extends ServerProxy {
 					moZ -= look.zCoord * 0.1D;
 				}
 
-				Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-				Vec3 thrust = Vec3.createVectorHelper(moX, moY, moZ);
-				thrust = thrust.normalize();
-				Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-				MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-				
-				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+				if(particleSetting == 0) {
+					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+					Vec3 thrust = Vec3.createVectorHelper(moX, moY, moZ);
+					thrust = thrust.normalize();
+					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
 					
-					Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-					int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-					
-					Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-					Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-					
-					for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-						vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-						Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+						
+						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+						
+						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+						
+						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+						}
 					}
 				}
 
 				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
 				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
-				Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
-				Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+				
+				if(particleSetting == 0) {
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+				}
 			}
 		}
 		
 		if("jetpack_bj".equals(type)) {
+			
+			if(particleSetting == 2)
+				return;
 			
 			Entity ent = world.getEntityByID(data.getInteger("player"));
 			
@@ -1180,22 +1191,24 @@ public class ClientProxy extends ServerProxy {
 				double ox = offset.xCoord;
 				double oz = offset.zCoord;
 
-				Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-				Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
-				Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-				MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-				
-				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+				if(particleSetting == 0) {
+					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+					Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
+					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
 					
-					Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-					int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-					
-					Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-					Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-					
-					for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-						vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-						Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+						
+						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+						
+						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+						
+						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+						}
 					}
 				}
 
@@ -1209,6 +1222,9 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("jetpack_dns".equals(type)) {
+			
+			if(particleSetting == 2)
+				return;
 			
 			Entity ent = world.getEntityByID(data.getInteger("player"));
 			
@@ -1227,22 +1243,24 @@ public class ClientProxy extends ServerProxy {
 				double ox = offset.xCoord;
 				double oz = offset.zCoord;
 
-				Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-				Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
-				Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-				MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-				
-				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+				if(particleSetting == 0) {
+					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+					Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
+					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
 					
-					Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-					int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-					
-					Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-					Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-					
-					for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-						vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-						Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+						
+						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+						
+						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+						
+						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+						}
 					}
 				}
 
@@ -1372,7 +1390,7 @@ public class ClientProxy extends ServerProxy {
 		if("vomit".equals(type)) {
 			
 			Entity e = world.getEntityByID(data.getInteger("entity"));
-			int count = data.getInteger("count");
+			int count = data.getInteger("count") / (particleSetting + 1);
 			
 			if(e instanceof EntityLivingBase) {
 
@@ -1453,12 +1471,13 @@ public class ClientProxy extends ServerProxy {
 			fx.setLift(data.getFloat("lift"));
 			fx.setBaseScale(data.getFloat("base"));
 			fx.setMaxScale(data.getFloat("max"));
-			fx.setLife(data.getInteger("life"));
+			fx.setLife(data.getInteger("life") / (particleSetting + 1));
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 		}
 		
 		if("deadleaf".equals(type)) {
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
+			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
 		}
 		
 		if("anim".equals(type)) {
@@ -1533,6 +1552,10 @@ public class ClientProxy extends ServerProxy {
 					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
 				}
 			}
+		}
+		
+		if("amat".equals(type)) {
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAmatFlash(world, x, y, z, data.getFloat("scale")));
 		}
 	}
 	

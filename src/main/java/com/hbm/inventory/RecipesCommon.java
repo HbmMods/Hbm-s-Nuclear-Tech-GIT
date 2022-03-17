@@ -403,7 +403,7 @@ public class RecipesCommon {
 	}
 	
 	public static class MetaBlock {
-		
+
 		public Block block;
 		public int meta;
 		
@@ -414,6 +414,14 @@ public class RecipesCommon {
 		
 		public MetaBlock(Block block) {
 			this(block, 0);
+		}
+		
+		public int getID() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + Block.getIdFromBlock(block);
+			result = prime * result + meta;
+			return result;
 		}
 	}
 

@@ -11,7 +11,9 @@ import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.explosion.vanillant.interfaces.IPlayerProcessor;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.CustomDamageHandlerAmat;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectAmat;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 
@@ -125,6 +127,18 @@ public class ExplosionVNT {
 		this.setEntityProcessor(new EntityProcessorStandard());
 		this.setPlayerProcessor(new PlayerProcessorStandard());
 		this.setSFX(new ExplosionEffectStandard());
+		return this;
+	}
+	
+	public ExplosionVNT makeAmat() {
+		this.setBlockAllocator(new BlockAllocatorStandard(this.size < 15 ? 16 : 32));
+		this.setBlockProcessor(new BlockProcessorStandard()
+				.setNoDrop());
+		this.setEntityProcessor(new EntityProcessorStandard()
+				.withRangeMod(2F)
+				.withDamageMod(new CustomDamageHandlerAmat(50F)));
+		this.setPlayerProcessor(new PlayerProcessorStandard());
+		this.setSFX(new ExplosionEffectAmat());
 		return this;
 	}
 }
