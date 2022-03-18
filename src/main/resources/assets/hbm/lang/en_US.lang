@@ -3389,6 +3389,7 @@ tile.broadcaster_pc.name=Corrupted Broadcaster
 tile.burning_earth.name=Burning Grass
 tile.c4.name=C-4
 tile.cable_detector.name=Redstone Power Switch
+tile.cable_diode.name=Red Copper Diode
 tile.cable_switch.name=Power Switch
 tile.charge_c4.name=Demolition Charge
 tile.charge_dynamite.name=Time Bomb

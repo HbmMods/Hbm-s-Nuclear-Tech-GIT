@@ -459,26 +459,33 @@ public class InventoryUtil {
 		}
 
 		Slot slot;
-		ItemStack currentStack;
+		ItemStack current;
 
 		if(stack.isStackable()) {
+			
 			while(stack.stackSize > 0 && (!reverse && index < end || reverse && index >= start)) {
 				slot = slots.get(index);
-				currentStack = slot.getStack();
+				current = slot.getStack();
 
-				if(currentStack != null && currentStack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getItemDamage() == currentStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, currentStack)) {
-					int l = currentStack.stackSize + stack.stackSize;
-
-					if(l <= stack.getMaxStackSize()) {
-						stack.stackSize = 0;
-						currentStack.stackSize = l;
-						slot.onSlotChanged();
-						success = true;
-					} else if(currentStack.stackSize < stack.getMaxStackSize()) {
-						stack.stackSize -= stack.getMaxStackSize() - currentStack.stackSize;
-						currentStack.stackSize = stack.getMaxStackSize();
-						slot.onSlotChanged();
-						success = true;
+				if(current != null) {
+					int max = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int toRemove = Math.min(stack.stackSize, max);
+					
+					if(slot.isItemValid(ItemStackUtil.carefulCopyWithSize(stack, toRemove)) && current.getItem() == stack.getItem() &&
+							(!stack.getHasSubtypes() || stack.getItemDamage() == current.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, current)) {
+						
+						int currentSize = current.stackSize + stack.stackSize;
+						if(currentSize <= max) {
+							stack.stackSize = 0;
+							current.stackSize = currentSize;
+							slot.putStack(current);
+							success = true;
+						} else if(current.stackSize < max) {
+							stack.stackSize -= stack.getMaxStackSize() - current.stackSize;
+							current.stackSize = max;
+							slot.putStack(current);
+							success = true;
+						}
 					}
 				}
 
@@ -497,16 +504,20 @@ public class InventoryUtil {
 				index = start;
 			}
 
-			while(!reverse && index < end || reverse && index >= start) {
+			while((!reverse && index < end || reverse && index >= start) && stack.stackSize > 0) {
 				slot = slots.get(index);
-				currentStack = slot.getStack();
+				current = slot.getStack();
 
-				if(currentStack == null) {
-					slot.putStack(stack.copy());
-					slot.onSlotChanged();
-					stack.stackSize = 0;
-					success = true;
-					break;
+				if(current == null) {
+					
+					int max = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int toRemove = Math.min(stack.stackSize, max);
+					
+					if(slot.isItemValid(ItemStackUtil.carefulCopyWithSize(stack, toRemove))) {
+						current = stack.splitStack(toRemove);
+						slot.putStack(current);
+						success = true;
+					}
 				}
 
 				if(reverse) {

@@ -132,6 +132,6 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 		for(int i = 0; i < cracker.tanks.length; i++)
 			text.add((i < 2 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()) + ": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB");
 		
-		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x808000, text);
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }
