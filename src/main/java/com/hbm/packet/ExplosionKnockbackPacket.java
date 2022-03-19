@@ -20,8 +20,8 @@ public class ExplosionKnockbackPacket implements IMessage {
 
 	public ExplosionKnockbackPacket(Vec3 vec) {
 		this.motionX = (float) vec.xCoord;
-		this.motionY = (float) vec.xCoord;
-		this.motionZ = (float) vec.xCoord;
+		this.motionY = (float) vec.yCoord;
+		this.motionZ = (float) vec.zCoord;
 	}
 
 	@Override

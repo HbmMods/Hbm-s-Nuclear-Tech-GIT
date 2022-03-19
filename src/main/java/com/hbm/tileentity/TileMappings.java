@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -247,6 +248,8 @@ public class TileMappings {
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 
 		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
+		put(TileEntityMachineChemfac.class, "tileentity_chemfac");
+		
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
 		put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");
@@ -287,6 +290,7 @@ public class TileMappings {
 	private static void putNetwork() {
 		put(TileEntityCableBaseNT.class, "tileentity_cable", "tileentity_wirecoated");
 		put(TileEntityCableSwitch.class, "tileentity_cable_switch");
+		put(TileEntityDiode.class, "tileentity_cable_diode");
 		
 		put(TileEntityConnector.class, "tileentity_connector_redwire");
 		put(TileEntityPylon.class, "tileentity_pylon_redwire");

@@ -37,7 +37,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 				IEnergyConductor conductor = (IEnergyConductor) te;
 				
 				if(!conductor.canConnect(dir.getOpposite()))
-					break;
+					continue;
 				
 				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
 					conductor.getPowerNet().joinLink(this);

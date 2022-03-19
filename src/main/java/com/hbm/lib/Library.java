@@ -368,10 +368,8 @@ public class Library {
 		return power;
 	}
 	
-	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
-	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
 		
 		/*
@@ -611,28 +609,29 @@ public class Library {
 			}
 		}
 		
-		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFill(type) > 0 &&
-				((IFluidAcceptor)tileentity).getMaxFluidFill(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0) {
+		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) > 0 &&
+				((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) - ((IFluidAcceptor)tileentity).getFluidFillForReceive(type) > 0) {
 			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		
-		if(!newTact)
-		{
+		if(!newTact) {
 			int size = that.getFluidList(type).size();
-			if(size > 0)
-			{
-				int part = that.getFluidFill(type) / size;
-				for(IFluidAcceptor consume : that.getFluidList(type))
-				{
-					if(consume.getFluidFill(type) < consume.getMaxFluidFill(type))
-					{
-						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
-						{
-							that.setFluidFill(that.getFluidFill(type) - part, type);
-							consume.setFluidFill(consume.getFluidFill(type) + part, type);
+			
+			if(size > 0) {
+				int part = that.getFluidFillForTransfer(type) / size;
+				
+				for(IFluidAcceptor consume : that.getFluidList(type)) {
+					
+					if(consume.getFluidFillForReceive(type) < consume.getMaxFluidFillForReceive(type)) {
+						
+						if(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type) >= part) {
+							that.transferFluid(part, type);
+							consume.receiveFluid(part, type);
+							
 						} else {
-							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
-							consume.setFluidFill(consume.getMaxFluidFill(type), type);
+							int transfer = consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type);
+							that.transferFluid(transfer, type);
+							consume.receiveFluid(transfer, type);
 						}
 					}
 				}

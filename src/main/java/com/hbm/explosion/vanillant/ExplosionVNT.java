@@ -2,6 +2,20 @@ package com.hbm.explosion.vanillant;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+
+import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
+import com.hbm.explosion.vanillant.interfaces.IBlockProcessor;
+import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
+import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
+import com.hbm.explosion.vanillant.interfaces.IPlayerProcessor;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.CustomDamageHandlerAmat;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectAmat;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,9 +43,10 @@ public class ExplosionVNT {
 	protected double posX;
 	protected double posY;
 	protected double posZ;
-	protected float size;
+	public float size;
 	public Entity exploder;
-	
+
+	private Map compatPlayers = new HashMap();
 	public Explosion compat;
 	
 	public ExplosionVNT(World world, double x, double y, double z, float size) {
@@ -46,22 +61,37 @@ public class ExplosionVNT {
 		this.size = size;
 		this.exploder = exploder;
 		
-		this.compat = new Explosion(world, exploder, x, y, z, size);
+		this.compat = new Explosion(world, exploder, x, y, z, size) {
+			
+			@Override
+			public Map func_77277_b() {
+				return ExplosionVNT.this.compatPlayers;
+			}
+		};
 	}
 	
 	public void explode() {
+
+		this.compat.exploder = this.exploder;
+		this.compat.explosionSize = this.size;
 		
 		boolean processBlocks = blockAllocator != null && blockProcessor != null;
 		boolean processEntities = entityProcessor != null && playerProcessor != null;
 		
 		HashSet<ChunkPosition> affectedBlocks = null;
-		HashMap<EntityPlayer, Vec3> affectedEntities = null;
+		HashMap<EntityPlayer, Vec3> affectedPlayers = null;
 		
+		//allocation
 		if(processBlocks) affectedBlocks = blockAllocator.allocate(this, world, posX, posY, posZ, size);
-		if(processEntities) affectedEntities = entityProcessor.process(this, world, posX, posY, posZ, size);
+		if(processEntities) affectedPlayers = entityProcessor.process(this, world, posX, posY, posZ, size);
 		
+		//serverside processing
 		if(processBlocks) blockProcessor.process(this, world, posX, posY, posZ, affectedBlocks);
-		if(processEntities) playerProcessor.process(this, world, posX, posY, posZ, affectedEntities);
+		if(processEntities) playerProcessor.process(this, world, posX, posY, posZ, affectedPlayers);
+		
+		//compat
+		if(processBlocks) this.compat.affectedBlockPositions.addAll(affectedBlocks);
+		if(processEntities) this.compatPlayers.putAll(affectedPlayers);
 		
 		if(sfx != null) {
 			for(IExplosionSFX fx : sfx) {
@@ -88,6 +118,27 @@ public class ExplosionVNT {
 	}
 	public ExplosionVNT setSFX(IExplosionSFX... sfx) {
 		this.sfx = sfx;
+		return this;
+	}
+	
+	public ExplosionVNT makeStandard() {
+		this.setBlockAllocator(new BlockAllocatorStandard());
+		this.setBlockProcessor(new BlockProcessorStandard());
+		this.setEntityProcessor(new EntityProcessorStandard());
+		this.setPlayerProcessor(new PlayerProcessorStandard());
+		this.setSFX(new ExplosionEffectStandard());
+		return this;
+	}
+	
+	public ExplosionVNT makeAmat() {
+		this.setBlockAllocator(new BlockAllocatorStandard(this.size < 15 ? 16 : 32));
+		this.setBlockProcessor(new BlockProcessorStandard()
+				.setNoDrop());
+		this.setEntityProcessor(new EntityProcessorStandard()
+				.withRangeMod(2F)
+				.withDamageMod(new CustomDamageHandlerAmat(50F)));
+		this.setPlayerProcessor(new PlayerProcessorStandard());
+		this.setSFX(new ExplosionEffectAmat());
 		return this;
 	}
 }

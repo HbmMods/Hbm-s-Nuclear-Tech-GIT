@@ -5,12 +5,12 @@ import java.util.List;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ITooltipProvider;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockSpeedy extends Block implements IStepTickReceiver, ITooltipProvider {

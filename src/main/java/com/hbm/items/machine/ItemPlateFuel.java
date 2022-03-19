@@ -64,9 +64,9 @@ public class ItemPlateFuel extends ItemFuelRod {
 		
 		switch(this.function) {
 		case LOGARITHM: return (int) (Math.log10(flux + 1) * 0.5D * reactivity);
-		case SQUARE_ROOT: return (int) (Math.sqrt(flux) * this.reactivity / 10);
-		case NEGATIVE_QUADRATIC: return (int) (Math.max(flux - (flux * flux / 10000) / 100 * reactivity, 0));
-		case LINEAR: return (int) (flux / 100 * reactivity);
+		case SQUARE_ROOT: return (int) (Math.sqrt(flux) * this.reactivity / 10D);
+		case NEGATIVE_QUADRATIC: return (int) (Math.max((flux - (flux * flux / 10000D)) / 100D * reactivity, 0));
+		case LINEAR: return (int) (flux / 100D * reactivity);
 		case PASSIVE:
 			setLifeTime(stack, getLifeTime(stack) + reactivity);
 			return reactivity;

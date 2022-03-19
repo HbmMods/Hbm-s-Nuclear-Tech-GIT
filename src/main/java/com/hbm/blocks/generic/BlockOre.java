@@ -240,6 +240,22 @@ public class BlockOre extends Block {
 
 		return 1;
 	}
+	
+	@Override
+	public int quantityDroppedWithBonus(int fortune, Random rand) {
+		
+		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune)) {
+			int mult = rand.nextInt(fortune + 2) - 1;
+
+			if(mult < 0) {
+				mult = 0;
+			}
+
+			return this.quantityDropped(rand) * (mult + 1);
+		} else {
+			return this.quantityDropped(rand);
+		}
+	}
 
 	@Override
 	public int damageDropped(int p_149692_1_) {

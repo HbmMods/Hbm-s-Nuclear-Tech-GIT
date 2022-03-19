@@ -1,12 +1,12 @@
 package com.hbm.util;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
@@ -23,7 +23,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class ContaminationUtil {
 	
@@ -42,44 +41,6 @@ public class ContaminationUtil {
 		}
 		
 		return 1;
-	}
-	
-	/// RADIATION ///
-	private static void applyRadData(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-
-		if(isRadImmune(e))
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-		
-		if(e instanceof EntityPlayer && e.ticksExisted < 200)
-			return;
-		
-		f *= calculateRadiationMod(entity);
-
-		HbmLivingProps.incrementRadiation(entity, f);
-	}
-	
-	private static void applyRadDirect(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-
-		if(isRadImmune(e))
-			return;
-		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
-			return;
-
-		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
 	public static float getRads(Entity e) {
@@ -133,6 +94,9 @@ public class ContaminationUtil {
 	public static void applyDigammaData(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		if(e instanceof EntityDuck || e instanceof EntityOcelot)
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)

@@ -11,8 +11,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,9 +20,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
-public class TileEntityMachineFractionTower extends TileEntity implements IFluidSource, IFluidAcceptor {
+public class TileEntityMachineFractionTower extends TileEntity implements IFluidSource, IFluidAcceptor, INBTPacketReceiver {
 	
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -73,8 +72,21 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				fillFluidInit(tanks[1].getTankType());
 				fillFluidInit(tanks[2].getTankType());
+				
+				NBTTagCompound data = new NBTTagCompound();
+
+				for(int i = 0; i < 3; i++)
+					tanks[i].writeToNBT(data, "tank" + i);
+				
+				INBTPacketReceiver.networkPack(this, data, 50);
 			}
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		for(int i = 0; i < 3; i++)
+			tanks[i].readFromNBT(nbt, "tank" + i);
 	}
 	
 	private void setupTanks() {

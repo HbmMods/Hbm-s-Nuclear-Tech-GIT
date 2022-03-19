@@ -105,19 +105,24 @@ public class PowerNet implements IPowerNet {
 		if(this.subscribers.isEmpty())
 			return power;
 		
+		List<IEnergyConnector> subList = new ArrayList(subscribers);
+		
 		List<Long> weight = new ArrayList();
 		long totalReq = 0;
 		
-		for(IEnergyConnector con : this.subscribers) {
+		for(IEnergyConnector con : subList) {
 			long req = con.getTransferWeight();
 			weight.add(req);
 			totalReq += req;
 		}
 		
+		if(totalReq == 0)
+			return power;
+		
 		long totalGiven = 0;
 		
-		for(int i = 0; i < this.subscribers.size(); i++) {
-			IEnergyConnector con = this.subscribers.get(i);
+		for(int i = 0; i < subList.size(); i++) {
+			IEnergyConnector con = subList.get(i);
 			long req = weight.get(i);
 			double fraction = (double)req / (double)totalReq;
 			
@@ -128,4 +133,7 @@ public class PowerNet implements IPowerNet {
 		
 		return power - totalGiven;
 	}
+
+	@Override
+	public void reevaluate() { }
 }

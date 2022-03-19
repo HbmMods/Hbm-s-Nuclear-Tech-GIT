@@ -55,4 +55,16 @@ public class BlockDepthOre extends BlockDepth {
 		
 		return super.quantityDropped(rand);
 	}
+	
+	@Override
+	public int quantityDroppedWithBonus(int fortune, Random rand) {
+		
+		int mult = rand.nextInt(fortune + 2) - 1;
+
+		if(mult < 0) {
+			mult = 0;
+		}
+
+		return this.quantityDropped(rand) * (mult + 1);
+	}
 }

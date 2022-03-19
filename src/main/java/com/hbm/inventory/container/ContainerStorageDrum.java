@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.tileentity.machine.TileEntityStorageDrum;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -47,10 +48,11 @@ public class ContainerStorageDrum extends Container {
 			var3 = var5.copy();
 			
 			if(par2 <= drum.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, drum.getSizeInventory(), this.inventorySlots.size(), true)) {
+				
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, drum.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, drum.getSizeInventory(), false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, drum.getSizeInventory(), false)) {
 				return null;
 			}
 

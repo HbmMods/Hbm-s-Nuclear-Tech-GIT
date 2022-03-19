@@ -1,7 +1,12 @@
-package com.hbm.explosion.vanillant;
+package com.hbm.explosion.vanillant.standard;
 
 import java.util.HashMap;
 import java.util.List;
+
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
+import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
+import com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator;
 
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
@@ -14,12 +19,19 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 public class EntityProcessorStandard implements IEntityProcessor {
 
+	protected IEntityRangeMutator range;
+	protected ICustomDamageHandler damage;
+
 	@Override
 	public HashMap<EntityPlayer, Vec3> process(ExplosionVNT explosion, World world, double x, double y, double z, float size) {
 
 		HashMap<EntityPlayer, Vec3> affectedPlayers = new HashMap();
 
 		size *= 2.0F;
+		
+		if(range != null) {
+			size = range.mutateRange(explosion, size);
+		}
 		
 		double minX = x - (double) size - 1.0D;
 		double maxX = x + (double) size + 1.0D;
@@ -64,10 +76,29 @@ public class EntityProcessorStandard implements IEntityProcessor {
 					if(entity instanceof EntityPlayer) {
 						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
 					}
+					
+					if(damage != null) {
+						damage.handleAttack(explosion, entity, distanceScaled);
+					}
 				}
 			}
 		}
 
 		return affectedPlayers;
+	}
+	
+	public EntityProcessorStandard withRangeMod(float mod) {
+		range = new IEntityRangeMutator() {
+			@Override
+			public float mutateRange(ExplosionVNT explosion, float range) {
+				return range * mod;
+			}
+		};
+		return this;
+	}
+	
+	public EntityProcessorStandard withDamageMod(ICustomDamageHandler damage) {
+		this.damage = damage;
+		return this;
 	}
 }

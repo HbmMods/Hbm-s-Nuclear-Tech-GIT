@@ -56,7 +56,7 @@ public class EntityMinerRocket extends Entity {
 		
 		if(dataWatcher.getWatchableObjectInt(16) == 1) {
 			
-			if(ticksExisted % 2 == 0)
+			if(!worldObj.isRemote && ticksExisted % 4 == 0)
 				ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 1 + rand.nextInt(3), 1 + rand.nextGaussian());
 			
 			timer++;

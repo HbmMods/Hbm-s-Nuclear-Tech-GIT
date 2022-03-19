@@ -16,10 +16,14 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,6 +38,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	public int progress;
 	public int maxProgress = 100;
 	public boolean isProgressing;
+	
+	private AudioWrapper audio;
 	
 	public FluidTank[] tanks;
 	
@@ -86,7 +92,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			loadItems();
 			unloadItems();
 			
-			if(worldObj.getTotalWorldTime() % 1 == 0) {
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				this.fillFluidInit(tanks[2].getTankType());
 				this.fillFluidInit(tanks[3].getTankType());
 			}
@@ -136,6 +142,23 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				double z = zCoord + 0.5 + dir.offsetZ * 1.125 + rot.offsetZ * 0.125;
 				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
 			}
+			
+			float volume = this.getVolume(2);
+			
+			if(isProgressing && volume > 0) {
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio.startSound();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 
@@ -148,6 +171,26 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].readFromNBT(nbt, "t" + i);
+		}
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 	
@@ -514,5 +557,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		}
 		
 		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }
