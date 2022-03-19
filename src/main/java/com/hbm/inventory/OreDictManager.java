@@ -515,7 +515,11 @@ public class OreDictManager {
 		public DictFrame(String... mats) {
 			this.mats = mats;
 		}
-
+		
+		public String[] getMaterials() {
+			return this.mats;
+		}
+		
 		/*
 		 * Quick access methods to grab ore names for recipes.
 		 */
