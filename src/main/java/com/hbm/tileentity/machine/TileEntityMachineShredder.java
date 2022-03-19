@@ -206,8 +206,6 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 				return false;
 		}
 		
-		System.out.println("ass");
-		
 		return true;
 	}
 

@@ -8,7 +8,9 @@ import com.hbm.items.ModItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ItemModPads extends ItemArmorMod {
 
@@ -39,6 +41,13 @@ public class ItemModPads extends ItemArmorMod {
 			list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (-" + Math.round((1F - damageMod) * 100) + "% fall dmg / passive charge)");
 		else
 			list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (-" + Math.round((1F - damageMod) * 100) + "% fall dmg)");
+	}
+
+	@Override
+	public void modDamage(LivingHurtEvent event, ItemStack armor) {
+		
+		if(event.source == DamageSource.fall)
+			event.ammount *= damageMod;
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -256,7 +257,6 @@ public class InventoryUtil {
 					
 					if(inv.stackSize <= 0) {
 						inventory[j] = null;
-						System.out.println("da yis");
 					}
 				}
 			}
@@ -446,5 +446,87 @@ public class InventoryUtil {
 		}
 		
 		return true;
+	}
+	
+	public static boolean mergeItemStack(List<Slot> slots, ItemStack stack, int start, int end, boolean reverse) {
+		
+		boolean success = false;
+		int index = start;
+
+		if(reverse) {
+			index = end - 1;
+		}
+
+		Slot slot;
+		ItemStack current;
+
+		if(stack.isStackable()) {
+			
+			while(stack.stackSize > 0 && (!reverse && index < end || reverse && index >= start)) {
+				slot = slots.get(index);
+				current = slot.getStack();
+
+				if(current != null) {
+					int max = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int toRemove = Math.min(stack.stackSize, max);
+					
+					if(slot.isItemValid(ItemStackUtil.carefulCopyWithSize(stack, toRemove)) && current.getItem() == stack.getItem() &&
+							(!stack.getHasSubtypes() || stack.getItemDamage() == current.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, current)) {
+						
+						int currentSize = current.stackSize + stack.stackSize;
+						if(currentSize <= max) {
+							stack.stackSize = 0;
+							current.stackSize = currentSize;
+							slot.putStack(current);
+							success = true;
+						} else if(current.stackSize < max) {
+							stack.stackSize -= stack.getMaxStackSize() - current.stackSize;
+							current.stackSize = max;
+							slot.putStack(current);
+							success = true;
+						}
+					}
+				}
+
+				if(reverse) {
+					--index;
+				} else {
+					++index;
+				}
+			}
+		}
+
+		if(stack.stackSize > 0) {
+			if(reverse) {
+				index = end - 1;
+			} else {
+				index = start;
+			}
+
+			while((!reverse && index < end || reverse && index >= start) && stack.stackSize > 0) {
+				slot = slots.get(index);
+				current = slot.getStack();
+
+				if(current == null) {
+					
+					int max = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int toRemove = Math.min(stack.stackSize, max);
+					
+					if(slot.isItemValid(ItemStackUtil.carefulCopyWithSize(stack, toRemove))) {
+						current = stack.splitStack(toRemove);
+						slot.putStack(current);
+						success = true;
+					}
+				}
+
+				if(reverse) {
+					--index;
+				} else {
+					++index;
+				}
+			}
+		}
+
+		return success;
 	}
 }

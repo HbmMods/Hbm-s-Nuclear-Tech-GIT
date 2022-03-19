@@ -807,52 +807,6 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	/*private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
-	
-	@SideOnly(Side.CLIENT)
-	public void onRenderDigammaStar(RenderWorldLastEvent event) {
-		
-		World world = Minecraft.getMinecraft().theWorld;
-		
-		if(world.provider.dimensionId != 0)
-			return;
-		
-		GL11.glPushMatrix();
-		GL11.glDepthMask(false);
-
-		GL11.glEnable(3553);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-		
-		float partialTicks = event.partialTicks;
-		
-		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(-40.0F, 0.0F, 0.0F, 1.0F);
-		
-		FMLClientHandler.instance().getClient().renderEngine.bindTexture(digammaStar);
-		
-		float var12 = 2.5F;
-		double dist = 150D;
-		
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
-		tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);
-		tessellator.addVertexWithUV(var12, dist, var12, 1.0D, 1.0D);
-		tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
-		tessellator.draw();
-		
-		GL11.glDepthMask(true);
-		
-		GL11.glDisable(3042);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		
-		GL11.glPopMatrix();
-	}*/
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void preRenderEventFirst(RenderLivingEvent.Pre event) {
 		

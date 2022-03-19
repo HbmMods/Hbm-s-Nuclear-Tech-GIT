@@ -18,6 +18,7 @@ import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -266,6 +267,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			if(te instanceof IInventory) {
 				
 				IInventory inv = (IInventory) te;
+				//ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 				
 				for(int i = indices[2]; i <= indices[3]; i++) {
 					
@@ -276,7 +278,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
 							ItemStack target = inv.getStackInSlot(j);
 							
-							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
+							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
 								this.decrStackSize(i, 1);
 								target.stackSize++;
 								return;
@@ -286,8 +288,9 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
 							
 							if(inv.getStackInSlot(j) == null) {
-								inv.setInventorySlotContents(j, out.copy());
-								inv.getStackInSlot(j).stackSize = 1;
+								ItemStack copy = out.copy();
+								copy.stackSize = 1;
+								inv.setInventorySlotContents(j, copy);
 								this.decrStackSize(i, 1);
 								return;
 							}

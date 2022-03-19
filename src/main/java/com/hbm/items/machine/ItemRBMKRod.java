@@ -239,7 +239,7 @@ public class ItemRBMKRod extends Item {
 		case PASSIVE: return selfRate * enrichment;
 		case LOG_TEN: return Math.log10(flux + 1) * 0.5D * reactivity;
 		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * reactivity;
-		case ARCH: return Math.max(flux - (flux * flux / 10000D) / 100D * reactivity, 0D);
+		case ARCH: return Math.max((flux - (flux * flux / 10000D)) / 100D * reactivity, 0D);
 		case SIGMOID: return reactivity / (1 + Math.pow(Math.E, -(flux - 50D) / 10D));
 		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity / 10D;
 		case LINEAR: return flux / 100D * reactivity;
