@@ -206,8 +206,8 @@ public class RenderScreenOverlay {
 				if(y == rows && x > finalColumns) 
 					break;
 				gui.drawTexturedModalRect(posX + (width+2)*x, posY - 12*y, 76, 48, width, 10);
-				int staminaDiv = stamina / 60;
-				int staminaMod = stamina % 60;
+				int staminaDiv = stamina / 30;
+				int staminaMod = stamina % 30;
 				int barID = (3*y)+x;
 				int barStatus = 1; //0 = red, 1 = normal, 2 = greyed, 3 = dashed, 4 = ascended
 				int barSize = width;
@@ -215,19 +215,19 @@ public class RenderScreenOverlay {
 					barStatus = 3;
 				} else if(staminaDiv == barID) {
 					barStatus = 2;
-					barSize = (int)((float)(stamina % 60) * (width/60F) );
+					barSize = (int)((float)(stamina % 30) * (width/30F) );
 					if(barID == 0)
 						barStatus = 0;
 				}
 				gui.drawTexturedModalRect(posX + (width+2)*x, posY - 12*y, 76, 18+(10*barStatus), barSize, 10);
 				
-				if(staminaDiv == barID && staminaMod >= 57) {
+				if(staminaDiv == barID && staminaMod >= 27) {
 					fadeOut = 1F;
 				}
 				if(fadeOut > 0 && staminaDiv-1 == barID) {
 					GL11.glColor4f(1F, 1F, 1F, fadeOut);
 					int bar = barID;
-					if(stamina % 60 >= 50) 
+					if(stamina % 30 >= 25) 
 						bar++;
 					int yPos = y;
 					if(bar / 3 != y)

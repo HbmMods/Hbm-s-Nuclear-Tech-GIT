@@ -462,7 +462,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				} catch(Exception x) {
 				}
 			}
-			
+			/*
 			if(dashCount > 0) {
 				
 				int perDash = 60;
@@ -478,6 +478,8 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
 						
 						Vec3 lookingIn = player.getLookVec();
+						lookingIn.yCoord = 0;
+						lookingIn.normalize();
 						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
 						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
@@ -499,7 +501,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				}
 				
 				props.setStamina(stamina);
-			}	
+			}	*/
 		}
 	}
 

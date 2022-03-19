@@ -4812,7 +4812,7 @@ public class ModItems {
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 6))
 				.addEffect(new PotionEffect(Potion.regeneration.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0))
-				.setDashCount(6)
+				.setDashCount(3)
 				.setUnlocalizedName("bismuth_helmet").setTextureName(RefStrings.MODID + ":bismuth_helmet");
 		bismuth_plate = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) bismuth_helmet).setCap(8F).setMod(0.3F).setUnlocalizedName("bismuth_plate").setTextureName(RefStrings.MODID + ":bismuth_plate");
 		bismuth_legs = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) bismuth_helmet).setCap(8F).setMod(0.3F).setUnlocalizedName("bismuth_legs").setTextureName(RefStrings.MODID + ":bismuth_legs");

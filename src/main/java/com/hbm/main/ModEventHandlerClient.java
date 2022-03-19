@@ -246,14 +246,12 @@ public class ModEventHandlerClient {
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				
 			} 
-			if(ArmorFSB.hasFSBArmor(player)) {
-				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
-				if(chestplate.dashCount > 0) {
-					HbmPlayerProps props = (HbmPlayerProps)player.getExtendedProperties("NTM_EXT_PLAYER");
-					RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getDashCount() > 0) {
+				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
 					
-				}
 			}
+			
 		}
 	}
 	
