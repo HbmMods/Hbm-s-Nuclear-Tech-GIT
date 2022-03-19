@@ -11,10 +11,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerWasteDrum extends Container {
 	
-	private TileEntityWasteDrum diFurnace;
+	private TileEntityWasteDrum drum;
 	
 	public ContainerWasteDrum(InventoryPlayer invPlayer, TileEntityWasteDrum tedf) {
-		diFurnace = tedf;
+		drum = tedf;
 
 		this.addSlotToContainer(new Slot(tedf, 0, 71, 18));
 		this.addSlotToContainer(new Slot(tedf, 1, 89, 18));
@@ -52,11 +52,11 @@ public class ContainerWasteDrum extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= diFurnace.getSizeInventory() - 1) {
-				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 <= drum.getSizeInventory() - 1) {
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, drum.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, 0, false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, drum.getSizeInventory(), false)) {
 				return null;
 			}
 
@@ -65,6 +65,8 @@ public class ContainerWasteDrum extends Container {
 			} else {
 				var4.onSlotChanged();
 			}
+			
+			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
 
 		return var3;
@@ -72,6 +74,6 @@ public class ContainerWasteDrum extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return diFurnace.isUseableByPlayer(player);
+		return drum.isUseableByPlayer(player);
 	}
 }

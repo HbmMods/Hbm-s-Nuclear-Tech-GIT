@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -84,6 +85,7 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.SoundUtil;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -92,6 +94,34 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy {
+	
+	@Override
+	public void registerRenderInfo() {
+
+		registerClientEventHandler(new ModEventHandlerClient());
+		registerClientEventHandler(new ModEventHandlerRenderer());
+
+		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+		ResourceManager.loadAnimatedModels();
+
+		registerTileEntitySpecialRenderer();
+		registerItemRenderer();
+		registerEntityRenderer();
+		registerBlockRenderer();
+
+		RenderingRegistry.addNewArmourRendererPrefix("5");
+		RenderingRegistry.addNewArmourRendererPrefix("6");
+		RenderingRegistry.addNewArmourRendererPrefix("7");
+		RenderingRegistry.addNewArmourRendererPrefix("8");
+		RenderingRegistry.addNewArmourRendererPrefix("9");
+
+		SoundUtil.addSoundCategory("ntmMachines");
+	}
+	
+	private void registerClientEventHandler(Object handler) {
+		MinecraftForge.EVENT_BUS.register(handler);
+		FMLCommonHandler.instance().bus().register(handler);
+	}
 	
 	@Override
 	public void registerTileEntitySpecialRenderer() {
@@ -666,30 +696,6 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	@Override
-	public void registerRenderInfo()
-	{
-		ModEventHandlerClient handler = new ModEventHandlerClient();
-		MinecraftForge.EVENT_BUS.register(handler);
-		FMLCommonHandler.instance().bus().register(handler);
-
-		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
-		ResourceManager.loadAnimatedModels();
-		
-		registerTileEntitySpecialRenderer();
-		registerItemRenderer();
-		registerEntityRenderer();
-		registerBlockRenderer();
-		
-		RenderingRegistry.addNewArmourRendererPrefix("5");
-		RenderingRegistry.addNewArmourRendererPrefix("6");
-		RenderingRegistry.addNewArmourRendererPrefix("7");
-		RenderingRegistry.addNewArmourRendererPrefix("8");
-		RenderingRegistry.addNewArmourRendererPrefix("9");
-		
-		SoundUtil.addSoundCategory("ntmMachines");
-	}
-	
-	@Override
 	public void registerMissileItems() {
 		
 		MissilePart.registerAllParts();
@@ -1157,13 +1163,17 @@ public class ClientProxy extends ServerProxy {
 						}
 					}
 				}
+				
+				double motionX = BobMathUtil.safeClamp(p.motionX + moX, -5, 5);
+				double motionY = BobMathUtil.safeClamp(p.motionY + moY, -2, 2);
+				double motionZ = BobMathUtil.safeClamp(p.motionZ + moZ, -5, 5);
 
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, motionX * 2, motionY * 2, motionZ * 2));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, motionX * 2, motionY * 2, motionZ * 2));
 				
 				if(particleSetting == 0) {
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, motionX * 3, motionY * 3, motionZ * 3));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, motionX * 3, motionY * 3, motionZ * 3));
 				}
 			}
 		}

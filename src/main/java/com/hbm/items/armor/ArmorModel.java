@@ -80,7 +80,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelHat;
 			}
 		}
-		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium) {
+		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -110,6 +110,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.cape_schrabidium) {
 			return "hbm:textures/models/capes/CapeSchrabidium.png";
+		}
+		if (stack.getItem() == ModItems.cape_hidden) {
+			return "hbm:textures/models/capes/CapeHidden.png";
 		}
 		
 		return "hbm:textures/models/capes/CapeUnknown.png";

@@ -66,9 +66,17 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 		if(mode == 1 || mode == 2) {
 			if(te instanceof IEnergyConnector) {
 				IEnergyConnector con = (IEnergyConnector) te;
+				
+				long max = 10_000_000_000_000_000L;
+				long toTransfer = Math.min(max, this.power);
+				long remainder = this.power - toTransfer;
+				this.power = toTransfer;
+				
 				long oldPower = this.power;
 				long transfer = this.power - con.transferPower(this.power);
 				this.power = oldPower - transfer;
+				
+				power += remainder;
 			}
 		}
 

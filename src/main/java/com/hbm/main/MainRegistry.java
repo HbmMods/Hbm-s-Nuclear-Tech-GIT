@@ -990,7 +990,7 @@ public class MainRegistry {
 		SchistStratum schist = new SchistStratum();
 		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
 		
-		new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent

@@ -83,6 +83,12 @@ public class MachineFENSU extends BlockDummyable implements ILookOverlay {
 		List<String> text = new ArrayList();
 		text.add(BobMathUtil.getShortNumber(battery.getPower()) + " / " + BobMathUtil.getShortNumber(battery.getMaxPower()) + "HE");
 		
+		double percent = (double) battery.getPower() / (double) battery.getMaxPower();
+		int charge = (int) Math.floor(percent * 10_000D);
+		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
+		
+		text.add("&[" + color + "&]" + (charge / 100D) + "%");
+		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }
