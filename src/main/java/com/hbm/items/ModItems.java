@@ -1818,7 +1818,7 @@ public class ModItems {
 	public static Item n2_charge;
 	public static Item egg_balefire_shard;
 	public static Item egg_balefire;
-	
+
 	public static Item custom_tnt;
 	public static Item custom_nuke;
 	public static Item custom_hydro;
