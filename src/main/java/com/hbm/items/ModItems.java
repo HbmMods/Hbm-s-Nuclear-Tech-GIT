@@ -306,6 +306,7 @@ public class ModItems {
 	public static Item plate_kevlar;
 	public static Item plate_dineutronium;
 	public static Item plate_desh;
+	public static Item plate_bismuth;
 	public static Item photo_panel;
 	public static Item sat_base;
 	public static Item thruster_nuclear;
@@ -2022,6 +2023,10 @@ public class ModItems {
 	public static Item rpa_plate;
 	public static Item rpa_legs;
 	public static Item rpa_boots;
+	public static Item bismuth_helmet;
+	public static Item bismuth_plate;
+	public static Item bismuth_legs;
+	public static Item bismuth_boots;
 	public static Item bj_helmet;
 	public static Item bj_plate;
 	public static Item bj_plate_jetpack;
@@ -2644,6 +2649,7 @@ public class ModItems {
 		plate_kevlar = new Item().setUnlocalizedName("plate_kevlar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_kevlar");
 		plate_dineutronium = new Item().setUnlocalizedName("plate_dineutronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_dineutronium");
 		plate_desh = new Item().setUnlocalizedName("plate_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_desh");
+		plate_bismuth = new ItemCustomLore().setUnlocalizedName("plate_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_bismuth");
 		ingot_solinium = new Item().setUnlocalizedName("ingot_solinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_solinium");
 		nugget_solinium = new Item().setUnlocalizedName("nugget_solinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_solinium");
 		photo_panel = new Item().setUnlocalizedName("photo_panel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":photo_panel");
@@ -4800,6 +4806,17 @@ public class ModItems {
 		schrabidium_plate = new ArmorFSB(MainRegistry.aMatSchrab, 7, 1, RefStrings.MODID + ":textures/armor/schrabidium_1.png").cloneStats((ArmorFSB) schrabidium_helmet).setUnlocalizedName("schrabidium_plate").setTextureName(RefStrings.MODID + ":schrabidium_plate");
 		schrabidium_legs = new ArmorFSB(MainRegistry.aMatSchrab, 7, 2, RefStrings.MODID + ":textures/armor/schrabidium_2.png").cloneStats((ArmorFSB) schrabidium_helmet).setCap(4F).setMod(0.1F).setUnlocalizedName("schrabidium_legs").setTextureName(RefStrings.MODID + ":schrabidium_legs");
 		schrabidium_boots = new ArmorFSB(MainRegistry.aMatSchrab, 7, 3, RefStrings.MODID + ":textures/armor/schrabidium_1.png").cloneStats((ArmorFSB) schrabidium_helmet).setCap(4F).setMod(0.1F).setUnlocalizedName("schrabidium_boots").setTextureName(RefStrings.MODID + ":schrabidium_boots");
+		bismuth_helmet = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png").setCap(8F).setMod(0.3F)
+				.addResistance("fall", 0)
+				.addEffect(new PotionEffect(Potion.jump.id, 20, 6))
+				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 6))
+				.addEffect(new PotionEffect(Potion.regeneration.id, 20, 1))
+				.addEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0))
+				.setDashCount(3)
+				.setUnlocalizedName("bismuth_helmet").setTextureName(RefStrings.MODID + ":bismuth_helmet");
+		bismuth_plate = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) bismuth_helmet).setCap(8F).setMod(0.3F).setUnlocalizedName("bismuth_plate").setTextureName(RefStrings.MODID + ":bismuth_plate");
+		bismuth_legs = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) bismuth_helmet).setCap(8F).setMod(0.3F).setUnlocalizedName("bismuth_legs").setTextureName(RefStrings.MODID + ":bismuth_legs");
+		bismuth_boots = new ArmorBismuth(MainRegistry.aMatBismuth, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) bismuth_helmet).setCap(8F).setMod(0.3F).setUnlocalizedName("bismuth_boots").setTextureName(RefStrings.MODID + ":bismuth_boots");
 		titanium_helmet = new ArmorFSB(MainRegistry.aMatTitan, 7, 0, RefStrings.MODID + ":textures/armor/titanium_1.png").setMod(0.85F).setUnlocalizedName("titanium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_helmet");
 		titanium_plate = new ArmorFSB(MainRegistry.aMatTitan, 7, 1, RefStrings.MODID + ":textures/armor/titanium_1.png").cloneStats((ArmorFSB) titanium_helmet).setUnlocalizedName("titanium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_plate");
 		titanium_legs = new ArmorFSB(MainRegistry.aMatTitan, 7, 2, RefStrings.MODID + ":textures/armor/titanium_2.png").cloneStats((ArmorFSB) titanium_helmet).setUnlocalizedName("titanium_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_legs");
@@ -6028,6 +6045,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_kevlar, plate_kevlar.getUnlocalizedName());
 		GameRegistry.registerItem(plate_dalekanium, plate_dalekanium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_desh, plate_desh.getUnlocalizedName());
+		GameRegistry.registerItem(plate_bismuth, plate_bismuth.getUnlocalizedName());
 		GameRegistry.registerItem(plate_euphemium, plate_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_dineutronium, plate_dineutronium.getUnlocalizedName());
 		
@@ -7900,6 +7918,10 @@ public class ModItems {
 		GameRegistry.registerItem(schrabidium_plate, schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_legs, schrabidium_legs.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_boots, schrabidium_boots.getUnlocalizedName());
+		GameRegistry.registerItem(bismuth_helmet, bismuth_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(bismuth_plate, bismuth_plate.getUnlocalizedName());
+		GameRegistry.registerItem(bismuth_legs, bismuth_legs.getUnlocalizedName());
+		GameRegistry.registerItem(bismuth_boots, bismuth_boots.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_helmet, euphemium_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_plate, euphemium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_legs, euphemium_legs.getUnlocalizedName());

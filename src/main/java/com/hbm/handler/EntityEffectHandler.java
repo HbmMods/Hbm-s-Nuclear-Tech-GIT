@@ -8,8 +8,11 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.interfaces.IArmorModDash;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -31,11 +34,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityEffectHandler {
@@ -76,6 +81,8 @@ public class EntityEffectHandler {
 		handleRadiation(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
+		
+		handleDashing(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -403,6 +410,94 @@ public class EntityEffectHandler {
 					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 140, 2));
 				}
 			}
+		}
+	}
+	
+	private static void handleDashing(Entity entity) {
+		
+		//AAAAAAAAAAAAAAAAAAAAEEEEEEEEEEEEEEEEEEEE
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)entity;
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			
+			props.setDashCount(0);
+					
+			ArmorFSB chestplate = null;
+					
+			int armorDashCount = 0;
+			int armorModDashCount = 0;
+					
+			if(ArmorFSB.hasFSBArmor(player)) {
+				ItemStack plate = player.inventory.armorInventory[2];		
+						
+				chestplate = (ArmorFSB)plate.getItem();
+			}
+					
+			if(chestplate != null)
+				armorDashCount = chestplate.dashCount;
+					
+			for(int armorSlot = 0; armorSlot < 4; armorSlot++) {
+				ItemStack armorStack = player.inventory.armorInventory[armorSlot];
+						
+				if(armorStack != null && armorStack.getItem() instanceof ItemArmor) {
+					ItemArmor armor = (ItemArmor)armorStack.getItem();
+							
+					for(int modSlot = 0; modSlot < 8; modSlot++) {
+						ItemStack mod = ArmorModHandler.pryMods(armorStack)[modSlot];
+								
+						if(mod != null && mod.getItem() instanceof IArmorModDash) {
+							int count = ((IArmorModDash)mod.getItem()).getDashes();
+							armorModDashCount += count;
+						}
+					}
+				}
+			}
+					
+			int dashCount = armorDashCount + armorModDashCount;
+					
+			//System.out.println(dashCount);
+			
+			if(dashCount * 30 < props.getStamina())
+				props.setStamina(dashCount * 30);
+					
+			if(dashCount > 0) {
+
+				int perDash = 30;
+					
+				props.setDashCount(dashCount);
+						
+				int stamina = props.getStamina();
+						
+				if(props.getDashCooldown() <= 0) {
+							
+					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
+								
+						Vec3 lookingIn = player.getLookVec();
+
+						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
+						player.playSound("hbm:player.dash", 1.0F, 1.0F);
+						
+						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
+						stamina -= perDash;
+					}
+				} else {	
+					props.setDashCooldown(props.getDashCooldown() - 1);
+				}
+						
+				if(stamina < props.getDashCount() * perDash) {
+					stamina++;
+					
+					if(stamina % perDash == perDash-1) {
+						
+						player.playSound("hbm:player.dashRecharge", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
+						stamina++;
+					}
+				}
+						
+				props.setStamina(stamina);
+			}	
+					
 		}
 	}
 }

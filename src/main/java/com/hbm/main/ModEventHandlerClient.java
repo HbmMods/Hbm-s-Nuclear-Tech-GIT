@@ -244,7 +244,14 @@ public class ModEventHandlerClient {
 				tess.draw();
 				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+			} 
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getDashCount() > 0) {
+				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
+					
 			}
+			
 		}
 	}
 	
