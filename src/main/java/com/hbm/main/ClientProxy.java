@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -86,7 +85,6 @@ import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.SoundUtil;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -115,7 +113,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.addNewArmourRendererPrefix("8");
 		RenderingRegistry.addNewArmourRendererPrefix("9");
 
-		SoundUtil.addSoundCategory("ntmMachines");
+		//SoundUtil.addSoundCategory("ntmMachines");
 	}
 	
 	private void registerClientEventHandler(Object handler) {

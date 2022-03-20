@@ -18,7 +18,7 @@ public interface IFluidConnector {
 	 * @param dir
 	 * @return
 	 */
-	public default boolean canConnect(ForgeDirection dir) {
+	public default boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.UNKNOWN;
 	}
 	
