@@ -62,6 +62,7 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.world.WorldProviderNTM;
 import com.hbm.world.generator.TimedGenerator;
 
+import api.hbm.energy.IEnergyConductor;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -1160,6 +1161,17 @@ public class ModEventHandler {
 			}
 			
 			/// PU RADIATION END ///
+			
+			if(player instanceof EntityPlayerMP) {
+
+				int x = (int) Math.floor(player.posX);
+				int y = (int) Math.floor(player.posY - 0.01);
+				int z = (int) Math.floor(player.posZ);
+				
+				if(player.worldObj.getTileEntity(x, y, z) instanceof IEnergyConductor) {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(((IEnergyConductor) player.worldObj.getTileEntity(x, y, z)).getPowerNet() + ""), (EntityPlayerMP) player);
+				}
+			}
 
 			/// NEW ITEM SYS START ///
 			HazardSystem.updatePlayerInventory(player);

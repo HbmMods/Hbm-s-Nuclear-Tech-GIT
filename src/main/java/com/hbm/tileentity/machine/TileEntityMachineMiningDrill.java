@@ -291,7 +291,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		Block b = worldObj.getBlock(x, y, z);
 		float hardness = b.getBlockHardness(worldObj, x, y, z);
 		
-		return hardness < 70 && hardness >= 0;
+		return (hardness < 70 && hardness >= 0) || b instanceof IDrillInteraction;
 	}
 	
 	/**

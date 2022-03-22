@@ -1,6 +1,7 @@
 package api.hbm.energy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 public class PowerNet implements IPowerNet {
 	
 	private boolean valid = true;
-	private List<IEnergyConductor> links = new ArrayList();
+	private HashMap<Integer, IEnergyConductor> links = new HashMap();
 	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
@@ -23,8 +24,7 @@ public class PowerNet implements IPowerNet {
 			return; //wtf?!
 
 		for(IEnergyConductor conductor : network.getLinks()) {
-			conductor.setPowerNet(this);
-			this.getLinks().add(conductor);
+			joinLink(conductor);
 		}
 		network.getLinks().clear();
 		
@@ -42,14 +42,14 @@ public class PowerNet implements IPowerNet {
 			conductor.getPowerNet().leaveLink(conductor);
 		
 		conductor.setPowerNet(this);
-		this.getLinks().add(conductor);
+		this.links.put(conductor.getIdentity(), conductor);
 		return this;
 	}
 
 	@Override
 	public void leaveLink(IEnergyConductor conductor) {
 		conductor.setPowerNet(null);
-		this.getLinks().remove(conductor);
+		this.links.remove(conductor.getIdentity());
 	}
 
 	@Override
@@ -69,7 +69,9 @@ public class PowerNet implements IPowerNet {
 
 	@Override
 	public List<IEnergyConductor> getLinks() {
-		return this.links;
+		List<IEnergyConductor> linkList = new ArrayList();
+		linkList.addAll(this.links.values());
+		return linkList;
 	}
 
 	@Override
@@ -80,10 +82,9 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public void destroy() {
 		this.valid = false;
-		
 		this.subscribers.clear();
 		
-		for(IEnergyConductor link : this.links) {
+		for(IEnergyConductor link : this.links.values()) {
 			link.setPowerNet(null);
 		}
 		
@@ -135,5 +136,22 @@ public class PowerNet implements IPowerNet {
 	}
 
 	@Override
-	public void reevaluate() { }
+	public void reevaluate() {
+		
+		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
+		
+		for(IEnergyConductor link : copy.values()) {
+			this.leaveLink(link);
+		}
+		
+		for(IEnergyConductor link : copy.values()) {
+			
+			link.setPowerNet(null);
+			link.reevaluate(copy);
+			
+			if(link.getPowerNet() == null) {
+				link.setPowerNet(new PowerNet().joinLink(link));
+			}
+		}
+	}
 }
