@@ -1,5 +1,6 @@
 package api.hbm.fluid;
 
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
@@ -9,7 +10,7 @@ public interface IPipeNet {
 	public void joinNetworks(IPipeNet network);
 
 	public List<IFluidConductor> getLinks();
-	public List<IFluidConnector> getSubscribers();
+	public HashSet<IFluidConnector> getSubscribers();
 
 	public IPipeNet joinLink(IFluidConductor conductor);
 	public void leaveLink(IFluidConductor conductor);
@@ -22,6 +23,6 @@ public interface IPipeNet {
 	
 	public boolean isValid();
 	
-	public long transferFluid(long power);
+	public long transferFluid(long fill);
 	public FluidType getType();
 }

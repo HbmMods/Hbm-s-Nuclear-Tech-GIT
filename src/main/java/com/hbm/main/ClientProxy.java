@@ -679,6 +679,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderAnvil());
 		RenderingRegistry.registerBlockHandler(new RenderCrystal());
 		RenderingRegistry.registerBlockHandler(new RenderTestCable());
+		RenderingRegistry.registerBlockHandler(new RenderTestPipe());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCT());
 		RenderingRegistry.registerBlockHandler(new RenderDetCord());
 		RenderingRegistry.registerBlockHandler(new RenderBlockMultipass());
@@ -1161,17 +1162,20 @@ public class ClientProxy extends ServerProxy {
 						}
 					}
 				}
-				
-				double motionX = BobMathUtil.safeClamp(p.motionX + moX, -5, 5);
-				double motionY = BobMathUtil.safeClamp(p.motionY + moY, -2, 2);
-				double motionZ = BobMathUtil.safeClamp(p.motionZ + moZ, -5, 5);
 
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, motionX * 2, motionY * 2, motionZ * 2));
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, motionX * 2, motionY * 2, motionZ * 2));
+				double mX2 = BobMathUtil.safeClamp(p.motionX + moX * 2, -5, 5);
+				double mY2 = BobMathUtil.safeClamp(p.motionY + moY * 2, -5, 5);
+				double mZ2 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -5, 5);
+				double mX3 = BobMathUtil.safeClamp(p.motionX + moX * 2, -10, 10);
+				double mY3 = BobMathUtil.safeClamp(p.motionY + moY * 2, -10, 10);
+				double mZ3 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -10, 10);
+
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, mX2, mY2, mZ2));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, mX2, mY2, mZ2));
 				
 				if(particleSetting == 0) {
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, motionX * 3, motionY * 3, motionZ * 3));
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, motionX * 3, motionY * 3, motionZ * 3));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, mX3, mY3, mZ3));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, mX3, mY3, mZ3));
 				}
 			}
 		}

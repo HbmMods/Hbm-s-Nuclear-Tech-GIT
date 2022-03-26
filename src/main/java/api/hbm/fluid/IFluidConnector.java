@@ -17,7 +17,7 @@ public interface IFluidConnector {
 	 * @param power
 	 * @return
 	 */
-	public int transferFluid(FluidType type, int fluid);
+	public long transferFluid(FluidType type, long fluid);
 	
 	/**
 	 * Whether the given side can be connected to
@@ -33,7 +33,7 @@ public interface IFluidConnector {
 	 * @param type
 	 * @return
 	 */
-	public int getDemand(FluidType type);
+	public long getDemand(FluidType type);
 	
 	/**
 	 * Basic implementation of subscribing to a nearby power grid

@@ -74,13 +74,12 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 	}
 
 	@Override
-	public int transferFluid(FluidType type, int fluid) {
-		// TODO Auto-generated method stub
+	public long transferFluid(FluidType type, long fluid) {
 		return 0;
 	}
 
 	@Override
-	public int getDemand(FluidType type) {
+	public long getDemand(FluidType type) {
 		return 0;
 	}
 

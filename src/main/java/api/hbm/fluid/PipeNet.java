@@ -1,15 +1,19 @@
 package api.hbm.fluid;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
 
+import net.minecraft.tileentity.TileEntity;
+
 public class PipeNet implements IPipeNet {
-	
+
+	private boolean valid = true;
 	private FluidType type;
 	private List<IFluidConductor> links = new ArrayList();
-	private List<IFluidConnector> subscribers = new ArrayList();
+	private HashSet<IFluidConnector> subscribers = new HashSet();
 	
 	public PipeNet(FluidType type) {
 		this.type = type;
@@ -40,44 +44,79 @@ public class PipeNet implements IPipeNet {
 	}
 
 	@Override
-	public List<IFluidConnector> getSubscribers() {
+	public HashSet<IFluidConnector> getSubscribers() {
 		return subscribers;
 	}
 
 	@Override
 	public IPipeNet joinLink(IFluidConductor conductor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(conductor.getPipeNet(type) != null)
+			conductor.getPipeNet(type).leaveLink(conductor);
+		
+		conductor.setPipeNet(type, this);
+		this.links.add(conductor);
+		return this;
 	}
 
 	@Override
 	public void leaveLink(IFluidConductor conductor) {
-		// TODO Auto-generated method stub
-		
+		conductor.setPipeNet(type, null);
+		this.links.remove(conductor);
 	}
 
 	@Override
 	public void subscribe(IFluidConnector connector) {
-		// TODO Auto-generated method stub
-		
+		this.subscribers.add(connector);
 	}
 
 	@Override
 	public void unsubscribe(IFluidConnector connector) {
-		// TODO Auto-generated method stub
-		
+		this.subscribers.remove(connector);
 	}
 
 	@Override
 	public boolean isSubscribed(IFluidConnector connector) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.subscribers.contains(connector);
 	}
 
 	@Override
-	public long transferFluid(long power) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long transferFluid(long fill) {
+		
+		this.subscribers.removeIf(x -> 
+			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid()
+		);
+		
+		if(this.subscribers.isEmpty())
+			return fill;
+		
+		List<IFluidConnector> subList = new ArrayList(subscribers);
+		
+		List<Long> weight = new ArrayList();
+		long totalReq = 0;
+		
+		for(IFluidConnector con : subList) {
+			long req = con.getDemand(type);
+			weight.add(req);
+			totalReq += req;
+		}
+		
+		if(totalReq == 0)
+			return fill;
+		
+		long totalGiven = 0;
+		
+		for(int i = 0; i < subList.size(); i++) {
+			IFluidConnector con = subList.get(i);
+			long req = weight.get(i);
+			double fraction = (double)req / (double)totalReq;
+			
+			long given = (long) Math.floor(fraction * fill);
+			
+			totalGiven += (given - con.transferFluid(type, given));
+		}
+		
+		return fill - totalGiven;
 	}
 
 	@Override
@@ -87,13 +126,17 @@ public class PipeNet implements IPipeNet {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		this.valid = false;
+		this.subscribers.clear();
 		
+		for(IFluidConductor con : this.links)
+			con.setPipeNet(type, null);
+		
+		this.links.clear();
 	}
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.valid;
 	}
 }
