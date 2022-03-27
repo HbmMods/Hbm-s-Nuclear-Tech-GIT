@@ -75,7 +75,11 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 
 	@Override
 	public long transferFluid(FluidType type, long fluid) {
-		return 0;
+		
+		if(this.network == null)
+			return fluid;
+		
+		return this.network.transferFluid(fluid);
 	}
 
 	@Override
