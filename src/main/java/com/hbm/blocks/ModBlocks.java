@@ -50,6 +50,7 @@ public class ModBlocks {
 	public static Block test_core;
 	public static Block test_charge;
 	public static Block test_conductor;
+	public static Block test_pipe;
 	public static Block test_ct;
 	public static Block test_rail;
 	public static Block test_bb_bork;
@@ -132,6 +133,9 @@ public class ModBlocks {
 	public static Block ore_depth_nether_neodymium;
 
 	public static Block stone_porous;
+	public static Block stone_resource;
+	public static Block stalagmite;
+	public static Block stalactite;
 
 	public static Block depth_brick;
 	public static Block depth_tiles;
@@ -474,6 +478,9 @@ public class ModBlocks {
 	public static Block geysir_chlorine;
 	public static Block geysir_vapor;
 	public static Block geysir_nether;
+
+	public static Block observer_off;
+	public static Block observer_on;
 
 	public static Block flame_war;
 	public static Block float_bomb;
@@ -1252,6 +1259,7 @@ public class ModBlocks {
 		test_core = new TestCore(Material.iron).setBlockName("test_core").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_core");
 		test_charge = new TestCharge(Material.iron).setBlockName("test_charge").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		test_conductor = new TestConductor(Material.iron).setBlockName("test_conductor").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cable_neo");
+		test_pipe = new TestPipe(Material.iron).setBlockName("test_pipe").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
 		test_ct = new TestCT(Material.iron).setBlockName("test_ct").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ct");
 		test_rail = new TestRail(Material.iron).setBlockName("test_rail").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_rail");
 		test_bb_bork = new TestBB(Material.iron).setBlockName("test_bb_bork").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_bb_bork");
@@ -1338,6 +1346,9 @@ public class ModBlocks {
 		ore_depth_nether_neodymium = new BlockDepthOre().setBlockName("ore_depth_nether_neodymium").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ore_depth_nether_neodymium");
 		
 		stone_porous = new BlockPorous().setBlockName("stone_porous").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":stone_porous");
+		stone_resource = new BlockEnumMulti(Material.rock, BlockEnums.EnumStoneType.class, true, true).setBlockName("stone_resource").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
+		stalagmite = new BlockStalagmite().setBlockName("stalagmite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
+		stalactite = new BlockStalagmite().setBlockName("stalactite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
 
 		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
 		basalt_sulfur = new BlockOre(Material.rock).setBlockName("basalt_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_sulfur");
@@ -1676,6 +1687,9 @@ public class ModBlocks {
 		geysir_chlorine = new BlockGeysir(Material.rock).setBlockName("geysir_chlorine").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_vapor = new BlockGeysir(Material.rock).setBlockName("geysir_vapor").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_nether = new BlockGeysir(Material.rock).setBlockName("geysir_nether").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F);
+		
+		observer_off = new BlockObserver(Material.iron, false).setBlockName("observer_off").setStepSound(Block.soundTypeStone).setHardness(2.0F);
+		observer_on = new BlockObserver(Material.iron, true).setBlockName("observer_on").setStepSound(Block.soundTypeStone).setHardness(2.0F);
 		
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
 		nuke_boy = new NukeBoy(Material.iron).setBlockName("nuke_boy").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":lilBoy");
@@ -2260,6 +2274,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
 		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(test_conductor, test_conductor.getUnlocalizedName());
+		GameRegistry.registerBlock(test_pipe, test_pipe.getUnlocalizedName());
 		GameRegistry.registerBlock(test_ct, test_ct.getUnlocalizedName());
 		GameRegistry.registerBlock(test_rail, test_rail.getUnlocalizedName());
 		GameRegistry.registerBlock(test_bb_bork, test_bb_bork.getUnlocalizedName());
@@ -2373,6 +2388,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crystal_energy, crystal_energy.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_robust, crystal_robust.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_trixite, crystal_trixite.getUnlocalizedName());
+		
+		//Resource-bearing Stones
+		GameRegistry.registerBlock(stone_resource, ItemBlockBase.class, stone_resource.getUnlocalizedName());
+		GameRegistry.registerBlock(stalagmite, ItemBlockBase.class, stalagmite.getUnlocalizedName());
+		GameRegistry.registerBlock(stalactite, ItemBlockBase.class, stalactite.getUnlocalizedName());
 		
 		//Stone Variants
 		GameRegistry.registerBlock(stone_porous, stone_porous.getUnlocalizedName());
@@ -2826,6 +2846,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(bomber, bomber.getUnlocalizedName());
 		
 		//Machines
+		//GameRegistry.registerBlock(observer_off, observer_off.getUnlocalizedName());
+		//GameRegistry.registerBlock(observer_on, observer_on.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(anvil_iron, ItemBlockBase.class, anvil_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_lead, ItemBlockBase.class, anvil_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_steel, ItemBlockBase.class, anvil_steel.getUnlocalizedName());
@@ -2937,7 +2960,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(substation, ItemBlockBase.class, substation.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_switch, cable_switch.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_detector, cable_detector.getUnlocalizedName());
-		GameRegistry.registerBlock(cable_diode, cable_diode.getUnlocalizedName());
+		GameRegistry.registerBlock(cable_diode, ItemBlockBase.class, cable_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_detector, machine_detector.getUnlocalizedName());
 		GameRegistry.registerBlock(rf_cable, rf_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());

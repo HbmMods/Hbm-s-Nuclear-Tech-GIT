@@ -56,7 +56,8 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 		
 		if(!worldObj.isRemote) {
 			if(this.network != null) {
-				this.network.destroy();
+				this.network.reevaluate();
+				this.network = null;
 			}
 		}
 	}

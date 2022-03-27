@@ -1,7 +1,8 @@
 package com.hbm.tileentity.network;
 
-import api.hbm.energy.IEnergyConductor;
-import net.minecraft.tileentity.TileEntity;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -23,31 +24,12 @@ public class TileEntityPylon extends TileEntityPylonBase {
 	}
 	
 	@Override
-	protected void connect() {
-		
-		/*
-		 * Apparently super.super does not exist, and the mentally damaged folk from heckoverflow pretend like that's a good thing.
-		 * Look at this shit, you think that's good? "Write Everything Twice"? You like that, huh?
-		 */
+	public List<int[]> getConnectionPoints() {
+		List<int[]> pos = new ArrayList(connected);
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-			
-			if(te instanceof IEnergyConductor) {
-				
-				IEnergyConductor conductor = (IEnergyConductor) te;
-				
-				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-					conductor.getPowerNet().joinLink(this);
-				}
-				
-				if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-					conductor.getPowerNet().joinNetworks(this.getPowerNet());
-				}
-			}
+			pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
 		}
-		
-		super.connect();
+		return pos;
 	}
 }

@@ -390,8 +390,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
 						
 						if(inv.getStackInSlot(j) == null) {
-							inv.setInventorySlotContents(j, out.copy());
-							inv.getStackInSlot(j).stackSize = 1;
+							ItemStack copy = out.copy();
+							copy.stackSize = 1;
+							inv.setInventorySlotContents(j, copy);
 							this.decrStackSize(i, 1);
 							return;
 						}

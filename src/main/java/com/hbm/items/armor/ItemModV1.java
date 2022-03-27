@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.interfaces.IArmorModDash;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -12,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemModV1 extends ItemArmorMod {
+public class ItemModV1 extends ItemArmorMod implements IArmorModDash {
 	
 	private static final UUID speed = UUID.fromString("1d11e63e-28c4-4e14-b09f-fe0bd1be708f");
 
@@ -38,5 +39,9 @@ public class ItemModV1 extends ItemArmorMod {
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
 		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (BLOOD IS FUEL)");
+	}
+	
+	public int getDashes() {
+		return 3;
 	}
 }

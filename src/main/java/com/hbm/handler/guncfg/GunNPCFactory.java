@@ -10,6 +10,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -92,6 +93,7 @@ public class GunNPCFactory {
 		bullet.explosive = 0.5F;
 		bullet.setToBolt(BulletConfiguration.BOLT_LACUNAE);
 		bullet.vPFX = "reddust";
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		return bullet;
 	}
@@ -124,6 +126,7 @@ public class GunNPCFactory {
 		bullet.leadChance = 0;
 		bullet.setToBolt(BulletConfiguration.BOLT_NIGHTMARE);
 		bullet.vPFX = "reddust";
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -210,6 +213,7 @@ public class GunNPCFactory {
 		bullet.leadChance = 0;
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_WORM);
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		return bullet;
 	}
@@ -226,6 +230,7 @@ public class GunNPCFactory {
 		bullet.leadChance = 0;
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
+		bullet.damageType = ModDamageSource.s_laser;
 		
 		return bullet;
 	}

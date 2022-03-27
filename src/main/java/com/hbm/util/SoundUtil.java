@@ -10,9 +10,15 @@ import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraftforge.common.util.EnumHelper;
 
+/**
+ * This class is dedicated to the retard who thought making sound categories into enums and setting everything useful to private was a good idea.
+ * Fuck you.
+ * @author hbm
+ *
+ */
 public class SoundUtil {
 
-	public static void addSoundCategory(String name) {
+	/*public static void addSoundCategory(String name) {
 		
 		try {
 			SoundCategory category = EnumHelper.addEnum(SoundCategory.class, name.toUpperCase(), new Class[] { String.class, int.class }, new Object[] { name, SoundCategory.values().length });
@@ -40,5 +46,5 @@ public class SoundUtil {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

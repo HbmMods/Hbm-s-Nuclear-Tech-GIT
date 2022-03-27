@@ -29,7 +29,7 @@ public class MultiblockHandlerXR {
 					if(a == ox && b == oy && c == oz)
 						continue;
 					
-					if(!world.getBlock(a, b, c).canPlaceBlockAt(world, a, b, c)) {
+					if(!world.getBlock(a, b, c).isReplaceable(world, a, b, c)) {
 						return false;
 					}
 					

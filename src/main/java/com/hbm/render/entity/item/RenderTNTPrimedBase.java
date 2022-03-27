@@ -23,6 +23,8 @@ public class RenderTNTPrimedBase extends Render {
 	public void doRender(EntityTNTPrimedBase tnt, double x, double y, double z, float f0, float f1) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(-90F, 0F, 1F, 0F);
+		
 		float f2;
 
 		if((float) tnt.fuse - f1 + 1.0F < 10.0F) {

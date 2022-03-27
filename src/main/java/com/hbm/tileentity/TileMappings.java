@@ -184,6 +184,7 @@ public class TileMappings {
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
 		put(TileEntityChungus.class, "tileentity_chungus");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod");
+		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityWatz.class, "tileentity_watz");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");

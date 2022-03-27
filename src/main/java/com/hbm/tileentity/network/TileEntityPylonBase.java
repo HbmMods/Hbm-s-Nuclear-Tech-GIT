@@ -46,8 +46,8 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		connected.add(new int[] {x, y, z});
 		
 		if(this.getPowerNet() != null) {
-			this.getPowerNet().destroy();
-			this.setPowerNet(null);
+			this.getPowerNet().reevaluate();
+			this.network = null;
 		}
 		
 		this.markDirty();
@@ -92,7 +92,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	@Override
 	protected void connect() {
 		
-		for(int[] pos : connected) {
+		for(int[] pos : getConnectionPoints()) {
 			
 			TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 			
@@ -109,6 +109,11 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public List<int[]> getConnectionPoints() {
+		return new ArrayList(connected);
 	}
 	
 	public abstract ConnectionType getConnectionType();
