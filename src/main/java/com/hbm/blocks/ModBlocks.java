@@ -2218,16 +2218,9 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(volcanic_lava_fluid);
 		volcanic_lava_block = new VolcanicBlock(volcanic_lava_fluid, Material.lava).setBlockName("volcanic_lava_block").setResistance(500F);
 
-		sulfuric_acid_fluid = new SchrabidicFluid().setDensity(1840).setViscosity(1000).setTemperature(273).setUnlocalizedName("sulfuric_acid_fluid");
+		sulfuric_acid_fluid = new GenericFluid("sulfuric_acid_fluid").setDensity(1840).setViscosity(1000).setTemperature(273);
 		FluidRegistry.registerFluid(sulfuric_acid_fluid);
-		sulfuric_acid_block = new SchrabidicBlock(sulfuric_acid_fluid, Material.water, ModDamageSource.acid) { //TODO: make a new block class
-			@Override
-			@SideOnly(Side.CLIENT)
-			public void registerBlockIcons(IIconRegister register) {
-				stillIcon = register.registerIcon(RefStrings.MODID + ":sulfuric_acid_still");
-				flowingIcon = register.registerIcon(RefStrings.MODID + ":sulfuric_acid_flowing");
-			}
-		}.setBlockName("sulfuric_acid_block").setResistance(500F);
+		sulfuric_acid_block = new GenericFluidBlock(sulfuric_acid_fluid, Material.water, "sulfuric_acid_still", "sulfuric_acid_flowing").setDamage(ModDamageSource.acid, 5F).setBlockName("sulfuric_acid_block").setResistance(500F);
 
 		dummy_block_flare = new DummyBlockFlare(Material.iron, false).setBlockName("dummy_block_flare").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		dummy_port_flare = new DummyBlockFlare(Material.iron, true).setBlockName("dummy_port_flare").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
