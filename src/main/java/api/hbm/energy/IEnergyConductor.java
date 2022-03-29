@@ -94,4 +94,14 @@ public interface IEnergyConductor extends IEnergyConnector {
 		
 		return pos;
 	}
+
+	//TODO: check if this standard implementation doesn't break anything (it shouldn't but right now it's a bit redundant) also: remove duplicate implementations
+	@Override
+	public default long transferPower(long power) {
+		
+		if(this.getPowerNet() == null)
+			return power;
+		
+		return this.getPowerNet().transferPower(power);
+	}
 }

@@ -54,8 +54,8 @@ public interface IFluidUser extends IFluidConnector {
 		}
 	}
 
-	public long getTotalFluidForSend(FluidType type);
-	public void removeFluidForTransfer(FluidType type, long amount);
+	public default long getTotalFluidForSend(FluidType type) { return 0; }
+	public default void removeFluidForTransfer(FluidType type, long amount) { }
 	
 	public default void updateStandardPipes(FluidType type, World world, int x, int y, int z) {
 		

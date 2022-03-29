@@ -938,6 +938,7 @@ public class ModItems {
 	public static Item can_luna;
 	public static Item can_bepis;
 	public static Item can_breen;
+	public static Item can_mug;
 	public static Item mucho_mango;
 	public static Item bottle_empty;
 	public static Item bottle_nuka;
@@ -3458,8 +3459,9 @@ public class ModItems {
 		can_mrsugar = new ItemEnergy().setUnlocalizedName("can_mrsugar").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_mrsugar");
 		can_overcharge = new ItemEnergy().setUnlocalizedName("can_overcharge").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_overcharge");
 		can_luna = new ItemEnergy().setUnlocalizedName("can_luna").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_luna");
-		can_bepis = new ItemEnergy().setUnlocalizedName("can_bepis").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_bepis");;
+		can_bepis = new ItemEnergy().setUnlocalizedName("can_bepis").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_bepis");
 		can_breen = new ItemEnergy().setUnlocalizedName("can_breen").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_breen");
+		can_mug = new ItemEnergy().setUnlocalizedName("can_mug").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_mug");
 		bottle_empty = new Item().setUnlocalizedName("bottle_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_empty");
 		bottle_nuka = new ItemEnergy().setUnlocalizedName("bottle_nuka").setContainerItem(ModItems.bottle_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_nuka");
 		bottle_cherry = new ItemEnergy().setUnlocalizedName("bottle_cherry").setContainerItem(ModItems.bottle_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_cherry");
@@ -7602,6 +7604,7 @@ public class ModItems {
 		GameRegistry.registerItem(can_luna, can_luna.getUnlocalizedName());
 		GameRegistry.registerItem(can_bepis, can_bepis.getUnlocalizedName());
 		GameRegistry.registerItem(can_breen, can_breen.getUnlocalizedName());
+		GameRegistry.registerItem(can_mug, can_mug.getUnlocalizedName());
 		
 		//Coffee
 		GameRegistry.registerItem(coffee, coffee.getUnlocalizedName());

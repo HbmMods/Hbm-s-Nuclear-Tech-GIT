@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.Fluid;
 public class GenericFluid extends Fluid {
 
 	public GenericFluid(String name) {
-		super("corium_fluid");
+		super(name);
 	}
 
 	@Override
