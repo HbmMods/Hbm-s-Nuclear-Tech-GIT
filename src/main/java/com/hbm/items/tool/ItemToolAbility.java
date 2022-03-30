@@ -65,11 +65,11 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		MINER(
 				Sets.newHashSet(new Material[] { Material.grass, Material.iron, Material.anvil, Material.rock, Material.clay, Material.sand, Material.ground, Material.snow, Material.craftedSnow })
 		);
-
+		
 		private EnumToolType(Set<Material> materials) {
 			this.materials = materials;
 		}
-
+		
 		private EnumToolType(Set<Material> materials, Set<Block> blocks) {
 			this.materials = materials;
 			this.blocks = blocks;
@@ -86,32 +86,32 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		this.toolType = type;
 		this.setHarvestLevel(type.toString().toLowerCase(), material.getHarvestLevel());
 	}
-
+	
 	public ItemToolAbility addBreakAbility(ToolAbility breakAbility) {
 		this.breakAbility.add(breakAbility);
 		return this;
 	}
-
+	
 	public ItemToolAbility addHitAbility(WeaponAbility weaponAbility) {
 		this.hitAbility.add(weaponAbility);
 		return this;
 	}
-
-	// <insert obvious Rarity joke here>
+	
+	//<insert obvious Rarity joke here>
 	public ItemToolAbility setRarity(EnumRarity rarity) {
 		this.rarity = rarity;
 		return this;
 	}
+	
+    public EnumRarity getRarity(ItemStack stack) {
+        return this.rarity != EnumRarity.common ? this.rarity : super.getRarity(stack);
+    }
+    
+    public boolean hitEntity(ItemStack stack, EntityLivingBase victim, EntityLivingBase attacker) {
 
-	public EnumRarity getRarity(ItemStack stack) {
-		return this.rarity != EnumRarity.common ? this.rarity : super.getRarity(stack);
-	}
-
-	public boolean hitEntity(ItemStack stack, EntityLivingBase victim, EntityLivingBase attacker) {
-
-		if(!attacker.worldObj.isRemote && !this.hitAbility.isEmpty() && attacker instanceof EntityPlayer && canOperate(stack)) {
-
-			for(WeaponAbility ability : this.hitAbility) {
+    	if(!attacker.worldObj.isRemote && !this.hitAbility.isEmpty() && attacker instanceof EntityPlayer && canOperate(stack)) {
+    		
+    		for(WeaponAbility ability : this.hitAbility) {
 				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);
 			}
 		}
@@ -167,8 +167,8 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		Multimap multimap = HashMultimap.create();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double) this.damage, 0));
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", movement, 1));
-		return multimap;
-	}
+        return multimap;
+    }
 
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
@@ -276,7 +276,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		this.rockBreaker = true;
 		return this;
 	}
-
+	
 	private boolean rockBreaker = false;
 
 	@Override

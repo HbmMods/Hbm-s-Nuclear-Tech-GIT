@@ -22,6 +22,11 @@ public class TileEntityGasDuct extends TileEntity implements IFluidDuct {
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 
 	@Override
+	public boolean setType(FluidType type) {
+		return false;
+	}
+	
+	@Override
 	public void updateEntity() {
 		this.updateConnections();
 	}
@@ -78,10 +83,5 @@ public class TileEntityGasDuct extends TileEntity implements IFluidDuct {
 	@Override
 	public FluidType getType() {
 		return type;
-	}
-
-	@Override
-	public boolean setType(FluidType type) {
-		return false;
 	}
 }

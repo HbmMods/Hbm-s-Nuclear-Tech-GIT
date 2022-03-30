@@ -151,9 +151,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		this.power -= this.consumption;
 		this.progress[index]++;
 		
-		if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_machined)
-			slots[0] = new ItemStack(ModItems.meteorite_sword_treated); //fisfndmoivndlmgindgifgjfdnblfm
-		
 		int template = getTemplateIndex(index);
 		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[template].getItemDamage());
 		

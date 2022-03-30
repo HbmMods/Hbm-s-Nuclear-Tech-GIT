@@ -17,7 +17,7 @@ public class ItemDemonCore extends Item {
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		
 		if(entityItem != null && !entityItem.worldObj.isRemote && entityItem.onGround) {
-			entityItem.setEntityItemStack(new ItemStack(ModItems.demon_core_closed));
+//			entityItem.setEntityItemStack(new ItemStack(ModItems.demon_core_closed));
 			entityItem.worldObj.spawnEntityInWorld(new EntityItem(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(ModItems.screwdriver)));
 			return true;
 		}

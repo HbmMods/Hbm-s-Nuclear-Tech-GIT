@@ -1,7 +1,6 @@
 package com.hbm.entity.mob.siege;
 
 import com.hbm.handler.SiegeOrchestrator;
-import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
@@ -46,14 +45,12 @@ public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 			return false;
 		
 		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
-			return false;
-		
+		return false;
+
 		SiegeTier tier = this.getTier();
 		
-		if(tier.fireProof && source.isFireDamage()) {
-			this.extinguish();
+		if(tier.fireProof && source.isFireDamage())
 			return false;
-		}
 		
 		if(tier.noFall && source == DamageSource.fall)
 			return false;
@@ -130,8 +127,6 @@ public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
-			
-			this.entityDropItem(new ItemStack(ModItems.source, 1), 0F);
 		}
 	}
 

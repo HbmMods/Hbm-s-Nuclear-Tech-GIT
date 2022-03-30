@@ -39,14 +39,14 @@ public class I18nUtil {
 
 		String[] paragraphs = text.split("\\$");
 		List<String> lines = new ArrayList();
-		
+
 		for(String paragraph : paragraphs) {
 			lines.addAll(autoBreak(fontRenderer, paragraph, width));
 		}
-		
+
 		return lines;
 	}
-	
+
 	/**
 	 * Turns one string into a list of strings, cutting sentences up to fit within the defined width if they were rendered in a GUI
 	 * @param fontRenderer
@@ -59,17 +59,17 @@ public class I18nUtil {
 		List<String> lines = new ArrayList();
 		//split the text by all spaces
 		String[] words = text.split(" ");
-		
+
 		//add the first word to the first line, no matter what
 		lines.add(words[0]);
 		//starting indent is the width of the first word
 		int indent = fontRenderer.getStringWidth(words[0]);
-		
+
 		for(int w = 1; w < words.length; w++) {
-			
+
 			//increment the indent by the width of the next word + leading space
 			indent += fontRenderer.getStringWidth(" " + words[w]);
-			
+
 			//if the indent is within bounds
 			if(indent <= width) {
 				//add the next word to the last line (i.e. the one in question)
@@ -81,7 +81,7 @@ public class I18nUtil {
 				indent = fontRenderer.getStringWidth(words[w]);
 			}
 		}
-		
+
 		return lines;
 	}
 }

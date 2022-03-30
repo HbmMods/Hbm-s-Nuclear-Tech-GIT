@@ -52,14 +52,16 @@ public class GunCryolator extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_cryolator_ammo))) {
+		if ((player.capabilities.isCreativeMode 
+//				|| player.inventory.hasItem(ModItems.gun_cryolator_ammo)
+				)) {
 			EntityLN2 entityarrow = new EntityLN2(world, player, 3.0F);
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
 			} else {
-				if (count % 10 == 0)
-					player.inventory.consumeInventoryItem(ModItems.gun_cryolator_ammo);
+//				if (count % 10 == 0)
+//					player.inventory.consumeInventoryItem(ModItems.gun_cryolator_ammo);
 			}
 
 			if (count % 5 == 0)

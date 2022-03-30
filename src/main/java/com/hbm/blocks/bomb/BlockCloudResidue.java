@@ -33,10 +33,10 @@ public class BlockCloudResidue extends Block {
         return MapColor.redColor;
     }
 	
-	@Override
-	public int getRenderType(){
-		return ModBlocks.taint.getRenderType();
-	}
+//	@Override
+//	public int getRenderType(){
+//		return ModBlocks.taint.getRenderType();
+//	}
 
     @Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)

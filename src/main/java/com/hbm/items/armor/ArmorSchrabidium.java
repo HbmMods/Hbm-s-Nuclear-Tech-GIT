@@ -23,14 +23,15 @@ public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
 	
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer) {
-		if(stack.getItem().equals(ModItems.schrabidium_helmet) || stack.getItem().equals(ModItems.schrabidium_plate) || stack.getItem().equals(ModItems.schrabidium_boots)) {
-			return (RefStrings.MODID + ":textures/armor/schrabidium_1.png");
-		}
-		if(stack.getItem().equals(ModItems.schrabidium_legs)) {
-			return (RefStrings.MODID + ":textures/armor/schrabidium_2.png");
-		}
+//		if(stack.getItem().equals(ModItems.schrabidium_helmet) || stack.getItem().equals(ModItems.schrabidium_plate) || stack.getItem().equals(ModItems.schrabidium_boots)) {
+//			return (RefStrings.MODID + ":textures/armor/schrabidium_1.png");
+//		}
+//		if(stack.getItem().equals(ModItems.schrabidium_legs)) {
+//			return (RefStrings.MODID + ":textures/armor/schrabidium_2.png");
+//		}
 		
-		else return null;
+//		else 
+			return null;
 	}
 
     @Override
@@ -79,26 +80,26 @@ public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		 
-		 if(armor.getItem() == ModItems.schrabidium_helmet)
-		 {
-			 player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 5, 0, true));
-			 player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 5, 9, true));
-		 }
-		 
-		 if(armor.getItem() == ModItems.schrabidium_plate)
-		 {
-			 player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5, 0, true));
-		 }
-		 
-		 if(armor.getItem() == ModItems.schrabidium_legs)
-		 {
-			 player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 2, true));
-		 }
-		 
-		 if(armor.getItem() == ModItems.schrabidium_boots)
-		 {
-			 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 2, true));
-		 }
+//		 if(armor.getItem() == ModItems.schrabidium_helmet)
+//		 {
+//			 player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 5, 0, true));
+//			 player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 5, 9, true));
+//		 }
+//		 
+//		 if(armor.getItem() == ModItems.schrabidium_plate)
+//		 {
+//			 player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5, 0, true));
+//		 }
+//		 
+//		 if(armor.getItem() == ModItems.schrabidium_legs)
+//		 {
+//			 player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 2, true));
+//		 }
+//		 
+//		 if(armor.getItem() == ModItems.schrabidium_boots)
+//		 {
+//			 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 2, true));
+//		 }
 	}
 
 }

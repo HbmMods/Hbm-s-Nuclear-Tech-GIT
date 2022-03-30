@@ -23,6 +23,6 @@ public class TestDungeonRoom7 extends CellularDungeonRoom {
 		DungeonToolbox.generateBox(world, x + 4, y, z + 4, parent.width - 8, 1, parent.width - 8, ModBlocks.deco_red_copper);
 
 		world.setBlock(x + parent.width / 2, y, z + parent.width / 2, ModBlocks.meteor_battery);
-		world.setBlock(x + parent.width / 2, y + 1, z + parent.width / 2, ModBlocks.tesla);
+//		world.setBlock(x + parent.width / 2, y + 1, z + parent.width / 2, ModBlocks.tesla);
 	}
 }

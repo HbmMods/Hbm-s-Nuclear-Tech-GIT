@@ -87,9 +87,9 @@ public class TileEntityTrappedBrick extends TileEntity {
 			EntityZombie zombie = new EntityZombie(worldObj);
 			zombie.setPosition(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
 			switch(worldObj.rand.nextInt(3)) {
-			case 0: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign)); break;
-			case 1: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.cobalt_sword)); break;
-			case 2: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.cmb_hoe)); break;
+//			case 0: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign)); break;
+//			case 1: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.cobalt_sword)); break;
+//			case 2: zombie.setCurrentItemOrArmor(0, new ItemStack(ModItems.cmb_hoe)); break;
 			}
 			zombie.setEquipmentDropChance(0, 1.0F);
 			worldObj.spawnEntityInWorld(zombie);

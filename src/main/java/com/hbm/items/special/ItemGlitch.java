@@ -90,8 +90,8 @@ public class ItemGlitch extends Item {
 				}
 				break;
 			case 13:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
 				player.addChatMessage(new ChatComponentText("Have some free stuff. You'll need it for that one cryptic achievement."));
 				break;
@@ -110,7 +110,7 @@ public class ItemGlitch extends Item {
 				player.addChatMessage(new ChatComponentText("89% of magic tricks are not magic. Technically, they are sorcery."));
 				break;
 			case 18:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action));
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
 				player.addChatMessage(new ChatComponentText("Here ya go."));
 				break;
@@ -121,7 +121,7 @@ public class ItemGlitch extends Item {
 				player.addChatMessage(new ChatComponentText("Good day, I am text"));
 				break;
 			case 21:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear));
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear));
 				player.addChatMessage(new ChatComponentText("73616d706c652074657874!"));
 				break;
 			case 22:

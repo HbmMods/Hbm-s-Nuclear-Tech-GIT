@@ -29,8 +29,8 @@ public class EntityMissileTaint extends EntityMissileBaseAdvanced {
 	    	int a = rand.nextInt(11) + (int)this.posX - 5;
 	    	int b = rand.nextInt(11) + (int)this.posY - 5;
 	    	int c = rand.nextInt(11) + (int)this.posZ - 5;
-	           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c))
-	        	   worldObj.setBlock(a, b, c, ModBlocks.taint);
+//	           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c))
+//	        	   worldObj.setBlock(a, b, c, ModBlocks.taint);
 	    }
 	}
 

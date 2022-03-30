@@ -56,7 +56,9 @@ public class GunDash extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_dash_ammo))
+		if ((player.capabilities.isCreativeMode 
+//				|| player.inventory.hasItem(ModItems.gun_dash_ammo)
+				)
 				&& count % 2 == 0) {
 			
 			EntityLaser laser = new EntityLaser(world, player);
@@ -68,7 +70,7 @@ public class GunDash extends Item {
 			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (!flag) {
-				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
+//				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
 			}
 
 			if (!world.isRemote) {

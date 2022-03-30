@@ -193,6 +193,11 @@ public class FluidTank {
 				return;
 			}
 			
+			if (slots[in].getItem() == ModItems.fluid_barrel_drain) {
+				this.fluid = 0;         
+				return;
+			}
+			
 			if(slots[in].getItem() == ModItems.inf_water && type == Fluids.WATER) {
 				this.fluid -= 50;
 				if(this.fluid < 0)

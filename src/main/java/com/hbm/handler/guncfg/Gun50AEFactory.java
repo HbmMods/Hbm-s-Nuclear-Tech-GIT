@@ -54,7 +54,7 @@ public class Gun50AEFactory {
 	static float inaccuracy = 0.0005F;
 	public static BulletConfiguration get50AEConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50ae;
 		bullet.spread *= inaccuracy;
@@ -66,7 +66,7 @@ public class Gun50AEFactory {
 
 	public static BulletConfiguration get50APConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50ae_ap;
 		bullet.spread *= inaccuracy;
@@ -80,7 +80,7 @@ public class Gun50AEFactory {
 
 	public static BulletConfiguration get50DUConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50ae_du;
 		bullet.spread *= inaccuracy;
@@ -94,7 +94,7 @@ public class Gun50AEFactory {
 
 	public static BulletConfiguration get50StarConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50ae_star;
 		bullet.spread *= inaccuracy;

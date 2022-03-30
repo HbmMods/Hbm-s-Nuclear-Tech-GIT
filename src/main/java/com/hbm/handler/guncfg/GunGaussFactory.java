@@ -60,7 +60,7 @@ public class GunGaussFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_xvl1456_ammo;
+//		bullet.ammo = ModItems.gun_xvl1456_ammo;
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.trail = 1;

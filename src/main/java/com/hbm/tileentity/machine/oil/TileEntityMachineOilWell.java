@@ -41,37 +41,7 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	}
 
 	@Override
-	public void onDrill(int y) {
-		Block b = worldObj.getBlock(xCoord, y, zCoord);
-		ItemStack stack = new ItemStack(b);
-		int[] ids = OreDictionary.getOreIDs(stack);
-		for(Integer i : ids) {
-			String name = OreDictionary.getOreName(i);
-			
-			if("oreUranium".equals(name)) {
-				for(int j = -1; j <= 1; j++) {
-					for(int k = -1; k <= 1; k++) {
-						if(worldObj.getBlock(xCoord + j, yCoord + 7, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
-							worldObj.setBlock(xCoord + k, yCoord + 7, zCoord + k, ModBlocks.gas_radon_dense);
-						}
-					}
-				}
-			}
-			
-			if("oreAsbestos".equals(name)) {
-				for(int j = -1; j <= 1; j++) {
-					for(int k = -1; k <= 1; k++) {
-						if(worldObj.getBlock(xCoord + j, yCoord + 7, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
-							worldObj.setBlock(xCoord + k, yCoord + 7, zCoord + k, ModBlocks.gas_asbestos);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void onSuck(int x, int y, int z) {
+	public void onSuck() {
 
 		ExplosionLarge.spawnOilSpills(worldObj, xCoord + 0.5F, yCoord + 5.5F, zCoord + 0.5F, 3);
 		worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 2.0F, 0.5F);

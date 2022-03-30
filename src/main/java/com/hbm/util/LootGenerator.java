@@ -48,8 +48,8 @@ public class LootGenerator {
 
 			for(int i = 0; i < 4; i++) {
 				int type = world.rand.nextInt(4);
-				Item syringe = type < 2 ? ModItems.syringe_metal_stimpak : type == 2 ? ModItems.syringe_metal_medx : ModItems.syringe_metal_psycho;
-				addItemWithDeviation(loot, world.rand, new ItemStack(syringe), 0.125, i * 0.03125, 0.25);
+//				Item syringe = type < 2 ? ModItems.syringe_metal_stimpak : type == 2 ? ModItems.syringe_metal_medx : ModItems.syringe_metal_psycho;
+//				addItemWithDeviation(loot, world.rand, new ItemStack(syringe), 0.125, i * 0.03125, 0.25);
 			}
 			
 			int type = world.rand.nextInt(8);

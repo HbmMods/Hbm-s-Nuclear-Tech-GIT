@@ -46,10 +46,10 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		return new TileEntityNukeCustom();
 	}
 
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(ModBlocks.nuke_custom);
-	}
+//	@Override
+//	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+//		return Item.getItemFromBlock(ModBlocks.nuke_custom);
+//	}
 
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
@@ -141,8 +141,8 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		/// EUPHEMIUM ///
 		if(euph > 0) {
 			
-			EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(worldObj, xCoord, yCoord, zCoord);
-			ExplosionChaos.zomgMeSinPi(worldObj, xCoord, yCoord, zCoord, 1000, null, zomg);
+//			EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(worldObj, xCoord, yCoord, zCoord);
+//			ExplosionChaos.zomgMeSinPi(worldObj, xCoord, yCoord, zCoord, 1000, null, zomg);
 			
 		// SCHRABIDIUM ///
 		} else if(schrab > 0) {

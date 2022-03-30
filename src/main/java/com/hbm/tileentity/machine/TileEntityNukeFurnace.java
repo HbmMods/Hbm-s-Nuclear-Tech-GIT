@@ -7,7 +7,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

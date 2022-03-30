@@ -33,16 +33,16 @@ public class GunNightmare extends Item {
 		
         this.maxStackSize = 1;
 
-		if (this == ModItems.gun_revolver_nightmare) {
-			this.dmgMin = 1;
-			this.dmgMax = 100;
-			this.ammo = ModItems.gun_revolver_nightmare_ammo;
-		}
-		if (this == ModItems.gun_revolver_nightmare2) {
-			this.dmgMin = 25;
-			this.dmgMax = 150;
-			this.ammo = ModItems.gun_revolver_nightmare2_ammo;
-		}
+//		if (this == ModItems.gun_revolver_nightmare) {
+//			this.dmgMin = 1;
+//			this.dmgMax = 100;
+//			this.ammo = ModItems.gun_revolver_nightmare_ammo;
+//		}
+//		if (this == ModItems.gun_revolver_nightmare2) {
+//			this.dmgMin = 25;
+//			this.dmgMax = 150;
+//			this.ammo = ModItems.gun_revolver_nightmare2_ammo;
+//		}
 	}
 
 	@Override
@@ -69,61 +69,61 @@ public class GunNightmare extends Item {
 			f = 10.0F;
 		}
 
-		if (this == ModItems.gun_revolver_nightmare) {
-			EntityBullet entityarrow;
-			entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-			entityarrow.setDamage(1 + rand.nextInt(99));
-
-			if (!p_77615_2_.isRemote) {
-				p_77615_2_.spawnEntityInWorld(entityarrow);
-			}
-		}
-
-		if (this == ModItems.gun_revolver_nightmare2) {
-			EntityNightmareBlast entityarrow0;
-			EntityNightmareBlast entityarrow1;
-			EntityNightmareBlast entityarrow2;
-			EntityNightmareBlast entityarrow3;
-			EntityNightmareBlast entityarrow4;
-			EntityNightmareBlast entityarrow5;
-			EntityNightmareBlast entityarrow6;
-			EntityNightmareBlast entityarrow7;
-			EntityNightmareBlast entityarrow8;
-			EntityNightmareBlast entityarrow9;
-			entityarrow0 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow0.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow1 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow1.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow2 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow2.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow3 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow3.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow4 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow4.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow5 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow5.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow6 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow6.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow7 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow7.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow8 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow8.setDamage(25 + rand.nextInt(150 - 25));
-			entityarrow9 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
-			entityarrow9.setDamage(25 + rand.nextInt(150 - 25));
-
-			if (!p_77615_2_.isRemote) {
-				p_77615_2_.spawnEntityInWorld(entityarrow0);
-				p_77615_2_.spawnEntityInWorld(entityarrow1);
-				p_77615_2_.spawnEntityInWorld(entityarrow2);
-				p_77615_2_.spawnEntityInWorld(entityarrow3);
-				p_77615_2_.spawnEntityInWorld(entityarrow4);
-				p_77615_2_.spawnEntityInWorld(entityarrow5);
-				p_77615_2_.spawnEntityInWorld(entityarrow6);
-				p_77615_2_.spawnEntityInWorld(entityarrow7);
-				p_77615_2_.spawnEntityInWorld(entityarrow8);
-				p_77615_2_.spawnEntityInWorld(entityarrow9);
-			}
-		}
+//		if (this == ModItems.gun_revolver_nightmare) {
+//			EntityBullet entityarrow;
+//			entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
+//			entityarrow.setDamage(1 + rand.nextInt(99));
+//
+//			if (!p_77615_2_.isRemote) {
+//				p_77615_2_.spawnEntityInWorld(entityarrow);
+//			}
+//		}
+//
+//		if (this == ModItems.gun_revolver_nightmare2) {
+//			EntityNightmareBlast entityarrow0;
+//			EntityNightmareBlast entityarrow1;
+//			EntityNightmareBlast entityarrow2;
+//			EntityNightmareBlast entityarrow3;
+//			EntityNightmareBlast entityarrow4;
+//			EntityNightmareBlast entityarrow5;
+//			EntityNightmareBlast entityarrow6;
+//			EntityNightmareBlast entityarrow7;
+//			EntityNightmareBlast entityarrow8;
+//			EntityNightmareBlast entityarrow9;
+//			entityarrow0 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow0.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow1 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow1.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow2 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow2.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow3 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow3.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow4 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow4.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow5 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow5.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow6 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow6.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow7 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow7.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow8 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow8.setDamage(25 + rand.nextInt(150 - 25));
+//			entityarrow9 = new EntityNightmareBlast(p_77615_2_, p_77615_3_, 3.0F);
+//			entityarrow9.setDamage(25 + rand.nextInt(150 - 25));
+//
+//			if (!p_77615_2_.isRemote) {
+//				p_77615_2_.spawnEntityInWorld(entityarrow0);
+//				p_77615_2_.spawnEntityInWorld(entityarrow1);
+//				p_77615_2_.spawnEntityInWorld(entityarrow2);
+//				p_77615_2_.spawnEntityInWorld(entityarrow3);
+//				p_77615_2_.spawnEntityInWorld(entityarrow4);
+//				p_77615_2_.spawnEntityInWorld(entityarrow5);
+//				p_77615_2_.spawnEntityInWorld(entityarrow6);
+//				p_77615_2_.spawnEntityInWorld(entityarrow7);
+//				p_77615_2_.spawnEntityInWorld(entityarrow8);
+//				p_77615_2_.spawnEntityInWorld(entityarrow9);
+//			}
+//		}
 
 		p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
 
@@ -179,14 +179,14 @@ public class GunNightmare extends Item {
 			int j = 0;
 			
 			for(int i = 0; i < 6; i++) {
-				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare_ammo)) {
-					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
-					j++;
-				}
-				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare2 && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare2_ammo)) {
-					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
-					j++;
-				}
+//				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare_ammo)) {
+//					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
+//					j++;
+//				}
+//				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare2 && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare2_ammo)) {
+//					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
+//					j++;
+//				}
 				if(p_77659_1_.getItemDamage() == 0)
 					break;
 			}
@@ -213,18 +213,18 @@ public class GunNightmare extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if (this == ModItems.gun_revolver_nightmare) {
-			list.add("Never let a cat doze on your belly when you sleep.");
-			list.add("");
-			list.add("Ammo: Nightmare Bullets");
-			list.add("Damage: 1 - 100");
-		}
-		if (this == ModItems.gun_revolver_nightmare2) {
-			list.add("Ominous references. *shivers*");
-			list.add("");
-			list.add("Ammo: Laser Buckshot");
-			list.add("Damage: 25 - 150");
-		}
+//		if (this == ModItems.gun_revolver_nightmare) {
+//			list.add("Never let a cat doze on your belly when you sleep.");
+//			list.add("");
+//			list.add("Ammo: Nightmare Bullets");
+//			list.add("Damage: 1 - 100");
+//		}
+//		if (this == ModItems.gun_revolver_nightmare2) {
+//			list.add("Ominous references. *shivers*");
+//			list.add("");
+//			list.add("Ammo: Laser Buckshot");
+//			list.add("Damage: 25 - 150");
+//		}
 	}
 
 	@Override

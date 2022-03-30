@@ -281,8 +281,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				continue;
 			}
 			
-			if(slots[i].getItem() == ModItems.meteorite_sword_bred)
-				slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+//			if(slots[i].getItem() == ModItems.meteorite_sword_bred)
+//				slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
 			
 			slotFlux[i] = 0;
 		}

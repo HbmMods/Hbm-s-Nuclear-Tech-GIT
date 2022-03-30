@@ -55,7 +55,9 @@ public class GunDefabricator extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_defabricator_ammo))
+		if ((player.capabilities.isCreativeMode 
+//				|| player.inventory.hasItem(ModItems.gun_defabricator_ammo)
+				)
 				&& count % 2 == 0) {
 			EntityBullet entitybullet = new EntityBullet(world, player, 3.0F, 40, 120, false, "tauDay");
 			entitybullet.setDamage(40 + rand.nextInt(120 - 40));
@@ -65,8 +67,8 @@ public class GunDefabricator extends Item {
 			if(count == this.getMaxItemUseDuration(stack))
 				world.playSoundAtEntity(player, "hbm:weapon.defabSpinup", 1.0F, 1.0F);
 
-			if(count % 20 == 0 && !flag)
-				player.inventory.consumeInventoryItem(ModItems.gun_defabricator_ammo);
+//			if(count % 20 == 0 && !flag)
+//				player.inventory.consumeInventoryItem(ModItems.gun_defabricator_ammo);
 
 			if (!world.isRemote) {
 				world.spawnEntityInWorld(entitybullet);

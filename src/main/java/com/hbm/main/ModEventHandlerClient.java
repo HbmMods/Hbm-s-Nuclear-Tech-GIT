@@ -41,7 +41,6 @@ import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
-import com.hbm.render.world.RenderNTMSkyboxChainloader;
 import com.hbm.render.world.RenderNTMSkyboxImpact;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
@@ -54,6 +53,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.world.RenderNTMSkyboxChainloader;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -698,7 +698,7 @@ public class ModEventHandlerClient {
 			if(world != null && world.provider instanceof WorldProviderSurface) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
-				
+
 				if(ModEventHandler.dust > 0 || ModEventHandler.fire > 0) {
 
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {

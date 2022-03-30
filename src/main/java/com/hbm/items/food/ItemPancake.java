@@ -38,9 +38,9 @@ public class ItemPancake extends ItemFood {
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
     	
-    	if(ArmorFSB.hasFSBArmorIgnoreCharge(player) && player.inventory.armorInventory[3].getItem() == ModItems.bj_helmet) {
-        	return super.onItemRightClick(stack, world, player);
-    	}
+//    	if(ArmorFSB.hasFSBArmorIgnoreCharge(player) && player.inventory.armorInventory[3].getItem() == ModItems.bj_helmet) {
+//        	return super.onItemRightClick(stack, world, player);
+//    	}
     	
     	if(!world.isRemote)
     		player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Your teeth are too soft to eat this."));

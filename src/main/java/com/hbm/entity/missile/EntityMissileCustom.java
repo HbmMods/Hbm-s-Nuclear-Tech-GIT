@@ -356,9 +356,9 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				int a = rand.nextInt(r) + (int) posX - (r / 2 - 1);
 				int b = rand.nextInt(r) + (int) posY - (r / 2 - 1);
 				int c = rand.nextInt(r) + (int) posZ - (r / 2 - 1);
-				if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) {
-					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
-				}
+//				if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) {
+//					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+//				}
 			}
 			break;
 		case CLOUD:

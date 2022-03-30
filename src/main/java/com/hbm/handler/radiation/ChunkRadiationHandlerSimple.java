@@ -33,9 +33,11 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	public float getRadiation(World world, int x, int y, int z) {
 		SimpleRadiationPerWorld radWorld = perWorld.get(world);
 		
-		if(radWorld != null) {
+		if(radWorld != null && !lock) {
+			lock = true;
 			ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
 			Float rad = radWorld.radiation.get(coords);
+			lock = false;
 			return rad == null ? 0F : MathHelper.clamp_float(rad, 0, maxRad);
 		}
 		
@@ -44,16 +46,20 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
 	@Override
 	public void setRadiation(World world, int x, int y, int z, float rad) {
-		SimpleRadiationPerWorld radWorld = perWorld.get(world);
-		
-		if(radWorld != null) {
+		if(!lock) {
+			lock = true;
+			SimpleRadiationPerWorld radWorld = perWorld.get(world);
 			
-			if(world.blockExists(x, 0, z)) {
+			if(radWorld != null) {
 				
-				ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
-				radWorld.radiation.put(coords, MathHelper.clamp_float(rad, 0, maxRad));
-				world.getChunkFromBlockCoords(x, z).isModified = true;
+				if(world.blockExists(x, 0, z)) {
+					
+					ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
+					radWorld.radiation.put(coords, MathHelper.clamp_float(rad, 0, maxRad));
+					world.getChunkFromBlockCoords(x, z).isModified = true;
+				}
 			}
+			lock = false;
 		}
 	}
 
@@ -67,65 +73,76 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 		setRadiation(world, x, y, z, Math.max(getRadiation(world, x, y, z) - rad, 0));
 	}
 
+	public static boolean lock = false;
+	
 	@Override
 	public void updateSystem() {
-		
-		for(Entry<World, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
-			
-			HashMap<ChunkCoordIntPair, Float> radiation = entry.getValue().radiation;
-			HashMap<ChunkCoordIntPair, Float> buff = new HashMap(radiation);
-			radiation.clear();
-			World world = entry.getKey();
-			
-			for(Entry<ChunkCoordIntPair, Float> chunk : buff.entrySet()) {
+		if(!lock) {
+			lock = true;
+			for(Entry<World, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
 				
-				if(chunk.getValue() == 0)
-					continue;
+				HashMap<ChunkCoordIntPair, Float> radiation = entry.getValue().radiation;
+				HashMap<ChunkCoordIntPair, Float> buff = new HashMap(radiation);
+				radiation.clear();
+				World world = entry.getKey();
 				
-				ChunkCoordIntPair coord = chunk.getKey();
-				
-				for(int i = -1; i <= 1; i++) {
-					for(int j = -1; j<= 1; j++) {
-						
-						int type = Math.abs(i) + Math.abs(j);
-						float percent = type == 0 ? 0.6F : type == 1 ? 0.075F : 0.025F;
-						ChunkCoordIntPair newCoord = new ChunkCoordIntPair(coord.chunkXPos + i, coord.chunkZPos + j);
-						
-						if(buff.containsKey(newCoord)) {
-							Float val = radiation.get(newCoord);
-							float rad = val == null ? 0 : val;
-							float newRad = rad + chunk.getValue() * percent;
-							newRad = MathHelper.clamp_float(0F, newRad * 0.99F - 0.05F, maxRad);
-							radiation.put(newCoord, newRad);
-						} else {
-							radiation.put(newCoord, chunk.getValue() * percent);
-						}
-						
-						float rad = radiation.get(newCoord);
-						if(rad > RadiationConfig.fogRad && world != null && world.rand.nextInt(RadiationConfig.fogCh) == 0 && world.getChunkFromChunkCoords(coord.chunkXPos, coord.chunkZPos).isChunkLoaded) {
+				for(Entry<ChunkCoordIntPair, Float> chunk : buff.entrySet()) {
+					
+					if(chunk.getValue() == 0)
+						continue;
+					
+					ChunkCoordIntPair coord = chunk.getKey();
+					
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j<= 1; j++) {
 							
-							int x = coord.chunkXPos * 16 + world.rand.nextInt(16);
-							int z = coord.chunkZPos * 16 + world.rand.nextInt(16);
-							int y = world.getHeightValue(x, z) + world.rand.nextInt(5);
+							int type = Math.abs(i) + Math.abs(j);
+							float percent = type == 0 ? 0.6F : type == 1 ? 0.075F : 0.025F;
+							ChunkCoordIntPair newCoord = new ChunkCoordIntPair(coord.chunkXPos + i, coord.chunkZPos + j);
 							
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(x, y, z, 3), new TargetPoint(world.provider.dimensionId, x, y, z, 100));
+							if(buff.containsKey(newCoord)) {
+								Float val = radiation.get(newCoord);
+								float rad = val == null ? 0 : val;
+								float newRad = rad + chunk.getValue() * percent;
+								newRad = MathHelper.clamp_float(0F, newRad * 0.99F - 0.05F, maxRad);
+								radiation.put(newCoord, newRad);
+							} else {
+								radiation.put(newCoord, chunk.getValue() * percent);
+							}
+							
+							float rad = radiation.get(newCoord);
+							if(rad > RadiationConfig.fogRad && world != null && world.rand.nextInt(RadiationConfig.fogCh) == 0 && world.getChunkFromChunkCoords(coord.chunkXPos, coord.chunkZPos).isChunkLoaded) {
+								
+								int x = coord.chunkXPos * 16 + world.rand.nextInt(16);
+								int z = coord.chunkZPos * 16 + world.rand.nextInt(16);
+								int y = world.getHeightValue(x, z) + world.rand.nextInt(5);
+								
+								PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(x, y, z, 3), new TargetPoint(world.provider.dimensionId, x, y, z, 100));
+							}
 						}
 					}
 				}
 			}
+			lock = false;
 		}
 	}
 
 	@Override
 	public void receiveWorldLoad(WorldEvent.Load event) {
-		if(!event.world.isRemote)
+		if(!event.world.isRemote && !lock) {
+			lock = true;
 			perWorld.put(event.world, new SimpleRadiationPerWorld());
+			lock = false;
+		}
 	}
 
 	@Override
 	public void receiveWorldUnload(WorldEvent.Unload event) {
-		if(!event.world.isRemote)
+		if(!event.world.isRemote && !lock) {
+			lock = true;
 			perWorld.remove(event.world);
+			lock = false;
+		}
 	}
 	
 	private static final String NBT_KEY_CHUNK_RADIATION = "hfr_simple_radiation";
@@ -133,11 +150,15 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	@Override
 	public void receiveChunkLoad(ChunkDataEvent.Load event) {
 		
-		if(!event.world.isRemote) {
+		if(!event.world.isRemote && !lock) {
+			lock = true;
 			SimpleRadiationPerWorld radWorld = perWorld.get(event.world);
+			lock = false;
 			
-			if(radWorld != null) {
+			if(radWorld != null && !lock) {
+				lock = true;
 				radWorld.radiation.put(event.getChunk().getChunkCoordIntPair(), event.getData().getFloat(NBT_KEY_CHUNK_RADIATION));
+				lock = false;
 			}
 		}
 	}
@@ -145,10 +166,10 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	@Override
 	public void receiveChunkSave(ChunkDataEvent.Save event) {
 		
-		if(!event.world.isRemote) {
+		if(!event.world.isRemote && !lock) {
 			SimpleRadiationPerWorld radWorld = perWorld.get(event.world);
 			
-			if(radWorld != null) {
+			if(radWorld != null && !lock) {
 				Float val = radWorld.radiation.get(event.getChunk().getChunkCoordIntPair());
 				float rad = val == null ? 0F : val;
 				event.getData().setFloat(NBT_KEY_CHUNK_RADIATION, rad);
@@ -159,11 +180,15 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	@Override
 	public void receiveChunkUnload(ChunkEvent.Unload event) {
 		
-		if(!event.world.isRemote) {
+		if(!event.world.isRemote && !lock) {
+			lock = true;
 			SimpleRadiationPerWorld radWorld = perWorld.get(event.world);
+			lock = false;
 			
-			if(radWorld != null) {
+			if(radWorld != null && !lock) {
+				lock = true;
 				radWorld.radiation.remove(event.getChunk());
+				lock = false;
 			}
 		}
 	}
@@ -181,19 +206,19 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 		int chunks = 5;
 		
 		//for all worlds
-		for(Entry<World, SimpleRadiationPerWorld> per : perWorld.entrySet()) {
-			
-			World world = per.getKey();
-			SimpleRadiationPerWorld list = per.getValue();
-			
-			Object[] entries = list.radiation.entrySet().toArray();
-			
-			if(entries.length == 0)
-				continue;
-			
-			//chose this many random chunks
-			for(int c = 0; c < chunks; c++) {
+		for(Entry<World, SimpleRadiationPerWorld> per : perWorld.entrySet())
+			try {
+				World world = per.getKey();
+				SimpleRadiationPerWorld list = per.getValue();
 				
+				Object[] entries = list.radiation.entrySet().toArray();
+			
+				if(entries.length == 0)
+					continue;
+				
+				//chose this many random chunks
+				for(int c = 0; c < chunks; c++) {
+					
 				Entry<ChunkCoordIntPair, Float> randEnt = (Entry<ChunkCoordIntPair, Float>) entries[world.rand.nextInt(entries.length)];
 				
 				ChunkCoordIntPair coords = randEnt.getKey();
@@ -237,6 +262,9 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 					}
 				}
 			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			break;
 		}
 	}
 }
