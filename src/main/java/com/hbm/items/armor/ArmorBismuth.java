@@ -1,8 +1,6 @@
 package com.hbm.items.armor;
 
 import com.hbm.render.model.ModelArmorBismuth;
-import com.hbm.render.model.ModelArmorRPA;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;

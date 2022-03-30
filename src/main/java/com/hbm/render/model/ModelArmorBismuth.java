@@ -14,14 +14,14 @@ public class ModelArmorBismuth extends ModelArmorBase {
 	public ModelArmorBismuth(int type) {
 		super(type);
 
-		head = new ModelRendererObj(ResourceManager.armor_bismuth, "Head");
-		body = new ModelRendererObj(ResourceManager.armor_bismuth, "Body");
-		leftArm = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
-		rightArm = new ModelRendererObj(ResourceManager.armor_bismuth, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
-		leftLeg = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
-		rightLeg = new ModelRendererObj(ResourceManager.armor_bismuth, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
-		leftFoot = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftFoot").setRotationPoint(1.9F, 12.0F, 0.0F);
-		rightFoot = new ModelRendererObj(ResourceManager.armor_bismuth, "RightFoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
+//		head = new ModelRendererObj(ResourceManager.armor_bismuth, "Head");
+//		body = new ModelRendererObj(ResourceManager.armor_bismuth, "Body");
+//		leftArm = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
+//		rightArm = new ModelRendererObj(ResourceManager.armor_bismuth, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+//		leftLeg = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
+//		rightLeg = new ModelRendererObj(ResourceManager.armor_bismuth, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
+//		leftFoot = new ModelRendererObj(ResourceManager.armor_bismuth, "LeftFoot").setRotationPoint(1.9F, 12.0F, 0.0F);
+//		rightFoot = new ModelRendererObj(ResourceManager.armor_bismuth, "RightFoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
 	}
 
 	@Override
