@@ -283,8 +283,6 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_nuke_tots, 1), new Object[] { "PPP", "PIP", "PPP", 'P', ModItems.pellet_cluster, 'I', PU239.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_nuke_safe, 1), new Object[] { "G", "N", 'G', Items.glowstone_dust, 'N', ModItems.ammo_nuke_low });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_nuke_pumpkin, 1), new Object[] { " T ", "TST", " T ", 'T', Blocks.tnt, 'S', ModItems.assembly_nuke });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_nuke_barrel, 1), new Object[] { ModItems.nuclear_waste_pearl, ModItems.tank_steel });
-		
 		//MIRV recycling
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_nuke, 6), new Object[] { ModItems.ammo_mirv });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_nuke_low, 6), new Object[] { ModItems.ammo_mirv_low });
