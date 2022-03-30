@@ -113,7 +113,7 @@ public class HbmPotion extends Potion {
 						.isReplaceable(entity.worldObj, x, y, z) && 
 						BlockTaint.hasPosNeightbour(entity.worldObj, x, y, z)) {
 					
-					entity.worldObj.setBlock(x, y, z, ModBlocks.taint, 14, 2);
+//					entity.worldObj.setBlock(x, y, z, ModBlocks.taint, 14, 2);
 				}
 			}
 		}

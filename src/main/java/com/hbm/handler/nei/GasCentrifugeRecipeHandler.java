@@ -36,33 +36,34 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] { input }));
-		}
+            return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input}));
+        }
 
-		@Override
+        @Override
 		public List<PositionedStack> getOtherStacks() {
-			List<PositionedStack> stacks = new ArrayList<PositionedStack>();
-			stacks.add(fuels.get((cycleticks / 48) % fuels.size()).stack);
-			stacks.add(result2);
-			stacks.add(result3);
-			return stacks;
-		}
+        	List<PositionedStack> stacks = new ArrayList<PositionedStack>();
+            stacks.add(fuels.get((cycleticks / 48) % fuels.size()).stack);
+            stacks.add(result2);
+            stacks.add(result3);
+        	return stacks;
+        }
 
-		@Override
+        @Override
 		public PositionedStack getResult() {
-			return result1;
-		}
-	}
+            return result1;
+        }
+    }
 
-	public static class Fuel {
-		public Fuel(ItemStack ingred) {
+    public static class Fuel
+    {
+        public Fuel(ItemStack ingred) {
+        	
+            this.stack = new PositionedStack(ingred, 3, 42, false);
+        }
 
-			this.stack = new PositionedStack(ingred, 3, 42, false);
-		}
-
-		public PositionedStack stack;
-	}
-
+        public PositionedStack stack;
+    }
+    
 	@Override
 	public String getRecipeName() {
 		return "Gas Centrifuge";
@@ -87,13 +88,13 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 		}
 		return super.newInstance();
 	}
-
+	
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if((outputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
+		if ((outputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
 			Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
-			for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack) recipe.getValue()[0], (ItemStack) recipe.getValue()[1], (ItemStack) recipe.getValue()[2]));
+			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -112,7 +113,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if((inputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
+		if ((inputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
 			loadCraftingRecipes("gascentprocessing", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
@@ -122,24 +123,24 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
-		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if(compareFluidStacks(ingredient, (ItemStack) recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack) recipe.getValue()[0], (ItemStack) recipe.getValue()[1], (ItemStack) recipe.getValue()[2]));
+		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
+			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()))
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2]));				
 		}
 	}
-
+	
 	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {
 		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage();
 	}
 
-	@Override
-	public void drawExtras(int recipe) {
-		drawProgressBar(3, 51 - 45, 176, 0, 16, 34, 480, 7);
-		drawProgressBar(69, 26, 208, 0, 33, 12, 200, 0);
-	}
-
-	@Override
-	public void loadTransferRects() {
-		transferRects.add(new RecipeTransferRect(new Rectangle(69, 26, 32, 12), "gascentprocessing"));
-	}
+    @Override
+    public void drawExtras(int recipe) {
+        drawProgressBar(3, 51 - 45, 176, 0, 16, 34, 480, 7);
+        drawProgressBar(69, 26, 208, 0, 33, 12, 200, 0);
+    }
+    
+    @Override
+    public void loadTransferRects() {
+        transferRects.add(new RecipeTransferRect(new Rectangle(69, 26, 32, 12), "gascentprocessing"));
+    }
 }

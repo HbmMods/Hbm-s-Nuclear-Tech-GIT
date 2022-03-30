@@ -43,13 +43,19 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 					stack.getItem() == ModItems.ammo_nuke_pumpkin) {
 				renderNuke();
 				
-			} else if(stack.getItem() == ModItems.gun_fatman || stack.getItem() == ModItems.gun_proto || stack.getItem() == ModItems.gun_mirv) {
-				renderLauncher();
-				
-			} else if(stack.getItem() == ModItems.gun_lever_action) {
-				renderShotgun();
-				
-			} else {
+			}
+//			else if(
+//					stack.getItem() == ModItems.gun_fatman || 
+//					stack.getItem() == ModItems.gun_proto || 
+//					stack.getItem() == ModItems.gun_mirv) {
+//				renderLauncher();
+//				
+//			} 
+//			else if(stack.getItem() == ModItems.gun_lever_action) {
+//				renderShotgun();
+//				
+//			} 
+			else {
 				renderStandardItem(item.getW());
 			}
 			
@@ -79,7 +85,7 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0.5, -0.3751, -0.625);
 		
 		bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/FatmanLauncher.png"));
-		launcher.render(null, 0F, 0F, 0F, 0F, 0F, 0.0625F, new ItemStack(ModItems.gun_fatman));
+//		launcher.render(null, 0F, 0F, 0F, 0F, 0F, 0.0625F, new ItemStack(ModItems.gun_fatman));
 	}
 
 	protected ModelLeverAction shotgun;

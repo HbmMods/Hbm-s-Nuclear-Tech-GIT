@@ -33,18 +33,18 @@ public class GUIMachineBoilerElectric extends GuiInfoContainer {
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 69 - 52, 16, 52);
 
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 102, guiTop + 16, 8, 18, mouseX, mouseY, new String[] { String.valueOf((int)((double)diFurnace.heat / 100D)) + "째C"});
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 102, guiTop + 16, 8, 18, mouseX, mouseY, new String[] { String.valueOf((int)((double)diFurnace.heat / 100D)) + "캜"});
 		
 		String[] text = new String[] { "Heat produced:",
-				"  1.5째C/t",
-				"  or 30째C/s",
+				"  1.5캜/t",
+				"  or 30캜/s",
 				"Heat consumed:",
-				"  0.15째C/t",
-				"  or 3.0째C/s (base)",
-				"  0.25째C/t",
-				"  or 5.0째C/t (once boiling point is reached)",
-				"  0.4째C/t",
-				"  or 8.0째C/t (for every subsequent multiple of boiling point)" };
+				"  0.15캜/t",
+				"  or 3.0캜/s (base)",
+				"  0.25캜/t",
+				"  or 5.0캜/t (once boiling point is reached)",
+				"  0.4캜/t",
+				"  or 8.0캜/t (for every subsequent multiple of boiling point)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
 		String[] text1 = new String[] { "Boiling rate:",

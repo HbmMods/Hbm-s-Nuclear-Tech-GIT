@@ -381,10 +381,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			tess.startDrawingQuads();
 			tess.setColorOpaque_I(color);
-			tess.addVertex(renX, renY + height, z);
-			tess.addVertex(renX + width, renY + height, z);
-			tess.addVertex(renX + width, renY + 0, z);
-			tess.addVertex(renX, renY, z);
+	        tess.addVertex(renX, renY + height, z);
+	        tess.addVertex(renX + width, renY + height, z);
+	        tess.addVertex(renX + width, renY + 0, z);
+	        tess.addVertex(renX, renY, z);
 			tess.draw();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}

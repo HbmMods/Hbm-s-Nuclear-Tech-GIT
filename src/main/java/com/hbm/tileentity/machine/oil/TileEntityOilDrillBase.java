@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.LordWeeder.EconomyPlus.compatibility.xradar.nodes.OilResource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -18,6 +19,9 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.tileentity.clowder.TileEntityFlagBig;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -109,30 +113,15 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 				
 				if(worldObj.getTotalWorldTime() % getDelayEff() == 0) {
 					this.indicator = 0;
-					
-					for(int y = yCoord - 1; y >= getDrillDepth(); y--) {
-						
-						if(worldObj.getBlock(xCoord, y, zCoord) != ModBlocks.oil_pipe) {
-						
-							if(trySuck(y)) {
-								break;
-							} else {
-								tryDrill(y);
-								break;
-							}
-						}
-						
-						if(y == getDrillDepth())
-							this.indicator = 1;
-					}
+					if(canPump())
+						onSuck();
 				}
 				
 			} else {
 				this.indicator = 2;
 			}
-			
 			this.sendUpdate();
-		}
+		}	
 	}
 	
 	protected abstract void updateConnections();
@@ -147,10 +136,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.indicator = nbt.getInteger("indicator");
-	}
-	
-	public boolean canPump() {
-		return true;
 	}
 
 	@Override
@@ -171,87 +156,25 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		return Math.max((delay - (delay / 4 * this.speedLevel) + (delay / 10 * this.energyLevel) / this.overLevel), 1);
 	}
 	
-	public abstract int getPowerReq();
-	public abstract int getDelay();
-	
-	public void tryDrill(int y) {
-		Block b = worldObj.getBlock(xCoord, y, zCoord);
-		
-		if(b.getExplosionResistance(null) < 1000) {
-			onDrill(y);
-			worldObj.setBlock(xCoord, y, zCoord, ModBlocks.oil_pipe);
-		} else {
-			this.indicator = 2;
-		}
-	}
-	
-	public void onDrill(int y) { }
-	
-	public int getDrillDepth() {
-		return 5;
-	}
-	
-	public boolean trySuck(int y) {
-		
-		Block b = worldObj.getBlock(xCoord, y, zCoord);
-		
-		if(!canSuckBlock(b))
-			return false;
-		
-		if(!this.canPump())
-			return true;
-		
-		trace.clear();
-		
-		return suckRec(xCoord, y, zCoord, 0);
-	}
-	
-	public boolean canSuckBlock(Block b) {
-		return b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty;
-	}
-	
-	protected HashSet<Tuple.Triplet<Integer, Integer, Integer>> trace = new HashSet();
-	
-	public boolean suckRec(int x, int y, int z, int layer) {
-		
-		Triplet<Integer, Integer, Integer> pos = new Triplet(x, y, z);
-		
-		if(trace.contains(pos))
-			return false;
-		
-		trace.add(pos);
-		
-		if(layer > 64)
-			return false;
-		
-		Block b = worldObj.getBlock(x, y, z);
-		
-		if(b == ModBlocks.ore_oil || b == ModBlocks.ore_bedrock_oil) {
-			doSuck(x, y, z);
-			return true;
-		}
-		
-		if(b == ModBlocks.ore_oil_empty) {
-			ForgeDirection[] dirs = BobMathUtil.getShuffledDirs();
-			
-			for(ForgeDirection dir : dirs) {
-				if(suckRec(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, layer + 1))
+	public boolean canPump() {
+		TerritoryMeta meta = ClowderTerritory.getMetaFromIntCoords(xCoord, zCoord);
+		if(meta != null && worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ) != null) {
+			TileEntity te = worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
+			if(te instanceof TileEntityFlagBig) {
+				TileEntityFlagBig flag = (TileEntityFlagBig) te;
+				if(flag.nodeResource != null && flag.nodeResource instanceof OilResource)
 					return true;
 			}
 		}
-		
+		this.indicator = 1;
 		return false;
 	}
+	public abstract int getPowerReq();
+	public abstract int getDelay();
 	
-	public void doSuck(int x, int y, int z) {
-		
-		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
-			onSuck(x, y, z);
-			worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
-		}
-	}
+	protected HashSet<Tuple.Triplet<Integer, Integer, Integer>> trace = new HashSet();
 	
-	public abstract void onSuck(int x, int y, int z);
+	public abstract void onSuck();
 
 	@Override
 	public boolean getTact() {

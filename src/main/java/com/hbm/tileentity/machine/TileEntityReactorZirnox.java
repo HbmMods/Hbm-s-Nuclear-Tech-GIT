@@ -198,8 +198,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 					if(slots[i] != null) {
 						if(slots[i].getItem() instanceof ItemZirnoxRod)
 							decay(i);
-						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
-							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
 					}
 				}
 			}

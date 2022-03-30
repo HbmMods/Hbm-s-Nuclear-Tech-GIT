@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeLemon extends EntityGrenadeBouncyBase
+public abstract class EntityGrenadeLemon extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -36,10 +36,10 @@ public class EntityGrenadeLemon extends EntityGrenadeBouncyBase
         }
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_lemon);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_lemon);
+//	}
 
 	@Override
 	protected double getBounceMod() {

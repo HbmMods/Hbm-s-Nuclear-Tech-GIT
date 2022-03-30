@@ -61,26 +61,26 @@ public class ItemRenderMultitool implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				//GL11.glTranslatef(-0.4F, -0.1F, 0.1F);
 				GL11.glTranslatef(-0.2F, -0.1F, -0.1F);
-				if(item != null && item.getItem() == ModItems.multitool_dig)
-					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_silk)
-					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_ext)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_miner)
-					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_hit)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_beam)
-					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_sky)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_mega)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_joule)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_decon)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_dig)
+//					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_silk)
+//					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_ext)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_miner)
+//					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_hit)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_beam)
+//					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_sky)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_mega)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_joule)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_decon)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
 				GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
@@ -104,26 +104,26 @@ public class ItemRenderMultitool implements IItemRenderer {
 
 				GL11.glTranslatef(-4 * 0.0625F, 2 * 0.0625F, -9 * 0.0625F);
 				
-				if(item != null && item.getItem() == ModItems.multitool_dig)
-					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_silk)
-					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_ext)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_miner)
-					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_hit)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_beam)
-					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_sky)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_mega)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_joule)
-					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item != null && item.getItem() == ModItems.multitool_decon)
-					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_dig)
+//					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_silk)
+//					claw.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_ext)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_miner)
+//					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_hit)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_beam)
+//					pointer.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_sky)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_mega)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_joule)
+//					fist.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+//				if(item != null && item.getItem() == ModItems.multitool_decon)
+//					open.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				
 			GL11.glPopMatrix();
 		default: break;

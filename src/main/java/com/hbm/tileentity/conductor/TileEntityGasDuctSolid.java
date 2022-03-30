@@ -24,4 +24,5 @@ public class TileEntityGasDuctSolid extends TileEntity implements IFluidDuct {
 	public boolean setType(FluidType type) {
 		return false;
 	}
+	
 }

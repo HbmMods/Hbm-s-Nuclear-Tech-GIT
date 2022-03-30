@@ -50,7 +50,9 @@ public class GunXVL1456 extends Item {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
-			if (flag || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
+			if (flag 
+//					|| player.inventory.hasItem(ModItems.gun_xvl1456_ammo)
+					) {
 				EntityBullet entitybullet = new EntityBullet(world, player, 3.0F, j, j + 5, false, "tauDay");
 
 				entitybullet.setDamage(j + rand.nextInt(6));
@@ -60,7 +62,7 @@ public class GunXVL1456 extends Item {
 				if (flag) {
 					entitybullet.canBePickedUp = 2;
 				} else {
-					player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
+//					player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
 				}
 
 				entitybullet.setIsCritical(true);
@@ -103,32 +105,33 @@ public class GunXVL1456 extends Item {
 		if (!player.isSneaking()) {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) && count % 4 == 0) {
-
-				EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 25, 65, false, "eyyOk");
-				entityarrow.setDamage(25 + rand.nextInt(65 - 25));
-
-				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
-
-				if (flag) {
-					entityarrow.canBePickedUp = 2;
-				} else {
-					player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
-				}
-				
-				if (!world.isRemote) {
-					world.spawnEntityInWorld(entityarrow);
-				}
-			}
-		} else {
+//			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) && count % 4 == 0) {
+//
+//				EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 25, 65, false, "eyyOk");
+//				entityarrow.setDamage(25 + rand.nextInt(65 - 25));
+//
+//				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
+//
+//				if (flag) {
+//					entityarrow.canBePickedUp = 2;
+//				} else {
+//					player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
+//				}
+//				
+//				if (!world.isRemote) {
+//					world.spawnEntityInWorld(entityarrow);
+//				}
+//			}
+		}else 
+		{
 			if (count % 20 == 0 && this.getMaxItemUseDuration(stack) - count != 0) {
 				boolean flag = player.capabilities.isCreativeMode
 						|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-				if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo))) {
-					if (!flag) {
-						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
-					}
-				}
+//				if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo))) {
+//					if (!flag) {
+//						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
+//					}
+//				}
 			}
 			
 			world.playSoundAtEntity(player, "hbm:misc.nullTau", 0.1F, 1.0F);

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelStinger;
 
 import net.minecraft.client.Minecraft;
@@ -14,6 +13,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderStinger implements IItemRenderer {
+	
+	protected ModelStinger stinger;
+	
+	public ItemRenderStinger() {
+		stinger = new ModelStinger();
+	}
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -33,56 +38,39 @@ public class ItemRenderStinger implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		
-		ResourceLocation stingerTex = item.getItem() == ModItems.gun_stinger ? ResourceManager.stinger_tex : ResourceManager.sky_stinger_tex;
-		Minecraft.getMinecraft().renderEngine.bindTexture(stingerTex);
-		GL11.glPushMatrix();
-		
 		switch(type) {
-		
 		case EQUIPPED_FIRST_PERSON:
-			
-			double s0 = 0.25D;
-			GL11.glRotated(25, 0, 0, 1);
-			GL11.glTranslated(-0.5, -0.7, -0.5);
-			GL11.glRotated(-100, 0, 1, 0);
-			GL11.glScaled(s0, s0, s0);
-				
+			GL11.glPushMatrix();
+//				if(item.getItem() == ModItems.gun_stinger)
+//					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelStinger.png"));
+//				if(item.getItem() == ModItems.gun_skystinger)
+//					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSkyStinger.png"));
+				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glTranslatef(-0.3F, 0.0F, -0.1F);
+				GL11.glScalef(2.0F, 2.0F, 2.0F);
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				stinger.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			GL11.glPopMatrix();
 			break;
-			
 		case EQUIPPED:
-
-			double scale = 0.25D;
-			GL11.glScaled(scale, scale, scale);
-			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(-170, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-15F, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslatef(-2F, -3F, 4.0F);
-			
-			break;
-			
 		case ENTITY:
-
-			double s1 = 0.2D;
-			GL11.glScaled(s1, s1, s1);
-			GL11.glTranslatef(0F, -2.5F, 0F);
-			break;
-			
-		case INVENTORY:
-
-			GL11.glEnable(GL11.GL_LIGHTING);
-			
-			double s = 1.75D;
-			GL11.glTranslated(4, 11, 0);
-			GL11.glRotated(90, 0, 1, 0);
-			GL11.glRotated(135, 1, 0, 0);
-			GL11.glScaled(s, s, -s);
-			
-			break;
-			
-		default: break;	
+			GL11.glPushMatrix();
+//				if(item.getItem() == ModItems.gun_stinger)
+//					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelStinger.png"));
+//				if(item.getItem() == ModItems.gun_skystinger)
+//					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSkyStinger.png"));
+				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glTranslatef(0.0F, -0.2F, -0.5F);
+				GL11.glRotatef(-5.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glTranslatef(0.2F, -0.2F, 0.1F);
+				GL11.glScalef(1.5F, 1.5F, 1.5F);
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				stinger.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			GL11.glPopMatrix();
+		default: break;
 		}
-		ResourceManager.stinger.renderAll();
-		GL11.glPopMatrix();
 	}
 }

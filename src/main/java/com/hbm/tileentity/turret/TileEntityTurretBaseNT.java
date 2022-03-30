@@ -8,7 +8,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
-import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -569,25 +568,33 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(targetAnimals) {
 			
-			if(e instanceof IAnimals) return true;
-			if(e instanceof INpc) return true;
+			if(e instanceof IAnimals)
+				return true;
+			if(e instanceof INpc)
+				return true;
 		}
 		
 		if(targetMobs) {
 
 			//never target the ender dragon directly
-			if(e instanceof EntityDragon) return false;
-			if(e instanceof EntityDragonPart) return true;
-			if(e instanceof IMob) return true;
+			if(e instanceof EntityDragon)
+				return false;
+			if(e instanceof EntityDragonPart)
+				return true;
+			if(e instanceof IMob)
+				return true;
 		}
 		
 		if(targetMachines) {
 
-			if(e instanceof EntityMissileBaseAdvanced) return true;
-			if(e instanceof EntityMissileCustom) return true;
-			if(e instanceof EntityMinecart) return true;
-			if(e instanceof EntityBomber) return true;
-			if(e instanceof EntitySiegeDropship) return true;
+			if(e instanceof EntityMissileBaseAdvanced)
+				return true;
+			if(e instanceof EntityMissileCustom)
+				return true;
+			if(e instanceof EntityMinecart)
+				return true;
+			if(e instanceof EntityBomber)
+				return true;
 		}
 		
 		if(targetPlayers && e instanceof EntityPlayer) {

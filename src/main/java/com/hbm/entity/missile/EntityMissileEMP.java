@@ -12,7 +12,7 @@ import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileEMP extends EntityMissileBaseAdvanced {
+public abstract class EntityMissileEMP extends EntityMissileBaseAdvanced {
 
 	public EntityMissileEMP(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -48,10 +48,10 @@ public class EntityMissileEMP extends EntityMissileBaseAdvanced {
 		return list;
 	}
 
-	@Override
-	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModBlocks.emp_bomb, 1);
-	}
+//	@Override
+//	public ItemStack getDebrisRareDrop() {
+//		return new ItemStack(ModBlocks.emp_bomb, 1);
+//	}
 
 	@Override
 	public RadarTargetType getTargetType() {

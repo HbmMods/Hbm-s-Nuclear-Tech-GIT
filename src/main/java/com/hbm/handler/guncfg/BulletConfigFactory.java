@@ -38,7 +38,7 @@ public class BulletConfigFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.gun_revolver_ammo;
+//		bullet.ammo = ModItems.gun_revolver_ammo;
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;
@@ -87,12 +87,6 @@ public class BulletConfigFactory {
 		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		bullet.leadChance = 5;
 		
-		return bullet;
-	}
-	public static BulletConfiguration standardPistolConfig() {
-		BulletConfiguration bullet = standardBulletConfig();
-		bullet.style = BulletConfiguration.STYLE_PISTOL;
-		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		return bullet;
 	}
 	

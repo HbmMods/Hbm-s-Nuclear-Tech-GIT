@@ -31,13 +31,19 @@ public class EntityGrenadeTau extends EntityGrenadeBouncyBase {
 		}
 	}
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_tau);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_tau);
+//	}
 
 	@Override
 	protected double getBounceMod() {
 		return 0.25D;
+	}
+
+	@Override
+	protected int getMaxTimer() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

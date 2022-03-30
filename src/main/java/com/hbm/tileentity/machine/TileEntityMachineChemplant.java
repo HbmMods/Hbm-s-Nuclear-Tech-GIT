@@ -258,9 +258,6 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		this.power -= this.consumption;
 		this.progress++;
 		
-		if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_machined)
-			slots[0] = new ItemStack(ModItems.meteorite_sword_treated); //fisfndmoivndlmgindgifgjfdnblfm
-		
 		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(slots[4].getItemDamage());
 		
 		this.maxProgress = recipe.getDuration() * this.speed / 100;
@@ -390,8 +387,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
 						
 						if(inv.getStackInSlot(j) == null) {
-							inv.setInventorySlotContents(j, out.copy());
-							inv.getStackInSlot(j).stackSize = 1;
+							ItemStack stack = out.copy();
+							stack.stackSize = 1;
+							inv.setInventorySlotContents(j, stack);
 							this.decrStackSize(i, 1);
 							return;
 						}

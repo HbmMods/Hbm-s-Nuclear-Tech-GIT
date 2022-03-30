@@ -21,7 +21,9 @@ public class TileEntityChlorineSeal extends TileEntity {
 		if(worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
 			worldObj.setBlock(x, y, z, ModBlocks.chlorine_gas);
 		
-		if(worldObj.getBlock(x, y, z) != ModBlocks.chlorine_gas && worldObj.getBlock(x, y, z) != ModBlocks.vent_chlorine_seal)
+		if(worldObj.getBlock(x, y, z) != ModBlocks.chlorine_gas
+//				&& worldObj.getBlock(x, y, z) != ModBlocks.vent_chlorine_seal
+				)
 			return;
 		
 		switch(worldObj.rand.nextInt(6)) {

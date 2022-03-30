@@ -10,7 +10,7 @@ public interface IDoor {
 		return false;
 	}
 	public default void setTextureState(byte tex) { };
-	
+
 	public enum DoorState {
 		CLOSED,
 		OPEN,

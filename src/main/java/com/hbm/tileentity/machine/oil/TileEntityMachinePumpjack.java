@@ -50,34 +50,6 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	}
 
 	@Override
-	public void onDrill(int y) {
-		Block b = worldObj.getBlock(xCoord, y, zCoord);
-		ItemStack stack = new ItemStack(b);
-		int[] ids = OreDictionary.getOreIDs(stack);
-		for(Integer i : ids) {
-			String name = OreDictionary.getOreName(i);
-			
-			if("oreUranium".equals(name)) {
-				for(int j = 2; j < 6; j++) {
-					ForgeDirection dir = ForgeDirection.getOrientation(j);
-					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ).isReplaceable(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ)) {
-						worldObj.setBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, ModBlocks.gas_radon_dense);
-					}
-				}
-			}
-			
-			if("oreAsbestos".equals(name)) {
-				for(int j = 2; j < 6; j++) {
-					ForgeDirection dir = ForgeDirection.getOrientation(j);
-					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ).isReplaceable(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ)) {
-						worldObj.setBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, ModBlocks.gas_asbestos);
-					}
-				}
-			}
-		}
-	}
-
-	@Override
 	public void updateEntity() {
 		super.updateEntity();
 		
@@ -113,7 +85,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	}
 
 	@Override
-	public void onSuck(int x, int y, int z) {
+	public void onSuck() {
 		
 		this.tanks[0].setFill(this.tanks[0].getFill() + 750);
 		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());

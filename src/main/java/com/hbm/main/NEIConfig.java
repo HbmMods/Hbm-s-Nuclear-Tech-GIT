@@ -15,6 +15,11 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
+		API.registerRecipeHandler(new CrackingHandler());
+		API.registerUsageHandler(new CrackingHandler());
+		API.registerRecipeHandler(new FractioningHandler());
+		API.registerUsageHandler(new FractioningHandler());
+		
 		API.registerRecipeHandler(new AlloyFurnaceRecipeHandler());
 		API.registerUsageHandler(new AlloyFurnaceRecipeHandler());
 		API.registerRecipeHandler(new CentrifugeRecipeHandler());
@@ -59,6 +64,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new FuelPoolHandler());
 		API.registerRecipeHandler(new RadiolysisRecipeHandler());
 		API.registerUsageHandler(new RadiolysisRecipeHandler());
+		API.registerRecipeHandler(new SolidificationHandler());
+		API.registerUsageHandler(new SolidificationHandler());
 		
 		//universal boyes
 		API.registerRecipeHandler(new ZirnoxRecipeHandler());
@@ -69,12 +76,6 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.registerRecipeHandler(new LiquefactionHandler());
 		API.registerUsageHandler(new LiquefactionHandler());
-		API.registerRecipeHandler(new SolidificationHandler());
-		API.registerUsageHandler(new SolidificationHandler());
-		API.registerRecipeHandler(new CrackingHandler());
-		API.registerUsageHandler(new CrackingHandler());
-		API.registerRecipeHandler(new FractioningHandler());
-		API.registerUsageHandler(new FractioningHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
@@ -128,11 +129,11 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_radgen));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
 
 		API.hideItem(new ItemStack(ModBlocks.pink_log));
 		API.hideItem(new ItemStack(ModBlocks.pink_planks));

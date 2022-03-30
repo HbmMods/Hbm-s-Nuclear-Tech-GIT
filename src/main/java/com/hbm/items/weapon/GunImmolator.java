@@ -53,15 +53,17 @@ public class GunImmolator extends Item {
 		if (!player.isSneaking()) {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_immolator_ammo))) {
+			if ((player.capabilities.isCreativeMode 
+//					|| player.inventory.hasItem(ModItems.gun_immolator_ammo)
+					)) {
 				EntityFire entityarrow = new EntityFire(world, player, 3.0F);
 				entityarrow.setDamage(6 + rand.nextInt(5));
 
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
 				} else {
-					if(count % 10 == 0)
-						player.inventory.consumeInventoryItem(ModItems.gun_immolator_ammo);
+//					if(count % 10 == 0)
+//						player.inventory.consumeInventoryItem(ModItems.gun_immolator_ammo);
 				}
 
 				if(count == this.getMaxItemUseDuration(stack))
@@ -76,15 +78,17 @@ public class GunImmolator extends Item {
 		} else {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_immolator_ammo))) {
+			if ((player.capabilities.isCreativeMode 
+//					|| player.inventory.hasItem(ModItems.gun_immolator_ammo)
+					)) {
 
 				EntityPlasmaBeam plasma = new EntityPlasmaBeam(world, player, 1F);
 				
 				if (flag) {
 					plasma.canBePickedUp = 2;
 				} else {
-					if(count % 4 == 0)
-						player.inventory.consumeInventoryItem(ModItems.gun_immolator_ammo);
+//					if(count % 4 == 0)
+//						player.inventory.consumeInventoryItem(ModItems.gun_immolator_ammo);
 				}
 
 				if(count == this.getMaxItemUseDuration(stack))

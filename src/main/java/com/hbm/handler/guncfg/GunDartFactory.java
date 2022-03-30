@@ -117,10 +117,10 @@ public class GunDartFactory {
 						
 						EntityPlayer shooter = (EntityPlayer) bullet.shooter;
 						
-						if(shooter.getHeldItem() != null && shooter.getHeldItem().getItem() == ModItems.gun_darter) {
-							ItemGunDart.writePlayer(shooter.getHeldItem(), (EntityPlayer)hit);
-							shooter.playSound("random.orb", 1.0F, 1.0F);
-						}
+//						if(shooter.getHeldItem() != null && shooter.getHeldItem().getItem() == ModItems.gun_darter) {
+//							ItemGunDart.writePlayer(shooter.getHeldItem(), (EntityPlayer)hit);
+//							shooter.playSound("random.orb", 1.0F, 1.0F);
+//						}
 					}
 				}
 			}

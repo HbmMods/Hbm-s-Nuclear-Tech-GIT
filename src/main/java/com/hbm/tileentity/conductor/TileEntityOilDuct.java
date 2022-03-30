@@ -26,6 +26,11 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	}
 	
 	@Override
+	public boolean setType(FluidType type) {
+		return false;
+	}
+	
+	@Override
 	public void updateEntity() {
 		
 		//if(!worldObj.isRemote)
@@ -77,10 +82,5 @@ public class TileEntityOilDuct extends TileEntity implements IFluidDuct {
 	@Override
 	public FluidType getType() {
 		return type;
-	}
-
-	@Override
-	public boolean setType(FluidType type) {
-		return false;
 	}
 }

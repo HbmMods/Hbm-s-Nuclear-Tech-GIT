@@ -169,7 +169,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getNoPipConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44;
 		bullet.dmgMin = 18;
@@ -180,7 +180,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getNoPipAPConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_ap;
 		bullet.dmgMin = 25;
@@ -193,7 +193,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getNoPipDUConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_du;
 		bullet.dmgMin = 28;
@@ -206,7 +206,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getPhosphorusConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_phosphorus;
 		bullet.dmgMin = 18;
@@ -240,7 +240,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getNoPipStarConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_star;
 		bullet.dmgMin = 42;
@@ -253,7 +253,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getPipConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_pip;
 		bullet.dmgMin = 30;
@@ -290,7 +290,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getBJConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_bj;
 		bullet.dmgMin = 30;
@@ -328,7 +328,7 @@ public class Gun44MagnumFactory {
 	
 	public static BulletConfiguration getSilverStormConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_44_silver;
 		bullet.dmgMin = 30;

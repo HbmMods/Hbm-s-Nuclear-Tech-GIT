@@ -79,14 +79,14 @@ public class CompactLauncher extends BlockContainer implements IMultiblock, IBom
 			return;
 		}
 
-		placeDummy(world, x + 1, y, z + 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(world, x + 1, y, z, x, y, z, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(world, x + 1, y, z - 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(world, x, y, z - 1, x, y, z, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(world, x - 1, y, z - 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(world, x - 1, y, z, x, y, z, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(world, x - 1, y, z + 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(world, x, y, z + 1, x, y, z, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(world, x + 1, y, z + 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(world, x + 1, y, z, x, y, z, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(world, x + 1, y, z - 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(world, x, y, z - 1, x, y, z, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(world, x - 1, y, z - 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(world, x - 1, y, z, x, y, z, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(world, x - 1, y, z + 1, x, y, z, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(world, x, y, z + 1, x, y, z, ModBlocks.dummy_plate_compact_launcher);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 
