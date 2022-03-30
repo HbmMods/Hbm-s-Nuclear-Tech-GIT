@@ -66,7 +66,7 @@ public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
 		Tessellator tessellator = Tessellator.instance;
-		int meta = world.getBlockMetadata(x, y, z);
+		//int meta = world.getBlockMetadata(x, y, z);
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		

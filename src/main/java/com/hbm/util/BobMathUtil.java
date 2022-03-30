@@ -15,6 +15,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BobMathUtil {
 	
+	public static double safeClamp(double val, double min, double max) {
+
+		val = MathHelper.clamp_double(val, min, max);
+		
+		if(val == Double.NaN) {
+			val = (min + max) / 2D;
+		}
+		
+		return val;
+	}
+	
 	public static Vec3 interpVec(Vec3 vec1, Vec3 vec2, float interp) {
 		return Vec3.createVectorHelper(
 				interp(vec1.xCoord,  vec2.xCoord, interp),

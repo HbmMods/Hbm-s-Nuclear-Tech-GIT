@@ -2,7 +2,9 @@ package com.hbm.items.armor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -40,7 +42,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 //Armor with full set bonus
-public class ArmorFSB extends ItemArmor {
+public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 	private String texture = "";
 	private ResourceLocation overlay = null;
@@ -564,5 +566,23 @@ public class ArmorFSB extends ItemArmor {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	private HashSet<EnumPlayerPart> hidden = new HashSet();
+	private boolean needsFullSet = false;
+	
+	public ArmorFSB hides(EnumPlayerPart... parts) {
+		Collections.addAll(hidden, parts);
+		return this;
+	}
+	
+	public ArmorFSB setFullSetForHide() {
+		needsFullSet = true;
+		return this;
+	}
+	
+	@Override
+	public boolean disablesPart(EntityPlayer player, ItemStack stack, EnumPlayerPart part) {
+		return hidden.contains(part) && (!needsFullSet || hasFSBArmorIgnoreCharge(player));
 	}
 }

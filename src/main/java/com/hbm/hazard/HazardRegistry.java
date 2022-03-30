@@ -527,7 +527,7 @@ public class HazardRegistry {
 		HazardData data = new HazardData();
 		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierRTGRadiation(target)));
 		if(hot > 0) data.addEntry(new HazardEntry(HOT, hot));
-		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, hot));
+		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, blinding));
 		HazardSystem.register(pellet, data);
 	}
 	

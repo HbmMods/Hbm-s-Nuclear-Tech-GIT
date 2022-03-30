@@ -11,6 +11,7 @@ import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.armor.*;
+import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
 import com.hbm.items.food.*;
 import com.hbm.items.machine.*;
@@ -2247,6 +2248,7 @@ public class ModItems {
 	public static Item cape_radiation;
 	public static Item cape_gasmask;
 	public static Item cape_schrabidium;
+	public static Item cape_hidden;
 	/*public static Item cape_hbm;
 	public static Item cape_dafnik;
 	public static Item cape_lpkukin;
@@ -5376,6 +5378,7 @@ public class ModItems {
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
 		cape_gasmask = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_gasmask").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_gasmask");
 		cape_schrabidium = new ArmorModel(MainRegistry.aMatSchrab, 9, 1).setUnlocalizedName("cape_schrabidium").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_schrabidium");
+		cape_hidden = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_hidden").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		bottle_opener = new WeaponSpecial(MainRegistry.enumToolMaterialBottleOpener).setUnlocalizedName("bottle_opener").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":bottle_opener");
 		pch = new WeaponSpecial(MainRegistry.tMatHammmer).setUnlocalizedName("pch").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
@@ -7548,6 +7551,7 @@ public class ModItems {
 		GameRegistry.registerItem(cape_radiation, cape_radiation.getUnlocalizedName());
 		GameRegistry.registerItem(cape_gasmask, cape_gasmask.getUnlocalizedName());
 		GameRegistry.registerItem(cape_schrabidium, cape_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(cape_hidden, cape_hidden.getUnlocalizedName());
 		
 		//Tools
 		

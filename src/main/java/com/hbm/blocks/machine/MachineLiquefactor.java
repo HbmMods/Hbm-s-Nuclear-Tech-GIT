@@ -6,11 +6,9 @@ import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
