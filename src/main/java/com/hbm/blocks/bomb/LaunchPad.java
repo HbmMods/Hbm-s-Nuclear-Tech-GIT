@@ -191,92 +191,92 @@ public class LaunchPad extends BlockContainer implements IBomb {
 			
 			Entity missile = null;
 
-			if(entity.slots[0].getItem() == ModItems.missile_generic) {
-				missile = new EntityMissileGeneric(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_incendiary) {
-				missile = new EntityMissileIncendiary(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_cluster) {
-				missile = new EntityMissileCluster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_buster) {
-				missile = new EntityMissileBunkerBuster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_strong) {
-				missile = new EntityMissileStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_incendiary_strong) {
-				missile = new EntityMissileIncendiaryStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_cluster_strong) {
-				missile = new EntityMissileClusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_buster_strong) {
-				missile = new EntityMissileBusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_burst) {
-				missile = new EntityMissileBurst(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_inferno) {
-				missile = new EntityMissileInferno(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_rain) {
-				missile = new EntityMissileRain(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_drill) {
-				missile = new EntityMissileDrill(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_nuclear) {
-				missile = new EntityMissileNuclear(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_endo) {
-				missile = new EntityMissileEndo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_exo) {
-				missile = new EntityMissileExo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_nuclear_cluster) {
-				missile = new EntityMissileMirv(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_doomsday) {
-				missile = new EntityMissileDoomsday(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_taint) {
-				missile = new EntityMissileTaint(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_micro) {
-				missile = new EntityMissileMicro(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_bhole) {
-				missile = new EntityMissileBHole(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_schrabidium) {
-				missile = new EntityMissileSchrabidium(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_emp) {
-				missile = new EntityMissileEMP(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_emp_strong) {
-				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_volcano) {
-				missile = new EntityMissileVolcano(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_shuttle) {
-				missile = new EntityMissileShuttle(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
+//			if(entity.slots[0].getItem() == ModItems.missile_generic) {
+//				missile = new EntityMissileGeneric(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_incendiary) {
+//				missile = new EntityMissileIncendiary(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_cluster) {
+//				missile = new EntityMissileCluster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_buster) {
+//				missile = new EntityMissileBunkerBuster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_strong) {
+//				missile = new EntityMissileStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_incendiary_strong) {
+//				missile = new EntityMissileIncendiaryStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_cluster_strong) {
+//				missile = new EntityMissileClusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_buster_strong) {
+//				missile = new EntityMissileBusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_burst) {
+//				missile = new EntityMissileBurst(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_inferno) {
+//				missile = new EntityMissileInferno(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_rain) {
+//				missile = new EntityMissileRain(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_drill) {
+//				missile = new EntityMissileDrill(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_nuclear) {
+//				missile = new EntityMissileNuclear(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_endo) {
+//				missile = new EntityMissileEndo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_exo) {
+//				missile = new EntityMissileExo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_nuclear_cluster) {
+//				missile = new EntityMissileMirv(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_doomsday) {
+//				missile = new EntityMissileDoomsday(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_taint) {
+//				missile = new EntityMissileTaint(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_micro) {
+//				missile = new EntityMissileMicro(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_bhole) {
+//				missile = new EntityMissileBHole(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_schrabidium) {
+//				missile = new EntityMissileSchrabidium(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_emp) {
+//				missile = new EntityMissileEMP(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_emp_strong) {
+//				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_volcano) {
+//				missile = new EntityMissileVolcano(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
+//			if(entity.slots[0].getItem() == ModItems.missile_shuttle) {
+//				missile = new EntityMissileShuttle(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+//			}
 
-			if(missile != null) {
-				world.spawnEntityInWorld(missile);
-				world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
-				entity.power -= 75000;
-				entity.slots[0] = null;
-	
-				if(GeneralConfig.enableExtendedLogging)
-					MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
-				return BombReturnCode.LAUNCHED;
-			}
+//			if(missile != null) {
+//				world.spawnEntityInWorld(missile);
+//				world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+//				entity.power -= 75000;
+//				entity.slots[0] = null;
+//	
+//				if(GeneralConfig.enableExtendedLogging)
+//					MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
+//				return BombReturnCode.LAUNCHED;
+//			}
 			
 			return BombReturnCode.ERROR_MISSING_COMPONENT;
 		}
@@ -299,19 +299,19 @@ public class LaunchPad extends BlockContainer implements IBomb {
 			return BombReturnCode.LAUNCHED;
 		}
 
-		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
-			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(world);
-			missile.posX = x + 0.5F;
-			missile.posY = y + 0.5F;
-			missile.posZ = z + 0.5F;
-			
-			world.spawnEntityInWorld(missile);
-			entity.power -= 75000;
-
-			entity.slots[0] = null;
-			world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
-			return BombReturnCode.LAUNCHED;
-		}
+//		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
+//			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(world);
+//			missile.posX = x + 0.5F;
+//			missile.posY = y + 0.5F;
+//			missile.posZ = z + 0.5F;
+//			
+//			world.spawnEntityInWorld(missile);
+//			entity.power -= 75000;
+//
+//			entity.slots[0] = null;
+//			world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+//			return BombReturnCode.LAUNCHED;
+//		}
 		
 		return BombReturnCode.ERROR_MISSING_COMPONENT;
 	}

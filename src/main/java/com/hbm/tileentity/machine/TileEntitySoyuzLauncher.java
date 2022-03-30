@@ -305,7 +305,12 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		if(mode == 1)
 			return 0;
 		
-		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItem() == ModItems.sat_lunar_miner)) {
+		if(slots[2] != null 
+//				&& (
+//				slots[2].getItem() == ModItems.sat_gerald || 
+//				slots[2].getItem() == ModItems.sat_lunar_miner)
+				) 
+		{
 			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander)
 				return 2;
 			return 1;

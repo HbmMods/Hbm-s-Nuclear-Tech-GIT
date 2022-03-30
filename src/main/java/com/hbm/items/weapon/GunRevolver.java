@@ -34,30 +34,30 @@ public class GunRevolver extends Item {
 
 	public GunRevolver(Item ammo, int dmgMin, int dmgMax, boolean instakill, boolean rad) {
 		this.maxStackSize = 1;
-		if (this == ModItems.gun_revolver_iron) {
-			this.setMaxDamage(100);
-		}
-		if (this == ModItems.gun_revolver) {
-			this.setMaxDamage(500);
-		}
-		if (this == ModItems.gun_revolver_saturnite) {
-			this.setMaxDamage(2500);
-		}
-		if (this == ModItems.gun_revolver_gold) {
-			this.setMaxDamage(1000);
-		}
-		if (this == ModItems.gun_revolver_lead) {
-			this.setMaxDamage(250);
-		}
-		if (this == ModItems.gun_revolver_schrabidium) {
-			this.setMaxDamage(100000);
-		}
-		if (this == ModItems.gun_revolver_cursed) {
-			this.setMaxDamage(5000);
-		}
-		if (this == ModItems.gun_revolver_pip) {
-			this.setMaxDamage(1000);
-		}
+//		if (this == ModItems.gun_revolver_iron) {
+//			this.setMaxDamage(100);
+//		}
+//		if (this == ModItems.gun_revolver) {
+//			this.setMaxDamage(500);
+//		}
+//		if (this == ModItems.gun_revolver_saturnite) {
+//			this.setMaxDamage(2500);
+//		}
+//		if (this == ModItems.gun_revolver_gold) {
+//			this.setMaxDamage(1000);
+//		}
+//		if (this == ModItems.gun_revolver_lead) {
+//			this.setMaxDamage(250);
+//		}
+//		if (this == ModItems.gun_revolver_schrabidium) {
+//			this.setMaxDamage(100000);
+//		}
+//		if (this == ModItems.gun_revolver_cursed) {
+//			this.setMaxDamage(5000);
+//		}
+//		if (this == ModItems.gun_revolver_pip) {
+//			this.setMaxDamage(1000);
+//		}
 
 		this.ammo = ammo;
 		this.dmgMin = dmgMin;
@@ -69,17 +69,17 @@ public class GunRevolver extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if (this == ModItems.gun_revolver_schrabidium || this == ModItems.gun_revolver_saturnite) {
-			return EnumRarity.rare;
-		}
-
-		if (this == ModItems.gun_revolver_cursed) {
-			return EnumRarity.uncommon;
-		}
-
-		if (this == ModItems.gun_revolver_pip) {
-			return EnumRarity.uncommon;
-		}
+//		if (this == ModItems.gun_revolver_schrabidium || this == ModItems.gun_revolver_saturnite) {
+//			return EnumRarity.rare;
+//		}
+//
+//		if (this == ModItems.gun_revolver_cursed) {
+//			return EnumRarity.uncommon;
+//		}
+//
+//		if (this == ModItems.gun_revolver_pip) {
+//			return EnumRarity.uncommon;
+//		}
 
 		return EnumRarity.common;
 	}
@@ -113,34 +113,34 @@ public class GunRevolver extends Item {
 
 			EntityBullet entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, instakill, rad);
 			entityarrow.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-			if(this == ModItems.gun_revolver_pip && p_77615_3_.isSneaking()) {
-				entityarrow.pip = true;
-				entityarrow.setDamage(1);
-			}
-			if(this == ModItems.gun_revolver_saturnite || EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, p_77615_1_) > 0) {
-				entityarrow.fire = true;
-			}
+//			if(this == ModItems.gun_revolver_pip && p_77615_3_.isSneaking()) {
+//				entityarrow.pip = true;
+//				entityarrow.setDamage(1);
+//			}
+//			if(this == ModItems.gun_revolver_saturnite || EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, p_77615_1_) > 0) {
+//				entityarrow.fire = true;
+//			}
 
 			p_77615_1_.damageItem(1, p_77615_3_);
-			if (this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron
-					|| this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead
-					|| this == ModItems.gun_revolver_saturnite) {
-				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
-			}
-			if (this == ModItems.gun_revolver_cursed) {
-				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.heavyShoot", 3.0F, 1.0F);
-			}
-			if (this == ModItems.gun_revolver_schrabidium) {
-				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
-			}
-			if(this == ModItems.gun_revolver_pip ||
-					this == ModItems.gun_revolver_nopip ||
-					this == ModItems.gun_revolver_red) {
-				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
-			}
-			if (this == ModItems.gun_revolver_blackjack) {
-				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 0.75F);
-			}
+//			if (this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron
+//					|| this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead
+//					|| this == ModItems.gun_revolver_saturnite) {
+//				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
+//			}
+//			if (this == ModItems.gun_revolver_cursed) {
+//				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.heavyShoot", 3.0F, 1.0F);
+//			}
+//			if (this == ModItems.gun_revolver_schrabidium) {
+//				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
+//			}
+//			if(this == ModItems.gun_revolver_pip ||
+//					this == ModItems.gun_revolver_nopip ||
+//					this == ModItems.gun_revolver_red) {
+//				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
+//			}
+//			if (this == ModItems.gun_revolver_blackjack) {
+//				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 0.75F);
+//			}
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
@@ -151,9 +151,9 @@ public class GunRevolver extends Item {
 			if (!p_77615_2_.isRemote) {
 				p_77615_2_.spawnEntityInWorld(entityarrow);
 
-				if (this == ModItems.gun_revolver_cursed && rand.nextInt(3) == 0) {
-					p_77615_3_.addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 0));
-				}
+//				if (this == ModItems.gun_revolver_cursed && rand.nextInt(3) == 0) {
+//					p_77615_3_.addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 0));
+//				}
 			}
 		}
 	}
@@ -206,88 +206,88 @@ public class GunRevolver extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if (this == ModItems.gun_revolver_iron) {
-			list.add("Cheap.");
-			list.add("");
-			list.add("Ammo: Iron Bullets");
-			list.add("Damage: 5 - 15");
-		}
-		if (this == ModItems.gun_revolver) {
-			list.add("I feel like a cowboy!");
-			list.add("");
-			list.add("Ammo: Lead Bullets");
-			list.add("Damage: 10 - 25");
-		}
-		if (this == ModItems.gun_revolver_saturnite) {
-			list.add("Woooo - shiny!");
-			list.add("");
-			list.add("Ammo: Lead Bullets");
-			list.add("Damage: 20 - 35");
-			list.add("Sets enemy on fire.");
-		}
-		if (this == ModItems.gun_revolver_gold) {
-			list.add("GoldenEye would be proud!");
-			list.add("(GoldenEye isn't a person but");
-			list.add("rather a satellite, taht's teh joek.");
-			list.add("");
-			list.add("Ammo: Golden Bullets");
-			list.add("Damage: 20 - 30");
-		}
-		if (this == ModItems.gun_revolver_lead) {
-			list.add("Made from lead for your safety!");
-			list.add("");
-			list.add("Ammo: Atomic Bullets");
-			list.add("Damage: 5 - 15");
-			list.add("Bullets are radioactive.");
-		}
-		if (this == ModItems.gun_revolver_schrabidium) {
-			list.add("Kills everyone and everything.");
-			list.add("");
-			list.add("Ammo: Schrabidium Bullets");
-			list.add("Damage: 10000 - 100000");
-			list.add("Sets enemy's health to zero.");
-			list.add("");
-			list.add("[LEGENDARY WEAPON]");
-		}
-		if (this == ModItems.gun_revolver_cursed) {
-			list.add("You're dead.");
-			list.add("");
-			list.add("Ammo: Steel Bullets");
-			list.add("Damage: 25 - 40");
-			list.add("33% chance of user being withered.");
-		}
-		if (this == ModItems.gun_revolver_pip) {
-			list.add("In loving memory of the eldritch");
-			list.add("creature which got smushed by a");
-			list.add("falling freight wagon.");
-			list.add("");
-			list.add("Ammo: Tainted Bullets");
-			list.add("Damage: 25 - 35");
-			list.add("Secondary Damage: 1");
-			list.add("Enemy is hit by boxcar.");
-			list.add("");
-			list.add("[LEGENDARY WEAPON]");
-		}
-		if (this == ModItems.gun_revolver_nopip) {
-			list.add("The 'No' stands for 'NoSQL'");
-			list.add("");
-			list.add("Ammo: .44 Magnum");
-			list.add("Damage: 25 - 35");
-		}
-		if (this == ModItems.gun_revolver_blackjack) {
-			list.add("Contents under pressure.");
-			list.add("Extremely volatile.");
-			list.add("Handle with care!");
-			list.add("");
-			list.add("Ammo: .44 Magnum");
-			list.add("Damage: 35 - 45");
-		}
-		if (this == ModItems.gun_revolver_red) {
-			list.add("Explore the other-what?");
-			list.add("");
-			list.add("Ammo: .44 Magnum");
-			list.add("Damage: 100 - 105");
-		}
+//		if (this == ModItems.gun_revolver_iron) {
+//			list.add("Cheap.");
+//			list.add("");
+//			list.add("Ammo: Iron Bullets");
+//			list.add("Damage: 5 - 15");
+//		}
+//		if (this == ModItems.gun_revolver) {
+//			list.add("I feel like a cowboy!");
+//			list.add("");
+//			list.add("Ammo: Lead Bullets");
+//			list.add("Damage: 10 - 25");
+//		}
+//		if (this == ModItems.gun_revolver_saturnite) {
+//			list.add("Woooo - shiny!");
+//			list.add("");
+//			list.add("Ammo: Lead Bullets");
+//			list.add("Damage: 20 - 35");
+//			list.add("Sets enemy on fire.");
+//		}
+//		if (this == ModItems.gun_revolver_gold) {
+//			list.add("GoldenEye would be proud!");
+//			list.add("(GoldenEye isn't a person but");
+//			list.add("rather a satellite, taht's teh joek.");
+//			list.add("");
+//			list.add("Ammo: Golden Bullets");
+//			list.add("Damage: 20 - 30");
+//		}
+//		if (this == ModItems.gun_revolver_lead) {
+//			list.add("Made from lead for your safety!");
+//			list.add("");
+//			list.add("Ammo: Atomic Bullets");
+//			list.add("Damage: 5 - 15");
+//			list.add("Bullets are radioactive.");
+//		}
+//		if (this == ModItems.gun_revolver_schrabidium) {
+//			list.add("Kills everyone and everything.");
+//			list.add("");
+//			list.add("Ammo: Schrabidium Bullets");
+//			list.add("Damage: 10000 - 100000");
+//			list.add("Sets enemy's health to zero.");
+//			list.add("");
+//			list.add("[LEGENDARY WEAPON]");
+//		}
+//		if (this == ModItems.gun_revolver_cursed) {
+//			list.add("You're dead.");
+//			list.add("");
+//			list.add("Ammo: Steel Bullets");
+//			list.add("Damage: 25 - 40");
+//			list.add("33% chance of user being withered.");
+//		}
+//		if (this == ModItems.gun_revolver_pip) {
+//			list.add("In loving memory of the eldritch");
+//			list.add("creature which got smushed by a");
+//			list.add("falling freight wagon.");
+//			list.add("");
+//			list.add("Ammo: Tainted Bullets");
+//			list.add("Damage: 25 - 35");
+//			list.add("Secondary Damage: 1");
+//			list.add("Enemy is hit by boxcar.");
+//			list.add("");
+//			list.add("[LEGENDARY WEAPON]");
+//		}
+//		if (this == ModItems.gun_revolver_nopip) {
+//			list.add("The 'No' stands for 'NoSQL'");
+//			list.add("");
+//			list.add("Ammo: .44 Magnum");
+//			list.add("Damage: 25 - 35");
+//		}
+//		if (this == ModItems.gun_revolver_blackjack) {
+//			list.add("Contents under pressure.");
+//			list.add("Extremely volatile.");
+//			list.add("Handle with care!");
+//			list.add("");
+//			list.add("Ammo: .44 Magnum");
+//			list.add("Damage: 35 - 45");
+//		}
+//		if (this == ModItems.gun_revolver_red) {
+//			list.add("Explore the other-what?");
+//			list.add("");
+//			list.add("Ammo: .44 Magnum");
+//			list.add("Damage: 100 - 105");
+//		}
 	}
 
 	@Override

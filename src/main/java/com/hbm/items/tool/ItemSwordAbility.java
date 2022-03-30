@@ -61,8 +61,8 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 		if(!attacker.worldObj.isRemote && !this.hitAbility.isEmpty() && attacker instanceof EntityPlayer && canOperate(stack)) {
 
 			// hacky hacky hack
-			if(this == ModItems.mese_gavel)
-				attacker.worldObj.playSoundAtEntity(victim, "hbm:weapon.whack", 3.0F, 1.F);
+//			if(this == ModItems.mese_gavel)
+//				attacker.worldObj.playSoundAtEntity(victim, "hbm:weapon.whack", 3.0F, 1.F);
 
 			for(WeaponAbility ability : this.hitAbility) {
 				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);

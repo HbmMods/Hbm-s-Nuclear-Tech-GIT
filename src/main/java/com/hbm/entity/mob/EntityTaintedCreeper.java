@@ -233,10 +233,10 @@ public class EntityTaintedCreeper extends EntityMob implements IRadiationImmune 
 					int c = rand.nextInt(15) + (int) posZ - 7;
 					if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
 
-						if(!GeneralConfig.enableHardcoreTaint)
-							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 5, 2);
-						else
-							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3), 2);
+//						if(!GeneralConfig.enableHardcoreTaint)
+//							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 5, 2);
+//						else
+//							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3), 2);
 					}
 				}
 
@@ -248,11 +248,11 @@ public class EntityTaintedCreeper extends EntityMob implements IRadiationImmune 
 					int c = rand.nextInt(7) + (int) posZ - 3;
 					if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
 
-						if(!GeneralConfig.enableHardcoreTaint)
-
-							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(6) + 10, 2);
-						else
-							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+//						if(!GeneralConfig.enableHardcoreTaint)
+//
+//							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(6) + 10, 2);
+//						else
+//							worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
 					}
 				}
 			}

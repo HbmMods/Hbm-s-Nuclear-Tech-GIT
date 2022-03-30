@@ -15,10 +15,10 @@ public class ConsumableTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.bottle_nuka != null)
-		{
-			return ModItems.bottle_nuka;
-		}
+//		if(ModItems.bottle_nuka != null)
+//		{
+//			return ModItems.bottle_nuka;
+//		}
 		
 		return Items.iron_pickaxe;
 	}

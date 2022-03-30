@@ -60,7 +60,7 @@ public class GunBrimstone extends Item {
 			//world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (!flag) {
-				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
+//				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
 			}
 
 			if (!world.isRemote) {

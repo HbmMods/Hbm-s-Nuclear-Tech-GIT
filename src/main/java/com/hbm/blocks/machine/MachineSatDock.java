@@ -140,10 +140,10 @@ public class MachineSatDock extends BlockContainer implements IMultiblock {
 						return;
 					}
 		
-		for(int k = -1; k <= 1; k++)
-			for(int l = -1; l <= 1; l++)
-				if(l != 0 || k != 0)
-					placeDummy(worldObj, xCoord + k, yCoord, zCoord + l, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_cargo);
+//		for(int k = -1; k <= 1; k++)
+//			for(int l = -1; l <= 1; l++)
+//				if(l != 0 || k != 0)
+//					placeDummy(worldObj, xCoord + k, yCoord, zCoord + l, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_cargo);
 	}
 	
 	private void placeDummy(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord, Block block) {

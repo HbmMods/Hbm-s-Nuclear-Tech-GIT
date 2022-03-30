@@ -1,13 +1,11 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -27,7 +25,6 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -81,7 +78,6 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
 		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -140,7 +136,6 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
 		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -473,47 +468,6 @@ public class Gun4GaugeFactory {
 					
 					player.inventory.dropAllItems();
 					player.worldObj.newExplosion(bullet.shooter, player.posX, player.posY, player.posZ, 5.0F, true, true);
-				}
-			}
-		};
-		
-		return bullet;
-	}
-
-	public static BulletConfiguration get4GaugeQuackConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
-		
-		bullet.ammo = ModItems.ammo_4gauge_titan;
-		bullet.velocity *= 2D;
-		bullet.spread = 0.0F;
-		bullet.gravity = 0.0D;
-		bullet.wear = 10;
-		bullet.explosive = 1F;
-		bullet.style = BulletConfiguration.STYLE_BOLT;
-		bullet.trail = 4;
-		bullet.vPFX = "explode";
-		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote) {
-					
-					if(bullet.ticksExisted % 2 == 0) {
-						
-						List<EntityCreature> creatures = bullet.worldObj.getEntitiesWithinAABB(EntityCreature.class, bullet.boundingBox.expand(10, 10, 10));
-						
-						for(EntityCreature creature : creatures) {
-							
-							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
-								ExplosionNukeSmall.explode(bullet.worldObj, creature.posX, creature.posY, creature.posZ, ExplosionNukeSmall.medium);
-								creature.isDead = true;
-							}
-						}
-						
-					}
 				}
 			}
 		};

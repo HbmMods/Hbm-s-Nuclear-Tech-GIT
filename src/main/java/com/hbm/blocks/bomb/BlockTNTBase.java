@@ -7,6 +7,7 @@ import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.util.ChatBuilder;
 
 import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

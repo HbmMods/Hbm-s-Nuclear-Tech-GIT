@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class EntityGrenadeIFNull extends EntityGrenadeBouncyBase {
+public abstract class EntityGrenadeIFNull extends EntityGrenadeBouncyBase {
 
     public EntityGrenadeIFNull(World p_i1773_1_)
     {
@@ -55,10 +55,10 @@ public class EntityGrenadeIFNull extends EntityGrenadeBouncyBase {
         }
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_null);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_if_null);
+//	}
 
 	@Override
 	protected double getBounceMod() {

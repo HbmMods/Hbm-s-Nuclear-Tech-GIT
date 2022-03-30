@@ -26,14 +26,14 @@ public class CoreComponent extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 
-		if(this == ModBlocks.dfc_emitter)
-			return new TileEntityCoreEmitter();
-		if(this == ModBlocks.dfc_receiver)
-			return new TileEntityCoreReceiver();
-		if(this == ModBlocks.dfc_injector)
-			return new TileEntityCoreInjector();
-		if(this == ModBlocks.dfc_stabilizer)
-			return new TileEntityCoreStabilizer();
+//		if(this == ModBlocks.dfc_emitter)
+//			return new TileEntityCoreEmitter();
+//		if(this == ModBlocks.dfc_receiver)
+//			return new TileEntityCoreReceiver();
+//		if(this == ModBlocks.dfc_injector)
+//			return new TileEntityCoreInjector();
+//		if(this == ModBlocks.dfc_stabilizer)
+//			return new TileEntityCoreStabilizer();
 		
 		return null;
 	}
@@ -66,17 +66,17 @@ public class CoreComponent extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking()) {
 			
-			if(this == ModBlocks.dfc_emitter)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_emitter, world, x, y, z);
-			
-			if(this == ModBlocks.dfc_receiver)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_receiver, world, x, y, z);
-			
-			if(this == ModBlocks.dfc_injector)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_injector, world, x, y, z);
-			
-			if(this == ModBlocks.dfc_stabilizer)
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_stabilizer, world, x, y, z);
+//			if(this == ModBlocks.dfc_emitter)
+//				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_emitter, world, x, y, z);
+//			
+//			if(this == ModBlocks.dfc_receiver)
+//				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_receiver, world, x, y, z);
+//			
+//			if(this == ModBlocks.dfc_injector)
+//				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_injector, world, x, y, z);
+//			
+//			if(this == ModBlocks.dfc_stabilizer)
+//				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_stabilizer, world, x, y, z);
 			
 			return true;
 			

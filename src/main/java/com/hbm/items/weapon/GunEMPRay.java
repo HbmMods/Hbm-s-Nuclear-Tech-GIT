@@ -68,7 +68,9 @@ public class GunEMPRay extends Item {
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
 
 		if (!p_77615_3_.isSneaking()) {
-			if (flag || p_77615_3_.inventory.hasItem(ModItems.gun_emp_ammo)) {
+			if (flag
+//					|| p_77615_3_.inventory.hasItem(ModItems.gun_emp_ammo)
+					) {
 				float f = j / 20.0F;
 				f = (f * f + f * 2.0F) / 3.0F;
 
@@ -90,7 +92,7 @@ public class GunEMPRay extends Item {
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.fatmanShoot", 1.0F, 1F);
 
 				if (!flag) {
-					p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_emp_ammo);
+//					p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_emp_ammo);
 				}
 
 				if (!p_77615_2_.isRemote) {
@@ -98,14 +100,16 @@ public class GunEMPRay extends Item {
 				}
 			}
 		} else {
-			if (flag || p_77615_3_.inventory.hasItem(ModItems.gun_emp_ammo)) {
+			if (flag 
+//					|| p_77615_3_.inventory.hasItem(ModItems.gun_emp_ammo)
+					) {
 
 				if (j < 25.0D) {
 					return;
 				}
 				
 				if (!flag) {
-					p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_emp_ammo);
+//					p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_emp_ammo);
 				}
 	    		
 	    		EntityEMPBlast cloud = new EntityEMPBlast(p_77615_3_.worldObj, 25);

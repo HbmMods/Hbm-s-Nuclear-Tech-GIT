@@ -47,7 +47,8 @@ public class EntityGrenadeBurst extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_burst);
+		return 0;
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_burst);
 	}
 
 	@Override

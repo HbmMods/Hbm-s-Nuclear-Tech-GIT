@@ -263,8 +263,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		
 		boolean corium = slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod;
 		
-		if(corium && slots[0].getItem() == ModItems.rbmk_fuel_drx) 
-			RBMKBase.digamma = true;
+//		if(corium && slots[0].getItem() == ModItems.rbmk_fuel_drx) 
+//			RBMKBase.digamma = true;
 		
 		slots[0] = null;
 

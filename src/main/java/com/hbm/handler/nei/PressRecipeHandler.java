@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -74,6 +75,10 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 			for(Map.Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), recipe.getKey().getKey(), recipe.getValue()));
 			}
+			for(Map.Entry<Object[], Object> recipe : HBMRecipes.NEIpressRecipes().entrySet()) {
+				for(ItemStack a : (List<ItemStack>) recipe.getKey()[0])
+					this.arecipes.add(new SmeltingSet(a, new ComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));
+			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
 		}
@@ -87,6 +92,11 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 		for(Map.Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
 			if(NEIServerUtils.areStacksSameType(recipe.getValue(), result))
 				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), recipe.getKey().getKey(), recipe.getValue()));
+		}
+		for(Map.Entry<Object[], Object> recipe :  HBMRecipes.NEIpressRecipes().entrySet()) {
+			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue(), result))
+				for(ItemStack a : (List<ItemStack>) recipe.getKey()[0])
+					this.arecipes.add(new SmeltingSet(a, new ComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));	
 		}
 	}
 
@@ -112,6 +122,16 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), new ComparableStack(ingredient), recipe.getValue()));
 			else if(ingredient.getItem() instanceof ItemStamp && ((ItemStamp)ingredient.getItem()).type == stamp)
 				this.arecipes.add(new SmeltingSet(ingredient, recipe.getKey().getKey(), recipe.getValue()));
+			for(Map.Entry<Object[], Object> _recipe : HBMRecipes.NEIpressRecipes().entrySet()) {
+
+				boolean b = false;
+				for(int i = 0; i < ((List<ItemStack>) _recipe.getKey()[0]).size(); i++) {
+					if(NEIServerUtils.areStacksSameType(((List<ItemStack>) _recipe.getKey()[0]).get(i), ingredient)) {
+						b = true;
+						break;
+					}
+				}
+			}
 		}
 	}
 

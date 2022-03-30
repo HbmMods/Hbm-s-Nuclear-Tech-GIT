@@ -40,8 +40,8 @@ public class ItemRenderObj implements IItemRenderer {
 		case ENTITY:
 		default:
 			GL11.glPushMatrix();
-				if(item.getItem() == ModItems.gun_brimstone)
-					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.brimstone_tex);
+//				if(item.getItem() == ModItems.gun_brimstone)
+//					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.brimstone_tex);
 				//GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(10F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(190F, 0.0F, 1.0F, 0.0F);
@@ -49,8 +49,8 @@ public class ItemRenderObj implements IItemRenderer {
 				GL11.glScalef(0.75F, 0.75F, 0.75F);
 				GL11.glTranslatef(-0.7F, -0.4F, -1.1F);
 				GL11.glDisable(GL11.GL_CULL_FACE);
-				if(item.getItem() == ModItems.gun_brimstone)
-					ResourceManager.brimstone.renderAll();
+//				if(item.getItem() == ModItems.gun_brimstone)
+//					ResourceManager.brimstone.renderAll();
 			GL11.glPopMatrix(); break;
 		}
 	}

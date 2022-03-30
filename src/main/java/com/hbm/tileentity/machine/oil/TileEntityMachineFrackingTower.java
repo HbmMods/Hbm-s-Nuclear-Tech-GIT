@@ -45,11 +45,6 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
-	public int getDrillDepth() {
-		return 0;
-	}
-
-	@Override
 	public boolean canPump() {
 		boolean b = this.tanks[2].getFill() >= 10;
 		
@@ -57,39 +52,17 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 			this.indicator = 3;
 		}
 		
-		return b;
+		return super.canPump() && b;
 	}
 
 	@Override
-	public boolean canSuckBlock(Block b) {
-		return super.canSuckBlock(b) || b == ModBlocks.ore_bedrock_oil;
-	}
-
-	@Override
-	public void doSuck(int x, int y, int z) {
-		super.doSuck(x, y, z);
-		
-		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_bedrock_oil) {
-			onSuck(x, y, z);
-		}
-	}
-
-	@Override
-	public void onSuck(int x, int y, int z) {
-		
-		Block b = worldObj.getBlock(x, y, z);
+	public void onSuck() {
 		
 		int oil = 0;
 		int gas = 0;
 
-		if(b == ModBlocks.ore_oil) {
-			oil = 1000;
-			gas = 100 + worldObj.rand.nextInt(401);
-		}
-		if(b == ModBlocks.ore_bedrock_oil) {
-			oil = 100;
-			gas = 10 + worldObj.rand.nextInt(41);
-		}
+		oil = 1000;
+		gas = 100 + worldObj.rand.nextInt(401);
 		
 		this.tanks[0].setFill(this.tanks[0].getFill() + oil);
 		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());

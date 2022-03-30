@@ -437,10 +437,6 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				}
 			}
 			
-			//Meteorite sword
-			if(slots[4] != null && coreHeat > 0 && slots[4].getItem() == ModItems.meteorite_sword_bred)
-				slots[4] = new ItemStack(ModItems.meteorite_sword_irradiated);
-			
 			//Load fuel
 			if(slots[4] != null && getFuelContent(slots[4], type) > 0) {
 				

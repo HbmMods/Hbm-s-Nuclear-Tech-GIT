@@ -8,7 +8,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeShrapnel extends EntityGrenadeBouncyBase {
+public abstract class EntityGrenadeShrapnel extends EntityGrenadeBouncyBase {
 	public Entity shooter;
 
 	public EntityGrenadeShrapnel(World p_i1773_1_) {
@@ -35,10 +35,10 @@ public class EntityGrenadeShrapnel extends EntityGrenadeBouncyBase {
 		}
 	}
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_shrapnel);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_shrapnel);
+//	}
 
 	@Override
 	protected double getBounceMod() {

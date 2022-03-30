@@ -164,7 +164,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.gun_emp_ammo;
+//		bullet.ammo = ModItems.gun_emp_ammo;
 		
 		bullet.velocity = 1F;
 		bullet.spread = 0.0F;

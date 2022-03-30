@@ -24,12 +24,11 @@ public class HazardTypeHot extends HazardTypeBase {
 		boolean reacher = false;
 		boolean gloves = false;
 		
-		//Why on earth did I add gloves again?
 		if(target instanceof EntityPlayer) {
 			ItemStack item = ((EntityPlayer) target).inventory.getCurrentItem();
 			if(item != null)
 				reacher = item.getItem() == ModItems.reacher;
-			
+
 			ItemStack armor = target.getEquipmentInSlot(3);
 			if(armor != null) {
 				gloves = armor.getItem() instanceof ItemModGloves || ArmorUtil.checkForHazmat(target);

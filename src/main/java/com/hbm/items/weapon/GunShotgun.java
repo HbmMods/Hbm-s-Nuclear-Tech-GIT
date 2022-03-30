@@ -30,9 +30,9 @@ public class GunShotgun extends Item {
 		
 		this.maxStackSize = 1;
 		
-		if (this == ModItems.gun_uboinik) {
-			this.setMaxDamage(500);
-		}
+//		if (this == ModItems.gun_uboinik) {
+//			this.setMaxDamage(500);
+//		}
 	}
 
 	/**

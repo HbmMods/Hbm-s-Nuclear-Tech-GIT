@@ -51,7 +51,9 @@ public class GunHP extends Item {
 		
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_hp_ammo))) {
+		if ((player.capabilities.isCreativeMode 
+//				|| player.inventory.hasItem(ModItems.gun_hp_ammo)
+				)) {
 
 			EntityPlasmaBeam plasma = new EntityPlasmaBeam(world, player, 1F);
 			EntityPlasmaBeam plasma1 = new EntityPlasmaBeam(world, player, 1F);
@@ -74,8 +76,8 @@ public class GunHP extends Item {
 			if (flag) {
 				plasma.canBePickedUp = 2;
 			} else {
-				if (count % 20 == 0)
-					player.inventory.consumeInventoryItem(ModItems.gun_hp_ammo);
+//				if (count % 20 == 0)
+//					player.inventory.consumeInventoryItem(ModItems.gun_hp_ammo);
 			}
 
 			if (count == this.getMaxItemUseDuration(stack))
