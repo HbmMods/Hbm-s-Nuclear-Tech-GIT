@@ -17,19 +17,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item {
-	
+
 	EnumRarity rarity;
-	
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		
+
 		if(MainRegistry.polaroidID == 11) {
 			String unlocP11 = this.getUnlocalizedName() + ".desc.P11";
 			String locP11 = I18nUtil.resolveKey(unlocP11);
-			
+
 			if(!unlocP11.equals(locP11)) {
 				String[] locsP11 = locP11.split("\\$");
-				
+
 				for(String s : locsP11) {
 					list.add(s);
 				}
@@ -37,30 +37,30 @@ public class ItemCustomLore extends Item {
 		} else {
 			String unloc = this.getUnlocalizedName() + ".desc";
 			String loc = I18nUtil.resolveKey(unloc);
-			
+
 			if(!unloc.equals(loc)) {
 				String[] locs = loc.split("\\$");
-				
+
 				for(String s : locs) {
 					list.add(s);
 				}
 			}
 		}
-		
+
 		if(this == ModItems.undefined) {
-			
+
 			if(player.worldObj.rand.nextInt(10) == 0) {
 				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
 			} else {
 				Random rand = new Random(System.currentTimeMillis() / 500);
-				
+
 				if(setSize == 0)
 					setSize = Item.itemRegistry.getKeys().size();
-				
+
 				int r = rand.nextInt(setSize);
-				
+
 				Item item = Item.getItemById(r);
-				
+
 				if(item != null) {
 					list.add(new ItemStack(item).getDisplayName());
 				} else {
@@ -69,7 +69,7 @@ public class ItemCustomLore extends Item {
 			}
 		}
 	}
-	
+
 	static int setSize = 0;
 
     @Override
@@ -90,10 +90,10 @@ public class ItemCustomLore extends Item {
     			this == ModItems.egg_balefire) {
     		return true;
     	}
-    	
+
     	return false;
     }
-    
+
     public ItemCustomLore setRarity(EnumRarity rarity) {
     	this.rarity = rarity;
 		return this;

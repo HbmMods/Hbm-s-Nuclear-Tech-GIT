@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.world.World;
 
-public class EntityGrenadeElectric extends EntityGrenadeBouncyBase
+public abstract class EntityGrenadeElectric extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -37,10 +37,10 @@ public class EntityGrenadeElectric extends EntityGrenadeBouncyBase
             this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ));
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_electric);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_electric);
+//	}
 
 	@Override
 	protected double getBounceMod() {

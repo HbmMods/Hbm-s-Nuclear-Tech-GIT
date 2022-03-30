@@ -127,7 +127,6 @@ public class BulletConfigSyncingUtil {
 	public static int G4_CLAW = i++;
 	public static int G4_VAMPIRE = i++;
 	public static int G4_VOID = i++;
-	public static int G4_TITAN = i++;
 	public static int G4_SLEEK = i++;
 
 	public static int SPECIAL_OSIPR = i++;
@@ -189,12 +188,6 @@ public class BulletConfigSyncingUtil {
 	public static int ROCKET_CHAINSAW_LASER = i++;
 	public static int ROCKET_TOXIC_LASER = i++;
 	public static int ROCKET_PHOSPHORUS_LASER = i++;
-	
-	public static int ROCKET_STINGER = i++;
-	public static int ROCKET_STINGER_HE = i++;
-	public static int ROCKET_STINGER_INCENDIARY = i++;
-	public static int ROCKET_STINGER_NUCLEAR = i++;
-	public static int ROCKET_STINGER_BONES = i++;
 
 	public static int SHELL_NORMAL = i++;
 	public static int SHELL_EXPLOSIVE = i++;
@@ -290,12 +283,6 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
 		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
 		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
-		
-		configSet.put(ROCKET_STINGER, GunRocketHomingFactory.getRocketStingerConfig());
-		configSet.put(ROCKET_STINGER_HE, GunRocketHomingFactory.getRocketStingerHEConfig());
-		configSet.put(ROCKET_STINGER_INCENDIARY, GunRocketHomingFactory.getRocketStingerIncendiaryConfig());
-		configSet.put(ROCKET_STINGER_NUCLEAR, GunRocketHomingFactory.getRocketStingerNuclearConfig());
-		configSet.put(ROCKET_STINGER_BONES, GunRocketHomingFactory.getRocketStingerBonesConfig());
 
 		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
 		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());
@@ -374,7 +361,6 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_CLAW, Gun4GaugeFactory.get4GaugeClawConfig());
 		configSet.put(G4_VAMPIRE, Gun4GaugeFactory.get4GaugeVampireConfig());
 		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
-		configSet.put(G4_TITAN, Gun4GaugeFactory.get4GaugeQuackConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
 
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());

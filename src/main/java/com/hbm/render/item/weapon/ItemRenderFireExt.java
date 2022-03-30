@@ -42,14 +42,14 @@ public class ItemRenderFireExt implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		int magType = ItemGunBase.getMagType(item);
-		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
-		Item ammo = BulletConfigSyncingUtil.pullConfig(config).ammo;
+//		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
+//		Item ammo = BulletConfigSyncingUtil.pullConfig(config).ammo;
 		
-		if(ammo == ModItems.ammo_fireext_foam)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_foam_tex);
-		else if(ammo == ModItems.ammo_fireext_sand)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_sand_tex);
-		else
+//		if(ammo == ModItems.ammo_fireext_foam)
+//			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_foam_tex);
+//		else if(ammo == ModItems.ammo_fireext_sand)
+//			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_sand_tex);
+//		else
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_tex);
 		
 		switch(type) {

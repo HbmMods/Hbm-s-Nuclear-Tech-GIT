@@ -92,34 +92,34 @@ public class TileEntityMultiblock extends TileEntity {
 	
 	private void buildCompact() {
 		
-		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.compact_launcher);
+//		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.compact_launcher);
 
-		placeDummy(xCoord + 1, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(xCoord + 1, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(xCoord + 1, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(xCoord, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(xCoord - 1, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(xCoord - 1, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
-		placeDummy(xCoord - 1, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
-		placeDummy(xCoord, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(xCoord + 1, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(xCoord + 1, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(xCoord + 1, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(xCoord, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(xCoord - 1, yCoord, zCoord - 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(xCoord - 1, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
+//		placeDummy(xCoord - 1, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_port_compact_launcher);
+//		placeDummy(xCoord, yCoord, zCoord + 1, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_compact_launcher);
 	}
 	
 	private void buildTable(int meta) {
 		
-		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.launch_table, meta, 2);
+//		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.launch_table, meta, 2);
 		
 		switch(meta) {
 		case 0:
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord + 3, yCoord + i, zCoord, Blocks.air);
 			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
-			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
 			
 			break;
 			
@@ -127,13 +127,13 @@ public class TileEntityMultiblock extends TileEntity {
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord - 3, yCoord + i, zCoord, Blocks.air);
 			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
-			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
 			
 			break;
 			
@@ -141,13 +141,13 @@ public class TileEntityMultiblock extends TileEntity {
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord, yCoord + i, zCoord + 3, Blocks.air);
 			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
-			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 			
 			break;
 			
@@ -155,22 +155,22 @@ public class TileEntityMultiblock extends TileEntity {
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord, yCoord + i, zCoord - 3, Blocks.air);
 			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
-			
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 			
 			break;
 			
 		}
 
-		for(int i = -4; i <= 4; i++)
-			for(int j = -4; j <= 4; j++)
-				if(i != 0 && j != 0)
-					placeDummy(xCoord + i, yCoord, zCoord + j, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//		for(int i = -4; i <= 4; i++)
+//			for(int j = -4; j <= 4; j++)
+//				if(i != 0 && j != 0)
+//					placeDummy(xCoord + i, yCoord, zCoord + j, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 					
 		
 	}

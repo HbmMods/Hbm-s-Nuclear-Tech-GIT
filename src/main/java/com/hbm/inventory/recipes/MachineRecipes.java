@@ -126,11 +126,6 @@ public class MachineRecipes {
 				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor)) {
 			return new ItemStack(ModItems.ingot_meteorite);
 		}
-
-		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
-				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
-			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
-		}
 		
 		if(item.getItem() instanceof ItemGunBase && item2.getItem() == Items.enchanted_book) {
 			
@@ -155,7 +150,7 @@ public class MachineRecipes {
 		return null;
 	}
 	
-	//return: FluidType, amount produced, amount required, heat required (Â°C * 100)
+	//return: FluidType, amount produced, amount required, heat required (°C * 100)
 	public static Object[] getBoilerOutput(FluidType type) {
 		
 		if(type == Fluids.WATER) return new Object[] { Fluids.STEAM, 500, 5, 10000 };
@@ -414,8 +409,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getContainerColor()), new ItemStack(Items.slime_ball) },
-					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getContainerColor()), new ItemStack(Items.slime_ball)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball) },
+					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },

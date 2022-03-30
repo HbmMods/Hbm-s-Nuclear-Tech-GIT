@@ -38,41 +38,41 @@ public class ItemAppleSchrabidium extends ItemFood {
     	
 		if (!world.isRemote) {
 			
-			if(stack.getItem() == ModItems.apple_schrabidium) {
-				if (stack.getItemDamage() == 0) {
-					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 4));
-					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
-					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
-				}
-	
-				if (stack.getItemDamage() == 1) {
-					
-					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 1200, 4));
-					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 1200, 4));
-					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 1200, 0));
-					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 1200, 4));
-					player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1200, 2));
-					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1200, 2));
-					player.addPotionEffect(new PotionEffect(Potion.jump.id, 1200, 4));
-					player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 1200, 9));
-					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 1200, 4));
-					player.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 1200, 9));
-				}
-	
-				if (stack.getItemDamage() == 2) {
-					
-					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 2147483647, 4));
-					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 1));
-					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 2147483647, 0));
-					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2147483647, 9));
-					player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2147483647, 4));
-					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2147483647, 3));
-					player.addPotionEffect(new PotionEffect(Potion.jump.id, 2147483647, 4));
-					player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 2147483647, 24));
-					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2147483647, 14));
-					player.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2147483647, 99));
-				}
-			}
+//			if(stack.getItem() == ModItems.apple_schrabidium) {
+//				if (stack.getItemDamage() == 0) {
+//					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
+//					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
+//				}
+//	
+//				if (stack.getItemDamage() == 1) {
+//					
+//					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 1200, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 1200, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 1200, 0));
+//					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 1200, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1200, 2));
+//					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1200, 2));
+//					player.addPotionEffect(new PotionEffect(Potion.jump.id, 1200, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 1200, 9));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 1200, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 1200, 9));
+//				}
+//	
+//				if (stack.getItemDamage() == 2) {
+//					
+//					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 2147483647, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 1));
+//					player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 2147483647, 0));
+//					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2147483647, 9));
+//					player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2147483647, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2147483647, 3));
+//					player.addPotionEffect(new PotionEffect(Potion.jump.id, 2147483647, 4));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 2147483647, 24));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2147483647, 14));
+//					player.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2147483647, 99));
+//				}
+//			}
 			
 			if(stack.getItem() == ModItems.apple_lead) {
 				

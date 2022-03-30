@@ -286,8 +286,8 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 				return 2;
 			if(slots[0].getItem() == Item.getItemFromBlock(ModBlocks.det_charge))
 				return 3;
-			if(slots[0].getItem() == Item.getItemFromBlock(ModBlocks.det_nuke))
-				return 4;
+//			if(slots[0].getItem() == Item.getItemFromBlock(ModBlocks.det_nuke))
+//				return 4;
 		}
 		
 		return 0;

@@ -1,6 +1,7 @@
 package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.tileentity.network.TileEntityCableSwitch;
 
 import cpw.mods.fml.relauncher.Side;
@@ -64,4 +65,5 @@ public class CableSwitch extends BlockContainer {
 			return false;
 		}
 	}
+
 }

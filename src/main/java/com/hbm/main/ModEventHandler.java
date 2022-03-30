@@ -13,6 +13,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Multimap;
+import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
@@ -35,12 +36,9 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.ImpactWorldHandler;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-import com.hbm.items.armor.IAttackHandler;
-import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
@@ -66,10 +64,12 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
@@ -77,6 +77,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -112,6 +113,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -172,7 +174,8 @@ public class ModEventHandler {
 								)
 							)
 						.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
-						);
+								)
+						;
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
@@ -190,8 +193,8 @@ public class ModEventHandler {
 			if(!player.inventory.hasItem(ModItems.hat))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
 			
-			if(!player.inventory.hasItem(ModItems.beta))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
+//			if(!player.inventory.hasItem(ModItems.beta))
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
 
@@ -345,31 +348,26 @@ public class ModEventHandler {
 				
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				
-				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
-					
-					if(stack.stackTagCompound != null) {
-						
-						int x = stack.stackTagCompound.getInteger("x");
-						int y = stack.stackTagCompound.getInteger("y");
-						int z = stack.stackTagCompound.getInteger("z");
-
-						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
-							
-							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
-							
-							if(GeneralConfig.enableExtendedLogging)
-								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
-						}
-						
-						player.inventory.setInventorySlotContents(i, null);
-					}
-				}
+//				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
+//					
+//					if(stack.stackTagCompound != null) {
+//						
+//						int x = stack.stackTagCompound.getInteger("x");
+//						int y = stack.stackTagCompound.getInteger("y");
+//						int z = stack.stackTagCompound.getInteger("z");
+//
+//						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
+//							
+//							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
+//							
+//							if(GeneralConfig.enableExtendedLogging)
+//								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
+//						}
+//						
+//						player.inventory.setInventorySlotContents(i, null);
+//					}
+//				}
 			}
-			
-			SiegeOrchestrator.playerDeathHook(player, event.source);
-			
-		} else {
-			SiegeOrchestrator.mobDeathHook(entity, event.source);
 		}
 	}
 	
@@ -388,33 +386,33 @@ public class ModEventHandler {
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_olde, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(256) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(1024) == 0)
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.starmetal_plate, 1, world.rand.nextInt(ModItems.starmetal_plate.getMaxDamage())));
-			
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_lead, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.reer_graar, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_rusty, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
+//			if(rand.nextInt(1024) == 0)
+//				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.starmetal_plate, 1, world.rand.nextInt(ModItems.starmetal_plate.getMaxDamage())));
+//			
+//			if(rand.nextInt(128) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_lead, 1, world.rand.nextInt(100)));
+//			if(rand.nextInt(128) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.reer_graar, 1, world.rand.nextInt(100)));
+//			if(rand.nextInt(128) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_rusty, 1, world.rand.nextInt(100)));
+//			if(rand.nextInt(128) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.geiger_counter, 1));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.stopsign));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.sopsign));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
+//			if(rand.nextInt(128) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
+//			if(rand.nextInt(512) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.stopsign));
+//			if(rand.nextInt(512) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.sopsign));
+//			if(rand.nextInt(512) == 0)
+//				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
 		}
 		if(entity instanceof EntitySkeleton) {
 			if(rand.nextInt(16) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(64) == 0)
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
+//			if(rand.nextInt(64) == 0)
+//				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
 		}
 	}
 	
@@ -534,7 +532,6 @@ public class ModEventHandler {
 	public void onLoad(WorldEvent.Load event) {
 		DimensionManager.unregisterProviderType(0);
 		DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
-		
 		BobmazonOfferFactory.init();
 	}
 
@@ -878,7 +875,6 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
-			SiegeOrchestrator.update(event.world);
 		}
 	}
 	
@@ -887,24 +883,13 @@ public class ModEventHandler {
 		
 		EntityLivingBase e = event.entityLiving;
 
-		if(e instanceof EntityPlayer) {
-			
-			EntityPlayer player = (EntityPlayer) e;
-			
-			if(ArmorUtil.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
-				e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
-				event.setCanceled(true);
-			}
-			
-			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleAttack(event);
-			
-			for(ItemStack stack : player.inventory.armorInventory) {
-				if(stack != null && stack.getItem() instanceof IAttackHandler) {
-					((IAttackHandler)stack.getItem()).handleAttack(event, stack);
-				}
-			}
+		if(e instanceof EntityPlayer && ArmorUtil.checkArmor((EntityPlayer)e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
+			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+			event.setCanceled(true);
 		}
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleAttack(event);
 	}
 	
 	@SubscribeEvent
@@ -948,21 +933,9 @@ public class ModEventHandler {
 			}
 		}
 		
-		if(e instanceof EntityPlayer) {
-			
-			EntityPlayer player = (EntityPlayer) e;
-			
-			/// FSB ARMOR ///
-			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleHurt(event);
-	
-			
-			for(ItemStack stack : player.inventory.armorInventory) {
-				if(stack != null && stack.getItem() instanceof IDamageHandler) {
-					((IDamageHandler)stack.getItem()).handleDamage(event, stack);
-				}
-			}
-		}
+		/// FSB ARMOR ///
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleHurt(event);
 	}
 	
 	@SubscribeEvent
@@ -1098,6 +1071,18 @@ public class ModEventHandler {
 		
 		if(player.ticksExisted == 100 || player.ticksExisted == 200)
 			CraftingManager.crumple();
+
+		if(event.phase == TickEvent.Phase.START) {
+			int x = MathHelper.floor_double(player.posX);
+			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.5);
+			int z = MathHelper.floor_double(player.posZ);
+			Block b = player.worldObj.getBlock(x, y, z);
+
+			if(b instanceof IStepTickReceiver) {
+				IStepTickReceiver step = (IStepTickReceiver) b;
+				step.onPlayerStep(player.worldObj, x, y, z, player);
+			}
+		}
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			
@@ -1113,21 +1098,21 @@ public class ModEventHandler {
 			/// GHOST FIX END ///
 			
 			/// BETA HEALTH START ///
-			if(player.inventory.hasItem(ModItems.beta)) {
-				
-				if(player.getFoodStats().getFoodLevel() > 10) {
-					player.heal(player.getFoodStats().getFoodLevel() - 10);
-				}
-				
-				if(player.getFoodStats().getFoodLevel() != 10) {
-					
-					// Why can't you be normal??
-					try {
-						Field food = ReflectionHelper.findField(FoodStats.class, "field_75127_a", "foodLevel");
-						food.setInt(player.getFoodStats(), 10);
-					} catch(Exception e) { }
-				}
-			}
+//			if(player.inventory.hasItem(ModItems.beta)) {
+//				
+//				if(player.getFoodStats().getFoodLevel() > 10) {
+//					player.heal(player.getFoodStats().getFoodLevel() - 10);
+//				}
+//				
+//				if(player.getFoodStats().getFoodLevel() != 10) {
+//					
+//					// Why can't you be normal??
+//					try {
+//						Field food = ReflectionHelper.findField(FoodStats.class, "field_75127_a", "foodLevel");
+//						food.setInt(player.getFoodStats(), 10);
+//					} catch(Exception e) { }
+//				}
+//			}
 			/// BETA HEALTH END ///
 
 			/// PU RADIATION START ///
@@ -1206,18 +1191,18 @@ public class ModEventHandler {
 		
 		Item item = e.crafting.getItem();
 
-		if(item == ModItems.gun_mp40) {
-			e.player.addStat(MainRegistry.achFreytag, 1);
-		}
-		if(item == ModItems.piston_selenium || item == ModItems.gun_b92) {
-			e.player.addStat(MainRegistry.achSelenium, 1);
-		}
+//		if(item == ModItems.gun_mp40) {
+//			e.player.addStat(MainRegistry.achFreytag, 1);
+//		}
+//		if(item == ModItems.piston_selenium || item == ModItems.gun_b92) {
+//			e.player.addStat(MainRegistry.achSelenium, 1);
+//		}
 		if(item == ModItems.battery_potatos) {
 			e.player.addStat(MainRegistry.achPotato, 1);
 		}
-		if(item == ModItems.gun_revolver_pip) {
-			e.player.addStat(MainRegistry.achC44, 1);
-		}
+//		if(item == ModItems.gun_revolver_pip) {
+//			e.player.addStat(MainRegistry.achC44, 1);
+//		}
 		if(item == Item.getItemFromBlock(ModBlocks.machine_press)) {
 			e.player.triggerAchievement(MainRegistry.achBurnerPress);
 		}

@@ -728,34 +728,6 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_folly_du) {
 			list.add(EnumChatFormatting.BLUE + "+ Howitzer 17kg U238 shell");
 		}
-		
-		//STINGER
-		if(this == ModItems.ammo_stinger_rocket) {
-			list.add(EnumChatFormatting.BLUE + "+ Homing");
-		}
-		if(this == ModItems.ammo_stinger_rocket_he) {
-			list.add(EnumChatFormatting.BLUE + "+ Homing");
-			list.add(EnumChatFormatting.BLUE + "+ Increased Blast Radius");
-			list.add(EnumChatFormatting.RED + "- Increased Wear");
-		}
-		if(this == ModItems.ammo_stinger_rocket_incendiary) {
-			list.add(EnumChatFormatting.BLUE + "+ Homing");
-			list.add(EnumChatFormatting.BLUE + "+ Incendiary explosion");
-			list.add(EnumChatFormatting.RED + "- Slightly Increased wear");
-		}
-		if(this == ModItems.ammo_stinger_rocket_nuclear) {
-			list.add(EnumChatFormatting.BLUE + "+ Homing");
-			list.add(EnumChatFormatting.BLUE + "+ Nuclear");
-			list.add(EnumChatFormatting.RED + "- Highly Increased wear");
-		}
-		if(this == ModItems.ammo_stinger_rocket_bones) {
-			list.add(EnumChatFormatting.BLUE + "+ Homing");
-			list.add(EnumChatFormatting.YELLOW + "* RATTLE ME BONES");
-			list.add(EnumChatFormatting.YELLOW + "* WELCOME ABOARD MATEYS!");
-			list.add(EnumChatFormatting.YELLOW + "* RATTLE ME BONES");
-			list.add(EnumChatFormatting.YELLOW + "* RATTLE ME BONES");
-			list.add(EnumChatFormatting.YELLOW + "* SPIN THE WHEEL FOR THE TREASURE TO TAKE");
-		}
 	}
 
 }

@@ -548,11 +548,12 @@ public class EntityPlasmaBeam extends Entity implements IProjectile
     }
     
     private boolean surviveImmolation(EntityPlayer player) {
-    	if(player.inventory.hasItem(ModItems.gun_revolver_pip) && player.inventory.hasItem(ModItems.bottle_sparkle) && player.inventory.hasItem(ModItems.geiger_counter)) {
-    		player.triggerAchievement(MainRegistry.achSacrifice);
-    		player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 3 * 20, 6));
-    		return true;
-    	} else {
+//    	if(player.inventory.hasItem(ModItems.gun_revolver_pip) && player.inventory.hasItem(ModItems.bottle_sparkle) && player.inventory.hasItem(ModItems.geiger_counter)) {
+//    		player.triggerAchievement(MainRegistry.achSacrifice);
+//    		player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 3 * 20, 6));
+//    		return true;
+//    	} else 
+    	{
     		return false;
     	}
     }

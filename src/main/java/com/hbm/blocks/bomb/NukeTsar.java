@@ -40,10 +40,10 @@ public class NukeTsar extends BlockContainer implements IBomb {
 		return new TileEntityNukeTsar();
 	}
 
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(ModBlocks.nuke_tsar);
-	}
+//	@Override
+//	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+//		return Item.getItemFromBlock(ModBlocks.nuke_tsar);
+//	}
 
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {

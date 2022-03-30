@@ -42,13 +42,13 @@ public class ItemCanteen extends Item {
 			player.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 0));
 			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
 		}
-		if (this == ModItems.canteen_fab) {
-			player.heal(10F);
-			player.addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
-			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
-			player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
-		}
+//		if (this == ModItems.canteen_fab) {
+//			player.heal(10F);
+//			player.addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
+//			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
+//			player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
+//			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
+//		}
 		
 		VersatileConfig.applyPotionSickness(player, 5);
 
@@ -101,11 +101,11 @@ public class ItemCanteen extends Item {
     		else
     			list.add("Smells like disinfectant, tastes like disinfectant.");
     	}
-    	if(this == ModItems.canteen_fab)
-    	{
-			list.add("Cooldown: 2 minutes");
-			list.add("Engages the fab drive");
-    	}
+//    	if(this == ModItems.canteen_fab)
+//    	{
+//			list.add("Cooldown: 2 minutes");
+//			list.add("Engages the fab drive");
+//    	}
     }
 
 }

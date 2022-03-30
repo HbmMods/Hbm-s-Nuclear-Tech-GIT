@@ -88,58 +88,58 @@ public class LaunchTable extends BlockContainer implements IMultiblock, IBomb {
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord + 3, yCoord + i, zCoord, Blocks.air);
 
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
-
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
 		}
 		if(d == 1) {
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 2);
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord, yCoord + i, zCoord + 3, Blocks.air);
 
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
-
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 		}
 		if(d == 2) {
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord - 3, yCoord + i, zCoord, Blocks.air);
 
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
-
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
 		}
 		if(d == 3) {
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 3, 2);
 			for(int i = 1; i < 12; i++)
 				worldObj.setBlock(xCoord, yCoord + i, zCoord - 3, Blocks.air);
 
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
-
-			for(int i = -4; i <= 4; i++)
-				if(i != 0)
-					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord + i, yCoord, zCoord, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_launch_table);
+//
+//			for(int i = -4; i <= 4; i++)
+//				if(i != 0)
+//					placeDummy(worldObj, xCoord, yCoord, zCoord + i, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 		}
 
-		for(int i = -4; i <= 4; i++)
-			for(int j = -4; j <= 4; j++)
-				if(i != 0 && j != 0)
-					placeDummy(worldObj, xCoord + i, yCoord, zCoord + j, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
+//		for(int i = -4; i <= 4; i++)
+//			for(int j = -4; j <= 4; j++)
+//				if(i != 0 && j != 0)
+//					placeDummy(worldObj, xCoord + i, yCoord, zCoord + j, xCoord, yCoord, zCoord, ModBlocks.dummy_port_launch_table);
 	}
 
 	private void placeDummy(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord, Block block) {

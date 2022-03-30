@@ -147,14 +147,9 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
 				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
 			return true;
 		}
-		
-		if(world.getBlock(x, y, z) == ModBlocks.machine_mining_laser && tileentity instanceof TileEntityProxyInventory)
-			return true;
 		
 		return false;
 	}
@@ -369,7 +364,7 @@ public class Library {
 	}
 	
 	//TODO: jesus christ kill it
-	//Flut-FÃ¼ll gesteuerter EnergieÃ¼bertragungsalgorithmus
+	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
 	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
@@ -468,11 +463,6 @@ public class Library {
 		}
 		//AMS Base
 		if(block == ModBlocks.dummy_port_ams_base)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Launchers
-		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

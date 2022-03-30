@@ -17,25 +17,29 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_assembler.png");
 	private TileEntityMachineAssembler assembler;
+	private int invSizeX = 176;
+	private int invSizeY = 90;
+	private int invX = 40;
+	private int invY = 132;
 	
 	public GUIMachineAssembler(InventoryPlayer invPlayer, TileEntityMachineAssembler tedf) {
 		super(new ContainerMachineAssembler(invPlayer, tedf));
 		assembler = tedf;
 		
-		this.xSize = 176;
-		this.ySize = 222;
+		this.xSize = 248;
+		this.ySize = 132 + invSizeY;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 188, guiTop + 18, 16, 52, assembler.power, assembler.maxPower);
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
 			String[] warnText = I18nUtil.resolveKeyArray("desc.gui.assembler.warning");
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, warnText);
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 213, guiTop + 40, 8, 8, guiLeft + 213, guiTop + 40 + 16, warnText);
 		}
 		
 		String[] templateText = I18nUtil.resolveKeyArray("desc.gui.template");
@@ -54,20 +58,21 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		String name = this.assembler.hasCustomInventoryName() ? this.assembler.getInventoryName() : I18n.format(this.assembler.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, 6, 4210752);
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize - invSizeY);
+		drawTexturedModalRect(guiLeft + invX, guiTop + ySize - invSizeY, invX, invY, invSizeX, invSizeY);
 		
 		int i = (int)assembler.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 116, guiTop + 70 - i, 176, 52 - i, 16, i);
+		drawTexturedModalRect(guiLeft + 188, guiTop + 70 - i, 0, 184 - i, 16, i);
 
 		int j = assembler.getProgressScaled(83);
-		drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		drawTexturedModalRect(guiLeft + 117, guiTop + 82, 2, 222, j, 32);
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
@@ -75,6 +80,8 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		}
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 11);
-		this.drawInfoPanel(guiLeft + 141, guiTop + 40, 8, 8, 8);
+		
+		this.drawInfoPanel(guiLeft + 213, guiTop + 40, 8, 8, 8);
+//		this.drawInfoPanel(guiLeft + 141, guiTop + 40, 8, 8, 8);
 	}
 }

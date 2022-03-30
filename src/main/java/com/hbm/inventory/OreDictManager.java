@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -96,6 +97,8 @@ public class OreDictManager {
 	public static final String ORE = "ore";
 	public static final String ORENETHER = "oreNether";
 
+	
+	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	/*
 	 * MATERIALS
 	 */
@@ -163,7 +166,6 @@ public class OreDictManager {
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
 	public static final DictFrame POLYMER = new DictFrame("Polymer");
 	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
-	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
 	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
@@ -233,7 +235,7 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
-	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
+	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's jsut the secondary prefix, and that shape prefixes are applicable
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
 	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
@@ -402,7 +404,6 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_UNIVERSAL_BARREL, new ItemStack(fluid_barrel_full, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, new ItemStack(screwdriver, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre(KEY_TOOL_SCREWDRIVER, new ItemStack(screwdriver_desh, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, new ItemStack(hand_drill, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, new ItemStack(hand_drill_desh, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, new ItemStack(chemistry_set, 1, OreDictionary.WILDCARD_VALUE));
@@ -456,7 +457,7 @@ public class OreDictManager {
 	}
 	
 	public static void registerGroups() {
-		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true);
+		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
 		ANY_TAR.addPrefix(ANY, false);
 	}
 	
@@ -546,6 +547,9 @@ public class OreDictManager {
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
 			return new ItemStack(item, 1, en.ordinal());
+		}
+		public static ItemStack fromOne(Item item, Enum en, int stacksize) {
+			return new ItemStack(item, stacksize, en.ordinal());
 		}
 		/** Same as fromOne but with an array of ItemStacks. The array type is Object[] so that the ODM methods work with it. Generates ItemStacks for the entire enum class. */
 		public static Object[] fromAll(Item item, Class<? extends Enum> en) {

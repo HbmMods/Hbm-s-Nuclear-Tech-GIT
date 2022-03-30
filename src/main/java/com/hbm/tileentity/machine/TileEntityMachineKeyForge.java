@@ -185,9 +185,9 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 			}
 
 			//DEBUG, remove later
-			if(slots[2] != null && slots[2].getItem() == ModItems.ammo_4gauge) {
-				slots[2] = new ItemStack(ModItems.ammo_4gauge_titan, slots[2].stackSize);
-			}
+//			if(slots[2] != null && slots[2].getItem() == ModItems.ammo_4gauge) {
+//				slots[2] = new ItemStack(ModItems.ammo_4gauge_titan, slots[2].stackSize);
+//			}
 		}
 	}
 }

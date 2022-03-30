@@ -1,5 +1,8 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IBomb.BombReturnCode;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.ComparableNBTStack;
 import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
@@ -33,20 +34,27 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
         public SmeltingSet(List<Object> in, ItemStack result) {
         	
         	input = new ArrayList();
-        	
-        	ComparableStack comp = new ComparableStack(result);
+        	ComparableStack comp;
+        	if(result.hasTagCompound())
+        		comp = new ComparableNBTStack(result).addNBT(result.getTagCompound());
+        	else
+        		comp = new ComparableStack(result);
         	ItemStack template = new ItemStack(ModItems.assembly_template, 1, AssemblerRecipes.recipeList.indexOf(comp));
         	
-        	for(int i = 0; i < Math.min(in.size(), 12); i++) {
-        		input.add(new PositionedStack(in.get(i), 30 + (i % 4) * 18, 6 + (i / 4) * 18));
+        	for(int i = 0; i < Math.min(in.size(), 17); i++) {
+        		if(i < 15)
+        			input.add(new PositionedStack(in.get(i), 22 + (i % 5) * 18, 6 + (i / 5) * 18));
+        		else
+        			input.add(new PositionedStack(in.get(i), 22 + (i % 10) * 18, 6 + (i / 5) * 18));
         	}
             
-            input.add(new PositionedStack(template, 66 + 45, 6));
-            this.result = new PositionedStack(result, 138, 24);
+            input.add(new PositionedStack(template, 122, 4));
+            this.result = new PositionedStack(result, 149, 24);
         }
 
         @Override
 		public List<PositionedStack> getIngredients() {
+        	
             return getCycledIngredients(cycleticks / 48, input);
         }
 
@@ -138,8 +146,9 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
         transferRectsGui = new LinkedList<RecipeTransferRect>();
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-        transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 36, 23, 36, 18), "assembly"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "assembly"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(112, 23, 36, 18), "assembly"));
+//        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "assembly"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 6 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "assembly"));
         guiGui.add(GUIMachineAssembler.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
@@ -148,9 +157,9 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
     @Override
     public void drawExtras(int recipe) {
 
-        drawProgressBar(83 - (18 * 4) - 9 + 1, 6, 0, 86, 16, 18 * 3 - 2, 480, 7);
+    	drawProgressBar(83 - (18 * 4) - 9 + 1, 6, 0, 86, 16, 18 * 3 - 2, 480, 7);
         
-        drawProgressBar(83 - 3 + 16 + 5, 5 + 18, 16, 86, 36, 18, 48, 0);
+        drawProgressBar(83 - 3 + 16 + 5 + 10, 5 + 16, 16, 86, 36, 18, 48, 0);
     }
 
     @Override

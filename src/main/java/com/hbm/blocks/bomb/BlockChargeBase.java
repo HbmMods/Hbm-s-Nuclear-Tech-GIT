@@ -33,6 +33,11 @@ public abstract class BlockChargeBase extends BlockContainerBase implements IBom
 	
 	public static boolean safe = false;
 	
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
+	}
+	
 	public BlockChargeBase() {
 		super(Material.tnt);
 	}
@@ -55,11 +60,6 @@ public abstract class BlockChargeBase extends BlockContainerBase implements IBom
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
 		return side;
-	}
-	
-	@Override
-	public Item getItemDropped(int i, Random rand, int j) {
-		return null;
 	}
 	
 	@Override

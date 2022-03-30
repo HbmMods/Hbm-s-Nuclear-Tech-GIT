@@ -7,7 +7,7 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeCluster extends EntityGrenadeBouncyBase
+public abstract class EntityGrenadeCluster extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -36,11 +36,6 @@ public class EntityGrenadeCluster extends EntityGrenadeBouncyBase
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.5F, true);
         }
     }
-
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_cluster);
-	}
 
 	@Override
 	protected double getBounceMod() {

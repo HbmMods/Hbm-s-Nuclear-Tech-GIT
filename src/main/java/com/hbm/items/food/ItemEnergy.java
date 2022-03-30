@@ -45,61 +45,61 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
 			}
-			if(this == ModItems.can_creature) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 1));
-			}
-			if(this == ModItems.can_redbomb) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 30 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
-			}
-			if(this == ModItems.can_mrsugar) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
-			}
-			if(this == ModItems.can_overcharge) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
-			}
-			if(this == ModItems.can_luna) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
-			}
+//			if(this == ModItems.can_creature) {
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 1));
+//			}
+//			if(this == ModItems.can_redbomb) {
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+//				player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 30 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
+//			}
+//			if(this == ModItems.can_mrsugar) {
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+//				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+//			}
+//			if(this == ModItems.can_overcharge) {
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
+//			}
+//			if(this == ModItems.can_luna) {
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
+//			}
 			if(this == ModItems.can_bepis) {
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 3));
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 3));
 			}
-			if(this == ModItems.can_breen) {
-				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 30 * 20, 0));
-			}
-			if(this == ModItems.chocolate_milk) {
-				ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
-			}
-			if(this == ModItems.bottle_nuka) {
-				player.heal(4F);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
-				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
-			}
-			if(this == ModItems.bottle_cherry) {
-				player.heal(6F);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
-				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
-			}
-			if(this == ModItems.bottle_quantum) {
-				player.heal(10F);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
-				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
-			}
+//			if(this == ModItems.can_breen) {
+//				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 30 * 20, 0));
+//			}
+//			if(this == ModItems.chocolate_milk) {
+//				ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
+//			}
+//			if(this == ModItems.bottle_nuka) {
+//				player.heal(4F);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+//				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
+//			}
+//			if(this == ModItems.bottle_cherry) {
+//				player.heal(6F);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+//				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+//				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
+//			}
+//			if(this == ModItems.bottle_quantum) {
+//				player.heal(10F);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+//				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
+//			}
 			if(this == ModItems.bottle2_korl) {
 				player.heal(6);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
@@ -124,23 +124,23 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
 			}
-			if(this == ModItems.bottle_sparkle) {
-				player.heal(10F);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
-				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
-			}
-			if(this == ModItems.bottle_rad) {
-				player.heal(10F);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 120 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 4));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
-				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
-			}
+//			if(this == ModItems.bottle_sparkle) {
+//				player.heal(10F);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+//				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
+//			}
+//			if(this == ModItems.bottle_rad) {
+//				player.heal(10F);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+//				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+//				player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 120 * 20, 0));
+//				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 4));
+//				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+//				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
+//			}
 			if(this == ModItems.bottle2_sunset) {
 				player.heal(6);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
@@ -152,16 +152,23 @@ public class ItemEnergy extends Item {
 				player.heal(10);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
 			}
-			if(this == ModItems.coffee_radium) {
-				player.heal(10);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
-				HbmLivingProps.incrementRadiation(player, 500F);
-				player.triggerAchievement(MainRegistry.achRadium);
-			}
+//			if(this == ModItems.coffee_radium) {
+//				player.heal(10);
+//				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+//				HbmLivingProps.incrementRadiation(player, 500F);
+//				player.triggerAchievement(MainRegistry.achRadium);
+//			}
 		}
 
-		if(!player.capabilities.isCreativeMode && this != ModItems.chocolate_milk) {
-			if(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen) {
+		if(!player.capabilities.isCreativeMode) {
+			if(
+//					this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
+					this == ModItems.can_smart 
+//					|| this == ModItems.can_luna 
+					|| this == ModItems.can_bepis 
+//					|| this == ModItems.can_breen
+				) 
+			{
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
 				if(stack.stackSize <= 0) {
 					return new ItemStack(ModItems.can_empty);
@@ -170,23 +177,23 @@ public class ItemEnergy extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
 			}
 
-			if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
+//			if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka) {
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
+//				if(stack.stackSize <= 0) {
+//					return new ItemStack(ModItems.bottle_empty);
+//				}
+//
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+//			}
 
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle_quantum) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
+//			if(this == ModItems.bottle_quantum) {
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
+//				if(stack.stackSize <= 0) {
+//					return new ItemStack(ModItems.bottle_empty);
+//				}
+//
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+//			}
 
 			if(this == ModItems.bottle2_korl || this == ModItems.bottle2_korl_special) {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_korl));
@@ -206,23 +213,23 @@ public class ItemEnergy extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
 			}
 
-			if(this == ModItems.bottle_sparkle) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle_rad) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_rad));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
+//			if(this == ModItems.bottle_sparkle) {
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
+//				if(stack.stackSize <= 0) {
+//					return new ItemStack(ModItems.bottle_empty);
+//				}
+//
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+//			}
+//
+//			if(this == ModItems.bottle_rad) {
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_rad));
+//				if(stack.stackSize <= 0) {
+//					return new ItemStack(ModItems.bottle_empty);
+//				}
+//
+//				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+//			}
 
 			if(this == ModItems.bottle2_sunset) {
 
@@ -258,10 +265,19 @@ public class ItemEnergy extends Item {
 		if(VersatileConfig.hasPotionSickness(p_77659_3_))
 			return p_77659_1_;
 
-		if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge ||
-				this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk ||
-				this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen ||
-				this == ModItems.coffee || this == ModItems.coffee_radium))
+		if(!(
+//				this == ModItems.can_creature 
+//				|| this == ModItems.can_mrsugar 
+//				|| this == ModItems.can_overcharge ||
+//				this == ModItems.can_redbomb || 
+				this == ModItems.can_smart 
+//				|| this == ModItems.chocolate_milk 
+//				||this == ModItems.can_luna 
+				|| this == ModItems.can_bepis 
+//				|| this == ModItems.can_breen 
+				|| this == ModItems.coffee 
+//				|| this == ModItems.coffee_radium
+				))
 			if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 
@@ -276,44 +292,44 @@ public class ItemEnergy extends Item {
 		if(this == ModItems.can_smart) {
 			list.add("Cheap and full of bubbles");
 		}
-		if(this == ModItems.can_creature) {
-			list.add("Basically gasoline in a tin can");
-		}
-		if(this == ModItems.can_redbomb) {
-			list.add("Liquefied explosives");
-		}
-		if(this == ModItems.can_mrsugar) {
-			list.add("An intellectual drink, for the chosen ones!");
-		}
-		if(this == ModItems.can_overcharge) {
-			list.add("Possible side effects include heart attacks, seizures or zombification");
-		}
-		if(this == ModItems.can_luna) {
-			list.add("Contains actual selenium and star metal. Tastes like night.");
-		}
+//		if(this == ModItems.can_creature) {
+//			list.add("Basically gasoline in a tin can");
+//		}
+//		if(this == ModItems.can_redbomb) {
+//			list.add("Liquefied explosives");
+//		}
+//		if(this == ModItems.can_mrsugar) {
+//			list.add("An intellectual drink, for the chosen ones!");
+//		}
+//		if(this == ModItems.can_overcharge) {
+//			list.add("Possible side effects include heart attacks, seizures or zombification");
+//		}
+//		if(this == ModItems.can_luna) {
+//			list.add("Contains actual selenium and star metal. Tastes like night.");
+//		}
 		if(this == ModItems.can_bepis) {
 			list.add("beppp");
 		}
-		if(this == ModItems.can_breen) {
-			list.add("Don't drink the water. They put something in it, to make you forget.");
-			list.add("I don't even know how I got here.");
-		}
-		if(this == ModItems.chocolate_milk) {
-			list.add("Regular chocolate milk. Safe to drink.");
-			list.add("Totally not made from nitroglycerine.");
-		}
-		if(this == ModItems.bottle_nuka) {
-			list.add("Contains about 210 kcal and 1500 mSv.");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle_cherry) {
-			list.add("Now with severe radiation poisoning in every seventh bottle!");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle_quantum) {
-			list.add("Comes with a colorful mix of over 70 isotopes!");
-			list.add("[Requires bottle opener]");
-		}
+//		if(this == ModItems.can_breen) {
+//			list.add("Don't drink the water. They put something in it, to make you forget.");
+//			list.add("I don't even know how I got here.");
+//		}
+//		if(this == ModItems.chocolate_milk) {
+//			list.add("Regular chocolate milk. Safe to drink.");
+//			list.add("Totally not made from nitroglycerine.");
+//		}
+//		if(this == ModItems.bottle_nuka) {
+//			list.add("Contains about 210 kcal and 1500 mSv.");
+//			list.add("[Requires bottle opener]");
+//		}
+//		if(this == ModItems.bottle_cherry) {
+//			list.add("Now with severe radiation poisoning in every seventh bottle!");
+//			list.add("[Requires bottle opener]");
+//		}
+//		if(this == ModItems.bottle_quantum) {
+//			list.add("Comes with a colorful mix of over 70 isotopes!");
+//			list.add("[Requires bottle opener]");
+//		}
 		if(this == ModItems.bottle2_korl) {
 			list.add("Contains actual orange juice!");
 			list.add("[Requires bottle opener]");
@@ -336,20 +352,20 @@ public class ItemEnergy extends Item {
 				list.add("moremore caffeine");
 			list.add("[Requires bottle opener]");
 		}
-		if(this == ModItems.bottle_sparkle) {
-			if(MainRegistry.polaroidID == 11)
-				list.add("Contains trace amounts of taint.");
-			else
-				list.add("The most delicious beverage in the wasteland!");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle_rad) {
-			if(MainRegistry.polaroidID == 11)
-				list.add("Now with 400% more radiation!");
-			else
-				list.add("Tastes like radish and radiation.");
-			list.add("[Requires bottle opener]");
-		}
+//		if(this == ModItems.bottle_sparkle) {
+//			if(MainRegistry.polaroidID == 11)
+//				list.add("Contains trace amounts of taint.");
+//			else
+//				list.add("The most delicious beverage in the wasteland!");
+//			list.add("[Requires bottle opener]");
+//		}
+//		if(this == ModItems.bottle_rad) {
+//			if(MainRegistry.polaroidID == 11)
+//				list.add("Now with 400% more radiation!");
+//			else
+//				list.add("Tastes like radish and radiation.");
+//			list.add("[Requires bottle opener]");
+//		}
 		if(this == ModItems.bottle2_sunset) {
 			if(MainRegistry.polaroidID == 11) {
 				list.add("\"Authentic Sunset Juice\"");

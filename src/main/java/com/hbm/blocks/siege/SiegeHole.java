@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockBase;
 import com.hbm.entity.mob.siege.EntitySiegeZombie;
-import com.hbm.handler.SiegeOrchestrator;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
@@ -31,9 +30,6 @@ public class SiegeHole extends BlockBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-		
-		if(SiegeOrchestrator.spawnThresholdEnabled(world) && SiegeOrchestrator.siegeMobCount > SiegeOrchestrator.getSpawnThreshold(world))
-			return;
 		
 		List<EntitySiegeZombie> list = world.getEntitiesWithinAABB(EntitySiegeZombie.class, AxisAlignedBB.getBoundingBox(x - 5, y - 2, z - 5, x + 6, y + 3, z + 6));
 		

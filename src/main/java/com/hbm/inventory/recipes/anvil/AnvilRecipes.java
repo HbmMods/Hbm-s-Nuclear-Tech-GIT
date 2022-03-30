@@ -63,9 +63,6 @@ public class AnvilRecipes {
 		
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.ingot_meteorite_forged, 1), new ComparableStack(ModItems.ingot_meteorite), new ComparableStack(ModItems.ingot_meteorite)));
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.blade_meteorite, 1), new ComparableStack(ModItems.ingot_meteorite_forged), new ComparableStack(ModItems.ingot_meteorite_forged)));
-		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.meteorite_sword_reforged, 1), new ComparableStack(ModItems.meteorite_sword_seared), new ComparableStack(ModItems.ingot_meteorite_forged)));
-		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.gun_ar15, 1), new ComparableStack(ModItems.gun_thompson), new ComparableStack(ModItems.pipe_lead)));
-		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 
 		smithingRecipes.add(new AnvilSmithingCyanideRecipe());
 		smithingRecipes.add(new AnvilSmithingRenameRecipe());
@@ -194,12 +191,12 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.pipes_steel, 2)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_tower_large))).setTier(4));
 		
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {
-						new ComparableStack(Items.bone, 16),
-						new ComparableStack(Items.leather, 4),
-						new ComparableStack(Items.feather, 24)
-				}, new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
+//		constructionRecipes.add(new AnvilConstructionRecipe(
+//				new AStack[] {
+//						new ComparableStack(Items.bone, 16),
+//						new ComparableStack(Items.leather, 4),
+//						new ComparableStack(Items.feather, 24)
+//				}, new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
@@ -509,7 +506,7 @@ public class AnvilRecipes {
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(Items.redstone, 4)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 2)),
-						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_bismuth : ModItems.ingot_asbestos, 2)),
+						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_tantalium : ModItems.ingot_asbestos, 2)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1))
 				}
 		).setTier(4));
@@ -519,7 +516,7 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.redstone, 2)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1), 0.5F),
-						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_bismuth : ModItems.ingot_asbestos, 1)),
+						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_tantalium : ModItems.ingot_asbestos, 1)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1), 0.75F)
 				}
 		).setTier(4));

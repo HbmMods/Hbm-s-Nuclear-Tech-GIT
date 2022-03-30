@@ -48,7 +48,8 @@ public class EntityMissileBHole extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.grenade_black_hole, 1);
+		return null;
+//		return new ItemStack(ModItems.grenade_black_hole, 1);
 	}
 
 	@Override

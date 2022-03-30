@@ -116,7 +116,7 @@ public class Meteorite {
 				List<ItemStack> list10 = new ArrayList<ItemStack>();
 				list10.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere5x5(world, rand, x, y, z, list10);
-				world.setBlock(x, y, z, ModBlocks.taint, 9, 2);
+//				world.setBlock(x, y, z, ModBlocks.taint, 9, 2);
 				return;
 			case 11:
 				// Atomic meteorite
@@ -126,10 +126,10 @@ public class Meteorite {
 			case 12:
 				// Star Blaster
 				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
-				ItemStack stack = new ItemStack(ModItems.gun_b92);
-				stack.setStackDisplayName("§9Star Blaster§r");
-				EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
-				world.spawnEntityInWorld(blaster);
+//				ItemStack stack = new ItemStack(ModItems.gun_b92);
+//				stack.setStackDisplayName("§9Star Blaster§r");
+//				EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
+//				world.spawnEntityInWorld(blaster);
 				return;
 			}
 

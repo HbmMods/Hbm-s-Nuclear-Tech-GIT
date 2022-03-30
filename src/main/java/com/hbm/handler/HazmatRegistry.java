@@ -50,6 +50,75 @@ public class HazmatRegistry {
 		double cmb = 1.3D; // 95%
 		double schrab = 3D; // 99.9%
 		double euph = 10D; // <100%
+		double rpa = 2D; // 99%
+		
+		//Removed
+//		HazmatRegistry.registerHazmat(ModItems.t45_helmet, t45 * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.t45_plate, t45 * chest);
+//		HazmatRegistry.registerHazmat(ModItems.t45_legs, t45 * legs);
+//		HazmatRegistry.registerHazmat(ModItems.t45_boots, t45 * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.ajr_helmet, ajr * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.ajr_plate, ajr * chest);
+//		HazmatRegistry.registerHazmat(ModItems.ajr_legs, ajr * legs);
+//		HazmatRegistry.registerHazmat(ModItems.ajr_boots, ajr * boots);
+//		HazmatRegistry.registerHazmat(ModItems.ajro_helmet, ajr * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.ajro_plate, ajr * chest);
+//		HazmatRegistry.registerHazmat(ModItems.ajro_legs, ajr * legs);
+//		HazmatRegistry.registerHazmat(ModItems.ajro_boots, ajr * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.bj_helmet, bj * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.bj_plate, bj * chest);
+//		HazmatRegistry.registerHazmat(ModItems.bj_plate_jetpack, bj * chest);
+//		HazmatRegistry.registerHazmat(ModItems.bj_legs, bj * legs);
+//		HazmatRegistry.registerHazmat(ModItems.bj_boots, bj * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.hev_helmet, hev * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.hev_plate, hev * chest);
+//		HazmatRegistry.registerHazmat(ModItems.hev_legs, hev * legs);
+//		HazmatRegistry.registerHazmat(ModItems.hev_boots, hev * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.fau_helmet, fau * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.fau_plate, fau * chest);
+//		HazmatRegistry.registerHazmat(ModItems.fau_legs, fau * legs);
+//		HazmatRegistry.registerHazmat(ModItems.fau_boots, fau * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.dns_helmet, dns * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.dns_plate, dns * chest);
+//		HazmatRegistry.registerHazmat(ModItems.dns_legs, dns * legs);
+//		HazmatRegistry.registerHazmat(ModItems.dns_boots, dns * boots);
+//		HazmatRegistry.registerHazmat(ModItems.starmetal_helmet, star * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.starmetal_plate, star * chest);
+//		HazmatRegistry.registerHazmat(ModItems.starmetal_legs, star * legs);
+//		HazmatRegistry.registerHazmat(ModItems.starmetal_boots, star * boots);
+//		HazmatRegistry.registerHazmat(ModItems.steel_helmet, steel * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.steel_plate, steel * chest);
+//		HazmatRegistry.registerHazmat(ModItems.steel_legs, steel * legs);
+//		HazmatRegistry.registerHazmat(ModItems.steel_boots, steel * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.titanium_helmet, titanium * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.titanium_plate, titanium * chest);
+//		HazmatRegistry.registerHazmat(ModItems.titanium_legs, titanium * legs);
+//		HazmatRegistry.registerHazmat(ModItems.titanium_boots, titanium * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.cobalt_helmet, cobalt * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.cobalt_plate, cobalt * chest);
+//		HazmatRegistry.registerHazmat(ModItems.cobalt_legs, cobalt * legs);
+//		HazmatRegistry.registerHazmat(ModItems.cobalt_boots, cobalt * boots);
+//		HazmatRegistry.registerHazmat(ModItems.alloy_helmet, alloy * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.alloy_plate, alloy * chest);
+//		HazmatRegistry.registerHazmat(ModItems.alloy_legs, alloy * legs);
+//		HazmatRegistry.registerHazmat(ModItems.alloy_boots, alloy * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.cmb_helmet, cmb * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.cmb_plate, cmb * chest);
+//		HazmatRegistry.registerHazmat(ModItems.cmb_legs, cmb * legs);
+//		HazmatRegistry.registerHazmat(ModItems.cmb_boots, cmb * boots);
+//
+//		HazmatRegistry.registerHazmat(ModItems.schrabidium_helmet, schrab * helmet);
+//		HazmatRegistry.registerHazmat(ModItems.schrabidium_plate, schrab * chest);
+//		HazmatRegistry.registerHazmat(ModItems.schrabidium_legs, schrab * legs);
+//		HazmatRegistry.registerHazmat(ModItems.schrabidium_boots, schrab * boots);
 		
 		HazmatRegistry.registerHazmat(ModItems.hazmat_helmet, hazYellow * helmet);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_plate, hazYellow * chest);
@@ -89,40 +158,7 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.liquidator_legs, liquidator * legs);
 		HazmatRegistry.registerHazmat(ModItems.liquidator_boots, liquidator * boots);
 
-		HazmatRegistry.registerHazmat(ModItems.t45_helmet, t45 * helmet);
-		HazmatRegistry.registerHazmat(ModItems.t45_plate, t45 * chest);
-		HazmatRegistry.registerHazmat(ModItems.t45_legs, t45 * legs);
-		HazmatRegistry.registerHazmat(ModItems.t45_boots, t45 * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.ajr_helmet, ajr * helmet);
-		HazmatRegistry.registerHazmat(ModItems.ajr_plate, ajr * chest);
-		HazmatRegistry.registerHazmat(ModItems.ajr_legs, ajr * legs);
-		HazmatRegistry.registerHazmat(ModItems.ajr_boots, ajr * boots);
-		HazmatRegistry.registerHazmat(ModItems.ajro_helmet, ajr * helmet);
-		HazmatRegistry.registerHazmat(ModItems.ajro_plate, ajr * chest);
-		HazmatRegistry.registerHazmat(ModItems.ajro_legs, ajr * legs);
-		HazmatRegistry.registerHazmat(ModItems.ajro_boots, ajr * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.bj_helmet, bj * helmet);
-		HazmatRegistry.registerHazmat(ModItems.bj_plate, bj * chest);
-		HazmatRegistry.registerHazmat(ModItems.bj_plate_jetpack, bj * chest);
-		HazmatRegistry.registerHazmat(ModItems.bj_legs, bj * legs);
-		HazmatRegistry.registerHazmat(ModItems.bj_boots, bj * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.hev_helmet, hev * helmet);
-		HazmatRegistry.registerHazmat(ModItems.hev_plate, hev * chest);
-		HazmatRegistry.registerHazmat(ModItems.hev_legs, hev * legs);
-		HazmatRegistry.registerHazmat(ModItems.hev_boots, hev * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.fau_helmet, fau * helmet);
-		HazmatRegistry.registerHazmat(ModItems.fau_plate, fau * chest);
-		HazmatRegistry.registerHazmat(ModItems.fau_legs, fau * legs);
-		HazmatRegistry.registerHazmat(ModItems.fau_boots, fau * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.dns_helmet, dns * helmet);
-		HazmatRegistry.registerHazmat(ModItems.dns_plate, dns * chest);
-		HazmatRegistry.registerHazmat(ModItems.dns_legs, dns * legs);
-		HazmatRegistry.registerHazmat(ModItems.dns_boots, dns * boots);
+	
 
 		HazmatRegistry.registerHazmat(ModItems.paa_plate, paa * chest);
 		HazmatRegistry.registerHazmat(ModItems.paa_legs, paa * legs);
@@ -138,31 +174,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.security_legs, security * legs);
 		HazmatRegistry.registerHazmat(ModItems.security_boots, security * boots);
 
-		HazmatRegistry.registerHazmat(ModItems.starmetal_helmet, star * helmet);
-		HazmatRegistry.registerHazmat(ModItems.starmetal_plate, star * chest);
-		HazmatRegistry.registerHazmat(ModItems.starmetal_legs, star * legs);
-		HazmatRegistry.registerHazmat(ModItems.starmetal_boots, star * boots);
-
 		HazmatRegistry.registerHazmat(ModItems.jackt, 0.1);
 		HazmatRegistry.registerHazmat(ModItems.jackt2, 0.1);
 
 		HazmatRegistry.registerHazmat(ModItems.gas_mask, 0.07);
 		HazmatRegistry.registerHazmat(ModItems.gas_mask_m65, 0.095);
-
-		HazmatRegistry.registerHazmat(ModItems.steel_helmet, steel * helmet);
-		HazmatRegistry.registerHazmat(ModItems.steel_plate, steel * chest);
-		HazmatRegistry.registerHazmat(ModItems.steel_legs, steel * legs);
-		HazmatRegistry.registerHazmat(ModItems.steel_boots, steel * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.titanium_helmet, titanium * helmet);
-		HazmatRegistry.registerHazmat(ModItems.titanium_plate, titanium * chest);
-		HazmatRegistry.registerHazmat(ModItems.titanium_legs, titanium * legs);
-		HazmatRegistry.registerHazmat(ModItems.titanium_boots, titanium * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.cobalt_helmet, cobalt * helmet);
-		HazmatRegistry.registerHazmat(ModItems.cobalt_plate, cobalt * chest);
-		HazmatRegistry.registerHazmat(ModItems.cobalt_legs, cobalt * legs);
-		HazmatRegistry.registerHazmat(ModItems.cobalt_boots, cobalt * boots);
 
 		HazmatRegistry.registerHazmat(Items.iron_helmet, iron * helmet);
 		HazmatRegistry.registerHazmat(Items.iron_chestplate, iron * chest);
@@ -173,21 +189,6 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(Items.golden_chestplate, gold * chest);
 		HazmatRegistry.registerHazmat(Items.golden_leggings, gold * legs);
 		HazmatRegistry.registerHazmat(Items.golden_boots, gold * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.alloy_helmet, alloy * helmet);
-		HazmatRegistry.registerHazmat(ModItems.alloy_plate, alloy * chest);
-		HazmatRegistry.registerHazmat(ModItems.alloy_legs, alloy * legs);
-		HazmatRegistry.registerHazmat(ModItems.alloy_boots, alloy * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.cmb_helmet, cmb * helmet);
-		HazmatRegistry.registerHazmat(ModItems.cmb_plate, cmb * chest);
-		HazmatRegistry.registerHazmat(ModItems.cmb_legs, cmb * legs);
-		HazmatRegistry.registerHazmat(ModItems.cmb_boots, cmb * boots);
-
-		HazmatRegistry.registerHazmat(ModItems.schrabidium_helmet, schrab * helmet);
-		HazmatRegistry.registerHazmat(ModItems.schrabidium_plate, schrab * chest);
-		HazmatRegistry.registerHazmat(ModItems.schrabidium_legs, schrab * legs);
-		HazmatRegistry.registerHazmat(ModItems.schrabidium_boots, schrab * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.euphemium_helmet, euph * helmet);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_plate, euph * chest);

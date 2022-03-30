@@ -94,14 +94,14 @@ public class HadronRecipes {
 				new ItemStack(ModItems.dust),
 				false
 				));
-		recipes.add(new HadronRecipe(
-				new ItemStack(ModItems.particle_sparkticle),
-				new ItemStack(ModItems.particle_higgs),
-				1000000,
-				new ItemStack(ModItems.particle_digamma),
-				new ItemStack(ModItems.particle_empty),
-				false
-				));
+//		recipes.add(new HadronRecipe(
+//				new ItemStack(ModItems.particle_sparkticle),
+//				new ItemStack(ModItems.particle_higgs),
+//				1000000,
+//				new ItemStack(ModItems.particle_digamma),
+//				new ItemStack(ModItems.particle_empty),
+//				false
+//				));
 		recipes.add(new HadronRecipe(
 				new ItemStack(Items.chicken),
 				new ItemStack(Items.chicken),
