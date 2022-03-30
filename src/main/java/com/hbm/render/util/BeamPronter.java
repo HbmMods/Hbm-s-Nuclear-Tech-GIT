@@ -59,8 +59,7 @@ public class BeamPronter {
 				spinner.rotateAroundY((float) Math.PI * (float) start / 180F);
 				spinner.rotateAroundY((float) Math.PI * 45F / 180F * i);
 			} else if(wave == EnumWaveType.RANDOM) {
-				spinner.rotateAroundY((float) Math.PI * 2 * rand.nextFloat());
-				spinner.rotateAroundY((float) Math.PI * 2 * rand.nextFloat());
+				spinner.rotateAroundY((float) Math.PI * 4 * rand.nextFloat());
 			}
 
 			double pX = unit.xCoord * segLength * i + spinner.xCoord;
@@ -83,20 +82,7 @@ public class BeamPronter {
 				for(int j = 1; j <= layers; j++) {
 
 					float inter = (float) (j - 1) / (float) (layers - 1);
-
-					int r1 = ((outerColor & 0xFF0000) >> 16);
-					int g1 = ((outerColor & 0x00FF00) >> 8);
-					int b1 = ((outerColor & 0x0000FF) >> 0);
-					
-					int r2 = ((innerColor & 0xFF0000) >> 16);
-					int g2 = ((innerColor & 0x00FF00) >> 8);
-					int b2 = ((innerColor & 0x0000FF) >> 0);
-
-					int r = ((int)(r1 + (r2 - r1) * inter)) << 16;
-					int g = ((int)(g1 + (g2 - g1) * inter)) << 8;
-					int b = ((int)(b1 + (b2 - b1) * inter)) << 0;
-					
-					int color = r | g | b;
+					int color = (int) (outerColor + (innerColor - outerColor) * inter);
 
 					tessellator.startDrawingQuads();
 					tessellator.setColorOpaque_I(color);

@@ -19,10 +19,4 @@ public class ItemEnums {
 		CRACK,
 		COAL
 	}
-
-	public static enum EnumLegendaryType {
-		TIER1,
-		TIER2,
-		TIER3
-	}
 }

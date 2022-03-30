@@ -247,13 +247,6 @@ public class AnvilRecipes {
 				}, new AnvilOutput(new ItemStack(ModBlocks.vitrified_barrel))).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {
-						new ComparableStack(ModItems.man_core, 1),
-						new OreDictStack(BE.ingot(), 4),
-						new ComparableStack(ModItems.screwdriver, 1)
-				}, new AnvilOutput(new ItemStack(ModItems.demon_core_open))).setTier(3));
-		
-		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(DESH.ingot(), 4), new OreDictStack(POLYMER.dust(), 2), new OreDictStack(DURA.ingot(), 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_desh, 4))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -516,7 +509,7 @@ public class AnvilRecipes {
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(Items.redstone, 4)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 2)),
-						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_tantalium : ModItems.ingot_asbestos, 2)),
+						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_bismuth : ModItems.ingot_asbestos, 2)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1))
 				}
 		).setTier(4));
@@ -526,7 +519,7 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.redstone, 2)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1), 0.5F),
-						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_tantalium : ModItems.ingot_asbestos, 1)),
+						new AnvilOutput(new ItemStack(GeneralConfig.enable528 ? ModItems.circuit_bismuth : ModItems.ingot_asbestos, 1)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_bismuth, 1), 0.75F)
 				}
 		).setTier(4));

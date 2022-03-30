@@ -414,8 +414,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball) },
-					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getContainerColor()), new ItemStack(Items.slime_ball) },
+					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getContainerColor()), new ItemStack(Items.slime_ball)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },

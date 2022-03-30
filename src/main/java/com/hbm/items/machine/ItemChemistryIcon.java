@@ -28,10 +28,10 @@ public class ItemChemistryIcon extends Item {
 
 	public String getItemStackDisplayName(ItemStack stack) {
 		
-		ChemRecipe recipe = ChemplantRecipes.indexMapping.get(stack.getItemDamage());
+		ChemRecipe chem = ChemplantRecipes.recipes.get(stack.getItemDamage() % ChemplantRecipes.recipes.size());
 		
 		String s = ("" + StatCollector.translateToLocal(ModItems.chemistry_template.getUnlocalizedName() + ".name")).trim();
-		String s1 = ("" + StatCollector.translateToLocal("chem." + recipe.name)).trim();
+		String s1 = ("" + StatCollector.translateToLocal("chem." + chem.name)).trim();
 
 		if(s1 != null) {
 			s = s + " " + s1;
@@ -59,6 +59,6 @@ public class ItemChemistryIcon extends Item {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int i) {
-		return this.icons[ChemplantRecipes.indexMapping.get(i).listing % this.icons.length];
+		return this.icons[ChemplantRecipes.indexMapping.get(i).listing];
 	}
 }

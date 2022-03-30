@@ -1,8 +1,6 @@
 package com.hbm.items.machine;
 
 import java.util.List;
-
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -50,10 +48,6 @@ public class ItemFluidIcon extends Item {
 		stack.getTagCompound().setInteger("fill", i);
 
 		return stack;
-	}
-
-	public static ItemStack make(FluidStack stack) {
-		return make(stack.type, stack.fill);
 	}
 
 	public static ItemStack make(FluidType fluid, int i) {

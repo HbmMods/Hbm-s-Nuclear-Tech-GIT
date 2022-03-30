@@ -365,10 +365,8 @@ public class InventoryUtil {
 		
 		if(o instanceof ItemStack[]) {
 			ItemStack[] ingredients = (ItemStack[]) o;
-			ItemStack[][] stacks = new ItemStack[ingredients.length][1];
-			for(int i = 0; i < ingredients.length; i++) {
-				stacks[i][0] = ingredients[i];
-			}
+			ItemStack[][] stacks = new ItemStack[1][0];
+			stacks[0] = ingredients;
 			return stacks;
 		}
 		
