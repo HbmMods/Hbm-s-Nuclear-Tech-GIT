@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.interfaces.IFluidAcceptor;
@@ -14,6 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.world.machine.FWatz;
 
 import api.hbm.energy.IEnergyGenerator;
@@ -24,10 +23,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public final static long maxPower = 10000000000L;

@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityTickingBase extends TileEntity implements INBTPacketReceiver {
+public abstract class TileEntityTickingBase extends TileEntityLoadedBase implements INBTPacketReceiver {
 	
 	public TileEntityTickingBase() { }
 	

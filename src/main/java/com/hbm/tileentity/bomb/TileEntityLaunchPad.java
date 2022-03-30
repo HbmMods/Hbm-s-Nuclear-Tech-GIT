@@ -4,6 +4,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissilePacket;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -18,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	public ItemStack slots[];
 	

@@ -7,6 +7,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -19,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 	

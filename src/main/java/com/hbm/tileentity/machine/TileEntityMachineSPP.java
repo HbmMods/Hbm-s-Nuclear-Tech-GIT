@@ -1,16 +1,13 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineSPP extends TileEntity implements IEnergyGenerator {
+public class TileEntityMachineSPP extends TileEntityLoadedBase implements IEnergyGenerator {
 	
 	public long power;
 	public static final long maxPower = 100000;

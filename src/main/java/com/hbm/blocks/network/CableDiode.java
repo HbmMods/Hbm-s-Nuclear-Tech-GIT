@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
@@ -119,7 +120,7 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		return new TileEntityDiode();
 	}
 	
-	public static class TileEntityDiode extends TileEntity implements IEnergyUser {
+	public static class TileEntityDiode extends TileEntityLoadedBase implements IEnergyUser {
 		
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -14,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineTeleporter extends TileEntity implements IEnergyUser {
+public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser {
 
 	public long power = 0;
 	public int targetX = 0;

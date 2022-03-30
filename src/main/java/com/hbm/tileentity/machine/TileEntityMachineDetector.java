@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.tileentity.TileEntityLoadedBase;
+
 import api.hbm.energy.IEnergyUser;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDetector extends TileEntity implements IEnergyUser {
+public class TileEntityMachineDetector extends TileEntityLoadedBase implements IEnergyUser {
 	
 	long power;
 

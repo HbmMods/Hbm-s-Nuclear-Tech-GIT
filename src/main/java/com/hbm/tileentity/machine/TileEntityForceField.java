@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFFPacket;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -24,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityForceField extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityForceField extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 	
