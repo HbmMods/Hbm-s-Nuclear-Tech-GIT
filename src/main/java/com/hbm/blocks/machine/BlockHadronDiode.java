@@ -1,5 +1,6 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityHadronDiode;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;

@@ -13,6 +13,7 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 
@@ -23,6 +24,8 @@ public class TileMappings {
 	public static HashMap<Class<? extends TileEntity>, String[]> map = new HashMap();
 	
 	public static void writeMappings() {
+		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
+		
 		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		put(TileEntityDiFurnace.class, "tilentity_diFurnace");
 		put(TileEntityTestNuke.class, "tilentity_testnuke");
@@ -80,6 +83,7 @@ public class TileMappings {
 		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");
+		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		put(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
 		put(TileEntityTurretHeavy.class, "tileentity_turret_heavy");
 		put(TileEntityTurretRocket.class, "tileentity_turret_rocket");
@@ -189,7 +193,6 @@ public class TileMappings {
 		
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
-		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
 		
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
 		

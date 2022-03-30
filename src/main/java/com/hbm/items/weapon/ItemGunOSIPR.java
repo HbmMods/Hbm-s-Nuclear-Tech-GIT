@@ -38,7 +38,7 @@ public class ItemGunOSIPR extends ItemGunBase {
 			world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, 1F);
 			setCharge(stack, 0);
 			setDelay(stack, altConfig.rateOfFire);
-			player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
+//			player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
 			
 		} else if(i > 0)
 			setCharge(stack, i + 1);

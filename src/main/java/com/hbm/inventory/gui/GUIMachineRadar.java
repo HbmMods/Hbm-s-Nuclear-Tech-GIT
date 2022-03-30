@@ -102,32 +102,21 @@ public class GUIMachineRadar extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		drawTexturedModalRect(guiLeft - 14, guiTop + 94, 216, 198, 14, 46);
 		
-		if(diFurnace.scanMissiles || (diFurnace.jammed && diFurnace.getWorldObj().rand.nextBoolean()))
+		if(diFurnace.scanMissiles)
 			drawTexturedModalRect(guiLeft - 10, guiTop + 98, 230, 202, 8, 8);
 		
-		if(diFurnace.scanPlayers || (diFurnace.jammed && diFurnace.getWorldObj().rand.nextBoolean()))
+		if(diFurnace.scanPlayers)
 			drawTexturedModalRect(guiLeft - 10, guiTop + 108, 230, 212, 8, 8);
 		
-		if(diFurnace.smartMode || (diFurnace.jammed && diFurnace.getWorldObj().rand.nextBoolean()))
+		if(diFurnace.smartMode)
 			drawTexturedModalRect(guiLeft - 10, guiTop + 118, 230, 222, 8, 8);
 		
-		if(diFurnace.redMode || (diFurnace.jammed && diFurnace.getWorldObj().rand.nextBoolean()))
+		if(diFurnace.redMode)
 			drawTexturedModalRect(guiLeft - 10, guiTop + 128, 230, 232, 8, 8);
 		
 		if(diFurnace.power > 0) {
 			int i = (int)diFurnace.getPowerScaled(200);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 221, 0, 234, i, 16);
-		}
-		
-		if(diFurnace.jammed) {
-			
-			for(int i = 0; i < 5; i++) {
-				for(int j = 0; j < 5; j++) {
-					drawTexturedModalRect(guiLeft + 8 + i * 40, guiTop + 17 + j * 40, 216, 118 + diFurnace.getWorldObj().rand.nextInt(41), 40, 40);
-				}
-			}
-			
-			return;
 		}
 		
 		if(!diFurnace.nearbyMissiles.isEmpty()) {

@@ -97,17 +97,17 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if(this == ModItems.gun_minigun)
-			list.add("The perfect gift for the man who has everything.");
-		if(this == ModItems.gun_avenger)
-			list.add("Interloper! No quarter shall be shown hither, fiend!");
-		
-		if(this == ModItems.gun_lacunae) {
-			list.add("Whoa, wait, what's that sound? Do you hear that?");
-			list.add("I think that's silence! That's the sound people make");
-			list.add("when everyone trying to kill me is dead!");
-			list.add("And I have a minigun!");
-		}
+//		if(this == ModItems.gun_minigun)
+//			list.add("The perfect gift for the man who has everything.");
+//		if(this == ModItems.gun_avenger)
+//			list.add("Interloper! No quarter shall be shown hither, fiend!");
+//		
+//		if(this == ModItems.gun_lacunae) {
+//			list.add("Whoa, wait, what's that sound? Do you hear that?");
+//			list.add("I think that's silence! That's the sound people make");
+//			list.add("when everyone trying to kill me is dead!");
+//			list.add("And I have a minigun!");
+//		}
 		
 		list.add("");
 		list.add("Ammo: 5mm Round");
@@ -117,8 +117,8 @@ public class GunLacunae extends Item implements IHoldableWeapon {
     public String getItemStackDisplayName(ItemStack stack)
     {
 
-		if(this == ModItems.gun_lacunae && MainRegistry.polaroidID == 11)
-			return "CZ97 Lacunae";
+//		if(this == ModItems.gun_lacunae && MainRegistry.polaroidID == 11)
+//			return "CZ97 Lacunae";
 		
 		return super.getItemStackDisplayName(stack);
     }
@@ -129,15 +129,15 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
 				new AttributeModifier(field_111210_e, "Weapon modifier", 6, 0));
 
-		if(this == ModItems.gun_minigun)
-			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", -0.3, 1));
-		if(this == ModItems.gun_avenger)
-			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", -0.4, 1));
-		if(this == ModItems.gun_lacunae)
-			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
+//		if(this == ModItems.gun_minigun)
+//			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
+//					new AttributeModifier(field_111210_e, "Weapon modifier", -0.3, 1));
+//		if(this == ModItems.gun_avenger)
+//			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
+//					new AttributeModifier(field_111210_e, "Weapon modifier", -0.4, 1));
+//		if(this == ModItems.gun_lacunae)
+//			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
+//					new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
 		
 		return multimap;
 	}

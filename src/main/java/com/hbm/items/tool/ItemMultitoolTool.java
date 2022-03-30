@@ -41,15 +41,15 @@ public class ItemMultitoolTool extends ItemTool {
 			
 	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
 	        
-			if(this == ModItems.multitool_dig) {
-				ItemStack item = new ItemStack(ModItems.multitool_silk, 1, stack.getItemDamage());
-				item.addEnchantment(Enchantment.silkTouch, 3);
-				return item;
-			} else if (this == ModItems.multitool_silk) {
-				ItemStack item = new ItemStack(ModItems.multitool_ext, 1, stack.getItemDamage());
-				item.addEnchantment(Enchantment.fireAspect, 3);
-				return item;
-			}
+//			if(this == ModItems.multitool_dig) {
+//				ItemStack item = new ItemStack(ModItems.multitool_silk, 1, stack.getItemDamage());
+//				item.addEnchantment(Enchantment.silkTouch, 3);
+//				return item;
+//			} else if (this == ModItems.multitool_silk) {
+//				ItemStack item = new ItemStack(ModItems.multitool_ext, 1, stack.getItemDamage());
+//				item.addEnchantment(Enchantment.fireAspect, 3);
+//				return item;
+//			}
 		}
 		
 		return stack;
@@ -70,14 +70,14 @@ public class ItemMultitoolTool extends ItemTool {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if(this == ModItems.multitool_dig) {
-			list.add("Breaks blocks extremely fast");
-			list.add("Extra drops for ores");
-		}
-		if(this == ModItems.multitool_silk) {
-			list.add("Breaks blocks extremely fast");
-			list.add("Ores will drop themselves via silk touch");
-		}
+//		if(this == ModItems.multitool_dig) {
+//			list.add("Breaks blocks extremely fast");
+//			list.add("Extra drops for ores");
+//		}
+//		if(this == ModItems.multitool_silk) {
+//			list.add("Breaks blocks extremely fast");
+//			list.add("Ores will drop themselves via silk touch");
+//		}
 	}
 
 }

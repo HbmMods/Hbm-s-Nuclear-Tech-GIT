@@ -15,7 +15,7 @@ public class ItemFuelRod extends Item {
 	public int lifeTime;
 	
 	public ItemFuelRod(int life) {
-		this.lifeTime = life;
+		this.lifeTime = (int) (life * 2.5);
 		this.canRepair = false;
 	}
 	

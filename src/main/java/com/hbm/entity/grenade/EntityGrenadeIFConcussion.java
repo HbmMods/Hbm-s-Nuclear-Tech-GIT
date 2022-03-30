@@ -6,7 +6,7 @@ import com.hbm.items.weapon.ItemGrenade;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeIFConcussion extends EntityGrenadeBouncyBase {
+public abstract class EntityGrenadeIFConcussion extends EntityGrenadeBouncyBase {
 
     public EntityGrenadeIFConcussion(World p_i1773_1_)
     {
@@ -34,10 +34,10 @@ public class EntityGrenadeIFConcussion extends EntityGrenadeBouncyBase {
         }
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_concussion);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_if_concussion);
+//	}
 
 	@Override
 	protected double getBounceMod() {

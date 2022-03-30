@@ -41,14 +41,14 @@ public abstract class Satellite {
 	
 	public static void register() {
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
-		registerSatellite(SatelliteScanner.class, ModItems.sat_scanner);
+//		registerSatellite(SatelliteScanner.class, ModItems.sat_scanner);
 		registerSatellite(SatelliteRadar.class, ModItems.sat_radar);
-		registerSatellite(SatelliteLaser.class, ModItems.sat_laser);
-		registerSatellite(SatelliteResonator.class, ModItems.sat_resonator);
+//		registerSatellite(SatelliteLaser.class, ModItems.sat_laser);
+//		registerSatellite(SatelliteResonator.class, ModItems.sat_resonator);
 		registerSatellite(SatelliteRelay.class, ModItems.sat_foeq);
-		registerSatellite(SatelliteMiner.class, ModItems.sat_miner);
-		registerSatellite(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
-		registerSatellite(SatelliteHorizons.class, ModItems.sat_gerald);
+//		registerSatellite(SatelliteMiner.class, ModItems.sat_miner);
+//		registerSatellite(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
+//		registerSatellite(SatelliteHorizons.class, ModItems.sat_gerald);
 	}
 	
 	private static void registerSatellite(Class<? extends Satellite> sat, Item item) {

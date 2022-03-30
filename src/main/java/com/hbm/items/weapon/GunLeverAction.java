@@ -34,10 +34,10 @@ public class GunLeverAction extends Item {
 		
 		this.maxStackSize = 1;
 
-		if(this == ModItems.gun_lever_action)
-			this.setMaxDamage(500);
-		if(this == ModItems.gun_lever_action_dark)
-			this.setMaxDamage(750);
+//		if(this == ModItems.gun_lever_action)
+//			this.setMaxDamage(500);
+//		if(this == ModItems.gun_lever_action_dark)
+//			this.setMaxDamage(750);
 	}
 
 	/**
@@ -203,10 +203,10 @@ public class GunLeverAction extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if(this == ModItems.gun_lever_action)
-			list.add("Universal head-to-spaghetti-sauce converter.");
-		if(this == ModItems.gun_lever_action_dark)
-			list.add("Blow your legs off!");
+//		if(this == ModItems.gun_lever_action)
+//			list.add("Universal head-to-spaghetti-sauce converter.");
+//		if(this == ModItems.gun_lever_action_dark)
+//			list.add("Blow your legs off!");
 		list.add("");
 		list.add("Ammo: 12x74 Buckshot");
 		list.add("Damage: 8 - 16");

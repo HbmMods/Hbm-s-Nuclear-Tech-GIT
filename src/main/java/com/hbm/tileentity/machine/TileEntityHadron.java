@@ -137,14 +137,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 					slots[i].stackSize++;
 			}
 			
-			if(result[0].getItem() == ModItems.particle_digamma) {
-				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-						AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5)
-						.expand(128, 50, 128));
-				
-				for(EntityPlayer player : players)
-					player.triggerAchievement(MainRegistry.achOmega12);
-			}
+//			if(result[0].getItem() == ModItems.particle_digamma) {
+//				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+//						AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5)
+//						.expand(128, 50, 128));
+//				
+//				for(EntityPlayer player : players)
+//					player.triggerAchievement(MainRegistry.achOmega12);
+//			}
 		}
 		
 		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 1F);
@@ -611,7 +611,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 					
 					if(validDir == ForgeDirection.UNKNOWN) {
 						validDir = d;
-					
 					//it seems like there are two or more possible ways, which is not allowed without a diode
 					//sorry kid, nothing personal
 					} else {
@@ -626,7 +625,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.isCheckExempt = true;
 			return;
 		}
-
+		
 		p.expire(EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
 	}
 	

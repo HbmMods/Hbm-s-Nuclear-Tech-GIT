@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityMissileShuttle extends EntityMissileBaseAdvanced {
+public abstract class EntityMissileShuttle extends EntityMissileBaseAdvanced {
 
 	public EntityMissileShuttle(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -59,10 +59,10 @@ public class EntityMissileShuttle extends EntityMissileBaseAdvanced {
 		return list;
 	}
 
-	@Override
-	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.missile_generic);
-	}
+//	@Override
+//	public ItemStack getDebrisRareDrop() {
+//		return new ItemStack(ModItems.missile_generic);
+//	}
 
 	@Override
 	public RadarTargetType getTargetType() {

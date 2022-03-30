@@ -53,7 +53,9 @@ public class SlotMachineOutput extends Slot {
 			player.triggerAchievement(MainRegistry.achBismuth);
 		if(item == ModItems.nugget_am241 || item == ModItems.nugget_am242)
 			player.triggerAchievement(MainRegistry.achBreeding);
-		if(item == ModItems.missile_nuclear || item == ModItems.missile_nuclear_cluster || item == ModItems.missile_doomsday || item == ModItems.mp_warhead_10_nuclear || item == ModItems.mp_warhead_10_nuclear_large || item == ModItems.mp_warhead_15_nuclear || item == ModItems.mp_warhead_15_nuclear_shark || item == ModItems.mp_warhead_15_boxcar)
+		if(
+//				item == ModItems.missile_nuclear || item == ModItems.missile_nuclear_cluster || item == ModItems.missile_doomsday || 
+				item == ModItems.mp_warhead_10_nuclear || item == ModItems.mp_warhead_10_nuclear_large || item == ModItems.mp_warhead_15_nuclear || item == ModItems.mp_warhead_15_nuclear_shark || item == ModItems.mp_warhead_15_boxcar)
 			player.triggerAchievement(MainRegistry.achRedBalloons);
 		if(item == Item.getItemFromBlock(ModBlocks.struct_iter_core))
 			player.triggerAchievement(MainRegistry.achFusion);

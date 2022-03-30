@@ -38,7 +38,13 @@ public class NukeGadget extends BlockContainer implements IBomb {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityNukeGadget();
-
+	}
+	
+	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		
+		
+		return super.canPlaceBlockAt(world, x, y, z);
 	}
 
 	@Override

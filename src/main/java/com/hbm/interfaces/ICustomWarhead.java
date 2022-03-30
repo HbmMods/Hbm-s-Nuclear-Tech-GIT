@@ -1,6 +1,5 @@
 package com.hbm.interfaces;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +105,7 @@ public interface ICustomWarhead
 	public static final String NBT_WARHEAD = "WARHEAD";
 	public static final String NBT_TYPE = "WARHEAD_TYPE";
 	public static final String NBT_TRAIT = "WARHEAD_TRAIT";
-	public static final DecimalFormat df = new DecimalFormat("#.00");
+//	public static final DecimalFormat df = new DecimalFormat("#.00");
 	
 	public static EnumChatFormatting getColorFromWarhead(EnumCustomWarhead warhead)
 	{
@@ -199,9 +198,9 @@ public interface ICustomWarhead
 	
 	public default void addCompositionalInfo(NBTTagCompound data, List<String> tooltip, List<Enum<?>> combinedFuels)
 	{
-		for (Enum<?> f : combinedFuels)
-			if (data.getFloat(f.toString()) > 0)
-				tooltip.add(String.format("%s: %skg (%s)", I18nUtil.resolveKey("warheadFuel.".concat(f.toString())), df.format(data.getFloat(f.toString())), BobMathUtil.toPercentage(data.getFloat(f.toString()), data.getFloat(NBT_MASS))));
+//		for (Enum<?> f : combinedFuels)
+//			if (data.getFloat(f.toString()) > 0)
+//				tooltip.add(String.format("%s: %skg (%s)", I18nUtil.resolveKey("warheadFuel.".concat(f.toString())), df.format(data.getFloat(f.toString())), BobMathUtil.toPercentage(data.getFloat(f.toString()), data.getFloat(NBT_MASS))));
 	}
 	
 	public default void addTooltip(ItemStack stack, List<String> tooltip)

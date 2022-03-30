@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.entity.mob.siege.EntitySiegeTunneler;
+//import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
@@ -27,10 +27,10 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
-			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
-			tunneler.onSpawnWithEgg(null);
-			world.spawnEntityInWorld(tunneler);
+//			EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
+//			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
+//			tunneler.onSpawnWithEgg(null);
+//			world.spawnEntityInWorld(tunneler);
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			

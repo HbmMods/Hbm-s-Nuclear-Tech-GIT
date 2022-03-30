@@ -10,9 +10,22 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.oil.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
+import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntityMachineSolidifier;
+import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
 import com.hbm.tileentity.machine.rbmk.*;
-import com.hbm.tileentity.machine.storage.*;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.tileentity.turret.*;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,13 +39,13 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-
 		if(entity instanceof TileEntityMachineLiquefactor) {	return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
 		if(entity instanceof TileEntityMachineSolidifier) {		return new ContainerSolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
 		if(entity instanceof TileEntityMachineChemfac) {		return new ContainerChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
 		
 		switch(ID) {
+		
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
 				return new ContainerDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
@@ -867,7 +880,6 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-		
 		if(entity instanceof TileEntityMachineLiquefactor) {	return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
 		if(entity instanceof TileEntityMachineSolidifier) {		return new GUISolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
@@ -1715,8 +1727,6 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenGuide(player);
 		case ModItems.guiID_item_bobble:
 			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
-		case ModItems.guiID_item_holo_image:
-			return new GUIScreenHolotape();
 		}
 		return null;
 	}

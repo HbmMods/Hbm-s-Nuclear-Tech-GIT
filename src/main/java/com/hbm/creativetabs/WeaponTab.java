@@ -15,10 +15,10 @@ public class WeaponTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.gun_lever_action != null)
-		{
-			return ModItems.gun_lever_action;
-		}
+//		if(ModItems.gun_lever_action != null)
+//		{
+//			return ModItems.gun_lever_action;
+//		}
 		
 		return Items.iron_pickaxe;
 	}

@@ -46,10 +46,10 @@ public class ItemRenderRevolverNightmare implements IItemRenderer {
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
-			if(this.item == ModItems.gun_revolver_nightmare)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare.png"));
-			if(this.item == ModItems.gun_revolver_nightmare2)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare2.png"));
+//			if(this.item == ModItems.gun_revolver_nightmare)
+//				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare.png"));
+//			if(this.item == ModItems.gun_revolver_nightmare2)
+//				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare2.png"));
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
@@ -57,28 +57,28 @@ public class ItemRenderRevolverNightmare implements IItemRenderer {
 				GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
-				if(this.item == ModItems.gun_revolver_nightmare)
-					n1.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
-				if(this.item == ModItems.gun_revolver_nightmare2)
-					n2.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
+//				if(this.item == ModItems.gun_revolver_nightmare)
+//					n1.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
+//				if(this.item == ModItems.gun_revolver_nightmare2)
+//					n2.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
 		case ENTITY:
 			GL11.glPushMatrix();
-			if(this.item == ModItems.gun_revolver_nightmare)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare.png"));
-			if(this.item == ModItems.gun_revolver_nightmare2)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare2.png"));
+//			if(this.item == ModItems.gun_revolver_nightmare)
+//				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare.png"));
+//			if(this.item == ModItems.gun_revolver_nightmare2)
+//				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelNightmare2.png"));
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glTranslatef(0.0F, -0.2F, -0.5F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
-				if(this.item == ModItems.gun_revolver_nightmare)
-					n1.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
-				if(this.item == ModItems.gun_revolver_nightmare2)
-					n2.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
+//				if(this.item == ModItems.gun_revolver_nightmare)
+//					n1.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
+//				if(this.item == ModItems.gun_revolver_nightmare2)
+//					n2.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
 			GL11.glPopMatrix();
 		default: break;
 		}

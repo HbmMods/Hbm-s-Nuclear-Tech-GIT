@@ -41,8 +41,8 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 
-		if(this != ModBlocks.det_nuke)
-			return this.blockIcon;
+//		if(this != ModBlocks.det_nuke)
+//			return this.blockIcon;
 
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
@@ -76,15 +76,15 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 				new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 15).overrideResolution(64).explode();
 				ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
 			}
-			if(this == ModBlocks.det_nuke) {
-				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
-
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
-			}
+//			if(this == ModBlocks.det_nuke) {
+//				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
+//
+//				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
+//				entity2.posX = x;
+//				entity2.posY = y;
+//				entity2.posZ = z;
+//				world.spawnEntityInWorld(entity2);
+//			}
 		}
 
 		return BombReturnCode.DETONATED;

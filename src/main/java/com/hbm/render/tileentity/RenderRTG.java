@@ -20,11 +20,11 @@ public class RenderRTG extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
         
-        if(te.getBlockType() == ModBlocks.machine_rtg_grey)
-            bindTexture(ResourceManager.rtg_tex);
-        else if(te.getBlockType() == ModBlocks.machine_powerrtg)
-            bindTexture(ResourceManager.rtg_polonium_tex);
-        else
+//        if(te.getBlockType() == ModBlocks.machine_rtg_grey)
+//            bindTexture(ResourceManager.rtg_tex);
+//        else if(te.getBlockType() == ModBlocks.machine_powerrtg)
+//            bindTexture(ResourceManager.rtg_polonium_tex);
+//        else
             bindTexture(ResourceManager.rtg_cell_tex);
         
         ResourceManager.rtg.renderPart("Gen");

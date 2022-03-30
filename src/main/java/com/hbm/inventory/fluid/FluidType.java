@@ -139,8 +139,8 @@ public class FluidType {
 	
 	public void addInfo(List<String> info) {
 
-		if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "Â°C");
-		if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "Â°C");
+		if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
+		if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
 		if(isAntimatter()) info.add(EnumChatFormatting.DARK_RED + "Antimatter");
 
 		if(traits.contains(FluidTrait.CORROSIVE_2)) info.add(EnumChatFormatting.GOLD + "Strongly Corrosive");

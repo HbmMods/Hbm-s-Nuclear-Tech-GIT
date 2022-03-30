@@ -50,7 +50,7 @@ public class PressRecipes {
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.biomass),					ModItems.biomass_compressed);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			ModItems.briquette_lignite);
 		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
+//		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
 
 		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),		ModItems.plate_iron);
 		makeRecipe(StampType.PLATE, new OreDictStack(GOLD.ingot()),		ModItems.plate_gold);
@@ -77,14 +77,14 @@ public class PressRecipes {
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_bismuth_raw),		ModItems.circuit_bismuth);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
 
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.gun_revolver_iron_ammo);
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.gun_revolver_ammo);
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_lead),			ModItems.gun_revolver_lead_ammo);
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_gold),			ModItems.gun_revolver_gold_ammo);
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_schrabidium),	ModItems.gun_revolver_schrabidium_ammo);
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_nightmare),	ModItems.gun_revolver_nightmare_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.gun_revolver_iron_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.gun_revolver_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_lead),			ModItems.gun_revolver_lead_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_gold),			ModItems.gun_revolver_gold_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_schrabidium),	ModItems.gun_revolver_schrabidium_ammo);
+//		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_nightmare),	ModItems.gun_revolver_nightmare_ammo);
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_desh),			ModItems.ammo_357_desh);
-		makeRecipe(StampType.C357, new OreDictStack(STEEL.ingot()),						ModItems.gun_revolver_cursed_ammo);
+//		makeRecipe(StampType.C357, new OreDictStack(STEEL.ingot()),						ModItems.gun_revolver_cursed_ammo);
 		
 		makeRecipe(StampType.C44, new ComparableStack(ModItems.assembly_nopip),	ModItems.ammo_44);
 

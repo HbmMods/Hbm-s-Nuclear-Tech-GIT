@@ -57,9 +57,9 @@ public class RedBarrel extends Block {
 				int a = rand.nextInt(9) - 4 + x;
 				int b = rand.nextInt(9) - 4 + y;
 				int c = rand.nextInt(9) - 4 + z;
-				if(p_149695_1_.getBlock(a, b, c).isReplaceable(p_149695_1_, a, b, c) && BlockTaint.hasPosNeightbour(p_149695_1_, a, b, c)) {
-					p_149695_1_.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
-				}
+//				if(p_149695_1_.getBlock(a, b, c).isReplaceable(p_149695_1_, a, b, c) && BlockTaint.hasPosNeightbour(p_149695_1_, a, b, c)) {
+//					p_149695_1_.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+//				}
 			}
 		}
 	}

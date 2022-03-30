@@ -56,7 +56,9 @@ public class GunOSIPR extends Item {
 		if (!player.isSneaking()) {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo)) && count % 3 == 0) {
+			if ((player.capabilities.isCreativeMode 
+//					|| player.inventory.hasItem(ModItems.gun_osipr_ammo)
+					) && count % 3 == 0) {
 					EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 5, 15, false, "chopper");
 				entityarrow.setDamage(5 + rand.nextInt(10));
 
@@ -66,7 +68,7 @@ public class GunOSIPR extends Item {
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
 				} else {
-					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo);
+//					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo);
 				}
 				
 				if (!world.isRemote) {
@@ -76,7 +78,9 @@ public class GunOSIPR extends Item {
 		} else {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)) && count % 30 == 0 && (this.getMaxItemUseDuration(stack) - count) != 0) {
+			if ((player.capabilities.isCreativeMode 
+//					|| player.inventory.hasItem(ModItems.gun_osipr_ammo2)
+					) && count % 30 == 0 && (this.getMaxItemUseDuration(stack) - count) != 0) {
 				EntityCombineBall entityarrow = new EntityCombineBall(player.worldObj, player, 3.0F);
 				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
 
@@ -86,7 +90,7 @@ public class GunOSIPR extends Item {
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
 				} else {
-					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
+//					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
 				}
 				
 				if (!world.isRemote) {
@@ -94,7 +98,9 @@ public class GunOSIPR extends Item {
 				}
 			}
 			
-			if((this.getMaxItemUseDuration(stack) - count) % 30 == 15 && (player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)))
+			if((this.getMaxItemUseDuration(stack) - count) % 30 == 15 && (player.capabilities.isCreativeMode 
+//					|| player.inventory.hasItem(ModItems.gun_osipr_ammo2)
+					))
 				world.playSoundAtEntity(player, "hbm:weapon.osiprCharging", 1.0F, 1F);
 		}
 	}

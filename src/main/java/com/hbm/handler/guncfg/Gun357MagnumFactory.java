@@ -193,9 +193,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevIronConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_iron_ammo;
+//		bullet.ammo = ModItems.gun_revolver_iron_ammo;
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 10;
 		
@@ -204,9 +204,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSteelConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_ammo;
+//		bullet.ammo = ModItems.gun_revolver_ammo;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
 		
@@ -215,9 +215,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevLeadConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_lead_ammo;
+//		bullet.ammo = ModItems.gun_revolver_lead_ammo;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		
@@ -229,9 +229,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevGoldConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_gold_ammo;
+//		bullet.ammo = ModItems.gun_revolver_gold_ammo;
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 28;
 		
@@ -240,7 +240,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevDeshConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_357_desh;
 		bullet.dmgMin = 30;
@@ -251,9 +251,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSchrabidiumConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_schrabidium_ammo;
+//		bullet.ammo = ModItems.gun_revolver_schrabidium_ammo;
 		bullet.dmgMin = 10000;
 		bullet.dmgMax = 100000;
 		bullet.instakill = true;
@@ -263,9 +263,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevCursedConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
+//		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 25;
 		
@@ -274,9 +274,9 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevNightmareConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
+//		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 100;
 		
@@ -287,7 +287,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_nightmare2_ammo;
+//		bullet.ammo = ModItems.gun_revolver_nightmare2_ammo;
 		bullet.spread *= 10;
 		bullet.bulletsMin = 4;
 		bullet.bulletsMax = 6;
