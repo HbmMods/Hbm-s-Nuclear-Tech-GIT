@@ -13,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 
 public class ItemChemistryIcon extends Item {
@@ -59,6 +58,12 @@ public class ItemChemistryIcon extends Item {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int i) {
-		return this.icons[ChemplantRecipes.indexMapping.get(i).listing % this.icons.length];
+		ChemRecipe rec = ChemplantRecipes.indexMapping.get(i);
+		
+		if(rec != null) {
+			return this.icons[rec.listing % this.icons.length];
+		} else {
+			return ModItems.nothing.getIconFromDamage(i);
+		}
 	}
 }

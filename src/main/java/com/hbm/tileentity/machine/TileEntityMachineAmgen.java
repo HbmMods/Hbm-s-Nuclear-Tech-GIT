@@ -1,20 +1,15 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAmgen extends TileEntity implements IEnergyGenerator {
+public class TileEntityMachineAmgen extends TileEntityLoadedBase implements IEnergyGenerator {
 
 	public long power;
 	public long maxPower = 500;

@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * This is mean for TILE ENTITIES
  * @author hbm
  */
-public interface IEnergyConnector {
+public interface IEnergyConnector extends ILoadedTile {
 	
 	/**
 	 * Returns the amount of power that remains in the source after transfer

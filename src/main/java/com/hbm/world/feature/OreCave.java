@@ -28,6 +28,7 @@ public class OreCave {
 	private int maxRange = 4;
 	/** The y-level around which the stratum is centered. */
 	private int yLevel = 30;
+	private Block fluid;
 	
 	public OreCave(Block ore) {
 		this(ore, 0);
@@ -57,7 +58,13 @@ public class OreCave {
 		this.yLevel = yLevel;
 		return this;
 	}
+	
+	public OreCave withFluid(Block fluid) {
+		this.fluid = fluid;
+		return this;
+	}
 
+	@SuppressWarnings("incomplete-switch")
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
@@ -95,15 +102,48 @@ public class OreCave {
 						if(genTarget.isNormalCube() && (genTarget.getMaterial() == Material.rock || genTarget.getMaterial() == Material.ground)) {
 							
 							boolean shouldGen = false;
+							boolean canGenFluid = event.rand.nextBoolean();
 							
 							for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 								Block neighbor = world.getBlock(MathHelper.clamp_int(x + dir.offsetX, cX, cX + 16), y + dir.offsetY, MathHelper.clamp_int(z + dir.offsetZ, cZ, cZ + 16));
 								if(neighbor.getMaterial() == Material.air || neighbor instanceof BlockStalagmite) {
 									shouldGen = true;
+								}
+								
+								if(shouldGen && (fluid == null || !canGenFluid))
 									break;
+								
+								if(fluid != null) {
+									switch(dir) {
+									case UP: if(neighbor.getMaterial() != Material.air && !(neighbor instanceof BlockStalagmite)) canGenFluid = false; break;
+									case DOWN: if(!neighbor.isNormalCube()) canGenFluid = false; break;
+									case NORTH:
+									case SOUTH:
+									case EAST:
+									case WEST:
+										if(!neighbor.isNormalCube() && neighbor != fluid) canGenFluid = false; break;
+									}
 								}
 							}
-							if(shouldGen) world.setBlock(x, y, z, ore.block, ore.meta, 2);
+							
+							if(fluid != null && canGenFluid) {
+								world.setBlock(x, y, z, fluid, 0, 2);
+								world.setBlock(x, y - 1, z, ore.block, ore.meta, 2);
+								
+								for(int i = 2; i < 6; i++) {
+									ForgeDirection dir = ForgeDirection.getOrientation(i);
+									int clX = MathHelper.clamp_int(x + dir.offsetX, cX, cX + 16);
+									int clZ = MathHelper.clamp_int(z + dir.offsetZ, cZ, cZ + 16);
+									Block neighbor = world.getBlock(clX, y, clZ);
+									
+									if(neighbor.isNormalCube())
+										world.setBlock(clX, y, clZ, ore.block, ore.meta, 2);
+								}
+								
+							} else if(shouldGen) {
+								world.setBlock(x, y, z, ore.block, ore.meta, 2);
+							}
+							
 						} else {
 							
 							if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0) {

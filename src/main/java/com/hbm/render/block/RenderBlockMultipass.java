@@ -66,7 +66,6 @@ public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
 		Tessellator tessellator = Tessellator.instance;
-		//int meta = world.getBlockMetadata(x, y, z);
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		
@@ -82,8 +81,6 @@ public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
 		
 		for(int i = 0; i < passes; i++) {
 			currentPass = i;
-			//System.out.println(multi.getColorFromPass(world, x, y, z, false));
-			//tessellator.setColorOpaque_I(multi.getColorFromPass(world, x, y, z, false));
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		

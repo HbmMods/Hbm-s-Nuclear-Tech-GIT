@@ -96,12 +96,18 @@ public class PowerNet implements IPowerNet {
 		return this.valid;
 	}
 	
+	public long lastCleanup = System.currentTimeMillis();
+	
 	@Override
 	public long transferPower(long power) {
 		
-		this.subscribers.removeIf(x -> 
-			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid()
-		);
+		if(lastCleanup + 45 < System.currentTimeMillis()) {
+			this.subscribers.removeIf(x -> 
+				x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
+			);
+			
+			lastCleanup = System.currentTimeMillis();
+		}
 		
 		if(this.subscribers.isEmpty())
 			return power;

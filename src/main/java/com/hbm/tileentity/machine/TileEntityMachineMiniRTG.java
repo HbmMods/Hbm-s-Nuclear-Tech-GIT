@@ -5,12 +5,13 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiniRTG extends TileEntity implements IEnergyGenerator {
+public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IEnergyGenerator {
 
 	public long power;
 	boolean tact = false;

@@ -5,6 +5,7 @@ import com.hbm.interfaces.IFactory;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -18,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreTitanium extends TileEntity implements ISidedInventory, IFactory, IEnergyUser {
+public class TileEntityCoreTitanium extends TileEntityLoadedBase implements ISidedInventory, IFactory, IEnergyUser {
 	
 	public int progress = 0;
 	public long power = 0;

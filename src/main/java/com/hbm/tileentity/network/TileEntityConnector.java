@@ -1,7 +1,6 @@
 package com.hbm.tileentity.network;
 
 import api.hbm.energy.IEnergyConductor;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;

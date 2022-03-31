@@ -10,6 +10,7 @@ public class ItemCraftingDegradation extends Item {
 	public ItemCraftingDegradation(int durability) {
 		this.setMaxStackSize(1);
 		this.setMaxDamage(durability);
+		this.setNoRepair();
 	}
 
 	@Override

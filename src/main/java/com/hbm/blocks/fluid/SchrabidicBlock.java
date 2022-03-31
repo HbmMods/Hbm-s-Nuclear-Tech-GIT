@@ -77,7 +77,9 @@ public class SchrabidicBlock extends BlockFluidClassic {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-		entity.setInWeb();
+		
+		if(this.getMaterial() == ModBlocks.fluidschrabidic)
+			entity.setInWeb();
 		
 		if(entity instanceof EntityLivingBase)
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1.0F);
@@ -97,7 +99,7 @@ public class SchrabidicBlock extends BlockFluidClassic {
 	}
 	
 	public boolean reactToBlocks(World world, int x, int y, int z) {
-		if(world.getBlock(x, y, z).getMaterial() != ModBlocks.fluidschrabidic) {
+		if(world.getBlock(x, y, z).getMaterial() != this.getMaterial()) {
 			if(world.getBlock(x, y, z).getMaterial().isLiquid()) {
 				return true;
 			}
