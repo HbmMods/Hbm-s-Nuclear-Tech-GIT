@@ -63,7 +63,7 @@ public class ColorUtil {
 			int avgG = g / pixels;
 			int avgB = b / pixels;
 			
-			return (r << 16) | (g << 8) | b;
+			return (avgR << 16) | (avgG << 8) | avgB;
 			
 		} catch(Exception ex) {
 			return 0xFFFFFF;
@@ -122,7 +122,7 @@ public class ColorUtil {
 		if(b / r > 1.5) return true;
 		if(b / g > 1.5) return true;*/
 		
-		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), new float[0]);
+		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), new float[3]);
 		
 		//     saturation       brightness
 		return hsb[1] > 0.25 && hsb[2] > 0.25;
@@ -139,7 +139,7 @@ public class ColorUtil {
 		int r = color.getRed();
 		int g = color.getGreen();
 		int b = color.getBlue();
-		int max = Math.max(r, Math.max(g, b));
+		int max = Math.max(Math.max(1, r), Math.max(g, b));
 		
 		r = r * limit / max;
 		g = g * limit / max;

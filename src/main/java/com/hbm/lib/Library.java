@@ -74,6 +74,7 @@ public class Library {
 	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
+	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf

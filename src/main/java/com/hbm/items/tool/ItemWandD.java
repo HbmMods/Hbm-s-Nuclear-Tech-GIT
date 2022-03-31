@@ -9,9 +9,11 @@ import com.hbm.lib.Library;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -27,10 +29,17 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
+			List<EntityZombie> zombies = world.getEntitiesWithinAABB(EntityZombie.class, AxisAlignedBB.getBoundingBox(pos.blockX - 2, pos.blockY - 2, pos.blockZ - 2, pos.blockX + 2, pos.blockY + 2, pos.blockZ + 2));
+			
+			for(EntityZombie zombie : zombies) {
+				zombie.setChild(true);
+				zombie.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65));
+			}
+			
+			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
 			tunneler.onSpawnWithEgg(null);
-			world.spawnEntityInWorld(tunneler);
+			world.spawnEntityInWorld(tunneler);*/
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			

@@ -1,6 +1,9 @@
 package com.hbm.main;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
 import com.hbm.items.ModItems;
@@ -9,7 +12,14 @@ import com.hbm.lib.RefStrings;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.api.IHighlightHandler;
+import codechicken.nei.api.ItemInfo.Layout;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -139,6 +149,31 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.pink_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_double_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
+		
+		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
+
+			@Override
+			public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
+				int x = mop.blockX;
+				int y = mop.blockY;
+				int z = mop.blockZ;
+				
+				TileEntity te = world.getTileEntity(x, y, z);
+				
+				if(te instanceof TileEntityRandomOre) {
+					TileEntityRandomOre ore = (TileEntityRandomOre) te;
+					return new ItemStack(ModBlocks.ore_random, 1, ore.getStackId());
+				}
+				
+				return null;
+			}
+
+			@Override
+			public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
+				return currenttip;
+			}
+			
+		});
 	}
 
 	@Override

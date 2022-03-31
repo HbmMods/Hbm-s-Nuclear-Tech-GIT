@@ -3,6 +3,7 @@ package com.hbm.lib;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
@@ -116,6 +117,12 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 15, 30, ModBlocks.cluster_titanium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
+
+			for(int k = 0; k < 16; k++) {
+				BlockMotherOfAllOres.shuffleOverride(rand);
+				DungeonToolbox.generateOre(world, rand, i, j, 1, 10, 4, 30, ModBlocks.ore_random);
+			}
+			BlockMotherOfAllOres.resetOverride();
 			
 			if(GeneralConfig.enable528ColtanSpawn) {
 				DungeonToolbox.generateOre(world, rand, i, j, GeneralConfig.coltanRate, 4, 15, 40, ModBlocks.ore_coltan);

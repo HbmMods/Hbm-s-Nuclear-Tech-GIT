@@ -2,6 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
+import com.hbm.blocks.generic.BlockMotherOfAllOres.ItemRandomOreBlock;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.gas.*;
@@ -2398,6 +2399,9 @@ public class ModBlocks {
 		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
+		
+		//It's a meme you dip
+		GameRegistry.registerBlock(ore_random, ItemRandomOreBlock.class, ore_random.getUnlocalizedName());
 		
 		//Crystals
 		GameRegistry.registerBlock(crystal_power, crystal_power.getUnlocalizedName());

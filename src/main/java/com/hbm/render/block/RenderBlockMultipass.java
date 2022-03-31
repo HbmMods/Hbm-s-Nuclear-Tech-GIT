@@ -1,13 +1,21 @@
 package com.hbm.render.block;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ModItems;
+import com.hbm.util.ColorUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 
 public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
@@ -58,6 +66,59 @@ public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tessellator.draw();
+		
+		if(block == ModBlocks.ore_random) {
+
+			this.currentPass = 1;
+			renderer.setOverrideBlockTexture(block.getIcon(0, metadata));
+			this.currentPass = 0;
+			ComparableStack stack = BlockMotherOfAllOres.itemMap.get(metadata);
+			int color = ColorUtil.getAverageColorFromStack(stack != null ? stack.toStack() : new ItemStack(ModItems.nothing));
+			color = ColorUtil.amplifyColor(color);
+			
+			Color col = new Color(color);
+			int r = col.getRed();
+			int g = col.getGreen();
+			int b = col.getBlue();
+			
+			float[] hsb = new Color(color).RGBtoHSB(r, g, b, new float[3]);
+			
+			if(hsb[1] > 0F && hsb[1] < 0.75F)
+				hsb[1] = 0.75F;
+			
+			color = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+			col = new Color(color);
+			
+			GL11.glColor3f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F);
+			
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, -1.0F, 0.0F);
+			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 1.0F, 0.0F);
+			renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 0.0F, -1.0F);
+			renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 0.0F, 1.0F);
+			renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+			renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(1.0F, 0.0F, 0.0F);
+			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
+			tessellator.draw();
+			
+			renderer.clearOverrideBlockTexture();
+			GL11.glColor3f(1F, 1F, 1F);
+		}
 		
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}

@@ -41,6 +41,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
 	private static ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
 	private static ResourceLocation frizzlefrazzle = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeFrizzleFrazzle.png");
+	private static ResourceLocation pheo = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapePheo.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -110,6 +111,9 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.FrizzleFrazzle)) {
 			return frizzlefrazzle;
+		}
+		if(uuid.equals(Library.Barnaby99_x)) {
+			return pheo;
 		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;
