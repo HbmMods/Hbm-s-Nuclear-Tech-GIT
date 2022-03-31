@@ -64,6 +64,7 @@ public class OreCave {
 		return this;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		

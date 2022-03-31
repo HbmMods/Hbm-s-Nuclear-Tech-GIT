@@ -83,6 +83,8 @@ public class ModBlocks {
 	public static Block ore_cinnebar;
 	public static Block ore_coltan;
 	public static Block ore_alexandrite;
+
+	public static Block ore_random;
 	
 	public static Block ore_bedrock_coltan;
 
@@ -1342,6 +1344,8 @@ public class ModBlocks {
 		cluster_depth_titanium = new BlockDepthOre().setBlockName("cluster_depth_titanium").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":cluster_depth_titanium");
 		cluster_depth_tungsten = new BlockDepthOre().setBlockName("cluster_depth_tungsten").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":cluster_depth_tungsten");
 		ore_alexandrite = new BlockDepthOre().setBlockName("ore_alexandrite").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ore_alexandrite");
+		
+		ore_random = new BlockMotherOfAllOres().setBlockName("ore_random").setCreativeTab(MainRegistry.blockTab);
 
 		depth_brick = new BlockDepth().setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_brick");
 		depth_tiles = new BlockDepth().setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
