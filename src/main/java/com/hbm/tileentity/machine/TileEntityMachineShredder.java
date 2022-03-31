@@ -1,11 +1,11 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -15,10 +15,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineShredder extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 
@@ -205,8 +204,6 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 			if(slots[k].getItem() == itemStack.getItem() && slots[k].getItemDamage() == itemStack.getItemDamage() && slots[k].stackSize < size)
 				return false;
 		}
-		
-		System.out.println("ass");
 		
 		return true;
 	}

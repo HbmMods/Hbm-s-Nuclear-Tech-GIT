@@ -2,12 +2,15 @@ package com.hbm.items.armor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.util.I18nUtil;
 
@@ -40,7 +43,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 //Armor with full set bonus
-public class ArmorFSB extends ItemArmor {
+public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 	private String texture = "";
 	private ResourceLocation overlay = null;
@@ -60,6 +63,7 @@ public class ArmorFSB extends ItemArmor {
 	public boolean customGeiger = false;
 	public boolean hardLanding = false;
 	public double gravity = 0;
+	public int dashCount = 0;
 	public String step;
 	public String jump;
 	public String fall;
@@ -148,6 +152,11 @@ public class ArmorFSB extends ItemArmor {
 		this.gravity = gravity;
 		return this;
 	}
+	
+	public ArmorFSB setDashCount(int dashCount) {
+		this.dashCount = dashCount;
+		return this;
+	}
 
 	public ArmorFSB setStep(String step) {
 		this.step = step;
@@ -188,6 +197,7 @@ public class ArmorFSB extends ItemArmor {
 		this.customGeiger = original.customGeiger;
 		this.hardLanding = original.hardLanding;
 		this.gravity = original.gravity;
+		this.dashCount = original.dashCount;
 		this.step = original.step;
 		this.jump = original.jump;
 		this.fall = original.fall;
@@ -269,6 +279,10 @@ public class ArmorFSB extends ItemArmor {
 
 		if(gravity != 0) {
 			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
+		}
+		
+		if(dashCount > 0) {
+			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 		}
 
 		if(protectionYield != 100F) {
@@ -448,6 +462,46 @@ public class ArmorFSB extends ItemArmor {
 				} catch(Exception x) {
 				}
 			}
+			/*
+			if(dashCount > 0) {
+				
+				int perDash = 60;
+				
+				HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties("NTM_EXT_PLAYER");
+				
+				props.setDashCount(dashCount);
+				
+				int stamina = props.getStamina();
+
+				if(props.getDashCooldown() <= 0) {
+					
+					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
+						
+						Vec3 lookingIn = player.getLookVec();
+						lookingIn.yCoord = 0;
+						lookingIn.normalize();
+						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
+						player.playSound("hbm:player.dash", 1.0F, 1.0F);
+						
+						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
+						stamina -= perDash;
+					}
+				} else {	
+					props.setDashCooldown(props.getDashCooldown() - 1);
+				}
+				
+				if(stamina < props.getDashCount() * perDash) {
+					stamina++;
+					
+					if(stamina % perDash == perDash-1) {
+						
+						player.playSound("hbm:player.dashRecharge", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
+						stamina++;
+					}
+				}
+				
+				props.setStamina(stamina);
+			}	*/
 		}
 	}
 
@@ -578,5 +632,23 @@ public class ArmorFSB extends ItemArmor {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	private HashSet<EnumPlayerPart> hidden = new HashSet();
+	private boolean needsFullSet = false;
+	
+	public ArmorFSB hides(EnumPlayerPart... parts) {
+		Collections.addAll(hidden, parts);
+		return this;
+	}
+	
+	public ArmorFSB setFullSetForHide() {
+		needsFullSet = true;
+		return this;
+	}
+	
+	@Override
+	public boolean disablesPart(EntityPlayer player, ItemStack stack, EnumPlayerPart part) {
+		return hidden.contains(part) && (!needsFullSet || hasFSBArmorIgnoreCharge(player));
 	}
 }

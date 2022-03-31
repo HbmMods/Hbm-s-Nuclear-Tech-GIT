@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.chunk.Chunk;
 
 public class TileEntityGeiger extends TileEntity {
 	

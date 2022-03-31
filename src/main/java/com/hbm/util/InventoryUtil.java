@@ -257,7 +257,6 @@ public class InventoryUtil {
 					
 					if(inv.stackSize <= 0) {
 						inventory[j] = null;
-						System.out.println("da yis");
 					}
 				}
 			}

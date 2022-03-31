@@ -1,14 +1,14 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.BlockHadronPower;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
+public class TileEntityHadronPower extends TileEntityLoadedBase implements IEnergyUser {
 
 	public long power;
 

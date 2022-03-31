@@ -1,13 +1,13 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.Untested;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import cofh.api.energy.IEnergyHandler;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntity implements IEnergyGenerator, IEnergyHandler {
+public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEnergyGenerator, IEnergyHandler {
 
 	@Override
 	public void setPower(long power) {

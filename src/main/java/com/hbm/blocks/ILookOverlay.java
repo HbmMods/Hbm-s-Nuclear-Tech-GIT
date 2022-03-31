@@ -1,6 +1,5 @@
 package com.hbm.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -29,26 +28,28 @@ public interface ILookOverlay {
 		int pX = resolution.getScaledWidth() / 2 + 8;
 		int pZ = resolution.getScaledHeight() / 2;
 
-		List<String> exceptions = new ArrayList();
-		exceptions.add("x");
-		exceptions.add("y");
-		exceptions.add("z");
-		exceptions.add("items");
-		exceptions.add("id");
-
 		mc.fontRenderer.drawString(title, pX + 1, pZ - 9, bgCol);
 		mc.fontRenderer.drawString(title, pX, pZ - 10, titleCol);
 
-		for(String line : text) {
-
-			if(exceptions.contains(line))
-				continue;
-
-			mc.fontRenderer.drawStringWithShadow(line, pX, pZ, 0xFFFFFF);
-			pZ += 10;
+		try {
+			for(String line : text) {
+	
+				int color = 0xFFFFFF;
+				if(line.startsWith("&[")) {
+					int end = line.lastIndexOf("&]");
+					color = Integer.parseInt(line.substring(2, end));
+					line = line.substring(end + 2);
+				}
+				
+				mc.fontRenderer.drawStringWithShadow(line, pX, pZ, color);
+				pZ += 10;
+			}
+		} catch(Exception ex) {
+			mc.fontRenderer.drawStringWithShadow(ex.getClass().getSimpleName(), pX, pZ + 10, 0xff0000);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor3f(1F, 1F, 1F);
 
 		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);

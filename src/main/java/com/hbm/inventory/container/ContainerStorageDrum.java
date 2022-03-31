@@ -48,7 +48,6 @@ public class ContainerStorageDrum extends Container {
 			var3 = var5.copy();
 			
 			if(par2 <= drum.getSizeInventory() - 1) {
-				
 				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, drum.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}

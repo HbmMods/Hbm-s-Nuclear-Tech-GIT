@@ -2,7 +2,9 @@ package com.hbm.items.block;
 
 import java.util.List;
 
+import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.util.EnumUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +16,31 @@ public class ItemBlockBase extends ItemBlock {
 
 	public ItemBlockBase(Block block) {
 		super(block);
+		
+		if(block instanceof BlockEnumMulti) {
+			this.setMaxDamage(0);
+			this.setHasSubtypes(true);
+		}
+	}
+	
+	@Override
+	public int getMetadata(int meta) {
+		if(field_150939_a instanceof BlockEnumMulti)
+			return meta;
+		else
+			return super.getMetadata(meta);
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		
+		if(field_150939_a instanceof BlockEnumMulti && ((BlockEnumMulti)field_150939_a).multiName) {
+			
+			Enum num = EnumUtil.grabEnumSafely(((BlockEnumMulti)field_150939_a).theEnum, stack.getItemDamage());
+			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+		} else {
+			return super.getUnlocalizedName(stack);
+		}
 	}
 	
 	@Override

@@ -69,7 +69,9 @@ public class MachineSolidifier extends BlockDummyable implements ITooltipProvide
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-			list.add(EnumChatFormatting.YELLOW + "beb");
+			list.add(EnumChatFormatting.YELLOW + "A universal machine fitted with cooling systems and other");
+			list.add(EnumChatFormatting.YELLOW + "versatile tools for turning fluids solid using various");
+			list.add(EnumChatFormatting.YELLOW + "processes such as freezing and petrochemical polymerization.");
 		} else {
 			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
 					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +

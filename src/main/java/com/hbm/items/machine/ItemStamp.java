@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +28,7 @@ public class ItemStamp extends Item {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		if(this.type == StampType.PLATE || this.type == StampType.WIRE || this.type == StampType.CIRCUIT)
+		if((this.type == StampType.PLATE || this.type == StampType.WIRE || this.type == StampType.CIRCUIT) && this.getMaxDamage() > 0)
 			list.add("[CREATED USING TEMPLATE FOLDER]");
 	}
 	

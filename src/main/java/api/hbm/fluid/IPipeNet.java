@@ -1,8 +1,28 @@
 package api.hbm.fluid;
 
-import api.hbm.energy.IPowerNet;
+import java.util.HashSet;
+import java.util.List;
+
+import com.hbm.inventory.fluid.FluidType;
 
 public interface IPipeNet {
 	
-	public void joinNetworks(IPowerNet network);
+	public void joinNetworks(IPipeNet network);
+
+	public List<IFluidConductor> getLinks();
+	public HashSet<IFluidConnector> getSubscribers();
+
+	public IPipeNet joinLink(IFluidConductor conductor);
+	public void leaveLink(IFluidConductor conductor);
+
+	public void subscribe(IFluidConnector connector);
+	public void unsubscribe(IFluidConnector connector);
+	public boolean isSubscribed(IFluidConnector connector);
+
+	public void destroy();
+	
+	public boolean isValid();
+	
+	public long transferFluid(long fill);
+	public FluidType getType();
 }
