@@ -67,6 +67,7 @@ public class RenderBlockMultipass implements ISimpleBlockRenderingHandler {
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tessellator.draw();
 		
+		/** terrible hack to make this shit work */
 		if(block == ModBlocks.ore_random) {
 
 			this.currentPass = 1;

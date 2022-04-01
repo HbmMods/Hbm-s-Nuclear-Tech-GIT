@@ -47,6 +47,8 @@ public class WorldConfig {
 
 	public static int endTikiteSpawn = 8;
 
+	public static int randomSpawn = 16;
+
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
@@ -123,6 +125,8 @@ public class WorldConfig {
 		netherCobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N06_cobaltSpawnrate", "Amount of nether cobalt per chunk", 2);
 
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
+
+		randomSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.R00_randomOreSpawnrate", "Amount of random ore per chunk", 16);
 
 		final String CATEGORY_DUNGEON = "04_dungeons";
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);
