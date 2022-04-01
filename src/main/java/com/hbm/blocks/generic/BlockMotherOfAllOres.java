@@ -289,7 +289,7 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 		
 		for(Object b : Block.blockRegistry.getKeys()) {
 			Block block = Block.getBlockFromName((String) b);
-			if(block != null)
+			if(block != null && Item.getItemFromBlock(block) != null)
 				uniqueItems.add(new ComparableStack(block));
 		}
 		
