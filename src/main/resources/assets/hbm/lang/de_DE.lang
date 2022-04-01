@@ -3508,6 +3508,7 @@ tile.reactor_hatch.name=Kraftwerkszugriffsluke
 tile.reactor_inserter.name=Reaktor-Brennstoffeinlass
 tile.red_barrel.name=Explosives Fass
 tile.red_cable.name=Rotes Kupferkabel
+tile.red_cable_classic.name=Rotes Kupferkabel (Klassisch)
 tile.red_connector.name=Stromverbindungsstück
 tile.red_pylon.name=Strommasten
 tile.red_pylon_large.name=Hochspannungsmasten
