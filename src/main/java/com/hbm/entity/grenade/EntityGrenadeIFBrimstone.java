@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityGrenadeIFBrimstone extends EntityGrenadeBouncyBase {
+public abstract class EntityGrenadeIFBrimstone extends EntityGrenadeBouncyBase {
 
     public EntityGrenadeIFBrimstone(World p_i1773_1_)
     {
@@ -84,10 +84,10 @@ public class EntityGrenadeIFBrimstone extends EntityGrenadeBouncyBase {
         }
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_brimstone);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_if_brimstone);
+//	}
 
 	@Override
 	protected double getBounceMod() {

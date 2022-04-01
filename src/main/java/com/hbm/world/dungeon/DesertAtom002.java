@@ -20,7 +20,7 @@ public class DesertAtom002
 {
 	Block Block2 = ModBlocks.yellow_barrel;
 	Block Block3 = ModBlocks.reinforced_sand;
-	Block Block4 = ModBlocks.nuke_man;
+//	Block Block4 = ModBlocks.nuke_man;
 	Block Block5 = ModBlocks.deco_steel;
 	Block Block6 = ModBlocks.brick_light;
 	Block Block7 = ModBlocks.deco_tungsten;

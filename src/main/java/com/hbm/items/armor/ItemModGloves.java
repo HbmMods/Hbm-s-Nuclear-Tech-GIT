@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ItemModGloves extends ItemArmorMod {
-	
+
 	public ItemModGloves() {
 		super(ArmorModHandler.legs_only, false, true, false, false);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.DARK_PURPLE + "Protects against hot items; use with reacher");

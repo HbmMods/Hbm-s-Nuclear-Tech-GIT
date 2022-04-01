@@ -3,8 +3,10 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemModGloves;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -40,7 +42,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for 528: x / distance^2
 			} else if(reacher) {
 				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
-			}											
+			}		
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}

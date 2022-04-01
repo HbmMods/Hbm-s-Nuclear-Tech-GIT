@@ -51,14 +51,14 @@ public class ItemGunGauss extends ItemGunBase {
 	@Override
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(!main && getItemWear(stack) < mainConfig.durability && player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
-			chargeLoop = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, 1.0F, 0.75F);
-			world.playSoundAtEntity(player, "hbm:weapon.tauChargeLoop2", 1.0F, 0.75F);
-			
-			if(chargeLoop != null) {
-				chargeLoop.startSound();
-			}
-		}
+//		if(!main && getItemWear(stack) < mainConfig.durability && player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
+//			chargeLoop = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, 1.0F, 0.75F);
+//			world.playSoundAtEntity(player, "hbm:weapon.tauChargeLoop2", 1.0F, 0.75F);
+//			
+//			if(chargeLoop != null) {
+//				chargeLoop.startSound();
+//			}
+//		}
 	}
 	
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
@@ -82,10 +82,11 @@ public class ItemGunGauss extends ItemGunBase {
 				
 				if(c % 10 == 1 && c < 140 && c > 2) {
 					
-					if(player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
-						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
-						setStored(stack, getStored(stack) + 1);
-					} else {
+//					if(player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
+//						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
+//						setStored(stack, getStored(stack) + 1);
+//					} else 
+					{
 						setCharge(stack, 0);
 						setStored(stack, 0);
 					}

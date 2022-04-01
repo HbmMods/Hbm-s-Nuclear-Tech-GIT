@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
@@ -58,7 +60,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	Random rand = new Random();
 	
 	public TileEntityMachineAssembler() {
-		super(18);
+		super(18+24);
 	}
 
 	@Override
@@ -167,8 +169,11 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 							
 							removeItems(AssemblerRecipes.getRecipeFromTempate(slots[4]), slots);
 							
-							if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
-								slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
+							if(HBMRecipes.consumeOnUse.contains(new CraftingStack(AssemblerRecipes.getOutputFromTempate(slots[4]).copy())))
+								decrStackSize(4, 1);
+							
+//							if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
+//								slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
 						}
 						
 						power -= consumption;
@@ -325,7 +330,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 		if(st == null)
 			return true;
 		
-		for(int i = 6; i < 18; i++) {
+		for(int i = 6; i < 18+24; i++) {
 			
 			if(array[i] != null) {
 				
@@ -505,7 +510,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			
 		}
 		
-		for(int i = 6; i < 18; i++) {
+		for(int i = 6; i < 18 + 24; i++) {
 			
 			if(slots[i] != null) {
 			
@@ -529,7 +534,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			}
 		}
 		
-		for(int i = 6; i < 18; i++) {
+		for(int i = 6; i < 18+24; i++) {
 
 			ItemStack sta2 = inventory.getStackInSlot(slot).copy();
 			if(slots[i] == null && sta2 != null) {

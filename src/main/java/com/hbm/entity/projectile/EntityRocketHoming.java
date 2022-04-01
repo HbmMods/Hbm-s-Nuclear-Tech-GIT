@@ -9,11 +9,8 @@ import java.util.Map;
 
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeSmall;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.main.ModEventHandler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -51,17 +47,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
     private int ticksInAir;
     private double damage = 2.0D;
     private int knockbackStrength;
-    private float explosionStrength;
     private static final String __OBFID = "CL_00001715";
-
-    // specifies the type of stinger rocket that was fired
-    /*  0  =  Normal
-     *  1  =  HE
-     *  2  =  Incendiary
-     *  4  =  Nuclear
-     *  42 =  bone-seeking
-     */ 
-    public int type;
     
 
     public EntityRocketHoming(World p_i1753_1_)
@@ -80,12 +66,11 @@ public class EntityRocketHoming extends Entity implements IProjectile
         this.yOffset = 0.0F;
     }
 
-    public EntityRocketHoming(World p_i1755_1_, EntityLivingBase p_i1755_2_, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_, int rocketType)
+    public EntityRocketHoming(World p_i1755_1_, EntityLivingBase p_i1755_2_, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_)
     {
         super(p_i1755_1_);
         this.renderDistanceWeight = 10.0D;
         this.shootingEntity = p_i1755_2_;
-        this.type = rocketType;
 
         if (p_i1755_2_ instanceof EntityPlayer)
         {
@@ -111,12 +96,11 @@ public class EntityRocketHoming extends Entity implements IProjectile
         }
     }
 
-    public EntityRocketHoming(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, float strength, int type)
+    public EntityRocketHoming(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_)
     {
         super(p_i1756_1_);
         this.renderDistanceWeight = 10.0D;
         this.shootingEntity = p_i1756_2_;
-        this.type = type;
 
         if (p_i1756_2_ instanceof EntityPlayer)
         {
@@ -134,7 +118,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
         this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
         this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
-        this.explosionStrength = strength;
     }
 
     public EntityRocketHoming(World world, int x, int y, int z, double mx, double my, double mz, double grav) {
@@ -253,9 +236,11 @@ public class EntityRocketHoming extends Entity implements IProjectile
         if (this.inGround)
         {
             /*int j = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e, this.field_145789_f);
+
             if (block == this.field_145790_g && j == this.inData)
             {
                 ++this.ticksInGround;
+
                 if (this.ticksInGround == 1200)
                 {
                     this.setDead();
@@ -275,7 +260,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
             if (!this.worldObj.isRemote)
             {
             	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
-            	Explode(this.type, this.explosionStrength);
+            	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                 /*EntityNukeExplosionAdvanced explosion = new EntityNukeExplosionAdvanced(this.worldObj);
                 explosion.speed = 25;
                 explosion.coefficient = 5.0F;
@@ -329,7 +314,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
                     }
                 }
             }
-            
 
             if (entity != null)
             {
@@ -410,7 +394,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
                             if (!this.worldObj.isRemote)
                             {
                             	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
-                            	Explode(this.type, this.explosionStrength);
+                            	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                             }
                         	this.setDead();
                         }
@@ -420,7 +404,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
                         if (!this.worldObj.isRemote)
                         {
                         	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
-                        	Explode(this.type, this.explosionStrength);
+                        	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                         }
                     	this.setDead();
                     }
@@ -475,10 +459,12 @@ public class EntityRocketHoming extends Entity implements IProjectile
             {
                 this.prevRotationPitch += 360.0F;
             }
+
             while (this.rotationYaw - this.prevRotationYaw < -180.0F)
             {
                 this.prevRotationYaw -= 360.0F;
             }
+
             while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
             {
                 this.prevRotationYaw += 360.0F;
@@ -522,13 +508,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
     boolean hasBeeped = false;
     
     private boolean steer() {
-    	List<Entity> all = null;
-    	if(this.type == 42) {
-    		all = worldObj.getEntitiesWithinAABB(EntitySkeleton.class, AxisAlignedBB.getBoundingBox(posX - homingRadius, posY - homingRadius, posZ - homingRadius, posX + homingRadius, posY + homingRadius, posZ + homingRadius));
-    	} else {
-    		all = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - homingRadius, posY - homingRadius, posZ - homingRadius, posX + homingRadius, posY + homingRadius, posZ + homingRadius));
-    	}
-    	
+    	List<Entity> all = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - homingRadius, posY - homingRadius, posZ - homingRadius, posX + homingRadius, posY + homingRadius, posZ + homingRadius));
     	HashMap<Entity, Double> targetable = new HashMap();
     	Vec3 path = Vec3.createVectorHelper(motionX, motionY, motionZ);
     	double startSpeed = path.lengthVector();
@@ -618,8 +598,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
         p_70014_1_.setByte("inGround", (byte)(this.inGround ? 1 : 0));
         p_70014_1_.setByte("pickup", (byte)this.canBePickedUp);
         p_70014_1_.setDouble("damage", this.damage);
-        p_70014_1_.setFloat("strength", (byte)this.explosionStrength);
-        p_70014_1_.setByte("type", (byte)this.type);
     }
 
     /**
@@ -636,8 +614,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
         this.inData = p_70037_1_.getByte("inData") & 255;
         this.arrowShake = p_70037_1_.getByte("shake") & 255;
         this.inGround = p_70037_1_.getByte("inGround") == 1;
-        this.explosionStrength = p_70037_1_.getFloat("strength");
-        this.type = p_70037_1_.getByte("type");
 
         if (p_70037_1_.hasKey("damage", 99))
         {
@@ -664,10 +640,10 @@ public class EntityRocketHoming extends Entity implements IProjectile
         {
             boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
 
-            if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_stinger_rocket, 1)))
-            {
-                flag = false;
-            }
+//            if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 1)))
+//            {
+//                flag = false;
+//            }
 
             if (flag)
             {
@@ -745,19 +721,5 @@ public class EntityRocketHoming extends Entity implements IProjectile
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
         return (b0 & 1) != 0;
-    }
-    
-    public void Explode(int type, float strength) {
-    	switch(type) {
-    		case 42: ChunkRadiationManager.proxy.incrementRad(worldObj, (int)posX, (int)posY, (int)posZ, 2000);
-    		case 0: ExplosionLarge.explode(worldObj, posX, posY, posZ, strength, true, false, true); break;
-    		case 1: ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 2, true, false, true); break;
-    		case 2: ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, false, false); break;
-    		case 4:
-    			ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 3, false, false, true);
-    			ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, (int)strength * 5);
-    			break;
-    		default: break;
-    	}
     }
 }

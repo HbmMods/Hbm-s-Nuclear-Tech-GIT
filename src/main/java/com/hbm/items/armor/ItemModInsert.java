@@ -94,9 +94,9 @@ public class ItemModInsert extends ItemArmorMod {
 		
 		insert.setItemDamage(insert.getItemDamage() + 1);
 		
-		if(!event.entity.worldObj.isRemote && this == ModItems.insert_era) {
-			event.entity.worldObj.newExplosion(event.entity, event.entity.posX, event.entity.posY - event.entity.yOffset + event.entity.height * 0.5, event.entity.posZ, 0.05F, false, false);
-		}
+//		if(!event.entity.worldObj.isRemote && this == ModItems.insert_era) {
+//			event.entity.worldObj.newExplosion(event.entity, event.entity.posX, event.entity.posY - event.entity.yOffset + event.entity.height * 0.5, event.entity.posZ, 0.05F, false, false);
+//		}
 		
 		if(insert.getItemDamage() >= insert.getMaxDamage()) {
 			ArmorModHandler.removeMod(armor, ArmorModHandler.kevlar);

@@ -481,7 +481,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		switch(i) {
 		case 0: return ModItems.powder_balefire;
 		case 1: return ModItems.book_of_;
-		case 2: return ModItems.diamond_gavel;
+		case 2: return null;
 		case 3: return ModItems.coin_maskman;
 		}
 		

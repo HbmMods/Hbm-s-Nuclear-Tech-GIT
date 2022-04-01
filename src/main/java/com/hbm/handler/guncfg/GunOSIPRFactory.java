@@ -64,7 +64,7 @@ public class GunOSIPRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_osipr_ammo;
+//		bullet.ammo = ModItems.gun_osipr_ammo;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 5;
@@ -76,7 +76,7 @@ public class GunOSIPRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_osipr_ammo2;
+//		bullet.ammo = ModItems.gun_osipr_ammo2;
 		
 		return bullet;
 	}

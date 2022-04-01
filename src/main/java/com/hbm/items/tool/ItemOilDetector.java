@@ -2,7 +2,11 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.LordWeeder.EconomyPlus.compatibility.xradar.nodes.OilResource;
 import com.hbm.blocks.ModBlocks;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.tileentity.clowder.TileEntityFlagBig;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +35,12 @@ public class ItemOilDetector extends Item {
 		int y = (int)player.posY;
 		int z = (int)player.posZ;
 
+		if(ClowderTerritory.territories.containsKey(ClowderTerritory.intsToCode(x/16, z/16))) {
+			TerritoryMeta meta =  ClowderTerritory.territories.get(ClowderTerritory.intsToCode(x/16, z/16));
+			TileEntityFlagBig flag = (TileEntityFlagBig) world.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
+			direct = (flag != null && flag.nodeResource instanceof OilResource);
+		}
+		
 		for(int i =  y + 15; i > 5; i--)
 			if(world.getBlock(x, i, z) == ModBlocks.ore_oil)
 				direct = true;

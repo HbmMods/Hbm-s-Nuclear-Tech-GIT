@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.lib.RefStrings;
@@ -95,14 +94,12 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawBackground(int recipe) {
 		super.drawBackground(recipe);
-		
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
-		
+
 		for(int i = 0; i < rec.input.length; i++)
 			drawTexturedModalRect(47 + i * -18, 23, 5, 87, 18, 18);
 		for(int i = 0; i < rec.output.length; i++)
 			drawTexturedModalRect(101 + i * 18, 23, 5, 87, 18, 18);
-		
 		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
 	}
 

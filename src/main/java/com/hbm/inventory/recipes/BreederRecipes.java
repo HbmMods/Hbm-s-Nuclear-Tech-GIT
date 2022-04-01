@@ -33,7 +33,7 @@ public class BreederRecipes {
 		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
 		setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
 		
-		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
+//		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
 	}
 	
 	/** Sets recipes for single, dual, and quad rods **/

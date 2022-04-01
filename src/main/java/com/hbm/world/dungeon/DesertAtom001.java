@@ -20,7 +20,7 @@ public class DesertAtom001 extends WorldGenerator
 {
 	Block Block2 = ModBlocks.yellow_barrel;
 	Block Block3 = ModBlocks.reinforced_sand;
-	Block Block4 = ModBlocks.nuke_man;
+//	Block Block4 = ModBlocks.nuke_man;
 	Block Block5 = ModBlocks.deco_steel;
 	Block Block6 = ModBlocks.brick_light;
 	Block Block7 = ModBlocks.deco_tungsten;
@@ -443,7 +443,7 @@ public class DesertAtom001 extends WorldGenerator
 		world.setBlock(x + 5, y + -3, z + 25, Blocks.water, 0, 3);
 		world.setBlock(x + 6, y + -3, z + 25, Blocks.water, 0, 3);
 		world.setBlock(x + 7, y + -3, z + 25, Blocks.water, 0, 3);
-		world.setBlock(x + 8, y + -3, z + 25, Block4, 2, 3);
+//		world.setBlock(x + 8, y + -3, z + 25, Block4, 2, 3);
 		world.setBlock(x + 9, y + -3, z + 25, Blocks.water, 0, 3);
 		world.setBlock(x + 10, y + -3, z + 25, Blocks.water, 0, 3);
 		world.setBlock(x + 11, y + -3, z + 25, Blocks.water, 0, 3);

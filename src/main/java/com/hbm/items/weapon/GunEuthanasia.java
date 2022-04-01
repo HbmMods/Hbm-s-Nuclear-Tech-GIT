@@ -54,7 +54,9 @@ public class GunEuthanasia extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_euthanasia_ammo))
+		if ((player.capabilities.isCreativeMode 
+//				|| player.inventory.hasItem(ModItems.gun_euthanasia_ammo)
+				)
 				&& count % 8 == 0) {
 			
 			int deadly = rand.nextInt(5);
@@ -69,7 +71,7 @@ public class GunEuthanasia extends Item {
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
 			} else {
-				player.inventory.consumeInventoryItem(ModItems.gun_euthanasia_ammo);
+//				player.inventory.consumeInventoryItem(ModItems.gun_euthanasia_ammo);
 			}
 
 			if (!world.isRemote) {

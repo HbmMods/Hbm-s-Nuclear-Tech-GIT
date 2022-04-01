@@ -105,8 +105,8 @@ public class ItemChopper extends Item {
 	public Entity spawnCreature(World world, int dmg, double x, double y, double z) {
 		Entity entity = null;
 		
-		if(this == ModItems.spawn_chopper)
-			entity = new EntityHunterChopper(world);
+//		if(this == ModItems.spawn_chopper)
+//			entity = new EntityHunterChopper(world);
 		
 		if(this == ModItems.spawn_worm)
 			entity = new EntityBOTPrimeHead(world);

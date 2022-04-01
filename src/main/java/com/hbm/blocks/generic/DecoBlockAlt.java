@@ -105,16 +105,16 @@ public class DecoBlockAlt extends BlockContainer {
 			{
 				if(this == ModBlocks.statue_elb)
 				{
-					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_g, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
+//					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
+//					{
+//						world.setBlock(x, y, z, ModBlocks.statue_elb_g, world.getBlockMetadata(x, y, z), 2);
+//
+//                        if (!player.capabilities.isCreativeMode)
+//                        {
+//                            --player.getCurrentEquippedItem().stackSize;
+//                        }
+//						return true;
+//					}
 				
 					if(player.getCurrentEquippedItem().getItem() == ModItems.watch)
 					{
@@ -142,16 +142,16 @@ public class DecoBlockAlt extends BlockContainer {
 				}
 				if(this == ModBlocks.statue_elb_w)
 				{
-					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_f, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
+//					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
+//					{
+//						world.setBlock(x, y, z, ModBlocks.statue_elb_f, world.getBlockMetadata(x, y, z), 2);
+//
+//                        if (!player.capabilities.isCreativeMode)
+//                        {
+//                            --player.getCurrentEquippedItem().stackSize;
+//                        }
+//						return true;
+//					}
 				}
 			}
 		}

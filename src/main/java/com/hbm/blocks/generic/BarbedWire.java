@@ -46,30 +46,30 @@ public class BarbedWire extends Block {
         		
         }
 
-        if(this == ModBlocks.barbed_wire_acid) {
-        	ent.attackEntityFrom(DamageSource.cactus, 2.0F);
+//        if(this == ModBlocks.barbed_wire_acid) {
+//        	ent.attackEntityFrom(DamageSource.cactus, 2.0F);
+//
+//        	if(ent instanceof EntityPlayer) {
+//        		ArmorUtil.damageSuit((EntityPlayer)ent, 0, 1);
+//	    		ArmorUtil.damageSuit((EntityPlayer)ent, 1, 1);
+//	    		ArmorUtil.damageSuit((EntityPlayer)ent, 2, 1);
+//	    		ArmorUtil.damageSuit((EntityPlayer)ent, 3, 1);
+//        	}
+//        }
 
-        	if(ent instanceof EntityPlayer) {
-        		ArmorUtil.damageSuit((EntityPlayer)ent, 0, 1);
-	    		ArmorUtil.damageSuit((EntityPlayer)ent, 1, 1);
-	    		ArmorUtil.damageSuit((EntityPlayer)ent, 2, 1);
-	    		ArmorUtil.damageSuit((EntityPlayer)ent, 3, 1);
-        	}
-        }
-
-        if(this == ModBlocks.barbed_wire_wither) {
-        	ent.attackEntityFrom(DamageSource.cactus, 2.0F);
-        	
-        	if(ent instanceof EntityLivingBase)
-        		((EntityLivingBase)ent).addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 4));
-        }
-
-        if(this == ModBlocks.barbed_wire_ultradeath) {
-			ent.attackEntityFrom(ModDamageSource.pc, 5.0F);
-        	
-        	if(ent instanceof EntityLivingBase)
-        		((EntityLivingBase)ent).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 9));
-        }
+//        if(this == ModBlocks.barbed_wire_wither) {
+//        	ent.attackEntityFrom(DamageSource.cactus, 2.0F);
+//        	
+//        	if(ent instanceof EntityLivingBase)
+//        		((EntityLivingBase)ent).addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 4));
+//        }
+//
+//        if(this == ModBlocks.barbed_wire_ultradeath) {
+//			ent.attackEntityFrom(ModDamageSource.pc, 5.0F);
+//        	
+//        	if(ent instanceof EntityLivingBase)
+//        		((EntityLivingBase)ent).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 9));
+//        }
     }
 
     public boolean isOpaqueCube()

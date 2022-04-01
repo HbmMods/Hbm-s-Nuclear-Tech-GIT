@@ -6,7 +6,7 @@ import com.hbm.items.weapon.ItemGrenade;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeMIRV extends EntityGrenadeBouncyBase {
+public abstract class EntityGrenadeMIRV extends EntityGrenadeBouncyBase {
 
     public EntityGrenadeMIRV(World p_i1773_1_)
     {
@@ -46,10 +46,10 @@ public class EntityGrenadeMIRV extends EntityGrenadeBouncyBase {
         }
     }
 
-	@Override
-	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_mirv);
-	}
+//	@Override
+//	protected int getMaxTimer() {
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_mirv);
+//	}
 
 	@Override
 	protected double getBounceMod() {

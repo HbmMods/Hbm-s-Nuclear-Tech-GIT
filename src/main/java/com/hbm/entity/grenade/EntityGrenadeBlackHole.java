@@ -44,7 +44,8 @@ public class EntityGrenadeBlackHole extends EntityGrenadeBouncyBase
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_black_hole);
+		return 0;
+//		return ItemGrenade.getFuseTicks(ModItems.grenade_black_hole);
 	}
 
 	@Override

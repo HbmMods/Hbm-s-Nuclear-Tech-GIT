@@ -203,14 +203,14 @@ public class TileEntityCore extends TileEntityMachineBase {
 			return 0;
 		}
 		
-		if(slots[1].getItem() == ModItems.ams_core_sing)
-			return 500;
-		
-		if(slots[1].getItem() == ModItems.ams_core_wormhole)
-			return 650;
-		
-		if(slots[1].getItem() == ModItems.ams_core_eyeofharmony)
-			return 800;
+//		if(slots[1].getItem() == ModItems.ams_core_sing)
+//			return 500;
+//		
+//		if(slots[1].getItem() == ModItems.ams_core_wormhole)
+//			return 650;
+//		
+//		if(slots[1].getItem() == ModItems.ams_core_eyeofharmony)
+//			return 800;
 		
 		if(slots[1].getItem() == ModItems.ams_core_thingy)
 			return 2500;

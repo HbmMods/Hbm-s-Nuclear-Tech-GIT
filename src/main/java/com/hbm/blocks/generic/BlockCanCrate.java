@@ -80,12 +80,12 @@ public class BlockCanCrate extends Block {
     	items.add(ModItems.canned_recursion);
     	items.add(ModItems.canned_bark);
     	items.add(ModItems.can_smart);
-    	items.add(ModItems.can_creature);
-    	items.add(ModItems.can_redbomb);
-    	items.add(ModItems.can_mrsugar);
-    	items.add(ModItems.can_overcharge);
-    	items.add(ModItems.can_luna);
-    	items.add(ModItems.can_breen);
+//    	items.add(ModItems.can_creature);
+//    	items.add(ModItems.can_redbomb);
+//    	items.add(ModItems.can_mrsugar);
+//    	items.add(ModItems.can_overcharge);
+//    	items.add(ModItems.can_luna);
+//    	items.add(ModItems.can_breen);
     	items.add(ModItems.can_bepis);
     	items.add(ModItems.pudding);
     	

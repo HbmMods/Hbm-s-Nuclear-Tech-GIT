@@ -43,10 +43,10 @@ public class ItemRenderWeaponBolter implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
-		if(item.getItem() == ModItems.gun_bolter)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_tex);
-		if(item.getItem() == ModItems.gun_bolter_digamma)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_digamma_tex);
+//		if(item.getItem() == ModItems.gun_bolter)
+//			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_tex);
+//		if(item.getItem() == ModItems.gun_bolter_digamma)
+//			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_digamma_tex);
 		
 		switch(type) {
 		

@@ -107,7 +107,7 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadia
     	if(!worldObj.isRemote) {
     		this.dropItem(ModItems.coin_maskman, 1);
     		this.dropItem(ModItems.gas_mask_m65, 1);
-    		this.dropItem(ModItems.v1, 1);
+//    		this.dropItem(ModItems.v1, 1);
     		this.dropItem(Items.skull, 1);
     	}
     }

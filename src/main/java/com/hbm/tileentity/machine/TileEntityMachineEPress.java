@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
@@ -8,6 +11,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
+import akka.japi.Pair;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -214,38 +218,72 @@ public class TileEntityMachineEPress extends TileEntityLoadedBase implements ISi
 					
 					if(slots[1] != null && slots[2] != null) {
 						ItemStack stack = PressRecipes.getOutput(slots[2], slots[1]);
-						if(stack != null &&
-								(slots[3] == null ||
-								(slots[3].getItem() == stack.getItem() &&
-								slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
+						boolean damageStamp = stack != null;
+						int inputCount = 1;
+						int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
+						{
+							CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
+							CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
 							
-							power -= 100;
+							Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
 							
-							if(progress >= maxProgress) {
-								
-								isRetracting = true;
-								
-								if(slots[3] == null)
-									slots[3] = stack.copy();
-								else
-									slots[3].stackSize += stack.stackSize;
-								
-								slots[2].stackSize--;
-								if(slots[2].stackSize <= 0)
-									slots[2] = null;
-								
-								if(slots[1].getMaxDamage() != 0) {
-									slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-									if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
-										slots[1] = null;
-								}
-	
-						        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							if (stack == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
+								Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
+								stack = out.first();
+								damageStamp = out.second();
+								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+									if (c.second().hashCode() == b.hashCode())
+										inputCount = c.second().amount;
 							}
 							
-							if(!isRetracting)
-								progress += speed;
-							
+							if(stack == null) {
+								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+									if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
+										inputCount = c.second().amount;
+										Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
+										stack = out.first();
+										damageStamp = out.second();
+									}
+							}
+						}
+						
+						if (stack != null) {
+							if ((slots[3] == null || (slots[3].getItem() == stack.getItem()
+									&& slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize())) && stackSize >= inputCount) {
+
+								power -= 100;
+
+								if (progress >= maxProgress) {
+
+									isRetracting = true;
+
+									if (slots[3] == null)
+										slots[3] = stack.copy();
+									else
+										slots[3].stackSize += stack.stackSize;
+
+									if (slots[2] != null) {
+										slots[2].stackSize-= inputCount;
+										if (slots[2].stackSize <= 0)
+											slots[2] = null;
+									}
+
+									if (slots[1] != null && damageStamp) {
+										slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+										if (slots[1].getItemDamage() >= slots[1].getMaxDamage())
+											slots[1] = null;
+									}
+
+									this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord,
+											"hbm:block.pressOperate", 1.5F, 1.0F);
+								}
+
+								if (!isRetracting)
+									progress += speed;
+
+							} else {
+								isRetracting = true;
+							}
 						} else {
 							isRetracting = true;
 						}

@@ -31,14 +31,14 @@ public class ItemBobmazonPacket implements IMessage {
 
 	public ItemBobmazonPacket(EntityPlayer player, Offer offer)
 	{
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_materials)
-			this.offer = BobmazonOfferFactory.materials.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_machines)
-			this.offer = BobmazonOfferFactory.machines.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_weapons)
-			this.offer = BobmazonOfferFactory.weapons.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_tools)
-			this.offer = BobmazonOfferFactory.tools.indexOf(offer);
+//		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_materials)
+//			this.offer = BobmazonOfferFactory.materials.indexOf(offer);
+//		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_machines)
+//			this.offer = BobmazonOfferFactory.machines.indexOf(offer);
+//		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_weapons)
+//			this.offer = BobmazonOfferFactory.weapons.indexOf(offer);
+//		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_tools)
+//			this.offer = BobmazonOfferFactory.tools.indexOf(offer);
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_hidden)
 			this.offer = BobmazonOfferFactory.special.indexOf(offer);
 	}
@@ -62,14 +62,14 @@ public class ItemBobmazonPacket implements IMessage {
 			World world = p.worldObj;
 
 			Offer offer = null;
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_materials)
-				offer = BobmazonOfferFactory.materials.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_machines)
-				offer = BobmazonOfferFactory.machines.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_weapons)
-				offer = BobmazonOfferFactory.weapons.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_tools)
-				offer = BobmazonOfferFactory.tools.get(m.offer);
+//			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_materials)
+//				offer = BobmazonOfferFactory.materials.get(m.offer);
+//			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_machines)
+//				offer = BobmazonOfferFactory.machines.get(m.offer);
+//			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_weapons)
+//				offer = BobmazonOfferFactory.weapons.get(m.offer);
+//			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_tools)
+//				offer = BobmazonOfferFactory.tools.get(m.offer);
 			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden)
 				offer = BobmazonOfferFactory.special.get(m.offer);
 			

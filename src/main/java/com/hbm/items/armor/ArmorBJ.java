@@ -39,16 +39,16 @@ public class ArmorBJ extends ArmorFSBPowered {
     	
     	super.onArmorTick(world, player, itemStack);
     	
-    	if(this == ModItems.bj_helmet && ArmorFSB.hasFSBArmorIgnoreCharge(player) && !ArmorFSB.hasFSBArmor(player)) {
-    		
-    		ItemStack helmet = player.inventory.armorInventory[3];
-    		
-    		if(!player.inventory.addItemStackToInventory(helmet))
-    			player.dropPlayerItemWithRandomChoice(helmet, false);
-    		
-    		player.inventory.armorInventory[3] = null;
-    		
-    		player.attackEntityFrom(ModDamageSource.lunar, 1000);
-    	}
+//    	if(this == ModItems.bj_helmet && ArmorFSB.hasFSBArmorIgnoreCharge(player) && !ArmorFSB.hasFSBArmor(player)) {
+//    		
+//    		ItemStack helmet = player.inventory.armorInventory[3];
+//    		
+//    		if(!player.inventory.addItemStackToInventory(helmet))
+//    			player.dropPlayerItemWithRandomChoice(helmet, false);
+//    		
+//    		player.inventory.armorInventory[3] = null;
+//    		
+//    		player.attackEntityFrom(ModDamageSource.lunar, 1000);
+//    	}
     }
 }

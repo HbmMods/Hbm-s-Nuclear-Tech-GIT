@@ -34,15 +34,15 @@ public class GunBoltAction extends Item {
 		
 		this.maxStackSize = 1;
 
-		if(this == ModItems.gun_bolt_action)
-			this.setMaxDamage(750);
-		if(this == ModItems.gun_bolt_action_green)
-			this.setMaxDamage(500);
-		if(this == ModItems.gun_bolt_action_saturnite) {
-			this.setMaxDamage(2500);
-			dmgMin = 24;
-			dmgMax = 36;
-		}
+//		if(this == ModItems.gun_bolt_action)
+//			this.setMaxDamage(750);
+//		if(this == ModItems.gun_bolt_action_green)
+//			this.setMaxDamage(500);
+//		if(this == ModItems.gun_bolt_action_saturnite) {
+//			this.setMaxDamage(2500);
+//			dmgMin = 24;
+//			dmgMax = 36;
+//		}
 	}
 
 	/**
@@ -75,8 +75,8 @@ public class GunBoltAction extends Item {
 			entityarrow1 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
 			entityarrow1.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
 			
-			if(this == ModItems.gun_bolt_action_saturnite)
-				entityarrow1.fire = true;
+//			if(this == ModItems.gun_bolt_action_saturnite)
+//				entityarrow1.fire = true;
 
 			p_77615_1_.damageItem(1, p_77615_3_);
 
@@ -160,25 +160,26 @@ public class GunBoltAction extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if(this == ModItems.gun_bolt_action) {
-			list.add("-Star in a movie");
-			list.add("-Have a laugh with a horse");
-			list.add("-Ride a tipping train");
-			list.add("-Lose friend to native americans");
-		}
-		if(this == ModItems.gun_bolt_action_green) {
-			list.add("Floppy disks and pink, flashy orbs.");
-		}
-		if(this == ModItems.gun_bolt_action_saturnite) {
-			list.add("Shiny shooter made from D-25A alloy.");
-		}
+//		if(this == ModItems.gun_bolt_action) {
+//			list.add("-Star in a movie");
+//			list.add("-Have a laugh with a horse");
+//			list.add("-Ride a tipping train");
+//			list.add("-Lose friend to native americans");
+//		}
+//		if(this == ModItems.gun_bolt_action_green) {
+//			list.add("Floppy disks and pink, flashy orbs.");
+//		}
+//		if(this == ModItems.gun_bolt_action_saturnite) {
+//			list.add("Shiny shooter made from D-25A alloy.");
+//		}
 		list.add("");
 		list.add("Ammo: 12x74 Slug");
 		
-		if(this == ModItems.gun_bolt_action_saturnite) {
-			list.add("Damage: 24 - 36");
-			list.add("Sets enemy on fire.");
-		} else {
+//		if(this == ModItems.gun_bolt_action_saturnite) {
+//			list.add("Damage: 24 - 36");
+//			list.add("Sets enemy on fire.");
+//		} else 
+		{
 			list.add("Damage: 16 - 28");
 		}
 	}
@@ -273,8 +274,8 @@ public class GunBoltAction extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if(this == ModItems.gun_bolt_action_saturnite)
-			return EnumRarity.rare;
+//		if(this == ModItems.gun_bolt_action_saturnite)
+//			return EnumRarity.rare;
 		
 		return EnumRarity.uncommon;
 	}

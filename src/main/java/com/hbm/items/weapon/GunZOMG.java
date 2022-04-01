@@ -84,12 +84,13 @@ public class GunZOMG extends Item {
 					}
 
 					//if(Library.superuser.contains(player.getUniqueID().toString())) {
-					if(player.inventory.hasItem(ModItems.polaroid)) {
-						if (!world.isRemote) {
-							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, superuser!"));
-						}
-						stack.stackTagCompound.setBoolean("superuser", true);
-					} else {
+//					if(player.inventory.hasItem(ModItems.polaroid)) {
+//						if (!world.isRemote) {
+//							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, superuser!"));
+//						}
+//						stack.stackTagCompound.setBoolean("superuser", true);
+//					} else 
+					{
 						if (!world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, user!"));
 						}

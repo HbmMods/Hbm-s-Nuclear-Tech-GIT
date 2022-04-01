@@ -61,8 +61,8 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 		super.onArmorTick(world, player, stack);
 		
-		if(this != ModItems.dns_plate)
-			return;
+//		if(this != ModItems.dns_plate)
+//			return;
 
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		

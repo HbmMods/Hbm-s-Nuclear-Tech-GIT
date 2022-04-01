@@ -280,23 +280,17 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
-			List<ItemStack> drops = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
 			
-			for(int i = 0; i < drops.size(); i++) {
-				ItemStack stack = drops.get(i).copy();
-				ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
-				
-				if(result != null) {
-					result = result.copy();
-					result.stackSize *= stack.stackSize;
-					drops.set(i, result);
-				}
+			ItemStack stack = new ItemStack(block, 1, meta);
+			ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
+			
+			if(result != null) {
+				world.setBlockToAir(x, y, z);
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
 			}
-			
-			world.setBlockToAir(x, y, z);
-			
-			for(ItemStack stack : drops)
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
 		}
 
 		@Override
