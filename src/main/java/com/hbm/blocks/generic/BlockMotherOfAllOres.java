@@ -246,8 +246,11 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
-			int key = itemMap.inverse().get(getCompStack());
-			nbt.setInteger("item", key);
+			
+			try {
+				Integer key = itemMap.inverse().get(getCompStack());
+				nbt.setInteger("item", key != null ? key : 0);
+			} catch(Exception ex) { }
 		}
 
 		@Override
