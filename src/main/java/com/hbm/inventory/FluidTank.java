@@ -126,16 +126,19 @@ public class FluidTank {
 		}
 		
 		if(slots[in] != null && inType.getName().equals(type.getName()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {
+			
+			ItemStack emptyContainer = FluidContainerRegistry.getEmptyContainer(slots[in]);
+			
 			if(slots[out] == null) {
 				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
-				slots[out] = FluidContainerRegistry.getEmptyContainer(slots[in]);
+				slots[out] = emptyContainer;
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
-			} else if(slots[out] != null && (FluidContainerRegistry.getEmptyContainer(slots[in]) == null || slots[out].getItem() == FluidContainerRegistry.getEmptyContainer(slots[in]).getItem()) && slots[out].stackSize < slots[out].getMaxStackSize()) {
+			} else if(slots[out] != null && (emptyContainer == null || (slots[out].getItem() == emptyContainer.getItem() && slots[out].getItemDamage() == emptyContainer.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()))) {
 				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
 				
-				if(FluidContainerRegistry.getEmptyContainer(slots[in]) != null)
+				if(emptyContainer != null)
 					slots[out].stackSize++;
 				
 				slots[in].stackSize--;
@@ -213,13 +216,14 @@ public class FluidTank {
 			return;
 		
 		if(slots[in] != null && fluid - FluidContainerRegistry.getFluidContent(full, type) >= 0) {
+			ItemStack fullContainer = FluidContainerRegistry.getFullContainer(slots[in], type);
 			if(slots[out] == null) {
 				fluid -= FluidContainerRegistry.getFluidContent(full, type);
 				slots[out] = full.copy();
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
-			} else if(slots[out] != null && slots[out].getItem() == FluidContainerRegistry.getFullContainer(slots[in], type).getItem() && slots[out].stackSize < slots[out].getMaxStackSize()) {
+			} else if(slots[out] != null && slots[out].getItem() == fullContainer.getItem() && slots[out].getItemDamage() == fullContainer.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()) {
 				fluid -= FluidContainerRegistry.getFluidContent(full, type);
 				slots[in].stackSize--;
 				if(slots[in].stackSize <= 0)

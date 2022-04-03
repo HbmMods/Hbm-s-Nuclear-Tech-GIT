@@ -21,7 +21,7 @@ public class HazardTypeBlinding extends HazardTypeBase {
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 
 		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.LIGHT)) {
-			target.addPotionEffect(new PotionEffect(Potion.blindness.id, (int)level, 0));
+			target.addPotionEffect(new PotionEffect(Potion.blindness.id, (int)Math.ceil(level), 0));
 		}
 	}
 

@@ -55,6 +55,9 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 		
+		if(level < 1e-5)
+			return;
+		
 		list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
 		String rad = "" + (Math.floor(level* 1000) / 1000);
 		list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));

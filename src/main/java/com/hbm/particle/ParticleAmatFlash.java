@@ -29,7 +29,9 @@ public class ParticleAmatFlash extends EntityFX {
 		float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) interp - interpPosX));
 		float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY));
 		float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ));
-		
+
+
+		GL11.glPushMatrix();
 		GL11.glTranslatef(pX, pY, pZ);
 
 		GL11.glScalef(0.2F * particleScale, 0.2F * particleScale, 0.2F * particleScale);
@@ -48,8 +50,6 @@ public class ParticleAmatFlash extends EntityFX {
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDepthMask(false);
-
-		GL11.glPushMatrix();
 
 		float scale = 0.5F;
 

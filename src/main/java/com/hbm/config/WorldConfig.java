@@ -47,7 +47,8 @@ public class WorldConfig {
 
 	public static int endTikiteSpawn = 8;
 
-	public static int randomSpawn = 16;
+	public static boolean enableRandom = false;
+	public static int randomSpawn = 0;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -126,7 +127,8 @@ public class WorldConfig {
 
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
 
-		randomSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.R00_randomOreSpawnrate", "Amount of random ore per chunk", 16);
+		enableRandom = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.R00_enableRandomOre", "Amount of random ore per chunk", false);
+		randomSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.R01_randomOreSpawnrate", "Amount of random ore per chunk", 0);
 
 		final String CATEGORY_DUNGEON = "04_dungeons";
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);
