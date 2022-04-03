@@ -1,5 +1,8 @@
 package com.hbm.tileentity.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import api.hbm.energy.IEnergyConductor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
@@ -21,31 +24,15 @@ public class TileEntityConnector extends TileEntityPylonBase {
 	public double getMaxWireLength() {
 		return 10;
 	}
-
+	
 	@Override
-	protected void connect() {
+	public List<int[]> getConnectionPoints() {
+		List<int[]> pos = new ArrayList(connected);
 		
-		super.connect();
-
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-		
-		TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-		
-		if(te instanceof IEnergyConductor) {
-			
-			IEnergyConductor conductor = (IEnergyConductor) te;
-			
-			if(!conductor.canConnect(dir.getOpposite()))
-				return;
-			
-			if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-				conductor.getPowerNet().joinLink(this);
-			}
-			
-			if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-				conductor.getPowerNet().joinNetworks(this.getPowerNet());
-			}
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
 		}
+		return pos;
 	}
 
 	@Override

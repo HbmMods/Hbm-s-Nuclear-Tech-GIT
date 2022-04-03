@@ -78,12 +78,14 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 			int left = quart.getKey().fill;
 			int right = quart.getValue().fill;
 			
-			if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 100 && hasSpace(left, right)) {
-				tanks[0].setFill(tanks[0].getFill() - 100);
-				tanks[1].setFill(tanks[1].getFill() - 200);
-				tanks[2].setFill(tanks[2].getFill() + left);
-				tanks[3].setFill(tanks[3].getFill() + right);
-				tanks[4].setFill(tanks[4].getFill() + 2); //LPS has the density of WATER not STEAM (1%!)
+			for(int i = 0; i < 2; i++) {
+				if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 100 && hasSpace(left, right)) {
+					tanks[0].setFill(tanks[0].getFill() - 100);
+					tanks[1].setFill(tanks[1].getFill() - 200);
+					tanks[2].setFill(tanks[2].getFill() + left);
+					tanks[3].setFill(tanks[3].getFill() + right);
+					tanks[4].setFill(tanks[4].getFill() + 2); //LPS has the density of WATER not STEAM (1%!)
+				}
 			}
 		}
 	}
