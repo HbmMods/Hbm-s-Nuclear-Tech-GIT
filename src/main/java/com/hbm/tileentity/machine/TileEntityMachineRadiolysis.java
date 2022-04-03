@@ -33,7 +33,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
-	//TODO: Render file + resource locations + itemrenderlibrary + clientproxy, gui texture, further recipes
 	
 	public long power;
 	public static final int maxPower = 1000000;
@@ -127,8 +126,10 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			tanks[0].setType(10, 11, slots);
 			setupTanks();
 			
-			if(heat > 0) {
-				if(heat >= 100 && worldObj.getTotalWorldTime() % 30 == 0)
+			if(heat > 100) {
+				int crackTime = (int) Math.min(-0.1 * (heat - 100) + 30, 5);
+				
+				if(worldObj.getTotalWorldTime() % crackTime == 0)
 					crack();
 				
 				if(heat >= 200 && worldObj.getTotalWorldTime() % 100 == 0)
