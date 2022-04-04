@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 
+import api.hbm.energy.IEnergyConductor;
 import net.minecraft.util.Vec3;
 
 public class TileEntitySubstation extends TileEntityPylonBase {
@@ -57,5 +58,20 @@ public class TileEntitySubstation extends TileEntityPylonBase {
 		pos.add(new int[] {xCoord - 1, yCoord, zCoord - 2});
 		pos.add(new int[] {xCoord + 1, yCoord, zCoord - 2});
 		return pos;
+	}
+
+	@Override
+	public boolean hasProxies() {
+		return true;
+	}
+
+	@Override
+	public List<Integer> getProxies() {
+		List<Integer> proxies = new ArrayList();
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord + 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord - 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord + 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord - 1));
+		return proxies;
 	}
 }

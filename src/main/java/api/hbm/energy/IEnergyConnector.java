@@ -1,5 +1,8 @@
 package api.hbm.energy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -94,4 +97,20 @@ public interface IEnergyConnector extends ILoadedTile {
 	}
 	
 	public static final boolean particleDebug = false;
+	
+	/**
+	 * Returns whether the conductor has mutliblock proxies which need to be taken into consideration for re-eval.
+	 * @return
+	 */
+	public default boolean hasProxies() {
+		return false;
+	}
+	
+	/**
+	 * Returns the identities (position-based) of proxies which resolve into the conductor's own identity.
+	 * @return
+	 */
+	public default List<Integer> getProxies() {
+		return new ArrayList();
+	}
 }

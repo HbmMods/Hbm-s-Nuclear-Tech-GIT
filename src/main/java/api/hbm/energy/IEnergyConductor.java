@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -52,7 +53,7 @@ public interface IEnergyConductor extends IEnergyConnector {
 	 * Each link has to decide what other links will join the same net.
 	 * @param copy
 	 */
-	public default void reevaluate(HashMap<Integer, IEnergyConductor> copy) {
+	public default void reevaluate(HashMap<Integer, IEnergyConductor> copy, HashMap<Integer, Integer> proxies) {
 
 		for(int[] pos : getConnectionPoints()) {
 			int newX = pos[0];
@@ -62,12 +63,37 @@ public interface IEnergyConductor extends IEnergyConnector {
 			
 			IEnergyConductor neighbor = copy.get(id);
 			
-			if(neighbor != null && neighbor.getPowerNet() != null && this.canReevaluate() && neighbor.canReevaluate()) {
+			if(neighbor == null) {
+				Integer newId = proxies.get(id);
 				
-				if(this.getPowerNet() == null) {
-					neighbor.getPowerNet().joinLink(this);
+				if(newId != null) {
+					neighbor = copy.get(newId);
+				}
+			}
+			
+			if(neighbor != null && this.canReevaluate() && neighbor.canReevaluate()) {
+				
+				if(neighbor.getPowerNet() != null) {
+					
+					//neighbor net and no self net
+					if(this.getPowerNet() == null) {
+						neighbor.getPowerNet().joinLink(this);
+					//neighbor net and self net
+					} else {
+						this.getPowerNet().joinNetworks(neighbor.getPowerNet());
+					}
+					
+				//bidirectional re-eval, experimental and technically optional, only useful as a fallback
 				} else {
-					this.getPowerNet().joinNetworks(neighbor.getPowerNet());
+					
+					//no neighbor net and no self net
+					if(this.getPowerNet() == null) {
+						this.setPowerNet(new PowerNet().joinLink(this));
+						neighbor.setPowerNet(this.getPowerNet().joinLink(neighbor));
+					//no neighbor net and self net
+					} else {
+						neighbor.setPowerNet(this.getPowerNet().joinLink(neighbor));
+					}
 				}
 			}
 		}
@@ -113,5 +139,11 @@ public interface IEnergyConductor extends IEnergyConnector {
 			return power;
 		
 		return this.getPowerNet().transferPower(power);
+	}
+	
+	public default Vec3 getDebugParticlePos() {
+		TileEntity te = (TileEntity) this;
+		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1.5, te.zCoord + 0.5);
+		return vec;
 	}
 }

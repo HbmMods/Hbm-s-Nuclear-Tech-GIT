@@ -1571,6 +1571,15 @@ public class ClientProxy extends ServerProxy {
 		if("amat".equals(type)) {
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAmatFlash(world, x, y, z, data.getFloat("scale")));
 		}
+		
+		if("debug".equals(type)) {
+			String t = data.getString("text");
+			int color = data.getInteger("color");
+			float scale = data.getFloat("scale");
+			ParticleText text = new ParticleText(world, x, y, z, color, t);
+			text.multipleParticleScaleBy(scale);
+			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+		}
 	}
 	
 	private HashMap<Integer, Long> vanished = new HashMap();
