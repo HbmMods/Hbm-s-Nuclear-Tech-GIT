@@ -102,7 +102,7 @@ public class ItemPowerNetTool extends Item {
 		list.add(EnumChatFormatting.RED + "Right-click cable to analyze the power net.");
 		list.add(EnumChatFormatting.RED + "Links (cables, poles, etc.) are YELLOW");
 		list.add(EnumChatFormatting.RED + "Subscribers (any receiver) are BLUE");
-		list.add(EnumChatFormatting.RED + "Links with mismatching netowrk info (BUGGED!) are RED");
+		list.add(EnumChatFormatting.RED + "Links with mismatching network info (BUGGED!) are RED");
 		list.add(EnumChatFormatting.RED + "Displays stats such as link and subscriber count");
 		list.add(EnumChatFormatting.RED + "Proxies are connection points for multiblock links (e.g. 4 for substations)");
 		list.add(EnumChatFormatting.RED + "Particles only spawn in a " + radius + " block radius!");

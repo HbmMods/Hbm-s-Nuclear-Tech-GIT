@@ -31,7 +31,7 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 
 		public RecipeSet(Object input, ItemStack result) {
 			this.input = new PositionedStack(input, 75, 24);
-			this.acid = new PositionedStack(ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.ACID.ordinal()), TileEntityMachineCrystallizer.acidRequired), 39, 24);
+			this.acid = new PositionedStack(ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.ACID.getID()), TileEntityMachineCrystallizer.acidRequired), 39, 24);
 			this.result = new PositionedStack(result, 135, 24);
 		}
 
@@ -126,7 +126,7 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 			
 			if(NEIServerUtils.areStacksSameTypeCrafting(ingredient, ItemFluidIcon.addQuantity(
-							new ItemStack(ModItems.fluid_icon, 1, Fluids.ACID.ordinal()), TileEntityMachineCrystallizer.acidRequired))) {
+							new ItemStack(ModItems.fluid_icon, 1, Fluids.ACID.getID()), TileEntityMachineCrystallizer.acidRequired))) {
 				
 				if(recipe.getKey() instanceof ItemStack) {
 					this.arecipes.add(new RecipeSet(recipe.getKey(), (ItemStack)recipe.getValue()));
