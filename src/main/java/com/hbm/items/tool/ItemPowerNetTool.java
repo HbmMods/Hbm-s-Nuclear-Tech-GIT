@@ -1,11 +1,14 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ChatBuilder;
 
 import api.hbm.energy.IEnergyConductor;
+import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IPowerNet;
 import api.hbm.energy.PowerNet;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -59,23 +62,49 @@ public class ItemPowerNetTool extends Item {
 		PowerNet network = (PowerNet) net;
 		String id = Integer.toHexString(net.hashCode());
 
-		player.addChatComponentMessage(ChatBuilder.start("Start of diagnostic for network" + id).color(EnumChatFormatting.GOLD).flush());
+		player.addChatComponentMessage(ChatBuilder.start("Start of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
 		player.addChatComponentMessage(ChatBuilder.start("Links: " + network.getLinks().size()).color(EnumChatFormatting.YELLOW).flush());
 		player.addChatComponentMessage(ChatBuilder.start("Proxies: " + network.getProxies().size()).color(EnumChatFormatting.YELLOW).flush());
 		player.addChatComponentMessage(ChatBuilder.start("Subscribers: " + network.getSubscribers().size()).color(EnumChatFormatting.YELLOW).flush());
-		player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network" + id).color(EnumChatFormatting.GOLD).flush());
+		player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
 		
 		for(IEnergyConductor link : network.getLinks()) {
 			Vec3 pos = link.getDebugParticlePos();
 			
+			boolean errored = link.getPowerNet() != net;
+			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "text");
-			data.setInteger("color", 0xffff00);
+			data.setString("type", "debug");
+			data.setInteger("color", errored ? 0xff0000 : 0xffff00);
 			data.setFloat("scale", 0.5F);
 			data.setString("text", id);
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, 20));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
+		}
+		
+		for(IEnergyConnector subscriber : network.getSubscribers()) {
+			Vec3 pos = subscriber.getDebugParticlePos();
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "debug");
+			data.setInteger("color", 0x0000ff);
+			data.setFloat("scale", 1.5F);
+			data.setString("text", id);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
 		}
 		
 		return true;
+	}
+	
+	private static final int radius = 20;
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		list.add(EnumChatFormatting.RED + "Right-click cable to analyze the power net.");
+		list.add(EnumChatFormatting.RED + "Links (cables, poles, etc.) are YELLOW");
+		list.add(EnumChatFormatting.RED + "Subscribers (any receiver) are BLUE");
+		list.add(EnumChatFormatting.RED + "Links with mismatching netowrk info (BUGGED!) are RED");
+		list.add(EnumChatFormatting.RED + "Displays stats such as link and subscriber count");
+		list.add(EnumChatFormatting.RED + "Proxies are connection points for multiblock links (e.g. 4 for substations)");
+		list.add(EnumChatFormatting.RED + "Particles only spawn in a " + radius + " block radius!");
 	}
 }

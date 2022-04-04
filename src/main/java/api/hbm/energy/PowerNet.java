@@ -164,6 +164,8 @@ public class PowerNet implements IPowerNet {
 
 	@Override
 	public void reevaluate() {
+		
+		//this.destroy();//
 
 		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
 		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);

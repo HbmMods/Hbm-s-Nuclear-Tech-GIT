@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -84,7 +83,7 @@ public interface IEnergyConductor extends IEnergyConnector {
 					}
 					
 				//bidirectional re-eval, experimental and technically optional, only useful as a fallback
-				} else {
+				} /*else {
 					
 					//no neighbor net and no self net
 					if(this.getPowerNet() == null) {
@@ -94,7 +93,9 @@ public interface IEnergyConductor extends IEnergyConnector {
 					} else {
 						neighbor.setPowerNet(this.getPowerNet().joinLink(neighbor));
 					}
-				}
+				}*/
+				
+				//extensive debugging has shown that bidirectional re-eval ic complete shit
 			}
 		}
 	}
@@ -141,9 +142,19 @@ public interface IEnergyConductor extends IEnergyConnector {
 		return this.getPowerNet().transferPower(power);
 	}
 	
-	public default Vec3 getDebugParticlePos() {
-		TileEntity te = (TileEntity) this;
-		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1.5, te.zCoord + 0.5);
-		return vec;
+	/**
+	 * Returns whether the conductor has mutliblock proxies which need to be taken into consideration for re-eval.
+	 * @return
+	 */
+	public default boolean hasProxies() {
+		return false;
+	}
+	
+	/**
+	 * Returns the identities (position-based) of proxies which resolve into the conductor's own identity.
+	 * @return
+	 */
+	public default List<Integer> getProxies() {
+		return new ArrayList();
 	}
 }

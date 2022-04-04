@@ -17,11 +17,12 @@ public class ParticleText extends EntityFX {
 
 	public ParticleText(World world, double x, double y, double z, int color, String text) {
 		super(world, x, y, z);
-		this.particleMaxAge = 30;
+		this.particleMaxAge = 100;
 		this.color = color;
 		this.text = text;
 		
-		this.motionY = 0.1D;
+		this.motionY = 0.01D;
+		this.noClip = true;
 	}
 
 	public int getFXLayer() {
@@ -51,7 +52,7 @@ public class ParticleText extends EntityFX {
 		GL11.glRotatef(this.rotationPitch, 1.0F, 0.0F, 0.0F);
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 
-		GL11.glScaled(particleScale, particleScale, particleScale);
+		GL11.glScaled(particleScale * 0.01, particleScale * 0.01, particleScale * 0.01);
 
 		font.drawStringWithShadow(text, -(int) (font.getStringWidth(text) * 0.5F), -(int) (font.FONT_HEIGHT * 0.5F), color);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

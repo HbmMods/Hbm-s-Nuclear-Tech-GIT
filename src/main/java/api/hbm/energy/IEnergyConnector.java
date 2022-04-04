@@ -1,14 +1,12 @@
 package api.hbm.energy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -98,19 +96,9 @@ public interface IEnergyConnector extends ILoadedTile {
 	
 	public static final boolean particleDebug = false;
 	
-	/**
-	 * Returns whether the conductor has mutliblock proxies which need to be taken into consideration for re-eval.
-	 * @return
-	 */
-	public default boolean hasProxies() {
-		return false;
-	}
-	
-	/**
-	 * Returns the identities (position-based) of proxies which resolve into the conductor's own identity.
-	 * @return
-	 */
-	public default List<Integer> getProxies() {
-		return new ArrayList();
+	public default Vec3 getDebugParticlePos() {
+		TileEntity te = (TileEntity) this;
+		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
+		return vec;
 	}
 }
