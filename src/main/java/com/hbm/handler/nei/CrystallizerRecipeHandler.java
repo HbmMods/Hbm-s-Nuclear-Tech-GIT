@@ -78,6 +78,10 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 			Map<Object, Object> recipes = CrystallizerRecipes.getRecipes();
 			
 			for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
+				
+				if(recipe.getKey() instanceof ItemStack && ((ItemStack)recipe.getKey()).getItem() == ModItems.scrap_plastic)
+					continue;
+				
 				this.arecipes.add(new RecipeSet(recipe.getKey(), (ItemStack)recipe.getValue()));
 			}
 			
