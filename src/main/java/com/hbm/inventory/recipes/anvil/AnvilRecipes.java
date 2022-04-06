@@ -252,7 +252,7 @@ public class AnvilRecipes {
 				}, new AnvilOutput(new ItemStack(ModItems.demon_core_open))).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(DESH.ingot(), 4), new OreDictStack(POLYMER.dust(), 2), new OreDictStack(DURA.ingot(), 1)},
+				new AStack[] {new OreDictStack(DESH.ingot(), 4), new OreDictStack(ANY_PLASTIC.dust(), 2), new OreDictStack(DURA.ingot(), 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_desh, 4))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.nugget_bismuth, 2), new OreDictStack(U238.billet(), 2), new OreDictStack(NB.dust(), 1)},

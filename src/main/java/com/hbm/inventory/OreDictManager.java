@@ -79,6 +79,8 @@ public class OreDictManager {
 	public static final String KEY_TOOL_SCREWDRIVER = "ntmscrewdriver";
 	public static final String KEY_TOOL_HANDDRILL = "ntmhanddrill";
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
+
+	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
 	
 	/*
 	 * PREFIXES
@@ -433,6 +435,9 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_TOOL_HANDDRILL, new ItemStack(hand_drill_desh, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, new ItemStack(chemistry_set, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_TOOL_CHEMISTRYSET, new ItemStack(chemistry_set_boron, 1, OreDictionary.WILDCARD_VALUE));
+
+		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
+		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
