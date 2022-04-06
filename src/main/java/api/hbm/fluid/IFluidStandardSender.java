@@ -37,4 +37,14 @@ public interface IFluidStandardSender extends IFluidUser {
 			}
 		}
 	}
+
+	@Override
+	public default long transferFluid(FluidType type, long fluid) {
+		return fluid;
+	}
+
+	@Override
+	public default long getDemand(FluidType type) {
+		return 0;
+	}
 }

@@ -14,12 +14,14 @@ import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.fluid.IFluidStandardSender;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardSender {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -51,6 +53,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 			
 			age++;
 			if(age >= 20)
@@ -199,5 +203,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tank};
 	}
 }
