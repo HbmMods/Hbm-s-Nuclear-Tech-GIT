@@ -83,6 +83,9 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		recipes.put("ingotGold", new ItemStack(ModItems.ingot_au198));
 		recipes.put("nuggetGold", new ItemStack(ModItems.nugget_au198));
 		recipes.put("dustGold", new ItemStack(ModItems.powder_au198));
+		recipes.put("ingotThorium", new ItemStack(ModItems.ingot_thorium_fuel));
+		recipes.put("nuggetThorium", new ItemStack(ModItems.nugget_thorium_fuel));
+		recipes.put("billetThorium", new ItemStack(ModItems.billet_thorium_fuel));
 		recipes.put(new ComparableStack(Blocks.brown_mushroom), new ItemStack(ModBlocks.mush));
 		recipes.put(new ComparableStack(Blocks.red_mushroom), new ItemStack(ModBlocks.mush));
 		recipes.put(new ComparableStack(Items.mushroom_stew), new ItemStack(ModItems.glowing_stew));
