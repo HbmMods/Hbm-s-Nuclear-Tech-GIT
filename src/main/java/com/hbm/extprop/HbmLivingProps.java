@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -63,14 +64,22 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// RADIATION ///
 	public static float getRadiation(EntityLivingBase entity) {
+		if(!RadiationConfig.enableContamination)
+			return 0;
+
 		return getData(entity).radiation;
 	}
 	
 	public static void setRadiation(EntityLivingBase entity, float rad) {
-		getData(entity).radiation = rad;
+		if(RadiationConfig.enableContamination)
+			getData(entity).radiation = rad;
 	}
 	
 	public static void incrementRadiation(EntityLivingBase entity, float rad) {
+
+		if(!RadiationConfig.enableContamination)
+			return;
+		
 		HbmLivingProps data = getData(entity);
 		float radiation = getData(entity).radiation + rad;
 		

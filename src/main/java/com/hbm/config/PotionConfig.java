@@ -20,7 +20,7 @@ public class PotionConfig {
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY_POTION = "08_potion_effects";
+		final String CATEGORY_POTION = CommonConfig.CATEGORY_POTION;
 		taintID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.00_taintPotionID", "What potion ID the taint effect will have", 62);
 		radiationID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.01_radiationPotionID", "What potion ID the radiation effect will have", 63);
 		bangID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.02_bangPotionID", "What potion ID the B93 timebomb effect will have", 64);

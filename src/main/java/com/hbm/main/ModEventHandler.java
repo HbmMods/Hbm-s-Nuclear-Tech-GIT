@@ -742,7 +742,7 @@ public class ModEventHandler {
 		/// TOM IMPACT END///
 		
 		/// RADIATION STUFF START ///
-		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
+		if(event.world != null && !event.world.isRemote) {
 			
 			int thunder = AuxSavedData.getThunder(event.world);
 			

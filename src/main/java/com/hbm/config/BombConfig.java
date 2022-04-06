@@ -25,10 +25,12 @@ public class BombConfig {
 	public static int falloutRange = 100;
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
+	public static int rain = 0;
+	public static int cont = 0;
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY_NUKES = "03_nukes";
+		final String CATEGORY_NUKES = CommonConfig.CATEGORY_NUKES;
 		Property propGadget = config.get(CATEGORY_NUKES, "3.00_gadgetRadius", 150);
 		propGadget.comment = "Radius of the Gadget";
 		gadgetRadius = propGadget.getInt();
@@ -72,7 +74,7 @@ public class BombConfig {
 		propN2.comment = "Radius of the N2 mine";
 		n2Radius = propN2.getInt();
 
-		final String CATEGORY_NUKE = "06_explosions";
+		final String CATEGORY_NUKE = CommonConfig.CATEGORY_EXPLOSIONS;
 		Property propLimitExplosionLifespan = config.get(CATEGORY_NUKE, "6.00_limitExplosionLifespan", 0);
 		propLimitExplosionLifespan.comment = "How long an explosion can be unloaded until it dies in seconds. Based of system time. 0 disables the effect";
 		limitExplosionLifespan = propLimitExplosionLifespan.getInt();
@@ -91,5 +93,12 @@ public class BombConfig {
 		Property falloutDelayProp = config.get(CATEGORY_NUKE, "6.04_falloutDelay", 4);
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();
+
+		Property radRain = config.get(CATEGORY_NUKE, "6.05_falloutRainDuration", 0);
+		radRain.comment = "Duration of the thunderstorm after fallout in ticks (only large explosions)";
+		rain = radRain.getInt();
+		Property rainCont = config.get(CATEGORY_NUKE, "6.06_falloutRainRadiation", 0);
+		rainCont.comment = "Radiation in 100th RADs created by fallout rain";
+		cont = rainCont.getInt();
 	}
 }
