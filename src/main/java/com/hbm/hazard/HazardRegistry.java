@@ -6,7 +6,7 @@ import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.modifier.*;
-import com.hbm.hazard.transformer.HazardTransformerRadiationNBT;
+import com.hbm.hazard.transformer.*;
 import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
@@ -469,6 +469,7 @@ public class HazardRegistry {
 	
 	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
+		HazardSystem.trafos.add(new HazardTransformerRadiationME());
 	}
 	
 	private static HazardData makeData() { return new HazardData(); }

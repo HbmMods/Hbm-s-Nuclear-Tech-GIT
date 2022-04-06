@@ -1,8 +1,14 @@
 package com.hbm.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.hazard.HazardRegistry;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class Compat {
 	
@@ -61,5 +67,30 @@ public class Compat {
 		public float getRad() {
 			return this.rads;
 		}
+	}
+	
+	public static List<ItemStack> scrapeItemFromME(ItemStack meDrive) {
+		List<ItemStack> stacks = new ArrayList();
+		
+		if(meDrive != null && meDrive.hasTagCompound()) {
+			NBTTagCompound nbt = meDrive.getTagCompound();
+			int types = nbt.getShort("it"); //ITEM_TYPE_TAG
+			
+			for(int i = 0; i < types; i++) {
+				NBTBase stackTag = nbt.getTag("#" + i);
+				
+				if(stackTag instanceof NBTTagCompound) {
+					NBTTagCompound compound = (NBTTagCompound) stackTag;
+					ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
+					
+					int count = nbt.getInteger("@" + i);
+					stack.stackSize = count;
+					
+					stacks.add(stack);
+				}
+			}
+		}
+		
+		return stacks;
 	}
 }
