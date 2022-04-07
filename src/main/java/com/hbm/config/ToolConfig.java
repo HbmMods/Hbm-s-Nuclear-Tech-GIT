@@ -21,7 +21,7 @@ public class ToolConfig {
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY_TOOLS = "11_tools";
+		final String CATEGORY_TOOLS = CommonConfig.CATEGORY_TOOLS;
 		recursionDepth = CommonConfig.createConfigInt(config, CATEGORY_TOOLS, "11.00_recursionDepth", "Limits veinminer's recursive function. Usually not an issue, unless you're using bukkit which is especially sensitive for some reason.", 1000);
 		recursiveStone = CommonConfig.createConfigBool(config, CATEGORY_TOOLS, "11.01_recursionStone", "Determines whether veinminer can break stone", false);
 		recursiveNetherrack = CommonConfig.createConfigBool(config, CATEGORY_TOOLS, "11.02_recursionNetherrack", "Determines whether veinminer can break netherrack", false);

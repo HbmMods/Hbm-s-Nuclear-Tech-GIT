@@ -2,11 +2,12 @@ package com.hbm.handler.nei;
 
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.lib.RefStrings;
@@ -16,28 +17,32 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	
+	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
+	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
+	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
+	public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
+	
 	/// SETUP ///
 	public final String display;
-	public final String key;
 	public final ItemStack[] machine;
 	public final HashMap<Object, Object> recipes;
 	/// SETUP ///
 	
-	public NEIUniversalHandler(String key, String display, ItemStack machine[], HashMap recipes) {
-		this.key = key;
+	public NEIUniversalHandler(String display, ItemStack machine[], HashMap recipes) {
 		this.display = display;
 		this.machine = machine;
 		this.recipes = recipes;
 	}
 
-	public NEIUniversalHandler(String key, String display, ItemStack machine, HashMap recipes) {		this(key, display, new ItemStack[]{machine}, recipes); }
-	public NEIUniversalHandler(String key, String display, Item machine, HashMap recipes) {		this(key, display, new ItemStack(machine), recipes); }
-	public NEIUniversalHandler(String key, String display, Block machine, HashMap recipes) {	this(key, display, new ItemStack(machine), recipes); }
+	public NEIUniversalHandler(String display, ItemStack machine, HashMap recipes) {	this(display, new ItemStack[]{machine}, recipes); }
+	public NEIUniversalHandler(String display, Item machine, HashMap recipes) {			this(display, new ItemStack(machine), recipes); }
+	public NEIUniversalHandler(String display, Block machine, HashMap recipes) {		this(display, new ItemStack(machine), recipes); }
 
 	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
 		
@@ -109,7 +114,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		
-		if(outputId.equals(key)) {
+		if(outputId.equals(getKey())) {
 			
 			for(Entry<Object, Object> recipe : recipes.entrySet()) {
 				ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
@@ -143,9 +148,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		
-		if(inputId.equals(key)) {
-			loadCraftingRecipes(key, new Object[0]);
+		if(inputId.equals(getKey())) {
+			loadCraftingRecipes(getKey(), new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
 		}
@@ -169,4 +173,18 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			}
 		}
 	}
+	
+	@Override
+	public void loadTransferRects() {
+		transferRectsGui = new LinkedList<RecipeTransferRect>();
+		//guiGui = new LinkedList<Class<? extends GuiContainer>>();
+
+		transferRects.add(new RecipeTransferRect(new Rectangle(147, 1, 18, 18), getKey()));
+		//transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), key));
+		//guiGui.add(GUIMachineAssembler.class);
+		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
+		//RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
+	}
+	
+	public abstract String getKey();
 }

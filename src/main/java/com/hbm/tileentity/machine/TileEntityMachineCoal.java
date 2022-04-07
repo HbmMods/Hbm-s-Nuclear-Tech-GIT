@@ -25,9 +25,10 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	private ItemStack slots[];
 	
@@ -224,6 +225,8 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			
+			this.updateStandardPipes(Fluids.WATER, worldObj, xCoord, yCoord, zCoord);
 		
 			//Water
 			tank.loadTank(0, 3, slots);
@@ -334,5 +337,10 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 	@Override
 	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

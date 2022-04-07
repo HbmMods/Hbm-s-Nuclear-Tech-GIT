@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.Meteorite;
@@ -36,7 +36,7 @@ public class EntityMeteor extends Entity {
 		if(!this.worldObj.isRemote && this.onGround && this.posY < 260) {
 			
 			worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), true);
-			if(GeneralConfig.enableMeteorTails) {
+			if(WorldConfig.enableMeteorTails) {
 				ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
 				ExplosionLarge.spawnParticles(worldObj, posX + 5, posY, posZ, 75);
 				ExplosionLarge.spawnParticles(worldObj, posX - 5, posY, posZ, 75);
@@ -49,7 +49,7 @@ public class EntityMeteor extends Entity {
 			this.setDead();
 		}
 
-		if(GeneralConfig.enableMeteorTails && worldObj.isRemote) {
+		if(WorldConfig.enableMeteorTails && worldObj.isRemote) {
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "exhaust");

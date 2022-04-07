@@ -84,9 +84,9 @@ public class BlockLayering extends Block {
 	}
 
 	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {
-		if(p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11) {
+		/*if(p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11) {
 			p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
-		}
+		}*/
 	}
 
 	@SideOnly(Side.CLIENT)

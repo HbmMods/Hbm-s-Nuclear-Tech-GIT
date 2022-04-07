@@ -15,6 +15,7 @@ public class PowerNet implements IPowerNet {
 	
 	private boolean valid = true;
 	private HashMap<Integer, IEnergyConductor> links = new HashMap();
+	private HashMap<Integer, Integer> proxies = new HashMap();
 	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
@@ -42,14 +43,29 @@ public class PowerNet implements IPowerNet {
 			conductor.getPowerNet().leaveLink(conductor);
 		
 		conductor.setPowerNet(this);
-		this.links.put(conductor.getIdentity(), conductor);
+		int identity = conductor.getIdentity();
+		this.links.put(identity, conductor);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.put(i, identity);
+			}
+		}
+		
 		return this;
 	}
 
 	@Override
 	public void leaveLink(IEnergyConductor conductor) {
 		conductor.setPowerNet(null);
-		this.links.remove(conductor.getIdentity());
+		int identity = conductor.getIdentity();
+		this.links.remove(identity);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.remove(i);
+			}
+		}
 	}
 
 	@Override
@@ -72,6 +88,11 @@ public class PowerNet implements IPowerNet {
 		List<IEnergyConductor> linkList = new ArrayList();
 		linkList.addAll(this.links.values());
 		return linkList;
+	}
+
+	public HashMap<Integer, Integer> getProxies() {
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
+		return proxyCopy;
 	}
 
 	@Override
@@ -144,7 +165,10 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public void reevaluate() {
 		
+		//this.destroy();//
+
 		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
 		
 		for(IEnergyConductor link : copy.values()) {
 			this.leaveLink(link);
@@ -153,7 +177,7 @@ public class PowerNet implements IPowerNet {
 		for(IEnergyConductor link : copy.values()) {
 			
 			link.setPowerNet(null);
-			link.reevaluate(copy);
+			link.reevaluate(copy, proxyCopy);
 			
 			if(link.getPowerNet() == null) {
 				link.setPowerNet(new PowerNet().joinLink(link));

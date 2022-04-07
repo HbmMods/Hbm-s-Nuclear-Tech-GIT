@@ -241,10 +241,17 @@ public class BlockOre extends Block {
 		return 1;
 	}
 	
+	public boolean allowFortune = true;
+	
+	public BlockOre noFortune() {
+		this.allowFortune = false;
+		return this;
+	}
+	
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random rand) {
 		
-		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune)) {
+		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune) && allowFortune) {
 			int mult = rand.nextInt(fortune + 2) - 1;
 
 			if(mult < 0) {

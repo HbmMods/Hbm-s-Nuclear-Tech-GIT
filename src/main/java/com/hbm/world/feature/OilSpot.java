@@ -14,22 +14,32 @@ public class OilSpot {
 		for(int i = 0; i < count; i++) {
 			int rX = x + (int)(world.rand.nextGaussian() * width);
 			int rZ = z + (int)(world.rand.nextGaussian() * width);
-			int rY = world.getHeightValue(rX, rZ) - 1;
+			int rY = world.getHeightValue(rX, rZ);
 			
-			Block ground = world.getBlock(rX, rY, rZ);
-			
-			if(ground == Blocks.grass || ground == Blocks.dirt) {
-				world.setBlock(rX, rY, rZ, world.rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead);
+			for(int y = rY; y > rY - 4; y--) {
 				
-			} else if(ground == Blocks.sand || ground == ModBlocks.ore_oil_sand) {
+				Block ground = world.getBlock(rX, y, rZ);
 				
-				if(world.getBlockMetadata(rX, rY, rZ) == 1)
-					world.setBlock(rX, rY, rZ, ModBlocks.sand_dirty_red);
-				else
-					world.setBlock(rX, rY, rZ, ModBlocks.sand_dirty);
-				
-			} else if(ground.getMaterial() == Material.leaves) {
-				world.setBlockToAir(rX, rY, rZ);
+				if(ground == Blocks.grass || ground == Blocks.dirt) {
+					world.setBlock(rX, y, rZ, world.rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead);
+					break;
+					
+				} else if(ground == Blocks.sand || ground == ModBlocks.ore_oil_sand) {
+					
+					if(world.getBlockMetadata(rX, y, rZ) == 1)
+						world.setBlock(rX, y, rZ, ModBlocks.sand_dirty_red);
+					else
+						world.setBlock(rX, y, rZ, ModBlocks.sand_dirty);
+					break;
+					
+				} else if(ground == Blocks.stone) {
+					world.setBlock(rX, y, rZ, ModBlocks.stone_cracked);
+					break;
+					
+				} else if(ground.getMaterial() == Material.leaves) {
+					world.setBlockToAir(rX, y, rZ);
+					break;
+				}
 			}
 		}
 	}

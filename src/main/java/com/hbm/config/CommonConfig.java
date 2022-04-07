@@ -6,6 +6,22 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 public class CommonConfig {
+	
+	public static final String CATEGORY_GENERAL = "01_general";
+	public static final String CATEGORY_ORES = "02_ores";
+	public static final String CATEGORY_NUKES = "03_nukes";
+	public static final String CATEGORY_DUNGEONS = "04_dungeons";
+	public static final String CATEGORY_METEORS = "05_meteors";
+	public static final String CATEGORY_EXPLOSIONS = "06_explosions";
+	public static final String CATEGORY_MISSILE = "07_missile_machines";
+	public static final String CATEGORY_POTION = "08_potion_effects";
+	public static final String CATEGORY_MACHINES = "09_machines";
+	public static final String CATEGORY_DROPS = "10_dangerous_drops";
+	public static final String CATEGORY_TOOLS = "11_tools";
+	public static final String CATEGORY_MOBS = "12_mobs";
+	public static final String CATEGORY_RADIATION = "13_radiation";
+
+	public static final String CATEGORY_528 = "528";
 
 	public static int setDefZero(int value, int def) {
 
@@ -30,28 +46,30 @@ public class CommonConfig {
 	}
 
 	public static int createConfigInt(Configuration config, String category, String name, String comment, int def) {
-
 		Property prop = config.get(category, name, def);
 		prop.comment = comment;
 		return prop.getInt();
 	}
 
-	public static boolean createConfigBool(Configuration config, String category, String name, String comment, boolean def) {
+	public static double createConfigDouble(Configuration config, String category, String name, String comment, double def) {
+		Property prop = config.get(category, name, def);
+		prop.comment = comment;
+		return prop.getDouble();
+	}
 
+	public static boolean createConfigBool(Configuration config, String category, String name, String comment, boolean def) {
 		Property prop = config.get(category, name, def);
 		prop.comment = comment;
 		return prop.getBoolean();
 	}
 
 	public static String createConfigString(Configuration config, String category, String name, String comment, String def) {
-
 		Property prop = config.get(category, name, def);
 		prop.comment = comment;
 		return prop.getString();
 	}
 
 	public static String[] createConfigStringList(Configuration config, String category, String name, String comment) {
-
 		Property prop = config.get(category, name, new String[] { "PLACEHOLDER" });
 		prop.comment = comment;
 		return prop.getStringList();

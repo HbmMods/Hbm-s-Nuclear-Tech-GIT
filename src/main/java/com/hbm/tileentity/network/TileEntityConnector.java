@@ -3,8 +3,6 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.hbm.energy.IEnergyConductor;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 

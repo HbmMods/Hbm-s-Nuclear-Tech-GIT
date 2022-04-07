@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor {
 	
 	private IPipeNet network;
-	protected FluidType type = Fluids.NONE;
+	protected FluidType type = Fluids.WATER;
 
 	@Override
 	public void updateEntity() {

@@ -21,6 +21,11 @@ public class ChatBuilder {
 		return builder;
 	}
 	
+	public static ChatBuilder startTranslation(String text) {
+		ChatBuilder builder = new ChatBuilder("").nextTranslation(text);
+		return builder;
+	}
+	
 	public ChatBuilder next(String text) {
 		ChatComponentText append = new ChatComponentText(text);
 		this.last.appendSibling(append);

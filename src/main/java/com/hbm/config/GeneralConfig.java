@@ -13,14 +13,8 @@ public class GeneralConfig {
 	public static boolean enableRad = true;
 	public static boolean enableNITAN = true;
 	public static boolean enableNukeClouds = true;
-	public static boolean enableAutoCleanup = false;
-	public static boolean enableMeteorStrikes = true;
-	public static boolean enableMeteorShowers = true;
-	public static boolean enableMeteorTails = true;
-	public static boolean enableSpecialMeteors = true;
 	public static boolean enableBomberShortMode = false;
 	public static boolean enableVaults = true;
-	public static boolean enableRads = true;
 	public static boolean enableCataclysm = false;
 	public static boolean enableExtendedLogging = false;
 	public static boolean enableHardcoreTaint = false;
@@ -42,7 +36,7 @@ public class GeneralConfig {
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY_GENERAL = "01_general";
+		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false).getBoolean(false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false).getBoolean(false);
 		enablePlutoniumOre = config.get(CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false).getBoolean(false);
@@ -52,14 +46,8 @@ public class GeneralConfig {
 		enableRad = config.get(CATEGORY_GENERAL, "1.06_enableRadHotspotSpawn", true).getBoolean(true);
 		enableNITAN = config.get(CATEGORY_GENERAL, "1.07_enableNITANChestSpawn", true).getBoolean(true);
 		enableNukeClouds = config.get(CATEGORY_GENERAL, "1.08_enableMushroomClouds", true).getBoolean(true);
-		enableAutoCleanup = config.get(CATEGORY_GENERAL, "1.09_enableAutomaticRadCleanup", false).getBoolean(false);
-		enableMeteorStrikes = config.get(CATEGORY_GENERAL, "1.10_enableMeteorStrikes", true).getBoolean(true);
-		enableMeteorShowers = config.get(CATEGORY_GENERAL, "1.11_enableMeteorShowers", true).getBoolean(true);
-		enableMeteorTails = config.get(CATEGORY_GENERAL, "1.12_enableMeteorTails", true).getBoolean(true);
-		enableSpecialMeteors = config.get(CATEGORY_GENERAL, "1.13_enableSpecialMeteors", false).getBoolean(false);
 		enableBomberShortMode = config.get(CATEGORY_GENERAL, "1.14_enableBomberShortMode", false).getBoolean(false);
 		enableVaults = config.get(CATEGORY_GENERAL, "1.15_enableVaultSpawn", true).getBoolean(true);
-		enableRads = config.get(CATEGORY_GENERAL, "1.16_enableNewRadiation", true).getBoolean(true);
 		enableCataclysm = config.get(CATEGORY_GENERAL, "1.17_enableCataclysm", false).getBoolean(false);
 		enableExtendedLogging = config.get(CATEGORY_GENERAL, "1.18_enableExtendedLogging", false).getBoolean(false);
 		enableHardcoreTaint = config.get(CATEGORY_GENERAL, "1.19_enableHardcoreTaint", false).getBoolean(false);
@@ -70,7 +58,7 @@ public class GeneralConfig {
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true).getBoolean(true);
 		
-		final String CATEGORY_528 = "528";
+		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 
 		config.addCustomCategoryComment(CATEGORY_528, "CAUTION\n"
 				+ "528 Mode: Please proceed with caution!\n"

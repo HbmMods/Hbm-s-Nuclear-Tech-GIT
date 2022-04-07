@@ -2238,6 +2238,7 @@ tile.ore_bedrock_coltan.name=Бедроковая колтановая руда
 tile.ore_bedrock_oil.name=Бедроковый нефтяной пласт
 tile.ore_cobalt.name=Кобальтовая руда
 tile.stone_porous.name=Пористый камень
+tile.ore_random.name=%s руды
 
 tile.bobblehead.name=Болванчик
 tile.deco_titanium.name=Титановый декоративный блок
@@ -2369,6 +2370,9 @@ tile.tile_lab_cracked.name=Треснувшая лабораторная пли�
 tile.spikes.name=Шипы
 tile.stalactite.sulfur.name=Сернистый сталактит
 tile.stalagmite.sulfur.name=Сернистый сталагмит
+tile.stalactite.asbestos.name=Асбестовый сталактит
+tile.stalagmite.asbestos.name=Асбестовый сталагмит
+tile.stone_resource.asbestos.name=Хризотил
 tile.stone_resource.sulfur.name=Сернистый камень
 tile.gas_asbestos.name=Частицы асбеста в воздухе
 tile.gas_flammable.name=Горючий газ
@@ -4172,6 +4176,7 @@ item.crucible.name="Горнило Палача"
 item.bismuth_pickaxe.name=Висмутовая кирка
 
 tile.red_cable.name=Провод из красной меди
+tile.red_cable_classic.name=Провод из красной меди (Старый)
 tile.red_connector.name=Электрический коннектор
 
 tile.block_meteor.name=Блок метеорита
@@ -4357,6 +4362,7 @@ item.canned_kerosene.name=Консервированный керосин
 item.canned_recursion.name=Консервированная рекурсия
 item.canned_bark.name=Консервы вяленой сосновой коры
 item.spongebob_macaroni.name=Сырные макаронны "Губка Боб"
+item.can_mug.name=MUG Root Beer
 item.can_key.name=Винтовой ключ
 item.nugget.name=Куриный наггетс
 item.marshmallow.name=Зефир на палочке
