@@ -86,6 +86,7 @@ public class Fluids {
 	public static FluidType SALIENT;
 	public static FluidType XPJUICE;
 	public static FluidType ENDERJUICE;
+	public static FluidType SULFURIC_ACID;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -181,6 +182,7 @@ public class Fluids {
 		PETROIL_LEADED =	new FluidTypeCombustible(	"PETROIL_LEADED",	0x44413d, 1, 3, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 450_000).setHeatEnergy(((FluidTypeFlammable)PETROIL).getHeatEnergy());
 		GASOLINE_LEADED =	new FluidTypeCombustible(	"GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_500_000).setHeatEnergy(((FluidTypeFlammable)GASOLINE).getHeatEnergy());
 		COALGAS_LEADED =	new FluidTypeCombustible(	"COALGAS_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 250_000).setHeatEnergy(((FluidTypeFlammable)COALGAS).getHeatEnergy());
+		SULFURIC_ACID =		new FluidType(				"SULFURIC_ACID",	0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -250,10 +252,12 @@ public class Fluids {
 		//processing fluids
 		metaOrder.add(SALIENT);
 		metaOrder.add(ACID);
+		metaOrder.add(SULFURIC_ACID);
+		//NITRIC_ACID
+		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
 		metaOrder.add(SAS3);
-		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(PAIN);
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);

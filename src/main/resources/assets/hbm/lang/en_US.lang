@@ -2901,6 +2901,7 @@ item.schrabidium_shovel.name=Schrabidium Shovel
 item.schrabidium_sword.name=Schrabidium Sword
 item.scrap.name=Scrap
 item.scrap_nuclear.name=Radioactive Scraps
+item.scrap_oil.name=Oily Scraps
 item.scrap_plastic.name=Plastic Scraps
 item.screwdriver.name=Screwdriver
 item.screwdriver.desc=Could be used instead of a fuse...
