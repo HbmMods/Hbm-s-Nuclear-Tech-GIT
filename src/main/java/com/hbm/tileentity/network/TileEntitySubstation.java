@@ -1,9 +1,11 @@
 package com.hbm.tileentity.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 
 import api.hbm.energy.IEnergyConductor;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
 public class TileEntitySubstation extends TileEntityPylonBase {
@@ -45,33 +47,31 @@ public class TileEntitySubstation extends TileEntityPylonBase {
 	}
 	
 	@Override
-	protected void connect() {
-
-		manageNets(worldObj.getTileEntity(xCoord + 2, yCoord, zCoord - 1));
-		manageNets(worldObj.getTileEntity(xCoord + 2, yCoord, zCoord + 1));
-		manageNets(worldObj.getTileEntity(xCoord - 2, yCoord, zCoord - 1));
-		manageNets(worldObj.getTileEntity(xCoord - 2, yCoord, zCoord + 1));
-		manageNets(worldObj.getTileEntity(xCoord - 1, yCoord, zCoord + 2));
-		manageNets(worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 2));
-		manageNets(worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 2));
-		manageNets(worldObj.getTileEntity(xCoord + 1, yCoord, zCoord - 2));
-		
-		super.connect();
+	public List<int[]> getConnectionPoints() {
+		List<int[]> pos = new ArrayList(connected);
+		pos.add(new int[] {xCoord + 2, yCoord, zCoord - 1});
+		pos.add(new int[] {xCoord + 2, yCoord, zCoord + 1});
+		pos.add(new int[] {xCoord - 2, yCoord, zCoord - 1});
+		pos.add(new int[] {xCoord - 2, yCoord, zCoord + 1});
+		pos.add(new int[] {xCoord - 1, yCoord, zCoord + 2});
+		pos.add(new int[] {xCoord + 1, yCoord, zCoord + 2});
+		pos.add(new int[] {xCoord - 1, yCoord, zCoord - 2});
+		pos.add(new int[] {xCoord + 1, yCoord, zCoord - 2});
+		return pos;
 	}
-	
-	private void manageNets(TileEntity te) {
-		
-		if(te instanceof IEnergyConductor) {
-			
-			IEnergyConductor conductor = (IEnergyConductor) te;
-			
-			if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-				conductor.getPowerNet().joinLink(this);
-			}
-			
-			if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-				conductor.getPowerNet().joinNetworks(this.getPowerNet());
-			}
-		}
+
+	@Override
+	public boolean hasProxies() {
+		return true;
+	}
+
+	@Override
+	public List<Integer> getProxies() {
+		List<Integer> proxies = new ArrayList();
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord + 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord - 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord + 1));
+		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord - 1));
+		return proxies;
 	}
 }

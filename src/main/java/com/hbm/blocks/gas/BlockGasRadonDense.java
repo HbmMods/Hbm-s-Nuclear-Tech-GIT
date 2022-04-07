@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;

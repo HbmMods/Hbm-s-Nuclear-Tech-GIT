@@ -7,19 +7,15 @@ import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 
-import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IEnergyConnectorBlock;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class RenderTestCable implements ISimpleBlockRenderingHandler {
+public class RenderCable implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {

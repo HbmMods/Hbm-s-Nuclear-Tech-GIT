@@ -6,6 +6,7 @@ import com.hbm.packet.PacketDispatcher;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -14,7 +15,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * This is mean for TILE ENTITIES
  * @author hbm
  */
-public interface IEnergyConnector {
+public interface IEnergyConnector extends ILoadedTile {
 	
 	/**
 	 * Returns the amount of power that remains in the source after transfer
@@ -94,4 +95,10 @@ public interface IEnergyConnector {
 	}
 	
 	public static final boolean particleDebug = false;
+	
+	public default Vec3 getDebugParticlePos() {
+		TileEntity te = (TileEntity) this;
+		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
+		return vec;
+	}
 }

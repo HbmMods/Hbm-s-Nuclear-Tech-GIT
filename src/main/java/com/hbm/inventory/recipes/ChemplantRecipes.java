@@ -93,6 +93,12 @@ public class ChemplantRecipes {
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.AROMATICS, 500))
 				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
+		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
+				.inputItems(
+						new ComparableStack(Items.sugar),
+						new OreDictStack(KNO.dust()),
+						new OreDictStack("sand"))
+				.outputItems(new ItemStack(ModItems.ball_dynamite, 2)));
 		recipes.add(new ChemRecipe(84, "C4", 150)
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))

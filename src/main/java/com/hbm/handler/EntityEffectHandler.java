@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -121,15 +122,14 @@ public class EntityEffectHandler {
 			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
-				rad = RadiationConfig.hellRad;
+				rad = (float) RadiationConfig.hellRad;
 	
 			if(rad > 0) {
 				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 			}
 	
-			if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
-				
-				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, RadiationConfig.cont * 0.0005F);
+			if(entity.worldObj.isRaining() && BombConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, BombConfig.cont * 0.0005F);
 			}
 			
 			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
@@ -441,7 +441,6 @@ public class EntityEffectHandler {
 				ItemStack armorStack = player.inventory.armorInventory[armorSlot];
 						
 				if(armorStack != null && armorStack.getItem() instanceof ItemArmor) {
-					ItemArmor armor = (ItemArmor)armorStack.getItem();
 							
 					for(int modSlot = 0; modSlot < 8; modSlot++) {
 						ItemStack mod = ArmorModHandler.pryMods(armorStack)[modSlot];
@@ -472,10 +471,18 @@ public class EntityEffectHandler {
 				if(props.getDashCooldown() <= 0) {
 							
 					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
-								
-						Vec3 lookingIn = player.getLookVec();
 
-						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
+						Vec3 lookingIn = player.getLookVec();
+						Vec3 strafeVec = player.getLookVec();
+						strafeVec.rotateAroundY((float)Math.PI * 0.5F);
+
+						int forward = (int) Math.signum(player.moveForward);
+						int strafe = (int) Math.signum(player.moveStrafing);
+						
+						if(forward == 0 && strafe == 0)
+							forward = 1;
+
+						player.addVelocity(lookingIn.xCoord * forward + strafeVec.xCoord * strafe, 0, lookingIn.zCoord * forward + strafeVec.zCoord * strafe);
 						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
 						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);

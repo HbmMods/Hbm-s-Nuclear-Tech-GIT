@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -10,16 +11,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class WasteLeaves extends Block {
 
 	public WasteLeaves(Material mat) {
 		super(mat);
+		this.setTickRandomly(true);
 	}
 
 	@Override
@@ -36,8 +38,15 @@ public class WasteLeaves extends Block {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if(rand.nextInt(60) == 0) {
+		if(rand.nextInt(30) == 0) {
 			world.setBlockToAir(x, y, z);
+			
+			if(world.getBlock(x, y - 1, z).getMaterial() == Material.air) {
+				EntityFallingBlock leaves = new EntityFallingBlock(world, x + 0.5, y + 0.5, z + 0.5, ModBlocks.leaves_layer);
+				leaves.field_145812_b = 2;
+				leaves.field_145813_c = false;
+				world.spawnEntityInWorld(leaves);
+			}
 		}
 
 		super.updateTick(world, x, y, z, rand);

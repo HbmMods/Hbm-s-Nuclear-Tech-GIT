@@ -384,10 +384,16 @@ public class ModEventHandler {
 			return;
 
 		if(entity instanceof EntityZombie) {
-			if(rand.nextInt(64) == 0)
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_olde, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(64) == 0) {
+				ItemStack mask = new ItemStack(ModItems.gas_mask_m65);
+				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
+				entity.setCurrentItemOrArmor(4, mask);
+			}
+			if(rand.nextInt(128) == 0) {
+				ItemStack mask = new ItemStack(ModItems.gas_mask_olde);
+				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
+				entity.setCurrentItemOrArmor(4, mask);
+			}
 			if(rand.nextInt(256) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(1024) == 0)
@@ -413,8 +419,11 @@ public class ModEventHandler {
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
 		}
 		if(entity instanceof EntitySkeleton) {
-			if(rand.nextInt(16) == 0)
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(16) == 0) {
+				ItemStack mask = new ItemStack(ModItems.gas_mask_m65);
+				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
+				entity.setCurrentItemOrArmor(4, mask);
+			}
 			if(rand.nextInt(64) == 0)
 				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
 		}
@@ -733,7 +742,7 @@ public class ModEventHandler {
 		/// TOM IMPACT END///
 		
 		/// RADIATION STUFF START ///
-		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
+		if(event.world != null && !event.world.isRemote) {
 			
 			int thunder = AuxSavedData.getThunder(event.world);
 			
@@ -1160,6 +1169,17 @@ public class ModEventHandler {
 			}
 			
 			/// PU RADIATION END ///
+			
+			/*if(player instanceof EntityPlayerMP) {
+
+				int x = (int) Math.floor(player.posX);
+				int y = (int) Math.floor(player.posY - 0.01);
+				int z = (int) Math.floor(player.posZ);
+				
+				if(player.worldObj.getTileEntity(x, y, z) instanceof IEnergyConductor) {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(((IEnergyConductor) player.worldObj.getTileEntity(x, y, z)).getPowerNet() + ""), (EntityPlayerMP) player);
+				}
+			}*/
 
 			/// NEW ITEM SYS START ///
 			HazardSystem.updatePlayerInventory(player);

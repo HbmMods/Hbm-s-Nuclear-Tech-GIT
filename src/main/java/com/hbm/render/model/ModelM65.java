@@ -126,17 +126,33 @@ public class ModelM65 extends ModelBiped {
 	@Override
 	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7) {
 		setRotationAngles(par2, par3, par4, par5, par6, par7, entity);
-		GL11.glPushMatrix();
-		double d = 1D / 16D * 18D;
-		//GL11.glTranslated(0, 1/16D, 0);
-		GL11.glScaled(d, d, d);
-		GL11.glScaled(1.01D, 1.01D, 1.01D);
-		this.mask.render(par7);
 		
-		if(!(entity instanceof EntityLivingBase) || ArmorUtil.getGasMaskFilterRecursively(((EntityLivingBase)entity).getEquipmentInSlot(4), (EntityLivingBase)entity) != null)
-			this.filter.render(par7);
-		
-		GL11.glPopMatrix();
+		if(this.isChild) {
+			float f6 = 2.0F;
+			GL11.glPushMatrix();
+			GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
+			GL11.glTranslatef(0.0F, 16.0F * par7, 0.0F);
+			double d = 1D / 16D * 18D;
+			GL11.glScaled(d, d, d);
+			GL11.glScaled(1.01D, 1.01D, 1.01D);
+			this.mask.render(par7);
+			
+			if(!(entity instanceof EntityLivingBase) || ArmorUtil.getGasMaskFilterRecursively(((EntityLivingBase)entity).getEquipmentInSlot(4), (EntityLivingBase)entity) != null)
+				this.filter.render(par7);
+			
+			GL11.glPopMatrix();
+		} else {
+			GL11.glPushMatrix();
+			double d = 1D / 16D * 18D;
+			GL11.glScaled(d, d, d);
+			GL11.glScaled(1.01D, 1.01D, 1.01D);
+			this.mask.render(par7);
+			
+			if(!(entity instanceof EntityLivingBase) || ArmorUtil.getGasMaskFilterRecursively(((EntityLivingBase)entity).getEquipmentInSlot(4), (EntityLivingBase)entity) != null)
+				this.filter.render(par7);
+			
+			GL11.glPopMatrix();
+		}
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

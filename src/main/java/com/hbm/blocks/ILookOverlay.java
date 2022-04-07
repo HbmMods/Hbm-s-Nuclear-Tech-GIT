@@ -49,6 +49,7 @@ public interface ILookOverlay {
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor3f(1F, 1F, 1F);
 
 		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);

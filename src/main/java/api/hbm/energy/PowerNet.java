@@ -1,6 +1,7 @@
 package api.hbm.energy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 public class PowerNet implements IPowerNet {
 	
 	private boolean valid = true;
-	private List<IEnergyConductor> links = new ArrayList();
+	private HashMap<Integer, IEnergyConductor> links = new HashMap();
+	private HashMap<Integer, Integer> proxies = new HashMap();
 	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
@@ -23,8 +25,7 @@ public class PowerNet implements IPowerNet {
 			return; //wtf?!
 
 		for(IEnergyConductor conductor : network.getLinks()) {
-			conductor.setPowerNet(this);
-			this.getLinks().add(conductor);
+			joinLink(conductor);
 		}
 		network.getLinks().clear();
 		
@@ -42,14 +43,29 @@ public class PowerNet implements IPowerNet {
 			conductor.getPowerNet().leaveLink(conductor);
 		
 		conductor.setPowerNet(this);
-		this.getLinks().add(conductor);
+		int identity = conductor.getIdentity();
+		this.links.put(identity, conductor);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.put(i, identity);
+			}
+		}
+		
 		return this;
 	}
 
 	@Override
 	public void leaveLink(IEnergyConductor conductor) {
 		conductor.setPowerNet(null);
-		this.getLinks().remove(conductor);
+		int identity = conductor.getIdentity();
+		this.links.remove(identity);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.remove(i);
+			}
+		}
 	}
 
 	@Override
@@ -69,7 +85,14 @@ public class PowerNet implements IPowerNet {
 
 	@Override
 	public List<IEnergyConductor> getLinks() {
-		return this.links;
+		List<IEnergyConductor> linkList = new ArrayList();
+		linkList.addAll(this.links.values());
+		return linkList;
+	}
+
+	public HashMap<Integer, Integer> getProxies() {
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
+		return proxyCopy;
 	}
 
 	@Override
@@ -80,10 +103,9 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public void destroy() {
 		this.valid = false;
-		
 		this.subscribers.clear();
 		
-		for(IEnergyConductor link : this.links) {
+		for(IEnergyConductor link : this.links.values()) {
 			link.setPowerNet(null);
 		}
 		
@@ -95,12 +117,18 @@ public class PowerNet implements IPowerNet {
 		return this.valid;
 	}
 	
+	public long lastCleanup = System.currentTimeMillis();
+	
 	@Override
 	public long transferPower(long power) {
 		
-		this.subscribers.removeIf(x -> 
-			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid()
-		);
+		if(lastCleanup + 45 < System.currentTimeMillis()) {
+			this.subscribers.removeIf(x -> 
+				x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
+			);
+			
+			lastCleanup = System.currentTimeMillis();
+		}
 		
 		if(this.subscribers.isEmpty())
 			return power;
@@ -135,5 +163,25 @@ public class PowerNet implements IPowerNet {
 	}
 
 	@Override
-	public void reevaluate() { }
+	public void reevaluate() {
+		
+		//this.destroy();//
+
+		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
+		
+		for(IEnergyConductor link : copy.values()) {
+			this.leaveLink(link);
+		}
+		
+		for(IEnergyConductor link : copy.values()) {
+			
+			link.setPowerNet(null);
+			link.reevaluate(copy, proxyCopy);
+			
+			if(link.getPowerNet() == null) {
+				link.setPowerNet(new PowerNet().joinLink(link));
+			}
+		}
+	}
 }

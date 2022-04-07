@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -37,7 +38,7 @@ public class Meteorite {
 			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 		}
 
-		if(GeneralConfig.enableSpecialMeteors)
+		if(WorldConfig.enableSpecialMeteors)
 			switch(rand.nextInt(300)) {
 			case 0:
 				// Meteor-only tiny meteorite

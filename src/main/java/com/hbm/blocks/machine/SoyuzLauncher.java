@@ -160,63 +160,55 @@ public class SoyuzLauncher extends BlockDummyable {
 	private static boolean keepInventory;
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int i)
-    {
-        if (!keepInventory)
-        {
-        	ISidedInventory tileentityfurnace = (ISidedInventory)world.getTileEntity(x, y, z);
+	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int i) {
+		if(!keepInventory) {
+			ISidedInventory tileentityfurnace = (ISidedInventory) world.getTileEntity(x, y, z);
 
-            if (tileentityfurnace != null)
-            {
-                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1)
-                {
-                    ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
+			if(tileentityfurnace != null) {
+				for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
+					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 
-                    if (itemstack != null)
-                    {
-                        float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+					if(itemstack != null) {
+						float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+						float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+						float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
 
-                        while (itemstack.stackSize > 0)
-                        {
-                            int j1 = this.field_149933_a.nextInt(21) + 10;
+						while(itemstack.stackSize > 0) {
+							int j1 = this.field_149933_a.nextInt(21) + 10;
 
-                            if (j1 > itemstack.stackSize)
-                            {
-                                j1 = itemstack.stackSize;
-                            }
+							if(j1 > itemstack.stackSize) {
+								j1 = itemstack.stackSize;
+							}
 
-                            itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+							itemstack.stackSize -= j1;
+							EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
-                            if (itemstack.hasTagCompound())
-                            {
-                                entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
-                            }
+							if(itemstack.hasTagCompound()) {
+								entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+							}
 
-                            float f3 = 0.05F;
-                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
-                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
-                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
-                            world.spawnEntityInWorld(entityitem);
-                        }
-                    }
-                }
-                
-                for(int l = 0; l < 10; l++)
-                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_launcher, 38)));
-                for(int l = 0; l < 8; l++)
-                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.concrete_smooth, 41)));
-                for(int l = 0; l < 6; l++)
-                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 64)));
-            	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 53)));
-                
-                world.func_147453_f(x, y, z, p_149749_5_);
-            }
-        }
+							float f3 = 0.05F;
+							entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
+							entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
+							entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
+							world.spawnEntityInWorld(entityitem);
+						}
+					}
+				}
 
-        super.breakBlock(world, x, y, z, p_149749_5_, i);
-    }
+				for(int l = 0; l < 10; l++)
+					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_launcher, 38)));
+				for(int l = 0; l < 8; l++)
+					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.concrete_smooth, 41)));
+				for(int l = 0; l < 6; l++)
+					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 64)));
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 53)));
+
+				world.func_147453_f(x, y, z, p_149749_5_);
+			}
+		}
+
+		super.breakBlock(world, x, y, z, p_149749_5_, i);
+	}
 
 }

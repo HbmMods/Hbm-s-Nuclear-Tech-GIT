@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 
 import api.hbm.block.IPileNeutronReceiver;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutronReceiver {
@@ -65,11 +64,15 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.heat = nbt.getInteger("heat");
+		this.progress = nbt.getInteger("progress");
+		this.neutrons = nbt.getInteger("neutrons");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("heat", this.heat);
+		nbt.setInteger("progress", this.progress);
+		nbt.setInteger("neutrons", this.neutrons);
 	}
 }

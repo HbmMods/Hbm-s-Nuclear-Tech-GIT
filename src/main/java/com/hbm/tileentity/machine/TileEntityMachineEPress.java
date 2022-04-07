@@ -1,12 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineEPress extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineEPress extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 

@@ -59,6 +59,7 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
+import api.hbm.energy.IEnergyConductor;
 import api.hbm.item.IButtonReceiver;
 import api.hbm.item.IClickReceiver;
 
@@ -245,13 +246,16 @@ public class ModEventHandlerClient {
 				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				
-			} 
+			}
+			
+		}
+		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
+			
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
 					
 			}
-			
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.calc.Location;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyConnector;
 import cofh.api.energy.IEnergyHandler;
@@ -8,7 +9,7 @@ import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntity implements IEnergyConnector, IEnergyHandler {
+public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEnergyConnector, IEnergyHandler {
 	
 	//Thanks to the great people of Fusion Warfare for helping me with the original implementation of the RF energy API
 

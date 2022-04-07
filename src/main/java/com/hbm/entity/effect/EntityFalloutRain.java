@@ -65,12 +65,12 @@ public class EntityFalloutRain extends Entity {
 			tickDelay--;
 
 			if(this.isDead) {
-        		if(RadiationConfig.rain > 0 && getScale() > 150) {
+        		if(BombConfig.rain > 0 && getScale() > 150) {
         			worldObj.getWorldInfo().setRaining(true);
     				worldObj.getWorldInfo().setThundering(true);
-    				worldObj.getWorldInfo().setRainTime(RadiationConfig.rain);
-    				worldObj.getWorldInfo().setThunderTime(RadiationConfig.rain);
-    				AuxSavedData.setThunder(worldObj, RadiationConfig.rain);
+    				worldObj.getWorldInfo().setRainTime(BombConfig.rain);
+    				worldObj.getWorldInfo().setThunderTime(BombConfig.rain);
+    				AuxSavedData.setThunder(worldObj, BombConfig.rain);
         		}
         	}
         }

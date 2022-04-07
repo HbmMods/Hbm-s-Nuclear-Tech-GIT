@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -184,6 +185,7 @@ public class TileMappings {
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
 		put(TileEntityChungus.class, "tileentity_chungus");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod");
+		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityWatz.class, "tileentity_watz");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
@@ -198,6 +200,8 @@ public class TileMappings {
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 		put(TileEntityProxyCombo.class, "tileentity_proxy_combo");
 		put(TileEntityProxyConductor.class, "tileentity_proxy_conductor");
+
+		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
 		
 		putNetwork();
 		putBombs();
