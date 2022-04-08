@@ -58,6 +58,10 @@ public class ChemplantRecipes {
 		recipes.add(new ChemRecipe(40, "PEROXIDE", 50)
 				.inputFluids(new FluidStack(Fluids.WATER, 1000))
 				.outputFluids(new FluidStack(Fluids.ACID, 800)));
+		recipes.add(new ChemRecipe(90, "SULFURIC_ACID", 50)
+				.inputItems(new OreDictStack(S.dust()))
+				.inputFluids(new FluidStack(Fluids.ACID, 800))
+				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
 		recipes.add(new ChemRecipe(41, "CIRCUIT_4", 200)
 				.inputItems(
 						new ComparableStack(ModItems.circuit_red_copper),
@@ -265,6 +269,13 @@ public class ChemplantRecipes {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
+		recipes.add(new ChemRecipe(91, "ARSENIC", 1200)
+				.inputItems(new ComparableStack(ModItems.scrap_oil, 256))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+				.outputItems(
+						new ItemStack(ModItems.nugget_arsenic),
+						new ItemStack(ModItems.sulfur, 2))
+				.outputFluids(new FluidStack(Fluids.HEAVYOIL, 1500)));
 		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
 				.inputItems(new ComparableStack(ModBlocks.sand_lead))
 				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))
