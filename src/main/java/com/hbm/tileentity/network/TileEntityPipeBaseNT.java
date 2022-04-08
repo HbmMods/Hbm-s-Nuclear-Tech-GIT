@@ -6,13 +6,15 @@ import com.hbm.inventory.fluid.Fluids;
 import api.hbm.fluid.IFluidConductor;
 import api.hbm.fluid.IPipeNet;
 import api.hbm.fluid.PipeNet;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor {
 	
 	private IPipeNet network;
-	protected FluidType type = Fluids.WATER;
+	protected FluidType type = Fluids.NONE;
 
 	@Override
 	public void updateEntity() {
@@ -27,6 +29,20 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 			if(this.getPipeNet(type) == null) {
 				this.setPipeNet(type, new PipeNet(type).joinLink(this));
 			}
+		}
+	}
+	
+	public FluidType getType() {
+		return this.type;
+	}
+	
+	public void setType(FluidType type) {
+		this.type = type;
+		this.markDirty();
+		
+		if(worldObj instanceof WorldServer) {
+			WorldServer world = (WorldServer) worldObj;
+			world.getPlayerManager().markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 	
@@ -95,5 +111,17 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 	@Override
 	public void setPipeNet(FluidType type, IPipeNet network) {
 		this.network = network;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.type = Fluids.fromID(nbt.getInteger("type"));
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("type", this.type.getID());
 	}
 }

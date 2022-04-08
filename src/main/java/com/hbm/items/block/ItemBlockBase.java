@@ -3,6 +3,7 @@ package com.hbm.items.block;
 import java.util.List;
 
 import com.hbm.blocks.BlockEnumMulti;
+import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.util.EnumUtil;
 
@@ -17,7 +18,7 @@ public class ItemBlockBase extends ItemBlock {
 	public ItemBlockBase(Block block) {
 		super(block);
 		
-		if(block instanceof BlockEnumMulti) {
+		if(block instanceof BlockMulti) {
 			this.setMaxDamage(0);
 			this.setHasSubtypes(true);
 		}
@@ -25,7 +26,7 @@ public class ItemBlockBase extends ItemBlock {
 	
 	@Override
 	public int getMetadata(int meta) {
-		if(field_150939_a instanceof BlockEnumMulti)
+		if(field_150939_a instanceof BlockMulti)
 			return meta;
 		else
 			return super.getMetadata(meta);
