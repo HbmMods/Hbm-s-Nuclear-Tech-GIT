@@ -291,6 +291,9 @@ public class ResourceManager {
 	//Radiolysis
 	public static final IModelCustom radiolysis = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/radiolysis.obj"));
 	
+	//Electrolyser
+	public static final IModelCustom electrolyser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/electrolyser.obj"));
+	
 	////Textures TEs
 	
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
@@ -596,6 +599,9 @@ public class ResourceManager {
 
 	//Radiolysis
 	public static final ResourceLocation radiolysis_tex = new ResourceLocation(RefStrings.MODID, "textures/models/radiolysis.png");
+	
+	//Electrolyser
+	public static final ResourceLocation electrolyser_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/electrolyser.png");
 	
 	////Obj Items
 	
