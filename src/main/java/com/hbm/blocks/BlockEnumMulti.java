@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class BlockEnumMulti extends BlockBase {
+public class BlockEnumMulti extends BlockMulti {
 
 	public Class<? extends Enum> theEnum;
 	public boolean multiName;
@@ -22,19 +22,6 @@ public class BlockEnumMulti extends BlockBase {
 		this.theEnum = theEnum;
 		this.multiName = multiName;
 		this.multiTexture = multiTexture;
-	}
-
-	@Override
-	public int damageDropped(int meta) {
-		return meta;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < theEnum.getEnumConstants().length; ++i) {
-			list.add(new ItemStack(item, 1, i));
-		}
 	}
 	
 	private IIcon[] icons;
@@ -60,5 +47,10 @@ public class BlockEnumMulti extends BlockBase {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return this.icons[meta % this.icons.length];
+	}
+
+	@Override
+	public int getSubCount() {
+		return this.theEnum.getEnumConstants().length;
 	}
 }
