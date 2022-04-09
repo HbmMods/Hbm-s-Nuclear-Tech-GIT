@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -14,8 +15,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor{
 	
@@ -51,6 +54,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 		if(!worldObj.isRemote) {
 			
+			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
@@ -60,11 +65,27 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			data.setInteger("processFluidTime", this.processFluidTime);
 			data.setInteger("processOreTime", this.processOreTime);
 			this.networkPack(data, 50);
+			
+			fillFluidInit(tanks[1].getTankType());
+			fillFluidInit(tanks[2].getTankType());
 		}
 
 	}
 	
-AxisAlignedBB bb = null;
+	@Override
+	public void fillFluidInit(FluidType type) {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
+		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
+		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
+		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
+
+	}
+	
+	AxisAlignedBB bb = null;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -136,12 +157,6 @@ AxisAlignedBB bb = null;
 				return tanks[i].getMaxFill();
 		}
 		return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

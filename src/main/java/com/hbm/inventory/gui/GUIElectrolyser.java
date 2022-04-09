@@ -45,7 +45,7 @@ public class GUIElectrolyser extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.electrolyser.hasCustomInventoryName() ? this.electrolyser.getInventoryName() : I18n.format(this.electrolyser.getInventoryName());
 
-		this.fontRendererObj.drawString(name, 90 + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 7, 0xffffff);
+		this.fontRendererObj.drawString(name, (this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2) - 16, 7, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 94, 4210752);
 	}
 }
