@@ -24,6 +24,7 @@ public class GeneralConfig {
 	public static boolean enableBabyMode = false;
 	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
+	public static boolean enableCustomDashKeybind = false;
 
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -57,13 +58,14 @@ public class GeneralConfig {
 		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true).getBoolean(true);
+		enableCustomDashKeybind = config.get(CATEGORY_GENERAL, "1.26_enableCustomDashKeybind", false).getBoolean(false);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 
 		config.addCustomCategoryComment(CATEGORY_528, "CAUTION\n"
 				+ "528 Mode: Please proceed with caution!\n"
 				+ "528-Modus: Lassen Sie Vorsicht walten!\n"
-				+ "способ-528: действовать с осторожностью!");
+				+ "Ñ�Ð¿Ð¾Ñ�Ð¾Ð±-528: Ð´ÐµÐ¹Ñ�Ñ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ñ� Ð¾Ñ�Ñ‚Ð¾Ñ€Ð¾Ð¶Ð½Ð¾Ñ�Ñ‚ÑŒÑŽ!");
 		
 		enable528 = CommonConfig.createConfigBool(config, CATEGORY_528, "enable528Mode", "The central toggle for 528 mode.", false);
 		enable528ReasimBoilers = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_forceReasimBoilers", "Keeps the RBMK dial for ReaSim boilers on, preventing use of non-ReaSim boiler columns and forcing the use of steam in-/outlets", true);
