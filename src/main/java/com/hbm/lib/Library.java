@@ -28,6 +28,8 @@ import com.hbm.tileentity.machine.TileEntityDummy;
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -123,6 +125,31 @@ public class Library {
 			IEnergyConnector con = (IEnergyConnector) te;
 			
 			if(con.canConnect(dir))
+				return true;
+		}
+		
+		return false;
+	}
+
+	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
+		
+		if(y > 255 || y < 0)
+			return false;
+		
+		Block b = world.getBlock(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(b instanceof IFluidConnectorBlock) {
+			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
+			
+			if(con.canConnect(type, world, x, y, z, dir))
+				return true;
+		}
+		
+		if(te instanceof IFluidConnector) {
+			IFluidConnector con = (IFluidConnector) te;
+			
+			if(con.canConnect(type, dir))
 				return true;
 		}
 		

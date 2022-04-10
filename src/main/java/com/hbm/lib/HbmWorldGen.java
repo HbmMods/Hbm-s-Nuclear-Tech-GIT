@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
@@ -44,7 +45,10 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenForest;
+import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -66,6 +70,18 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 	
 	private void generateSurface(World world, Random rand, int i, int j) {
+
+		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
+
+		if(biome instanceof BiomeGenForest && rand.nextInt(16) == 0) {
+			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal());
+		}
+		if(biome == BiomeGenBase.roofedForest && rand.nextInt(8) == 0) {
+			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal());
+		}
+		if(biome instanceof BiomeGenJungle && rand.nextInt(8) == 0) {
+			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal());
+		}
 		
 		if(WorldConfig.oilcoalSpawn > 0 && rand.nextInt(WorldConfig.oilcoalSpawn) == 0)
 			DungeonToolbox.generateOre(world, rand, i, j, 1, 64, 32, 32, ModBlocks.ore_coal_oil);
@@ -175,8 +191,6 @@ public class HbmWorldGen implements IWorldGenerator {
 		}
 
 		if (GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
-
-			BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
 			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
 				if (WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {

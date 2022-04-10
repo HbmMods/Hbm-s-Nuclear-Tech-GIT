@@ -206,6 +206,7 @@ public abstract class ToolAbility {
 			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
 			
 			world.setBlockToAir(x, y, z);
+			player.getHeldItem().damageItem(1, player);
 		}
 
 		@Override
@@ -252,6 +253,7 @@ public abstract class ToolAbility {
 			EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
 			
 			world.setBlockToAir(x, y, z);
+			player.getHeldItem().damageItem(1, player);
 		}
 
 		@Override
@@ -294,6 +296,7 @@ public abstract class ToolAbility {
 			}
 			
 			world.setBlockToAir(x, y, z);
+			player.getHeldItem().damageItem(1, player);
 			
 			for(ItemStack stack : drops)
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
@@ -335,6 +338,7 @@ public abstract class ToolAbility {
 			if(result != null && result.getItem() != ModItems.scrap) {
 				world.setBlockToAir(x, y, z);
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
+				player.getHeldItem().damageItem(1, player);
 			}
 		}
 
@@ -373,6 +377,7 @@ public abstract class ToolAbility {
 			
 			if(result != null) {
 				world.setBlockToAir(x, y, z);
+				player.getHeldItem().damageItem(1, player);
 				
 				for(ItemStack st : result) {
 					if(st != null)
@@ -417,6 +422,7 @@ public abstract class ToolAbility {
 			if(result != null) {
 				world.setBlockToAir(x, y, z);
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
+				player.getHeldItem().damageItem(1, player);
 			}
 		}
 
@@ -460,6 +466,7 @@ public abstract class ToolAbility {
 			if(mercury > 0) {
 				world.setBlockToAir(x, y, z);
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ingot_mercury, mercury)));
+				player.getHeldItem().damageItem(1, player);
 			}
 		}
 

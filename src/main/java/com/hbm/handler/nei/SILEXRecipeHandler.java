@@ -146,7 +146,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 			
 			if(recipe.getKey() instanceof ItemStack) {
 
-				if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
+				if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()))
 					this.arecipes.add(new RecipeSet(recipe.getKey(), recipe.getValue()));
 				
 			} else if (recipe.getKey() instanceof ArrayList) {
@@ -154,7 +154,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 				for(Object o : (ArrayList)recipe.getKey()) {
 					ItemStack stack = (ItemStack)o;
 
-					if (NEIServerUtils.areStacksSameType(ingredient, stack))
+					if (NEIServerUtils.areStacksSameTypeCrafting(ingredient, stack))
 						this.arecipes.add(new RecipeSet(stack, recipe.getValue()));
 				}
 			}
