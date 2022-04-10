@@ -76,7 +76,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementRadiation(EntityLivingBase entity, float rad) {
-
 		if(!RadiationConfig.enableContamination)
 			return;
 		
@@ -189,10 +188,12 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// ASBESTOS ///
 	public static int getAsbestos(EntityLivingBase entity) {
+		if(RadiationConfig.disableAsbestos) return 0;
 		return getData(entity).asbestos;
 	}
 	
 	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
+		if(RadiationConfig.disableAsbestos) return;
 		getData(entity).asbestos = asbestos;
 		
 		if(asbestos >= maxAsbestos) {
@@ -202,6 +203,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
+		if(RadiationConfig.disableAsbestos) return;
 		setAsbestos(entity, getAsbestos(entity) + asbestos);
 		incrementFibrosis(entity, asbestos);
 	}
@@ -209,10 +211,12 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// BLACK LUNG DISEASE ///
 	public static int getBlackLung(EntityLivingBase entity) {
+		if(RadiationConfig.disableCoal) return 0;
 		return getData(entity).blacklung;
 	}
 	
 	public static void setBlackLung(EntityLivingBase entity, int blacklung) {
+		if(RadiationConfig.disableCoal) return;
 		getData(entity).blacklung = blacklung;
 		
 		if(blacklung >= maxBlacklung) {
@@ -222,16 +226,19 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementBlackLung(EntityLivingBase entity, int blacklung) {
+		if(RadiationConfig.disableCoal) return;
 		setBlackLung(entity, getBlackLung(entity) + blacklung);
 		incrementFibrosis(entity, blacklung);
 	}
 	
 	/// PULMONARY FIBROSIS ///
 	public static int getFibrosis(EntityLivingBase entity) {
+		if(RadiationConfig.disableFibrosis) return 0;
 		return getData(entity).fibrosis;
 	}
 	
 	public static void setFibrosis(EntityLivingBase entity, int fibrosis) {
+		if(RadiationConfig.disableFibrosis) return;
 		getData(entity).fibrosis = fibrosis;
 		
 		if (fibrosis >= maxFibrosis) {
@@ -241,6 +248,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementFibrosis(EntityLivingBase entity, int fibrosis) {
+		if(RadiationConfig.disableFibrosis) return;
 		setFibrosis(entity, getFibrosis(entity) + fibrosis);
 	}
 	

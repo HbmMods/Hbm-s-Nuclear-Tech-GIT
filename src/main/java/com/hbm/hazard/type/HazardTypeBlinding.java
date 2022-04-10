@@ -2,6 +2,7 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.I18nUtil;
@@ -19,6 +20,9 @@ public class HazardTypeBlinding extends HazardTypeBase {
 
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
+		
+		if(RadiationConfig.disableBlinding)
+			return;
 
 		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.LIGHT)) {
 			target.addPotionEffect(new PotionEffect(Potion.blindness.id, (int)Math.ceil(level), 0));

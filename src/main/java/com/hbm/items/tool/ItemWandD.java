@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemKitCustom;
@@ -29,13 +30,6 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			List<EntityZombie> zombies = world.getEntitiesWithinAABB(EntityZombie.class, AxisAlignedBB.getBoundingBox(pos.blockX - 2, pos.blockY - 2, pos.blockZ - 2, pos.blockX + 2, pos.blockY + 2, pos.blockZ + 2));
-			
-			for(EntityZombie zombie : zombies) {
-				zombie.setChild(true);
-				zombie.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65));
-			}
-			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
 			tunneler.onSpawnWithEgg(null);
@@ -43,17 +37,19 @@ public class ItemWandD extends Item {
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
-			/*int r = 5;
+			int r = 5;
 			
+			int x = pos.blockX;
+			int y = pos.blockY;
+			int z = pos.blockZ;
 			for(int i = x - r; i <= x + r; i++) {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
-						
-						world.setBlock(i, j, k, ModBlocks.vacuum);
-						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+						if(world.getBlock(i, j, k) == ModBlocks.concrete_super)
+							world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
-			}*/
+			}
 			
 			//new Bunker().generate(world, world.rand, x, y, z);
 			

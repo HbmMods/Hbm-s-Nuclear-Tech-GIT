@@ -2,6 +2,7 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
@@ -19,6 +20,9 @@ public class HazardTypeAsbestos extends HazardTypeBase {
 
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
+		
+		if(RadiationConfig.disableAsbestos)
+			return;
 		
 		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_FINE))
 			HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));

@@ -1,7 +1,6 @@
 package com.hbm.config;
 
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 
 public class RadiationConfig {
 
@@ -15,6 +14,14 @@ public class RadiationConfig {
 
 	public static boolean enableContamination = true;
 	public static boolean enableChunkRads = true;
+
+	public static boolean disableAsbestos = false;
+	public static boolean disableCoal = false;
+	public static boolean disableHot = false;
+	public static boolean disableExplosive = false;
+	public static boolean disableHydro = false;
+	public static boolean disableBlinding = false;
+	public static boolean disableFibrosis = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -32,5 +39,15 @@ public class RadiationConfig {
 		enableChunkRads = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_01_enableChunkRads", "Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)", true);
 		
 		fogCh = CommonConfig.setDef(fogCh, 20);
+
+		final String CATEGORY_HAZ = CommonConfig.CATEGORY_HAZARD;
+
+		disableAsbestos = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_00_disableAsbestos", "When turned off, all asbestos hazards are disabled", false);
+		disableCoal = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_01_disableCoaldust", "When turned off, all coal dust hazards are disabled", false);
+		disableHot = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_02_disableHot", "When turned off, all hot hazards are disabled", false);
+		disableExplosive = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_03_disableExplosive", "When turned off, all explosive hazards are disabled", false);
+		disableHydro = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_04_disableHydroactive", "When turned off, all hydroactive hazards are disabled", false);
+		disableBlinding = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_05_disableBlinding", "When turned off, all blinding hazards are disabled", false);
+		disableFibrosis = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_06_disableFibrosis", "When turned off, all firbosis hazards are disabled", false);
 	}
 }

@@ -227,7 +227,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	}
 	
 	public boolean hasPower() {
-		return power > 0;
+		return power >= 250;
 	}
 	
 	public boolean isProcessing() {
@@ -317,7 +317,6 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	//TODO: fix this punjabi trash
 	@Override
 	public void updateEntity() {
-		this.hasPower();
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote) {

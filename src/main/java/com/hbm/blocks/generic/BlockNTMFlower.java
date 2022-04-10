@@ -1,10 +1,15 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockEnumMulti;
+import com.hbm.blocks.ITooltipProvider;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -12,7 +17,7 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockNTMFlower extends BlockEnumMulti implements IPlantable {
+public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, ITooltipProvider {
 
 	public BlockNTMFlower() {
 		super(Material.plants, EnumFlowerType.class, true, true);
@@ -21,7 +26,8 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable {
 	public static enum EnumFlowerType {
 		FOXGLOVE,
 		TOBACCO,
-		NIGHTSHADE
+		NIGHTSHADE,
+		WEED
 	}
 
 	@Override
@@ -89,5 +95,13 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable {
 	@Override
 	public int damageDropped(int meta) {
 		return meta;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		if(stack.getItemDamage() == 3) {
+			list.add("haha get it? it's funny because drugs");
+		}
 	}
 }
