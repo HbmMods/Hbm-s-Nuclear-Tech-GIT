@@ -11,6 +11,7 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
@@ -454,6 +455,15 @@ public class EntityEffectHandler {
 			}
 					
 			int dashCount = armorDashCount + armorModDashCount;
+			
+			boolean dashActivated = false;
+			
+			
+			if(!GeneralConfig.enableCustomDashKeybind) {
+				dashActivated = !player.capabilities.isFlying && player.isSneaking();
+			} else {
+				dashActivated = props.getKeyPressed(EnumKeybind.DASH);
+			}
 					
 			//System.out.println(dashCount);
 			
@@ -470,7 +480,7 @@ public class EntityEffectHandler {
 						
 				if(props.getDashCooldown() <= 0) {
 							
-					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
+					if(dashActivated && stamina >= perDash) {
 
 						Vec3 lookingIn = player.getLookVec();
 						Vec3 strafeVec = player.getLookVec();

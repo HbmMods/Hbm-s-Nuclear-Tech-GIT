@@ -24,6 +24,7 @@ public class GeneralConfig {
 	public static boolean enableBabyMode = false;
 	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
+	public static boolean enableCustomDashKeybind = false;
 
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -57,6 +58,7 @@ public class GeneralConfig {
 		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true).getBoolean(true);
+		enableCustomDashKeybind = config.get(CATEGORY_GENERAL, "1.26_enableCustomDashKeybind", false).getBoolean(false);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 

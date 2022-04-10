@@ -20,6 +20,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 	
+	public boolean dashActivated = true;
+	
 	public static final int dashCooldownLength = 5;
 	public int dashCooldown = 0;
 	
