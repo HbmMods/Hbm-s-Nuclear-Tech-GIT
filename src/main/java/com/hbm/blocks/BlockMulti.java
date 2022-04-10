@@ -9,7 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public abstract class BlockMulti extends BlockBase {
+public abstract class BlockMulti extends BlockBase implements IBlockMulti {
 
 	public BlockMulti() {
 		super();
@@ -35,6 +35,4 @@ public abstract class BlockMulti extends BlockBase {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
-	public abstract int getSubCount();
 }

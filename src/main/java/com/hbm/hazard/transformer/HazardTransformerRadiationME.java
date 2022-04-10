@@ -22,7 +22,7 @@ public class HazardTransformerRadiationME extends HazardTransformerBase {
 			float radiation = 0;
 			
 			for(ItemStack held : stacks) {
-				radiation += HazardSystem.getHazardLevelFromStack(held, HazardRegistry.RADIATION);
+				radiation += HazardSystem.getHazardLevelFromStack(held, HazardRegistry.RADIATION) * held.stackSize;
 			}
 			
 			if(radiation > 0) {

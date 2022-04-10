@@ -14,6 +14,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -39,6 +40,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.effect.*;
@@ -981,6 +983,12 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+
+		//imagine adding flower entries but they don't actually do shit with the world generator
+		//"well but at least they work with bone meal, as advertised" except they fucking don't
+		/*BiomeGenBase.plains.addFlower(ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal(), 10);
+		BiomeGenBase.roofedForest.addFlower(ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal(), 10);
+		BiomeGenBase.jungle.addFlower(ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal(), 10);*/
 	}
 
 	@EventHandler

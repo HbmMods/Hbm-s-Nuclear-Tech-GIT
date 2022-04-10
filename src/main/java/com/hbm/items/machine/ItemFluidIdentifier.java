@@ -102,7 +102,7 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 				}
 			}
 			
-			//world.markBlockForUpdate(x, y, z);
+			world.markBlockForUpdate(x, y, z);
 
 			player.swingItem();
 		}

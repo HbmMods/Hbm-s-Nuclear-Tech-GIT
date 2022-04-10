@@ -241,6 +241,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineLiquefactor.class, new RenderLiquefactor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSolidifier.class, new RenderSolidifier());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSEmitter.class, new RenderAMSEmitter());
@@ -387,7 +388,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_schrabidium, new ItemRenderWeaponFFColt(ResourceManager.ff_schrabidium, ResourceManager.ff_schrabidium, ResourceManager.ff_gun_dark));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_cursed, new ItemRenderWeaponFFCursed());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nightmare, new ItemRenderWeaponFFNightmare());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nightmare2, new ItemRenderRevolverNightmare(ModItems.gun_revolver_nightmare2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nightmare2, new ItemRenderWeaponFFNightmareDark());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman, new ItemRenderFatMan());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_proto, new ItemRenderFatMan());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mirv, new ItemRenderMIRVLauncher());
@@ -1631,6 +1632,7 @@ public class ClientProxy extends ServerProxy {
 		case TOGGLE_JETPACK:	return HbmKeybinds.jetpackKey.getIsKeyPressed();
 		case TOGGLE_HEAD:		return HbmKeybinds.hudKey.getIsKeyPressed();
 		case RELOAD:			return HbmKeybinds.reloadKey.getIsKeyPressed();
+		case DASH:				return HbmKeybinds.dashKey.getIsKeyPressed();
 		case CRANE_UP:			return HbmKeybinds.craneUpKey.getIsKeyPressed();
 		case CRANE_DOWN:		return HbmKeybinds.craneDownKey.getIsKeyPressed();
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
