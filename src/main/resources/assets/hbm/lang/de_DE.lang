@@ -437,7 +437,13 @@ hadron.idle=Leerlauf
 hadron.modeCircular=§eRingbeschleuniger:$Magnete bilden eine Schleife.$Schaltet mehr Rezepte frei.
 hadron.modeLine=§eLinearbeschleuniger:$Beschleuniger ended mit Analysekammer.$Weniger Rezepte.
 hadron.noresult=Kein Ergebnis.
+hadron.noresult_too_slow=Momentum unz.!
+hadron.noresult_wrong_ingredient=Falsches Rezept!
+hadron.noresult_wrong_mode=Falscher Modus!
 hadron.progress=Verarbeite...
+hadron.stats=Letztes Ergebnis:
+hadron.stats_coord=Position des Fehlers: %s / %s / %s
+hadron.stats_momentum=Momentum: %s
 hadron.success=Abgeschlossen!
 
 hazard.prot=Schützt vor Gefahren:

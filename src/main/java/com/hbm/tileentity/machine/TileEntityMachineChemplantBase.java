@@ -286,7 +286,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 						
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
 							
-							if(inv.getStackInSlot(j) == null) {
+							if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
 								ItemStack copy = out.copy();
 								copy.stackSize = 1;
 								inv.setInventorySlotContents(j, copy);

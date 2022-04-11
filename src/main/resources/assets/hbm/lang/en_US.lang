@@ -630,7 +630,13 @@ hadron.idle=Idle
 hadron.modeCircular=§eCircular Accelerator Mode:$Magnets must loop back into core.$Unlocks more recipes.
 hadron.modeLine=§eLinear Accelerator Mode:$Accelerator ends with analysis chamber.$Fewer Recipes.
 hadron.noresult=No Result.
+hadron.noresult_too_slow=Insuff. momentum!
+hadron.noresult_wrong_ingredient=Invalid recipe!
+hadron.noresult_wrong_mode=Wrong mode!
 hadron.progress=In Progress...
+hadron.stats=Previous results:
+hadron.stats_coord=Erroring position: %s / %s / %s
+hadron.stats_momentum=Momentum: %s
 hadron.success=Completed!
 
 hazard.prot=Protects against hazards:
