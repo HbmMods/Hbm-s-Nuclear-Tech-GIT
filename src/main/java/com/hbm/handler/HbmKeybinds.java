@@ -59,7 +59,6 @@ public class HbmKeybinds {
 			if(last != current) {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
 				props.setKeyPressed(key, current);
-				System.out.println(key);
 			}
 		}
 	}
