@@ -286,7 +286,7 @@ public class AnvilRecipes {
 		pullFromAssembler(new ComparableStack(ModItems.plate_mixed, 4), 3);
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new ComparableStack(ModItems.ingot_arsenic), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
+				new AStack[] {new OreDictStack(AS.ingot()), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
 				new AnvilOutput(new ItemStack(ModItems.circuit_arsenic_raw))).setTier(5));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_u233, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_u233))).setTier(4));

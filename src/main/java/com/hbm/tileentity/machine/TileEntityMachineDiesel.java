@@ -1,8 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -18,11 +16,12 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
 	public int soundCycle = 0;
@@ -102,6 +101,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			
+			this.updateStandardPipes(Fluids.WATER, worldObj, xCoord, yCoord, zCoord);
 
 			//Tank Management
 			tank.setType(3, 4, slots);
@@ -228,5 +229,10 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public void setFluidFill(int i, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(i);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

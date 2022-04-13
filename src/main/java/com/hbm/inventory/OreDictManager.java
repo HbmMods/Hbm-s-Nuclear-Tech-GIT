@@ -162,6 +162,7 @@ public class OreDictManager {
 	/** LEAD */ 
 	public static final DictFrame PB = new DictFrame("Lead");
 	//public static final DictFrame BI = new DictFrame("Bismuth");
+	public static final DictFrame AS = new DictFrame("Arsenic");
 	/** TANTALUM */ 
 	public static final DictFrame TA = new DictFrame("Tantalum");
 	public static final DictFrame COLTAN = new DictFrame("Coltan");
@@ -327,6 +328,7 @@ public class OreDictManager {
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
 		//BI		.nugget(nugget_bismuth)									.ingot(ingot_bismuth); THAT'S WHAT YOU THOUGHT!
+		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
