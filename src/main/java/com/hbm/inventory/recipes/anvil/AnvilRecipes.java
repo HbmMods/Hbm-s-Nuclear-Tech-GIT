@@ -737,14 +737,14 @@ public class AnvilRecipes {
 		
 		public AnvilConstructionRecipe setTier(int tier) {
 			this.tierLower = tier;
-			if(GeneralConfig.enableBabyMode) this.tierLower = 1;
+			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMUnlockAnvil) this.tierLower = 1;
 			return this;
 		}
 		
 		public AnvilConstructionRecipe setTierRange(int lower, int upper) {
 			this.tierLower = lower;
 			this.tierUpper = upper;
-			if(GeneralConfig.enableBabyMode) this.tierLower = this.tierUpper = 1;
+			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMUnlockAnvil) this.tierLower = this.tierUpper = 1;
 			return this;
 		}
 		

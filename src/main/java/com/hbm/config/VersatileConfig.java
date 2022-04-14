@@ -11,7 +11,7 @@ public class VersatileConfig {
 	
 	public static Item getTransmutatorItem() {
 		
-		if(GeneralConfig.enableBabyMode)
+		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMFullSchrab)
 			return ModItems.ingot_schrabidium;
 
 		return ModItems.ingot_schraranium;
@@ -19,8 +19,8 @@ public class VersatileConfig {
 	
 	public static int getSchrabOreChance() {
 		
-		if(GeneralConfig.enableBabyMode)
-			return 20;
+		if(GeneralConfig.enableLBSM)
+			return GeneralConfig.schrabRate;
 		
 		return 100;
 	}
@@ -52,10 +52,10 @@ public class VersatileConfig {
 	static int hour = 60 * minute;
 	
 	public static int getLongDecayChance() {
-		return GeneralConfig.enable528 ? 15 * hour : 3 * hour;
+		return GeneralConfig.enable528 ? 15 * hour : (GeneralConfig.enableLBSM && GeneralConfig.enableLBSMShorterDecay) ? 15 * minute : 3 * hour;
 	}
 
 	public static int getShortDecayChance() {
-		return GeneralConfig.enable528 ? 3 * hour : 15 * minute;
+		return GeneralConfig.enable528 ? 3 * hour : (GeneralConfig.enableLBSM && GeneralConfig.enableLBSMShorterDecay) ? 3 * minute : 15 * minute;
 	}
 }

@@ -45,7 +45,7 @@ public class ChemplantRecipes {
 		recipes.add(new ChemRecipe(38, "DESH", 300)
 				.inputItems(new ComparableStack(ModItems.powder_desh_mix))
 				.inputFluids(
-						GeneralConfig.enableBabyMode ?
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
 								new FluidStack[] {new FluidStack(Fluids.LIGHTOIL, 200)} :
 								new FluidStack[] {new FluidStack(Fluids.MERCURY, 200), new FluidStack(Fluids.LIGHTOIL, 200)})
 				.outputItems(new ItemStack(ModItems.ingot_desh)));
@@ -171,7 +171,10 @@ public class ChemplantRecipes {
 						new OreDictStack(KNO.dust(), 2),
 						new OreDictStack(KEY_PLANKS),
 						new ComparableStack(Items.sugar))
-				.inputFluids(new FluidStack(Fluids.HEATINGOIL, 200))
+				.inputFluids(
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new FluidStack(Fluids.HEATINGOIL, 200) :
+								new FluidStack(Fluids.GAS, 200))
 				.outputItems(new ItemStack(ModItems.cordite, 4)));
 		recipes.add(new ChemRecipe(54, "KEVLAR", 40)
 				.inputItems(
@@ -190,7 +193,9 @@ public class ChemplantRecipes {
 				.inputItems(
 						new ComparableStack(Blocks.gravel, 2),
 						new ComparableStack(Blocks.sand, 2),
-						new OreDictStack(ASBESTOS.ingot(), 4))
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new OreDictStack(ASBESTOS.ingot(), 1) :
+								new OreDictStack(ASBESTOS.ingot(), 4))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.concrete_asbestos, 16)));
 		recipes.add(new ChemRecipe(79, "DUCRETE", 150)
@@ -224,7 +229,9 @@ public class ChemplantRecipes {
 						new OreDictStack(P_RED.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.ACID, 100),
-						new FluidStack(Fluids.MERCURY, 50))
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new FluidStack(Fluids.WATER, 200) :
+								new FluidStack(Fluids.MERCURY, 50))
 				.outputItems(new ItemStack(ModItems.ingot_saturnite, 2)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
