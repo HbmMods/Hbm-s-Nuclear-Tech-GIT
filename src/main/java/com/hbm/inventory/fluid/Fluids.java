@@ -18,6 +18,7 @@ public class Fluids {
 	public static FluidType SUPERHOTSTEAM;
 	public static FluidType ULTRAHOTSTEAM;
 	public static FluidType COOLANT;
+	public static FluidType COOLANT_HOT;
 	public static FluidType LAVA;
 	public static FluidType DEUTERIUM;
 	public static FluidType TRITIUM;
@@ -87,6 +88,8 @@ public class Fluids {
 	public static FluidType XPJUICE;
 	public static FluidType ENDERJUICE;
 	public static FluidType SULFURIC_ACID;
+	public static FluidType MUG;
+	public static FluidType MUG_HOT;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -113,7 +116,7 @@ public class Fluids {
 		HOTSTEAM =			new FluidType(				"HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300);
 		SUPERHOTSTEAM =		new FluidType(				"SUPERHOTSTEAM",	0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450);
 		ULTRAHOTSTEAM =		new FluidType(				"ULTRAHOTSTEAM",	0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600);
-		COOLANT =			new FluidType(				"COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE);
+		COOLANT =			new FluidType(				"COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).setHeatCap(0.25D);
 		LAVA =				new FluidType(				"LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200);
 		DEUTERIUM =			new FluidTypeCombustible(	"DEUTERIUM",		0x0000FF, 3, 4, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 10_000).setHeatEnergy(5_000);
 		TRITIUM =			new FluidTypeCombustible(	"TRITIUM",			0x000099, 3, 4, 0, EnumSymbol.RADIATION).setCombustionEnergy(FuelGrade.HIGH, 10_000).setHeatEnergy(5_000);
@@ -183,6 +186,9 @@ public class Fluids {
 		GASOLINE_LEADED =	new FluidTypeCombustible(	"GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_500_000).setHeatEnergy(((FluidTypeFlammable)GASOLINE).getHeatEnergy());
 		COALGAS_LEADED =	new FluidTypeCombustible(	"COALGAS_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 250_000).setHeatEnergy(((FluidTypeFlammable)COALGAS).getHeatEnergy());
 		SULFURIC_ACID =		new FluidType(				"SULFURIC_ACID",	0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE);
+		COOLANT_HOT =		new FluidType(				"COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).setHeatCap(STEAM.heatCap);
+		MUG =				new FluidType(				"MUG",				0xd8fcff, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D);
+		MUG_HOT =			new FluidType(				"MUG_HOT",			0xd8fcff, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -205,7 +211,10 @@ public class Fluids {
 		//coolants
 		metaOrder.add(CARBONDIOXIDE);
 		metaOrder.add(COOLANT);
+		metaOrder.add(COOLANT_HOT);
 		metaOrder.add(CRYOGEL);
+		metaOrder.add(MUG);
+		metaOrder.add(MUG_HOT);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);

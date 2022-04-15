@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.List;
-
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
@@ -12,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
 public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	
