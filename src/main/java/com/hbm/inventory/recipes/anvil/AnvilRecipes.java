@@ -286,7 +286,7 @@ public class AnvilRecipes {
 		pullFromAssembler(new ComparableStack(ModItems.plate_mixed, 4), 3);
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new ComparableStack(ModItems.ingot_arsenic), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
+				new AStack[] {new OreDictStack(AS.ingot()), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
 				new AnvilOutput(new ItemStack(ModItems.circuit_arsenic_raw))).setTier(5));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.ingot_u233, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_u233))).setTier(4));
@@ -737,14 +737,14 @@ public class AnvilRecipes {
 		
 		public AnvilConstructionRecipe setTier(int tier) {
 			this.tierLower = tier;
-			if(GeneralConfig.enableBabyMode) this.tierLower = 1;
+			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMUnlockAnvil) this.tierLower = 1;
 			return this;
 		}
 		
 		public AnvilConstructionRecipe setTierRange(int lower, int upper) {
 			this.tierLower = lower;
 			this.tierUpper = upper;
-			if(GeneralConfig.enableBabyMode) this.tierLower = this.tierUpper = 1;
+			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMUnlockAnvil) this.tierLower = this.tierUpper = 1;
 			return this;
 		}
 		

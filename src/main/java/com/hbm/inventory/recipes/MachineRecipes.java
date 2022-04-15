@@ -115,10 +115,15 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
 		}
 
-		if(GeneralConfig.enableBabyMode) {
+		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleAlloy) {
 			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
 					|| item.getItem() == ModItems.canister_empty && mODE(item2, new String[] { "gemCoal", "dustCoal" })) {
 				return new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID());
+			}
+
+			if(item.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor_cobble) && mODE(item2, new String[] { "ingotSteel", "dustSteel" })
+					|| mODE(item, new String[] { "ingotSteel", "dustSteel" }) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor_cobble)) {
+				return new ItemStack(ModItems.ingot_meteorite);
 			}
 		}
 
@@ -431,9 +436,11 @@ public class MachineRecipes {
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor)).copy());
 			
-			if(GeneralConfig.enableBabyMode) {
+			if(GeneralConfig.enableLBSMFullSchrab && GeneralConfig.enableLBSMSimpleAlloy) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
 						getFurnaceOutput(new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal)).copy());
+				recipes.put(new ItemStack[] { new ItemStack(ModBlocks.block_meteor_cobble), new ItemStack(ModItems.ingot_steel) },
+						getFurnaceOutput(new ItemStack(ModBlocks.block_meteor_cobble), new ItemStack(ModItems.ingot_steel)).copy());
 			}
 			
 		} catch (Exception x) {

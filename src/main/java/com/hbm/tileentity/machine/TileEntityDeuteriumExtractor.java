@@ -30,7 +30,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 		super(0);
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.WATER, 1000, 0);
-		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100, 0);
+		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100, 1);
 	}
 
 	@Override
@@ -45,7 +45,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			
 			this.updateConnections();
 
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.tanks[0].updateTank(this, 25);
+			this.tanks[1].updateTank(this, 25);
 
 			age++;
 			if(age >= 10) {

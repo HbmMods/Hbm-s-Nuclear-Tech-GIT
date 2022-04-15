@@ -585,7 +585,7 @@ public class ModEventHandlerClient {
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void onRenderStorm(RenderHandEvent event) {
 		
 		if(BlockAshes.ashes == 0)

@@ -168,7 +168,7 @@ public class ArmorRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cape_schrabidium, 1), new Object[] { "W W", "WIW", "WDW", 'W', SA326.ingot(), 'D', KEY_BLACK, 'I', ModItems.circuit_red_copper });
 		
 		//Configged
-		if(GeneralConfig.enableBabyMode) {
+		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleArmorRecipes) {
 			addHelmet(	STAR.ingot(), ModItems.starmetal_helmet);
 			addChest(	STAR.ingot(), ModItems.starmetal_plate);
 			addLegs(	STAR.ingot(), ModItems.starmetal_legs);

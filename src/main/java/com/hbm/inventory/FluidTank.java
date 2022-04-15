@@ -78,11 +78,16 @@ public class FluidTank {
 	
 	//Called on TE update
 	public void updateTank(TileEntity te) {
-		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId);
+		updateTank(te, 100);
 	}
-	
+	public void updateTank(TileEntity te, int range) {
+		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId, range);
+	}
 	public void updateTank(int x, int y, int z, int dim) {
-		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, 100));
+		updateTank(x, y, z, dim, 100);
+	}
+	public void updateTank(int x, int y, int z, int dim, int range) {
+		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, range));
 	}
 	
 	//Fills tank from canisters

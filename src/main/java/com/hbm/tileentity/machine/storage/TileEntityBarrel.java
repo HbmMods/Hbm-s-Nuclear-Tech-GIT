@@ -14,14 +14,13 @@ import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluid.IFluidUser;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardSender {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidUser {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -54,7 +53,13 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
+			if(this.mode == 1 || this.mode == 2) {
+				this.sendFluidToAll(tank.getTankType(), this);
+			}
+			
+			/*
+			 * TODO: these don't work as receivers yet, don't forget how the subscription system works
+			 */
 			
 			age++;
 			if(age >= 20)
@@ -206,7 +211,18 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
-	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tank};
+	public long transferFluid(FluidType type, long fluid) {
+		long toTransfer = Math.min(getDemand(type), fluid);
+		tank.setFill(tank.getFill() + (int) toTransfer);
+		return fluid - toTransfer;
+	}
+
+	@Override
+	public long getDemand(FluidType type) {
+		
+		if(this.mode == 2 || this.mode == 3)
+			return 0;
+		
+		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
 	}
 }

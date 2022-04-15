@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -22,6 +23,8 @@ public class CentrifugeRecipes {
 	private static HashMap<Object, ItemStack[]> recipes = new HashMap();
 	
 	public static void register() {
+		
+		boolean lbs = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCentrifuge;
 		
 		recipes.put(new ComparableStack(ModItems.waste_natural_uranium), new ItemStack[] {
 				new ItemStack(ModItems.nugget_u238, 1),
@@ -138,9 +141,9 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreGold", new ItemStack[] {
+				lbs ? new ItemStack(ModItems.powder_gold, 2) : new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(ModItems.powder_gold, 1),
+				lbs ? new ItemStack(ModItems.nugget_bismuth, 1) : new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreDiamond", new ItemStack[] {
@@ -156,8 +159,8 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreTitanium", new ItemStack[] {
-				new ItemStack(ModItems.powder_titanium, 1),
-				new ItemStack(ModItems.powder_titanium, 1),
+				lbs ? new ItemStack(ModItems.powder_titanium, 2) : new ItemStack(ModItems.powder_titanium, 1),
+				lbs ? new ItemStack(ModItems.powder_titanium, 2) : new ItemStack(ModItems.powder_titanium, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
@@ -168,13 +171,13 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.netherrack, 1) });
 		
 		recipes.put("oreTungsten", new ItemStack[] {
-				new ItemStack(ModItems.powder_tungsten, 1),
+				lbs ? new ItemStack(ModItems.powder_tungsten, 2) : new ItemStack(ModItems.powder_tungsten, 1),
 				new ItemStack(ModItems.powder_tungsten, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreCopper", new ItemStack[] {
-				new ItemStack(ModItems.powder_copper, 1),
+				lbs ? new ItemStack(ModItems.powder_copper, 2) : new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
@@ -186,8 +189,8 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreLead", new ItemStack[] {
-				new ItemStack(ModItems.powder_lead, 1),
-				new ItemStack(ModItems.powder_lead, 1),
+				lbs ? new ItemStack(ModItems.powder_lead, 2) : new ItemStack(ModItems.powder_lead, 1),
+				lbs ? new ItemStack(ModItems.nugget_bismuth, 1) : new ItemStack(ModItems.powder_lead, 1),
 				new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
@@ -210,9 +213,9 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreUranium", new ItemStack[] {
-				new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(ModItems.nugget_ra226, 1),
+				lbs ? new ItemStack(ModItems.powder_uranium, 2) : new ItemStack(ModItems.powder_uranium, 1),
+				lbs ? new ItemStack(ModItems.nugget_technetium, 2) : new ItemStack(ModItems.powder_uranium, 1),
+				lbs ? new ItemStack(ModItems.nugget_ra226, 2) : new ItemStack(ModItems.nugget_ra226, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put("oreThorium", new ItemStack[] {
@@ -230,7 +233,7 @@ public class CentrifugeRecipes {
 		recipes.put("oreRedstone", new ItemStack[] {
 				new ItemStack(Items.redstone, 3),
 				new ItemStack(Items.redstone, 3),
-				new ItemStack(ModItems.ingot_mercury, 1),
+				lbs ? new ItemStack(ModItems.ingot_mercury, 3) : new ItemStack(ModItems.ingot_mercury, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new ItemStack[] {

@@ -23,6 +23,7 @@ public class CommonConfig {
 	public static final String CATEGORY_HAZARD = "14_hazard";
 
 	public static final String CATEGORY_528 = "528";
+	public static final String CATEGORY_LBSM = "LESS BULLSHIT MODE";
 
 	public static int setDefZero(int value, int def) {
 
