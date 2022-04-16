@@ -1,19 +1,19 @@
 package com.hbm.world.worldgen;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenMesa;
 import net.minecraft.world.gen.structure.ComponentScatteredFeaturePieces;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureStart;
-import scala.actors.threadpool.Arrays;
 
 public class MapGenNTMFeatures extends MapGenStructure {
 	
-	//TODO: Figure out why structures spawn so close to eachother. Occasionally, four will spawn in the same orientation and position within a chunk of eachother.
 	private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
 	/** Maximum distance between structures */
 	private int maxDistanceBetweenScatteredFeatures;
@@ -95,10 +95,13 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			
-			//if(biomegenbase.temperature < 0.1) {
+			if(biomegenbase.temperature >= 1.2 && !(biomegenbase instanceof BiomeGenMesa)) {
 				ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 				this.components.add(house1);
-			//}
+			} else {
+				ComponentNTMFeatures.NTMLab1 lab1 = new ComponentNTMFeatures.NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+				this.components.add(lab1);
+			}
 			
 			this.updateBoundingBox();
 		}

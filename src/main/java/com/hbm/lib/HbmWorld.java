@@ -24,7 +24,7 @@ public class HbmWorld {
 		MapGenStructureIO.registerStructure(MapGenNTMFeatures.Start.class, "NTMFeatures");
 		ComponentNTMFeatures.registerNTMFeatures();
 		
-		registerWorldGen(new HbmWorldGen(), 1);
+		//registerWorldGen(new HbmWorldGen(), 1);
 		registerWorldGen(new NTMWorldGenerator(), 1);
 		//registerWorldGen(new WorldGenTest(), 1);
 	}
