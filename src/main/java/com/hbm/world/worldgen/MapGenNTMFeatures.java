@@ -13,6 +13,7 @@ import scala.actors.threadpool.Arrays;
 
 public class MapGenNTMFeatures extends MapGenStructure {
 	
+	//TODO: Figure out why structures spawn so close to eachother. Occasionally, four will spawn in the same orientation and position within a chunk of eachother.
 	private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
 	/** Maximum distance between structures */
 	private int maxDistanceBetweenScatteredFeatures;
@@ -20,8 +21,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 	private int minDistanceBetweenScatteredFeatures;
 	
 	public MapGenNTMFeatures() {
-		this.maxDistanceBetweenScatteredFeatures = 16;
-		this.minDistanceBetweenScatteredFeatures = 6;
+		this.maxDistanceBetweenScatteredFeatures = 24;
+		this.minDistanceBetweenScatteredFeatures = 8;
 	}
 	
 	/** String ID for this MapGen */
