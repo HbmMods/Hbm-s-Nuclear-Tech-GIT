@@ -37,6 +37,9 @@ public class RBMKHeatex extends BlockContainer implements ILookOverlay {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
 		
+		if(world.isRemote)
+			return true;
+		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
 			IItemFluidIdentifier id = (IItemFluidIdentifier) player.getHeldItem().getItem();
 			FluidType type = id.getType(world, x, y, z, player.getHeldItem());
@@ -48,8 +51,8 @@ public class RBMKHeatex extends BlockContainer implements ILookOverlay {
 				
 				if(te instanceof TileEntityHeatex) {
 					TileEntityHeatex heatex = (TileEntityHeatex) te;
-					heatex.coolantIn.setTankType(type);
-					heatex.coolantOut.setTankType(convert);
+					heatex.coolantIn.setTankType(convert);
+					heatex.coolantOut.setTankType(type);
 					heatex.markDirty();
 					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 				}

@@ -20,6 +20,8 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	
 	public TileEntityRBMKHeater() {
 		super(1);
+		this.feed = new FluidTank(Fluids.COOLANT, 16_000, 0);
+		this.steam = new FluidTank(Fluids.COOLANT_HOT, 16_000, 1);
 	}
 
 	@Override
@@ -36,6 +38,10 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			feed.setType(0, slots);
+			steam.setTankType(getConversion(feed.getTankType()));
+			
 			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			

@@ -88,7 +88,7 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
-		if(event.type == ElementType.AIR) {
+		if(event.type == ElementType.PORTAL) {
 			
 			Minecraft mc = Minecraft.getMinecraft();
 			

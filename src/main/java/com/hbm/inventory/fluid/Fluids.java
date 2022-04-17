@@ -187,8 +187,8 @@ public class Fluids {
 		COALGAS_LEADED =	new FluidTypeCombustible(	"COALGAS_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 250_000).setHeatEnergy(((FluidTypeFlammable)COALGAS).getHeatEnergy());
 		SULFURIC_ACID =		new FluidType(				"SULFURIC_ACID",	0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE);
 		COOLANT_HOT =		new FluidType(				"COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).setHeatCap(STEAM.heatCap);
-		MUG =				new FluidType(				"MUG",				0xd8fcff, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D);
-		MUG_HOT =			new FluidType(				"MUG_HOT",			0xd8fcff, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500);
+		MUG =				new FluidType(				"MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D);
+		MUG_HOT =			new FluidType(				"MUG_HOT",			0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
