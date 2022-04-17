@@ -4,10 +4,14 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
+import com.hbm.util.LootGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -147,6 +151,7 @@ public class ComponentNTMFeatures {
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
+			System.out.println(this.coordBaseMode);
 			
 			for(byte i = 0; i < this.featureSizeX + 1; i++) {
 				for(byte j = 0; j < this.featureSizeZ - 1; j++) {
@@ -170,13 +175,13 @@ public class ComponentNTMFeatures {
 			this.fillWithAir(world, box, 1, 0, 1, featureSizeX - 1, featureSizeY, 4);
 			this.fillWithAir(world, box, 4, 0, 4, featureSizeX - 1, featureSizeY, featureSizeZ - 1);
 			
-			int northMeta = this.getMetadataForRotatable(8);
+			int pillarMeta = this.getMetadataForRotatablePillar(8);
 			
 			//Pillars
 			this.fillWithBlocks(world, box, 0, 0, 0, 0, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false);
 			this.fillWithBlocks(world, box, featureSizeX, 0, 0, featureSizeX, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false);
-			this.fillWithMetadataBlocks(world, box, 0, 0, 1, 0, 0, 4, ModBlocks.concrete_pillar, northMeta, Blocks.air, 0, false);
-			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, featureSizeZ - 1, ModBlocks.concrete_pillar, northMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 0, 0, 1, 0, 0, 4, ModBlocks.concrete_pillar, pillarMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMeta, Blocks.air, 0, false);
 			this.fillWithBlocks(world, box, 0, 0, featureSizeZ - 2, 0, 3, featureSizeZ - 2, ModBlocks.concrete_pillar, Blocks.air, false);
 			this.fillWithBlocks(world, box, 3, 0, featureSizeZ - 2, 3, 3, featureSizeZ - 2, ModBlocks.concrete_pillar, Blocks.air, false);
 			this.fillWithBlocks(world, box, 3, 0, featureSizeZ, 3, 3, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
@@ -205,6 +210,36 @@ public class ComponentNTMFeatures {
 			this.fillWithBlocks(world, box, 1, featureSizeY - 1, 1, 1, featureSizeY, 4, ModBlocks.reinforced_glass, Blocks.air, false); //Ceiling
 			this.fillWithBlocks(world, box, 2, featureSizeY, 1, featureSizeX - 1, featureSizeY, 4, ModBlocks.brick_light, Blocks.air, false);
 			this.fillWithBlocks(world, box, 4, featureSizeY, featureSizeZ - 2, featureSizeX - 1, featureSizeY, featureSizeZ - 1, ModBlocks.brick_light, Blocks.air, false);
+			
+			//Decorations & Loot
+			this.fillWithMetadataBlocks(world, box, 1, 1, 1, 1, 1, 4, Blocks.dirt, 2, Blocks.air, 0, false);
+			int westDecoMeta = this.getMetadataForRotatableDeco(5);
+			this.fillWithMetadataBlocks(world, box, 2, 1, 1, 2, 1, 4, ModBlocks.steel_wall, westDecoMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 2, featureSizeY - 1, 1, 2, featureSizeY - 1, 4, ModBlocks.steel_wall, westDecoMeta, Blocks.air, 0, false);
+			for(byte i = 0; i < 4; i++) {
+				this.placeBlockAtCurrentPosition(world, ModBlocks.plant_flower, i, 1, 2, 1 + i, box);
+			}
+			
+			int doorMeta = this.getMetadataForRotatableDeco(5);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.door_office, doorMeta, 3, 1, featureSizeZ - 1, box);
+			ItemDoor.placeDoorBlock(world, this.getXWithOffset(3, featureSizeZ - 1), this.getYWithOffset(1), this.getZWithOffset(3, featureSizeZ - 1), doorMeta, ModBlocks.door_office);
+			
+			int northDecoMeta = this.getMetadataForRotatableDeco(3);
+			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 1, featureSizeX - 1, featureSizeY - 1, 1, ModBlocks.steel_scaffold, northDecoMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 2, featureSizeX - 1, featureSizeY - 1, 2, ModBlocks.steel_wall, northDecoMeta, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, northDecoMeta, 5, 1, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_microwave, northDecoMeta, 5, 2, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.deco_titanium, 0, 6, 1, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_shredder, 0, featureSizeX - 2, 1, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.deco_titanium, 0, featureSizeX - 1, 1, 1, box);
+			this.fillWithBlocks(world, box, 5, 1, 3, featureSizeX - 1, 1, 3, ModBlocks.deco_titanium, Blocks.air, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 6, 2, 3, box);
+			LootGenerator.lootMedicine(world, this.getXWithOffset(6, 3), this.getYWithOffset(2), this.getZWithOffset(6, 3));
+			
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, featureSizeX - 1, 1, featureSizeZ - 2, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 1, 1, featureSizeZ - 1, box);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
+					this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 1, featureSizeZ - 1)), 8);
 			
 			return true;
 		}
@@ -289,14 +324,16 @@ public class ComponentNTMFeatures {
 		 * @param metadata (First two digits is equal to block metadata, other two are equal to orientation
 		 * @return metadata adjusted for random orientation
 		 */
-		protected int getMetadataForRotatable(int metadata) {
+		protected int getMetadataForRotatablePillar(int metadata) {
 			int blockMeta = metadata & 3;
-			int rotationMeta = metadata & 12;
+			int rotationMeta =  metadata >> 2;
+			
+			System.out.println(rotationMeta);
 			
 			if(rotationMeta == 0)
 				return metadata;
 			
-			if(this.coordBaseMode % 2 == 0) { //North & South
+			if(this.coordBaseMode == 0 || this.coordBaseMode == 2) { //North & South
 				switch(rotationMeta) {
 				case 1:
 					rotationMeta = 4;
@@ -305,7 +342,7 @@ public class ComponentNTMFeatures {
 					rotationMeta = 8;
 					break;
 				}
-			} else if(this.coordBaseMode != 0) { //East & West
+			} else if(this.coordBaseMode == 1 || this.coordBaseMode == 3) { //East & West
 				switch(rotationMeta) {
 				case 1:
 					rotationMeta = 8;
@@ -316,7 +353,64 @@ public class ComponentNTMFeatures {
 				}
 			}
 			
+			System.out.println("OG: " + metadata + "; New: " + (blockMeta | rotationMeta));
+			
 			return blockMeta | rotationMeta;
+		}
+		
+		/**
+		 * Gets metadata for rotatable DecoBlock
+		 * @param metadata (2 for facing South, 3 for facing North, 4 for facing East, 5 for facing West
+		 * @return metadata adjusted for random orientation
+		 */
+		protected int getMetadataForRotatableDeco(int metadata) {
+			switch(this.coordBaseMode) {
+			case 0: //North
+				switch(metadata) {
+				case 2:
+					return 2;
+				case 3:
+					return 3;
+				case 4:
+					return 4;
+				case 5:
+					return 5;
+				}
+			case 1: //West
+				switch(metadata) {
+				case 2:
+					return 5;
+				case 3:
+					return 4;
+				case 4:
+					return 2;
+				case 5:
+					return 3;
+				}
+			case 2: //South
+				switch(metadata) {
+				case 2:
+					return 3;
+				case 3:
+					return 2;
+				case 4:
+					return 4;
+				case 5:
+					return 5;
+				}
+			case 3: //East
+				switch(metadata) {
+				case 2:
+					return 4;
+				case 3:
+					return 5;
+				case 4:
+					return 2;
+				case 5:
+					return 3;
+				}
+			}
+			return 0;
 		}
 	}
 	
@@ -339,7 +433,6 @@ public class ComponentNTMFeatures {
 				this.field_151562_a = Blocks.sand;
 			}
 		}
-		
 	}
 	
 	static class ConcreteBricks extends StructureComponent.BlockSelector {
@@ -353,7 +446,7 @@ public class ComponentNTMFeatures {
 			
 			if(chance < 0.2F) {
 				this.field_151562_a = ModBlocks.brick_concrete;
-			} else if (chance < 0.4F) {
+			} else if (chance < 0.5F) {
 				this.field_151562_a = ModBlocks.brick_concrete_mossy;
 			} else if (chance < 0.8F) {
 				this.field_151562_a = ModBlocks.brick_concrete_cracked;
@@ -361,7 +454,6 @@ public class ComponentNTMFeatures {
 				this.field_151562_a = ModBlocks.brick_concrete_broken;
 			}
 		}
-		
 	}
 	
 	static class LabTiles extends StructureComponent.BlockSelector {
@@ -381,6 +473,5 @@ public class ComponentNTMFeatures {
 				this.field_151562_a = ModBlocks.tile_lab_broken;
 			}
 		}
-		
 	}
 }
