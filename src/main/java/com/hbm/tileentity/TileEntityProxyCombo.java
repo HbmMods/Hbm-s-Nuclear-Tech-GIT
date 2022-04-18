@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidConnector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory, IFluidConnector {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -399,5 +400,41 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("inv", inventory);
 		nbt.setBoolean("power", power);
 		nbt.setBoolean("fluid", fluid);
+	}
+
+	@Override
+	public long transferFluid(FluidType type, long fluid) {
+		
+		if(!this.fluid)
+			return fluid;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).transferFluid(type, fluid);
+		}
+		return fluid;
+	}
+
+	@Override
+	public long getDemand(FluidType type) {
+		
+		if(!this.fluid)
+			return 0;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).getDemand(type);
+		}
+		return 0;
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		
+		if(!this.fluid)
+			return false;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).canConnect(type, dir);
+		}
+		return false;
 	}
 }

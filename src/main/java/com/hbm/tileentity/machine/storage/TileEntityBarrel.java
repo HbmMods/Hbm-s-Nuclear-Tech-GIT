@@ -14,13 +14,13 @@ import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidUser {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -57,9 +57,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				this.sendFluidToAll(tank.getTankType(), this);
 			}
 			
-			/*
-			 * TODO: these don't work as receivers yet, don't forget how the subscription system works
-			 */
+			if(this.mode == 0 || this.mode == 1) {
+				this.subscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
+			} else {
+				this.unsubscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
+			}
 			
 			age++;
 			if(age >= 20)
@@ -126,7 +128,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
-		
 		mode = data.getShort("mode");
 	}
 
@@ -211,18 +212,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
-	public long transferFluid(FluidType type, long fluid) {
-		long toTransfer = Math.min(getDemand(type), fluid);
-		tank.setFill(tank.getFill() + (int) toTransfer);
-		return fluid - toTransfer;
+	public FluidTank[] getSendingTanks() {
+		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 
 	@Override
-	public long getDemand(FluidType type) {
-		
-		if(this.mode == 2 || this.mode == 3)
-			return 0;
-		
-		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
+	public FluidTank[] getReceivingTanks() {
+		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 }

@@ -102,7 +102,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
-			this.updateStandardPipes(Fluids.WATER, worldObj, xCoord, yCoord, zCoord);
+			this.subscribeToAllAround(Fluids.WATER, worldObj, xCoord, yCoord, zCoord);
 
 			//Tank Management
 			tank.setType(3, 4, slots);

@@ -64,9 +64,15 @@ public interface IFluidUser extends IFluidConnector {
 	public default long getTotalFluidForSend(FluidType type) { return 0; }
 	public default void removeFluidForTransfer(FluidType type, long amount) { }
 	
-	public default void updateStandardPipes(FluidType type, World world, int x, int y, int z) {
+	public default void subscribeToAllAround(FluidType type, World world, int x, int y, int z) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(type, world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir);
+	}
+	
+	public default void unsubscribeToAllAround(FluidType type, World world, int x, int y, int z) {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.tryUnsubscribe(type, world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 	}
 }

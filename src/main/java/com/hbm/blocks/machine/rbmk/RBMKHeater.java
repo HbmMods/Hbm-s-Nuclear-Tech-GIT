@@ -1,5 +1,6 @@
 package com.hbm.blocks.machine.rbmk;
 
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKHeater;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +14,9 @@ public class RBMKHeater extends RBMKBase {
 		
 		if(meta >= this.offset)
 			return new TileEntityRBMKHeater();
+		
+		if(hasExtra(meta))
+			return new TileEntityProxyCombo(false, false, true);
 
 		return null;
 	}
