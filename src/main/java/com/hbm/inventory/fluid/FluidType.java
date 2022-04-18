@@ -29,6 +29,7 @@ public class FluidType {
 	public int reactivity;
 	public EnumSymbol symbol;
 	public int temperature;
+	public double heatCap;
 	public Set<ExtContainer> containers = new HashSet();
 	public List<FluidTrait> traits = new ArrayList();
 	private String stringId;
@@ -58,6 +59,11 @@ public class FluidType {
 	
 	public FluidType setTemp(int temperature) {
 		this.temperature = temperature;
+		return this;
+	}
+	
+	public FluidType setHeatCap(double heatCap) {
+		this.heatCap = heatCap;
 		return this;
 	}
 	

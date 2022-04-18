@@ -32,6 +32,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
 		if(entity instanceof TileEntityMachineChemfac) {		return new ContainerChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
 		if(entity instanceof TileEntityElectrolyser) {			return new ContainerElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
+
+		if(entity instanceof TileEntityRBMKHeater) {			return new ContainerRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
 		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
@@ -778,7 +780,7 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_rbmk_boiler: {
 			if(entity instanceof TileEntityRBMKBoiler) {
-				return new ContainerRBMKBoiler(player.inventory, (TileEntityRBMKBoiler) entity);
+				return new ContainerRBMKGeneric(player.inventory);
 			}
 			return null;
 		}
@@ -874,6 +876,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
 		if(entity instanceof TileEntityMachineChemfac) {		return new GUIChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
 		if(entity instanceof TileEntityElectrolyser) { 			return new GUIElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
+
+		if(entity instanceof TileEntityRBMKHeater) { 			return new GUIRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
 		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
