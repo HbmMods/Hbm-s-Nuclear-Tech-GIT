@@ -233,12 +233,18 @@ public class FluidTank {
 		}
 	}
 
-	public void setType(int in, ItemStack[] slots) {
-		setType(in, in, slots);
+	public boolean setType(int in, ItemStack[] slots) {
+		return setType(in, in, slots);
 	}
 	
-	//Changes tank type
-	public void setType(int in, int out, ItemStack[] slots) {
+	/**
+	 * Changes the tank type and returns true if successful
+	 * @param in
+	 * @param out
+	 * @param slots
+	 * @return
+	 */
+	public boolean setType(int in, int out, ItemStack[] slots) {
 		
 		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
 			
@@ -248,6 +254,7 @@ public class FluidTank {
 				if(type != newType) {
 					type = newType;
 					fluid = 0;
+					return true;
 				}
 				
 			} else if(slots[out] == null) {
@@ -257,9 +264,12 @@ public class FluidTank {
 					slots[out] = slots[in].copy();
 					slots[in] = null;
 					fluid = 0;
+					return true;
 				}
 			}
 		}
+		
+		return false;
 	}
 	
 	/**

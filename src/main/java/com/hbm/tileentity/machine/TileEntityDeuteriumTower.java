@@ -4,10 +4,13 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
@@ -71,6 +74,27 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 	}
 	
 	protected void updateConnections() {
+
+		for(BlockPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), ForgeDirection.UNKNOWN);
+		}
+	}
+	
+	public void subscribeToAllAround(FluidType type, World world, int x, int y, int z) {
+
+		for(BlockPos pos : getConPos()) {
+			this.trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), ForgeDirection.UNKNOWN);
+		}
+	}
+	
+	public void sendFluidToAll(FluidType type, TileEntity te) {
+
+		for(BlockPos pos : getConPos()) {
+			this.sendFluid(type, worldObj, pos.getX(), pos.getY(), pos.getZ(), ForgeDirection.UNKNOWN);
+		}
+	}
+	
+	private BlockPos[] getConPos() {
 		
 		int offsetX = 0;
 		int offsetZ = 0;
@@ -85,14 +109,16 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 			offsetZ = dir.offsetZ;
 		}
 
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1, ForgeDirection.UNKNOWN); //TODO: figure this one out without dying
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1, ForgeDirection.UNKNOWN);
+		return new BlockPos[] {
+			new BlockPos(this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1),
+			new BlockPos(this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0),
+			new BlockPos(this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2),
+			new BlockPos(this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2),
+			new BlockPos(this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1),
+			new BlockPos(this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1),
+			new BlockPos(this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0),
+			new BlockPos(this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1)
+		};
 	}
 
 	AxisAlignedBB bb = null;

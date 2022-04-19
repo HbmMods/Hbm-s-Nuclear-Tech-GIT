@@ -7,8 +7,8 @@ import com.hbm.inventory.fluid.FluidType;
  * transceiver [trăn-sē′vər], noun
  * 
  * 1. A transmitter and receiver housed together in a single unit and having some circuits in common, often for portable or mobile use.
- * 2. A combinedradiotransmitter and receiver.
- * 3. A device that performs transmitting and receivingfunctions, especially if using commoncomponents.
+ * 2. A combined radio transmitter and receiver.
+ * 3. A device that performs transmitting and receiving functions, especially if using common components.
  * 
  * The American Heritage® Dictionary of the English Language, 5th Edition.
  * 
