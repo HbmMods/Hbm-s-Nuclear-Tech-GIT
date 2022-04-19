@@ -36,19 +36,20 @@ public class ComponentNTMFeatures {
 	/** Sandstone Ruin 1 */
 	public static class NTMHouse1 extends ComponentNTMFeatures.Feature {
 		
-		private boolean hasPlacedChest = false;
+		private boolean hasPlacedChest;
 		
 		private static ComponentNTMFeatures.Sandstone RandomSandstone = new ComponentNTMFeatures.Sandstone();
 		
 		/** Constructor for this feature; takes coordinates for bounding box */
 		protected NTMHouse1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 9, 4, 6);
+			this.hasPlacedChest = false;
 		}
 		
 		@Override
 		protected void func_143012_a(NBTTagCompound nbt) {
 			super.func_143012_a(nbt);
-			nbt.setBoolean("hasChest", hasPlacedChest);
+			nbt.setBoolean("hasChest", this.hasPlacedChest);
 		}
 		
 		@Override
@@ -118,7 +119,7 @@ public class ComponentNTMFeatures {
 			//Loot/Sand
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 1, 0, 1, box);
 			if(!this.hasPlacedChest)
-				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, HbmChestContents.getLoot(1), rand.nextInt(2) + 8); //Make sure to redo that class kek
+				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, HbmChestContents.modGeneric, rand.nextInt(2) + 8); //Make sure to redo that class kek
 			this.fillWithBlocks(world, box, 5, 0, 1, 6, 0, 1, ModBlocks.crate, Blocks.air, false);
 			this.placeBlockAtCurrentPosition(world, Blocks.sand, 0, 7, 0, 1, box);
 			if(rand.nextFloat() <= 0.25)
@@ -136,18 +137,20 @@ public class ComponentNTMFeatures {
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
 		private static ComponentNTMFeatures.LabTiles RandomLabTiles = new ComponentNTMFeatures.LabTiles();
 		
-		private boolean[] hasPlacedLoot = new boolean[]{false, false};
+		private boolean[] hasPlacedLoot = new boolean[2];
 		
 		/** Constructor for this feature; takes coordinates for bounding box */
 		protected NTMLab1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 9, 4, 7);
+			this.hasPlacedLoot[0] = false;
+			this.hasPlacedLoot[1] = false;
 		}
 		
 		@Override
 		protected void func_143012_a(NBTTagCompound nbt) {
 			super.func_143012_a(nbt);
-			nbt.setBoolean("hasLoot1", hasPlacedLoot[0]);
-			nbt.setBoolean("hasLoot2", hasPlacedLoot[1]);
+			nbt.setBoolean("hasLoot1", this.hasPlacedLoot[0]);
+			nbt.setBoolean("hasLoot2", this.hasPlacedLoot[1]);
 		}
 		
 		@Override
@@ -239,7 +242,7 @@ public class ComponentNTMFeatures {
 			ItemDoor.placeDoorBlock(world, this.getXWithOffset(3, featureSizeZ - 1), this.getYWithOffset(1), this.getZWithOffset(3, featureSizeZ - 1), doorMeta, ModBlocks.door_office);
 			
 			int northDecoMeta = this.getMetadataForRotatableDeco(3);
-			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 1, featureSizeX - 1, featureSizeY - 1, 1, ModBlocks.steel_scaffold, northDecoMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 1, featureSizeX - 1, featureSizeY - 1, 1, ModBlocks.steel_scaffold, westDecoMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 2, featureSizeX - 1, featureSizeY - 1, 2, ModBlocks.steel_wall, northDecoMeta, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, northDecoMeta, 5, 1, 1, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_microwave, northDecoMeta, 5, 2, 1, box);
@@ -250,15 +253,15 @@ public class ComponentNTMFeatures {
 			if(!hasPlacedLoot[0]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 6, 2, 3, box);
 				LootGenerator.lootMedicine(world, this.getXWithOffset(6, 3), this.getYWithOffset(2), this.getZWithOffset(6, 3));
-				hasPlacedLoot[0] = true;
+				this.hasPlacedLoot[0] = true;
 			}
 			
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, featureSizeX - 1, 1, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[1]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 1, 1, featureSizeZ - 1, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
 						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 1, featureSizeZ - 1)), 8);
-				hasPlacedLoot[1] = true;
+				this.hasPlacedLoot[1] = true;
 			}
 			
 			return true;
@@ -271,17 +274,19 @@ public class ComponentNTMFeatures {
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
 		private static ComponentNTMFeatures.LabTiles RandomLabTiles = new ComponentNTMFeatures.LabTiles();
 		
-		private boolean[] hasPlacedLoot = new boolean[]{false, false};
+		private boolean[] hasPlacedLoot = new boolean[2];
 
 		protected NTMLab2(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 12, 11, 8);
+			this.hasPlacedLoot[0] = false;
+			this.hasPlacedLoot[1] = false;
 		}
 		
 		@Override
 		protected void func_143012_a(NBTTagCompound nbt) {
 			super.func_143012_a(nbt);
-			nbt.setBoolean("hasLoot1", hasPlacedLoot[0]);
-			nbt.setBoolean("hasLoot2", hasPlacedLoot[1]);
+			nbt.setBoolean("hasLoot1", this.hasPlacedLoot[0]);
+			nbt.setBoolean("hasLoot2", this.hasPlacedLoot[1]);
 		}
 		
 		@Override
@@ -428,9 +433,9 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 4, 1, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[0]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 5, 1, featureSizeZ - 2, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(5), (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(5, featureSizeZ - 2), 
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclearFuel, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(5, featureSizeZ - 2), 
 						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 8);
-				hasPlacedLoot[0] = true;
+				this.hasPlacedLoot[0] = true;
 			}
 			this.fillWithBlocks(world, box, 4, 2, featureSizeZ - 2, 5, 2, featureSizeZ - 2, ModBlocks.crate_lead, Blocks.air, false);
 			
@@ -441,8 +446,9 @@ public class ComponentNTMFeatures {
 			this.fillWithBlocks(world, box, featureSizeX - 4, 3, featureSizeZ - 2, featureSizeX - 2, 3, featureSizeZ - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 2, 1, 3, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(4), (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 2, 3), 
-						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 2, 3)), 8);
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nukeTrash, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 2, 3), 
+						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 2, 3)), 9);
+				this.hasPlacedLoot[1] = true;
 			}
 			
 			return true;

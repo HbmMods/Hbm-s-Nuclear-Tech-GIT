@@ -84,6 +84,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			
+			//annoying predetermination angre
+			rand.setSeed((chunkX + chunkZ) * 31);
+			
 			BiomeGenBase biomegenbase = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8);
 			int posY = world.getHeightValue(chunkX * 16 + 8, chunkZ * 16 + 8);
 			if(posY == 0)
@@ -99,7 +102,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 				this.components.add(house1);
 			} else {
-				if(rand.nextInt(2) == 0) {
+				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2);
 				} else {
