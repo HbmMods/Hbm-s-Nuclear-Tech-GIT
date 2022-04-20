@@ -84,9 +84,6 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			
-			//annoying predetermination angre
-			rand.setSeed((chunkX + chunkZ) * 31);
-			
 			BiomeGenBase biomegenbase = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8);
 			int posY = world.getHeightValue(chunkX * 16 + 8, chunkZ * 16 + 8);
 			if(posY == 0)

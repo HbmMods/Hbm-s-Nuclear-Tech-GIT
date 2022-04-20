@@ -132,6 +132,91 @@ public class ComponentNTMFeatures {
 		
 	}
 	
+	public static class NTMHouse2 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.Sandstone RandomSandstone = new ComponentNTMFeatures.Sandstone();
+		
+		protected NTMHouse2(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 15, 5, 9);
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			System.out.print(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			this.fillWithAir(world, box, 1, 0, 1, 5, featureSizeY, featureSizeZ - 1);
+			
+			//House 1
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 0, 6, 1, 0, false, rand, RandomSandstone); //Back Wall
+			this.fillWithRandomizedBlocks(world, box, 0, 2, 0, 1, 2, 0, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.fence, 0, 2, 2, 0, box);
+			this.fillWithRandomizedBlocks(world, box, 3, 2, 0, 3, 2, 0, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.fence, 0, 4, 2, 0, box);
+			this.fillWithRandomizedBlocks(world, box, 5, 2, 0, 6, 2, 0, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 0, 3, 0, 6, 3, 0, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 1, 0, 3, featureSizeZ, false, rand, RandomSandstone); //Left Wall
+			this.fillWithRandomizedBlocks(world, box, 1, 0, featureSizeZ, 6, 1, featureSizeZ, false, rand, RandomSandstone); //Front Wall
+			this.fillWithRandomizedBlocks(world, box, 1, 2, featureSizeZ, 1, 2, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithBlocks(world, box, 2, 2, featureSizeZ, 4, 2, featureSizeZ, Blocks.fence, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 5, 2, featureSizeZ, 6, 2, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 1, 3, featureSizeZ, 6, 3, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 6, 0, featureSizeZ - 1, 6, 3, featureSizeZ - 1, false, rand, RandomSandstone); //Right Wall
+			this.fillWithRandomizedBlocks(world, box, 6, 0, featureSizeZ - 2, 6, 0, featureSizeZ - 2, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 6, 3, featureSizeZ - 2, 6, 3, featureSizeZ - 2, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, 6, 0, 1, 6, 3, featureSizeZ - 3, false, rand, RandomSandstone);
+			
+			this.fillWithBlocks(world, box, 1, 0, 1, 5, 0, featureSizeZ - 1, null, null, false); //Floor
+			this.fillWithRandomizedBlocks(world, box, 1, featureSizeY - 1, 1, 5, featureSizeY - 1, featureSizeZ - 1, false, rand, RandomSandstone); //Ceiling
+			this.fillWithMetadataBlocks(world, box, 0, featureSizeY - 1, 0, 0, featureSizeY - 1, featureSizeZ, Blocks.stone_slab, 1, Blocks.air, 0, false); //Roof
+			this.fillWithMetadataBlocks(world, box, 6, featureSizeY - 1, 0, 6, featureSizeY - 1, featureSizeZ, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 2, featureSizeY, 0, 4, featureSizeY, 0, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 3, featureSizeY, 1, 3, featureSizeY, 2, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 3, featureSizeY, 4, 3, featureSizeY, 6, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, Blocks.stone_slab, 1, 3, featureSizeY, featureSizeZ - 1, box);
+			this.fillWithMetadataBlocks(world, box, 2, featureSizeY, featureSizeZ, 4, featureSizeY, featureSizeZ, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			
+			//House 2
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 0, 0, featureSizeX, 0, 0, false, rand, RandomSandstone); //Back Wall
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 1, 0, featureSizeX - 2, 1, 0, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, 0, featureSizeX - 6, 2, 0, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.stone_slab, 1, featureSizeX - 6, 2, 0, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.stone_slab, 1, featureSizeX - 3, 2, 0, box);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 0, 1, featureSizeX - 6, 3, 1, false, rand, RandomSandstone); //Left Wall
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 0, 2, featureSizeX - 6, 0, 2, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 3, 2, featureSizeX - 6, 3, featureSizeZ - 1, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.stone_slab, 1, featureSizeX - 6, featureSizeY - 1, 2, box);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 6, featureSizeY - 1, 4, featureSizeX - 6, featureSizeY - 1, featureSizeZ - 2, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 0, 3, featureSizeX - 6, 1, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 0, 2, featureSizeX - 6, 0, 2, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, 3, featureSizeX - 6, 2, 3, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.fence, 0, featureSizeX - 6, 2, 4, box);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, 5, featureSizeX - 6, 2, 5, false, rand, RandomSandstone);
+			this.fillWithBlocks(world, box, featureSizeX - 6, 2, featureSizeZ - 3, featureSizeX - 6, 2, featureSizeZ - 2, Blocks.fence, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, featureSizeZ - 1, featureSizeX - 6, 1, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 5, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 5, 2, featureSizeZ, featureSizeX - 5, 2, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 2, featureSizeZ, featureSizeX, 2, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomSandstone); //Right Wall
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 3, featureSizeX, 1, 3, false, rand, RandomSandstone);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 1, 4, featureSizeX, 1, 5, Blocks.stone_slab, 1, Blocks.air, 0, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, featureSizeZ - 1, featureSizeX, 1, featureSizeZ - 3, false, rand, RandomSandstone);
+			this.placeBlockAtCurrentPosition(world, Blocks.stone_slab, 1, featureSizeX, 1, featureSizeZ - 1, box);
+			
+			this.fillWithBlocks(world, box, featureSizeX - 5, 0, 1, featureSizeX - 1, 0, featureSizeZ - 1, Blocks.sandstone, Blocks.air, false); //Floor
+			
+			//Loot & Decorations
+			//House 1
+			
+			
+			return true;
+		}
+	}
+	
 	public static class NTMLab1 extends ComponentNTMFeatures.Feature {
 		
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
@@ -476,10 +561,11 @@ public class ComponentNTMFeatures {
 			switch(this.coordBaseMode) {
 			case 2:
 				//North (2) and East (3) will result in mirrored structures. Not an issue, but keep in mind.
-				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ - 1, minY + maxY - 1, minZ + maxX - 1);
+				//-1 for the maxX, maxY, and maxZ box cstors, they might be unnecessary.
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
 				break;
 			default:
-				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX - 1, minY + maxY - 1, minZ + maxZ - 1);
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
 				
 			}
 		}
