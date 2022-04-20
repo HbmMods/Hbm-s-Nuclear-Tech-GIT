@@ -10,6 +10,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ServerProxy {
+
+	//sort by estimated time of display. longer lasting ones should be sortet at the top.
+	public static final int ID_DUCK = 0;
+	public static final int ID_FILTER = 1;
+	public static final int ID_COMPASS = 2;
+	public static final int ID_CABLE = 3;
+	public static final int ID_JETPACK = 4;
+	public static final int ID_HUD = 5;
+	public static final int ID_DETONATOR = 6;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }
@@ -28,8 +37,11 @@ public class ServerProxy {
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) { return null; }
 	
 	public void playSound(String sound, Object data) { }
-	
-	public void displayTooltip(String msg) { }
+
+	public void displayTooltip(String msg, int id) {
+		displayTooltip(msg, 1000, id);
+	}
+	public void displayTooltip(String msg, int time, int id) { }
 	
 	public boolean getIsKeyPressed(EnumKeybind key) {
 		return false;

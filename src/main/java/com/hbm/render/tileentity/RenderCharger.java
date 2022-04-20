@@ -31,7 +31,7 @@ public class RenderCharger extends TileEntitySpecialRenderer {
 		
 		TileEntityCharger charger = (TileEntityCharger) tile;
 		
-		double time = (charger.lastUsingTicks + (charger.lastUsingTicks - charger.lastUsingTicks) * interp) / (double) charger.delay;
+		double time = (charger.lastUsingTicks + (charger.usingTicks - charger.lastUsingTicks) * interp) / (double) charger.delay;
 		
 		double extend = Math.min(1, time * 2);
 		double swivel = Math.max(0, (time - 0.5) * 2);

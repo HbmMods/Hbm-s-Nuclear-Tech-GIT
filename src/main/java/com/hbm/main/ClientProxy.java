@@ -1625,12 +1625,14 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public void playSound(String sound, Object data) { }
-
+	
 	@Override
-	public void displayTooltip(String msg) {
-		//Minecraft.getMinecraft().ingameGUI.func_110326_a(msg, false);
+	public void displayTooltip(String msg, int time, int id) {
 		
-		this.theInfoSystem.push(new InfoEntry(msg, 1000));
+		if(id != 0)
+			this.theInfoSystem.push(new InfoEntry(msg, time), id);
+		else
+			this.theInfoSystem.push(new InfoEntry(msg, time));
 	}
 
 	@Override

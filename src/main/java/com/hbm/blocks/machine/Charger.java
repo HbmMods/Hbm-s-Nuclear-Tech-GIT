@@ -60,7 +60,14 @@ public class Charger extends BlockContainer {
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		float f = 0.0625F;
-		this.setBlockBounds(5 * f, 0.25F, 5 * f, 11 * f, 0.75F, 11 * f);
+		
+		switch(world.getBlockMetadata(x, y, z)) {
+		case 2: this.setBlockBounds(5 * f, 0.25F, 12 * f, 11 * f, 0.75F, 1F); break;
+		case 3: this.setBlockBounds(5 * f, 0.25F, 0F, 11 * f, 0.75F, 4 * f); break;
+		case 4: this.setBlockBounds(12 * f, 0.25F, 5 * f, 1F, 0.75F, 11 * f); break;
+		case 5: this.setBlockBounds(0F, 0.25F, 5 * f, 4 * f, 0.75F, 11 * f); break;
+		default: this.setBlockBounds(5 * f, 0.25F, 5 * f, 11 * f, 0.75F, 11 * f); break;
+		}
 	}
 
 	@Override

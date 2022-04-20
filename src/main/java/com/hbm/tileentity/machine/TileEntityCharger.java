@@ -9,8 +9,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,12 +30,12 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 	@Override
 	public void updateEntity() {
 		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+		
 		if(!worldObj.isRemote) {
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
 			
-			players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(1, 0.5, 1));
+			players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(0.5, 0.0, 0.5));
 			
 			charge = 0;
 			
@@ -54,22 +52,42 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 				}
 			}
 			
+			particles = worldObj.getTotalWorldTime() - lastOp < 4;
+			
+			if(particles) {
+				
+				if(worldObj.getTotalWorldTime() % 20 == 0)
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 0.2F, 0.5F);
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("c", charge);
-			data.setBoolean("p", worldObj.getTotalWorldTime() - lastOp < 4);
+			data.setBoolean("p", particles);
 			INBTPacketReceiver.networkPack(this, data, 50);
 		}
 		
 		lastUsingTicks = usingTicks;
 		
-		if(charge > 0 && usingTicks < delay)
+		if((charge > 0 || particles) && usingTicks < delay) {
 			usingTicks++;
-		if(charge <= 0 && usingTicks > 0)
+			if(usingTicks == 2)
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "tile.piston.out", 0.5F, 0.5F);
+		}
+		if((charge <= 0 && !particles) && usingTicks > 0) {
 			usingTicks--;
+			if(usingTicks == 4)
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "tile.piston.in", 0.5F, 0.5F);
+		}
 		
 		if(particles) {
 			Random rand = worldObj.rand;
-			worldObj.spawnParticle("magicCrit", xCoord + 0.25 + rand.nextDouble() * 0.5, yCoord + rand.nextDouble() * 0.5, zCoord + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
+			worldObj.spawnParticle("magicCrit",
+					xCoord + 0.5 + rand.nextDouble() * 0.0625 + dir.offsetX * 0.75,
+					yCoord + 0.1,
+					zCoord + 0.5 + rand.nextDouble() * 0.0625 + dir.offsetZ * 0.75,
+					-dir.offsetX + rand.nextGaussian() * 0.1,
+					0,
+					-dir.offsetZ + rand.nextGaussian() * 0.1);
 		}
 	}
 
@@ -110,7 +128,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 					IBatteryItem battery = (IBatteryItem) stack.getItem();
 					
 					long toCharge = Math.min(battery.getMaxCharge() - battery.getCharge(stack), battery.getChargeRate());
-					toCharge = Math.min(toCharge, power);
+					toCharge = Math.min(toCharge, power / 5);
 					battery.chargeBattery(stack, toCharge);
 					power -= toCharge;
 				}

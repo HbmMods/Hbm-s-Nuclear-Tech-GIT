@@ -14,12 +14,14 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 public class RenderInfoSystem {
 	
-	private static Random rand = new Random();
+	private static int nextID = 1000;
 	private static HashMap<Integer, InfoEntry> inbox = new HashMap();
 	private static HashMap<Integer, InfoEntry> messages = new HashMap();
 	
@@ -36,6 +38,7 @@ public class RenderInfoSystem {
 			
 			if(entry.start + entry.millis < System.currentTimeMillis()) {
 				messages.remove(key);
+				keys = new ArrayList(messages.keySet());
 				i--;
 			}
 		}
@@ -46,17 +49,46 @@ public class RenderInfoSystem {
 		
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
+		
+		if(this.messages.isEmpty())
+			return;
 
 		Minecraft mc = Minecraft.getMinecraft();
 		ScaledResolution resolution = event.resolution;
-
-		int pX = 15; //resolution.getScaledWidth() / 2 + 8;
-		int pZ = 15; //resolution.getScaledHeight() / 2;
 		
-		List<InfoEntry> entries = new ArrayList(messages.entrySet());
+		List<InfoEntry> entries = new ArrayList(messages.values());
 		Collections.sort(entries);
 
 		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		
+		int longest = 0;
+		
+		for(InfoEntry entry : messages.values()) {
+			int length = mc.fontRenderer.getStringWidth(entry.text);
+			
+			if(length > longest)
+				longest = length;
+		}
+		
+		int mode = 0;
+		
+		int pX = mode == 0 ? 15 : mode == 1 ? (resolution.getScaledWidth() - longest - 15) : mode == 2 ? (resolution.getScaledWidth() / 2 + 7) : (resolution.getScaledWidth() / 2 - longest - 6);
+		int pZ = mode == 0 ? 15 : mode == 1 ? 15 : resolution.getScaledHeight() / 2 + 7;
+		
+		int side = pX + 5 + longest;
+		int height = messages.size() * 10 + pZ + 2;
+		int z = 0;
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.setColorRGBA_F(0.5F, 0.5F, 0.5F, 0.5F);
+		tess.addVertex(pX - 5, pZ - 5, z);
+		tess.addVertex(pX - 5, height, z);
+		tess.addVertex(side, height, z);
+		tess.addVertex(side, pZ - 5, z);
+		tess.draw();
 		
 		int off = 0;
 		long now = System.currentTimeMillis();
@@ -65,7 +97,7 @@ public class RenderInfoSystem {
 			
 			int elapsed = (int) (now - entry.start);
 			
-			int alpha = Math.min(510 * (entry.millis - elapsed) / entry.millis, 255); //smoothly scales down from 510 to 0, then caps at 255
+			int alpha = Math.max(Math.min(510 * (entry.millis - elapsed) / entry.millis, 255), 5); //smoothly scales down from 510 to 0, then caps at 255
 			int color = entry.color + (alpha << 24 & -0xffffff);
 			mc.fontRenderer.drawString(entry.text, pX, pZ + off, color);
 			
@@ -92,7 +124,6 @@ public class RenderInfoSystem {
 			mc.fontRenderer.drawStringWithShadow(ex.getClass().getSimpleName(), pX, pZ + 10, 0xff0000);
 		}*/
 
-		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor3f(1F, 1F, 1F);
 
 		GL11.glPopMatrix();
@@ -100,7 +131,7 @@ public class RenderInfoSystem {
 	}
 	
 	public static void push(InfoEntry entry) {
-		push(entry, rand.nextInt()); //range is so large, collisions are unlikely and if they do occur, not a big deal
+		push(entry, nextID++); //range is so large, collisions are unlikely and if they do occur, not a big deal
 	}
 	
 	public static void push(InfoEntry entry, int id) {
