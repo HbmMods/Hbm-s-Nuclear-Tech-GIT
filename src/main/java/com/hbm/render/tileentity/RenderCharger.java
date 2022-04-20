@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.TileEntityCharger;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -28,12 +29,12 @@ public class RenderCharger extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.charger_tex);
 		ResourceManager.charger.renderPart("Base");
 		
-		int time = (int) (System.currentTimeMillis() % 2000);
-		if(time >= 1000)
-			time = 1000 - (time - 1000);
+		TileEntityCharger charger = (TileEntityCharger) tile;
 		
-		double extend = Math.min(time, 500) / 500D;
-		double swivel = Math.max(time - 500, 0) / 500D;
+		double time = (charger.lastUsingTicks + (charger.lastUsingTicks - charger.lastUsingTicks) * interp) / (double) charger.delay;
+		
+		double extend = Math.min(1, time * 2);
+		double swivel = Math.max(0, (time - 0.5) * 2);
 		
 		GL11.glPushMatrix();
 

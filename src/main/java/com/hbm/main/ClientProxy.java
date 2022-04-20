@@ -69,6 +69,8 @@ import com.hbm.render.item.weapon.*;
 import com.hbm.render.loader.HmfModelLoader;
 import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
+import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.nt.ISoundSourceTE;
@@ -93,11 +95,14 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy {
 	
+	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
+	
 	@Override
 	public void registerRenderInfo() {
 
 		registerClientEventHandler(new ModEventHandlerClient());
 		registerClientEventHandler(new ModEventHandlerRenderer());
+		registerClientEventHandler(theInfoSystem);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 		ResourceManager.loadAnimatedModels();
@@ -1623,8 +1628,9 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public void displayTooltip(String msg) {
+		//Minecraft.getMinecraft().ingameGUI.func_110326_a(msg, false);
 		
-		Minecraft.getMinecraft().ingameGUI.func_110326_a(msg, false);
+		this.theInfoSystem.push(new InfoEntry(msg, 1000));
 	}
 
 	@Override
