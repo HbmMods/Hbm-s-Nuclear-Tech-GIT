@@ -44,6 +44,28 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3)  };
+	
+	public static WeightedRandomChestContent[] machineParts = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.plate_steel, 0, 1, 5, 5),
+			new WeightedRandomChestContent(ModItems.hull_big_steel, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.hull_small_steel, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.plate_polymer, 0, 1, 6, 5),
+			new WeightedRandomChestContent(ModItems.bolt_tungsten, 0, 1, 4, 3),
+			new WeightedRandomChestContent(ModItems.board_copper, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.coil_tungsten, 0, 1, 2, 5),
+			new WeightedRandomChestContent(ModItems.motor, 0, 1, 2, 4),
+			new WeightedRandomChestContent(ModItems.tank_steel, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.coil_copper, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.coil_copper_torus, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.wire_red_copper, 0, 1, 8, 5),
+			new WeightedRandomChestContent(ModItems.piston_selenium, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.battery_advanced_cell, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.circuit_raw, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 2, 4),
+			new WeightedRandomChestContent(ModItems.circuit_copper, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.blade_titanium, 0, 1, 8, 1)
+	};
 
 	public static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 3, 4),
@@ -124,6 +146,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
 	
+	//Expand to make it not seem as weird and limited
 	public static WeightedRandomChestContent[] nuclearFuel = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_uranium, 0, 2, 12, 3),
 			new WeightedRandomChestContent(ModItems.nugget_mox_fuel, 0, 2, 12, 3),

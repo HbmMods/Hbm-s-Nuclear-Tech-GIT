@@ -3,6 +3,8 @@ package com.hbm.world.worldgen;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
@@ -12,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
@@ -29,6 +32,7 @@ public class ComponentNTMFeatures {
 	/** Register structures in MapGenStructureIO */
 	public static void registerNTMFeatures() {
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMHouse1.class, "NTMHouse1");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMHouse2.class, "NTMHouse2");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab1.class, "NTMLab1");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab2.class, "NTMLab2");
 	}
@@ -136,8 +140,26 @@ public class ComponentNTMFeatures {
 		
 		private static ComponentNTMFeatures.Sandstone RandomSandstone = new ComponentNTMFeatures.Sandstone();
 		
+		private boolean[] hasPlacedLoot = new boolean[2];
+		
 		protected NTMHouse2(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 15, 5, 9);
+			this.hasPlacedLoot[0] = false;
+			this.hasPlacedLoot[1] = false;
+		}
+		
+		@Override
+		protected void func_143012_a(NBTTagCompound nbt) {
+			super.func_143012_a(nbt);
+			nbt.setBoolean("hasLoot1", this.hasPlacedLoot[0]);
+			nbt.setBoolean("hasLoot2", this.hasPlacedLoot[1]);
+		}
+		
+		@Override
+		protected void func_143011_b(NBTTagCompound nbt) {
+			super.func_143011_b(nbt);
+			this.hasPlacedLoot[0] = nbt.getBoolean("hasLoot1");
+			this.hasPlacedLoot[1] = nbt.getBoolean("hasLoot2");
 		}
 
 		@Override
@@ -148,6 +170,18 @@ public class ComponentNTMFeatures {
 				return false;
 			}
 			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 0; i < 7; i++) {
+				for(byte j = 0; j < this.featureSizeZ + 1; j++) {
+					this.func_151554_b(world, Blocks.sandstone, 0, i, -1, j, box);
+				}
+			}
+			
+			for(byte i = 10; i < this.featureSizeX + 1; i++) {
+				for(byte j = 0; j < this.featureSizeZ + 1; j++) {
+					this.func_151554_b(world, Blocks.sandstone, 0, i, -1, j, box);
+				}
+			}
 			
 			this.fillWithAir(world, box, 1, 0, 1, 5, featureSizeY, featureSizeZ - 1);
 			
@@ -170,8 +204,9 @@ public class ComponentNTMFeatures {
 			this.fillWithRandomizedBlocks(world, box, 6, 3, featureSizeZ - 2, 6, 3, featureSizeZ - 2, false, rand, RandomSandstone);
 			this.fillWithRandomizedBlocks(world, box, 6, 0, 1, 6, 3, featureSizeZ - 3, false, rand, RandomSandstone);
 			
-			this.fillWithBlocks(world, box, 1, 0, 1, 5, 0, featureSizeZ - 1, null, null, false); //Floor
-			this.fillWithRandomizedBlocks(world, box, 1, featureSizeY - 1, 1, 5, featureSizeY - 1, featureSizeZ - 1, false, rand, RandomSandstone); //Ceiling
+			this.fillWithBlocks(world, box, 1, 0, 1, 5, 0, featureSizeZ - 1, Blocks.sandstone, Blocks.air, false); //Floor
+			//this.fillWithRandomizedBlocks(world, box, 1, featureSizeY - 1, 0, 5, featureSizeY - 1, featureSizeZ, false, rand, RandomSandstone); //Ceiling
+			this.fillWithBlocks(world, box, 1, featureSizeY - 1, 0, 5, featureSizeY - 1, featureSizeZ, Blocks.sandstone, Blocks.air, false);
 			this.fillWithMetadataBlocks(world, box, 0, featureSizeY - 1, 0, 0, featureSizeY - 1, featureSizeZ, Blocks.stone_slab, 1, Blocks.air, 0, false); //Roof
 			this.fillWithMetadataBlocks(world, box, 6, featureSizeY - 1, 0, 6, featureSizeY - 1, featureSizeZ, Blocks.stone_slab, 1, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 2, featureSizeY, 0, 4, featureSizeY, 0, Blocks.stone_slab, 1, Blocks.air, 0, false);
@@ -197,8 +232,8 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, Blocks.fence, 0, featureSizeX - 6, 2, 4, box);
 			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, 5, featureSizeX - 6, 2, 5, false, rand, RandomSandstone);
 			this.fillWithBlocks(world, box, featureSizeX - 6, 2, featureSizeZ - 3, featureSizeX - 6, 2, featureSizeZ - 2, Blocks.fence, Blocks.air, false);
-			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, featureSizeZ - 1, featureSizeX - 6, 1, featureSizeZ, false, rand, RandomSandstone);
-			this.fillWithRandomizedBlocks(world, box, featureSizeX - 5, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 6, 2, featureSizeZ - 1, featureSizeX - 6, 2, featureSizeZ, false, rand, RandomSandstone);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 5, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, false, rand, RandomSandstone); //Front Wall
 			this.fillWithRandomizedBlocks(world, box, featureSizeX - 5, 2, featureSizeZ, featureSizeX - 5, 2, featureSizeZ, false, rand, RandomSandstone);
 			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 2, featureSizeZ, featureSizeX, 2, featureSizeZ, false, rand, RandomSandstone);
 			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomSandstone); //Right Wall
@@ -211,7 +246,40 @@ public class ComponentNTMFeatures {
 			
 			//Loot & Decorations
 			//House 1
+			int eastMeta = this.getMetadataForRotatableDeco(4);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_boiler_off, 4, 1, 1, 1, box);
+			this.fillWithBlocks(world, box, 1, 2, 1, 1, 3, 1, ModBlocks.deco_pipe_quad_rusted, Blocks.air, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim_rusted, 0, 1, featureSizeY, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 2, 1, 3, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 1, 1, featureSizeZ - 4, box);
+			if(!hasPlacedLoot[0]) {
+				this.placeBlockAtCurrentPosition(world, Blocks.chest, this.getMetadataWithOffset(Blocks.chest, 3), 1, 1, featureSizeZ - 2, box);
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.machineParts, (TileEntityChest)world.getTileEntity(this.getXWithOffset(1, featureSizeZ - 2), 
+						this.getYWithOffset(1), this.getZWithOffset(1, featureSizeZ - 2)), 10);
+				this.hasPlacedLoot[0] = true;
+			}
+			this.fillWithBlocks(world, box, 4, 1, featureSizeZ - 1, 5, 1, featureSizeZ - 1, ModBlocks.crate, Blocks.air, false);
+			this.fillWithMetadataBlocks(world, box, 5, 1, 4, 5, 3, 4, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, 1, 6, 5, 3, 6, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 5, 1, 5, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 5, 2, 5, box);
 			
+			//House 2
+			if(!hasPlacedLoot[1]) {
+				this.placeBlockAtCurrentPosition(world, Blocks.chest, this.getMetadataWithOffset(Blocks.chest, 3), featureSizeX - 5, 1, 1, box);
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(this.getXWithOffset(featureSizeX - 5, 1), 
+						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 5, 1)), 10);
+				this.hasPlacedLoot[1] = true;
+			}
+			this.placeBlockAtCurrentPosition(world, ModBlocks.bobblehead, rand.nextInt(16), featureSizeX - 5, 1, 4, box);
+			TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(this.getXWithOffset(featureSizeX - 5, 4), this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 5, 4));
+			
+			if(bobble != null) {
+				bobble.type = BobbleType.values()[rand.nextInt(BobbleType.values().length - 1) + 1];
+				bobble.markDirty();
+			}
+			
+			this.randomlyFillWithBlocks(world, box, rand, 0.25F, featureSizeX - 4, 1, 1, featureSizeX - 1, 1, featureSizeZ - 1, Blocks.sand, Blocks.air, false);
 			
 			return true;
 		}

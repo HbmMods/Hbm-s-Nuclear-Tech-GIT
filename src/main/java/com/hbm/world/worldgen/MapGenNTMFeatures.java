@@ -96,8 +96,13 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 */
 			
 			if(biomegenbase.temperature >= 1.2 && biomegenbase.rainfall == 0 && !(biomegenbase instanceof BiomeGenMesa)) {
-				ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
-				this.components.add(house1);
+				if(rand.nextBoolean()) {
+					ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(house1);
+				} else {
+					ComponentNTMFeatures.NTMHouse2 house2 = new ComponentNTMFeatures.NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(house2);
+				}
 			} else {
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
