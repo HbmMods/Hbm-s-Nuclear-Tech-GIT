@@ -218,14 +218,17 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 				}
 			}
 			
-			if(burnTime > 0 || preheated) {
+			if(preheated)
+				power += 2;
+			
+			if(burnTime > 0) {
 				this.burnTime--;
 				this.power++;
 				if(power > maxPower) {
 					power = maxPower;
 				}
 			} else {
-				if(power > 0 && !preheated) {
+				if(power > 0) {
 					power--;
 				}
 			}

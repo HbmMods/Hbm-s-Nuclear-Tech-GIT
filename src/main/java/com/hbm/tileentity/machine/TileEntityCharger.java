@@ -19,8 +19,8 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 	
 	private List<EntityPlayer> players = new ArrayList();
 	private long charge = 0;
+	private int lastOp = 0;
 	
-	long lastOp = 0;
 	boolean particles = false;
 	
 	public int usingTicks;
@@ -52,9 +52,11 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 				}
 			}
 			
-			particles = worldObj.getTotalWorldTime() - lastOp < 4;
+			particles = lastOp > 0;
 			
 			if(particles) {
+				
+				lastOp--;
 				
 				if(worldObj.getTotalWorldTime() % 20 == 0)
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 0.2F, 0.5F);
@@ -116,8 +118,6 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 		if(this.usingTicks < delay || power == 0)
 			return power;
 		
-		lastOp = worldObj.getTotalWorldTime();
-		
 		for(EntityPlayer player : players) {
 			
 			for(int i = 0; i < 5; i++) {
@@ -131,6 +131,8 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyUs
 					toCharge = Math.min(toCharge, power / 5);
 					battery.chargeBattery(stack, toCharge);
 					power -= toCharge;
+					
+					lastOp = 4;
 				}
 			}
 		}

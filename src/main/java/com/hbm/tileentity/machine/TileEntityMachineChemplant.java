@@ -227,10 +227,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	}
 	
 	private void setupTanks(ChemRecipe recipe) {
-		if(recipe.inputFluids[0] != null) tanks[0].setTankType(recipe.inputFluids[0].type);
-		if(recipe.inputFluids[1] != null) tanks[1].setTankType(recipe.inputFluids[1].type);
-		if(recipe.outputFluids[0] != null) tanks[2].setTankType(recipe.outputFluids[0].type);
-		if(recipe.outputFluids[1] != null) tanks[3].setTankType(recipe.outputFluids[1].type);
+		if(recipe.inputFluids[0] != null) tanks[0].setTankType(recipe.inputFluids[0].type);		else tanks[0].setTankType(Fluids.NONE);
+		if(recipe.inputFluids[1] != null) tanks[1].setTankType(recipe.inputFluids[1].type);		else tanks[1].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[0] != null) tanks[2].setTankType(recipe.outputFluids[0].type);	else tanks[2].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[1] != null) tanks[3].setTankType(recipe.outputFluids[1].type);	else tanks[3].setTankType(Fluids.NONE);
 	}
 	
 	private boolean hasRequiredFluids(ChemRecipe recipe) {
