@@ -254,6 +254,13 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			case CONTROL_AUTO:
 				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control.level", ((int)((this.data.getDouble("level") * 100D))) + "%"));
 				break;
+				
+			case HEATEX:
+				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName()) + " " +
+			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB"));
+				stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("hottype")).getUnlocalizedName()) + " " +
+			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB"));
+				break;
 			}
 			
 			if(data.getBoolean("moderated"))

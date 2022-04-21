@@ -210,6 +210,7 @@ public class GUIRBMKConsole extends GuiScreen {
 		}
 	}
 
+	@SuppressWarnings("incomplete-switch") //shut up
 	protected void drawGuiContainerBackgroundLayer(float interp, int mX, int mY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -285,6 +286,13 @@ public class GUIRBMKConsole extends GuiScreen {
 				if(col.data.getShort("type") == Fluids.ULTRAHOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 7, 44, 189, 2, 2);
 				
+				break;
+				
+			case HEATEX:
+				int cc = (int)Math.ceil((col.data.getInteger("water")) * 8 / col.data.getDouble("maxWater"));
+				drawTexturedModalRect(guiLeft + x + 1, guiTop + y + size - cc - 1, 131, 191 - cc, 3, cc);
+				int hc = (int)Math.ceil((col.data.getInteger("steam")) * 8 / col.data.getDouble("maxSteam"));
+				drawTexturedModalRect(guiLeft + x + 6, guiTop + y + size - hc - 1, 136, 191 - hc, 3, hc);
 				break;
 			}
 			

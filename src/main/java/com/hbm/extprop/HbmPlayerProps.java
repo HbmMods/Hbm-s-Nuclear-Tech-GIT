@@ -60,17 +60,17 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 				this.enableBackpack = !this.enableBackpack;
 				
 				if(this.enableBackpack)
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "Jetpack ON");
+					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "Jetpack ON", MainRegistry.proxy.ID_JETPACK);
 				else
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Jetpack OFF");
+					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Jetpack OFF", MainRegistry.proxy.ID_JETPACK);
 			}
 			if(key == EnumKeybind.TOGGLE_HEAD) {
 				this.enableHUD = !this.enableHUD;
 				
 				if(this.enableHUD)
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "HUD ON");
+					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "HUD ON", MainRegistry.proxy.ID_HUD);
 				else
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "HUD OFF");
+					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "HUD OFF", MainRegistry.proxy.ID_HUD);
 			}
 		}
 		

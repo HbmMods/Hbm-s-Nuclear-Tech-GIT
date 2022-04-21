@@ -2,6 +2,7 @@ package com.hbm.animloader;
 
 import java.nio.FloatBuffer;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Quaternion;
 
@@ -10,6 +11,15 @@ import com.hbm.util.BobMathUtil;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.util.Vec3;
 
+/**
+ * Bob:
+ * Ported from 1.12.2.
+ * Mostly gibberish to me, probably written in the ancient egyptian language.
+ * Any unmarked code comments are probably from Drillgon or code I had to throw out myself.
+ * 
+ * @author Drillgon200 for the most part
+ *
+ */
 public class Transform {
 
 	protected static FloatBuffer auxGLMatrix = GLAllocation.createDirectFloatBuffer(16);
@@ -49,37 +59,70 @@ public class Transform {
 	}
 	
 	public void interpolateAndApply(Transform other, float inter){
-		Vec3 trans = BobMathUtil.interpVec(this.translation, other.translation, inter); //ORIGINAL: translation.interpolate(other.translation, inter);
-		Vec3 scale = BobMathUtil.interpVec(this.scale, other.scale, inter); //ORIGINAL: this.scale.interpolate(other.scale, inter);
+		Vec3 trans = BobMathUtil.interpVec(this.translation, other.translation, inter);
+		Vec3 scale = BobMathUtil.interpVec(this.scale, other.scale, inter);
 		Quaternion rot = slerp(rotation, other.rotation, inter);
-		//GlStateManager.quatToGlMatrix(auxGLMatrix, rot); TODO: find implementation
+		quatToGlMatrix(auxGLMatrix, rot);
 		scale(auxGLMatrix, scale);
 		auxGLMatrix.put(12, (float) trans.xCoord);
 		auxGLMatrix.put(13, (float) trans.yCoord);
 		auxGLMatrix.put(14, (float) trans.zCoord);
 		
-		//for(int i = 0; i < 16; i ++){
-			//System.out.print(auxGLMatrix.get(i) + " ");
-		//}
-		//System.out.println();
-		//GlStateManager.multMatrix(auxGLMatrix); TODO: find implementation
+		GL11.glMultMatrix(auxGLMatrix);
 	}
 	
-	private void scale(FloatBuffer matrix, Vec3 scale){
-		matrix.put(0, (float) (matrix.get(0)*scale.xCoord));
-		matrix.put(4, (float) (matrix.get(4)*scale.xCoord));
-		matrix.put(8, (float) (matrix.get(8)*scale.xCoord));
-		matrix.put(12, (float) (matrix.get(12)*scale.xCoord));
+	public static FloatBuffer quatToGlMatrix(FloatBuffer buf, Quaternion q) {
+		buf.clear();
+		float xx = q.x * q.x;
+		float xy = q.x * q.y;
+		float xz = q.x * q.z;
+		float xw = q.x * q.w;
+		float yy = q.y * q.y;
+		float yz = q.y * q.z;
+		float yw = q.y * q.w;
+		float zz = q.z * q.z;
+		float zw = q.z * q.w;
 		
-		matrix.put(1, (float) (matrix.get(1)*scale.yCoord));
-		matrix.put(5, (float) (matrix.get(5)*scale.yCoord));
-		matrix.put(9, (float) (matrix.get(9)*scale.yCoord));
-		matrix.put(13, (float) (matrix.get(13)*scale.yCoord));
+		//Bob: i may not know what a quarternion is but grouping these in parts of 4 looks nice
+		buf.put(1.0F - 2.0F * (yy + zz));
+		buf.put(2.0F * (xy + zw));
+		buf.put(2.0F * (xz - yw));
+		buf.put(0.0F);
 		
-		matrix.put(2, (float) (matrix.get(2)*scale.zCoord));
-		matrix.put(6, (float) (matrix.get(6)*scale.zCoord));
-		matrix.put(10, (float) (matrix.get(10)*scale.zCoord));
-		matrix.put(14, (float) (matrix.get(14)*scale.zCoord));
+		buf.put(2.0F * (xy - zw));
+		buf.put(1.0F - 2.0F * (xx + zz));
+		buf.put(2.0F * (yz + xw));
+		buf.put(0.0F);
+		
+		buf.put(2.0F * (xz + yw));
+		buf.put(2.0F * (yz - xw));
+		buf.put(1.0F - 2.0F * (xx + yy));
+		buf.put(0.0F);
+		
+		buf.put(0.0F);
+		buf.put(0.0F);
+		buf.put(0.0F);
+		buf.put(1.0F);
+		
+		buf.rewind();
+		return buf;
+	}
+	
+	private void scale(FloatBuffer matrix, Vec3 scale) {
+		matrix.put(0, (float) (matrix.get(0) * scale.xCoord));
+		matrix.put(4, (float) (matrix.get(4) * scale.xCoord));
+		matrix.put(8, (float) (matrix.get(8) * scale.xCoord));
+		matrix.put(12, (float) (matrix.get(12) * scale.xCoord));
+
+		matrix.put(1, (float) (matrix.get(1) * scale.yCoord));
+		matrix.put(5, (float) (matrix.get(5) * scale.yCoord));
+		matrix.put(9, (float) (matrix.get(9) * scale.yCoord));
+		matrix.put(13, (float) (matrix.get(13) * scale.yCoord));
+
+		matrix.put(2, (float) (matrix.get(2) * scale.zCoord));
+		matrix.put(6, (float) (matrix.get(6) * scale.zCoord));
+		matrix.put(10, (float) (matrix.get(10) * scale.zCoord));
+		matrix.put(14, (float) (matrix.get(14) * scale.zCoord));
 	}
 	
 	//Thanks, wikipedia
@@ -116,18 +159,18 @@ public class Transform {
 	    }
 
 	    // Since dot is in range [0, DOT_THRESHOLD], acos is safe
-	    double theta_0 = Math.acos(dot);        // theta_0 = angle between input vectors
-	    double theta = theta_0*t;          // theta = angle between v0 and result
-	    double sin_theta = Math.sin(theta);     // compute this value only once
-	    double sin_theta_0 = Math.sin(theta_0); // compute this value only once
+	    double theta_0 = Math.acos(dot);		// theta_0 = angle between input vectors
+	    double theta = theta_0*t;				// theta = angle between v0 and result
+	    double sin_theta = Math.sin(theta);		// compute this value only once
+	    double sin_theta_0 = Math.sin(theta_0);	// compute this value only once
 
 	    float s0 = (float) (Math.cos(theta) - dot * sin_theta / sin_theta_0);  // == sin(theta_0 - theta) / sin(theta_0)
 	    float s1 = (float) (sin_theta / sin_theta_0);
 
-	    return new Quaternion(s0*v0.x + s1*v1.x, 
-	    					s0*v0.y + s1*v1.y, 
-	    					s0*v0.z + s1*v1.z, 
-	    					s0*v0.w + s1*v1.w);
+		return new Quaternion(s0 * v0.x + s1 * v1.x,
+				s0 * v0.y + s1 * v1.y,
+				s0 * v0.z + s1 * v1.z,
+				s0 * v0.w + s1 * v1.w);
 	}
 	
 }

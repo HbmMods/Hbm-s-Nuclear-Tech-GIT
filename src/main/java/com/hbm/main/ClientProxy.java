@@ -69,6 +69,8 @@ import com.hbm.render.item.weapon.*;
 import com.hbm.render.loader.HmfModelLoader;
 import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
+import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.nt.ISoundSourceTE;
@@ -93,11 +95,14 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy {
 	
+	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
+	
 	@Override
 	public void registerRenderInfo() {
 
 		registerClientEventHandler(new ModEventHandlerClient());
 		registerClientEventHandler(new ModEventHandlerRenderer());
+		registerClientEventHandler(theInfoSystem);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 		ResourceManager.loadAnimatedModels();
@@ -271,6 +276,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConnector.class, new RenderConnector());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonLarge.class, new RenderPylonLarge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySubstation.class, new RenderSubstation());
+		//chargers
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCharger.class, new RenderCharger());
 		//multiblocks
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructureMarker.class, new RenderStructureMaker());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMultiblock.class, new RenderMultiblock());
@@ -1618,11 +1625,14 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public void playSound(String sound, Object data) { }
-
+	
 	@Override
-	public void displayTooltip(String msg) {
+	public void displayTooltip(String msg, int time, int id) {
 		
-		Minecraft.getMinecraft().ingameGUI.func_110326_a(msg, false);
+		if(id != 0)
+			this.theInfoSystem.push(new InfoEntry(msg, time), id);
+		else
+			this.theInfoSystem.push(new InfoEntry(msg, time));
 	}
 
 	@Override

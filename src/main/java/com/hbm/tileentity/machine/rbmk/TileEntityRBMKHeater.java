@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -11,6 +12,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+
+import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource {
 
@@ -27,11 +30,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public String getName() {
 		return "container.rbmkHeater";
-	}
-
-	@Override
-	public ColumnType getConsoleType() {
-		return ColumnType.HEATEX;
 	}
 	
 	@Override
@@ -165,5 +163,50 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		feed.readFromNBT(nbt, "feed");
+		steam.readFromNBT(nbt, "steam");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		feed.writeToNBT(nbt, "feed");
+		steam.writeToNBT(nbt, "steam");
+	}
+	
+	@Override
+	public void onMelt(int reduce) {
+		
+		int count = 1 + worldObj.rand.nextInt(2);
+		
+		for(int i = 0; i < count; i++) {
+			spawnDebris(DebrisType.BLANK);
+		}
+		
+		super.onMelt(reduce);
+	}
+
+	@Override
+	public ColumnType getConsoleType() {
+		return ColumnType.HEATEX;
+	}
+
+	@Override
+	public NBTTagCompound getNBTForConsole() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("water", this.feed.getFill());
+		data.setInteger("maxWater", this.feed.getMaxFill());
+		data.setInteger("steam", this.steam.getFill());
+		data.setInteger("maxSteam", this.steam.getMaxFill());
+		data.setShort("type", (short)this.feed.getTankType().getID());
+		data.setShort("hottype", (short)this.steam.getTankType().getID());
+		return data;
 	}
 }

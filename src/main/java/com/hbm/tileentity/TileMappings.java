@@ -193,8 +193,10 @@ public class TileMappings {
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
-		
+
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
+
+		put(TileEntityCharger.class, "tileentity_ntm_charger");
 		
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");

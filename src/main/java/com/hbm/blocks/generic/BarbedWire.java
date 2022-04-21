@@ -27,11 +27,11 @@ public class BarbedWire extends Block {
 
 	public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent) {
 
-		//ent.setInWeb();
+		ent.setInWeb();
 
-		ent.motionX *= 0.25D;
+		ent.motionX *= 0.15D;
 		ent.motionY *= 0.1D;
-		ent.motionZ *= 0.25D;
+		ent.motionZ *= 0.15D;
 
 		if(this == ModBlocks.barbed_wire) {
 			ent.attackEntityFrom(DamageSource.cactus, 2.0F);
