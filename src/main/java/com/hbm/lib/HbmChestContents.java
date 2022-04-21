@@ -148,17 +148,24 @@ public class HbmChestContents {
 	
 	//Expand to make it not seem as weird and limited
 	public static WeightedRandomChestContent[] nuclearFuel = new WeightedRandomChestContent[] {
-			new WeightedRandomChestContent(ModItems.nugget_uranium, 0, 2, 12, 3),
-			new WeightedRandomChestContent(ModItems.nugget_mox_fuel, 0, 2, 12, 3),
-			new WeightedRandomChestContent(ModItems.nugget_uranium_fuel, 0, 2, 12, 5),
-			new WeightedRandomChestContent(ModItems.nugget_plutonium_fuel, 0, 2, 12, 4),
-			new WeightedRandomChestContent(ModItems.nugget_thorium_fuel, 0, 2, 12, 3),
-			new WeightedRandomChestContent(ModItems.billet_ra226be, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_empty, 0, 1, 3, 5),
-			new WeightedRandomChestContent(ModItems.pile_rod_uranium, 0, 2, 6, 4),
-			new WeightedRandomChestContent(ModItems.pile_rod_source, 0, 1, 2, 3),
-			new WeightedRandomChestContent(ModItems.reacher, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.screwdriver, 0, 1, 1, 2)
+			new WeightedRandomChestContent(ModItems.billet_uranium, 0, 1, 4, 4),
+			new WeightedRandomChestContent(ModItems.billet_pu_mix, 0, 1, 2, 4),
+			new WeightedRandomChestContent(ModItems.billet_th232, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.billet_uranium_fuel, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.billet_mox_fuel, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.billet_plutonium_fuel, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.billet_thorium_fuel, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.billet_ra226be, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.billet_beryllium, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.nugget_u233, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.rod_zirnox_empty, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.ingot_graphite, 0, 1, 4, 3),
+			new WeightedRandomChestContent(ModItems.pile_rod_uranium, 0, 2, 5, 3),
+			new WeightedRandomChestContent(ModItems.pile_rod_source, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.reacher, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.screwdriver, 0, 1, 1, 2),
 	};
 
 	public static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[] {

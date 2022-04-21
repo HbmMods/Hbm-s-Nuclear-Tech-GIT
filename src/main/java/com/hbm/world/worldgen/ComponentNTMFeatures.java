@@ -412,7 +412,7 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, featureSizeX - 1, 1, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[1]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 1, 1, featureSizeZ - 1, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
 						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 1, featureSizeZ - 1)), 8);
 				this.hasPlacedLoot[1] = true;
 			}
@@ -582,15 +582,15 @@ public class ComponentNTMFeatures {
 			this.fillWithMetadataBlocks(world, box, 3, 1, 2, 3, 3, 2, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 3, 1, 4, 3, 3, 4, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 3, 1, featureSizeZ - 2, 3, 3, featureSizeZ - 2, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);
-			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 5, 1, 5, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 4, 1, featureSizeZ - 2, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 4, 2, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[0]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 5, 1, featureSizeZ - 2, box);
 				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclearFuel, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(5, featureSizeZ - 2), 
-						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 8);
+						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 11);
 				this.hasPlacedLoot[0] = true;
 			}
-			this.fillWithBlocks(world, box, 4, 2, featureSizeZ - 2, 5, 2, featureSizeZ - 2, ModBlocks.crate_lead, Blocks.air, false);
+			this.fillWithBlocks(world, box, 4, 1, featureSizeZ - 3, 5, 1, featureSizeZ - 3, ModBlocks.crate_lead, Blocks.air, false);
 			
 			this.fillWithBlocks(world, box, featureSizeX - 5, 1, featureSizeZ - 2, featureSizeX - 5, 3, featureSizeZ - 2, ModBlocks.deco_steel, Blocks.air, false);;
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 4, 1, featureSizeZ - 2, featureSizeX - 2, 1, featureSizeZ - 2, ModBlocks.steel_grate, 7, Blocks.air, 0, false);
