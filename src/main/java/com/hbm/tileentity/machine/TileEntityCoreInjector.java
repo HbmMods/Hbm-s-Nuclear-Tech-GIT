@@ -1,14 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -17,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor {
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -39,6 +37,9 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.subscribeToAllAround(tanks[1].getTankType(), this);
 
 			tanks[0].setType(0, 1, slots);
 			tanks[1].setType(2, 3, slots);
@@ -168,6 +169,11 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 
 		tanks[0].writeToNBT(nbt, "fuel1");
 		tanks[1].writeToNBT(nbt, "fuel2");
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[1]};
 	}
 
 }

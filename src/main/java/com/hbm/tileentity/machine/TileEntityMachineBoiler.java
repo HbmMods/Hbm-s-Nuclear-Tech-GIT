@@ -16,6 +16,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -25,7 +26,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 	
@@ -218,6 +219,10 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 		
 		if(!worldObj.isRemote)
 		{
+			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
+			
 			age++;
 			if(age >= 20)
 			{
@@ -395,5 +400,15 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
 	}
 }

@@ -12,6 +12,8 @@ import com.hbm.inventory.fluid.FluidType;
  * 
  * The American Heritage® Dictionary of the English Language, 5th Edition.
  * 
+ * Only supports one tank per type (for in- and output separately)
+ * 
  * @author hbm
  *
  */

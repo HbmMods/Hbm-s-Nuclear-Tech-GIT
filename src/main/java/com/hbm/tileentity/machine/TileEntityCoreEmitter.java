@@ -11,6 +11,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,7 +24,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -52,6 +53,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		if (!worldObj.isRemote) {
 			
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
@@ -279,5 +281,10 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		nbt.setLong("prev", prev);
 		nbt.setBoolean("isOn", isOn);
 		tank.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

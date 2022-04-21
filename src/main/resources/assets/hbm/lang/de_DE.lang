@@ -3497,6 +3497,7 @@ tile.plasma.name=Plasma
 tile.plasma_heater.name=Plasmaerhitzer
 tile.pole_satellite_receiver.name=Satellitenschüssel
 tile.pole_top.name=Antennenspitze
+tile.press_preheater.name=Presse-Vorheizer
 tile.pribris.name=RBMK-Schutt
 tile.pribris_burning.name=Flammender RBMK-Schutt
 tile.pribris_digamma.name=Geschwärzter RBMK-Schutt

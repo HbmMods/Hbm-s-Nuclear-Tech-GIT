@@ -3871,6 +3871,7 @@ tile.plasma.name=Plasma
 tile.plasma_heater.name=Plasma Heater
 tile.pole_satellite_receiver.name=Satellite Dish
 tile.pole_top.name=Antenna Top
+tile.press_preheater.name=Burner Press Preheater
 tile.pribris.name=RBMK Debris
 tile.pribris_burning.name=Flaming RBMK Debris
 tile.pribris_digamma.name=Blackened RBMK Debris
