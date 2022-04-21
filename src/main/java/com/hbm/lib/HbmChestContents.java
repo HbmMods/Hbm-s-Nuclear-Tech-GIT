@@ -51,7 +51,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.hull_small_steel, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.plate_polymer, 0, 1, 6, 5),
 			new WeightedRandomChestContent(ModItems.bolt_tungsten, 0, 1, 4, 3),
-			new WeightedRandomChestContent(ModItems.board_copper, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.board_copper, 0, 1, 2, 4),
 			new WeightedRandomChestContent(ModItems.coil_tungsten, 0, 1, 2, 5),
 			new WeightedRandomChestContent(ModItems.motor, 0, 1, 2, 4),
 			new WeightedRandomChestContent(ModItems.tank_steel, 0, 1, 2, 3),

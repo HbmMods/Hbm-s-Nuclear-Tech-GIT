@@ -177,7 +177,7 @@ public class ComponentNTMFeatures {
 				}
 			}
 			
-			for(byte i = 10; i < this.featureSizeX + 1; i++) {
+			for(byte i = 9; i < this.featureSizeX + 1; i++) {
 				for(byte j = 0; j < this.featureSizeZ + 1; j++) {
 					this.func_151554_b(world, Blocks.sandstone, 0, i, -1, j, box);
 				}
