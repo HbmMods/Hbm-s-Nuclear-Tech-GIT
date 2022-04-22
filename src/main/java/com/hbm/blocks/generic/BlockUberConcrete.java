@@ -59,7 +59,7 @@ public class BlockUberConcrete extends BlockBase {
 		if(rand.nextInt(meta + 1) > 0)
 			return;
 		
-		/*if(meta < 15) {
+		if(meta < 15) {
 			world.setBlockMetadataWithNotify(x, y, z, meta + 1, 3);
 		} else {
 			world.setBlockToAir(x, y, z);
@@ -86,6 +86,6 @@ public class BlockUberConcrete extends BlockBase {
 			}
 			
 			world.setBlock(x, y, z, ModBlocks.concrete_super_broken);
-		}*/
+		}
 	}
 }
