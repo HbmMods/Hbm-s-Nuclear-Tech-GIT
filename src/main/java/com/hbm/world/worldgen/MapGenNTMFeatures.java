@@ -84,7 +84,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			
-			BiomeGenBase biomegenbase = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8);
+			BiomeGenBase biome = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8);
 			int posY = world.getHeightValue(chunkX * 16 + 8, chunkZ * 16 + 8);
 			if(posY == 0)
 				posY = world.getTopSolidOrLiquidBlock(chunkX * 16 + 8, chunkZ * 16 + 8);
@@ -95,7 +95,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			
-			if(biomegenbase.temperature >= 1.2 && biomegenbase.rainfall == 0 && !(biomegenbase instanceof BiomeGenMesa)) {
+			/*if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house1);
@@ -103,7 +103,12 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMHouse2 house2 = new ComponentNTMFeatures.NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house2);
 				}
-			} else {
+			} else if(biome.temperature >= 0.2 && biome.temperature <= 0.4 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9) { //Taiga & Mega Taiga
+				if(rand.nextBoolean()) {*/
+					ComponentNTMFeatures.NTMWorkshop1 workshop1 = new ComponentNTMFeatures.NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(workshop1);
+				/*}
+			} else { //Everything else
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2);
@@ -111,7 +116,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMLab1 lab1 = new ComponentNTMFeatures.NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab1);
 				}
-			}
+			}*/
 			
 			this.updateBoundingBox();
 		}

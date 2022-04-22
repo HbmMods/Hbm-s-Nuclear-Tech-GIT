@@ -35,6 +35,7 @@ public class ComponentNTMFeatures {
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMHouse2.class, "NTMHouse2");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab1.class, "NTMLab1");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab2.class, "NTMLab2");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMWorkshop1.class, "NTMWorkshop1");
 	}
 	
 	/** Sandstone Ruin 1 */
@@ -587,7 +588,7 @@ public class ComponentNTMFeatures {
 			if(!hasPlacedLoot[0]) {
 				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 5, 1, featureSizeZ - 2, box);
 				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclearFuel, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(5, featureSizeZ - 2), 
-						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 11);
+						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 10);
 				this.hasPlacedLoot[0] = true;
 			}
 			this.fillWithBlocks(world, box, 4, 1, featureSizeZ - 3, 5, 1, featureSizeZ - 3, ModBlocks.crate_lead, Blocks.air, false);
@@ -606,6 +607,165 @@ public class ComponentNTMFeatures {
 			
 			return true;
 		}
+	}
+	
+	public static class NTMWorkshop1 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.SuperConcrete RandomSuperConcrete = new ComponentNTMFeatures.SuperConcrete();
+		
+		private boolean hasPlacedLoot;
+		
+		protected NTMWorkshop1(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 10, 6, 8);
+			this.hasPlacedLoot = false;
+		}
+		
+		@Override
+		protected void func_143012_a(NBTTagCompound nbt) {
+			super.func_143012_a(nbt);
+			nbt.setBoolean("hasLoot", this.hasPlacedLoot);
+		}
+		
+		@Override
+		protected void func_143011_b(NBTTagCompound nbt) {
+			super.func_143011_b(nbt);
+			this.hasPlacedLoot = nbt.getBoolean("hasLoot");
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			System.out.println(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			this.boundingBox.offset(0, -7, 0);
+			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 1; i < featureSizeX - 2; i++) {
+				for(byte j = 0; j < featureSizeZ + 1; j++) {
+					this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, j, box);
+				}
+			}
+			
+			for(byte i = 8; i < featureSizeX + 1; i++) {
+				for(byte j = 1; j < 7; j++) {
+					this.func_151554_b(world, Blocks.dirt, 0, i, -1, j, box);
+				}
+			}
+			
+			this.fillWithAir(world, box, 1, 0, 0, featureSizeX - 3, featureSizeY - 1, featureSizeZ);
+			this.fillWithAir(world, box, featureSizeX - 2, 0, 2, featureSizeX - 1, 2, 5);
+			
+			if(this.getBlockAtCurrentPosition(world, 0, 0, 5, box).getMaterial().isReplaceable() 
+					|| this.getBlockAtCurrentPosition(world, 0, 0, 5, box) == Blocks.air) {
+				int stairMeta = this.getMetadataWithOffset(Blocks.stone_brick_stairs, 1);
+				this.placeBlockAtCurrentPosition(world, Blocks.stone_brick_stairs, stairMeta, 0, 0, 5, box);
+				
+				for(byte i = 1; 1 < featureSizeZ; i++) {
+					this.func_151554_b(world, Blocks.stonebrick, 0, 0, -1, i, box);
+				}
+				
+				this.fillWithMetadataBlocks(world, box, 0, 0, 1, 0, 0, featureSizeZ - 1, Blocks.stone_slab, 5, Blocks.air, 0, false);
+			}
+			
+			//Walls
+			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
+			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			this.fillWithBlocks(world, box, 1, 0, 0, 1, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
+			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete, 0, 1, 4, 0, box);
+			this.fillWithMetadataBlocks(world, box, 2, 4, 0, featureSizeX - 4, 4, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete, 0, featureSizeX - 3, 4, 0, box);
+			this.fillWithBlocks(world, box, featureSizeX - 3, 0, 0, featureSizeX - 3, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 2, 0, 0, featureSizeX - 4, 1, 0, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 2, 2, 0, 2, 2, 0, false, rand, RandomSuperConcrete);
+			this.fillWithBlocks(world, box, 3, 2, 0, 5, 2, 0, ModBlocks.reinforced_glass, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 4, 2, 0, featureSizeX - 4, 2, 0, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 2, 3, 0, featureSizeX - 4, 3, 0, false, rand, RandomSuperConcrete);
+			this.fillWithMetadataBlocks(world, box, 1, 4, 1, 1, 4, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Left Wall
+			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete, 0, 1, 4, featureSizeZ, box);
+			this.fillWithBlocks(world, box, 1, 0, featureSizeZ, 1, 3, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, 1, 1, 1, 4, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 1, 2, 1, 1, 2, 1, false, rand, RandomSuperConcrete);
+			this.fillWithBlocks(world, box, 1, 2, 2, 1, 2, 3, ModBlocks.reinforced_glass, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 2, 4, 1, 2, 4, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 1, 3, 1, 1, 3, featureSizeZ - 1, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, featureSizeZ - 2, 1, 3, featureSizeZ - 1, false, rand, RandomSuperConcrete);
+			this.fillWithMetadataBlocks(world, box, 2, 4, featureSizeZ, featureSizeX - 4, 4, featureSizeZ, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false); //Front Wall
+			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete, 0, featureSizeX - 3, 4, featureSizeZ, box);
+			this.fillWithBlocks(world, box, featureSizeX - 3, 0, featureSizeZ, featureSizeX - 3, 3, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 2, 0, featureSizeZ, featureSizeX - 4, 1, featureSizeZ, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 2, 2, featureSizeZ, 2, 2, featureSizeZ, false, rand, RandomSuperConcrete);
+			this.fillWithBlocks(world, box, 3, 2, featureSizeZ, 5, 2, featureSizeZ, ModBlocks.reinforced_glass, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 4, 2, featureSizeZ, featureSizeX - 4, 2, featureSizeZ, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 2, 3, featureSizeZ, featureSizeX - 4, 3, featureSizeZ, false, rand, RandomSuperConcrete);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 3, 4, 1, featureSizeX - 3, 4, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Right Wall
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 3, 0, 1, featureSizeX - 3, 3, featureSizeZ - 1, false, rand, RandomSuperConcrete);
+			
+			pillarMetaWE = this.getMetadataForRotatablePillar(5);
+			pillarMetaNS = this.getMetadataForRotatablePillar(9);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 2, 1, featureSizeX - 1, 2, 1, Blocks.log, pillarMetaWE, Blocks.air, 0, false); //Back Wall
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 2, 1, Blocks.log, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 2, 2, featureSizeX, 2, 5, Blocks.log, pillarMetaNS, Blocks.air, 0, false); //Right Wall
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 2, 6, Blocks.log, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 3, featureSizeX, 1, 5, Blocks.planks, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 2, 6, featureSizeX - 1, 2, 6, Blocks.log, pillarMetaWE, Blocks.air, 0, false); //Front Wall
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 6, featureSizeX - 1, 1, 6, Blocks.planks, 1, Blocks.air, 0, false);
+			
+			//Floor & Ceiling
+			this.fillWithBlocks(world, box, 2, 0, 2, 6, 0, featureSizeZ - 1, ModBlocks.brick_light, Blocks.air, false); //Floor
+			this.placeBlockAtCurrentPosition(world, ModBlocks.brick_light, 0, 1, 0, 5, box);
+			this.fillWithRandomizedBlocks(world, box, 2, 4, 1, 6, 4, 3, false, rand, RandomSuperConcrete); //Ceiling
+			this.fillWithRandomizedBlocks(world, box, 2, 4, 4, 2, 4, 4, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 5, 4, 4, 6, 4, 4, false, rand, RandomSuperConcrete);
+			this.fillWithRandomizedBlocks(world, box, 2, 4, featureSizeZ - 3, 6, 4, featureSizeZ - 1, false, rand, RandomSuperConcrete);
+			
+			this.fillWithBlocks(world, box, featureSizeX - 2, 2, 2, featureSizeX - 1, 2, 5, ModBlocks.deco_steel, Blocks.air, false);
+			
+			//Loot & Decorations
+			int southMeta = this.getMetadataForRotatableDeco(2);
+			int eastMeta = this.getMetadataForRotatableDeco(5);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.pole_satellite_receiver, eastMeta, 2, featureSizeY - 1, 1, box);
+			this.fillWithBlocks(world, box, 3, featureSizeY - 1, 1, 4, featureSizeY - 1, 1, ModBlocks.deco_steel, Blocks.air, false);
+			this.fillWithBlocks(world, box, 2, featureSizeY - 1, 2, 4, featureSizeY - 1, 2, ModBlocks.deco_steel, Blocks.air, false);
+			this.fillWithBlocks(world, box, 2, featureSizeY, 1, 4, featureSizeY, 2, ModBlocks.steel_roof, Blocks.air, false);
+			this.fillWithBlocks(world, box, 2, 1, 1, 2, 3, 1, ModBlocks.deco_red_copper, Blocks.air, false);
+			this.fillWithBlocks(world, box, 3, 1, 1, 3, 1, 2, ModBlocks.deco_beryllium, Blocks.air, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_generator, 0, 4, 1, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_detector, 0, 4, 1, 2, box);
+			this.fillWithBlocks(world, box, 5, 1, 1, 5, 1, 2, ModBlocks.deco_beryllium, Blocks.air, false);
+			this.fillWithBlocks(world, box, 6, 1, 1, 6, 3, 1, ModBlocks.deco_red_copper, Blocks.air, false);
+			this.fillWithBlocks(world, box, 3, 1, 4, 4, 1, 4, ModBlocks.concrete_super_broken, Blocks.air, false);
+			this.fillWithMetadataBlocks(world, box, 6, 1, 4, 6, 3, 4, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 6, 1, 5, 6, 1, 7, ModBlocks.steel_grate, 7, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.radiorec, eastMeta, 6, 2, featureSizeZ - 1, box);
+			this.fillWithMetadataBlocks(world, box, 2, 1, featureSizeZ - 1, 3, 1, featureSizeZ - 1, ModBlocks.machine_electric_furnace_off, southMeta, Blocks.air, 0, false);
+			if(!hasPlacedLoot) {
+				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 4, 1, featureSizeZ - 1, box);
+				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.machineParts, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(4, featureSizeZ - 1), 
+						this.getYWithOffset(1), this.getZWithOffset(4, featureSizeZ - 1)), 11);
+				this.hasPlacedLoot = true;
+			}
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 5, 3, 1, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 2, 1, 2, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 6, 1, 2, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 6, 2, 5, box);
+			
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 5, featureSizeX - 1, 0, 5, ModBlocks.steel_grate, 7, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, southMeta, featureSizeX - 2, 1, 5, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.bobblehead, rand.nextInt(16), featureSizeX - 1, 1, 5, box);
+			TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(this.getXWithOffset(featureSizeX - 1, 5), this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 1, 5));
+			
+			if(bobble != null) {
+				bobble.type = BobbleType.values()[rand.nextInt(BobbleType.values().length - 1) + 1];
+				bobble.markDirty();
+			}
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 2, featureSizeX - 2, 0, 3, Blocks.log, pillarMetaWE, Blocks.air, 0, false);
+			this.placeBlockAtCurrentPosition(world, Blocks.log, pillarMetaWE, featureSizeX - 2, 1, 2, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, featureSizeX - 2, 1, 2, box);
+			
+			return true;
+		}		
 	}
 	
 	abstract static class Feature extends StructureComponent {
@@ -682,7 +842,7 @@ public class ComponentNTMFeatures {
 		
 		/**
 		 * Gets metadata for rotatable pillars.
-		 * @param metadata (First two digits is equal to block metadata, other two are equal to orientation
+		 * @param metadata (First two digits are equal to block metadata, other two are equal to orientation
 		 * @return metadata adjusted for random orientation
 		 */
 		protected int getMetadataForRotatablePillar(int metadata) {
