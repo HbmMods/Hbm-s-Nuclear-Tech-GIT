@@ -13,6 +13,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -20,9 +21,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	private ItemStack slots[];
 	
@@ -309,21 +309,18 @@ public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements
 	}
 	
 	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+		this.updateStandardConnections(worldObj, this);
+		this.subscribeToAllAround(tank.getTankType(), this);
 	}
 
 	@Override
 	public void setPower(long i) {
 		power = i;
-		
 	}
 
 	@Override
 	public long getPower() {
 		return power;
-		
 	}
 
 	@Override
@@ -355,5 +352,10 @@ public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements
 	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }
