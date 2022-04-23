@@ -12,6 +12,7 @@ import com.hbm.util.LootGenerator;
 import com.hbm.world.worldgen.ComponentNTMFeatures.LabTiles;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSandStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,6 +41,7 @@ public class ComponentNTMFeatures {
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin1.class, "NTMRuin1");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin2.class, "NTMRuin2");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin3.class, "NTMRuin3");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin4.class, "NTMRuin4");
 	}
 	
 	/** Sandstone Ruin 1 */
@@ -90,11 +92,11 @@ public class ComponentNTMFeatures {
 			 * this.randomlyFillWithBlocks(world, box, rand, randLimit, minX, minY, minZ, maxX, maxY, maxZ, blockToPlace, blockToReplace, alwaysReplace);
 			 */
 			
-			System.out.print(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < this.featureSizeX + 1; i++) {
 				for(byte j = 0; j < this.featureSizeZ + 1; j++) {
@@ -170,11 +172,11 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.print(this.coordBaseMode);
+			//System.out.print(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < 7; i++) {
 				for(byte j = 0; j < this.featureSizeZ + 1; j++) {
@@ -321,11 +323,11 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < this.featureSizeX + 1; i++) {
 				for(byte j = 0; j < this.featureSizeZ - 1; j++) {
@@ -454,12 +456,12 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			this.boundingBox.offset(0, -7, 0);
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < featureSizeX + 1; i++) {
 				for(byte j = 0; j < featureSizeZ - 1; j++) {
@@ -630,12 +632,11 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			////System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			this.boundingBox.offset(0, -7, 0);
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 1; i < featureSizeX - 2; i++) {
 				for(byte j = 0; j < featureSizeZ + 1; j++) {
@@ -709,7 +710,7 @@ public class ComponentNTMFeatures {
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 6, featureSizeX - 1, 1, 6, Blocks.planks, 1, Blocks.air, 0, false);
 			
 			//Floor & Ceiling
-			this.fillWithBlocks(world, box, 2, 0, 2, 6, 0, featureSizeZ - 1, ModBlocks.brick_light, Blocks.air, false); //Floor
+			this.fillWithBlocks(world, box, 2, 0, 1, 6, 0, featureSizeZ - 1, ModBlocks.brick_light, Blocks.air, false); //Floor
 			this.placeBlockAtCurrentPosition(world, ModBlocks.brick_light, 0, 1, 0, 5, box);
 			this.fillWithRandomizedBlocks(world, box, 2, 4, 1, 6, 4, 3, false, rand, RandomSuperConcrete); //Ceiling
 			this.fillWithRandomizedBlocks(world, box, 2, 4, 4, 2, 4, 4, false, rand, RandomSuperConcrete);
@@ -772,11 +773,11 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < featureSizeX + 1; i++) {
 				for(byte j = 0; j < featureSizeZ + 1; j++) {
@@ -844,11 +845,11 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < featureSizeX + 1; i++) {
 				for(byte j = 0; j < featureSizeZ + 1; j++) {
@@ -907,15 +908,15 @@ public class ComponentNTMFeatures {
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			System.out.println(this.coordBaseMode);
+			//System.out.println(this.coordBaseMode);
 			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
 				return false;
 			}
-			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
 			
 			for(byte i = 0; i < featureSizeZ + 1; i++) {
 					this.func_151554_b(world, Blocks.stonebrick, 0, 0, -1, i, box);
-					this.func_151554_b(world, Blocks.stonebrick, 0, featureSizeZ, -1, i, box);
+					this.func_151554_b(world, Blocks.stonebrick, 0, featureSizeX, -1, i, box);
 			}
 			
 			for(byte i = 1; i < featureSizeX; i++) {
@@ -952,6 +953,64 @@ public class ComponentNTMFeatures {
 			return true;
 		}
 	}
+	
+	public static class NTMRuin4 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
+		
+		protected NTMRuin4(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 10, 2, 11);
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			//System.out.println(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 0; i < featureSizeZ + 1; i++) {
+				this.func_151554_b(world, Blocks.stonebrick, 0, 0, -1, i, box);
+				this.func_151554_b(world, Blocks.stonebrick, 0, i >= 5 ? featureSizeZ : 5, -1, i, box); //elegant solution
+			}
+			
+			for(byte i = 1; i < featureSizeX; i++) {
+				this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, featureSizeZ, box);
+				this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, i > 4 ? 5 : 0, box); //ternary operators my beloved
+			}
+			
+			this.fillWithBlocks(world, box, 0, 0, 0, 0, 1, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall Pt. 1
+			this.fillWithBlocks(world, box, 5, 0, 0, 5, featureSizeY, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, 0, 4, 0, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 4, 1, 0, 4, 1, 0, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, 5, 0, 5, 5, featureSizeY, 5, ModBlocks.concrete_pillar, Blocks.air, false); //Right Wall Pt. 1
+			this.fillWithRandomizedBlocks(world, box, 5, 0, 1, 5, 0, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 1, 1, 5, 1, 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 1, 4, 5, 1, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 2, 1, 5, 2, 4, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, featureSizeX, 0, 5, featureSizeX, 1, 5, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall Pt. 2
+			this.fillWithRandomizedBlocks(world, box, 6, 0, 5, featureSizeX - 1, 0, 5, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 6, 1, 5, 6, 1, 5, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 5, featureSizeX, 1, 5, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, featureSizeX, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false); //Right Wall Pt. 2
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 6, featureSizeX, 1, featureSizeZ - 3, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, 0, 0, featureSizeZ, 0, 0, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false); //Front Wall
+			this.fillWithRandomizedBlocks(world, box, 1, 0, featureSizeZ, 1, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 6, 0, featureSizeZ, 7, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 0, featureSizeZ, featureSizeX - 1, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 1, 0, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks); //Left Wall
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 1, 0, 1, 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 4, 0, 1, 7, false, rand, RandomConcreteBricks);
+			
+			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, 4, 0, 5, Blocks.gravel, Blocks.air, false);
+			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 6, featureSizeX - 1, 0, featureSizeZ - 1, Blocks.gravel, Blocks.air, false);
+			
+			return true;
+		}
+}
 	
 	abstract static class Feature extends StructureComponent {
 		/** The size of the bounding box for this feature in the X axis */
@@ -1179,9 +1238,9 @@ public class ComponentNTMFeatures {
 			
 			if(chance < 0.2F) {
 				this.field_151562_a = ModBlocks.brick_concrete;
-			} else if (chance < 0.5F) {
+			} else if (chance < 0.55F) {
 				this.field_151562_a = ModBlocks.brick_concrete_mossy;
-			} else if (chance < 0.8F) {
+			} else if (chance < 0.75F) {
 				this.field_151562_a = ModBlocks.brick_concrete_cracked;
 			} else {
 				this.field_151562_a = ModBlocks.brick_concrete_broken;

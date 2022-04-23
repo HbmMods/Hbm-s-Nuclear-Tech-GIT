@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.GeneralConfig;
+
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenMesa;
@@ -95,8 +97,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			
-			//if(rand.nextBoolean()) { //Empty Ruin Structures
-				switch(rand.nextInt(3)) {
+			if(rand.nextBoolean()) { //Empty Ruin Structures
+				switch(rand.nextInt(4)) {
 				case 0:
 					ComponentNTMFeatures.NTMRuin1 ruin1 = new ComponentNTMFeatures.NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin1);
@@ -109,12 +111,12 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMRuin3 ruin3 = new ComponentNTMFeatures.NTMRuin3(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin3);
 					break;
+				case 3:
+					ComponentNTMFeatures.NTMRuin4 ruin4 = new ComponentNTMFeatures.NTMRuin4(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(ruin4);
 				}
-				/*case 3:
-					
-				}*/
 				
-			/*} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
+			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house1);
@@ -135,7 +137,10 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMLab1 lab1 = new ComponentNTMFeatures.NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab1);
 				}
-			}*/
+			}
+			
+			if(GeneralConfig.enableDebugMode)
+				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n");
 			
 			this.updateBoundingBox();
 		}
