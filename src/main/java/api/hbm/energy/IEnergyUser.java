@@ -93,6 +93,10 @@ public interface IEnergyUser extends IEnergyConnector {
 		}
 	}
 	
+	public default void updateStandardConnections(World world, TileEntity te) {
+		updateStandardConnections(world, te.xCoord, te.yCoord, te.zCoord);
+	}
+		
 	public default void updateStandardConnections(World world, int x, int y, int z) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)

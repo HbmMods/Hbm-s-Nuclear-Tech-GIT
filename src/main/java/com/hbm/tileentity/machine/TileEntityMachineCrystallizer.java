@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
@@ -13,9 +10,11 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -101,18 +100,34 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 	
 	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	protected DirPos[] getConPos() {
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 
 		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			this.trySubscribe(worldObj, xCoord + 2, yCoord + 5, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord + 5, zCoord, Library.NEG_X);
+			
+			return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord + 5, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord + 5, zCoord, Library.NEG_X)
+			};
 		}
 
 		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z);
+			
+			return new DirPos[] {
+				new DirPos(xCoord, yCoord + 5, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z)
+			};
 		}
+		
+		return new DirPos[0];
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
@@ -359,5 +374,10 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		if(stack != null && i >= 5 && i <= 6 && stack.getItem() instanceof ItemMachineUpgrade)
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

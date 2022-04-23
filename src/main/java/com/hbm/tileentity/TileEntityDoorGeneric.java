@@ -91,7 +91,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 							if(finalPos.equals(pos)) {
 								this.shouldUseBB = false;
 							} else {
-								((BlockDummyable)getBlockType()).removeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
+								((BlockDummyable)getBlockType()).makeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
 							}
 						}
 					}

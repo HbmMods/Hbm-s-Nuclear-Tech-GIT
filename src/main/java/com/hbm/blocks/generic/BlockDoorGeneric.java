@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -74,6 +73,8 @@ public class BlockDoorGeneric extends BlockDummyable {
 		AxisAlignedBB box = getCollisionBoundingBoxFromPool(worldIn, x, y, z);
 		if(box.minY == 0 && box.maxY == 0)
 			return;
+		if(hasExtra(worldIn.getBlockMetadata(x, y, z)))
+			return;
 		super.addCollisionBoxesToList( worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
 	}
 	
@@ -107,15 +108,11 @@ public class BlockDoorGeneric extends BlockDummyable {
 		ForgeDirection dir = ForgeDirection.getOrientation(te2.getBlockMetadata() - BlockDummyable.offset);
 		AxisAlignedBB box = type.getBlockBound(x - core[0], y - core[1], z - core[2], open ); //.rotate(dir.getBlockRotation().add(Rotation.COUNTERCLOCKWISE_90)), open); TODO: add rotation
 		//System.out.println(te2.getBlockMetadata()-offset);
-		switch(te2.getBlockMetadata()-offset){
-		case 2:
-			return AxisAlignedBB.getBoundingBox(1-box.minX, box.minY, 1-box.minZ, 1-box.maxX, box.maxY, 1-box.maxZ);
-		case 4:
-			return AxisAlignedBB.getBoundingBox(1-box.minZ, box.minY, box.minX, 1-box.maxZ, box.maxY, box.maxX);
-		case 3:
-			return AxisAlignedBB.getBoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-		case 5:
-			return AxisAlignedBB.getBoundingBox(box.minZ, box.minY, 1-box.minX, box.maxZ, box.maxY, 1-box.maxX);
+		switch(te2.getBlockMetadata() - offset){
+		case 2: return AxisAlignedBB.getBoundingBox(1 - box.minX, box.minY, 1 - box.minZ, 1 - box.maxX, box.maxY, 1 - box.maxZ);
+		case 4: return AxisAlignedBB.getBoundingBox(1 - box.minZ, box.minY, box.minX, 1 - box.maxZ, box.maxY, box.maxX);
+		case 3: return AxisAlignedBB.getBoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+		case 5: return AxisAlignedBB.getBoundingBox(box.minZ, box.minY, 1 - box.minX, box.maxZ, box.maxY, 1 - box.maxX);
 		}
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}

@@ -226,7 +226,7 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
-			this.subscribeToAllAround(Fluids.WATER, worldObj, xCoord, yCoord, zCoord);
+			this.subscribeToAllAround(Fluids.WATER, this);
 		
 			//Water
 			tank.loadTank(0, 3, slots);
