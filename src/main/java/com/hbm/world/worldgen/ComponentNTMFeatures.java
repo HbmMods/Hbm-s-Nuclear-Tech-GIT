@@ -1030,8 +1030,6 @@ public class ComponentNTMFeatures {
 			this.featureSizeZ = maxZ;
 			this.coordBaseMode = rand.nextInt(4);
 			
-			//What the fuck is going on here? Why are the structures just randomly cut off?
-			//This might fix it, no fuckin clue
 			switch(this.coordBaseMode) {
 			case 0:
 				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
@@ -1041,7 +1039,6 @@ public class ComponentNTMFeatures {
 				break;
 			case 2:
 				//North (2) and East (3) will result in mirrored structures. Not an issue, but keep in mind.
-				//-1 for the maxX, maxY, and maxZ box cstors, they might be unnecessary.
 				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
 				break;
 			case 3:
@@ -1070,8 +1067,6 @@ public class ComponentNTMFeatures {
 		}
 		
 		protected boolean func_74935_a(World world, StructureBoundingBox box, int y) {
-			//System.out.println("original: " + hpos);
-			//System.out.println(y);
 			
 			int j = 0;
 			int k = 0;
@@ -1090,8 +1085,6 @@ public class ComponentNTMFeatures {
 			
 			this.hpos = j / k;
 			this.boundingBox.offset(0, this.hpos - this.boundingBox.minY, 0);
-			//System.out.println("new: " + hpos);
-			//System.out.println(y);
 			return true;
 		}
 		
