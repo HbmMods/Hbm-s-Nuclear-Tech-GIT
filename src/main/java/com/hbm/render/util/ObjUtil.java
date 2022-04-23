@@ -90,7 +90,7 @@ public class ObjUtil {
 				float brightness = 1.0F;
 				
 				if(shadow) {
-					brightness = ((float)normal.yCoord + 0.7F) * 0.9F - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
+					brightness = ((float)normal.yCoord * 0.3F + 0.7F) - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
 	
 					if(brightness < 0.45F)
 						brightness = 0.45F;
