@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
 import com.hbm.world.worldgen.ComponentNTMFeatures.LabTiles;
@@ -36,6 +37,9 @@ public class ComponentNTMFeatures {
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab1.class, "NTMLab1");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMLab2.class, "NTMLab2");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMWorkshop1.class, "NTMWorkshop1");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin1.class, "NTMRuin1");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin2.class, "NTMRuin2");
+		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin3.class, "NTMRuin3");
 	}
 	
 	/** Sandstone Ruin 1 */
@@ -124,7 +128,7 @@ public class ComponentNTMFeatures {
 			//Loot/Sand
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 1, 0, 1, box);
 			if(!this.hasPlacedChest)
-				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, HbmChestContents.modGeneric, rand.nextInt(2) + 8); //Make sure to redo that class kek
+				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, HbmChestContents.modGeneric, rand.nextInt(2) + 8);
 			this.fillWithBlocks(world, box, 5, 0, 1, 6, 0, 1, ModBlocks.crate, Blocks.air, false);
 			this.placeBlockAtCurrentPosition(world, Blocks.sand, 0, 7, 0, 1, box);
 			if(rand.nextFloat() <= 0.25)
@@ -412,10 +416,7 @@ public class ComponentNTMFeatures {
 			
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, featureSizeX - 1, 1, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[1]) {
-				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 1, 1, featureSizeZ - 1, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 1, featureSizeZ - 1), 
-						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 1, featureSizeZ - 1)), 8);
-				this.hasPlacedLoot[1] = true;
+				this.hasPlacedLoot[1] = this.generateIronCrateContents(world, box, rand, featureSizeX - 1, 1, featureSizeZ - 1, HbmChestContents.modGeneric, 8);
 			}
 			
 			return true;
@@ -586,10 +587,7 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 4, 1, featureSizeZ - 2, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 4, 2, featureSizeZ - 2, box);
 			if(!hasPlacedLoot[0]) {
-				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 5, 1, featureSizeZ - 2, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclearFuel, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(5, featureSizeZ - 2), 
-						this.getYWithOffset(1), this.getZWithOffset(5, featureSizeZ - 2)), 10);
-				this.hasPlacedLoot[0] = true;
+				this.hasPlacedLoot[0] = this.generateIronCrateContents(world, box, rand, 5, 1, featureSizeZ - 2, HbmChestContents.nuclearFuel, 10);
 			}
 			this.fillWithBlocks(world, box, 4, 1, featureSizeZ - 3, 5, 1, featureSizeZ - 3, ModBlocks.crate_lead, Blocks.air, false);
 			
@@ -599,10 +597,7 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.steel_beam, 0, featureSizeX - 2, 2, featureSizeZ - 2, box);
 			this.fillWithBlocks(world, box, featureSizeX - 4, 3, featureSizeZ - 2, featureSizeX - 2, 3, featureSizeZ - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
-				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureSizeX - 2, 1, 3, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nukeTrash, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(featureSizeX - 2, 3), 
-						this.getYWithOffset(1), this.getZWithOffset(featureSizeX - 2, 3)), 9);
-				this.hasPlacedLoot[1] = true;
+				this.hasPlacedLoot[1] = this.generateIronCrateContents(world, box, rand, featureSizeX - 2, 1, 3, HbmChestContents.nukeTrash, 9);
 			}
 			
 			return true;
@@ -654,7 +649,7 @@ public class ComponentNTMFeatures {
 				}
 			}
 			
-			this.fillWithAir(world, box, 1, 0, 0, featureSizeX - 3, featureSizeY - 1, featureSizeZ);
+			this.fillWithAir(world, box, 1, 0, 0, featureSizeX - 3, featureSizeY - 2, featureSizeZ);
 			this.fillWithAir(world, box, featureSizeX - 2, 0, 2, featureSizeX - 1, 2, 5);
 			
 			if(this.getBlockAtCurrentPosition(world, 0, 0, 5, box).getMaterial().isReplaceable() 
@@ -706,6 +701,7 @@ public class ComponentNTMFeatures {
 			pillarMetaNS = this.getMetadataForRotatablePillar(9);
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 2, 1, featureSizeX - 1, 2, 1, Blocks.log, pillarMetaWE, Blocks.air, 0, false); //Back Wall
 			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 2, 1, Blocks.log, 1, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 1, featureSizeX - 1, 1, 1, Blocks.planks, 1, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, featureSizeX, 2, 2, featureSizeX, 2, 5, Blocks.log, pillarMetaNS, Blocks.air, 0, false); //Right Wall
 			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 2, 6, Blocks.log, 1, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 3, featureSizeX, 1, 5, Blocks.planks, 1, Blocks.air, 0, false);
@@ -741,10 +737,7 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.radiorec, eastMeta, 6, 2, featureSizeZ - 1, box);
 			this.fillWithMetadataBlocks(world, box, 2, 1, featureSizeZ - 1, 3, 1, featureSizeZ - 1, ModBlocks.machine_electric_furnace_off, southMeta, Blocks.air, 0, false);
 			if(!hasPlacedLoot) {
-				this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, 4, 1, featureSizeZ - 1, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.machineParts, (TileEntityCrateIron)world.getTileEntity(this.getXWithOffset(4, featureSizeZ - 1), 
-						this.getYWithOffset(1), this.getZWithOffset(4, featureSizeZ - 1)), 11);
-				this.hasPlacedLoot = true;
+				this.hasPlacedLoot = this.generateIronCrateContents(world, box, rand, 4, 1, featureSizeZ - 1, HbmChestContents.machineParts, 11);
 			}
 			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 5, 3, 1, box);
 			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 2, 1, 2, box);
@@ -762,10 +755,202 @@ public class ComponentNTMFeatures {
 			}
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 2, featureSizeX - 2, 0, 3, Blocks.log, pillarMetaWE, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, Blocks.log, pillarMetaWE, featureSizeX - 2, 1, 2, box);
-			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, featureSizeX - 2, 1, 2, box);
+			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, featureSizeX - 2, 1, 3, box);
 			
 			return true;
 		}		
+	}
+	
+	public static class NTMRuin1 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
+		
+		protected NTMRuin1(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 8, 6, 10);
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			System.out.println(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 0; i < featureSizeX + 1; i++) {
+				for(byte j = 0; j < featureSizeZ + 1; j++) {
+					this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, j, box);
+				}
+			}
+			
+			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
+			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			
+			this.fillWithBlocks(world, box, 0, 0, 0, 0, featureSizeY, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
+			this.fillWithMetadataBlocks(world, box, 1, 3, 0, 3, 3, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
+			this.fillWithBlocks(world, box, 4, 0, 0, 4, featureSizeY - 1, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithMetadataBlocks(world, box, 5, 3, 0, featureSizeX - 1, 3, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
+			this.fillWithBlocks(world, box, featureSizeX, 0, 0, featureSizeX, featureSizeY - 1, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, 0, 3, 0, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 0, 0, featureSizeX - 1, 0, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 1, 0, 1, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 3, 1, 0, 3, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 1, 0, 5, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 1, 0, featureSizeX - 1, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 4, 0, 3, 4, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 4, 0, featureSizeX - 1, 4, 0, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, 0, 3, 1, 0, 3, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Left Wall
+			this.fillWithBlocks(world, box, 0, 0, featureSizeZ, 0, featureSizeY - 1, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 1, 0, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 1, 0, 2, 2, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 4, 0, 2, 6, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, featureSizeZ - 2, 0, 2, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 4, 1, 0, 4, 5, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 5, 1, 0, 5, 2, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 4, featureSizeZ - 2, 0, 4, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, 1, 3, featureSizeZ, 3, 3, featureSizeZ, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false); //Front Wall
+			this.fillWithBlocks(world, box, 4, 0, featureSizeZ, 4, featureSizeY - 2, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithMetadataBlocks(world, box, 5, 3, featureSizeZ, featureSizeX - 1, 3, featureSizeZ, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
+			this.fillWithBlocks(world, box, featureSizeX, 0, featureSizeZ, featureSizeX, featureSizeY - 2, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, featureSizeZ, 3, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 0, featureSizeZ, featureSizeX - 1, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 1, featureSizeZ, 1, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 3, 1, featureSizeZ, 3, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 1, featureSizeZ, 5, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 1, featureSizeZ, featureSizeX - 1, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 3, 1, featureSizeX, 3, 2, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Right Wall
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 3, featureSizeZ - 1, featureSizeX, 3, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 1, featureSizeX, 2, 2, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 0, 6, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, featureSizeZ - 2, featureSizeX, 1, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 2, featureSizeZ - 1, featureSizeX, 2, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			
+			this.randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 0, 1, featureSizeX - 1, 0, featureSizeZ - 1, Blocks.gravel, Blocks.air, false);
+			
+			return true;
+		}
+	}
+	
+	public static class NTMRuin2 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
+		
+		protected NTMRuin2(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 7, 5, 10);
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			System.out.println(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 0; i < featureSizeX + 1; i++) {
+				for(byte j = 0; j < featureSizeZ + 1; j++) {
+					this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, j, box);
+				}
+			}
+			
+			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
+			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			
+			this.fillWithBlocks(world, box, 0, 0, 0, 0, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
+			this.fillWithMetadataBlocks(world, box, 1, 3, 0, featureSizeX - 1, 3, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
+			this.fillWithBlocks(world, box, featureSizeX, 0, 0, featureSizeX, featureSizeY, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, 0, featureSizeX - 1, 0, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 1, 0, 1, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 3, 1, 0, 4, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 1, 0, featureSizeX - 1, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 3, 4, 0, featureSizeX - 1, 4, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, featureSizeY, 0, featureSizeX - 1, featureSizeY, 0, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, 0, 3, 1, 0, 3, 4, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Left Wall
+			this.fillWithBlocks(world, box, 0, 0, 5, 0, 0, 5, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithBlocks(world, box, 0, 0, featureSizeZ, 0, 2, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 1, 0, 2, 3, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, featureSizeZ - 3, 0, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, featureSizeZ - 1, 0, 1, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, featureSizeX - 1, 3, featureSizeZ, featureSizeX - 1, 3, featureSizeZ, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false); //Front Wall
+			this.fillWithBlocks(world, box, featureSizeX, 0, featureSizeZ, featureSizeX, 3, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, featureSizeZ, featureSizeX - 1, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 1, featureSizeZ, 1, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 1, featureSizeZ, featureSizeX - 1, 2, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 3, 1, featureSizeX, 3, 4, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Right Wall
+			this.fillWithBlocks(world, box, featureSizeX, 0, 5, featureSizeX, 4, 5, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithMetadataBlocks(world, box, featureSizeX, 3, featureSizeZ - 2, featureSizeX, 3, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 0, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 1, featureSizeX, 2, 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 3, featureSizeX, 2, 3, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 4, featureSizeX, 1, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 6, featureSizeX, 1, 7, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, featureSizeZ - 1, featureSizeX, 2, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			
+			this.randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 0, 1, featureSizeX - 1, 0, featureSizeZ - 1, Blocks.gravel, Blocks.air, false);
+			
+			return true;
+		}
+	}
+	
+	public static class NTMRuin3 extends ComponentNTMFeatures.Feature {
+		
+		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
+		
+		protected NTMRuin3(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 8, 3, 10);
+		}
+
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			System.out.println(this.coordBaseMode);
+			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+				return false;
+			}
+			System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
+			
+			for(byte i = 0; i < featureSizeZ + 1; i++) {
+					this.func_151554_b(world, Blocks.stonebrick, 0, 0, -1, i, box);
+					this.func_151554_b(world, Blocks.stonebrick, 0, featureSizeZ, -1, i, box);
+			}
+			
+			for(byte i = 1; i < featureSizeX; i++) {
+				this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, 0, box);
+				this.func_151554_b(world, Blocks.stonebrick, 0, i, -1, 4, box);
+			}
+			
+			this.fillWithBlocks(world, box, 0, 0, 0, 0, featureSizeY, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
+			this.fillWithBlocks(world, box, featureSizeX, 0, 0, featureSizeX, 1, 0, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, 1, 0, 0, featureSizeX - 1, 0, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 1, 0, 1, 1, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 4, 1, 0, 4, 1, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 1, 0, featureSizeX - 1, 1, 0, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 1, 2, 0, featureSizeX - 2, 2, 0, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, 0, 0, 4, 0, 1, 4, ModBlocks.concrete_pillar, Blocks.air, false); //Left Wall
+			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, 0, 0, 0, featureSizeZ, box);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 1, 0, 0, 3, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 0, 5, 0, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 5, 0, 1, 5, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 0, 1, 7, 0, 1, 7, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, featureSizeX, 0, 4, featureSizeX, 1, 4, ModBlocks.concrete_pillar, Blocks.air, false); //Right Wall
+			this.fillWithBlocks(world, box, featureSizeX, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 1, 3, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 5, featureSizeX, 0, 6, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, featureSizeZ - 1, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX - 1, 0, featureSizeZ, featureSizeX - 1, 0, featureSizeZ, false, rand, RandomConcreteBricks);
+			this.fillWithBlocks(world, box, 4, 0, 4, 4, 2, 4, ModBlocks.concrete_pillar, Blocks.air, false); //Center Wall
+			this.fillWithRandomizedBlocks(world, box, 3, 0, 4, 3, 1, 4, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, 5, 0, 4, featureSizeX - 1, 1, 4, false, rand, RandomConcreteBricks);
+			
+			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, featureSizeX - 1, 0, 3, Blocks.gravel, Blocks.air, false);
+			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 5, featureSizeX - 1, 0, featureSizeZ - 1, Blocks.gravel, Blocks.air, false);
+			
+			return true;
+		}
 	}
 	
 	abstract static class Feature extends StructureComponent {
@@ -786,11 +971,22 @@ public class ComponentNTMFeatures {
 			this.featureSizeZ = maxZ;
 			this.coordBaseMode = rand.nextInt(4);
 			
+			//What the fuck is going on here? Why are the structures just randomly cut off?
+			//This might fix it, no fuckin clue
 			switch(this.coordBaseMode) {
+			case 0:
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
+				break;
+			case 1:
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
+				break;
 			case 2:
 				//North (2) and East (3) will result in mirrored structures. Not an issue, but keep in mind.
 				//-1 for the maxX, maxY, and maxZ box cstors, they might be unnecessary.
-				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
+				break;
+			case 3:
+				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
 				break;
 			default:
 				this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
@@ -928,6 +1124,26 @@ public class ComponentNTMFeatures {
 				}
 			}
 			return 0;
+		}
+		
+		/**
+		 * it feels disgusting to make a method with this many parameters but fuck it, it's easier
+		 * @return iron crate with generated content
+		 */
+		protected boolean generateIronCrateContents(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ, WeightedRandomChestContent[] content, int amount) {
+			int posX = this.getXWithOffset(featureX, featureZ);
+			int posY = this.getYWithOffset(featureY);
+			int posZ = this.getZWithOffset(featureX, featureZ);
+			
+			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 0, featureX, featureY, featureZ, box);
+			TileEntityCrateIron crate = (TileEntityCrateIron)world.getTileEntity(posX, posY, posZ);
+			
+			if(crate != null) {
+				WeightedRandomChestContent.generateChestContents(rand, content, crate, posZ);
+				return true;
+			}
+			
+			return false;
 		}
 	}
 	

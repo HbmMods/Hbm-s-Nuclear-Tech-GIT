@@ -146,7 +146,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
 	
-	//Expand to make it not seem as weird and limited
 	public static WeightedRandomChestContent[] nuclearFuel = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.billet_uranium, 0, 1, 4, 4),
 			new WeightedRandomChestContent(ModItems.billet_pu_mix, 0, 1, 2, 4),
@@ -157,9 +156,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.billet_thorium_fuel, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.billet_ra226be, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.billet_beryllium, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.nugget_u233, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.nugget_u233, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.rod_zirnox_empty, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.ingot_graphite, 0, 1, 4, 3),
 			new WeightedRandomChestContent(ModItems.pile_rod_uranium, 0, 2, 5, 3),

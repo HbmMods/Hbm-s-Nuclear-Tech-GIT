@@ -95,7 +95,26 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			
-			/*if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
+			//if(rand.nextBoolean()) { //Empty Ruin Structures
+				switch(rand.nextInt(3)) {
+				case 0:
+					ComponentNTMFeatures.NTMRuin1 ruin1 = new ComponentNTMFeatures.NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(ruin1);
+					break;
+				case 1:
+					ComponentNTMFeatures.NTMRuin2 ruin2 = new ComponentNTMFeatures.NTMRuin2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(ruin2);
+					break;
+				case 2:
+					ComponentNTMFeatures.NTMRuin3 ruin3 = new ComponentNTMFeatures.NTMRuin3(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(ruin3);
+					break;
+				}
+				/*case 3:
+					
+				}*/
+				
+			/*} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house1);
@@ -103,11 +122,11 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMHouse2 house2 = new ComponentNTMFeatures.NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house2);
 				}
-			} else if(biome.temperature >= 0.2 && biome.temperature <= 0.4 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9) { //Taiga & Mega Taiga
-				if(rand.nextBoolean()) {*/
+			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9) { //Taiga & Mega Taiga
+				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMWorkshop1 workshop1 = new ComponentNTMFeatures.NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
-				/*}
+				}
 			} else { //Everything else
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
