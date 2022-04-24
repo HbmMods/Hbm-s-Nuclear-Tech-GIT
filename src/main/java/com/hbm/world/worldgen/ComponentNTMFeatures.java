@@ -1191,7 +1191,7 @@ public class ComponentNTMFeatures {
 			TileEntityCrateIron crate = (TileEntityCrateIron)world.getTileEntity(posX, posY, posZ);
 			
 			if(crate != null) {
-				WeightedRandomChestContent.generateChestContents(rand, content, crate, posZ);
+				WeightedRandomChestContent.generateChestContents(rand, content, crate, amount);
 				return true;
 			}
 			
