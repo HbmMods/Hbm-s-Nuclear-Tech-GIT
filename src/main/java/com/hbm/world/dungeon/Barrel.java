@@ -159,7 +159,7 @@ public class Barrel extends WorldGenerator {
 
 		if(world.getBlock(x + 2, y + 1, z + 2) == ModBlocks.crate_steel)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)world.getTileEntity(x + 2, y + 1, z + 2), 16);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityCrateSteel)world.getTileEntity(x + 2, y + 1, z + 2), 16);
 		}
 		
 		world.setBlock(x + 3, y + 1, z + 2, Block4, 0, 3);

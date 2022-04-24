@@ -92,6 +92,12 @@ public class ItemRBMKRod extends Item {
 		this.depFunc = func;
 		return this;
 	}
+	
+	public ItemRBMKRod setXenon(double gen, double burn) {
+		this.xGen = gen;
+		this.xBurn = burn;
+		return this;
+	}
 
 	public ItemRBMKRod setHeat(double heat) {
 		this.heat = heat;

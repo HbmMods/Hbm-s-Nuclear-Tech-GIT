@@ -440,7 +440,7 @@ public class DesertAtom003
 		world.setBlock(x + 36, y + 4, z + 9, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 36, y + 4, z + 9) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(5), (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclear, (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
 		}
         world.setBlock(x + 37, y + 4, z + 9, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 40, y + 4, z + 9, Block5, 0, 3);
