@@ -142,6 +142,12 @@ achievement.watz.desc=Поля Фолквангра также присутст�
 achievement.watz=Сила Е-126
 achievement.ZIRNOXBoom.desc=cope, seethe, mald
 achievement.ZIRNOXBoom=ЦИРНОКС
+achievement.slimeball.desc=
+achievement.slimeball=я должен окунуть свои яйца в серную кислоту.
+achievement.sulfuric.desc=
+achievement.sulfuric=я не должен был окунать свои яйца в серную кислоту.
+achievement.witchtaunter.desc=Эти твари ничего тебе не сделают!
+achievement.witchtaunter=Насмехайтесь над ведьмами
 
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
@@ -154,6 +160,7 @@ potion.hbm_telekinesis=! ! !
 potion.hbm_phosphorus=Фосфорные ожоги
 potion.hbm_stability=Стабильность
 potion.hbm_potionsickness=Послезельевая болезнь
+potion.hbm_death=Серьёзная мутация
 
 tool.ability.recursion=Жилковый Майнер
 tool.ability.hammer=Зона действия
@@ -1047,6 +1054,7 @@ chem.RUBBER=Производство резины
 chem.TNT=Синтез ТНТ
 chem.DYNAMITE=Синтез динамита
 chem.ARSENIC=Экстракция мышьяка
+chem.SULFURIC_ACID=Производство серной кислоты
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -1426,6 +1434,7 @@ tile.sand_gold198.name=Песок из золота-198
 tile.sand_quartz.name=Кварцевый песок
 tile.sand_boron_layer.name=Слой борного песка
 tile.machine_press.name=Пресс
+tile.press_preheater.name=Внешний нагреватель пресса
 container.press=Пресс
 tile.machine_epress.name=Электрический пресс
 container.epress=Электрический пресс
@@ -1556,6 +1565,7 @@ container.barrel=Бочка
 tile.broadcaster_pc.name=Повреждённый передатчик
 
 tile.tesla.name=Катушка Теслы
+tile.charger.name=Станция зарядки
 tile.radiobox.name=Коробка управления вредителями Розенберга
 tile.radiorec.name=Сломанное FM радио
 container.radiobox=FM передатчик
@@ -1619,6 +1629,8 @@ container.rbmkStorage=Колонна-хранилище РБМК
 container.rbmkHeater=Жидкостный нагреватель РБМК
 tile.rbmk_storage.name=Колонна-хранилище РБМК
 tile.rbmk_cooler.name=Охладитель РБМК
+tile.rbmk_heater.name=Жидкостный нагреватель РБМК
+tile.rbmk_heatex.name=Теплообменник РБМК
 tile.block_graphite_drilled.name=Просверленный графит
 tile.block_graphite_fuel.name=Топливо поленницы
 tile.block_graphite_plutonium.name=Куча топлива (Переработанное)
@@ -2305,6 +2317,8 @@ tile.plant_flower.foxglove.name=Наперстянка
 tile.plant_flower.nightshade.name=Белладонна
 tile.plant_flower.tobacco.name=Табак
 tile.plant_flower.weed.name=Конопля
+item.plant_item.rope.name=Верёвка
+item.plant_item.tobacco.name=Табак
 
 tile.stone_cracked.name=Треснутый камень
 tile.reinforced_brick.name=Усиленный камень
@@ -2419,7 +2433,7 @@ tile.ladder_titanium.name=Титановая лестница
 tile.ladder_tungsten.name=Вольфрамовая лестница
 tile.volcano_core.name=Вулканическое ядро
 tile.concrete_super.name=Убер-бетон
-tile.concrete_super_broken.name=Замшелый бетонные обломки
+tile.concrete_super_broken.name=Замшелые бетонные обломки
 
 tile.gravel_obsidian.name=Измельченный обсидиан
 tile.gravel_diamond.name=Измельченные алмазы
@@ -2447,6 +2461,7 @@ tile.seal_hatch.name=Люк пусковой щахты
 
 tile.vault_door.name=Дверь убежища Vault-Tec
 tile.blast_door.name=Раздвижные двери
+tile.transition_seal.name=Переходной люк
 
 item.door_metal.name=Металлическая дверь
 item.door_office.name=Офисная дверь
@@ -2642,6 +2657,7 @@ item.upgrade_crystallizer.name=Улучшение "Кристаллизатор"
 item.upgrade_nullifier.name=Улучшение "Уничтожитель мусора"
 item.upgrade_screm.name=Улучшение "Кричащий учёный"
 item.upgrade_gc_speed.name=Улучшение "Разгон газовой центрифуги"
+item.upgrade_5g.name=Улучшение "5G излучение"
 
 item.fusion_core.name=Ядерный блок
 item.energy_core.name=Импровизированный энергоблок
