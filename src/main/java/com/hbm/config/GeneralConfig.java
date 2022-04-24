@@ -24,6 +24,7 @@ public class GeneralConfig {
 	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
 	public static boolean enableCustomDashKeybind = false;
+	public static int hintPos = 0;
 
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -70,6 +71,8 @@ public class GeneralConfig {
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false).getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true).getBoolean(true);
 		enableCustomDashKeybind = config.get(CATEGORY_GENERAL, "1.26_enableCustomDashKeybind", false).getBoolean(false);
+		
+		hintPos = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.27_hudOverlayPosition", "0: Top left\n1: Top right\n2: Center right\n3: Center Left", 0);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 

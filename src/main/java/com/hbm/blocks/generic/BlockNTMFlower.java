@@ -98,10 +98,5 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IToolt
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		
-		if(stack.getItemDamage() == 3) {
-			list.add("haha get it? it's funny because drugs");
-		}
-	}
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }
 }

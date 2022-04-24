@@ -5,13 +5,10 @@ import java.util.Random;
 import com.hbm.config.GeneralConfig;
 
 import cpw.mods.fml.common.IWorldGenerator;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraftforge.event.terraingen.ChunkProviderEvent.ReplaceBiomeBlocks;
 import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class NTMWorldGenerator implements IWorldGenerator {
@@ -35,10 +32,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}
 	}
 
-	private void generateNether(World world, Random rand, IChunkProvider chunkGenerator, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-		
-	}
+	private void generateNether(World world, Random rand, IChunkProvider chunkGenerator, int chunkX, int chunkZ) { }
 	
 	private void generateSurface(World world, Random rand, IChunkProvider chunkGenerator, int chunkX, int chunkZ) {
 		Block[] ablock = new Block[65536];
@@ -55,12 +49,5 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}
 	}
 
-	private void generateEnd(World world, Random rand, IChunkProvider chunkGenerator, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
+	private void generateEnd(World world, Random rand, IChunkProvider chunkGenerator, int chunkX, int chunkZ) { }
 }

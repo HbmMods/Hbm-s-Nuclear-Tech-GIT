@@ -178,7 +178,7 @@ public class ModEventHandler {
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
-				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK), (EntityPlayerMP) event.player);
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 		}
 	}
 	
@@ -1285,6 +1285,8 @@ public class ModEventHandler {
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
 		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_jizz)
 			event.player.triggerAchievement(MainRegistry.achC20_5);
+		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
+			event.player.triggerAchievement(MainRegistry.achSlimeball);
 	}
 	
 	@SubscribeEvent
@@ -1309,11 +1311,6 @@ public class ModEventHandler {
 				if(event.world.rand.nextInt(2) == 0 && event.world.getBlock(x, y, z) == Blocks.air)
 					event.world.setBlock(x, y, z, ModBlocks.gas_coal);
 			}
-		}
-		
-		if(event.block == ModBlocks.pink_log && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achImpossible)) {
-			event.getPlayer().triggerAchievement(MainRegistry.achImpossible);
-			event.setExpToDrop(3000);
 		}
 	}
 	

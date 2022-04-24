@@ -224,6 +224,7 @@ public class ArmorUtil {
 			"rubber",
 			"hev",
 			"ajr",
+			"rpa",
 			"spacesuit"
 	};
 	
