@@ -973,7 +973,7 @@ public class ComponentNTMFeatures {
 			
 			for(byte i = 0; i < featureSizeZ + 1; i++) {
 				this.func_151554_b(world, Blocks.stonebrick, 0, 0, -1, i, box);
-				this.func_151554_b(world, Blocks.stonebrick, 0, i >= 5 ? featureSizeZ : 5, -1, i, box); //elegant solution
+				this.func_151554_b(world, Blocks.stonebrick, 0, i >= 5 ? featureSizeX : 5, -1, i, box); //elegant solution
 			}
 			
 			for(byte i = 1; i < featureSizeX; i++) {
@@ -993,7 +993,7 @@ public class ComponentNTMFeatures {
 			this.fillWithBlocks(world, box, featureSizeX, 0, 5, featureSizeX, 1, 5, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall Pt. 2
 			this.fillWithRandomizedBlocks(world, box, 6, 0, 5, featureSizeX - 1, 0, 5, false, rand, RandomConcreteBricks);
 			this.fillWithRandomizedBlocks(world, box, 6, 1, 5, 6, 1, 5, false, rand, RandomConcreteBricks);
-			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 5, featureSizeX, 1, 5, false, rand, RandomConcreteBricks);
+			this.fillWithRandomizedBlocks(world, box, featureSizeX + 1, 1, 5, featureSizeX + 1, 1, 5, false, rand, RandomConcreteBricks);
 			this.fillWithBlocks(world, box, featureSizeX, 0, featureSizeZ, featureSizeX, 1, featureSizeZ, ModBlocks.concrete_pillar, Blocks.air, false); //Right Wall Pt. 2
 			this.fillWithRandomizedBlocks(world, box, featureSizeX, 0, 6, featureSizeX, 0, featureSizeZ - 1, false, rand, RandomConcreteBricks);
 			this.fillWithRandomizedBlocks(world, box, featureSizeX, 1, 6, featureSizeX, 1, featureSizeZ - 3, false, rand, RandomConcreteBricks);
