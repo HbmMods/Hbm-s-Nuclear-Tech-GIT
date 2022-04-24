@@ -134,9 +134,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		
 		if(result == null) {
 			this.state = HadronRecipes.returnCode;
+			this.setStats(this.state, p.momentum, false);
 			this.delay = delayNoResult;
 			worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 0.5F);
-			this.setStats(this.state, p.momentum, false);
 			return;
 		}
 		
@@ -327,7 +327,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.posY = posY;
 			this.posZ = posZ;
 			
-			this.charge = 0;
+			this.charge = 750;
 			this.momentum = 0;
 		}
 		
@@ -345,7 +345,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 			TileEntityHadron.this.state = reason;
 			TileEntityHadron.this.delay = delayError;
-			TileEntityHadron.this.setExpireStats(reason, this.charge, posX, posY, posZ);
+			TileEntityHadron.this.setExpireStats(reason, this.momentum, posX, posY, posZ);
 		}
 		
 		public boolean isExpired() {

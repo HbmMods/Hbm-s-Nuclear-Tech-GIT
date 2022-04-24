@@ -125,20 +125,20 @@ public class HadronRecipes {
 	 */
 	public static ItemStack[] getOutput(ItemStack in1, ItemStack in2, int momentum, boolean analysisOnly) {
 		
+		returnCode = EnumHadronState.NORESULT_WRONG_INGREDIENT;
+		
 		for(HadronRecipe r : recipes) {
 			
 			if((r.in1.isApplicable(in1) && r.in2.isApplicable(in2)) ||
 					(r.in1.isApplicable(in2) && r.in2.isApplicable(in1))) {
 
-				if(analysisOnly != r.analysisOnly)	returnCode = EnumHadronState.NORESULT_WRONG_MODE;
+				if(analysisOnly && !r.analysisOnly)	returnCode = EnumHadronState.NORESULT_WRONG_MODE;
 				if(momentum < r.momentum)			returnCode = EnumHadronState.NORESULT_TOO_SLOW;
 				
 				if(momentum >= r.momentum && analysisOnly == r.analysisOnly)
 					return new ItemStack[] {r.out1, r.out2};
 			}
 		}
-		
-		returnCode = EnumHadronState.NORESULT_WRONG_INGREDIENT;
 		return null;
 	}
 	
