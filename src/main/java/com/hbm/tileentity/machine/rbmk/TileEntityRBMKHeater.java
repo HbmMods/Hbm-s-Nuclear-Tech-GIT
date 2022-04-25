@@ -48,12 +48,13 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			
 			if(heatProvided > 0) {
 				
-				int converted = (int)Math.floor(heatProvided / RBMKDials.getBoilerHeatConsumption(worldObj));
+				double capacity = feed.getTankType().heatCap;
+				int converted = (int)Math.floor(heatProvided / capacity);
 				converted = Math.min(converted, feed.getFill());
 				converted = Math.min(converted, steam.getMaxFill() - steam.getFill());
 				feed.setFill(feed.getFill() - converted);
 				steam.setFill(steam.getFill() + converted);
-				this.heat -= converted * RBMKDials.getBoilerHeatConsumption(worldObj);
+				this.heat -= converted * capacity;
 			}
 			
 			fillFluidInit(steam.getTankType());

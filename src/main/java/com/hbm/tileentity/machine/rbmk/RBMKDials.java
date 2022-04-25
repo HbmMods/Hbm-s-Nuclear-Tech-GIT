@@ -109,7 +109,7 @@ public class RBMKDials {
 	}
 	
 	/**
-	 * How many heat units are consumed per steam unit (scaled per type) produced.
+	 * How many heat units are consumed per mB water used.
 	 * @param world
 	 * @return >0
 	 */
