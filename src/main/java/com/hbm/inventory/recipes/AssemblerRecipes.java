@@ -973,6 +973,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.tank_steel, 3)
 			}, 200);
 		
+		makeRecipe(new ComparableStack(ModBlocks.transition_seal, 1), new AStack[]{
+				new ComparableStack(ModBlocks.cmb_brick_reinforced, 16),
+				new OreDictStack(STEEL.plate(), 64),
+				new OreDictStack(ALLOY.plate(), 40),
+				new ComparableStack(ModItems.plate_polymer, 36),
+				new OreDictStack(STEEL.block(), 24),
+				new ComparableStack(ModItems.motor_desh, 16),
+				new ComparableStack(ModItems.bolt_dura_steel, 12),
+				new OreDictStack(KEY_YELLOW, 4)
+			}, 5000);
+		
 		if(Loader.isModLoaded("Mekanism")) {
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");

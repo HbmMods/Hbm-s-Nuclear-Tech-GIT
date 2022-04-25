@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
+
+import com.hbm.config.GeneralConfig;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -72,7 +72,7 @@ public class RenderInfoSystem {
 				longest = length;
 		}
 		
-		int mode = 0;
+		int mode = GeneralConfig.hintPos;
 		
 		int pX = mode == 0 ? 15 : mode == 1 ? (resolution.getScaledWidth() - longest - 15) : mode == 2 ? (resolution.getScaledWidth() / 2 + 7) : (resolution.getScaledWidth() / 2 - longest - 6);
 		int pZ = mode == 0 ? 15 : mode == 1 ? 15 : resolution.getScaledHeight() / 2 + 7;

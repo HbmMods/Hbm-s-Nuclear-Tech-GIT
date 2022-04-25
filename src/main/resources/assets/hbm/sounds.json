@@ -39,6 +39,8 @@
     "block.chungusLever": {"category": "block", "sounds": [{"name": "block/chungusLever", "stream": false}]},
     "block.bobble": {"category": "block", "sounds": [{"name": "block/bobble", "stream": false}]},
     
+    "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
+    
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
     "item.geiger1": {"category": "player", "sounds": [{"name": "tool/geiger1", "stream": false}]},

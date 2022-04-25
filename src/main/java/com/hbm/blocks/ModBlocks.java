@@ -544,7 +544,7 @@ public class ModBlocks {
 
 	public static Block vault_door;
 	public static Block blast_door;
-	public static Block transision_seal;
+	public static Block transition_seal;
 
 	public static Block door_metal;
 	public static Block door_office;
@@ -1999,7 +1999,7 @@ public class ModBlocks {
 		
 		vault_door = new VaultDoor(Material.iron).setBlockName("vault_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vault_door");
 		blast_door = new BlastDoor(Material.iron).setBlockName("blast_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":blast_door");
-		transision_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transission_seal").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transission_seal");
+		transition_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transition_seal").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transition_seal");
 
 		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
@@ -2881,7 +2881,7 @@ public class ModBlocks {
 		//Vault Door
 		GameRegistry.registerBlock(vault_door, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(blast_door, blast_door.getUnlocalizedName());
-		GameRegistry.registerBlock(transision_seal, transision_seal.getUnlocalizedName());
+		GameRegistry.registerBlock(transition_seal, transition_seal.getUnlocalizedName());
 		
 		//Doors
 		GameRegistry.registerBlock(door_metal, door_metal.getUnlocalizedName());

@@ -10,7 +10,6 @@ import com.hbm.config.GeneralConfig;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenMesa;
-import net.minecraft.world.gen.structure.ComponentScatteredFeaturePieces;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureStart;
 

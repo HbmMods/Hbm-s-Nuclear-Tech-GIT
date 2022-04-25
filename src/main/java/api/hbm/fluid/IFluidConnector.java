@@ -80,5 +80,5 @@ public interface IFluidConnector {
 		}
 	}
 	
-	public static final boolean particleDebug = true;
+	public static final boolean particleDebug = false;
 }

@@ -71,6 +71,8 @@ public class AnvilCraftPacket implements IMessage {
 						p.triggerAchievement(MainRegistry.achAssembly);
 					if(recipe.output.get(0).stack.getItem() == ModItems.billet_pu_mix)
 						p.triggerAchievement(MainRegistry.achChicagoPile);
+					if(recipe.output.get(0).stack.getItem() == ModItems.ammo_4gauge_vampire)
+						p.triggerAchievement(MainRegistry.achWitchtaunter);
 					
 				} else {
 					break;

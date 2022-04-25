@@ -6,13 +6,9 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.lib.HbmChestContents;
-import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
-import com.hbm.world.worldgen.ComponentNTMFeatures.LabTiles;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSandStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;

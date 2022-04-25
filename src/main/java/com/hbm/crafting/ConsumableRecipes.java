@@ -3,6 +3,7 @@ package com.hbm.crafting;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import com.hbm.main.CraftingManager;
 
@@ -116,7 +117,7 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.radx, 1), new Object[] { COAL.dust(), COAL.dust(), F.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.fmn, 1), new Object[] { COAL.dust(), PO210.dust(), ST.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.five_htp, 1), new Object[] { COAL.dust(), EUPH.dust(), ModItems.canteen_fab });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cigarette, 16), new Object[] { ASBESTOS.ingot(), ANY_TAR.any(), PO210.nugget() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cigarette, 16), new Object[] { ASBESTOS.ingot(), ANY_TAR.any(), PO210.nugget(), DictFrame.fromOne(ModItems.plant_item, ItemEnums.EnumPlantType.TOBACCO) });
 		
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleMedicineRecipes) {
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.siox, 8), new Object[] { COAL.dust(), ASBESTOS.dust(), GOLD.nugget() });

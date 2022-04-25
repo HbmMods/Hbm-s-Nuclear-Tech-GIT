@@ -40,7 +40,7 @@ public class ItemRenderWeaponFFNightmare implements IItemRenderer {
 		
 		case EQUIPPED_FIRST_PERSON:
 			
-			double s0 = 1.0D;
+			double s0 = 0.2D;
 			GL11.glTranslated(0.75, 0.55, 0);
 			GL11.glScaled(s0, s0, s0);
 			GL11.glRotated(100, 0, -1, 0);
@@ -50,18 +50,18 @@ public class ItemRenderWeaponFFNightmare implements IItemRenderer {
 			
 		case EQUIPPED:
 
-			double scale = 1.0D;
+			double scale = 0.2D;
 			GL11.glRotated(195, 0, 1, 0);
 			GL11.glRotated(-10, 0, 0, 1);
 			GL11.glRotated(-10, 1, 0, 0);
-			GL11.glTranslated(-0.5, 0.1, -0.25);
+			GL11.glTranslated(-0.5, 0.3, -0.25);
 			GL11.glScaled(scale, scale, scale);
 			
 			break;
 			
 		case ENTITY:
 
-			double s1 = 0.75D;
+			double s1 = 0.15D;
 			GL11.glScaled(s1, s1, s1);
 			GL11.glRotated(90, 0, 1, 0);
 			
@@ -71,7 +71,7 @@ public class ItemRenderWeaponFFNightmare implements IItemRenderer {
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
-			double s = 9D;
+			double s = 1.75D;
 			GL11.glTranslated(10, 9, 0);
 			GL11.glRotated(-135, 0, 0, 1);
 			GL11.glRotated(90, 0, 1, 0);
@@ -82,18 +82,15 @@ public class ItemRenderWeaponFFNightmare implements IItemRenderer {
 		default: break;
 		}
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_dark);
-		ResourceManager.ff_nightmare.renderPart("Grip");
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_normal);
-		ResourceManager.ff_nightmare.renderPart("Dark");
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_bright);
-		ResourceManager.ff_nightmare.renderPart("Light");
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_gun_dark);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_nightmare_orig_tex);
+		ResourceManager.ff_nightmare.renderPart("Gun");
 		
 		int ammo = ItemGunBase.getMag(item);
 		for(int i = 0; i < ammo; i++) {
 			ResourceManager.ff_nightmare.renderPart("Bullet" + (i + 1));
 		}
+		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
 	}

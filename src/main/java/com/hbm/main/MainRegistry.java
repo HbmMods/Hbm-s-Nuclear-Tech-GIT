@@ -174,6 +174,9 @@ public class MainRegistry {
 	public static Achievement achStratum;
 	public static Achievement achOmega12;
 	public static Achievement achSomeWounds;
+	public static Achievement achSlimeball;
+	public static Achievement achSulfuric;
+	public static Achievement achWitchtaunter;
 	public static Achievement bobHidden;
 	public static Achievement horizonsStart;
 	public static Achievement horizonsEnd;
@@ -798,6 +801,10 @@ public class MainRegistry {
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
 
+		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge_vampire, null).initIndependentStat().setSpecial().registerStat();
+		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, Items.slime_ball, null).initIndependentStat().registerStat();
+		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, ModItems.bucket_sulfuric_acid, achSlimeball).initIndependentStat().setSpecial().registerStat();
+
 		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
 
 		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
@@ -872,6 +879,9 @@ public class MainRegistry {
 				horizonsBonus,
 				achRadPoison,
 				achRadDeath,
+				achWitchtaunter,
+				achSlimeball,
+				achSulfuric,
 				bossCreeper,
 				bossMeltdown,
 				bossMaskman,

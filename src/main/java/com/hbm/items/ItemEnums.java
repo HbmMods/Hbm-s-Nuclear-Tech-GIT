@@ -25,4 +25,9 @@ public class ItemEnums {
 		TIER2,
 		TIER3
 	}
+
+	public static enum EnumPlantType {
+		TOBACCO,
+		ROPE
+	}
 }

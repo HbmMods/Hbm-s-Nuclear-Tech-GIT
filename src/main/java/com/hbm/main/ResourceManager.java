@@ -664,6 +664,7 @@ public class ResourceManager {
 	public static final IModelCustom armor_mod_tesla = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/mod_tesla.obj"));
 	public static final IModelCustom armor_wings = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/murk.obj"));
 	public static final IModelCustom armor_solstice = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/solstice.obj"));
+	public static final IModelCustom player_manly_af = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/armor/player_fem.obj"));
 	
 	////Texture Items
 
@@ -733,6 +734,7 @@ public class ResourceManager {
 	public static final ResourceLocation ff_wood_red = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/wood_red.png");
 	public static final ResourceLocation ff_cursed = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/cursed.png");
 	public static final ResourceLocation ff_nightmare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/nightmare.png");
+	public static final ResourceLocation ff_nightmare_orig_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/nightmare_orig.png");
 
 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");
@@ -790,6 +792,8 @@ public class ResourceManager {
 
 	public static final ResourceLocation hat = new ResourceLocation(RefStrings.MODID, "textures/armor/hat.png");
 	public static final ResourceLocation goggles = new ResourceLocation(RefStrings.MODID, "textures/armor/goggles.png");
+	
+	public static final ResourceLocation player_manly_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/player_fem.png"); 
 	
 	
 	

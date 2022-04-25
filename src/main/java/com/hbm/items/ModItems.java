@@ -9,7 +9,7 @@ import com.hbm.handler.WeaponAbility;
 import com.hbm.handler.guncfg.*;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ItemEnums.EnumLegendaryType;
+import com.hbm.items.ItemEnums.*;
 import com.hbm.items.armor.*;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
@@ -502,6 +502,7 @@ public class ModItems {
 	public static Item biomass;
 	public static Item biomass_compressed;
 	public static Item bio_wafer;
+	public static Item plant_item;
 	
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
@@ -1941,6 +1942,7 @@ public class ModItems {
 	public static Item upgrade_nullifier;
 	public static Item upgrade_screm;
 	public static Item upgrade_gc_speed;
+	public static Item upgrade_5g;
 
 	public static Item ingot_euphemium;
 	public static Item nugget_euphemium;
@@ -2757,12 +2759,12 @@ public class ModItems {
 		plate_armor_fau = new Item().setUnlocalizedName("plate_armor_fau").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_fau");
 		plate_armor_dnt = new Item().setUnlocalizedName("plate_armor_dnt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_dnt");
 
-		oil_tar = new ItemEnumMulti(ItemEnums.EnumTarType.class, true, true).setUnlocalizedName("oil_tar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":oil_tar");
+		oil_tar = new ItemEnumMulti(EnumTarType.class, true, true).setUnlocalizedName("oil_tar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":oil_tar");
 		solid_fuel = new Item().setUnlocalizedName("solid_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel");
 		solid_fuel_presto = new Item().setUnlocalizedName("solid_fuel_presto").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel_presto");
 		solid_fuel_presto_triplet = new Item().setUnlocalizedName("solid_fuel_presto_triplet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel_presto_triplet");
 		rocket_fuel = new Item().setUnlocalizedName("rocket_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rocket_fuel");
-		coke = new ItemEnumMulti(ItemEnums.EnumCokeType.class, true, true).setUnlocalizedName("coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coke");
+		coke = new ItemEnumMulti(EnumCokeType.class, true, true).setUnlocalizedName("coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coke");
 		lignite = new Item().setUnlocalizedName("lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":lignite");
 		briquette_lignite = new Item().setUnlocalizedName("briquette_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":briquette_lignite");
 		powder_lignite = new Item().setUnlocalizedName("powder_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lignite");
@@ -2987,6 +2989,7 @@ public class ModItems {
 		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass");
 		biomass_compressed = new Item().setUnlocalizedName("biomass_compressed").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass_compressed");
 		bio_wafer = new ItemLemon(4, 2F, false).setUnlocalizedName("bio_wafer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bio_wafer");
+		plant_item = new ItemEnumMulti(EnumPlantType.class, true, true).setUnlocalizedName("plant_item").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plant_item");
 
 		coil_copper = new Item().setUnlocalizedName("coil_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_copper");
 		coil_copper_torus = new Item().setUnlocalizedName("coil_copper_torus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_copper_torus");
@@ -4650,6 +4653,7 @@ public class ModItems {
 		upgrade_nullifier = new ItemMachineUpgrade().setUnlocalizedName("upgrade_nullifier").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_nullifier");
 		upgrade_screm = new ItemMachineUpgrade().setUnlocalizedName("upgrade_screm").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_screm");
 		upgrade_gc_speed = new ItemMachineUpgrade().setUnlocalizedName("upgrade_gc_speed").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_gc_speed");
+		upgrade_5g = new ItemMachineUpgrade().setUnlocalizedName("upgrade_5g").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_5g");
 		
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
@@ -6144,6 +6148,9 @@ public class ModItems {
 		GameRegistry.registerItem(deuterium_filter, deuterium_filter.getUnlocalizedName());
 		GameRegistry.registerItem(parts_legendary, parts_legendary.getUnlocalizedName());
 		
+		//Plant Products
+		GameRegistry.registerItem(plant_item, plant_item.getUnlocalizedName());
+		
 		//Teleporter Parts
 		GameRegistry.registerItem(telepad, telepad.getUnlocalizedName());
 		GameRegistry.registerItem(entanglement_kit, entanglement_kit.getUnlocalizedName());
@@ -6573,6 +6580,7 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_nullifier, upgrade_nullifier.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_screm, upgrade_screm.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_gc_speed, upgrade_gc_speed.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_5g, upgrade_5g.getUnlocalizedName());
 		
 		//Machine Templates
 		GameRegistry.registerItem(siren_track, siren_track.getUnlocalizedName());

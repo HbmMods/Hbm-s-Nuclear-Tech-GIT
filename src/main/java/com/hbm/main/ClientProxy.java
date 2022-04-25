@@ -73,6 +73,7 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
+import com.hbm.sound.AudioWrapperClientStartStop;
 import com.hbm.sound.nt.ISoundSourceTE;
 import com.hbm.sound.nt.SoundWrapper;
 import com.hbm.sound.nt.SoundWrapperClient;
@@ -1613,6 +1614,13 @@ public class ClientProxy extends ServerProxy {
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) {
 		
 		AudioWrapperClient audio = new AudioWrapperClient(new ResourceLocation(sound));
+		audio.updatePosition(x, y, z);
+		return audio;
+	}
+	
+	@Override
+	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
+		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume);
 		audio.updatePosition(x, y, z);
 		return audio;
 	}

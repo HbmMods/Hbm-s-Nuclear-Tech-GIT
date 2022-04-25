@@ -6,12 +6,15 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 
 public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
@@ -68,7 +71,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 
 	@Override
 	public long getConsumption() {
-		return 10000 - this.blueLevel * 300;
+		return _5g ? 10 : 10000 - this.blueLevel * 300;
 	}
 
 	@Override
@@ -107,6 +110,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 				this.blueLevel = 0;
 				this.blackLevel = 0;
 				this.pinkLevel = 0;
+				this._5g = false;
 				
 				for(int i = 1; i < 10; i++) {
 					if(slots[i] != null) {
@@ -127,6 +131,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 						if(item == ModItems.upgrade_overdrive_1) blackLevel += 1;
 						if(item == ModItems.upgrade_overdrive_2) blackLevel += 2;
 						if(item == ModItems.upgrade_overdrive_3) blackLevel += 3;
+						if(item == ModItems.upgrade_5g) _5g = true;;
 					}
 				}
 			}
@@ -142,6 +147,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 	int blueLevel;
 	int blackLevel;
 	int pinkLevel;
+	boolean _5g;
 	
 	int checkDelay;
 
@@ -152,7 +158,12 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		
 		if(this.target != null && this.getPower() >= demand) {
 
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.microwave, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
+			if(_5g && target instanceof EntityPlayer) {
+				EntityPlayer living = (EntityPlayer) target;
+				living.addPotionEffect(new PotionEffect(HbmPotion.death.id, 30 * 60 * 20, 0, true));
+			} else {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.microwave, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
+			}
 			
 			if(pinkLevel > 0)
 				this.target.setFire(this.pinkLevel * 3);
