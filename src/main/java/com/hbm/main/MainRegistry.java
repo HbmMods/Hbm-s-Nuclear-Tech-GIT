@@ -30,6 +30,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -226,13 +227,9 @@ public class MainRegistry {
 	
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
-
-	public static int x;
-	public static int y;
-	public static int z;
-	public static long time;
 	
 	public static long startupTime = 0;
+	public static File configDir;
 
 	Random rand = new Random();
 
@@ -240,6 +237,7 @@ public class MainRegistry {
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
 		
 		startupTime = System.currentTimeMillis();
+		configDir = PreEvent.getModConfigurationDirectory();
 		
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 

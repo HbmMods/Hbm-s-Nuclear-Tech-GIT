@@ -262,14 +262,21 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
+	/** Any post oil polymer like teflon ("polymer") or bakelite */
 	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
+	/** Any "powder" propellant like gunpowder, ballistite and cordite */
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
+	/** Any smokeless powder like ballistite and cordite */
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
+	/** Any plastic explosive like semtex H or C-4 */
 	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
+	/** Any higher tier high explosive (therefore excluding dynamite) like TNT */
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR);
+	/** Any special psot-RBMK gating material, namely bismuth and arsenic */
+	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	
 	public static void registerOres() {
 
@@ -422,6 +429,7 @@ public class OreDictManager {
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
+		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
