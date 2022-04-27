@@ -17,6 +17,7 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
+@Deprecated
 public abstract class JSONLoaderBase {
 
 	public File config;

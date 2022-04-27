@@ -12,7 +12,6 @@ import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.Tuple.Quartet;
 
 import net.minecraft.item.ItemStack;
 
