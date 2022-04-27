@@ -29,6 +29,7 @@ public class LiquefactionRecipes {
 		recipes.put(KEY_OIL_TAR,								new FluidStack(75, Fluids.BITUMEN));
 		recipes.put(KEY_CRACK_TAR,								new FluidStack(100, Fluids.BITUMEN));
 		recipes.put(KEY_COAL_TAR,								new FluidStack(50, Fluids.BITUMEN));
+		recipes.put(KEY_LOG,									new FluidStack(100, Fluids.MUG));
 		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),		new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),	new FluidStack(250, Fluids.LAVA));

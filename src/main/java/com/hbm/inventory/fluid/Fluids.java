@@ -112,10 +112,10 @@ public class Fluids {
 		
 		NONE =				new FluidType(				"NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
 		WATER =				new FluidType(				"WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE);
-		STEAM =				new FluidType(				"STEAM",			0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100);
-		HOTSTEAM =			new FluidType(				"HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300);
-		SUPERHOTSTEAM =		new FluidType(				"SUPERHOTSTEAM",	0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450);
-		ULTRAHOTSTEAM =		new FluidType(				"ULTRAHOTSTEAM",	0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600);
+		STEAM =				new FluidType(				"STEAM",			0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).setCompression(0.01D);
+		HOTSTEAM =			new FluidType(				"HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).setCompression(0.1D);
+		SUPERHOTSTEAM =		new FluidType(				"SUPERHOTSTEAM",	0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).setCompression(1D);
+		ULTRAHOTSTEAM =		new FluidType(				"ULTRAHOTSTEAM",	0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).setCompression(10D);
 		COOLANT =			new FluidType(				"COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).setHeatCap(0.25D);
 		LAVA =				new FluidType(				"LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200);
 		DEUTERIUM =			new FluidTypeCombustible(	"DEUTERIUM",		0x0000FF, 3, 4, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 10_000).setHeatEnergy(5_000);
@@ -158,7 +158,7 @@ public class Fluids {
 		WASTEGAS =			new FluidType(				"WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).addTraits(FluidTrait.NO_CONTAINER);
 		GASOLINE =			new FluidTypeCombustible(	"GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_000_000).setHeatEnergy(400_000).addContainers(0x2F7747, ExtContainer.CANISTER);
 		COALGAS =			new FluidTypeCombustible(	"COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 150_000).setHeatEnergy(75_000);
-		SPENTSTEAM =		new FluidType(				"SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(FluidTrait.NO_CONTAINER);
+		SPENTSTEAM =		new FluidType(				"SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(FluidTrait.NO_CONTAINER).setCompression(1D);
 		FRACKSOL =			new FluidType(				"FRACKSOL",			0x798A6B, 1, 3, 3, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE).addContainers(0x4F887F, ExtContainer.CANISTER);
 		PLASMA_DT =			new FluidType(				"PLASMA_DT",		0xF7AFDE, 0, 4, 0, EnumSymbol.RADIATION).setTemp(3250).addTraits(FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
 		PLASMA_HD =			new FluidType(				"PLASMA_HD",		0xF0ADF4, 0, 4, 0, EnumSymbol.RADIATION).setTemp(2500).addTraits(FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
@@ -186,7 +186,7 @@ public class Fluids {
 		GASOLINE_LEADED =	new FluidTypeCombustible(	"GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_500_000).setHeatEnergy(((FluidTypeFlammable)GASOLINE).getHeatEnergy());
 		COALGAS_LEADED =	new FluidTypeCombustible(	"COALGAS_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 250_000).setHeatEnergy(((FluidTypeFlammable)COALGAS).getHeatEnergy());
 		SULFURIC_ACID =		new FluidType(				"SULFURIC_ACID",	0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE);
-		COOLANT_HOT =		new FluidType(				"COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).setHeatCap(STEAM.heatCap);
+		COOLANT_HOT =		new FluidType(				"COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).setHeatCap(COOLANT.heatCap);
 		MUG =				new FluidType(				"MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D);
 		MUG_HOT =			new FluidType(				"MUG_HOT",			0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500);
 		

@@ -18,8 +18,11 @@ public class FluidType {
 
 	//The numeric ID of the fluid
 	private int id;
+	//The internal name
+	private String stringId;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
+	//The color for containers, not the liquid itself. Used for canisters.
 	private int containerColor = 0xffffff;
 	//Unlocalized string ID of the fluid
 	private String unlocalized;
@@ -28,11 +31,20 @@ public class FluidType {
 	public int flammability;
 	public int reactivity;
 	public EnumSymbol symbol;
-	public int temperature;
-	public double heatCap;
+	
+	public static final int ROOM_TEMPERATURE = 20;
+	public static final double DEFAULT_HEATCAP = 0.01D;
+	public static final double DEFAULT_COMPRESSION = 1D;
+	
+	/** How hot this fluid is. Simple enough. */
+	public int temperature = ROOM_TEMPERATURE;
+	/** How much heat energy each mB requires to be heated by 1°C. Total heat energy = heatCap * delta-T. */
+	public double heatCap = DEFAULT_HEATCAP;
+	/** How much "stuff" there is in one mB. 1mB of water turns into 100mB of steam, therefore steam has a compression of 0.01. Compression is only used for translating fluids into other fluids, heat calculations should ignore this. */
+	public double compression = DEFAULT_COMPRESSION;
+	
 	public Set<ExtContainer> containers = new HashSet();
 	public List<FluidTrait> traits = new ArrayList();
-	private String stringId;
 	
 	private ResourceLocation texture;
 	
@@ -64,6 +76,11 @@ public class FluidType {
 	
 	public FluidType setHeatCap(double heatCap) {
 		this.heatCap = heatCap;
+		return this;
+	}
+	
+	public FluidType setCompression(double compression) {
+		this.compression = compression;
 		return this;
 	}
 	
@@ -145,8 +162,10 @@ public class FluidType {
 	
 	public void addInfo(List<String> info) {
 
-		if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
-		if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
+		if(temperature != ROOM_TEMPERATURE) {
+			if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
+			if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
+		}
 		if(isAntimatter()) info.add(EnumChatFormatting.DARK_RED + "Antimatter");
 
 		if(traits.contains(FluidTrait.CORROSIVE_2)) info.add(EnumChatFormatting.GOLD + "Strongly Corrosive");

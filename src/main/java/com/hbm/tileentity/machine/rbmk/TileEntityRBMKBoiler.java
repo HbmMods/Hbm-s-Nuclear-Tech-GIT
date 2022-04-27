@@ -57,7 +57,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 					steam.setFill(steam.getMaxFill());
 				}
 				
-				this.heat -= waterUsed * feed.getTankType().heatCap;
+				this.heat -= waterUsed * RBMKDials.getBoilerHeatConsumption(worldObj);
 			}
 			
 			fillFluidInit(steam.getTankType());
