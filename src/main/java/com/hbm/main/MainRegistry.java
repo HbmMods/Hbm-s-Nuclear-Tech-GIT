@@ -960,7 +960,7 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
-		ChemplantRecipes.register();
+		//ChemplantRecipes.register(); //moved to SerializableRecipe
 		CyclotronRecipes.register();
 		HadronRecipes.register();
 		MagicRecipes.register();
@@ -975,6 +975,7 @@ public class MainRegistry {
 		LiquefactionRecipes.register();
 		SolidificationRecipes.register();
 
+		//the good stuff
 		SerializableRecipe.registerAllHandlers();
 		SerializableRecipe.initialize();
 

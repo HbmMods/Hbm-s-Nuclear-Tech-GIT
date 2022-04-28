@@ -1,9 +1,14 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
@@ -12,13 +17,15 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class ChemplantRecipes {
+public class ChemplantRecipes extends SerializableRecipe {
 	
 	/**
 	 * Nice order: The order in which the ChemRecipe are added to the recipes list
@@ -28,7 +35,8 @@ public class ChemplantRecipes {
 	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap();
 	public static List<ChemRecipe> recipes = new ArrayList();
 	
-	public static void register() {
+	@Override
+	public void registerDefaults() {
 		
 		registerFuelProcessing();
 		//6-30, formerly oil cracking, coal liquefaction and solidifciation
@@ -366,7 +374,6 @@ public class ChemplantRecipes {
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
 				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
-		
 	}
 	
 	public static void registerFuelProcessing() {
@@ -472,5 +479,65 @@ public class ChemplantRecipes {
 		public int getDuration() {
 			return this.duration;
 		}
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmChemplant.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return this.recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		int id = obj.get("id").getAsInt();
+		String name = obj.get("name").getAsString();
+		int duration = obj.get("duration").getAsInt();
+		
+		recipes.add(new ChemRecipe(id, name, duration)
+				.inputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidInput")))
+				.inputItems(	this.readAStackArray(		(JsonArray) obj.get("itemInput")))
+				.outputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidOutput")))
+				.outputItems(	this.readItemStackArray(	(JsonArray) obj.get("itemOutput"))));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		try {
+		ChemRecipe chem = (ChemRecipe) recipe;
+		writer.name("id").value(chem.id);
+		writer.name("name").value(chem.name);
+		writer.name("duration").value(chem.duration);
+		//Fluid IN
+		writer.name("fluidInput").beginArray();
+		for(FluidStack input : chem.inputFluids) { if(input != null) this.writeFluidStack(input, writer); }
+		writer.endArray();
+		//Item IN
+		writer.name("itemInput").beginArray();
+		for(AStack input : chem.inputs) { if(input != null) this.writeAStack(input, writer); }
+		writer.endArray();
+		//Fluid OUT
+		writer.name("fluidOutput").beginArray();
+		for(FluidStack output : chem.outputFluids) { if(output != null) this.writeFluidStack(output, writer); }
+		writer.endArray();
+		//Item OUT
+		MainRegistry.logger.info("Trying to write output items");
+		writer.name("itemOutput").beginArray();
+		for(ItemStack output : chem.outputs) { if(output != null) this.writeItemStack(output, writer); }
+		writer.endArray();
+		} catch(Exception ex) {
+			MainRegistry.logger.error(ex);
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteRecipes() {
+		this.indexMapping.clear();
+		this.recipes.clear();
 	}
 }

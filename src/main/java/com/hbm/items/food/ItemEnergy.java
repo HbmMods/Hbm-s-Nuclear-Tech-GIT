@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
@@ -23,6 +24,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class ItemEnergy extends Item {
+	
+	private Item container = null;
+	private Item cap = null;
+	private boolean requiresOpener = false;
+	
+	public ItemEnergy makeCan() {
+		this.container = ModItems.can_empty;
+		this.cap = ModItems.ring_pull;
+		this.requiresOpener = false;
+		this.setContainerItem(this.container);
+		return this;
+	}
+	
+	public ItemEnergy makeBottle(Item bottle, Item cap) {
+		this.container = bottle;
+		this.cap = cap;
+		this.requiresOpener = true;
+		this.setContainerItem(this.container);
+		this.setCreativeTab(MainRegistry.consumableTab);
+		return this;
+	}
 
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
@@ -77,6 +99,10 @@ public class ItemEnergy extends Item {
 			}
 			if(this == ModItems.can_breen) {
 				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 30 * 20, 0));
+			}
+			if(this == ModItems.can_mug) {
+				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 3 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60 * 20, 2));
 			}
 			if(this == ModItems.chocolate_milk) {
 				ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
@@ -160,82 +186,20 @@ public class ItemEnergy extends Item {
 			}
 		}
 
-		if(!player.capabilities.isCreativeMode && this != ModItems.chocolate_milk) {
-			if(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.can_empty);
-				}
+		if(!player.capabilities.isCreativeMode) {
 
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
-			}
-
-			if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle_quantum) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle2_korl || this == ModItems.bottle2_korl_special) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_korl));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle2_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
-			}
-
-			if(this == ModItems.bottle2_fritz || this == ModItems.bottle2_fritz_special) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_fritz));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle2_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
-			}
-
-			if(this == ModItems.bottle_sparkle) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle_rad) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_rad));
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle_empty);
-				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
-			}
-
-			if(this == ModItems.bottle2_sunset) {
-
-				if(world.rand.nextInt(10) == 0)
+			if(this.cap != null) {
+				
+				if(this == ModItems.bottle2_sunset && world.rand.nextInt(20) == 0)
 					player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_star));
 				else
-					player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sunset));
-
+					player.inventory.addItemStackToInventory(new ItemStack(this.cap));
+			}
+			if(this.container != null) {
 				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.bottle2_empty);
+					return new ItemStack(this.container);
 				}
-
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+				player.inventory.addItemStackToInventory(new ItemStack(this.container));
 			}
 		}
 
@@ -252,17 +216,14 @@ public class ItemEnergy extends Item {
 		return EnumAction.drink;
 	}
 
+	@Spaghetti("cover yourself in oil")
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 
 		if(VersatileConfig.hasPotionSickness(p_77659_3_))
 			return p_77659_1_;
-
-		if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge ||
-				this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk ||
-				this == ModItems.can_luna || this == ModItems.can_bepis || this == ModItems.can_breen ||
-				this == ModItems.coffee || this == ModItems.coffee_radium))
-			if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
+		
+			if(!this.requiresOpener || p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 
 		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));

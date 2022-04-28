@@ -14,9 +14,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.FuelPoolRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -34,6 +38,7 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
 	}
 	
@@ -98,10 +103,9 @@ public abstract class SerializableRecipe {
 			
 			/* Try to pry all recipes from our list */
 			if(recipeObject instanceof Collection) {
-				recipeList.addAll((Collection) recipeList);
-			}
-			
-			if(recipeObject instanceof HashMap) {
+				recipeList.addAll((Collection) recipeObject);
+				
+			} else if(recipeObject instanceof HashMap) {
 				recipeList.addAll(((HashMap) recipeObject).entrySet());
 			}
 			
@@ -154,8 +158,18 @@ public abstract class SerializableRecipe {
 				return new OreDictStack(dict, stacksize);
 			}
 		} catch(Exception ex) { }
-		MainRegistry.logger.error("Error reading recipe array " + array.toString());
+		MainRegistry.logger.error("Error reading stack array " + array.toString());
 		return new ComparableStack(ModItems.nothing);
+	}
+	
+	protected static AStack[] readAStackArray(JsonArray array) {
+		try {
+			AStack[] items = new AStack[array.size()];
+			for(int i = 0; i < items.length; i++) { items[i] = readAStack((JsonArray) array.get(i)); }
+			return items;
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading stack array " + array.toString());
+		return new AStack[0];
 	}
 	
 	protected static void writeAStack(AStack astack, JsonWriter writer) throws IOException {
@@ -185,8 +199,18 @@ public abstract class SerializableRecipe {
 			int meta = array.size() > 2 ? array.get(2).getAsInt() : 0;
 			return new ItemStack(item, stacksize, meta);
 		} catch(Exception ex) { }
-		MainRegistry.logger.error("Error reading recipe array " + array.toString());
+		MainRegistry.logger.error("Error reading stack array " + array.toString());
 		return new ItemStack(ModItems.nothing);
+	}
+	
+	protected static ItemStack[] readItemStackArray(JsonArray array) {
+		try {
+			ItemStack[] items = new ItemStack[array.size()];
+			for(int i = 0; i < items.length; i++) { items[i] = readItemStack((JsonArray) array.get(i)); }
+			return items;
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading stack array " + array.toString());
+		return new ItemStack[0];
 	}
 	
 	protected static void writeItemStack(ItemStack stack, JsonWriter writer) throws IOException {
@@ -195,6 +219,35 @@ public abstract class SerializableRecipe {
 		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));						//item name
 		if(stack.stackSize != 1 || stack.getItemDamage() != 0) writer.value(stack.stackSize);	//stack size
 		if(stack.getItemDamage() != 0) writer.value(stack.getItemDamage());						//metadata
+		writer.endArray();
+		writer.setIndent("  ");
+	}
+	
+	protected static FluidStack readFluidStack(JsonArray array) {
+		try {
+			FluidType type = Fluids.fromName(array.get(0).getAsString());
+			int fill = array.get(1).getAsInt();
+			return new FluidStack(type, fill);
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading fluid array " + array.toString());
+		return new FluidStack(Fluids.NONE, 0);
+	}
+	
+	protected static FluidStack[] readFluidArray(JsonArray array) {
+		try {
+			FluidStack[] fluids = new FluidStack[array.size()];
+			for(int i = 0; i < fluids.length; i++) { fluids[i] = readFluidStack((JsonArray) array.get(i)); }
+			return fluids;
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading fluid array " + array.toString());
+		return new FluidStack[0];
+	}
+	
+	protected static void writeFluidStack(FluidStack stack, JsonWriter writer) throws IOException {
+		writer.beginArray();
+		writer.setIndent("");
+		writer.value(stack.type.getName());	//fluid type
+		writer.value(stack.fill);			//amount in mB
 		writer.endArray();
 		writer.setIndent("  ");
 	}

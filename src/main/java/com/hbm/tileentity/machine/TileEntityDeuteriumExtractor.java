@@ -17,7 +17,6 @@ import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
@@ -139,17 +138,17 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			tanks[1].setFill(i);
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			return tanks[1].getFill();
 
 		return 0;
@@ -157,7 +156,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getMaxFill();
 
 		return 0;
