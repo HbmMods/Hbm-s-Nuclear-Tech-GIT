@@ -17,6 +17,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.recipes.FuelPoolRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -32,8 +33,8 @@ public abstract class SerializableRecipe {
 	 * INIT
 	 */
 	
-	public static void registerAllHanlders() {
-		//nyi
+	public static void registerAllHandlers() {
+		recipeHandlers.add(new FuelPoolRecipes());
 	}
 	
 	public static void initialize() {
@@ -49,7 +50,7 @@ public abstract class SerializableRecipe {
 		
 		for(SerializableRecipe recipe : recipeHandlers) {
 			
-			File recFile = new File(MainRegistry.configDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
+			File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
 			if(recFile.exists() && recFile.isFile()) {
 				MainRegistry.logger.info("Reading recipe file " + recFile.getName());
 				recipe.readRecipeFile(recFile);
@@ -57,7 +58,7 @@ public abstract class SerializableRecipe {
 				MainRegistry.logger.info("No recipe file found, registering defaults for " + recipe.getFileName());
 				recipe.registerDefaults();
 				
-				File recTemplate = new File(MainRegistry.configDir.getAbsolutePath() + File.separatorChar + "_" + recipe.getFileName());
+				File recTemplate = new File(recDir.getAbsolutePath() + File.separatorChar + "_" + recipe.getFileName());
 				MainRegistry.logger.info("Writing template file " + recTemplate.getName());
 				recipe.writeTemplateFile(recTemplate);
 			}
@@ -76,10 +77,13 @@ public abstract class SerializableRecipe {
 	public abstract Object getRecipeObject();
 	/** Will use the supplied JsonElement (usually casts to JsonArray) from the over arching recipe array and adds the recipe to the recipe list object */
 	public abstract void readRecipe(JsonElement recipe);
-	/** Is given a single recipe from the recipe list object (a wrapper, Tuple, array, HashMap Entry, etc) and writes it to the current ongoing GSON stream */
-	public abstract void writeRecipe(Object recipe, JsonWriter writer);
+	/** Is given a single recipe from the recipe list object (a wrapper, Tuple, array, HashMap Entry, etc) and writes it to the current ongoing GSON stream 
+	 * @throws IOException */
+	public abstract void writeRecipe(Object recipe, JsonWriter writer) throws IOException;
 	/** Registers the default recipes */
 	public abstract void registerDefaults();
+	/** Deletes all existing recipes, currenly unused */
+	public abstract void deleteRecipes();
 	
 	/*
 	 * JSON R/W WRAPPERS
@@ -178,7 +182,7 @@ public abstract class SerializableRecipe {
 		try {
 			Item item = (Item) Item.itemRegistry.getObject(array.get(0).getAsString());
 			int stacksize = array.size() > 1 ? array.get(1).getAsInt() : 1;
-			int meta = array.size() > 2 ? array.get(2).getAsInt() : 2;
+			int meta = array.size() > 2 ? array.get(2).getAsInt() : 0;
 			return new ItemStack(item, stacksize, meta);
 		} catch(Exception ex) { }
 		MainRegistry.logger.error("Error reading recipe array " + array.toString());
@@ -188,9 +192,9 @@ public abstract class SerializableRecipe {
 	protected static void writeItemStack(ItemStack stack, JsonWriter writer) throws IOException {
 		writer.beginArray();
 		writer.setIndent("");
-		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));	//item name
-		if(stack.stackSize != 1) writer.value(stack.stackSize);				//stack size
-		if(stack.getItemDamage() != 0) writer.value(stack.getItemDamage());	//metadata
+		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));						//item name
+		if(stack.stackSize != 1 || stack.getItemDamage() != 0) writer.value(stack.stackSize);	//stack size
+		if(stack.getItemDamage() != 0) writer.value(stack.getItemDamage());						//metadata
 		writer.endArray();
 		writer.setIndent("  ");
 	}
