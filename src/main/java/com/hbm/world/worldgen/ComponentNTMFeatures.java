@@ -578,7 +578,6 @@ public class ComponentNTMFeatures {
 			
 			this.fillWithMetadataBlocks(world, box, 2, 1, 2, 2, 1, featureSizeZ - 2, ModBlocks.steel_grate, 7, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.vitrified_barrel, 0, 2, 2, 2, box);
-			this.fillWithBlocks(world, box, 2, 2, 4, 2, 3, featureSizeZ - 2, ModBlocks.vitrified_barrel, Blocks.air, false);
 			this.fillWithMetadataBlocks(world, box, 3, 1, 2, 3, 3, 2, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 3, 1, 4, 3, 3, 4, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 3, 1, featureSizeZ - 2, 3, 3, featureSizeZ - 2, ModBlocks.steel_wall, westMeta, Blocks.air, 0, false);

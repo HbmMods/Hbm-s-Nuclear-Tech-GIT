@@ -36,7 +36,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public int progress;
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
-	public static final int processingSpeed = 200;
+	public static final int processingSpeed = 150;
 	
 	public FluidTank tank;
 	public PseudoFluidTank inputTank;
@@ -309,7 +309,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	public int getProcessingSpeed() {
 		if(slots[5] != null && slots[5].getItem() == ModItems.upgrade_gc_speed) {
-			return processingSpeed - 75;
+			return processingSpeed - 70;
 		}
 		return processingSpeed;
 	}

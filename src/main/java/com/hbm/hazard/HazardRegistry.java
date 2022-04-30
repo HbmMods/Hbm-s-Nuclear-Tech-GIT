@@ -449,8 +449,8 @@ public class HazardRegistry {
 		HazardSystem.register(man_explosive8, makeData(EXPLOSIVE, 16F));
 		
 		HazardSystem.register(gadget_core, makeData(RADIATION, pu239 * nugget * 10));
-		HazardSystem.register(boy_target, makeData(RADIATION, u235 * nugget * 9));
-		HazardSystem.register(boy_bullet, makeData(RADIATION, u235 * nugget * 6));
+		HazardSystem.register(boy_target, makeData(RADIATION, u235 * ingot * 2));
+		HazardSystem.register(boy_bullet, makeData(RADIATION, u235 * ingot));
 		HazardSystem.register(man_core, makeData(RADIATION, pu239 * nugget * 10));
 		HazardSystem.register(mike_core, makeData(RADIATION, u238 * nugget * 10));
 		HazardSystem.register(tsar_core, makeData(RADIATION, pu239 * nugget * 15));
