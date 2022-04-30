@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.util.I18nUtil;
 
@@ -565,35 +565,30 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			return;
 
 		if(world.getTotalWorldTime() % 5 == 0) {
-
-			int x = check(world, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
-
-			if(x > 0) {
-				List<Integer> list = new ArrayList<Integer>();
-
-				if(x < 1)
-					list.add(0);
-				if(x < 5)
-					list.add(0);
-				if(x < 10)
-					list.add(1);
-				if(x > 5 && x < 15)
-					list.add(2);
-				if(x > 10 && x < 20)
-					list.add(3);
-				if(x > 15 && x < 25)
-					list.add(4);
-				if(x > 20 && x < 30)
-					list.add(5);
-				if(x > 25)
-					list.add(6);
-
-				int r = list.get(world.rand.nextInt(list.size()));
-
-				if(r > 0)
-					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
-			} else if(world.rand.nextInt(50) == 0) {
-				world.playSoundAtEntity(entity, "hbm:item.geiger" + (1 + world.rand.nextInt(1)), 1.0F, 1.0F);
+			
+			float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
+			
+			if(x > 1E-5) {
+	
+				if(x > 0) {
+					List<Integer> list = new ArrayList<Integer>();
+	
+					if(x < 1) list.add(0);
+					if(x < 5) list.add(0);
+					if(x < 10) list.add(1);
+					if(x > 5 && x < 15) list.add(2);
+					if(x > 10 && x < 20) list.add(3);
+					if(x > 15 && x < 25) list.add(4);
+					if(x > 20 && x < 30) list.add(5);
+					if(x > 25) list.add(6);
+	
+					int r = list.get(world.rand.nextInt(list.size()));
+	
+					if(r > 0)
+						world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
+				} else if(world.rand.nextInt(50) == 0) {
+					world.playSoundAtEntity(entity, "hbm:item.geiger" + (1 + world.rand.nextInt(1)), 1.0F, 1.0F);
+				}
 			}
 		}
 	}

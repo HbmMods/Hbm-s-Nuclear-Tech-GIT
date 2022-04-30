@@ -232,4 +232,21 @@ public class MachineBattery extends BlockContainer implements ILookOverlay {
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(!(te instanceof TileEntityMachineBattery))
+			return 0;
+		
+		TileEntityMachineBattery battery = (TileEntityMachineBattery) te;
+		return battery.getComparatorPower();
+	}
 }

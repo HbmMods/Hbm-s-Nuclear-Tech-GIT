@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IMultiblock;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -24,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ZirnoxDestroyed extends BlockDummyable implements IMultiblock {
+public class ZirnoxDestroyed extends BlockDummyable {
 
 	public ZirnoxDestroyed(Material mat) {
 		super(mat);

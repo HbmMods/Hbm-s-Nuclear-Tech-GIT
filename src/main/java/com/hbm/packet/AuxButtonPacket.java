@@ -165,11 +165,20 @@ public class AuxButtonPacket implements IMessage {
 
 					if(m.id == 0) {
 						bat.redLow = (short) ((bat.redLow + 1) % 4);
+						if(bat.redLow == 1 && bat.childLock)
+							bat.redLow++;
 						bat.markDirty();
 					}
 
 					if(m.id == 1) {
 						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
+						if(bat.redHigh == 1 && bat.childLock)
+							bat.redHigh++;
+						bat.markDirty();
+					}
+
+					if(m.id == 2) {
+						bat.childLock = !bat.childLock;
 						bat.markDirty();
 					}
 				}

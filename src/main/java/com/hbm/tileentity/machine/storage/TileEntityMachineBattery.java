@@ -10,8 +10,8 @@ import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser {
@@ -29,8 +29,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public static final int mode_none = 3;
 	public short redLow = 0;
 	public short redHigh = 2;
+	public boolean childLock = true;
 	
-	public boolean conducts = false;
+	//public boolean conducts = false;
+	public byte lastRedstone = 0;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {0, 1};
@@ -79,21 +81,12 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getLong("power");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
-		
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		this.childLock = nbt.getBoolean("childLock");
+		this.lastRedstone = nbt.getByte("lastRedstone");
 	}
 	
 	@Override
@@ -103,18 +96,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		nbt.setLong("power", power);
 		nbt.setShort("redLow", redLow);
 		nbt.setShort("redHigh", redHigh);
-		
-		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
+		nbt.setBoolean("childLock", childLock);
+		nbt.setByte("lastRedstone", lastRedstone);
 	}
 	
 	@Override
@@ -146,6 +129,12 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return (power * i) / this.getMaxPower();
 	}
 	
+	public byte getComparatorPower() {
+		if(power == 0) return 0;
+		double frac = (double) this.power / (double) this.getMaxPower() * 15D;
+		return (byte) (MathHelper.clamp_int((int) frac + 1, 0, 15)); //to combat eventual rounding errors with the FEnSU's stupid maxPower
+	}
+	
 	@Override
 	public void updateEntity() {
 		
@@ -157,6 +146,11 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			this.transmitPower();
 			//////////////////////////////////////////////////////////////////////
 			
+			byte comp = this.getComparatorPower();
+			if(comp != this.lastRedstone)
+				this.markDirty();
+			this.lastRedstone = comp;
+			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
@@ -164,6 +158,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			nbt.setLong("power", (power + prevPower) / 2);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
+			nbt.setBoolean("childLock", childLock);
 			this.networkPack(nbt, 20);
 		}
 		
@@ -226,6 +221,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.power = nbt.getLong("power");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
+		this.childLock = nbt.getBoolean("childLock");
 	}
 
 	@Override

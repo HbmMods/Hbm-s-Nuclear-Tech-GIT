@@ -20,8 +20,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.ChemplantRecipes;
-import com.hbm.inventory.recipes.FuelPoolRecipes;
+import com.hbm.inventory.recipes.*;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -39,6 +38,7 @@ public abstract class SerializableRecipe {
 	
 	public static void registerAllHandlers() {
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
 	}
 	
@@ -90,6 +90,10 @@ public abstract class SerializableRecipe {
 	/** Deletes all existing recipes, currenly unused */
 	public abstract void deleteRecipes();
 	
+	public String getComment() {
+		return null;
+	}
+	
 	/*
 	 * JSON R/W WRAPPERS
 	 */
@@ -115,6 +119,11 @@ public abstract class SerializableRecipe {
 			JsonWriter writer = new JsonWriter(new FileWriter(template));
 			writer.setIndent("  ");					//pretty formatting
 			writer.beginObject();					//initial '{'
+			
+			if(this.getComment() != null) {
+				writer.name("comment").value(this.getComment());
+			}
+			
 			writer.name("recipes").beginArray();	//all recipes are stored in an array called "recipes"
 			
 			for(Object recipe : recipeList) {
@@ -153,7 +162,7 @@ public abstract class SerializableRecipe {
 				int meta = array.size() > 3 ? array.get(3).getAsInt() : 2;
 				return new ComparableStack(item, stacksize, meta);
 			}
-			if("dict".equals("type")) {
+			if("dict".equals(type)) {
 				String dict = array.get(1).getAsString();
 				return new OreDictStack(dict, stacksize);
 			}

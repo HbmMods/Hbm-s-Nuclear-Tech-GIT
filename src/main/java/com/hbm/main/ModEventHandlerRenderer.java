@@ -242,7 +242,7 @@ public class ModEventHandlerRenderer {
 	public static int currentBrightness = 0;
 	public static int lastBrightness = 0;
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 
 		if(event.type == ElementType.PORTAL) {
@@ -306,5 +306,5 @@ public class ModEventHandlerRenderer {
 
 			GL11.glPopMatrix();
 		}
-	}
+	}*/
 }

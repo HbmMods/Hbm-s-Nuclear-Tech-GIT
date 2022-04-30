@@ -525,7 +525,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 		for(FluidStack output : chem.outputFluids) { if(output != null) this.writeFluidStack(output, writer); }
 		writer.endArray();
 		//Item OUT
-		MainRegistry.logger.info("Trying to write output items");
 		writer.name("itemOutput").beginArray();
 		for(ItemStack output : chem.outputs) { if(output != null) this.writeItemStack(output, writer); }
 		writer.endArray();
@@ -533,6 +532,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 			MainRegistry.logger.error(ex);
 			ex.printStackTrace();
 		}
+	}
+	
+	public String getComment() {
+		return "Rules: All in- and output arrays need to be present, even if empty. IDs need to be unique, but not sequential. It's safe if you add your own"
+				+ " recipes starting with ID 1000. Template order depends on the order of the recipes in this JSON file. The 'name' field is responsible for"
+				+ " the texture being loaded for the template. Custom dynamic texture generation is not yet implemented, you will have to throw the texture into"
+				+ " the JAR manually.";
 	}
 
 	@Override

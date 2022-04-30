@@ -960,9 +960,9 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
-		//ChemplantRecipes.register(); //moved to SerializableRecipe
+		//ChemplantRecipes.register(); moved to SerializableRecipe
 		CyclotronRecipes.register();
-		HadronRecipes.register();
+		//HadronRecipes.register(); moved to SerializableRecipe
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();

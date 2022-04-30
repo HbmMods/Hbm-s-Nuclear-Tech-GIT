@@ -1,16 +1,21 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityHadron.EnumHadronState;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class HadronRecipes {
+public class HadronRecipes extends SerializableRecipe {
 	
 	/*
 	 * Since we're dealing with like 10 or so recipes, using a HashMap (or to combine two keys, a HashMap *in* a HashMap)
@@ -28,7 +33,8 @@ public class HadronRecipes {
 	 * Having multiple recipes with different momentum requirements (at most I would expect 2) isn't exactly necessary
 	 * since the thing differentiates between ring and line accelerator mode, and line accelerators are by design always shorter anyway.
 	 */
-	public static void register() {
+	@Override
+	public void registerDefaults() {
 
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
@@ -155,12 +161,69 @@ public class HadronRecipes {
 		public boolean analysisOnly;
 		
 		public HadronRecipe(ItemStack in1, ItemStack in2, int momentum, ItemStack out1, ItemStack out2, boolean analysisOnly) {
-			this.in1 = new ComparableStack(in1);
-			this.in2 = new ComparableStack(in2);
+			this.in1 = new ComparableStack(in1).makeSingular();
+			this.in2 = new ComparableStack(in2).makeSingular();
 			this.momentum = momentum;
 			this.out1 = out1;
 			this.out2 = out2;
+			this.out1.stackSize = 1;
+			this.out2.stackSize = 1;
 			this.analysisOnly = analysisOnly;
 		}
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmHadronCollider.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return this.recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		int momentum = obj.get("momentum").getAsInt();
+		boolean lineMode = obj.get("lineMode").getAsBoolean();
+		ItemStack[] in = this.readItemStackArray(obj.get("inputs").getAsJsonArray());
+		ItemStack[] out = this.readItemStackArray(obj.get("outputs").getAsJsonArray());
+		
+		this.recipes.add(new HadronRecipe(
+				in[0],
+				in[1],
+				momentum,
+				out[0],
+				out[1],
+				lineMode
+				));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		HadronRecipe rec = (HadronRecipe) recipe;
+		
+		writer.name("momentum").value(rec.momentum);
+		writer.name("lineMode").value(rec.analysisOnly);
+		
+		writer.name("inputs").beginArray();
+		this.writeItemStack(rec.in1.toStack(), writer);
+		this.writeItemStack(rec.in2.toStack(), writer);
+		writer.endArray();
+		
+		writer.name("outputs").beginArray();
+		this.writeItemStack(rec.out1, writer);
+		this.writeItemStack(rec.out2, writer);
+		writer.endArray();
+	}
+	
+	public String getComment() {
+		return "Rules: Both in- and output stacks cannot be null. Stacksizes are set to 1 for all stacks.";
+	}
+
+	@Override
+	public void deleteRecipes() {
+		this.recipes.clear();
 	}
 }
