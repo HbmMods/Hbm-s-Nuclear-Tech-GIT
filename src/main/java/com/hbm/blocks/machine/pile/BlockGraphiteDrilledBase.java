@@ -23,6 +23,8 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon sideIcon;
+	@SideOnly(Side.CLIENT)
+	protected IIcon blockIconAluminum; //shrouded in aluminum
 
 	public BlockGraphiteDrilledBase() {
 		super(ModBlocks.block_graphite.getMaterial(), ((BlockFlammable) ModBlocks.block_graphite).encouragement, ((BlockFlammable) ModBlocks.block_graphite).flammability);
@@ -38,6 +40,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.sideIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite");
+		this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_drilled_aluminum");
 	}
 	
 	@Override
@@ -45,9 +48,14 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 	public IIcon getIcon(int side, int metadata) {
 		
 		int cfg = metadata & 3;
+		int meta = metadata >> 2;
 		
-		if(side == cfg * 2 || side == cfg * 2 + 1)
+		if(side == cfg * 2 || side == cfg * 2 + 1) {
+			if(meta == 1)
+				return this.blockIconAluminum;
+			
 			return this.blockIcon;
+		}
 		
 		return this.sideIcon;
 	}
@@ -70,6 +78,8 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable {
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList();
 		drops.add(new ItemStack(ModItems.ingot_graphite, 8));
+		if(meta >> 2 == 1)
+			drops.add(new ItemStack(ModItems.hull_small_aluminium, 1));
 		return drops;
 	}
 }

@@ -11,7 +11,7 @@ public class TileEntityPileSource extends TileEntityPileBase {
 			
 			int n = this.getBlockType() == ModBlocks.block_graphite_source ? 1 : 3;
 			
-			for(int i = 0; i < 16; i++) {
+			for(int i = 0; i < 12; i++) {
 				this.castRay(n, 5);
 			}
 		}

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.pile.TileEntityPileSource;
 
 import api.hbm.block.IToolable;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +23,16 @@ public class BlockGraphiteSource extends BlockGraphiteDrilledTE implements ITool
 	@Override
 	public TileEntity createNewTileEntity(World world, int mets) {
 		return new TileEntityPileSource();
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		super.registerBlockIcons(iconRegister);
+		if(this == ModBlocks.block_graphite_plutonium)
+			this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_plutonium_aluminum");
+		else if(this == ModBlocks.block_graphite_source)
+			this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_source_aluminum");
 	}
 	
 	@Override
@@ -36,9 +50,10 @@ public class BlockGraphiteSource extends BlockGraphiteDrilledTE implements ITool
 		
 		if(!world.isRemote) {
 
-			int meta = world.getBlockMetadata(x, y, z) & 3;
+			int meta = world.getBlockMetadata(x, y, z);
+			int cfg = meta & 3;
 			
-			if(side == meta * 2 || side == meta * 2 + 1) {
+			if(side == cfg * 2 || side == cfg * 2 + 1) {
 				world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta, 3);
 				this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(whoAmIAgain()));
 			}
