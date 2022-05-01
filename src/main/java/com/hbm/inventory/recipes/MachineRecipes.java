@@ -430,7 +430,7 @@ public class MachineRecipes {
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor)).copy());
 			
-			if(GeneralConfig.enableLBSMFullSchrab && GeneralConfig.enableLBSMSimpleAlloy) {
+			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleAlloy) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
 						getFurnaceOutput(new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal)).copy());
 				recipes.put(new ItemStack[] { new ItemStack(ModBlocks.block_meteor_cobble), new ItemStack(ModItems.ingot_steel) },
