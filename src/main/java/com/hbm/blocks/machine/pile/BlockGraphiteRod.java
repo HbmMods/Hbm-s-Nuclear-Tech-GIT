@@ -20,12 +20,15 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon outIcon;
+	@SideOnly(Side.CLIENT)
+	protected IIcon outIconAluminum;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
-		this.sideIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite");
+		this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_rod_in_aluminum");
+		this.outIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_rod_out_aluminum");
 		this.outIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_rod_out");
 	}
 	
@@ -35,8 +38,11 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 		
 		int cfg = metadata & 3;
 		
-		if(side == cfg * 2 || side == cfg * 2 + 1)
-			return ((metadata & 4) > 0) ? this.outIcon : this.blockIcon;
+		if(side == cfg * 2 || side == cfg * 2 + 1) {
+			if((metadata & 4) == 4)
+				return ((metadata & 8) > 0) ? this.outIconAluminum : this.blockIconAluminum;
+			return ((metadata & 8) > 0) ? this.outIcon : this.blockIcon;
+		}
 		
 		return this.sideIcon;
 	}
@@ -48,7 +54,7 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			return false;
 		
 		int oldMeta = world.getBlockMetadata(x, y, z);
-		int newMeta = oldMeta ^ 4; //toggle bit #3
+		int newMeta = oldMeta ^ 8; //toggle bit #4
 		int pureMeta = oldMeta & 3; //in case the bit was set
 
 		if(side == pureMeta * 2 || side == pureMeta * 2 + 1) {
@@ -60,7 +66,7 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			
 			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.click", 0.3F, pureMeta == oldMeta ? 0.75F : 0.65F);
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(pureMeta);
+			ForgeDirection dir = ForgeDirection.getOrientation(side);
 			
 			if(dir == ForgeDirection.UNKNOWN)
 				return true;
@@ -68,17 +74,19 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			for(int i = -1; i <= 1; i += 1) {
 				
 				//why is XZ switched? i don't know, man
-				int ix = x + dir.offsetZ * i;
+				/* ForgeDirection's getOrientation method operates on actual sides, not n/s or w/e, so you had to switch x & z for w/e to work since it was actually returning north. also meant that
+				 n/s hasn't been working this entire time */
+				int ix = x + dir.offsetX * i;
 				int iy = y + dir.offsetY * i;
-				int iz = z + dir.offsetX * i;
+				int iz = z + dir.offsetZ * i;
 				
 				while(world.getBlock(ix, iy, iz) == this && world.getBlockMetadata(ix, iy, iz) == oldMeta) {
 					
 					world.setBlockMetadataWithNotify(ix, iy, iz, newMeta, 3);
 					
-					ix += dir.offsetZ * i;
+					ix += dir.offsetX * i;
 					iy += dir.offsetY * i;
-					iz += dir.offsetX * i;
+					iz += dir.offsetZ * i;
 				}
 			}
 			
@@ -96,10 +104,11 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 		
 		if(!world.isRemote) {
 
-			int meta = world.getBlockMetadata(x, y, z) & 3;
+			int meta = world.getBlockMetadata(x, y, z);
+			int cfg = meta & 3;
 			
-			if(side == meta * 2 || side == meta * 2 + 1) {
-				world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta, 3);
+			if(side == cfg * 2 || side == cfg * 2 + 1) {
+				world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta & 7, 3);
 				this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.pile_rod_boron));
 			}
 		}

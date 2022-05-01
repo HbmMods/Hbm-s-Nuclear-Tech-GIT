@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.pile.TileEntityPileFuel;
 
 import api.hbm.block.IToolable;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -24,6 +28,13 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		super.registerBlockIcons(iconRegister);
+		this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_fuel_aluminum");
+	}
+	
+	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
 		drops.add(new ItemStack(ModItems.pile_rod_uranium));
@@ -37,9 +48,10 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 			
 			if(tool == ToolType.SCREWDRIVER) {
 	
-				int meta = world.getBlockMetadata(x, y, z) & 3;
+				int meta = world.getBlockMetadata(x, y, z);
+				int cfg = meta & 3;
 				
-				if(side == meta * 2 || side == meta * 2 + 1) {
+				if(side == cfg * 2 || side == cfg * 2 + 1) {
 					world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta, 3);
 					this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.pile_rod_uranium));
 				}

@@ -3,12 +3,16 @@ package com.hbm.blocks.machine.pile;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
+import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase {
+public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IToolable {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -16,13 +20,17 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase {
 		if(player.getHeldItem() != null) {
 			
 			int meta = world.getBlockMetadata(x, y, z);
-
-			if(side == meta * 2 || side == meta * 2 + 1) {
+			int cfg = meta & 3;
+			
+			if(side == cfg * 2 || side == cfg * 2 + 1) {
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_uranium, ModBlocks.block_graphite_fuel)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_plutonium, ModBlocks.block_graphite_plutonium)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_source, ModBlocks.block_graphite_source)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_boron, ModBlocks.block_graphite_rod)) return true;
-				if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;
+				if(meta >> 2 != 1) {
+					if(checkInteraction(world, x, y, z, meta | 4, player, ModItems.hull_small_aluminium, ModBlocks.block_graphite_drilled)) return true;
+					if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;
+				}
 			}
 		}
 		
@@ -41,5 +49,24 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		int cfg = meta & 3;
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
+		
+		if(!world.isRemote && (side == cfg * 2 || side == cfg * 2 + 1) && meta >> 2 == 1) {
+			world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, cfg, 3);
+			world.playSoundEffect(x + 0.5, y + 1.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 0.85F);
+
+			BlockGraphiteRod.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.hull_small_aluminium));
+		}
+		
+		return true;
 	}
 }
