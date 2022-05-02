@@ -132,6 +132,9 @@ public class AnvilRecipes {
 				new ComparableStack(ModItems.plate_steel, 2),
 				new AnvilOutput(new ItemStack(ModItems.hull_small_steel))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.plate_aluminium, 2),
+				new AnvilOutput(new ItemStack(ModItems.hull_small_aluminium))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.coil_copper, 2),
 				new AnvilOutput(new ItemStack(ModItems.coil_copper_torus))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -550,6 +553,17 @@ public class AnvilRecipes {
 				new ComparableStack(ModItems.pile_rod_boron), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)),
 						new AnvilOutput(new ItemStack(Items.stick, 2))
+						}).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_detector), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.ingot_boron, 2)),
+						new AnvilOutput(new ItemStack(ModItems.motor, 1)),
+						new AnvilOutput(new ItemStack(ModItems.circuit_aluminium, 1))
+						}).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_lithium), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.lithium, 1)),
+						new AnvilOutput(new ItemStack(ModItems.cell_empty, 1))
 						}).setTier(2));
 		
 		//RBMK

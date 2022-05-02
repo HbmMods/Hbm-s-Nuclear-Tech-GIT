@@ -27,6 +27,9 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IT
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_plutonium, ModBlocks.block_graphite_plutonium)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_source, ModBlocks.block_graphite_source)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_boron, ModBlocks.block_graphite_rod)) return true;
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_lithium, ModBlocks.block_graphite_lithium)) return true;
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.cell_tritium, ModBlocks.block_graphite_tritium)) return true; //if you want to i guess?
+				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_detector, ModBlocks.block_graphite_detector)) return true;
 				if(meta >> 2 != 1) {
 					if(checkInteraction(world, x, y, z, meta | 4, player, ModItems.hull_small_aluminium, ModBlocks.block_graphite_drilled)) return true;
 					if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;

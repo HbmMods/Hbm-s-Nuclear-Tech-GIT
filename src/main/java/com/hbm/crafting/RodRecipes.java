@@ -85,7 +85,9 @@ public class RodRecipes {
 		//Pile fuel
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_uranium, 1), new Object[] { " U ", "PUP", " U ", 'P', IRON.plate(), 'U', U.billet() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_source, 1), new Object[] { " U ", "PUP", " U ", 'P', IRON.plate(), 'U', ModItems.billet_ra226be });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_boron, 1), new Object[] { "B", "W", "B", 'B', B.ingot(), 'W', KEY_PLANKS });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_boron, 1), new Object[] { " B ", " W ", " B ", 'B', B.ingot(), 'W', KEY_PLANKS });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pile_rod_lithium, 1), new Object[] { ModItems.cell_empty, LI.ingot() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_detector, 1), new Object[] { " B ", "CM ", " B ", 'B', B.ingot(), 'C', ModItems.circuit_aluminium, 'M', ModItems.motor });
 		
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', ZR.ingot(), 'R', ModItems.rod_quad_empty });
 		addRBMKRod(U, ModItems.rbmk_fuel_ueu);
