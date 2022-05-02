@@ -273,6 +273,8 @@ public class TileMappings {
 	private static void putPile() {
 		put(TileEntityPileFuel.class, "tileentity_pile_fuel");
 		put(TileEntityPileSource.class, "tileentity_pile_source");
+		put(TileEntityPileBreedingFuel.class, "tileentity_pile_breedingfuel");
+		put(TileEntityPileNeutronDetector.class, "tileentity_pile_neutrondetector");
 	}
 	
 	private static void putRBMK() {
