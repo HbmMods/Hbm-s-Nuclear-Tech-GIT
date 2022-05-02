@@ -23,7 +23,9 @@ public abstract class TileEntityPileBase extends TileEntity {
 	protected void castRay(int flux, int range) {
 		
 		Random rand = worldObj.rand;
-		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
+		int[] vecVals = { 0, 0, 0,};
+		vecVals[rand.nextInt(3)] = 1;
+		Vec3 vec = Vec3.createVectorHelper(vecVals[0], vecVals[1], vecVals[2]);
 		vec.rotateAroundZ((float)(rand.nextDouble() * Math.PI * 2D));
 		vec.rotateAroundY((float)(rand.nextDouble() * Math.PI * 2D));
 		vec.rotateAroundX((float)(rand.nextDouble() * Math.PI * 2D));
@@ -79,7 +81,9 @@ public abstract class TileEntityPileBase extends TileEntity {
 				
 				IPileNeutronReceiver rec = (IPileNeutronReceiver) te;
 				rec.receiveNeutrons(flux);
-				return;
+				
+				if(b != ModBlocks.block_graphite_detector || (meta & 8) == 0)
+					return;
 			}
 			
 			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5));

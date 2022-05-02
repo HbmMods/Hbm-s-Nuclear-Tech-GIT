@@ -9,8 +9,10 @@ import com.hbm.lib.RefStrings;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -64,7 +66,7 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 			
 			world.setBlockMetadataWithNotify(x, y, z, newMeta, 3);
 			
-			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.click", 0.3F, pureMeta == oldMeta ? 0.75F : 0.65F);
+			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.click", 0.3F, pureMeta == (oldMeta & 11) ? 0.75F : 0.65F);
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(side);
 			
@@ -95,31 +97,9 @@ public class BlockGraphiteRod extends BlockGraphiteDrilledBase implements IToola
 		
 		return false;
 	}
-
-	@Override
-	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-		
-		if(tool != ToolType.SCREWDRIVER)
-			return false;
-		
-		if(!world.isRemote) {
-
-			int meta = world.getBlockMetadata(x, y, z);
-			int cfg = meta & 3;
-			
-			if(side == cfg * 2 || side == cfg * 2 + 1) {
-				world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta & 7, 3);
-				this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.pile_rod_boron));
-			}
-		}
-		
-		return true;
-	}
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
-		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, meta, fortune);
-		drops.add(new ItemStack(ModItems.pile_rod_boron));
-		return drops;
+	protected Item getInsertedItem() {
+		return ModItems.pile_rod_boron;
 	}
 }
