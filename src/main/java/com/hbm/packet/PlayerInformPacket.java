@@ -24,23 +24,27 @@ public class PlayerInformPacket implements IMessage {
 	public PlayerInformPacket(String dmesg, int id) {
 		this.fancy = false;
 		this.dmesg = dmesg;
+		this.id = id;
 	}
 
 	public PlayerInformPacket(IChatComponent component, int id) {
 		this.fancy = true;
 		this.component = component;
+		this.id = id;
 	}
 
 	public PlayerInformPacket(String dmesg, int id, int millis) {
 		this.fancy = false;
 		this.dmesg = dmesg;
 		this.millis = millis;
+		this.id = id;
 	}
 
 	public PlayerInformPacket(IChatComponent component, int id, int millis) {
 		this.fancy = true;
 		this.component = component;
 		this.millis = millis;
+		this.id = id;
 	}
 
 	@Override

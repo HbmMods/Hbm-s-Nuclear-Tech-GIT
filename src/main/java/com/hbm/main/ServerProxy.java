@@ -20,6 +20,7 @@ public class ServerProxy {
 	public static final int ID_JETPACK = 4;
 	public static final int ID_HUD = 5;
 	public static final int ID_DETONATOR = 6;
+	public static final int ID_FLUID_ID = 7;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }

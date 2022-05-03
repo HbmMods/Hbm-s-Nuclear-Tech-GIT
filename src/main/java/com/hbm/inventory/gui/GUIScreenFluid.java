@@ -16,6 +16,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,9 +25,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenFluid extends GuiScreen {
 	
-	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/machine/gui_fluid.png");
+	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fluid.png");
 	protected int xSize = 176;
-	protected int ySize = 178;
+	protected int ySize = 54;
 	protected int guiLeft;
 	protected int guiTop;
 	private GuiTextField search;
@@ -38,12 +39,6 @@ public class GUIScreenFluid extends GuiScreen {
 
 	public GUIScreenFluid(EntityPlayer player) {
 		this.player = player;
-		
-		Keyboard.enableRepeatEvents(true);
-		this.search = new GuiTextField(this.fontRendererObj, guiLeft + 46, guiTop + 10, 86, 12);
-		this.search.setTextColor(-1);
-		this.search.setDisabledTextColour(-1);
-		this.search.setEnableBackgroundDrawing(false);
 	}
 
 	@Override
@@ -67,6 +62,12 @@ public class GUIScreenFluid extends GuiScreen {
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 		
+		Keyboard.enableRepeatEvents(true);
+		this.search = new GuiTextField(this.fontRendererObj, guiLeft + 46, guiTop + 11, 86, 12);
+		this.search.setTextColor(-1);
+		this.search.setDisabledTextColour(-1);
+		this.search.setEnableBackgroundDrawing(false);
+		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier_multi) {
 			this.primary = ItemFluidIDMulti.getType(player.getHeldItem(), true);
 			this.secondary = ItemFluidIDMulti.getType(player.getHeldItem(), false);
@@ -75,19 +76,22 @@ public class GUIScreenFluid extends GuiScreen {
 
 	@Override
 	protected void mouseClicked(int i, int j, int button) {
+		this.search.mouseClicked(i, j, button);
 
 		for(int k = 0; k < this.searchArray.length; k++) {
 			
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(7 + k * 18 <= i && 7 + k * 18 + 18 > i && 29 < j && 29 + 18 >= j) {
+			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j) {
 				if(button == 0) {
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 					this.primary = this.searchArray[k];
 					NBTTagCompound data = new NBTTagCompound();
 					data.setInteger("primary", this.primary.getID());
 					PacketDispatcher.wrapper.sendToServer(new NBTItemControlPacket(data));
 				} else if(button == 1) {
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 					this.secondary = this.searchArray[k];
 					NBTTagCompound data = new NBTTagCompound();
 					data.setInteger("secondary", this.secondary.getID());
@@ -105,7 +109,7 @@ public class GUIScreenFluid extends GuiScreen {
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(7 + k * 18 <= i && 7 + k * 18 + 18 > i && 29 < j && 29 + 18 >= j)
+			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j)
 				func_146283_a(Arrays.asList(new String[] { I18nUtil.resolveKey(this.searchArray[k].getUnlocalizedName()) }), i, j);
 		}
 	}
@@ -126,7 +130,7 @@ public class GUIScreenFluid extends GuiScreen {
 			
 			Color color = new Color(type.getColor());
 			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-			drawTexturedModalRect(guiLeft + 12 + k * 18, guiTop + 30, 12 + k * 18, 56, 8, 14);
+			drawTexturedModalRect(guiLeft + 12 + k * 18, guiTop + 31, 12 + k * 18, 56, 8, 14);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			
 			if(type == this.primary && type == this.secondary) {
@@ -148,9 +152,14 @@ public class GUIScreenFluid extends GuiScreen {
 			super.keyTyped(c, key);
 		}
 
-		if(key == 1 || key == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+		if(key == 1) {
 			this.mc.thePlayer.closeScreen();
 		}
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
 	}
 	
 	private void updateSearch() {
