@@ -671,7 +671,8 @@ public class AnvilRecipes {
 					}).setTier(2));
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_pu239), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.billet_pu239, 1)), //Might need to be cut to 3 nuggets, but a full billet is nice and round
+							new AnvilOutput(new ItemStack(ModItems.nugget_pu239, 4)), //Not a nice and round billet, but probably for the best in retrospect.
+							new AnvilOutput(new ItemStack(ModItems.nugget_pu_mix, 2)),
 							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 1)),
 							new AnvilOutput(new ItemStack(ModItems.billet_uranium, 1)),
 							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
@@ -686,7 +687,8 @@ public class AnvilRecipes {
 					}).setTier(2));
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_pu239), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.billet_pu239, 1)),
+							new AnvilOutput(new ItemStack(ModItems.nugget_pu239, 4)), //Ditto.
+							new AnvilOutput(new ItemStack(ModItems.nugget_pu_mix, 2)),
 							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 1)),
 							new AnvilOutput(new ItemStack(ModItems.billet_nuclear_waste, 1)),
 							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
