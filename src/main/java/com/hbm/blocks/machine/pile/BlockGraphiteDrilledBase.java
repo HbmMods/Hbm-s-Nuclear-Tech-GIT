@@ -51,10 +51,10 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 	public IIcon getIcon(int side, int metadata) {
 		
 		int cfg = metadata & 3;
-		int meta = metadata >> 2;
+		int meta = metadata & 4;
 		
 		if(side == cfg * 2 || side == cfg * 2 + 1) {
-			if(meta == 1)
+			if(meta == 4)
 				return this.blockIconAluminum;
 			
 			return this.blockIcon;
@@ -97,6 +97,11 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 		return true;
 	}
 	
+	//Thank god getDrops passes meta
+	protected Item getInsertedItem(int meta) {
+		return getInsertedItem();
+	}
+	
 	protected Item getInsertedItem() {
 		return null;
 	}
@@ -108,7 +113,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 		if((meta & 4) == 4)
 			drops.add(new ItemStack(ModItems.hull_small_aluminium, 1));
 		if(getInsertedItem() != null)
-			drops.add(new ItemStack(getInsertedItem(), 1));
+			drops.add(new ItemStack(getInsertedItem(meta), 1));
 		return drops;
 	}
 }

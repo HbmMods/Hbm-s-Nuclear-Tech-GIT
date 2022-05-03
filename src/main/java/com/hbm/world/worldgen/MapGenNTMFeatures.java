@@ -82,6 +82,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 	
 	public static class Start extends StructureStart {
 		
+		public Start() {}
+		
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			

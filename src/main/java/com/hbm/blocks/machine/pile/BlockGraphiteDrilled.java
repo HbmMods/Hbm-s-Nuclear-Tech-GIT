@@ -24,6 +24,7 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IT
 			
 			if(side == cfg * 2 || side == cfg * 2 + 1) {
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_uranium, ModBlocks.block_graphite_fuel)) return true;
+				if(checkInteraction(world, x, y, z, meta | 8, player, ModItems.pile_rod_pu239, ModBlocks.block_graphite_fuel)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_plutonium, ModBlocks.block_graphite_plutonium)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_source, ModBlocks.block_graphite_source)) return true;
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_boron, ModBlocks.block_graphite_rod)) return true;

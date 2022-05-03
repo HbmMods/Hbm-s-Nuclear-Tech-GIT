@@ -40,14 +40,15 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 		
 		if(!world.isRemote) {
 			
+			int meta = world.getBlockMetadata(x, y, z);
+			
 			if(tool == ToolType.SCREWDRIVER) {
-	
-				int meta = world.getBlockMetadata(x, y, z);
+				
 				int cfg = meta & 3;
 				
 				if(side == cfg * 2 || side == cfg * 2 + 1) {
-					world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta, 3);
-					this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.pile_rod_uranium));
+					world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, meta & 7, 3);
+					this.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(getInsertedItem(meta)));
 				}
 			}
 			
@@ -57,6 +58,8 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 				player.addChatComponentMessage(new ChatComponentText("HEAT: " + pile.heat + "/" + pile.maxHeat).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 				player.addChatComponentMessage(new ChatComponentText("DEPLETION: " + pile.progress + "/" + pile.maxProgress).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 				player.addChatComponentMessage(new ChatComponentText("FLUX: " + pile.lastNeutrons).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+				if((meta & 8) == 8)
+					player.addChatComponentMessage(new ChatComponentText("PU-239 RICH").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
 			}
 		}
 		
@@ -64,7 +67,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 	}
 	
 	@Override
-	protected Item getInsertedItem() {
-		return ModItems.pile_rod_uranium;
+	protected Item getInsertedItem(int meta) {
+		return (meta & 8) == 8 ? ModItems.pile_rod_pu239 : ModItems.pile_rod_uranium;
 	}
 }
