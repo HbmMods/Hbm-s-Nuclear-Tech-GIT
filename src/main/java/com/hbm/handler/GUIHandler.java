@@ -1723,6 +1723,8 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
 		case ModItems.guiID_item_holo_image:
 			return new GUIScreenHolotape();
+		case ModItems.guiID_item_fluid:
+			return new GUIScreenFluid(player);
 		}
 		return null;
 	}
