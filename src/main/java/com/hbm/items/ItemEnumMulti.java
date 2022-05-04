@@ -16,7 +16,7 @@ import net.minecraft.util.IIcon;
 public class ItemEnumMulti extends Item {
 	
 	//hell yes, now we're thinking with enums!
-	private Class<? extends Enum> theEnum;
+	protected Class<? extends Enum> theEnum;
 	private boolean multiName;
 	private boolean multiTexture;
 

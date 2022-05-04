@@ -1,19 +1,18 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 //@invtweaks.api.container.ChestContainer
 public class ContainerCrateSteel extends Container {
 
-	private TileEntityCrateSteel diFurnace;
+	private IInventory diFurnace;
 
-	public ContainerCrateSteel(InventoryPlayer invPlayer, TileEntityCrateSteel tedf) {
+	public ContainerCrateSteel(InventoryPlayer invPlayer, IInventory tedf) {
 		diFurnace = tedf;
 
 		for(int i = 0; i < 6; i++) {

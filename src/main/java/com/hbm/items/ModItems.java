@@ -999,6 +999,8 @@ public class ModItems {
 	public static Item canned_bark;
 	public static Item can_key;
 
+	public static Item cart;
+
 	public static Item coin_creeper;
 	public static Item coin_radiation;
 	public static Item coin_maskman;
@@ -2552,6 +2554,8 @@ public class ModItems {
 	public static final int guiID_item_bobble = 10107;
 	public static final int guiID_item_holo_image = 10108;
 
+	public static final int guiID_cart_crate = 2000;
+
 	public static Item mysteryshovel;
 	public static Item memory;
 
@@ -3536,6 +3540,8 @@ public class ModItems {
 		canned_recursion = new ItemLemon(1, 5, false).setUnlocalizedName("canned_recursion").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_recursion");
 		canned_bark = new ItemLemon(2, 5, false).setUnlocalizedName("canned_bark").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_bark");
 		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
+		
+		cart = new ItemModMinecart().setUnlocalizedName("cart").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cart");
 		
 		coin_creeper = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_creeper").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_creeper");
 		coin_radiation = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_radiation").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_radiation");
@@ -7785,6 +7791,9 @@ public class ModItems {
 		GameRegistry.registerItem(shackles, shackles.getUnlocalizedName());
 		GameRegistry.registerItem(injector_5htp, injector_5htp.getUnlocalizedName());
 		GameRegistry.registerItem(injector_knife, injector_knife.getUnlocalizedName());
+		
+		//Minecarts
+		GameRegistry.registerItem(cart, cart.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());
