@@ -5,6 +5,8 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.lib.Library;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
@@ -22,11 +24,6 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	@Override
 	public String getName() {
 		return "container.frackingTower";
-	}
-
-	@Override
-	protected void updateConnections() {
-		this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -112,5 +109,33 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[0], tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[2] };
+	}
+
+	@Override
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+		};
+	}
+
+	@Override
+	protected void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
 	}
 }
