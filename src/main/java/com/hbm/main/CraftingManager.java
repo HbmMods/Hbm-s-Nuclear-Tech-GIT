@@ -453,7 +453,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.sat_dock, 1), new Object[] { "SSS", "PCP", 'S', STEEL.ingot(), 'P', ANY_PLASTIC.ingot(), 'C', ModBlocks.crate_iron });
 		addRecipeAuto(new ItemStack(ModBlocks.book_guide, 1), new Object[] { "IBI", "LBL", "IBI", 'B', Items.book, 'I', KEY_BLACK, 'L', KEY_BLUE });
 
-		addRecipeAuto(new ItemStack(ModBlocks.rail_wood, 16), new Object[] { "S S", "SRS", "S S", 'S', ModBlocks.steel_beam, 'R', DictFrame.fromOne(ModItems.plant_item, EnumPlantType.ROPE) });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_wood, 16), new Object[] { "S S", "SRS", "S S", 'S', Items.stick, 'R', DictFrame.fromOne(ModItems.plant_item, EnumPlantType.ROPE) });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_narrow, 64), new Object[] { "S S", "S S", "S S", 'S', ModBlocks.steel_beam });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_highspeed, 16), new Object[] { "S S", "SIS", "S S", 'S', STEEL.ingot(), 'I', IRON.plate() });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_booster, 6), new Object[] { "S S", "CIC", "SRS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'R', MINGRADE.ingot(), 'C', ModItems.coil_copper });

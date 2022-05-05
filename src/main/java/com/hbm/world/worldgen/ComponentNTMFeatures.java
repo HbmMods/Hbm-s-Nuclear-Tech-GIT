@@ -47,6 +47,10 @@ public class ComponentNTMFeatures {
 		
 		private static ComponentNTMFeatures.Sandstone RandomSandstone = new ComponentNTMFeatures.Sandstone();
 		
+		public NTMHouse1() {
+			super();
+		}
+		
 		/** Constructor for this feature; takes coordinates for bounding box */
 		protected NTMHouse1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 9, 4, 6);
@@ -144,6 +148,10 @@ public class ComponentNTMFeatures {
 		private static ComponentNTMFeatures.Sandstone RandomSandstone = new ComponentNTMFeatures.Sandstone();
 		
 		private boolean[] hasPlacedLoot = new boolean[2];
+		
+		public NTMHouse2() {
+			super();
+		}
 		
 		protected NTMHouse2(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 15, 5, 9);
@@ -295,6 +303,10 @@ public class ComponentNTMFeatures {
 		
 		private boolean[] hasPlacedLoot = new boolean[2];
 		
+		public NTMLab1() {
+			super();
+		}
+		
 		/** Constructor for this feature; takes coordinates for bounding box */
 		protected NTMLab1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 9, 4, 7);
@@ -428,6 +440,10 @@ public class ComponentNTMFeatures {
 		private static ComponentNTMFeatures.LabTiles RandomLabTiles = new ComponentNTMFeatures.LabTiles();
 		
 		private boolean[] hasPlacedLoot = new boolean[2];
+		
+		public NTMLab2() {
+			super();
+		}
 
 		protected NTMLab2(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 12, 11, 8);
@@ -607,6 +623,10 @@ public class ComponentNTMFeatures {
 		
 		private boolean hasPlacedLoot;
 		
+		public NTMWorkshop1() {
+			super();
+		}
+		
 		protected NTMWorkshop1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 10, 6, 8);
 			this.hasPlacedLoot = false;
@@ -761,6 +781,10 @@ public class ComponentNTMFeatures {
 		
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
 		
+		public NTMRuin1() {
+			super();
+		}
+		
 		protected NTMRuin1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 8, 6, 10);
 		}
@@ -833,6 +857,10 @@ public class ComponentNTMFeatures {
 		
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
 		
+		public NTMRuin2() {
+			super();
+		}
+		
 		protected NTMRuin2(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 7, 5, 10);
 		}
@@ -896,6 +924,10 @@ public class ComponentNTMFeatures {
 		
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
 		
+		public NTMRuin3() {
+			super();
+		}
+		
 		protected NTMRuin3(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 8, 3, 10);
 		}
@@ -952,6 +984,10 @@ public class ComponentNTMFeatures {
 	public static class NTMRuin4 extends ComponentNTMFeatures.Feature {
 		
 		private static ComponentNTMFeatures.ConcreteBricks RandomConcreteBricks = new ComponentNTMFeatures.ConcreteBricks();
+		
+		public NTMRuin4() {
+			super();
+		}
 		
 		protected NTMRuin4(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 10, 2, 11);
@@ -1017,6 +1053,10 @@ public class ComponentNTMFeatures {
 		/** Average height? */
 		protected int hpos = -1;
 		
+		
+		protected Feature() {
+			super(0);
+		}
 		
 		protected Feature(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 			super(0);
