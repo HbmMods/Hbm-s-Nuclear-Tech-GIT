@@ -73,7 +73,7 @@ public class OreDictManager {
 	public static final String KEY_COAL_TAR = "coaltar";
 
 	public static final String KEY_UNIVERSAL_TANK = "ntmuniversaltank";
-	public static final String KEY_HAZARD_TANK = "ntmuhazardtank";
+	public static final String KEY_HAZARD_TANK = "ntmhazardtank";
 	public static final String KEY_UNIVERSAL_BARREL = "ntmuniversalbarrel";
 
 	public static final String KEY_TOOL_SCREWDRIVER = "ntmscrewdriver";
