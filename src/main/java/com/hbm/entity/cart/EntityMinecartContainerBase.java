@@ -1,4 +1,4 @@
-package com.hbm.entity.item;
+package com.hbm.entity.cart;
 
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;

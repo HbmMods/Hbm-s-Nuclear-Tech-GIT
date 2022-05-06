@@ -14,7 +14,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -41,9 +40,9 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
-import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
+import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.item.*;
@@ -491,7 +490,8 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 166, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityGrenadeBouncyGeneric.class, "entity_grenade_bouncy_generic", 168, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 169, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityMinecartCrate.class, "entity_ntm_cart_crate", 170, this, 250, 1, true);
+		EntityRegistry.registerModEntity(EntityMinecartCrate.class, "entity_ntm_cart_crate", 170, this, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityMinecartDestroyer.class, "entity_ntm_cart_crate", 171, this, 250, 1, false);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

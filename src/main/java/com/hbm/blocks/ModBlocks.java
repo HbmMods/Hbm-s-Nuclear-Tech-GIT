@@ -633,7 +633,7 @@ public class ModBlocks {
 	public static Block machine_difurnace_rtg_off;
 	public static Block machine_difurnace_rtg_on;
 	public static final int guiID_test_difurnace = 1;
-	public static final int guiID_rtg_difurnace = 2001;
+	public static final int guiID_rtg_difurnace = 125;
 	
 	public static Block machine_centrifuge;
 	public static final int guiID_centrifuge = 5;

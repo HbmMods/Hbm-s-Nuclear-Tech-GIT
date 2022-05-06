@@ -2555,6 +2555,7 @@ public class ModItems {
 	public static final int guiID_item_holo_image = 10108;
 
 	public static final int guiID_cart_crate = 2000;
+	public static final int guiID_cart_destroyer = 2001;
 
 	public static Item mysteryshovel;
 	public static Item memory;
