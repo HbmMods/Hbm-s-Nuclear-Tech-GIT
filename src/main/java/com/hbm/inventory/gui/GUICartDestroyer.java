@@ -30,7 +30,7 @@ public class GUICartDestroyer extends GuiContainer {
 		String name = this.cart.hasCustomInventoryName() ? this.cart.getInventoryName() : I18n.format(this.cart.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 4, 4210752);
 	}
 	
 	@Override

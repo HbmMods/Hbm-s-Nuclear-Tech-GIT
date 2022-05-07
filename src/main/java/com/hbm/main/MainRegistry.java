@@ -492,6 +492,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 169, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityMinecartCrate.class, "entity_ntm_cart_crate", 170, this, 250, 1, false);
 		EntityRegistry.registerModEntity(EntityMinecartDestroyer.class, "entity_ntm_cart_crate", 171, this, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityMinecartOre.class, "entity_ntm_cart_ore", 172, this, 250, 1, false);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -511,7 +512,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 167, this, 1000, 1, true); //how about you have a taste of my fucking scrotum?
 		//EntityRegistry.registerGlobalEntityID(EntitySiegeTunneler.class, "entity_meme_tunneler", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008080);
 
-		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 160, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1600, this, 1000, 1, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 

@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import com.hbm.entity.cart.*;
+import com.hbm.entity.item.EntityMinecartOre;
 import com.hbm.items.ItemEnumMulti;
 
 import net.minecraft.block.Block;
@@ -22,7 +23,8 @@ public class ItemModMinecart extends ItemEnumMulti {
 	
 	public static enum EnumMinecart {
 		CRATE,
-		DESTROYER
+		DESTROYER,
+		EMPTY
 	}
 
 	public ItemModMinecart() {
@@ -97,6 +99,7 @@ public class ItemModMinecart extends ItemEnumMulti {
 		switch(type) {
 		case CRATE: return new EntityMinecartCrate(world, x, y, z);
 		case DESTROYER: return new EntityMinecartDestroyer(world, x, y, z);
+		case EMPTY: return new EntityMinecartOre(world, x, y, z);
 		default: return new EntityMinecartEmpty(world, x, y, z);
 		}
 	}
