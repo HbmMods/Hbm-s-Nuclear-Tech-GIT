@@ -29,6 +29,10 @@ public class ItemEnergy extends Item {
 	private Item cap = null;
 	private boolean requiresOpener = false;
 	
+	public ItemEnergy() {
+		this.setCreativeTab(MainRegistry.consumableTab);
+	}
+	
 	public ItemEnergy makeCan() {
 		this.container = ModItems.can_empty;
 		this.cap = ModItems.ring_pull;
@@ -223,7 +227,7 @@ public class ItemEnergy extends Item {
 		if(VersatileConfig.hasPotionSickness(p_77659_3_))
 			return p_77659_1_;
 		
-			if(!this.requiresOpener || p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
+			if(this.requiresOpener && !p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 
 		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));

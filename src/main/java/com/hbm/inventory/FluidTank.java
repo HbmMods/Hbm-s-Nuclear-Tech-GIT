@@ -12,7 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemArmorMod;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
@@ -246,10 +246,11 @@ public class FluidTank {
 	 */
 	public boolean setType(int in, int out, ItemStack[] slots) {
 		
-		if(slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
+		if(slots[in] != null && slots[in].getItem() instanceof IItemFluidIdentifier) {
+			IItemFluidIdentifier id = (IItemFluidIdentifier) slots[in].getItem();
 			
 			if(in == out) {
-				FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+				FluidType newType = id.getType(null, 0, 0, 0, slots[in]);
 				
 				if(type != newType) {
 					type = newType;
@@ -258,7 +259,7 @@ public class FluidTank {
 				}
 				
 			} else if(slots[out] == null) {
-				FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+				FluidType newType = id.getType(null, 0, 0, 0, slots[in]);
 				if(type != newType) {
 					type = newType;
 					slots[out] = slots[in].copy();
