@@ -29,7 +29,7 @@ public class ItemModMinecart extends ItemEnumMulti {
 
 	public ItemModMinecart() {
 		super(EnumMinecart.class, true, true);
-		this.maxStackSize = 1;
+		this.setMaxStackSize(4);
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenseBehavior);
 	}
@@ -59,7 +59,7 @@ public class ItemModMinecart extends ItemEnumMulti {
 				yOffset = -1.0D;
 			}
 
-			EntityMinecart entityminecart = createMinecart(world, x, y + yOffset, z, (EnumMinecart) EnumMinecart.values()[stack.getItemDamage()]);
+			EntityMinecart entityminecart = createMinecart(world, x, y + yOffset, z, stack);
 
 			if(stack.hasDisplayName()) {
 				entityminecart.setMinecartName(stack.getDisplayName());
@@ -79,7 +79,7 @@ public class ItemModMinecart extends ItemEnumMulti {
 		if(BlockRailBase.func_150051_a(world.getBlock(x, y, z))) {
 			if(!world.isRemote) {
 				
-				EntityMinecart entityminecart = createMinecart(world, x + 0.5D, y + 0.5D, z + 0.5D, (EnumMinecart) this.theEnum.getEnumConstants()[stack.getItemDamage()]);
+				EntityMinecart entityminecart = createMinecart(world, x + 0.5D, y + 0.5D, z + 0.5D, stack);
 
 				if(stack.hasDisplayName()) {
 					entityminecart.setMinecartName(stack.getDisplayName());
@@ -95,9 +95,10 @@ public class ItemModMinecart extends ItemEnumMulti {
 		}
 	}
 	
-	public static EntityMinecart createMinecart(World world, double x, double y, double z, EnumMinecart type) {
+	public static EntityMinecart createMinecart(World world, double x, double y, double z, ItemStack stack) {
+		EnumMinecart type = (EnumMinecart) EnumMinecart.values()[stack.getItemDamage()];
 		switch(type) {
-		case CRATE: return new EntityMinecartCrate(world, x, y, z);
+		case CRATE: return new EntityMinecartCrate(world, x, y, z, stack);
 		case DESTROYER: return new EntityMinecartDestroyer(world, x, y, z);
 		case EMPTY: return new EntityMinecartOre(world, x, y, z);
 		default: return new EntityMinecartEmpty(world, x, y, z);

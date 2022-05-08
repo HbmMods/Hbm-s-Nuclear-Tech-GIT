@@ -1257,6 +1257,7 @@ item.cape_schrabidium.name=Cape (Schrabidic)
 item.cape_vertice.name=Lord Vertice's Cape
 item.cart.crate.name=Crate Cart
 item.cart.destroyer.name=Scrap Destroying Cart
+item.cart.empty.name=Steel Minecart
 item.casing_357.name=.357 Magnum Casing (x24)
 item.casing_44.name=.44 Magnum Casing (x24)
 item.casing_50.name=Large Caliber Casing (x12)
@@ -4075,6 +4076,7 @@ tile.watz_element.name=Watz Reaction Chamber
 tile.watz_end.name=Watz Reactor Stability Element
 tile.watz_hatch.name=Watz Reactor Access Hatch
 tile.yellow_barrel.name=Radioactive Barrel
+tile.zirnox_destroyed.name=Destroyed ZINROX
 
 trait.asbestos=Asbestos
 trait.blinding=Blinding

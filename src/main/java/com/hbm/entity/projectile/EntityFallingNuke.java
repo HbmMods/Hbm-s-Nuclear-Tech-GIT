@@ -23,6 +23,7 @@ public class EntityFallingNuke extends EntityThrowable {
 	public EntityFallingNuke(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
+        this.setSize(0.98F, 0.98F);
 	}
 
 	public EntityFallingNuke(World p_i1582_1_, float tnt, float nuke, float hydro, float amat, float dirty, float schrab, float euph) {
@@ -38,10 +39,12 @@ public class EntityFallingNuke extends EntityThrowable {
 		this.euph = euph;
         this.prevRotationYaw = this.rotationYaw = 90;
         this.prevRotationPitch = this.rotationPitch = 90;
+        
+        this.setSize(0.98F, 0.98F);
 	}
 
     protected void entityInit() {
-    	this.dataWatcher.addObject(20, 0);
+    	this.dataWatcher.addObject(20, Byte.valueOf((byte)0));
     }
 	
 	@Override
@@ -70,7 +73,7 @@ public class EntityFallingNuke extends EntityThrowable {
         
         this.rotation();
         
-        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air)
+        if(this.worldObj.getBlock((int)Math.floor(this.posX), (int)Math.floor(this.posY), (int)Math.floor(this.posZ)) != Blocks.air)
         {
     		if(!this.worldObj.isRemote)
     		{
@@ -89,8 +92,7 @@ public class EntityFallingNuke extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition p_70184_1_) {
-	}
+	protected void onImpact(MovingObjectPosition p_70184_1_) { }
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tag) {

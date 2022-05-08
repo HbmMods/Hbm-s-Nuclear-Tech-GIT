@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;

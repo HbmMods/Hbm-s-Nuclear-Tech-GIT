@@ -52,4 +52,9 @@ public class EntityMinecartOre extends EntityMinecart {
 
 		this.entityDropItem(itemstack, 0.0F);
 	}
+
+	@Override
+	public ItemStack getCartItem() {
+		return DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY);
+	}
 }

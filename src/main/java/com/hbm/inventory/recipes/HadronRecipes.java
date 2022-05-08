@@ -39,7 +39,7 @@ public class HadronRecipes extends SerializableRecipe {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_copper),
-				80,
+				900,
 				new ItemStack(ModItems.particle_aproton),
 				new ItemStack(ModItems.particle_aelectron),
 				true
@@ -47,7 +47,7 @@ public class HadronRecipes extends SerializableRecipe {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_amat),
 				new ItemStack(ModItems.particle_amat),
-				80,
+				900,
 				new ItemStack(ModItems.particle_aschrab),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -63,7 +63,7 @@ public class HadronRecipes extends SerializableRecipe {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_amat),
-				1000,
+				2000,
 				new ItemStack(ModItems.particle_muon),
 				new ItemStack(ModItems.particle_empty),
 				true
@@ -71,7 +71,7 @@ public class HadronRecipes extends SerializableRecipe {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_lead),
-				4000,
+				5000,
 				new ItemStack(ModItems.particle_higgs),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -79,7 +79,7 @@ public class HadronRecipes extends SerializableRecipe {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_muon),
 				new ItemStack(ModItems.particle_higgs),
-				1000,
+				2000,
 				new ItemStack(ModItems.particle_tachyon),
 				new ItemStack(ModItems.particle_empty),
 				true

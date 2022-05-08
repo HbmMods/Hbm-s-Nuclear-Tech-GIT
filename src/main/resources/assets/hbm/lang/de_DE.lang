@@ -1040,6 +1040,7 @@ item.cape_schrabidium.name=Cape (Schrabidisch)
 item.cape_vertice.name=Lord Vertices Cape
 item.cart.crate.name=Stahlkistenlore
 item.cart.destroyer.name=Schuttzerstörende Lore
+item.cart.empty.name=Stählerne Lore
 item.casing_357.name=.357 Magnum-Hülse (x24)
 item.casing_44.name=.44 Magnum-Hülse (x24)
 item.casing_50.name=Großkaliberhülse (x12)
@@ -3682,6 +3683,7 @@ tile.watz_element.name=Watzreaktionskammer
 tile.watz_end.name=Watz-Stabilitätselement
 tile.watz_hatch.name=Watzreaktorzugriffsluke
 tile.yellow_barrel.name=Radioaktives Fass
+tile.zirnox_destroyed.name=Zerstörter ZINOX
 
 trait.asbestos=Asbest
 trait.blinding=Blendend
