@@ -95,6 +95,14 @@ public class AssemblerRecipes {
 		
 		if(stack != null && stack.getItem() instanceof ItemAssemblyTemplate) {
 			
+			ComparableStack comp = ItemAssemblyTemplate.readType(stack);
+			
+			//NEW
+			if(comp != null) {
+				return comp.toStack();
+			}
+			
+			//LEGACY
 			int i = stack.getItemDamage();
 			if(i >= 0 && i < recipeList.size()) {
 				return recipeList.get(i).toStack();
@@ -108,8 +116,15 @@ public class AssemblerRecipes {
 		
 		if(stack != null && stack.getItem() instanceof ItemAssemblyTemplate) {
 			
-			int i = stack.getItemDamage();
+			//NEW
+			ComparableStack compStack = ItemAssemblyTemplate.readType(stack);
+			if(compStack != null) {
+				AStack[] ret = recipes.get(compStack);
+				return Arrays.asList(ret);
+			}
 			
+			//LEGACY
+			int i = stack.getItemDamage();
 			if(i >= 0 && i < recipeList.size()) {
 				ItemStack out = recipeList.get(i).toStack();
 				

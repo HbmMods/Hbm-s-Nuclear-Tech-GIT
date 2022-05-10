@@ -1,5 +1,7 @@
 package com.hbm.packet;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
@@ -143,6 +145,15 @@ public class ItemFolderPacket implements IMessage {
 				
 				if(o instanceof String) {
 					InventoryUtil.consumeOreDictMatches(player, (String)o, 1);
+				}
+			}
+			
+			if(output.getItem() == ModItems.assembly_template) {
+				ComparableStack out = AssemblerRecipes.recipeList.get(output.getItemDamage());
+				
+				if(out != null) {
+					out.meta = 0;
+					ItemAssemblyTemplate.writeType(output, out);
 				}
 			}
 			
