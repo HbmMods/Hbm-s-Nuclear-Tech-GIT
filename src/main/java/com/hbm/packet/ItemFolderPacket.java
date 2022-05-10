@@ -59,7 +59,17 @@ public class ItemFolderPacket implements IMessage {
 					ItemStack stack = new ItemStack(Item.getItemById(m.item), 1, m.meta);
 					
 					if(p.capabilities.isCreativeMode) {
-						p.inventory.addItemStackToInventory(stack.copy());
+						
+						if(stack.getItem() == ModItems.assembly_template) {
+							ComparableStack out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
+							
+							if(out != null) {
+								stack.setItemDamage(0);
+								ItemAssemblyTemplate.writeType(stack, out);
+							}
+						}
+						
+						p.inventory.addItemStackToInventory(stack);
 						return null;
 					}
 
@@ -152,7 +162,7 @@ public class ItemFolderPacket implements IMessage {
 				ComparableStack out = AssemblerRecipes.recipeList.get(output.getItemDamage());
 				
 				if(out != null) {
-					out.meta = 0;
+					output.setItemDamage(0);
 					ItemAssemblyTemplate.writeType(output, out);
 				}
 			}

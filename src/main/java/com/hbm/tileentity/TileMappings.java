@@ -79,7 +79,6 @@ public class TileMappings {
 		put(TileEntityMachineRTG.class, "tileentity_machine_rtg");
 		put(TileEntityStructureMarker.class, "tileentity_structure_marker");
 		put(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
-		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");
 		put(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
@@ -254,6 +253,8 @@ public class TileMappings {
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
 
+		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
+		put(TileEntityMachineAssemfac.class, "tileentity_assemfac");
 		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		put(TileEntityMachineChemfac.class, "tileentity_chemfac");
 		

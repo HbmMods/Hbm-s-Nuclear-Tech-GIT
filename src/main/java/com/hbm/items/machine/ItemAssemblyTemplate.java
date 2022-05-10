@@ -45,6 +45,20 @@ public class ItemAssemblyTemplate extends Item {
 	}
 
 	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack) {
+
+		//NEW
+		ComparableStack out = readType(stack);
+		//LEGACY
+		if(out == null) out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
+
+		if(AssemblerRecipes.hidden.get(out) != null)
+			return this.hiddenIcon;
+
+		return this.itemIcon;
+	}
+
+	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
 		this.hiddenIcon = reg.registerIcon(this.iconString + "_secret");
@@ -74,8 +88,14 @@ public class ItemAssemblyTemplate extends Item {
 	}
 
 	public String getItemStackDisplayName(ItemStack stack) {
+
+		//NEW
+		ComparableStack comp = readType(stack);
+		//LEGACY
+		if(comp == null) comp = AssemblerRecipes.recipeList.get(stack.getItemDamage());
+		
 		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		ItemStack out = stack.getItemDamage() < AssemblerRecipes.recipeList.size() ? AssemblerRecipes.recipeList.get(stack.getItemDamage()).toStack() : null;
+		ItemStack out = comp != null ? comp.toStack() : null;
 		String s1 = ("" + StatCollector.translateToLocal((out != null ? out.getUnlocalizedName() : "") + ".name")).trim();
 
 		if(s1 != null) {
@@ -140,8 +160,6 @@ public class ItemAssemblyTemplate extends Item {
 			out = AssemblerRecipes.recipeList.get(i);
 			nbtType = false;
 		}
-		Integer time = AssemblerRecipes.time.get(out);
-
 		HashSet<Item> folders = AssemblerRecipes.hidden.get(out);
 
 		if(folders == null)

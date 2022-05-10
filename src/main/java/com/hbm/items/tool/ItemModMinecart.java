@@ -1,13 +1,20 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
 import com.hbm.entity.cart.*;
 import com.hbm.entity.item.EntityMinecartOre;
-import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
+import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
@@ -15,28 +22,159 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityMinecartEmpty;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemModMinecart extends ItemEnumMulti {
+public class ItemModMinecart extends Item {
+
+	private IIcon[] icons;
+	private IIcon[] bases = new IIcon[4];
+	
+	public static final String CART_BASE_NBT = "cartBase";
+	
+	public static enum EnumCartBase {
+		VANILLA,
+		WOOD,
+		STEEL,
+		PAINTED
+	}
 	
 	public static enum EnumMinecart {
-		CRATE,
-		DESTROYER,
-		EMPTY
+		EMPTY		(EnumCartBase.STEEL),
+		CRATE		(EnumCartBase.VANILLA),
+		DESTROYER	(EnumCartBase.STEEL),
+		POWDER		(EnumCartBase.WOOD);
+		
+		public int types;
+		
+		private EnumMinecart(EnumCartBase... types) {
+			this.types = 0;
+			for(EnumCartBase type : types) {
+				this.types |= (1 << type.ordinal());
+			}
+		}
+		
+		private EnumMinecart(int types) {
+			this.types = types;
+		}
+		
+		public boolean supportsBase(int type) {
+			return (this.types & (1 << type)) > 0;
+		}
+		
+		public boolean supportsBase(EnumCartBase type) {
+			return supportsBase(type.ordinal());
+		}
+		
+		/*public boolean isVanilla() {
+			return isType(0);
+		}
+		
+		public boolean isSteel() {
+			return isType(1);
+		}
+		
+		public boolean isWood() {
+			return isType(2);
+		}
+		
+		public boolean isPainted() {
+			return isType(3);
+		}*/
 	}
 
 	public ItemModMinecart() {
-		super(EnumMinecart.class, true, true);
 		this.setMaxStackSize(4);
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenseBehavior);
 	}
 	
+	@Override
+	public Item setUnlocalizedName(String unlocalizedName) {
+		super.setUnlocalizedName(unlocalizedName);
+		this.setTextureName(RefStrings.MODID + ":"+ unlocalizedName);
+		return this;
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		EnumMinecart cart = EnumUtil.grabEnumSafely(EnumMinecart.class, stack.getItemDamage());
+		return super.getUnlocalizedName() + "." + cart.name().toLowerCase();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < EnumMinecart.values().length; i++) {
+			EnumMinecart cart = EnumMinecart.values()[i];
+			
+			for(EnumCartBase base : EnumCartBase.values()) {
+				if(cart.supportsBase(base)) {
+					list.add(createCartItem(base, cart));
+				}
+			}
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister reg) {
+		
+		for(int i = 0; i < EnumCartBase.values().length; i++) {
+			EnumCartBase base = EnumCartBase.values()[i];
+			bases[i] = reg.registerIcon(this.getIconString() + "." + base.name().toLowerCase());
+		}
+		
+		EnumMinecart[] enums = EnumMinecart.values();
+		this.icons = new IIcon[enums.length];
+
+		for(int i = 0; i < icons.length; i++) {
+			Enum num = enums[i];
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_overlay." + num.name().toLowerCase());
+		}
+	}
+	
+	public static EnumCartBase getBaseType(ItemStack stack) {
+		if(!stack.hasTagCompound())
+			return EnumCartBase.VANILLA;
+		
+		int meta = stack.stackTagCompound.getInteger(CART_BASE_NBT);
+		return EnumUtil.grabEnumSafely(EnumCartBase.class, meta);
+	}
+	
+	public static ItemStack createCartItem(EnumCartBase base, EnumMinecart cart) {
+		ItemStack stack = new ItemStack(ModItems.cart, 1, cart.ordinal());
+		stack.stackTagCompound = new NBTTagCompound();
+		stack.stackTagCompound.setInteger(CART_BASE_NBT, base.ordinal());
+		return stack;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses() {
+		return true;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack stack, int pass) {
+		
+		if(pass == 0) {
+			EnumCartBase base = getBaseType(stack);
+			return this.bases[base.ordinal()];
+		}
+		
+		return this.icons[stack.getItemDamage()];
+	}
+	
 	private static final IBehaviorDispenseItem dispenseBehavior = new BehaviorDefaultDispenseItem() {
 		private final BehaviorDefaultDispenseItem behaviourDefaultDispenseItem = new BehaviorDefaultDispenseItem();
 
+		@Override
 		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 			EnumFacing enumfacing = BlockDispenser.func_149937_b(source.getBlockMetadata());
 			World world = source.getWorld();
@@ -74,7 +212,8 @@ public class ItemModMinecart extends ItemEnumMulti {
 			source.getWorld().playAuxSFX(1000, source.getXInt(), source.getYInt(), source.getZInt(), 0);
 		}
 	};
-	
+
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer entity, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
 		if(BlockRailBase.func_150051_a(world.getBlock(x, y, z))) {
 			if(!world.isRemote) {
