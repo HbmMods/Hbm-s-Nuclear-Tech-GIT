@@ -1,4 +1,4 @@
-package com.hbm.entity.item;
+package com.hbm.entity.cart;
 
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;

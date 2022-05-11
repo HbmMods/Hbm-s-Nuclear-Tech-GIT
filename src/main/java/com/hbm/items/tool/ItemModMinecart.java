@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.cart.*;
-import com.hbm.entity.item.EntityMinecartOre;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;

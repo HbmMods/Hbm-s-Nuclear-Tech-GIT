@@ -125,9 +125,9 @@ public class TileEntityMachineAssemfac extends TileEntityMachineBase {
 				targetAngles[1] = -targetAngles[0];			//Arm
 				targetAngles[2] = rand.nextInt(30) - 15;	//Piston
 			} else if(this.actionMode == 1) {
-				targetAngles[0] = rand.nextInt(10);	//Pivot
-				targetAngles[1] = -targetAngles[0];	//Arm
-				targetAngles[2] = 20;				//Piston
+				targetAngles[0] = -rand.nextInt(30) + 10;	//Pivot
+				targetAngles[1] = -targetAngles[0];			//Arm
+				targetAngles[2] = rand.nextInt(10) + 10;	//Piston
 			}
 		}
 		
