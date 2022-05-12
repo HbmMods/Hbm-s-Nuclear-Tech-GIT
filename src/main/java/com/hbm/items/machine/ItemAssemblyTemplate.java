@@ -64,13 +64,15 @@ public class ItemAssemblyTemplate extends Item {
 		this.hiddenIcon = reg.registerIcon(this.iconString + "_secret");
 	}
 	
-	public static void writeType(ItemStack stack, ComparableStack comp) {
+	public static ItemStack writeType(ItemStack stack, ComparableStack comp) {
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
 
 		stack.stackTagCompound.setInteger("id", Item.getIdFromItem(comp.item));
 		stack.stackTagCompound.setByte("count", (byte)comp.stacksize);
 		stack.stackTagCompound.setShort("meta", (short)comp.meta);
+		
+		return stack;
 	}
 	
 	public static ComparableStack readType(ItemStack stack) {

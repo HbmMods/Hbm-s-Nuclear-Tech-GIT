@@ -7,12 +7,14 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemStamp;
@@ -76,8 +78,10 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			}
 			// Assembly Templates
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
-				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null) {
-					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+
+				ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+				if(AssemblerRecipes.hidden.get(comp) == null) {
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp));
 				}
 			}
 			// Chemistry Templates
