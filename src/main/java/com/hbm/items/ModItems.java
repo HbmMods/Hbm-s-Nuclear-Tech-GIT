@@ -3724,7 +3724,7 @@ public class ModItems {
 				.setYield(100000000D)
 				.setStats(40)
 				.setFunction(EnumBurnFunc.LINEAR)
-				.setHeat(1.5D)
+				.setHeat(1.75D)
 				.setMeltingPoint(2744)
 				.setUnlocalizedName("rbmk_fuel_hep241").setTextureName(RefStrings.MODID + ":rbmk_fuel_hep241");
 		rbmk_fuel_lea = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lea)
@@ -3732,21 +3732,21 @@ public class ModItems {
 				.setStats(60, 10)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
 				.setDepletionFunction(EnumDepleteFunc.RAISING_SLOPE)
-				.setHeat(1.25D)
+				.setHeat(1.5D)
 				.setMeltingPoint(2386)
 				.setUnlocalizedName("rbmk_fuel_lea").setTextureName(RefStrings.MODID + ":rbmk_fuel_lea");
 		rbmk_fuel_mea = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mea)
 				.setYield(100000000D)
 				.setStats(35D, 20)
 				.setFunction(EnumBurnFunc.ARCH)
-				.setHeat(1.5D)
+				.setHeat(1.75D)
 				.setMeltingPoint(2386)
 				.setUnlocalizedName("rbmk_fuel_mea").setTextureName(RefStrings.MODID + ":rbmk_fuel_mea");
 		rbmk_fuel_hea241 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hea241)
 				.setYield(100000000D)
 				.setStats(65, 15)
 				.setFunction(EnumBurnFunc.SQUARE_ROOT)
-				.setHeat(1.75D)
+				.setHeat(1.85D)
 				.setMeltingPoint(2386)
 				.setNeutronTypes(NType.FAST, NType.FAST)
 				.setUnlocalizedName("rbmk_fuel_hea241").setTextureName(RefStrings.MODID + ":rbmk_fuel_hea241");
