@@ -22,7 +22,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineReactorBreeding extends TileEntityMachineBase, SimpleComponent {
+public class TileEntityMachineReactorBreeding extends TileEntityMachineBase implements SimpleComponent {
 
 	public int flux;
 	public float progress;
