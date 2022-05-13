@@ -70,10 +70,10 @@ public class MachineTowerLarge extends BlockDummyable implements ILookOverlay {
 
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 
-		if(!(te instanceof TileEntityTowerSmall))
+		if(!(te instanceof TileEntityTowerLarge))
 			return;
 
-		TileEntityTowerSmall tower = (TileEntityTowerSmall) te;
+		TileEntityTowerLarge tower = (TileEntityTowerLarge) te;
 
 		List<String> text = new ArrayList();
 
