@@ -323,13 +323,6 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 
 	@Override
 	public int getMaxFluidFillForReceive(FluidType type) {
-		/*int fill = this.getMaxFluidFill(type);
-		
-		if(type == Fluids.WATER)
-			fill += water.getMaxFill();
-		
-		return fill;*/
-		
 		return super.getMaxFluidFillForReceive(type);
 	}
 	
