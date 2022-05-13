@@ -16,7 +16,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent {
 	
 	//amount of "neutron energy" buffered for the next tick to use for the reaction
 	public double fluxFast;
@@ -342,5 +349,32 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void unload() {
 		slots[0] = null;
 		this.markDirty();
+	}
+	
+	// do some opencomputer stuff
+	@Override
+    	public String getComponentName() {
+		if (isModerated() == true) {
+        		return "rbmk_moderated_fuel_rod";
+		}
+        	return "rbmk_fuel_rod";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluxSlow(Context context, Arguments args) {
+		return new Object[] {fluxSlow};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluxFast(Context context, Arguments args) {
+		return new Object[] {fluxFast};
 	}
 }
