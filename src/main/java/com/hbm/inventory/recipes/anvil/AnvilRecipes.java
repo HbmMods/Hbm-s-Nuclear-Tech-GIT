@@ -204,7 +204,7 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new ComparableStack(ModItems.deuterium_filter, 3),
+						new ComparableStack(ModItems.deuterium_filter, 2),
 						new ComparableStack(ModItems.hull_big_steel, 5),
 						new ComparableStack(ModBlocks.concrete_smooth, 8),
 						new ComparableStack(ModBlocks.concrete_asbestos, 4),
