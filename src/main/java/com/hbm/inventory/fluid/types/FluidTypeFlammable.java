@@ -1,7 +1,8 @@
-package com.hbm.inventory.fluid;
+package com.hbm.inventory.fluid.types;
 
 import java.util.List;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.util.BobMathUtil;
 

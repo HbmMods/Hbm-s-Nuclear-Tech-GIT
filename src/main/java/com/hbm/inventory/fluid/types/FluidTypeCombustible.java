@@ -1,4 +1,4 @@
-package com.hbm.inventory.fluid;
+package com.hbm.inventory.fluid.types;
 
 import java.util.List;
 

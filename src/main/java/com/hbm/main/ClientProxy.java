@@ -29,6 +29,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.HashMap;
@@ -1504,6 +1505,12 @@ public class ClientProxy extends ServerProxy {
 				fx.setBaseScale(data.getFloat("base"));
 				fx.setMaxScale(data.getFloat("max"));
 				fx.setLife(data.getInteger("life") / (particleSetting + 1));
+				
+				if(data.hasKey("color")) {
+					Color color = new Color(data.getInteger("color"));
+					fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				}
+				
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 			}
 		}

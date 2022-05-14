@@ -408,6 +408,9 @@ entity.hbm.entity_bullet.name=Patrone
 entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 
+flare.ignition=Zündung
+flare.valve=Flussventil
+
 fluid.acid_fluid=Säure
 fluid.corium_fluid=Corium
 fluid.mud_fluid=Giftiger Schlamm

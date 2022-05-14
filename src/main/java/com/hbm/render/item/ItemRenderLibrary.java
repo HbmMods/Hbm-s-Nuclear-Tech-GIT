@@ -325,13 +325,15 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_flare), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
+				GL11.glScaled(2.25, 2.25, 2.25);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.oilflare_tex); ResourceManager.oilflare.renderAll();
-		        GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_refinery), new ItemRenderBase() {

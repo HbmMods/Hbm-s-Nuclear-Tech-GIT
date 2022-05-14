@@ -173,9 +173,22 @@ public class FluidType {
 		
 		if(traits.contains(FluidTrait.NO_CONTAINER)) info.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
 		if(traits.contains(FluidTrait.LEAD_CONTAINER)) info.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");
+
+		info.add("");
+		info.add(EnumChatFormatting.RED + "[DEBUG]");
+		
+		for(FluidTrait trait : traits) {
+			info.add(EnumChatFormatting.RED + "-" + trait.name());
+		}
 	}
 	
+	/**
+	 * Metadata for describing how the fluid acts, like being corrosive, not having fluid IDs or being only stored in certain containers.
+	 */
 	public static enum FluidTrait {
+		LIQUID,
+		GASEOUS,
+		PETROCHEMICAL,
 		AMAT,
 		CORROSIVE,
 		CORROSIVE_2,

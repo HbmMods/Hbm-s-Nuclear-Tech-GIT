@@ -7,7 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
-import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
+import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;

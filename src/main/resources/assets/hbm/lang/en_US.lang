@@ -606,6 +606,9 @@ entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
 entity.hbm.entity_schrabnel.name=Schrabnel
 
+flare.ignition=Ignition
+flare.valve=Flow Valve
+
 fluid.acid_fluid=Acid
 fluid.corium_fluid=Corium
 fluid.mud_fluid=Poisonous Mud

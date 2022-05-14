@@ -35,7 +35,7 @@ public class EntityGasFlameFX extends EntityModFX
         this.smokeParticleScale = this.particleScale;
         //this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
         //this.particleMaxAge = (int)((float)this.particleMaxAge * p_i1226_14_);
-        this.noClip = false;
+        this.noClip = true;
     }
 
     /**
@@ -71,9 +71,7 @@ public class EntityGasFlameFX extends EntityModFX
             this.motionZ *= 0.699999988079071D;
         }
 
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
+        this.moveEntity(motionX, motionY, motionZ);
     }
 
     @Override
