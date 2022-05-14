@@ -46,7 +46,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			this.updateConnections();
 			
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() < tanks[1].getFill()) {
+				if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
 					int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
 					convert = Math.min(convert, tanks[1].getMaxFill() - tanks[1].getFill());
 					
