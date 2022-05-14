@@ -369,7 +369,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 8000))
 				.outputFluids(
 						new FluidStack(Fluids.DEUTERIUM, 400),
-						new FluidStack(Fluids.OXYGEN, 800)));
+						new FluidStack(Fluids.OXYGEN, 400)));
 		recipes.add(new ChemRecipe(80, "EPEARL", 100)
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
