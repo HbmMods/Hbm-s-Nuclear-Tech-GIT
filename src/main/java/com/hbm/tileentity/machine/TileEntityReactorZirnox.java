@@ -235,7 +235,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 		
 		// function of SHS produced per tick
-		// heat - 10256/100000 * pressure / 50,000 * 25 * 5 (should get rid of any rounding errors)
+		// (heat - 10256)/100000 * steamFill (max efficiency at 14b) * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
 			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
 			int Steam = Water * 1;
@@ -366,17 +366,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 		
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achZIRNOXBoom);
 		}
 		
 		if(MobConfig.enableElementals) {
-			@SuppressWarnings("unchecked")
-			List<EntityPlayer> players2 = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
-
-			for(EntityPlayer player : players2) {
+			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
@@ -408,9 +405,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	public int getMaxFluidFill(FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) return steam.getMaxFill();
+		if(type == Fluids.SUPERHOTSTEAM) return 0;
 		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getMaxFill();
 		if(type == Fluids.WATER) return water.getMaxFill();
+		
 		return 0;
 	}
 

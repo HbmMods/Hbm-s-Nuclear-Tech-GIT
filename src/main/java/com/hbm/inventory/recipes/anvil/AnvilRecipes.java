@@ -204,7 +204,7 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new ComparableStack(ModItems.deuterium_filter, 3),
+						new ComparableStack(ModItems.deuterium_filter, 2),
 						new ComparableStack(ModItems.hull_big_steel, 5),
 						new ComparableStack(ModBlocks.concrete_smooth, 8),
 						new ComparableStack(ModBlocks.concrete_asbestos, 4),
@@ -666,7 +666,8 @@ public class AnvilRecipes {
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 3)),
+							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),
+							new AnvilOutput(new ItemStack(ModItems.billet_uranium, 1)),
 							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
 					}).setTier(2));
 			constructionRecipes.add(new AnvilConstructionRecipe(

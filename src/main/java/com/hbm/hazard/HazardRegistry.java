@@ -336,7 +336,7 @@ public class HazardRegistry {
 		
 		HazardSystem.register(pile_rod_uranium, makeData(RADIATION, u * billet * 3));
 		HazardSystem.register(pile_rod_pu239, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet + pu239 * billet + u * billet : purg * billet + pu239 * billet + wst * billet));
-		HazardSystem.register(pile_rod_plutonium, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet * 3 : purg * billet * 2 + wst * billet));
+		HazardSystem.register(pile_rod_plutonium, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet * 2 + u * billet : purg * billet * 2 + wst * billet));
 		HazardSystem.register(pile_rod_source, makeData(RADIATION, rabe * billet * 3));
 		
 		registerBreedingRodRadiation(BreedingRodType.TRITIUM, 0.001F);

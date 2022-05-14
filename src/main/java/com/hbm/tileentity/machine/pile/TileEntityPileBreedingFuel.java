@@ -11,7 +11,7 @@ public class TileEntityPileBreedingFuel extends TileEntityPileBase implements IP
 	public int neutrons;
 	public int lastNeutrons;
 	public int progress;
-	public static final int maxProgress = GeneralConfig.enable528 ? 37500 : 25000;
+	public static final int maxProgress = GeneralConfig.enable528 ? 50000 : 30000;
 	
 	@Override
 	public void updateEntity() {
