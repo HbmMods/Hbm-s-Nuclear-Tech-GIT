@@ -9,7 +9,6 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -22,7 +21,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
 	
 	public long power = 0;
-	public static final long maxPower = 100000;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
 
@@ -52,7 +50,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 					
 					tanks[0].setFill(tanks[0].getFill() - convert * 50); //dividing first, then multiplying, will remove any rounding issues
 					tanks[1].setFill(tanks[1].getFill() + convert);
-					power -= maxPower / 20;
+					power -= this.getMaxPower() / 20;
 				}
 			}
 			
@@ -82,7 +80,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	}
 
 	public boolean hasPower() {
-		return power >= maxPower / 20;
+		return power >= this.getMaxPower() / 20;
 	}
 
 	public boolean hasEnoughWater() {
@@ -177,7 +175,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public long getMaxPower() {
-		return maxPower;
+		return 100000;
 	}
 
 	@Override

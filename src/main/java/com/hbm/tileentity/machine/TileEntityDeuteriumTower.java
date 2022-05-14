@@ -16,8 +16,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
-	public static final long maxPower = 1000000;
-
 	public TileEntityDeuteriumTower() {
 		super();
 		tanks[0] = new FluidTank(Fluids.WATER, 50000, 0);
@@ -149,6 +147,6 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
 	@Override
 	public long getMaxPower() {
-		return maxPower;
+		return 1000000;
 	}
 }
