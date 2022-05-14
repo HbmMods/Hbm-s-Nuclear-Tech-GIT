@@ -11,7 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ExplosionNukeRay {
-	
+
 	List<FloatTriplet> affectedBlocks = new ArrayList();
 	int posX;
 	int posY;
@@ -28,6 +28,11 @@ public class ExplosionNukeRay {
 	public boolean isAusf3Complete = false;
 	
 	private double overrideRange = 0;
+
+	int gss_num_max;
+	int gss_num;
+	double gss_x;
+	double gss_y;
 	
 	public ExplosionNukeRay(World world, int x, int y, int z, int strength, int count, int speed, int length) {
 		this.world = world;
@@ -46,6 +51,39 @@ public class ExplosionNukeRay {
 		
 		//starts at around 80, becomes 8 at length 500
 		this.overrideRange = Math.max((Math.log(length) * 4 - 2.5D) * 10, 0);
+
+		// Total number of points
+		this.gss_num_max = (int)(2.5 * Math.PI * Math.pow(this.strength,2));
+		this.gss_num = 1;
+
+		// The beginning of the generalized spiral points
+		this.gss_x = Math.PI;
+		this.gss_y = 0.0;
+
+	}
+	// Raise one generalized spiral points
+	private void generateGssUp(){
+		if (this.gss_num < this.gss_num_max) {
+			int k = this.gss_num + 1;
+			double hk = -1.0 + 2.0 * (k - 1.0) / (this.gss_num_max - 1.0);
+			this.gss_x = Math.acos(hk);
+
+			double prev_lon = this.gss_y;
+			double lon = prev_lon + 3.6 / Math.sqrt(this.gss_num_max) / Math.sqrt(1.0 - hk * hk);
+			this.gss_y = lon % (Math.PI * 2);
+		} else {
+			this.gss_x = 0.0;
+			this.gss_y = 0.0;
+		}
+		this.gss_num++;
+	}
+
+	// Get Cartesian coordinates for spherical coordinates
+	private Vec3 getSpherical2cartesian(){
+		double dx = Math.sin(this.gss_x) * Math.cos(this.gss_y);
+		double dz = Math.sin(this.gss_x) * Math.sin(this.gss_y);
+		double dy = Math.cos(this.gss_x);
+		return Vec3.createVectorHelper(dx, dy, dz);
 	}
 	
 	/*public void processBunch(int count) {
@@ -104,7 +142,7 @@ public class ExplosionNukeRay {
 	}*/
 	
 	public void processTip(int count) {
-		
+
 		int processedBlocks = 0;
 		int braker = 0;
 		
@@ -169,7 +207,7 @@ public class ExplosionNukeRay {
 			int length = (int)Math.ceil(strength);
 			
 			float res = strength;
-			
+
 			FloatTriplet lastPos = null;
 			
 			for(int i = 0; i < length; i ++) {
@@ -223,7 +261,7 @@ public class ExplosionNukeRay {
 			int length = (int)Math.ceil(strength);
 			
 			float res = strength;
-			
+
 			FloatTriplet lastPos = null;
 			
 			for(int i = 0; i < length; i ++) {
@@ -246,7 +284,7 @@ public class ExplosionNukeRay {
 				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);
 				}
-				
+
 				if(res <= 0 || i + 1 >= this.length) {
 					if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null)
 						affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
@@ -333,87 +371,53 @@ public class ExplosionNukeRay {
 	public void collectTipMk4_5(int count) {
 		
 		int amountProcessed = 0;
-		
-		double bow = Math.PI * this.strength;
-		double bowCount = Math.ceil(bow);
-		
-		//Axial
-		//StartY starts at this.length
-		for(int v = startY; v <= bowCount; v++) {
-			
-			float part = (float) (Math.PI/bow);
-			float rot = part * -v;
-			
-			Vec3 heightVec = Vec3.createVectorHelper(0, -strength, 0);
-			heightVec.rotateAroundZ(rot);
-			
-			double y = heightVec.yCoord;
-			
-			double sectionRad = Math.sqrt(Math.pow(strength, 2) - Math.pow(y, 2));
-			double circumference = 2 * Math.PI * sectionRad;
-			
-			//if(y < 2 && y > -2)
-			//	circumference *= 1.25D;
-			
-			//circumference = Math.ceil(circumference);
-			
-			//Radial
-			//StartCir starts at circumference
-			for(int r = startCir; r < circumference; r ++) {
-				
-				Vec3 vec = Vec3.createVectorHelper(sectionRad, y, 0);
-				vec = vec.normalize();
-				/*if(y > 0)
-					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);*/
-				/*if(y < 0)
-					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);*/
-				vec.rotateAroundY((float) (360 / circumference * r));
-				
-				int length = (int)Math.ceil(strength);
-				
-				float res = strength;
-				
-				FloatTriplet lastPos = null;
-				
-				for(int i = 0; i < length; i ++) {
-					
-					if(i > this.length)
-						break;
-					
-					float x0 = (float) (posX + (vec.xCoord * i));
-					float y0 = (float) (posY + (vec.yCoord * i));
-					float z0 = (float) (posZ + (vec.zCoord * i));
-					
-					double fac = 100 - ((double) i) / ((double) length) * 100;
-					fac *= 0.07D;
-					
-					if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
-						res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
-					else
-						res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
-	
-					if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
-						lastPos = new FloatTriplet(x0, y0, z0);
-					}
-					
-					if(res <= 0 || i + 1 >= this.length) {
-						if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null) {
-							affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
-						}
-						break;
-					}
+
+		while (this.gss_num_max >= this.gss_num){
+			// 一般化螺旋集合を 一個上げる
+			this.generateGssUp();
+
+			//球面座標を直交座標を取得
+			Vec3 vec = this.getSpherical2cartesian();
+
+			int length = (int)Math.ceil(strength);
+
+			float res = strength;
+
+			FloatTriplet lastPos = null;
+
+			for(int i = 0; i < length; i ++) {
+
+				if(i > this.length)
+					break;
+
+				float x0 = (float) (posX + (vec.xCoord * i));
+				float y0 = (float) (posY + (vec.yCoord * i));
+				float z0 = (float) (posZ + (vec.zCoord * i));
+
+				double fac = 100 - ((double) i) / ((double) length) * 100;
+				fac *= 0.07D;
+
+				if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
+					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+				else
+					res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+
+				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+					lastPos = new FloatTriplet(x0, y0, z0);
 				}
-				
-				amountProcessed++;
-				
-				if(amountProcessed >= count) {
-					startY = v;
-					startCir = startCir + 1;
-					return;
+
+				if(res <= 0 || i + 1 >= this.length) {
+					if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null) {
+						affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
+					}
+					break;
 				}
 			}
+			amountProcessed++;
+			if(amountProcessed >= count) {
+				return;
+			}
 		}
-		
 		isAusf3Complete = true;
 	}
 
