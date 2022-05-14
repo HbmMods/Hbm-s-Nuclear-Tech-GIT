@@ -373,10 +373,11 @@ public class ExplosionNukeRay {
 		int amountProcessed = 0;
 
 		while (this.gss_num_max >= this.gss_num){
-			// 一般化螺旋集合を 一個上げる
+
+			// Raise one generalized spiral points
 			this.generateGssUp();
 
-			//球面座標を直交座標を取得
+			// Get Cartesian coordinates for spherical coordinates
 			Vec3 vec = this.getSpherical2cartesian();
 
 			int length = (int)Math.ceil(strength);
