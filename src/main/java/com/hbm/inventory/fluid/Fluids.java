@@ -155,8 +155,8 @@ public class Fluids {
 		BALEFIRE =			new FluidType(				"BALEFIRE",			0x28e02e, 4, 4, 3, EnumSymbol.RADIATION).setTemp(1500).addTraits(FluidTrait.CORROSIVE);
 		MERCURY =			new FluidType(				"MERCURY",			0x808080, 2, 0, 0, EnumSymbol.NONE);
 		PAIN =				new FluidType(				"PAIN",				0x938541, 2, 0, 1, EnumSymbol.ACID).setTemp(300).addTraits(FluidTrait.CORROSIVE);
-		WASTEFLUID =		new RadioactiveLiquid(		"WASTEFLUID",		0x544400, 2, 0, 1, EnumSymbol.RADIATION).addTraits(FluidTrait.NO_CONTAINER);
-		WASTEGAS =			new RadioactiveGas(			"WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).addTraits(FluidTrait.NO_CONTAINER);
+		WASTEFLUID =		new RadioactiveLiquid(		"WASTEFLUID",		0x544400, 2, 0, 1, EnumSymbol.RADIATION).setRadiation(0.5F).addTraits(FluidTrait.NO_CONTAINER);
+		WASTEGAS =			new RadioactiveGas(			"WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).setRadiation(0.5F).addTraits(FluidTrait.NO_CONTAINER);
 		GASOLINE =			new Fuel(					"GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_000_000).setHeatEnergy(400_000).addContainers(0x2F7747, ExtContainer.CANISTER);
 		COALGAS =			new Fuel(					"COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 150_000).setHeatEnergy(75_000);
 		SPENTSTEAM =		new Gas(					"SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(FluidTrait.NO_CONTAINER).setCompression(1D);

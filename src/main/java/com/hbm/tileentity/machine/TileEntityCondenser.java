@@ -40,8 +40,9 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 			if(age >= 2) {
 				age = 0;
 			}
-			
+
 			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 			tanks[0].setFill(tanks[0].getFill() - convert);

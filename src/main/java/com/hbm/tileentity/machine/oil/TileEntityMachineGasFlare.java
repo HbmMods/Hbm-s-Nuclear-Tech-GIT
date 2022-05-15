@@ -49,6 +49,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 		super.readFromNBT(nbt);
 		this.power = nbt.getLong("powerTime");
 		tank.readFromNBT(nbt, "gas");
+		isOn = nbt.getBoolean("isOn");
+		doesBurn = nbt.getBoolean("doesBurn");
 	}
 
 	@Override
@@ -56,6 +58,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
 		tank.writeToNBT(nbt, "gas");
+		nbt.setBoolean("isOn", isOn);
+		nbt.setBoolean("doesBurn", doesBurn);
 	}
 
 	public long getPowerScaled(long i) {
@@ -93,12 +97,15 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			tank.loadTank(1, 2, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
+			int maxVent = 50;
+			int maxBurn = 10;
+			
 			if(isOn && tank.getFill() > 0) {
 				
 				if(!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) {
 					
 					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
-						int eject = Math.min(10, tank.getFill());
+						int eject = Math.min(maxVent, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						tank.getTankType().onFluidRelease(this, tank, eject);
 						
@@ -108,7 +115,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 				} else {
 					
 					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS) && tank.getTankType() instanceof FluidTypeFlammable) {
-						int eject = Math.min(10, tank.getFill());
+						int eject = Math.min(maxBurn, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						power += ((FluidTypeFlammable) tank.getTankType()).getHeatEnergy() * eject / 2_000; // divided by 1000 per mB and 2 for the 50% penalty
 						
@@ -140,26 +147,45 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 		} else {
 			
-			if(isOn && tank.getFill() > 0) {
+			if(isOn && tank.getFill() > 0 && tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
 							
 				if(!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) {
-
-					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
 						
-						NBTTagCompound data = new NBTTagCompound();
-						data.setString("type", "tower");
-						data.setFloat("lift", 1F);
-						data.setFloat("base", 0.25F);
-						data.setFloat("max", 3F);
-						data.setInteger("life", 150 + worldObj.rand.nextInt(20));
-						data.setInteger("color", tank.getTankType().getColor());
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "tower");
+					data.setFloat("lift", 1F);
+					data.setFloat("base", 0.25F);
+					data.setFloat("max", 3F);
+					data.setInteger("life", 150 + worldObj.rand.nextInt(20));
+					data.setInteger("color", tank.getTankType().getColor());
 
-						data.setDouble("posX", xCoord + 0.5);
-						data.setDouble("posZ", zCoord + 0.5);
-						data.setDouble("posY", yCoord + 11);
+					data.setDouble("posX", xCoord + 0.5);
+					data.setDouble("posZ", zCoord + 0.5);
+					data.setDouble("posY", yCoord + 11);
 						
-						MainRegistry.proxy.effectNT(data);
+					MainRegistry.proxy.effectNT(data);
+					
+				}
+				
+				if(doesBurn && tank.getTankType() instanceof FluidTypeFlammable && MainRegistry.proxy.me().getDistanceSq(xCoord, yCoord + 10, zCoord) <= 1024) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "vanillaExt");
+					data.setString("mode", "smoke");
+					data.setBoolean("noclip", true);
+					data.setInteger("overrideAge", 50);
+
+					if(worldObj.getTotalWorldTime() % 2 == 0) {
+						data.setDouble("posX", xCoord + 1.5);
+						data.setDouble("posZ", zCoord + 1.5);
+						data.setDouble("posY", yCoord + 10.75);
+					} else {
+						data.setDouble("posX", xCoord + 1.125);
+						data.setDouble("posZ", zCoord - 0.5);
+						data.setDouble("posY", yCoord + 11.75);
 					}
+					
+					MainRegistry.proxy.effectNT(data);
 				}
 			}
 		}

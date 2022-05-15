@@ -170,8 +170,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			if(process > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = createAudioLoop();
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
 				}
 			} else {
 				
@@ -181,6 +183,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 				}
 			}
 		}
+	}
+	
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
 	private void updateConnections() {

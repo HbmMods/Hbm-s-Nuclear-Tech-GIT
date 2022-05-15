@@ -1106,8 +1106,18 @@ public class ClientProxy extends ServerProxy {
 				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
 			}
 			
-			if(fx != null)
+			if(fx != null) {
+				
+				if(data.getBoolean("noclip")) {
+					fx.noClip = true;
+				}
+				
+				if(data.getInteger("overrideAge") > 0) {
+					ReflectionHelper.setPrivateValue(EntityFX.class, fx, data.getInteger("overrideAge"), "particleMaxAge", "field_70547_e");
+				}
+				
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
 		}
 		
 		if("vanilla".equals(type)) {
@@ -1195,6 +1205,47 @@ public class ClientProxy extends ServerProxy {
 				if(particleSetting == 0) {
 					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, mX3, mY3, mZ3));
 					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, mX3, mY3, mZ3));
+				}
+			}
+		}
+		
+		if("bnuuy".equals(type)) {
+			
+			if(particleSetting == 2)
+				return;
+			
+			Entity ent = world.getEntityByID(data.getInteger("player"));
+			
+			if(ent instanceof EntityPlayer) {
+				
+				EntityPlayer p = (EntityPlayer)ent;
+				
+				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.6);
+				Vec3 offset = Vec3.createVectorHelper(0.275, 0, 0);
+				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+
+				vec.rotateAroundY(angle);
+				offset.rotateAroundY(angle);
+				
+				double ix = p.posX + vec.xCoord;
+				double iy = p.posY + p.eyeHeight - 1 + 0.4;
+				double iz = p.posZ + vec.zCoord;
+				double ox = offset.xCoord;
+				double oz = offset.zCoord;
+				
+				vec = vec.normalize();
+				double mult = 0.025D;
+				double mX = vec.xCoord * mult;
+				double mZ = vec.zCoord * mult;
+				
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, 0, 0, 0));
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, 0, 0, 0));
+				
+				for(int i = 0; i < 2; i++) {
+					net.minecraft.client.particle.EntitySmokeFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox * (i == 0 ? -1 : 1), iy, iz + oz * (i == 0 ? -1 : 1), mX, 0, mZ);
+					float scale = 0.5F;
+					ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, (net.minecraft.client.particle.EntitySmokeFX)fx, scale, "smokeParticleScale", "field_70587_a");
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
 		}

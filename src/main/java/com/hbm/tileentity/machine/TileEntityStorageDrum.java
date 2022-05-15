@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -124,7 +123,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				
 				if(overflow > 0) {
 					this.tanks[i].setFill(this.tanks[i].getFill() - overflow);
-					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, overflow * 0.5F);
+					this.tanks[i].getTankType().onFluidRelease(this, this.tanks[i], overflow);
 				}
 			}
 			

@@ -4980,13 +4980,12 @@ public class ModItems {
 
 		ArmorMaterial aMatDiesel = EnumHelper.addArmorMaterial("HBM_BNUUY", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatDiesel.customCraftingMaterial = ModItems.plate_copper;
-		dieselsuit_helmet = new ArmorDiesel(aMatDiesel, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).setThreshold(5F).setMod(0.8F)
-				.setHasHardLanding(true)
-				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 4))
-				.setBlastProtection(0.5F)
-				.addResistance("monoxide", 0F)
+		dieselsuit_helmet = new ArmorDiesel(aMatDiesel, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).setThreshold(2F).setMod(0.7F)
+				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2))
+				.addEffect(new PotionEffect(Potion.jump.id, 20, 2))
+				.enableThermalSight(true)
+				.enableVATS(true)
 				.addResistance("fall", 0)
-				.hides(EnumPlayerPart.HAT)
 				.setUnlocalizedName("dieselsuit_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_helmet");
 		dieselsuit_plate = new ArmorDiesel(aMatDiesel, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_plate");
 		dieselsuit_legs = new ArmorDiesel(aMatDiesel, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.DIESEL, 360000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_legs");
@@ -7916,6 +7915,10 @@ public class ModItems {
 		GameRegistry.registerItem(steamsuit_plate, steamsuit_plate.getUnlocalizedName());
 		GameRegistry.registerItem(steamsuit_legs, steamsuit_legs.getUnlocalizedName());
 		GameRegistry.registerItem(steamsuit_boots, steamsuit_boots.getUnlocalizedName());
+		GameRegistry.registerItem(dieselsuit_helmet, dieselsuit_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(dieselsuit_plate, dieselsuit_plate.getUnlocalizedName());
+		GameRegistry.registerItem(dieselsuit_legs, dieselsuit_legs.getUnlocalizedName());
+		GameRegistry.registerItem(dieselsuit_boots, dieselsuit_boots.getUnlocalizedName());
 		GameRegistry.registerItem(t45_helmet, t45_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(t45_plate, t45_plate.getUnlocalizedName());
 		GameRegistry.registerItem(t45_legs, t45_legs.getUnlocalizedName());
