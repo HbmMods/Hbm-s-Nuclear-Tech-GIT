@@ -2,14 +2,21 @@ package com.hbm.tileentity.machine;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-public class TileEntityMachineAssemfac extends TileEntityMachineBase {
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 	
 	public AssemblerArm[] arms;
 
 	public TileEntityMachineAssemfac() {
-		super(10 * 8 + 4 + 1); //8 assembler groups with 10 slots, 4 upgrade slots, 1 battery slot
+		super(14 * 8 + 4 + 1); //8 assembler groups with 14 slots, 4 upgrade slots, 1 battery slot
 		arms = new AssemblerArm[6];
 		for(int i = 0; i < arms.length; i++) {
 			arms[i] = new AssemblerArm(i % 3 == 1 ? 1 : 0); //the second of every group of three becomes a welder
@@ -175,5 +182,103 @@ public class TileEntityMachineAssemfac extends TileEntityMachineBase {
 			WELD,
 			RETRACT_STRIKER
 		}
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 5,
+					yCoord,
+					zCoord - 5,
+					xCoord + 5,
+					yCoord + 4,
+					zCoord + 5
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+
+	@Override
+	public void setPower(long power) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getPower() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return 10_000_000;
+	}
+
+	@Override
+	public int getRecipeCount() {
+		return 8;
+	}
+
+	@Override
+	public int getTemplateIndex(int index) {
+		return 17 + index * 14;
+	}
+
+	@Override
+	public int[] getSlotIndicesFromIndex(int index) {
+		return new int[] { 5 + index * 14, 16 + index * 14, 18 + index * 14};
+	}
+
+	ChunkCoordinates[] inpos;
+	ChunkCoordinates[] outpos;
+	
+	@Override
+	public ChunkCoordinates[] getInputPositions() {
+		
+		if(inpos != null)
+			return inpos;
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		inpos = new ChunkCoordinates[] {
+				new ChunkCoordinates(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1),
+				new ChunkCoordinates(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2),
+				new ChunkCoordinates(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4),
+				new ChunkCoordinates(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5)
+		};
+		
+		return inpos;
+	}
+
+	@Override
+	public ChunkCoordinates[] getOutputPositions() {
+		
+		if(outpos != null)
+			return outpos;
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		outpos = new ChunkCoordinates[] {
+				new ChunkCoordinates(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2),
+				new ChunkCoordinates(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1),
+				new ChunkCoordinates(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4),
+				new ChunkCoordinates(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5)
+		};
+		
+		return outpos;
 	}
 }

@@ -877,6 +877,7 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityMachineLiquefactor) {	return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
 		if(entity instanceof TileEntityMachineSolidifier) {		return new GUISolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
+		if(entity instanceof TileEntityMachineAssemfac) {		return new GUIAssemfac(player.inventory, (TileEntityMachineAssemfac) entity); }
 		if(entity instanceof TileEntityMachineChemfac) {		return new GUIChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
 		if(entity instanceof TileEntityElectrolyser) { 			return new GUIElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
 
