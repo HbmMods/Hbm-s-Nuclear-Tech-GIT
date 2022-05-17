@@ -35,8 +35,8 @@ public class GUIMachineGasFlare extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 20, 35, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("flare.valve"));
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 54, 35, 14, mouseX, mouseY, I18nUtil.resolveKeyArray("flare.ignition"));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 16, 35, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("flare.valve"));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 50, 35, 14, mouseX, mouseY, I18nUtil.resolveKeyArray("flare.ignition"));
 		
 		flare.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 69 - 52, 16, 52, flare.power, flare.maxPower);
@@ -45,13 +45,13 @@ public class GUIMachineGasFlare extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(guiLeft + 89 <= x && guiLeft + 89 + 16 > x && guiTop + 20 < y && guiTop + 20 + 10 >= y) {
+		if(guiLeft + 89 <= x && guiLeft + 89 + 16 > x && guiTop + 16 < y && guiTop + 16 + 10 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("valve", true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, flare.xCoord, flare.yCoord, flare.zCoord));
 			
-		} else if(guiLeft + 89 <= x && guiLeft + 89 + 16 > x && guiTop + 54 < y && guiTop + 54 + 14 >= y) {
+		} else if(guiLeft + 89 <= x && guiLeft + 89 + 16 > x && guiTop + 50 < y && guiTop + 50 + 14 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("dial", true);
@@ -77,11 +77,11 @@ public class GUIMachineGasFlare extends GuiInfoContainer {
 		int j = (int)flare.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 143, guiTop + 69 - j, 176, 94 - j, 16, j);
 
-		if(flare.isOn)  drawTexturedModalRect(guiLeft + 79, guiTop + 20, 176, 0, 35, 10);
-		if(flare.doesBurn)  drawTexturedModalRect(guiLeft + 79, guiTop + 54, 176, 10, 35, 14);
+		if(flare.isOn)  drawTexturedModalRect(guiLeft + 79, guiTop + 16, 176, 0, 35, 10);
+		if(flare.doesBurn)  drawTexturedModalRect(guiLeft + 79, guiTop + 50, 176, 10, 35, 14);
 		
 		if(flare.isOn && flare.doesBurn && flare.tank.getFill() > 0 && flare.tank.getTankType().traits.contains(FluidTrait.GASEOUS) && flare.tank.getTankType() instanceof FluidTypeFlammable)
-			drawTexturedModalRect(guiLeft + 88, guiTop + 34, 176, 24, 18, 18);
+			drawTexturedModalRect(guiLeft + 88, guiTop + 29, 176, 24, 18, 18);
 		
 		flare.tank.renderTank(guiLeft + 35, guiTop + 69, this.zLevel, 16, 52);
 	}

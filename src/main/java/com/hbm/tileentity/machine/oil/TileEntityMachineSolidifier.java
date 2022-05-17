@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine.oil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
@@ -13,15 +10,17 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor {
+public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -51,12 +50,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			tank.setType(4, slots);
 			tank.updateTank(this);
 
-			this.trySubscribe(worldObj, xCoord, yCoord + 4, zCoord, Library.POS_Y);
-			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
-			this.trySubscribe(worldObj, xCoord + 2, yCoord + 1, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord + 1, zCoord, Library.NEG_X);
-			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord - 2, Library.NEG_Z);
+			this.updateConnections();
 
 			UpgradeManager.eval(slots, 2, 3);
 			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
@@ -77,6 +71,24 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			data.setInteger("processTime", this.processTime);
 			this.networkPack(data, 50);
 		}
+	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private DirPos[] getConPos() {
+		return new DirPos[] {
+			new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+			new DirPos(xCoord + 2, yCoord + 1, zCoord, Library.POS_X),
+			new DirPos(xCoord - 2, yCoord + 1, zCoord, Library.NEG_X),
+			new DirPos(xCoord, yCoord + 1, zCoord + 2, Library.POS_Z),
+			new DirPos(xCoord, yCoord + 1, zCoord - 2, Library.NEG_Z)
+		};
 	}
 
 	@Override
@@ -229,5 +241,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
 	}
 }

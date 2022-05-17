@@ -25,6 +25,7 @@ import com.hbm.util.InventoryUtil;
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -41,7 +42,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill, IFluidStandardSender {
 	
 	public long power;
 	public int age = 0;
@@ -89,6 +90,11 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if (age == 9 || age == 19)
 				fillFluidInit(tank.getTankType());
+
+			this.sendFluid(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
@@ -679,5 +685,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public int getDrillRating() {
 		return 100;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
 	}
 }

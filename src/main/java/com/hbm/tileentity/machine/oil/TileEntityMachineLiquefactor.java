@@ -14,15 +14,17 @@ import com.hbm.inventory.recipes.LiquefactionRecipes;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyUser, IFluidSource {
+public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardSender {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -50,13 +52,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.updateTank(this);
-
-			this.trySubscribe(worldObj, xCoord, yCoord + 4, zCoord, Library.POS_Y);
-			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
-			this.trySubscribe(worldObj, xCoord + 2, yCoord + 1, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord + 1, zCoord, Library.NEG_X);
-			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord + 1, zCoord - 2, Library.NEG_Z);
+			
+			this.updateConnections();
 
 			UpgradeManager.eval(slots, 2, 3);
 			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
@@ -74,6 +71,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 				this.fillFluidInit(tank.getTankType());
 			}
 			
+			this.sendFluid();
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
@@ -81,6 +80,29 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			data.setInteger("processTime", this.processTime);
 			this.networkPack(data, 50);
 		}
+	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private void sendFluid() {
+		for(DirPos pos : getConPos()) {
+			this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private DirPos[] getConPos() {
+		return new DirPos[] {
+			new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+			new DirPos(xCoord + 2, yCoord + 1, zCoord, Library.POS_X),
+			new DirPos(xCoord - 2, yCoord + 1, zCoord, Library.NEG_X),
+			new DirPos(xCoord, yCoord + 1, zCoord + 2, Library.POS_Z),
+			new DirPos(xCoord, yCoord + 1, zCoord - 2, Library.NEG_Z)
+		};
 	}
 
 	@Override
@@ -245,5 +267,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
 	}
 }
