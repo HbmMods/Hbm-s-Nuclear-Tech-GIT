@@ -3,7 +3,6 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineGasFlare;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.types.FluidTypeFlammable;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
@@ -77,10 +76,10 @@ public class GUIMachineGasFlare extends GuiInfoContainer {
 		int j = (int)flare.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 143, guiTop + 69 - j, 176, 94 - j, 16, j);
 
-		if(flare.isOn)  drawTexturedModalRect(guiLeft + 79, guiTop + 16, 176, 0, 35, 10);
-		if(flare.doesBurn)  drawTexturedModalRect(guiLeft + 79, guiTop + 50, 176, 10, 35, 14);
+		if(flare.isOn)  drawTexturedModalRect(guiLeft + 79, guiTop + 15, 176, 0, 35, 10);
+		if(flare.doesBurn)  drawTexturedModalRect(guiLeft + 79, guiTop + 49, 176, 10, 35, 14);
 		
-		if(flare.isOn && flare.doesBurn && flare.tank.getFill() > 0 && flare.tank.getTankType().traits.contains(FluidTrait.GASEOUS) && flare.tank.getTankType() instanceof FluidTypeFlammable)
+		if(flare.isOn && flare.doesBurn && flare.tank.getFill() > 0 && flare.tank.getTankType() instanceof FluidTypeFlammable)
 			drawTexturedModalRect(guiLeft + 88, guiTop + 29, 176, 24, 18, 18);
 		
 		flare.tank.renderTank(guiLeft + 35, guiTop + 69, this.zLevel, 16, 52);

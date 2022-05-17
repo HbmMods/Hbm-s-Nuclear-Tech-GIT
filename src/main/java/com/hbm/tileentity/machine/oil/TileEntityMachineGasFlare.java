@@ -7,10 +7,12 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.types.FluidTypeFlammable;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -35,7 +37,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	public boolean doesBurn = false;
 
 	public TileEntityMachineGasFlare() {
-		super(4);
+		super(6);
 		tank = new FluidTank(Fluids.GAS, 64000, 0);
 	}
 
@@ -102,6 +104,13 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			
 			if(isOn && tank.getFill() > 0) {
 				
+				UpgradeManager.eval(slots, 4, 5);
+				int burn = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+				int yield = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+
+				maxVent += maxVent * burn;
+				maxBurn += maxBurn * burn;
+				
 				if(!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) {
 					
 					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
@@ -114,10 +123,19 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					}
 				} else {
 					
-					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS) && tank.getTankType() instanceof FluidTypeFlammable) {
+					if(tank.getTankType() instanceof FluidTypeFlammable) {
 						int eject = Math.min(maxBurn, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
-						power += ((FluidTypeFlammable) tank.getTankType()).getHeatEnergy() * eject / 2_000; // divided by 1000 per mB and 2 for the 50% penalty
+						
+						int penalty = 2;
+						if(!tank.getTankType().traits.contains(FluidTrait.GASEOUS))
+							penalty = 10;
+						
+						long powerProd = ((FluidTypeFlammable) tank.getTankType()).getHeatEnergy() * eject / 1_000; // divided by 1000 per mB
+						powerProd /= penalty;
+						powerProd += powerProd * yield / 3;
+						
+						power += powerProd;
 						
 						if(power > maxPower)
 							power = maxPower;
@@ -147,9 +165,9 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 		} else {
 			
-			if(isOn && tank.getFill() > 0 && tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
+			if(isOn && tank.getFill() > 0) {
 							
-				if(!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) {
+				if((!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) && tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
 						
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "tower");

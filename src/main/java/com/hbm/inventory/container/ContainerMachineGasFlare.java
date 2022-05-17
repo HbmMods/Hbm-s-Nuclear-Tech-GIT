@@ -2,6 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
 
 import api.hbm.energy.IBatteryItem;
@@ -28,6 +29,9 @@ public class ContainerMachineGasFlare extends Container {
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 17, 53));
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 3, 35, 71));
+		//Upgrades
+		this.addSlotToContainer(new Slot(tedf, 4, 80, 71));
+		this.addSlotToContainer(new Slot(tedf, 5, 98, 71));
 		
 		int offset = 37;
 
@@ -56,22 +60,26 @@ public class ContainerMachineGasFlare extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 3) {
-				if(!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
+			if(par2 <= 5) {
+				if(!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				
 				if(var3.getItem() instanceof IItemFluidIdentifier) {
-					if(!this.mergeItemStack(var5, 3, 4, true)) {
+					if(!this.mergeItemStack(var5, 3, 4, false)) {
 						return null;
 					}
 				} else if(var3.getItem() instanceof IBatteryItem) {
-					if(!this.mergeItemStack(var5, 0, 1, true)) {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(var5, 4, 6, false)) {
 						return null;
 					}
 				} else {
-					if(!this.mergeItemStack(var5, 1, 2, true)) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
 						return null;
 					}
 				}
