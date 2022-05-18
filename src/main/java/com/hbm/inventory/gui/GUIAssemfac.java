@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class GUIAssemfac extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_assemfac.png");
+	private static ResourceLocation chemfac = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_chemfac.png");
 	private TileEntityMachineAssemfac assemfac;
 
 	public GUIAssemfac(InventoryPlayer invPlayer, TileEntityMachineAssemfac tedf) {
@@ -28,6 +29,25 @@ public class GUIAssemfac extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+		
+		for(int i = 0; i < 8; i++) {
+			
+			if(assemfac.maxProgress[i] > 0) {
+				int progress = assemfac.progress[i] * 16 / assemfac.maxProgress[i];
+				
+				if(progress > 0) {
+					GL11.glDisable(GL11.GL_LIGHTING);
+					GL11.glDisable(GL11.GL_DEPTH_TEST);
+					int x = guiLeft + 234;
+					int y = guiTop + 13 + 16 * i;
+					GL11.glColorMask(true, true, true, false);
+					this.drawGradientRect(x, y, x + progress + 1, y + 16, -2130706433, -2130706433);
+					GL11.glColorMask(true, true, true, true);
+					GL11.glEnable(GL11.GL_LIGHTING);
+					GL11.glEnable(GL11.GL_DEPTH_TEST);
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -38,6 +58,14 @@ public class GUIAssemfac extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(chemfac);
+		
+		int p = (int) (assemfac.power * 52 / assemfac.getMaxPower());
+		drawTexturedModalRect(guiLeft + 234, guiTop + 216 - p, 0, 219 - p, 16, p);
+		
+		if(assemfac.power > 0)
+			drawTexturedModalRect(guiLeft + 238, guiTop + 150, 0, 219, 9, 12);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LMENU))
 		for(int i = 0; i < this.inventorySlots.inventorySlots.size(); i++) {

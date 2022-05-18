@@ -3,9 +3,14 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,12 +19,19 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 	
 	public AssemblerArm[] arms;
 
+	public FluidTank water;
+	public FluidTank steam;
+
 	public TileEntityMachineAssemfac() {
 		super(14 * 8 + 4 + 1); //8 assembler groups with 14 slots, 4 upgrade slots, 1 battery slot
+		
 		arms = new AssemblerArm[6];
 		for(int i = 0; i < arms.length; i++) {
 			arms[i] = new AssemblerArm(i % 3 == 1 ? 1 : 0); //the second of every group of three becomes a welder
 		}
+
+		water = new FluidTank(Fluids.WATER, 64_000, 0);
+		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000, 1);
 	}
 
 	@Override
@@ -33,14 +45,53 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 		
 		if(!worldObj.isRemote) {
 			
+			this.speed = 100;
+			this.consumption = 100;
+			
+			UpgradeManager.eval(slots, 1, 4);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 6);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			this.speed -= speedLevel * 15;
+			this.consumption += speedLevel * 300;
+			this.speed += powerLevel * 5;
+			this.consumption -= powerLevel * 30;
+			this.speed /= (overLevel + 1);
+			this.consumption *= (overLevel + 1);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", this.power);
+			data.setIntArray("progress", this.progress);
+			data.setIntArray("maxProgress", this.maxProgress);
+			data.setBoolean("isProgressing", isProgressing);
+			
+			water.writeToNBT(data, "w");
+			steam.writeToNBT(data, "s");
+			
+			this.networkPack(data, 150);
+			
 		} else {
 			
-			if(isProgressing) {
-				for(AssemblerArm arm : arms) {
+			for(AssemblerArm arm : arms) {
+				arm.updateInterp();
+				if(isProgressing) {
 					arm.updateArm();
 				}
 			}
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getIntArray("progress");
+		this.maxProgress = nbt.getIntArray("maxProgress");
+		this.isProgressing = nbt.getBoolean("isProgressing");
+		
+		water.readFromNBT(nbt, "w");
+		steam.readFromNBT(nbt, "s");
 	}
 	
 	public static class AssemblerArm {
@@ -76,7 +127,6 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 		}
 		
 		public void updateArm() {
-			updateInterp();
 			
 			if(actionDelay > 0) {
 				actionDelay--;
@@ -212,18 +262,6 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public void setPower(long power) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public long getPower() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

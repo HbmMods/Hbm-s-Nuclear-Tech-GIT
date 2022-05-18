@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
@@ -110,7 +111,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 
 		List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
 		ItemStack output = AssemblerRecipes.getOutputFromTempate(slots[template]);
-		int time = AssemblerRecipes.time.get(output);
+		int time = ItemAssemblyTemplate.getProcessTime(slots[template]);
 		
 		this.maxProgress[index] = time * this.speed / 100;
 		
@@ -139,6 +140,16 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 		if(out != null) {
 			InventoryUtil.tryAddItemToInventory(slots, indices[2], indices[2], out.copy());
 		}
+	}
+
+	@Override
+	public long getPower() {
+		return this.power;
+	}
+
+	@Override
+	public void setPower(long power) {
+		this.power = power;
 	}
 
 	public abstract int getRecipeCount();
