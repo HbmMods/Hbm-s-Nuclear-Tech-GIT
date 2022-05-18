@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,10 +29,16 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		
-		if(worldObj.isRemote) {
-			for(AssemblerArm arm : arms) {
-				arm.updateArm();
+		if(!worldObj.isRemote) {
+			
+		} else {
+			
+			if(isProgressing) {
+				for(AssemblerArm arm : arms) {
+					arm.updateArm();
+				}
 			}
 		}
 	}
