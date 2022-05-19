@@ -1657,6 +1657,22 @@ public class ClientProxy extends ServerProxy {
 			text.multipleParticleScaleBy(scale);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
 		}
+		
+		if("network".equals(type)) {
+			ParticleDebug debug = null;
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+
+			if("power".equals(data.getString("mode"))) {
+				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ);
+			}
+			if("fluid".equals(data.getString("mode"))) {
+				int color = data.getInteger("color");
+				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
+			}
+			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+		}
 	}
 	
 	private HashMap<Integer, Long> vanished = new HashMap();

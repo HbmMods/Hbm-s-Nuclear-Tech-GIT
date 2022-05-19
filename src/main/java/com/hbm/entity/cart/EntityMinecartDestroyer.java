@@ -3,8 +3,9 @@ package com.hbm.entity.cart;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemModMinecart;
+import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
 
@@ -123,7 +124,7 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 	@Override
 	public void killMinecart(DamageSource p_94095_1_) {
 		this.setDead();
-		ItemStack itemstack = DictFrame.fromOne(ModItems.cart, EnumMinecart.DESTROYER);
+		ItemStack itemstack = ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.DESTROYER);
 
 		if(this.func_95999_t() != null) {
 			itemstack.setStackDisplayName(this.func_95999_t());
@@ -134,6 +135,6 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 
 	@Override
 	public ItemStack getCartItem() {
-		return DictFrame.fromOne(ModItems.cart, EnumMinecart.DESTROYER);
+		return ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.DESTROYER);
 	}
 }

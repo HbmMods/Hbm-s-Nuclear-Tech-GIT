@@ -48,9 +48,16 @@ public interface IFluidUser extends IFluidConnector {
 		
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "vanillaExt");
-			data.setString("mode", red ? "reddust" : "greendust");
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+			data.setString("type", "network");
+			data.setString("mode", "fluid");
+			data.setInteger("color", type.getColor());
+			double posX = x + 0.5 - dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posY = y + 0.5 - dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posZ = z + 0.5 - dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			data.setDouble("mX", dir.offsetX * (red ? 0.025 : 0.1));
+			data.setDouble("mY", dir.offsetY * (red ? 0.025 : 0.1));
+			data.setDouble("mZ", dir.offsetZ * (red ? 0.025 : 0.1));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
 	

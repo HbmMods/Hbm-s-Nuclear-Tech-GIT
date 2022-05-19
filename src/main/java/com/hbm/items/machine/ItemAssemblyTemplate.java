@@ -114,7 +114,8 @@ public class ItemAssemblyTemplate extends Item {
 		int count = AssemblerRecipes.recipeList.size();
 
 		for(int i = 0; i < count; i++) {
-			list.add(new ItemStack(item, 1, i));
+			ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+			list.add(writeType(new ItemStack(item), comp));
 		}
 	}
 

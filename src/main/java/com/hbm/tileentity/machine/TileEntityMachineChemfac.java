@@ -161,12 +161,12 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 		
 		for(int i = 0; i < 6; i++) {
-			this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) + rot.offsetX * 3, yCoord + 4, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 3, rot);
-			this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) - rot.offsetX * 2, yCoord + 4, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 2, rot.getOpposite());
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * (3 - i) + rot.offsetX * 3, yCoord + 4, zCoord + dir.offsetZ * (3 - i) + rot.offsetZ * 3, Library.POS_Y);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * (3 - i) - rot.offsetX * 2, yCoord + 4, zCoord + dir.offsetZ * (3 - i) - rot.offsetZ * 2, Library.POS_Y);
 
 			for(int j = 0; j < 2; j++) {
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) + rot.offsetX * 5, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 5, rot);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (2 - i) - rot.offsetX * 4, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 4, rot.getOpposite());
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (3 - i) + rot.offsetX * 5, yCoord + 1 + j, zCoord + dir.offsetZ * (3 - i) + rot.offsetZ * 5, rot);
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (3 - i) - rot.offsetX * 4, yCoord + 1 + j, zCoord + dir.offsetZ * (3 - i) - rot.offsetZ * 4, rot.getOpposite());
 			}
 		}
 	}

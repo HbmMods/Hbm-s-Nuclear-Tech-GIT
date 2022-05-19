@@ -66,6 +66,9 @@ public class GUIAssemfac extends GuiInfoContainer {
 		
 		if(assemfac.power > 0)
 			drawTexturedModalRect(guiLeft + 238, guiTop + 150, 0, 219, 9, 12);
+
+		assemfac.water.renderTank(guiLeft + 234, guiTop + 161, this.zLevel, 7, 52);
+		assemfac.steam.renderTank(guiLeft + 243, guiTop + 161, this.zLevel, 7, 52);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LMENU))
 		for(int i = 0; i < this.inventorySlots.inventorySlots.size(); i++) {

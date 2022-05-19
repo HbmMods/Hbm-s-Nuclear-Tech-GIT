@@ -1,7 +1,7 @@
 package com.hbm.entity.cart;
 
-import com.hbm.inventory.OreDictManager.DictFrame;
-import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemModMinecart;
+import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 
 import net.minecraft.entity.Entity;
@@ -44,7 +44,7 @@ public class EntityMinecartOre extends EntityMinecart {
 	@Override
 	public void killMinecart(DamageSource p_94095_1_) {
 		this.setDead();
-		ItemStack itemstack = DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY);
+		ItemStack itemstack = ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.EMPTY);
 
 		if(this.func_95999_t() != null) {
 			itemstack.setStackDisplayName(this.func_95999_t());
@@ -55,6 +55,6 @@ public class EntityMinecartOre extends EntityMinecart {
 
 	@Override
 	public ItemStack getCartItem() {
-		return DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY);
+		return ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.EMPTY);
 	}
 }
