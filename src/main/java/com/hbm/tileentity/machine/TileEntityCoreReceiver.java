@@ -11,6 +11,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -20,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, ILaserable {
+public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, ILaserable, IFluidStandardReceiver {
 	
 	public long power;
 	public long joules;
@@ -42,6 +43,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		if (!worldObj.isRemote) {
 			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			power = joules * 5000;
 			
@@ -162,5 +164,10 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		nbt.setLong("power", power);
 		nbt.setLong("joules", joules);
 		tank.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
 	}
 }
