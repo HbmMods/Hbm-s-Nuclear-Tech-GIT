@@ -29,6 +29,11 @@ public class GUIAssemfac extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 234, guiTop + 164, 16, 52, assemfac.power, assemfac.getMaxPower());
+
+		assemfac.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 209, guiTop + 181, 9, 54);
+		assemfac.steam.renderTankInfo(this, mouseX, mouseY, guiLeft + 218, guiTop + 181, 9, 54);
 		
 		for(int i = 0; i < 8; i++) {
 			
@@ -67,8 +72,8 @@ public class GUIAssemfac extends GuiInfoContainer {
 		if(assemfac.power > 0)
 			drawTexturedModalRect(guiLeft + 238, guiTop + 150, 0, 219, 9, 12);
 
-		assemfac.water.renderTank(guiLeft + 234, guiTop + 161, this.zLevel, 7, 52);
-		assemfac.steam.renderTank(guiLeft + 243, guiTop + 161, this.zLevel, 7, 52);
+		assemfac.water.renderTank(guiLeft + 210, guiTop + 234, this.zLevel, 7, 52);
+		assemfac.steam.renderTank(guiLeft + 219, guiTop + 234, this.zLevel, 7, 52);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LMENU))
 		for(int i = 0; i < this.inventorySlots.inventorySlots.size(); i++) {

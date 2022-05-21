@@ -11,7 +11,9 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 
 public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBase implements IEnergyUser {
@@ -44,17 +46,8 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
 			for(int i = 0; i < count; i++) {
-				//loadItems(i);
-				//unloadItems(i);
-			}
-			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-
-				/*for(FluidTank tank : this.outTanks()) {
-					if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-						this.fillFluidInit(tank.getTankType());
-					}
-				}*/
+				loadItems(i);
+				unloadItems(i);
 			}
 
 			
@@ -139,6 +132,107 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 		
 		if(out != null) {
 			InventoryUtil.tryAddItemToInventory(slots, indices[2], indices[2], out.copy());
+		}
+	}
+	
+	private void loadItems(int index) {
+		
+		int template = getTemplateIndex(index);
+		if(slots[template] == null || slots[template].getItem() != ModItems.assembly_template)
+			return;
+
+		List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
+		
+		if(recipe != null) {
+			
+			ChunkCoordinates[] positions = getInputPositions();
+			int[] indices = getSlotIndicesFromIndex(index);
+			
+			for(ChunkCoordinates coord : positions) {
+				
+				TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
+				
+				if(te instanceof IInventory) {
+					
+					IInventory inv = (IInventory) te;
+					
+					for(AStack ingredient : recipe) {
+						
+						if(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+							
+							for(int i = 0; i < inv.getSizeInventory(); i++) {
+								
+								ItemStack stack = inv.getStackInSlot(i);
+								if(ingredient.matchesRecipe(stack, true)) {
+									
+									for(int j = indices[0]; j <= indices[1]; j++) {
+										
+										if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
+											inv.decrStackSize(i, 1);
+											slots[j].stackSize++;
+											return;
+										}
+									}
+									
+									for(int j = indices[0]; j <= indices[1]; j++) {
+										
+										if(slots[j] == null) {
+											slots[j] = stack.copy();
+											slots[j].stackSize = 1;
+											inv.decrStackSize(i, 1);
+											return;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void unloadItems(int index) {
+
+		ChunkCoordinates[] positions = getOutputPositions();
+		int[] indices = getSlotIndicesFromIndex(index);
+		
+		for(ChunkCoordinates coord : positions) {
+			
+			TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
+			
+			if(te instanceof IInventory) {
+				
+				IInventory inv = (IInventory) te;
+				
+				int i = indices[2];
+
+				ItemStack out = slots[i];
+
+				if(out != null) {
+
+					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						ItemStack target = inv.getStackInSlot(j);
+
+						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
+							this.decrStackSize(i, 1);
+							target.stackSize++;
+							return;
+						}
+					}
+
+					for(int j = 0; j < inv.getSizeInventory(); j++) {
+
+						if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
+							ItemStack copy = out.copy();
+							copy.stackSize = 1;
+							inv.setInventorySlotContents(j, copy);
+							this.decrStackSize(i, 1);
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 

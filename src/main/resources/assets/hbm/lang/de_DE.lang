@@ -3300,6 +3300,7 @@ tile.machine_arc_furnace_off.name=Lichtbogenofen
 tile.machine_arc_furnace_on.name=Lichtbogenofen
 tile.machine_armor_table.name=Rüstungsmodifikationstisch
 tile.machine_assembler.name=Fertigungsmaschine
+tile.machine_assemfac.name=Fertigungsfabrik
 tile.machine_bat9000.name=Big-Ass Tank 9000
 tile.machine_battery.name=Energiespeicherblock
 tile.machine_battery_potato.name=Kartoffelbatterieblock

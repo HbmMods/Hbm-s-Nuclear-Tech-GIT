@@ -93,7 +93,7 @@ public class GeneralConfig {
 		
 		final String CATEGORY_LBSM = CommonConfig.CATEGORY_LBSM;
 
-		config.addCustomCategoryComment(CATEGORY_528,
+		config.addCustomCategoryComment(CATEGORY_LBSM,
 				"Will most likely break standard progression!\n"
 				+ "However, the game gets generally easier and more enjoyable for casual players.\n"
 				+ "Progression-braking recipes are usually not too severe, so the mode is generally server-friendly!");
@@ -109,7 +109,7 @@ public class GeneralConfig {
 		enableLBSMUnlockAnvil = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeUnlockAnvil", "When enabled, all anvil recipes are available at tier 1", true);
 		enableLBSMSimpleCrafting = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleCrafting", "When enabled, some uncraftable or more expansive items get simple crafting recipes. Scorched uranium also becomes washable", true);
 		enableLBSMSimpleMedicineRecipes = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleMedicine", "When enabled, makes some medicine recipes (line ones that require bismuth) much more affordable", true);
-		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_528, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
+		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 		
 		if(enable528) enableLBSM = false;
 	}

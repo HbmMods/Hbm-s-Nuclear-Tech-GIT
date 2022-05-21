@@ -67,6 +67,10 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			
+			for(DirPos pos : getConPos()) {
+				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setIntArray("progress", this.progress);
@@ -98,6 +102,22 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		
 		water.readFromNBT(nbt, "w");
 		steam.readFromNBT(nbt, "s");
+	}
+	
+	private int getWaterRequired() {
+		return 1000 / this.speed;
+	}
+
+	@Override
+	protected boolean canProcess(int index) {
+		return super.canProcess(index) && this.water.getFill() >= getWaterRequired() && this.steam.getFill() + getWaterRequired() <= this.steam.getMaxFill();
+	}
+
+	@Override
+	protected void process(int index) {
+		super.process(index);
+		this.water.setFill(this.water.getFill() - getWaterRequired());
+		this.steam.setFill(this.steam.getFill() + getWaterRequired());
 	}
 	
 	private void updateConnections() {

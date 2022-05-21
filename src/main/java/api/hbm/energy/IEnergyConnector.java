@@ -100,7 +100,7 @@ public interface IEnergyConnector extends ILoadedTile {
 		}
 	}
 	
-	public static final boolean particleDebug = true;
+	public static final boolean particleDebug = false;
 	
 	public default Vec3 getDebugParticlePos() {
 		TileEntity te = (TileEntity) this;
