@@ -7,6 +7,8 @@ import com.hbm.inventory.fluid.Fluids;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.tool.ItemModMinecart;
+import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.CraftingManager;
 
@@ -147,8 +149,8 @@ public class ToolRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.bobmazon_tools), new Object[] { Items.book, Items.gold_nugget, KEY_GREEN });
 		
 		//Carts
-		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY), new Object[] { "P P", "IPI", 'P', STEEL.plate(), 'I', STEEL.ingot() });
-		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.cart, EnumMinecart.DESTROYER), new Object[] { "S S", "BLB", "SCS", 'S', STEEL.ingot(), 'B', ModItems.blades_steel, 'L', Fluids.LAVA.getDict(1000), 'C', DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY) });
+		CraftingManager.addRecipeAuto(ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.EMPTY), new Object[] { "P P", "IPI", 'P', STEEL.plate(), 'I', STEEL.ingot() });
+		CraftingManager.addRecipeAuto(ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.DESTROYER), new Object[] { "S S", "BLB", "SCS", 'S', STEEL.ingot(), 'B', ModItems.blades_steel, 'L', Fluids.LAVA.getDict(1000), 'C', DictFrame.fromOne(ModItems.cart, EnumMinecart.EMPTY) });
 		net.minecraft.item.crafting.CraftingManager.getInstance().addRecipe(DictFrame.fromOne(ModItems.cart, EnumMinecart.CRATE), new Object[] { "C", "S", 'C', ModBlocks.crate_steel, 'S', Items.minecart }).func_92100_c();
 		
 		//Configged
