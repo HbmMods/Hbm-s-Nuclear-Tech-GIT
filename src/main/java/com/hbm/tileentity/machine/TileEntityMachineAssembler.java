@@ -13,10 +13,6 @@ import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.LoopedSoundPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
@@ -24,20 +20,15 @@ import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAssembler extends TileEntityMachineBase implements IEnergyUser {
 
@@ -231,8 +222,12 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			if(isProgressing && volume > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
 				}
 				
 			} else {
@@ -243,6 +238,11 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 				}
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
 	private void updateConnections() {

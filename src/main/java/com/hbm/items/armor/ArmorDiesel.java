@@ -56,7 +56,7 @@ public class ArmorDiesel extends ArmorFSBFueled {
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 		super.onArmorTick(world, player, stack);
 		
-		if(this == ModItems.dieselsuit_legs && this.hasFSBArmor(player) && world.getTotalWorldTime() % 3 == 0) {
+		if(!world.isRemote && this == ModItems.dieselsuit_legs && this.hasFSBArmor(player) && world.getTotalWorldTime() % 3 == 0) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "bnuuy");
 			data.setInteger("player", player.getEntityId());

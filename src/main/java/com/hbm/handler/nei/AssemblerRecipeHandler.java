@@ -10,6 +10,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -35,7 +36,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
         	input = new ArrayList();
         	
         	ComparableStack comp = new ComparableStack(result);
-        	ItemStack template = new ItemStack(ModItems.assembly_template, 1, AssemblerRecipes.recipeList.indexOf(comp));
+        	ItemStack template = ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp);
         	
         	for(int i = 0; i < Math.min(in.size(), 12); i++) {
         		input.add(new PositionedStack(in.get(i), 30 + (i % 4) * 18, 6 + (i / 4) * 18));

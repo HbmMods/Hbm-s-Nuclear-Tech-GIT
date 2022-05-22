@@ -11,7 +11,6 @@ import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -73,32 +72,32 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock, IToo
 				
 				//
 				DummyBlockTurbofan.safeBreak = true;
-				world.setBlock(x + 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te = world.getTileEntity(x + 1, y + 1, z + 1);
+				world.setBlock(x, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te = world.getTileEntity(x, y, z + 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te2 = world.getTileEntity(x - 1, y + 1, z - 1);
+				world.setBlock(x - 1, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te2 = world.getTileEntity(x - 1, y, z - 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x + 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te3 = world.getTileEntity(x + 1, y + 1, z - 1);
+				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te3 = world.getTileEntity(x, y, z - 1);
 				if(te3 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te3;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te4 = world.getTileEntity(x - 1, y + 1, z + 1);
+				world.setBlock(x - 1, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te4 = world.getTileEntity(x - 1, y, z + 1);
 				if(te4 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te4;
 					dummy.targetX = x;
@@ -118,32 +117,32 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock, IToo
 				
 				//
 				DummyBlockTurbofan.safeBreak = true;
-				world.setBlock(x + 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te = world.getTileEntity(x + 1, y + 1, z + 1);
+				world.setBlock(x + 1, y, z, ModBlocks.dummy_port_turbofan);
+				TileEntity te = world.getTileEntity(x + 1, y, z);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te2 = world.getTileEntity(x - 1, y + 1, z - 1);
+				world.setBlock(x - 1, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te2 = world.getTileEntity(x - 1, y, z - 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x + 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te3 = world.getTileEntity(x + 1, y + 1, z - 1);
+				world.setBlock(x + 1, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te3 = world.getTileEntity(x + 1, y, z - 1);
 				if(te3 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te3;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te4 = world.getTileEntity(x - 1, y + 1, z + 1);
+				world.setBlock(x - 1, y, z, ModBlocks.dummy_port_turbofan);
+				TileEntity te4 = world.getTileEntity(x - 1, y, z);
 				if(te4 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te4;
 					dummy.targetX = x;
@@ -163,32 +162,32 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock, IToo
 				
 				//
 				DummyBlockTurbofan.safeBreak = true;
-				world.setBlock(x + 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te = world.getTileEntity(x + 1, y + 1, z + 1);
+				world.setBlock(x + 1, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te = world.getTileEntity(x + 1, y, z + 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te2 = world.getTileEntity(x - 1, y + 1, z - 1);
+				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te2 = world.getTileEntity(x, y, z - 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x + 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te3 = world.getTileEntity(x + 1, y + 1, z - 1);
+				world.setBlock(x + 1, y, z - 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te3 = world.getTileEntity(x + 1, y, z - 1);
 				if(te3 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te3;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te4 = world.getTileEntity(x - 1, y + 1, z + 1);
+				world.setBlock(x, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te4 = world.getTileEntity(x, y, z + 1);
 				if(te4 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te4;
 					dummy.targetX = x;
@@ -208,32 +207,32 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock, IToo
 				
 				//
 				DummyBlockTurbofan.safeBreak = true;
-				world.setBlock(x + 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te = world.getTileEntity(x + 1, y + 1, z + 1);
+				world.setBlock(x + 1, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te = world.getTileEntity(x + 1, y, z + 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te2 = world.getTileEntity(x - 1, y + 1, z - 1);
+				world.setBlock(x - 1, y, z, ModBlocks.dummy_port_turbofan);
+				TileEntity te2 = world.getTileEntity(x - 1, y, z);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x + 1, y + 1, z - 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te3 = world.getTileEntity(x + 1, y + 1, z - 1);
+				world.setBlock(x + 1, y, z, ModBlocks.dummy_port_turbofan);
+				TileEntity te3 = world.getTileEntity(x + 1, y, z);
 				if(te3 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te3;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 1, y + 1, z + 1, ModBlocks.dummy_port_turbofan);
-				TileEntity te4 = world.getTileEntity(x - 1, y + 1, z + 1);
+				world.setBlock(x - 1, y, z + 1, ModBlocks.dummy_port_turbofan);
+				TileEntity te4 = world.getTileEntity(x - 1, y, z + 1);
 				if(te4 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te4;
 					dummy.targetX = x;

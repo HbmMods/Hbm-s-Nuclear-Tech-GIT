@@ -106,9 +106,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			} else if(countdown > 0) {
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = this.createAudioLoop();
 					audio.updateVolume(100);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
 				}
 				
 				countdown--;
@@ -130,6 +132,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
     public void onChunkUnload() {

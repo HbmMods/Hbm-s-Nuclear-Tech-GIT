@@ -788,6 +788,18 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_aluminium, 2)
 			}, 100);
 		
+		makeRecipe(new ComparableStack(ModBlocks.machine_assemfac, 1), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 48),
+				new OreDictStack(TCALLOY.ingot(), 8),
+				new OreDictStack(B.ingot(), 4),
+				new OreDictStack(RUBBER.ingot(), 16),
+				new OreDictStack(KEY_ANYPANE, 64),
+				new ComparableStack(ModItems.motor, 18),
+				new ComparableStack(ModItems.bolt_tungsten, 12),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.circuit_gold, 3)
+			}, 400);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_chemfac, 1), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 48),
 				new OreDictStack(TCALLOY.ingot(), 8),

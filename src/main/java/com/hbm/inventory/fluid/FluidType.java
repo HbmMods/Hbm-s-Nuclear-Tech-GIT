@@ -179,12 +179,12 @@ public class FluidType {
 		if(traits.contains(FluidTrait.NO_CONTAINER)) info.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
 		if(traits.contains(FluidTrait.LEAD_CONTAINER)) info.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");
 
-		info.add("");
+		/*info.add("");
 		info.add(EnumChatFormatting.RED + "[DEBUG]");
 		
 		for(FluidTrait trait : traits) {
 			info.add(EnumChatFormatting.RED + "-" + trait.name());
-		}
+		}*/
 	}
 	
 	/**

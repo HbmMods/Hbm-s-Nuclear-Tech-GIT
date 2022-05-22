@@ -35,7 +35,7 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
 		ResourceManager.turbofan.renderPart("Body");
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.5, 0);
-		GL11.glRotated(((TileEntityMachineTurbofan) tileEntity).spin, 0, 0, 1);
+		GL11.glRotated(((TileEntityMachineTurbofan) tileEntity).spin, 0, 0, -1);
 		GL11.glTranslated(0, -1.5, 0);
 		ResourceManager.turbofan.renderPart("Blades");
 		GL11.glPopMatrix();
