@@ -916,6 +916,9 @@ geiger.playerRes=Радиационная защита игрока:
 geiger.title=СЧЁТЧИК ГЕЙГЕРА
 geiger.title.dosimeter=ДОЗИМЕТР
 
+flare.ignition=Сжигание
+flare.valve=Пропускной клапан
+
 hadron.analysis=Анализ...
 hadron.buttonOn=Камера анализа (если есть) включена
 hadron.buttonOff=Камера анализа выключена
@@ -1407,6 +1410,7 @@ container.miningDrill=Автоматический горный бур
 tile.drill_pipe.name=Бур
 tile.machine_assembler.name=Сборочная машина
 container.assembler=Сборочная машина
+tile.machine_assemfac.name=Сборочный завод
 tile.machine_chemplant.name=Химическая установка
 container.chemplant=Химическая установка
 tile.machine_chemfac.name=Химический завод
@@ -4076,6 +4080,10 @@ item.bismuth_boots.name=Сандали из висмута
 item.bismuth_helmet.name=Головной убор из висмута
 item.bismuth_legs.name=Наколенники из висмута
 item.bismuth_plate.name=Наплечники, ожерелье и набедренная повязка из висмута
+item.dieselsuit_boots.name=Высокие каблуки с дизельным двигателем
+item.dieselsuit_helmet.name=Головной датчик окружающей среды с дизельным двигателем
+item.dieselsuit_legs.name=Сервоприводы для ног с дизельным приводом
+item.dieselsuit_plate.name=Кибернетика с дизельным двигателем
 
 tile.mush.name=Светящийся гриб
 tile.waste_mycelium.name=Светящийся мицелий
