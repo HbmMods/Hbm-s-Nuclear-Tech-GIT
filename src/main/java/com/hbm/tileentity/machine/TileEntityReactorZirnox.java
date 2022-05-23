@@ -26,7 +26,9 @@ import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,7 +45,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, SimpleComponent {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -127,54 +129,30 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private int[] getNeighbouringSlots(int id) {
 
 		switch(id) {
-		case 0:
-			return new int[] { 1, 7 };
-		case 1:
-			return new int[] { 0, 2, 8 };
-		case 2:
-			return new int[] { 1, 9 };
-		case 3:
-			return new int[] { 4, 10 };
-		case 4:
-			return new int[] { 3, 5, 11 };
-		case 5:
-			return new int[] { 4, 6, 12 };
-		case 6:
-			return new int[] { 5, 13 };
-		case 7:
-			return new int[] { 0, 8, 14 };
-		case 8:
-			return new int[] { 1, 7, 9, 15 };
-		case 9:
-			return new int[] { 2, 8, 16};
-		case 10:
-			return new int[] { 3, 11, 17 };
-		case 11:
-			return new int[] { 4, 10, 12, 18 };
-		case 12:
-			return new int[] { 5, 11, 13, 19 };
-		case 13:
-			return new int[] { 6, 12, 20 };
-		case 14:
-			return new int[] { 7, 15, 21 }; 
-		case 15:
-			return new int[] { 8, 14, 16, 22 };
-		case 16:
-			return new int[] { 9, 15, 23 };
-		case 17:
-			return new int[] { 10, 18 };
-		case 18:
-			return new int[] { 11, 17, 19 };
-		case 19:
-			return new int[] { 12, 18, 20 };
-		case 20:
-			return new int[] { 13, 19 };
-		case 21:
-			return new int[] { 14, 22 };
-		case 22:
-			return new int[] { 15, 21, 23 };
-		case 23:
-			return new int[] { 16, 22 };
+		case 0: return new int[] { 1, 7 };
+		case 1: return new int[] { 0, 2, 8 };
+		case 2: return new int[] { 1, 9 };
+		case 3: return new int[] { 4, 10 };
+		case 4: return new int[] { 3, 5, 11 };
+		case 5: return new int[] { 4, 6, 12 };
+		case 6: return new int[] { 5, 13 };
+		case 7: return new int[] { 0, 8, 14 };
+		case 8: return new int[] { 1, 7, 9, 15 };
+		case 9: return new int[] { 2, 8, 16};
+		case 10: return new int[] { 3, 11, 17 };
+		case 11: return new int[] { 4, 10, 12, 18 };
+		case 12: return new int[] { 5, 11, 13, 19 };
+		case 13: return new int[] { 6, 12, 20 };
+		case 14: return new int[] { 7, 15, 21 }; 
+		case 15: return new int[] { 8, 14, 16, 22 };
+		case 16: return new int[] { 9, 15, 23 };
+		case 17: return new int[] { 10, 18 };
+		case 18: return new int[] { 11, 17, 19 };
+		case 19: return new int[] { 12, 18, 20 };
+		case 20: return new int[] { 13, 19 };
+		case 21: return new int[] { 14, 22 };
+		case 22: return new int[] { 15, 21, 23 };
+		case 23: return new int[] { 16, 22 };
 		}
 
 		return null;
@@ -193,6 +171,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 			if(age == 9 || age == 19) {
 				fillFluidInit(steam.getTankType());
+			}
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.updateConnections();
 			}
 
 			carbonDioxide.loadTank(24, 26, slots);
@@ -224,6 +206,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 				
 			}
+			
+			for(DirPos pos : getConPos()) {
+				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 
 			checkIfMeltdown();
 			
@@ -242,7 +228,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 		
 		// function of SHS produced per tick
-		// heat - 10256/100000 * pressure / 50,000 * 25 * 5 (should get rid of any rounding errors)
+		// (heat - 10256)/100000 * steamFill (max efficiency at 14b) * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
 			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
 			int Steam = Water * 1;
@@ -373,17 +359,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 		
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achZIRNOXBoom);
 		}
 		
 		if(MobConfig.enableElementals) {
-			@SuppressWarnings("unchecked")
-			List<EntityPlayer> players2 = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
-
-			for(EntityPlayer player : players2) {
+			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
@@ -405,6 +388,25 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, getTact(), type);
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, getTact(), type);
 	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(carbonDioxide.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, rot),
+				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, rot),
+				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, rot.getOpposite()),
+				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, rot.getOpposite())
+		};
+	}
 
 	public boolean getTact() {
 		if(age >= 0 && age < 10) {
@@ -415,9 +417,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	public int getMaxFluidFill(FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) return steam.getMaxFill();
+		if(type == Fluids.SUPERHOTSTEAM) return 0;
 		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getMaxFill();
 		if(type == Fluids.WATER) return water.getMaxFill();
+		
 		return 0;
 	}
 
@@ -505,6 +508,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		this.markDirty();
 	}
 
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { steam };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { water, carbonDioxide };
+	}
+
 	// do some opencomputer stuff
 	@Override
     	public String getComponentName() {
@@ -513,7 +526,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getTemp(Context context, Arguments args) { // or getHeat, whatever.
+	public Object[] getTemp(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
