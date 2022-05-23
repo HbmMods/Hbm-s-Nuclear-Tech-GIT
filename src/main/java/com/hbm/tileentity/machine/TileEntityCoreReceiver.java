@@ -50,6 +50,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		if (!worldObj.isRemote) {
 			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			power = joules * 5000;
 			
@@ -171,7 +172,12 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		nbt.setLong("joules", joules);
 		tank.writeToNBT(nbt, "tank");
 	}
-	
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
 	// do some opencomputer stuff
 	@Override
     	public String getComponentName() {
