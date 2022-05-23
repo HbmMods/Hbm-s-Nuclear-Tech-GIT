@@ -137,7 +137,7 @@ public class Fluids {
 		GAS =				new FlammableOilGas(		"GAS",				0xfffeed, 1, 4, 1, EnumSymbol.NONE).setHeatEnergy(10_000);
 		PETROLEUM = 		new FlammableOilGas(		"PETROLEUM",		0x7cb7c9, 1, 4, 1, EnumSymbol.NONE).setHeatEnergy(25_000);
 		LPG =				new Fuel(					"LPG",				0x4747EA, 1, 3, 1, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 450_000).setHeatEnergy(200_000);
-		BIOGAS =			new FlammableOilGas(		"BIOGAS",			0xbfd37c, 1, 4, 1, EnumSymbol.NONE);
+		BIOGAS =			new FlammableOilGas(		"BIOGAS",			0xbfd37c, 1, 4, 1, EnumSymbol.NONE).setHeatEnergy(25_000);
 		BIOFUEL =			new Fuel(					"BIOFUEL",			0xeef274, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 400_000).setHeatEnergy(150_000).addContainers(0x9EB623, ExtContainer.CANISTER);
 		NITAN =				new Fuel(					"NITAN",			0x8018ad, 2, 4, 1, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 5_000_000).setHeatEnergy(2_000_000).addContainers(0x6B238C, ExtContainer.CANISTER);
 		UF6 =				new RadioactiveGas(			"UF6",				0xD1CEBE, 4, 0, 2, EnumSymbol.RADIATION).addTraits(FluidTrait.CORROSIVE);

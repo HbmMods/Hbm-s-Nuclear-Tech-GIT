@@ -81,7 +81,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 				ComparableStack comp = AssemblerRecipes.recipeList.get(i);
 				if(AssemblerRecipes.hidden.get(comp) == null) {
-					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp));
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
 				}
 			}
 			// Chemistry Templates

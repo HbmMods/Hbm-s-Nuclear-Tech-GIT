@@ -1,12 +1,18 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -17,7 +23,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver {
+public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver, IFluidAcceptor, IFluidSource {
 	
 	public AssemblerArm[] arms;
 
@@ -69,6 +75,10 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
+			if(steam.getFill() > 0) {
+				this.fillFluidInit(steam.getTankType());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -383,5 +393,58 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { water };
+	}
+
+	@Override
+	public void setFillForSync(int fill, int index) { }
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		if(type == water.getTankType()) water.setFill(fill);
+		if(type == steam.getTankType()) steam.setFill(fill);
+	}
+
+	@Override
+	public void setTypeForSync(FluidType type, int index) { }
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		if(type == water.getTankType()) return water.getFill();
+		if(type == steam.getTankType()) return steam.getFill();
+		return 0;
+	}
+
+	@Override
+	public void fillFluidInit(FluidType type) {
+		for(DirPos pos : getConPos()) {
+			this.fillFluid(pos.getX(), pos.getY(), pos.getZ(), this.getTact(), type);
+		}
+	}
+
+	@Override
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
+	}
+
+	@Override
+	public boolean getTact() {
+		return worldObj.getTotalWorldTime() % 2 == 0;
+	}
+
+	private List<IFluidAcceptor> list = new ArrayList();
+	
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		return type == steam.getTankType() ? this.list : new ArrayList();
+	}
+
+	@Override
+	public void clearFluidList(FluidType type) {
+		this.list.clear();
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		return type == water.getTankType() ? water.getMaxFill() : 0;
 	}
 }
