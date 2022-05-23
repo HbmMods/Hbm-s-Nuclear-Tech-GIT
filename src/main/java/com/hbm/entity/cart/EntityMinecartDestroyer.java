@@ -8,8 +8,12 @@ import com.hbm.items.tool.ItemModMinecart;
 import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.entity.item.RenderNeoCart;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -25,8 +29,8 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 		super(p_i1712_1_);
 	}
 
-	public EntityMinecartDestroyer(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityMinecartDestroyer(World world, double x, double y, double z, EnumCartBase type) {
+		super(world, x, y, z, type);
 	}
 
 	@Override
@@ -122,19 +126,14 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 	}
 
 	@Override
-	public void killMinecart(DamageSource p_94095_1_) {
-		this.setDead();
-		ItemStack itemstack = ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.DESTROYER);
-
-		if(this.func_95999_t() != null) {
-			itemstack.setStackDisplayName(this.func_95999_t());
-		}
-
-		this.entityDropItem(itemstack, 0.0F);
+	public ItemStack getCartItem() {
+		return ItemModMinecart.createCartItem(this.getBase(), EnumMinecart.DESTROYER);
 	}
 
 	@Override
-	public ItemStack getCartItem() {
-		return ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.DESTROYER);
+	@SideOnly(Side.CLIENT)
+	public void renderSpecialContent(RenderNeoCart renderer) {
+		renderer.bindTexture(ResourceManager.cart_destroyer_tex);
+		ResourceManager.cart_destroyer.renderAll();
 	}
 }

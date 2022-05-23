@@ -916,6 +916,7 @@ public class ResourceManager {
 	//Carts
 	public static final IModelCustom cart = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/cart.obj"));
 	public static final IModelCustom cart_destroyer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/cart_destroyer.obj"));
+	public static final IModelCustom cart_powder = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/cart_powder.obj"));
 	
 	////Texture Entities
 	
@@ -1184,6 +1185,9 @@ public class ResourceManager {
 	public static final ResourceLocation cart_blank = new ResourceLocation(RefStrings.MODID, "textures/entity/cart_metal_naked.png");
 	public static final ResourceLocation cart_wood = new ResourceLocation(RefStrings.MODID, "textures/entity/cart_wood.png");
 	public static final ResourceLocation cart_destroyer_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/cart_destroyer.png");
+	public static final ResourceLocation cart_powder_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/block_gunpowder.png");
+	public static final ResourceLocation cart_semtex_side = new ResourceLocation(RefStrings.MODID, "textures/blocks/semtex_side.png");
+	public static final ResourceLocation cart_semtex_top = new ResourceLocation(RefStrings.MODID, "textures/blocks/semtex_bottom.png");
 	
 	//ISBRHs
 	public static final IModelCustom scaffold = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/scaffold.obj"));

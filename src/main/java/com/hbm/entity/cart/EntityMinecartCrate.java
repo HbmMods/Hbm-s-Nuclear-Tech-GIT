@@ -21,8 +21,8 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 		super(world);
 	}
 
-	public EntityMinecartCrate(World world, double x, double y, double z, ItemStack stack) {
-		super(world, x, y, z);
+	public EntityMinecartCrate(World world, double x, double y, double z, EnumCartBase type, ItemStack stack) {
+		super(world, x, y, z, type);
 		if(stack.hasTagCompound()) {
 			for(int i = 0; i < getSizeInventory(); i++) {
 				setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot" + i)));

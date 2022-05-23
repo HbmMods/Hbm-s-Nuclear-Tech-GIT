@@ -495,6 +495,8 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityMinecartOre.class, "entity_ntm_cart_ore", 172, this, 250, 1, false);
 		EntityRegistry.registerModEntity(EntityMinecartBogie.class, "entity_ntm_cart_bogie", 173, this, 250, 1, false);
 		EntityRegistry.registerModEntity(EntityMagnusCartus.class, "entity_ntm_cart_chungoid", 174, this, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityMinecartPowder.class, "entity_ntm_cart_powder", 175, this, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 176, this, 250, 1, false);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

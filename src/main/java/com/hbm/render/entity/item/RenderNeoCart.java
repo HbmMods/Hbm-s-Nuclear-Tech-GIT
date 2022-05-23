@@ -2,12 +2,11 @@ package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.cart.EntityMinecartDestroyer;
+import com.hbm.entity.cart.EntityMinecartNTM;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -15,11 +14,12 @@ import net.minecraft.util.Vec3;
 public class RenderNeoCart extends Render {
 
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-		this.doRender((EntityMinecart) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+	public void doRender(Entity entity, double x, double y, double z, float rot, float interp) {
+		this.doRender((EntityMinecartNTM) entity, x, y, z, rot, interp);
 	}
 
-	public void doRender(EntityMinecart cart, double x, double y, double z, float rot, float interp) {
+	public void doRender(EntityMinecartNTM cart, double x, double y, double z, float rot, float interp) {
+		
 		GL11.glPushMatrix();
 		this.bindEntityTexture(cart);
 		long rand = (long) cart.getEntityId() * 493286711L;
@@ -80,17 +80,33 @@ public class RenderNeoCart extends Render {
 		}
 
 		ResourceManager.cart.renderPart("Bucket");
-		
-		if(cart instanceof EntityMinecartDestroyer) {
-			bindTexture(ResourceManager.cart_destroyer_tex);
-			ResourceManager.cart_destroyer.renderAll();
-		}
+		cart.renderSpecialContent(this);
 
 		GL11.glPopMatrix();
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return ResourceManager.cart_blank;
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		return getEntityTexture((EntityMinecartNTM) entity);
+	}
+	
+	protected ResourceLocation getEntityTexture(EntityMinecartNTM entity) {
+		switch(entity.getBase()) {
+		case PAINTED: return ResourceManager.cart_metal;
+		default:
+		case STEEL: return ResourceManager.cart_blank;
+		case WOOD: return ResourceManager.cart_wood;
+		}
+	}
+
+	//"NoT vIsIbLe" how about you kiss my fucking ass
+	@Override
+	public void bindEntityTexture(Entity entity) {
+		this.bindTexture(this.getEntityTexture(entity));
+	}
+
+	@Override
+	public void bindTexture(ResourceLocation loc) {
+		this.renderManager.renderEngine.bindTexture(loc);
 	}
 }
