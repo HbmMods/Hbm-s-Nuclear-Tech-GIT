@@ -16,7 +16,6 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
-import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
@@ -333,7 +332,5 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				updateButtons();
 			}
 		}
-
 	}
-
 }

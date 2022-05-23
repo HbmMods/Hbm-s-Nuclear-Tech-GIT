@@ -64,7 +64,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				rod.updateHeat(worldObj, slots[0], 1.0D);
 				this.heat += rod.provideHeat(worldObj, slots[0], heat, 1.0D);
 				
-				if(this.heat > this.maxHeat()) {
+				if(this.heat > this.maxHeat() && !RBMKDials.getMeltdownsDisabled(worldObj)) {
 					this.meltdown();
 					return;
 				}
