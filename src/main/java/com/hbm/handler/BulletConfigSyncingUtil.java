@@ -135,6 +135,7 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 	public static int SPECIAL_EMP = i++;
+	public static int BRIMSTONE_AMMO = i++;
 
 	public static int FLAMER_NORMAL = i++;
 	public static int FLAMER_NAPALM = i++;
@@ -384,6 +385,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
+		configSet.put(BRIMSTONE_AMMO, BrimstoneFactory.getBrimstoneConfig());
 
 		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
 		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
