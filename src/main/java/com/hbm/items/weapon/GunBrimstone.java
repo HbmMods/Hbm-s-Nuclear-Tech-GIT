@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.items.ModItems;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.handler.BulletConfigSyncingUtil;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -18,10 +22,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
-public class GunBrimstone extends Item {
+public class GunBrimstone extends Item implements IHoldableWeapon {
 
 	Random rand = new Random();
-
+	
+	@Override
+	public Crosshair getCrosshair() {
+		return Crosshair.L_RAD;
+	}
+	
 	public GunBrimstone() {
 		this.maxStackSize = 1;
 	}
@@ -34,8 +43,8 @@ public class GunBrimstone extends Item {
 	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
-	}
-
+	}	
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 		new ArrowNockEvent(p_77659_3_, p_77659_1_);
@@ -52,22 +61,25 @@ public class GunBrimstone extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_566_gold)) && count % 1 == 0) {
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.turret_tau_ammo)) && count % 1 == 0) {
 			
-			
+			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.BRIMSTONE_AMMO, player);
+			world.spawnEntityInWorld(bullet);
 			EntityLaser laser = new EntityLaser(world, player);
 
 			//world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (!flag) {
-				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
+				player.inventory.consumeInventoryItem(ModItems.turret_tau_ammo);
 			}
 
 			if (!world.isRemote) {
 				world.spawnEntityInWorld(laser);
+				world.spawnEntityInWorld(bullet);
 			}
 		}
 	}
+
 
 	@Override
 	public int getItemEnchantability() {
@@ -77,14 +89,17 @@ public class GunBrimstone extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
+		list.add("Ammo: Depleted Plutonium-240 Ammo");
+		list.add("Manufacturer: ------- Industries");
+		list.add("Hold Right Mouse Button to use It.");
+		list.add("");
 		list.add("[LEGENDARY WEAPON]");
 	}
-
 	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
 				new AttributeModifier(field_111210_e, "Weapon modifier", 5, 0));
 		return multimap;
-	}
+		}
 }

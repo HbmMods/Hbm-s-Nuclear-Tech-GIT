@@ -227,6 +227,32 @@ public class BulletConfigFactory {
 		
 		return bullet;
 	}
+
+	public static BulletConfiguration brimstoneConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 1000.0F;
+		bullet.spread = 0.005F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.gravity = 0D;
+		bullet.maxAge = 100;
+		bullet.doesRicochet = false;
+		bullet.ricochetAngle = 5;
+		bullet.HBRC = 2;
+		bullet.LBRC = 95;
+		bullet.bounceMod = 0.8;
+		bullet.doesPenetrate = true;
+		bullet.doesBreakGlass = false;
+		bullet.destroysBlocks = false;
+		bullet.style = BulletConfiguration.STYLE_NORMAL;
+		bullet.plink = BulletConfiguration.PLINK_BULLET;
+		bullet.leadChance = 0;
+		
+		return bullet;
+	}
 	
 	public static BulletConfiguration standardShellConfig() {
 		
