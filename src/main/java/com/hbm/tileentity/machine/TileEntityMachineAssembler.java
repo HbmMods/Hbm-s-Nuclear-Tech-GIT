@@ -213,7 +213,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
 			data.setBoolean("isProgressing", isProgressing);
-			data.setInteger("recipe", slots[4] != null ? slots[4].getItemDamage() : -1);
+			data.setInteger("recipe", slots[4] != null ? AssemblerRecipes.recipeList.indexOf(AssemblerRecipes.getOutputFromTempate(slots[4])) : -1);
 			this.networkPack(data, 150);
 		} else {
 			
