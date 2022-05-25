@@ -7,7 +7,9 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.handler.BulletConfigSyncingUtil;
 
@@ -23,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class GunBrimstone extends Item implements IHoldableWeapon {
-
+	
 	Random rand = new Random();
 	
 	@Override
@@ -34,7 +36,6 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 	public GunBrimstone() {
 		this.maxStackSize = 1;
 	}
-
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
 		return EnumAction.bow;
@@ -63,12 +64,11 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.turret_tau_ammo)) && count % 1 == 0) {
 			
+			//UmbryKid: Fuck it, I know this is not the best way to do this but i'm tired of figure shit out
 			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.BRIMSTONE_AMMO, player);
 			world.spawnEntityInWorld(bullet);
 			EntityLaser laser = new EntityLaser(world, player);
-
-			//world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
-
+			
 			if (!flag) {
 				player.inventory.consumeInventoryItem(ModItems.turret_tau_ammo);
 			}
@@ -76,11 +76,10 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 			if (!world.isRemote) {
 				world.spawnEntityInWorld(laser);
 				world.spawnEntityInWorld(bullet);
+				world.playSoundAtEntity(player, "hbm:weapon.brimLoop", 0.75F, 0.85F);
+				}
 			}
-		}
-	}
-
-
+        }
 	@Override
 	public int getItemEnchantability() {
 		return 0;
@@ -89,12 +88,13 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Ammo: Depleted Plutonium-240 Ammo");
-		list.add("Manufacturer: ------- Industries");
-		list.add("Hold Right Mouse Button to use It.");
+		list.add("Ammo: Depleted Plutonium-240 Ammo (Belt)");
+		list.add("Manufacturer: Winchester Arms");
+		list.add("Hold Right Mouse Button to use it.");
 		list.add("");
 		list.add("[LEGENDARY WEAPON]");
 	}
+	
 	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
@@ -103,3 +103,4 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 		return multimap;
 		}
 }
+

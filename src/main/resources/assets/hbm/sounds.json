@@ -68,6 +68,7 @@
 	"music.transmission": {"category": "record", "sounds": [{"name": "music/recordGlass", "stream": true}]},
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
+	"weapon.brimLoop":  {"category": "player", "sounds": [{"name": "weapon/brimLoop", "stream": false}]},
     "weapon.tauChargeLoop": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop", "stream": true}]},
     "weapon.tauChargeLoop2": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop2", "stream": true}]},
     "weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
