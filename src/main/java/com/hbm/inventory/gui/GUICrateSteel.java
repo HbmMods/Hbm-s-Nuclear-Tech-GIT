@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICrateSteel extends GuiContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_crate_steel.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_steel.png");
 	private IInventory crate;
 	
 	public GUICrateSteel(InventoryPlayer invPlayer, IInventory inv) {
