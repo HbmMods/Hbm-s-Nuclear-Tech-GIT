@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TETurbofanPacket;
@@ -24,6 +25,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -322,6 +324,16 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 3) {
@@ -374,6 +386,16 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 4) {
@@ -426,6 +448,16 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 5) {
@@ -478,6 +510,16 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 			}

@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine.storage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;

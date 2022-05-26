@@ -20,13 +20,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 
-	public EntityMinecartDestroyer(World p_i1712_1_) {
-		super(p_i1712_1_);
+	public EntityMinecartDestroyer(World world) {
+		super(world);
 	}
 
 	public EntityMinecartDestroyer(World world, double x, double y, double z, EnumCartBase type) {

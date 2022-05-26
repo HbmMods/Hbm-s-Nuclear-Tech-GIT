@@ -13,10 +13,6 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	protected ItemStack slots[];
 	public String customName;
 
-	public TileEntityCrateBase() {
-		slots = new ItemStack[0];
-	}
-
 	public TileEntityCrateBase(int count) {
 		slots = new ItemStack[count];
 	}

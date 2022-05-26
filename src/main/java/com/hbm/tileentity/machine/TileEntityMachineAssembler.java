@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
@@ -208,12 +209,18 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 						break;
 			}
 			
+			int rec = -1;
+			if(AssemblerRecipes.getOutputFromTempate(slots[4]) != null) {
+				ComparableStack comp = ItemAssemblyTemplate.readType(slots[4]);
+				rec = AssemblerRecipes.recipeList.indexOf(comp);
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
 			data.setBoolean("isProgressing", isProgressing);
-			data.setInteger("recipe", slots[4] != null ? AssemblerRecipes.recipeList.indexOf(AssemblerRecipes.getOutputFromTempate(slots[4])) : -1);
+			data.setInteger("recipe", rec);
 			this.networkPack(data, 150);
 		} else {
 			
