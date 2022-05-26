@@ -66,6 +66,10 @@ public class BlockStorageCrate extends BlockContainer {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":safe_front");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":safe_side");
 		}
+		if(this == ModBlocks.mass_storage) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
+		}
 	}
 
 	@Override

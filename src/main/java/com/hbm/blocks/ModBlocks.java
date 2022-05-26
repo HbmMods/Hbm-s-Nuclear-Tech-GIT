@@ -587,6 +587,7 @@ public class ModBlocks {
 	public static Block crate_desh;
 	public static Block crate_tungsten;
 	public static Block safe;
+	public static Block mass_storage;
 	
 	public static Block nuke_gadget;
 	public static final int guiID_nuke_gadget = 3;
@@ -2107,8 +2108,9 @@ public class ModBlocks {
 		crate_iron = new BlockStorageCrate(Material.iron).setBlockName("crate_iron").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_desh = new BlockStorageCrate(Material.iron).setBlockName("crate_desh").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		crate_tungsten = new BlockStorageCrate(Material.iron).setBlockName("crate_tungsten").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab);
+		crate_tungsten = new BlockStorageCrate(Material.iron).setBlockName("crate_tungsten").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(300.0F).setCreativeTab(MainRegistry.machineTab);
 		safe = new BlockStorageCrate(Material.iron).setBlockName("safe").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		mass_storage = new BlockMassStorage().setBlockName("mass_storage").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		boxcar = new DecoBlock(Material.iron).setBlockName("boxcar").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boxcar");
 		boat = new DecoBlock(Material.iron).setBlockName("boat").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boat");
@@ -2904,6 +2906,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crate_desh, crate_desh.getUnlocalizedName());
 		GameRegistry.registerBlock(crate_tungsten, crate_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(safe, safe.getUnlocalizedName());
+		GameRegistry.registerBlock(mass_storage, mass_storage.getUnlocalizedName());
 		
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());

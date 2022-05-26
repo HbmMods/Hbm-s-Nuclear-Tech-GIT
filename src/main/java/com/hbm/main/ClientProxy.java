@@ -1631,16 +1631,19 @@ public class ClientProxy extends ServerProxy {
 			int gW = (int)(width / 0.25F);
 			int gH = (int)(height / 0.25F);
 			
+			int count = (int) (gW * 1.5 * gH);
+			
+			if(data.hasKey("cDiv"))
+				count = (int) Math.ceil(count / (double)data.getInteger("cDiv"));
+			
 			boolean blowMeIntoTheGodDamnStratosphere = rand.nextInt(15) == 0;
 			double mult = 1D;
 			
 			if(blowMeIntoTheGodDamnStratosphere)
 				mult *= 10;
 			
-			for(int i = -(gW / 2); i <= gW; i++) {
-				for(int j = 0; j <= gH; j++) {
-					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
-				}
+			for(int i = 0; i < count; i++) {
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
 			}
 		}
 		
