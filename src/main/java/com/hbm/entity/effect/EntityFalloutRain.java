@@ -4,7 +4,9 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
+import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.saveddata.AuxSavedData;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -13,12 +15,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
 
-public class EntityFalloutRain extends Entity {
+public class EntityFalloutRain extends Entity implements IChunkLoader {
 	private boolean firstTick = true; // Of course Vanilla has it private in Entity...
+	
+	private Ticket loaderTicket;
 
 	public EntityFalloutRain(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -282,5 +288,22 @@ public class EntityFalloutRain extends Entity {
 	public int getScale() {
 		int scale = this.dataWatcher.getWatchableObjectInt(16);
 		return scale == 0 ? 1 : scale;
+	}
+
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
 	}
 }

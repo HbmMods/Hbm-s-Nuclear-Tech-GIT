@@ -13,9 +13,12 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public class EntityNukeExplosionMK4 extends Entity {
+public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 	
 	//Strength of the blast
 	public int strength;
@@ -24,7 +27,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 	//How many rays are calculated per tick
 	public int speed;
 	public int length;
-	
+	private Ticket loaderTicket;
 	public boolean mute = false;
 	
 	public boolean fallout = true;
@@ -194,4 +197,21 @@ public class EntityNukeExplosionMK4 extends Entity {
 		this.mute = true;
 		return this;
 	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
+	}
+
 }

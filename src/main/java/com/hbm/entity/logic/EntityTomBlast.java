@@ -10,15 +10,19 @@ import com.hbm.saveddata.TomSaveData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public class EntityTomBlast extends Entity {
+public class EntityTomBlast extends Entity implements IChunkLoader {
 
 	public int age = 0;
 	public int destructionRange = 0;
 	public ExplosionTom exp;
 	public int speed = 1;
 	public boolean did = false;
+	private Ticket loaderTicket;
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -93,5 +97,21 @@ public class EntityTomBlast extends Entity {
 
 	@Override
 	protected void entityInit() {
+	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
 	}
 }

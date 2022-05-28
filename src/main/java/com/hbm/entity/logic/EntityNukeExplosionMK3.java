@@ -17,10 +17,13 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 @Spaghetti("why???")
-public class EntityNukeExplosionMK3 extends Entity {
+public class EntityNukeExplosionMK3 extends Entity implements IChunkLoader {
 	
 	public int age = 0;
 	public int destructionRange = 0;
@@ -35,6 +38,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public boolean did = false;
 	public boolean did2 = false;
 	public boolean waste = true;
+	private Ticket loaderTicket;
 	//Extended Type
 	public int extType = 0;
 
@@ -225,5 +229,21 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public EntityNukeExplosionMK3 makeSol() {
 		this.extType = 1;
 		return this;
+	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
 	}
 }

@@ -9,9 +9,12 @@ import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public class EntityBalefire extends Entity {
+public class EntityBalefire extends Entity implements IChunkLoader {
 	
 	public int age = 0;
 	public int destructionRange = 0;
@@ -19,6 +22,7 @@ public class EntityBalefire extends Entity {
 	public int speed = 1;
 	public boolean did = false;
 	public boolean mute = false;
+	private Ticket loaderTicket;
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -99,5 +103,21 @@ public class EntityBalefire extends Entity {
 	public EntityBalefire mute() {
 		this.mute = true;
 		return this;
+	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+
+			if(ticket != null) {
+
+				if(loaderTicket == null) {
+
+					loaderTicket = ticket;
+					loaderTicket.bindEntity(this);
+					loaderTicket.getModData();
+				}
+
+				ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+			}
+		}
 	}
 }
