@@ -12,6 +12,8 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -24,62 +26,27 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
-public class GunBrimstone extends Item implements IHoldableWeapon {
+public class GunBrimstone extends ItemGunBase {
 	
+	private AudioWrapper firingLoop;
+	
+	public GunBrimstone(GunConfiguration config) {
+		super(config);
+	}
+	
+
 	Random rand = new Random();
 	
 	@Override
-	public Crosshair getCrosshair() {
-		return Crosshair.L_RAD;
-	}
-	
-	public GunBrimstone() {
-		this.maxStackSize = 1;
-	}
-	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
-	}
-
-	@Override
-	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
-		return 72000;
-	}	
-	
-	@Override
-	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
-		new ArrowNockEvent(p_77659_3_, p_77659_1_);
-		{
-			p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
+		//Overrides the projectile, spawning bullet and beam
+		EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.BRIMSTONE_AMMO, player);
+		EntityLaser laser = new EntityLaser(world, player);
+		world.spawnEntityInWorld(laser);
+		world.spawnEntityInWorld(laser);
+		world.spawnEntityInWorld(bullet);
+		world.playSoundAtEntity(player, "hbm:weapon.brimLoop", 0.75F, 0.85F);
 		}
-
-		return p_77659_1_;
-	}
-
-	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
-		World world = player.worldObj;
-
-		boolean flag = player.capabilities.isCreativeMode
-				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.turret_tau_ammo)) && count % 1 == 0) {
-			
-			//UmbryKid: Fuck it, I know this is not the best way to do this but i'm tired of figure shit out
-			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.BRIMSTONE_AMMO, player);
-			world.spawnEntityInWorld(bullet);
-			EntityLaser laser = new EntityLaser(world, player);
-			
-			if (!flag) {
-				player.inventory.consumeInventoryItem(ModItems.turret_tau_ammo);
-			}
-
-			if (!world.isRemote) {
-				world.spawnEntityInWorld(laser);
-				world.spawnEntityInWorld(bullet);
-				world.playSoundAtEntity(player, "hbm:weapon.brimLoop", 0.75F, 0.85F);
-				}
-			}
-        }
 	@Override
 	public int getItemEnchantability() {
 		return 0;
@@ -87,7 +54,6 @@ public class GunBrimstone extends Item implements IHoldableWeapon {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-
 		list.add("Ammo: Depleted Plutonium-240 Ammo (Belt)");
 		list.add("Manufacturer: Winchester Arms");
 		list.add("Hold Right Mouse Button to use it.");

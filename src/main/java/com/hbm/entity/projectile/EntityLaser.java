@@ -46,7 +46,7 @@ public class EntityLaser extends Entity {
 	@Override
 	public void onUpdate() {
 		
-		if(this.ticksExisted > 1)
+		if(this.ticksExisted > 2)
 			this.setDead();
 		
 		int range = 100;
@@ -57,7 +57,10 @@ public class EntityLaser extends Entity {
 			
 			//this.setPosition(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 			
-			MovingObjectPosition pos = Library.rayTrace(player, range, 1);
+			MovingObjectPosition pos = Library.rayTrace(player, range, 1, false, true, false);
+			
+			if(pos == null)
+				return;
 			
 			//worldObj.createExplosion(this, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 1, false);
 			

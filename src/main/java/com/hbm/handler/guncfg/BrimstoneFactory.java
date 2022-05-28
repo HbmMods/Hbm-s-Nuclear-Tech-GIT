@@ -19,18 +19,17 @@ public class BrimstoneFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 1;
+		config.rateOfFire = 2;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
-		config.ammoCap = 0;
+		config.ammoCap = 40;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_RAD;
+		config.crosshair = Crosshair.CIRCLE;
 		config.durability = 10000;
-		config.firingSound = "hbm:weapon.tauShoot";
 		
 		config.name = "Brimstone";
 		config.manufacturer = "----- Industries";
