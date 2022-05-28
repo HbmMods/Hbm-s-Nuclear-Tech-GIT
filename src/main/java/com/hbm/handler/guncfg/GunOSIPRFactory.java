@@ -6,6 +6,10 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunOSIPRFactory {
@@ -31,6 +35,19 @@ public class GunOSIPRFactory {
 		
 		config.name = "Overwatch Standard Issue Pulse Rifle";
 		config.manufacturer = "The Universal Union";
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				);
+		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
+						.addBus("ALTRECOIL", new BusAnimationSequence()
+							.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
+							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+							)
+						);
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_OSIPR);
@@ -69,6 +86,7 @@ public class GunOSIPRFactory {
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 5;
 		bullet.trail = 2;
+		
 		
 		return bullet;
 	}

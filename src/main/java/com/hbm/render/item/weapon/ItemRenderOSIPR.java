@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.model.ModelOSIPR;
 
 import net.minecraft.client.Minecraft;
@@ -48,7 +49,15 @@ public class ItemRenderOSIPR implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glTranslatef(-0.4F, -0.2F, -0.1F);
 				GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
+				
+				double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+				GL11.glTranslated(recoil[0] * 0.25, 0, 0);
+				
+				double[] altrecoil = HbmAnimations.getRelevantTransformation("ALTRECOIL");
+				GL11.glTranslated(altrecoil[0] * 0.25, 0, 0);
+				
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:

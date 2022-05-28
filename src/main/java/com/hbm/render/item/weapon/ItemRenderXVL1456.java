@@ -2,7 +2,9 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunGauss;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.model.ModelXVL1456;
 
 import net.minecraft.client.Minecraft;
@@ -48,9 +50,16 @@ public class ItemRenderXVL1456 implements IItemRenderer {
 			GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelXVL1456.png"));
-				GL11.glRotatef(-150.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glTranslatef(-0.9F, -0.1F, -0.1F);
+
+				double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+				double[] spin = HbmAnimations.getRelevantTransformation("SPIN");
+				spin = ItemGunGauss.getCharge(item) > 0 ? spin : new double[]{0, 0, 0};
+				
+				GL11.glRotated(-150.0F + recoil[1]*0.2, 0.0F, 0.0F, 1.0F);
+				GL11.glTranslated(-0.9F - recoil[2]*0.3F - spin[1], -0.1F, -0.1F);
 				GL11.glScalef(0.3F, 0.3F, 0.3F);
+				
+				
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			GL11.glPopMatrix();
 			break;
