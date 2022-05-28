@@ -68,8 +68,6 @@ public class ContainerMassStorage extends Container {
 		//M3: 3
 		//SHIFT: 1
 		//DRAG: 5
-		//System.out.println("Mode " + mode);
-		//System.out.println("Slot " + index);
 
 		if(index != 1) {
 			return super.slotClick(index, button, mode, player);
