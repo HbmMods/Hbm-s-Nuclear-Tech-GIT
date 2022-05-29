@@ -31,6 +31,8 @@ public class GUIAutocrafter extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+		
+		this.drawElectricityInfo(this, x, y, guiLeft + 17, guiTop + 45, 16, 52, diFurnace.getPower(), diFurnace.getMaxPower());
 
 		if(this.mc.thePlayer.inventory.getItemStack() == null) {
 			for(int i = 0; i < 9; ++i) {
@@ -49,6 +51,12 @@ public class GUIAutocrafter extends GuiInfoContainer {
 					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
 				}
 			}
+			
+			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(9);
+			
+			if(this.isMouseOverSlot(slot, x, y) && diFurnace.slots[9] != null) {
+				this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", EnumChatFormatting.YELLOW + "" + (diFurnace.recipeIndex + 1) + " / " + diFurnace.recipeCount }), x, y - 30);
+			}
 		}
 	}
 	
@@ -65,6 +73,10 @@ public class GUIAutocrafter extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int i = (int)(diFurnace.getPower() * 52 / diFurnace.getMaxPower());
+		drawTexturedModalRect(guiLeft + 17, guiTop + 97 - i, 176, 52 - i, 16, i);
+		
 	}
 
 	/**

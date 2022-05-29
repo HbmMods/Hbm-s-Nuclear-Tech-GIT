@@ -19,7 +19,7 @@ public class ContainerAutocrafter extends Container {
 		/* TEMPLATE */
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new SlotPattern(tedf, j + i * 3, 44 + j * 18, 22 + i * 18).disableHover());
+				this.addSlotToContainer(new SlotPattern(tedf, j + i * 3, 44 + j * 18, 22 + i * 18));
 			}
 		}
 		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40));
@@ -67,8 +67,15 @@ public class ContainerAutocrafter extends Container {
 			ret = slot.getStack().copy();
 		
 		//Don't allow any interaction for the template's output
-		if(index == 9)
+		if(index == 9) {
+			
+			if(button == 1 && mode == 0 && slot.getHasStack()) {
+				autocrafter.nextTemplate();
+				this.detectAndSendChanges();
+			}
+			
 			return ret;
+		}
 		
 		if(button == 1 && mode == 0 && slot.getHasStack()) {
 			autocrafter.nextMode(index);
