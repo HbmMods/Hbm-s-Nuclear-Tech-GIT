@@ -47,7 +47,7 @@ public class GunBrimstone extends ItemGunBase {
 		list.add("Ammo: Depleted Plutonium-240 Ammo (Belt)");
 		list.add("Manufacturer: Winchester Arms");
 		list.add("");
-		list.add("");
+		list.add("This weapon had it's project delayed for many years, but now, it's finnaly in your hands");
 		list.add("");
 		list.add("[LEGENDARY WEAPON]");
 	}
