@@ -3697,10 +3697,10 @@ public class ModItems {
 				.setUnlocalizedName("rbmk_fuel_heu235").setTextureName(RefStrings.MODID + ":rbmk_fuel_heu235");
 		rbmk_fuel_thmeu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_thmeu)
 				.setYield(100000000D)
-				.setStats(12)
+				.setStats(20)
 				.setFunction(EnumBurnFunc.PLATEU)
 				.setDepletionFunction(EnumDepleteFunc.BOOSTED_SLOPE)
-				.setHeat(0.75D)
+				.setHeat(0.65D) //Consistency with MEU
 				.setMeltingPoint(3350)
 				.setUnlocalizedName("rbmk_fuel_thmeu").setTextureName(RefStrings.MODID + ":rbmk_fuel_thmeu");
 		rbmk_fuel_lep = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lep)
