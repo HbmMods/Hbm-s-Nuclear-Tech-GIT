@@ -49,7 +49,7 @@ public class EntityLaser extends Entity {
 		if(this.ticksExisted > 2)
 			this.setDead();
 		
-		int range = 100;
+		int range = 50;
 		
 		EntityPlayer player = worldObj.getPlayerEntityByName(this.dataWatcher.getWatchableObjectString(20));
 		
@@ -70,7 +70,7 @@ public class EntityLaser extends Entity {
 			List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(pos.hitVec.xCoord - 1, pos.hitVec.yCoord - 1, pos.hitVec.zCoord - 1, pos.hitVec.xCoord + 1, pos.hitVec.yCoord + 1, pos.hitVec.zCoord + 1));
 			
 			for(Entity e : list)
-				e.attackEntityFrom(ModDamageSource.radiation, 5);
+				e.attackEntityFrom(ModDamageSource.radiation, 7);
 		}
 	}
 

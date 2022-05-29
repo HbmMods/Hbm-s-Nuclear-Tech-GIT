@@ -238,19 +238,19 @@ public class BulletConfigFactory {
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.gravity = 0D;
-		bullet.maxAge = 100;
+		bullet.maxAge = 1;
 		bullet.doesRicochet = false;
-		bullet.ricochetAngle = 5;
+		bullet.ricochetAngle = 0;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
-		bullet.bounceMod = 0.8;
+		bullet.bounceMod = 0.0;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = false;
 		bullet.destroysBlocks = false;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		bullet.leadChance = 0;
-		
+				
 		return bullet;
 	}
 	

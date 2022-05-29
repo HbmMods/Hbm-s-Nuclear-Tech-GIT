@@ -31,8 +31,9 @@ public class BrimstoneFactory {
 		config.crosshair = Crosshair.CIRCLE;
 		config.durability = 10000;
 		
-		config.name = "Brimstone";
-		config.manufacturer = "----- Industries";
+		//Unused
+		//config.name = "Brimstone";
+		//config.manufacturer = "----- Industries";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BRIMSTONE_AMMO);
@@ -44,8 +45,8 @@ public class BrimstoneFactory {
 		BulletConfiguration bullet = BulletConfigFactory.brimstoneConfig();
 
 		bullet.ammo = ModItems.turret_tau_ammo;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 9;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 12;
 		bullet.LBRC = 80;
 		bullet.HBRC = 5;
 		
