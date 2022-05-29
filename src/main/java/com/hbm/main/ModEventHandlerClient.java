@@ -53,6 +53,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
@@ -546,12 +547,12 @@ public class ModEventHandlerClient {
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 		
 		if(event.showAdvancedItemTooltips) {
-			int ids[] = OreDictionary.getOreIDs(stack);
+			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
-			if(ids.length > 0) {
+			if(names.size() > 0) {
 				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
-				for(int i : ids) {
-					list.add(EnumChatFormatting.AQUA + " -" + OreDictionary.getOreName(i));
+				for(String s : names) {
+					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");

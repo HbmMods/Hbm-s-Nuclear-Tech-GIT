@@ -7,7 +7,6 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
 
 public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPacketReceiver, IControlReceiver {

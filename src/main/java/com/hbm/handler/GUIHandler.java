@@ -35,6 +35,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityCrateTungsten) {	return new ContainerCrateTungsten(player.inventory, (TileEntityCrateTungsten) entity); }
 		if(entity instanceof TileEntityMassStorage) {	return new ContainerMassStorage(player.inventory, (TileEntityMassStorage) entity); }
 
+		if(entity instanceof TileEntityMachineAutocrafter) {	return new ContainerAutocrafter(player.inventory, (TileEntityMachineAutocrafter) entity); }
+
 		if(entity instanceof TileEntityMachineLiquefactor) {	return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
 		if(entity instanceof TileEntityMachineSolidifier) {		return new ContainerSolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
 		if(entity instanceof TileEntityMachineRadiolysis) {		return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
@@ -858,6 +860,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityCrateTungsten) {	return new GUICrateTungsten(player.inventory, (TileEntityCrateTungsten) entity); }
 		if(entity instanceof TileEntitySafe) {			return new GUISafe(player.inventory, (TileEntitySafe) entity); }
 		if(entity instanceof TileEntityMassStorage) {	return new GUIMassStorage(player.inventory, (TileEntityMassStorage) entity); }
+		
+		if(entity instanceof TileEntityMachineAutocrafter) {	return new GUIAutocrafter(player.inventory, (TileEntityMachineAutocrafter) entity); }
 		
 		if(entity instanceof TileEntityMachineLiquefactor) {	return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
 		if(entity instanceof TileEntityMachineSolidifier) {		return new GUISolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
