@@ -87,6 +87,10 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	public int getStockpile() {
 		return stack;
 	}
+	
+	public void setStockpile(int stack) {
+		this.stack = stack;
+	}
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {

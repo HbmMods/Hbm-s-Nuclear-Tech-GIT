@@ -42,10 +42,14 @@ public class ShredderRecipes {
 			if(matches == null || matches.isEmpty())
 				continue;
 
+			//1 ingot unit, metal
 			generateRecipes("ingot", name, matches, 1);
-			generateRecipes("ore", name, matches, 2);
+			generateRecipes("plate", name, matches, 1);
+			//1 ingot unit, crystalline
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
+			//2 ingot units, any
+			generateRecipes("ore", name, matches, 2);
 			
 			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
