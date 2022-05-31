@@ -52,14 +52,16 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 				
 				int amount = Math.min(getStockpile(), getType().getMaxStackSize());
 				
-				if(slots[2] == null) {
-					slots[2] = slots[1].copy();
-					slots[2].stackSize = amount;
-					this.stack -= amount;
-				} else {
-					amount = Math.min(amount, slots[2].getMaxStackSize() - slots[2].stackSize);
-					slots[2].stackSize += amount;
-					this.stack -= amount;
+				if(amount > 0) {
+					if(slots[2] == null) {
+						slots[2] = slots[1].copy();
+						slots[2].stackSize = amount;
+						this.stack -= amount;
+					} else {
+						amount = Math.min(amount, slots[2].getMaxStackSize() - slots[2].stackSize);
+						slots[2].stackSize += amount;
+						this.stack -= amount;
+					}
 				}
 			}
 			
@@ -86,6 +88,10 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	
 	public int getStockpile() {
 		return stack;
+	}
+	
+	public void setStockpile(int stack) {
+		this.stack = stack;
 	}
 
 	@Override

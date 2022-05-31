@@ -30,6 +30,7 @@ import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -81,8 +82,10 @@ import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -396,7 +399,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityOilSpillFX.class, "entity_spill_fx", 72, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityOilSpill.class, "entity_oil_spill", 73, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityGasFX.class, "entity_spill_fx", 74, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGasFlameFX.class, "entity_gasflame_fx", 75, this, 1000, 1, true);
+		//EntityRegistry.registerModEntity(EntityGasFlameFX.class, "entity_gasflame_fx", 75, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityMinecartTest.class, "entity_minecart_test", 76, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntitySparkBeam.class, "entity_spark_beam", 77, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 78, this, 1000, 1, true);
@@ -1063,5 +1066,24 @@ public class MainRegistry {
 		MobConfig.loadFromConfig(config);
 
 		config.save();
+	}
+	
+	private static HashSet<String> ignoreMappings = new HashSet();
+	
+	static {
+		for(int i = 1; i <= 8; i++)
+			ignoreMappings.add("hbm:item.gasflame" + i);
+	}
+
+	@EventHandler
+	public void handleMissingMappings(FMLMissingMappingsEvent event) {
+		
+		for(MissingMapping mapping : event.get()) {
+			if(mapping.type == GameRegistry.Type.ITEM) {
+				if(ignoreMappings.contains(mapping.name)) {
+					mapping.ignore();
+				}
+			}
+		}
 	}
 }

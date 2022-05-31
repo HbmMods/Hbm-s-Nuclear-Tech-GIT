@@ -1,8 +1,8 @@
 package com.hbm.entity.missile;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.util.ParticleUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -69,13 +69,7 @@ public class EntityMinerRocket extends Entity {
 		if(dataWatcher.getWatchableObjectInt(16) != 1) {
 			
 			if(ticksExisted % 2 == 0) {
-				EntityGasFlameFX fx = new EntityGasFlameFX(worldObj);
-				fx.posY = posY - 0.5D;
-				fx.posX = posX;
-				fx.posZ = posZ;
-				fx.motionY = -1D;
-				
-				worldObj.spawnEntityInWorld(fx);
+				ParticleUtil.spawnGasFlame(worldObj, posX, posY - 0.5, posZ, 0.0, -1.0, 0.0);
 			}
 		}
 		

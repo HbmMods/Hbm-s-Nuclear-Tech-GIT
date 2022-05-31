@@ -88,38 +88,34 @@ public class EntityMovingItem extends Entity {
     			worldObj.spawnEntityInWorld(item);
     			return;
     		}
-    	}
-    	
-    	if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ)) == ModBlocks.conveyor) {
-    		
-    		if(schedule <= 0) {
-    			ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ)));
-    			
-    			if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY) + 1, (int)Math.floor(posZ)) == ModBlocks.conveyor && motionY >= 0) {
-    				dir = ForgeDirection.DOWN;
-    			}
-    			
-    			if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY) - 1, (int)Math.floor(posZ)) == ModBlocks.conveyor && motionY <= 0) {
-    				dir = ForgeDirection.UP;
-    			}
-    			
-        		double speed = 0.1;
+        	
+        	if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ)) == ModBlocks.conveyor) {
         		
-        		schedule = (int) (1 / speed);
-        		motionX = -speed * dir.offsetX;
-        		motionY = -speed * dir.offsetY;
-        		motionZ = -speed * dir.offsetZ;
+        		if(schedule <= 0) {
+        			ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ)));
+        			
+        			if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY) + 1, (int)Math.floor(posZ)) == ModBlocks.conveyor && motionY >= 0) {
+        				dir = ForgeDirection.DOWN;
+        			}
+        			
+        			if(worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY) - 1, (int)Math.floor(posZ)) == ModBlocks.conveyor && motionY <= 0) {
+        				dir = ForgeDirection.UP;
+        			}
+        			
+            		double speed = 0.0625;
+            		
+            		schedule = (int) (1 / speed);
+            		motionX = -speed * dir.offsetX;
+            		motionY = -speed * dir.offsetY;
+            		motionZ = -speed * dir.offsetZ;
+            		
+            		this.velocityChanged = true;
+        		}
         		
-        		this.velocityChanged = true;
-    		}
-
-    		this.lastTickPosX = this.prevPosX = this.posX;
-    		this.lastTickPosY = this.prevPosY = this.posY;
-    		this.lastTickPosZ = this.prevPosZ = this.posZ;
-    		
-    		this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
-    		schedule--;
+        		schedule--;
+        	}
     	}
+		this.moveEntity(motionX, motionY, motionZ);
     }
 
 	@Override
