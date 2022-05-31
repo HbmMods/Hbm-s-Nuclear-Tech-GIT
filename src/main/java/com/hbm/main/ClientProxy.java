@@ -666,7 +666,6 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySSmokeFX.class, new SSmokeRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityOilSpillFX.class, new SpillRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFX.class, new GasRenderer(ModItems.nuclear_waste));
-	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFlameFX.class, new GasFlameRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCombineBall.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDischarge.class, new ElectricityRenderer(ModItems.discharge));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityEMPBlast.class, new RenderEMPBlast());
@@ -1674,6 +1673,14 @@ public class ClientProxy extends ServerProxy {
 				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
 			}
 			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+		}
+		
+		if("gasfire".equals(type)) {
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, 6.5F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(text);
 		}
 	}
 	

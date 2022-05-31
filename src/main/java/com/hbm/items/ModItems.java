@@ -2501,14 +2501,14 @@ public class ModItems {
 	public static Item orange6;
 	public static Item orange7;
 	public static Item orange8;
-	public static Item gasflame1;
+	/*public static Item gasflame1;
 	public static Item gasflame2;
 	public static Item gasflame3;
 	public static Item gasflame4;
 	public static Item gasflame5;
 	public static Item gasflame6;
 	public static Item gasflame7;
-	public static Item gasflame8;
+	public static Item gasflame8;*/
 	public static Item energy_ball;
 	public static Item discharge;
 	public static Item empblast;
@@ -5642,14 +5642,6 @@ public class ModItems {
 		orange6 = new Item().setUnlocalizedName("orange6").setTextureName(RefStrings.MODID + ":orange6");
 		orange7 = new Item().setUnlocalizedName("orange7").setTextureName(RefStrings.MODID + ":orange7");
 		orange8 = new Item().setUnlocalizedName("orange8").setTextureName(RefStrings.MODID + ":orange8");
-		gasflame1 = new Item().setUnlocalizedName("gasflame1").setTextureName(RefStrings.MODID + ":gasflame1");
-		gasflame2 = new Item().setUnlocalizedName("gasflame2").setTextureName(RefStrings.MODID + ":gasflame2");
-		gasflame3 = new Item().setUnlocalizedName("gasflame3").setTextureName(RefStrings.MODID + ":gasflame3");
-		gasflame4 = new Item().setUnlocalizedName("gasflame4").setTextureName(RefStrings.MODID + ":gasflame4");
-		gasflame5 = new Item().setUnlocalizedName("gasflame5").setTextureName(RefStrings.MODID + ":gasflame5");
-		gasflame6 = new Item().setUnlocalizedName("gasflame6").setTextureName(RefStrings.MODID + ":gasflame6");
-		gasflame7 = new Item().setUnlocalizedName("gasflame7").setTextureName(RefStrings.MODID + ":gasflame7");
-		gasflame8 = new Item().setUnlocalizedName("gasflame8").setTextureName(RefStrings.MODID + ":gasflame8");
 		energy_ball = new Item().setUnlocalizedName("energy_ball").setTextureName(RefStrings.MODID + ":energy_ball");
 		discharge = new Item().setUnlocalizedName("discharge").setTextureName(RefStrings.MODID + ":discharge");
 		empblast = new Item().setUnlocalizedName("empblast").setTextureName(RefStrings.MODID + ":empblast");
@@ -8194,14 +8186,6 @@ public class ModItems {
 		GameRegistry.registerItem(orange6, orange6.getUnlocalizedName());
 		GameRegistry.registerItem(orange7, orange7.getUnlocalizedName());
 		GameRegistry.registerItem(orange8, orange8.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame1, gasflame1.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame2, gasflame2.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame3, gasflame3.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame4, gasflame4.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame5, gasflame5.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame6, gasflame6.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame7, gasflame7.getUnlocalizedName());
-		GameRegistry.registerItem(gasflame8, gasflame8.getUnlocalizedName());
 		GameRegistry.registerItem(energy_ball, energy_ball.getUnlocalizedName());
 		GameRegistry.registerItem(discharge, discharge.getUnlocalizedName());
 		GameRegistry.registerItem(empblast, empblast.getUnlocalizedName());

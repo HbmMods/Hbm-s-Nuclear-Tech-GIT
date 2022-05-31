@@ -1,6 +1,5 @@
 package com.hbm.blocks.turret;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityAAShell;
 import com.hbm.tileentity.turret.TileEntityTurretSpitfire;
 
@@ -51,17 +50,6 @@ public class TurretSpitfire extends TurretBase {
 				bullet.speedOverride = 3;
 				
 				world.spawnEntityInWorld(bullet);
-				
-				EntityGasFlameFX smoke = new EntityGasFlameFX(world);
-				smoke.posX = x + vector.xCoord * 4 + 0.5;
-				smoke.posY = y + vector.yCoord * 4 + 1;
-				smoke.posZ = z + vector.zCoord * 4 + 0.5;
-				
-				smoke.motionX = vector.xCoord * 0.25;
-				smoke.motionY = vector.yCoord * 0.25;
-				smoke.motionZ = vector.zCoord * 0.25;
-				
-				world.spawnEntityInWorld(smoke);
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:entity.oldExplosion", 1.0F, 0.5F);

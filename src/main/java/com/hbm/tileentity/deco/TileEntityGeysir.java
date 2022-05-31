@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.entity.projectile.EntityWaterSplash;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -102,9 +105,14 @@ public class TileEntityGeysir extends TileEntity {
 			worldObj.spawnEntityInWorld(fx);
 		}
 		
-		if(timer % 2 == 0) //TODO: replace with actual particle
-			worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, this.xCoord + 0.5F, this.yCoord + 1.1F, this.zCoord + 0.5F, worldObj.rand.nextGaussian() * 0.05, 0.2, worldObj.rand.nextGaussian() * 0.05));
-		
+		if(timer % 2 == 0) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "gasfire");
+			data.setDouble("mX", worldObj.rand.nextGaussian() * 0.05);
+			data.setDouble("mY", 0.2);
+			data.setDouble("mZ", worldObj.rand.nextGaussian() * 0.05);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F, this.yCoord + 1.1F, this.zCoord + 0.5F), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 75));
+		}
 	}
 	
 	private int getDelay() {
