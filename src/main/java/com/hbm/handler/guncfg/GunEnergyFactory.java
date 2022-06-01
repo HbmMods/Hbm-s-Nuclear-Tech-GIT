@@ -17,6 +17,10 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -159,6 +163,53 @@ public class GunEnergyFactory {
 		return config;
 		
 	}
+	
+
+	public static GunConfiguration getCCPlasmaGunConfig() {
+		GunConfiguration config = new GunConfiguration();
+
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasSights = false;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 40;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 10000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.reloadSoundEnd = false;
+
+		config.name = "ChickenCom Light Duty Plasma Gun";
+		config.manufacturer = "ChickenCom";
+
+		config.comment.add("A gun originally manufactured for a lesser species.");
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 1, -5, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+						));
+
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.R556_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.R556_GOLD);
+		config.config.add(BulletConfigSyncingUtil.R556_TRACER);
+		config.config.add(BulletConfigSyncingUtil.R556_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.R556_AP);
+		config.config.add(BulletConfigSyncingUtil.R556_DU);
+		config.config.add(BulletConfigSyncingUtil.R556_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_R556);
+		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.R556_K);
+
+		return config;
+	}
+	
 	
 	public static BulletConfiguration getOrbusConfig() {
 		

@@ -1718,6 +1718,7 @@ item.gun_bolt_action_green.name=Dream Bolt-Action Rifle (Green)
 item.gun_bolt_action_saturnite.name=Saturnite Rifle
 item.gun_bolter.name=Bolter
 item.gun_bolter_digamma.name=Digamma Gun
+item.cc_plasma_gun=CC Plasma Gun
 item.gun_calamity.name=Buzzsaw
 item.gun_calamity_ammo.name=.50 BMG Round (LEGACY)
 item.gun_calamity_dual.name=Saddle Gun
