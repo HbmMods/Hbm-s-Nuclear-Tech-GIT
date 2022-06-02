@@ -4407,7 +4407,7 @@ public class ModItems {
 		ammo_566_gold = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("gun_mp_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_pm_ammo");
 		gun_mp = new ItemGunBase(Gun556mmFactory.getEuphieConfig()).setUnlocalizedName("gun_mp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_pm");
 		gun_bolter = new ItemGunBase(Gun75BoltFactory.getBolterConfig()).setUnlocalizedName("gun_bolter").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bolter");
-		gun_cc_plasma = new ItemGunBase(GunEnergyFactory.getCCPlasmaGunConfig()).setUnlocalizedName("plasma_gun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":cc_plasma_gun");
+		gun_cc_plasma = new ItemGunBase(Gun556mmFactory.getCCPlasmaGunConfig()).setUnlocalizedName("gun_cc_plasma").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cc_plasma");
 		gun_bolter_digamma = new ItemGunBase(Gun75BoltFactory.getBolterConfig()).setUnlocalizedName("gun_bolter_digamma").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bolter_digamma");
 		gun_brimstone = new GunBrimstone(BrimstoneFactory.getBrimConfig()).setUnlocalizedName("gun_brimstone").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_brimstone");
 		gun_zomg = new ItemGunBase(GunEnergyFactory.getZOMGConfig()).setUnlocalizedName("gun_zomg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_zomg");
@@ -7128,6 +7128,7 @@ public class ModItems {
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver, gun_revolver.getUnlocalizedName());
+		GameRegistry.registerItem(gun_cc_plasma, gun_cc_plasma.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_saturnite, gun_revolver_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_gold, gun_revolver_gold.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_lead, gun_revolver_lead.getUnlocalizedName());

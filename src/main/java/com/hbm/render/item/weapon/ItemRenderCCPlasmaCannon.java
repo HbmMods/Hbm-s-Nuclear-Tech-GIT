@@ -36,32 +36,34 @@ public class ItemRenderCCPlasmaCannon implements IItemRenderer {
 		if(item.getItem() == ModItems.gun_cc_plasma)
 	
 		GL11.glTranslated(0.5, 0.5, 0.5);
+		GL11.glScaled(0.5, 0.4, 0.5);
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.cc_plasma_tex);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 		switch(type){
 		case EQUIPPED_FIRST_PERSON:
-			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-			GL11.glScaled(0.5, 0.4, 0.5);
-				GL11.glRotated(178, 0, 1, 0);
-				GL11.glRotated(27+recoil[1]*2F, 0, 0, 1);
-				GL11.glTranslated(4, -0.2, 0);
-				GL11.glRotated(7, 0, 0, 1);
-				GL11.glRotated(180, 0, 1, 0);
-		
+			GL11.glRotated(180, 0, 1, 0);
+			GL11.glRotated(140+recoil[1]*2F, 0, 0, 1);
+			GL11.glTranslated(4, 1, 1);
+			GL11.glRotated(7, 0, 0, 1);
+			GL11.glRotated(180, 0, 1, 0);
+			GL11.glRotated(180, 1, 0, 0);
+
+			
+			GL11.glTranslated(-recoil[2]*0.15F, 0, 0);
 			break;
 		case EQUIPPED:
 			GL11.glTranslated(0, -0.1, -0.8);
 			GL11.glRotated(-90, 0, 1, 0);
-			GL11.glScaled(0.3, 0.3, 0.3);
+			GL11.glScaled(0.5, 0.5, 0.5);
 			break;
 		case INVENTORY:
 			GL11.glTranslated(-0.175, 0.2, 0);
-			GL11.glScaled(0.1, 0.1, 0.1);
-			GL11.glRotated(180, 0, 1, 0);
-			GL11.glRotated(45, 0, 0, 1);
-			GL11.glRotated(180, 0, 1, 0);
+			GL11.glScaled(1.0, 1.1, 1.1);
+			GL11.glRotated(-180, 0, 1, 0);
+			GL11.glRotated(-45, 0, 0, 1);
+			GL11.glRotated(-180, 0, 1, 0);
 			break;
 		default:break;
 		}

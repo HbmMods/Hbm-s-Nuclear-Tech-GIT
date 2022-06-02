@@ -712,7 +712,7 @@ public class ResourceManager {
 	public static final ResourceLocation vortex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/vortex.png");
 	public static final ResourceLocation thompson_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/thompson.png");
 	public static final ResourceLocation bolter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter.png");
-	public static final ResourceLocation cc_plasma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/cc_assault_rifle.png.png");
+	public static final ResourceLocation cc_plasma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/cc_assault_rifle.png");
 	public static final ResourceLocation bolter_digamma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bolter_digamma.png");
 	public static final ResourceLocation fireext_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fireext_normal.png");
 	public static final ResourceLocation fireext_foam_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fireext_foam.png");
