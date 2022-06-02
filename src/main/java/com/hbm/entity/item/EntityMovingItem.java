@@ -1,10 +1,14 @@
 package com.hbm.entity.item;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -104,7 +109,13 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 
 		if(!worldObj.isRemote) {
 
-			if(worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ)) != ModBlocks.conveyor) {
+			int blockX = (int) Math.floor(posX);
+			int blockY = (int) Math.floor(posY);
+			int blockZ = (int) Math.floor(posZ);
+			
+			Block b = worldObj.getBlock(blockX, blockY, blockZ);
+			
+			if(!(b instanceof IConveyorBelt)) {
 				this.setDead();
 				EntityItem item = new EntityItem(worldObj, posX, posY, posZ, this.getItemStack());
 				item.motionX = this.motionX * 3;
@@ -113,9 +124,16 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 				item.velocityChanged = true;
 				worldObj.spawnEntityInWorld(item);
 				return;
+			} else {
+				
+				Vec3 target = ((IConveyorBelt) b).getTravelLocation(worldObj, blockX, blockY, blockZ, Vec3.createVectorHelper(posX, posY, posZ), 0.0625);
+				//this.worldObj.spawnParticle("reddust", target.xCoord, target.yCoord, target.zCoord, 0, 0, 0);
+				this.motionX = target.xCoord - posX;
+				this.motionY = target.yCoord - posY;
+				this.motionZ = target.zCoord - posZ;
 			}
 
-			if(worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ)) == ModBlocks.conveyor) {
+			/*if(worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ)) == ModBlocks.conveyor) {
 
 				if(schedule <= 0) {
 					ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ)));
@@ -139,9 +157,27 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 				}
 
 				schedule--;
-			}
+			}*/
 			
+			BlockPos lastPos = new BlockPos(posX, posY, posZ);
 			this.moveEntity(motionX, motionY, motionZ);
+			BlockPos newPos = new BlockPos(posX, posY, posZ);
+			
+			if(!lastPos.equals(newPos)) {
+				
+				Block newBlock = worldObj.getBlock(newPos.getX(), newPos.getY(), newPos.getZ());
+				
+				if(newBlock instanceof IEnterableBlock) {
+					
+					ForgeDirection dir = ForgeDirection.UNKNOWN;
+					IEnterableBlock enterable = (IEnterableBlock) newBlock;
+					
+					if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this)) {
+						enterable.onEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
+						this.setDead();
+					}
+				}
+			}
 		}
 	}
 	
