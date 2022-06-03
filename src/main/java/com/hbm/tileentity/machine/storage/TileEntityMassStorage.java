@@ -44,7 +44,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 				this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			}
 			
-			if(output) {
+			if(output && getType() != null) {
 				
 				if(slots[2] != null && !(slots[2].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[2], getType()))) {
 					return;

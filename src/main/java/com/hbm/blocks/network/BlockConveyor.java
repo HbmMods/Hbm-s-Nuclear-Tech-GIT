@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
 
+import api.hbm.conveyor.IConveyorBelt;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,16 +17,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockConveyor extends Block {
+public class BlockConveyor extends Block implements IConveyorBelt {
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon sideIcon;
 
-	public BlockConveyor(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public BlockConveyor() {
+		super(Material.iron);
 	}
 	
 	@Override
@@ -45,6 +48,53 @@ public class BlockConveyor extends Block {
 			return this.sideIcon;
 		
 		return super.getIcon(side, metadata);
+	}
+
+	@Override
+	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
+		
+		/*Vec3 snap =  this.getClosestSnappingPosition(world, x, y, z, itemPos);
+		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);*/
+		
+		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
+		/*double dist = snap.distanceTo(itemPos);
+		
+		if(dist > speed) {
+			
+			return Vec3.createVectorHelper(
+					itemPos.xCoord + (snap.xCoord - itemPos.xCoord) / dist * speed,
+					snap.yCoord,
+					itemPos.zCoord + (snap.zCoord - itemPos.zCoord) / dist * speed
+					);
+		} else {
+			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+			return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);
+		}*/
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		return Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);
+	}
+
+	@Override
+	public Vec3 getClosestSnappingPosition(World world, int x, int y, int z, Vec3 itemPos) {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		
+		itemPos.xCoord = MathHelper.clamp_double(itemPos.xCoord, x, x + 1);
+		itemPos.zCoord = MathHelper.clamp_double(itemPos.zCoord, z, z + 1);
+		
+		double posX = x + 0.5;
+		double posZ = z + 0.5;
+
+		if(dir.offsetX != 0) {
+			posX = itemPos.xCoord;
+		}
+		if(dir.offsetZ != 0) {
+			posZ = itemPos.zCoord;
+		}
+		
+		return Vec3.createVectorHelper(posX, y + 0.25, posZ);
 	}
 
 	@Override
@@ -108,5 +158,4 @@ public class BlockConveyor extends Block {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 	}
-
 }
