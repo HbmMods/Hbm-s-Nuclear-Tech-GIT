@@ -17,10 +17,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
-import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
-import com.hbm.render.anim.BusAnimationSequence;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -162,7 +158,12 @@ public class GunEnergyFactory {
 		
 		return config;
 		
+<<<<<<< HEAD
 	}	
+=======
+	}
+	
+>>>>>>> parent of 67351d7a (Standing here, i realized)
 	public static BulletConfiguration getOrbusConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();

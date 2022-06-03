@@ -1682,7 +1682,6 @@ public class ModItems {
 	public static Item gun_fireext;
 	public static Item gun_mp;
 	public static Item gun_bolter;
-	public static Item gun_cc_plasma;
 	public static Item gun_bolter_digamma;
 	public static Item gun_brimstone;
 	public static Item gun_zomg;
@@ -4407,7 +4406,10 @@ public class ModItems {
 		ammo_566_gold = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("gun_mp_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_pm_ammo");
 		gun_mp = new ItemGunBase(Gun556mmFactory.getEuphieConfig()).setUnlocalizedName("gun_mp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_pm");
 		gun_bolter = new ItemGunBase(Gun75BoltFactory.getBolterConfig()).setUnlocalizedName("gun_bolter").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bolter");
+<<<<<<< HEAD
 		gun_cc_plasma = new ItemGunBase(Gun556mmFactory.getCCPlasmaGunConfig()).setUnlocalizedName("gun_cc_plasma").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cc_plasma");
+=======
+>>>>>>> parent of 67351d7a (Standing here, i realized)
 		gun_bolter_digamma = new ItemGunBase(Gun75BoltFactory.getBolterConfig()).setUnlocalizedName("gun_bolter_digamma").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bolter_digamma");
 		gun_brimstone = new GunBrimstone(BrimstoneFactory.getBrimConfig()).setUnlocalizedName("gun_brimstone").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_brimstone");
 		gun_zomg = new ItemGunBase(GunEnergyFactory.getZOMGConfig()).setUnlocalizedName("gun_zomg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_zomg");
@@ -7188,7 +7190,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp, gun_mp.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
-		
 		GameRegistry.registerItem(gun_bolter_digamma, gun_bolter_digamma.getUnlocalizedName());
 		GameRegistry.registerItem(gun_brimstone, gun_brimstone.getUnlocalizedName());
 		GameRegistry.registerItem(gun_zomg, gun_zomg.getUnlocalizedName());
