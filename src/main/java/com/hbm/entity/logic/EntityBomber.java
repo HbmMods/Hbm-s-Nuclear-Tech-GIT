@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityRocketHoming;
@@ -14,6 +13,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -106,8 +106,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
 		if(this.health <= 0) {
 			motionY -= 0.025;
 			
-        	for(int i = 0; i < 10; i++)
-        		this.worldObj.spawnEntityInWorld(new EntityGasFlameFX(this.worldObj, this.posX + rand.nextGaussian() * 0.5 - motionX * 2, this.posY + rand.nextGaussian() * 0.5 - motionY * 2, this.posZ + rand.nextGaussian() * 0.5 - motionZ * 2, 0.0, 0.1, 0.0));
+			for(int i = 0; i < 10; i++)
+				ParticleUtil.spawnGasFlame(this.worldObj, this.posX + rand.nextGaussian() * 0.5 - motionX * 2, this.posY + rand.nextGaussian() * 0.5 - motionY * 2, this.posZ + rand.nextGaussian() * 0.5 - motionZ * 2, 0.0, 0.1, 0.0);
 			
 			if(worldObj.getBlock((int)posX, (int)posY, (int)posZ).isNormalCube() && !worldObj.isRemote) {
 				this.setDead();

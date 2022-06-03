@@ -3,7 +3,6 @@ package com.hbm.blocks.turret;
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.turret.TileEntityTurretCIWS;
 
@@ -50,22 +49,6 @@ public class TurretCIWS extends TurretBase {
 					Math.cos(yaw / 180.0F * (float) Math.PI) * Math.cos(pitch / 180.0F * (float) Math.PI));
 			
 			vector.normalize();
-			
-			if(!world.isRemote) {
-				
-				rayShot(world, vector, x + vector.xCoord * 2.5 + 0.5, y + vector.yCoord * 2.5 + 0.5, z + vector.zCoord * 2.5 + 0.5, 100, 10.0F, WeaponConfig.ciwsHitrate);
-				
-				EntityGasFlameFX smoke = new EntityGasFlameFX(world);
-				smoke.posX = x + vector.xCoord * 2.5 + 0.5;
-				smoke.posY = y + vector.yCoord * 2.5 + 1.5;
-				smoke.posZ = z + vector.zCoord * 2.5 + 0.5;
-				
-				smoke.motionX = vector.xCoord * 0.25;
-				smoke.motionY = vector.yCoord * 0.25;
-				smoke.motionZ = vector.zCoord * 0.25;
-				
-				world.spawnEntityInWorld(smoke);
-			}
 
 			world.playSoundEffect(x, y, z, "hbm:weapon.ciwsFiringLoop", 1.0F, 1.25F);
 			

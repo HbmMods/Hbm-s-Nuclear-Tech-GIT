@@ -1,6 +1,5 @@
 package com.hbm.blocks.turret;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.tileentity.turret.TileEntityTurretHeavy;
 
@@ -51,12 +50,6 @@ public class TurretHeavy extends TurretBase {
 				bullet.damage = rand.nextInt(26) + 15;
 				
 				world.spawnEntityInWorld(bullet);
-				
-				EntityGasFlameFX fx = new EntityGasFlameFX(world);
-				fx.posX = x + vector.xCoord * 2.2 + 0.5;
-				fx.posY = y + vector.yCoord * 2.2 + 1;
-				fx.posZ = z + vector.zCoord * 2.2 + 0.5;
-				world.spawnEntityInWorld(fx);
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:weapon.defabShoot", 1.0F, 0.75F);

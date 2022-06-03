@@ -1,17 +1,20 @@
 package com.hbm.entity.missile;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.satellites.Satellite;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -41,48 +44,33 @@ public class EntityCarrier extends EntityThrowable {
 		
 		if(!worldObj.isRemote) {
 			for(int i = 0; i < 10; i++) {
-				EntityGasFlameFX fx = new EntityGasFlameFX(worldObj);
-				fx.posY = posY - 0.25D;
-				fx.posX = posX + rand.nextGaussian() * 0.75D;
-				fx.posZ = posZ + rand.nextGaussian() * 0.75D;
-				fx.motionY = -0.2D;
-				
-				worldObj.spawnEntityInWorld(fx);
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "gasfire");
+				data.setDouble("mY", -0.2D);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX + rand.nextGaussian() * 0.75D, posY - 0.25D, posZ + rand.nextGaussian() * 0.75D), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 200));
 			}
 			
 			if(this.dataWatcher.getWatchableObjectInt(8) == 1)
 				for(int i = 0; i < 2; i++) {
-					EntityGasFlameFX fx1 = new EntityGasFlameFX(worldObj);
-					fx1.posY = posY - 0.25D;
-					fx1.posX = posX + rand.nextGaussian() * 0.15D + 2.5D;
-					fx1.posZ = posZ + rand.nextGaussian() * 0.15D;
-					fx1.motionY = -0.2D;
+					NBTTagCompound d1 = new NBTTagCompound();
+					d1.setString("type", "gasfire");
+					d1.setDouble("mY", -0.2D);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(d1, posX + rand.nextGaussian() * 0.75D + 2.5, posY - 0.25D, posZ + rand.nextGaussian() * 0.75D), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 200));
 					
-					worldObj.spawnEntityInWorld(fx1);
-	
-					EntityGasFlameFX fx2 = new EntityGasFlameFX(worldObj);
-					fx2.posY = posY - 0.25D;
-					fx2.posX = posX + rand.nextGaussian() * 0.15D - 2.5D;
-					fx2.posZ = posZ + rand.nextGaussian() * 0.15D;
-					fx2.motionY = -0.2D;
+					NBTTagCompound d2 = new NBTTagCompound();
+					d2.setString("type", "gasfire");
+					d2.setDouble("mY", -0.2D);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(d2, posX + rand.nextGaussian() * 0.75D - 2.5, posY - 0.25D, posZ + rand.nextGaussian() * 0.75D), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 200));
 					
-					worldObj.spawnEntityInWorld(fx2);
-	
-					EntityGasFlameFX fx3 = new EntityGasFlameFX(worldObj);
-					fx3.posY = posY - 0.25D;
-					fx3.posX = posX + rand.nextGaussian() * 0.15D;
-					fx3.posZ = posZ + rand.nextGaussian() * 0.15D + 2.5D;
-					fx3.motionY = -0.2D;
+					NBTTagCompound d3 = new NBTTagCompound();
+					d3.setString("type", "gasfire");
+					d3.setDouble("mY", -0.2D);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(d3, posX + rand.nextGaussian() * 0.75D, posY - 0.25D, posZ + rand.nextGaussian() * 0.75D + 2.5), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 200));
 					
-					worldObj.spawnEntityInWorld(fx3);
-	
-					EntityGasFlameFX fx4 = new EntityGasFlameFX(worldObj);
-					fx4.posY = posY - 0.25D;
-					fx4.posX = posX + rand.nextGaussian() * 0.15D;
-					fx4.posZ = posZ + rand.nextGaussian() * 0.15D - 2.5D;
-					fx4.motionY = -0.2D;
-					
-					worldObj.spawnEntityInWorld(fx4);
+					NBTTagCompound d4 = new NBTTagCompound();
+					d4.setString("type", "gasfire");
+					d4.setDouble("mY", -0.2D);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(d4, posX + rand.nextGaussian() * 0.75D, posY - 0.25D, posZ + rand.nextGaussian() * 0.75D - 2.5), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 200));
 				}
 			
 			

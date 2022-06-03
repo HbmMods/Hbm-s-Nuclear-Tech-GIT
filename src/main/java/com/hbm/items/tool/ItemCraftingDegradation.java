@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ public class ItemCraftingDegradation extends Item {
 		this.setMaxStackSize(1);
 		this.setMaxDamage(durability);
 		this.setNoRepair();
+		this.setCreativeTab(MainRegistry.controlTab);
 	}
 
 	@Override

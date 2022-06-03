@@ -69,13 +69,14 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 		}
 	}
 
-	// You scrubs aren't needed for anything (right now)
 	@Override
 	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateOpen", 1.0F, 1.0F);
 	}
 
 	@Override
 	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateClose", 1.0F, 1.0F);
 	}
 
 	@Override
