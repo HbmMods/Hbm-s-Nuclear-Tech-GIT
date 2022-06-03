@@ -157,13 +157,7 @@ public class GunEnergyFactory {
 		GunConfiguration config = new GunConfiguration();
 		
 		return config;
-		
-<<<<<<< HEAD
 	}	
-=======
-	}
-	
->>>>>>> parent of 67351d7a (Standing here, i realized)
 	public static BulletConfiguration getOrbusConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
