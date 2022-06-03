@@ -27,8 +27,8 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 	@SideOnly(Side.CLIENT)
 	protected IIcon sideIcon;
 
-	public BlockConveyor(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public BlockConveyor() {
+		super(Material.iron);
 	}
 	
 	@Override
