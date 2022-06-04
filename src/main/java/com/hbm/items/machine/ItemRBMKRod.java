@@ -219,7 +219,7 @@ public class ItemRBMKRod extends Item {
 		PASSIVE(EnumChatFormatting.DARK_GREEN + "SAFE / PASSIVE"),			//const, no reactivity
 		LOG_TEN(EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"),		//log10(x + 1) * reactivity * 50
 		PLATEU(EnumChatFormatting.GREEN + "SAFE / EULER"),					//(1 - e^(-x/25)) * reactivity * 100
-		ARCH(EnumChatFormatting.YELLOW + "MEDIUM / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
+		ARCH(EnumChatFormatting.RED + "DANGEROUS / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
 		SIGMOID(EnumChatFormatting.GREEN + "SAFE / SIGMOID"),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
 		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity

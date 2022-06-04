@@ -8,6 +8,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -37,11 +38,16 @@ public class RBMKDebrisBurning extends RBMKDebris {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 
-			if(rand.nextInt(7) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			if(rand.nextInt(10) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			if(rand.nextInt(100) == 0) {
+			Block block = world.getBlock(x, y + 1, z);
+			
+			//Foam helps stop the fire.
+			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ? 20 : 100;
+			
+			if(rand.nextInt(chance) == 0) {
 				world.setBlock(x, y, z, ModBlocks.pribris);
 			} else {
 				world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
