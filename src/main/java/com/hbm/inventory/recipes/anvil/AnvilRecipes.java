@@ -696,10 +696,9 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.machine_turbine), new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModItems.turbine_titanium, 2)),
-						new AnvilOutput(new ItemStack(ModItems.motor, 1)),
-						new AnvilOutput(new ItemStack(ModItems.tank_steel, 2)),
-						new AnvilOutput(new ItemStack(ModItems.plate_titanium, 4))
+						new AnvilOutput(new ItemStack(ModItems.turbine_titanium, 1)),
+						new AnvilOutput(new ItemStack(ModItems.coil_copper, 2)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 6))
 						}).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
