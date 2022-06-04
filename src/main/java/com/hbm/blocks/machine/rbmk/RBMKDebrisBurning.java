@@ -37,15 +37,14 @@ public class RBMKDebrisBurning extends RBMKDebris {
 			}
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
+			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
-			if(rand.nextInt(10) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			if(rand.nextInt(10) == 0 && block == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			Block block = world.getBlock(x, y + 1, z);
-			
-			//Foam helps stop the fire.
-			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ? 20 : 100;
+			//Foam helps stop the fire; ~5+ minutes to extinguish with one side exposed to foam.
+			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ? 10 : 100;
 			
 			if(rand.nextInt(chance) == 0) {
 				world.setBlock(x, y, z, ModBlocks.pribris);

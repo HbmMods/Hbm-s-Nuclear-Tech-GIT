@@ -50,14 +50,13 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 			}
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
-
-			if(rand.nextInt(10) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			
+			if(rand.nextInt(10) == 0 && block == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			Block block = world.getBlock(x, y + 1, z);
-			
-			//Boron sand helps stop the fission reaction.
+			//Boron sand helps stop the fission reaction; ~5+ minutes to halt with one side exposed to boron sand.
 			int chance = block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 50 : 1000;
 			
 			if(rand.nextInt(chance) == 0) {
