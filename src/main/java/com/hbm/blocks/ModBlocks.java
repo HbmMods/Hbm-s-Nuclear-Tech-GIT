@@ -1899,7 +1899,7 @@ public class ModBlocks {
 		
 		conveyor = new BlockConveyor().setBlockName("conveyor").setHardness(0.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
 		crane_extractor = new CraneExtractor().setBlockName("crane_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		crane_inserter = new CraneInserter().setBlockName("crane_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		crane_inserter = new CraneInserter().setBlockName("crane_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 

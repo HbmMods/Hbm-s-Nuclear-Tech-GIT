@@ -10,6 +10,7 @@ import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.oil.*;
@@ -17,6 +18,7 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -28,6 +30,18 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof IGUIProvider) {
+			return ((IGUIProvider) entity).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		Block block = world.getBlock(x, y, z);
+		
+		if(block instanceof IGUIProvider) {
+			return ((IGUIProvider) block).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		//notice: stop doing this, unless you absolutely have to \/
 		
 		if(entity instanceof TileEntityCrateIron) {		return new ContainerCrateIron(player.inventory, (TileEntityCrateIron) entity); }
 		if(entity instanceof TileEntityCrateSteel) {	return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity); }
@@ -46,6 +60,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityElectrolyser) {			return new ContainerElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
 
 		if(entity instanceof TileEntityRBMKHeater) {			return new ContainerRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
+		
+		//notice: stop doing this completely, period \/
 		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
@@ -854,6 +870,18 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof IGUIProvider) {
+			return ((IGUIProvider) entity).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		Block block = world.getBlock(x, y, z);
+		
+		if(block instanceof IGUIProvider) {
+			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		//stop doing this unless you absolutely have to \/
 
 		if(entity instanceof TileEntityCrateIron) {		return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity); }
 		if(entity instanceof TileEntityCrateSteel) {	return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity); }
@@ -872,6 +900,8 @@ public class GUIHandler implements IGuiHandler {
 		if(entity instanceof TileEntityElectrolyser) { 			return new GUIElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
 
 		if(entity instanceof TileEntityRBMKHeater) { 			return new GUIRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
+		
+		//stop doing this, period \/
 		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {

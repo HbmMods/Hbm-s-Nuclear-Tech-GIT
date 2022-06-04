@@ -1,6 +1,6 @@
 package com.hbm.entity.item;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.conveyor.IConveyorBelt;
@@ -40,7 +40,6 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 	}
 
 	public void setItemStack(ItemStack stack) {
-
 		this.getDataWatcher().updateObject(10, stack);
 		this.getDataWatcher().setObjectWatched(10);
 	}
@@ -170,9 +169,18 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 				if(newBlock instanceof IEnterableBlock) {
 					
 					ForgeDirection dir = ForgeDirection.UNKNOWN;
+
+					if(lastPos.getX() > newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.POS_X;
+					else if(lastPos.getX() < newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.NEG_X;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() > newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.POS_Y;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() < newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.NEG_Y;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() > newPos.getZ()) dir = Library.POS_Z;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() < newPos.getZ()) dir = Library.NEG_Z;
+					
 					IEnterableBlock enterable = (IEnterableBlock) newBlock;
 					
 					if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this)) {
+						
 						enterable.onEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
 						this.setDead();
 					}
@@ -193,7 +201,7 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 		this.syncPosX = x;
 		this.syncPosY = y;
 		this.syncPosZ = z;
-		this.turnProgress = theNumberThree + 7; //use 4-ply for extra smoothness
+		this.turnProgress = theNumberThree + 2; //use 4-ply for extra smoothness
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;

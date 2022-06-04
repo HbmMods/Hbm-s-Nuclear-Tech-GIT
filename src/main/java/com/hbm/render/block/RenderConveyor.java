@@ -3,35 +3,79 @@ package com.hbm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.network.BlockConveyor;
-import com.hbm.main.ResourceManager;
-import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderConveyor implements ISimpleBlockRenderingHandler {
 
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+	public void renderInventoryBlock(Block block, int meta, int modelId, RenderBlocks renderer) {
 
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
-		IIcon iicon = block.getIcon(0, 0);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-		if(renderer.hasOverrideBlockTexture()) {
-			iicon = renderer.overrideBlockTexture;
-		}
+		GL11.glTranslatef(-0.5F, -0.25F, -0.5F);
+		renderer.setRenderBounds( 0D, 0D, 0D, 1D, 0.25D, 1D);
+		
+		meta = 2;
 
-		GL11.glTranslated(0, -0.125, 0);
+		if(meta == 2) {
+			renderer.uvRotateTop = 3;
+			renderer.uvRotateBottom = 0;
+			renderer.uvRotateWest = 3;
+		}
+		if(meta == 3) {
+			renderer.uvRotateTop = 0;
+			renderer.uvRotateBottom = 3;
+			renderer.uvRotateEast = 3;
+		}
+		if(meta == 4) {
+			renderer.uvRotateTop = 1;
+			renderer.uvRotateBottom = 1;
+			renderer.uvRotateSouth = 3;
+		}
+		if(meta == 5) {
+			renderer.uvRotateTop = 2;
+			renderer.uvRotateBottom = 2;
+			renderer.uvRotateNorth = 3;
+		}
+		
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.arrow, iicon, tessellator, 0, false);
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
 		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, -1.0F);
+		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, 1.0F);
+		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
+		tessellator.draw();
+		
+		renderer.uvRotateTop = 0;
+		renderer.uvRotateBottom = 0;
+		renderer.uvRotateNorth = 0;
+		renderer.uvRotateSouth = 0;
+		renderer.uvRotateEast = 0;
+		renderer.uvRotateWest = 0;
 
 		GL11.glPopMatrix();
 	}

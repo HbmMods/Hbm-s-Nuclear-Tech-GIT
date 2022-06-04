@@ -20,23 +20,23 @@ public class RenderMovingItem extends Render {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
-		
-		EntityMovingItem item = (EntityMovingItem)entity;
-		ItemStack stack = item.getItemStack();
+
+		EntityMovingItem item = (EntityMovingItem) entity;
+		ItemStack stack = item.getItemStack().copy();
 
 		if(!(stack.getItem() instanceof ItemBlock)) {
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glTranslated(0.0, -0.1875, 0.0);
 		}
-		
+
 		EntityItem dummy = new EntityItem(entity.worldObj, 0, 0, 0, stack);
-		dummy.getEntityItem().stackSize = 1;
+		//dummy.getEntityItem().stackSize = 1;
 		dummy.hoverStart = 0.0F;
 
-        RenderItem.renderInFrame = true;
-        RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-        RenderItem.renderInFrame = false;
-		
+		RenderItem.renderInFrame = true;
+		RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+		RenderItem.renderInFrame = false;
+
 		GL11.glPopMatrix();
 	}
 

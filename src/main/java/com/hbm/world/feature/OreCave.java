@@ -9,7 +9,6 @@ import com.hbm.inventory.RecipesCommon.MetaBlock;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
@@ -82,8 +81,8 @@ public class OreCave {
 		
 		double scale = 0.01D;
 		
-		for(int x = cX; x < cX + 16; x++) {
-			for(int z = cZ; z < cZ + 16; z++) {
+		for(int x = cX + 8; x < cX + 24; x++) {
+			for(int z = cZ + 8; z < cZ + 24; z++) {
 				
 				double n = noise.func_151601_a(x * scale, z * scale);
 				
@@ -105,7 +104,7 @@ public class OreCave {
 							boolean canGenFluid = event.rand.nextBoolean();
 							
 							for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-								Block neighbor = world.getBlock(MathHelper.clamp_int(x + dir.offsetX, cX, cX + 16), y + dir.offsetY, MathHelper.clamp_int(z + dir.offsetZ, cZ, cZ + 16));
+								Block neighbor = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 								if(neighbor.getMaterial() == Material.air || neighbor instanceof BlockStalagmite) {
 									shouldGen = true;
 								}
@@ -132,8 +131,8 @@ public class OreCave {
 								
 								for(int i = 2; i < 6; i++) {
 									ForgeDirection dir = ForgeDirection.getOrientation(i);
-									int clX = MathHelper.clamp_int(x + dir.offsetX, cX, cX + 16);
-									int clZ = MathHelper.clamp_int(z + dir.offsetZ, cZ, cZ + 16);
+									int clX = x + dir.offsetX;
+									int clZ = z + dir.offsetZ;
 									Block neighbor = world.getBlock(clX, y, clZ);
 									
 									if(neighbor.isNormalCube())
@@ -146,7 +145,7 @@ public class OreCave {
 							
 						} else {
 							
-							if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0) {
+							if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0 && !genTarget.getMaterial().isLiquid()) {
 								
 								if(ModBlocks.stalactite.canPlaceBlockAt(world, x, y, z)) {
 									world.setBlock(x, y, z, ModBlocks.stalactite, ore.meta, 2);

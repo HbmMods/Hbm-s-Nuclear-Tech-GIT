@@ -1,16 +1,25 @@
 package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.network.TileEntityCraneInserter;
 
+import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IEnterableBlock;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class CraneInserter extends BlockCraneBase{
+public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 
 	public CraneInserter() {
 		super(Material.iron);
@@ -18,7 +27,7 @@ public class CraneInserter extends BlockCraneBase{
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return null;
+		return new TileEntityCraneInserter();
 	}
 	
 	@Override
@@ -26,10 +35,87 @@ public class CraneInserter extends BlockCraneBase{
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.iconDirectional = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_top");
+		this.iconDirectionalUp = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_side_up");
+		this.iconDirectionalDown = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_side_down");
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public IIcon getIcon(int side, int metadata) {
-		return null;
+	public boolean canEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
+		ForgeDirection orientation = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		return orientation == dir;
+	}
+
+	@Override
+	public void onEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
+		TileEntity te = world.getTileEntity(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ);
+		
+		if(entity == null || entity.getItemStack() == null || entity.getItemStack().stackSize <= 0) {
+			return;
+		}
+		
+		ItemStack toAdd = entity.getItemStack().copy();
+		
+		int[] access = null;
+		
+		if(te instanceof ISidedInventory) {
+			ISidedInventory sided = (ISidedInventory) te;
+			access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+		}
+		
+		if(te instanceof IInventory) {
+			IInventory inv = (IInventory) te;
+			int limit = inv.getInventoryStackLimit();
+			
+			int size = access == null ? inv.getSizeInventory() : access.length;
+			
+			for(int i = 0; i < size; i++) {
+				int index = access == null ? i : access[i];
+				ItemStack stack = inv.getStackInSlot(index);
+				
+				if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)) {
+					
+					int stackLimit = Math.min(stack.getMaxStackSize(), limit);
+					int amount = Math.min(toAdd.stackSize, stackLimit - stack.stackSize);
+					
+					stack.stackSize += amount;
+					toAdd.stackSize -= amount;
+					
+					if(toAdd.stackSize == 0) {
+						return;
+					}
+				}
+			}
+			
+			for(int i = 0; i < size; i++) {
+				int index = access == null ? i : access[i];
+				ItemStack stack = inv.getStackInSlot(index);
+				
+				if(stack == null && inv.isItemValidForSlot(index, stack)) {
+					
+					int amount = Math.min(toAdd.stackSize, limit);
+					
+					ItemStack newStack = toAdd.copy();
+					newStack.stackSize = amount;
+					inv.setInventorySlotContents(index, newStack);
+					toAdd.stackSize -= amount;
+					
+					if(toAdd.stackSize == 0) {
+						return;
+					}
+				}
+			}
+		}
 	}
 }

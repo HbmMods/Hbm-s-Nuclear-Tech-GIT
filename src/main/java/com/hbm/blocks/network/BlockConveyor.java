@@ -57,7 +57,6 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 		return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);*/
 		
-		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
 		/*double dist = snap.distanceTo(itemPos);
 		
 		if(dist > speed) {
@@ -71,9 +70,24 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 			return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);
 		}*/
+
+		/// ATTEMT 2 ///
+		/*Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
+		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		return Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);*/
+		/// ///
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
-		return Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);
+		//snapping point
+		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
+		//snapping point + speed
+		Vec3 dest = Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);
+		//delta to get to that point
+		Vec3 motion = Vec3.createVectorHelper((dest.xCoord - itemPos.xCoord), (dest.yCoord - itemPos.yCoord), (dest.zCoord - itemPos.zCoord));
+		double len = motion.lengthVector();
+		//the effective destination towards "dest" after taking speed into consideration
+		Vec3 ret = Vec3.createVectorHelper(itemPos.xCoord + motion.xCoord / len * speed, itemPos.yCoord + motion.yCoord / len * speed, itemPos.zCoord + motion.zCoord / len * speed);
+		return ret;
 	}
 
 	@Override
@@ -105,7 +119,7 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 			if(entity instanceof EntityItem && entity.ticksExisted > 10 && !entity.isDead) {
 
 				EntityMovingItem item = new EntityMovingItem(world);
-				item.setItemStack(((EntityItem) entity).getEntityItem());
+				item.setItemStack(((EntityItem) entity).getEntityItem().copy());
 				item.setPositionAndRotation(x + 0.5, y + 0.25, z + 0.5, 0, 0);
 				world.spawnEntityInWorld(item);
 
