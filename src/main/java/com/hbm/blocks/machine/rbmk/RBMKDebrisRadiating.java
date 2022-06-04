@@ -56,8 +56,8 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			//Boron sand helps stop the fission reaction; ~5+ minutes to halt with one side exposed to boron sand.
-			int chance = block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 50 : 1000;
+			//Boron sand helps stop the fission reaction; 0.66% chance every 20-40 ticks for one side
+			int chance = block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 25 : 1000;
 			
 			if(rand.nextInt(chance) == 0) {
 				
