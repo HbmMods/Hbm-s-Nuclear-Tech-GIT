@@ -14,27 +14,28 @@ import net.minecraft.item.ItemStack;
 
 public class GasCentrifugeRecipes {
 	
+	//TODO: Change "String name" to I18n instead of unlocalized BS
 	public static enum PseudoFluidType {
-		NONE		(0,		0,		"NONE",			"Empty",					false,	(ItemStack[])null),
+		NONE		(0,		0,		null,		"Empty",					false,	(ItemStack[])null),
 		
-		NUF6 		(400,	300,	"LEUF6",		"Natural UF6",				false,	new ItemStack(ModItems.nugget_u238, 1)),
-		LEUF6 		(300,	200,	"MEUF6",		"Low Enriched UF6",			false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
-		MEUF6		(200,	100,	"HEUF6",		"Medium Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1)),
-		HEUF6		(300,	0,		"NONE",			"High Enriched UF6",		true,	new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
+		HEUF6		(300,	0,		NONE,		"High Enriched UF6",		true,	new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 1)),
+		MEUF6		(200,	100,	HEUF6,		"Medium Enriched UF6",		false,	new ItemStack(ModItems.nugget_u238, 1)),
+		LEUF6 		(300,	200,	MEUF6,		"Low Enriched UF6",			false,	new ItemStack(ModItems.nugget_u238, 1), new ItemStack(ModItems.fluorite, 1)),
+		NUF6 		(400,	300,	LEUF6,		"Natural UF6",				false,	new ItemStack(ModItems.nugget_u238, 1)),
 		
-		PF6			(300,	0,		"NONE",			"Plutonium Hexafluoride",	false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1)),
-
-		MUD			(1000,	500,	"MUD_HEAVY",	"Poisonous Mud",			false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1)),
-		MUD_HEAVY	(500,	0,		"NONE",			"Heavy Mud Fraction",		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1));
+		PF6			(300,	0,		NONE,		"Plutonium Hexafluoride",	false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1)),
+		
+		MUD_HEAVY	(500,	0,		NONE,		"Heavy Mud Fraction",		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1)),
+		MUD			(1000,	500,	MUD_HEAVY,	"Poisonous Mud",			false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1));
 		
 		int fluidConsumed;
 		int fluidProduced;
-		String outputFluid;
+		PseudoFluidType outputFluid;
 		String name;
 		boolean isHighSpeed;
 		ItemStack[] output;
 		
-		PseudoFluidType(int fluidConsumed, int fluidProduced, String outputFluid, String name, boolean isHighSpeed, ItemStack... output) {
+		PseudoFluidType(int fluidConsumed, int fluidProduced, PseudoFluidType outputFluid, String name, boolean isHighSpeed, ItemStack... output) {
 			this.fluidConsumed = fluidConsumed;
 			this.fluidProduced = fluidProduced;
 			this.outputFluid = outputFluid;
@@ -51,8 +52,8 @@ public class GasCentrifugeRecipes {
 			return this.fluidProduced;
 		}
 		
-		public PseudoFluidType getOutputFluid() {
-			return this.valueOf(this.outputFluid);
+		public PseudoFluidType getOutputType() {
+			return this.outputFluid;
 		}
 		
 		public String getName() {
@@ -97,8 +98,11 @@ public class GasCentrifugeRecipes {
 	}
 	
 	public static void register() {
-		gasCent.put(new FluidStack(1200, Fluids.UF6), new ItemStack[] {new ItemStack(ModItems.nugget_u238, 11), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 4)});
-		gasCent.put(new FluidStack(900, Fluids.PUF6), new ItemStack[] {new ItemStack(ModItems.nugget_pu238, 3), new ItemStack(ModItems.nugget_pu_mix, 6), new ItemStack(ModItems.fluorite, 3)});
-		gasCent.put(new FluidStack(1000, Fluids.WATZ), new ItemStack[] {new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1)});
+		gasCent.put(new FluidStack(1200, Fluids.UF6), new ItemStack[] 
+				{new ItemStack(ModItems.nugget_u238, 11), new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.fluorite, 4)});
+		gasCent.put(new FluidStack(900, Fluids.PUF6), new ItemStack[] 
+				{new ItemStack(ModItems.nugget_pu238, 3), new ItemStack(ModItems.nugget_pu_mix, 6), new ItemStack(ModItems.fluorite, 3)});
+		gasCent.put(new FluidStack(1000, Fluids.WATZ), new ItemStack[] 
+				{new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1), new ItemStack(ModItems.dust, 2)});
 	}
 }
