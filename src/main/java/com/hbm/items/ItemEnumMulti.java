@@ -17,8 +17,8 @@ public class ItemEnumMulti extends Item {
 	
 	//hell yes, now we're thinking with enums!
 	protected Class<? extends Enum> theEnum;
-	private boolean multiName;
-	private boolean multiTexture;
+	protected boolean multiName;
+	protected boolean multiTexture;
 
 	public ItemEnumMulti(Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
 		this.setHasSubtypes(true);
@@ -42,7 +42,7 @@ public class ItemEnumMulti extends Item {
 		return this;
 	}
 	
-	private IIcon[] icons;
+	protected IIcon[] icons;
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {

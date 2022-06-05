@@ -315,6 +315,9 @@ public class TileMappings {
 		put(TileEntityPylon.class, "tileentity_pylon_redwire");
 		put(TileEntityPylonLarge.class, "tileentity_pylon_large");
 		put(TileEntitySubstation.class, "tileentity_substation");
+
+		put(TileEntityCraneInserter.class, "tileentity_inserter");
+		put(TileEntityCraneExtractor.class, "tileentity_extractor");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

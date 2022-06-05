@@ -184,6 +184,21 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 						enterable.onEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
 						this.setDead();
 					}
+				} else {
+					
+					if(!newBlock.getMaterial().isSolid()) {
+						
+						newBlock = worldObj.getBlock(newPos.getX(), newPos.getY() - 1, newPos.getZ());
+						
+						if(newBlock instanceof IEnterableBlock) {
+							
+							IEnterableBlock enterable = (IEnterableBlock) newBlock;
+							if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this)) {
+								enterable.onEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this);
+								this.setDead();
+							}
+						}
+					}
 				}
 			}
 		}

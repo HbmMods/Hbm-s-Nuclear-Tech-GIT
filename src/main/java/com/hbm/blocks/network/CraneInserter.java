@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -76,7 +77,10 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		
 		if(te instanceof IInventory) {
 			IInventory inv = (IInventory) te;
-			int limit = inv.getInventoryStackLimit();
+			
+			addToInventory(inv, access, toAdd, dir.ordinal());
+			
+			/*int limit = inv.getInventoryStackLimit();
 			
 			int size = access == null ? inv.getSizeInventory() : access.length;
 			
@@ -115,7 +119,62 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 						return;
 					}
 				}
+			}*/
+		}
+		
+		if(toAdd != null && toAdd.stackSize > 0) {
+			addToInventory((TileEntityCraneInserter) world.getTileEntity(x, y, z), null, toAdd, dir.ordinal());
+		}
+		if(toAdd != null && toAdd.stackSize > 0) {
+			EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, toAdd.copy());
+			world.spawnEntityInWorld(drop);
+		}
+	}
+	
+	public static ItemStack addToInventory(IInventory inv, int[] access, ItemStack toAdd, int side) {
+		
+		ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+		int limit = inv.getInventoryStackLimit();
+		
+		int size = access == null ? inv.getSizeInventory() : access.length;
+		
+		for(int i = 0; i < size; i++) {
+			int index = access == null ? i : access[i];
+			ItemStack stack = inv.getStackInSlot(index);
+			
+			if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)) {
+				
+				int stackLimit = Math.min(stack.getMaxStackSize(), limit);
+				int amount = Math.min(toAdd.stackSize, stackLimit - stack.stackSize);
+				
+				stack.stackSize += amount;
+				toAdd.stackSize -= amount;
+				
+				if(toAdd.stackSize == 0) {
+					return null;
+				}
 			}
 		}
+		
+		for(int i = 0; i < size; i++) {
+			int index = access == null ? i : access[i];
+			ItemStack stack = inv.getStackInSlot(index);
+			
+			if(stack == null && (sided != null ? sided.canInsertItem(index, toAdd, side) : inv.isItemValidForSlot(index, toAdd))) {
+				
+				int amount = Math.min(toAdd.stackSize, limit);
+				
+				ItemStack newStack = toAdd.copy();
+				newStack.stackSize = amount;
+				inv.setInventorySlotContents(index, newStack);
+				toAdd.stackSize -= amount;
+				
+				if(toAdd.stackSize == 0) {
+					return null;
+				}
+			}
+		}
+		
+		return toAdd;
 	}
 }

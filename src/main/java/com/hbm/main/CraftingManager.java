@@ -16,6 +16,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.ItemEnums.EnumPlantType;
+import com.hbm.items.ItemGenericPart.EnumPartTpe;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
@@ -915,6 +916,11 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.BIOFUEL.getID()), new Object[] { ModItems.canister_biofuel });
 		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.ETHANOL.getID()), new Object[] { ModItems.canister_ethanol });
 
+		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartTpe.PISTON_PNEUMATIC, 4), new Object[] { " I ", "CPC", " I ", 'I', IRON.ingot(), 'C', CU.ingot(), 'P', IRON.plate() });
+		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartTpe.PISTON_HYDRAULIC, 4), new Object[] { " I ", "CPC", " I ", 'I', STEEL.ingot(), 'C', TI.ingot(), 'P', Fluids.LUBRICANT.getDict(1000) });
+		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartTpe.PISTON_ELECTRIC, 4), new Object[] { " I ", "CPC", " I ", 'I', TCALLOY.ingot(), 'C', ANY_PLASTIC.ingot(), 'P', ModItems.motor });
+
+		
 		addShapelessAuto(DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER1), new Object[] { ModItems.ingot_chainsteel, ASBESTOS.ingot(), ModItems.gem_alexandrite });
 		addShapelessAuto(DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER1, 3), new Object[] { DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2) });
 		addShapelessAuto(DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), new Object[] { ModItems.ingot_chainsteel, ModItems.ingot_bismuth, ModItems.gem_alexandrite, ModItems.gem_alexandrite });

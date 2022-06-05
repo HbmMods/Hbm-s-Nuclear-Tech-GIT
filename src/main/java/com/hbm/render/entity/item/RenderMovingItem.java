@@ -1,5 +1,7 @@
 package com.hbm.render.entity.item;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityMovingItem;
@@ -20,6 +22,9 @@ public class RenderMovingItem extends Render {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
+		
+		Random rand = new Random(entity.getEntityId());
+		GL11.glTranslated(0, rand.nextDouble() * 0.0625, 0);
 
 		EntityMovingItem item = (EntityMovingItem) entity;
 		ItemStack stack = item.getItemStack().copy();
