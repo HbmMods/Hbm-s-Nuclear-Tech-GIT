@@ -1,18 +1,27 @@
 package com.hbm.handler.nei;
 
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.handler.nei.AnvilRecipeHandler.RecipeSet;
 import com.hbm.inventory.gui.GUIMachineGasCent;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
@@ -23,13 +32,17 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
 		List<PositionedStack> output = new ArrayList();
+		boolean isHighSpeed;
+		int centNumber;
 
-		public SmeltingSet(ItemStack input, ItemStack[] results) {
+		public SmeltingSet(ItemStack input, ItemStack[] results, boolean isHighSpeed, int centNumber) {
 			input.stackSize = 1;
-			this.input = new PositionedStack(input, 25, 35 - 11);
+			this.input = new PositionedStack(input, 52 - 5, 35 - 11);
+			this.isHighSpeed = isHighSpeed;
+			this.centNumber = centNumber;
 			
 			for(byte i = 0; i < results.length; i++) {
-				this.output.add(new PositionedStack(results[i], i % 2 == 0 ? 128 : 146, i < 2 ? 26 - 11 : 44 - 11 ));
+				this.output.add(new PositionedStack(results[i], i % 2 == 0 ? 134 - 5 : 152 - 5, i < 2 ? 26 - 11 : 44 - 11 ));
 			}
 		}
 
@@ -68,12 +81,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return GUIMachineGasCent.texture.toString();
-	}
-
-	@Override
-	public Class<? extends GuiContainer> getGuiClass() {
-		return GUIMachineGasCent.class;
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_centrifuge_gas.png";
 	}
 
 	@Override
@@ -91,7 +99,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 		if((outputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
 			Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 			for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()));
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -102,9 +110,9 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue()[1], result)
-					|| NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue()[2], result))
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()));
+			if(NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[0], result) || NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[1], result)
+					|| NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[2], result) || NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[3], result))
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
 		}
 	}
 
@@ -122,7 +130,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if(compareFluidStacks(ingredient, (ItemStack) recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()));
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
 		}
 	}
 
@@ -133,11 +141,42 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawExtras(int recipe) {
 		drawProgressBar(3, 51 - 45, 176, 0, 16, 34, 480, 7);
-		drawProgressBar(69, 26, 208, 0, 33, 12, 200, 0);
+		
+		SmeltingSet set = (SmeltingSet) this.arecipes.get(recipe);
+		
+		drawProgressBar(79 - 5, 28 - 11, 208, 0, 44, 37, set.isHighSpeed ? 150 - 70 : 150, 0);
+		
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		
+		String centrifuges = set.centNumber + " G. Cents";
+		fontRenderer.drawString(centrifuges, (50 - fontRenderer.getStringWidth(centrifuges) / 2), 21 - 11, 65280);
 	}
+	
+	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
+	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
+	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
+	public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
 	@Override
 	public void loadTransferRects() {
-		transferRects.add(new RecipeTransferRect(new Rectangle(69, 26, 32, 12), "gascentprocessing"));
+		transferRectsGui = new LinkedList<RecipeTransferRect>();
+		guiGui = new LinkedList<Class<? extends GuiContainer>>();
+		
+		transferRects.add(new RecipeTransferRect(new Rectangle(79 - 5, 26 - 11, 44, 40), "gascentprocessing"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(70 - 5, 36 - 11, 36, 12), "gascentprocessing"));
+		
+		guiGui.add(GUIMachineGasCent.class);
+		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
+		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
+	}
+	
+	@Override
+	public void drawBackground(int recipe) {
+		super.drawBackground(recipe);
+		
+		SmeltingSet set = (SmeltingSet) this.arecipes.get(recipe);
+		
+		if(set.isHighSpeed)
+			drawTexturedModalRect(30 - 5, 35 - 11, 192, 0, 16, 16);
 	}
 }

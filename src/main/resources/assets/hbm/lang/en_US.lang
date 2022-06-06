@@ -758,6 +758,14 @@ hbmfluid.water=Water
 hbmfluid.watz=Poisonous Mud
 hbmfluid.xenon=Xenon Gas
 hbmfluid.xpjuice=Experience Juice
+hbmpseudofluid.none=Empty
+hbmpseudofluid.heuf6=Highly Enriched UF6
+hbmpseudofluid.meuf6=Medium Enriched UF6
+hbmpseudofluid.leuf6=Low Enriched UF6
+hbmpseudofluid.nuf6=Natural UF6
+hbmpseudofluid.pf6=Plutonium Hexafluoride
+hbmpseudofluid.mud_heavy=Heavy Sludge Fraction
+hbmpseudofluid.mud=Poisonous Sludge Gas
 
 info.coil=Coil Strength
 info.templatefolder=Created with %s

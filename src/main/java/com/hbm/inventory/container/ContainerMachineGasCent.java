@@ -21,25 +21,25 @@ public class ContainerMachineGasCent extends Container {
 		//Output
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < 2; j++) {
-				this.addSlotToContainer(new SlotMachineOutput(tedf, j + i * 2, 133 + j * 18, 26 + i * 18));
+				this.addSlotToContainer(new SlotMachineOutput(tedf, j + i * 2, 71 + j * 18, 53 + i * 18));
 			}
 		}
 		
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 4, 8, 53));
+		this.addSlotToContainer(new Slot(tedf, 4, 182, 71));
 		//Fluid ID IO
-		this.addSlotToContainer(new Slot(tedf, 5, 30, 35));
+		this.addSlotToContainer(new Slot(tedf, 5, 91, 15));
 		//upgrade
-		this.addSlotToContainer(new Slot(tedf, 6, 82, 19));
+		this.addSlotToContainer(new Slot(tedf, 6, 69, 15));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 122 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 180));
 		}
 	}
 	

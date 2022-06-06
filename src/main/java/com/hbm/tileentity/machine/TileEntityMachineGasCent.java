@@ -42,9 +42,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public PseudoFluidTank inputTank;
 	public PseudoFluidTank outputTank;
 	
-	private static final int[] slots_io = new int[] { 0, 2, 3, 4 };
-	private static final int[] slots_bottom = new int[] {2, 3, 4};
-	private static final int[] slots_side = new int[] { };
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 	
 	private static HashMap<FluidType, PseudoFluidType> fluidConversions = new HashMap();
 	
@@ -105,15 +103,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		return (power * i) / maxPower;
 	}
 	
-	public int getTankScaled(int i, int id) {
-		if(id == 0) {
-			return (this.inputTank.getFill() * i) / inputTank.getMaxFill();
-		} else if(id == 1) {
-			return (this.outputTank.getFill() * i) / outputTank.getMaxFill();
-		}
-		return i;
-	}
-	
 	private boolean canEnrich() {
 		if(power > 0 && this.inputTank.getFill() >= inputTank.getTankType().getFluidConsumed() && this.outputTank.getFill() + this.inputTank.getTankType().getFluidProduced() <= outputTank.getMaxFill()) {
 			
@@ -161,7 +150,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			TileEntityMachineGasCent cent = (TileEntityMachineGasCent) te;
 			
 			if(cent.tank.getFill() == 0 && cent.tank.getTankType() == tank.getTankType()) {
-				if(cent.inputTank.getTankType() != outputTank.getTankType()) {
+				if(cent.inputTank.getTankType() != outputTank.getTankType() && outputTank.getTankType() != PseudoFluidType.NONE) {
 					cent.inputTank.setTankType(outputTank.getTankType());
 					cent.outputTank.setTankType(outputTank.getTankType().getOutputType());
 				}
@@ -198,11 +187,11 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			
 			updateConnections();
 
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			power = Library.chargeTEFromItems(slots, 4, power, maxPower);
 			setTankType(5);
+			tank.updateTank(this);
 			
 			if(fluidConversions.containsValue(inputTank.getTankType())) {
-				tank.updateTank(this);
 				attemptConversion();
 			}
 			
@@ -235,8 +224,12 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				
 				//*AT THE MOMENT*, there's not really any need for a dedicated method for this. Yet.
 				if(!attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
-					if(this.outputTank.getFill() >= 100 && InventoryUtil.tryAddItemToInventory(slots, 0, 3, new ItemStack(ModItems.nugget_uranium_fuel)) == null) {
-						this.outputTank.setFill(this.outputTank.getFill() - 100);
+					ItemStack[] converted = new ItemStack[] { new ItemStack(ModItems.nugget_uranium_fuel, 6), new ItemStack(ModItems.fluorite) };
+					
+					if(this.outputTank.getFill() >= 600 && InventoryUtil.doesArrayHaveSpace(slots, 0, 3, converted)) {
+						this.outputTank.setFill(this.outputTank.getFill() - 600);
+						for(ItemStack stack : converted)
+							InventoryUtil.tryAddItemToInventory(slots, 0, 3, stack);
 					}
 				}
 			}
