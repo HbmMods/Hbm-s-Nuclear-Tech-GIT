@@ -26,7 +26,7 @@ public class CraneExtractor extends BlockCraneBase {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.iconDirectional = iconRegister.registerIcon(RefStrings.MODID + ":crane_out_top");
-		this.iconDirectionalUp = iconRegister.registerIcon(RefStrings.MODID + ":crane_out_side_up");
-		this.iconDirectionalDown = iconRegister.registerIcon(RefStrings.MODID + ":crane_out_side_down");
+		this.iconDirectionalUp = iconRegister.registerIcon(RefStrings.MODID + ":crane_out_side_down");
+		this.iconDirectionalDown = iconRegister.registerIcon(RefStrings.MODID + ":crane_out_side_up");
 	}
 }

@@ -3114,6 +3114,7 @@ tile.concrete_pillar.name=Stahlbetonsäule
 tile.concrete_smooth.name=Beton
 tile.concrete_super.name=Super Beton
 tile.concrete_super_broken.name=Schimmliger Schutt
+tile.conveyor.name=Förderband
 tile.corium_block.name=Corium
 tile.crashed_bomb.name=Blindgänger
 tile.crate.name=Vorratskiste

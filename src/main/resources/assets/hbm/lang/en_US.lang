@@ -3506,6 +3506,7 @@ tile.concrete_pillar.name=Rebar Reinforced Concrete Pillar
 tile.concrete_smooth.name=Concrete
 tile.concrete_super.name=Über Concrete
 tile.concrete_super_broken.name=Moldy Debris
+tile.conveyor.name=Conveyor Belt
 tile.corium_block.name=Corium
 tile.crashed_bomb.name=Dud
 tile.crate.name=Supply Crate
