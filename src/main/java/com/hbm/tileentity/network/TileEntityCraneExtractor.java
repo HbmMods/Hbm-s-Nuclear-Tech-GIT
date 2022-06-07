@@ -4,6 +4,7 @@ import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
+import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -26,9 +27,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityCraneExtractor extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 	
 	public boolean isWhitelist = false;
+	public ModulePatternMatcher matcher;
 
 	public TileEntityCraneExtractor() {
 		super(20);
+		this.matcher = new ModulePatternMatcher(9);
 	}
 
 	@Override
@@ -89,12 +92,14 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isWhitelist", isWhitelist);
+			this.matcher.writeToNBT(data);
 			this.networkPack(data, 15);
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.matcher.readFromNBT(nbt);
 	}
 	
 	public boolean matchesFilter(ItemStack stack) {
@@ -102,12 +107,16 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
 			
-			if(filter != null && filter.isItemEqual(stack)) {
+			if(this.matcher.isValidForFilter(filter, i, stack)) {
 				return true;
 			}
 		}
 		
 		return false;
+	}
+	
+	public void nextMode(int i) {
+		this.matcher.nextMode(worldObj, slots[i], i);
 	}
 
 	@Override
@@ -130,12 +139,14 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.matcher.readFromNBT(nbt);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isWhitelist", this.isWhitelist);
+		this.matcher.writeToNBT(nbt);
 	}
 
 	@Override

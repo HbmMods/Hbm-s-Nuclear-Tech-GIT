@@ -5,17 +5,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntitytemWaste extends EntityItem {
+public class EntityItemWaste extends EntityItem {
 
-	public EntitytemWaste(World world) {
+	public EntityItemWaste(World world) {
 		super(world);
 	}
 
-	public EntitytemWaste(World world, double x, double y, double z) {
+	public EntityItemWaste(World world, double x, double y, double z) {
 		super(world, x, y, z);
 	}
 
-	public EntitytemWaste(World world, double x, double y, double z, ItemStack stack) {
+	public EntityItemWaste(World world, double x, double y, double z, ItemStack stack) {
 		super(world, x, y, z, stack);
 	}
 

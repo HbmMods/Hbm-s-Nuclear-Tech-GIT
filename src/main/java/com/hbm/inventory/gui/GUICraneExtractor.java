@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCraneExtractor;
@@ -12,7 +14,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUICraneExtractor extends GuiInfoContainer {
@@ -26,6 +30,30 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		
 		this.xSize = 176;
 		this.ySize = 185;
+	}
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			for(int i = 0; i < 9; ++i) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
+	
+				if(this.isMouseOverSlot(slot, x, y) && inserter.matcher.modes[i] != null) {
+					
+					String label = EnumChatFormatting.YELLOW + "";
+					
+					switch(inserter.matcher.modes[i]) {
+					case "exact": label += "Item and meta match"; break;
+					case "wildcard": label += "Item matches"; break;
+					default: label += "Ore dict key matches: " + inserter.matcher.modes[i]; break;
+					}
+					
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -59,5 +87,9 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		} else {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
 		}
+	}
+	
+	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
+		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 }

@@ -12,10 +12,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCraneExtractor extends Container {
 	
-	protected TileEntityCraneExtractor inserter;
+	protected TileEntityCraneExtractor extractor;
 	
 	public ContainerCraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor inserter) {
-		this.inserter = inserter;
+		this.extractor = inserter;
 		
 		//filter
 		for(int i = 0; i < 3; i++) {
@@ -59,8 +59,8 @@ public class ContainerCraneExtractor extends Container {
 				return null;
 			}
 
-			if(slot <= inserter.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, inserter.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(slot <= extractor.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(var5, extractor.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
@@ -71,7 +71,7 @@ public class ContainerCraneExtractor extends Container {
 				} else if(var3.getItem() == ModItems.upgrade_crystallizer) {
 					 if(!this.mergeItemStack(var5, 19, 20, false))
 						 return null;
-				} else if(!this.mergeItemStack(var5, 9, inserter.getSizeInventory(), false)) {
+				} else if(!this.mergeItemStack(var5, 9, extractor.getSizeInventory(), false)) {
 					 return null;
 				}
 				
@@ -92,7 +92,7 @@ public class ContainerCraneExtractor extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return inserter.isUseableByPlayer(player);
+		return extractor.isUseableByPlayer(player);
 	}
 
 	@Override
@@ -116,15 +116,21 @@ public class ContainerCraneExtractor extends Container {
 		
 		if(slot.getHasStack())
 			ret = slot.getStack().copy();
-
-		slot.putStack(held != null ? held.copy() : null);
 		
-		if(slot.getHasStack()) {
-			slot.getStack().stackSize = 1;
+		if(button == 1 && mode == 0 && slot.getHasStack()) {
+			extractor.nextMode(index);
+			return ret;
+			
+		} else {
+			slot.putStack(held != null ? held.copy() : null);
+			
+			if(slot.getHasStack()) {
+				slot.getStack().stackSize = 1;
+			}
+			
+			slot.onSlotChanged();
+			
+			return ret;
 		}
-		
-		slot.onSlotChanged();
-		
-		return ret;
 	}
 }
