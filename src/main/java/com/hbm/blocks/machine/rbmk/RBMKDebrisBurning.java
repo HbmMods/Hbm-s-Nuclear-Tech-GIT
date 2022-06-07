@@ -43,8 +43,9 @@ public class RBMKDebrisBurning extends RBMKDebris {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			//Foam helps stop the fire; 1.66% chance every 100-120 seconds for one side
-			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ? 10 : 100;
+			//Foam helps stop the fire; Boron smothers it. 1.66% chance every 100-120 seconds for one side
+			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ||
+					block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 10 : 100;
 			
 			if(rand.nextInt(chance) == 0) {
 				world.setBlock(x, y, z, ModBlocks.pribris);
