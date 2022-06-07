@@ -129,6 +129,7 @@ public class ContainerCraneExtractor extends Container {
 			}
 			
 			slot.onSlotChanged();
+			extractor.matcher.initPatternStandard(extractor.getWorldObj(), slot.getStack(), index);
 			
 			return ret;
 		}

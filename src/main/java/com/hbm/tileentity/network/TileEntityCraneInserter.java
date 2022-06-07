@@ -36,7 +36,7 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 		
 		if(!worldObj.isRemote) {
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 			TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
 			
 			int[] access = null;

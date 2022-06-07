@@ -45,9 +45,9 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				int amount = 16;
+				int amount = 64;
 	
-				ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata);
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 				
@@ -99,6 +99,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.matcher.modes = new String[this.matcher.modes.length];
 		this.matcher.readFromNBT(nbt);
 	}
 	
@@ -107,7 +108,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
 			
-			if(this.matcher.isValidForFilter(filter, i, stack)) {
+			if(filter != null && this.matcher.isValidForFilter(filter, i, stack)) {
 				return true;
 			}
 		}

@@ -118,6 +118,7 @@ public class ModulePatternMatcher {
 	public boolean isValidForFilter(ItemStack filter, int index, ItemStack input) {
 		
 		String mode = modes[index];
+		
 		switch(mode) {
 		case MODE_EXACT: return input.isItemEqual(filter) && ItemStack.areItemStackTagsEqual(input, filter);
 		case MODE_WILDCARD: return input.getItem() == filter.getItem() && ItemStack.areItemStackTagsEqual(input, filter);
@@ -137,7 +138,7 @@ public class ModulePatternMatcher {
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
-		
+
 		for(int i = 0; i < modes.length; i++) {
 			if(modes[i] != null) {
 				nbt.setString("mode" + i, modes[i]);
