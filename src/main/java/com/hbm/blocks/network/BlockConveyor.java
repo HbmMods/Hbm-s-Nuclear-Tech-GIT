@@ -77,7 +77,7 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 		return Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);*/
 		/// ///
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+		ForgeDirection dir = getTravelDirection(world, x, y, z, itemPos, speed);
 		//snapping point
 		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
 		//snapping point + speed
@@ -88,6 +88,10 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 		//the effective destination towards "dest" after taking speed into consideration
 		Vec3 ret = Vec3.createVectorHelper(itemPos.xCoord + motion.xCoord / len * speed, itemPos.yCoord + motion.yCoord / len * speed, itemPos.zCoord + motion.zCoord / len * speed);
 		return ret;
+	}
+	
+	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos, double speed) {
+		return ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 	}
 
 	@Override
@@ -120,7 +124,9 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 
 				EntityMovingItem item = new EntityMovingItem(world);
 				item.setItemStack(((EntityItem) entity).getEntityItem().copy());
-				item.setPositionAndRotation(x + 0.5, y + 0.25, z + 0.5, 0, 0);
+				Vec3 pos = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+				Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, pos);
+				item.setPositionAndRotation(snap.xCoord, snap.yCoord, snap.zCoord, 0, 0);
 				world.spawnEntityInWorld(item);
 
 				entity.setDead();

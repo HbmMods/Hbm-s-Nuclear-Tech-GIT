@@ -30,6 +30,7 @@ import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -1069,19 +1070,46 @@ public class MainRegistry {
 	}
 	
 	private static HashSet<String> ignoreMappings = new HashSet();
+	private static HashMap<String, Item> remapItems = new HashMap();
 	
 	static {
-		for(int i = 1; i <= 8; i++)
-			ignoreMappings.add("hbm:item.gasflame" + i);
+		/// IGNORE ///
+		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
+		ignoreMappings.add("hbm:item.cyclotron_tower");
+		ignoreMappings.add("hbm:item.magnet_dee");
+		/// REMAP ///
+		remapItems.put("hbm:item.centrifuge_tower",			Item.getItemFromBlock(ModBlocks.machine_centrifuge));
+		remapItems.put("hbm:item.gun_revolver_nopip_ammo",	ModItems.ammo_44);
+		remapItems.put("hbm:item.gun_revolver_pip_ammo",	ModItems.ammo_44_pip);
+		remapItems.put("hbm:item.gun_calamity_ammo",		ModItems.ammo_50bmg);
+		remapItems.put("hbm:item.gun_lacunae_ammo",			ModItems.ammo_5mm);
+		remapItems.put("hbm:item.gun_rpg_ammo",				ModItems.ammo_rocket);
+		remapItems.put("hbm:item.gun_mp40_ammo",			ModItems.ammo_9mm);
+		remapItems.put("hbm:item.gun_uzi_ammo",				ModItems.ammo_22lr);
+		remapItems.put("hbm:item.gun_uboinik_ammo",			ModItems.ammo_12gauge);
+		remapItems.put("hbm:item.gun_lever_action_ammo",	ModItems.ammo_20gauge);
+		remapItems.put("hbm:item.gun_bolt_action_ammo",		ModItems.ammo_20gauge_slug);
+		remapItems.put("hbm:item.gun_fatman_ammo",			ModItems.ammo_nuke_high);
+		remapItems.put("hbm:item.gun_mirv_ammo",			ModItems.ammo_mirv_high);
+		remapItems.put("hbm:item.gun_stinger_ammo",			ModItems.ammo_stinger_rocket);
 	}
+	
 
 	@EventHandler
 	public void handleMissingMappings(FMLMissingMappingsEvent event) {
 		
 		for(MissingMapping mapping : event.get()) {
+			
+			if(ignoreMappings.contains(mapping.name)) {
+				mapping.ignore();
+				continue;
+			}
+			
 			if(mapping.type == GameRegistry.Type.ITEM) {
-				if(ignoreMappings.contains(mapping.name)) {
-					mapping.ignore();
+				
+				if(remapItems.containsKey(mapping.name)) {
+					mapping.remap(remapItems.get(mapping.name));
+					continue;
 				}
 			}
 		}
