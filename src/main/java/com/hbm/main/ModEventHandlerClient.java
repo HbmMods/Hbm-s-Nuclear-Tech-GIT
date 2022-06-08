@@ -60,7 +60,6 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
-import api.hbm.energy.IEnergyConductor;
 import api.hbm.item.IButtonReceiver;
 import api.hbm.item.IClickReceiver;
 
@@ -111,7 +110,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModEventHandlerClient {
 	

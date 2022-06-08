@@ -1,8 +1,12 @@
 package com.hbm.blocks.network;
 
+import com.hbm.blocks.IBlockSideRotation;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.test.TestConductor;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +21,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockCraneBase extends BlockContainer {
+public abstract class BlockCraneBase extends BlockContainer implements IBlockSideRotation {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconSide;
 	@SideOnly(Side.CLIENT) protected IIcon iconIn;
@@ -90,5 +94,12 @@ public abstract class BlockCraneBase extends BlockContainer {
 		}
 		
 		return this.iconSide;
+	}
+	
+	public static int renderIDClassic = RenderingRegistry.getNextAvailableRenderId();
+
+	@Override
+	public int getRenderType() {
+		return IBlockSideRotation.getRenderType();
 	}
 }

@@ -45,7 +45,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				int amount = 64;
+				int amount = 1;
 	
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);

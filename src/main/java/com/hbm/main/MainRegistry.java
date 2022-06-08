@@ -1072,13 +1072,19 @@ public class MainRegistry {
 	private static HashSet<String> ignoreMappings = new HashSet();
 	private static HashMap<String, Item> remapItems = new HashMap();
 	
-	static {
+
+	@EventHandler
+	public void handleMissingMappings(FMLMissingMappingsEvent event) {
+		
+		ignoreMappings.clear();
+		remapItems.clear();
+		
 		/// IGNORE ///
 		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
 		ignoreMappings.add("hbm:item.cyclotron_tower");
 		ignoreMappings.add("hbm:item.magnet_dee");
 		/// REMAP ///
-		remapItems.put("hbm:item.centrifuge_tower",			Item.getItemFromBlock(ModBlocks.machine_centrifuge));
+		/*remapItems.put("hbm:item.centrifuge_tower",			Item.getItemFromBlock(ModBlocks.machine_centrifuge));
 		remapItems.put("hbm:item.gun_revolver_nopip_ammo",	ModItems.ammo_44);
 		remapItems.put("hbm:item.gun_revolver_pip_ammo",	ModItems.ammo_44_pip);
 		remapItems.put("hbm:item.gun_calamity_ammo",		ModItems.ammo_50bmg);
@@ -1091,15 +1097,25 @@ public class MainRegistry {
 		remapItems.put("hbm:item.gun_bolt_action_ammo",		ModItems.ammo_20gauge_slug);
 		remapItems.put("hbm:item.gun_fatman_ammo",			ModItems.ammo_nuke_high);
 		remapItems.put("hbm:item.gun_mirv_ammo",			ModItems.ammo_mirv_high);
-		remapItems.put("hbm:item.gun_stinger_ammo",			ModItems.ammo_stinger_rocket);
-	}
-	
-
-	@EventHandler
-	public void handleMissingMappings(FMLMissingMappingsEvent event) {
+		remapItems.put("hbm:item.gun_stinger_ammo",			ModItems.ammo_stinger_rocket);*/
+		
+		ignoreMappings.add("hbm:item.centrifuge_tower");
+		ignoreMappings.add("hbm:item.gun_revolver_nopip_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_pip_ammo");
+		ignoreMappings.add("hbm:item.gun_calamity_ammo");
+		ignoreMappings.add("hbm:item.gun_lacunae_ammo");
+		ignoreMappings.add("hbm:item.gun_rpg_ammo");
+		ignoreMappings.add("hbm:item.gun_mp40_ammo");
+		ignoreMappings.add("hbm:item.gun_uzi_ammo");
+		ignoreMappings.add("hbm:item.gun_uboinik_ammo");
+		ignoreMappings.add("hbm:item.gun_lever_action_ammo");
+		ignoreMappings.add("hbm:item.gun_bolt_action_ammo");
+		ignoreMappings.add("hbm:item.gun_fatman_ammo");
+		ignoreMappings.add("hbm:item.gun_mirv_ammo");
+		ignoreMappings.add("hbm:item.gun_stinger_ammo");
 		
 		for(MissingMapping mapping : event.get()) {
-			
+
 			if(ignoreMappings.contains(mapping.name)) {
 				mapping.ignore();
 				continue;
@@ -1107,7 +1123,7 @@ public class MainRegistry {
 			
 			if(mapping.type == GameRegistry.Type.ITEM) {
 				
-				if(remapItems.containsKey(mapping.name)) {
+				if(remapItems.get(mapping.name) != null) {
 					mapping.remap(remapItems.get(mapping.name));
 					continue;
 				}

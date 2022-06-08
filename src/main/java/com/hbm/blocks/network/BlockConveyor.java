@@ -53,35 +53,11 @@ public class BlockConveyor extends Block implements IConveyorBelt {
 	@Override
 	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
 		
-		/*Vec3 snap =  this.getClosestSnappingPosition(world, x, y, z, itemPos);
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
-		return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);*/
-		
-		/*double dist = snap.distanceTo(itemPos);
-		
-		if(dist > speed) {
-			
-			return Vec3.createVectorHelper(
-					itemPos.xCoord + (snap.xCoord - itemPos.xCoord) / dist * speed,
-					snap.yCoord,
-					itemPos.zCoord + (snap.zCoord - itemPos.zCoord) / dist * speed
-					);
-		} else {
-			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
-			return Vec3.createVectorHelper(snap.xCoord + dir.offsetX * speed, snap.yCoord, snap.zCoord + dir.offsetZ * speed);
-		}*/
-
-		/// ATTEMT 2 ///
-		/*Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
-		return Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);*/
-		/// ///
-		
 		ForgeDirection dir = getTravelDirection(world, x, y, z, itemPos, speed);
 		//snapping point
 		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
 		//snapping point + speed
-		Vec3 dest = Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord, snap.zCoord - dir.offsetZ * speed);
+		Vec3 dest = Vec3.createVectorHelper(snap.xCoord - dir.offsetX * speed, snap.yCoord - dir.offsetY * speed, snap.zCoord - dir.offsetZ * speed);
 		//delta to get to that point
 		Vec3 motion = Vec3.createVectorHelper((dest.xCoord - itemPos.xCoord), (dest.yCoord - itemPos.yCoord), (dest.zCoord - itemPos.zCoord));
 		double len = motion.lengthVector();

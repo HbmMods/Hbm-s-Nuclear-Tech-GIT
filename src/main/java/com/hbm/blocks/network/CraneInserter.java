@@ -14,6 +14,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -161,5 +162,19 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		}
 		
 		return toAdd;
+	}
+
+	@Override
+	public int getRotationFromSide(IBlockAccess world, int x, int y, int z, int side) {
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if(meta > 1 && side == 1) {
+			if(meta == 2) return 3;
+			if(meta == 3) return 0;
+			if(meta == 4) return 1;
+			if(meta == 5) return 2;
+		}
+		
+		return 0;
 	}
 }
