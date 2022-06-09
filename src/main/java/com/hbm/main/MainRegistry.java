@@ -1083,22 +1083,6 @@ public class MainRegistry {
 		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
 		ignoreMappings.add("hbm:item.cyclotron_tower");
 		ignoreMappings.add("hbm:item.magnet_dee");
-		/// REMAP ///
-		/*remapItems.put("hbm:item.centrifuge_tower",			Item.getItemFromBlock(ModBlocks.machine_centrifuge));
-		remapItems.put("hbm:item.gun_revolver_nopip_ammo",	ModItems.ammo_44);
-		remapItems.put("hbm:item.gun_revolver_pip_ammo",	ModItems.ammo_44_pip);
-		remapItems.put("hbm:item.gun_calamity_ammo",		ModItems.ammo_50bmg);
-		remapItems.put("hbm:item.gun_lacunae_ammo",			ModItems.ammo_5mm);
-		remapItems.put("hbm:item.gun_rpg_ammo",				ModItems.ammo_rocket);
-		remapItems.put("hbm:item.gun_mp40_ammo",			ModItems.ammo_9mm);
-		remapItems.put("hbm:item.gun_uzi_ammo",				ModItems.ammo_22lr);
-		remapItems.put("hbm:item.gun_uboinik_ammo",			ModItems.ammo_12gauge);
-		remapItems.put("hbm:item.gun_lever_action_ammo",	ModItems.ammo_20gauge);
-		remapItems.put("hbm:item.gun_bolt_action_ammo",		ModItems.ammo_20gauge_slug);
-		remapItems.put("hbm:item.gun_fatman_ammo",			ModItems.ammo_nuke_high);
-		remapItems.put("hbm:item.gun_mirv_ammo",			ModItems.ammo_mirv_high);
-		remapItems.put("hbm:item.gun_stinger_ammo",			ModItems.ammo_stinger_rocket);*/
-		
 		ignoreMappings.add("hbm:item.centrifuge_tower");
 		ignoreMappings.add("hbm:item.gun_revolver_nopip_ammo");
 		ignoreMappings.add("hbm:item.gun_revolver_pip_ammo");
@@ -1113,6 +1097,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gun_fatman_ammo");
 		ignoreMappings.add("hbm:item.gun_mirv_ammo");
 		ignoreMappings.add("hbm:item.gun_stinger_ammo");
+		ignoreMappings.add("hbm:item.limiter");
+		ignoreMappings.add("hbm:item.turret_biometry");
+		ignoreMappings.add("hbm:item.thermo_unit_empty");
+		ignoreMappings.add("hbm:item.thermo_unit_endo");
+		ignoreMappings.add("hbm:item.thermo_unit_exo");
 		
 		for(MissingMapping mapping : event.get()) {
 
