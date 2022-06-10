@@ -4,6 +4,7 @@ import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
+import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -44,8 +45,26 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		
 		if(!worldObj.isRemote) {
 			
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
+			int delay = 20;
+			
+			if(slots[19] != null && slots[19].getItem() == ModItems.upgrade_ejector) {
+				switch(slots[19].getItemDamage()) {
+				case 0: delay = 10; break;
+				case 1: delay = 5; break;
+				case 2: delay = 2; break;
+				}
+			}
+			
+			if(worldObj.getTotalWorldTime() % delay == 0) {
 				int amount = 1;
+				
+				if(slots[18] != null && slots[18].getItem() == ModItems.upgrade_stack) {
+					switch(slots[18].getItemDamage()) {
+					case 0: amount = 4; break;
+					case 1: amount = 16; break;
+					case 2: amount = 64; break;
+					}
+				}
 	
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
@@ -59,27 +78,60 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 					access = sided.getAccessibleSlotsFromSide(dir.ordinal());
 				}
 				
-				if(b instanceof IConveyorBelt && te instanceof IInventory) {
-					IInventory inv = (IInventory) te;
-					int size = access == null ? inv.getSizeInventory() : access.length;
+				boolean hasSent = false;
+				
+				if(b instanceof IConveyorBelt) {
 					
-					for(int i = 0; i < size; i++) {
-						int index = access == null ? i : access[i];
-						ItemStack stack = inv.getStackInSlot(index);
+					IConveyorBelt belt = (IConveyorBelt) b;
+					
+					/* try to send items from a connected inv, if present */
+					if(te instanceof IInventory) {
 						
-						if(stack != null && (sided == null || sided.canExtractItem(index, stack, dir.ordinal()))){
+						IInventory inv = (IInventory) te;
+						int size = access == null ? inv.getSizeInventory() : access.length;
+						
+						for(int i = 0; i < size; i++) {
+							int index = access == null ? i : access[i];
+							ItemStack stack = inv.getStackInSlot(index);
 							
-							boolean match = this.matchesFilter(stack);
+							if(stack != null && (sided == null || sided.canExtractItem(index, stack, dir.ordinal()))){
+								
+								boolean match = this.matchesFilter(stack);
+								
+								if((isWhitelist && match) || (!isWhitelist && !match)) {
+									stack = stack.copy();
+									int toSend = Math.min(amount, stack.stackSize);
+									inv.decrStackSize(index, toSend);
+									stack.stackSize = toSend;
+									
+									EntityMovingItem moving = new EntityMovingItem(worldObj);
+									Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
+									Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+									moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+									moving.setItemStack(stack);
+									worldObj.spawnEntityInWorld(moving);
+									hasSent = true;
+									break;
+								}
+							}
+						}
+					}
+					
+					/* if no item has been sent, send buffered items while ignoring the filter */
+					if(!hasSent) {
+						
+						for(int i = 0; i < 9; i++) {
+							ItemStack stack = slots[i];
 							
-							if((isWhitelist && match) || (!isWhitelist && !match)) {
+							if(stack != null){
 								stack = stack.copy();
 								int toSend = Math.min(amount, stack.stackSize);
-								inv.decrStackSize(index, toSend);
+								decrStackSize(i, toSend);
 								stack.stackSize = toSend;
 								
 								EntityMovingItem moving = new EntityMovingItem(worldObj);
 								Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-								Vec3 snap = ((IConveyorBelt) b).getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+								Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
 								moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 								moving.setItemStack(stack);
 								worldObj.spawnEntityInWorld(moving);
@@ -122,7 +174,12 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return true;
+		return i > 8 && i < 18;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i > 8 && i < 18;
 	}
 
 	@Override
