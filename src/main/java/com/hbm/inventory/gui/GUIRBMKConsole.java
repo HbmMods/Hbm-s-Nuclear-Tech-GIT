@@ -239,7 +239,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			
 			drawTexturedModalRect(guiLeft + x, guiTop + y, tX, tY, size, size);
 			
-			int h = (int)Math.ceil((col.data.getDouble("heat") - 20) * 10 / col.data.getDouble("maxHeat"));
+			int h = Math.min((int)Math.ceil((col.data.getDouble("heat") - 20) * 10 / col.data.getDouble("maxHeat")), 10);
 			drawTexturedModalRect(guiLeft + x, guiTop + y + size - h, 0, 192 - h, 10, h);
 			
 			switch(col.type) {

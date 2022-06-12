@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -135,6 +136,7 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 				
 				stack.stackSize += amount;
 				toAdd.stackSize -= amount;
+				inv.markDirty();
 				
 				if(toAdd.stackSize == 0) {
 					return null;
@@ -154,6 +156,7 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 				newStack.stackSize = amount;
 				inv.setInventorySlotContents(index, newStack);
 				toAdd.stackSize -= amount;
+				inv.markDirty();
 				
 				if(toAdd.stackSize == 0) {
 					return null;
@@ -176,5 +179,15 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return Container.calcRedstoneFromInventory((TileEntityCraneInserter)world.getTileEntity(x, y, z));
 	}
 }

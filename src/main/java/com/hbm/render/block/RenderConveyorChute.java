@@ -64,8 +64,8 @@ public class RenderConveyorChute implements ISimpleBlockRenderingHandler {
 		double maxOuter = 1.0;
 		double minInner = 0.25;
 		double maxInner = 0.75;
-		double glassMin = 0.1875;
-		double glassMax = 0.8175;
+		double glassMin = 0.125;
+		double glassMax = 0.875;
 		
 		renderer.setRenderBounds(minOuter, 0.0, minOuter, minInner, 1.0, minInner); standardBundle(tessellator, ModBlocks.concrete_smooth, 0, renderer);
 		renderer.setRenderBounds(maxInner, 0.0, minOuter, maxOuter, 1.0, minInner); standardBundle(tessellator, ModBlocks.concrete_smooth, 0, renderer);
@@ -78,7 +78,6 @@ public class RenderConveyorChute implements ISimpleBlockRenderingHandler {
 		renderer.setRenderBounds(glassMin, 0.25, minInner, glassMin, 1.0, maxInner); standardBundle(tessellator, ModBlocks.steel_grate, 2, renderer);
 		renderer.setRenderBounds(glassMax, 0.25, minInner, glassMax, 1.0, maxInner); standardBundle(tessellator, ModBlocks.steel_grate, 2, renderer);
 		renderer.setRenderBounds(minInner, 0.25, glassMin, maxInner, 1.0, glassMin); standardBundle(tessellator, ModBlocks.steel_grate, 2, renderer);
-		renderer.setRenderBounds(minInner, 0.25, glassMax, maxInner, 1.0, glassMax); standardBundle(tessellator, ModBlocks.steel_grate, 2, renderer);
 		
 		tessellator.draw();
 		
@@ -205,8 +204,8 @@ public class RenderConveyorChute implements ISimpleBlockRenderingHandler {
 		renderer.setRenderBounds(minOuter, 0.0, maxInner, minInner, 1.0, maxOuter); renderer.renderStandardBlock(block, x, y, z);
 		renderer.setRenderBounds(maxInner, 0.0, maxInner, maxOuter, 1.0, maxOuter); renderer.renderStandardBlock(block, x, y, z);
 		
-		double glassMin = 0.1875;
-		double glassMax = 0.8175;
+		double glassMin = 0.125;
+		double glassMax = 0.875;
 
 		renderer.setOverrideBlockTexture(iconGlass);
 		if(!nX && (!belt || meta != 5)) { renderer.setRenderBounds(glassMin, belt ? 0.25 : 0.0, minInner, glassMin, 1.0, maxInner); renderer.renderStandardBlock(block, x, y, z); }

@@ -35,7 +35,7 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 
 	public EntityMovingItem(World p_i1582_1_) {
 		super(p_i1582_1_);
-		this.setSize(0.5F, 0.5F);
+		this.setSize(0.375F, 0.375F);
 		this.noClip = true;
 	}
 

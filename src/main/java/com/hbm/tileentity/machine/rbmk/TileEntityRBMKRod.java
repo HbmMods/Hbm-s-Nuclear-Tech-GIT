@@ -64,16 +64,16 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				rod.updateHeat(worldObj, slots[0], 1.0D);
 				this.heat += rod.provideHeat(worldObj, slots[0], heat, 1.0D);
 				
-				if(this.heat > this.maxHeat() && !RBMKDials.getMeltdownsDisabled(worldObj)) {
-					this.meltdown();
-					return;
-				}
-				
 				if(!this.hasLid()) {
 					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) ((this.fluxFast + this.fluxSlow) * 0.05F));
 				}
 				
 				super.updateEntity();
+				
+				if(this.heat > this.maxHeat() && !RBMKDials.getMeltdownsDisabled(worldObj)) {
+					this.meltdown();
+					return;
+				}
 				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;

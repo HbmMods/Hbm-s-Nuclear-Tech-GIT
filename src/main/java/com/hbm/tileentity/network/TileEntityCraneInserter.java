@@ -56,6 +56,7 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 						
 						if(ret == null || ret.stackSize != stack.stackSize) {
 							slots[i] = ret;
+							this.markDirty();
 							break;
 						}
 					}

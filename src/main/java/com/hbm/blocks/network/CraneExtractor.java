@@ -44,4 +44,9 @@ public class CraneExtractor extends BlockCraneBase {
 		
 		return 0;
 	}
+	
+	@Override
+	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
+		return true;
+	}
 }
