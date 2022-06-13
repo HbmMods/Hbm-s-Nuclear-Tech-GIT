@@ -246,7 +246,7 @@ public class BobmazonOfferFactory {
 				new ItemStack(Items.dye, 64)
 				), Requirement.HIDDEN, 64));
 		
-		special.add(new Offer(ItemKitCustom.create("Maid's Cleaning Utensils", "For the heard to reach spots", 0x00ff00, 0x008000,
+		special.add(new Offer(ItemKitCustom.create("Maid's Cleaning Utensils", "For the hard to reach spots", 0x00ff00, 0x008000,
 				new ItemStack(ModItems.gun_calamity),
 				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),
 				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),

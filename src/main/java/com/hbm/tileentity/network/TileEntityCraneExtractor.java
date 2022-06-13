@@ -129,7 +129,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 					/* if no item has been sent, send buffered items while ignoring the filter */
 					if(!hasSent) {
 						
-						for(int i = 0; i < 9; i++) {
+						for(int i = 9; i < 18; i++) {
 							ItemStack stack = slots[i];
 							
 							if(stack != null){

@@ -5,6 +5,7 @@ import com.hbm.tileentity.network.TileEntityCraneExtractor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -48,5 +49,11 @@ public class CraneExtractor extends BlockCraneBase {
 	@Override
 	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
 		return true;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		this.dropContents(world, x, y, z, block, meta, 9, 20);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

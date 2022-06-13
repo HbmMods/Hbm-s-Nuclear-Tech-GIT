@@ -7,6 +7,7 @@ import api.hbm.conveyor.IConveyorItem;
 import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
@@ -189,5 +190,11 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
 		return Container.calcRedstoneFromInventory((TileEntityCraneInserter)world.getTileEntity(x, y, z));
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		this.dropContents(world, x, y, z, block, meta, 0, 21);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

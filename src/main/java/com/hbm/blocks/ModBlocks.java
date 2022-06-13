@@ -1901,7 +1901,7 @@ public class ModBlocks {
 		fluid_duct_solid = new BlockFluidDuctSolid(Material.iron).setBlockName("fluid_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_solid");
 		fluid_duct_neo = new FluidDuctStandard(Material.iron).setBlockName("fluid_duct_neo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
 		
-		conveyor = new BlockConveyor().setBlockName("conveyor").setHardness(0.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
+		conveyor = new BlockConveyor().setBlockName("conveyor").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
 		conveyor_double = new BlockConveyorDouble().setBlockName("conveyor_double").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor_double");
 		conveyor_triple = new BlockConveyorTriple().setBlockName("conveyor_triple").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor_triple");
 		conveyor_chute = new BlockConveyorChute().setBlockName("conveyor_chute").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");

@@ -52,7 +52,7 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 					ItemStack stack = slots[i];
 					
 					if(stack != null) {
-						ItemStack ret = CraneInserter.addToInventory((ISidedInventory) te, access, stack.copy(), dir.ordinal());
+						ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, stack.copy(), dir.ordinal());
 						
 						if(ret == null || ret.stackSize != stack.stackSize) {
 							slots[i] = ret;
