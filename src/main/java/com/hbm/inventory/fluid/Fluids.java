@@ -158,7 +158,7 @@ public class Fluids {
 		WASTEFLUID =		new RadioactiveLiquid(		"WASTEFLUID",		0x544400, 2, 0, 1, EnumSymbol.RADIATION).setRadiation(0.5F).addTraits(FluidTrait.NO_CONTAINER);
 		WASTEGAS =			new RadioactiveGas(			"WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).setRadiation(0.5F).addTraits(FluidTrait.NO_CONTAINER);
 		GASOLINE =			new Fuel(					"GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.HIGH, 1_000_000).setHeatEnergy(400_000).addContainers(0x2F7747, ExtContainer.CANISTER);
-		COALGAS =			new Fuel(					"COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 150_000).setHeatEnergy(75_000).addContainers(0x30155F, ExtContainer.CANISTER);
+		COALGAS =			new Fuel(					"COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).setCombustionEnergy(FuelGrade.MEDIUM, 150_000).setHeatEnergy(75_000).addContainers(0x2F7759, ExtContainer.CANISTER);
 		SPENTSTEAM =		new Gas(					"SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(FluidTrait.NO_CONTAINER).setCompression(1D);
 		FRACKSOL =			new Petrochemical(			"FRACKSOL",			0x798A6B, 1, 3, 3, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE).addContainers(0x4F887F, ExtContainer.CANISTER);
 		PLASMA_DT =			new FluidType(				"PLASMA_DT",		0xF7AFDE, 0, 4, 0, EnumSymbol.RADIATION).setTemp(3250).addTraits(FluidTrait.NO_CONTAINER, FluidTrait.NO_ID);
