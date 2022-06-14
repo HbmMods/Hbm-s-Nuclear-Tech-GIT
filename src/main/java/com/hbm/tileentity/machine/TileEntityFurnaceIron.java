@@ -8,9 +8,14 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 
 public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUIProvider {
+	
+	public int maxBurnTime;
+	public int burnTime;
 
 	public TileEntityFurnaceIron() {
 		super(5);
@@ -24,6 +29,34 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			
+			if(burnTime <= 0) {
+				
+				for(int i = 1; i < 3; i++) {
+					if(slots[i] != null) {
+						
+						int fuel = TileEntityFurnace.getItemBurnTime(slots[i]);
+						
+						if(fuel > 0) {
+							this.maxBurnTime = this.burnTime = fuel;
+							break;
+						}
+					}
+				} 
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("maxBurnTime", this.maxBurnTime);
+			data.setInteger("burnTime", this.burnTime);
+			this.networkPack(data, 50);
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.maxBurnTime = nbt.getInteger("maxBurnTime");
+		this.burnTime = nbt.getInteger("burnTime");
 	}
 
 	@Override

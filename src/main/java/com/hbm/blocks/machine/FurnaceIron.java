@@ -25,19 +25,12 @@ public class FurnaceIron extends BlockDummyable {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			return true;
-		} else {
-			return false;
-		}
+		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 1, 0, 1, 0};
+		return new int[] {1, 0, 1, 0, 1, 0};
 	}
 
 	@Override
