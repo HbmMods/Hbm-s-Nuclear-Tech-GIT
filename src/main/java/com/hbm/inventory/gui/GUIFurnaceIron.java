@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerFurnaceIron;
@@ -10,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIFurnaceIron extends GuiContainer {
@@ -23,6 +26,26 @@ public class GUIFurnaceIron extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			for(int i = 1; i < 3; ++i) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
+				
+				if(!slot.getHasStack()) {
+					
+					List<String> bonuses = this.diFurnace.burnModule.getDesc();
+					
+					if(!bonuses.isEmpty()) {
+						this.func_146283_a(bonuses, x, y);
+					}
+				}
+			}
+		}
 	}
 	
 	@Override

@@ -17,10 +17,14 @@ public class ContainerFurnaceIron extends Container {
 	public ContainerFurnaceIron(InventoryPlayer invPlayer, TileEntityFurnaceIron furnace) {
 		this.furnace = furnace;
 
+		//input
 		this.addSlotToContainer(new Slot(furnace, 0, 53, 17));
+		//fuel
 		this.addSlotToContainer(new Slot(furnace, 1, 53, 53));
 		this.addSlotToContainer(new Slot(furnace, 2, 71, 53));
+		//output
 		this.addSlotToContainer(new SlotSmelting(invPlayer.player, furnace, 3, 125, 35));
+		//upgrade
 		this.addSlotToContainer(new SlotUpgrade(furnace, 4, 17, 35));
 		
 		for(int i = 0; i < 3; i++) {
