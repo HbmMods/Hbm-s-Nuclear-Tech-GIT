@@ -88,8 +88,4 @@ public class GUICraneExtractor extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
 		}
 	}
-	
-	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
-		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
-	}
 }

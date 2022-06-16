@@ -243,6 +243,7 @@ public class TileMappings {
 		put(TileEntityTurretMaxwell.class, "tileentity_turret_maxwell");
 		put(TileEntityTurretFritz.class, "tileentity_turret_fritz");
 		put(TileEntityTurretBrandon.class, "tileentity_turret_brandon");
+		put(TileEntityTurretArty.class, "tileentity_turret_arty");
 	}
 	
 	private static void putMachines() {

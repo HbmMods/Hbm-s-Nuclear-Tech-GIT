@@ -9,13 +9,12 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFurnaceIron;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIFurnaceIron extends GuiContainer {
+public class GUIFurnaceIron extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_furnace_iron.png");
 	private TileEntityFurnaceIron diFurnace;
@@ -33,10 +32,11 @@ public class GUIFurnaceIron extends GuiContainer {
 		super.drawScreen(x, y, interp);
 
 		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			
 			for(int i = 1; i < 3; ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 				
-				if(!slot.getHasStack()) {
+				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
 					
 					List<String> bonuses = this.diFurnace.burnModule.getDesc();
 					
@@ -46,6 +46,9 @@ public class GUIFurnaceIron extends GuiContainer {
 				}
 			}
 		}
+
+		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 35, 71, 7, x, y, new String[] { (diFurnace.progress * 100 / Math.max(diFurnace.processingTime, 1)) + "%" });
+		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 44, 71, 7, x, y, new String[] { (diFurnace.burnTime / 20) + "s" });
 	}
 	
 	@Override
@@ -61,5 +64,14 @@ public class GUIFurnaceIron extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int i = diFurnace.progress * 70 / Math.max(diFurnace.processingTime, 1);
+		drawTexturedModalRect(guiLeft + 53, guiTop + 36, 176, 18, i, 5);
+		
+		int j = diFurnace.burnTime * 70 / Math.max(diFurnace.maxBurnTime, 1);
+		drawTexturedModalRect(guiLeft + 53, guiTop + 45, 176, 23, j, 5);
+		
+		if(diFurnace.canSmelt())
+			drawTexturedModalRect(guiLeft + 70, guiTop + 16, 176, 0, 18, 18);
 	}
 }

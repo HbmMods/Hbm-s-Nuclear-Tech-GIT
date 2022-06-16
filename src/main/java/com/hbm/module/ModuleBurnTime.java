@@ -53,7 +53,7 @@ public class ModuleBurnTime {
 	public List<String> getDesc() {
 		List<String> list = new ArrayList();
 
-		list.add(EnumChatFormatting.YELLOW + "Burn time bonuses:");
+		list.add(EnumChatFormatting.GOLD + "Burn time bonuses:");
 		
 		addIf(list, "Logs", modLog);
 		addIf(list, "Wood", modWood);
@@ -77,7 +77,7 @@ public class ModuleBurnTime {
 	
 	private String getPercent(double mod) {
 		mod -= 1D;
-		String num = (((int) (mod * 1000)) / 10D) + "%";
+		String num = ((int) (mod * 100)) + "%";
 		
 		if(mod < 0)
 			num = EnumChatFormatting.RED + "-" + num;
