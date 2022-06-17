@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -61,6 +62,40 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	@Override
 	public double getHeightOffset() {
 		return 3D;
+	}
+
+	@Override
+	protected void seekNewTarget() {
+		
+		if(this.directMode) {
+			super.seekNewTarget();
+			return;
+		}
+		
+		
+		/* TODO: large field artillery target search */
+	}
+	
+	@Override
+	protected void alignTurret() {
+		/* TODO: calculate angles */
+		this.turnTowards(tPos);
+	}
+
+	@Override
+	public void spawnBullet(BulletConfiguration bullet) {
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
+		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		
+		/* TODO: replace bullet base entity with a chunkloading artillery shell */
+		EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(bullet));
+		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
+		
+		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
+		worldObj.spawnEntityInWorld(proj);
 	}
 
 	@Override

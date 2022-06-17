@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1012,6 +1013,18 @@ public class MainRegistry {
 		/*BiomeGenBase.plains.addFlower(ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal(), 10);
 		BiomeGenBase.roofedForest.addFlower(ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal(), 10);
 		BiomeGenBase.jungle.addFlower(ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal(), 10);*/
+		
+		/*Set<Thread> threads = Thread.getAllStackTraces().keySet();
+
+		for (Thread thread : threads) {
+			
+			System.out.println("Printing thread " + thread.getName());
+			StackTraceElement[] stackTraceElements = thread.getStackTrace();
+			for (StackTraceElement stackTraceElement : stackTraceElements) {
+				System.out.println("\t" + stackTraceElement);
+			}
+			System.out.println("");
+		}*/
 	}
 
 	@EventHandler
