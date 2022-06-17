@@ -6,14 +6,14 @@ import com.hbm.inventory.container.ContainerNukeBoy;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUINukeBoy extends GuiContainer {
+public class GUINukeBoy extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/lilBoySchematic.png");
 	private TileEntityNukeBoy testNuke;
@@ -24,6 +24,14 @@ public class GUINukeBoy extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.nukeBoy.desc");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, descText);
 	}
 
 	@Override
@@ -55,6 +63,8 @@ public class GUINukeBoy extends GuiContainer {
 			drawTexturedModalRect(guiLeft + 92, guiTop + 95, 176, 66, 12, 6);
 		if(testNuke.getStackInSlot(4) != null && testNuke.getStackInSlot(4).getItem() == ModItems.boy_igniter)
 			drawTexturedModalRect(guiLeft + 107, guiTop + 91, 176, 75, 16, 14);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 2);
 	}
 
 }

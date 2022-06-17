@@ -442,12 +442,7 @@ public class HazardRegistry {
 		HazardSystem.register(ModItems.crystal_trixite, makeData(RADIATION, trx * crystal));
 		
 		//nuke parts
-		HazardSystem.register(gadget_explosive, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(gadget_explosive8, makeData(EXPLOSIVE, 8F));
 		HazardSystem.register(boy_propellant, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(boy_igniter, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(man_explosive, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(man_explosive8, makeData(EXPLOSIVE, 16F));
 		
 		HazardSystem.register(gadget_core, makeData(RADIATION, pu239 * nugget * 10));
 		HazardSystem.register(boy_target, makeData(RADIATION, u235 * ingot * 2));

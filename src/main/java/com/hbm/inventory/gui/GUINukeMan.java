@@ -1,7 +1,6 @@
 package com.hbm.inventory.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -11,8 +10,9 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerNukeMan;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
+import com.hbm.util.I18nUtil;
 
-public class GUINukeMan extends GuiContainer {
+public class GUINukeMan extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/fatManSchematic.png");
 	private TileEntityNukeMan testNuke;
@@ -23,6 +23,14 @@ public class GUINukeMan extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.nukeMan.desc");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, descText);
 	}
 	
 	@Override
@@ -63,5 +71,7 @@ public class GUINukeMan extends GuiContainer {
 		{
 			drawTexturedModalRect(guiLeft + 134, guiTop + 35, 176, 48, 16, 16);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 2);
 	}
 }

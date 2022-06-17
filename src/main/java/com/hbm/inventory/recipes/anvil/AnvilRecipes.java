@@ -204,6 +204,18 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new ComparableStack(ModItems.sulfur, 8),
+						new OreDictStack(STEEL.plate(), 4),
+						new OreDictStack(AL.plate(), 2),
+						new ComparableStack(ModItems.hull_small_steel, 4),
+						new ComparableStack(ModItems.board_copper, 1),
+						new ComparableStack(ModItems.turbine_titanium, 1),
+						new ComparableStack(ModItems.circuit_aluminium, 1)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_extractor))).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModItems.deuterium_filter, 2),
 						new ComparableStack(ModItems.hull_big_steel, 5),
 						new ComparableStack(ModBlocks.concrete_smooth, 8),

@@ -868,7 +868,7 @@ public class MainRegistry {
 		achBismuth = new Achievement("achievement.bismuth", "bismuth", 11, -6, ModItems.ingot_bismuth, achRBMK).initIndependentStat().registerStat();
 		achBreeding = new Achievement("achievement.breeding", "breeding", 7, -6, ModItems.ingot_am_mix, achRBMK).initIndependentStat().setSpecial().registerStat();
 		achFusion = new Achievement("achievement.fusion", "fusion", 13, -7, new ItemStack(ModBlocks.iter), achBismuth).initIndependentStat().setSpecial().registerStat();
-		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.crystal_energy, achFusion).initIndependentStat().setSpecial().registerStat();
+		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.powder_balefire, achFusion).initIndependentStat().setSpecial().registerStat();
 		achRedBalloons = new Achievement("achievement.redBalloons", "redBalloons", 11, 0, ModItems.missile_nuclear, achPolymer).initIndependentStat().setSpecial().registerStat();
 		achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
 		
@@ -1116,6 +1116,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.thermo_unit_empty");
 		ignoreMappings.add("hbm:item.thermo_unit_endo");
 		ignoreMappings.add("hbm:item.thermo_unit_exo");
+		ignoreMappings.add("hbm:item.gadget_explosive");
+		ignoreMappings.add("hbm:item.man_explosive");
+		ignoreMappings.add("hbm:item.crystal_energy");
+		ignoreMappings.add("hbm:item.pellet_coolant");
+		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
+		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		
 		for(MissingMapping mapping : event.get()) {
 
