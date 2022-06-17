@@ -322,7 +322,7 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.clip_fatman, 0, 2, 3, 1),
-			new WeightedRandomChestContent(ModItems.gun_mirv_ammo, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.ammo_mirv, 0, 2, 3, 1),
 			new WeightedRandomChestContent(ModItems.gun_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),

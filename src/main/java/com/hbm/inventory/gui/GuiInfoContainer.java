@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -90,6 +91,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			//Large grey *
 			drawTexturedModalRect(x, y, 24, 32, 16, 16); break;
 		}
+	}
+	
+	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
+		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 	
 	/**

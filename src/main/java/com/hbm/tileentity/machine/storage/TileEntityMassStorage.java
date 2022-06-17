@@ -143,4 +143,19 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 			this.output = !output;
 		}
 	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		return !this.isLocked() && i == 0 && (this.getType() == null || (getType().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(itemStack, getType())));
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return !this.isLocked() && i == 2;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 2 };
+	}
 }

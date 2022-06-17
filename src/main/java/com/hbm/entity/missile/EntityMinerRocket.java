@@ -66,11 +66,8 @@ public class EntityMinerRocket extends Entity {
 			}
 		}
 		
-		if(dataWatcher.getWatchableObjectInt(16) != 1) {
-			
-			if(ticksExisted % 2 == 0) {
-				ParticleUtil.spawnGasFlame(worldObj, posX, posY - 0.5, posZ, 0.0, -1.0, 0.0);
-			}
+		if(dataWatcher.getWatchableObjectInt(16) != 1 && !worldObj.isRemote && ticksExisted % 2 == 0) {
+			ParticleUtil.spawnGasFlame(worldObj, posX, posY - 0.5, posZ, 0.0, -1.0, 0.0);
 		}
 		
 		if(dataWatcher.getWatchableObjectInt(16) == 2 && posY > 300)

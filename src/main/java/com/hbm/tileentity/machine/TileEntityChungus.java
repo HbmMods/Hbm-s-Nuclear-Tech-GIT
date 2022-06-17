@@ -35,6 +35,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	private int turnTimer;
 	public float rotor;
 	public float lastRotor;
+	public float fanAcceleration = 0F;
 	
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
@@ -101,16 +102,17 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 		} else {
 			
 			this.lastRotor = this.rotor;
+			this.rotor += this.fanAcceleration;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
 			if(turnTimer > 0) {
-				
-				this.rotor += 25F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
-				}
-				
+
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.1F));
+
 				Random rand = worldObj.rand;
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
@@ -123,6 +125,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
 			}
+			if(turnTimer < 0) {
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration -= 0.1F));
+			}	
 		}
 	}
 	

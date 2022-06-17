@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
@@ -17,10 +20,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,11 +92,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
 			if(plasma.getFill() > 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
-				this.disassemble();
-				Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
-				vec.rotateAroundY(worldObj.rand.nextFloat() * (float)Math.PI * 2F);
-				
-				worldObj.newExplosion(null, xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + worldObj.rand.nextGaussian() * 1.5D, zCoord + 0.5 + vec.zCoord, 2.5F, true, true);
+				this.explode();
 			}
 			
 			if(isOn && power >= powerReq) {
@@ -183,6 +185,37 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		}
 	}
 	
+	private void explode() {
+		this.disassemble();
+		
+		if(this.plasma.getTankType() == Fluids.PLASMA_BF) {
+			
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			ExplosionLarge.spawnShrapnels(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 50);
+			
+			ExplosionNT exp = new ExplosionNT(worldObj, null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 20F)
+					.addAttrib(ExAttrib.BALEFIRE)
+					.addAttrib(ExAttrib.NOPARTICLE)
+					.addAttrib(ExAttrib.NOSOUND)
+					.addAttrib(ExAttrib.NODROP)
+					.overrideResolution(64);
+			exp.doExplosionA();
+			exp.doExplosionB(false);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+			
+		} else {
+			Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
+			vec.rotateAroundY(worldObj.rand.nextFloat() * (float)Math.PI * 2F);
+			
+			worldObj.newExplosion(null, xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + worldObj.rand.nextGaussian() * 1.5D, zCoord + 0.5 + vec.zCoord, 2.5F, true, true);
+		}
+		
+	}
+
 	private void doBreederStuff() {
 		
 		if(plasma.getFill() == 0) {

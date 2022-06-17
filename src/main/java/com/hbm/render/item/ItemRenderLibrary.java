@@ -1307,6 +1307,18 @@ public class ItemRenderLibrary {
 			}
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.furnace_iron), new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, 1, 0);
+				bindTexture(ResourceManager.furnace_iron_tex);
+				ResourceManager.furnace_iron.renderPart("Main");
+				ResourceManager.furnace_iron.renderPart("Off");
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

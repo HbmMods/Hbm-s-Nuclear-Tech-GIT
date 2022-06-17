@@ -28,6 +28,9 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public int totalDashCount = 0;
 	public int stamina = 0;
 	
+	public static final int plinkCooldownLength = 10;
+	public int plinkCooldown = 0;
+	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
 	}
@@ -102,6 +105,15 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	
 	public int getDashCount() {
 		return this.totalDashCount;
+	}
+	
+	public static void plink(EntityPlayer player, String sound, float volume, float pitch) {
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		
+		if(props.plinkCooldown <= 0) {
+			player.worldObj.playSoundAtEntity(player, sound, volume, pitch);
+			props.plinkCooldown = props.plinkCooldownLength;
+		}
 	}
 
 	@Override

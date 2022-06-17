@@ -30,6 +30,7 @@ import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -500,6 +501,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityMagnusCartus.class, "entity_ntm_cart_chungoid", 174, this, 250, 1, false);
 		EntityRegistry.registerModEntity(EntityMinecartPowder.class, "entity_ntm_cart_powder", 175, this, 250, 1, false);
 		EntityRegistry.registerModEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 176, this, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityNukeTorex.class, "entity_effect_torex", 177, this, 250, 1, false);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1069,19 +1071,51 @@ public class MainRegistry {
 	}
 	
 	private static HashSet<String> ignoreMappings = new HashSet();
+	private static HashMap<String, Item> remapItems = new HashMap();
 	
-	static {
-		for(int i = 1; i <= 8; i++)
-			ignoreMappings.add("hbm:item.gasflame" + i);
-	}
 
 	@EventHandler
 	public void handleMissingMappings(FMLMissingMappingsEvent event) {
 		
+		ignoreMappings.clear();
+		remapItems.clear();
+		
+		/// IGNORE ///
+		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
+		ignoreMappings.add("hbm:item.cyclotron_tower");
+		ignoreMappings.add("hbm:item.magnet_dee");
+		ignoreMappings.add("hbm:item.centrifuge_tower");
+		ignoreMappings.add("hbm:item.gun_revolver_nopip_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_pip_ammo");
+		ignoreMappings.add("hbm:item.gun_calamity_ammo");
+		ignoreMappings.add("hbm:item.gun_lacunae_ammo");
+		ignoreMappings.add("hbm:item.gun_rpg_ammo");
+		ignoreMappings.add("hbm:item.gun_mp40_ammo");
+		ignoreMappings.add("hbm:item.gun_uzi_ammo");
+		ignoreMappings.add("hbm:item.gun_uboinik_ammo");
+		ignoreMappings.add("hbm:item.gun_lever_action_ammo");
+		ignoreMappings.add("hbm:item.gun_bolt_action_ammo");
+		ignoreMappings.add("hbm:item.gun_fatman_ammo");
+		ignoreMappings.add("hbm:item.gun_mirv_ammo");
+		ignoreMappings.add("hbm:item.gun_stinger_ammo");
+		ignoreMappings.add("hbm:item.limiter");
+		ignoreMappings.add("hbm:item.turret_biometry");
+		ignoreMappings.add("hbm:item.thermo_unit_empty");
+		ignoreMappings.add("hbm:item.thermo_unit_endo");
+		ignoreMappings.add("hbm:item.thermo_unit_exo");
+		
 		for(MissingMapping mapping : event.get()) {
+
+			if(ignoreMappings.contains(mapping.name)) {
+				mapping.ignore();
+				continue;
+			}
+			
 			if(mapping.type == GameRegistry.Type.ITEM) {
-				if(ignoreMappings.contains(mapping.name)) {
-					mapping.ignore();
+				
+				if(remapItems.get(mapping.name) != null) {
+					mapping.remap(remapItems.get(mapping.name));
+					continue;
 				}
 			}
 		}
