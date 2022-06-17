@@ -47,17 +47,32 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			double heatProvided = this.heat - heatCap;
 			
 			if(heatProvided > 0) {
-				int waterUsed = (int)Math.floor(heatProvided / RBMKDials.getBoilerHeatConsumption(worldObj));
-				waterUsed = Math.min(waterUsed, feed.getFill());
-				feed.setFill(feed.getFill() - waterUsed);
-				int steamProduced = (int)Math.floor((waterUsed * 100) / getFactorFromSteam(steam.getTankType()));
-				steam.setFill(steam.getFill() + steamProduced);
+				double HEAT_PER_MB_WATER = RBMKDials.getBoilerHeatConsumption(worldObj);
+				double steamFactor = getFactorFromSteam(steam.getTankType());
+				int waterUsed;
+				int steamProduced;
 				
-				if(steam.getFill() > steam.getMaxFill()) {
-					steam.setFill(steam.getMaxFill());
+				if(steam.getTankType() == Fluids.ULTRAHOTSTEAM) {
+					steamProduced = (int)Math.floor((heatProvided / HEAT_PER_MB_WATER) * 100D / steamFactor);
+					waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					
+					if(feed.getFill() < waterUsed) {
+						steamProduced = (int)Math.floor(feed.getFill() * 100D / steamFactor);
+						waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					}
+				} else {
+					waterUsed = (int)Math.floor(heatProvided / HEAT_PER_MB_WATER);
+					waterUsed = Math.min(waterUsed, feed.getFill());
+					steamProduced = (int)Math.floor((waterUsed * 100D) / steamFactor);
 				}
 				
-				this.heat -= waterUsed * RBMKDials.getBoilerHeatConsumption(worldObj);
+				feed.setFill(feed.getFill() - waterUsed);
+				steam.setFill(steam.getFill() + steamProduced);
+				
+				if(steam.getFill() > steam.getMaxFill())
+					steam.setFill(steam.getMaxFill());
+				
+				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}
 			
 			fillFluidInit(steam.getTankType());

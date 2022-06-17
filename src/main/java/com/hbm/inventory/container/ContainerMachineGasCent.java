@@ -18,28 +18,28 @@ public class ContainerMachineGasCent extends Container {
 		
 		gasCent = tedf;
 
-		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 53));
-		//Fluid ID IO
-		this.addSlotToContainer(new Slot(tedf, 1, 30, 35));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 133, 26));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 133, 44));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 151, 35));
-		//upgrade
-		this.addSlotToContainer(new Slot(tedf, 5, 82, 19));
-		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < 2; j++) {
+				this.addSlotToContainer(new SlotMachineOutput(tedf, j + i * 2, 71 + j * 18, 53 + i * 18));
 			}
 		}
 		
-		for(int i = 0; i < 9; i++)
-		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+		//Battery
+		this.addSlotToContainer(new Slot(tedf, 4, 182, 71));
+		//Fluid ID IO
+		this.addSlotToContainer(new Slot(tedf, 5, 91, 15));
+		//upgrade
+		this.addSlotToContainer(new Slot(tedf, 6, 69, 15));
+		
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 122 + i * 18));
+			}
+		}
+		
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 180));
 		}
 	}
 	
@@ -51,37 +51,29 @@ public class ContainerMachineGasCent extends Container {
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
-		ItemStack var3 = null;
+		ItemStack returnStack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 		
-		if (slot != null && slot.getHasStack())
-		{
+		if(slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
-			var3 = stack.copy();
+			returnStack = stack.copy();
 			
-            if (index <= 5) {
-				if (!this.mergeItemStack(stack, 6, this.inventorySlots.size(), true))
-				{
+            if(index <= 6) {
+				if (!this.mergeItemStack(stack, 7, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			}
-			else if (!this.mergeItemStack(stack, 0, 2, false))
-			{
-				if (!this.mergeItemStack(stack, 3, 4, false))
-					return null;
+			} else if(!this.mergeItemStack(stack, 4, 7, false)) {
+				return null;
 			}
 			
-			if (stack.stackSize == 0)
-			{
+			if (stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				slot.onSlotChanged();
 			}
 		}
 		
-		return var3;
+		return returnStack;
     }
 
 	@Override
