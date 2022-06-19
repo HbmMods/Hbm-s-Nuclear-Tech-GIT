@@ -40,6 +40,8 @@
     "block.bobble": {"category": "block", "sounds": [{"name": "block/bobble", "stream": false}]},
     "block.crateOpen": {"category": "block", "sounds": [{"name": "block/crateOpen", "stream": false}]},
     "block.crateClose": {"category": "block", "sounds": [{"name": "block/crateClose", "stream": false}]},
+    "block.storageOpen": {"category": "block", "sounds": [{"name": "block/storageOpen", "stream": false}]},
+    "block.storageClose": {"category": "block", "sounds": [{"name": "block/storageClose", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     
@@ -168,6 +170,7 @@
     "turret.richard_fire": {"category": "block", "sounds": [{"name": "turret/richard_fire", "stream": false}]},
     "turret.howard_fire": {"category": "block", "sounds": [{"name": "turret/howard_fire", "stream": false}]},
     "turret.howard_reload": {"category": "block", "sounds": [{"name": "turret/howard_reload", "stream": false}]},
+    "turret.mortarWhistle": {"category": "block", "sounds": [{"name": "weapon/mortarWhistle", "stream": false}]},
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},
 	"entity.chopperDrop": {"category": "hostile", "sounds": [{"name": "entity/chopperDrop", "stream": false}]},

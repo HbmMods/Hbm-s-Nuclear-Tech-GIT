@@ -35,6 +35,9 @@ public class RenderTurretArty extends TileEntitySpecialRenderer {
 		GL11.glRotated(pitch, 1, 0, 0);
 		GL11.glTranslated(0, -3, 0);
 		ResourceManager.turret_arty.renderPart("Cannon");
+		double barrel = turret.lastBarrelPos + (turret.barrelPos - turret.lastBarrelPos) * interp;
+		double length = 2.5;
+		GL11.glTranslated(0, 0, barrel * length);
 		ResourceManager.turret_arty.renderPart("Barrel");
 
 		GL11.glShadeModel(GL11.GL_FLAT);

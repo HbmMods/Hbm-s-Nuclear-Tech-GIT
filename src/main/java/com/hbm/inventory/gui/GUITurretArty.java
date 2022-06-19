@@ -34,8 +34,9 @@ public class GUITurretArty extends GUITurretBase {
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mX, int mY) {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, mX, mY);
 		
-		if(((TileEntityTurretArty)turret).directMode)
-			drawTexturedModalRect(guiLeft + 151, guiTop + 16, 210, 0, 18, 18);
+		short mode = ((TileEntityTurretArty)turret).mode;
+		if(mode == TileEntityTurretArty.MODE_CANNON) drawTexturedModalRect(guiLeft + 151, guiTop + 16, 210, 0, 18, 18);
+		if(mode == TileEntityTurretArty.MODE_MANUAL) drawTexturedModalRect(guiLeft + 151, guiTop + 16, 210, 18, 18, 18);
 	}
 
 	@Override

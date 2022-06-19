@@ -76,6 +76,11 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 	}
 
 	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerCraneInserter(player.inventory, this);
 	}

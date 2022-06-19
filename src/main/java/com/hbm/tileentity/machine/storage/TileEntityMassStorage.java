@@ -100,6 +100,16 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	}
 
 	@Override
+	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 1.0F, 1.0F);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 1.0F, 1.0F);
+	}
+
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.stack = nbt.getInteger("stack");

@@ -130,7 +130,8 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			int index = access == null ? i : access[i];
 			ItemStack stack = inv.getStackInSlot(index);
 			
-			if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)) {
+			if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)
+					 && ((sided == null || sided.canInsertItem(index, toAdd, side)) && inv.isItemValidForSlot(index, toAdd))) {
 				
 				int stackLimit = Math.min(stack.getMaxStackSize(), limit);
 				int amount = Math.min(toAdd.stackSize, stackLimit - stack.stackSize);
@@ -149,7 +150,7 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			int index = access == null ? i : access[i];
 			ItemStack stack = inv.getStackInSlot(index);
 			
-			if(stack == null && (sided != null ? sided.canInsertItem(index, toAdd, side) : inv.isItemValidForSlot(index, toAdd))) {
+			if(stack == null && ((sided == null || sided.canInsertItem(index, toAdd, side)) && inv.isItemValidForSlot(index, toAdd))) {
 				
 				int amount = Math.min(toAdd.stackSize, limit);
 				

@@ -209,19 +209,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
 			
-			NBTTagCompound data = new NBTTagCompound();
-			if(this.tPos != null) {
-				data.setDouble("tX", this.tPos.xCoord);
-				data.setDouble("tY", this.tPos.yCoord);
-				data.setDouble("tZ", this.tPos.zCoord);
-			}
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", this.isOn);
-			data.setBoolean("targetPlayers", this.targetPlayers);
-			data.setBoolean("targetAnimals", this.targetAnimals);
-			data.setBoolean("targetMobs", this.targetMobs);
-			data.setBoolean("targetMachines", this.targetMachines);
-			data.setInteger("stattrak", this.stattrak);
+			NBTTagCompound data = this.writePacket();
 			this.networkPack(data, 250);
 			
 		} else {
@@ -239,6 +227,25 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					this.lastRotationYaw -= Math.PI * 2;
 			}
 		}
+	}
+	
+	protected NBTTagCompound writePacket() {
+		
+		NBTTagCompound data = new NBTTagCompound();
+		if(this.tPos != null) {
+			data.setDouble("tX", this.tPos.xCoord);
+			data.setDouble("tY", this.tPos.yCoord);
+			data.setDouble("tZ", this.tPos.zCoord);
+		}
+		data.setLong("power", this.power);
+		data.setBoolean("isOn", this.isOn);
+		data.setBoolean("targetPlayers", this.targetPlayers);
+		data.setBoolean("targetAnimals", this.targetAnimals);
+		data.setBoolean("targetMobs", this.targetMobs);
+		data.setBoolean("targetMachines", this.targetMachines);
+		data.setInteger("stattrak", this.stattrak);
+		
+		return data;
 	}
 	
 	private void updateConnections() {
