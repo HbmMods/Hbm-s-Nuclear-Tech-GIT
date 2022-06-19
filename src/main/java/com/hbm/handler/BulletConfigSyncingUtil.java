@@ -229,6 +229,14 @@ public class BulletConfigSyncingUtil {
 	public static int DET_BOLT = i++;
 
 	public static int TURBINE = i++;
+	
+	public static int GLASS_EMRADIO = i++;
+	public static int GLASS_EMMICRO = i++;
+	public static int GLASS_EMIR = i++;
+	public static int GLASS_EMVISIBLE = i++;
+	public static int GLASS_EMUV = i++;
+	public static int GLASS_EMXRAY = i++;
+	public static int GLASS_EMGAMMA = i++;
 
 	public static int CHL_LR22 = i++;
 	public static int CHL_LR22_FIRE = i++;
@@ -472,6 +480,15 @@ public class BulletConfigSyncingUtil {
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
+		
+		configSet.put(GLASS_EMRADIO, GunPoweredFactory.getEMRadioConfig());
+		configSet.put(GLASS_EMMICRO, GunPoweredFactory.getEMMicroConfig());
+		configSet.put(GLASS_EMIR, GunPoweredFactory.getEMInfraredConfig());
+		configSet.put(GLASS_EMVISIBLE, GunPoweredFactory.getEMVisibleConfig());
+		configSet.put(GLASS_EMUV, GunPoweredFactory.getEMUVConfig());
+		configSet.put(GLASS_EMXRAY, GunPoweredFactory.getEMXrayConfig());
+		configSet.put(GLASS_EMGAMMA, GunPoweredFactory.getEMGammaConfig());
+		
 
 		configSet.put(CHL_LR22, Gun22LRFactory.get22LRConfig().setToHoming(ModItems.ammo_22lr_chlorophyte));
 		configSet.put(CHL_LR22_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3).setToHoming(ModItems.ammo_22lr_chlorophyte));
