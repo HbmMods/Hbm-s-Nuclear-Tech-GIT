@@ -107,6 +107,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 20;
 		bullet.modeName = "weapon.elecGun.glass_cannon.radio";
 		bullet.chatColour = EnumChatFormatting.DARK_RED;
+		bullet.setToFire(200);
 		
 		return bullet;
 	}
@@ -135,6 +136,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 15;
 		bullet.modeName = "weapon.elecGun.glass_cannon.micro";
 		bullet.chatColour = EnumChatFormatting.RED;
+		bullet.setToFire(200);
 		
 		return bullet;
 	}
@@ -163,6 +165,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 10;
 		bullet.modeName = "weapon.elecGun.glass_cannon.ir";
 		bullet.chatColour = EnumChatFormatting.RED;
+		bullet.setToFire(100);
 		
 		return bullet;
 	}
@@ -191,6 +194,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 5;
 		bullet.modeName = "weapon.elecGun.glass_cannon.visible";
 		bullet.chatColour = EnumChatFormatting.GREEN;
+		bullet.setToFire(100);
 		
 		return bullet;
 	}
@@ -219,6 +223,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 3;
 		bullet.modeName = "weapon.elecGun.glass_cannon.uv";
 		bullet.chatColour = EnumChatFormatting.AQUA;
+		bullet.setToFire(100);
 		
 		return bullet;
 	}
@@ -247,6 +252,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 2;
 		bullet.modeName = "weapon.elecGun.glass_cannon.xray";
 		bullet.chatColour = EnumChatFormatting.BLUE;
+		bullet.setToFire(40);
 		
 		return bullet;
 	}
@@ -275,6 +281,7 @@ public class GunPoweredFactory {
 		bullet.firingRate = 1;
 		bullet.modeName = "weapon.elecGun.glass_cannon.gamma";
 		bullet.chatColour = EnumChatFormatting.LIGHT_PURPLE;
+		bullet.setToFire(40);
 		
 		return bullet;
 	}
