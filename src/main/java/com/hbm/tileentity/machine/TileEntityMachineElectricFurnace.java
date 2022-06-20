@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineElectricFurnace;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
@@ -25,7 +27,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	public int dualCookTime;
 	public long power;
 	public static final long maxPower = 100000;
-	public static final int processingSpeed = 100;
+	public int processingSpeed = 100;
+	int consumption = 50;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -34,7 +37,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	private String customName;
 	
 	public TileEntityMachineElectricFurnace() {
-		slots = new ItemStack[3];
+		slots = new ItemStack[4];
 	}
 
 	@Override
@@ -199,10 +202,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		return false;
 	}
 	
-	public int getDiFurnaceProgressScaled(int i) {
-		return (dualCookTime * i) / processingSpeed;
-	}
-	
 	public long getPowerRemainingScaled(long i) {
 		return (power * i) / maxPower;
 	}
@@ -278,14 +277,27 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();
+
+			this.consumption = 50;
+			this.processingSpeed = 100;
+			
+			UpgradeManager.eval(slots, 3, 3);
+
+			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
+			
+			processingSpeed -= speedLevel * 25;
+			consumption += speedLevel * 50;
+			processingSpeed += powerLevel * 10;
+			consumption -= powerLevel * 20;
 			
 			if(hasPower() && canProcess())
 			{
 				dualCookTime++;
 				
-				power -= 50;
+				power -= consumption;
 				
-				if(this.dualCookTime == TileEntityMachineElectricFurnace.processingSpeed)
+				if(this.dualCookTime == processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();
@@ -326,7 +338,11 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-
+	
+	public int getDiFurnaceProgressScaled(int i) {
+		return (dualCookTime * i) / processingSpeed;
+		
+	}
 	@Override
 	public void setPower(long i) {
 		power = i;
