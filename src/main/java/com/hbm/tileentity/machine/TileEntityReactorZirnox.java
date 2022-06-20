@@ -111,7 +111,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				ItemStack stack = inv.getStackInSlot(i);
 				if(stack != null && stack.getItem() instanceof ItemZirnoxRod) {
 					
-					for(int j = 0; j < 23; j++) {
+					for(int j = 0; j < 24; j++) {
 						//ZIRNOX rods cannot stack higher than 1 anyway
 						if(slots[j] == null) {
 							slots[j] = stack.copy();

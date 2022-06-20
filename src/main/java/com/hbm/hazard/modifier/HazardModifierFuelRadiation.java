@@ -18,7 +18,7 @@ float target;
 		
 		if(stack.getItem() instanceof ItemFuelRod) {
 			ItemFuelRod fuel = (ItemFuelRod) stack.getItem();
-			double depletion = fuel.getDurabilityForDisplay(stack);
+			double depletion = Math.pow(fuel.getDurabilityForDisplay(stack), 0.4D);
 			
 			level = (float) (level + (this.target - level) * depletion);
 			
