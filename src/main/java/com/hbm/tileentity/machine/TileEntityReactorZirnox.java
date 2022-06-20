@@ -32,8 +32,10 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -52,6 +54,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank steam;
 	public FluidTank carbonDioxide;
 	public FluidTank water;
+	
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
@@ -65,6 +69,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u235_fuel), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_les_fuel), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_lithium), new ItemStack(ModItems.rod_zirnox_tritium));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_zfb_mox), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
 	}
 
 	public TileEntityReactorZirnox() {
@@ -77,6 +82,47 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@Override
 	public String getName() {
 		return "container.zirnox";
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slots_io;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		return i < 24 && stack.getItem() instanceof ItemZirnoxRod;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRod);
+	}
+	
+	//fucking hate having to do this
+	private void loadFuel() {
+		TileEntity te = worldObj.getTileEntity(this.xCoord, this.yCoord + 5, this.zCoord);
+		
+		if(te instanceof IInventory) {
+			IInventory inv = (IInventory) te;
+			
+			for(int i = 0; i < inv.getSizeInventory(); i++) {
+				
+				ItemStack stack = inv.getStackInSlot(i);
+				if(stack != null && stack.getItem() instanceof ItemZirnoxRod) {
+					
+					for(int j = 0; j < 23; j++) {
+						//ZIRNOX rods cannot stack higher than 1 anyway
+						if(slots[j] == null) {
+							slots[j] = stack.copy();
+							slots[j].stackSize = 1;
+							inv.decrStackSize(i, 1);
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -169,12 +215,13 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
-
+			
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
-
+			
+			loadFuel();
+			
 			if(isOn) {
-
 				for(int i = 0; i < 24; i++) {
 
 					if(slots[i] != null) {
@@ -238,9 +285,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	private boolean hasFuelRod(int id) {
-		if(id > 23)
-			return false;
-
 		if(slots[id] != null) {
 			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
 				return slots[id].getItem() instanceof ItemZirnoxRod;
@@ -269,13 +313,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	// itemstack in slots[id] has to contain ItemZirnoxRod
 	private void decay(int id) {
-		if(id > 23)
-			return;
-
 		int decay = getNeighbourCount(id);
 
 		if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
-		decay = getNeighbourCount(id) + 1;
+			decay++;
 		}
 
 		for(int i = 0; i < decay; i++) {
@@ -283,7 +324,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			this.heat += rod.heat;
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
 			
-			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
+			if(ItemZirnoxRod.getLifeTime(slots[id]) > rod.lifeTime) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
