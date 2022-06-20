@@ -91,20 +91,31 @@ public class ItemAssemblyTemplate extends Item {
 
 	public String getItemStackDisplayName(ItemStack stack) {
 
-		//NEW
-		ComparableStack comp = readType(stack);
-		//LEGACY
-		if(comp == null) comp = AssemblerRecipes.recipeList.get(stack.getItemDamage());
-		
-		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		ItemStack out = comp != null ? comp.toStack() : null;
-		String s1 = ("" + StatCollector.translateToLocal((out != null ? out.getUnlocalizedName() : "") + ".name")).trim();
-
-		if(s1 != null) {
-			s = s + " " + s1;
+		try {
+			//NEW
+			ComparableStack comp = readType(stack);
+			//LEGACY
+			if(comp == null) comp = AssemblerRecipes.recipeList.get(stack.getItemDamage());
+			
+			String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+			ItemStack out = comp != null ? comp.toStack() : null;
+			if(out.getItem() == null) {
+				out = null;
+			}
+			if(out == null) {
+				return EnumChatFormatting.RED + "Broken Template" + EnumChatFormatting.RESET;
+			}
+			
+			String s1 = ("" + StatCollector.translateToLocal(out.getUnlocalizedName() + ".name")).trim();
+	
+			if(s1 != null) {
+				s = s + " " + s1;
+			}
+	
+			return s;
+		} catch(Exception ex) {
+			return EnumChatFormatting.RED + "Broken Template" + EnumChatFormatting.RESET;
 		}
-
-		return s;
 	}
 
 	@Override

@@ -251,7 +251,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		if(i == 19)
 			return true;
 		
-		if(i > 9 && i < 18) {
+		if(i > 9 && i < 19) {
 			ItemStack filter = slots[i - 10];
 			String mode = modes[i - 10];
 			

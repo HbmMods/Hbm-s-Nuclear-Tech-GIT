@@ -9,7 +9,6 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
@@ -35,9 +33,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	//3: 2
 	//4: 3
 	//5: b
-	private static final int[] slots_top = new int[] {0, 2, 3, 4, 5};
-	private static final int[] slots_bottom = new int[] {1, 2, 3, 4, 5};
-	private static final int[] slots_side = new int[] {0};
+	private static final int[] slots_io = new int[] {0, 1, 2, 3, 4, 5};
 	
 	private String customName;
 	
@@ -114,18 +110,11 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		if(i == 1)
-			return false;
-		
-		if(i == 5)
-			if(itemStack.getItem() instanceof IBatteryItem)
-				return true;
-		
 		if(i == 2 || i == 3 || i == 4)
 			return itemStack.getItem() == ModItems.arc_electrode || itemStack.getItem() == ModItems.arc_electrode_desh;
 		
 		if(i == 0)
-			return true;
+			return FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
 		
 		return false;
 	}
@@ -193,10 +182,9 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slots_io;
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -205,9 +193,6 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 5)
-			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
-				return true;
 		
 		if(i == 1)
 			return true;

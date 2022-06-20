@@ -8,15 +8,20 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
+import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -103,14 +108,18 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 
 	@Override
 	protected void seekNewTarget() {
+		super.seekNewTarget();
+	}
+	
+	@Override
+	public boolean entityInLOS(Entity e) {
 		
-		if(this.mode == MODE_CANNON) {
-			super.seekNewTarget();
-			return;
+		if(this.mode == this.MODE_CANNON) {
+			return super.entityInLOS(e);
+		} else {
+			int height = worldObj.getHeightValue((int) Math.floor(e.posX), (int) Math.floor(e.posZ));
+			return height < (e.posY + e.height);
 		}
-		
-		
-		/* TODO: large field artillery target search */
 	}
 	
 	@Override
@@ -169,7 +178,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 			
 			if(this.didJustShoot) {
 				this.retracting = true;
-				System.out.println("beb");
 			}
 			
 			if(this.retracting) {

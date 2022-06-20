@@ -37,10 +37,6 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	
-	private static final int[] slots_top = new int[] {4};
-	private static final int[] slots_bottom = new int[] {6};
-	private static final int[] slots_side = new int[] {4};
-	
 	private String customName;
 	
 	public TileEntityMachineBoiler() {
@@ -118,12 +114,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		
-		if(i == 4)
-			if(TileEntityFurnace.getItemBurnTime(stack) > 0)
-				return true;
-		
-		return false;
+		return i == 4 && TileEntityFurnace.getItemBurnTime(stack) > 0;
 	}
 	
 	@Override
@@ -193,10 +184,9 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 4 };
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -205,7 +195,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
+		return i == 4 && !this.isItemValidForSlot(i, itemStack);
 	}
 	
 	public int getHeatScaled(int i) {
