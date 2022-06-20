@@ -84,16 +84,14 @@ public class RenderTorex extends Render {
 
 	private void tessellateCloudlet(Tessellator tess, double posX, double posY, double posZ, Cloudlet cloud, float interp) {
 
-		float alpha = 1F - ((float)cloud.age / (float)EntityNukeTorex.cloudletLife);
-		float scale = 1F + ((float)cloud.age / (float)EntityNukeTorex.cloudletLife) * 5;
+		float alpha = cloud.getAlpha();
+		float scale = cloud.getScale();
 
 		float f1 = ActiveRenderInfo.rotationX;
 		float f2 = ActiveRenderInfo.rotationZ;
 		float f3 = ActiveRenderInfo.rotationYZ;
 		float f4 = ActiveRenderInfo.rotationXY;
 		float f5 = ActiveRenderInfo.rotationXZ;
-
-		//Random rand = new Random((long) ((posX * 5 + posY * 25 + posZ * 125) * 1000D));
 
 		float brightness = 0.75F * cloud.colorMod;
 		Vec3 color = cloud.getInterpColor(interp);

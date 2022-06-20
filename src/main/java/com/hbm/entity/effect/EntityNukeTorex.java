@@ -43,9 +43,13 @@ public class EntityNukeTorex extends Entity {
 			double range = (torusWidth - rollerSize) * 0.25;
 			
 			if(this.ticksExisted + cloudletLife * 2 < maxAge) {
-				for(int i = 0; i < 20; i++) {
+				
+				int toSpawn = (int) Math.ceil(10 * getSimulationSpeed());
+				
+				for(int i = 0; i < toSpawn; i++) {
 					double y = posY + rand.nextGaussian() - 3; //this.ticksExisted < 60 ? this.posY + this.coreHeight : posY + rand.nextGaussian() - 3;
 					Cloudlet cloud = new Cloudlet(posX + rand.nextGaussian() * range, y, posZ + rand.nextGaussian() * range, (float)(rand.nextDouble() * 2D * Math.PI), 0);
+					cloud.setScale(1F + this.ticksExisted * 0.001F, 5F);
 					cloudlets.add(cloud);
 				}
 			}
@@ -53,10 +57,12 @@ public class EntityNukeTorex extends Entity {
 			int cloudCount = ticksExisted * 3;
 			if(ticksExisted < 200) {
 				for(int i = 0; i < cloudCount; i++) {
-					Vec3 vec = Vec3.createVectorHelper(ticksExisted + rand.nextDouble(), 0, 0);
+					Vec3 vec = Vec3.createVectorHelper((ticksExisted + rand.nextDouble()) * 2, 0, 0);
 					float rot = (float) (Math.PI * 2 * rand.nextDouble());
 					vec.rotateAroundY(rot);
-					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 2, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0));
+					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0)
+							.setScale(5F, 2F)
+							.setMotion(0));
 				}
 			}
 			
@@ -78,6 +84,16 @@ public class EntityNukeTorex extends Entity {
 		if(!worldObj.isRemote && this.ticksExisted > maxAge) {
 			this.setDead();
 		}
+	}
+	
+	public double getSimulationSpeed() {
+		
+		if(EntityNukeTorex.this.ticksExisted > 45 * 20) {
+			int timeLeft = 1600 - EntityNukeTorex.this.ticksExisted;
+			return MathHelper.clamp_double((double) timeLeft / 900D, 0, 1);
+		}
+		
+		return 1.0D;
 	}
 
 	public class Cloudlet {
@@ -135,17 +151,11 @@ public class EntityNukeTorex extends Entity {
 			this.motionY = convection.yCoord * factor + lift.yCoord * (1D - factor);
 			this.motionZ = convection.zCoord * factor + lift.zCoord * (1D - factor);
 			
-			if(EntityNukeTorex.this.ticksExisted > 45 * 20) {
-				int timeLeft = 1600 - EntityNukeTorex.this.ticksExisted;
-				double scaled = Math.max((double) timeLeft / 900D, 0);
-				this.motionX *= scaled;
-				this.motionY *= scaled;
-				this.motionZ *= scaled;
-			}
-
-			this.posX += this.motionX;
-			this.posY += this.motionY;
-			this.posZ += this.motionZ;
+			double mult = this.motionMult * getSimulationSpeed();
+			
+			this.posX += this.motionX * mult;
+			this.posY += this.motionY * mult;
+			this.posZ += this.motionZ * mult;
 			
 			this.updateColor();
 		}
@@ -223,7 +233,6 @@ public class EntityNukeTorex extends Entity {
 			
 			dist = Math.max(dist, 1);
 			double col = 2D / dist;
-			//col *= col;
 			
 			this.color = Vec3.createVectorHelper(
 					Math.max(col * 2, 0.25),
@@ -244,6 +253,30 @@ public class EntityNukeTorex extends Entity {
 					prevColor.xCoord + (color.xCoord - prevColor.xCoord) * interp,
 					prevColor.yCoord + (color.yCoord - prevColor.yCoord) * interp,
 					prevColor.zCoord + (color.zCoord - prevColor.zCoord) * interp);
+		}
+		
+		public float getAlpha() {
+			return 1F - ((float)age / (float)cloudletLife);
+		}
+		
+		private float startingScale = 1;
+		private float growingScale = 5F;
+		
+		public float getScale() {
+			return startingScale + ((float)age / (float)cloudletLife) * growingScale;
+		}
+		
+		public Cloudlet setScale(float start, float grow) {
+			this.startingScale = start;
+			this.growingScale = grow;
+			return this;
+		}
+		
+		private double motionMult = 1F;
+		
+		public Cloudlet setMotion(double mult) {
+			this.motionMult = mult;
+			return this;
 		}
 	}
 
