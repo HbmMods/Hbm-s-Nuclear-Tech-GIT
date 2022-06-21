@@ -7,7 +7,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -20,13 +20,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 	
 	public int dualCookTime;
 	public long power;
-	public static final long maxPower = 100000;
+	public static long maxPower = 100000;
 	public int MaxProgress = 100;
 	int consumption = 50;
 	int progress = 100;
@@ -37,7 +37,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	
 	private String customName;
 	
-	public TileEntityMachineElectricFurnace() {
+	public TileEntityMachineElectricFurnace(){
+		super(4);
 		slots = new ItemStack[4];
 	}
 
@@ -303,7 +304,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("powerTime", this.power);
 		data.setInteger("progress", this.progress);
-		data.setInteger("cookTime", dualCookTime);
+		data.setInteger("MaxProgress", this.MaxProgress);
+		data.setInteger("cookTime", this.dualCookTime);
+		data.setLong("maxPower", this.maxPower);
 		this.networkPack(data, 50);
 		{
 			if(hasPower() && canProcess())
@@ -345,12 +348,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 			this.markDirty();
 		}
 	}
-	
-	private void networkPack(NBTTagCompound data, int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
@@ -361,6 +358,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		this.power = nbt.getLong("power");
 		this.MaxProgress = nbt.getInteger("MaxProgress");
 		this.progress = nbt.getInteger("progress");
+		this.dualCookTime = nbt.getInteger("cookTime");
+		this.maxPower = nbt.getLong("maxPower");
 
 	}
 	@Override
@@ -378,5 +377,11 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
