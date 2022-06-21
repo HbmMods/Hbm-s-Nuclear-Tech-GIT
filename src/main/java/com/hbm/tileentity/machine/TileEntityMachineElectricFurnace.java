@@ -27,8 +27,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	public int dualCookTime;
 	public long power;
 	public static final long maxPower = 100000;
-	public int processingSpeed = 100;
+	public int MaxProgress = 100;
 	int consumption = 50;
+	int progress = 100;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -201,11 +202,15 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		
 		return false;
 	}
+
+	public int getDiFurnaceProgressScaled(int i) {
+		return (dualCookTime * i) / MaxProgress;
+	}
 	
 	public long getPowerRemainingScaled(long i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	public boolean hasPower() {
 		return power > 0;
 	}
@@ -279,25 +284,35 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 			this.updateConnections();
 
 			this.consumption = 50;
-			this.processingSpeed = 100;
+			this.progress = 100;
 			
 			UpgradeManager.eval(slots, 3, 3);
 
 			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
 			
-			processingSpeed -= speedLevel * 25;
+			progress -= speedLevel * 25;
 			consumption += speedLevel * 50;
-			processingSpeed += powerLevel * 10;
+			progress += powerLevel * 10;
 			consumption -= powerLevel * 20;
 			
+			this.MaxProgress = progress;
+			
+		}
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("powerTime", this.power);
+		data.setInteger("progress", this.progress);
+		data.setInteger("cookTime", dualCookTime);
+		this.networkPack(data, 50);
+		{
 			if(hasPower() && canProcess())
 			{
 				dualCookTime++;
 				
 				power -= consumption;
 				
-				if(this.dualCookTime == processingSpeed)
+				if(this.dualCookTime == MaxProgress)
 				{
 					this.dualCookTime = 0;
 					this.processItem();
@@ -322,8 +337,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
 		
@@ -333,15 +346,22 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		}
 	}
 	
+	private void networkPack(NBTTagCompound data, int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
-	public int getDiFurnaceProgressScaled(int i) {
-		return (dualCookTime * i) / processingSpeed;
-		
+
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.MaxProgress = nbt.getInteger("MaxProgress");
+		this.progress = nbt.getInteger("progress");
+
 	}
 	@Override
 	public void setPower(long i) {
