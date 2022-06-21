@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.IChunkLoader;
 
 import cpw.mods.fml.relauncher.Side;
