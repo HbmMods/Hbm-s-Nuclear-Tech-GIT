@@ -97,7 +97,7 @@ public abstract class ToolAbility {
 			int meta = world.getBlockMetadata(x, y, z);
 			int refMeta = world.getBlockMetadata(refX, refY, refZ);
 			
-			if(b != ref)
+			if(!isSameBlock(b, ref))
 				return;
 			
 			if(meta != refMeta)
@@ -121,6 +121,14 @@ public abstract class ToolAbility {
 				case 5: breakExtra(world, x, y, z - 1, refX, refY, refZ, player, tool, depth); break;
 				}
 			}
+		}
+		
+		private boolean isSameBlock(Block b1, Block b2) {
+			
+			if(b1 == b2) return true;
+			if((b1 == Blocks.redstone_ore && b2 == Blocks.lit_redstone_ore) || (b1 == Blocks.lit_redstone_ore && b2 == Blocks.redstone_ore)) return true;
+			
+			return false;
 		}
 
 		@Override

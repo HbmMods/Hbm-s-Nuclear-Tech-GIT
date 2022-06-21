@@ -3,13 +3,11 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerFurnaceIron;
 import com.hbm.inventory.gui.GUIFurnaceIron;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,7 +16,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -179,6 +176,24 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return i == 3;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.maxBurnTime = nbt.getInteger("maxBurnTime");
+		this.burnTime = nbt.getInteger("burnTime");
+		this.progress = nbt.getInteger("progress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setInteger("maxBurnTime", maxBurnTime);
+		nbt.setInteger("burnTime", burnTime);
+		nbt.setInteger("progress", progress);
 	}
 
 	@Override

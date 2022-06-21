@@ -82,6 +82,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			if (age == 9 || age == 19)
 				fillFluidInit(tanks[1].getTankType());
 			
+			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			/// START Processing part ///
@@ -165,9 +166,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			this.networkPack(data, 250);
 			/// END Notif packets ///
-
-			this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
-			this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
 			
 		} else {
 			
@@ -182,6 +180,20 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 					this.lastRotor -= 360;
 				}
 			}
+		}
+	}
+	
+	private void updateConnections() {
+
+		this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
+		this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
+		
+		Vec3 vec = Vec3.createVectorHelper(5.75, 0, 0);
+		
+		for(int i = 0; i < 16; i++) {
+			vec.rotateAroundY((float) (Math.PI / 8));
+			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord + 3, zCoord + (int)vec.zCoord, ForgeDirection.UP);
+			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord - 3, zCoord + (int)vec.zCoord, ForgeDirection.DOWN);
 		}
 	}
 	
