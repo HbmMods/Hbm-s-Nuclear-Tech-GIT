@@ -170,7 +170,7 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityMachineElectricFurnace furn = (TileEntityMachineElectricFurnace)te;
 					
 					if(m.id == 0)
-						furn.dualCookTime = m.value;
+						furn.progress = m.value;
 				}
 				if (te instanceof TileEntityMachineArcFurnace) {
 					TileEntityMachineArcFurnace furn = (TileEntityMachineArcFurnace)te;
