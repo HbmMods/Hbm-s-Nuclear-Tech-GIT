@@ -22,14 +22,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
 
+// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
+// thanks Martin, vaer and Bob for the help
 	private ItemStack slots[];
 	
-	public int dualCookTime;
+	public int progress;
 	public long power;
-	public static long maxPower = 100000;
+	public static final long maxPower = 100000;
 	public int MaxProgress = 100;
-	int consumption = 50;
-	int progress = 100;
+	public int consumption = 50;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -147,8 +148,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getLong("powerTime");
-		this.dualCookTime = nbt.getInteger("cookTime");
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -165,8 +166,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("powerTime", power);
-		nbt.setInteger("cookTime", dualCookTime);
+		nbt.setLong("power", power);
+		nbt.setInteger("progress", progress);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -205,7 +206,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public int getDiFurnaceProgressScaled(int i) {
-		return (dualCookTime * i) / MaxProgress;
+		return (progress * i) / MaxProgress;
 	}
 	
 	public long getPowerRemainingScaled(long i) {
@@ -217,7 +218,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 	
 	public boolean isProcessing() {
-		return this.dualCookTime > 0;
+		return this.progress > 0;
 	}
 	
 	public boolean canProcess() {
@@ -285,49 +286,44 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			this.updateConnections();
 
 			this.consumption = 50;
-			this.progress = 100;
+			this.MaxProgress = 100;
 			
 			UpgradeManager.eval(slots, 3, 3);
 
 			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
 			
-			progress -= speedLevel * 25;
+			MaxProgress -= speedLevel * 25;
 			consumption += speedLevel * 50;
-			progress += powerLevel * 10;
-			consumption -= powerLevel * 20;
+			MaxProgress += powerLevel * 10;
+			consumption -= powerLevel * 15;
 			
-			this.MaxProgress = progress;
-			
-		}
 		
 		NBTTagCompound data = new NBTTagCompound();
-		data.setLong("powerTime", this.power);
-		data.setInteger("progress", this.progress);
+		data.setLong("power", this.power);
 		data.setInteger("MaxProgress", this.MaxProgress);
-		data.setInteger("cookTime", this.dualCookTime);
-		data.setLong("maxPower", this.maxPower);
+		data.setInteger("progress", this.progress);
 		this.networkPack(data, 50);
-		{
+		
 			if(hasPower() && canProcess())
 			{
-				dualCookTime++;
+				progress++;
 				
 				power -= consumption;
 				
-				if(this.dualCookTime == MaxProgress)
+				if(this.progress == MaxProgress)
 				{
-					this.dualCookTime = 0;
+					this.progress = 0;
 					this.processItem();
 					flag1 = true;
 				}
 			}else{
-				dualCookTime = 0;
+				progress = 0;
 			}
 			
 			boolean trigger = true;
 			
-			if(hasPower() && canProcess() && this.dualCookTime == 0)
+			if(hasPower() && canProcess() && this.progress == 0)
 			{
 				trigger = false;
 			}
@@ -335,7 +331,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			if(trigger)
             {
                 flag1 = true;
-                MachineElectricFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -358,8 +354,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		this.power = nbt.getLong("power");
 		this.MaxProgress = nbt.getInteger("MaxProgress");
 		this.progress = nbt.getInteger("progress");
-		this.dualCookTime = nbt.getInteger("cookTime");
-		this.maxPower = nbt.getLong("maxPower");
 
 	}
 	@Override
