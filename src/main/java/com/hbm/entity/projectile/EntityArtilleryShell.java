@@ -1,9 +1,12 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.items.weapon.ItemAmmoArty;
+import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -32,11 +35,17 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	private double targetX;
 	private double targetY;
 	private double targetZ;
+	private boolean shouldWhistle = false;
 	private boolean didWhistle = false;
 	
 	public EntityArtilleryShell(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
+	}
+
+	@Override
+	protected void entityInit() {
+		this.dataWatcher.addObject(10, new Integer(0));
 	}
 	
 	@Override
@@ -45,10 +54,27 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 		return true;
 	}
 	
+	public EntityArtilleryShell setType(int type) {
+		this.dataWatcher.updateObject(10, type);
+		return this;
+	}
+	
+	public ArtilleryShell getType() {
+		try {
+			return ItemAmmoArty.types[this.dataWatcher.getWatchableObjectInt(10)];
+		} catch(Exception ex) {
+			return ItemAmmoArty.types[0];
+		}
+	}
+	
 	public void setTarget(int x, int y, int z) {
 		this.targetX = x;
 		this.targetY = y;
 		this.targetZ = z;
+	}
+	
+	public void setWhistle(boolean whistle) {
+		this.shouldWhistle = whistle;
 	}
 	
 	@Override
@@ -57,7 +83,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 		if(!worldObj.isRemote) {
 			super.onUpdate();
 			
-			if(!didWhistle) {
+			if(!didWhistle && this.shouldWhistle) {
 				double speed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 				double deltaX = this.posX - this.targetX;
 				double deltaZ = this.posZ - this.targetZ;
@@ -125,6 +151,16 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 			}
 			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
 		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
 	}
 
 	@Override

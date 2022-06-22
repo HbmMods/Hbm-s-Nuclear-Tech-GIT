@@ -14,14 +14,13 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -35,6 +34,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	private boolean retracting = false;
 	public double barrelPos = 0;
 	public double lastBarrelPos = 0;
+	
+	private List<Vec3> targetQueue = new ArrayList();
 
 	static List<Integer> configs = new ArrayList();
 	
@@ -44,6 +45,10 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		configs.add(BulletConfigSyncingUtil.SHELL_AP);
 		configs.add(BulletConfigSyncingUtil.SHELL_DU);
 		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+	}
+	
+	public void enqueueTarget(double x, double y, double z) {
+		this.targetQueue.add(Vec3.createVectorHelper(x, y, z));
 	}
 	
 	@Override
@@ -195,7 +200,104 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 			}
 		}
 		
-		super.updateEntity();
+		if(this.mode == this.MODE_MANUAL) {
+			if(!this.targetQueue.isEmpty()) {
+				this.tPos = this.targetQueue.get(0);
+			}
+		} else {
+			this.targetQueue.clear();
+		}
+		
+		if(worldObj.isRemote) {
+			this.lastRotationPitch = this.rotationPitch;
+			this.lastRotationYaw = this.rotationYaw;
+		}
+
+		this.aligned = false;
+		
+		if(!worldObj.isRemote) {
+			
+			if(this.target != null && !target.isEntityAlive()) {
+				this.target = null;
+				this.stattrak++;
+			}
+		}
+		
+		if(target != null && this.mode != this.MODE_MANUAL) {
+			if(!this.entityInLOS(this.target)) {
+				this.target = null;
+			}
+		}
+		
+		if(!worldObj.isRemote) {
+			
+			if(target != null) {
+				this.tPos = this.getEntityPos(target);
+			} else {
+				if(this.mode != this.MODE_MANUAL) {
+					this.tPos = null;
+				}
+			}
+		}
+		
+		if(isOn() && hasPower()) {
+			
+			if(tPos != null)
+				this.alignTurret();
+		} else {
+
+			this.target = null;
+			this.tPos = null;
+		}
+		
+		if(!worldObj.isRemote) {
+			
+			if(this.target != null && !target.isEntityAlive()) {
+				this.target = null;
+				this.tPos = null;
+				this.stattrak++;
+			}
+			
+			if(isOn() && hasPower()) {
+				searchTimer--;
+				
+				this.setPower(this.getPower() - this.getConsumption());
+				
+				if(searchTimer <= 0) {
+					searchTimer = this.getDecetorInterval();
+					
+					if(this.target == null)
+						this.seekNewTarget();
+				}
+			} else {
+				searchTimer = 0;
+			}
+			
+			if(this.aligned) {
+				this.updateFiringTick();
+			}
+			
+			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
+			
+			NBTTagCompound data = this.writePacket();
+			this.networkPack(data, 250);
+			
+		} else {
+			
+			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
+			vec.rotateAroundZ((float) -this.rotationPitch);
+			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+			
+			//this will fix the interpolation error when the turret crosses the 360° point
+			if(Math.abs(this.lastRotationYaw - this.rotationYaw) > Math.PI) {
+				
+				if(this.lastRotationYaw < this.rotationYaw)
+					this.lastRotationYaw += Math.PI * 2;
+				else
+					this.lastRotationYaw -= Math.PI * 2;
+			}
+		}
+		
 		this.didJustShoot = false;
 	}
 
@@ -219,6 +321,11 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 				vec.rotateAroundZ((float) -this.rotationPitch);
 				vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 				this.didJustShoot = true;
+				
+				if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {
+					this.targetQueue.remove(0);
+					this.tPos = null;
+				}
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaExt");
@@ -262,6 +369,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretArty(player.inventory, this);
 	}
