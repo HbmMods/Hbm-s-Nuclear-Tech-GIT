@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -20,6 +20,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -83,12 +84,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 
 	@Override
 	public double getDecetorRange() {
-		return 128D;
+		return this.mode == this.MODE_CANNON ? 128D : 3000D;
 	}
 	
 	@Override
 	public double getDecetorGrace() {
-		return 32D;
+		return this.mode == this.MODE_CANNON ? 32D : 250D;
 	}
 
 	@Override
@@ -122,6 +123,15 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		if(this.mode == this.MODE_CANNON) {
 			return super.entityInLOS(e);
 		} else {
+			
+			Vec3 pos = this.getTurretPos();
+			Vec3 ent = this.getEntityPos(e);
+			Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
+			double length = delta.lengthVector();
+			
+			if(length < this.getDecetorGrace() || length > this.getDecetorRange() * 1.1) //the latter statement is only relevant for entities that have already been detected
+				return false;
+			
 			int height = worldObj.getHeightValue((int) Math.floor(e.posX), (int) Math.floor(e.posZ));
 			return height < (e.posY + e.height);
 		}
@@ -153,14 +163,38 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		double v0 = 20;
 		double v02 = v0 * v0;
 		double g = 9.81 * 0.05;
-		double upperLower = mode == MODE_CANNON ? 1 : 1;
+		double upperLower = mode == MODE_CANNON ? -1 : 1;
 		double targetPitch = Math.atan((v02 + Math.sqrt(v02*v02 - g*(g*x*x + 2*y*v02)) * upperLower) / (g*x));
 		
 		this.turnTowardsAngle(targetPitch, targetYaw);
 	}
+	
+	public int getShellLoaded() {
+		
+		for(int i = 1; i < 10; i++) {
+			if(slots[i] != null) {
+				if(slots[i].getItem() == ModItems.ammo_arty) {
+					return slots[i].getItemDamage();
+				}
+			}
+		}
+		
+		return -1;
+	}
+	
+	public void conusmeAmmo(Item ammo) {
+		
+		for(int i = 1; i < 10; i++) {
+			if(slots[i] != null && slots[i].getItem() == ammo) {
+				this.decrStackSize(i, 1);
+				return;
+			}
+		}
+		
+		this.markDirty();
+	}
 
-	@Override
-	public void spawnBullet(BulletConfiguration bullet) {
+	public void spawnShell(int type) {
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -171,6 +205,10 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 20F, 0.0F);
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);
+		proj.setType(type);
+		
+		if(this.mode != this.MODE_CANNON)
+			proj.setWhistle(true);
 		
 		worldObj.spawnEntityInWorld(proj);
 	}
@@ -180,10 +218,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		if(worldObj.isRemote) {
 			this.lastBarrelPos = this.barrelPos;
-			
-			if(this.didJustShoot) {
-				this.retracting = true;
-			}
 			
 			if(this.retracting) {
 				this.barrelPos += 0.5;
@@ -266,7 +300,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 				if(searchTimer <= 0) {
 					searchTimer = this.getDecetorInterval();
 					
-					if(this.target == null)
+					if(this.target == null && this.mode != this.MODE_MANUAL)
 						this.seekNewTarget();
 				}
 			} else {
@@ -281,6 +315,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 			
 			NBTTagCompound data = this.writePacket();
 			this.networkPack(data, 250);
+			
+			this.didJustShoot = false;
 			
 		} else {
 			
@@ -297,8 +333,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 					this.lastRotationYaw -= Math.PI * 2;
 			}
 		}
-		
-		this.didJustShoot = false;
 	}
 
 	int timer;
@@ -310,11 +344,11 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		if(timer % 40 == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			int conf = this.getShellLoaded();
 			
-			if(conf != null) {
-				this.spawnBullet(conf);
-				//this.conusmeAmmo(conf.ammo);
+			if(conf != -1) {
+				this.spawnShell(conf);
+				this.conusmeAmmo(ModItems.ammo_arty);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -322,17 +356,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 				vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 				this.didJustShoot = true;
 				
-				if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {
-					this.targetQueue.remove(0);
-					this.tPos = null;
-				}
-				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaExt");
 				data.setString("mode", "largeexplode");
 				data.setFloat("size", 0F);
 				data.setByte("count", (byte)5);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+			
+			if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {
+				this.targetQueue.remove(0);
+				this.tPos = null;
 			}
 		}
 	}
@@ -352,7 +386,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	protected NBTTagCompound writePacket() {
 		NBTTagCompound data = super.writePacket();
 		data.setShort("mode", mode);
-		data.setBoolean("didJustShoot", didJustShoot);
+		if(didJustShoot)
+			data.setBoolean("didJustShoot", didJustShoot);
 		return data;
 	}
 
@@ -360,7 +395,22 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
 		this.mode = nbt.getShort("mode");
-		this.didJustShoot = nbt.getBoolean("didJustShoot");
+		if(nbt.getBoolean("didJustShoot"))
+			this.retracting = true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.mode = nbt.getShort("mode");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setShort("mode", this.mode);
 	}
 
 	@Override

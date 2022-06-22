@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityArtilleryShell;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -14,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 public class ItemAmmoArty extends Item {
 
@@ -75,25 +77,33 @@ public class ItemAmmoArty extends Item {
 	private void init() {
 		this.types[NORMAL] = new ArtilleryShell("ammo_arty") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.newExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 15F, false, false);
 				shell.setDead();
 			}
 		};
-		this.types[CLASSIC] = new ArtilleryShell("ammo_arty") {
+		this.types[CLASSIC] = new ArtilleryShell("ammo_arty_classic") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.newExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 25F, false, false);
 				shell.setDead();
 			}
 		};
-		this.types[EXPLOSIVE] = new ArtilleryShell("ammo_arty") {
+		this.types[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.newExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 15F, false, true);
 				shell.setDead();
 			}
 		};
-		this.types[MINI_NUKE] = new ArtilleryShell("ammo_arty") {
+		this.types[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				//Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				ExplosionNukeSmall.explode(shell.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, ExplosionNukeSmall.medium);
 				shell.setDead();
 			}
 		};
-		this.types[NUKE] = new ArtilleryShell("ammo_arty") {
+		this.types[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.setDead();
 			}

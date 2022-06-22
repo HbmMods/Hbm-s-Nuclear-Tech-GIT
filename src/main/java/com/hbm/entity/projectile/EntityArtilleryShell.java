@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -135,9 +134,11 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	protected void onImpact(MovingObjectPosition mop) {
 		
 		if(!worldObj.isRemote) {
-			Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
+			/*Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
 			this.worldObj.newExplosion(this, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 15F, false, false);
-			this.setDead();
+			this.setDead();*/
+			
+			this.getType().onImpact(this, mop);
 		}
 	}
 
