@@ -98,32 +98,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRod);
 	}
-	
-	//fucking hate having to do this
-	private void loadFuel() {
-		TileEntity te = worldObj.getTileEntity(this.xCoord, this.yCoord + 5, this.zCoord);
-		
-		if(te instanceof IInventory) {
-			IInventory inv = (IInventory) te;
-			
-			for(int i = 0; i < inv.getSizeInventory(); i++) {
-				
-				ItemStack stack = inv.getStackInSlot(i);
-				if(stack != null && stack.getItem() instanceof ItemZirnoxRod) {
-					
-					for(int j = 0; j < 24; j++) {
-						//ZIRNOX rods cannot stack higher than 1 anyway
-						if(slots[j] == null) {
-							slots[j] = stack.copy();
-							slots[j].stackSize = 1;
-							inv.decrStackSize(i, 1);
-							return;
-						}
-					}
-				}
-			}
-		}
-	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -218,8 +192,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
-			
-			loadFuel();
 			
 			if(isOn) {
 				for(int i = 0; i < 24; i++) {

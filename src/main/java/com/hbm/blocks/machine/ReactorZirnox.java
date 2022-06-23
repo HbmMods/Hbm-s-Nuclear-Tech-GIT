@@ -29,7 +29,7 @@ public class ReactorZirnox extends BlockDummyable {
 		if(meta >= 12)
 			return new TileEntityReactorZirnox();
 		if(meta >= 6)
-			return new TileEntityProxyCombo(false, true, true);
+			return new TileEntityProxyCombo(true, true, true);
 
 		return null;
 	}
@@ -75,6 +75,8 @@ public class ReactorZirnox extends BlockDummyable {
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 3, z + dir.offsetZ * o + rot.offsetZ * 2);
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 1, z + dir.offsetZ * o + rot.offsetZ * -2);
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 3, z + dir.offsetZ * o + rot.offsetZ * -2);
+		//i still don't know why the ports were such an issue all those months ago
+		this.makeExtra(world, x + dir.offsetX * o, y + 4, z + dir.offsetZ * o);
 	}
 
 }
