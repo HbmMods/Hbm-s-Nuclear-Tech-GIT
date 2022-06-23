@@ -14,7 +14,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
 	
 	public long[] log = new long[20];
 	public long power = 0;
@@ -294,5 +301,23 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void setPower(long power) {
 		this.power = power;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getPower()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxEnergy(Context context, Arguments args) {
+		return new Object[] {getMaxPower()};
 	}
 }
