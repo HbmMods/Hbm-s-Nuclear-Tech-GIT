@@ -230,10 +230,10 @@ public class ItemStarterKit extends Item {
 		if(this == ModItems.gadget_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_gadget), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_explosive8, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_wireing, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_core, 1));
 			
@@ -255,10 +255,10 @@ public class ItemStarterKit extends Item {
 		if(this == ModItems.man_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_man), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.early_explosive_lenses, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_igniter, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_core, 1));
 			
@@ -268,10 +268,10 @@ public class ItemStarterKit extends Item {
 		if(this == ModItems.mike_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_mike), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.mike_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.mike_deut, 1));
@@ -283,10 +283,10 @@ public class ItemStarterKit extends Item {
 		if(this == ModItems.tsar_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_tsar), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_explosive8, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.explosive_lenses, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tsar_core, 1));
 			
