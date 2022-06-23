@@ -163,8 +163,8 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "dfc_stabilizer";
+	public String getComponentName() {
+		return "dfc_stabilizer";
 	}
 
 	@Callback

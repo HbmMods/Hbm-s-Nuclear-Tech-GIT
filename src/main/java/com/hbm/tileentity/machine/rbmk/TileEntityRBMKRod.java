@@ -353,11 +353,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-		if (isModerated() == true) {
-        		return "rbmk_moderated_fuel_rod";
+	public String getComponentName() {
+		if(isModerated() == true) {
+			return "rbmk_moderated_fuel_rod";
 		}
-        	return "rbmk_fuel_rod";
+		return "rbmk_fuel_rod";
 	}
 
 	@Callback

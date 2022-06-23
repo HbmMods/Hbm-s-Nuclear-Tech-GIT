@@ -211,8 +211,8 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "breeding_reactor";
+	public String getComponentName() {
+		return "breeding_reactor";
 	}
 
 	@Callback

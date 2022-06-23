@@ -180,8 +180,8 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "dfc_receiver";
+	public String getComponentName() {
+		return "dfc_receiver";
 	}
 
 	@Callback

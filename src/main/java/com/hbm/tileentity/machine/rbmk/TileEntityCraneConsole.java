@@ -337,14 +337,14 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "rbmk_crane";
+	public String getComponentName() {
+		return "rbmk_crane";
 	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] move(Context context, Arguments args) {
-		if (setUpCrane == true) {			
+		if(setUpCrane == true) {
 			String textbruh = args.checkString(0);
 			
 			switch(textbruh) {
@@ -356,10 +356,10 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 					if(!worldObj.isRemote) posFront -= speed;
 				case "left":
 					tiltLeft = 30;
-					if(!worldObj.isRemote) posLeft += speed;				
+					if(!worldObj.isRemote) posLeft += speed;
 				case "right":
 					tiltLeft = -30;
-					if(!worldObj.isRemote) posLeft -= speed;				
+					if(!worldObj.isRemote) posLeft -= speed;
 			}
 			
 			return new Object[] {};

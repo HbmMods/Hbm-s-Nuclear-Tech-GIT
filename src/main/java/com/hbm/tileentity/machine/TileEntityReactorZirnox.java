@@ -520,8 +520,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
   
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "zirnox_reactor";
+	public String getComponentName() {
+		return "zirnox_reactor";
 	}
 
 	@Callback

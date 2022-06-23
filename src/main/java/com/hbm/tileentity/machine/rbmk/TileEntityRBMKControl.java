@@ -115,8 +115,8 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "rbmk_control_rod";
+	public String getComponentName() {
+		return "rbmk_control_rod";
 	}
 
 	@Callback

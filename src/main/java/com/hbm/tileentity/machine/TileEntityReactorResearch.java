@@ -396,8 +396,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "research_reactor";
+	public String getComponentName() {
+		return "research_reactor";
 	}
 
 	@Callback

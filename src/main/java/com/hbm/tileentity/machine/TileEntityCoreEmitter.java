@@ -297,8 +297,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "dfc_emitter";
+	public String getComponentName() {
+		return "dfc_emitter";
 	}
 
 	@Callback

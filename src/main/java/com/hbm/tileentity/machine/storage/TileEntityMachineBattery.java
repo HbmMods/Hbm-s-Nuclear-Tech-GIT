@@ -305,8 +305,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	
 	// do some opencomputer stuff
 	@Override
-    	public String getComponentName() {
-        	return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
+	public String getComponentName() {
+		return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
 	}
 
 	@Callback
