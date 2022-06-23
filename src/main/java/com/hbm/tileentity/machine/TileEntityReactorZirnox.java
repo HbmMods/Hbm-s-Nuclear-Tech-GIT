@@ -38,7 +38,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -510,5 +517,47 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { water, carbonDioxide };
 	}
+  
+	// do some opencomputer stuff
+	@Override
+    	public String getComponentName() {
+        	return "zirnox_reactor";
+	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTemp(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPressure(Context context, Arguments args) {
+		return new Object[] {pressure};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getWater(Context context, Arguments args) {
+		return new Object[] {water.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCarbonDioxide(Context context, Arguments args) {
+		return new Object[] {carbonDioxide.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setActive(Context context, Arguments args) {
+		isOn = Boolean.parseBoolean(args.checkString(0));
+		return new Object[] {};
+	}
 }

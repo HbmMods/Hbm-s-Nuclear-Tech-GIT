@@ -124,4 +124,10 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	{
 		return 65536.0D;
 	}
+	
+	// override the name because when connecting the machine to opencomputers it's gonna say "ntm_energy_storage"
+	@Override
+    	public String getComponentName() {
+        	return "ntm_fensu";
+	}
 }
