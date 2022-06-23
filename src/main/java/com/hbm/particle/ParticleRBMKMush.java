@@ -72,6 +72,8 @@ public class ParticleRBMKMush extends EntityFX {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 		GL11.glDepthMask(false);
 		RenderHelper.disableStandardItemLighting();
 
