@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.EnumChatFormatting;
 
 public class BulletConfiguration {
 	
@@ -97,6 +98,16 @@ public class BulletConfiguration {
 	//vanilla particle FX
 	public String vPFX = "";
 	
+	//energy projectiles
+	//power consumed per shot
+	public int dischargePerShot;
+	//unlocalised firing mode name
+	public String modeName;
+	//firing mode text colour
+	public EnumChatFormatting chatColour = EnumChatFormatting.WHITE;
+	//firing rate
+	public int firingRate;
+	
 	public String damageType = ModDamageSource.s_bullet;
 	public boolean dmgProj = true;
 	public boolean dmgFire = false;
@@ -133,6 +144,8 @@ public class BulletConfiguration {
 	public static final int BOLT_LASER = 2;
 	public static final int BOLT_ZOMG = 3;
 	public static final int BOLT_WORM = 4;
+	public static final int BOLT_GLASS_CYAN = 5;
+	public static final int BOLT_GLASS_BLUE = 6;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		
