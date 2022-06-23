@@ -367,8 +367,8 @@ public class DesertAtom003
 		world.setBlock(x + 20, y + 4, z + 7, Blocks.vine, 4, 3);
 		world.setBlock(x + 23, y + 4, z + 7, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 25, y + 4, z + 7, Block8, 3, 3);
-		world.setBlock(x + 26, y + 4, z + 7, Block19, 3, 3);
-		world.setBlock(x + 27, y + 4, z + 7, Block19, 3, 3);
+		world.setBlock(x + 26, y + 4, z + 7, Block19, 12, 3);
+		world.setBlock(x + 27, y + 4, z + 7, Block19, 12, 3);
 		world.setBlock(x + 28, y + 4, z + 7, Block20, 3, 3);
 		TileEntity tank0 = world.getTileEntity(x + 28, y + 4, z + 7);
 		if(tank0 instanceof TileEntityMachineUF6Tank)

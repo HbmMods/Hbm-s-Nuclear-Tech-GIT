@@ -1,11 +1,11 @@
 package com.hbm.entity.cart;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemModMinecart;
+import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -21,8 +21,8 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 		super(world);
 	}
 
-	public EntityMinecartCrate(World world, double x, double y, double z, ItemStack stack) {
-		super(world, x, y, z);
+	public EntityMinecartCrate(World world, double x, double y, double z, EnumCartBase type, ItemStack stack) {
+		super(world, x, y, z, type);
 		if(stack.hasTagCompound()) {
 			for(int i = 0; i < getSizeInventory(); i++) {
 				setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot" + i)));
@@ -54,7 +54,7 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 	@Override
 	public void killMinecart(DamageSource p_94095_1_) {
 		this.setDead();
-		ItemStack itemstack = DictFrame.fromOne(ModItems.cart, EnumMinecart.CRATE);
+		ItemStack itemstack = ItemModMinecart.createCartItem(EnumCartBase.VANILLA, EnumMinecart.CRATE);
 		
 		NBTTagCompound nbt = new NBTTagCompound();
 			
@@ -82,6 +82,6 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 
 	@Override
 	public ItemStack getCartItem() {
-		return DictFrame.fromOne(ModItems.cart, EnumMinecart.CRATE);
+		return ItemModMinecart.createCartItem(EnumCartBase.VANILLA, EnumMinecart.CRATE);
 	}
 }

@@ -143,7 +143,7 @@ public class BlockOre extends Block {
 			case 31:
 				return ModItems.ammo_nuke_low;
 			case 32:
-				return ModItems.gun_mirv_ammo;
+				return ModItems.ammo_mirv;
 			case 33:
 				return ModItems.gun_defabricator_ammo;
 			case 34:

@@ -36,8 +36,8 @@ public class TileEntityMachineBAT9000 extends TileEntityBarrel {
 		this.trySubscribe(type, world, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
 		this.trySubscribe(type, world, xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z);
 		this.trySubscribe(type, world, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
-		this.trySubscribe(type, world, xCoord - 3, yCoord, zCoord + 1, Library.POS_X);
-		this.trySubscribe(type, world, xCoord + 3, yCoord, zCoord - 1, Library.NEG_X);
+		this.trySubscribe(type, world, xCoord - 3, yCoord, zCoord + 1, Library.NEG_X);
+		this.trySubscribe(type, world, xCoord + 3, yCoord, zCoord - 1, Library.POS_X);
 		this.trySubscribe(type, world, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
 	}
 
@@ -71,8 +71,8 @@ public class TileEntityMachineBAT9000 extends TileEntityBarrel {
 		sendFluid(type, worldObj, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
 		sendFluid(type, worldObj, xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z);
 		sendFluid(type, worldObj, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
-		sendFluid(type, worldObj, xCoord - 3, yCoord, zCoord + 1, Library.POS_X);
-		sendFluid(type, worldObj, xCoord + 3, yCoord, zCoord - 1, Library.NEG_X);
+		sendFluid(type, worldObj, xCoord - 3, yCoord, zCoord + 1, Library.NEG_X);
+		sendFluid(type, worldObj, xCoord + 3, yCoord, zCoord - 1, Library.POS_X);
 		sendFluid(type, worldObj, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
 	}
 	

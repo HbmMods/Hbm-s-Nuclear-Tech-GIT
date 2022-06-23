@@ -17,6 +17,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -25,7 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator {
+public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 
@@ -221,6 +222,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 				age = 0;
 			}
 			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			fillFluidInit(tanks[1].getTankType());
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
@@ -251,6 +253,8 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 				if(power > maxPower)
 					power = maxPower;
 			}
+			
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
@@ -348,5 +352,15 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	@Override
 	public void setPower(long i) {
 		this.power = i;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
 	}
 }

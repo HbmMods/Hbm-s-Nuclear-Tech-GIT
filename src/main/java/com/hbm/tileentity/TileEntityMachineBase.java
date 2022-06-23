@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -215,5 +216,14 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		float volume = 1 - (countMufflers() / (float)toSilence);
 		
 		return Math.max(volume, 0);
+	}
+	
+	public AudioWrapper createAudioLoop() { return null; }
+	
+	public AudioWrapper rebootAudio(AudioWrapper wrapper) {
+		wrapper.stopSound();
+		AudioWrapper audio = createAudioLoop();
+		audio.startSound();
+		return audio;
 	}
 }

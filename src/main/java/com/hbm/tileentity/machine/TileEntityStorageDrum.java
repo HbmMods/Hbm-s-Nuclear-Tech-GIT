@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -21,6 +20,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
+import api.hbm.fluid.IFluidStandardSender;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidSource {
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidSource, IFluidStandardSender {
 
 	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
@@ -124,7 +124,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				
 				if(overflow > 0) {
 					this.tanks[i].setFill(this.tanks[i].getFill() - overflow);
-					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, overflow * 0.5F);
+					this.tanks[i].getTankType().onFluidRelease(this, this.tanks[i], overflow);
 				}
 			}
 			
@@ -139,6 +139,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			if(age == 8 || age == 18) {
 				fillFluidInit(tanks[1].getTankType());
 			}
+
+			this.sendFluidToAll(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -308,5 +311,10 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		super.writeToNBT(nbt);
 		this.tanks[0].writeToNBT(nbt, "liquid");
 		this.tanks[1].writeToNBT(nbt, "gas");
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[0], tanks[1] };
 	}
 }

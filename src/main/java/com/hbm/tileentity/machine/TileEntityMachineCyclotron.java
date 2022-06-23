@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.config.BombConfig;
@@ -22,8 +21,10 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +33,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser, IFluidStandardTransceiver {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -142,6 +143,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 				progress = 0;
 			}
 			
+			this.sendFluid();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -156,15 +158,29 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 	
 	private void updateConnections()  {
-
-		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord - 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord + 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 3, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z);
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(coolant.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private void sendFluid() {
+		for(DirPos pos : getConPos()) {
+			this.sendFluid(amat.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 3, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 3, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord - 3, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 3, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord + 1, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z)
+		};
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
@@ -509,5 +525,15 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { amat };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { coolant };
 	}
 }

@@ -12,9 +12,9 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TETurbofanPacket;
@@ -25,6 +25,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Spaghetti("a")
 public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
@@ -203,6 +205,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 		return (power * i) / maxPower;
 	}
 
+	@Spaghetti("HOOOOUUUGH")
 	@Override
 	public void updateEntity() {
 		
@@ -230,14 +233,22 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 		
 		if (!worldObj.isRemote) {
 
-			this.sendPower(worldObj, this.xCoord + 2, this.yCoord + 1, this.zCoord - 1, Library.POS_X);
+			/*this.sendPower(worldObj, this.xCoord + 2, this.yCoord + 1, this.zCoord - 1, Library.POS_X);
 			this.sendPower(worldObj, this.xCoord + 2, this.yCoord + 1, this.zCoord + 1, Library.POS_X);
 			this.sendPower(worldObj, this.xCoord + 1, this.yCoord + 1, this.zCoord + 2, Library.POS_Z);
 			this.sendPower(worldObj, this.xCoord - 1, this.yCoord + 1, this.zCoord + 2, Library.POS_Z);
 			this.sendPower(worldObj, this.xCoord - 2, this.yCoord + 1, this.zCoord + 1, Library.NEG_X);
 			this.sendPower(worldObj, this.xCoord - 2, this.yCoord + 1, this.zCoord - 1, Library.NEG_X);
 			this.sendPower(worldObj, this.xCoord - 1, this.yCoord + 1, this.zCoord - 2, Library.NEG_Z);
-			this.sendPower(worldObj, this.xCoord + 1, this.yCoord + 1, this.zCoord - 2, Library.NEG_Z);
+			this.sendPower(worldObj, this.xCoord + 1, this.yCoord + 1, this.zCoord - 2, Library.NEG_Z);*/
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+			this.sendPower(worldObj, this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot);
+			this.sendPower(worldObj, this.xCoord + rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord + rot.offsetZ * 2 - dir.offsetZ, rot);
+			this.sendPower(worldObj, this.xCoord - rot.offsetX * 2, this.yCoord, this.zCoord - rot.offsetZ * 2, rot.getOpposite());
+			this.sendPower(worldObj, this.xCoord - rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ * 2 - dir.offsetZ, rot.getOpposite());
 
 			//Tank Management
 			tank.loadTank(0, 1, slots);
@@ -251,7 +262,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 
 				isRunning = true;
 				
-				spin += 3;
+				spin += 20;
 				spin = spin % 360;
 				
 				if(power > maxPower)
@@ -268,7 +279,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord + 4.25;
+						smoke.posZ = zCoord + 3.25;
 						smoke.motionX = rand.nextGaussian() * 0.3;
 						smoke.motionY = rand.nextGaussian() * 0.3;
 						smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
@@ -281,7 +292,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord + 4.25;
+							smoke.posZ = zCoord + 3.25;
 							smoke.motionX = rand.nextGaussian() * 0.3;
 							smoke.motionY = rand.nextGaussian() * 0.3;
 							smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
@@ -291,7 +302,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 4.5, posX + 1.5, posY + 3, posZ + 12));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 12));
 					
 					for(Entity e : list) {
 						e.motionZ += 0.5;
@@ -301,7 +312,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake pull
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 4.5));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 3.5));
 					
 					for(Entity e : list) {
 						e.motionZ += 0.5;
@@ -309,10 +320,20 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake kill
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 5.5, posX + 1.5, posY + 3, posZ - 4.5));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 4.5, posX + 1.5, posY + 3, posZ - 3.5));
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 3) {
@@ -320,7 +341,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord - 4.25;
+						smoke.posZ = zCoord - 3.25;
 						smoke.motionX = rand.nextGaussian() * 0.3;
 						smoke.motionY = rand.nextGaussian() * 0.3;
 						smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
@@ -333,7 +354,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord - 4.25;
+							smoke.posZ = zCoord - 3.25;
 							smoke.motionX = rand.nextGaussian() * 0.3;
 							smoke.motionY = rand.nextGaussian() * 0.3;
 							smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
@@ -343,7 +364,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 4.5));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 3.5));
 					
 					for(Entity e : list) {
 						e.motionZ -= 0.5;
@@ -353,7 +374,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 
 					//Intake pull
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 4.5, posX + 1.5, posY + 3, posZ + 12));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 12));
 					
 					for(Entity e : list) {
 						e.motionZ -= 0.5;
@@ -361,16 +382,26 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 
 					//Intake kill
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 4.5, posX + 1.5, posY + 3, posZ + 5.5));
+							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 4.5));
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 4) {
 					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord + 4.25;
+						smoke.posX = xCoord + 3.25;
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
@@ -383,7 +414,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
 							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord + 4.25;
+							smoke.posX = xCoord + 3.25;
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
@@ -395,7 +426,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 4.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.motionX += 0.5;
@@ -405,7 +436,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake pull
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 4.5, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.motionX += 0.5;
@@ -413,16 +444,26 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake kill
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 5.5, posY, posZ - 1.5, posX - 4.5, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX - 4.5, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 				if(meta == 5) {
 					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord - 4.25;
+						smoke.posX = xCoord - 3.25;
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
@@ -435,7 +476,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
 							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord - 4.25;
+							smoke.posX = xCoord - 3.25;
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
@@ -447,7 +488,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 4.5, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.motionX -= 0.5;
@@ -457,7 +498,7 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake pull
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 4.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.motionX -= 0.5;
@@ -465,10 +506,20 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 					
 					//Intake kill
 					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 4.5, posY, posZ - 1.5, posX + 5.5, posY + 3, posZ + 1.5));
+							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 4.5, posY + 3, posZ + 1.5));
 					
 					for(Entity e : list) {
 						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+						
+						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+							NBTTagCompound vdat = new NBTTagCompound();
+							vdat.setString("type", "giblets");
+							vdat.setInteger("ent", e.getEntityId());
+							vdat.setInteger("cDiv", 5);
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+							
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						}
 					}
 				}
 			}

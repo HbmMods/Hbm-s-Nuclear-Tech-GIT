@@ -116,10 +116,11 @@ public class EntityZirnoxDebris extends EntityDebrisBase {
 			}
 
 			if(this.getType() == DebrisType.ELEMENT || this.getType() == DebrisType.GRAPHITE) {
-				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(10, 10, 10));
-
+				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5));
+				
+				int level = this.getType() == DebrisType.ELEMENT ? 7 : 4;
 				for(EntityLivingBase e : entities) {
-					e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, 4));
+					e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, level));
 				}
 			}
 

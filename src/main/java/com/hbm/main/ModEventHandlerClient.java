@@ -53,13 +53,13 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
-import api.hbm.energy.IEnergyConductor;
 import api.hbm.item.IButtonReceiver;
 import api.hbm.item.IClickReceiver;
 
@@ -83,6 +83,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -109,7 +110,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModEventHandlerClient {
 	
@@ -546,12 +546,12 @@ public class ModEventHandlerClient {
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 		
 		if(event.showAdvancedItemTooltips) {
-			int ids[] = OreDictionary.getOreIDs(stack);
+			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
-			if(ids.length > 0) {
+			if(names.size() > 0) {
 				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
-				for(int i : ids) {
-					list.add(EnumChatFormatting.AQUA + " -" + OreDictionary.getOreName(i));
+				for(String s : names) {
+					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
@@ -881,6 +881,7 @@ public class ModEventHandlerClient {
 	}
 
 	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");
+	private static final ResourceLocation poster_cat = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster_cat.png");
 	
 	@SubscribeEvent
 	public void renderFrame(RenderItemInFrameEvent event) {
@@ -893,6 +894,24 @@ public class ModEventHandlerClient {
 			
 			GL11.glDisable(GL11.GL_LIGHTING);
 			Minecraft.getMinecraft().renderEngine.bindTexture(poster);
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);
+			tess.addVertexWithUV(-0.5, 0.5 + o, p * 0.5, 0, 0);
+			tess.addVertexWithUV(-0.5, -0.5 + o, p * 0.5, 0, 1);
+			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
+			tess.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+		
+		if(event.item != null && event.item.getItem() == Items.paper) {
+			event.setCanceled(true);
+			
+			double p = 0.0625D;
+			double o = p * 2.75D;
+
+			GL11.glDisable(GL11.GL_LIGHTING);
+			Minecraft.getMinecraft().renderEngine.bindTexture(poster_cat);
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);

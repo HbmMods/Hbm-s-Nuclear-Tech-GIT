@@ -123,7 +123,8 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 			return;
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
-		
+
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);

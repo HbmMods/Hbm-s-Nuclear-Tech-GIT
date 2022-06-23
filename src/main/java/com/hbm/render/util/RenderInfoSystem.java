@@ -81,14 +81,16 @@ public class RenderInfoSystem {
 		int height = messages.size() * 10 + pZ + 2;
 		int z = 0;
 		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
-		tess.setColorRGBA_F(0.5F, 0.5F, 0.5F, 0.5F);
+		tess.setColorRGBA_F(0.25F, 0.25F, 0.25F, 0.5F);
 		tess.addVertex(pX - 5, pZ - 5, z);
 		tess.addVertex(pX - 5, height, z);
 		tess.addVertex(side, height, z);
 		tess.addVertex(side, pZ - 5, z);
 		tess.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		int off = 0;
 		long now = System.currentTimeMillis();

@@ -3,29 +3,33 @@ package com.hbm.entity.cart;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemModMinecart;
+import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.entity.item.RenderNeoCart;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 
-	public EntityMinecartDestroyer(World p_i1712_1_) {
-		super(p_i1712_1_);
+	public EntityMinecartDestroyer(World world) {
+		super(world);
 	}
 
-	public EntityMinecartDestroyer(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityMinecartDestroyer(World world, double x, double y, double z, EnumCartBase type) {
+		super(world, x, y, z, type);
 	}
 
 	@Override
@@ -121,19 +125,14 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 	}
 
 	@Override
-	public void killMinecart(DamageSource p_94095_1_) {
-		this.setDead();
-		ItemStack itemstack = DictFrame.fromOne(ModItems.cart, EnumMinecart.DESTROYER);
-
-		if(this.func_95999_t() != null) {
-			itemstack.setStackDisplayName(this.func_95999_t());
-		}
-
-		this.entityDropItem(itemstack, 0.0F);
+	public ItemStack getCartItem() {
+		return ItemModMinecart.createCartItem(this.getBase(), EnumMinecart.DESTROYER);
 	}
 
 	@Override
-	public ItemStack getCartItem() {
-		return DictFrame.fromOne(ModItems.cart, EnumMinecart.DESTROYER);
+	@SideOnly(Side.CLIENT)
+	public void renderSpecialContent(RenderNeoCart renderer) {
+		renderer.bindTexture(ResourceManager.cart_destroyer_tex);
+		ResourceManager.cart_destroyer.renderAll();
 	}
 }

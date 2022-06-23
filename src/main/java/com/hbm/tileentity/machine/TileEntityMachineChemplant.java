@@ -155,8 +155,12 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			if(isProgressing && volume > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
 				}
 				
 			} else {
@@ -167,6 +171,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				}
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 
 	@Override

@@ -34,8 +34,8 @@ public class RenderAssemfac extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.assemfac_tex);
 		ResourceManager.assemfac.renderPart("Factory");
 
-		double rot = Math.sin((double)(System.currentTimeMillis() / 500D)) * 25 - 20;
-		double rot2 = Math.sin((double)(System.currentTimeMillis() / 400D)) * 10;
+		//double rot = Math.sin((double)(System.currentTimeMillis() / 500D)) * 25 - 20;
+		//double rot2 = Math.sin((double)(System.currentTimeMillis() / 400D)) * 10;
 		double hOff;
 		double sOff;
 		

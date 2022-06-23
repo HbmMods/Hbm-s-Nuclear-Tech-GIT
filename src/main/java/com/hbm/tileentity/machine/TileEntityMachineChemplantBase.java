@@ -197,6 +197,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				InventoryUtil.tryAddItemToInventory(slots, indices[2], indices[3], out.copy());
 		}
 	}
+	
 	private void loadItems(int index) {
 		
 		int template = getTemplateIndex(index);

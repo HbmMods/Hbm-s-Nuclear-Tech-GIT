@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -92,6 +93,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		}
 	}
 	
+	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
+		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
+	}
+	
 	/**
 	 * Seven segment style displays for GUIs, tried to be as adaptable as possible. Still has some bugs that need to be ironed out but it works for the most part.
 	 * @author UFFR
@@ -129,6 +134,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		private char[] toDisp = {'0', '0', '0'};
 		@Nonnegative
 		private short dispOffset = 0;
+		/** Length and thickness of segments. **/
+		private int verticalLength = 5;
+		private int horizontalLength = 4;
+		private int thickness = 1;
 		/**
 		 * Construct a new number display
 		 * @param dX X coordinate of the display
@@ -229,7 +238,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			{
 				if (num[i] == '.')
 					gap--;
-				dispOffset = (short) ((padding + 6) * (i + gap));
+				dispOffset = (short) ((padding + horizontalLength + 2 * thickness) * (i + gap));
 				drawChar(num[i]);
 			}
 			if (pads)
@@ -253,7 +262,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 				return;
 			for (int i = 0; i < gap; i++)
 			{
-				dispOffset = (short) ((padding + 6) * i);
+				dispOffset = (short) ((padding + horizontalLength + 2 * thickness) * i);
 				drawChar('0');
 			}
 		}
@@ -351,20 +360,21 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		
 		private void drawHorizontal(int pos)
 		{
-			byte offset = (byte) (pos * 6);
-			renderSegment(guiLeft + displayX + dispOffset + 1, guiTop + displayY + offset, 4, 1);
+			byte offset = (byte) (pos * (verticalLength + thickness));
+			renderSegment(guiLeft + displayX + dispOffset + thickness, guiTop + displayY + offset, horizontalLength, thickness);
 		}
 		
 		private void drawPeriod()
 		{
-			renderSegment(guiLeft + displayX + dispOffset + padding - (int) Math.ceil(padding / 2) + 5, guiTop + displayY + 12, 1, 1);
+			renderSegment(guiLeft + displayX + dispOffset + padding - (int) Math.ceil(padding / 2) + (horizontalLength + thickness), 
+					guiTop + displayY + 2 * (verticalLength + thickness), thickness, thickness);
 		}
 		
 		private void drawVertical(int posX, int posY)
 		{
-			byte offsetX = (byte) (posX * 5);
-			byte offsetY = (byte) (posY * 6);
-			renderSegment(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + 1, 1, 5);
+			byte offsetX = (byte) (posX * (horizontalLength + thickness));
+			byte offsetY = (byte) (posY * (verticalLength + thickness));
+			renderSegment(guiLeft + displayX + offsetX + dispOffset, guiTop + displayY + offsetY + thickness, thickness, verticalLength);
 		}
 		/**
 		 * drawTexturedModalRect() for cool kids
@@ -413,9 +423,9 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			return toDisp.clone();
 		}
 		/** Make the display blink **/
-		public NumberDisplay setBlinks()
+		public NumberDisplay setBlinks(boolean doesBlink)
 		{
-			blink = true;
+			blink = doesBlink;
 			return this;
 		}
 		/** Padding between digits, default 3 **/
@@ -429,6 +439,14 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		{
 			digitLength = (byte) l;
 			toDisp = truncOrExpand();
+			return this;
+		}
+		/** Set sizes and thickness of horizontal and vertical segments. **/
+		public NumberDisplay setSegmentSize(int vertical, int horizontal, int thickness)
+		{
+			this.verticalLength = vertical;
+			this.horizontalLength = horizontal;
+			this.thickness = thickness;
 			return this;
 		}
 		/** Set custom number bounds **/

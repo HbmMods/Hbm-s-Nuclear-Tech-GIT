@@ -7,6 +7,8 @@ import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -17,7 +19,9 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.util.LoggingUtil;
 
+import api.hbm.fluid.IFluidConnector;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
@@ -90,6 +94,8 @@ public class TileMappings {
 		put(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		put(TileEntityCrateIron.class, "tileentity_crate_iron");
 		put(TileEntityCrateSteel.class, "tileentity_crate_steel");
+		put(TileEntityCrateDesh.class, "tileentity_crate_desh");
+		put(TileEntityMassStorage.class, "tileentity_mass_storage");
 		put(TileEntityMachinePress.class, "tileentity_press");
 		put(TileEntityAMSBase.class, "tileentity_ams_base");
 		put(TileEntityAMSEmitter.class, "tileentity_ams_emitter");
@@ -237,9 +243,12 @@ public class TileMappings {
 		put(TileEntityTurretMaxwell.class, "tileentity_turret_maxwell");
 		put(TileEntityTurretFritz.class, "tileentity_turret_fritz");
 		put(TileEntityTurretBrandon.class, "tileentity_turret_brandon");
+		put(TileEntityTurretArty.class, "tileentity_turret_arty");
 	}
 	
 	private static void putMachines() {
+		put(TileEntityFurnaceIron.class, "tileentity_furnace_iron");
+		put(TileEntityMachineAutocrafter.class, "tileentity_autocrafter");
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");
 		put(TileEntityMachineRadiolysis.class, "tileentity_radiolysis");
 		put(TileEntityUVLamp.class, "tileentity_uv_lamp");
@@ -308,9 +317,16 @@ public class TileMappings {
 		put(TileEntityPylon.class, "tileentity_pylon_redwire");
 		put(TileEntityPylonLarge.class, "tileentity_pylon_large");
 		put(TileEntitySubstation.class, "tileentity_substation");
+
+		put(TileEntityCraneInserter.class, "tileentity_inserter");
+		put(TileEntityCraneExtractor.class, "tileentity_extractor");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
 		map.put(clazz, names);
+
+		if((IFluidSource.class.isAssignableFrom(clazz) || IFluidAcceptor.class.isAssignableFrom(clazz)) && !IFluidConnector.class.isAssignableFrom(clazz)) {
+			LoggingUtil.errorWithHighlight(clazz.getCanonicalName() + " implements the old interfaces but not IFluidConnector!");
+		}
 	}
 }

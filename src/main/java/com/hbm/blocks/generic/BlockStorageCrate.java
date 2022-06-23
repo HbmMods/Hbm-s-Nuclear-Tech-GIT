@@ -8,6 +8,8 @@ import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateDesh;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
@@ -56,9 +58,17 @@ public class BlockStorageCrate extends BlockContainer {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":crate_tungsten_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_tungsten_side");
 		}
+		if(this == ModBlocks.crate_desh) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":crate_desh_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_desh_side");
+		}
 		if(this == ModBlocks.safe) {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":safe_front");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":safe_side");
+		}
+		if(this == ModBlocks.mass_storage) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
 	}
 
@@ -74,14 +84,11 @@ public class BlockStorageCrate extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		if(this == ModBlocks.crate_iron)
-			return new TileEntityCrateIron();
-		if(this == ModBlocks.crate_steel)
-			return new TileEntityCrateSteel();
-		if(this == ModBlocks.crate_tungsten)
-			return new TileEntityCrateTungsten();
-		if(this == ModBlocks.safe)
-			return new TileEntitySafe();
+		if(this == ModBlocks.crate_iron) return new TileEntityCrateIron();
+		if(this == ModBlocks.crate_steel) return new TileEntityCrateSteel();
+		if(this == ModBlocks.crate_desh) return new TileEntityCrateDesh();
+		if(this == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
+		if(this == ModBlocks.safe) return new TileEntitySafe();
 		return null;
 	}
 	
@@ -143,17 +150,8 @@ public class BlockStorageCrate extends BlockContainer {
 
 		} else if(!player.isSneaking()) {
 			TileEntity entity = world.getTileEntity(x, y, z);
-			if(entity instanceof TileEntityCrateIron && ((TileEntityCrateIron) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_iron, world, x, y, z);
-			}
-			if(entity instanceof TileEntityCrateSteel && ((TileEntityCrateSteel) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_steel, world, x, y, z);
-			}
-			if(entity instanceof TileEntityCrateTungsten && ((TileEntityCrateTungsten) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_tungsten, world, x, y, z);
-			}
-			if(entity instanceof TileEntitySafe && ((TileEntitySafe) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_safe, world, x, y, z);
+			if(entity instanceof TileEntityCrateBase && ((TileEntityCrateBase) entity).canAccess(player)) {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

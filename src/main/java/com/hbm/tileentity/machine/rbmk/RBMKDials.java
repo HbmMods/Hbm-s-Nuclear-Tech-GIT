@@ -28,6 +28,7 @@ public class RBMKDials {
 	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
 	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
+	public static final String KEY_DISABLE_MELTDOWNS = "dialEnableMeltdowns";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -51,6 +52,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
+			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
 		}
 	}
 	
@@ -205,5 +207,15 @@ public class RBMKDials {
 	 */
 	public static double getReaSimBoilerSpeed(World world) {
 		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 0.05D), 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Whether or not fuel columns should initiate a meltdown when overheating
+	 * The method is in reverse because the default for older worlds will be 'false'
+	 * @param world
+	 * @return
+	 */
+	public static boolean getMeltdownsDisabled(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_DISABLE_MELTDOWNS);
 	}
 }

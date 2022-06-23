@@ -3,11 +3,13 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -40,6 +42,22 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
+	}
+
+	@Override
+	public void subscribeToAllAround(FluidType type, TileEntity te) {
+		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
+		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
+		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
+		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
+	}
+
+	@Override
+	public void sendFluidToAll(FluidType type, TileEntity te) {
+		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
+		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
+		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
+		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
 	}
 
 	@Override

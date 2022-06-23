@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
@@ -11,7 +10,6 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 

@@ -29,6 +29,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.HashMap;
@@ -188,6 +189,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretMaxwell.class, new RenderTurretMaxwell());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretFritz.class, new RenderTurretFritz());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretBrandon.class, new RenderTurretBrandon());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretArty.class, new RenderTurretArty());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//cel prime
@@ -251,6 +253,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSolidifier.class, new RenderSolidifier());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSEmitter.class, new RenderAMSEmitter());
@@ -527,6 +530,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBeamVortex.class, new RenderVortexBeam());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRBMKDebris.class, new RenderRBMKDebris());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityZirnoxDebris.class, new RenderZirnoxDebris());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityArtilleryShell.class, new RenderArtilleryShell());
 		//grenades
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGeneric.class, new RenderSnowball(ModItems.grenade_generic));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeStrong.class, new RenderSnowball(ModItems.grenade_strong));
@@ -623,11 +627,11 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDeathBlast.class, new RenderDeathBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeExplosionAdvanced.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderSpear());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeTorex.class, new RenderTorex());
 		//minecarts
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDestroyer.class, new RenderNeoCart());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartOre.class, new RenderNeoCart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartNTM.class, new RenderNeoCart());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
@@ -666,7 +670,6 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySSmokeFX.class, new SSmokeRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityOilSpillFX.class, new SpillRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFX.class, new GasRenderer(ModItems.nuclear_waste));
-	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFlameFX.class, new GasFlameRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCombineBall.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDischarge.class, new ElectricityRenderer(ModItems.discharge));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityEMPBlast.class, new RenderEMPBlast());
@@ -686,6 +689,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderAntennaTop());
 		RenderingRegistry.registerBlockHandler(new RenderConserve());
 		RenderingRegistry.registerBlockHandler(new RenderConveyor());
+		RenderingRegistry.registerBlockHandler(new RenderConveyorChute());
+		RenderingRegistry.registerBlockHandler(new RenderConveyorLift());
 		RenderingRegistry.registerBlockHandler(new RenderRTGBlock());
 		RenderingRegistry.registerBlockHandler(new RenderSpikeBlock());
 		RenderingRegistry.registerBlockHandler(new RenderChain());
@@ -701,6 +706,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockCT());
 		RenderingRegistry.registerBlockHandler(new RenderDetCord());
 		RenderingRegistry.registerBlockHandler(new RenderBlockMultipass());
+		RenderingRegistry.registerBlockHandler(new RenderBlockSideRotation());
 		RenderingRegistry.registerBlockHandler(new RenderDiode());
 
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
@@ -1105,8 +1111,18 @@ public class ClientProxy extends ServerProxy {
 				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
 			}
 			
-			if(fx != null)
+			if(fx != null) {
+				
+				if(data.getBoolean("noclip")) {
+					fx.noClip = true;
+				}
+				
+				if(data.getInteger("overrideAge") > 0) {
+					ReflectionHelper.setPrivateValue(EntityFX.class, fx, data.getInteger("overrideAge"), "particleMaxAge", "field_70547_e");
+				}
+				
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
 		}
 		
 		if("vanilla".equals(type)) {
@@ -1194,6 +1210,47 @@ public class ClientProxy extends ServerProxy {
 				if(particleSetting == 0) {
 					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, mX3, mY3, mZ3));
 					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, mX3, mY3, mZ3));
+				}
+			}
+		}
+		
+		if("bnuuy".equals(type)) {
+			
+			if(particleSetting == 2)
+				return;
+			
+			Entity ent = world.getEntityByID(data.getInteger("player"));
+			
+			if(ent instanceof EntityPlayer) {
+				
+				EntityPlayer p = (EntityPlayer)ent;
+				
+				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.6);
+				Vec3 offset = Vec3.createVectorHelper(0.275, 0, 0);
+				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+
+				vec.rotateAroundY(angle);
+				offset.rotateAroundY(angle);
+				
+				double ix = p.posX + vec.xCoord;
+				double iy = p.posY + p.eyeHeight - 1 + 0.4;
+				double iz = p.posZ + vec.zCoord;
+				double ox = offset.xCoord;
+				double oz = offset.zCoord;
+				
+				vec = vec.normalize();
+				double mult = 0.025D;
+				double mX = vec.xCoord * mult;
+				double mZ = vec.zCoord * mult;
+				
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, 0, 0, 0));
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, 0, 0, 0));
+				
+				for(int i = 0; i < 2; i++) {
+					net.minecraft.client.particle.EntitySmokeFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox * (i == 0 ? -1 : 1), iy, iz + oz * (i == 0 ? -1 : 1), mX, 0, mZ);
+					float scale = 0.5F;
+					ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, (net.minecraft.client.particle.EntitySmokeFX)fx, scale, "smokeParticleScale", "field_70587_a");
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
 		}
@@ -1504,6 +1561,12 @@ public class ClientProxy extends ServerProxy {
 				fx.setBaseScale(data.getFloat("base"));
 				fx.setMaxScale(data.getFloat("max"));
 				fx.setLife(data.getInteger("life") / (particleSetting + 1));
+				
+				if(data.hasKey("color")) {
+					Color color = new Color(data.getInteger("color"));
+					fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				}
+				
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 			}
 		}
@@ -1574,16 +1637,19 @@ public class ClientProxy extends ServerProxy {
 			int gW = (int)(width / 0.25F);
 			int gH = (int)(height / 0.25F);
 			
+			int count = (int) (gW * 1.5 * gH);
+			
+			if(data.hasKey("cDiv"))
+				count = (int) Math.ceil(count / (double)data.getInteger("cDiv"));
+			
 			boolean blowMeIntoTheGodDamnStratosphere = rand.nextInt(15) == 0;
 			double mult = 1D;
 			
 			if(blowMeIntoTheGodDamnStratosphere)
 				mult *= 10;
 			
-			for(int i = -(gW / 2); i <= gW; i++) {
-				for(int j = 0; j <= gH; j++) {
-					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
-				}
+			for(int i = 0; i < count; i++) {
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
 			}
 		}
 		
@@ -1597,6 +1663,30 @@ public class ClientProxy extends ServerProxy {
 			float scale = data.getFloat("scale");
 			ParticleText text = new ParticleText(world, x, y, z, color, t);
 			text.multipleParticleScaleBy(scale);
+			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+		}
+		
+		if("network".equals(type)) {
+			ParticleDebug debug = null;
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+
+			if("power".equals(data.getString("mode"))) {
+				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ);
+			}
+			if("fluid".equals(data.getString("mode"))) {
+				int color = data.getInteger("color");
+				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
+			}
+			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+		}
+		
+		if("gasfire".equals(type)) {
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, 6.5F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
 		}
 	}

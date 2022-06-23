@@ -45,6 +45,7 @@ import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
+import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -179,6 +180,12 @@ public class ModEventHandler {
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
+			
+			if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasGuide")) {
+				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
+				event.player.inventoryContainer.detectAndSendChanges();
+				event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("hasGuide", true);
+			}
 		}
 	}
 	
@@ -903,7 +910,7 @@ public class ModEventHandler {
 			EntityPlayer player = (EntityPlayer) e;
 			
 			if(ArmorUtil.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
-				e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				HbmPlayerProps.plink(player, "random.break", 0.5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 				event.setCanceled(true);
 			}
 			
@@ -1504,6 +1511,26 @@ public class ModEventHandler {
 			if(stack.hasTagCompound() && stack.getTagCompound().getBoolean("ntmCyanide")) {
 				for(int i = 0; i < 10; i++) {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void filterBrokenEntity(EntityJoinWorldEvent event) {
+		
+		Entity entity = event.entity;
+		Entity[] parts = entity.getParts();
+		
+		//MainRegistry.logger.error("Trying to spawn entity " + entity.getClass().getCanonicalName());
+		
+		if(parts != null) {
+			
+			for(int i = 0; i < parts.length; i++) {
+				if(parts[i] == null) {
+					MainRegistry.logger.error("Prevented spawning of multipart entity " + entity.getClass().getCanonicalName() + " due to parts being null!");
+					event.setCanceled(true);
+					return;
 				}
 			}
 		}

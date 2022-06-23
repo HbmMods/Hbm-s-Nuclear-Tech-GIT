@@ -90,6 +90,11 @@ public class GUIReactorResearch extends GuiInfoContainer {
     	super.mouseClicked(mouseX, mouseY, i);
     	this.field.mouseClicked(mouseX, mouseY, i);
     	
+    	if(guiLeft + 8 <= mouseX && guiLeft + 8 + 33 > mouseX && guiTop + 99 < mouseY && guiTop + 99 + 16 >= mouseY)
+    		displays[2].setBlinks(true);
+    	else
+    		displays[2].setBlinks(false);
+    	
     	if(guiLeft + 44 <= mouseX && guiLeft + 44 + 11 > mouseX && guiTop + 97 < mouseY && guiTop + 97 + 20 >= mouseY) {
 			
     		double level;

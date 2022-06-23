@@ -13,6 +13,7 @@ import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityZirnoxDestroyed;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -47,13 +48,29 @@ public class ZirnoxDestroyed extends BlockDummyable {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-
-		ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
-
-		if(rand.nextInt(4) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ) == Blocks.air) {
-			world.setBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ, ModBlocks.gas_meltdown);
+		
+		Block block = world.getBlock(x, y + 1, z);
+		
+		if(block == Blocks.air) {
+			if(rand.nextInt(10) == 0)
+				world.setBlock(x, y + 1, z, ModBlocks.gas_meltdown);
+			
+		} else if(block == ModBlocks.foam_layer || block == ModBlocks.block_foam) {
+			if(rand.nextInt(25) == 0) {
+				int pos[] = this.findCore(world, x, y, z);
+				
+				if(pos != null) {
+					TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+					
+					if(te instanceof TileEntityZirnoxDestroyed)
+						((TileEntityZirnoxDestroyed)te).onFire = false;
+				}
+			}
 		}
-
+		
+		if(rand.nextInt(10) == 0 && world.getBlock(x, y + 1, z) == Blocks.air)
+			world.setBlock(x, y + 1, z, ModBlocks.gas_meltdown);
+		
 		super.updateTick(world, x, y, z, rand);
 	}
 

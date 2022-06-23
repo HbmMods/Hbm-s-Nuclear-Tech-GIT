@@ -1,17 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidTypeFlammable;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.types.FluidTypeFlammable;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;

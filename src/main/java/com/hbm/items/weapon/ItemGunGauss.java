@@ -103,9 +103,19 @@ public class ItemGunGauss extends ItemGunBase {
 		super.updateClient(stack, world, player, slot, isCurrentItem);
 
 		if(chargeLoop != null) {
+			if(!chargeLoop.isPlaying()) {
+				chargeLoop = rebootAudio(chargeLoop, player);
+			}
 			chargeLoop.updatePosition((float)player.posX, (float)player.posY, (float)player.posZ);
 			chargeLoop.updatePitch(chargeLoop.getPitch() + 0.01F);
 		}
+	}
+	
+	public AudioWrapper rebootAudio(AudioWrapper wrapper, EntityPlayer player) {
+		wrapper.stopSound();
+		AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, wrapper.getVolume(), wrapper.getPitch());
+		audio.startSound();
+		return audio;
 	}
 	
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {

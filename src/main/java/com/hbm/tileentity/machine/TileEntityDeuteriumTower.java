@@ -16,8 +16,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
-	public static final long maxPower = 1000000;
-
 	public TileEntityDeuteriumTower() {
 		super();
 		tanks[0] = new FluidTank(Fluids.WATER, 50000, 0);
@@ -97,28 +95,18 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 	
 	private DirPos[] getConPos() {
 		
-		int offsetX = 0;
-		int offsetZ = 0;
-		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-		offsetX = -dir.offsetX;
-		offsetZ = -rot.offsetZ;
-		
-		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			offsetX = rot.offsetX;
-			offsetZ = dir.offsetZ;
-		}
 
 		return new DirPos[] {
-			new DirPos(this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 1, Library.POS_X),
-			new DirPos(this.xCoord + offsetX * 2, this.yCoord, this.zCoord - offsetZ * 0, Library.POS_X),
-			new DirPos(this.xCoord + offsetX * 1, this.yCoord, this.zCoord - offsetZ * 2, Library.NEG_Z),
-			new DirPos(this.xCoord + offsetX * 0, this.yCoord, this.zCoord - offsetZ * 2, Library.NEG_Z),
-			new DirPos(this.xCoord + offsetX * 1, this.yCoord, this.zCoord + offsetZ * 1, Library.POS_Z),
-			new DirPos(this.xCoord + offsetX * 0, this.yCoord, this.zCoord + offsetZ * 1, Library.POS_Z),
-			new DirPos(this.xCoord - offsetX * 1, this.yCoord, this.zCoord + offsetZ * 0, Library.NEG_Z),
-			new DirPos(this.xCoord - offsetX * 1, this.yCoord, this.zCoord - offsetZ * 1, Library.NEG_Z)
+				new DirPos(this.xCoord - dir.offsetX * 2, this.yCoord, this.zCoord - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(this.xCoord - dir.offsetX * 2 + rot.offsetX, this.yCoord, this.zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
+				new DirPos(this.xCoord + dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ, dir),
+				new DirPos(this.xCoord + dir.offsetX + rot.offsetX, this.yCoord, this.zCoord - dir.offsetZ + rot.offsetZ, dir),
+				new DirPos(this.xCoord - rot.offsetX, this.yCoord, this.zCoord - rot.offsetZ, rot.getOpposite()),
+				new DirPos(this.xCoord - dir.offsetX - rot.offsetX, this.yCoord, this.zCoord - dir.offsetZ - rot.offsetZ, rot.getOpposite()),
+				new DirPos(this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot),
+				new DirPos(this.xCoord - dir.offsetX + rot.offsetX * 2, this.yCoord, this.zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
 		};
 	}
 
@@ -149,6 +137,6 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 
 	@Override
 	public long getMaxPower() {
-		return maxPower;
+		return 1000000;
 	}
 }

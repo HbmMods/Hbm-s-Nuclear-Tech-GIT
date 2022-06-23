@@ -1,6 +1,5 @@
 package com.hbm.blocks.turret;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.tileentity.turret.TileEntityTurretRocket;
 
@@ -49,12 +48,6 @@ public class TurretRocket extends TurretBase {
 				bullet.motionZ = vector.zCoord * 3;
 				
 				world.spawnEntityInWorld(bullet);
-				
-				EntityGasFlameFX fx = new EntityGasFlameFX(world);
-				fx.posX = x + vector.xCoord * 1 + 0.5;
-				fx.posY = y + vector.yCoord * 1 + 1;
-				fx.posZ = z + vector.zCoord * 1 + 0.5;
-				world.spawnEntityInWorld(fx);
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:weapon.rpgShoot", 1.0F, 0.75F);

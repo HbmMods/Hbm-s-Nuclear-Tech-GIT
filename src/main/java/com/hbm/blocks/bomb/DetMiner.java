@@ -54,5 +54,4 @@ public class DetMiner extends BlockPillar implements IBomb {
 			this.explode(world, x, y, z);
 		}
 	}
-
 }

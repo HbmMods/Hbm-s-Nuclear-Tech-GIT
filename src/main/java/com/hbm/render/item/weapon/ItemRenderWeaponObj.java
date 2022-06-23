@@ -48,7 +48,7 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.hk69_tex);
 
 		if(item.getItem() == ModItems.gun_deagle)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.turbofan_blades_tex);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.universal_bright);
 
 		if(item.getItem() == ModItems.gun_ks23)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ks23_tex);

@@ -517,7 +517,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { water, carbonDioxide };
 	}
-
+  
 	// do some opencomputer stuff
 	@Override
     	public String getComponentName() {

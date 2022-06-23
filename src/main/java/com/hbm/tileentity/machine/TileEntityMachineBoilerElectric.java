@@ -43,10 +43,6 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	
-	private static final int[] slots_top = new int[] {4};
-	private static final int[] slots_bottom = new int[] {6};
-	private static final int[] slots_side = new int[] {4};
-	
 	private String customName;
 	
 	public TileEntityMachineBoilerElectric() {
@@ -199,14 +195,13 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[0];
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		return false;
 	}
 
 	@Override

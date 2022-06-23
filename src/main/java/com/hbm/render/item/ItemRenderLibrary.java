@@ -42,11 +42,11 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-		        bindTexture(ResourceManager.cyclotron_tex); ResourceManager.cyclotron.renderPart("Body");
-	        	bindTexture(ResourceManager.cyclotron_ashes);  ResourceManager.cyclotron.renderPart("B1");
-	        	bindTexture(ResourceManager.cyclotron_book); ResourceManager.cyclotron.renderPart("B2");
-	        	bindTexture(ResourceManager.cyclotron_gavel); ResourceManager.cyclotron.renderPart("B3");
-	        	bindTexture(ResourceManager.cyclotron_coin); ResourceManager.cyclotron.renderPart("B4");
+				bindTexture(ResourceManager.cyclotron_tex); ResourceManager.cyclotron.renderPart("Body");
+				bindTexture(ResourceManager.cyclotron_ashes);  ResourceManager.cyclotron.renderPart("B1");
+				bindTexture(ResourceManager.cyclotron_book); ResourceManager.cyclotron.renderPart("B2");
+				bindTexture(ResourceManager.cyclotron_gavel); ResourceManager.cyclotron.renderPart("B3");
+				bindTexture(ResourceManager.cyclotron_coin); ResourceManager.cyclotron.renderPart("B4");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
@@ -149,7 +149,7 @@ public class ItemRenderLibrary {
 		        GL11.glShadeModel(GL11.GL_SMOOTH);
 		        GL11.glDisable(GL11.GL_CULL_FACE);
 		        bindTexture(ResourceManager.turbine_tex); ResourceManager.turbine.renderPart("Body");
-		        bindTexture(ResourceManager.turbofan_blades_tex); ResourceManager.turbine.renderPart("Blades");
+		        bindTexture(ResourceManager.universal_bright); ResourceManager.turbine.renderPart("Blades");
 		        GL11.glEnable(GL11.GL_CULL_FACE);
 		        GL11.glShadeModel(GL11.GL_FLAT);
 			}});
@@ -325,13 +325,15 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_flare), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
+				GL11.glScaled(2.25, 2.25, 2.25);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.oilflare_tex); ResourceManager.oilflare.renderAll();
-		        GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_refinery), new ItemRenderBase() {
@@ -379,9 +381,13 @@ public class ItemRenderLibrary {
 				GL11.glScaled(2, 2, 2);
 			}
 			public void renderCommon() {
-		        bindTexture(ResourceManager.turbofan_body_tex); ResourceManager.turbofan_body.renderAll();
-				GL11.glTranslated(0, 1.5, 0);
-		        bindTexture(ResourceManager.turbofan_blades_tex); ResourceManager.turbofan_blades.renderAll();
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turbofan_tex);
+				ResourceManager.turbofan.renderPart("Body");
+				ResourceManager.turbofan.renderPart("Blades");
+				bindTexture(ResourceManager.turbofan_back_tex);
+				ResourceManager.turbofan.renderPart("Afterburner");
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.plasma_heater), new ItemRenderBase() {
@@ -1284,6 +1290,35 @@ public class ItemRenderLibrary {
 			ResourceManager.charger.renderPart("Slide");
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_assemfac), new ItemRenderBase( ) {
+		public void renderInventory() {
+			GL11.glScaled(2.5, 2.5, 2.5);
+		}
+		public void renderCommon() {
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.assemfac_tex); ResourceManager.assemfac.renderPart("Factory");
+			for(int i = 1; i < 7; i++) {
+				ResourceManager.assemfac.renderPart("Pivot" + i);
+				ResourceManager.assemfac.renderPart("Arm" + i);
+				ResourceManager.assemfac.renderPart("Piston" + i);
+				ResourceManager.assemfac.renderPart("Striker" + i);
+			}
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.furnace_iron), new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, 1, 0);
+				bindTexture(ResourceManager.furnace_iron_tex);
+				ResourceManager.furnace_iron.renderPart("Main");
+				ResourceManager.furnace_iron.renderPart("Off");
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

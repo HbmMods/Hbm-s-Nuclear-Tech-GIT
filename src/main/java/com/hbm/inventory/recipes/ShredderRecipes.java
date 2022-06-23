@@ -42,10 +42,14 @@ public class ShredderRecipes {
 			if(matches == null || matches.isEmpty())
 				continue;
 
+			//1 ingot unit, metal
 			generateRecipes("ingot", name, matches, 1);
-			generateRecipes("ore", name, matches, 2);
+			generateRecipes("plate", name, matches, 1);
+			//1 ingot unit, crystalline
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
+			//2 ingot units, any
+			generateRecipes("ore", name, matches, 2);
 			
 			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
@@ -335,6 +339,7 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.debris_exchanger, new ItemStack(ModItems.powder_steel, 3));
 		ShredderRecipes.setRecipe(ModItems.debris_element, new ItemStack(ModItems.scrap_nuclear, 4));
 		ShredderRecipes.setRecipe(ModItems.debris_metal, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModItems.debris_graphite, new ItemStack(ModItems.powder_coal, 1));
 		
 		/*
 		 * GC COMPAT

@@ -16,7 +16,6 @@ import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
-import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
@@ -81,7 +80,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 				ComparableStack comp = AssemblerRecipes.recipeList.get(i);
 				if(AssemblerRecipes.hidden.get(comp) == null) {
-					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp));
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
 				}
 			}
 			// Chemistry Templates
@@ -333,7 +332,5 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				updateButtons();
 			}
 		}
-
 	}
-
 }
