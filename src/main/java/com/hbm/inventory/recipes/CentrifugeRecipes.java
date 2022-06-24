@@ -71,8 +71,14 @@ public class CentrifugeRecipes {
 		recipes.put(new ComparableStack(ModItems.waste_schrabidium), new ItemStack[] {
 				new ItemStack(ModItems.nugget_beryllium, 2),
 				new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2),
+				new ItemStack(ModItems.nuclear_waste_tiny, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
+		
+		recipes.put(new ComparableStack(ModItems.waste_zfb_mox), new ItemStack[] {
+				new ItemStack(ModItems.nugget_zirconium, 3),
+				new ItemStack(ModItems.nugget_technetium, 1),
+				new ItemStack(ModItems.nugget_pu_mix, 1),
+				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_plate_mox), new ItemStack[] {
 				new ItemStack(ModItems.powder_sr90_tiny, 1),
