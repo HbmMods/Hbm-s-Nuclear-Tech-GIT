@@ -65,7 +65,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 			fs = diFurnace;
 		
 		if(fs.hasPower()) {
-			int i = (int)diFurnace.getPowerRemainingScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 20, guiTop + 69 - i, 200, 52 - i, 16, i);
 		}
 		
@@ -74,7 +74,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 0, 16, 16);
 		}
 		
-		int j1 = fs.getDiFurnaceProgressScaled(24);
+		int j1 = fs.getProgressScaled(24);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 17, j1 + 1, 17);
 		
 		this.drawInfoPanel(guiLeft + 151, guiTop + 19, 8, 8, 8);
