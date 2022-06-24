@@ -1,11 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineElectricFurnace;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -18,14 +20,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
 
+// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
+// thanks Martin, vaer and Bob for the help
 	private ItemStack slots[];
 	
-	public int dualCookTime;
+	public int progress;
 	public long power;
 	public static final long maxPower = 100000;
-	public static final int processingSpeed = 100;
+	public int MaxProgress = 100;
+	public int consumption = 50;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -33,8 +38,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	
 	private String customName;
 	
-	public TileEntityMachineElectricFurnace() {
-		slots = new ItemStack[3];
+	public TileEntityMachineElectricFurnace(){
+		super(4);
+		slots = new ItemStack[4];
 	}
 
 	@Override
@@ -142,8 +148,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getLong("powerTime");
-		this.dualCookTime = nbt.getInteger("cookTime");
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -160,8 +166,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("powerTime", power);
-		nbt.setInteger("cookTime", dualCookTime);
+		nbt.setLong("power", power);
+		nbt.setInteger("progress", progress);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -198,21 +204,21 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		
 		return false;
 	}
-	
+
 	public int getDiFurnaceProgressScaled(int i) {
-		return (dualCookTime * i) / processingSpeed;
+		return (progress * i) / MaxProgress;
 	}
 	
 	public long getPowerRemainingScaled(long i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	public boolean hasPower() {
 		return power > 0;
 	}
 	
 	public boolean isProcessing() {
-		return this.dualCookTime > 0;
+		return this.progress > 0;
 	}
 	
 	public boolean canProcess() {
@@ -278,26 +284,46 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();
+
+			this.consumption = 50;
+			this.MaxProgress = 100;
 			
+			UpgradeManager.eval(slots, 3, 3);
+
+			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
+			
+			MaxProgress -= speedLevel * 25;
+			consumption += speedLevel * 50;
+			MaxProgress += powerLevel * 10;
+			consumption -= powerLevel * 15;
+			
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", this.power);
+		data.setInteger("MaxProgress", this.MaxProgress);
+		data.setInteger("progress", this.progress);
+		this.networkPack(data, 50);
+		
 			if(hasPower() && canProcess())
 			{
-				dualCookTime++;
+				progress++;
 				
-				power -= 50;
+				power -= consumption;
 				
-				if(this.dualCookTime == TileEntityMachineElectricFurnace.processingSpeed)
+				if(this.progress == MaxProgress)
 				{
-					this.dualCookTime = 0;
+					this.progress = 0;
 					this.processItem();
 					flag1 = true;
 				}
 			}else{
-				dualCookTime = 0;
+				progress = 0;
 			}
 			
 			boolean trigger = true;
 			
-			if(hasPower() && canProcess() && this.dualCookTime == 0)
+			if(hasPower() && canProcess() && this.progress == 0)
 			{
 				trigger = false;
 			}
@@ -305,13 +331,11 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 			if(trigger)
             {
                 flag1 = true;
-                MachineElectricFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
 		
@@ -320,13 +344,18 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 			this.markDirty();
 		}
 	}
-	
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.MaxProgress = nbt.getInteger("MaxProgress");
+		this.progress = nbt.getInteger("progress");
+
+	}
 	@Override
 	public void setPower(long i) {
 		power = i;
@@ -342,5 +371,11 @@ public class TileEntityMachineElectricFurnace extends TileEntityLoadedBase imple
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
