@@ -178,7 +178,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 				power -= consumption;
 
-				if(this.progress == maxProgress) {
+				if(this.progress >= maxProgress) {
 					this.progress = 0;
 					this.processItem();
 					flag1 = true;
