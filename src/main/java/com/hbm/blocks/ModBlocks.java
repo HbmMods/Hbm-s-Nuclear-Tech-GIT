@@ -797,16 +797,14 @@ public class ModBlocks {
 	public static Block struct_plasma_core;
 	
 	public static Block factory_titanium_hull;
-	public static Block factory_titanium_furnace;
-	public static Block factory_titanium_conductor;
-	public static Block factory_titanium_core;
-	public static final int guiID_factory_titanium = 24;
+	@Deprecated public static Block factory_titanium_furnace;
+	@Deprecated public static Block factory_titanium_conductor;
+	@Deprecated public static Block factory_titanium_core;
 	
 	public static Block factory_advanced_hull;
-	public static Block factory_advanced_furnace;
-	public static Block factory_advanced_conductor;
-	public static Block factory_advanced_core;
-	public static final int guiID_factory_advanced = 25;
+	@Deprecated public static Block factory_advanced_furnace;
+	@Deprecated public static Block factory_advanced_conductor;
+	@Deprecated public static Block factory_advanced_core;
 
 	public static Block reactor_element;
 	public static Block reactor_control;

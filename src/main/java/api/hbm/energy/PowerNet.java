@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -165,7 +167,10 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public void reevaluate() {
 		
-		//this.destroy();//
+		if(!GeneralConfig.enableReEval) {
+			this.destroy();
+			return;
+		}
 
 		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
 		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);

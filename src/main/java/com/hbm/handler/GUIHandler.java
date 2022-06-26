@@ -218,20 +218,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_factory_titanium: {
-			if(entity instanceof TileEntityCoreTitanium) {
-				return new ContainerCoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_factory_advanced: {
-			if(entity instanceof TileEntityCoreAdvanced) {
-				return new ContainerCoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_reactor_multiblock: {
 			if(entity instanceof TileEntityMachineReactorLarge) {
 				return new ContainerReactorMultiblock(player.inventory, (TileEntityMachineReactorLarge) entity);
@@ -1054,20 +1040,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_launch_pad: {
 			if(entity instanceof TileEntityLaunchPad) {
 				return new GUILaunchPadTier1(player.inventory, (TileEntityLaunchPad) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_factory_titanium: {
-			if(entity instanceof TileEntityCoreTitanium) {
-				return new GUICoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_factory_advanced: {
-			if(entity instanceof TileEntityCoreAdvanced) {
-				return new GUICoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
 			}
 			return null;
 		}

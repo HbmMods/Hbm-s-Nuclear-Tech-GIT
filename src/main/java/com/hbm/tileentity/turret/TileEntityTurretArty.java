@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -24,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUIProvider {
 	
@@ -49,7 +51,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	}
 	
 	public void enqueueTarget(double x, double y, double z) {
-		this.targetQueue.add(Vec3.createVectorHelper(x, y, z));
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 delta = Vec3.createVectorHelper(x - pos.xCoord, y - pos.yCoord, z - pos.zCoord);
+		if(delta.lengthVector() <= this.getDecetorRange()) {
+			this.targetQueue.add(Vec3.createVectorHelper(x, y, z));
+		}
 	}
 	
 	@Override
@@ -111,6 +118,11 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	public double getTurretElevation() {
 		return 90D;
 	}
+	
+	@Override
+	public int getDecetorInterval() {
+		return mode == MODE_CANNON ? 20 : 200;
+	}
 
 	@Override
 	protected void seekNewTarget() {
@@ -148,7 +160,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		/*
 		 * This is done to compensate for the barrel length, as this small deviation has a huge impact in both modes at longer ranges.
 		 * The consequence of this is that using the >before< angle of the barrel as an approximation can lead to problems at closer range,
-		 * as the math tries to properly calculate the >after< angle. This should not be a problem due to the etector grace distance being
+		 * as the math tries to properly calculate the >after< angle. This should not be a problem due to the detector grace distance being
 		 * rather high, but it is still important to note.
 		 */
 		pos.xCoord += barrel.xCoord;
@@ -160,13 +172,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		double x = Math.sqrt(delta.xCoord * delta.xCoord + delta.zCoord * delta.zCoord);
 		double y = delta.yCoord;
-		double v0 = 20;
+		double v0 = getV0();
 		double v02 = v0 * v0;
 		double g = 9.81 * 0.05;
 		double upperLower = mode == MODE_CANNON ? -1 : 1;
 		double targetPitch = Math.atan((v02 + Math.sqrt(v02*v02 - g*(g*x*x + 2*y*v02)) * upperLower) / (g*x));
 		
 		this.turnTowardsAngle(targetPitch, targetYaw);
+	}
+	
+	public double getV0() {
+		return mode == MODE_CANNON ? 20D : 50D;
 	}
 	
 	public int getShellLoaded() {
@@ -203,7 +219,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		EntityArtilleryShell proj = new EntityArtilleryShell(worldObj);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
-		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 20F, 0.0F);
+		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, (float) getV0(), 0.0F);
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);
 		proj.setType(type);
 		
@@ -211,6 +227,20 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 			proj.setWhistle(true);
 		
 		worldObj.spawnEntityInWorld(proj);
+	}
+	
+	protected void updateConnections() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < 4; j++) {
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * -3, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * -3, ForgeDirection.SOUTH);
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * 2, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * 2, ForgeDirection.NORTH);
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * -2 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * -2 + rot.offsetZ * (1 - j), ForgeDirection.EAST);
+				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), ForgeDirection.WEST);
+			}
+		}
 	}
 	
 	@Override
@@ -250,6 +280,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		this.aligned = false;
 		
 		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
@@ -342,7 +374,9 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		timer++;
 		
-		if(timer % 40 == 0) {
+		int delay = mode == MODE_ARTILLERY ? 200 : 40;
+		
+		if(timer % delay == 0) {
 			
 			int conf = this.getShellLoaded();
 			
@@ -377,6 +411,10 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 			this.mode++;
 			if(this.mode > 2)
 				this.mode = 0;
+			
+			this.tPos = null;
+			this.targetQueue.clear();
+			
 		} else{
 			super.handleButtonPacket(value, meta);
 		}

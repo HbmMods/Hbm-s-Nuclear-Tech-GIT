@@ -21,6 +21,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -84,7 +85,8 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 				
 				if(te instanceof ISidedInventory) {
 					sided = (ISidedInventory) te;
-					access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+					//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+					access = masquerade(sided, dir.ordinal());
 				}
 				
 				boolean hasSent = false;
@@ -156,6 +158,15 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 			this.matcher.writeToNBT(data);
 			this.networkPack(data, 15);
 		}
+	}
+	
+	public static int[] masquerade(ISidedInventory sided, int side) {
+		
+		if(sided instanceof TileEntityFurnace) {
+			return new int[] {2};
+		}
+		
+		return sided.getAccessibleSlotsFromSide(side);
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {

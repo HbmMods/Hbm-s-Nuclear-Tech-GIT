@@ -1,9 +1,14 @@
 package com.hbm.entity.projectile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
+import com.hbm.main.MainRegistry;
 
+import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,8 +18,9 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoader {
+public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoader, IRadarDetectable {
 
 	private Ticket loaderTicket;
 	
@@ -44,6 +50,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 	@Override
 	protected void entityInit() {
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
 	}
 	
@@ -89,10 +96,12 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 				double dist = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 				
 				if(speed * 18 > dist) {
-					worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "hbm:turret.mortarWhistle", 5.0F, 1.0F);
+					worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "hbm:turret.mortarWhistle", 15.0F, 1.0F);
 					this.didWhistle = true;
 				}
 			}
+
+			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
 			
 		} else {
 			if(this.turnProgress > 0) {
@@ -139,6 +148,10 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 			this.setDead();*/
 			
 			this.getType().onImpact(this, mop);
+			
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 
@@ -154,14 +167,53 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 		}
 	}
 
+	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+		if(!worldObj.isRemote && loaderTicket != null) {
+			
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
+
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			/*loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));*/
+
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
+	}
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
+		
+		nbt.setBoolean("shouldWhistle", this.shouldWhistle);
+		nbt.setBoolean("didWhistle", this.didWhistle);
+		nbt.setDouble("targetX", this.targetX);
+		nbt.setDouble("targetY", this.targetY);
+		nbt.setDouble("targetZ", this.targetZ);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
+
+		this.shouldWhistle = nbt.getBoolean("shouldWhistle");
+		this.didWhistle = nbt.getBoolean("didWhistle");
+		this.targetX = nbt.getDouble("targetX");
+		this.targetY = nbt.getDouble("targetY");
+		this.targetZ = nbt.getDouble("targetZ");
 	}
 
 	@Override
@@ -172,5 +224,10 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	@Override
 	public double getGravityVelocity() {
 		return 9.81 * 0.05;
+	}
+
+	@Override
+	public RadarTargetType getTargetType() {
+		return RadarTargetType.ARTILLERY;
 	}
 }

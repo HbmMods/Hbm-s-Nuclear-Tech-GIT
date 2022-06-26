@@ -98,6 +98,10 @@ public class ArmorUtil {
 			return;
 		
 		entity.getEquipmentInSlot(slot + 1).damageItem(amount, entity);
+
+		if(entity.getEquipmentInSlot(slot + 1).stackSize == 0) {
+			entity.setCurrentItemOrArmor(slot + 1, null);
+		}
 	}
 	
 	public static void resetFlightTime(EntityPlayer player) {

@@ -2,7 +2,6 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.weapon.gununified.ItemEnergyGunBase;
 import com.hbm.main.ResourceManager;
@@ -12,8 +11,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderWeaponGlass implements IItemRenderer {
 	
@@ -52,9 +49,8 @@ public class ItemRenderWeaponGlass implements IItemRenderer {
 			
 			double s0 = 0.5D;
 			GL11.glRotated(25, 0, 0, 1);
-			GL11.glTranslated(2.5, 0.15, 0.5);
-			GL11.glRotated(90, 0, -1, 0);
-			GL11.glRotatef(90, 0, 1, 0);
+			GL11.glTranslated(2.25, 0.0, 0.125);
+			GL11.glRotatef(-10, 0, 1, 0);
 			GL11.glScaled(s0, s0, s0);
 			
 			break;

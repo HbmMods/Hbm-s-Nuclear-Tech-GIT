@@ -1292,21 +1292,21 @@ public class ItemRenderLibrary {
 		}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_assemfac), new ItemRenderBase( ) {
-		public void renderInventory() {
-			GL11.glScaled(2.5, 2.5, 2.5);
-		}
-		public void renderCommon() {
-			GL11.glScaled(0.5, 0.5, 0.5);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			bindTexture(ResourceManager.assemfac_tex); ResourceManager.assemfac.renderPart("Factory");
-			for(int i = 1; i < 7; i++) {
-				ResourceManager.assemfac.renderPart("Pivot" + i);
-				ResourceManager.assemfac.renderPart("Arm" + i);
-				ResourceManager.assemfac.renderPart("Piston" + i);
-				ResourceManager.assemfac.renderPart("Striker" + i);
+			public void renderInventory() {
+				GL11.glScaled(2.5, 2.5, 2.5);
 			}
-			GL11.glShadeModel(GL11.GL_FLAT);
-		}});
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.assemfac_tex); ResourceManager.assemfac.renderPart("Factory");
+				for(int i = 1; i < 7; i++) {
+					ResourceManager.assemfac.renderPart("Pivot" + i);
+					ResourceManager.assemfac.renderPart("Arm" + i);
+					ResourceManager.assemfac.renderPart("Piston" + i);
+					ResourceManager.assemfac.renderPart("Striker" + i);
+				}
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.furnace_iron), new ItemRenderBase( ) {
 			public void renderInventory() {
@@ -1318,6 +1318,26 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.furnace_iron_tex);
 				ResourceManager.furnace_iron.renderPart("Main");
 				ResourceManager.furnace_iron.renderPart("Off");
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_arty), new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(-3, -4, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
+			}
+			public void renderCommon() {
+				GL11.glRotated(-90, 0, 1, 0);
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_arty_tex);
+				ResourceManager.turret_arty.renderPart("Base");
+				ResourceManager.turret_arty.renderPart("Carriage");
+				GL11.glTranslated(0, 3, 0);
+				GL11.glRotated(45, 1, 0, 0);
+				GL11.glTranslated(0, -3, 0);
+				ResourceManager.turret_arty.renderPart("Cannon");
+				ResourceManager.turret_arty.renderPart("Barrel");
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 	}
 	

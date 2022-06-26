@@ -16,6 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -60,7 +61,8 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		
 		if(te instanceof ISidedInventory) {
 			ISidedInventory sided = (ISidedInventory) te;
-			access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+			//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+			access = masquerade(sided, dir.ordinal());
 		}
 		
 		if(te instanceof IInventory) {
@@ -117,6 +119,15 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, toAdd.copy());
 			world.spawnEntityInWorld(drop);
 		}
+	}
+	
+	public static int[] masquerade(ISidedInventory sided, int side) {
+		
+		if(sided instanceof TileEntityFurnace) {
+			return new int[] {1, 0};
+		}
+		
+		return sided.getAccessibleSlotsFromSide(side);
 	}
 	
 	public static ItemStack addToInventory(IInventory inv, int[] access, ItemStack toAdd, int side) {

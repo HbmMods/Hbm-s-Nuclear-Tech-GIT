@@ -27,6 +27,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -348,6 +349,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			if(te instanceof IInventory) {
 				
 				IInventory inv = (IInventory) te;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 				
 				for(AStack ingredient : recipe.inputs) {
 					
@@ -356,7 +358,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 						for(int i = 0; i < inv.getSizeInventory(); i++) {
 							
 							ItemStack stack = inv.getStackInSlot(i);
-							if(ingredient.matchesRecipe(stack, true)) {
+							if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
 								
 								for(int j = 13; j <= 16; j++) {
 									
@@ -405,6 +407,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				if(out != null) {
 					
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						
+						if(!inv.isItemValidForSlot(j, out))
+							continue;
+							
 						ItemStack target = inv.getStackInSlot(j);
 						
 						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
@@ -415,6 +421,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 					}
 					
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						
+						if(!inv.isItemValidForSlot(j, out))
+							continue;
 						
 						if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
 							ItemStack copy = out.copy();

@@ -248,7 +248,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return data;
 	}
 	
-	private void updateConnections() {
+	protected void updateConnections() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
