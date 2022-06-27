@@ -8,6 +8,7 @@ import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -301,6 +302,11 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void setPower(long power) {
 		this.power = power;
+	}
+
+	@Override
+	public ConnectionPriority getPriority() {
+		return ConnectionPriority.LOW;
 	}
 	
 	// do some opencomputer stuff

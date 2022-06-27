@@ -120,7 +120,7 @@ public class AssemblerRecipes {
 			ComparableStack compStack = ItemAssemblyTemplate.readType(stack);
 			if(compStack != null) {
 				AStack[] ret = recipes.get(compStack);
-				return Arrays.asList(ret);
+				return ret == null ? null : Arrays.asList(ret);
 			}
 			
 			//LEGACY
@@ -131,7 +131,7 @@ public class AssemblerRecipes {
 				if(out != null) {
 					ComparableStack comp = new ComparableStack(out);
 					AStack[] ret = recipes.get(comp);
-					return Arrays.asList(ret);
+					return ret == null ? null : Arrays.asList(ret);
 				}
 			}
 		}

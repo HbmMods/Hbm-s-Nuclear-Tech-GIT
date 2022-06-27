@@ -107,4 +107,14 @@ public interface IEnergyConnector extends ILoadedTile {
 		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
 		return vec;
 	}
+	
+	public default ConnectionPriority getPriority() {
+		return ConnectionPriority.NORMAL;
+	}
+	
+	public enum ConnectionPriority {
+		LOW,
+		NORMAL,
+		HIGH
+	}
 }

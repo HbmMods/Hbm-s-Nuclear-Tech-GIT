@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.config.GeneralConfig;
 
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -135,33 +136,48 @@ public class PowerNet implements IPowerNet {
 		if(this.subscribers.isEmpty())
 			return power;
 		
-		List<IEnergyConnector> subList = new ArrayList(subscribers);
+		ConnectionPriority[] priorities = new ConnectionPriority[] {ConnectionPriority.HIGH, ConnectionPriority.NORMAL, ConnectionPriority.LOW};
 		
-		List<Long> weight = new ArrayList();
-		long totalReq = 0;
-		
-		for(IEnergyConnector con : subList) {
-			long req = con.getTransferWeight();
-			weight.add(req);
-			totalReq += req;
+		for(ConnectionPriority p : priorities) {
+			
+			List<IEnergyConnector> subList = new ArrayList();
+			subscribers.forEach(x -> {
+				if(x.getPriority() == p) {
+					subList.add(x);
+				}
+			});
+			
+			if(subList.isEmpty())
+				continue;
+			
+			List<Long> weight = new ArrayList();
+			long totalReq = 0;
+			
+			for(IEnergyConnector con : subList) {
+				long req = con.getTransferWeight();
+				weight.add(req);
+				totalReq += req;
+			}
+			
+			if(totalReq == 0)
+				continue;
+			
+			long totalGiven = 0;
+			
+			for(int i = 0; i < subList.size(); i++) {
+				IEnergyConnector con = subList.get(i);
+				long req = weight.get(i);
+				double fraction = (double)req / (double)totalReq;
+				
+				long given = (long) Math.floor(fraction * power);
+				
+				totalGiven += (given - con.transferPower(given));
+			}
+			
+			power -= totalGiven;
 		}
 		
-		if(totalReq == 0)
-			return power;
-		
-		long totalGiven = 0;
-		
-		for(int i = 0; i < subList.size(); i++) {
-			IEnergyConnector con = subList.get(i);
-			long req = weight.get(i);
-			double fraction = (double)req / (double)totalReq;
-			
-			long given = (long) Math.floor(fraction * power);
-			
-			totalGiven += (given - con.transferPower(given));
-		}
-		
-		return power - totalGiven;
+		return power;
 	}
 
 	@Override

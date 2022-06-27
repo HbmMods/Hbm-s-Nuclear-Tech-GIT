@@ -16,6 +16,8 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	public float prevRotation = 0F;
 	public float rotation = 0F;
 	
+	public static final long maxTransfer = 10_000_000_000_000_000L;
+	
 	@Override
 	public void updateEntity() {
 		
@@ -68,7 +70,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			if(te instanceof IEnergyConnector) {
 				IEnergyConnector con = (IEnergyConnector) te;
 				
-				long max = 10_000_000_000_000_000L;
+				long max = maxTransfer;
 				long toTransfer = Math.min(max, this.power);
 				long remainder = this.power - toTransfer;
 				this.power = toTransfer;
@@ -108,6 +110,11 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	public long getMaxPower() {
 		return Long.MAX_VALUE;
 	}
+
+	@Override
+	public long getTransferWeight() {
+		return Math.min(Math.max(this.getMaxPower() - getPower(), 0), maxTransfer);
+	}
 	
 	public float getSpeed() {
 		return (float) Math.pow(Math.log(power * 0.75 + 1) * 0.05F, 5);
@@ -127,7 +134,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	// override the name because when connecting the machine to opencomputers it's gonna say "ntm_energy_storage"
 	@Override
-    	public String getComponentName() {
-        	return "ntm_fensu";
+	public String getComponentName() {
+		return "ntm_fensu";
 	}
 }
