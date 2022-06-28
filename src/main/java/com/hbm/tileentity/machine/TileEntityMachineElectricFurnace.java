@@ -4,20 +4,14 @@ import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser {
@@ -178,7 +172,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 				power -= consumption;
 
-				if(this.progress == maxProgress) {
+				if(this.progress >= maxProgress) {
 					this.progress = 0;
 					this.processItem();
 					flag1 = true;
