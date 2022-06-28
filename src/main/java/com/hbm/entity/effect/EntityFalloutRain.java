@@ -153,7 +153,7 @@ public class EntityFalloutRain extends Entity {
 					worldObj.setBlock(x, y + 1, z, Blocks.fire);
 			}
 
-			if (b == Blocks.leaves || b == Blocks.leaves2) {
+			/*if (b == Blocks.leaves || b == Blocks.leaves2) {
 				worldObj.setBlock(x, y, z, Blocks.air);
 				
 			} else if(b == Blocks.stone) {
@@ -241,7 +241,7 @@ public class EntityFalloutRain extends Entity {
 			//this piece stops the "stomp" from reaching below ground
 			} else if(b.isNormalCube()) {
 				return;
-			}
+			}*/
 		}
 	}
 	
