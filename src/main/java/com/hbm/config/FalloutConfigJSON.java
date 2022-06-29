@@ -164,11 +164,11 @@ public class FalloutConfigJSON {
 		public FalloutEntry max(double max) { this.maxDist = max; return this; }
 		public FalloutEntry sol(boolean solid) { this.isSolid = solid; return this; }
 		
-		public boolean eval(World world, int x, int y, int z, Block b, double dist) {
+		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist) {
 			
 			if(matchesBlock != null && b != matchesBlock) return false;
 			if(matchesMaterial != null && b.getMaterial() != matchesMaterial) return false;
-			if(matchesMeta != -1 && world.getBlockMetadata(x, y, z) != matchesMeta) return false;
+			if(matchesMeta != -1 && meta != matchesMeta) return false;
 			if(matchesOpaque && !b.isOpaqueCube()) return false;
 			if(dist > maxDist || dist < minDist) return false;
 			

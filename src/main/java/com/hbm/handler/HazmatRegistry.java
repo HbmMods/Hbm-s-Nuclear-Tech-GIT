@@ -67,24 +67,6 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.hazmat_legs_grey, hazGray * legs);
 		HazmatRegistry.registerHazmat(ModItems.hazmat_boots_grey, hazGray * boots);
 
-		Item rec_helmet = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazhelmet");
-		Item rec_chest = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazchest");
-		Item rec_legs = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazlegs");
-		Item rec_boots = Compat.tryLoadItem(Compat.MOD_REC, "reactorcraft_item_hazboots");
-		if(rec_helmet != null)	HazmatRegistry.registerHazmat(rec_helmet, hazGray * helmet);
-		if(rec_chest != null)	HazmatRegistry.registerHazmat(rec_chest, hazGray * chest);
-		if(rec_legs != null)	HazmatRegistry.registerHazmat(rec_legs, hazGray * legs);
-		if(rec_boots != null)	HazmatRegistry.registerHazmat(rec_boots, hazGray * boots);
-
-		Item efn_helmet = Compat.tryLoadItem(Compat.MOD_EF, "netherite_helmet");
-		Item efn_chest = Compat.tryLoadItem(Compat.MOD_EF, "netherite_chestplate");
-		Item efn_legs = Compat.tryLoadItem(Compat.MOD_EF, "netherite_leggings");
-		Item efn_boots = Compat.tryLoadItem(Compat.MOD_EF, "netherite_boots");
-		if(efn_helmet != null)	HazmatRegistry.registerHazmat(efn_helmet, star * helmet);
-		if(efn_chest != null)	HazmatRegistry.registerHazmat(efn_chest, star * chest);
-		if(efn_legs != null)	HazmatRegistry.registerHazmat(efn_legs, star * legs);
-		if(efn_boots != null)	HazmatRegistry.registerHazmat(efn_boots, star * boots);
-
 		HazmatRegistry.registerHazmat(ModItems.liquidator_helmet, liquidator * helmet);
 		HazmatRegistry.registerHazmat(ModItems.liquidator_plate, liquidator * chest);
 		HazmatRegistry.registerHazmat(ModItems.liquidator_legs, liquidator * legs);
@@ -204,6 +186,8 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.euphemium_plate, euph * chest);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_legs, euph * legs);
 		HazmatRegistry.registerHazmat(ModItems.euphemium_boots, euph * boots);
+		
+		Compat.registerCompatHazmat();
 	}
 	
 	private static HashMap<Item, Double> entries = new HashMap();

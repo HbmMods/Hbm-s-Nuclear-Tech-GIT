@@ -2,6 +2,8 @@ package com.hbm.entity.effect;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
+import com.hbm.config.FalloutConfigJSON;
+import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.config.VersatileConfig;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.Tuple.Quintet;
@@ -46,7 +48,6 @@ public class EntityFalloutRain extends Entity {
 			
 			if(firstTick) {
 				if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
-				//initConversion();
 				firstTick = false;
 			}
 
@@ -130,6 +131,9 @@ public class EntityFalloutRain extends Entity {
 		int depth = 0;
 
 		for(int y = 255; y >= 0; y--) {
+			
+			if(depth >= 3)
+				return;
 
 			Block b = worldObj.getBlock(x, y, z);
 			Block ab = worldObj.getBlock(x, y + 1, z);
@@ -151,6 +155,24 @@ public class EntityFalloutRain extends Entity {
 			if(b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
 				if(rand.nextInt(5) == 0)
 					worldObj.setBlock(x, y + 1, z, Blocks.fire);
+			}
+			
+			boolean eval = false;
+			
+			for(FalloutEntry entry : FalloutConfigJSON.entries) {
+				
+				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
+					if(entry.isSolid()) {
+						depth++;
+					}
+					
+					eval = true;
+					break;
+				}
+			}
+			
+			if(!eval && b.isNormalCube()) {
+				return;
 			}
 
 			/*if (b == Blocks.leaves || b == Blocks.leaves2) {
@@ -244,24 +266,6 @@ public class EntityFalloutRain extends Entity {
 			}*/
 		}
 	}
-	
-	/*public HashMap<Block, BlockConversion> directConversions = new HashMap();
-	
-	private void initConversion() {
-		
-		directConversions.put(Blocks.stone, new BlockConversion() { @Override public boolean convert() {
-				if(dist < 5) set(ModBlocks.sellafield_1);
-				else if(dist < 15) set(ModBlocks.sellafield_0);
-				else if(dist < 75) set(ModBlocks.sellafield_slaked);
-				return true;
-			}
-		});
-		
-		directConversions.put(Blocks.grass, new BlockConversion() { boolean convert() { set(ModBlocks.waste_earth); return false; }});
-		directConversions.put(Blocks.mycelium, new BlockConversion() { boolean convert() { set(ModBlocks.waste_mycelium); return false; }});
-		directConversions.put(Blocks.leaves, new BlockConversion() { boolean convert() { destroy(); return false; }});
-		directConversions.put(Blocks.leaves2, new BlockConversion() { boolean convert() { destroy(); return false; }});
-	}*/
 
 	@Override
 	protected void entityInit() {
@@ -311,41 +315,4 @@ public class EntityFalloutRain extends Entity {
 		int scale = this.dataWatcher.getWatchableObjectInt(16);
 		return scale == 0 ? 1 : scale;
 	}
-	
-	/*private abstract class BlockConversion {
-		
-		protected World world;
-		protected int x;
-		protected int y;
-		protected int z;
-		protected double dist;
-		
-		public boolean invoke(World world, int x, int y, int z, double dist) {
-			this.world = world;
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.dist = dist;
-			
-			return convert();
-		}
-		
-		abstract boolean convert();
-		
-		protected void destroy() {
-			world.setBlock(x, y, z, Blocks.air);
-		}
-		
-		protected void set(Block b) {
-			world.setBlock(x, y, z, b);
-		}
-		
-		protected void setChance(Block b, float f) {
-			if(world.rand.nextFloat() < f) world.setBlock(x, y, z, b);
-		}
-		
-		protected void setConditional(Block b, float f) {
-			if(world.rand.nextFloat() < f) world.setBlock(x, y, z, b);
-		}
-	}*/
 }
