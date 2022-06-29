@@ -32,8 +32,9 @@ public class FalloutConfigJSON {
 		
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFallout.json");
 		
+		initDefault();
+		
 		if(!config.exists()) {
-			initDefault();
 			writeDefault(config);
 		}
 	}
@@ -149,7 +150,7 @@ public class FalloutConfigJSON {
 		private Triplet<Block, Integer, Integer>[] secondaryBlocks = null;
 		private double primaryChance = 1.0D;
 		private double minDist = 0.0D;
-		private double maxDist = 1.0D;
+		private double maxDist = 100.0D;
 		
 		private boolean isSolid = false;
 
@@ -172,7 +173,7 @@ public class FalloutConfigJSON {
 			if(matchesOpaque && !b.isOpaqueCube()) return false;
 			if(dist > maxDist || dist < minDist) return false;
 			
-			if(primaryChance < 1F && rand.nextFloat() > primaryChance) {
+			if(primaryChance == 1D || rand.nextDouble() < primaryChance) {
 				
 				if(primaryBlocks == null) return false;
 				
@@ -201,7 +202,7 @@ public class FalloutConfigJSON {
 			int r = rand.nextInt(weight);
 			
 			for(Triplet<Block, Integer, Integer> choice : blocks) {
-				r += choice.getZ();
+				r -= choice.getZ();
 				
 				if(r <= 0) {
 					return new MetaBlock(choice.getX(), choice.getY());

@@ -186,7 +186,8 @@ public class ItemAmmoArty extends Item {
 		};
 		this.types[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
 			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
-				ExplosionNukeSmall.explode(shell.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, ExplosionNukeSmall.medium);
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				ExplosionNukeSmall.explode(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, ExplosionNukeSmall.medium);
 				shell.setDead();
 			}
 		};

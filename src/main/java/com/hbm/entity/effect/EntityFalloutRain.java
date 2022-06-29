@@ -4,14 +4,11 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
-import com.hbm.config.VersatileConfig;
 import com.hbm.saveddata.AuxSavedData;
-import com.hbm.util.Tuple.Quintet;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -21,7 +18,6 @@ import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class EntityFalloutRain extends Entity {
 	private boolean firstTick = true; // Of course Vanilla has it private in Entity...
@@ -172,7 +168,7 @@ public class EntityFalloutRain extends Entity {
 			}
 			
 			if(!eval && b.isNormalCube()) {
-				return;
+				depth++;
 			}
 
 			/*if (b == Blocks.leaves || b == Blocks.leaves2) {
