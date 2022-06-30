@@ -1,6 +1,6 @@
 package com.hbm.entity.item;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.conveyor.IConveyorBelt;
@@ -35,12 +35,11 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 
 	public EntityMovingItem(World p_i1582_1_) {
 		super(p_i1582_1_);
-		this.setSize(0.5F, 0.5F);
+		this.setSize(0.375F, 0.375F);
 		this.noClip = true;
 	}
 
 	public void setItemStack(ItemStack stack) {
-
 		this.getDataWatcher().updateObject(10, stack);
 		this.getDataWatcher().setObjectWatched(10);
 	}
@@ -117,10 +116,10 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 			
 			if(!(b instanceof IConveyorBelt)) {
 				this.setDead();
-				EntityItem item = new EntityItem(worldObj, posX, posY, posZ, this.getItemStack());
-				item.motionX = this.motionX * 3;
+				EntityItem item = new EntityItem(worldObj, posX + motionX * 2, posY + motionY * 2, posZ + motionZ * 2, this.getItemStack());
+				item.motionX = this.motionX * 2;
 				item.motionY = 0.1;
-				item.motionZ = this.motionZ * 3;
+				item.motionZ = this.motionZ * 2;
 				item.velocityChanged = true;
 				worldObj.spawnEntityInWorld(item);
 				return;
@@ -170,11 +169,35 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 				if(newBlock instanceof IEnterableBlock) {
 					
 					ForgeDirection dir = ForgeDirection.UNKNOWN;
+
+					if(lastPos.getX() > newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.POS_X;
+					else if(lastPos.getX() < newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.NEG_X;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() > newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.POS_Y;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() < newPos.getY() && lastPos.getZ() == newPos.getZ()) dir = Library.NEG_Y;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() > newPos.getZ()) dir = Library.POS_Z;
+					else if(lastPos.getX() == newPos.getX() && lastPos.getY() == newPos.getY() && lastPos.getZ() < newPos.getZ()) dir = Library.NEG_Z;
+					
 					IEnterableBlock enterable = (IEnterableBlock) newBlock;
 					
 					if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this)) {
+						
 						enterable.onEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
 						this.setDead();
+					}
+				} else {
+					
+					if(!newBlock.getMaterial().isSolid()) {
+						
+						newBlock = worldObj.getBlock(newPos.getX(), newPos.getY() - 1, newPos.getZ());
+						
+						if(newBlock instanceof IEnterableBlock) {
+							
+							IEnterableBlock enterable = (IEnterableBlock) newBlock;
+							if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this)) {
+								enterable.onEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this);
+								this.setDead();
+							}
+						}
 					}
 				}
 			}
@@ -193,7 +216,7 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 		this.syncPosX = x;
 		this.syncPosY = y;
 		this.syncPosZ = z;
-		this.turnProgress = theNumberThree + 7; //use 4-ply for extra smoothness
+		this.turnProgress = theNumberThree + 2; //use 4-ply for extra smoothness
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;

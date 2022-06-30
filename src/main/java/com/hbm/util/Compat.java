@@ -3,6 +3,7 @@ package com.hbm.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 
 import net.minecraft.item.Item;
@@ -92,5 +93,43 @@ public class Compat {
 		}
 		
 		return stacks;
+	}
+	
+	public static void registerCompatHazmat() {
+		
+		double helmet = 0.2D;
+		double chest = 0.4D;
+		double legs = 0.3D;
+		double boots = 0.1D;
+		
+		double p90 = 1.0D; // 90%
+		double p99 = 2D; // 99%
+		
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.radiation.head",		p90 * helmet);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.radiation.chest",	p90 * chest);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.radiation.legs",		p90 * legs);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.radiation.boots",	p90 * boots);
+		
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.universal.head",		p99 * helmet);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.universal.chest",	p99 * chest);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.universal.legs",		p99 * legs);
+		tryRegisterHazmat(Compat.MOD_GT6, "gt.armor.hazmat.universal.boots",	p99 * boots);
+		
+		tryRegisterHazmat(Compat.MOD_REC, "reactorcraft_item_hazhelmet",	p99 * helmet);
+		tryRegisterHazmat(Compat.MOD_REC, "reactorcraft_item_hazchest",		p99 * chest);
+		tryRegisterHazmat(Compat.MOD_REC, "reactorcraft_item_hazlegs",		p99 * legs);
+		tryRegisterHazmat(Compat.MOD_REC, "reactorcraft_item_hazboots",		p99 * boots);
+		
+		tryRegisterHazmat(Compat.MOD_EF, "netherite_helmet", 		p90 * helmet);
+		tryRegisterHazmat(Compat.MOD_EF, "netherite_chestplate",	p90 * chest);
+		tryRegisterHazmat(Compat.MOD_EF, "netherite_leggings",		p90 * legs);
+		tryRegisterHazmat(Compat.MOD_EF, "netherite_boots",			p90 * boots);
+	}
+	
+	private static void tryRegisterHazmat(String mod, String name, double resistance) {
+		Item item = Compat.tryLoadItem(mod, name);
+		if(item != null) {
+			HazmatRegistry.registerHazmat(item, resistance);
+		}
 	}
 }

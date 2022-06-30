@@ -34,7 +34,8 @@ public class GUIMassStorage extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 		
 		String percent = (((int) (storage.getStockpile() * 1000D / (double) storage.getCapacity())) / 10D) + "%";
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 96, guiTop + 16, 18, 90, mouseX, mouseY, new String[] { storage.getStockpile() + " / " + storage.getCapacity(), percent });
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 96, guiTop + 16, 18, 90, mouseX, mouseY, new String[]
+				{ String.format("%,d", storage.getStockpile()) + " / " + String.format("%,d", storage.getCapacity()), percent });
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 62, guiTop + 72, 14, 14, mouseX, mouseY, new String[] { "Click: Provide one", "Shift-click: Provide stack" });
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 80, guiTop + 72, 14, 14, mouseX, mouseY, new String[] { "Toggle output" });

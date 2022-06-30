@@ -37,6 +37,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Delay -" + (15 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Laser Miner:");
 			list.add("Delay ÷" + (1 + this.tier) + " / Consumption +" + (625 * this.tier) + "HE/t");
+			list.add(EnumChatFormatting.RED + "Electric Furnace:");
+			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (50 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Assembly Machine:");
 			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");
@@ -69,6 +71,8 @@ public class ItemMachineUpgrade extends Item {
 		if(this.type == UpgradeType.POWER) {
 			list.add(EnumChatFormatting.RED + "Mining Drill:");
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
+			list.add(EnumChatFormatting.RED + "Electric Furnace:");
+			list.add("Consumption -" + (15 * this.tier) + "HE/t / Delay +" + (10 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Assembly Machine:");
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");

@@ -57,10 +57,6 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti {
 	public int damageDropped(int meta) {
 		return rectify(meta);
 	}
-	
-	private int rectify(int meta) {
-		return Math.abs(meta % 3);
-	}
 
 	@Override
 	public int getRenderType() {

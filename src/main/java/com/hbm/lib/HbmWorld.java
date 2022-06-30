@@ -1,8 +1,5 @@
 package com.hbm.lib;
 
-import com.hbm.world.test.StructureComponentTest;
-import com.hbm.world.test.StructureStartTest;
-import com.hbm.world.test.WorldGenTest;
 import com.hbm.world.worldgen.ComponentNTMFeatures;
 import com.hbm.world.worldgen.MapGenNTMFeatures;
 import com.hbm.world.worldgen.NTMWorldGenerator;

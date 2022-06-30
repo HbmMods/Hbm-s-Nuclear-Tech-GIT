@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
+import com.hbm.util.I18nUtil;
 
 public class GUIMachineElectricFurnace extends GuiInfoContainer {
 	
@@ -29,6 +30,12 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 20, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+		
+		String[] upgradeText = new String[3];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 151, guiTop + 19, 8, 8, mouseX, mouseY, upgradeText);
 	}
 	
 	@Override
@@ -58,17 +65,19 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 			fs = diFurnace;
 		
 		if(fs.hasPower()) {
-			int i = (int)diFurnace.getPowerRemainingScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 20, guiTop + 69 - i, 200, 52 - i, 16, i);
 		}
 		
 		if(diFurnace.canProcess() && diFurnace.hasPower())
 		{
-			drawTexturedModalRect(guiLeft + 56, guiTop + 36, 176, 0, 15, 16);
+			drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 0, 16, 16);
 		}
 		
-		int j1 = fs.getDiFurnaceProgressScaled(24);
-		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, j1 + 1, 17);
+		int j1 = fs.getProgressScaled(24);
+		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 17, j1 + 1, 17);
+		
+		this.drawInfoPanel(guiLeft + 151, guiTop + 19, 8, 8, 8);
 	}
 
 }

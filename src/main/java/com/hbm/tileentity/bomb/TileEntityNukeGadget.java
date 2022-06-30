@@ -91,7 +91,7 @@ public class TileEntityNukeGadget extends TileEntity implements ISidedInventory 
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return 1;
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class TileEntityNukeGadget extends TileEntity implements ISidedInventory 
 	}*/
 	
 	public boolean exp1() {
-		if(this.slots[1] != null && this.slots[1].getItem() == ModItems.gadget_explosive8)
+		if(this.slots[1] != null && this.slots[1].getItem() == ModItems.early_explosive_lenses)
 		{
 			return true;
 		}
@@ -205,7 +205,7 @@ public class TileEntityNukeGadget extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean exp2() {
-		if(this.slots[2] != null && this.slots[2].getItem() == ModItems.gadget_explosive8)
+		if(this.slots[2] != null && this.slots[2].getItem() == ModItems.early_explosive_lenses)
 		{
 			return true;
 		}
@@ -214,7 +214,7 @@ public class TileEntityNukeGadget extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean exp3() {
-		if(this.slots[3] != null && this.slots[3].getItem() == ModItems.gadget_explosive8)
+		if(this.slots[3] != null && this.slots[3].getItem() == ModItems.early_explosive_lenses)
 		{
 			return true;
 		}
@@ -223,7 +223,7 @@ public class TileEntityNukeGadget extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean exp4() {
-		if(this.slots[4] != null && this.slots[4].getItem() == ModItems.gadget_explosive8)
+		if(this.slots[4] != null && this.slots[4].getItem() == ModItems.early_explosive_lenses)
 		{
 			return true;
 		}

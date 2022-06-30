@@ -330,7 +330,7 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_proto))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_nuke, 8));
 			if(player.inventory.hasItem(ModItems.gun_mirv))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mirv_ammo, 1));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_mirv, 1));
 			if(player.inventory.hasItem(ModItems.gun_bf))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bf_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_mp40))

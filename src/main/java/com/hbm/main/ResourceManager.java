@@ -51,8 +51,12 @@ public class ResourceManager {
 	public static final IModelCustom turret_maxwell = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_microwave.obj"));
 	public static final IModelCustom turret_fritz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_fritz.obj"));
 	public static final IModelCustom turret_brandon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_brandon.obj"));
+	public static final IModelCustom turret_arty = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_arty.obj"));
 
 	public static final IModelCustom turret_howard_damaged = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_howard_damaged.obj"));
+	
+	//Furnaces
+	public static final IModelCustom furnace_iron = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/furnace_iron.obj"));
 	
 	//Landmines
 	public static final IModelCustom mine_ap = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mine_ap.obj"));
@@ -341,6 +345,7 @@ public class ResourceManager {
 	public static final ResourceLocation turret_maxwell_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/maxwell.png");
 	public static final ResourceLocation turret_fritz_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/fritz.png");
 	public static final ResourceLocation turret_brandon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/brandon.png");
+	public static final ResourceLocation turret_arty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/arty.png");
 	
 
 	public static final ResourceLocation turret_base_rusted= new ResourceLocation(RefStrings.MODID, "textures/models/turrets/rusted/base.png");
@@ -356,6 +361,9 @@ public class ResourceManager {
 	public static final ResourceLocation mine_marelet_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/mine_marelet.png");
 	public static final ResourceLocation mine_shrap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_shrap.png");
 	public static final ResourceLocation mine_fat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_fat.png");
+	
+	//Furnaces
+	public static final ResourceLocation furnace_iron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/furnace_iron.png");
 	
 	//Oil Pumps
 	public static final ResourceLocation derrick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/derrick.png");
@@ -649,6 +657,7 @@ public class ResourceManager {
 	public static final IModelCustom detonator_laser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/detonator_laser.obj"));
 	public static final IModelCustom spas_12 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/spas-12.obj"));
 	public static final IModelCustom nightmare_dark = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/nightmare_dark.obj"));
+	public static final IModelCustom glass_cannon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/glass_cannon.obj"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -724,6 +733,7 @@ public class ResourceManager {
 	public static final ResourceLocation rem700sat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/rem700sat.png");
 	public static final ResourceLocation detonator_laser_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/detonator_laser.png");
 	public static final ResourceLocation spas_12_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/spas-12.png");
+	public static final ResourceLocation glass_cannon_panel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/glass_cannon_panel.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

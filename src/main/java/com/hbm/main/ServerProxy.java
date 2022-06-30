@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class ServerProxy {
 
-	//sort by estimated time of display. longer lasting ones should be sortet at the top.
+	//sort by estimated time of display. longer lasting ones should be sorted at the top.
 	public static final int ID_DUCK = 0;
 	public static final int ID_FILTER = 1;
 	public static final int ID_COMPASS = 2;
@@ -21,6 +21,7 @@ public class ServerProxy {
 	public static final int ID_HUD = 5;
 	public static final int ID_DETONATOR = 6;
 	public static final int ID_FLUID_ID = 7;
+	public static final int ID_GUN_MODE = 8;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }

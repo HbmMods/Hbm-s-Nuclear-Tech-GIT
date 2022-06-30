@@ -1,9 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
@@ -11,7 +7,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.types.FluidTypeFlammable;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
@@ -104,14 +99,14 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 						
 						if(burnTime > 0) {
 							
-							if(fuel.getItem() == Items.coal)
+							if(fuel.getItem() == Items.coal) //1200 (1600)
 								burnTime *= 1.5;
-							if(fuel.getItem() == ModItems.solid_fuel)
+							if(fuel.getItem() == ModItems.solid_fuel) //3200 (3200)
 								burnTime *= 2;
-							if(fuel.getItem() == ModItems.solid_fuel_presto)
+							if(fuel.getItem() == ModItems.solid_fuel_presto) //16000 (8000)
 								burnTime *= 4;
-							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet)
-								burnTime *= 10;
+							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet) //80000 (40000)
+								burnTime *= 4;
 							
 							burn[i] = burnTime;
 							

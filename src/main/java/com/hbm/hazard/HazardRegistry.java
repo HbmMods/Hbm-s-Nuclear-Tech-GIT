@@ -222,6 +222,7 @@ public class HazardRegistry {
 		registerOtherFuel(rod_zirnox_u235_fuel, u235 * rod_dual, wst * rod_dual * 11F, false);
 		registerOtherFuel(rod_zirnox_les_fuel, saf * rod_dual, wst * rod_dual * 15F, false);
 		registerOtherFuel(rod_zirnox_lithium, 0, 0.001F * rod_dual, false);
+		registerOtherFuel(rod_zirnox_zfb_mox, mox * rod_dual, wst * rod_dual * 5F, false);
 		
 		HazardSystem.register(rod_zirnox_natural_uranium_fuel_depleted, makeData(RADIATION, wst * rod_dual * 11.5F));
 		HazardSystem.register(rod_zirnox_uranium_fuel_depleted, makeData(RADIATION, wst * rod_dual * 10F));
@@ -232,6 +233,7 @@ public class HazardRegistry {
 		HazardSystem.register(rod_zirnox_u235_fuel_depleted, makeData(RADIATION, wst * rod_dual * 11F));
 		HazardSystem.register(rod_zirnox_les_fuel_depleted, makeData().addEntry(RADIATION, wst * rod_dual * 15F).addEntry(BLINDING, 20F));
 		HazardSystem.register(rod_zirnox_tritium, makeData(RADIATION, 0.001F * rod_dual));
+		HazardSystem.register(rod_zirnox_zfb_mox_depleted, makeData(RADIATION, wst * rod_dual * 5F));
 		
 		registerOtherWaste(waste_natural_uranium, wst * billet * 11.5F);
 		registerOtherWaste(waste_uranium, wst * billet * 10F);
@@ -241,6 +243,7 @@ public class HazardRegistry {
 		registerOtherWaste(waste_u233, wst * billet * 10F);
 		registerOtherWaste(waste_u235, wst * billet * 11F);
 		registerOtherWaste(waste_schrabidium, wst * billet * 15F);
+		registerOtherWaste(waste_zfb_mox, wst * billet * 5F);
 		
 		registerOtherFuel(pellet_schrabidium, sa326 * ingot * 5, wst * ingot * 100, true);
 		registerOtherFuel(pellet_hes, saf * ingot * 5, wst * ingot * 75, true);
@@ -442,12 +445,7 @@ public class HazardRegistry {
 		HazardSystem.register(ModItems.crystal_trixite, makeData(RADIATION, trx * crystal));
 		
 		//nuke parts
-		HazardSystem.register(gadget_explosive, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(gadget_explosive8, makeData(EXPLOSIVE, 8F));
 		HazardSystem.register(boy_propellant, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(boy_igniter, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(man_explosive, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(man_explosive8, makeData(EXPLOSIVE, 16F));
 		
 		HazardSystem.register(gadget_core, makeData(RADIATION, pu239 * nugget * 10));
 		HazardSystem.register(boy_target, makeData(RADIATION, u235 * ingot * 2));

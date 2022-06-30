@@ -16,6 +16,7 @@ public class ContainerMassStorage extends Container {
 
 	public ContainerMassStorage(InventoryPlayer invPlayer, TileEntityMassStorage te) {
 		this.storage = te;
+		this.storage.openInventory();
 
 		this.addSlotToContainer(new Slot(storage, 0, 61, 17));
 		this.addSlotToContainer(new SlotPattern(storage, 1, 61, 53));
@@ -99,5 +100,11 @@ public class ContainerMassStorage extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return storage.isUseableByPlayer(player);
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer p_75134_1_) {
+		super.onContainerClosed(p_75134_1_);
+		this.storage.closeInventory();
 	}
 }

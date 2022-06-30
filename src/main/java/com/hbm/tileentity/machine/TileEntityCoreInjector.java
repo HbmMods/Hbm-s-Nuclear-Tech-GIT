@@ -15,7 +15,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver, SimpleComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -175,5 +182,22 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0], tanks[1]};
 	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "dfc_injector";
+	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFirstFuel(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSecondFuel(Context context, Arguments args) {
+		return new Object[] {tanks[1].getFill()};
+	}
 }

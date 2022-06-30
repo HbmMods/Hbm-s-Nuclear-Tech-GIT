@@ -149,21 +149,7 @@ public class WeaponRecipes {
 		//CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_darter, 1), new Object[] { "SST", "  P", 'S', STEEL.plate(), 'T', ModItems.gas_empty, 'P', ANY_PLASTIC.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_fireext, 1), new Object[] { "HB", " T", 'H', ModItems.hull_small_steel, 'B', ModItems.bolt_tungsten, 'T', ModItems.tank_steel });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_spas12, 1), new Object[] { "TPS", "HHR", "  L", 'T', ModItems.bolt_tungsten, 'P', STEEL.plate(), 'S', STEEL.ingot(), 'H', ModItems.hull_small_steel, 'R', ModItems.mechanism_rifle_1, 'L', ANY_PLASTIC.ingot()});
-		
-		//Legacy ammo recycling
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_44, 1), new Object[] { ModItems.gun_revolver_nopip_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_44_pip, 1), new Object[] { ModItems.gun_revolver_pip_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_50bmg, 1), new Object[] { ModItems.gun_calamity_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_5mm, 1), new Object[] { ModItems.gun_lacunae_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_rocket, 1), new Object[] { ModItems.gun_rpg_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_9mm, 1), new Object[] { ModItems.gun_mp40_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_22lr, 1), new Object[] { ModItems.gun_uzi_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_12gauge, 1), new Object[] { ModItems.gun_uboinik_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_20gauge, 1), new Object[] { ModItems.gun_lever_action_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_20gauge_slug, 1), new Object[] { ModItems.gun_bolt_action_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_nuke_high, 1), new Object[] { ModItems.gun_fatman_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_mirv_high, 1), new Object[] { ModItems.gun_mirv_ammo });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_stinger_rocket, 1), new Object[] { ModItems.gun_stinger_ammo });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_glass_cannon, 1), new Object[] { "GGC", "GTM", 'G', Item.getItemFromBlock(ModBlocks.glass_quartz), 'C', ModItems.battery_lithium_cell, 'T', ModItems.crt_display, 'M', ModItems.mechanism_special });
 		
 		//Ammo assemblies
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pellet_flechette, 1), new Object[] { " L ", " L ", "LLL", 'L', PB.nugget() });
@@ -285,6 +271,14 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_shell_apfsds_du, 6), new Object[] { " I ", "GIG", "CCC", 'I', U238.ingot(), 'G', ModItems.cordite, 'C', CU.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_shell_w9, 1), new Object[] { " P ", "NSN", " P ", 'P', PU239.nugget(), 'N', OreDictManager.getReflector(), 'S', ModItems.ammo_shell_explosive });
 		
+		//Artillery Shells
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 0), new Object[] { "CIC", "CSC", "CCC", 'C', ModItems.cordite, 'I', IRON.block(), 'S', ModItems.hull_small_steel });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 1), new Object[] { " D ", "DSD", " D ", 'D', ModItems.ball_dynamite, 'S', new ItemStack(ModItems.ammo_arty, 1, 0) });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 2), new Object[] { "TTT", "TST", "TTT", 'T', ModItems.ball_tnt, 'S', new ItemStack(ModItems.ammo_arty, 1, 0) });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 5), new Object[] { " D ", "DSD", " D ", 'D', P_WHITE.ingot(), 'S', new ItemStack(ModItems.ammo_arty, 1, 0) });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 3), new Object[] { " P ", "NSN", " P ", 'P', PU239.nugget(), 'N', OreDictManager.getReflector(), 'S', new ItemStack(ModItems.ammo_arty, 1, 0) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_arty, 1, 4), new Object[] { new ItemStack(ModItems.ammo_arty, 1, 2), ModItems.boy_bullet, ModItems.boy_target, ModItems.boy_shielding, ModItems.circuit_red_copper, ModItems.ducttape });
+
 		//DGK Belts
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_dgk, 1), new Object[] { "LLL", "GGG", "CCC", 'L', PB.plate(), 'G', ModItems.ballistite, 'C', CU.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_dgk, 1), new Object[] { "LLL", "GGG", "CCC", 'L', PB.plate(), 'G', ModItems.cordite, 'C', CU.ingot() });
@@ -395,8 +389,6 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_fat, 1), new Object[] { "CDN", 'C', ModItems.circuit_targeting_tier2, 'D', ModItems.ducttape, 'N', ModItems.ammo_nuke });
 		
 		//Nuke parts
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gadget_explosive8, 1), new Object[] { "EEE", "EPE", "EEE", 'E', ModItems.gadget_explosive, 'P', AL.plate() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.man_explosive8, 1), new Object[] { "EEE", "ESE", "EEE", 'E', ModItems.man_explosive, 'S', STEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.n2_charge, 1), new Object[] { " D ", "ERE", " D ", 'D', ModItems.ducttape, 'E', ModBlocks.det_charge, 'R', REDSTONE.block() });
 
 		//Custom nuke rods

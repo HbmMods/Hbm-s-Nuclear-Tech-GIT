@@ -4,6 +4,8 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.INBTPacketReceiver;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,9 +15,17 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	
 	private int stack = 0;
 	public boolean output = false;
+	private int capacity;
+	
+	@SideOnly(Side.CLIENT) public ItemStack type;
 	
 	public TileEntityMassStorage() {
 		super(3);
+	}
+	
+	public TileEntityMassStorage(int capacity) {
+		this();
+		this.capacity = capacity;
 	}
 
 	@Override
@@ -68,6 +78,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("stack", getStockpile());
 			data.setBoolean("output", output);
+			if(slots[1] != null) slots[1].writeToNBT(data);
 			INBTPacketReceiver.networkPack(this, data, 15);
 		}
 	}
@@ -76,10 +87,11 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.stack = nbt.getInteger("stack");
 		this.output = nbt.getBoolean("output");
+		this.type = ItemStack.loadItemStackFromNBT(nbt);
 	}
 	
 	public int getCapacity() {
-		return 10_000;
+		return capacity;
 	}
 	
 	public ItemStack getType() {
@@ -100,10 +112,25 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	}
 
 	@Override
+	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 1.0F, 1.0F);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 1.0F, 1.0F);
+	}
+
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.stack = nbt.getInteger("stack");
 		this.output = nbt.getBoolean("output");
+		this.capacity = nbt.getInteger("capacity");
+		
+		if(this.capacity <= 0) {
+			this.capacity = 10_000;
+		}
 	}
 
 	@Override
@@ -111,6 +138,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		super.writeToNBT(nbt);
 		nbt.setInteger("stack", stack);
 		nbt.setBoolean("output", output);
+		nbt.setInteger("capacity", capacity);
 	}
 
 	@Override
@@ -142,5 +170,20 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		if(data.hasKey("toggle")) {
 			this.output = !output;
 		}
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		return !this.isLocked() && i == 0 && (this.getType() == null || (getType().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(itemStack, getType())));
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return !this.isLocked() && i == 2;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 2 };
 	}
 }

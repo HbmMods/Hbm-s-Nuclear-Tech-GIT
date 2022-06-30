@@ -1,8 +1,11 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
@@ -17,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,11 +31,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class BlockMassStorage extends BlockContainer {
+public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILookOverlay {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
+	@SideOnly(Side.CLIENT) private IIcon[] iconTop;
+	@SideOnly(Side.CLIENT) private IIcon[] iconSide;
 	
 	public BlockMassStorage() {
 		super(Material.iron);
@@ -40,23 +45,35 @@ public class BlockMassStorage extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
+		this.iconTop = new IIcon[3];
+		this.iconSide = new IIcon[3];
+
+		this.iconTop[0] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_iron");
+		this.iconSide[0] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_iron");
+		this.iconTop[1] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_desh");
+		this.iconSide[1] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_desh");
+		this.iconTop[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
+		this.iconSide[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < getSubCount(); ++i) {
+			list.add(new ItemStack(item, 1, i));
+		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-
-		if(this == ModBlocks.safe)
-			return metadata == 0 && side == 3 ? this.iconTop : (side == metadata ? this.iconTop : this.blockIcon);
-
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
+		int meta = this.rectify(metadata);
+		return side == 1 ? this.iconTop[meta] : (side == 0 ? this.iconTop[meta] : this.iconSide[meta]);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityMassStorage();
+		return new TileEntityMassStorage(meta == 0 ? 10_000 : meta == 1 ? 100_000 : 1_000_000);
 	}
 
 	@Override
@@ -84,7 +101,7 @@ public class BlockMassStorage extends BlockContainer {
 		
 		if(!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
 			
-			ItemStack drop = new ItemStack(this);
+			ItemStack drop = new ItemStack(this, 1, world.getBlockMetadata(x, y, z));
 			ISidedInventory inv = (ISidedInventory)world.getTileEntity(x, y, z);
 			
 			NBTTagCompound nbt = new NBTTagCompound();
@@ -210,5 +227,39 @@ public class BlockMassStorage extends BlockContainer {
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
+	}
+
+	@Override
+	public int getSubCount() {
+		return 3;
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(!(te instanceof TileEntityMassStorage))
+			return;
+		
+		TileEntityMassStorage storage = (TileEntityMassStorage) te;
+		
+		List<String> text = new ArrayList();
+		String title = "Empty";
+		boolean full = storage.type != null;
+				
+		if(full) {
+			
+			title = storage.type.getDisplayName();
+			text.add(String.format("%,d", storage.getStockpile()) + " / " + String.format("%,d", storage.getCapacity()));
+			
+			double percent = (double) storage.getStockpile() / (double) storage.getCapacity();
+			int charge = (int) Math.floor(percent * 10_000D);
+			int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
+			
+			text.add("&[" + color + "&]" + (charge / 100D) + "%");
+		}
+		
+		ILookOverlay.printGeneric(event, title, full ? 0xffff00 : 0x00ffff, full ? 0x404000 : 0x004040, text);
 	}
 }

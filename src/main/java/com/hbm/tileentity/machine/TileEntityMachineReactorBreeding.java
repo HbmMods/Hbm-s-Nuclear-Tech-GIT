@@ -15,7 +15,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineReactorBreeding extends TileEntityMachineBase {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineReactorBreeding extends TileEntityMachineBase implements SimpleComponent {
 
 	public int flux;
 	public float progress;
@@ -200,5 +207,23 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "breeding_reactor";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFlux(Context context, Arguments args) {
+		return new Object[] {flux};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getProgress(Context context, Arguments args) {
+		return new Object[] {progress};
 	}
 }

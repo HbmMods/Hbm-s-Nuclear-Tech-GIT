@@ -50,9 +50,9 @@ public class RenderInfoSystem {
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
 		
-		if(this.messages.isEmpty())
+		if(this.messages.isEmpty()) 
 			return;
-
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		ScaledResolution resolution = event.resolution;
 		

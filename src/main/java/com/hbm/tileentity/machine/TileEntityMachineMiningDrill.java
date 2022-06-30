@@ -234,6 +234,10 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				
 				ItemStack sta1 = inventory.getStackInSlot(i).copy();
 				ItemStack sta2 = slots[slot].copy();
+				
+				if(!inventory.isItemValidForSlot(i, sta2))
+					continue;
+				
 				if(sta1 != null && sta2 != null) {
 					sta1.stackSize = 1;
 					sta2.stackSize = 1;
@@ -259,6 +263,10 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				return false;
 			
 			ItemStack sta2 = slots[slot].copy();
+			
+			if(!inventory.isItemValidForSlot(i, sta2))
+				continue;
+			
 			if(inventory.getStackInSlot(i) == null && sta2 != null) {
 				sta2.stackSize = 1;
 				slots[slot].stackSize--;

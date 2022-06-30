@@ -18,6 +18,7 @@ import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -218,6 +219,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				if(te instanceof IInventory) {
 					
 					IInventory inv = (IInventory) te;
+					ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 					
 					for(AStack ingredient : recipe.inputs) {
 						
@@ -226,7 +228,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 							for(int i = 0; i < inv.getSizeInventory(); i++) {
 								
 								ItemStack stack = inv.getStackInSlot(i);
-								if(ingredient.matchesRecipe(stack, true)) {
+								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
 									
 									for(int j = indices[0]; j <= indices[1]; j++) {
 										
@@ -276,6 +278,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 					if(out != null) {
 						
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
+							
+							if(!inv.isItemValidForSlot(j, out))
+								continue;
+							
 							ItemStack target = inv.getStackInSlot(j);
 							
 							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
@@ -286,6 +292,9 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 						}
 						
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
+							
+							if(!inv.isItemValidForSlot(j, out))
+								continue;
 							
 							if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
 								ItemStack copy = out.copy();

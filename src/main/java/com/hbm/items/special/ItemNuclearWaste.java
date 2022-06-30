@@ -1,6 +1,6 @@
 package com.hbm.items.special;
 
-import com.hbm.entity.item.EntitytemWaste;
+import com.hbm.entity.item.EntityItemWaste;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -22,11 +22,13 @@ public class ItemNuclearWaste extends Item {
 	@Override
 	public Entity createEntity(World world, Entity entityItem, ItemStack itemstack) {
 		
-		EntitytemWaste entity = new EntitytemWaste(world, entityItem.posX, entityItem.posY, entityItem.posZ, itemstack);
+		EntityItemWaste entity = new EntityItemWaste(world, entityItem.posX, entityItem.posY, entityItem.posZ, itemstack);
 		entity.motionX = entityItem.motionX;
 		entity.motionY = entityItem.motionY;
 		entity.motionZ = entityItem.motionZ;
 		entity.delayBeforeCanPickup = 10;
+		
+		entityItem.setDead();
 		
 		return entity;
 	}
