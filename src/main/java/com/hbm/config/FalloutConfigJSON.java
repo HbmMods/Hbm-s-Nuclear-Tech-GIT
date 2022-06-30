@@ -1,6 +1,7 @@
 package com.hbm.config;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.Random;
 
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
@@ -28,17 +32,25 @@ public class FalloutConfigJSON {
 	public static final Gson gson = new Gson();
 	
 	public static void initialize() {
-		File folder = MainRegistry.configDir;
-		
+		File folder = MainRegistry.configHbmDir;
+
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFallout.json");
+		File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmFallout.json");
 		
 		initDefault();
 		
 		if(!config.exists()) {
-			writeDefault(config);
+			writeDefault(template);
+		} else {
+			List<FalloutEntry> conf = readConfig(config);
+			
+			if(conf != null) {
+				entries.clear();
+				entries.addAll(conf);
+			}
 		}
 	}
-	
+
 	private static void initDefault() {
 		entries.add(new FalloutEntry()
 				.mB(Blocks.leaves)
@@ -139,6 +151,23 @@ public class FalloutConfigJSON {
 		}
 	}
 	
+	private static List<FalloutEntry> readConfig(File config) {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonArray recipes = json.get("recipes").getAsJsonArray();
+			List<FalloutEntry> conf = new ArrayList();
+			
+			for(JsonElement recipe : recipes) {
+				conf.add(FalloutEntry.readEntry(recipe));
+			}
+			return conf;
+			
+		} catch(Exception ex) { }
+		
+		return null;
+	}
+
 	public static class FalloutEntry {
 		private Block matchesBlock = null;
 		private int matchesMeta = -1;
@@ -157,6 +186,7 @@ public class FalloutConfigJSON {
 		public FalloutEntry mB(Block block) { this.matchesBlock = block; return this; }
 		public FalloutEntry mM(int meta) { this.matchesMeta = meta; return this; }
 		public FalloutEntry mMa(Material mat) { this.matchesMaterial = mat; return this; }
+		public FalloutEntry mO(boolean opaque) { this.matchesOpaque = opaque; return this; }
 
 		public FalloutEntry prim(Triplet<Block, Integer, Integer>... blocks) { this.primaryBlocks = blocks; return this; }
 		public FalloutEntry sec(Triplet<Block, Integer, Integer>... blocks) { this.secondaryBlocks = blocks; return this; }
@@ -234,7 +264,21 @@ public class FalloutConfigJSON {
 			if(primaryChance != 1D) writer.name("chance").value(primaryChance);
 		}
 		
-		private void writeMetaArray(JsonWriter writer, Triplet<Block, Integer, Integer>[] array) throws IOException {
+		private static FalloutEntry readEntry(JsonElement recipe) {
+			FalloutEntry entry = new FalloutEntry();
+			if(!recipe.isJsonObject()) return null;
+			
+			JsonObject obj = recipe.getAsJsonObject();
+
+			if(obj.has("matchesBlock")) entry.mB((Block) Block.blockRegistry.getObject(obj.get("matchesBlock").getAsString()));
+			if(obj.has("matchesMeta")) entry.mM(obj.get("matchesMeta").getAsInt());
+			if(obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
+			if(obj.has("matchesMaterial")) entry.mMa(matNames.get(obj.get("mustBeOpaque").getAsString()));
+			
+			return entry;
+		}
+		
+		private static void writeMetaArray(JsonWriter writer, Triplet<Block, Integer, Integer>[] array) throws IOException {
 			writer.beginArray();
 			writer.setIndent("");
 			
@@ -248,6 +292,10 @@ public class FalloutConfigJSON {
 			
 			writer.endArray();
 			writer.setIndent("  ");
+		}
+		
+		private static Triplet<Block, Integer, Integer>[] readMetaArray(JsonObject obj) {
+			return null; //TODO
 		}
 	}
 	

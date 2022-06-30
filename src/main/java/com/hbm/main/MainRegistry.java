@@ -234,6 +234,7 @@ public class MainRegistry {
 	
 	public static long startupTime = 0;
 	public static File configDir;
+	public static File configHbmDir;
 
 	Random rand = new Random();
 
@@ -242,6 +243,9 @@ public class MainRegistry {
 		
 		startupTime = System.currentTimeMillis();
 		configDir = PreEvent.getModConfigurationDirectory();
+		configHbmDir = new File(configDir.getAbsolutePath() + File.separatorChar + "hbmConfig");
+
+		if(!configHbmDir.exists()) configHbmDir.mkdir();
 		
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
