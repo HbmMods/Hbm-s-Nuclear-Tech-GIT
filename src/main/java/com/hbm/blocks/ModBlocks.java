@@ -2928,7 +2928,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crate_desh, crate_desh.getUnlocalizedName());
 		GameRegistry.registerBlock(crate_tungsten, crate_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(safe, safe.getUnlocalizedName());
-		GameRegistry.registerBlock(mass_storage, mass_storage.getUnlocalizedName());
+		GameRegistry.registerBlock(mass_storage, ItemBlockBase.class, mass_storage.getUnlocalizedName());
 		
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());

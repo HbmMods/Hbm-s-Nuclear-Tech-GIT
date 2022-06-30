@@ -8,7 +8,6 @@ import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
-import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -264,13 +263,14 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public long transferPower(long power) {
 
-		int mode =this.getRelevantMode();
+		int mode = this.getRelevantMode();
 		
 		if(mode == mode_output || mode == mode_none) {
 			return power;
 		}
 		
 		this.power += power;
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 		
 		if(this.power > this.getMaxPower()) {
 			
@@ -285,7 +285,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public long getTransferWeight() {
 
-		int mode =this.getRelevantMode();
+		int mode = this.getRelevantMode();
 		
 		if(mode == mode_output || mode == mode_none) {
 			return 0;
