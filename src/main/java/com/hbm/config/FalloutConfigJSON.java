@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -155,7 +156,7 @@ public class FalloutConfigJSON {
 		
 		try {
 			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
-			JsonArray recipes = json.get("recipes").getAsJsonArray();
+			JsonArray recipes = json.get("entries").getAsJsonArray();
 			List<FalloutEntry> conf = new ArrayList();
 			
 			for(JsonElement recipe : recipes) {
@@ -163,7 +164,9 @@ public class FalloutConfigJSON {
 			}
 			return conf;
 			
-		} catch(Exception ex) { }
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		return null;
 	}
@@ -274,6 +277,9 @@ public class FalloutConfigJSON {
 			if(obj.has("matchesMeta")) entry.mM(obj.get("matchesMeta").getAsInt());
 			if(obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
 			if(obj.has("matchesMaterial")) entry.mMa(matNames.get(obj.get("mustBeOpaque").getAsString()));
+
+			if(obj.has("primarySubstitution")) entry.prim(readMetaArray(obj.get("primarySubstitution")));
+			if(obj.has("secondarySubstitutions")) entry.sec(readMetaArray(obj.get("secondarySubstitutions")));
 			
 			return entry;
 		}
@@ -294,8 +300,26 @@ public class FalloutConfigJSON {
 			writer.setIndent("  ");
 		}
 		
-		private static Triplet<Block, Integer, Integer>[] readMetaArray(JsonObject obj) {
-			return null; //TODO
+		private static Triplet<Block, Integer, Integer>[] readMetaArray(JsonElement jsonElement) {
+			
+			if(!jsonElement.isJsonArray()) return null;
+			
+			JsonArray array = jsonElement.getAsJsonArray();
+			Triplet<Block, Integer, Integer>[] metaArray = new Triplet[array.size()];
+			
+			for(int i = 0; i < metaArray.length; i++) {
+				JsonElement metaBlock = array.get(i);
+				
+				if(!metaBlock.isJsonArray()) {
+					throw new IllegalStateException("Could not read meta block " + metaBlock.toString());
+				}
+				
+				JsonArray mBArray = metaBlock.getAsJsonArray();
+				
+				metaArray[i] = new Triplet(Block.blockRegistry.getObject(mBArray.get(0).getAsString()), mBArray.get(1).getAsInt(), mBArray.get(2).getAsInt());
+			}
+			
+			return metaArray;
 		}
 	}
 	

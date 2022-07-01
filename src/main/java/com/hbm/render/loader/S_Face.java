@@ -15,12 +15,11 @@ public class S_Face {
 	public Vertex[] vertexNormals;
 	public Vertex faceNormal;
 	public TextureCoordinate[] textureCoordinates;
-
-	/*public S_Face copy() {
-		S_Face f = new S_Face();
-
-		return f;
-	}*/
+	private boolean smoothing;
+	
+	public S_Face(boolean smoothing) {
+		this.smoothing = smoothing;
+	}
 
 	public void addFaceForRender(Tessellator tessellator) {
 		addFaceForRender(tessellator, 0.0F);
@@ -32,7 +31,9 @@ public class S_Face {
 			this.faceNormal = calculateFaceNormal();
 		}
 		
-		tessellator.setNormal(this.faceNormal.x, this.faceNormal.y, this.faceNormal.z);
+		if(!this.smoothing) {
+			tessellator.setNormal(this.faceNormal.x, this.faceNormal.y, this.faceNormal.z);
+		}
 
 		float averageU = 0.0F;
 		float averageV = 0.0F;
@@ -48,25 +49,25 @@ public class S_Face {
 			averageV /= this.textureCoordinates.length;
 		}
 		
-		for (int i = 0; i < this.vertices.length; i++) {
-			
-			if ((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {
-				
+		for(int i = 0; i < this.vertices.length; i++) {
+
+			if((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {
+
 				float offsetU = textureOffset;
 				float offsetV = textureOffset;
-				
-				if (this.textureCoordinates[i].u > averageU) {
+
+				if(this.textureCoordinates[i].u > averageU) {
 					offsetU = -offsetU;
 				}
-				if (this.textureCoordinates[i].v > averageV) {
+				if(this.textureCoordinates[i].v > averageV) {
 					offsetV = -offsetV;
 				}
-				if ((this.vertexNormals != null) && (i < this.vertexNormals.length)) {
+				if(this.smoothing && (this.vertexNormals != null) && (i < this.vertexNormals.length)) {
 					tessellator.setNormal(this.vertexNormals[i].x, this.vertexNormals[i].y, this.vertexNormals[i].z);
 				}
-				
+
 				tessellator.addVertexWithUV(this.vertices[i].x, this.vertices[i].y, this.vertices[i].z, this.textureCoordinates[i].u + offsetU, this.textureCoordinates[i].v + offsetV);
-			
+
 			} else {
 				tessellator.addVertex(this.vertices[i].x, this.vertices[i].y, this.vertices[i].z);
 			}

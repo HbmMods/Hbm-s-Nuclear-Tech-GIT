@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
@@ -29,11 +30,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILookOverlay {
+public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) private IIcon[] iconTop;
 	@SideOnly(Side.CLIENT) private IIcon[] iconSide;
@@ -261,5 +263,18 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		}
 		
 		ILookOverlay.printGeneric(event, title, full ? 0xffff00 : 0x00ffff, full ? 0x404000 : 0x004040, text);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		if(!stack.hasTagCompound()) return;
+		
+		ItemStack type = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot1"));
+		
+		if(type != null) {
+			list.add(EnumChatFormatting.GOLD + type.getDisplayName());
+			list.add("x" + String.format("%,d", stack.stackTagCompound.getInteger("stack")));
+		}
 	}
 }

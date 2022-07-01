@@ -1,13 +1,10 @@
-package com.hbm.render;
+package com.hbm.render.loader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
-
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.S_GroupObject;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.client.model.IModelCustom;

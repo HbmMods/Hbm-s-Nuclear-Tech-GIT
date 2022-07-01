@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.animloader.AnimatedModel;
 import com.hbm.animloader.Animation;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.WavefrontObjDisplayList;
+import com.hbm.render.loader.WavefrontObjDisplayList;
 import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.Side;

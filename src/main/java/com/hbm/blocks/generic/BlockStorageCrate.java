@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.io.IOException;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -28,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -129,6 +131,11 @@ public class BlockStorageCrate extends BlockContainer {
 			
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
+				
+				try {
+					byte[] abyte = CompressedStreamTools.compress(nbt);
+					//System.out.println("size: " + abyte.length); //TODO: test capacity, make sure size is <20% of maximum allowed payload
+				} catch(IOException e) { }
 			}
 			
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, drop));
