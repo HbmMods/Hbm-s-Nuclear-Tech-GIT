@@ -1,5 +1,7 @@
 package com.hbm.entity.cart;
 
+import java.io.IOException;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemModMinecart;
@@ -11,8 +13,11 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class EntityMinecartCrate extends EntityMinecartContainerBase {
@@ -76,6 +81,16 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 		if(this.func_95999_t() != null) {
 			itemstack.setStackDisplayName(this.func_95999_t());
 		}
+		
+		try {
+			byte[] abyte = CompressedStreamTools.compress(nbt);
+			
+			if(abyte.length > 6000) {
+				worldObj.newExplosion(this, posX, posY, posZ, 2F, true, true);
+				this.entityDropItem(ItemModMinecart.createCartItem(EnumCartBase.VANILLA, EnumMinecart.CRATE), 0.0F);
+			}
+			
+		} catch(IOException e) { }
 
 		this.entityDropItem(itemstack, 0.0F);
 	}

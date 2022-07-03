@@ -139,6 +139,7 @@ public class ModBlocks {
 	public static Block stone_resource;
 	public static Block stalagmite;
 	public static Block stalactite;
+	public static Block stone_deep_cobble;
 
 	public static Block depth_brick;
 	public static Block depth_tiles;
@@ -1383,6 +1384,7 @@ public class ModBlocks {
 		stone_resource = new BlockResourceStone().setBlockName("stone_resource").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		stalagmite = new BlockStalagmite().setBlockName("stalagmite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
 		stalactite = new BlockStalagmite().setBlockName("stalactite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
+		stone_deep_cobble = new BlockDeepCobble().setBlockName("stone_deep_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(30.0F);
 
 		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
 		basalt_sulfur = new BlockOre(Material.rock).setBlockName("basalt_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_sulfur");
@@ -2488,6 +2490,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(basalt_brick, basalt_brick.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_polished, basalt_polished.getUnlocalizedName());
 		GameRegistry.registerBlock(basalt_tiles, basalt_tiles.getUnlocalizedName());
+		//GameRegistry.registerBlock(stone_deep_cobble, ItemBlockBase.class, stone_deep_cobble.getUnlocalizedName());
 		
 		//Blocks
 		GameRegistry.registerBlock(block_uranium, block_uranium.getUnlocalizedName());

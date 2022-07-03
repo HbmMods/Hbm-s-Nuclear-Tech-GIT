@@ -828,11 +828,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.openC", 1.0F, 1.0F);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
 	}
 }

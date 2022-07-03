@@ -32,6 +32,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -134,7 +136,12 @@ public class BlockStorageCrate extends BlockContainer {
 				
 				try {
 					byte[] abyte = CompressedStreamTools.compress(nbt);
-					//System.out.println("size: " + abyte.length); //TODO: test capacity, make sure size is <20% of maximum allowed payload
+					
+					if(abyte.length > 6000) {
+						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+						return world.setBlockToAir(x, y, z);
+					}
+					
 				} catch(IOException e) { }
 			}
 			

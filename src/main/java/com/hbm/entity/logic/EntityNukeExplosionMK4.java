@@ -102,7 +102,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;
-			fallout.setScale((int)(this.length * 1.8 + falloutAdd) * BombConfig.falloutRange / 100);
+			fallout.setScale((int)(this.length * 2.5 + falloutAdd) * BombConfig.falloutRange / 100);
 
 			this.worldObj.spawnEntityInWorld(fallout);
 			

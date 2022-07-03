@@ -77,8 +77,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
-import com.hbm.world.feature.OreCave;
-import com.hbm.world.feature.SchistStratum;
+import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
@@ -1010,27 +1009,12 @@ public class MainRegistry {
 		//expand for the largest entity we have (currently Quackos who is 17.5m in diameter, that's one fat duck)
 		World.MAX_ENTITY_RADIUS = Math.max(World.MAX_ENTITY_RADIUS, 8.75);
 
+		MinecraftForge.EVENT_BUS.register(new SchistStratum()); //DecorateBiomeEvent.Pre
+		//MinecraftForge.EVENT_BUS.register(new DeepLayer()); //DecorateBiomeEvent.Pre
+
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
-
-		//imagine adding flower entries but they don't actually do shit with the world generator
-		//"well but at least they work with bone meal, as advertised" except they fucking don't
-		/*BiomeGenBase.plains.addFlower(ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal(), 10);
-		BiomeGenBase.roofedForest.addFlower(ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal(), 10);
-		BiomeGenBase.jungle.addFlower(ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal(), 10);*/
-		
-		/*Set<Thread> threads = Thread.getAllStackTraces().keySet();
-
-		for (Thread thread : threads) {
-			
-			System.out.println("Printing thread " + thread.getName());
-			StackTraceElement[] stackTraceElements = thread.getStackTrace();
-			for (StackTraceElement stackTraceElement : stackTraceElements) {
-				System.out.println("\t" + stackTraceElement);
-			}
-			System.out.println("");
-		}*/
 	}
 
 	@EventHandler
@@ -1043,9 +1027,6 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(commonHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
 		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
-		
-		SchistStratum schist = new SchistStratum();
-		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent

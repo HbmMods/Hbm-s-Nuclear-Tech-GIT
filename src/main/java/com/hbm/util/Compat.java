@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -20,8 +21,15 @@ public class Compat {
 	public static final String MOD_REC = "ReactorCraft";
 
 	public static Item tryLoadItem(String domain, String name) {
-		String reg = domain + ":" + name;
-		return (Item) Item.itemRegistry.getObject(reg);
+		return (Item) Item.itemRegistry.getObject(getReg(domain, name));
+	}
+
+	public static Block tryLoadBlock(String domain, String name) {
+		return (Block) Block.blockRegistry.getObject(getReg(domain, name));
+	}
+	
+	private static String getReg(String domain, String name) {
+		return domain + ":" + name;
 	}
 	
 	public static enum ReikaIsotope {

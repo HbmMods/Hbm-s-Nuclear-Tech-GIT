@@ -272,13 +272,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		}
 	}
 	
-	//called on click (client side, called by update cylce)
+	//called on click (client side, called by mouse click event)
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//called on click release (server side, called by mouse packet) for release actions like charged shots
 	public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
-	//called on click release (client side, called by update cylce)
+	//called on click release (client side, called by update cycle)
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//reload action, if existent

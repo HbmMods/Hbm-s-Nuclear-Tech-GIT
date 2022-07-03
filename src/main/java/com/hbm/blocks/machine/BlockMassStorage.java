@@ -74,8 +74,17 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 	}
 
 	@Override
+	public int damageDropped(int meta) {
+		return meta;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityMassStorage(meta == 0 ? 10_000 : meta == 1 ? 100_000 : 1_000_000);
+		return new TileEntityMassStorage(getCapacity(meta));
+	}
+	
+	public int getCapacity(int meta) {
+		return meta == 0 ? 10_000 : meta == 1 ? 100_000 : meta == 2 ? 1_000_000 : 0;
 	}
 
 	@Override
@@ -131,7 +140,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 				}
 			}
 			
-			if(inv instanceof TileEntityMassStorage) {
+			if(inv instanceof TileEntityMassStorage && nbt.func_150296_c().size() > 0) {
 				TileEntityMassStorage storage = (TileEntityMassStorage) inv;
 				nbt.setInteger("stack", storage.getStockpile());
 			}
@@ -274,7 +283,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		
 		if(type != null) {
 			list.add(EnumChatFormatting.GOLD + type.getDisplayName());
-			list.add("x" + String.format("%,d", stack.stackTagCompound.getInteger("stack")));
+			list.add(String.format("%,d", stack.stackTagCompound.getInteger("stack")) + " / " + String.format("%,d", getCapacity(stack.getItemDamage())));
 		}
 	}
 }

@@ -42,6 +42,8 @@
     "block.crateClose": {"category": "block", "sounds": [{"name": "block/crateClose", "stream": false}]},
     "block.storageOpen": {"category": "block", "sounds": [{"name": "block/storageOpen", "stream": false}]},
     "block.storageClose": {"category": "block", "sounds": [{"name": "block/storageClose", "stream": false}]},
+    "block.openC": {"category": "block", "sounds": ["block/openC1", "block/openC2", "block/openCSqueaky"]},
+    "block.closeC": {"category": "block", "sounds": ["block/closeC1", "block/closeC2", "block/closeC3"]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     
@@ -157,6 +159,7 @@
     "weapon.extinguisher": {"category": "player", "sounds": [{"name": "weapon/extinguisher", "stream": false}]},
     "weapon.robin_explosion": {"category": "player", "sounds": [{"name": "weapon/robin_explosion", "stream": false}]},
     "weapon.shotgunPump": {"category": "player", "sounds": [{"name": "weapon/shotgunShootPump", "stream": false}]},
+    "weapon.explosionMedium": {"category": "player", "sounds": [{"name": "weapon/explosion_medium", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
