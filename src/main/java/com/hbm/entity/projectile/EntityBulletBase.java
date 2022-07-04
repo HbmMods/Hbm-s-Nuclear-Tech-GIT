@@ -309,6 +309,14 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				if(overrideDamage != 0)
 					damage = overrideDamage;
 				
+				if(victim instanceof EntityLivingBase) {
+					EntityLivingBase living = (EntityLivingBase) victim;
+					double head = living.height - living.getEyeHeight();
+					if(movement.hitVec != null && movement.hitVec.yCoord > living.height - head) {
+						damage *= this.config.headshotMult;
+					}
+				}
+				
         		if(!victim.attackEntityFrom(damagesource, damage)) {
 
 					try {

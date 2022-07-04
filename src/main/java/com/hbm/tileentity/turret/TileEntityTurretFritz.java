@@ -1,8 +1,8 @@
 package com.hbm.tileentity.turret;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -13,11 +13,13 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidAcceptor {
+public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidAcceptor, IFluidStandardReceiver {
 	
 	public FluidTank tank;
 	
@@ -115,6 +117,30 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			}
 		}
 	}
+
+	@Override //TODO: clean this shit up
+	protected void updateConnections() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -157,5 +183,10 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
 	}
 }
