@@ -287,7 +287,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		}
 
 		if(protectionYield != 100F) {
-			list.add(EnumChatFormatting.BLUE + "  Protection applies to damage <" + protectionYield);
+			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.yield", protectionYield));
 		}
 	}
 
