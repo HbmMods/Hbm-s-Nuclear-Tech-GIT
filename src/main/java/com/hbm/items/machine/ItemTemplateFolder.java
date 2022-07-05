@@ -27,7 +27,7 @@ public class ItemTemplateFolder extends Item {
 		
 		String[] lang = I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc");
 		for(String line : lang) {
-			list.add(lang);
+			list.add(line);
 		}
 	}
 }

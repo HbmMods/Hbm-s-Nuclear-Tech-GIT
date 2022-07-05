@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.ItemGunBio;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -52,6 +53,9 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.0, 2.0, 10.0);
 			
+			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+			GL11.glTranslated(0, -recoil[2] * 1.5, recoil[2]);
+			
 			if(ItemGunBio.smokeNodes.size() > 1) {
 				
 				Tessellator tess = Tessellator.instance;
@@ -79,6 +83,48 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 			}
 			
 			GL11.glPopMatrix();
+			GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
+			GL11.glRotated(recoil[2] * 10, 1, 0, 0);
+			
+			double[] reloadMove = HbmAnimations.getRelevantTransformation("RELOAD_MOVE");
+			GL11.glTranslated(reloadMove[0], reloadMove[1], reloadMove[2]);
+
+			double[] reloadRot = HbmAnimations.getRelevantTransformation("RELOAD_ROT");
+			GL11.glRotated(reloadRot[0], 1, 0, 0);
+			GL11.glRotated(reloadRot[2], 0, 0, 1);
+			GL11.glRotated(reloadRot[1], 0, 1, 0);
+			
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			ResourceManager.bio_revolver.renderPart("Grip");
+			
+			GL11.glPushMatrix(); /// FRONT PUSH ///
+			GL11.glRotated(HbmAnimations.getRelevantTransformation("FRONT")[2], 1, 0, 0);
+			ResourceManager.bio_revolver.renderPart("Barrel");
+			GL11.glPushMatrix(); /// LATCH PUSH ///
+			GL11.glTranslated(0, 2.3125, -0.875);
+			GL11.glRotated(HbmAnimations.getRelevantTransformation("LATCH")[2], 1, 0, 0);
+			GL11.glTranslated(0, -2.3125, 0.875);
+			ResourceManager.bio_revolver.renderPart("Latch");
+			GL11.glPopMatrix(); /// LATCH POP ///
+			
+			GL11.glPushMatrix(); /// DRUM PUSH ///
+			GL11.glTranslated(0, 1, 0);
+			GL11.glRotated(HbmAnimations.getRelevantTransformation("DRUM")[2] * 60, 0, 0, 1);
+			GL11.glTranslated(0, -1, 0);
+			GL11.glTranslated(0, 0, HbmAnimations.getRelevantTransformation("DRUM_PUSH")[2]);
+			ResourceManager.bio_revolver.renderPart("Drum");
+			GL11.glPopMatrix(); /// DRUM POP ///
+			
+			GL11.glPopMatrix(); /// FRONT POP ///
+			
+			GL11.glPushMatrix(); /// HAMMER ///
+			GL11.glTranslated(0, 0, -4.5);
+			GL11.glRotated(-45 + 45 * HbmAnimations.getRelevantTransformation("HAMMER")[2], 1, 0, 0);
+			GL11.glTranslated(0, 0, 4.5);
+			ResourceManager.bio_revolver.renderPart("Hammer");
+			GL11.glPopMatrix();
+			
+			GL11.glShadeModel(GL11.GL_FLAT);
 			
 			break;
 			
@@ -115,9 +161,11 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 		default: break;
 		}
 
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.bio_revolver.renderAll();
-		GL11.glShadeModel(GL11.GL_FLAT);
+		if(type != ItemRenderType.EQUIPPED_FIRST_PERSON) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			ResourceManager.bio_revolver.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
 		
 		GL11.glPopMatrix();
 	}

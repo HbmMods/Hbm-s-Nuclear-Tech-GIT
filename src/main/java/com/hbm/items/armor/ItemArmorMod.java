@@ -49,7 +49,7 @@ public class ItemArmorMod extends Item {
 			if(chestplate)
 				list.add("  " + I18nUtil.resolveKey("armorMod.chestplates"));
 			if(leggings)
-				list.add("  " + I18nUtil.resolveKey("armorMod.leggins"));
+				list.add("  " + I18nUtil.resolveKey("armorMod.leggings"));
 			if(boots)
 				list.add("  " + I18nUtil.resolveKey("armorMod.boots"));
 		}

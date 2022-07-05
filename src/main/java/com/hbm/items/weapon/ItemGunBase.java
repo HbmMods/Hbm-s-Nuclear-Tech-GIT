@@ -16,6 +16,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -248,7 +249,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
 		world.spawnEntityInWorld(bullet);
 		
-		if(this.mainConfig.animations.containsKey(AnimType.CYCLE) && player instanceof EntityPlayerMP)
+		if(player instanceof EntityPlayerMP)
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 	}
@@ -803,5 +804,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			else
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
+		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		return config.animations.get(type);
 	}
 }
