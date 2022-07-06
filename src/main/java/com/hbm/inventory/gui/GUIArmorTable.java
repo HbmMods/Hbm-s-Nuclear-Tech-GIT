@@ -5,16 +5,17 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.container.ContainerArmorTable;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIArmorTable extends GuiContainer {
+public class GUIArmorTable extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_armor_modifier.png");
 	public int left;
@@ -28,6 +29,35 @@ public class GUIArmorTable extends GuiContainer {
 
 		guiLeft = (this.width - this.xSize) / 2;
 		guiTop = (this.height - this.ySize) / 2;
+	}
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			
+			String[] unloc = new String[] {
+					"armorMod.type.helmet",
+					"armorMod.type.chestplate",
+					"armorMod.type.leggings",
+					"armorMod.type.boots",
+					"armorMod.type.servo",
+					"armorMod.type.cladding",
+					"armorMod.type.insert",
+					"armorMod.type.special",
+					"armorMod.insertHere"
+			};
+			
+			for(int i = 0; i < 9; ++i) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
+				
+				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
+					
+					this.drawCreativeTabHoveringText((i < 8 ? EnumChatFormatting.LIGHT_PURPLE : EnumChatFormatting.YELLOW) + I18nUtil.resolveKey(unloc[i]), x, y);
+				}
+			}
+		}
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mX, int mY) {
@@ -50,6 +80,10 @@ public class GUIArmorTable extends GuiContainer {
 			if(armor.getItem() instanceof ItemArmor)
 				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 74, 22, 22);
 			else
+				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 52, 22, 22);
+		} else {
+			
+			if(System.currentTimeMillis() % 1000 < 500)
 				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 52, 22, 22);
 		}
 		

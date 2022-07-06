@@ -28,7 +28,6 @@ public class ItemGunBio extends ItemGunBase {
 	
 	@Override
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
-		lastShot = System.currentTimeMillis();
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class ItemGunBio extends ItemGunBase {
 			}
 			
 			double alpha = (System.currentTimeMillis() - ItemGunBio.lastShot) / 2000D;
-			alpha = (1 - alpha) * 0.35D;
+			alpha = (1 - alpha) * 0.5D;
 			
 			if(this.getReloadCycle(stack) > 0) alpha = 0;
 			
@@ -71,7 +70,9 @@ public class ItemGunBio extends ItemGunBase {
 		//GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
 		//return config.animations.get(type);
 		
-		 if(type == AnimType.CYCLE) return new BusAnimation()
+		 if(type == AnimType.CYCLE) {
+			lastShot = System.currentTimeMillis();
+			return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50))
@@ -85,20 +86,22 @@ public class ItemGunBio extends ItemGunBase {
 				.addBus("DRUM", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50))
 						);
+		 }
 		
-		 if(type == AnimType.RELOAD) return new BusAnimation()
-				 .addBus("LATCH", new BusAnimationSequence()
+		 if(type == AnimType.RELOAD) {
+			return new BusAnimation()
+				.addBus("LATCH", new BusAnimationSequence()
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 90, 300))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 90, 2000))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
 						)
-				 .addBus("FRONT", new BusAnimationSequence()
+				.addBus("FRONT", new BusAnimationSequence()
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 150))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 2000))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
 						)
-				 .addBus("RELOAD_ROT", new BusAnimationSequence()
+				.addBus("RELOAD_ROT", new BusAnimationSequence()
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
 							.addKeyframe(new BusAnimationKeyframe(60, 0, 0, 500))
 							.addKeyframe(new BusAnimationKeyframe(60, 0, 0, 500))
@@ -110,16 +113,17 @@ public class ItemGunBio extends ItemGunBase {
 							.addKeyframe(new BusAnimationKeyframe(-45, 0, 0, 100))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
 						)
-				 .addBus("RELOAD_MOVE", new BusAnimationSequence()
+				.addBus("RELOAD_MOVE", new BusAnimationSequence()
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
 							.addKeyframe(new BusAnimationKeyframe(0, -15, 0, 1000))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
 						)
-				 .addBus("DRUM_PUSH", new BusAnimationSequence()
+				.addBus("DRUM_PUSH", new BusAnimationSequence()
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 1600))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, -5, 0))
 							.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
 						);
+		 }
 		
 		 return null;
 	}

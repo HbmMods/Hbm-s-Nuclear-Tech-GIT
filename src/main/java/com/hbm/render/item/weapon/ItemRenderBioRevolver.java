@@ -34,8 +34,8 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
 		GL11.glPushMatrix();
-		
-		GL11.glEnable(GL11.GL_CULL_FACE);
+
+		GL11.glDisable(GL11.GL_CULL_FACE);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bio_revolver_tex);
 		
@@ -48,13 +48,15 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 			GL11.glTranslated(1.0, 0.25, -0.25);
 			GL11.glRotated(80, 0, 1, 0);
 			GL11.glScaled(s0, s0, s0);
-			double width = 0.3D;
+			double width = 0.5D;
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(0.0, 2.0, 10.0);
+			GL11.glTranslated(0.0, 1.75, 10.0);
 			
 			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 			GL11.glTranslated(0, -recoil[2] * 1.5, recoil[2]);
+			
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 			
 			if(ItemGunBio.smokeNodes.size() > 1) {
 				
@@ -67,11 +69,22 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 					double[] past = ItemGunBio.smokeNodes.get(i + 1);
 					
 					tess.setColorRGBA_F(1F, 1F, 1F, (float) node[3]);
-					tess.addVertex(node[0] - width, node[1], node[2]);
+					tess.addVertex(node[0], node[1], node[2]);
+					tess.setColorRGBA_F(1F, 1F, 1F, 0F);
 					tess.addVertex(node[0] + width, node[1], node[2]);
-					tess.setColorRGBA_F(1F, 1F, 1F, (float) past[3]);
+					tess.setColorRGBA_F(1F, 1F, 1F, 0F);
 					tess.addVertex(past[0] + width, past[1], past[2]);
+					tess.setColorRGBA_F(1F, 1F, 1F, (float) past[3]);
+					tess.addVertex(past[0], past[1], past[2]);
+					
+					tess.setColorRGBA_F(1F, 1F, 1F, (float) node[3]);
+					tess.addVertex(node[0], node[1], node[2]);
+					tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+					tess.addVertex(node[0] - width, node[1], node[2]);
+					tess.setColorRGBA_F(1F, 1F, 1F, 0F);
 					tess.addVertex(past[0] - width, past[1], past[2]);
+					tess.setColorRGBA_F(1F, 1F, 1F, (float) past[3]);
+					tess.addVertex(past[0], past[1], past[2]);
 				}
 				GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
 				GL11.glEnable(GL11.GL_BLEND);
@@ -93,8 +106,6 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 			GL11.glRotated(reloadRot[0], 1, 0, 0);
 			GL11.glRotated(reloadRot[2], 0, 0, 1);
 			GL11.glRotated(reloadRot[1], 0, 1, 0);
-			
-			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.bio_revolver.renderPart("Grip");
 			
 			GL11.glPushMatrix(); /// FRONT PUSH ///
@@ -130,19 +141,21 @@ public class ItemRenderBioRevolver implements IItemRenderer {
 			
 		case EQUIPPED:
 
-			double scale = 0.125D;
+			double scale = 0.1D;
 			GL11.glScaled(scale, scale, scale);
-			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(15F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(10, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(15F, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslatef(4F, -2F, 5F);
+			GL11.glTranslatef(4F, 1F, 4F);
 			
 			break;
 			
 		case ENTITY:
 
-			double s1 = 0.1D;
+			double s1 = 0.075D;
 			GL11.glScaled(s1, s1, s1);
+			GL11.glRotatef(90, 0.0F, 1.0F, 0.0F);
+			GL11.glTranslatef(0F, 1F, 0F);
 			
 			break;
 			

@@ -102,10 +102,16 @@ public class ItemAmmoArty extends Item {
 			list.add(r + "Phosphorus splash");
 			list.add(b + "Does not destroy blocks");
 			break;
+		case PHOSPHORUS_MULTI:
+			list.add(r + "Splits x10");
+			break;
 		case MINI_NUKE:
 			list.add(y + "Strength: 20");
 			list.add(r + "Deals nuclear damage");
 			list.add(r + "Destroys blocks");
+		case MINI_NUKE_MULTI:
+			list.add(r + "Splits x5");
+			break;
 		case NUKE:
 			list.add(r + "☠");
 			list.add(r + "(that is the best skull and crossbones");

@@ -25,7 +25,7 @@ public class ItemTemplateFolder extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
-		String[] lang = I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc");
+		String[] lang = I18nUtil.resolveKeyArray(ModItems.template_folder.getUnlocalizedName() + ".desc");
 		for(String line : lang) {
 			list.add(line);
 		}

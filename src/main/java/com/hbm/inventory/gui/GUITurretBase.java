@@ -11,6 +11,7 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -53,6 +54,13 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 45, 16, 52, turret.power, turret.getMaxPower());
+
+		String on = EnumChatFormatting.GREEN + I18nUtil.resolveKey("turret.on");
+		String off = EnumChatFormatting.RED + I18nUtil.resolveKey("turret.off");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 8, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.players", turret.targetPlayers ? on : off));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 22, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.animals", turret.targetAnimals ? on : off));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.mobs", turret.targetMobs ? on : off));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.machines", turret.targetMachines ? on : off));
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -153,7 +161,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		
 		List<String> names = turret.getWhitelist();
 		
-		String n = EnumChatFormatting.ITALIC + "None";
+		String n = EnumChatFormatting.ITALIC + I18nUtil.resolveKey("turret.none");
 		
 		while(this.index >= this.getCount())
 			this.index--;

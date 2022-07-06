@@ -1252,7 +1252,7 @@ public class AssemblerRecipes {
 	
 	public static void saveTemplateJSON(File dir) {
 		
-		template = new File(dir.getAbsolutePath() + File.separatorChar + "hbmTemplate.json");
+		template = new File(dir.getAbsolutePath() + File.separatorChar + "_hbmAssembler.json");
 		
 		try {
 			
