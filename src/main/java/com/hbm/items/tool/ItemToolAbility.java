@@ -17,26 +17,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.world.BlockEvent;
 
 public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool {
 	
@@ -84,7 +78,14 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		this.damage = damage;
 		this.movement = movement;
 		this.toolType = type;
-		this.setHarvestLevel(type.toString().toLowerCase(), material.getHarvestLevel());
+		
+		// hacky workaround, might be good to rethink this entire system
+		if(type == EnumToolType.MINER) {
+			this.setHarvestLevel("pickaxe", material.getHarvestLevel());
+			this.setHarvestLevel("shovel", material.getHarvestLevel());
+		} else {
+			this.setHarvestLevel(type.toString().toLowerCase(), material.getHarvestLevel());
+		}
 	}
 
 	public ItemToolAbility addBreakAbility(ToolAbility breakAbility) {

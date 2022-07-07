@@ -164,6 +164,20 @@ armorMod.type.leggings=Leggings
 armorMod.type.servo=Servos
 armorMod.type.special=Special
 
+battery.mode.buffer=Input/Output Mode
+battery.mode.input=Input Mode
+battery.mode.off=OffW
+battery.mode.output=Output Mode
+battery.priority.high=Charge Priority: High
+battery.priority.high.desc=Emergency buffers that$always need to be full
+battery.priority.low=Charge Priority: Low
+battery.priority.low.desc=Most use-cases where surplus$energy needs to be stored without$affecting machine performance
+battery.priority.normal=Charge Priority: Normal
+battery.priority.normal.desc=Smaller power grids where$priority doesn't matter
+battery.priority.recommended=Recommended for:
+battery.redstone.off=Redstone OFF
+battery.redstone.on=Redstone ON
+
 bomb.detonated=Detonated successfully!
 bomb.incompatible=Device can not be triggered!
 bomb.launched=Launched successfully!

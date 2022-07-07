@@ -321,7 +321,7 @@ public class FluidTank {
 			list.add(fluid + "/" + maxFluid + "mB");
 			
 			type.addInfo(list);
-			gui.drawFluidInfo(list.toArray(new String[0]), mouseX, mouseY);
+			gui.drawInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
 	}
 

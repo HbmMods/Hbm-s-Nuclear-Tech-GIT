@@ -32,7 +32,6 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			nbt.setLong("power", power);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
-			nbt.setBoolean("childLock", childLock);
 			this.networkPack(nbt, 250);
 		} else {
 			this.prevRotation = this.rotation;
