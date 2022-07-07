@@ -63,7 +63,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		String[] desc = I18nUtil.resolveKeyArray("battery.priority." + lang + ".desc");
 		for(String s : desc) priority.add(s);
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 152, guiTop + 35, 16, 16, guiLeft - 80, guiTop, priority);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 152, guiTop + 35, 16, 16, mouseX, mouseY, priority);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
