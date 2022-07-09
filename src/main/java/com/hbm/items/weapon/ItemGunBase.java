@@ -769,6 +769,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(type == ElementType.HOTBAR) {
 			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
 			
+			if(bcfg == null) {
+				return;
+			}
+			
 			Item ammo = bcfg.ammo;
 			int count = ItemGunBase.getMag(stack);
 			int max = gcfg.ammoCap;

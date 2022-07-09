@@ -5,6 +5,7 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.turret.TileEntityTurretArty;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,6 +17,15 @@ public class GUITurretArty extends GUITurretBase {
 
 	public GUITurretArty(InventoryPlayer invPlayer, TileEntityTurretBaseNT tedf) {
 		super(invPlayer, tedf);
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		TileEntityTurretArty arty = (TileEntityTurretArty) turret;
+		String mode = arty.mode == arty.MODE_ARTILLERY ? "artillery" : arty.mode == arty.MODE_CANNON ? "cannon" : "manual";
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 151, guiTop + 16, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.arty." + mode));
 	}
 
 	@Override

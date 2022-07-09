@@ -91,7 +91,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 
 	@Override
 	public double getDecetorRange() {
-		return this.mode == this.MODE_CANNON ? 128D : 3000D;
+		return this.mode == this.MODE_CANNON ? 250D : 3000D;
 	}
 	
 	@Override

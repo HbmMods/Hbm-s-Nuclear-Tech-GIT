@@ -27,8 +27,7 @@ public class ItemGunBio extends ItemGunBase {
 	public static List<double[]> smokeNodes = new ArrayList();
 	
 	@Override
-	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
-	}
+	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -58,7 +57,7 @@ public class ItemGunBio extends ItemGunBase {
 			double alpha = (System.currentTimeMillis() - ItemGunBio.lastShot) / 2000D;
 			alpha = (1 - alpha) * 0.5D;
 			
-			if(this.getReloadCycle(stack) > 0) alpha = 0;
+			if(this.getIsReloading(stack)) alpha = 0;
 			
 			smokeNodes.add(new double[] {0, 0, 0, alpha});
 		}

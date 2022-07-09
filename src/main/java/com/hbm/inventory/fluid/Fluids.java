@@ -151,7 +151,7 @@ public class Fluids {
 		CRYOGEL =			new FluidType(				"CRYOGEL",			0x32ffff, 2, 0, 0, EnumSymbol.CROYGENIC).setTemp(-170);
 		HYDROGEN =			new FluidTypeCombustible(	"HYDROGEN",			0x4286f4, 3, 4, 0, EnumSymbol.CROYGENIC).setCombustionEnergy(FuelGrade.HIGH, 10_000).setHeatEnergy(5_000).addTraits(FluidTrait.LIQUID);
 		OXYGEN =			new FluidType(				"OXYGEN",			0x98bdf9, 3, 0, 0, EnumSymbol.CROYGENIC);
-		XENON =				new FluidType(				"XENON",			0xba45e8, 0, 0, 0, EnumSymbol.ASPHYXIANT);
+		XENON =				new Gas(					"XENON",			0xba45e8, 0, 0, 0, EnumSymbol.ASPHYXIANT);
 		BALEFIRE =			new FluidType(				"BALEFIRE",			0x28e02e, 4, 4, 3, EnumSymbol.RADIATION).setTemp(1500).addTraits(FluidTrait.CORROSIVE);
 		MERCURY =			new FluidType(				"MERCURY",			0x808080, 2, 0, 0, EnumSymbol.NONE);
 		PAIN =				new FluidType(				"PAIN",				0x938541, 2, 0, 1, EnumSymbol.ACID).setTemp(300).addTraits(FluidTrait.CORROSIVE);

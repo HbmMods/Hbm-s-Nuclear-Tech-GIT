@@ -25,6 +25,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -252,7 +253,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
         MovingObjectPosition movement = this.worldObj.func_147447_a(vecOrigin, vecDestination, false, true, false);
         vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
-
+        
+        MovingObjectPosition impact = null;
+        
 		Entity victim = null;
 		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * this.config.velocity, this.motionY * this.config.velocity, this.motionZ * this.config.velocity).expand(1.0D, 1.0D, 1.0D));
 		
@@ -273,6 +276,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 					if (d1 < d0 || d0 == 0.0D) {
 						victim = entity1;
+						impact = movingobjectposition1;
 						d0 = d1;
 					}
 				}
@@ -295,25 +299,29 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 				DamageSource damagesource = this.config.getDamage(this, shooter);
 
-    			if(!worldObj.isRemote) {
-	        		if(!config.doesPenetrate) {
+				if(!worldObj.isRemote) {
+					if(!config.doesPenetrate) {
 						this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
-	        			onEntityImpact(victim);
-	        		} else {
-	        			onEntityHurt(victim);
-	        		}
-    			}
+						onEntityImpact(victim);
+					} else {
+						onEntityHurt(victim);
+					}
+				}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
 				
 				if(overrideDamage != 0)
 					damage = overrideDamage;
 				
+				boolean headshot = false;
+				
 				if(victim instanceof EntityLivingBase) {
 					EntityLivingBase living = (EntityLivingBase) victim;
 					double head = living.height - living.getEyeHeight();
-					if(movement.hitVec != null && movement.hitVec.yCoord > living.height - head) {
+					
+					if(!!living.isEntityAlive() && impact.hitVec != null && impact.hitVec.yCoord > (living.posY + living.height - head * 2)) {
 						damage *= this.config.headshotMult;
+						headshot = true;
 					}
 				}
 				
@@ -324,8 +332,26 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						
 						float dmg = (float) damage + lastDamage.getFloat(victim);
 						
-						victim.attackEntityFrom(damagesource, dmg);
+						if(!victim.attackEntityFrom(damagesource, dmg)) {
+							headshot = false;
+						}
 					} catch (Exception x) { }
+					
+        		}
+        		
+        		if(!worldObj.isRemote && headshot) {
+        			if(victim instanceof EntityLivingBase) {
+    					EntityLivingBase living = (EntityLivingBase) victim;
+    					double head = living.height - living.getEyeHeight();
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "vanillaburst");
+						data.setInteger("count", 15);
+						data.setDouble("motion", 0.1D);
+						data.setString("mode", "blockdust");
+						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, living.posX, living.posY + living.height - head, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
+						worldObj.playSoundEffect(victim.posX, victim.posY, victim.posZ, "mob.zombie.woodbreak", 1.0F, 0.95F + rand.nextFloat() * 0.2F);
+        			}
         		}
         		
         	//handle block collision

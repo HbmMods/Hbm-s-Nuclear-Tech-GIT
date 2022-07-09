@@ -4245,6 +4245,9 @@ tool.ability.silktouch=Silk Touch
 tool.ability.smelter=Auto-Smelter
 
 turret.animals=Target Passive: %s
+turret.arty.artillery=§eArtillery Mode$Grace: 250m$Range: 3,000m
+turret.arty.cannon=§eCannon Mode$Grace: 32m$Range: 250m
+turret.arty.manual=§eManual Mode$Range: 3,000m
 turret.machines=Target Machines: %s
 turret.mobs=Target Mobs: %s
 turret.none=None

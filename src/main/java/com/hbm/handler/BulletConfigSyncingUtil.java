@@ -24,6 +24,11 @@ public class BulletConfigSyncingUtil {
 	public static int NIGHT2_REVOLVER = i++;
 	public static int SATURNITE_REVOLVER = i++;
 	public static int DESH_REVOLVER = i++;
+	
+	public static int IRON_HS = i++;
+	public static int STEEL_HS = i++;
+	public static int GOLD_HS = i++;
+	public static int DESH_HS = i++;
 
 	public static int G20_NORMAL = i++;
 	public static int G20_SLUG = i++;
@@ -276,6 +281,11 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SATURNITE_REVOLVER, Gun357MagnumFactory.getRevSteelConfig().setToFire(3));
 		configSet.put(DESH_REVOLVER, Gun357MagnumFactory.getRevDeshConfig());
 
+		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
+		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevSteelConfig().setHeadshot(3F));
+		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
+		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
+
 		configSet.put(G20_NORMAL, Gun20GaugeFactory.get20GaugeConfig());
 		configSet.put(G20_SLUG, Gun20GaugeFactory.get20GaugeSlugConfig());
 		configSet.put(G20_FLECHETTE, Gun20GaugeFactory.get20GaugeFlechetteConfig());
@@ -514,7 +524,6 @@ public class BulletConfigSyncingUtil {
 	}
 
 	public static BulletConfiguration pullConfig(int key) {
-
 		return configSet.get(key);
 	}
 

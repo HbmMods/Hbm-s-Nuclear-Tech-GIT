@@ -3818,6 +3818,9 @@ tool.ability.silktouch=Behutsamkeit
 tool.ability.smelter=Auto-Ofen
 
 turret.animals=Passive anzielen: %s
+turret.arty.artillery=Artilleriemodus$Puffer: 250m$Reichweite: 3.000m
+turret.arty.cannon=Kanonenmodus$Puffer: 32m$Reichweite: 250m
+turret.arty.manual=Manueller Modus$Reichweite: 3.000m
 turret.machines=Maschinen anzielen: %s
 turret.mobs=Mobs anzielen: %s
 turret.none=Keine
