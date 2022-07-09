@@ -554,6 +554,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public Object[] getWater(Context context, Arguments args) {
 		return new Object[] {water.getFill()};
 	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSteam(Context context, Arguments args) {
+		return new Object[] {steam.getFill()};
+	}	
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
