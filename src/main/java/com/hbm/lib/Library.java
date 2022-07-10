@@ -78,6 +78,7 @@ public class Library {
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
