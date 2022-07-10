@@ -16,6 +16,8 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiInfoContainer extends GuiContainer {
@@ -87,19 +89,39 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	}
 
 	//TODO: do the funny
-	protected void drawHoveringText2(List lines, int x, int y, FontRenderer font) {
+	protected void drawHoveringText2(List<Object[]> lines, int x, int y, FontRenderer font) {
 		
 		if(!lines.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+			int height = 0;
 			int longestline = 0;
 			Iterator iterator = lines.iterator();
 
 			while(iterator.hasNext()) {
-				String line = (String) iterator.next();
-				int lineWidth = font.getStringWidth(line);
+				Object[] line = (Object[]) iterator.next();
+				int lineWidth = 0;
+				
+				boolean hasStack = false;
+				
+				for(Object o : line) {
+					
+					if(o instanceof String) {
+						lineWidth += font.getStringWidth((String) o);
+					} else {
+						lineWidth += 18;
+						hasStack = true;
+					}
+				}
+				
+				if(hasStack) {
+					height += 18;
+				} else {
+					height += 10;
+				}
 
 				if(lineWidth > longestline) {
 					longestline = lineWidth;
@@ -108,11 +130,6 @@ public abstract class GuiInfoContainer extends GuiContainer {
 
 			int minX = x + 12;
 			int minY = y - 12;
-			int height = 8;
-
-			if(lines.size() > 1) {
-				height += 2 + (lines.size() - 1) * 10;
-			}
 
 			if(minX + longestline > this.width) {
 				minX -= 28 + longestline;
@@ -141,14 +158,38 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			this.drawGradientRect(minX - 3, minY + height + 2, minX + longestline + 3, minY + height + 3, color1, color1);
 
 			for(int index = 0; index < lines.size(); ++index) {
-				String line = (String) lines.get(index);
-				font.drawStringWithShadow(line, minX, minY, -1);
+				
+				Object[] line = (Object[]) lines.get(index);
+				int indent = 0;
+				boolean hasStack = false;
+				
+				for(Object o : line) {
+					if(!(o instanceof String)) {
+						hasStack = true;
+					}
+				}
+				
+				for(Object o : line) {
+					
+					if(o instanceof String) {
+						font.drawStringWithShadow((String) o, minX + indent, minY + (hasStack ? 4 : 0), -1);
+						indent += font.getStringWidth((String) o) + 2;
+					} else {
+						ItemStack stack = (ItemStack) o;
+						GL11.glColor3f(1F, 1F, 1F);
+						itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY);
+						itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY, stack.stackSize == 0 ? (EnumChatFormatting.RED + "_ _") : null);
+						RenderHelper.disableStandardItemLighting();
+						GL11.glDisable(GL11.GL_DEPTH_TEST);
+						indent += 18;
+					}
+				}
 
 				if(index == 0) {
 					minY += 2;
 				}
 
-				minY += 10;
+				minY += hasStack ? 18 : 10;
 			}
 
 			this.zLevel = 0.0F;
