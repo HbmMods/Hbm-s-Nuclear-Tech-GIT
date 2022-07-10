@@ -84,6 +84,7 @@ public class ItemMissile extends Item {
 		N2,
 		BALEFIRE,
 		SCHRAB,
+		MIRV,
 		TAINT,
 		CLOUD,
 		TURBINE
@@ -265,6 +266,8 @@ public class ItemMissile extends Item {
 			return EnumChatFormatting.GREEN + "BF";
 		case SCHRAB:
 			return EnumChatFormatting.AQUA + "Schrabidium";
+		case MIRV:
+			return EnumChatFormatting.DARK_RED + "MIRV";
 		case TAINT:
 			return EnumChatFormatting.DARK_PURPLE + "Taint";
 		case CLOUD:

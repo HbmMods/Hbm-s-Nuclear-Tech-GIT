@@ -216,6 +216,9 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 
 	@Override
 	public void onUpdate() {
+		ItemMissile part1 = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+		WarheadType type1 = (WarheadType) part1.attributes[0];
+		
 		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
 
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
@@ -253,7 +256,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			if(motionY > -1.5)
 				motionY -= 0.05;
 		}
-
+        
 		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air && this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.water && this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.flowing_water) {
 
 			if(!this.worldObj.isRemote) {
@@ -293,7 +296,40 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			for(int i = 0; i < velocity; i++)
 				MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
 		}
-
+		
+		
+		if(type1 == WarheadType.MIRV){
+			
+    		if((motionY <= 0) && (posY <= 300)) {
+    			
+    			if(worldObj.isRemote)
+					return;
+    			
+    				this.setDead();
+    				double mod = 0.7D;
+    				
+    				for(int i = 0; i < 6; i++) {
+    				EntityBulletBase nuke = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.MIRVLET);
+    				nuke.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
+					nuke.setPosition(posX,posY,posZ);
+					nuke.motionX = this.motionX + this.worldObj.rand.nextGaussian() * mod;
+					nuke.motionY = this.motionY;
+					nuke.motionZ = this.motionZ + this.worldObj.rand.nextGaussian() * mod;
+					this.worldObj.spawnEntityInWorld(nuke);
+					
+    				}
+    				EntityBulletBase nuke = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.MIRVLET);
+    				nuke.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
+					nuke.setPosition(posX,posY,posZ);
+					nuke.motionX = this.motionX;
+					nuke.motionY = this.motionY;
+					nuke.motionZ = this.motionZ;
+					this.worldObj.spawnEntityInWorld(nuke);
+    			}
+    		}
+        
+		
+		
 		loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
 	}
 
@@ -326,6 +362,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			break;
 		case NUCLEAR:
 		case TX:
+		case MIRV:
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int) strength, posX, posY, posZ));
 			EntityNukeCloudSmall nuke = new EntityNukeCloudSmall(worldObj, 1000, strength * 0.005F);
 			nuke.posX = posX;
