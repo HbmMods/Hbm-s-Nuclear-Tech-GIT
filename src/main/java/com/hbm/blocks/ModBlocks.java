@@ -479,14 +479,14 @@ public class ModBlocks {
 	public static Block sand_boron_layer;
 	public static Block leaves_layer;
 
-
 	public static Block sellafield_slaked;
-	public static Block sellafield_0;
+	public static Block sellafield;
+	/*public static Block sellafield_0;
 	public static Block sellafield_1;
 	public static Block sellafield_2;
 	public static Block sellafield_3;
 	public static Block sellafield_4;
-	public static Block sellafield_core;
+	public static Block sellafield_core;*/
 
 	public static Block geysir_water;
 	public static Block geysir_chlorine;
@@ -1719,15 +1719,16 @@ public class ModBlocks {
 		sand_dirty = new BlockFalling(Material.sand).setBlockName("sand_dirty").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_dirty");
 		sand_dirty_red = new BlockFalling(Material.sand).setBlockName("sand_dirty_red").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_dirty_red");
 		stone_cracked = new BlockFalling(Material.rock).setBlockName("stone_cracked").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":stone_cracked");
-
-		sellafield_slaked = new BlockGeneric(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
-		sellafield_0 = new BlockHazard(Material.rock).setBlockName("sellafield_0").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
+		
+		sellafield_slaked = new BlockGeneric(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
+		sellafield = new BlockSellafield(Material.rock).setBlockName("sellafield").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
+		/*sellafield_0 = new BlockHazard(Material.rock).setBlockName("sellafield_0").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
 		sellafield_1 = new BlockHazard(Material.rock).setBlockName("sellafield_1").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_1");
 		sellafield_2 = new BlockHazard(Material.rock).setBlockName("sellafield_2").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_2");
 		sellafield_3 = new BlockHazard(Material.rock).setBlockName("sellafield_3").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_3");
 		sellafield_4 = new BlockHazard(Material.rock).setBlockName("sellafield_4").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_4");
-		sellafield_core = new BlockHazard(Material.rock).setBlockName("sellafield_core").setStepSound(Block.soundTypeStone).setHardness(10.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_core");
-
+		sellafield_core = new BlockHazard(Material.rock).setBlockName("sellafield_core").setStepSound(Block.soundTypeStone).setHardness(10.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_core");*/
+		
 		geysir_water = new BlockGeysir(Material.rock).setBlockName("geysir_water").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_chlorine = new BlockGeysir(Material.rock).setBlockName("geysir_chlorine").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_vapor = new BlockGeysir(Material.rock).setBlockName("geysir_vapor").setStepSound(Block.soundTypeStone).setHardness(5.0F);
@@ -2784,12 +2785,13 @@ public class ModBlocks {
 		
 		//RAD
 		GameRegistry.registerBlock(sellafield_slaked, sellafield_slaked.getUnlocalizedName());
-		GameRegistry.registerBlock(sellafield_0, sellafield_0.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield, ItemBlockNamedMeta.class, sellafield.getUnlocalizedName());
+		/*GameRegistry.registerBlock(sellafield_0, sellafield_0.getUnlocalizedName());
 		GameRegistry.registerBlock(sellafield_1, sellafield_1.getUnlocalizedName());
 		GameRegistry.registerBlock(sellafield_2, sellafield_2.getUnlocalizedName());
 		GameRegistry.registerBlock(sellafield_3, sellafield_3.getUnlocalizedName());
 		GameRegistry.registerBlock(sellafield_4, sellafield_4.getUnlocalizedName());
-		GameRegistry.registerBlock(sellafield_core, sellafield_core.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_core, sellafield_core.getUnlocalizedName());*/
 
 		//Geysirs
 		GameRegistry.registerBlock(geysir_water, geysir_water.getUnlocalizedName());

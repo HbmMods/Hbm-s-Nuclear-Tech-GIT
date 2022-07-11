@@ -65,6 +65,7 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 			case FUEL_SIM:		drawFuel(tess, kx + 0.01, ky, kz, col.data.getDouble("enrichment")); break;
 			case CONTROL:		drawControl(tess, kx + 0.01, ky, kz, col.data.getDouble("level")); break;
 			case CONTROL_AUTO:	drawControlAuto(tess, kx + 0.01, ky, kz, col.data.getDouble("level")); break;
+			default:
 			}
 		}
 		

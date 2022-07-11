@@ -283,24 +283,6 @@ public class BlockOre extends Block {
 		if(entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red)) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
 		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_0) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_1) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 1));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_2) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_3) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 3));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_4) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 4));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.sellafield_core) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 5));
-		}
 		if(entity instanceof EntityLivingBase && this == ModBlocks.brick_jungle_ooze) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 9));
 		}
