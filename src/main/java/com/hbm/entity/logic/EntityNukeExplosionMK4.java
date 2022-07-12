@@ -1,5 +1,8 @@
 package com.hbm.entity.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.BombConfig;
@@ -87,7 +90,7 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 						for(int z = (int) (posZ - 1); z <= (int) (posZ + 1); z++)
 							worldObj.setBlock(x, y, z, Blocks.air);*/
 		}
-		
+	
 		//if(explosion.getStoredSize() < count / length) {
 		if(!explosion.isAusf3Complete) {
 			//if(!worldObj.isRemote)
@@ -114,6 +117,8 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 		} else {
 			this.setDead();
 		}
+		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
+		
 	}
 
 	@Override
@@ -214,5 +219,32 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
             }
         }
 	}
+	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ)
+    {
+        if(!worldObj.isRemote && loaderTicket != null)
+        {
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+            }
+
+            loadedChunks.clear();
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            }
+        }
+    }
 
 }
