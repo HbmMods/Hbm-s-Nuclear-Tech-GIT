@@ -21,6 +21,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
 @Spaghetti("why???")
 public class EntityNukeExplosionMK3 extends Entity implements IChunkLoader {
@@ -195,7 +196,9 @@ public class EntityNukeExplosionMK3 extends Entity implements IChunkLoader {
     }
 
 	@Override
-	protected void entityInit() { }
+	protected void entityInit() {
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
+	}
 	
 	public static EntityNukeExplosionMK3 statFacFleija(World world, double x, double y, double z, int range) {
 		

@@ -13,6 +13,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class EntityBalefire extends Entity implements IChunkLoader {
 	
@@ -98,7 +99,9 @@ public class EntityBalefire extends Entity implements IChunkLoader {
     }
 
 	@Override
-	protected void entityInit() { }
+	protected void entityInit() {
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
+	}
 	
 	public EntityBalefire mute() {
 		this.mute = true;
