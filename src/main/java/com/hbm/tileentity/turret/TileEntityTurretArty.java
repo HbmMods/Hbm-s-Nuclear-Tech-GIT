@@ -6,11 +6,11 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
@@ -59,13 +59,11 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		if(ammoStacks != null)
 			return ammoStacks;
 		
-		for(Integer i : getAmmoList()) {
-			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
-			
-			if(config != null && config.ammo != null) {
-				ammoStacks.add(new ItemStack(config.ammo));
-			}
-		}
+		ammoStacks = new ArrayList();
+
+		List list = new ArrayList();
+		ModItems.ammo_arty.getSubItems(ModItems.ammo_arty, MainRegistry.weaponTab, list);
+		this.ammoStacks.addAll(list);
 		
 		return ammoStacks;
 	}

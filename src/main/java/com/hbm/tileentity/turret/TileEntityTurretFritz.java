@@ -1,5 +1,6 @@
 package com.hbm.tileentity.turret;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
@@ -15,6 +16,9 @@ import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -36,6 +40,20 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	protected List<Integer> getAmmoList() {
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+
+		ammoStacks.add(new ItemStack(ModItems.fluid_icon, 1, Fluids.DIESEL.getID()));
+		ammoStacks.add(new ItemStack(ModItems.ammo_fuel));
+		
+		return ammoStacks;
 	}
 	
 	@Override

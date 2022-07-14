@@ -13,7 +13,9 @@ import com.hbm.util.BobMathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -87,9 +89,20 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	public float getZLevel() {
 		return this.zLevel;
 	}
+	
+	public void setZLevel(float level) {
+		this.zLevel = level;
+	}
+	
+	public RenderItem getItemRenderer() {
+		return this.itemRender;
+	}
+	
+	public FontRenderer getFontRenderer() {
+		return this.fontRendererObj;
+	}
 
-	//TODO: do the funny
-	protected void drawHoveringText2(List lines, int x, int y, FontRenderer font) {
+	protected void drawStackText(List lines, int x, int y, FontRenderer font) {
 		
 		if(!lines.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);

@@ -750,6 +750,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(ammoStacks != null)
 			return ammoStacks;
 		
+		ammoStacks = new ArrayList();
+		
 		for(Integer i : getAmmoList()) {
 			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
 			

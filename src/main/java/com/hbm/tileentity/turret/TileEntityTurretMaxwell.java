@@ -1,5 +1,6 @@
 package com.hbm.tileentity.turret;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.items.ModItems;
@@ -10,9 +11,12 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
@@ -27,6 +31,34 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 	@Override
 	protected List<Integer> getAmmoList() {
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+
+		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_1));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_2));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_3));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_1));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_2));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_3));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_power_1));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_power_2));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_power_3));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_1));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_2));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_3));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_1));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_2));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_3));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_5g));
+		
+		return ammoStacks;
 	}
 	
 	@Override
@@ -131,7 +163,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 						if(item == ModItems.upgrade_overdrive_1) blackLevel += 1;
 						if(item == ModItems.upgrade_overdrive_2) blackLevel += 2;
 						if(item == ModItems.upgrade_overdrive_3) blackLevel += 3;
-						if(item == ModItems.upgrade_5g) _5g = true;;
+						if(item == ModItems.upgrade_5g) _5g = true;
 					}
 				}
 			}
