@@ -68,7 +68,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		if(this.mc.thePlayer.inventory.getItemStack() == null && this.guiLeft + 79 <= mouseX && guiLeft + 79 + 54 > mouseX && guiTop + 62 < mouseY && guiTop + 62 + 54 >= mouseY) {
 			
 			boolean draw = true;
-			for(int i = 0; i < 9; i++) {
+			for(int i = 1; i < 10; i++) {
 				if(this.isMouseOverSlot(this.inventorySlots.getSlot(i), mouseX, mouseY) && this.inventorySlots.getSlot(i).getHasStack()) {
 					draw = false;
 					break;
