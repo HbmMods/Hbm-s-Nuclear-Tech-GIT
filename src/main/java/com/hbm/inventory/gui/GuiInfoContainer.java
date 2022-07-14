@@ -89,7 +89,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	}
 
 	//TODO: do the funny
-	protected void drawHoveringText2(List<Object[]> lines, int x, int y, FontRenderer font) {
+	protected void drawHoveringText2(List lines, int x, int y, FontRenderer font) {
 		
 		if(!lines.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
