@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.turret.TurretBase;
 import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.lib.Library;
@@ -100,10 +101,10 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	}
 	
 	private boolean isInSight(Entity e) {
-		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom))
+		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom)&& !(e instanceof EntityMIRV))
 			return false;
 		
-		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom))
+		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom)&& !(e instanceof EntityMIRV))
 			return false;
 		
 		if(e instanceof EntityPlayer && players.contains((((EntityPlayer)e).getDisplayName())))

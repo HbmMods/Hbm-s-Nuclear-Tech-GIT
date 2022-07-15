@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.missile.EntitySiegeDropship;
@@ -646,6 +647,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 			if(e instanceof EntityMissileBaseAdvanced) return true;
 			if(e instanceof EntityMissileCustom) return true;
+			if(e instanceof EntityMIRV) return true;
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityBomber) return true;
 			if(e instanceof EntitySiegeDropship) return true;

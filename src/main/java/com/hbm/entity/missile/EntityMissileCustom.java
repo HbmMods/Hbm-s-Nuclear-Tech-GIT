@@ -303,28 +303,47 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
     		if((motionY <= 0) && (posY <= 300)) {
     			
     			if(worldObj.isRemote)
-					return;
-    			
+					return;    
+    			               
     				this.setDead();
-    				double mod = 0.7D;
-    				
-    				for(int i = 0; i < 6; i++) {
-    				EntityBulletBase nuke = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.MIRVLET);
-    				nuke.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
-					nuke.setPosition(posX,posY,posZ);
-					nuke.motionX = this.motionX + this.worldObj.rand.nextGaussian() * mod;
-					nuke.motionY = this.motionY;
-					nuke.motionZ = this.motionZ + this.worldObj.rand.nextGaussian() * mod;
-					this.worldObj.spawnEntityInWorld(nuke);
-					
+    				           
+    				double mod;
+    				double mod2;
+    				for(int i = 0; i < 7; i++) {
+    					EntityMIRV nuke3 = new EntityMIRV(this.worldObj);
+    					nuke3.setPosition(posX,posY,posZ);      
+    					mod = (i==(1 & 2)) ? 1 : -1; 
+    					mod2 = (i==(1 & 3)) ? 1 : -1;
+    					
+    					if(i==5){ mod2 = 0; mod = 2;}
+    					if(i==6){ mod2 = 0; mod = -2;}
+    					
+        				nuke3.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);
+    					nuke3.motionX = this.motionX+mod;
+    					nuke3.motionY = this.motionY;
+    					nuke3.motionZ = this.motionZ+mod2;
+    					this.worldObj.spawnEntityInWorld(nuke3);
+    					
     				}
-    				EntityBulletBase nuke = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.MIRVLET);
-    				nuke.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
-					nuke.setPosition(posX,posY,posZ);
-					nuke.motionX = this.motionX;
-					nuke.motionY = this.motionY;
-					nuke.motionZ = this.motionZ;
-					this.worldObj.spawnEntityInWorld(nuke);
+    				//for some reason these fuckers refuse to work any other way dont blame for the mess
+    				EntityMIRV nuke3 = new EntityMIRV(this.worldObj);
+    				nuke3.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
+					nuke3.setPosition(posX,posY,posZ);
+					nuke3.motionX = this.motionX+1;
+					nuke3.motionY = this.motionY;
+					nuke3.motionZ = this.motionZ+1;
+					this.worldObj.spawnEntityInWorld(nuke3);
+					
+					EntityMIRV nuke4 = new EntityMIRV(this.worldObj);
+    				nuke4.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
+					nuke4.setPosition(posX,posY,posZ);
+					nuke4.motionX = this.motionX;
+					nuke4.motionY = this.motionY;
+					nuke4.motionZ = this.motionZ;
+					this.worldObj.spawnEntityInWorld(nuke4);
+					
+					
+					
     			}
     		}
         

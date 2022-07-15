@@ -12,10 +12,11 @@ public interface IRadarDetectable {
 		MISSILE_10_15("Size 10/15 Custom Missile"),	//size 10/15 custom missiles
 		MISSILE_15("Size 15 Custom Missile"),		//size 15 custom missiles
 		MISSILE_15_20("Size 15/20 Custom Missile"),	//size 15/20 custom missiles
+		MIRVLET("Mirvlet"),                         // mirvlet from a size 15 MIRV warhead
 		MISSILE_20("Size 20 Custom Missile"),		//size 20 custom missiles
 		MISSILE_AB("Anti-Ballistic Missile"),		//anti ballistic missile
 		PLAYER("Player"),							//airborne players
-		ARTILLERY("Artillery Shell");				//airborne players
+		ARTILLERY("Artillery Shell");				//artillery shells
 		
 		public String name;
 		

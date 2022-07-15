@@ -29,6 +29,7 @@ public class MissileTab extends CreativeTabs {
 		return Items.iron_pickaxe;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
     @SideOnly(Side.CLIENT)
 	public void displayAllReleventItems(List list) {
@@ -90,6 +91,12 @@ public class MissileTab extends CreativeTabs {
 				ModItems.mp_fuselage_15_kerosene_blackjack,
 				ModItems.mp_stability_15_thin,
 				ModItems.mp_thruster_15_kerosene).setStackDisplayName(EnumChatFormatting.RED + "Auntie Blackjack"));
+		list.add(ItemCustomMissile.buildMissile(
+				ModItems.mp_chip_5,
+				ModItems.mp_warhead_15_mirv,
+				ModItems.mp_fuselage_15_kerosene_lambda,
+				ModItems.mp_stability_15_soyuz,
+				ModItems.mp_thruster_15_kerosene).setStackDisplayName(EnumChatFormatting.BLUE+ "7 For 1 Package Deal"));
 		
 		list.add(ItemCustomMissile.buildMissile(
 				ModItems.mp_chip_4,
