@@ -34,7 +34,7 @@ public class HazardTypeAsbestos extends HazardTypeBase {
 	public void updateEntity(EntityItem item, float level) { }
 
 	@Override
-	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+	public void addHazardInformation(EntityPlayer player, List<String> list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey("trait.asbestos") + "]");
 	}
 }

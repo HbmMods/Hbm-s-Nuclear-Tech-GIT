@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineTurbine;
@@ -68,7 +69,7 @@ public class MachineTurbine extends BlockContainer {
 			TileEntityMachineTurbine entity = (TileEntityMachineTurbine) te;
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_turbine, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.GENERATOR_TURBINE.ordinal(), world, x, y, z);
 			}
 			
 			return true;

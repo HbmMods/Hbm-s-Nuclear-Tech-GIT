@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -60,7 +61,7 @@ public class MachineCyclotron extends BlockDummyable {
 				}
 			}
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_cyclotron, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.CYCLOTRON.ordinal(), world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

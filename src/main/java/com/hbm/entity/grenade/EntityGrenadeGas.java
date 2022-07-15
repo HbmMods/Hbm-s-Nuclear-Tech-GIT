@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
@@ -51,7 +52,7 @@ public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_gas);
+		return AmmoHandGrenade.GAS.fuse * 20;
 	}
 
 	@Override

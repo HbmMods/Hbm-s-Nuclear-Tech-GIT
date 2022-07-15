@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -28,7 +29,7 @@ public class ItemGuideBook extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(world.isRemote)
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_guide, world, 0, 0, 0);
+			player.openGui(MainRegistry.instance, EnumGUI.ITEM_GUIDE.ordinal(), world, 0, 0, 0);
 		
 		return stack;
 	}

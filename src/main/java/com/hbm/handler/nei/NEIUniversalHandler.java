@@ -5,9 +5,9 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.lib.RefStrings;
@@ -31,18 +31,18 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	/// SETUP ///
 	public final String display;
 	public final ItemStack[] machine;
-	public final HashMap<Object, Object> recipes;
+	public final Map<Object, Object> recipes;
 	/// SETUP ///
 	
-	public NEIUniversalHandler(String display, ItemStack machine[], HashMap recipes) {
+	public NEIUniversalHandler(String display, ItemStack machine[], Map<? extends Object, ? extends Object> recipes) {
 		this.display = display;
 		this.machine = machine;
-		this.recipes = recipes;
+		this.recipes = (Map<Object, Object>) recipes;
 	}
 
-	public NEIUniversalHandler(String display, ItemStack machine, HashMap recipes) {	this(display, new ItemStack[]{machine}, recipes); }
-	public NEIUniversalHandler(String display, Item machine, HashMap recipes) {			this(display, new ItemStack(machine), recipes); }
-	public NEIUniversalHandler(String display, Block machine, HashMap recipes) {		this(display, new ItemStack(machine), recipes); }
+	public NEIUniversalHandler(String display, ItemStack machine, Map<? extends Object, ? extends Object> recipes) {	this(display, new ItemStack[]{machine}, recipes); }
+	public NEIUniversalHandler(String display, Item machine, Map<? extends Object, ? extends Object> recipes) {			this(display, new ItemStack(machine), recipes); }
+	public NEIUniversalHandler(String display, Block machine, Map<? extends Object, ? extends Object> recipes) {		this(display, new ItemStack(machine), recipes); }
 
 	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
 		
@@ -78,7 +78,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getOtherStacks() {
-			List<PositionedStack> other = new ArrayList();
+			List<PositionedStack> other = new ArrayList<>();
 			for(PositionedStack pos : output) {
 				other.add(pos);
 			}

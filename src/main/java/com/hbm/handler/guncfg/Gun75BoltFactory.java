@@ -2,13 +2,12 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -20,7 +19,6 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -72,49 +70,44 @@ public class Gun75BoltFactory {
 						)
 				);
 		
-		config.name = "Manticora Pattern Boltgun";
-		config.manufacturer = "Cerix Magnus";
+		config.name = "bolter";
+		config.manufacturer = EnumGunManufacturer.CERIX;
 		
-		config.config = new ArrayList();
-		config.config.add(BulletConfigSyncingUtil.B75_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.B75_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.B75_HE);
+		config.config = HbmCollection.seventyFive;
 		
 		return config;
 	}
 
-	static float inaccuracy = 0.5F;
+	static final float inaccuracy = 0.5F;
+	static byte i = 0;
 	public static BulletConfiguration get75BoltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_75bolt;
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 74;
 		bullet.dmgMax = 82;
+		bullet.penetration = 22;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
-
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+		bullet.bHurt = (projectile, hit) -> {
 				
-				if(bullet.worldObj.isRemote)
-					return;
+			if(projectile.worldObj.isRemote)
+				return;
+			
+			if(hit instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) hit;
+				float f = living.getHealth();
 				
-				if(hit instanceof EntityLivingBase) {
-					EntityLivingBase living = (EntityLivingBase) hit;
-					float f = living.getHealth();
+				if(f > 0) {
+					f = Math.max(0, f - 2);
+					living.setHealth(f);
 					
-					if(f > 0) {
-						f = Math.max(0, f - 2);
-						living.setHealth(f);
-						
-						if(f == 0)
-							living.onDeath(ModDamageSource.lead);
-					}
+					if(f == 0)
+						living.onDeath(ModDamageSource.lead);
 				}
 			}
 		};
@@ -126,11 +119,12 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_75bolt_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 72;
 		bullet.dmgMax = 76;
+		bullet.penetration = 22;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 
@@ -139,22 +133,18 @@ public class Gun75BoltFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+		bullet.bImpact = (projectile, x, y, z) -> {
 				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+			
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, projectile.posX, projectile.posY, projectile.posZ), new TargetPoint(projectile.dimension, projectile.posX, projectile.posY, projectile.posZ, 50));
 		};
 		
 		return bullet;
@@ -164,7 +154,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_75bolt_he;
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 94;

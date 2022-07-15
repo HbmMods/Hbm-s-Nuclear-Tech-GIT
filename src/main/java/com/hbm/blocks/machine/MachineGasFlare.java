@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
 
@@ -32,7 +33,7 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return this.standardOpenBehavior(world, x, y, z, player, ModBlocks.guiID_machine_flare);
+		return this.standardOpenBehavior(world, x, y, z, player, EnumGUI.GAS_FLARE.ordinal());
 	}
 
 	@Override

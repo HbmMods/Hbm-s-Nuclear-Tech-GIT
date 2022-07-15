@@ -253,7 +253,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.ACID, 6000))
 				.outputFluids(new FluidStack(Fluids.SCHRABIDIC, 16000)));
 		recipes.add(new ChemRecipe(64, "SCHRABIDATE", 150)
-				.inputItems(new OreDictStack(IRON.dust()))
+				.inputItems(new OreDictStack(FE.dust()))
 				.inputFluids(new FluidStack(Fluids.SCHRABIDIC, 250))
 				.outputItems(new ItemStack(ModItems.powder_schrabidate)));
 		recipes.add(new ChemRecipe(65, "COLTAN_CLEANING", 60)

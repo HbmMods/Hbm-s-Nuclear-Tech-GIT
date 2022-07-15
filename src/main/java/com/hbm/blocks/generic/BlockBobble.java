@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.items.ModItems;
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 
@@ -89,7 +89,7 @@ public class BlockBobble extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_bobble, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BOBBLE.ordinal(), world, x, y, z);
 			return true;
 			
 		} else {

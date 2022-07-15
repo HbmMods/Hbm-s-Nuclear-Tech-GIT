@@ -2,19 +2,18 @@ package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.WeightedRandomObject;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-
-import com.hbm.util.ContaminationUtil.ContaminationType;
-import com.hbm.util.ContaminationUtil.HazardType;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -37,7 +36,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
-public abstract class WeaponAbility {
+public abstract class WeaponAbility
+{
 	
 	public abstract void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool);
 	public abstract String getName();
@@ -206,30 +206,30 @@ public abstract class WeaponAbility {
 				if(living.getHealth() <= 0.0F) {
 					
 					WeightedRandomObject[] ammo = new WeightedRandomObject[] {
-							new WeightedRandomObject(ModItems.ammo_12gauge, 10),
-							new WeightedRandomObject(ModItems.ammo_12gauge_shrapnel, 5),
-							new WeightedRandomObject(ModItems.ammo_12gauge_du, 3),
-							new WeightedRandomObject(ModItems.ammo_20gauge, 10),
-							new WeightedRandomObject(ModItems.ammo_20gauge_flechette, 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge_slug, 5),
-							new WeightedRandomObject(ModItems.ammo_9mm, 10),
-							new WeightedRandomObject(ModItems.ammo_9mm_ap, 5),
-							new WeightedRandomObject(ModItems.ammo_5mm, 10),
-							new WeightedRandomObject(ModItems.ammo_5mm_du, 3),
-							new WeightedRandomObject(ModItems.ammo_556, 10),
-							new WeightedRandomObject(ModItems.ammo_556_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_556_flechette, 10),
-							new WeightedRandomObject(ModItems.ammo_556_flechette_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_50bmg, 10),
-							new WeightedRandomObject(ModItems.ammo_50bmg_incendiary, 5),
-							new WeightedRandomObject(ModItems.ammo_50bmg_ap, 5),
-							new WeightedRandomObject(ModItems.ammo_grenade, 5),
-							new WeightedRandomObject(ModItems.ammo_grenade_concussion, 3),
-							new WeightedRandomObject(ModItems.ammo_grenade_phosphorus, 3),
-							new WeightedRandomObject(ModItems.ammo_rocket, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_glare, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_rpc, 1),
+							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL), 5),
+							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.DU), 3),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.FLECHETTE), 5),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLUG), 5),
+							new WeightedRandomObject(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.AP), 5),
+							new WeightedRandomObject(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.DU), 3),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.PHOSPHORUS), 5),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE), 10),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_PHOSPHORUS), 5),
+							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.INCENDIARY), 5),
+							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.AP), 5),
+							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.STOCK), 5),
+							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.CONCUSSION), 3),
+							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.PHOSPHORUS), 3),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK), 5),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE), 5),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.PHOSPHORUS), 5),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.RPC), 1),
 							new WeightedRandomObject(ModItems.syringe_metal_stimpak, 25),
 					};
 					

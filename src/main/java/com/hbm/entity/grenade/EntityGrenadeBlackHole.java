@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeBlackHole extends EntityGrenadeBouncyBase
@@ -44,7 +45,7 @@ public class EntityGrenadeBlackHole extends EntityGrenadeBouncyBase
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_black_hole);
+		return AmmoHandGrenade.BLACK_HOLE.fuse;
 	}
 
 	@Override

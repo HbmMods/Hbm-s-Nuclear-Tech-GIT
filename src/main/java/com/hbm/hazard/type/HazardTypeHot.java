@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 
 public class HazardTypeHot extends HazardTypeBase {
@@ -54,10 +55,15 @@ public class HazardTypeHot extends HazardTypeBase {
 	}
 
 	@Override
-	public void updateEntity(EntityItem item, float level) { }
+	public void updateEntity(EntityItem item, float level)
+	{
+		final List<EntityLivingBase> entities = item.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(item.posX - 0.5, item.posY - 0.5, item.posZ - 0.5, item.posX + 0.5, item.posY + 0.5, item.posZ + 0.5).expand(level * 5, level * 5, level * 5));
+		for (EntityLivingBase e : entities)
+			e.setFire((int) (level * (level / e.getDistanceToEntity(item))));
+	}
 
 	@Override
-	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+	public void addHazardInformation(EntityPlayer player, List<String> list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 		

@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
@@ -76,7 +77,7 @@ public class MachineSatDock extends BlockContainer implements IMultiblock {
 			TileEntityMachineSatDock entity = (TileEntityMachineSatDock) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dock, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.SAT_DOCK.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-public class GunConfiguration {
+public class GunConfiguration implements Cloneable
+{
 	
 	/**
 	 * alt function restrictions:
@@ -18,60 +23,67 @@ public class GunConfiguration {
 	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
 	 */
 
-	//amount of ticks between each bullet
+	/**amount of ticks between each bullet**/
 	public int rateOfFire;
-	//amount of bullets fired per delay passed
+	/**amount of bullets fired per delay passed**/
 	public int roundsPerCycle;
-	//0 = normal, 1 = release, 2 = both
+	/**0 = normal, 1 = release, 2 = both**/
 	public int gunMode;
-	//0 = manual, 1 = automatic
+	/**0 = manual, 1 = automatic**/
 	public int firingMode;
-	//weapon won't fire after weapon breaks (main only)
+	/**weapon won't fire after weapon "breaks" (main only)**/
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	//whether ot not to disable crosshais when sneaking
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	/**whether to not to disable crosshairs when sneaking**/
 	public boolean hasSights;
 	
-	//how long the reload animation will play
-	//MUST BE GREATER THAN ZERO ! ! !
+	/**how long the reload animation will play;
+	MUST BE GREATER THAN ZERO ! ! !**/
 	public int reloadDuration;
-	//duration of every animation cycle
+	/**duration of every animation cycle**/
 	public int firingDuration;
-	//sound path to the reload sound
+	/**sound path to the reload sound**/
 	public String reloadSound = "";
-	//sound path to the shooting sound
+	/**sound path to the shooting sound**/
 	public String firingSound = "";
+	/**Pitch of the firing sound**/
 	public float firingPitch = 1.0F;
-	//whether the reload sound should be played at the beginning or at the end of the reload
+	/** Equip sound effect **/
+	public String equipSound = "";
+	/**whether the reload sound should be played at the beginning or at the end of the reload**/
 	public boolean reloadSoundEnd = true;
 	
-	//how much ammo the clip can hold, 0 if drawn from inventory
+	/**how much ammo the clip can hold, 0 if drawn from inventory**/
 	public int ammoCap;
-	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
+	/**0 does not allow direct reload, 1 is full clip, 2 is single bullet**/
 	public int reloadType;
-	//whether or not the infinity enchantment should work
+	/**whether or not the infinity enchantment should work**/
 	public boolean allowsInfinity;
-	//whether the ammo count should be displayed
+	/**whether the ammo count should be displayed**/
 	public boolean showAmmo = true;
 	
-	//for electrically powered weapons:
-	//the Maximum capacity of the gun
-	public int maxCharge;
-	//the rate at which the gun is charged
-	public int chargeRate;
-	//how much energy is discharged per shot
-	public int dischargePerShot;
-	
+	// Just experimenting here ~ UFFR
+	/**Custom descriptor about damage, optional**/
+	public String damage = "";
+	/**Extra long comments about the lore of the gun**/
+	public List<String> advLore = new ArrayList<String>();
+	/**Extra long comments about how the gun works**/
+	public List<String> advFuncLore = new ArrayList<String>();
+	/**Localization key for the official name**/
 	public String name = "";
-	public String manufacturer = "";
-	public List<String> comment = new ArrayList();
+	/**Localization key for the gun's manufacturer**/
+	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
+	/**Additional comments**/
+	public List<String> comment = new ArrayList<String>();
+	
+	public boolean canUnload = true;
 
-	//bullet configs for main and alt fire
-	public List<Integer> config = new ArrayList();
+	/**bullet configs for main and alt fire**/
+	public List<Integer> config = new ArrayList<Integer>();
 
-	//crosshair
+	/** Crosshair on screen **/
 	public Crosshair crosshair;
 
 	public static final int MODE_NORMAL = 0;
@@ -96,6 +108,48 @@ public class GunConfiguration {
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
+	}
+	
+	@Override
+	public GunConfiguration clone()
+	{
+//		GunConfiguration newConfig = new GunConfiguration();
+//		newConfig.advFuncLore = new ArrayList<String>(advFuncLore);
+//		newConfig.advLore = new ArrayList<String>(advLore);
+//		newConfig.allowsInfinity = allowsInfinity;
+//		newConfig.ammoCap = ammoCap;
+//		newConfig.animations = new HashMap<>(animations);
+//		newConfig.comment = new ArrayList<String>(comment);
+//		newConfig.config = new ArrayList<Integer>(config);
+//		newConfig.crosshair = crosshair;
+//		newConfig.damage = damage;
+//		newConfig.durability = durability;
+//		newConfig.equipSound = equipSound;
+//		newConfig.firingDuration = firingDuration;
+//		newConfig.firingMode = firingMode;
+//		newConfig.firingPitch = firingPitch;
+//		newConfig.firingSound = firingSound;
+//		newConfig.gunMode = gunMode;
+//		newConfig.hasSights = hasSights;
+//		newConfig.manufacturer = manufacturer;
+//		newConfig.name = name;
+//		newConfig.rateOfFire = rateOfFire;
+//		newConfig.reloadDuration = reloadDuration;
+//		newConfig.reloadSound = reloadSound;
+//		newConfig.reloadSoundEnd = reloadSoundEnd;
+//		newConfig.reloadType = reloadType;
+//		newConfig.roundsPerCycle = roundsPerCycle;
+//		newConfig.showAmmo = showAmmo;
+//		return newConfig;
+		try
+		{
+			return (GunConfiguration) super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+			MainRegistry.logger.catching(Level.ERROR, e);
+			return new GunConfiguration();
+		}
 	}
 
 }

@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -41,7 +42,7 @@ public class EntityGrenadeIFHopwire extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_hopwire);
+		return AmmoHandGrenade.IF_HOPWIRE.fuse * 20;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.handler.EnumGUI;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
@@ -99,7 +100,7 @@ public class BombMulti extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityBombMulti entity = (TileEntityBombMulti) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_bomb_multi, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BOMB_MULTI.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

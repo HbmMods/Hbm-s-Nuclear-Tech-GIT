@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -39,7 +40,7 @@ public class EntityGrenadeIFMystery extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_mystery);
+		return AmmoHandGrenade.IF_MYSTERY.fuse * 20;
 	}
 
 	@Override

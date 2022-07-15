@@ -3,6 +3,9 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudTom;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -10,6 +13,8 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -38,7 +43,7 @@ public class BulletConfigFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.gun_revolver_ammo;
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;
@@ -103,7 +108,7 @@ public class BulletConfigFactory {
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;
-		bullet.bulletsMin = 5;
+		bullet.bulletsMin = 6;
 		bullet.bulletsMax = 8;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
@@ -302,6 +307,30 @@ public class BulletConfigFactory {
 			}
 			
 			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+		}
+	}
+	@Deprecated
+	public static void explosionLunatic(EntityBulletBase bullet, int x, int y, int z, int size) {
+		
+		if(!bullet.worldObj.isRemote) {
+
+			EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(bullet.worldObj);
+			explosionEntity.posX = bullet.posX;
+			explosionEntity.posY = bullet.posY;
+			explosionEntity.posZ = bullet.posZ;
+			explosionEntity.destructionRange = size;
+			explosionEntity.speed = BombConfig.blastSpeed;
+			explosionEntity.coefficient = 15F;
+			explosionEntity.coefficient2 = 45F;
+			explosionEntity.waste = false;
+			explosionEntity.extType = 2;
+			bullet.worldObj.spawnEntityInWorld(explosionEntity);
+			
+			EntityCloudTom cloud = new EntityCloudTom(bullet.worldObj, size);
+			cloud.posX = x;
+			cloud.posY = y;
+			cloud.posZ = z;
+			bullet.worldObj.spawnEntityInWorld(cloud);
 		}
 	}
 	

@@ -1,5 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.machine.MachineRtgFurnace;
+import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.tileentity.IRTGUser;
+import com.hbm.tileentity.IRadioisotopeFuel;
+
+import api.hbm.Date;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -9,12 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-import com.hbm.blocks.machine.MachineRtgFurnace;
-import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPellet;
-import com.hbm.util.RTGUtil;
-
-public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory, IRTGUser {
 
 	private ItemStack slots[];
 	
@@ -26,7 +27,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 	private static final int[] slots_side = new int[] {1, 2, 3};
 	
 	private String customName;
-	
+	private Date date = new Date();
 	public TileEntityRtgFurnace() {
 		slots = new ItemStack[5];
 	}
@@ -103,7 +104,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 	}
 	
 	public boolean isLoaded() {
-		return RTGUtil.hasHeat(slots, slots_side);
+		return getHeat() > 0;
 	}
 	
 	@Override
@@ -257,7 +258,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 		{
 			if(hasPower() && canProcess())
 			{
-				dualCookTime += RTGUtil.updateRTGs(slots, slots_side);
+				dualCookTime += getHeat();
 				
 				if(this.dualCookTime >= TileEntityRtgFurnace.processingSpeed)
 				{
@@ -267,7 +268,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 				}
 			}else{
 				dualCookTime = 0;
-				RTGUtil.updateRTGs(slots, slots_side);
+				updateRTGs();
 			}
 			
 			boolean trigger = true;
@@ -288,5 +289,41 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory 
 		{
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public void incrementAge()
+	{
+		date.increment();
+	}
+
+	@Override
+	public Date getInternalDate()
+	{
+		return date;
+	}
+
+	@Override
+	public int getHeat()
+	{
+		return updateRTGs();
+	}
+
+	@Override
+	public int[] getSlots()
+	{
+		return slots_side;
+	}
+
+	@Override
+	public ItemStack[] getInventory()
+	{
+		return slots;
+	}
+
+	@Override
+	public Class<? extends IRadioisotopeFuel> getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 }

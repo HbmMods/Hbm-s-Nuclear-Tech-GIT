@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.EnumUtil;
@@ -19,7 +20,7 @@ public class ItemHolotapeImage extends ItemHoloTape {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(world.isRemote) player.openGui(MainRegistry.instance, ModItems.guiID_item_holo_image, world, 0, 0, 0);
+		if(world.isRemote) player.openGui(MainRegistry.instance, EnumGUI.ITEM_HOLOTAPE.ordinal(), world, 0, 0, 0);
 		return stack;
 	}
 

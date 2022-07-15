@@ -23,7 +23,7 @@ public class HazardTypeDigamma extends HazardTypeBase {
 	public void updateEntity(EntityItem item, float level) { }
 
 	@Override
-	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+	public void addHazardInformation(EntityPlayer player, List<String> list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 		

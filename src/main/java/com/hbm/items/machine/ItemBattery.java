@@ -2,6 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
 
@@ -15,7 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemBattery extends Item implements IBatteryItem {
+public class ItemBattery extends ItemCustomLore implements IBatteryItem {
 
 	private long maxCharge;
 	private long chargeRate;

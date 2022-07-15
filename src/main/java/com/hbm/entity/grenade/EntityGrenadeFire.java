@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeFire extends EntityGrenadeBouncyBase
@@ -43,7 +44,7 @@ public class EntityGrenadeFire extends EntityGrenadeBouncyBase
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_fire);
+		return AmmoHandGrenade.FIRE.fuse * 20;
 	}
 
 	@Override

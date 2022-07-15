@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
@@ -257,7 +258,7 @@ public class MachineTurbofan extends BlockContainer implements IMultiblock, IToo
 		}else if (!player.isSneaking()) {
 			TileEntityMachineTurbofan entity = (TileEntityMachineTurbofan) world.getTileEntity(x, y, z);
 			if (entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_turbofan, world, x,
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.GENERATOR_TURBOFAN.ordinal(), world, x,
 						y, z);
 			}
 			return true;

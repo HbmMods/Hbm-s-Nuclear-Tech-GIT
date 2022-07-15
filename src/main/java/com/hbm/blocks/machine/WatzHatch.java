@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
@@ -122,7 +122,7 @@ public class WatzHatch extends Block {
 				{
 					if(((TileEntityWatzCore)world.getTileEntity(x, y, z + 3)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x, y, z + 3);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_WATZ.ordinal(), world, x, y, z + 3);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
@@ -136,7 +136,7 @@ public class WatzHatch extends Block {
 				{
 					if(((TileEntityWatzCore)world.getTileEntity(x, y, z - 3)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x, y, z - 3);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_WATZ.ordinal(), world, x, y, z - 3);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
@@ -150,7 +150,7 @@ public class WatzHatch extends Block {
 				{
 					if(((TileEntityWatzCore)world.getTileEntity(x + 3, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x + 3, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_WATZ.ordinal(), world, x + 3, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
@@ -164,7 +164,7 @@ public class WatzHatch extends Block {
 				{
 					if(((TileEntityWatzCore)world.getTileEntity(x - 3, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x - 3, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_WATZ.ordinal(), world, x - 3, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}

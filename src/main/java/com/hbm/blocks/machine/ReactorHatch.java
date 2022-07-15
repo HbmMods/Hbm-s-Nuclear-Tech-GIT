@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
@@ -121,7 +122,7 @@ public class ReactorHatch extends Block {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z + 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z + 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_GENERIC_LARGE.ordinal(), world, x, y, z + 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -135,7 +136,7 @@ public class ReactorHatch extends Block {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z - 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z - 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_GENERIC_LARGE.ordinal(), world, x, y, z - 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -149,7 +150,7 @@ public class ReactorHatch extends Block {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x + 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x + 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_GENERIC_LARGE.ordinal(), world, x + 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -163,7 +164,7 @@ public class ReactorHatch extends Block {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x - 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x - 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_GENERIC_LARGE.ordinal(), world, x - 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}

@@ -39,14 +39,14 @@ public class GUIRadiolysis extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, radiolysis.power, radiolysis.maxPower);
 		
-		String[] descText = I18nUtil.resolveKeyArray("desc.gui.radiolysis.desc");
+		final String[] descText = I18nUtil.resolveKeyArray("desc.gui.radiolysis.desc");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, descText);
 		
-		String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtg.heat", radiolysis.heat);
+		final String[] heatText = I18nUtil.resolveKeyArray("desc.gui.rtg.heat", radiolysis.heat);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16 + 18, 16, 16, guiLeft - 8, guiTop + 16 + 18 + 16, heatText);
 		
-		List<ItemRTGPellet> pellets = ItemRTGPellet.pelletList;
-		String[] pelletText = new String[pellets.size() + 1];
+		final List<ItemRTGPellet> pellets = ItemRTGPellet.getPelletList();
+		final String[] pelletText = new String[pellets.size() + 1];
 		pelletText[0] = I18nUtil.resolveKey("desc.gui.rtg.pellets");
 		
 		for(int i = 0; i < pellets.size(); i++) {

@@ -6,16 +6,19 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
+import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.machine.TileEntityReactorResearch;
+import com.hbm.tileentity.machine.TileEntityStorageDrum;
+import com.hbm.util.I18nUtil;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo.Layout;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -23,6 +26,48 @@ import net.minecraft.world.World;
 
 public class NEIConfig implements IConfigureNEI {
 
+	public static final class ArcFurnaceRecipeHandler extends NEIUniversalHandler
+	{
+		public ArcFurnaceRecipeHandler()
+		{
+			super(I18nUtil.resolveKey("container.arcFurnace"), ModBlocks.machine_arc_furnace_off, MachineRecipes.getArcFurnaceRecipes());
+		}
+
+		@Override
+		public String getKey()
+		{
+			return "ntmArcFurnace";
+		}
+	}
+
+	public static final class ResearchReactorRecipeHandler extends NEIUniversalHandler
+	{
+		public ResearchReactorRecipeHandler()
+		{
+			super(I18nUtil.resolveKey("container.reactorResearch"), ModBlocks.reactor_research, TileEntityReactorResearch.getFuelRecipes());
+		}
+
+		@Override
+		public String getKey()
+		{
+			return "ntmResearchReactor";
+		}
+	}
+	
+	public static final class DecayRecipeHandler extends NEIUniversalHandler
+	{
+		public DecayRecipeHandler()
+		{
+			super("Decay", new ItemStack[] {new ItemStack(ModBlocks.machine_storage_drum), new ItemStack(ModBlocks.machine_radgen)}, TileEntityStorageDrum.getRecipesForNEI());
+		}
+
+		@Override
+		public String getKey()
+		{
+			return "ntmDecay";
+		}
+	}
+	
 	@Override
 	public void loadConfig() {
 		API.registerRecipeHandler(new AlloyFurnaceRecipeHandler());

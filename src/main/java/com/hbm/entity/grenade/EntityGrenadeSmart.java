@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -35,7 +36,7 @@ public class EntityGrenadeSmart extends EntityGrenadeBase {
             if(this.ticksExisted > 10)
             	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5.0F, true, false, false);
             else
-            	worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(ModItems.grenade_smart)));
+            	worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, ModItems.grenade.stackFromEnum(AmmoHandGrenade.SMART)));
         }
     }
 }

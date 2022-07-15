@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
@@ -65,7 +66,7 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock {
     		TileEntityMachineFluidTank entity = (TileEntityMachineFluidTank) world.getTileEntity(x, y, z);
     		if(entity != null)
     		{
-    			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_fluidtank, world, x, y, z);
+    			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.FLUID_TANK.ordinal(), world, x, y, z);
     		}
 			return true;
 		} else {

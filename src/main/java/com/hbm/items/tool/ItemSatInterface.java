@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.main.MainRegistry;
@@ -27,9 +28,9 @@ public class ItemSatInterface extends ItemSatChip {
 		if(world.isRemote) {
 
 			if(this == ModItems.sat_interface)
-				player.openGui(MainRegistry.instance, ModItems.guiID_item_sat_interface, world, 0, 0, 0);
+				player.openGui(MainRegistry.instance, EnumGUI.ITEM_SAT_INTERFACE.ordinal(), world, 0, 0, 0);
 			if(this == ModItems.sat_coord)
-				player.openGui(MainRegistry.instance, ModItems.guiID_item_sat_coord, world, 0, 0, 0);
+				player.openGui(MainRegistry.instance, EnumGUI.ITEM_SAT_COORD.ordinal(), world, 0, 0, 0);
 		}
 		
 		return stack;

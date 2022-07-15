@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -76,7 +77,7 @@ public class MachineBigAssTank9000 extends BlockDummyable {
 			if(pos == null)
 				return false;
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_barrel, world, pos[0], pos[1], pos[2]); //we can do this because nobody is stopping me from doing this
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BARREL.ordinal(), world, pos[0], pos[1], pos[2]); //we can do this because nobody is stopping me from doing this
 			return true;
 		} else {
 			return true;

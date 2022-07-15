@@ -73,7 +73,7 @@ public class EntityEffectHandler {
 				}
 			}
 			
-			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+			if(GeneralConfig.enable528 && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
 		}
@@ -94,7 +94,7 @@ public class EntityEffectHandler {
 			return;
 		
 		List<ContaminationEffect> contamination = HbmLivingProps.getCont(entity);
-		List<ContaminationEffect> rem = new ArrayList();
+		List<ContaminationEffect> rem = new ArrayList<ContaminationEffect>();
 		
 		for(ContaminationEffect con : contamination) {
 			ContaminationUtil.contaminate(entity, HazardType.RADIATION, con.ignoreArmor ? ContaminationType.RAD_BYPASS : ContaminationType.CREATIVE, con.getRad());
@@ -117,9 +117,9 @@ public class EntityEffectHandler {
 		
 		if(!world.isRemote) {
 			
-			int ix = (int)MathHelper.floor_double(entity.posX);
-			int iy = (int)MathHelper.floor_double(entity.posY);
-			int iz = (int)MathHelper.floor_double(entity.posZ);
+			int ix = MathHelper.floor_double(entity.posX);
+			int iy = MathHelper.floor_double(entity.posY);
+			int iz = MathHelper.floor_double(entity.posZ);
 	
 			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
@@ -367,9 +367,9 @@ public class EntityEffectHandler {
 		boolean coughsALotOfCoal = blacklung / HbmLivingProps.maxBlacklung > 0.8D;
 		boolean coughsBlood = asbestos / HbmLivingProps.maxAsbestos > 0.75D || blacklung / HbmLivingProps.maxBlacklung > 0.75D;
 
-		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
-		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
-		double fibrosisDelta = 1D - (fibrosis / (double)HbmLivingProps.maxFibrosis);
+		double blacklungDelta = 1D - (blacklung / HbmLivingProps.maxBlacklung);
+		double asbestosDelta = 1D - (asbestos / HbmLivingProps.maxAsbestos);
+		double fibrosisDelta = 1D - (fibrosis / HbmLivingProps.maxFibrosis);
 		
 		double total = 1 - (blacklungDelta * asbestosDelta * fibrosisDelta);
 		

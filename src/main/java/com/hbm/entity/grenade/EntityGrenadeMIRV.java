@@ -1,6 +1,7 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -48,7 +49,7 @@ public class EntityGrenadeMIRV extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_mirv);
+		return AmmoHandGrenade.MIRV.fuse * 20;
 	}
 
 	@Override

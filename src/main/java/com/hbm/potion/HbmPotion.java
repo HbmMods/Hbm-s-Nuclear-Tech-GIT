@@ -2,6 +2,8 @@ package com.hbm.potion;
 
 import java.lang.reflect.Field;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.GeneralConfig;
@@ -12,6 +14,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -21,10 +24,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class HbmPotion extends Potion {
@@ -40,6 +45,11 @@ public class HbmPotion extends Potion {
 	public static HbmPotion phosphorus;
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
+	public static HbmPotion paralysis;
+	public static HbmPotion fragile;
+	public static HbmPotion unconscious;
+	public static HbmPotion perforated;
+	public static HbmPotion hollow;
 	public static HbmPotion death;
 
 	public HbmPotion(int id, boolean isBad, int color) {
@@ -58,6 +68,11 @@ public class HbmPotion extends Potion {
 		phosphorus = registerPotion(PotionConfig.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
+		paralysis = registerPotion(PotionConfig.paralysisID, true, 0x808080, "potion.hbm_paralysis", 7, 1);
+		fragile = registerPotion(PotionConfig.fragileID, true, 0x00FFFF, "potion.hbm_fragile", 6, 1);
+		unconscious = registerPotion(PotionConfig.unconsciousID, false, 0xFF80ED, "potion.hbm_unconscious", 0, 2);
+		perforated = registerPotion(PotionConfig.perforatedID, true, 0xFF0000, "potion.hbm_perforated", 1, 2);
+		hollow = registerPotion(PotionConfig.hollowID, true, 0x000000, "potion.hbm_hollow", 2, 2);
 		death = registerPotion(PotionConfig.deathID, false, 1118481, "potion.hbm_death", 4, 1);
 	}
 
@@ -78,8 +93,9 @@ public class HbmPotion extends Potion {
 				modfield.setInt(field, field.getModifiers() & 0xFFFFFFEF);
 				field.set(null, newArray);
 				
-			} catch (Exception e) {
-				
+			} catch (Exception e)
+			{
+				MainRegistry.logger.catching(Level.INFO, e);
 			}
 		}
 		
@@ -90,6 +106,21 @@ public class HbmPotion extends Potion {
 		return effect;
 	}
 	
+	public static PotionEffect getPotionNoCure(int id, int dura, int level)
+	{
+		PotionEffect potion = new PotionEffect(id, dura, level);
+		potion.getCurativeItems().clear();
+		return potion;
+	}
+	
+	public static PotionEffect getPotionWithCures(int id, int dura, int level, ItemStack...stacks)
+	{
+		PotionEffect potion = new PotionEffect(id, dura, level);
+		for (ItemStack stack : stacks)
+			potion.addCurativeItem(stack);
+		return potion;
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getStatusIconIndex() {
@@ -98,6 +129,7 @@ public class HbmPotion extends Potion {
 		return super.getStatusIconIndex();
 	}
 
+	@Override
 	public void performEffect(EntityLivingBase entity, int level) {
 
 		if(this == taint) {
@@ -120,7 +152,7 @@ public class HbmPotion extends Potion {
 			}
 		}
 		if(this == radiation) {
-			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
+			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
 			
@@ -163,15 +195,39 @@ public class HbmPotion extends Potion {
 			
 			entity.setFire(1);
 		}
+		if (this == paralysis)
+		{
+			if (entity.getEntityAttribute(SharedMonsterAttributes.attackDamage) != null)
+				func_111184_a(SharedMonsterAttributes.attackDamage, "648D7064-6A60-4F59-8ABE-C2C23A6DD7A9", -100, 2);
+			
+			func_111184_a(SharedMonsterAttributes.movementSpeed, "7107DE5E-7CE8-4030-940E-514C1F160890", -100, 2);
+			
+			if (entity.motionY > 0)
+				entity.motionY = -2;
+		}
+		if (this == perforated)
+		{
+			entity.attackEntityFrom(ModDamageSource.bleed, (level + 3));
+		}
+		if (this == hollow)
+		{
+//			if (level > 2)
+//				ContaminationUtil.applyDigammaDirect(entity, (level + 1F) * 0.5F);
+//			else
+//				ContaminationUtil.applyDigammaData(entity, (level + 1F) * 0.25F);
+			
+			ContaminationUtil.contaminate(entity, HazardType.DIGAMMA, ContaminationType.DIGAMMA, (level + 1F) > 2 ? 0.005F : 0.0025F);
+		}
 	}
 
+	@Override
 	public boolean isReady(int par1, int par2) {
 
 		if(this == taint) {
 			return par1 % 2 == 0;
 		}
-		
-		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus) {
+		if(this == radiation || this == hollow || this == radaway || this == telekinesis || this == phosphorus || this == paralysis || this == fragile) {
+			
 			return true;
 		}
 		
@@ -181,6 +237,11 @@ public class HbmPotion extends Potion {
 		
 		if(this == lead) {
 			int k = 60;
+			return k > 0 ? par1 % k == 0 : true;
+		}
+		if (this == perforated)
+		{
+			int k = 30;
 			return k > 0 ? par1 % k == 0 : true;
 		}
 		

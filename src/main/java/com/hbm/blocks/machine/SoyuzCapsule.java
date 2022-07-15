@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 
@@ -52,7 +53,7 @@ public class SoyuzCapsule extends BlockContainer {
 		} else if(!player.isSneaking())
 		{
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_capsule, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.CAPSULE.ordinal(), world, x, y, z);
 				
 			return true;
 		} else {

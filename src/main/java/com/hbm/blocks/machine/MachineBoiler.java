@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
@@ -161,7 +162,7 @@ public class MachineBoiler extends BlockContainer {
 				TileEntityMachineBoiler entity = (TileEntityMachineBoiler) te;
 				if(entity != null)
 				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_boiler, world, x, y, z);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BOILER.ordinal(), world, x, y, z);
 				}
 			}
 			
@@ -170,7 +171,7 @@ public class MachineBoiler extends BlockContainer {
 				TileEntityMachineBoilerElectric entity = (TileEntityMachineBoilerElectric) te;
 				if(entity != null)
 				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_boiler_electric, world, x, y, z);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BOILER_ELECTRIC.ordinal(), world, x, y, z);
 				}
 			}
 			return true;

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
 
@@ -117,7 +118,7 @@ public class TestNuke extends BlockContainer {
 			TileEntityTestNuke entity = (TileEntityTestNuke) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_test_nuke, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.NUKE_TEST.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

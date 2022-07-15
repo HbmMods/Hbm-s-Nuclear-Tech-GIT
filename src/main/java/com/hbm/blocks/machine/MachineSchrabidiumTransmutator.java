@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
@@ -69,7 +70,7 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
 			TileEntityMachineSchrabidiumTransmutator entity = (TileEntityMachineSchrabidiumTransmutator) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_schrabidium_transmutator, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.TRANSMUTATOR.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

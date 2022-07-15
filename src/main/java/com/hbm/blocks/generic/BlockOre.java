@@ -119,7 +119,7 @@ public class BlockOre extends Block {
 			case 19:
 				return Item.getItemFromBlock(ModBlocks.fusion_heater);
 			case 20:
-				return Item.getItemFromBlock(ModBlocks.fusion_core);
+				return Item.getItemFromBlock(ModBlocks.fusion_conductor);
 			case 21:
 				return Item.getItemFromBlock(ModBlocks.watz_element);
 			case 22:
@@ -141,9 +141,8 @@ public class BlockOre extends Block {
 			case 30:
 				return ModItems.gun_spark_ammo;
 			case 31:
-				return ModItems.ammo_nuke_low;
 			case 32:
-				return ModItems.ammo_mirv;
+				return ModItems.ammo_nuke;
 			case 33:
 				return ModItems.gun_defabricator_ammo;
 			case 34:
@@ -335,7 +334,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.block_meteor_molten) {
 			if(!world.isRemote)
 				world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
-			world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+			world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 			return;
 		}
 
@@ -354,6 +353,7 @@ public class BlockOre extends Block {
 		return 100;
 	}
 
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 

@@ -3,7 +3,6 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.items.weapon.gununified.ItemEnergyGunBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -122,19 +121,19 @@ public class ItemRenderWeaponGlass implements IItemRenderer {
 		int color = 0xFFFFFF;
 		double freq = 1;
 		
-		if(item.getItem() instanceof ItemEnergyGunBase) {
-			BulletConfiguration config = ((ItemEnergyGunBase)item.getItem()).getConfig(item);
-			String name = config.modeName;
-			switch(name) {
-				case "weapon.elecGun.glass_cannon.radio": color = 0xaa2200; freq = 0.5; break;
-				case "weapon.elecGun.glass_cannon.micro": color = 0xdc221f; freq = 1; break;
-				case "weapon.elecGun.glass_cannon.ir": color = 0xfc3d3a; freq = 1.5; break;
-				case "weapon.elecGun.glass_cannon.visible": color = 0x8fe325; freq = 2; break;
-				case "weapon.elecGun.glass_cannon.uv": color = 0x37d5f3; freq = 2.5; break;
-				case "weapon.elecGun.glass_cannon.xray": color = 0x2542fd; freq = 3; break;
-				case "weapon.elecGun.glass_cannon.gamma": color = 0xdc20f3; freq = 3.5; break;
-			}
-		}
+//		if(item.getItem() instanceof ItemEnergyGunBase) {
+//			BulletConfiguration config = ((ItemEnergyGunBase)item.getItem()).getConfig(item);
+//			String name = config.modeName;
+//			switch(name) {
+//				case "weapon.elecGun.glass_cannon.radio": color = 0xaa2200; freq = 0.5; break;
+//				case "weapon.elecGun.glass_cannon.micro": color = 0xdc221f; freq = 1; break;
+//				case "weapon.elecGun.glass_cannon.ir": color = 0xfc3d3a; freq = 1.5; break;
+//				case "weapon.elecGun.glass_cannon.visible": color = 0x8fe325; freq = 2; break;
+//				case "weapon.elecGun.glass_cannon.uv": color = 0x37d5f3; freq = 2.5; break;
+//				case "weapon.elecGun.glass_cannon.xray": color = 0x2542fd; freq = 3; break;
+//				case "weapon.elecGun.glass_cannon.gamma": color = 0xdc20f3; freq = 3.5; break;
+//			}
+//		}
 		
 		float px = 0.0625F;
 		GL11.glTranslatef(-2F, px * 18, -px * 14);

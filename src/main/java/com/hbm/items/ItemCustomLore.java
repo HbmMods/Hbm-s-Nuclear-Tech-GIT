@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.interfaces.IHasLore;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
@@ -16,84 +17,144 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemCustomLore extends Item {
-	
-	EnumRarity rarity;
-	
+public class ItemCustomLore extends Item implements IHasLore
+{
+	EnumRarity rarity = EnumRarity.common;
+	boolean hasEffect = false;
+	public String basicLore = new String();
+	/** New item with custom lore, assumes that it is in the localization file
+	 * Allows rarity and shimmer effect **/
+	public ItemCustomLore() {}
+	/** New item with manually inserted lore
+	 * Allows rarity and shimmer effect
+	 * @param lore - The tooltip to be added using the localization
+	 */
+	public ItemCustomLore(String lore)
+	{
+		this.basicLore = lore;
+	}
+	static int setSize = 0;
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		if (!basicLore.isEmpty())
+			list.add(I18nUtil.resolveKey(basicLore));
 		
-		boolean p11 = !I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc.P11").equals(this.getUnlocalizedName() + ".desc.P11");
+		standardLore(itemstack, list);
 		
-		if(MainRegistry.polaroidID == 11 && p11) {
-			String unlocP11 = this.getUnlocalizedName() + ".desc.P11";
-			String locP11 = I18nUtil.resolveKey(unlocP11);
+		if (this == ModItems.undefined)
+		{
 			
-			if(!unlocP11.equals(locP11)) {
-				String[] locsP11 = locP11.split("\\$");
-				
-				for(String s : locsP11) {
-					list.add(s);
-				}
-			}
-		} else {
-			String unloc = this.getUnlocalizedName() + ".desc";
-			String loc = I18nUtil.resolveKey(unloc);
-			
-			if(!unloc.equals(loc)) {
-				String[] locs = loc.split("\\$");
-				
-				for(String s : locs) {
-					list.add(s);
-				}
-			}
-		}
-		
-		if(this == ModItems.undefined) {
-			
-			if(player.worldObj.rand.nextInt(10) == 0) {
+			if (player.worldObj.rand.nextInt(10) == 0)
 				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
-			} else {
+			else
+			{
 				Random rand = new Random(System.currentTimeMillis() / 500);
 				
-				if(setSize == 0)
+				if (setSize == 0)
 					setSize = Item.itemRegistry.getKeys().size();
 				
 				int r = rand.nextInt(setSize);
 				
 				Item item = Item.getItemById(r);
 				
-				if(item != null) {
+				if(item != null)
 					list.add(new ItemStack(item).getDisplayName());
-				} else {
+				else
 					list.add(EnumChatFormatting.RED + "ERROR #" + r);
-				}
+				
 			}
+		}
+		
+		if(this == ModItems.pin)
+		{
+			if(ArmorUtil.checkArmorPiece(player, ModItems.jackt, 2) || ArmorUtil.checkArmorPiece(player, ModItems.jackt2, 2))
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + "desc.100"));
+			else
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + "desc.10"));
+		}
+		if (this == ModItems.ingot_schraranium)
+			if(GeneralConfig.enableLBSM)
+				list.add("shut up peer please for the love of god shut up i can't stand it any longer shut up shut up shut up shut up shut up");
+				
+	}
+	/**
+	 * Check if the item has a tooltip specified by the localization file
+	 * @param item - The item in question
+	 * @param special - If Polaroid ID #11 applies in this case
+	 * @return Boolean of whether it does or not
+	 */
+	public static boolean getHasLore(Item item, boolean special)
+	{
+		String uloc = item.getUnlocalizedName() + ".desc";
+		if (special)
+			uloc += ".11";
+		String loc = I18nUtil.resolveKey(uloc);
+		return !uloc.equals(loc);
+	}
+	
+	public static boolean getHasLore(Item item)
+	{
+		return getHasLore(item.getUnlocalizedName());
+	}
+	
+	public static boolean getHasLore(ItemStack item)
+	{
+		return getHasLore(item.getUnlocalizedName());
+	}
+	
+	public static boolean getHasLore(String ulocIn)
+	{
+		String uloc = ulocIn.concat(MainRegistry.isPolaroid11() ? ".desc.11" : ".desc");
+		String loc = I18nUtil.resolveKey(uloc);
+		if (loc.equals(uloc))
+			uloc = ulocIn.concat(".desc");
+		else
+			return true;
+		loc = I18nUtil.resolveKey(uloc);
+		return !uloc.equals(loc);
+	}
+	
+	public static String getLoc(ItemStack stack)
+	{
+		String uloc = stack.getUnlocalizedName();
+		if (!getHasLore(uloc))
+			return null;
+		String testKey = uloc.concat(MainRegistry.isPolaroid11() ? ".desc.11" : ".desc");
+		String loc = I18nUtil.resolveKey(testKey);
+		if (!loc.equals(testKey))
+			return loc;
+		else
+		{
+			testKey = uloc.concat(".desc");
+			loc = I18nUtil.resolveKey(testKey);
+			return (loc.equals(testKey) ? null : loc);
 		}
 	}
 	
-	static int setSize = 0;
+	public static boolean keyExists(String key)
+	{
+		String loc = I18nUtil.resolveKey(key);
+		return !(loc == key);
+	}
 
     @Override
-	public EnumRarity getRarity(ItemStack p_77613_1_) {
-		return this.rarity != null ? rarity : super.getRarity(p_77613_1_);
+	public EnumRarity getRarity(ItemStack p_77613_1_)
+    {	
+		return rarity;
     }
 
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack p_77636_1_)
+    {    	
+    	return hasEffect;
+    }
+    
+    public ItemCustomLore setHasEffect()
     {
-    	if(this == ModItems.rune_isa ||
-    			this == ModItems.rune_dagaz ||
-    			this == ModItems.rune_hagalaz ||
-    			this == ModItems.rune_jera ||
-    			this == ModItems.rune_thurisaz ||
-    			this == ModItems.egg_balefire_shard ||
-    			this == ModItems.egg_balefire) {
-    		return true;
-    	}
-    	
-    	return false;
+    	hasEffect = true;
+    	return this;
     }
     
     public ItemCustomLore setRarity(EnumRarity rarity) {

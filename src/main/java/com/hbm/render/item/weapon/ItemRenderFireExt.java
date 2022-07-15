@@ -8,8 +8,8 @@ import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderFireExt implements IItemRenderer {
@@ -43,14 +43,16 @@ public class ItemRenderFireExt implements IItemRenderer {
 		
 		int magType = ItemGunBase.getMagType(item);
 		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
-		Item ammo = BulletConfigSyncingUtil.pullConfig(config).ammo;
+		final int ammo = BulletConfigSyncingUtil.pullConfig(config).ammo.meta;
+		final ResourceLocation tex;
+		switch (ammo)
+		{
+			case 0: tex = ResourceManager.fireext_foam_tex; break;
+			case 1: tex = ResourceManager.fireext_sand_tex; break;
+			default: tex = ResourceManager.fireext_tex; break;
+		}
 		
-		if(ammo == ModItems.ammo_fireext_foam)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_foam_tex);
-		else if(ammo == ModItems.ammo_fireext_sand)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_sand_tex);
-		else
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fireext_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		
 		switch(type) {
 		

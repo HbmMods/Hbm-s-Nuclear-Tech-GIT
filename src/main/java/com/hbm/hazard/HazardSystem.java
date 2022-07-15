@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.transformer.HazardTransformerBase;
 import com.hbm.hazard.type.HazardTypeBase;
@@ -15,6 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,27 +26,35 @@ import net.minecraftforge.oredict.OreDictionary;
 @Untested
 public class HazardSystem {
 
+	public static final float defaultRadTypes = (float) 0x0.0002p-126;
 	/*
 	 * Map for OreDict entries, always evaluated first. Avoid registering HazardData with 'doesOverride', as internal order is based on the item's ore dict keys.
 	 */
-	public static final HashMap<String, HazardData> oreMap = new HashMap();
+	public static final HashMap<String, HazardData> oreMap = new HashMap<String, HazardData>();
 	/*
 	 * Map for items, either with wildcard meta or stuff that's expected to have a variety of damage values, like tools.
 	 */
-	public static final HashMap<Item, HazardData> itemMap = new HashMap();
+	public static final HashMap<Item, HazardData> itemMap = new HashMap<Item, HazardData>();
 	/*
 	 * Very specific stacks with item and meta matching. ComparableStack does not support NBT matching, to scale hazards with NBT please use HazardModifiers.
 	 */
-	public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap();
+	public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap<ComparableStack, HazardData>();
 	/*
 	 * For items that should, for whichever reason, be completely exempt from the hazard system.
 	 */
-	public static final HashSet<ComparableStack> stackBlacklist = new HashSet();
-	public static final HashSet<String> dictBlacklist = new HashSet();
+	public static final HashSet<ComparableStack> stackBlacklist = new HashSet<>();
+	public static final HashSet<String> dictBlacklist = new HashSet<>();
 	/*
 	 * List of hazard transformers, called in order before and after unrolling all the HazardEntries.
 	 */
-	public static final List<HazardTransformerBase> trafos = new ArrayList();
+	public static final List<HazardTransformerBase> trafos = new ArrayList<HazardTransformerBase>();
+	
+	/**
+	 * Experimental maps for containing the different radiation types
+	 */
+	public static final HashMap<String, float[]> oreData = new HashMap<String, float[]>();
+	public static final HashMap<Item, float[]> itemData = new HashMap<Item, float[]>();
+	public static final HashMap<ComparableStack, float[]> stackData = new HashMap<ComparableStack, float[]>();
 	
 	/**
 	 * Automatically casts the first parameter and registers it to the HazSys
@@ -112,10 +123,10 @@ public class HazardSystem {
 	public static List<HazardEntry> getHazardsFromStack(ItemStack stack) {
 		
 		if(isItemBlacklisted(stack)) {
-			return new ArrayList();
+			return new ArrayList<HazardEntry>();
 		}
 		
-		List<HazardData> chronological = new ArrayList();
+		List<HazardData> chronological = new ArrayList<HazardData>();
 		
 		/// ORE DICT ///
 		int[] ids = OreDictionary.getOreIDs(stack);
@@ -135,7 +146,7 @@ public class HazardSystem {
 		if(stackMap.containsKey(comp))
 			chronological.add(stackMap.get(comp));
 		
-		List<HazardEntry> entries = new ArrayList();
+		List<HazardEntry> entries = new ArrayList<HazardEntry>();
 		
 		for(HazardTransformerBase trafo : trafos) {
 			trafo.transformPre(stack, entries);
@@ -159,6 +170,52 @@ public class HazardSystem {
 		}
 		
 		return entries;
+	}
+	@Untested
+	@CheckForNull
+	public static byte[] getRadTypes(ItemStack stack)
+	{
+		if(isItemBlacklisted(stack))
+			return null;
+			
+		List<HazardData> chronological = new ArrayList<HazardData>();
+		
+		/// ORE DICT ///
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for(int id : ids) {
+			String name = OreDictionary.getOreName(id);
+			
+			if(oreMap.containsKey(name))
+				chronological.add(oreMap.get(name));
+		}
+		
+		/// ITEM ///
+		if(itemMap.containsKey(stack.getItem()))
+			chronological.add(itemMap.get(stack.getItem()));
+		
+		/// STACK ///
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		if(stackMap.containsKey(comp))
+			chronological.add(stackMap.get(comp));
+		
+		byte[] types = new byte[4];
+		
+		int mutex = 0;
+		
+		for(HazardData data : chronological)
+		{
+			if((data.getMutex() & mutex) == 0)
+			{
+				types = data.radTypes;
+				mutex = mutex | data.getMutex();
+			}
+		}
+		float total = 0;
+		
+		for (byte n : types)
+			total += n;
+		
+		return total > 0 ? types : new byte[] {0, 1, 0, 0};
 	}
 	
 	public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
@@ -184,6 +241,15 @@ public class HazardSystem {
 		for(HazardEntry hazard : hazards) {
 			hazard.applyHazard(stack, entity);
 		}
+	}
+	
+	public static void updateHazardEntities(EntityItem item)
+	{
+		List<HazardEntry> hazards = getHazardsFromStack(item.getEntityItem());
+//		System.out.println(hazards.isEmpty());
+		if (!hazards.isEmpty())
+			for (HazardEntry haz : hazards)
+				haz.updateEntity(item, haz.baseLevel);
 	}
 	
 	/**
@@ -223,12 +289,32 @@ public class HazardSystem {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void addFullTooltip(ItemStack stack, EntityPlayer player, List list) {
+	public static void addFullTooltip(ItemStack stack, EntityPlayer player, List<String> list) {
 		
 		List<HazardEntry> hazards = getHazardsFromStack(stack);
 		
 		for(HazardEntry hazard : hazards) {
 			hazard.type.addHazardInformation(player, list, hazard.baseLevel, stack, hazard.mods);
 		}
+	}
+	
+	public static float compactRadTypes(int... types)
+	{
+		return Float.intBitsToFloat(
+				(types[0] & 0xff) |
+				(types[1] & 0xff) << 8 |
+				(types[2] & 0xff) << 16 |
+				types[3] << 24);
+	}
+	
+	public static byte[] decompactRadTypes(float compacted)
+	{
+		final byte[] types = new byte[4];
+		final int intermediary = Float.floatToIntBits(compacted);
+		types[3] = (byte) (intermediary >>> 24);
+		types[2] = (byte) (intermediary >>> 16);
+		types[1] = (byte) (intermediary >>> 8);
+		types[0] = (byte) intermediary;
+		return types;
 	}
 }

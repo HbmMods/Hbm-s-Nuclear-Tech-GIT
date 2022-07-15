@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import com.hbm.handler.EnumGUI;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.IItemControlReceiver;
@@ -46,7 +47,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		}
 		
 		if(world.isRemote && player.isSneaking()) {
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_fluid, world, 0, 0, 0);
+			player.openGui(MainRegistry.instance, EnumGUI.ITEM_FLUID.ordinal(), world, 0, 0, 0);
 		}
 		
 		return stack;

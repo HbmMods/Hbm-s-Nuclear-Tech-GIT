@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.lib.RefStrings;
@@ -57,7 +58,7 @@ public class MachineCentrifuge extends BlockDummyable implements IMultiblock {
 			if(pos == null)
 				return false;
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_centrifuge, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.CENTRIFUGE.ordinal(), world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

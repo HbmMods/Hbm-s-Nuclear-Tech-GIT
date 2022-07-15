@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.tileentity.machine.TileEntityMicrowave;
 
 import net.minecraft.block.material.Material;
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class MachineMicrowave extends BlockMachineBase {
 
 	public MachineMicrowave(Material mat) {
-		super(mat, ModBlocks.guiID_microwave);
+		super(mat, EnumGUI.MICROWAVE.ordinal());
 		this.rotatable = true;
 	}
 

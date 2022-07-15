@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeCluster extends EntityGrenadeBouncyBase
@@ -39,7 +40,7 @@ public class EntityGrenadeCluster extends EntityGrenadeBouncyBase
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_cluster);
+		return AmmoHandGrenade.CLUSTER.fuse * 20;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerAnvil;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.InventoryUtil;
@@ -71,7 +72,7 @@ public class AnvilCraftPacket implements IMessage {
 						p.triggerAchievement(MainRegistry.achAssembly);
 					if(recipe.output.get(0).stack.getItem() == ModItems.billet_pu_mix)
 						p.triggerAchievement(MainRegistry.achChicagoPile);
-					if(recipe.output.get(0).stack.getItem() == ModItems.ammo_4gauge_vampire)
+					if(recipe.output.get(0).stack.getItem() == ModItems.ammo_4gauge && recipe.output.get(0).stack.getItemDamage() == Ammo4Gauge.VAMPIRE.ordinal())
 						p.triggerAchievement(MainRegistry.achWitchtaunter);
 					
 				} else {

@@ -8,7 +8,11 @@ import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.inventory.fluid.FluidType.FluidTrait;
 import com.hbm.inventory.fluid.types.*;
 import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
+import com.hbm.items.ModItems;
 import com.hbm.render.util.EnumSymbol;
+import com.hbm.util.StringWrapper;
+
+import net.minecraft.item.ItemStack;
 
 public class Fluids {
 
@@ -92,10 +96,23 @@ public class Fluids {
 	public static FluidType MUG;
 	public static FluidType MUG_HOT;
 
-	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
-	private static final HashMap<String, FluidType> nameMapping = new HashMap();
-	protected static final List<FluidType> metaOrder = new ArrayList();
+	private static final HashMap<Integer, FluidType> idMapping = new HashMap<Integer, FluidType>();
+	private static final HashMap<String, FluidType> nameMapping = new HashMap<String, FluidType>();
+	protected static final List<FluidType> metaOrder = new ArrayList<FluidType>();
 	
+	public static FluidType SARIN;
+	public static FluidType ALCOHOL;
+	public static FluidType SALT;
+	/**Chlorine triflouride**/
+	public static FluidType WRATH;
+	/**Hydrobromic acid**/
+	public static FluidType H_BR;
+	/**Sulfuric acid**/
+	public static FluidType VITRIOL;
+	public static FluidType PLASMA_WARP;
+	public static FluidType NITROGLYCERIN;
+	/**Nitric acid**/
+	public static FluidType NITER;
 	public static void init() {
 		
 		// ##### ##### ##### ##### ##  # ##### #   # ##### ##  # #####
@@ -103,7 +120,6 @@ public class Fluids {
 		// #####   #     #   ###   # # # ##### ##### #   # # # # ###
 		// #   #   #     #   #     #  ##     # #   # #   # #  ## #
 		// #   #   #     #   ##### #  ## ##### #   # ##### #  ## #####
-		
 		/*
 		 * The mapping ID is set in the CTOR, which is the static, never shifting ID that is used to save the fluid type.
 		 * Therefore, ALWAYS append new fluid entries AT THE BOTTOM to avoid unnecessary ID shifting.
@@ -191,7 +207,15 @@ public class Fluids {
 		MUG =				new FluidType(				"MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D);
 		MUG_HOT =			new FluidType(78,			"MUG_HOT",			0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500);
 		
-		
+		SALT = 				new FluidType(				"SALT",				0x00e1ed, 4, 0, 4, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE_2).setTemp(220);
+		SARIN = 			new FluidType(				"SARIN",			0x00b4b4, 4, 1, 1, EnumSymbol.CHEMICAL).addTraits(FluidTrait.CHEMICAL, FluidTrait.LEAD_CONTAINER);//TODO New hazardous fluid type
+		ALCOHOL = 			new FluidTypeFlammable(		"ALCOHOL",			0x00bcbc, 1, 3, 0, EnumSymbol.NONE);
+		WRATH = 			new FluidType(				"WRATH",			0x2ECC71, 4, 0, 3, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER);
+		PLASMA_WARP =		new FluidTypeFlammable(		"PLASMA_WARP",		0x00FFFF, 5, 5, 5, EnumSymbol.ANTIMATTER).addTraits(FluidTrait.AMAT).setTemp(1200000);
+		H_BR =				new FluidType(				"H_BR",				0xFF0000, 3, 0, 0, EnumSymbol.ACID).addTraits(FluidTrait.CORROSIVE_2);
+		VITRIOL = 			new FluidType(				"VITRIOL",			0xF1C40F, 3, 0, 2, EnumSymbol.OXIDIZER).addTraits(FluidTrait.CORROSIVE_2, FluidTrait.LEAD_CONTAINER);
+		NITROGLYCERIN =		new FluidTypeExplosive(		"NITROGLYCERIN", 	0xa6a4a2, 3, 2, 4, EnumSymbol.NONE).setPower(5);
+		NITER = 			new FluidType(				"NITER", 			0x808059, 4, 0, 3, EnumSymbol.OXIDIZER).addTraits(FluidTrait.CORROSIVE_2);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -265,14 +289,22 @@ public class Fluids {
 		metaOrder.add(SULFURIC_ACID);
 		//NITRIC_ACID
 		metaOrder.add(SCHRABIDIC);
+		metaOrder.add(H_BR);
+		metaOrder.add(VITRIOL);
+		metaOrder.add(NITER);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
 		metaOrder.add(SAS3);
 		metaOrder.add(PAIN);
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
+		metaOrder.add(SARIN);
 		//solutions and working fluids
+		metaOrder.add(ALCOHOL);
+		metaOrder.add(NITROGLYCERIN);
 		metaOrder.add(FRACKSOL);
+		metaOrder.add(SALT);
+		metaOrder.add(WRATH);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
@@ -289,10 +321,32 @@ public class Fluids {
 		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
+		metaOrder.add(PLASMA_WARP);
 		
-		if(idMapping.size() != metaOrder.size()) {
-			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
+		if(idMapping.size() != metaOrder.size())
+		{
+			final List<StringWrapper<FluidType>> missingTypes;
+			final String collectionName;
+			if (idMapping.size() > metaOrder.size())
+			{
+				missingTypes = new ArrayList<StringWrapper<FluidType>>(idMapping.size() - metaOrder.size());
+				for (FluidType type : idMapping.values())
+					if (!metaOrder.contains(type))
+						missingTypes.add(new StringWrapper<FluidType>(type, FluidType::getLocalizedName));
+				collectionName = "metaOrder";
+			}
+			else
+			{
+				missingTypes = new ArrayList<StringWrapper<FluidType>>(metaOrder.size() - idMapping.size());
+				for (FluidType type : metaOrder)
+					if (!idMapping.containsValue(type))
+						missingTypes.add(new StringWrapper<FluidType>(type, FluidType::getLocalizedName));
+				collectionName = "idMapping";
+			}
+			
+			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size() + '\n' + collectionName + " appears to be missing the following fluids: " + missingTypes);
 		}
+		
 	}
 	
 	protected static int registerSelf(FluidType fluid) {
@@ -342,5 +396,15 @@ public class Fluids {
 		}
 		
 		return all;
+	}
+
+	public static ItemStack newFluidTank(FluidType type)
+	{
+		return newFluidTank(type, 1);
+	}
+	
+	public static ItemStack newFluidTank(FluidType type, int size)
+	{
+		return new ItemStack(ModItems.fluid_tank_full, size, type.getID());
 	}
 }

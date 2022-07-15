@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityCelPrime;
 
@@ -35,7 +36,7 @@ public class CelPrime extends BlockContainer {
 			TileEntityCelPrime entity = (TileEntityCelPrime) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_cel_prime, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.CEL_PRIME.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

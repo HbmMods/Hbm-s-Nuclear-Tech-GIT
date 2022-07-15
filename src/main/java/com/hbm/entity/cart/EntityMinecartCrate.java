@@ -3,6 +3,7 @@ package com.hbm.entity.cart;
 import java.io.IOException;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemModMinecart;
 import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
@@ -40,7 +41,7 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 		if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player)))
 			return true;
 		if(!this.worldObj.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_cart_crate, worldObj, this.getEntityId(), 0, 0);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.CART_CRATE_DESTROYER.ordinal(), worldObj, this.getEntityId(), 0, 0);
 		}
 
 		return true;

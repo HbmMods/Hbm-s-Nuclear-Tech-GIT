@@ -5,21 +5,20 @@ import java.util.ArrayList;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBuilding;
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
@@ -43,6 +42,8 @@ public class Gun44MagnumFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.reloadSoundEnd = false;
 		
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
+		
 		return config;
 	}
 	
@@ -52,18 +53,21 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "IF-18 Horseshoe";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifHorseshoe";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Fallout New Vegas wasn't THAT good.");
+//		
+//		config.config = new ArrayList<Integer>();
+//		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.M44_AP);
+//		config.config.add(BulletConfigSyncingUtil.M44_DU);
+//		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
+//		config.config.add(BulletConfigSyncingUtil.M44_STAR);
+//		config.config.add(BulletConfigSyncingUtil.CHL_M44);
+//		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -74,19 +78,13 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 4000;
 		
-		config.name = "IF-18 Horseshoe Scoped";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifScope";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -98,19 +96,13 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 5;
 		
-		config.name = "IF-18 Horseshoe Vanity";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifVanity";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Alcoholism is cool!");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -122,20 +114,14 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 6;
 		
-		config.name = "IF-18 Horseshoe Silver Storm";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifStorm";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Our friendship is based on abusive behaviour");
 		config.comment.add("and mutual hate. It's not that complicated.");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -147,33 +133,36 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 64;
 		
-		config.name = "IF-18 Horseshoe Bottomless Pit";
-		config.manufacturer = "Ironshod Firearms R&D";
+		config.name = "ifPit";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Explore the other side");
 		config.comment.add("...from afar!");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.clear();
+		config.config.addAll(HbmCollection.fourtyFourMagAll);
+//		config.config = new ArrayList<Integer>();
+//		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.M44_AP);
+//		config.config.add(BulletConfigSyncingUtil.M44_DU);
+//		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
+//		config.config.add(BulletConfigSyncingUtil.M44_STAR);
+//		config.config.add(BulletConfigSyncingUtil.CHL_M44);
+//		config.config.add(BulletConfigSyncingUtil.M44_PIP);
+//		config.config.add(BulletConfigSyncingUtil.M44_BJ);
+//		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
+//		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
-	
+	static byte i = 0;
 	public static BulletConfiguration getNoPipConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
+		bullet.penetration = 20;
 		
 		return bullet;
 	}
@@ -182,9 +171,10 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
+		bullet.penetration = 30;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
@@ -195,9 +185,10 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 40;
+		bullet.penetration = 45;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -208,7 +199,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
@@ -217,22 +208,18 @@ public class Gun44MagnumFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
+		bullet.bImpact = (projectile, x, y, z) ->
+		{
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaburst");
 				data.setString("mode", "flame");
 				data.setInteger("count", 15);
 				data.setDouble("motion", 0.05D);
 				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, projectile.posX, projectile.posY, projectile.posZ), new TargetPoint(projectile.dimension, projectile.posX, projectile.posY, projectile.posZ, 50));
 		};
 		
 		return bullet;
@@ -242,9 +229,10 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 42;
 		bullet.dmgMax = 50;
+		bullet.penetration = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		
@@ -255,33 +243,30 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_pip;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
-
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+		bullet.bHit = (projectile, hit) ->
+			{
 				
-				if(!bullet.worldObj.isRemote) {
-					EntityBoxcar pippo = new EntityBoxcar(bullet.worldObj);
+				if(!projectile.worldObj.isRemote) {
+					EntityBoxcar pippo = new EntityBoxcar(projectile.worldObj);
 					pippo.posX = hit.posX;
 					pippo.posY = hit.posY + 50;
 					pippo.posZ = hit.posZ;
 					
 					for(int j = 0; j < 50; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 4, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 12, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 4, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
+						EntityBSmokeFX fx = new EntityBSmokeFX(projectile.worldObj, pippo.posX + (projectile.worldObj.rand.nextDouble() - 0.5) * 4, pippo.posY + (projectile.worldObj.rand.nextDouble() - 0.5) * 12, pippo.posZ + (projectile.worldObj.rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+						projectile.worldObj.spawnEntityInWorld(fx);
 					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
+					projectile.worldObj.spawnEntityInWorld(pippo);
 					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
+					projectile.worldObj.playSoundEffect(pippo.posX, 
 							pippo.posY + 50, 
 							pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
-				}
 			}
 		};
 		
@@ -292,34 +277,30 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_bj;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bHit = (projectile, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(!bullet.worldObj.isRemote) {
-					EntityDuchessGambit pippo = new EntityDuchessGambit(bullet.worldObj);
+				if(!projectile.worldObj.isRemote) {
+					EntityDuchessGambit pippo = new EntityDuchessGambit(projectile.worldObj);
 					pippo.posX = hit.posX;
 					pippo.posY = hit.posY + 50;
 					pippo.posZ = hit.posZ;
 					
 					for(int j = 0; j < 150; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 7, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 8, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 18, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
+						EntityBSmokeFX fx = new EntityBSmokeFX(projectile.worldObj, pippo.posX + (projectile.worldObj.rand.nextDouble() - 0.5) * 7, pippo.posY + (projectile.worldObj.rand.nextDouble() - 0.5) * 8, pippo.posZ + (projectile.worldObj.rand.nextDouble() - 0.5) * 18, 0, 0, 0);
+						projectile.worldObj.spawnEntityInWorld(fx);
 					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
+					projectile.worldObj.spawnEntityInWorld(pippo);
 					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
+					projectile.worldObj.playSoundEffect(pippo.posX, 
 							pippo.posY + 50, 
 							pippo.posZ, "hbm:weapon.boat", 100F, 1F);
 				}
-			}
 			
 		};
 		
@@ -330,33 +311,29 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_silver;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bHit = (projectile, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(!bullet.worldObj.isRemote) {
-					EntityBuilding pippo = new EntityBuilding(bullet.worldObj);
+				if(!projectile.worldObj.isRemote) {
+					EntityBuilding pippo = new EntityBuilding(projectile.worldObj);
 					pippo.posX = hit.posX;
 					pippo.posY = hit.posY + 50;
 					pippo.posZ = hit.posZ;
 					
 					for(int j = 0; j < 150; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
+						EntityBSmokeFX fx = new EntityBSmokeFX(projectile.worldObj, pippo.posX + (projectile.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posY + (projectile.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posZ + (projectile.worldObj.rand.nextDouble() - 0.5) * 15, 0, 0, 0);
+						projectile.worldObj.spawnEntityInWorld(fx);
 					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
+					projectile.worldObj.spawnEntityInWorld(pippo);
 					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
+					projectile.worldObj.playSoundEffect(pippo.posX, 
 							pippo.posY + 50, 
 							pippo.posZ, "hbm:block.debris", 100F, 1F);
-				}
 			}
 			
 		};
@@ -368,7 +345,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_44_rocket;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.velocity = 5;
 		bullet.explosive = 15F;
 		bullet.trail = 1;

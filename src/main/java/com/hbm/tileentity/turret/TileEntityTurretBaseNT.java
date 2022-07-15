@@ -13,6 +13,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
@@ -31,7 +32,6 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -315,7 +315,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					
 					BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(c);
 					
-					if(conf.ammo == slots[i].getItem())
+					if(conf.ammo.item == slots[i].getItem())
 						return conf;
 				}
 			}
@@ -338,11 +338,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		worldObj.spawnEntityInWorld(proj);
 	}
 	
-	public void conusmeAmmo(Item ammo) {
+	public void conusmeAmmo(AStack ammo) {
 		
 		for(int i = 1; i < 10; i++) {
 			
-			if(slots[i] != null && slots[i].getItem() == ammo) {
+			if(ammo.matchesRecipe(slots[i], true)) {
 				
 				this.decrStackSize(i, 1);
 				return;

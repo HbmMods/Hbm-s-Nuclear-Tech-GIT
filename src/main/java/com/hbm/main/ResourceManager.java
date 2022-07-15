@@ -161,6 +161,12 @@ public class ResourceManager {
 	//Deuterium Tower
 	public static final IModelCustom deuterium_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/machine_deuterium_tower.obj"));
 	
+	/**Watz Supercompressor**/
+	public static final IModelCustom sing_gen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/watz supercompressor.obj"));
+	
+	/**Bishamonten's Spear**/
+	public static final IModelCustom spear = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/goldspear.obj"));
+	
 	//Anti Mass Spectrometer
 	public static final IModelCustom ams_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_base.obj"));
 	public static final IModelCustom ams_emitter = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ams_emitter.obj"));
@@ -281,7 +287,9 @@ public class ResourceManager {
 	public static final IModelCustom ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/ufo.obj"));
 	public static final IModelCustom mini_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/mini_ufo.obj"));
 	public static final IModelCustom siege_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/siege_ufo.obj"));
-	
+
+	//Satori
+	public static final IModelCustom satori_eye = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/third_eye.obj"));
 	//ZIRNOX
 	public static final IModelCustom zirnox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/zirnox.obj"));
 	public static final IModelCustom zirnox_destroyed = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/zirnox_destroyed.obj"));
@@ -302,7 +310,10 @@ public class ResourceManager {
 	
 	//Belt
 	public static final IModelCustom charger = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/charger.obj"));
-	
+
+	//Atomic clock
+	public static final IModelCustom atomic_clock = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/Atomic_Clock.obj"));
+
 	////Textures TEs
 	
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
@@ -401,7 +412,10 @@ public class ResourceManager {
 	
 	//Deuterium Tower
 	public static final ResourceLocation deuterium_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/machine_deuterium_tower.png");
-	
+
+	/**Watz supercompressor**/
+	public static final ResourceLocation sing_gen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/watz supercompressor tex.png");
+
 	//IGen
 	public static final ResourceLocation igen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen.png");
 	public static final ResourceLocation igen_rotor = new ResourceLocation(RefStrings.MODID, "textures/models/machines/igen_rotor.png");
@@ -661,7 +675,19 @@ public class ResourceManager {
 	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
-
+	public static final IModelCustom tesseract = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/effect/Tesseract.obj"));
+	public static final IModelCustom twr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/time_warp_rifle_final.obj"));
+	public static final IModelCustom hlr = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/heavy_lunatic_rifle.obj"));
+	public static final IModelCustom benelli = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/benelli_new.obj"));
+	public static final IModelCustom lunatic_sniper = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/Lunatic_Sniper_update.obj"));
+	public static final IModelCustom lunatic = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/medium_lunatic_rifle.obj"));
+	public static final IModelCustom lunatic_smg = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lunatic_smg.obj"));
+	public static final IModelCustom thompson_redux = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/thompson smg final.obj"));
+	public static final IModelCustom uac_pistol = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/UAC pistol.obj"));
+	public static final IModelCustom g36 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/g36.obj"));
+	public static final IModelCustom m2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/M2_Browning.obj"));
+	public static final IModelCustom bishamonen_spear = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/goldspear.obj"));
+	
 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
 
@@ -736,6 +762,16 @@ public class ResourceManager {
 	public static final ResourceLocation spas_12_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/spas-12.png");
 	public static final ResourceLocation glass_cannon_panel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/glass_cannon_panel.png");
 	public static final ResourceLocation bio_revolver_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bio_revolver.png");
+
+	public static final ResourceLocation twr_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/twr.png");
+	public static final ResourceLocation hlr_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/HLR_final.png");
+	public static final ResourceLocation lunatic_sniper_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Rifle_Texture.png");
+	public static final ResourceLocation benelli_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/benelli_tex.png");
+	public static final ResourceLocation lunatic_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Rifle_Texture_old.png");
+	public static final ResourceLocation lunatic_tex_alt = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/Lunatic_Texture_alt.png");
+	public static final ResourceLocation thompson_tex_redux = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/thompson_texture_update.png");
+	public static final ResourceLocation uac_pistol_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/pistol_texture.png");
+	public static final ResourceLocation m2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/M2.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

@@ -43,7 +43,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radBuf;
 	private int bombTimer;
 	private int contagion;
-	private List<ContaminationEffect> contamination = new ArrayList();
+	private List<ContaminationEffect> contamination = new ArrayList<ContaminationEffect>();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -87,7 +87,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		if(radiation < 0)
 			radiation = 0;
 		
-		data.setRadiation(entity, radiation);
+		HbmLivingProps.setRadiation(entity, radiation);
 	}
 	
 	/// RAD ENV ///
@@ -182,7 +182,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		if(dRad < 0)
 			dRad = 0;
 		
-		data.setDigamma(entity, dRad);
+		HbmLivingProps.setDigamma(entity, dRad);
 	}
 	
 	

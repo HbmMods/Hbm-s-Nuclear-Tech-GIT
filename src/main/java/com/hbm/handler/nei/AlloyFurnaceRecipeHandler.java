@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.hbm.inventory.gui.GUITestDiFurnace;
+import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
 
 import codechicken.nei.NEIServerUtils;
@@ -25,11 +27,9 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack input2;
         PositionedStack result;
     	
-        public SmeltingSet(ItemStack input1, ItemStack input2, ItemStack result) {
-        	input1.stackSize = 1;
-        	input2.stackSize = 1;
-            this.input1 = new PositionedStack(input1, 75, 7);
-            this.input2 = new PositionedStack(input2, 75, 43);
+        public SmeltingSet(List<ItemStack> list, List<ItemStack> list2, ItemStack result) {
+            this.input1 = new PositionedStack(list, 75, 7);
+            this.input2 = new PositionedStack(list2, 75, 43);
             this.result = new PositionedStack(result, 129, 25);
         }
 
@@ -72,9 +72,9 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
-			Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
-			for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));
+			Map<List<ItemStack>[],ItemStack> recipes = BlastFurnaceRecipes.getRecipesForNEI();
+			for (Entry<List<ItemStack>[], ItemStack> recipe : recipes.entrySet()) {
+				this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -83,10 +83,10 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
-		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue(), result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));
+		Map<List<ItemStack>[], ItemStack> recipes = BlastFurnaceRecipes.getRecipesForNEI();
+		for (Entry<List<ItemStack>[], ItemStack> recipe : recipes.entrySet()) {
+			if (NEIServerUtils.areStacksSameType(recipe.getValue(), result))
+				this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
 		}
 	}
 
@@ -101,10 +101,14 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
-		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[0]) || NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[1]))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));				
+		Map<List<ItemStack>[],ItemStack> recipes = BlastFurnaceRecipes.getRecipesForNEI();
+		for (Entry<List<ItemStack>[], ItemStack> recipe : recipes.entrySet()) {
+			List<ItemStack> combined = new ArrayList<ItemStack>();
+			combined.addAll(recipe.getKey()[0]);
+			combined.addAll(recipe.getKey()[1]);
+			for (ItemStack combinedStack : combined)
+				if (NEIServerUtils.areStacksSameType(ingredient, combinedStack) || NEIServerUtils.areStacksSameType(ingredient, combinedStack))
+					this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));				
 		}
 	}
 

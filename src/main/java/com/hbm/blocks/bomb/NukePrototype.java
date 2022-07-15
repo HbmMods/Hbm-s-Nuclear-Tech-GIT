@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.handler.EnumGUI;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -106,7 +107,7 @@ public class NukePrototype extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityNukePrototype entity = (TileEntityNukePrototype) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_prototype, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.NUKE_PROTOTYPE.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

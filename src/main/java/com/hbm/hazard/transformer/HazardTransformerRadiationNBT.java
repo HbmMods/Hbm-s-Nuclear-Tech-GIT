@@ -6,6 +6,7 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class HazardTransformerRadiationNBT extends HazardTransformerBase {
 	
@@ -21,5 +22,12 @@ public class HazardTransformerRadiationNBT extends HazardTransformerBase {
 			entries.add(new HazardEntry(HazardRegistry.RADIATION, stack.stackTagCompound.getFloat(RAD_KEY)));
 		}
 	}
-
+	public static ItemStack addRadNBT(ItemStack stack, float rad)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.stackTagCompound.setFloat(RAD_KEY, rad);
+		return stack;
+	}
 }

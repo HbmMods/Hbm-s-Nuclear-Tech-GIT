@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -114,7 +115,7 @@ public class MachinePress extends BlockContainer {
 			TileEntityMachinePress entity = (TileEntityMachinePress) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_press, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.PRESS_STEAM.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

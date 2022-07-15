@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import com.google.common.collect.ImmutableList;
 import com.hbm.config.VersatileConfig;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
+import com.hbm.tileentity.IRadioisotopeFuel;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
@@ -21,14 +23,14 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends Item {
+public class ItemRTGPellet extends Item implements IRadioisotopeFuel {
 	
 	private short heat = 0;
 	private boolean doesDecay = false;
 	private ItemStack decayItem = null;
 	private long lifespan = 0;
 	
-	public static final List<ItemRTGPellet> pelletList = new ArrayList();
+	private static final List<ItemRTGPellet> pelletList = new ArrayList<>();
 	
 	public ItemRTGPellet(int heatIn) {
 		heat = (short) heatIn;
@@ -179,5 +181,17 @@ public class ItemRTGPellet extends Item {
 		}
 		
 		return map;
+	}
+	
+	public static List<ItemRTGPellet> getPelletList()
+	{
+		return ImmutableList.copyOf(pelletList);
+	}
+
+	@Override
+	public IRadioisotopeFuel setDecays(ItemStack stack, long lifespan)
+	{
+		// Irrelevant
+		return null;
 	}
 }

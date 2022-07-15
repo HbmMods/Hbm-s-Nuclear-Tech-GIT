@@ -1,6 +1,13 @@
 package com.hbm.handler;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.Level;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.guncfg.BulletConfigFactory;
@@ -10,26 +17,35 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumChatFormatting;
 
-public class BulletConfiguration {
+public class BulletConfiguration implements Cloneable
+{
+	@FunctionalInterface
+	public interface PenetrationModifierFunction
+	{
+		public double mod(int penetration, float modifier, double distance);
+	}
 	
-	//what item this specific configuration consumes
-	public Item ammo;
-	//how many ammo units one item restores
+	/**What item this specific configuration consumes**/
+	public ComparableStack ammo;
+	/**How many ammo units one item restores, default 1**/
 	public int ammoCount = 1;
-	//how fast the bullet is (in sanics per second, or sps)
+	/**How fast the bullet is (in sanics per second, or sps)**/
 	public float velocity;
-	//spread of bullets in gaussian range
+	/**Spread of bullets in gaussian range**/
 	public float spread;
-	//weapon durability reduced (centered around 10)
+	/**Weapon durability reduced (centered around 10)**/
 	public int wear;
 	//greatest amount of pellets created each shot
 	public int bulletsMin;
@@ -39,38 +55,57 @@ public class BulletConfiguration {
 	//damage bounds
 	public float dmgMin;
 	public float dmgMax;
-	public float headshotMult = 1.0F;
+	public float headshotMult = 1;
 	
-	//acceleration torwards neg Y
+	/**acceleration torwards neg Y**/
 	public double gravity;
-	//max age in ticks before despawning
+	/**max age in ticks before despawning**/
 	public int maxAge;
 
-	//whether the projectile should be able to bounce off of blocks
+	/**whether the projectile should be able to bounce off of blocks**/
 	public boolean doesRicochet;
-	//the maximum angle at which the projectile should bounce
+	/**the maximum angle at which the projectile should bounce**/
 	public double ricochetAngle;
-	//lower bound ricochet chance (below R angle)
+	/**lower bound ricochet chance (below R angle)**/
 	public int LBRC;
-	//higher bound ricochet chance (above R angle)
+	/**higher bound ricochet chance (above R angle)**/
 	public int HBRC;
-	//how much of the initial velocity is kept after bouncing
+	/**how much of the initial velocity is kept after bouncing**/
 	public double bounceMod;
-
-	//whether or not the bullet should penetrate mobs
+	/**Armor penetration value, default 15**/
+	public int penetration = 15;
+	/**Armor penetration modifier over distance, default 0.95**/
+	public float penetrationModifier = 0.95f;
+	/**The function that handles lost penetration over distance**/
+	@Nullable
+	public Optional<PenetrationModifierFunction> modFunction = Optional.of(defaultModifier);
+	/**
+	 * {@code m^(d / 50)}<br>
+	 * Penetration value = p<br>
+	 * Distance = d<br>
+	 * Modifier = m (default 0.95)<br>
+	 * Meaning, assuming the modifier is 0.95, the penetration will drop 5% over 50 meters or be reduced to 95% of the original value
+	 * **/
+	public static final PenetrationModifierFunction defaultModifier = (pen, mod, dist) -> {return pen * Math.pow(mod, dist / 50);};
+	
+	/**whether or not the bullet should penetrate mobs**/
 	public boolean doesPenetrate;
-	//whether or not the bullet should phase through blocks
+	/**whether or not the bullet should phase through blocks**/
 	public boolean isSpectral;
-	//whether or not the bullet should break glass
+	/**whether or not the bullet should break glass**/
 	public boolean doesBreakGlass;
-	//whether the bullet should stay alive after colliding with a block
+	/**whether the bullet should stay alive after colliding with a block**/
 	public boolean liveAfterImpact;
 	
 	//creates a "muzzle flash" and a ton of smoke with every projectile spawned
 	public boolean blackPowder = false;
 	
 	//bullet effects
-	public List<PotionEffect> effects;
+	public List<PotionEffect> effects = new ArrayList<PotionEffect>();
+	/**Blocks the bullet can pass through**/
+	public HashSet<Block> spectralBlocks = new HashSet<Block>();
+	/**Materials the bullet can pass through**/
+	public HashSet<Material> spectralMaterials = new HashSet<Material>();
 	public int incendiary;
 	public int emp;
 	public boolean blockDamage = true;
@@ -89,7 +124,7 @@ public class BulletConfiguration {
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
 	public IBulletUpdateBehavior bUpdate;
-	
+		
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects
@@ -99,15 +134,7 @@ public class BulletConfiguration {
 	//vanilla particle FX
 	public String vPFX = "";
 	
-	//energy projectiles
-	//power consumed per shot
-	public int dischargePerShot;
-	//unlocalised firing mode name
 	public String modeName;
-	//firing mode text colour
-	public EnumChatFormatting chatColour = EnumChatFormatting.WHITE;
-	//firing rate
-	public int firingRate;
 	
 	public String damageType = ModDamageSource.s_bullet;
 	public boolean dmgProj = true;
@@ -161,11 +188,6 @@ public class BulletConfiguration {
 		return this;
 	}
 	
-	public BulletConfiguration setHeadshot(float mult) {
-		this.headshotMult = mult;
-		return this;
-	}
-	
 	public BulletConfiguration setToGuided() {
 		
 		this.bUpdate = BulletConfigFactory.getLaserSteering();
@@ -173,9 +195,8 @@ public class BulletConfiguration {
 		return this;
 	}
 	
-	public BulletConfiguration setToHoming(Item ammo) {
-		
-		this.ammo = ammo;
+	public BulletConfiguration getChlorophyte()
+	{
 		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
 		this.dmgMin *= 1.5F;
 		this.dmgMax *= 1.5F;
@@ -184,6 +205,12 @@ public class BulletConfiguration {
 		this.doesPenetrate = false;
 		this.vPFX = "greendust";
 		return this;
+	}
+	
+	public BulletConfiguration setToHoming(ItemStack ammo) {
+		
+		this.ammo = new ComparableStack(ammo);
+		return getChlorophyte();
 	}
 	
 	public BulletConfiguration accuracyMod(float mod) {
@@ -213,5 +240,36 @@ public class BulletConfiguration {
 		if(this.dmgBypass) dmg.setDamageBypassesArmor();
 		
 		return dmg;
+	}
+	@Override
+	public BulletConfiguration clone()
+	{
+//		BulletConfiguration newConfig = new BulletConfiguration();
+//		newConfig.ammo = ammo;
+//		newConfig.ammoCount = ammoCount;
+//		newConfig.bHit = bHit;
+//		newConfig.bHurt = bHurt;
+//		newConfig.bImpact = bImpact;
+//		newConfig.blockDamage = blockDamage;
+//		newConfig.bounceMod = bounceMod;
+//		newConfig.bRicochet = bRicochet;
+//		newConfig.bulletsMax = bulletsMax;
+//		newConfig.bulletsMin = bulletsMin;
+//		newConfig.bUpdate = bUpdate;
+//		newConfig.chlorine = chlorine;
+//		newConfig.caustic = caustic;
+//		return newConfig;
+//		newConfig.dmgMin = dmgMin;
+//		newConfig.dmgMax = dmgMax;
+//		newConfig.destroysBlocks = destroysBlocks;
+		try
+		{
+			return (BulletConfiguration) super.clone();
+		}
+		catch (CloneNotSupportedException t)
+		{
+			MainRegistry.logger.catching(Level.ERROR, t);
+			return new BulletConfiguration();
+		}
 	}
 }

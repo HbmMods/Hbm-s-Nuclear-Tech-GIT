@@ -256,11 +256,11 @@ public class EntityNuclearCreeper extends EntityMob {
         		case 1: this.dropItem(ModItems.t45_plate, 1); break;
         		case 2: this.dropItem(ModItems.t45_legs, 1); break;
         		case 3: this.dropItem(ModItems.t45_boots, 1); break;
+        		default: this.dropItem(ModItems.fusion_core, 1);
         		}
-        		this.dropItem(ModItems.fusion_core, 1);
         	}
         	if(i == 10)
-        		this.dropItem(ModItems.ammo_nuke_high, 1);
+        		this.dropItem(ModItems.ammo_nuke, 1);
         }
     }
 

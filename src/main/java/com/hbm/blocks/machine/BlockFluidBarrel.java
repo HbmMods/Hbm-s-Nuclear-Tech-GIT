@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 
@@ -58,7 +59,7 @@ public class BlockFluidBarrel extends BlockContainer {
 			return true;
 			
 		} else if(!player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_barrel, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BARREL.ordinal(), world, x, y, z);
 			return true;
 			
 		} else {

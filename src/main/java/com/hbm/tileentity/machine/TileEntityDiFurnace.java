@@ -1,11 +1,14 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnace;
+import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
-import com.hbm.util.RTGUtil;
+import com.hbm.tileentity.IRTGUser;
+import com.hbm.tileentity.IRadioisotopeFuel;
 
+import api.hbm.Date;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, IRTGUser {
 
 	private ItemStack slots[];
 	
@@ -30,6 +33,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	private static final int[] slots_side = new int[] {1};
 	
 	private String customName;
+	private Date date = new Date();
 	
 	public TileEntityDiFurnace() {
 		slots = new ItemStack[4];
@@ -229,7 +233,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		{
 			return false;
 		}
-		ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0], slots[1]);
+		final ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
 		if(itemStack == null)
 		{
 			return false;
@@ -253,7 +257,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	
 	private void processItem() {
 		if(canProcess()) {
-			ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0], slots[1]);
+			final ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
 			
 			if(slots[3] == null)
 			{
@@ -334,7 +338,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 			}
 
 			if (this.slots[2] != null && (this.slots[2].getItem() instanceof ItemRTGPellet)) {
-				this.dualPower += RTGUtil.updateRTGs(slots, new int[] { 2 });
+				this.dualPower += getHeat();
 				if(this.dualPower > maxPower)
 					this.dualPower = maxPower;
 			}
@@ -350,5 +354,41 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		{
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public void incrementAge()
+	{
+		date.increment();
+	}
+
+	@Override
+	public Date getInternalDate()
+	{
+		return date;
+	}
+
+	@Override
+	public int getHeat()
+	{
+		return updateRTGs();
+	}
+
+	@Override
+	public int[] getSlots()
+	{
+		return slots_side;
+	}
+
+	@Override
+	public ItemStack[] getInventory()
+	{
+		return slots;
+	}
+
+	@Override
+	public Class<? extends IRadioisotopeFuel> getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 }

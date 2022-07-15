@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.hazard.type.HazardTypeBase;
+import com.hbm.interfaces.Untested;
 
 public class HazardData {
 	
@@ -20,7 +21,9 @@ public class HazardData {
 	 */
 	int mutexBits = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 	
-	List<HazardEntry> entries = new ArrayList();
+	List<HazardEntry> entries = new ArrayList<HazardEntry>();
+	
+	byte[] radTypes = new byte[4];
 	
 	public HazardData addEntry(HazardTypeBase hazard) {
 		return this.addEntry(hazard, 1F, false);
@@ -40,6 +43,40 @@ public class HazardData {
 		this.entries.add(entry);
 		return this;
 	}
+	/**
+	 * Only applies to radiation items
+	 * @param types The proportions of the types of radiation.<br>In order:<br>
+	 * <ol>
+	 * <li>alpha<br>
+	 * <li>beta<br>
+	 * <li>gamma<br>
+	 * <li>neutron
+	 * </ol>
+	 * @return Itself
+	 */
+	@Untested
+	public HazardData addRadTypes(byte[] types)
+	{
+		if (types.length != 4)
+			throw new IllegalArgumentException("Rad type length is not 4! Length: " + types.length);
+		radTypes = types;
+		return this;
+	}
+	
+	public HazardData addRadTypes(float types)
+	{
+		radTypes = HazardSystem.decompactRadTypes(types);
+		return this;
+	}
+	
+	public HazardData alpha(int a) { radTypes[0] = (byte) a; return this; }
+	public HazardData alpha() { return alpha(10); }
+	public HazardData beta(int b) { radTypes[1] = (byte) b; return this; }
+	public HazardData beta() { return beta(10); }
+	public HazardData gamma(int g) { radTypes[2] = (byte) g; return this; }
+	public HazardData gamma() { return gamma(10); }
+	public HazardData neutron(int n) { radTypes[3] = (byte) n; return this; }
+	public HazardData neutron() { return neutron(10); }
 	
 	public HazardData setMutex(int mutex) {
 		this.mutexBits = mutex;

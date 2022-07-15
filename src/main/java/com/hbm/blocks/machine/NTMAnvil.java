@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -107,7 +108,7 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 			return true;
 		} else if(!player.isSneaking()) {
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_anvil, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.ANVIL.ordinal(), world, x, y, z);
 			return true;
 		}
 		

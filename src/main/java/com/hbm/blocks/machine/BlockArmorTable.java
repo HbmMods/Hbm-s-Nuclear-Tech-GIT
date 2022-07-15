@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -47,7 +48,7 @@ public class BlockArmorTable extends Block {
 			return true;
 		} else if(!player.isSneaking()) {
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_armor_table, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.ARMOR_TABLE.ordinal(), world, x, y, z);
 			return true;
 		}
 		

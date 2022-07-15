@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.handler.EnumGUI;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -18,7 +19,7 @@ public class ItemDesingatorManual extends Item implements IDesignatorItem {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
 		if(world.isRemote)
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_designator, world, 0, 0, 0);
+			player.openGui(MainRegistry.instance, EnumGUI.ITEM_DESIGNATOR.ordinal(), world, 0, 0, 0);
 
 		return stack;
 	}

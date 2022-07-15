@@ -23,13 +23,13 @@ import net.minecraftforge.oredict.OreDictionary;
 public class CrystallizerRecipes {
 	
 	//'Object' is either a ComparableStack or the key for the ore dict
-	private static HashMap<Object, ItemStack> recipes = new HashMap();
+	private static HashMap<Object, ItemStack> recipes = new HashMap<Object, ItemStack>();
 	
 	public static void register() {
 
 		recipes.put(COAL.ore(), new ItemStack(ModItems.crystal_coal));
-		recipes.put(IRON.ore(), new ItemStack(ModItems.crystal_iron));
-		recipes.put(GOLD.ore(), new ItemStack(ModItems.crystal_gold));
+		recipes.put(FE.ore(), new ItemStack(ModItems.crystal_iron));
+		recipes.put(AU.ore(), new ItemStack(ModItems.crystal_gold));
 		recipes.put(REDSTONE.ore(), new ItemStack(ModItems.crystal_redstone));
 		recipes.put(LAPIS.ore(), new ItemStack(ModItems.crystal_lapis));
 		recipes.put(DIAMOND.ore(), new ItemStack(ModItems.crystal_diamond));

@@ -1,20 +1,24 @@
 package com.hbm.handler.guncfg;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
 public class GunCannonFactory {
-
+	static final int stockPen = 10000;
+	static byte i = 0;
 	public static BulletConfiguration getShellConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_shell;
-		bullet.dmgMin = 25;
-		bullet.dmgMax = 35;
-		bullet.explosive = 4F;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.dmgMin = 225;
+		bullet.dmgMax = 235;
+		bullet.penetration = stockPen;
+		bullet.explosive = 40F;
 		bullet.blockDamage = false;
 		
 		return bullet;
@@ -22,12 +26,13 @@ public class GunCannonFactory {
 
 	public static BulletConfiguration getShellExplosiveConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_shell_explosive;
-		bullet.dmgMin = 35;
-		bullet.dmgMax = 45;
-		bullet.explosive = 4F;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.dmgMin = 235;
+		bullet.dmgMax = 245;
+		bullet.penetration = stockPen;
+		bullet.explosive = 40F;
 		bullet.blockDamage = true;
 		
 		return bullet;
@@ -35,11 +40,12 @@ public class GunCannonFactory {
 
 	public static BulletConfiguration getShellAPConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_shell_apfsds_t;
-		bullet.dmgMin = 50;
-		bullet.dmgMax = 55;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.dmgMin = 250;
+		bullet.dmgMax = 255;
+		bullet.penetration = (int) (stockPen * 1.5);
 		bullet.doesPenetrate = true;
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
@@ -48,11 +54,12 @@ public class GunCannonFactory {
 
 	public static BulletConfiguration getShellDUConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_shell_apfsds_du;
-		bullet.dmgMin = 70;
-		bullet.dmgMax = 80;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.dmgMin = 270;
+		bullet.dmgMax = 280;
+		bullet.penetration = stockPen * 2;
 		bullet.doesPenetrate = true;
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
@@ -61,18 +68,33 @@ public class GunCannonFactory {
 
 	public static BulletConfiguration getShellW9Config() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_shell_w9;
-		bullet.dmgMin = 100;
-		bullet.dmgMax = 150;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.dmgMin = 1200;
+		bullet.dmgMax = 1250;
+		bullet.penetration = stockPen;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bImpact = (projectile, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
-			}
+			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getShellW9FullConfig()
+	{
+		final BulletConfiguration bullet = getShellW9Config().clone();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		
+		bullet.bImpact = (projectile, x, y, z) ->
+		{
+			projectile.worldObj.playSoundEffect(x, y, z, "random.explode", 1.0f, projectile.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+			projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(projectile.worldObj, BombConfig.boyRadius, x + 0.5, y + 0.5, z + 0.5));
+			projectile.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(projectile.worldObj, x, y, z, BombConfig.boyRadius));
 		};
 		
 		return bullet;

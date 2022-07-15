@@ -1,19 +1,26 @@
 package com.hbm.lib;
 
+import java.util.Random;
+
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.entity.projectile.EntityMinerBeam;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
+import com.hbm.entity.projectile.EntityRainbow;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
-public class ModDamageSource extends DamageSource {
-	
+public class ModDamageSource extends DamageSource
+{
+	private static final Random rand = new Random();
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
 	public static DamageSource acid = (new DamageSource("acid")).setDamageBypassesArmor();
@@ -48,6 +55,9 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource lunar = (new DamageSource("lunar")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource monoxide = (new DamageSource("monoxide")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource asbestos = (new DamageSource("asbestos")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource bleed = (new DamageSource("bleed")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource twr = (new DamageSource("twr" + rand.nextInt(2))).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource light = (new DamageSource("light")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 	public static DamageSource blacklung = (new DamageSource("blacklung")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource mku = (new DamageSource("mku")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource vacuum = (new DamageSource("vacuum")).setDamageIsAbsolute().setDamageBypassesArmor();
@@ -69,6 +79,75 @@ public class ModDamageSource extends DamageSource {
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
 	}
+	@Deprecated
+	public static DamageSource causeTWRDamage(Entity e1, Entity e2)
+	{
+		int randMsg = rand.nextInt(2) + 2;
+		return (new EntityDamageSourceIndirect("twr" + randMsg, e1, e2)).setDamageIsAbsolute().setDamageBypassesArmor();
+	}
+	@Deprecated
+	public static DamageSource causeTWRDamage(Entity e1)
+	{
+		int randMsg = rand.nextInt(2);
+		return (new EntityDamageSource("twr" + randMsg, e1)).setDamageBypassesArmor().setDamageIsAbsolute();
+	}
+	/**
+	 * Easier to work with and "dynamic" damage type
+	 * @param e1 - Entity to be attacked
+	 * @param name - Name of the damage type, will be used in grabbing to localized death message, supports randomized messages
+	 * @return The requested damage source
+	 */
+	public static DamageSource causeDamage(Entity e1, String name)
+	{
+		return new EntityDamageSource(name, e1);
+	}
+	/**
+	 * Easier to work with and "dynamic" damage type
+	 * @param e1 - Entity to be attacked
+	 * @param e2 - Entity that is credited for the kill
+	 * @param name - Name of the damage type, will be used in grabbing to localized death message, supports randomized messages
+	 * @return The requested damage source
+	 */
+	public static DamageSource causeDamage(Entity e1, Entity e2, String name)
+	{
+		return new EntityDamageSourceIndirect(name, e1, e2);
+	}
+    public static DamageSource causeBulletDamage(EntityBulletBase base, Entity ent)
+    {
+        return (new EntityDamageSourceIndirect("revolverBullet", base, ent)).setProjectile();
+    }
+    public static DamageSource causeDisplacementDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("chopperBullet", p_76353_0_, p_76353_1_)).setProjectile();
+    }
+    public static DamageSource causeTauDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeCombineDamage(EntityCombineBall p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("cmb", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage2(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic2", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage3(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic3", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage4(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic4", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage5(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic5", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
 
 	public static DamageSource causeBulletDamage(EntityBullet ent, Entity hit) {
 		return (new EntityDamageSourceIndirect(s_bullet, ent, hit)).setProjectile();

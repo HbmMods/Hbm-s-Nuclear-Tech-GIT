@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
@@ -85,7 +86,7 @@ public class NukeN45 extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityNukeN45 entity = (TileEntityNukeN45) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_n45, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.NUKE_N45.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

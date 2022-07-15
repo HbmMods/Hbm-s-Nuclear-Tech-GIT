@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
+import com.hbm.handler.EnumGUI;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyInventory;
 
@@ -68,7 +69,7 @@ public class BlockHadronAccess extends BlockContainer {
 			for(int i = 1; i < 3; i++) {
 				
 				if(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i) == ModBlocks.hadron_core) {
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hadron, world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.HADRON.ordinal(), world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
 				}
 				
 				//System.out.println(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i).getUnlocalizedName());

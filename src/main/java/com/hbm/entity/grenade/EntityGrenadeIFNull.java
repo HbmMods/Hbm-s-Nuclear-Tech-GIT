@@ -3,6 +3,7 @@ package com.hbm.entity.grenade;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.Entity;
@@ -57,7 +58,7 @@ public class EntityGrenadeIFNull extends EntityGrenadeBouncyBase {
 
 	@Override
 	protected int getMaxTimer() {
-		return ItemGrenade.getFuseTicks(ModItems.grenade_if_null);
+		return AmmoHandGrenade.IF_NULL.fuse * 20;
 	}
 
 	@Override

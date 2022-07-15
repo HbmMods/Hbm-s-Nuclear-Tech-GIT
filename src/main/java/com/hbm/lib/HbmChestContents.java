@@ -1,9 +1,8 @@
 package com.hbm.lib;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
@@ -22,7 +21,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier1, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 4),
+			new WeightedRandomChestContent(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD), 2, 6, 4),
 			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.gun_lever_action, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ammo_20gauge, 0, 2, 6, 3),
@@ -91,7 +90,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 2) };
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 2)};
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_r_to_r), 1, 3, 10),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_magnetic_cassette), 1, 3, 8)};
 
 	public static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.chlorine_pinwheel, 0, 1, 1, 1),
@@ -103,12 +104,12 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.ammo_rocket, 0, 1, 4, 5),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_low, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_pumpkin, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 3, 3),
-			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.PUMPKIN), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.NUCLEAR.ordinal(), 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.SMART.ordinal(), 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.MIRV.ordinal(), 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.battery_advanced_cell, 0, 1, 1, 2),
@@ -127,7 +128,10 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.journal_pip, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.journal_bj, 0, 1, 1, 1) };
+			new WeightedRandomChestContent(ModItems.journal_bj, 0, 1, 1, 1)};
+//			new WeightedRandomChestContent(ModItems.storage_ssd_raw_tier_1, 0, 1, 1, 1),
+//			new WeightedRandomChestContent(ModItems.storage_hdd_raw, 0, 1, 1, 2),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_optical_cd), 1, 1, 3)};
 
 	public static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -205,14 +209,14 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.t45_kit, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 10),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 24, 4),
+			new WeightedRandomChestContent(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD), 1, 24, 4),
 			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 2, 3, 4),
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.ammo_rocket, 0, 1, 6, 3),
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.billet_uranium_fuel, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.ingot_uranium_fuel, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE), 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
@@ -220,10 +224,16 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
-			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.NUCLEAR.ordinal(), 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 1, 2) };
+			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 1, 2)};
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_usb), 0, 1, 1),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_optical_cd), 0, 1, 4),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_optical_dvd), 0, 1, 2),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_optical_bd), 0, 1, 1),
+//			new WeightedRandomChestContent(ModItems.pack_fdd, 0, 2, 5, 5)};
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_hdd_dead), 1, 1, 1)};
 
 	public static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
@@ -238,6 +248,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 1, 1),
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_magnetic_fdd), 1, 2, 4),
+//			new WeightedRandomChestContent(IDataStorageUser.getBlankMedium(ModItems.storage_hdd), 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 10) };
 
 	public static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[] {
@@ -255,7 +267,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5) };
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5)};
+//			new WeightedRandomChestContent(ModItems.storage_ssd_raw_tier_1, 0, 1, 1, 1)};
+			//new WeightedRandomChestContent(ModItems.lunar_kit, 0, 1, 1, 1)};
 
 	public static WeightedRandomChestContent[] powder = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 32, 1),
@@ -280,9 +294,11 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ammo_50bmg, 0, 24, 48, 1),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 6, 12, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.grenade_if_he, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.grenade_if_incendiary, 0, 1, 1, 1),
-			new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 1) };
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.IF_HE.ordinal(), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.IF_INCENDIARY.ordinal(), 1, 1, 1),
+			new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 1)};
+//			new WeightedRandomChestContent(ModItems.pack_fdd, 0, 1, 7, 1)};
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_optical_cd), 1, 1, 2)};
 
 	public static WeightedRandomChestContent[] vault2 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 2, 6, 1),
@@ -291,14 +307,16 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(Items.diamond, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.ammo_nuke, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 6, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.NUCLEAR.ordinal(), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.SMART.ordinal(), 1, 6, 1),
 			new WeightedRandomChestContent(ModItems.powder_yellowcake, 0, 16, 24, 1),
 			new WeightedRandomChestContent(ModItems.gun_uzi, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_uzi_silencer, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.clip_uzi, 0, 1, 3, 1),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 12, 16, 1),
-			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 2, 6, 1) };
+			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 2, 6, 1)};
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_hdd), 1, 1, 1),
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_optical_dvd), 1, 1, 3)};
 
 	public static WeightedRandomChestContent[] vault3 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 6, 16, 1),
@@ -309,20 +327,23 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ammo_nuke, 0, 1, 3, 1),
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 1, 4, 1),
-			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.NUCLEAR.ordinal(), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.grenade, AmmoHandGrenade.MIRV.ordinal(), 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_yellowcake, 0, 26, 42, 1),
 			new WeightedRandomChestContent(ModItems.ingot_u235, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_revolver_pip, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.clip_revolver_pip, 0, 2, 4, 1),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 18, 32, 1),
-			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1) };
+			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1),
+			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 6, 12, 1)};
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_optical_bd), 1, 3, 10),
+//			new WeightedRandomChestContent(IDataStorageUser.getFullMedium(ModItems.storage_usb), 1, 2, 8)};
 
 	public static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.clip_fatman, 0, 2, 3, 1),
-			new WeightedRandomChestContent(ModItems.ammo_mirv, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV), 2, 3, 1),
 			new WeightedRandomChestContent(ModItems.gun_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),

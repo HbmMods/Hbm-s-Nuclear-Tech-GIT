@@ -14,6 +14,7 @@ public class ItemRTGPelletDepleted extends ItemEnumMulti {
 		NEPTUNIUM,
 		LEAD,
 		ZIRCONIUM,
+		CURIUM,
 		NICKEL;
 	}
 }

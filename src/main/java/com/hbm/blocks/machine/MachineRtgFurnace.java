@@ -19,6 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
@@ -139,7 +140,7 @@ public class MachineRtgFurnace extends BlockContainer {
 			TileEntityRtgFurnace entity = (TileEntityRtgFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_furnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.BFURNACE_RTG.ordinal(), world, x, y, z);
 			}
 			return true;
 		} else {

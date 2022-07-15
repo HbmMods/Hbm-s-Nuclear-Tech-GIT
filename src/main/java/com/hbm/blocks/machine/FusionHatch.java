@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.EnumGUI;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
@@ -124,7 +125,7 @@ public class FusionHatch extends Block {
 				{
 					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z + 8)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z + 8);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_FUSION.ordinal(), world, x, y, z + 8);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -138,7 +139,7 @@ public class FusionHatch extends Block {
 				{
 					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z - 8)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z - 8);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_FUSION.ordinal(), world, x, y, z - 8);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -152,7 +153,7 @@ public class FusionHatch extends Block {
 				{
 					if(((TileEntityFusionMultiblock)world.getTileEntity(x + 8, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x + 8, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_FUSION.ordinal(), world, x + 8, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -166,7 +167,7 @@ public class FusionHatch extends Block {
 				{
 					if(((TileEntityFusionMultiblock)world.getTileEntity(x - 8, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x - 8, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, EnumGUI.REACTOR_FUSION.ordinal(), world, x - 8, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
 					}

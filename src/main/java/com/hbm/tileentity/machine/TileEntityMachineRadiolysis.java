@@ -1,12 +1,10 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
@@ -17,34 +15,34 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.items.machine.ItemRTGPelletDepleted;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IRTGUser;
+import com.hbm.tileentity.IRadioisotopeFuel;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
 
+import api.hbm.Date;
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IRTGUser {
 	
 	public long power;
 	public static final int maxPower = 1000000;
 	public int heat;
 
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
+	public List<IFluidAcceptor> list1 = new ArrayList<>();
+	public List<IFluidAcceptor> list2 = new ArrayList<>();
 	
 	private static final int[] slot_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13 };
 	private static final int[] slot_rtg = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-	
+	private Date date = new Date();
 	public TileEntityMachineRadiolysis() {
 		super(15); //10 rtg slots, 2 fluid ID slots (io), 2 irradiation slots (io), battery slot
 		tanks = new FluidTank[3];
@@ -85,6 +83,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "output1");
 		tanks[2].readFromNBT(nbt, "output2");
+		date = new Date(nbt.getByteArray("date"));
 	}
 	
 	@Override
@@ -97,11 +96,14 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "output1");
 		tanks[2].writeToNBT(nbt, "output2");
+		nbt.setByteArray("date", date.serialize());
 	}
 	
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.heat = data.getInteger("heat");
+		date = new Date(data.getByteArray("date"));
 	}
 	
 	@Override
@@ -110,7 +112,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		if(!worldObj.isRemote) {
 			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
 			
-			heat = RTGUtil.updateRTGs(slots, slot_rtg);
+			heat = getHeat();
 			power += heat * 10;
 			
 			if(power > maxPower)
@@ -144,6 +146,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("heat", heat);
+			data.setByteArray("date", date.serialize());
 			this.networkPack(data, 50);
 			
 			for(byte i = 0; i < 3; i++)
@@ -323,12 +326,50 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			list2.clear();
 	}
 	
+	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 3, zCoord + 2);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void incrementAge()
+	{
+		date.increment();
+	}
+
+	@Override
+	public Date getInternalDate()
+	{
+		return date;
+	}
+
+	@Override
+	public int getHeat()
+	{
+		return updateRTGs();
+	}
+
+	@Override
+	public int[] getSlots()
+	{
+		return slot_rtg;
+	}
+
+	@Override
+	public ItemStack[] getInventory()
+	{
+		return slots;
+	}
+
+	@Override
+	public Class<? extends IRadioisotopeFuel> getDesiredClass()
+	{
+		return ItemRTGPellet.class;
 	}
 }
