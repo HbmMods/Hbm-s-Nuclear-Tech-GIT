@@ -81,13 +81,13 @@ public class EntityMIRV extends EntityThrowableNT implements IChunkLoader, IRada
 
 		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air) {
 			if(!this.worldObj.isRemote) {
-				//worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
 
-				/*EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 0.005F);
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = this.posX;
 				entity2.posY = this.posY;
 				entity2.posZ = this.posZ;
-				this.worldObj.spawnEntityInWorld(entity2);*/
+				this.worldObj.spawnEntityInWorld(entity2);
 			}
 			this.setDead();
 		}
