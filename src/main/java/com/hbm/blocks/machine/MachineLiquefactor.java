@@ -8,6 +8,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,10 +69,8 @@ public class MachineLiquefactor extends BlockDummyable implements ITooltipProvid
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) { //TODO: just slap some fuckin I18n support in there idfk
-			list.add(EnumChatFormatting.YELLOW + "Powerful universal machine to turn items into fluids.");
-			list.add(EnumChatFormatting.YELLOW + "Comes with versatile catalytic components, heating elements");
-			list.add(EnumChatFormatting.YELLOW + "and a built-in hydrator for petrochemical liquefaction.");
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			for(String s : I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc")) list.add(EnumChatFormatting.YELLOW + s);
 		} else {
 			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
 					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +

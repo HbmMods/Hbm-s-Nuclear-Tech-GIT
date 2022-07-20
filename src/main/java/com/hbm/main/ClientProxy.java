@@ -14,6 +14,8 @@ import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -254,6 +256,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceSteel.class, new RenderFurnaceSteel());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeaterFirebox.class, new RenderFirebox());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
@@ -325,6 +328,15 @@ public class ClientProxy extends ServerProxy {
 		
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
+		
+		Iterator iterator = TileEntityRendererDispatcher.instance.mapSpecialRenderers.values().iterator();
+		while(iterator.hasNext()) {
+			Object renderer = iterator.next();
+			if(renderer instanceof IItemRendererProvider) {
+				IItemRendererProvider prov = (IItemRendererProvider) renderer;
+				MinecraftForgeClient.registerItemRenderer(prov.getItemForRenderer(), prov.getRenderer());
+			}
+		}
 		
 		//universal JSON translated items
 		double[] rtp = new double[] {0, 180, -90};

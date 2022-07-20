@@ -96,8 +96,15 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 					}
 				} 
 			} else {
-				burnTime--;
+				
+				if(this.heatEnergy < this.maxHeatEnergy) {
+					burnTime--;
+				}
 				this.wasOn = true;
+				
+				if(worldObj.rand.nextInt(15) == 0) {
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
+				}
 			}
 			
 			if(burnTime > 0) {

@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+@Deprecated // implement IItemRendererProvider for TESRs instead!
 public class ItemRenderLibrary {
 
 	public static HashMap<Item, ItemRenderBase> renderers = new HashMap();
@@ -1338,6 +1339,17 @@ public class ItemRenderLibrary {
 				ResourceManager.turret_arty.renderPart("Cannon");
 				ResourceManager.turret_arty.renderPart("Barrel");
 				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.heater_firebox), new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.heater_firebox_tex);
+				ResourceManager.heater_firebox.renderPart("Main");
+				ResourceManager.heater_firebox.renderPart("Door");
 			}});
 	}
 	

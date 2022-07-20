@@ -2,29 +2,22 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityHeaterFirebox;
+import com.hbm.tileentity.machine.TileEntityFurnaceSteel;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HeaterFirebox extends BlockDummyable {
+public class FurnaceSteel extends BlockDummyable {
 
-	public HeaterFirebox() {
+	public FurnaceSteel() {
 		super(Material.iron);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
-		if(meta >= 12)
-			return new TileEntityHeaterFirebox();
-		
-		//the firebox is only 1 block tall, why did i write this?
-		/*if(lastCore.getX() == lastBlockSet.getX() && lastCore.getY() + 1 == lastBlockSet.getY() && lastCore.getZ() == lastBlockSet.getZ())
-			return new TileEntityProxyCombo().inventory().heatSource();*/
-		
+		if(meta >= 12) return new TileEntityFurnaceSteel();
 		return new TileEntityProxyCombo(true, false, false);
 	}
 	
@@ -35,7 +28,7 @@ public class HeaterFirebox extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 1, 1, 1, 1};
+		return new int[] {1, 0, 1, 1, 1, 1};
 	}
 
 	@Override

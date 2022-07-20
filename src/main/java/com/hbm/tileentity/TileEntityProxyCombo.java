@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.FluidType;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidConnector;
+import api.hbm.tile.IHeatSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -15,12 +16,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory, IFluidConnector {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource {
 	
 	TileEntity tile;
 	boolean inventory;
 	boolean power;
 	boolean fluid;
+	boolean heat;
 	
 	public TileEntityProxyCombo() { }
 	
@@ -28,6 +30,26 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = inventory;
 		this.power = power;
 		this.fluid = fluid;
+	}
+	
+	public TileEntityProxyCombo inventory() {
+		this.inventory = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo power() {
+		this.power = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo fluid() {
+		this.fluid = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo heatSource() {
+		this.heat = true;
+		return this;
 	}
 	
 	//fewer messy recursive operations
@@ -436,5 +458,29 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return ((IFluidConnector)getTile()).canConnect(type, dir);
 		}
 		return false;
+	}
+
+	@Override
+	public int getHeatStored() {
+		
+		if(!this.heat)
+			return 0;
+		
+		if(getTile() instanceof IHeatSource) {
+			return ((IHeatSource)getTile()).getHeatStored();
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public void useUpHeat(int heat) {
+		
+		if(!this.heat)
+			return;
+		
+		if(getTile() instanceof IHeatSource) {
+			((IHeatSource)getTile()).useUpHeat(heat);
+		}
 	}
 }
