@@ -2,7 +2,6 @@ package com.hbm.items;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
-import com.hbm.entity.grenade.*;
 import com.hbm.handler.BucketHandler;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.LuckAbility;
@@ -7151,6 +7150,8 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_44, ammo_44.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_5mm, ammo_5mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_9mm, ammo_9mm.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_45, ammo_45.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_308, ammo_308.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_556, ammo_556.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_22lr, ammo_22lr.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50ae, ammo_50ae.getUnlocalizedName());
