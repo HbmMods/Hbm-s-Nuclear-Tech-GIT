@@ -70,16 +70,19 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
 
-		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_1, 0, 1)).max(5).sol(true);
-		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_0, 0, 1)).min(5).max(15).sol(true);
+		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
+		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
 		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
-
+		
 		entries.add(stoneCore.clone().mB(Blocks.stone));
 		entries.add(stoneInner.clone().mB(Blocks.stone));
 		entries.add(stoneOuter.clone().mB(Blocks.stone));
 		entries.add(stoneCore.clone().mB(Blocks.gravel));
 		entries.add(stoneInner.clone().mB(Blocks.gravel));
 		entries.add(stoneOuter.clone().mB(Blocks.gravel));
+		/* recontaminate slaked sellafield */
+		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
+		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
 		
 		entries.add(new FalloutEntry()
 				.mB(Blocks.grass)

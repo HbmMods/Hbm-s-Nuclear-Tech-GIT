@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -1112,6 +1113,10 @@ public class MainRegistry {
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
+		//forge shits the bed when you dare to remap several blocks into one, since noone would ever try to do that
+		/*remapBlocks.put("hbm:tile.sellafield_core", ModBlocks.sellafield);
+		for(byte i = 0; i < 5; i++)
+			remapBlocks.put("hbm:tile.sellafield_" + i, ModBlocks.sellafield);*/
 		
 		for(MissingMapping mapping : event.get()) {
 
