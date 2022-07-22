@@ -1,11 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -22,7 +19,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, IFluidContainer, IFluidAcceptor {
+@Deprecated //old multiblock fusion reactor
+public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor {
 
 	public long power;
 	public final static long maxPower = 100000000;
@@ -1191,51 +1189,5 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public void removePlasma(int x, int y, int z) {
 		if(worldObj.getBlock(x, y, z) == ModBlocks.plasma)
 			worldObj.setBlock(x, y, z, Blocks.air);
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 3 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < 3 && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			tanks[2].setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getMaxFill();
-		else
-			return 0;
 	}
 }

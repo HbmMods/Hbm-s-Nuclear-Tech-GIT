@@ -24,6 +24,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,7 +37,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidSource {
+public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidSource, IFluidStandardSender {
 
 	public long power;
 	public final static long maxPower = 100000000;
@@ -520,7 +522,7 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 	@Override
 	public void updateEntity() {
 		
-		if (this.isStructureValid(this.worldObj)) {
+		if(this.isStructureValid(this.worldObj)) {
 
 			powerMultiplier = 100;
 			heatMultiplier = 100;
@@ -554,6 +556,11 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 
 				this.sendPower(worldObj, xCoord, yCoord + 7, zCoord, ForgeDirection.UP);
 				this.sendPower(worldObj, xCoord, yCoord - 7, zCoord, ForgeDirection.DOWN);
+
+				this.sendFluid(tank.getTankType(), worldObj, xCoord + 4, yCoord, zCoord, Library.POS_X);
+				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 4, Library.POS_Z);
+				this.sendFluid(tank.getTankType(), worldObj, xCoord - 4, yCoord, zCoord, Library.NEG_X);
+				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 4, Library.NEG_Z);
 	
 				if (age == 9 || age == 19) {
 					fillFluidInit(tank.getTankType());
@@ -742,5 +749,9 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 	@Override
 	public void clearFluidList(FluidType type) {
 		list1.clear();
+	}
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
 	}
 }

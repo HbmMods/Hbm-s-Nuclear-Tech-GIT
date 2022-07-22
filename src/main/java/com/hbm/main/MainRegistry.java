@@ -1107,6 +1107,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.man_explosive");
 		ignoreMappings.add("hbm:item.crystal_energy");
 		ignoreMappings.add("hbm:item.pellet_coolant");
+		ignoreMappings.add("hbm:item.turret_control");
+		
+		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		

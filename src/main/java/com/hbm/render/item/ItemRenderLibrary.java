@@ -284,19 +284,6 @@ public class ItemRenderLibrary {
 		        GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fluidtank), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glRotated(90, 0, 1, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank.renderPart("Tank");
-				GL11.glShadeModel(GL11.GL_FLAT);
-				bindTexture(ResourceManager.tank_label_tex); ResourceManager.fluidtank.renderPart("Label");
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_well), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
@@ -1351,6 +1338,9 @@ public class ItemRenderLibrary {
 				ResourceManager.heater_firebox.renderPart("Main");
 				ResourceManager.heater_firebox.renderPart("Door");
 			}});
+		
+		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.
+		//please refer to the comment at the start of the file on how to do this without adding to this gigantic pile of feces.
 	}
 	
 	private static void bindTexture(ResourceLocation res) {
