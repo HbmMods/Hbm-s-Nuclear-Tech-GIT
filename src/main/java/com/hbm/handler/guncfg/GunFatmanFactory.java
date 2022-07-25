@@ -541,29 +541,4 @@ public class GunFatmanFactory {
 		return bullet;
 	}
 
-	public static BulletConfiguration getFullNukeConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.nothing;
-		bullet.style = bullet.STYLE_MISSILEMIRV;
-		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				if(!bullet.worldObj.isRemote) {
-				bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(bullet.worldObj, 75, bullet.posX, bullet.posY,bullet.posZ));
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(bullet.worldObj, 1000, BombConfig.missileRadius * 0.005F);
-				entity2.posX = bullet.posX;
-				entity2.posY = bullet.posY;
-				entity2.posZ = bullet.posZ;
-				bullet.worldObj.spawnEntityInWorld(entity2);
-			}
-			}
-		};
-		
-		return bullet;
-	}
-	
-
 }

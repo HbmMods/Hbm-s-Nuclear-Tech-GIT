@@ -69,7 +69,6 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
 			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
 			case BulletConfiguration.STYLE_BARREL: renderNuke(3); break;
-			case BulletConfiguration.STYLE_MISSILEMIRV: renderNuke(4); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -225,13 +224,6 @@ public class RenderBullet extends Render {
 			GL11.glTranslated(0, -0.5, 0);
 			bindTexture(ResourceManager.waste_drum_tex);
 			ResourceManager.waste_drum.renderAll();
-			break;
-		case 4:
-			GL11.glRotated(90, 0, 0, 1);
-			GL11.glRotated(90, 0, 1, 0);
-			GL11.glTranslated(0, -0.5, 0);
-			bindTexture(ResourceManager.rocket_mirv_tex);
-			ResourceManager.projectiles.renderPart("MissileMIRV");
 			break;
 		}
 
