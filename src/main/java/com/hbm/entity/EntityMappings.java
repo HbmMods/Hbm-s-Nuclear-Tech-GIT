@@ -78,6 +78,7 @@ import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityDeathBlast;
 import com.hbm.entity.logic.EntityEMP;
+import com.hbm.entity.logic.EntityEulerLaser;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -383,6 +384,7 @@ public class EntityMappings {
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 1000);
 		addEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1000);
+		addEntity(EntityEulerLaser.class, "entity_euler_blast", 1000);
 		
 		addMob(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
 		addMob(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
