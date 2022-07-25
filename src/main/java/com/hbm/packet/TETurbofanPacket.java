@@ -59,7 +59,7 @@ public class TETurbofanPacket implements IMessage {
 					
 				TileEntityMachineTurbofan gen = (TileEntityMachineTurbofan) te;
 				gen.spin = m.spin;
-				gen.isRunning = m.isRunning;
+				gen.wasOn = m.isRunning;
 			}
 			return null;
 		}

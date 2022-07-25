@@ -10,7 +10,6 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
-import api.hbm.fluid.IFluidConnector;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

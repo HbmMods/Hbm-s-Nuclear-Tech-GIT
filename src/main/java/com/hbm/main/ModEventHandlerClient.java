@@ -76,6 +76,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -170,6 +171,18 @@ public class ModEventHandlerClient {
 			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
 				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
 			}
+			
+			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				ScaledResolution resolution = event.resolution;
+				GL11.glPushMatrix();
+				int pX = resolution.getScaledWidth() / 2 + 8;
+				int pZ = resolution.getScaledHeight() / 2;
+				mc.fontRenderer.drawString("META: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ), pX, pZ - 3, 0xffff00);
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glPopMatrix();
+				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

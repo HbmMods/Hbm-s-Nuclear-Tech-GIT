@@ -119,7 +119,7 @@ public class BlockOre extends Block {
 			case 19:
 				return Item.getItemFromBlock(ModBlocks.fusion_heater);
 			case 20:
-				return Item.getItemFromBlock(ModBlocks.fusion_core);
+				return ModItems.circuit_red_copper;
 			case 21:
 				return Item.getItemFromBlock(ModBlocks.watz_element);
 			case 22:

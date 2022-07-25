@@ -146,13 +146,13 @@ public class EntityFalloutRain extends Entity {
 
 				double d = dist / 100;
 
-				double chance = 0.05 - Math.pow((d - 0.6) * 0.5, 2);
+				double chance = 0.1 - Math.pow((d - 0.7) * 1.0, 2);
 
 				if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))
 					setBlock(x, y + 1, z, ModBlocks.fallout);
 			}
 
-			if(b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
+			if(dist < 65 && b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
 				if(rand.nextInt(5) == 0)
 					setBlock(x, y + 1, z, Blocks.fire);
 			}
@@ -171,10 +171,15 @@ public class EntityFalloutRain extends Entity {
 			}
 			
 			if(dist < 65 && b.getBlockHardness(worldObj, x, y, z) <= Blocks.stonebrick.getExplosionResistance(null)) {
+				
 				Block bl = worldObj.getBlock(x, y - 1, z);
 				if(bl == Blocks.air) {
-					EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D, z + 0.5D, worldObj.getBlock(x, y, z), worldObj.getBlockMetadata(x, y, z));
-					worldObj.spawnEntityInWorld(entityfallingblock);
+					for(int i = 0; i <= depth; i++) {
+						if(worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z) <= Blocks.stonebrick.getExplosionResistance(null)) {
+							EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							worldObj.spawnEntityInWorld(entityfallingblock);
+						}
+					}
 				}
 			}
 			

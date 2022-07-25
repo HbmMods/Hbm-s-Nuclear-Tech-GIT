@@ -3,11 +3,15 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.DiamondPronter;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -42,8 +46,29 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 		ResourceManager.fluidtank.renderPart("Tank");
 
 		GL11.glShadeModel(GL11.GL_FLAT);
+
+		
+		FluidType type = ((TileEntityMachineFluidTank) tileEntity).tank.getTankType();
+		
+		if(type != null && type != Fluids.NONE) {
+
+			RenderHelper.disableStandardItemLighting();
+			GL11.glPushMatrix();
+			GL11.glTranslated(-0.25, 0.5, -1.501);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glScalef(1.0F, 0.375F, 0.375F);
+			DiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol);
+			GL11.glPopMatrix();
+			GL11.glPushMatrix();
+			GL11.glTranslated(0.25, 0.5, 1.501);
+			GL11.glRotated(-90, 0, 1, 0);
+			GL11.glScalef(1.0F, 0.375F, 0.375F);
+			DiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol);
+			GL11.glPopMatrix();
+		}
 		
 		GL11.glPopMatrix();
+		RenderHelper.enableStandardItemLighting();
 	}
 
 	@Override

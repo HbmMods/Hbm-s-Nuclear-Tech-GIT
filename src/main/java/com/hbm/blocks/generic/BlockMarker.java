@@ -172,22 +172,11 @@ public class BlockMarker extends BlockContainer {
 		if(world.isRemote)
 		{
 			int i = ((TileEntityStructureMarker)world.getTileEntity(x, y, z)).type + 1;
-			if(i > 6)
-				i -= 7;
-			if(i == 0)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Factory"));
-			if(i == 1)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Nuclear Reactor"));
-			if(i == 2)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Nuclear Reactor with Concrete Casing"));
-			if(i == 3)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Fusion Reactor"));
-			if(i == 4)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Fusion Reactor with Internal Coating"));
-			if(i == 5)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Watz Power Plant"));
-			if(i == 6)
-		        player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Fusionary Watz Plant"));
+			if(i > 2)
+				i -= 3;
+			if(i == 0) player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Nuclear Reactor"));
+			if(i == 1) player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Watz Power Plant"));
+			if(i == 2) player.addChatMessage(new ChatComponentText("[Structure Marker] Set template: Fusionary Watz Plant"));
 			return true;
 		} else if(!player.isSneaking())
 		{

@@ -214,8 +214,6 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		System.out.println("PRE " + world.isRemote + " " + stack.getItemDamage());
-
 		if(world.isRemote || this.breakAbility.size() < 2 || !canOperate(stack))
 			return super.onItemRightClick(stack, world, player);
 
@@ -245,8 +243,6 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 
 		world.playSoundAtEntity(player, "random.orb", 0.25F, getCurrentAbility(stack) == null ? 0.75F : 1.25F);
 		
-		System.out.println("POST " + world.isRemote + " " + stack.getItemDamage());
-
 		return stack;
 	}
 

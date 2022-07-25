@@ -95,6 +95,93 @@ public static final DoorDecl TRANSITION_SEAL = new DoorDecl(){
 			return null;
 		}
 	};
+	
+public static final DoorDecl FIRE_DOOR = new DoorDecl(){
+		
+		@Override
+		public  String getOpenSoundEnd() {
+			return "hbm:door.wghStop";
+		};
+		@Override
+		public  String getOpenSoundLoop() {
+			return "hbm:door.wghStart";
+		};
+		@Override
+		public  String getSoundLoop2() {
+			return "hbm:door.alarm6";
+		};
+		
+		@Override
+		public float getSoundVolume(){
+			return 2;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
+			if(!partName.equals("frame")){
+				set(trans, 0, 3*getNormTime(openTicks), 0);
+			} else {
+				super.getTranslation(partName, openTicks, child, trans);
+			}
+		};
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void doOffsetTransform() {
+			GL11.glTranslated(0, 0, 0.5);
+		};
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public double[][] getClippingPlanes() {
+			return new double[][]{{0, -1, 0, 3.0001}};
+		};
+		
+		@Override
+		public int timeToOpen() {
+			return 160;
+		};
+		
+		@Override
+		public int[][] getDoorOpenRanges(){
+			return new int[][]{{-1, 0, 0, 3, 4, 1}};
+		}
+
+		@Override
+		public int[] getDimensions(){
+			return new int[]{2, 0, 0, 0, 2, 1};
+		}
+		
+		@Override
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+			if(!open)
+				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			if(z == 1){
+				return AxisAlignedBB.getBoundingBox(0.5, 0, 0, 1, 1, 1);
+			} else if(z == -2){
+				return AxisAlignedBB.getBoundingBox(0, 0, 0, 0.5, 1, 1);
+			} else if(y > 1){
+				return AxisAlignedBB.getBoundingBox(0, 0.75, 0, 1, 1, 1);
+			} else if(y == 0) {
+				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.1, 1);
+			} else {
+				return super.getBlockBound(x, y, z, open);
+			}
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public ResourceLocation getTextureForPart(String partName){
+			return ResourceManager.fire_door_tex;
+		}
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public WavefrontObjDisplayList getModel(){
+			return ResourceManager.fire_door;
+		}
+	};
 
 	//Format: x, y, z, tangent amount 1 (how long the door would be if it moved up), tangent amount 2 (door places blocks in this direction), axis (0-x, 1-y, 2-z)
 	public abstract int[][] getDoorOpenRanges();

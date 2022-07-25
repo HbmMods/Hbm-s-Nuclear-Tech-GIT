@@ -61,7 +61,6 @@ public class TileMappings {
 		put(TileEntityDecoBlockAltF.class, "tileentity_deco_f");
 		put(TileEntityCoreTitanium.class, "tileentity_core_titanium");
 		put(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
-		put(TileEntityFusionMultiblock.class, "tileentity_fusion_multiblock");
 		put(TileEntityCrashedBomb.class, "tileentity_crashed_balefire");
 		put(TileEntityConverterHeRf.class, "tileentity_converter_herf");
 		put(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
