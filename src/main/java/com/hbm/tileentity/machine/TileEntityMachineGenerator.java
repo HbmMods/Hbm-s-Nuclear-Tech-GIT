@@ -1,15 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
@@ -28,7 +23,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor {
+@Deprecated //y'know, the single block reactor
+public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
 	
@@ -517,45 +513,5 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
     	worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
     	ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
     	worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
 	}
 }

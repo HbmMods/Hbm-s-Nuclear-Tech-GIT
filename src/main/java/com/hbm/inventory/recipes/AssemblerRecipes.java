@@ -655,6 +655,14 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_dura_steel, 3),
 				new ComparableStack(ModItems.motor, 1),
 			}, 300);
+		
+		makeRecipe(new ComparableStack(ModBlocks.fire_door, 1), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 8),
+				new OreDictStack(STEEL.plate(), 8),
+				new OreDictStack(ALLOY.plate(), 4),
+				new ComparableStack(ModItems.bolt_tungsten, 4),
+				new ComparableStack(ModItems.motor, 2),
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.turret_chekhov, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_battery, 1),

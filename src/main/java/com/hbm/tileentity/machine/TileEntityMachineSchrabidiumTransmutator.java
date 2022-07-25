@@ -194,24 +194,24 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
-    public void onChunkUnload() {
-    	
-    	if(audio != null) {
+
+	public void onChunkUnload() {
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
-	
-    public void invalidate() {
-    	
-    	super.invalidate();
-    	
-    	if(audio != null) {
+		}
+	}
+
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
+		}
+	}
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {

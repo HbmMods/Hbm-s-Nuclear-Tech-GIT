@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -41,8 +42,36 @@ public abstract class BlockDummyable extends BlockContainer {
 	public static final int offset = 10;
 	// meta offset from dummy to extra rotation
 	public static final int extra = 6;
+	
+	/*
+	 * An extra integer that can be set before block set operations (such as makeExtra) and intercepted in createNewTileEntity.
+	 * This way we can inelegantly add variation to the tiles created even if the metadata would be the same.
+	 * Why createNewTileEntity only takes two args or why it is used by the chunk's setBlock implementation is beyond me but any
+	 * other solution feels like putting in way too much effort to achieve the same thing, really.
+	 */
+	public static int overrideTileMeta = 0;
+	/*
+	 * Set as the meta for the core is decided, before any of the dummies are placed. This way we can somewhat easily add variation
+	 * to our tile entities in createNewTileEntity using the relative position to the core, as well as pull information from the core
+	 * block itself, if required.
+	 */
+	public static BlockPos lastCore = new BlockPos(0, 0, 0);
+	/*
+	 * Because createNewTileEntity has no knowledge of where the tile ends up being beforehand, we just set a reference beforehand when
+	 * the block was initially placed. Why does this have to be such a pain in the ass.
+	 * BEWARE: This information is server-side only! Keep that in mind when expecting any of this affecting the client as well.
+	 */
+	public static BlockPos lastBlockSet = new BlockPos(0, 0, 0);
 
 	public static boolean safeRem = false;
+	
+	public static void setOverride(int i) {
+		overrideTileMeta = i;
+	}
+	
+	public static void resetOverride() {
+		overrideTileMeta = 0;
+	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 
@@ -62,8 +91,6 @@ public abstract class BlockDummyable extends BlockContainer {
 
 		if(b != this) {
 			world.setBlockToAir(x, y, z);
-			// world.setBlock(x, y, z, ModBlocks.dfc_injector, dir.ordinal(),
-			// 3);
 		}
 	}
 
@@ -182,6 +209,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(!world.isRemote) {
 			//this is separate because the multiblock rotation and the final meta might not be the same
 			int meta = getMetaForCore(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, (EntityPlayer) player, dir.ordinal() + offset);
+			lastCore = new BlockPos(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
 			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, meta, 3);
 			fillSpace(world, x, y, z, dir, o);
 		}
@@ -190,6 +218,12 @@ public abstract class BlockDummyable extends BlockContainer {
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+	}
+
+	// this fucking sucks, why are you making me do this
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		lastBlockSet = new BlockPos(x, y, z);
 	}
 	
 	/**

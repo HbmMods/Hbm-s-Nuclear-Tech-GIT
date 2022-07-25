@@ -13,9 +13,11 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.machine.FWatz;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -25,7 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
 	public final static long maxPower = 10000000000L;
@@ -257,15 +259,26 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 		
 		return 0;
 	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 10, yCoord - 11, zCoord, Library.POS_X),
+				new DirPos(xCoord - 10, yCoord - 11, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord - 11, zCoord + 10, Library.POS_Z),
+				new DirPos(xCoord, yCoord - 11, zCoord - 10, Library.NEG_Z)
+		};
+	}
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
+		if(!worldObj.isRemote && this.isStructureValid(this.worldObj)) {
 
-			this.sendPower(worldObj, xCoord + 10, yCoord - 11, zCoord, Library.POS_X);
-			this.sendPower(worldObj, xCoord - 10, yCoord - 11, zCoord, Library.NEG_X);
-			this.sendPower(worldObj, xCoord, yCoord - 11, zCoord + 10, Library.POS_Z);
-			this.sendPower(worldObj, xCoord, yCoord - 11, zCoord - 10, Library.NEG_Z);
+			for(DirPos pos : this.getConPos()) {
+				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+
+				this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 
 			if (hasFuse() && getSingularityType() > 0) {
 				if(cooldown) {
@@ -421,5 +434,9 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 			return tanks[2].getMaxFill();
 		else
 			return 0;
+	}
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[1], tanks[2] };
 	}
 }

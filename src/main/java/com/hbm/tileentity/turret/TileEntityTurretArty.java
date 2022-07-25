@@ -10,6 +10,7 @@ import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
@@ -22,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -48,6 +50,22 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		configs.add(BulletConfigSyncingUtil.SHELL_AP);
 		configs.add(BulletConfigSyncingUtil.SHELL_DU);
 		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+
+		List list = new ArrayList();
+		ModItems.ammo_arty.getSubItems(ModItems.ammo_arty, MainRegistry.weaponTab, list);
+		this.ammoStacks.addAll(list);
+		
+		return ammoStacks;
 	}
 	
 	public void enqueueTarget(double x, double y, double z) {

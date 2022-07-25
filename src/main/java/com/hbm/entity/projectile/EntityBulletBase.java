@@ -315,7 +315,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				
 				boolean headshot = false;
 				
-				if(victim instanceof EntityLivingBase) {
+				if(victim instanceof EntityLivingBase && this.config.headshotMult > 1F) {
 					EntityLivingBase living = (EntityLivingBase) victim;
 					double head = living.height - living.getEyeHeight();
 					

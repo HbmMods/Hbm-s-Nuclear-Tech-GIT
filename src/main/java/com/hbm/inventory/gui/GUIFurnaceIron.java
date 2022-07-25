@@ -17,11 +17,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIFurnaceIron extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_furnace_iron.png");
-	private TileEntityFurnaceIron diFurnace;
+	private TileEntityFurnaceIron furnace;
 
 	public GUIFurnaceIron(InventoryPlayer invPlayer, TileEntityFurnaceIron tedf) {
 		super(new ContainerFurnaceIron(invPlayer, tedf));
-		diFurnace = tedf;
+		furnace = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 166;
@@ -38,7 +38,7 @@ public class GUIFurnaceIron extends GuiInfoContainer {
 				
 				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
 					
-					List<String> bonuses = this.diFurnace.burnModule.getDesc();
+					List<String> bonuses = this.furnace.burnModule.getTimeDesc();
 					
 					if(!bonuses.isEmpty()) {
 						this.func_146283_a(bonuses, x, y);
@@ -47,13 +47,13 @@ public class GUIFurnaceIron extends GuiInfoContainer {
 			}
 		}
 
-		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 35, 71, 7, x, y, new String[] { (diFurnace.progress * 100 / Math.max(diFurnace.processingTime, 1)) + "%" });
-		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 44, 71, 7, x, y, new String[] { (diFurnace.burnTime / 20) + "s" });
+		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 35, 71, 7, x, y, new String[] { (furnace.progress * 100 / Math.max(furnace.processingTime, 1)) + "%" });
+		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 44, 71, 7, x, y, new String[] { (furnace.burnTime / 20) + "s" });
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.furnace.hasCustomInventoryName() ? this.furnace.getInventoryName() : I18n.format(this.furnace.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -65,13 +65,13 @@ public class GUIFurnaceIron extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = diFurnace.progress * 70 / Math.max(diFurnace.processingTime, 1);
+		int i = furnace.progress * 70 / Math.max(furnace.processingTime, 1);
 		drawTexturedModalRect(guiLeft + 53, guiTop + 36, 176, 18, i, 5);
 		
-		int j = diFurnace.burnTime * 70 / Math.max(diFurnace.maxBurnTime, 1);
+		int j = furnace.burnTime * 70 / Math.max(furnace.maxBurnTime, 1);
 		drawTexturedModalRect(guiLeft + 53, guiTop + 45, 176, 23, j, 5);
 		
-		if(diFurnace.canSmelt())
+		if(furnace.canSmelt())
 			drawTexturedModalRect(guiLeft + 70, guiTop + 16, 176, 0, 18, 18);
 	}
 }

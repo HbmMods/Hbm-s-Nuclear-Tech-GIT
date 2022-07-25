@@ -14,6 +14,7 @@ import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -254,6 +255,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceSteel.class, new RenderFurnaceSteel());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeaterFirebox.class, new RenderFirebox());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSEmitter.class, new RenderAMSEmitter());
@@ -324,6 +327,16 @@ public class ClientProxy extends ServerProxy {
 		
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
+		
+		//this bit registers an item renderer for every existing tile entity renderer that implements IItemRendererProvider
+		Iterator iterator = TileEntityRendererDispatcher.instance.mapSpecialRenderers.values().iterator();
+		while(iterator.hasNext()) {
+			Object renderer = iterator.next();
+			if(renderer instanceof IItemRendererProvider) {
+				IItemRendererProvider prov = (IItemRendererProvider) renderer;
+				MinecraftForgeClient.registerItemRenderer(prov.getItemForRenderer(), prov.getRenderer());
+			}
+		}
 		
 		//universal JSON translated items
 		double[] rtp = new double[] {0, 180, -90};
@@ -710,6 +723,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockMultipass());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSideRotation());
 		RenderingRegistry.registerBlockHandler(new RenderDiode());
+		RenderingRegistry.registerBlockHandler(new RenderBoxDuct());
 
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));
@@ -1688,7 +1702,8 @@ public class ClientProxy extends ServerProxy {
 			double mX = data.getDouble("mX");
 			double mY = data.getDouble("mY");
 			double mZ = data.getDouble("mZ");
-			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, 6.5F);
+			float scale = data.getFloat("scale");
+			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
 		}
 	}
@@ -1721,7 +1736,7 @@ public class ClientProxy extends ServerProxy {
 	
 	@Override
 	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
-		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume);
+		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);
 		audio.updatePosition(x, y, z);
 		return audio;
 	}

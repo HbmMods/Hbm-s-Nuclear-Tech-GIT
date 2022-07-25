@@ -10,19 +10,22 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -52,6 +55,14 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public String getName() {
 		return "container.iGenerator";
 	}
+	
+	protected DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir),
+		};
+	}
 
 	@Override
 	public void updateEntity() {
@@ -60,9 +71,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
-			this.sendPower(worldObj, xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir);
+			for(DirPos dir : getConPos()) {
+				this.sendPower(worldObj, dir.getX(), dir.getY(), dir.getZ(), dir.getDir());
+				
+				for(FluidTank tank : tanks) {
+					this.trySubscribe(tank.getTankType(), worldObj, dir.getX(), dir.getY(), dir.getZ(), dir.getDir());
+				}
+			}
 			
 			tanks[1].setType(9, 10, slots);
 			tanks[0].loadTank(1, 2, slots);
@@ -175,6 +190,16 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i >= 3 && i <= 6 && TileEntityFurnace.getItemBurnTime(itemStack) > 0;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 3, 4, 5, 6 };
+	}
+
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.spin = nbt.getInteger("spin");
@@ -277,5 +302,10 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0], tanks[1], tanks[2] };
 	}
 }

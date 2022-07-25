@@ -8,6 +8,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.IHoldableWeapon;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -224,6 +226,9 @@ public class ModelT45Chest extends ModelBiped {
 					this.aimedBow = true;
 				}
 			}
+
+			if(itemstack != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
+				this.aimedBow = true;
 		}
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		this.chest.rotationPointX = this.bipedBody.rotationPointX;

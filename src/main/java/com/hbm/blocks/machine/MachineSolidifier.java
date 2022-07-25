@@ -2,8 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -13,7 +11,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -67,15 +64,6 @@ public class MachineSolidifier extends BlockDummyable implements ITooltipProvide
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-			list.add(EnumChatFormatting.YELLOW + "A universal machine fitted with cooling systems and other");
-			list.add(EnumChatFormatting.YELLOW + "versatile tools for turning fluids solid using various");
-			list.add(EnumChatFormatting.YELLOW + "processes such as freezing and petrochemical polymerization.");
-		} else {
-			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
-		}
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

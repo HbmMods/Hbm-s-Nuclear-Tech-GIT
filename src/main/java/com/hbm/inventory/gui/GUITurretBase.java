@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -18,6 +19,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -61,6 +63,41 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 22, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.animals", turret.targetAnimals ? on : off));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.mobs", turret.targetMobs ? on : off));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.machines", turret.targetMachines ? on : off));
+
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null && this.guiLeft + 79 <= mouseX && guiLeft + 79 + 54 > mouseX && guiTop + 62 < mouseY && guiTop + 62 + 54 >= mouseY) {
+			
+			boolean draw = true;
+			for(int i = 1; i < 10; i++) {
+				if(this.isMouseOverSlot(this.inventorySlots.getSlot(i), mouseX, mouseY) && this.inventorySlots.getSlot(i).getHasStack()) {
+					draw = false;
+					break;
+				}
+			}
+			
+			if(draw) {
+				List<ItemStack> list = new ArrayList(turret.getAmmoTypesForDisplay());
+				List<Object[]> lines = new ArrayList();
+				ItemStack selected = list.get(0);
+				
+				if(list.size() > 1) {
+					int cycle = (int) ((System.currentTimeMillis() % (1000 * list.size())) / 1000);
+					selected = ((ItemStack) list.get(cycle)).copy();
+					selected.stackSize = 0;
+					list.set(cycle, selected);
+				}
+				
+				if(list.size() < 10) {
+					lines.add(list.toArray());
+				} else {
+					lines.add(list.subList(0, list.size() / 2).toArray());
+					lines.add(list.subList(list.size() / 2, list.size()).toArray());
+				}
+				
+				lines.add(new Object[] {I18nUtil.resolveKey(selected.getDisplayName())});
+				this.drawStackText(lines, mouseX, mouseY, this.fontRendererObj);
+			}
+		}
 	}
 
 	protected void mouseClicked(int x, int y, int i) {

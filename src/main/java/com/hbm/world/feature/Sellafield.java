@@ -36,9 +36,9 @@ public class Sellafield {
 					dig(world, x + a, z + b, dep);
 
 					if(r + rand.nextInt(3) <= radius / 3D) {
-						place(world, x + a, z + b, 3, ModBlocks.sellafield_1);
+						place(world, x + a, z + b, 3, ModBlocks.sellafield, 1);
 					} else if(r - rand.nextInt(3) <= radius / 3D * 2D) {
-						place(world, x + a, z + b, 3, ModBlocks.sellafield_0);
+						place(world, x + a, z + b, 3, ModBlocks.sellafield);
 					} else {
 						place(world, x + a, z + b, 3, ModBlocks.sellafield_slaked);
 					}
@@ -58,12 +58,14 @@ public class Sellafield {
 			world.setBlockToAir(x, y - i, z);
 	}
 	
-	private void place(World world, int x, int z, int depth, Block block) {
+	private void place(World world, int x, int z, int depth, Block block) { place(world, x, z, depth, block, 0); }
+	
+	private void place(World world, int x, int z, int depth, Block block, int meta) {
 		
 		int y = world.getHeightValue(x, z) - 1;
 		
 		for(int i = 0; i < depth; i++)
-			world.setBlock(x, y - i, z, block);
+			world.setBlock(x, y - i, z, block, meta, 2);
 	}
 	
 	private void placeCore(World world, int x, int z, double rad) { }

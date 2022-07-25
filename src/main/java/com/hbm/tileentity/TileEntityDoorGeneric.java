@@ -13,7 +13,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDoorAnimationPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.Rotation;
 
@@ -176,23 +175,18 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 
 	public boolean tryToggle(EntityPlayer player){
 		
-		System.out.println("start");
-		
 		if(state == 0 && redstonePower > 0){
-			System.out.println("red power > 0");
 			//Redstone "power locks" doors, just like minecraft iron doors
 			return false;
 		}
 		if(this.state == 0) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 3;
-				System.out.println("opening");
 			}
 			return true;
 		} else if(this.state == 1) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 2;
-				System.out.println("closing");
 			}
 			return true;
 		}
@@ -242,7 +236,6 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		}
 	}
 
-	//TODO: sound loops
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleNewState(byte state){

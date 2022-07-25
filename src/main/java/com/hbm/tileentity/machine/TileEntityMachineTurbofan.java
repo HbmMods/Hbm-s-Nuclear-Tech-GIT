@@ -1,534 +1,332 @@
 package com.hbm.tileentity.machine;
 
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.types.FluidTypeCombustible;
+import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TETurbofanPacket;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Spaghetti("a")
-public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
-
-	private ItemStack slots[];
+public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
-	public int soundCycle = 0;
-	public static final long maxPower = 150000;
+	public static final long maxPower = 500_000;
 	public FluidTank tank;
-	Random rand = new Random();
+	
 	public int afterburner;
-	public boolean isRunning;
-	public int spin;
+	public boolean wasOn;
 
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 0, 0 };
-	private static final int[] slots_side = new int[] { 0 };
-
-	private String customName;
+	public float spin;
+	public float lastSpin;
+	public int momentum = 0;
+	
+	private AudioWrapper audio;
 
 	public TileEntityMachineTurbofan() {
-		slots = new ItemStack[3];
-		tank = new FluidTank(Fluids.KEROSENE, 64000, 0);
+		super(3);
+		tank = new FluidTank(Fluids.KEROSENE, 24000, 0);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineTurbofan";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (slots[i] != null) {
-			if (slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
+	public String getName() {
+		return "container.machineTurbofan";
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getLong("powerTime");
 		tank.readFromNBT(nbt, "fuel");
-		slots = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if (b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
 		nbt.setLong("powerTime", power);
 		tank.writeToNBT(nbt, "fuel");
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
 	}
 
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
+	
+	protected DirPos[] getConPos() {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		
+		return new DirPos[] {
+				new DirPos(this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot),
+				new DirPos(this.xCoord + rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
+				new DirPos(this.xCoord - rot.offsetX * 2, this.yCoord, this.zCoord - rot.offsetZ * 2, rot.getOpposite()),
+				new DirPos(this.xCoord - rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ * 2 - dir.offsetZ, rot.getOpposite())
+		};
+	}
 
-	@Spaghetti("HOOOOUUUGH")
 	@Override
 	public void updateEntity() {
 		
-		int nrg = 1250;
-		int cnsp = 1;
-		
-		afterburner = 0;
-		if(slots[2] != null) {
-			if(slots[2].getItem() == ModItems.upgrade_afterburn_1) {
-				nrg *= 2;
-				cnsp *= 2.5;
-				afterburner = 1;
-			}
-			if(slots[2].getItem() == ModItems.upgrade_afterburn_2) {
-				nrg *= 3;
-				cnsp *= 5;
-				afterburner = 2;
-			}
-			if(slots[2].getItem() == ModItems.upgrade_afterburn_3) {
-				nrg *= 4;
-				cnsp *= 7.5;
-				afterburner = 3;
-			}
-		}
-		
-		if (!worldObj.isRemote) {
-
-			/*this.sendPower(worldObj, this.xCoord + 2, this.yCoord + 1, this.zCoord - 1, Library.POS_X);
-			this.sendPower(worldObj, this.xCoord + 2, this.yCoord + 1, this.zCoord + 1, Library.POS_X);
-			this.sendPower(worldObj, this.xCoord + 1, this.yCoord + 1, this.zCoord + 2, Library.POS_Z);
-			this.sendPower(worldObj, this.xCoord - 1, this.yCoord + 1, this.zCoord + 2, Library.POS_Z);
-			this.sendPower(worldObj, this.xCoord - 2, this.yCoord + 1, this.zCoord + 1, Library.NEG_X);
-			this.sendPower(worldObj, this.xCoord - 2, this.yCoord + 1, this.zCoord - 1, Library.NEG_X);
-			this.sendPower(worldObj, this.xCoord - 1, this.yCoord + 1, this.zCoord - 2, Library.NEG_Z);
-			this.sendPower(worldObj, this.xCoord + 1, this.yCoord + 1, this.zCoord - 2, Library.NEG_Z);*/
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-			this.sendPower(worldObj, this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot);
-			this.sendPower(worldObj, this.xCoord + rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord + rot.offsetZ * 2 - dir.offsetZ, rot);
-			this.sendPower(worldObj, this.xCoord - rot.offsetX * 2, this.yCoord, this.zCoord - rot.offsetZ * 2, rot.getOpposite());
-			this.sendPower(worldObj, this.xCoord - rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ * 2 - dir.offsetZ, rot.getOpposite());
-
-			//Tank Management
-			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
-			isRunning = false;
-				
-			if(tank.getFill() >= cnsp) {
-				tank.setFill(tank.getFill() - cnsp);
-				power += nrg;
-
-				isRunning = true;
-				
-				spin += 20;
-				spin = spin % 360;
-				
-				if(power > maxPower)
-					power = maxPower;
-				
-				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-
-				double posX = xCoord + 0.5;
-				double posY = yCoord;
-				double posZ = zCoord + 0.5;
-
-				if(meta == 2) {
-					if(afterburner == 0 && rand.nextInt(3) == 0) {
-						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
-						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord + 3.25;
-						smoke.motionX = rand.nextGaussian() * 0.3;
-						smoke.motionY = rand.nextGaussian() * 0.3;
-						smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
-						if(!worldObj.isRemote)
-							worldObj.spawnEntityInWorld(smoke);
-					}
-					
-					for(int i = 0; i < afterburner * 5; i++)
-						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
-							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord + 3.25;
-							smoke.motionX = rand.nextGaussian() * 0.3;
-							smoke.motionY = rand.nextGaussian() * 0.3;
-							smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
-							if(!worldObj.isRemote)
-								worldObj.spawnEntityInWorld(smoke);
-						}
-					
-					//Exhaust push
-					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 12));
-					
-					for(Entity e : list) {
-						e.motionZ += 0.5;
-						if(afterburner > 0)
-							e.setFire(3 * afterburner);
-					}
-					
-					//Intake pull
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 3.5));
-					
-					for(Entity e : list) {
-						e.motionZ += 0.5;
-					}
-					
-					//Intake kill
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 4.5, posX + 1.5, posY + 3, posZ - 3.5));
-					
-					for(Entity e : list) {
-						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
-						
-						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
-							NBTTagCompound vdat = new NBTTagCompound();
-							vdat.setString("type", "giblets");
-							vdat.setInteger("ent", e.getEntityId());
-							vdat.setInteger("cDiv", 5);
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
-							
-							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
-						}
-					}
-				}
-				if(meta == 3) {
-					if(afterburner == 0 && rand.nextInt(3) == 0) {
-						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
-						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord - 3.25;
-						smoke.motionX = rand.nextGaussian() * 0.3;
-						smoke.motionY = rand.nextGaussian() * 0.3;
-						smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
-						if(!worldObj.isRemote)
-							worldObj.spawnEntityInWorld(smoke);
-					}
-
-					for(int i = 0; i < afterburner * 5; i++)
-						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
-							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord - 3.25;
-							smoke.motionX = rand.nextGaussian() * 0.3;
-							smoke.motionY = rand.nextGaussian() * 0.3;
-							smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
-							if(!worldObj.isRemote)
-								worldObj.spawnEntityInWorld(smoke);
-						}
-
-					//Exhaust push
-					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 3.5));
-					
-					for(Entity e : list) {
-						e.motionZ -= 0.5;
-						if(afterburner > 0)
-							e.setFire(3 * afterburner);
-					}
-
-					//Intake pull
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 12));
-					
-					for(Entity e : list) {
-						e.motionZ -= 0.5;
-					}
-
-					//Intake kill
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 3.5, posX + 1.5, posY + 3, posZ + 4.5));
-					
-					for(Entity e : list) {
-						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
-						
-						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
-							NBTTagCompound vdat = new NBTTagCompound();
-							vdat.setString("type", "giblets");
-							vdat.setInteger("ent", e.getEntityId());
-							vdat.setInteger("cDiv", 5);
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
-							
-							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
-						}
-					}
-				}
-				if(meta == 4) {
-					if(afterburner == 0 && rand.nextInt(3) == 0) {
-						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord + 3.25;
-						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
-						smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
-						smoke.motionY = rand.nextGaussian() * 0.3;
-						smoke.motionZ = rand.nextGaussian() * 0.3;
-						if(!worldObj.isRemote)
-							worldObj.spawnEntityInWorld(smoke);
-					}
-
-					for(int i = 0; i < afterburner * 5; i++)
-						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord + 3.25;
-							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
-							smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
-							smoke.motionY = rand.nextGaussian() * 0.3;
-							smoke.motionZ = rand.nextGaussian() * 0.3;
-							if(!worldObj.isRemote)
-								worldObj.spawnEntityInWorld(smoke);
-						}
-					
-					//Exhaust push
-					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.motionX += 0.5;
-						if(afterburner > 0)
-							e.setFire(3 * afterburner);
-					}
-					
-					//Intake pull
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.motionX += 0.5;
-					}
-					
-					//Intake kill
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 4.5, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
-						
-						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
-							NBTTagCompound vdat = new NBTTagCompound();
-							vdat.setString("type", "giblets");
-							vdat.setInteger("ent", e.getEntityId());
-							vdat.setInteger("cDiv", 5);
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
-							
-							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
-						}
-					}
-				}
-				if(meta == 5) {
-					if(afterburner == 0 && rand.nextInt(3) == 0) {
-						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
-						smoke.posX = xCoord - 3.25;
-						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
-						smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
-						smoke.motionY = rand.nextGaussian() * 0.3;
-						smoke.motionZ = rand.nextGaussian() * 0.3;
-						if(!worldObj.isRemote)
-							worldObj.spawnEntityInWorld(smoke);
-					}
-
-					for(int i = 0; i < afterburner * 5; i++)
-						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
-							smoke.posX = xCoord - 3.25;
-							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
-							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
-							smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
-							smoke.motionY = rand.nextGaussian() * 0.3;
-							smoke.motionZ = rand.nextGaussian() * 0.3;
-							if(!worldObj.isRemote)
-								worldObj.spawnEntityInWorld(smoke);
-						}
-					
-					//Exhaust push
-					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX - 12, posY, posZ - 1.5, posX - 3.5, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.motionX -= 0.5;
-						if(afterburner > 0)
-							e.setFire(3 * afterburner);
-					}
-					
-					//Intake pull
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 12, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.motionX -= 0.5;
-					}
-					
-					//Intake kill
-					list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
-							AxisAlignedBB.getBoundingBox(posX + 3.5, posY, posZ - 1.5, posX + 4.5, posY + 3, posZ + 1.5));
-					
-					for(Entity e : list) {
-						e.attackEntityFrom(ModDamageSource.turbofan, 1000);
-						
-						if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
-							NBTTagCompound vdat = new NBTTagCompound();
-							vdat.setString("type", "giblets");
-							vdat.setInteger("ent", e.getEntityId());
-							vdat.setInteger("cDiv", 5);
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
-							
-							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
-						}
-					}
-				}
-			}
-		}
-		
 		if(!worldObj.isRemote) {
-			PacketDispatcher.wrapper.sendToAllAround(new TETurbofanPacket(xCoord, yCoord, zCoord, spin, isRunning), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			
+			for(DirPos pos : getConPos()) {
+				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
+			tank.loadTank(0, 1, slots);
+			
+			this.wasOn = false;
+			
+			UpgradeManager.eval(slots, 2, 2);
+			this.afterburner = UpgradeManager.getLevel(UpgradeType.AFTERBURN);
+			
+			if(slots[2] != null && slots[2].getItem() == ModItems.flame_pony)
+				this.afterburner = 100;
+			
+			long burn = 0;
+			int amount = 1 + this.afterburner;
+			
+			if(tank.getTankType() instanceof FluidTypeCombustible && ((FluidTypeCombustible) tank.getTankType()).getGrade() == FuelGrade.AERO) {
+				burn = ((FluidTypeCombustible) tank.getTankType()).getCombustionEnergy() / 1_000;
+			}
+			
+			int toBurn = Math.min(amount, this.tank.getFill());
+			
+			if(toBurn > 0) {
+				this.wasOn = true;
+				this.tank.setFill(this.tank.getFill() - toBurn);
+				this.power += burn * toBurn;
+				if(this.power > this.maxPower) {
+					this.power = this.maxPower;
+				}
+			}
+			
+			if(toBurn > 0) {
+
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				
+				if(this.afterburner > 0) {
+					
+					for(int i = 0; i < 2; i++) {
+						double speed = 2 + worldObj.rand.nextDouble() * 3;
+						double deviation = worldObj.rand.nextGaussian() * 0.2;
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "gasfire");
+						data.setDouble("mX", -dir.offsetX * speed + deviation);
+						data.setDouble("mZ", -dir.offsetZ * speed + deviation);
+						data.setFloat("scale", 8F);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+					}
+				}
+				
+				double minX = this.xCoord + 0.5 - dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				double maxX = this.xCoord + 0.5 - dir.offsetX * 19.5 + rot.offsetX * 1.5;
+				double minZ = this.zCoord + 0.5 - dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				double maxZ = this.zCoord + 0.5 - dir.offsetZ * 19.5 + rot.offsetZ * 1.5;
+				
+				List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					
+					if(this.afterburner > 0) {
+						e.setFire(5);
+						e.attackEntityFrom(DamageSource.onFire, 5F);
+					}
+					e.motionX -= dir.offsetX * 0.2;
+					e.motionZ -= dir.offsetZ * 0.2;
+				}
+				
+				minX = this.xCoord + 0.5 + dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				maxX = this.xCoord + 0.5 + dir.offsetX * 8.5 + rot.offsetX * 1.5;
+				minZ = this.zCoord + 0.5 + dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				maxZ = this.zCoord + 0.5 + dir.offsetZ * 8.5 + rot.offsetZ * 1.5;
+				
+				list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					e.motionX -= dir.offsetX * 0.2;
+					e.motionZ -= dir.offsetZ * 0.2;
+				}
+				
+				minX = this.xCoord + 0.5 + dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				maxX = this.xCoord + 0.5 + dir.offsetX * 3.75 + rot.offsetX * 1.5;
+				minZ = this.zCoord + 0.5 + dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				maxZ = this.zCoord + 0.5 + dir.offsetZ * 3.75 + rot.offsetZ * 1.5;
+				
+				list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					e.attackEntityFrom(ModDamageSource.turbofan, 1000);
+					e.setInWeb();
+					
+					if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
+						NBTTagCompound vdat = new NBTTagCompound();
+						vdat.setString("type", "giblets");
+						vdat.setInteger("ent", e.getEntityId());
+						vdat.setInteger("cDiv", 5);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+						
+						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+					}
+				}
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setByte("after", (byte) afterburner);
+			data.setBoolean("wasOn", wasOn);
+			tank.writeToNBT(data, "tank");
+			this.networkPack(data, 150);
+			
+		} else {
+			
+			this.lastSpin = this.spin;
+			
+			if(wasOn) {
+				if(this.momentum < 100F)
+					this.momentum++;
+			} else {
+				if(this.momentum > 0)
+					this.momentum--;
+			}
+			
+			this.spin += momentum / 2;
+			
+			if(this.spin >= 360) {
+				this.spin -= 360F;
+				this.lastSpin -= 360F;
+			}
+
+			if(momentum > 0) {
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.updateVolume(momentum);
+				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+
+			/*
+			 * All movement related stuff has to be repeated on the client, but only for the client's player
+			 * Otherwise this could lead to desync since the motion is never sent form the server
+			 */
+			if(!MainRegistry.proxy.me().capabilities.isCreativeMode) {
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				
+				double minX = this.xCoord + 0.5 - dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				double maxX = this.xCoord + 0.5 - dir.offsetX * 19.5 + rot.offsetX * 1.5;
+				double minZ = this.zCoord + 0.5 - dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				double maxZ = this.zCoord + 0.5 - dir.offsetZ * 19.5 + rot.offsetZ * 1.5;
+				
+				List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					if(e == MainRegistry.proxy.me()) {
+						e.motionX -= dir.offsetX * 0.2;
+						e.motionZ -= dir.offsetZ * 0.2;
+					}
+				}
+				
+				minX = this.xCoord + 0.5 + dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				maxX = this.xCoord + 0.5 + dir.offsetX * 8.5 + rot.offsetX * 1.5;
+				minZ = this.zCoord + 0.5 + dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				maxZ = this.zCoord + 0.5 + dir.offsetZ * 8.5 + rot.offsetZ * 1.5;
+				
+				list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					if(e == MainRegistry.proxy.me()) {
+						e.motionX -= dir.offsetX * 0.2;
+						e.motionZ -= dir.offsetZ * 0.2;
+					}
+				}
+				
+				minX = this.xCoord + 0.5 + dir.offsetX * 3.5 - rot.offsetX * 1.5;
+				maxX = this.xCoord + 0.5 + dir.offsetX * 3.75 + rot.offsetX * 1.5;
+				minZ = this.zCoord + 0.5 + dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
+				maxZ = this.zCoord + 0.5 + dir.offsetZ * 3.75 + rot.offsetZ * 1.5;
+				
+				list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(Math.min(minX, maxX), yCoord, Math.min(minZ, maxZ), Math.max(minX, maxX), yCoord + 3, Math.max(minZ, maxZ)));
+				
+				for(Entity e : list) {
+					if(e == MainRegistry.proxy.me()) {
+						e.setInWeb();
+					}
+				}
+			}
+		}
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.afterburner = nbt.getByte("after");
+		this.wasOn = nbt.getBoolean("wasOn");
+		tank.readFromNBT(nbt, "tank");
+	}
+	
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 5.0F, 1.0F);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
@@ -583,5 +381,10 @@ public class TileEntityMachineTurbofan extends TileEntityLoadedBase implements I
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
 	}
 }

@@ -36,11 +36,11 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 		super(5);
 		
 		burnModule = new ModuleBurnTime()
-				.setLigniteMod(1.25)
-				.setCoalMod(1.25)
-				.setCokeMod(1.5)
-				.setSolidMod(2)
-				.setRocketMod(2);
+				.setLigniteTimeMod(1.25)
+				.setCoalTimeMod(1.25)
+				.setCokeTimeMod(1.5)
+				.setSolidTimeMod(2)
+				.setRocketTimeMod(2);
 	}
 
 	@Override

@@ -76,6 +76,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -118,6 +119,30 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
+		/*if(event.type == ElementType.CROSSHAIRS) {
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			Tessellator tess = Tessellator.instance;
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
+			GL11.glDepthMask(false);
+			tess.startDrawingQuads();
+			float brightness = (int)(System.currentTimeMillis() % 10000) / 10000F;
+			tess.setColorRGBA_F(1F, 1F, 1F, (1 - brightness) * 0.8F);
+			tess.addVertex(width, 0, 0);
+			tess.addVertex(0, 0, 0);
+			tess.addVertex(0, height, 0);
+			tess.addVertex(width, height, 0);
+			tess.draw();
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDepthMask(true);
+			return;
+		}*/
+		
 		/// HANDLE GUN OVERLAYS ///
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
 			((IItemHUD)player.getHeldItem().getItem()).renderHUD(event, event.type, player, player.getHeldItem());
@@ -146,6 +171,18 @@ public class ModEventHandlerClient {
 			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
 				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
 			}
+			
+			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				ScaledResolution resolution = event.resolution;
+				GL11.glPushMatrix();
+				int pX = resolution.getScaledWidth() / 2 + 8;
+				int pZ = resolution.getScaledHeight() / 2;
+				mc.fontRenderer.drawString("META: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ), pX, pZ - 3, 0xffff00);
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glPopMatrix();
+				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

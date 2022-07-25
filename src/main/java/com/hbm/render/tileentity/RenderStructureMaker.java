@@ -7,8 +7,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.world.machine.FWatz;
-import com.hbm.world.machine.FactoryTitanium;
-import com.hbm.world.machine.FusionReactor;
 import com.hbm.world.machine.NuclearReactor;
 import com.hbm.world.machine.Watz;
 
@@ -23,9 +21,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderStructureMaker extends TileEntitySpecialRenderer {
 	
 	float pixel = 1F/16F;
-
-	public RenderStructureMaker() {
-	}
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
@@ -49,43 +44,6 @@ public class RenderStructureMaker extends TileEntitySpecialRenderer {
 		int offsetX = 0;
 		int offsetZ = 0;
 		if(type == 0) {
-
-			if(meta == 6) {
-				offsetZ = 2;
-			}
-			if(meta == 7) {
-				offsetX = 2;
-			}
-			if(meta == 8) {
-				offsetZ = -2;
-			}
-			if(meta == 9) {
-				offsetX = -2;
-			}
-			
-			GL11.glTranslatef(-1 + offsetX, -2, -1 + offsetZ);
-			for(int a = 0; a < 3; a++) {
-				for(int b = 0; b < 3; b++) {
-					for(int c = 0; c < 3; c++) {
-				
-						Block block = Blocks.air;
-						if(FactoryTitanium.array[b][a].substring(c, c + 1).equals("H"))
-							block = ModBlocks.factory_titanium_hull;
-						if(FactoryTitanium.array[b][a].substring(c, c + 1).equals("F"))
-							block = ModBlocks.factory_titanium_furnace;
-						if(FactoryTitanium.array[b][a].substring(c, c + 1).equals("C"))
-							block = ModBlocks.factory_titanium_core;
-						if(block != Blocks.air) {
-							RenderBlocks rb = RenderBlocks.getInstance();
-							ResourceLocation loc1 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 1).getIconName().substring(4, rb.getBlockIconFromSide(block, 1).getIconName().length()) + ".png");
-							ResourceLocation loc2 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 3).getIconName().substring(4, rb.getBlockIconFromSide(block, 3).getIconName().length()) + ".png");
-							renderSmolBlockAt(loc1, loc2, a, b, c);
-						}
-					}
-				}
-			}
-		}
-		if(type == 1) {
 
 			if(meta == 6) {
 				offsetZ = 3;
@@ -116,6 +74,8 @@ public class RenderStructureMaker extends TileEntitySpecialRenderer {
 							block = ModBlocks.reactor_hatch;
 						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("I"))
 							block = ModBlocks.reactor_conductor;
+						//if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("B"))
+						//	block = ModBlocks.brick_concrete;
 						if(block != Blocks.air) {
 							RenderBlocks rb = RenderBlocks.getInstance();
 							ResourceLocation loc1 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 1).getIconName().substring(4, rb.getBlockIconFromSide(block, 1).getIconName().length()) + ".png");
@@ -126,138 +86,7 @@ public class RenderStructureMaker extends TileEntitySpecialRenderer {
 				}
 			}
 		}
-		if(type == 2) {
-
-			if(meta == 6) {
-				offsetZ = 3;
-			}
-			if(meta == 7) {
-				offsetX = 3;
-			}
-			if(meta == 8) {
-				offsetZ = -3;
-			}
-			if(meta == 9) {
-				offsetX = -3;
-			}
-			
-			GL11.glTranslatef(-2 + offsetX, -4, -2 + offsetZ);
-			for(int a = 0; a < 5; a++) {
-				for(int b = 0; b < 5; b++) {
-					for(int c = 0; c < 5; c++) {
-				
-						Block block = Blocks.air;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("R"))
-							block = ModBlocks.reactor_element;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("#"))
-							block = ModBlocks.reactor_computer;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("C"))
-							block = ModBlocks.reactor_control;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("A"))
-							block = ModBlocks.reactor_hatch;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("I"))
-							block = ModBlocks.reactor_conductor;
-						if(NuclearReactor.array2[b][a].substring(c, c + 1).equals("B"))
-							block = ModBlocks.brick_concrete;
-						if(block != Blocks.air) {
-							RenderBlocks rb = RenderBlocks.getInstance();
-							ResourceLocation loc1 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 1).getIconName().substring(4, rb.getBlockIconFromSide(block, 1).getIconName().length()) + ".png");
-							ResourceLocation loc2 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 3).getIconName().substring(4, rb.getBlockIconFromSide(block, 3).getIconName().length()) + ".png");
-							renderSmolBlockAt(loc1, loc2, a, b, c);
-						}
-					}
-				}
-			}
-		}
-		if(type == 3) {
-
-			if(meta == 6) {
-				offsetZ = 9;
-			}
-			if(meta == 7) {
-				offsetX = 9;
-			}
-			if(meta == 8) {
-				offsetZ = -9;
-			}
-			if(meta == 9) {
-				offsetX = -9;
-			}
-			
-			GL11.glTranslatef(-8 + offsetX, -4, -8 + offsetZ);
-			for(int a = 0; a < 17; a++) {
-				for(int b = 0; b < 5; b++) {
-					for(int c = 0; c < 17; c++) {
-				
-						Block block = Blocks.air;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("M"))
-							block = ModBlocks.fusion_conductor;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("H"))
-							block = ModBlocks.fusion_heater;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("A"))
-							block = ModBlocks.fusion_hatch;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("R"))
-							block = ModBlocks.fusion_motor;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("C"))
-							block = ModBlocks.fusion_center;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("#"))
-							block = ModBlocks.fusion_core;
-						if(block != Blocks.air) {
-							RenderBlocks rb = RenderBlocks.getInstance();
-							ResourceLocation loc1 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 1).getIconName().substring(4, rb.getBlockIconFromSide(block, 1).getIconName().length()) + ".png");
-							ResourceLocation loc2 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 3).getIconName().substring(4, rb.getBlockIconFromSide(block, 3).getIconName().length()) + ".png");
-							renderSmolBlockAt(loc1, loc2, a, b, c);
-						}
-					}
-				}
-			}
-		}
-		if(type == 4) {
-
-			if(meta == 6) {
-				offsetZ = 9;
-			}
-			if(meta == 7) {
-				offsetX = 9;
-			}
-			if(meta == 8) {
-				offsetZ = -9;
-			}
-			if(meta == 9) {
-				offsetX = -9;
-			}
-			
-			GL11.glTranslatef(-8 + offsetX, -4, -8 + offsetZ);
-			for(int a = 0; a < 17; a++) {
-				for(int b = 0; b < 5; b++) {
-					for(int c = 0; c < 17; c++) {
-				
-						Block block = Blocks.air;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("M"))
-							block = ModBlocks.fusion_conductor;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("H"))
-							block = ModBlocks.fusion_heater;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("A"))
-							block = ModBlocks.fusion_hatch;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("R"))
-							block = ModBlocks.fusion_motor;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("C"))
-							block = ModBlocks.fusion_center;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("#"))
-							block = ModBlocks.fusion_core;
-						if(FusionReactor.array[b][a].substring(c, c + 1).equals("T"))
-							block = ModBlocks.block_tungsten;
-						if(block != Blocks.air) {
-							RenderBlocks rb = RenderBlocks.getInstance();
-							ResourceLocation loc1 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 1).getIconName().substring(4, rb.getBlockIconFromSide(block, 1).getIconName().length()) + ".png");
-							ResourceLocation loc2 = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + rb.getBlockIconFromSide(block, 3).getIconName().substring(4, rb.getBlockIconFromSide(block, 3).getIconName().length()) + ".png");
-							renderSmolBlockAt(loc1, loc2, a, b, c);
-						}
-					}
-				}
-			}
-		}
-		if(type == 5) {
+		if(type == 1) {
 
 			if(meta == 6) {
 				offsetZ = 4;
@@ -304,7 +133,7 @@ public class RenderStructureMaker extends TileEntitySpecialRenderer {
 				}
 			}
 		}
-		if(type == 6) {
+		if(type == 2) {
 
 			if(meta == 6) {
 				offsetZ = 10;

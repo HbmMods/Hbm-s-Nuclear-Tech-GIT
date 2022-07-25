@@ -46,6 +46,9 @@
     "block.closeC": {"category": "block", "sounds": ["block/closeC1", "block/closeC2", "block/closeC3"]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
+    "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
+    "door.wghStop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": true}]},
+    "door.alarm6": {"category": "block", "sounds": [{"name": "block/door/alarm6", "stream": true}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

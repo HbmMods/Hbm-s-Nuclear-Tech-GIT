@@ -721,7 +721,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			}
 		}
 		
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield_core);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield, 5, 3);
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
@@ -739,15 +739,15 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		if(rand < 7)
 			worldObj.setBlock(x, y, z, ModBlocks.toxic_block);
 		else if(rand < 10)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_0);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 0, 3);
 		else if(rand < 14)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_1);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 1, 3);
 		else if(rand < 17)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_2);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 2, 3);
 		else if(rand < 19)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_3);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 3, 3);
 		else
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_4);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 4, 3);
 	}
 
 	@Override

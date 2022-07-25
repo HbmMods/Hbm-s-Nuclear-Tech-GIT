@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.world.machine.FWatz;
-import com.hbm.world.machine.FactoryAdvanced;
-import com.hbm.world.machine.FactoryTitanium;
-import com.hbm.world.machine.FusionReactor;
 import com.hbm.world.machine.NuclearReactor;
 import com.hbm.world.machine.Watz;
 
@@ -31,21 +28,12 @@ public class ItemWandS extends Item {
 			switch(itemstack.stackTagCompound.getInteger("building"))
 			{
 			case 0:
-				list.add("Structure: Titanium Factory");
-				break;
-			case 1:
-				list.add("Structure: Advanced Factory");
-				break;
-			case 2:
 				list.add("Structure: Nuclear Reactor");
 				break;
-			case 3:
-				list.add("Structure: Fusion Reactor");
-				break;
-			case 4:
+			case 1:
 				list.add("Structure: Watz Power Plant");
 				break;
-			case 5:
+			case 2:
 				list.add("Structure: Fusionary Watz Plant");
 				break;
 			}
@@ -70,21 +58,12 @@ public class ItemWandS extends Item {
 			switch(stack.stackTagCompound.getInteger("building"))
 			{
 			case 0:
-				new FactoryTitanium().generate(world, rand, x, up ? y : y - 2, z);
-				break;
-			case 1:
-				new FactoryAdvanced().generate(world, rand, x, up ? y : y - 2, z);
-				break;
-			case 2:
 				new NuclearReactor().generate(world, rand, x, up ? y : y - 4, z);
 				break;
-			case 3:
-				new FusionReactor().generate(world, rand, x, up ? y : y - 4, z);
-				break;
-			case 4:
+			case 1:
 				new Watz().generate(world, rand, x, up ? y : y - 12, z);
 				break;
-			case 5:
+			case 2:
 				new FWatz().generateHull(world, rand, x, up ? y : y - 18, z);
 				break;
 			}
@@ -103,12 +82,12 @@ public class ItemWandS extends Item {
 				stack.stackTagCompound = new NBTTagCompound();
 				stack.stackTagCompound.setInteger("building", 0);
 				if(world.isRemote)
-					player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));
+					player.addChatMessage(new ChatComponentText("Set Structure: Nuclear Reactor"));
 			} else {
 				int i = stack.stackTagCompound.getInteger("building");
 				i++;
 				stack.stackTagCompound.setInteger("building", i);
-				if(i >= 6) {
+				if(i >= 3) {
 					stack.stackTagCompound.setInteger("building", 0);
 				}
 				
@@ -117,25 +96,16 @@ public class ItemWandS extends Item {
 				switch(i)
 				{
 					case 0:
-						player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));
-						break;
-					case 1:
-						player.addChatMessage(new ChatComponentText("Set Structure: Advanced Factory"));
-						break;
-					case 2:
 						player.addChatMessage(new ChatComponentText("Set Structure: Nuclear Reactor"));
 						break;
-					case 3:
-						player.addChatMessage(new ChatComponentText("Set Structure: Fusion Reactor"));
-						break;
-					case 4:
+					case 1:
 						player.addChatMessage(new ChatComponentText("Set Structure: Watz Power Plant"));
 						break;
-					case 5:
+					case 2:
 						player.addChatMessage(new ChatComponentText("Set Structure: Fusionary Watz Plant"));
 						break;
 					default:
-						player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));
+						player.addChatMessage(new ChatComponentText("Set Structure: Nuclear Reactor"));
 						break;
 					}
 				}

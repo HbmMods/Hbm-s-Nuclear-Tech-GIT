@@ -109,6 +109,7 @@ public class ItemAmmoArty extends Item {
 			list.add(y + "Strength: 20");
 			list.add(r + "Deals nuclear damage");
 			list.add(r + "Destroys blocks");
+			break;
 		case MINI_NUKE_MULTI:
 			list.add(r + "Splits x5");
 			break;
