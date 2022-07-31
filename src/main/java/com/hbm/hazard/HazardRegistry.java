@@ -486,10 +486,8 @@ public class HazardRegistry {
 	
 	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
-	if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives) 
-		{
-			return;
-		} else {
+		
+		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives)) {
 			HazardSystem.trafos.add(new HazardTransformerRadiationME());
 		}
 	}

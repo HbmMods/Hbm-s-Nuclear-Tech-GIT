@@ -914,6 +914,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sellafield_4");
 		ignoreMappings.add("hbm:tile.sellafield_core");
 		ignoreMappings.add("hbm:tile.fusion_core");
+		ignoreMappings.add("hbm:tile.machine_telelinker");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

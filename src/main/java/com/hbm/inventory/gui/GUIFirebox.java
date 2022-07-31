@@ -17,11 +17,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIFirebox extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_firebox.png");
-	private TileEntityHeaterFirebox diFurnace;
+	private TileEntityHeaterFirebox firebox;
 
 	public GUIFirebox(InventoryPlayer invPlayer, TileEntityHeaterFirebox tedf) {
 		super(new ContainerFirebox(invPlayer, tedf));
-		diFurnace = tedf;
+		firebox = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 168;
@@ -38,7 +38,7 @@ public class GUIFirebox extends GuiInfoContainer {
 				
 				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
 					
-					List<String> bonuses = this.diFurnace.burnModule.getDesc();
+					List<String> bonuses = this.firebox.burnModule.getDesc();
 					
 					if(!bonuses.isEmpty()) {
 						this.func_146283_a(bonuses, x, y);
@@ -47,13 +47,13 @@ public class GUIFirebox extends GuiInfoContainer {
 			}
 		}
 
-		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format("%,d", diFurnace.heatEnergy) + " / " + String.format("%,d", diFurnace.maxHeatEnergy) + "TU" });
-		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 36, 71, 7, x, y, new String[] { diFurnace.burnHeat + "TU/s", (diFurnace.burnTime / 20) + "s" });
+		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format("%,d", firebox.heatEnergy) + " / " + String.format("%,d", firebox.maxHeatEnergy) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 36, 71, 7, x, y, new String[] { firebox.burnHeat + "TU/s", (firebox.burnTime / 20) + "s" });
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.firebox.hasCustomInventoryName() ? this.firebox.getInventoryName() : I18n.format(this.firebox.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -65,13 +65,13 @@ public class GUIFirebox extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = diFurnace.heatEnergy * 69 / diFurnace.maxHeatEnergy;
+		int i = firebox.heatEnergy * 69 / firebox.maxHeatEnergy;
 		drawTexturedModalRect(guiLeft + 81, guiTop + 28, 176, 0, i, 5);
 		
-		int j = diFurnace.burnTime * 70 / Math.max(diFurnace.maxBurnTime, 1);
+		int j = firebox.burnTime * 70 / Math.max(firebox.maxBurnTime, 1);
 		drawTexturedModalRect(guiLeft + 81, guiTop + 37, 176, 5, j, 5);
 		
-		if(diFurnace.wasOn) {
+		if(firebox.wasOn) {
 			drawTexturedModalRect(guiLeft + 25, guiTop + 26, 176, 10, 18, 18);
 		}
 	}

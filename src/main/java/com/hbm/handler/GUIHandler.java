@@ -456,13 +456,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_telelinker: {
-			if(entity instanceof TileEntityMachineTeleLinker) {
-				return new ContainerMachineTeleLinker(player.inventory, (TileEntityMachineTeleLinker) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_keyforge: {
 			if(entity instanceof TileEntityMachineKeyForge) {
 				return new ContainerMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
@@ -1264,13 +1257,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_reactor_research: {
 			if(entity instanceof TileEntityReactorResearch) {
 				return new GUIReactorResearch(player.inventory, (TileEntityReactorResearch) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_telelinker: {
-			if(entity instanceof TileEntityMachineTeleLinker) {
-				return new GUIMachineTeleLinker(player.inventory, (TileEntityMachineTeleLinker) entity);
 			}
 			return null;
 		}

@@ -1,5 +1,8 @@
 package com.hbm.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.nt.ISoundSourceTE;
@@ -7,6 +10,7 @@ import com.hbm.sound.nt.SoundWrapper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -57,10 +61,17 @@ public class ServerProxy {
 	public boolean isVanished(Entity e) {
 		return false;
 	}
-	
+
 	public void openLink(String url) { }
 	
 	public SoundWrapper getTileSound(String sound, ISoundSourceTE source) {
 		return new SoundWrapper();
+	}
+	
+	public List<ItemStack> getSubItems(ItemStack stack) {
+		
+		List<ItemStack> list = new ArrayList();
+		list.add(stack);
+		return list;
 	}
 }

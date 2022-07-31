@@ -8,14 +8,17 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.GuiIngameForge;
 
 public class RenderScreenOverlay {
 
@@ -280,6 +283,35 @@ public class RenderScreenOverlay {
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
 		mc.renderEngine.bindTexture(Gui.icons);
+	}
+	
+	//call in post health bar rendering event
+	public static void renderShieldBar(ScaledResolution resolution, Gui gui) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+
+		int width = resolution.getScaledWidth();
+		int height = resolution.getScaledHeight();
+		int left = width / 2 - 91;
+		int top = height - GuiIngameForge.left_height;
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
+		gui.drawTexturedModalRect(left, top, 146, 0, 81, 9);
+		int i = (int) Math.ceil(props.shield * 79 / props.maxShield);
+		gui.drawTexturedModalRect(left + 1, top, 147, 9, i, 9);
+		
+		String label = "" + ((int) (props.shield * 10F)) / 10D;
+		font.drawString(label, left + 41 - font.getStringWidth(label) / 2, top + 1, 0x0000);
+		font.drawString(label, left + 39 - font.getStringWidth(label) / 2, top + 1, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top + 2, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top + 1, 0xFFFF80);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		
+		GuiIngameForge.left_height += 10;
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public enum Crosshair {

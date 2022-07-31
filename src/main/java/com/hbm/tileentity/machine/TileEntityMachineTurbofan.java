@@ -147,6 +147,22 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 						data.setFloat("scale", 8F);
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 					}
+					
+					/*if(this.afterburner > 90 && worldObj.rand.nextInt(30) == 0) {
+						worldObj.newExplosion(null, xCoord + 0.5 + dir.offsetX * 3.5, yCoord + 0.5, zCoord + 0.5 + dir.offsetZ * 3.5, 3F, false, false);
+					}*/
+					
+					if(this.afterburner > 90) {
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "gasfire");
+						data.setDouble("mY", 0.1 * worldObj.rand.nextDouble());
+						data.setFloat("scale", 4F);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+								this.xCoord + 0.5F + dir.offsetX * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetX * (worldObj.rand.nextDouble() * 2 - 1),
+								this.yCoord + 1F + worldObj.rand.nextDouble() * 2,
+								this.zCoord + 0.5F - dir.offsetZ * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetZ * (worldObj.rand.nextDouble() * 2 - 1)
+								), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+					}
 				}
 				
 				double minX = this.xCoord + 0.5 - dir.offsetX * 3.5 - rot.offsetX * 1.5;
@@ -251,7 +267,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			 * All movement related stuff has to be repeated on the client, but only for the client's player
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
-			if(!MainRegistry.proxy.me().capabilities.isCreativeMode) {
+			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 				

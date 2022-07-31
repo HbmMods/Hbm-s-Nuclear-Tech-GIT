@@ -24,9 +24,10 @@ public class ModuleBurnTime {
 	private static final int modCoke = 4;
 	private static final int modSolid = 5;
 	private static final int modRocket = 6;
+	private static final int modBalefire = 7;
 
-	private double[] modTime = new double[7];
-	private double[] modHeat = new double[7];
+	private double[] modTime = new double[8];
+	private double[] modHeat = new double[8];
 	
 	public ModuleBurnTime() {
 		for(int i = 0; i < modTime.length; i++) {
@@ -53,11 +54,15 @@ public class ModuleBurnTime {
 		if(stack == null)
 			return 0;
 
-		if(stack.getItem() == ModItems.solid_fuel)					return mod[modSolid];
-		if(stack.getItem() == ModItems.solid_fuel_presto) 			return mod[modSolid];
-		if(stack.getItem() == ModItems.solid_fuel_presto_triplet)	return mod[modSolid];
+		if(stack.getItem() == ModItems.solid_fuel)						return mod[modSolid];
+		if(stack.getItem() == ModItems.solid_fuel_presto) 				return mod[modSolid];
+		if(stack.getItem() == ModItems.solid_fuel_presto_triplet)		return mod[modSolid];
+
+		if(stack.getItem() == ModItems.solid_fuel_bf)					return mod[modBalefire];
+		if(stack.getItem() == ModItems.solid_fuel_presto_bf) 			return mod[modBalefire];
+		if(stack.getItem() == ModItems.solid_fuel_presto_triplet_bf)	return mod[modBalefire];
 		
-		if(stack.getItem() == ModItems.rocket_fuel)					return mod[modRocket];
+		if(stack.getItem() == ModItems.rocket_fuel)						return mod[modRocket];
 		
 		List<String> names = ItemStackUtil.getOreDictNames(stack);
 		
@@ -91,6 +96,7 @@ public class ModuleBurnTime {
 		addIf(list, "Coke", modTime[modCoke]);
 		addIf(list, "Solid Fuel", modTime[modSolid]);
 		addIf(list, "Rocket Fuel", modTime[modRocket]);
+		addIf(list, "Balefire", modTime[modBalefire]);
 		
 		if(list.size() == 1)
 			list.clear();
@@ -110,6 +116,7 @@ public class ModuleBurnTime {
 		addIf(list, "Coke", modHeat[modCoke]);
 		addIf(list, "Solid Fuel", modHeat[modSolid]);
 		addIf(list, "Rocket Fuel", modHeat[modRocket]);
+		addIf(list, "Balefire", modHeat[modBalefire]);
 		
 		if(list.size() == 1)
 			list.clear();
@@ -128,7 +135,7 @@ public class ModuleBurnTime {
 		String num = ((int) (mod * 100)) + "%";
 		
 		if(mod < 0)
-			num = EnumChatFormatting.RED + "-" + num;
+			num = EnumChatFormatting.RED + num;
 		else
 			num = EnumChatFormatting.GREEN + "+" + num;
 		
@@ -142,6 +149,7 @@ public class ModuleBurnTime {
 	public ModuleBurnTime setCokeTimeMod(double mod) { this.modTime[modCoke] = mod; return this; }
 	public ModuleBurnTime setSolidTimeMod(double mod) { this.modTime[modSolid] = mod; return this; }
 	public ModuleBurnTime setRocketTimeMod(double mod) { this.modTime[modRocket] = mod; return this; }
+	public ModuleBurnTime setBalefireTimeMod(double mod) { this.modTime[modBalefire] = mod; return this; }
 	
 	public ModuleBurnTime setLogHeatMod(double mod) { this.modHeat[modLog] = mod; return this; }
 	public ModuleBurnTime setWoodHeatMod(double mod) { this.modHeat[modWood] = mod; return this; }
@@ -150,4 +158,5 @@ public class ModuleBurnTime {
 	public ModuleBurnTime setCokeHeatMod(double mod) { this.modHeat[modCoke] = mod; return this; }
 	public ModuleBurnTime setSolidHeatMod(double mod) { this.modHeat[modSolid] = mod; return this; }
 	public ModuleBurnTime setRocketHeatMod(double mod) { this.modHeat[modRocket] = mod; return this; }
+	public ModuleBurnTime setBalefireHeatMod(double mod) { this.modHeat[modBalefire] = mod; return this; }
 }

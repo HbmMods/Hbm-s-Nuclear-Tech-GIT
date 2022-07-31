@@ -7,12 +7,12 @@ import java.util.Random;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +20,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -50,18 +51,6 @@ public abstract class BlockDummyable extends BlockContainer {
 	 * other solution feels like putting in way too much effort to achieve the same thing, really.
 	 */
 	public static int overrideTileMeta = 0;
-	/*
-	 * Set as the meta for the core is decided, before any of the dummies are placed. This way we can somewhat easily add variation
-	 * to our tile entities in createNewTileEntity using the relative position to the core, as well as pull information from the core
-	 * block itself, if required.
-	 */
-	public static BlockPos lastCore = new BlockPos(0, 0, 0);
-	/*
-	 * Because createNewTileEntity has no knowledge of where the tile ends up being beforehand, we just set a reference beforehand when
-	 * the block was initially placed. Why does this have to be such a pain in the ass.
-	 * BEWARE: This information is server-side only! Keep that in mind when expecting any of this affecting the client as well.
-	 */
-	public static BlockPos lastBlockSet = new BlockPos(0, 0, 0);
 
 	public static boolean safeRem = false;
 	
@@ -209,7 +198,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(!world.isRemote) {
 			//this is separate because the multiblock rotation and the final meta might not be the same
 			int meta = getMetaForCore(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, (EntityPlayer) player, dir.ordinal() + offset);
-			lastCore = new BlockPos(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
+			//lastCore = new BlockPos(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
 			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, meta, 3);
 			fillSpace(world, x, y, z, dir, o);
 		}
@@ -220,11 +209,10 @@ public abstract class BlockDummyable extends BlockContainer {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 
-	// this fucking sucks, why are you making me do this
-	@Override
+	/*@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		lastBlockSet = new BlockPos(x, y, z);
-	}
+	}*/
 	
 	/**
 	 * A bit more advanced than the dir modifier, but it is important that the resulting direction meta is in the core range.
@@ -403,5 +391,24 @@ public abstract class BlockDummyable extends BlockContainer {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			this.dropBlockAsItem(world, x, y, z, meta, 0);
+			harvesters.set(null);
+		}
+	}
+	
+	/*
+	 * Called after the block and TE are already gone, so this method is of no use to us.
+	 */
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
 	}
 }

@@ -126,6 +126,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_meteorite);
 		}
 
+		if (mODE(item, "ingotUranium238") && mODE(item2, new String[] {"ingotSteel", "dustSteel"})
+				|| mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, "ingotUranium238")) {
+			return new ItemStack(ModItems.ingot_ferrouranium, 2);
+		}
+
 		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
 				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
 			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
@@ -429,6 +434,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_u238) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_u238)).copy());
 			
 			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleAlloy) {
 				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },

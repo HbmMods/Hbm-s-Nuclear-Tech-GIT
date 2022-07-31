@@ -82,6 +82,7 @@ public class SolidificationRecipes {
 		registerRecipe(BIOFUEL,			SF_BIOFUEL,		ModItems.solid_fuel);
 		registerRecipe(AROMATICS,		SF_AROMA,		ModItems.solid_fuel);
 		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
+		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
 	}
 
 	private static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }

@@ -392,7 +392,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		timer++;
 		
-		int delay = mode == MODE_ARTILLERY ? 200 : 40;
+		int delay = mode == MODE_ARTILLERY ? 300 : 40;
 		
 		if(timer % delay == 0) {
 			

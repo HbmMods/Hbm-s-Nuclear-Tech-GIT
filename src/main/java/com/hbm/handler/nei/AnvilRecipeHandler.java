@@ -86,6 +86,14 @@ public class AnvilRecipeHandler extends TemplateRecipeHandler {
 			}
 			
 			for(int i = 0; i < in.size(); i++) {
+				
+				if(in.get(i) instanceof List) {
+					List<ItemStack> array = (List<ItemStack>) in.get(i);
+					
+					for(ItemStack stack : array)
+						System.out.println(stack);
+				}
+				
 				this.input.add(new PositionedStack(in.get(i), inOX + 18 * (i % inLine), inOY + 18 * (i / inLine)));
 			}
 			

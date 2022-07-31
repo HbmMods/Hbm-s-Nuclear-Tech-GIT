@@ -45,12 +45,14 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 				.setCokeTimeMod(1.25)
 				.setSolidTimeMod(1.5)
 				.setRocketTimeMod(1.5)
+				.setBalefireTimeMod(0.5)
 
 				.setLigniteHeatMod(2)
 				.setCoalHeatMod(2)
 				.setCokeHeatMod(2)
 				.setSolidHeatMod(3)
-				.setRocketHeatMod(5);
+				.setRocketHeatMod(5)
+				.setBalefireHeatMod(15);
 	}
 
 	@Override
@@ -90,7 +92,8 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 							if(slots[i].stackSize == 0) {
 								slots[i] = slots[i].getItem().getContainerItem(slots[i]);
 							}
-							
+
+							this.wasOn = true;
 							break;
 						}
 					}
@@ -107,7 +110,7 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 				}
 			}
 			
-			if(burnTime > 0) {
+			if(wasOn) {
 				this.heatEnergy = Math.min(this.heatEnergy + this.burnHeat, maxHeatEnergy);
 			} else {
 				this.heatEnergy = Math.max(this.heatEnergy - Math.max(this.heatEnergy / 1000, 1), 0);

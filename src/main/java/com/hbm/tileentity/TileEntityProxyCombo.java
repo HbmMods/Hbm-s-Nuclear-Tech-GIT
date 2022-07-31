@@ -413,6 +413,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = nbt.getBoolean("inv");
 		this.power = nbt.getBoolean("power");
 		this.fluid = nbt.getBoolean("fluid");
+		this.heat = nbt.getBoolean("heat");
 	}
 	
 	@Override
@@ -422,6 +423,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("inv", inventory);
 		nbt.setBoolean("power", power);
 		nbt.setBoolean("fluid", fluid);
+		nbt.setBoolean("heat", heat);
 	}
 
 	@Override

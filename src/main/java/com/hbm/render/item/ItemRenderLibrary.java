@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
@@ -1337,6 +1338,22 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.heater_firebox_tex);
 				ResourceManager.heater_firebox.renderPart("Main");
 				ResourceManager.heater_firebox.renderPart("Door");
+			}});
+		
+		renderers.put(ModItems.gear_large, new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -7, 0);
+				GL11.glScaled(6, 6, 6);
+				GL11.glRotated(-45, 0, 1, 0);
+				GL11.glRotated(30, 1, 0, 0);
+				GL11.glTranslated(0, 1.375, 0);
+				GL11.glRotated(System.currentTimeMillis() % 3600 * 0.1F, 0, 0, 1);
+				GL11.glTranslated(0, -1.375, 0);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glTranslated(0, 0, -0.875);
+				bindTexture(ResourceManager.stirling_tex);
+				ResourceManager.stirling.renderPart("Cog");
 			}});
 		
 		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.

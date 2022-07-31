@@ -40,7 +40,8 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 				.setCoalTimeMod(1.25)
 				.setCokeTimeMod(1.5)
 				.setSolidTimeMod(2)
-				.setRocketTimeMod(2);
+				.setRocketTimeMod(2)
+				.setBalefireTimeMod(2);
 	}
 
 	@Override
