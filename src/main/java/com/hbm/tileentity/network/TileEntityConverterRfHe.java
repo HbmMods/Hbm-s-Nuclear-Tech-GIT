@@ -1,5 +1,6 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.config.MachineConfig;
 import com.hbm.interfaces.Untested;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
@@ -8,7 +9,7 @@ import cofh.api.energy.IEnergyHandler;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEnergyGenerator, IEnergyHandler {
-
+	 long rate = MachineConfig.convRate;
 	@Override
 	public void setPower(long power) {
 		subBuffer = power;
@@ -44,7 +45,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		recursionBrake = true;
 		
-		long capacity = maxReceive / 4L;
+		long capacity = maxReceive / rate;
 		subBuffer = capacity;
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -53,7 +54,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		recursionBrake = false;
 		
-		return (int) ((capacity - subBuffer) * 4L);
+		return (int) ((capacity - subBuffer) * rate);
 	}
 
 	@Override
