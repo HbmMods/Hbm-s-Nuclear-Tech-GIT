@@ -9,7 +9,7 @@ import cofh.api.energy.IEnergyHandler;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEnergyGenerator, IEnergyHandler {
-	 long rate = MachineConfig.convRate;
+	 double rate = MachineConfig.convRate;
 	@Override
 	public void setPower(long power) {
 		subBuffer = power;
@@ -45,7 +45,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		recursionBrake = true;
 		
-		long capacity = maxReceive / rate;
+		long capacity = (long)(maxReceive / rate);
 		subBuffer = capacity;
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

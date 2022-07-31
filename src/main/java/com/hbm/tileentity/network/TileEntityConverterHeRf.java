@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEnergyConnector, IEnergyHandler {
 	
 	//Thanks to the great people of Fusion Warfare for helping me with the original implementation of the RF energy API
-   int rate = MachineConfig.convRate;
+   double rate = MachineConfig.convRate;
 	@Override
 	public void updateEntity() {
 		
@@ -81,7 +81,7 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 		recursionBrake = true;
 		
 		// we have to limit the transfer amount because otherwise FEnSUs would overflow the RF output, twice
-		long out = Math.min(power, Long.MAX_VALUE / rate);
+		long out = (int)Math.min(power, Long.MAX_VALUE / rate);
 		int toRF = (int) Math.min(Integer.MAX_VALUE, out * rate);
 		int rfTransferred = 0;
 		int totalTransferred = 0;
@@ -102,8 +102,8 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 		}
 
 		recursionBrake = false;
-		lastTransfer = totalTransferred / rate;
+		lastTransfer = totalTransferred /(int) rate;
 		
-		return power - (totalTransferred / rate);
+		return power - (totalTransferred /(int) rate);
 	}
 }
