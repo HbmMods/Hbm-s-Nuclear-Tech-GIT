@@ -67,6 +67,9 @@ public class EntityEffectHandler {
 					pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
 				}
 				
+				if(pprps.shield > pprps.maxShield)
+					pprps.shield = pprps.maxShield;
+				
 				props.saveNBTData(data);
 				pprps.saveNBTData(data);
 				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);

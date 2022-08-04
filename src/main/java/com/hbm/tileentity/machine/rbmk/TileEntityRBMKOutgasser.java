@@ -91,7 +91,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		recipes.put(new ComparableStack(Items.mushroom_stew), new ItemStack(ModItems.glowing_stew));
 	}
 	
-	private boolean canProcess() {
+	public boolean canProcess() {
 		
 		if(slots[0] == null)
 			return false;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.ModItems;
@@ -23,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineStirling extends BlockDummyable implements ILookOverlay, ITooltipProvider {
+public class MachineStirling extends BlockDummyable implements ILookOverlay, ITooltipProvider, IBlockMulti {
 
 	public MachineStirling() {
 		super(Material.iron);
@@ -181,5 +182,10 @@ public class MachineStirling extends BlockDummyable implements ILookOverlay, ITo
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
+	}
+
+	@Override
+	public int getSubCount() {
+		return 0;
 	}
 }

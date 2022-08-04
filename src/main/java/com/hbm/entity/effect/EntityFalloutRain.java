@@ -170,12 +170,14 @@ public class EntityFalloutRain extends Entity {
 				}
 			}
 			
-			if(dist < 65 && b.getBlockHardness(worldObj, x, y, z) <= Blocks.stonebrick.getExplosionResistance(null)) {
+			float hardness = b.getBlockHardness(worldObj, x, y, z);
+			if(dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
 				
 				Block bl = worldObj.getBlock(x, y - 1, z);
 				if(bl == Blocks.air) {
 					for(int i = 0; i <= depth; i++) {
-						if(worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z) <= Blocks.stonebrick.getExplosionResistance(null)) {
+						hardness = worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z);
+						if(hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
 							EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
 							worldObj.spawnEntityInWorld(entityfallingblock);
 						}

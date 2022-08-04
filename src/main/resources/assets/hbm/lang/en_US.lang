@@ -3349,6 +3349,13 @@ rbmk.heat=Column temperature: %s
 rbmk.boiler.water=Feedwater: %s / %s
 rbmk.boiler.steam=Steam: %s / %s
 rbmk.boiler.type=Compressor: %s
+rbmk.console.assign=Assign selected columns to screen #%s
+rbmk.console.none=Off
+rbmk.console.col_temp=Monitor average column temperature
+rbmk.console.rod_extraction=Monitor average control rod extraction
+rbmk.console.fuel_depletion=Monitor average fuel depletion
+rbmk.console.fuel_poison=Monitor average xenon poisoning
+rbmk.console.fuel_temp=Monitor average fuel temperature
 rbmk.control.level=%s
 rbmk.control.red=§cRed Group
 rbmk.control.yellow=§eYellow Group
@@ -3360,6 +3367,11 @@ rbmk.rod.depletion=Depletion: %s
 rbmk.rod.xenon=Xenon poison: %s
 rbmk.rod.coreTemp=Core temperature: %s
 rbmk.rod.skinTemp=Skin temperature: %s / %s
+rbmk.screen.core=Core: %s
+rbmk.screen.depletion=Depl: %s
+rbmk.screen.rod=Control: %s
+rbmk.screen.temp=Temp: %s
+rbmk.screen.xenon=Xenon: %s
 
 soundCategory.ntmMachines=NTM Machines
 

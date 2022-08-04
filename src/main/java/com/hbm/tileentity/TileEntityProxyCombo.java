@@ -198,13 +198,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	public long transferPower(long power) {
 		
 		if(!this.power)
-			return 0;
+			return power;
 		
 		if(getTile() instanceof IEnergyConnector) {
 			return ((IEnergyConnector)getTile()).transferPower(power);
 		}
 		
-		return 0;
+		return power;
 	}
 
 	@Override

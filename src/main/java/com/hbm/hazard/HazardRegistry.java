@@ -467,8 +467,8 @@ public class HazardRegistry {
 		/*
 		 * Blacklist
 		 */
-		HazardSystem.blacklist(TH232.ore());
-		HazardSystem.blacklist(U.ore());
+		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
+		for(String ore : U.ores()) HazardSystem.blacklist(ore);
 
 		
 		/*

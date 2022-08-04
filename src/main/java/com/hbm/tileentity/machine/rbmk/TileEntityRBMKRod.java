@@ -175,6 +175,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				return 0;
 			}
 		}
+		
+		if(te instanceof TileEntityRBMKOutgasser) {
+			TileEntityRBMKOutgasser rod = (TileEntityRBMKOutgasser)te;
+			
+			if(!rod.canProcess()) {
+				return flux;
+			}
+		}
+		
 		if(te instanceof IRBMKFluxReceiver) {
 			IRBMKFluxReceiver rod = (IRBMKFluxReceiver)te;
 			rod.receiveFlux(stream, flux);

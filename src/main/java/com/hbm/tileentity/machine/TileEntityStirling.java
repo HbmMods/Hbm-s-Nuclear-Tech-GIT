@@ -160,7 +160,9 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	}
 
 	@Override
-	public void setPower(long power) { }
+	public void setPower(long power) {
+		this.powerBuffer = power;
+	}
 
 	@Override
 	public long getPower() {
