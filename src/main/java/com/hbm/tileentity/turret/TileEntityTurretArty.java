@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
@@ -42,16 +41,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	
 	private List<Vec3> targetQueue = new ArrayList();
 
-	static List<Integer> configs = new ArrayList();
-	
-	static {
-		configs.add(BulletConfigSyncingUtil.SHELL_NORMAL);
-		configs.add(BulletConfigSyncingUtil.SHELL_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.SHELL_AP);
-		configs.add(BulletConfigSyncingUtil.SHELL_DU);
-		configs.add(BulletConfigSyncingUtil.SHELL_W9);
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public List<ItemStack> getAmmoTypesForDisplay() {
@@ -79,7 +68,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	
 	@Override
 	protected List<Integer> getAmmoList() {
-		return configs;
+		return new ArrayList();
 	}
 
 	@Override

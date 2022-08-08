@@ -179,9 +179,9 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 					
 					IEnterableBlock enterable = (IEnterableBlock) newBlock;
 					
-					if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this)) {
+					if(enterable.canItemEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this)) {
 						
-						enterable.onEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
+						enterable.onItemEnter(worldObj, newPos.getX(), newPos.getY(), newPos.getZ(), dir, this);
 						this.setDead();
 					}
 				} else {
@@ -193,8 +193,8 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 						if(newBlock instanceof IEnterableBlock) {
 							
 							IEnterableBlock enterable = (IEnterableBlock) newBlock;
-							if(enterable.canEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this)) {
-								enterable.onEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this);
+							if(enterable.canItemEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this)) {
+								enterable.onItemEnter(worldObj, newPos.getX(), newPos.getY() - 1, newPos.getZ(), ForgeDirection.UP, this);
 								this.setDead();
 							}
 						}

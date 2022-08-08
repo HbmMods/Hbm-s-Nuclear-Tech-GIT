@@ -242,6 +242,7 @@ public class TileMappings {
 		put(TileEntityTurretFritz.class, "tileentity_turret_fritz");
 		put(TileEntityTurretBrandon.class, "tileentity_turret_brandon");
 		put(TileEntityTurretArty.class, "tileentity_turret_arty");
+		put(TileEntityTurretHIMARS.class, "tileentity_turret_himars");
 	}
 	
 	private static void putMachines() {
@@ -322,6 +323,8 @@ public class TileMappings {
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");
+		put(TileEntityCraneBoxer.class, "tileentity_boxer");
+		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

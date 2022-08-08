@@ -4,6 +4,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneInserter;
 
 import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,13 +43,13 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 	}
 
 	@Override
-	public boolean canEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
+	public boolean canItemEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
 		ForgeDirection orientation = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 		return orientation == dir;
 	}
 
 	@Override
-	public void onEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
+	public void onItemEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
 		TileEntity te = world.getTileEntity(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ);
 		
 		if(entity == null || entity.getItemStack() == null || entity.getItemStack().stackSize <= 0) {
@@ -179,6 +180,14 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		
 		return toAdd;
 	}
+
+	@Override
+	public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
+		return false;
+	}
+
+	@Override
+	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) { }
 
 	@Override
 	public int getRotationFromSide(IBlockAccess world, int x, int y, int z, int side) {
