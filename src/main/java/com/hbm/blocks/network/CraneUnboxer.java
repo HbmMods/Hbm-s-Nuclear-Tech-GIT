@@ -10,6 +10,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -61,11 +63,20 @@ public class CraneUnboxer extends BlockCraneBase implements IEnterableBlock {
 
 	@Override
 	public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
+		TileEntityCraneUnboxer unboxer = (TileEntityCraneUnboxer) world.getTileEntity(x, y, z);
 		
+		for(ItemStack stack : entity.getItemStacks()) {
+			ItemStack remainder = CraneInserter.addToInventory(unboxer, unboxer.getAccessibleSlotsFromSide(dir.ordinal()), stack, dir.ordinal());
+			
+			if(remainder != null && remainder.stackSize > 0) {
+				EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, remainder.copy());
+				world.spawnEntityInWorld(drop);
+			}
+		}
 	}
 }
