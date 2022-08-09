@@ -17,7 +17,7 @@ public class ContainerCraneBoxer extends Container {
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 7; j++) {
-				this.addSlotToContainer(new Slot(inserter, j + i * 3, 8 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new Slot(inserter, j + i * 7, 8 + j * 18, 17 + i * 18));
 			}
 		}
 

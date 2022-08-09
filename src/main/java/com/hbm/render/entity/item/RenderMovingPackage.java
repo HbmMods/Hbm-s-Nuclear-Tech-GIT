@@ -1,7 +1,5 @@
 package com.hbm.render.entity.item;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
@@ -22,10 +20,7 @@ public class RenderMovingPackage extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float f1, float f2) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
-		
-		Random rand = new Random(entity.getEntityId());
-		GL11.glTranslated(0, rand.nextDouble() * 0.0625, 0);
+		GL11.glTranslated(x, y - 0.0125, z);
 
 		if(this.dummy == null) {
 			this.dummy = new ItemStack(ModBlocks.crate);
@@ -35,7 +30,7 @@ public class RenderMovingPackage extends Render {
 		dummy.hoverStart = 0.0F;
 
 		RenderItem.renderInFrame = true;
-		double scale = 8D / 6D;
+		double scale = 2;
 		GL11.glScaled(scale, scale, scale);
 		RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 		RenderItem.renderInFrame = false;

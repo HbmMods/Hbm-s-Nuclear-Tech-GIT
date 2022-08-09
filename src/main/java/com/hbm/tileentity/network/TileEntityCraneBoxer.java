@@ -1,14 +1,13 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.item.EntityMovingPackage;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneBoxer;
 import com.hbm.inventory.gui.GUICraneBoxer;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.conveyor.IConveyorBelt;
-import api.hbm.ntl.StorageManifest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,11 +15,12 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 	
 	public byte mode = 0;
 	public static final byte MODE_4 = 0;
@@ -41,62 +41,73 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote && mode != MODE_REDSTONE && worldObj.getTotalWorldTime() % 20 == 0) {
-			int pack = 1;
+		if(!worldObj.isRemote) {
 			
-			switch(mode) {
-			case MODE_4: pack = 4; break;
-			case MODE_8: pack = 8; break;
-			case MODE_16: pack = 16; break;
-			}
-			
-			int fullStacks = 0;
-			
-			// NO!
-			/*StorageManifest manifest = new StorageManifest(); //i wrote some of this for a feature that i scrapped so why not make proper use of it?
-			
-			for(int i = 0; i < slots.length; i++) {
-				if(slots[i] != null) {
-					manifest.writeStack(slots[i]);
+			if(mode != MODE_REDSTONE && worldObj.getTotalWorldTime() % 20 == 0) {
+				int pack = 1;
+				
+				switch(mode) {
+				case MODE_4: pack = 4; break;
+				case MODE_8: pack = 8; break;
+				case MODE_16: pack = 16; break;
 				}
-			}*/
-			
-			for(int i = 0; i < slots.length; i++) {
 				
-				if(slots[i] != null && slots[i].stackSize == slots[i].getMaxStackSize()) {
-					fullStacks++;
-				}
-			}
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-			Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-			IConveyorBelt belt = null;
-			
-			if(b instanceof IConveyorBelt) {
-				belt = (IConveyorBelt) b;
-			}
-			
-			if(belt != null && fullStacks >= pack) {
+				int fullStacks = 0;
 				
-				ItemStack[] box = new ItemStack[pack];
+				// NO!
+				/*StorageManifest manifest = new StorageManifest(); //i wrote some of this for a feature that i scrapped so why not make proper use of it?
 				
-				for(int i = 0; i < slots.length && pack > 0; i++) {
+				for(int i = 0; i < slots.length; i++) {
+					if(slots[i] != null) {
+						manifest.writeStack(slots[i]);
+					}
+				}*/
+				
+				for(int i = 0; i < slots.length; i++) {
 					
 					if(slots[i] != null && slots[i].stackSize == slots[i].getMaxStackSize()) {
-						pack--;
-						box[pack] = slots[i].copy();
-						slots[i] = null;
+						fullStacks++;
 					}
 				}
 				
-				EntityMovingPackage moving = new EntityMovingPackage(worldObj);
-				Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-				Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
-				moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
-				moving.setItemStacks(box);
-				worldObj.spawnEntityInWorld(moving);
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				IConveyorBelt belt = null;
+				
+				if(b instanceof IConveyorBelt) {
+					belt = (IConveyorBelt) b;
+				}
+				
+				if(belt != null && fullStacks >= pack) {
+					
+					ItemStack[] box = new ItemStack[pack];
+					
+					for(int i = 0; i < slots.length && pack > 0; i++) {
+						
+						if(slots[i] != null && slots[i].stackSize == slots[i].getMaxStackSize()) {
+							pack--;
+							box[pack] = slots[i].copy();
+							slots[i] = null;
+						}
+					}
+					
+					EntityMovingPackage moving = new EntityMovingPackage(worldObj);
+					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
+					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+					moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+					moving.setItemStacks(box);
+					worldObj.spawnEntityInWorld(moving);
+				}
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setByte("mode", mode);
+			this.networkPack(data, 15);
 		}
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.mode = nbt.getByte("mode");
 	}
 
 	@Override
@@ -118,5 +129,17 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneBoxer(player.inventory, this);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("toggle")) {
+			this.mode = (byte) ((this.mode + 1) % 4);
+		}
 	}
 }
