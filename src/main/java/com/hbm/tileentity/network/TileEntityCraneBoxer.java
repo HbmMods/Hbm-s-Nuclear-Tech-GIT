@@ -28,6 +28,8 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 	public static final byte MODE_16 = 2;
 	public static final byte MODE_REDSTONE = 3;
 	
+	private boolean lastRedstone = false;
+	
 
 	public TileEntityCraneBoxer() {
 		super(7 * 3);
@@ -42,6 +44,50 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+			
+			if(mode == MODE_REDSTONE && redstone && !lastRedstone) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				IConveyorBelt belt = null;
+				
+				if(b instanceof IConveyorBelt) {
+					belt = (IConveyorBelt) b;
+				}
+				
+				int pack = 0;
+				
+				for(int i = 0; i < slots.length; i++) {
+					if(slots[i] != null) {
+						pack++;
+					}
+				}
+				
+				if(belt != null && pack > 0) {
+					
+					ItemStack[] box = new ItemStack[pack];
+					
+					for(int i = 0; i < slots.length && pack > 0; i++) {
+						
+						if(slots[i] != null) {
+							pack--;
+							box[pack] = slots[i].copy();
+							slots[i] = null;
+						}
+					}
+					
+					EntityMovingPackage moving = new EntityMovingPackage(worldObj);
+					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
+					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+					moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+					moving.setItemStacks(box);
+					worldObj.spawnEntityInWorld(moving);
+				}
+			}
+					
+			this.lastRedstone = redstone;
 			
 			if(mode != MODE_REDSTONE && worldObj.getTotalWorldTime() % 20 == 0) {
 				int pack = 1;
@@ -118,6 +164,20 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.mode = nbt.getByte("mode");
+		this.lastRedstone = nbt.getBoolean("lastRedstone");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setByte("mode", mode);
+		nbt.setBoolean("lastRedstone", lastRedstone);
 	}
 
 	@Override

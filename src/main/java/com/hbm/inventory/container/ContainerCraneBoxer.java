@@ -10,14 +10,14 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCraneBoxer extends Container {
 	
-	protected TileEntityCraneBoxer extractor;
+	protected TileEntityCraneBoxer boxer;
 	
-	public ContainerCraneBoxer(InventoryPlayer invPlayer, TileEntityCraneBoxer inserter) {
-		this.extractor = inserter;
+	public ContainerCraneBoxer(InventoryPlayer invPlayer, TileEntityCraneBoxer boxer) {
+		this.boxer = boxer;
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 7; j++) {
-				this.addSlotToContainer(new Slot(inserter, j + i * 7, 8 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new Slot(boxer, j + i * 7, 8 + j * 18, 17 + i * 18));
 			}
 		}
 
@@ -41,12 +41,12 @@ public class ContainerCraneBoxer extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(slot <= extractor.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, extractor.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(slot <= boxer.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(var5, boxer.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
-				if(!this.mergeItemStack(var5, 0, extractor.getSizeInventory(), false)) {
+				if(!this.mergeItemStack(var5, 0, boxer.getSizeInventory(), false)) {
 					 return null;
 				}
 				
@@ -67,6 +67,6 @@ public class ContainerCraneBoxer extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return extractor.isUseableByPlayer(player);
+		return boxer.isUseableByPlayer(player);
 	}
 }
