@@ -37,8 +37,8 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 			
 			int delay = 20;
 			
-			if(slots[19] != null && slots[19].getItem() == ModItems.upgrade_ejector) {
-				switch(slots[19].getItemDamage()) {
+			if(slots[22] != null && slots[22].getItem() == ModItems.upgrade_ejector) {
+				switch(slots[22].getItemDamage()) {
 				case 0: delay = 10; break;
 				case 1: delay = 5; break;
 				case 2: delay = 2; break;
@@ -57,8 +57,8 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 			if(worldObj.getTotalWorldTime() % delay == 0 && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 				int amount = 1;
 				
-				if(slots[18] != null && slots[18].getItem() == ModItems.upgrade_stack) {
-					switch(slots[18].getItemDamage()) {
+				if(slots[21] != null && slots[18].getItem() == ModItems.upgrade_stack) {
+					switch(slots[21].getItemDamage()) {
 					case 0: amount = 4; break;
 					case 1: amount = 16; break;
 					case 2: amount = 64; break;
@@ -74,7 +74,7 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 					
 					IConveyorBelt belt = (IConveyorBelt) b;
 					
-					for(int i = 9; i < 18; i++) {
+					for(int i = 0; i < 21; i++) {
 						ItemStack stack = slots[i];
 						
 						if(stack != null){

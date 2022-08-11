@@ -8,6 +8,7 @@ import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
@@ -51,6 +52,12 @@ public class CraneUnboxer extends BlockCraneBase implements IEnterableBlock {
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		this.dropContents(world, x, y, z, block, meta, 0, 23);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	@Override

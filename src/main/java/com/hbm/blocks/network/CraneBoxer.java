@@ -2,15 +2,18 @@ package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneBoxer;
+import com.hbm.tileentity.network.TileEntityCraneInserter;
 
 import api.hbm.conveyor.IConveyorItem;
 import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -69,6 +72,22 @@ public class CraneBoxer extends BlockCraneBase implements IEnterableBlock {
 			EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, remainder.copy());
 			world.spawnEntityInWorld(drop);
 		}
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return Container.calcRedstoneFromInventory((TileEntityCraneInserter)world.getTileEntity(x, y, z));
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		this.dropContents(world, x, y, z, block, meta, 0, 21);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	@Override
