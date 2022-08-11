@@ -57,7 +57,7 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 			if(worldObj.getTotalWorldTime() % delay == 0 && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 				int amount = 1;
 				
-				if(slots[21] != null && slots[18].getItem() == ModItems.upgrade_stack) {
+				if(slots[21] != null && slots[21].getItem() == ModItems.upgrade_stack) {
 					switch(slots[21].getItemDamage()) {
 					case 0: amount = 4; break;
 					case 1: amount = 16; break;
@@ -67,8 +67,6 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 	
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-				
-				boolean hasSent = false;
 				
 				if(b instanceof IConveyorBelt) {
 					
@@ -104,6 +102,11 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return true;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return true;
 	}
 

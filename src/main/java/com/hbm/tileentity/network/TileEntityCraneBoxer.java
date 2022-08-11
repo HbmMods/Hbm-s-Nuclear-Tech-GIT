@@ -89,7 +89,7 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 					
 			this.lastRedstone = redstone;
 			
-			if(mode != MODE_REDSTONE && worldObj.getTotalWorldTime() % 20 == 0) {
+			if(mode != MODE_REDSTONE && worldObj.getTotalWorldTime() % 2 == 0) {
 				int pack = 1;
 				
 				switch(mode) {
