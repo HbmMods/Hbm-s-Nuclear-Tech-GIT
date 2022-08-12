@@ -48,7 +48,6 @@ import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.mob.siege.*;
-import com.hbm.entity.qic.EntitySPV;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -83,7 +82,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -744,6 +742,7 @@ public class MainRegistry {
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
 
+		IMCHandler.registerHandler("blastfurnace", new IMCBlastFurnace());
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 	}

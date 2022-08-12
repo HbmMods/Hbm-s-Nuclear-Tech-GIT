@@ -19,6 +19,7 @@ import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
@@ -42,6 +43,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Spaghetti("no")
 public class ExplosionChaos {
 
 	private final static Random random = new Random();
