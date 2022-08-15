@@ -202,7 +202,7 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
-			//if the tool is already enchanted, do nothing
+			/*//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getSilkTouchModifier(player) || player.getHeldItem() == null)
 				return;
 			
@@ -214,7 +214,9 @@ public abstract class ToolAbility {
 			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
 			
 			world.setBlockToAir(x, y, z);
-			player.getHeldItem().damageItem(1, player);
+			player.getHeldItem().damageItem(1, player);*/
+			
+			tool.breakBlockSpecial(world, x, y, z, block, meta, player, 0, true);
 		}
 
 		@Override
@@ -249,7 +251,7 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
-			//if the tool is already enchanted, do nothing
+			/*//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getFortuneModifier(player) > 0 || player.getHeldItem() == null)
 				return;
 			
@@ -261,7 +263,11 @@ public abstract class ToolAbility {
 			EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
 			
 			world.setBlockToAir(x, y, z);
-			player.getHeldItem().damageItem(1, player);
+			player.getHeldItem().damageItem(1, player);*/
+			
+
+			
+			tool.breakBlockSpecial(world, x, y, z, block, meta, player, luck, false);
 		}
 
 		@Override

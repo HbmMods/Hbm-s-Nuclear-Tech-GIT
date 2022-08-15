@@ -6,9 +6,11 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -31,6 +33,36 @@ public class EntityMovingPackage extends EntityMovingConveyorObject implements I
 	@Override
 	public ItemStack[] getItemStacks() {
 		return contents;
+	}
+
+	@Override
+	public boolean interactFirst(EntityPlayer player) {
+
+		if(!worldObj.isRemote) {
+			
+			for(ItemStack stack : contents) {
+				if(!player.inventory.addItemStackToInventory(stack.copy())) {
+					worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY + 0.125, posZ, stack));
+				}
+			}
+			
+			this.setDead();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+
+		if(!worldObj.isRemote) {
+			this.setDead();
+			
+			for(ItemStack stack : contents) {
+				worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY + 0.125, posZ, stack));
+			}
+		}
+		return true;
 	}
 
 	@Override

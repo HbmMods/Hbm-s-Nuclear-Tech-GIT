@@ -202,8 +202,17 @@ public class AnvilRecipes {
 						new OreDictStack(STEEL.plate(), 6),
 						new OreDictStack(CU.ingot(), 8),
 						new ComparableStack(ModItems.coil_copper, 4),
-						new ComparableStack(ModItems.gear_large, 1)
+						new ComparableStack(ModItems.gear_large, 1, 0)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_stirling))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new OreDictStack(STEEL.plate(), 16),
+						new OreDictStack(BE.ingot(), 6),
+						new OreDictStack(CU.ingot(), 8),
+						new ComparableStack(ModItems.coil_gold, 16),
+						new ComparableStack(ModItems.gear_large, 1, 1)
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_stirling_steel))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

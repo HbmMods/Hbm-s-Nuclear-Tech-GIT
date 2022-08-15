@@ -33,14 +33,18 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 		TileEntityStirling stirling = (TileEntityStirling) tile;
 		
 		float rot = stirling.lastSpin + (stirling.spin - stirling.lastSpin) * interp;
-		renderCommon(rot, stirling.hasCog);
+		renderCommon(rot, stirling.hasCog, stirling.getGeatMeta());
 		
 		GL11.glPopMatrix();
 	}
 	
-	private void renderCommon(float rot, boolean hasCog) {
+	private void renderCommon(float rot, boolean hasCog, int type) {
 
-		bindTexture(ResourceManager.stirling_tex);
+		if(type == 0)
+			bindTexture(ResourceManager.stirling_tex);
+		else
+			bindTexture(ResourceManager.stirling_steel_tex);
+		
 		ResourceManager.stirling.renderPart("Base");
 
 		if(hasCog) {
@@ -69,6 +73,14 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 	}
 
 	@Override
+	public Item[] getItemsForRenderer() {
+		return new Item[] {
+				Item.getItemFromBlock(ModBlocks.machine_stirling),
+				Item.getItemFromBlock(ModBlocks.machine_stirling_steel)
+		};
+	}
+
+	@Override
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase( ) {
 			public void renderInventory() {
@@ -78,7 +90,7 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				boolean cog = item.getItemDamage() != 1;
-				RenderStirling.this.renderCommon(cog ? System.currentTimeMillis() % 3600 * 0.1F : 0, cog);
+				RenderStirling.this.renderCommon(cog ? System.currentTimeMillis() % 3600 * 0.1F : 0, cog, item.getItem() == Item.getItemFromBlock(ModBlocks.machine_stirling) ? 0 : 1);
 			}};
 	}
 }

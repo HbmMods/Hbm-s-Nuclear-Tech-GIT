@@ -340,7 +340,9 @@ public class ClientProxy extends ServerProxy {
 			Object renderer = iterator.next();
 			if(renderer instanceof IItemRendererProvider) {
 				IItemRendererProvider prov = (IItemRendererProvider) renderer;
-				MinecraftForgeClient.registerItemRenderer(prov.getItemForRenderer(), prov.getRenderer());
+				for(Item item : prov.getItemsForRenderer()) {
+					MinecraftForgeClient.registerItemRenderer(item, prov.getRenderer());
+				}
 			}
 		}
 		

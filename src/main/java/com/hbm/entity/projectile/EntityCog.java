@@ -49,6 +49,7 @@ public class EntityCog extends EntityThrowableNT {
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(10, new Integer(0));
+		this.dataWatcher.addObject(11, new Integer(0));
 	}
 	
 	public EntityCog setOrientation(int rot) {
@@ -56,8 +57,17 @@ public class EntityCog extends EntityThrowableNT {
 		return this;
 	}
 	
+	public EntityCog setMeta(int meta) {
+		this.dataWatcher.updateObject(11, meta);
+		return this;
+	}
+	
 	public int getOrientation() {
 		return this.dataWatcher.getWatchableObjectInt(10);
+	}
+	
+	public int getMeta() {
+		return this.dataWatcher.getWatchableObjectInt(11);
 	}
 
 	@Override
@@ -65,7 +75,7 @@ public class EntityCog extends EntityThrowableNT {
 
 		if(!worldObj.isRemote) {
 			
-			if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.gear_large)))
+			if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.gear_large, 1, this.getMeta())))
 				this.setDead();
 			
 			player.inventoryContainer.detectAndSendChanges();
@@ -186,5 +196,19 @@ public class EntityCog extends EntityThrowableNT {
 	@Override
 	protected int groundDespawn() {
 		return 0;
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("rot", this.getOrientation());
+		nbt.setInteger("meta", this.getMeta());
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		this.setOrientation(nbt.getInteger("rot"));
+		this.setMeta(nbt.getInteger("meta"));
 	}
 }

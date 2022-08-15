@@ -23,27 +23,10 @@ public class RenderConveyor implements ISimpleBlockRenderingHandler {
 		renderer.setRenderBounds( 0D, 0D, 0D, 1D, 0.25D, 1D);
 		
 		meta = 2;
-
-		if(meta == 2) {
-			renderer.uvRotateTop = 3;
-			renderer.uvRotateBottom = 0;
-			renderer.uvRotateWest = 3;
-		}
-		if(meta == 3) {
-			renderer.uvRotateTop = 0;
-			renderer.uvRotateBottom = 3;
-			renderer.uvRotateEast = 3;
-		}
-		if(meta == 4) {
-			renderer.uvRotateTop = 1;
-			renderer.uvRotateBottom = 1;
-			renderer.uvRotateSouth = 3;
-		}
-		if(meta == 5) {
-			renderer.uvRotateTop = 2;
-			renderer.uvRotateBottom = 2;
-			renderer.uvRotateNorth = 3;
-		}
+		
+		renderer.uvRotateTop = 3;
+		renderer.uvRotateBottom = 0;
+		renderer.uvRotateWest = 3;
 		
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1.0F, 0.0F);
@@ -88,26 +71,31 @@ public class RenderConveyor implements ISimpleBlockRenderingHandler {
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
+		
+		boolean bent = meta > 5;
+		
+		if(meta > 9) meta -= 8;
+		if(meta > 5) meta -= 4;
 
 		if(meta == 2) {
 			renderer.uvRotateTop = 3;
 			renderer.uvRotateBottom = 0;
-			renderer.uvRotateWest = 3;
+			if(!bent) renderer.uvRotateWest = 3;
 		}
 		if(meta == 3) {
 			renderer.uvRotateTop = 0;
 			renderer.uvRotateBottom = 3;
-			renderer.uvRotateEast = 3;
+			if(!bent) renderer.uvRotateEast = 3;
 		}
 		if(meta == 4) {
 			renderer.uvRotateTop = 1;
 			renderer.uvRotateBottom = 1;
-			renderer.uvRotateSouth = 3;
+			if(!bent) renderer.uvRotateSouth = 3;
 		}
 		if(meta == 5) {
 			renderer.uvRotateTop = 2;
 			renderer.uvRotateBottom = 2;
-			renderer.uvRotateNorth = 3;
+			if(!bent) renderer.uvRotateNorth = 3;
 		}
 
 		renderer.setRenderBounds((double) 0, 0.0D, (double) 0, (double) 1, 0.25D, (double) 1);

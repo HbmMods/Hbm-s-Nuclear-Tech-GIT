@@ -27,11 +27,6 @@ public class GUICraneBoxer extends GuiInfoContainer {
 		this.xSize = 176;
 		this.ySize = 185;
 	}
-	
-	@Override
-	public void drawScreen(int x, int y, float interp) {
-		super.drawScreen(x, y, interp);
-	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {

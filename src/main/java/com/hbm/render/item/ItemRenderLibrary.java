@@ -1352,7 +1352,11 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glTranslated(0, 0, -0.875);
-				bindTexture(ResourceManager.stirling_tex);
+				
+				if(item.getItemDamage() == 0)
+					bindTexture(ResourceManager.stirling_tex);
+				else
+					bindTexture(ResourceManager.stirling_steel_tex);
 				ResourceManager.stirling.renderPart("Cog");
 			}});
 		
