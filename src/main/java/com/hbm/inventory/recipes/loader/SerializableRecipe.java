@@ -27,6 +27,7 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+//the anti-spaghetti. this class provides so much functionality and saves so much time, i just love you, SerializableRecipe <3
 public abstract class SerializableRecipe {
 	
 	public static final Gson gson = new Gson();
@@ -38,6 +39,8 @@ public abstract class SerializableRecipe {
 	
 	public static void registerAllHandlers() {
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
 	}
@@ -67,6 +70,8 @@ public abstract class SerializableRecipe {
 				MainRegistry.logger.info("Writing template file " + recTemplate.getName());
 				recipe.writeTemplateFile(recTemplate);
 			}
+			
+			recipe.registerPost();
 		}
 		
 		MainRegistry.logger.info("Finished recipe init!");
@@ -89,7 +94,9 @@ public abstract class SerializableRecipe {
 	public abstract void registerDefaults();
 	/** Deletes all existing recipes, currenly unused */
 	public abstract void deleteRecipes();
-	
+	/** A routine called after registering all recipes, whether it's a template or not. Good for IMC functionality. */
+	public void registerPost() { }
+	/** Returns a string to be printed as info at the top of the JSON file */
 	public String getComment() {
 		return null;
 	}

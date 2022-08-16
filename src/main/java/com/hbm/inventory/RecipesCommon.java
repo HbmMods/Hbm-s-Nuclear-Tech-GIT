@@ -155,7 +155,6 @@ public class RecipesCommon {
 		}
 		
 		public ItemStack toStack() {
-			
 			return new ItemStack(item, stacksize, meta);
 		}
 		

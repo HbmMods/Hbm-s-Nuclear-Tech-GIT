@@ -769,13 +769,9 @@ public class MainRegistry {
 		ShredderRecipes.registerShredder();
 		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
-		CentrifugeRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
-		//ChemplantRecipes.register(); moved to SerializableRecipe
-		CyclotronRecipes.register();
-		//HadronRecipes.register(); moved to SerializableRecipe
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();

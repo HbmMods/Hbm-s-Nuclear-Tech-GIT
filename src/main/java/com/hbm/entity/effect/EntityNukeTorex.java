@@ -36,7 +36,8 @@ public class EntityNukeTorex extends Entity {
 	public void onUpdate() {
 		this.ticksExisted++;
 		
-		int maxAge = 90 * 20;
+		double s = this.getScale();
+		int maxAge = (int) (90 * 20 * s);
 		
 		if(worldObj.isRemote) {
 			
@@ -49,19 +50,21 @@ public class EntityNukeTorex extends Entity {
 				for(int i = 0; i < toSpawn; i++) {
 					double y = posY + rand.nextGaussian() - 3; //this.ticksExisted < 60 ? this.posY + this.coreHeight : posY + rand.nextGaussian() - 3;
 					Cloudlet cloud = new Cloudlet(posX + rand.nextGaussian() * range, y, posZ + rand.nextGaussian() * range, (float)(rand.nextDouble() * 2D * Math.PI), 0);
-					cloud.setScale(1F + this.ticksExisted * 0.001F, 5F);
+					cloud.setScale(1F + this.ticksExisted * 0.001F * (float) s, 5F * (float) s);
 					cloudlets.add(cloud);
 				}
 			}
 			
-			int cloudCount = ticksExisted * 3;
 			if(ticksExisted < 200) {
+				
+				int cloudCount = ticksExisted * 3;
+				
 				for(int i = 0; i < cloudCount; i++) {
 					Vec3 vec = Vec3.createVectorHelper((ticksExisted + rand.nextDouble()) * 2, 0, 0);
 					float rot = (float) (Math.PI * 2 * rand.nextDouble());
 					vec.rotateAroundY(rot);
 					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0)
-							.setScale(5F, 2F)
+							.setScale(5F * (float) s, 2F * (float) s)
 							.setMotion(0));
 				}
 			}
@@ -69,13 +72,12 @@ public class EntityNukeTorex extends Entity {
 			for(Cloudlet cloud : cloudlets) {
 				cloud.update();
 			}
-	
-			coreHeight += 0.15;
-			torusWidth += 0.05;
+			coreHeight += 0.15 * s;
+			torusWidth += 0.05 * s;
 			rollerSize = torusWidth * 0.35;
 			convectionHeight = coreHeight + rollerSize;
 			
-			int maxHeat = 50;
+			int maxHeat = (int) (50 * s);
 			heat = maxHeat - Math.pow((maxHeat * this.ticksExisted) / maxAge, 1);
 			
 			cloudlets.removeIf(x -> x.isDead);
@@ -94,6 +96,20 @@ public class EntityNukeTorex extends Entity {
 		}
 		
 		return 1.0D;
+	}
+	
+	public double getScale() {
+		return 1.0D;
+	}
+	
+	public double getSaturation() {
+		double d = (double) this.ticksExisted / (double) this.getMaxAge();
+		return 1D - (d * d * d * d);
+	}
+	
+	public int getMaxAge() {
+		double s = this.getScale();
+		return (int) (90 * 20 * s);
 	}
 
 	public class Cloudlet {
