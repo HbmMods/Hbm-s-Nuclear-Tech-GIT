@@ -6,7 +6,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerOilburner;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.types.FluidTypeFlammable;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -52,8 +52,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 			
 			if(this.isOn && this.heatEnergy < maxHeatEnergy) {
 				
-				if(tank.getTankType() instanceof FluidTypeFlammable) {
-					FluidTypeFlammable type = (FluidTypeFlammable) tank.getTankType();
+				if(tank.getTankType().hasTrait(FT_Flammable.class)) {
+					FT_Flammable type = tank.getTankType().getTrait(FT_Flammable.class);
 					
 					int burnRate = 10;
 					int toBurn = Math.min(burnRate, tank.getFill());

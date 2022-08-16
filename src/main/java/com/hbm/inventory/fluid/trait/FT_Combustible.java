@@ -1,26 +1,19 @@
-package com.hbm.inventory.fluid.types;
+package com.hbm.inventory.fluid.trait;
 
 import java.util.List;
 
-import com.hbm.render.util.EnumSymbol;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 
-/** Because updating all the combustion engines and adding values by hand fucking sucks */
-public class FluidTypeCombustible extends FluidTypeFlammable {
+public class FT_Combustible extends FluidTrait {
 	
 	protected FuelGrade fuelGrade;
 	protected long combustionEnergy;
 	
-	public FluidTypeCombustible(String compat, int color, int p, int f, int r, EnumSymbol symbol) {
-		super(compat, color, p, f, r, symbol);
-	}
-	
-	public FluidTypeCombustible setCombustionEnergy(FuelGrade grade, long energy) {
+	public FT_Combustible(FuelGrade grade, long energy) {
 		this.fuelGrade = grade;
 		this.combustionEnergy = energy;
-		return this;
 	}
 	
 	@Override

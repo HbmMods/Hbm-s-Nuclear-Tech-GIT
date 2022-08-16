@@ -8,7 +8,7 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -73,7 +73,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 				}
 				
-				if(tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2)) {
+				if(tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).isHighlyCorrosive()) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				}
 			}

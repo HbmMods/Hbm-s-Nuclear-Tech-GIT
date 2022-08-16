@@ -8,8 +8,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.ModDamageSource;
@@ -115,8 +115,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			long burn = 0;
 			int amount = 1 + this.afterburner;
 			
-			if(tank.getTankType() instanceof FluidTypeCombustible && ((FluidTypeCombustible) tank.getTankType()).getGrade() == FuelGrade.AERO) {
-				burn = ((FluidTypeCombustible) tank.getTankType()).getCombustionEnergy() / 1_000;
+			if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
+				burn = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
 			}
 			
 			int toBurn = Math.min(amount, this.tank.getFill());

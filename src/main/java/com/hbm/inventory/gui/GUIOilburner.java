@@ -3,7 +3,7 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerOilburner;
-import com.hbm.inventory.fluid.types.FluidTypeFlammable;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -35,8 +35,8 @@ public class GUIOilburner extends GuiInfoContainer {
 		
 		this.drawCustomInfoStat(x, y, guiLeft + 116, guiTop + 17, 16, 52, x, y, new String[] { String.format("%,d", Math.min(diFurnace.heatEnergy, diFurnace.maxHeatEnergy)) + " / " + String.format("%,d", diFurnace.maxHeatEnergy) + "TU" });
 
-		if(diFurnace.tank.getTankType() instanceof FluidTypeFlammable) {
-			this.drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 34, 18, 18, x, y, new String[] { "10mB/t", (int)(((FluidTypeFlammable)diFurnace.tank.getTankType()).getHeatEnergy() / 1000) * 10 + "TU/t" });
+		if(diFurnace.tank.getTankType().hasTrait(FT_Flammable.class)) {
+			this.drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 34, 18, 18, x, y, new String[] { "10mB/t", (int)(diFurnace.tank.getTankType().getTrait(FT_Flammable.class).getHeatEnergy() / 1000) * 10 + "TU/t" });
 		}
 		
 		diFurnace.tank.renderTankInfo(this, x, y, guiLeft + 44, guiTop + 17, 16, 52);
@@ -75,7 +75,7 @@ public class GUIOilburner extends GuiInfoContainer {
 		if(diFurnace.isOn) {
 			drawTexturedModalRect(guiLeft + 70, guiTop + 54, 210, 0, 35, 14);
 
-			if(diFurnace.tank.getFill() > 0 && diFurnace.tank.getTankType() instanceof FluidTypeFlammable) {
+			if(diFurnace.tank.getFill() > 0 && diFurnace.tank.getTankType().hasTrait(FT_Flammable.class)) {
 				drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 0, 18, 18);
 			}
 		}

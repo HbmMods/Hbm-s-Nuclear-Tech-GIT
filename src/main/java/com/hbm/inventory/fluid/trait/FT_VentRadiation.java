@@ -1,23 +1,16 @@
-package com.hbm.inventory.fluid.types;
+package com.hbm.inventory.fluid.trait;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.render.util.EnumSymbol;
 
 import net.minecraft.world.World;
 
-public class RadioactiveFluid extends FluidType {
+public class FT_VentRadiation extends FluidTrait {
 	
 	float radPerMB = 0;
-
-	public RadioactiveFluid(String name, int color, int p, int f, int r, EnumSymbol symbol) {
-		super(name, color, p, f, r, symbol);
-	}
 	
-	public RadioactiveFluid setRadiation(float rad) {
+	public FT_VentRadiation(float rad) {
 		this.radPerMB = rad;
-		return this;
 	}
 	
 	@Override

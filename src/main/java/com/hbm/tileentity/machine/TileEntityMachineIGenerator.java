@@ -5,7 +5,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.types.FluidTypeFlammable;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -211,7 +211,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	
 	public int getPowerFromFuel() {
 		FluidType type = tanks[1].getTankType();
-		return type instanceof FluidTypeFlammable ? (int)(((FluidTypeFlammable) type).getHeatEnergy() / 1000L) : 0;
+		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / 1000L) : 0;
 	}
 
 	@Override

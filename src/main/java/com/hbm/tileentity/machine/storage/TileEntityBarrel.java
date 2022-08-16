@@ -8,7 +8,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
@@ -98,7 +98,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		
 		//for when you fill corrosive liquid into an iron tank
 		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
-				(b == ModBlocks.barrel_steel && tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2))) {
+				(b == ModBlocks.barrel_steel && tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).getRating() > 50)) {
 			ItemStack[] copy = this.slots.clone();
 			this.slots = new ItemStack[6];
 			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
