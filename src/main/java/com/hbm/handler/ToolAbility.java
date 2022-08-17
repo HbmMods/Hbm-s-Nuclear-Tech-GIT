@@ -14,12 +14,9 @@ import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
-import com.hbm.util.EnchantmentUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -29,8 +26,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class ToolAbility {
-	
-	public abstract void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool);
+
+	//how to potentially save this: cancel the event/operation so that ItemInWorldManager's harvest method falls short, then recreate it with a more sensible structure
+	public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) { }
+	public void onDigPost(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) { }
 	public abstract String getName();
 	public abstract String getFullName();
 	public abstract String getExtension();
@@ -47,7 +46,7 @@ public abstract class ToolAbility {
 		private Set<ThreeInts> pos = new HashSet();
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			Block b = world.getBlock(x, y, z);
 
@@ -161,7 +160,7 @@ public abstract class ToolAbility {
 		}
 		
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			for(int a = x - range; a <= x + range; a++) {
 				for(int b = y - range; b <= y + range; b++) {
@@ -200,7 +199,7 @@ public abstract class ToolAbility {
 	public static class SilkAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			/*//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getSilkTouchModifier(player) || player.getHeldItem() == null)
@@ -216,7 +215,7 @@ public abstract class ToolAbility {
 			world.setBlockToAir(x, y, z);
 			player.getHeldItem().damageItem(1, player);*/
 			
-			tool.breakBlockSpecial(world, x, y, z, block, meta, player, 0, true);
+			//tool.breakBlockSpecial(world, x, y, z, block, meta, player, 0, true); //TODO: replace
 		}
 
 		@Override
@@ -249,7 +248,7 @@ public abstract class ToolAbility {
 		}
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			/*//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getFortuneModifier(player) > 0 || player.getHeldItem() == null)
@@ -267,7 +266,7 @@ public abstract class ToolAbility {
 			
 
 			
-			tool.breakBlockSpecial(world, x, y, z, block, meta, player, luck, false);
+			//tool.breakBlockSpecial(world, x, y, z, block, meta, player, luck, false); //TODO: replace
 		}
 
 		@Override
@@ -294,7 +293,7 @@ public abstract class ToolAbility {
 	public static class SmelterAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			List<ItemStack> drops = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			
@@ -340,7 +339,7 @@ public abstract class ToolAbility {
 	public static class ShredderAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -380,7 +379,7 @@ public abstract class ToolAbility {
 	public static class CentrifugeAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -424,7 +423,7 @@ public abstract class ToolAbility {
 	public static class CrystallizerAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -464,7 +463,7 @@ public abstract class ToolAbility {
 	public static class MercuryAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -514,7 +513,7 @@ public abstract class ToolAbility {
 		}
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+		public void onDigPre(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
 			ex.addAttrib(ExAttrib.ALLDROP);

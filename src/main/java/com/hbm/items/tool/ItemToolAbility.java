@@ -130,8 +130,13 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		int meta = world.getBlockMetadata(x, y, z);
 
 		if(!world.isRemote && canHarvestBlock(block, stack) && this.getCurrentAbility(stack) != null && canOperate(stack))
-			this.getCurrentAbility(stack).onDig(world, x, y, z, player, block, meta, this);
+			this.getCurrentAbility(stack).onDigPre(world, x, y, z, player, block, meta, this);
 
+		return false;
+	}
+
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player) {
 		return false;
 	}
 

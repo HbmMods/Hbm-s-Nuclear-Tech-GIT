@@ -169,7 +169,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 		AStack inStack = this.readAStack(input);
 		ItemStack outStack = this.readItemStack(output);
 		
-		this.recipes.put(new Pair(partStack, inStack),  new Pair(outStack, antimatter));
+		this.recipes.put(new Pair(new ComparableStack(partStack), inStack),  new Pair(outStack, antimatter));
 	}
 
 	@Override
