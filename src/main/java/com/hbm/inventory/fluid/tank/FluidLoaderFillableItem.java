@@ -16,6 +16,9 @@ public class FluidLoaderFillableItem extends FluidLoadingHandler {
 	
 	public boolean fill(ItemStack stack, FluidTank tank) {
 		
+		if(stack == null)
+			return false;
+		
 		FluidType type = tank.getTankType();
 		
 		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {

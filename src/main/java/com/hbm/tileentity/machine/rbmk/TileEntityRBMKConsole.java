@@ -10,7 +10,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.Tuple.Triplet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -135,7 +134,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				case FUEL_POISON:
 					if(col.data.hasKey("xenon")) {
 						count++;
-						value += col.data.getDouble("xenon") * 100D;
+						value += col.data.getDouble("xenon");
 					}
 					break;
 				case FUEL_TEMP:

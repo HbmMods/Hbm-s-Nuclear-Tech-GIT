@@ -16,7 +16,7 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
 		FluidType type = tank.getTankType();
 		ItemStack full = FluidContainerRegistry.getFullContainer(slots[in], type);
 		
-		if(slots[in] != null && tank.getFill() - FluidContainerRegistry.getFluidContent(full, type) >= 0) {
+		if(full != null && slots[in] != null && tank.getFill() - FluidContainerRegistry.getFluidContent(full, type) >= 0) {
 			
 			ItemStack fullContainer = FluidContainerRegistry.getFullContainer(slots[in], type);
 			

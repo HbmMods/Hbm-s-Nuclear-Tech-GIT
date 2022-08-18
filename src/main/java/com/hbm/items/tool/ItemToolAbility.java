@@ -137,7 +137,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player) {
-		return false;
+		return super.onBlockDestroyed(stack, world, block, x, y, z, player);
 	}
 
 	@Override
