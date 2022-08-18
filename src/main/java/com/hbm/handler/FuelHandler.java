@@ -14,10 +14,13 @@ public class FuelHandler implements IFuelHandler {
 		
 		int single = 200;
 
-		if(fuel.getItem().equals(ModItems.solid_fuel))					return single * 16;
-		if(fuel.getItem().equals(ModItems.solid_fuel_presto))			return single * 40;
-		if(fuel.getItem().equals(ModItems.solid_fuel_presto_triplet))	return single * 200;
-		if(fuel.getItem().equals(ModItems.rocket_fuel))					return single * 32;
+		if(fuel.getItem().equals(ModItems.solid_fuel))						return single * 16;
+		if(fuel.getItem().equals(ModItems.solid_fuel_presto))				return single * 40;
+		if(fuel.getItem().equals(ModItems.solid_fuel_presto_triplet))		return single * 200;
+		if(fuel.getItem().equals(ModItems.solid_fuel_bf))					return single * 160;
+		if(fuel.getItem().equals(ModItems.solid_fuel_presto_bf))			return single * 400;
+		if(fuel.getItem().equals(ModItems.solid_fuel_presto_triplet_bf))	return single * 2000;
+		if(fuel.getItem().equals(ModItems.rocket_fuel))						return single * 32;
 		
 		if(fuel.getItem().equals(ModItems.biomass))
 			return 800;

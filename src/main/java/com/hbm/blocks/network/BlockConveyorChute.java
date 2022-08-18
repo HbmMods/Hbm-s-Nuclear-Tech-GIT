@@ -1,21 +1,24 @@
 package com.hbm.blocks.network;
 
 import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockConveyorChute extends BlockConveyor {
+public class BlockConveyorChute extends BlockConveyorBase {
 
 	@Override
 	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
 		
-		if(world.getBlock(x, y - 1, z) instanceof IConveyorBelt) {
+		Block below = world.getBlock(x, y - 1, z);
+		if(below instanceof IConveyorBelt || below instanceof IEnterableBlock) {
 			speed *= 5;
 		} else if(itemPos.yCoord > y + 0.25) {
 			speed *= 3;
@@ -25,9 +28,10 @@ public class BlockConveyorChute extends BlockConveyor {
 	}
 	
 	@Override
-	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos, double speed) {
-		
-		if(world.getBlock(x, y - 1, z) instanceof IConveyorBelt || itemPos.yCoord > y + 0.25) {
+	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
+
+		Block below = world.getBlock(x, y - 1, z);
+		if(below instanceof IConveyorBelt || below instanceof IEnterableBlock || itemPos.yCoord > y + 0.25) {
 			return ForgeDirection.UP;
 		}
 		
@@ -37,7 +41,8 @@ public class BlockConveyorChute extends BlockConveyor {
 	@Override
 	public Vec3 getClosestSnappingPosition(World world, int x, int y, int z, Vec3 itemPos) {
 		
-		if(world.getBlock(x, y - 1, z) instanceof IConveyorBelt || itemPos.yCoord > y + 0.25) {
+		Block below = world.getBlock(x, y - 1, z);
+		if(below instanceof IConveyorBelt || below instanceof IEnterableBlock || itemPos.yCoord > y + 0.25) {
 			return Vec3.createVectorHelper(x + 0.5, itemPos.yCoord, z + 0.5);
 		} else {
 			return super.getClosestSnappingPosition(world, x, y, z, itemPos);

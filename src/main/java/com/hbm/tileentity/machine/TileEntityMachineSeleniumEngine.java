@@ -5,11 +5,11 @@ import java.util.HashMap;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -272,8 +272,8 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 	
 	public static long getHEFromFuel(FluidType type) {
 		
-		if(type instanceof FluidTypeCombustible) {
-			FluidTypeCombustible fuel = (FluidTypeCombustible) type;
+		if(type.hasTrait(FT_Combustible.class)) {
+			FT_Combustible fuel = type.getTrait(FT_Combustible.class);
 			FuelGrade grade = fuel.getGrade();
 			double efficiency = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0;
 			return (long) (fuel.getCombustionEnergy() / 1000L * efficiency);

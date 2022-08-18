@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.Rotation;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -70,12 +72,21 @@ public class BlockDoorGeneric extends BlockDummyable {
 	
 	@Override
 	public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB entityBox, List collidingBoxes, Entity entityIn) {
-		AxisAlignedBB box = getCollisionBoundingBoxFromPool(worldIn, x, y, z);
-		if(box.minY == 0 && box.maxY == 0)
+		AxisAlignedBB box = getBoundingBox(worldIn, x, y ,z);
+		box = AxisAlignedBB.getBoundingBox(
+				Math.min(box.minX, box.maxX), Math.min(box.minY, box.maxY), Math.min(box.minZ, box.maxZ),
+				Math.max(box.minX, box.maxX), Math.max(box.minY, box.maxY), Math.max(box.minZ, box.maxZ));
+		
+		if(box.minY == y && box.maxY == y)
 			return;
-		if(hasExtra(worldIn.getBlockMetadata(x, y, z)))
-			return;
-		super.addCollisionBoxesToList( worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
+		
+		if(box != null && box.intersectsWith(entityBox)) {
+			collidingBoxes.add(box);
+		}
+		
+		//if(hasExtra(worldIn.getBlockMetadata(x, y, z))) //transition hatch only worked with this, but fire door doesn't
+		//	return;
+		//super.addCollisionBoxesToList(worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
 	}
 	
 	@Override
@@ -96,25 +107,31 @@ public class BlockDoorGeneric extends BlockDummyable {
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World source, int x, int y, int z) {
-		int meta = source.getBlockMetadata(x, y, z);
-		TileEntity te = source.getTileEntity(x, y, z);
-		int[] core = this.findCore(source, x, y, z);
-		boolean open = hasExtra(meta) || (te instanceof TileEntityDoorGeneric && ((TileEntityDoorGeneric)te).shouldUseBB);
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+		return getBoundingBox(world, x, y, z);
+		//return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
+	}
+	
+	public AxisAlignedBB getBoundingBox(World world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		int[] core = this.findCore(world, x, y, z);
+		boolean open = hasExtra(meta) || (te instanceof TileEntityDoorGeneric && ((TileEntityDoorGeneric)te).state != 0);
 		if(core == null){
-			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
 		}
-		TileEntity te2 = source.getTileEntity(core[0], core[1], core[2]);
+		TileEntity te2 = world.getTileEntity(core[0], core[1], core[2]);
 		ForgeDirection dir = ForgeDirection.getOrientation(te2.getBlockMetadata() - BlockDummyable.offset);
-		AxisAlignedBB box = type.getBlockBound(x - core[0], y - core[1], z - core[2], open ); //.rotate(dir.getBlockRotation().add(Rotation.COUNTERCLOCKWISE_90)), open); TODO: add rotation
-		//System.out.println(te2.getBlockMetadata()-offset);
+		BlockPos pos = new BlockPos(x - core[0], y - core[1], z - core[2]).rotate(Rotation.getBlockRotation(dir).add(Rotation.COUNTERCLOCKWISE_90));
+		AxisAlignedBB box = type.getBlockBound(pos.getX(), pos.getY(), pos.getZ(), open);
+		
 		switch(te2.getBlockMetadata() - offset){
-		case 2: return AxisAlignedBB.getBoundingBox(1 - box.minX, box.minY, 1 - box.minZ, 1 - box.maxX, box.maxY, 1 - box.maxZ);
-		case 4: return AxisAlignedBB.getBoundingBox(1 - box.minZ, box.minY, box.minX, 1 - box.maxZ, box.maxY, box.maxX);
-		case 3: return AxisAlignedBB.getBoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-		case 5: return AxisAlignedBB.getBoundingBox(box.minZ, box.minY, 1 - box.minX, box.maxZ, box.maxY, 1 - box.maxX);
+		case 2: return AxisAlignedBB.getBoundingBox(x + 1 - box.minX, y + box.minY, z + 1 - box.minZ, x + 1 - box.maxX, y + box.maxY, z + 1 - box.maxZ);
+		case 4: return AxisAlignedBB.getBoundingBox(x + 1 - box.minZ, y + box.minY, z + box.minX, x + 1 - box.maxZ, y + box.maxY, z + box.maxX);
+		case 3: return AxisAlignedBB.getBoundingBox(x + box.minX, y + box.minY, z + box.minZ, x + box.maxX, y + box.maxY, z + box.maxZ);
+		case 5: return AxisAlignedBB.getBoundingBox(x + box.minZ, y + box.minY, z + 1 - box.maxX, x + box.maxZ, y + box.maxY, z + 1 - box.minX);
 		}
-		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
 	}
 
 }

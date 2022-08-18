@@ -49,5 +49,4 @@ public class RenderMovingItem extends Render {
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return null;
 	}
-
 }

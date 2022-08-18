@@ -685,6 +685,7 @@ public class OreDictManager {
 		
 		public void registerStack(String tag, ItemStack stack) {
 			for(String mat : mats) {
+				
 				OreDictionary.registerOre(tag + mat, stack);
 				
 				if(!hazards.isEmpty() && hazMult > 0F) {
@@ -696,6 +697,16 @@ public class OreDictManager {
 					
 					HazardSystem.register(tag + mat, data);
 				}
+			}
+			
+			/*
+			 * Fix for a small oddity in nuclearcraft: many radioactive elements do not have an ore prefix and the sizes
+			 * seem generally inconsistent (TH and U are 20 "tiny"s per ingot while boron is 12), so we assume those to be ingots.
+			 * Therefore we register all ingots a second time but without prefix. TODO: add a config option to disable this compat.
+			 * I'd imagine greg's OD system might not like things without prefixes.
+			 */
+			if("ingot".equals(tag)) {
+				registerStack("", stack);
 			}
 		}
 	}

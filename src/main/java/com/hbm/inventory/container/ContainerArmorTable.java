@@ -3,6 +3,8 @@ package com.hbm.inventory.container;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.armor.ItemArmorMod;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -12,6 +14,7 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 public class ContainerArmorTable extends Container {
 	
@@ -19,6 +22,7 @@ public class ContainerArmorTable extends Container {
 	public IInventory armor = new InventoryCraftResult();
 
 	public ContainerArmorTable(InventoryPlayer inventory) {
+		EntityPlayer player = inventory.player;
 		
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.helmet_only, 26, 27));	// helmet only
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62, 27));		// chestplate only
@@ -72,16 +76,35 @@ public class ContainerArmorTable extends Container {
 			}
 		});
 		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
+		//player armor slots for easy accessibility
+		for(int i = 0; i < 4; ++i) {
+			final int k = i;
+			this.addSlotToContainer(new Slot(inventory, inventory.getSizeInventory() - 1 - i, -18, 36 + i * 18) {
+				
+				public int getSlotStackLimit() {
+					return 1;
+				}
+				
+				public boolean isItemValid(ItemStack stack) {
+					if(stack == null)
+						return false;
+					return stack.getItem().isValidArmor(stack, k, player);
+				}
+				
+				@SideOnly(Side.CLIENT)
+				public IIcon getBackgroundIconIndex() {
+					return ItemArmor.func_94602_b(k);
+				}
+			});
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
 			}
 		}
-		
-		for(int i = 0; i < 9; i++)
-		{
+
+		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142 + 56));
 		}
 		

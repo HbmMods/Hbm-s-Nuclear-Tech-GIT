@@ -31,18 +31,21 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final int plinkCooldownLength = 10;
 	public int plinkCooldown = 0;
 	
+	public float shield = 0;
+	public float maxShield = 0;
+	public int lastDamage = 0;
+	public static final float shieldCap = 100;
+	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
 	}
 	
 	public static HbmPlayerProps registerData(EntityPlayer player) {
-		
 		player.registerExtendedProperties(key, new HbmPlayerProps(player));
 		return (HbmPlayerProps) player.getExtendedProperties(key);
 	}
 	
 	public static HbmPlayerProps getData(EntityPlayer player) {
-		
 		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		return props != null ? props : registerData(player);
 	}
@@ -115,13 +118,33 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			props.plinkCooldown = props.plinkCooldownLength;
 		}
 	}
+	
+	public float getMaxShield() {
+		return this.maxShield;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound) { }
+	public void saveNBTData(NBTTagCompound nbt) {
+		
+		NBTTagCompound props = new NBTTagCompound();
+		
+		props.setFloat("shield", shield);
+		props.setFloat("maxShield", maxShield);
+		
+		nbt.setTag("HbmPlayerProps", props);
+	}
 
 	@Override
-	public void loadNBTData(NBTTagCompound compound) { }
+	public void loadNBTData(NBTTagCompound nbt) {
+		
+		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmPlayerProps");
+		
+		if(props != null) {
+			this.shield = props.getFloat("shield");
+			this.maxShield = props.getFloat("maxShield");
+		}
+	}
 }

@@ -30,7 +30,7 @@ public interface IEnergyConductor extends IEnergyConnector {
 	}
 	
 	public static int getIdentityFromPos(int x, int y, int z) {
-		final int prime = 31;
+		final int prime = 27644437; // must be this large to minimize localized collisions
 		int result = 1;
 		result = prime * result + x;
 		result = prime * result + y;

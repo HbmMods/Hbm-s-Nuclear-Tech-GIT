@@ -930,6 +930,19 @@ public class ModEventHandler {
 		
 		EntityLivingBase e = event.entityLiving;
 		
+		if(e instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) e;
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.shield > 0) {
+				float reduce = Math.min(props.shield, event.ammount);
+				props.shield -= reduce;
+				event.ammount -= reduce;
+			}
+			props.lastDamage = player.ticksExisted;
+		}
+		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
 		

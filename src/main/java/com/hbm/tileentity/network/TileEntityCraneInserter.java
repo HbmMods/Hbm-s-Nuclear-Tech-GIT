@@ -58,7 +58,26 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 						if(ret == null || ret.stackSize != stack.stackSize) {
 							slots[i] = ret;
 							this.markDirty();
-							break;
+							return;
+						}
+					}
+				}
+				
+				//if the previous operation fails, repeat but use single items instead of the whole stack instead
+				//this should fix cases where the inserter can't insert into something that has a stack size limitation
+				for(int i = 0; i < slots.length; i++) {
+					
+					ItemStack stack = slots[i];
+					
+					if(stack != null) {
+						stack = stack.copy();
+						stack.stackSize = 1;
+						ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, stack.copy(), dir.ordinal());
+						
+						if(ret == null || ret.stackSize != stack.stackSize) {
+							this.decrStackSize(i, 1);
+							this.markDirty();
+							return;
 						}
 					}
 				}

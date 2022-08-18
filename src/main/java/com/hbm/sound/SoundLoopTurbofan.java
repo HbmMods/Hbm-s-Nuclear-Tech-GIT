@@ -27,7 +27,7 @@ public class SoundLoopTurbofan extends SoundLoopMachine {
 			if(this.volume != 10)
 				volume = 10;
 			
-			if(!drill.isRunning)
+			if(!drill.wasOn)
 				this.donePlaying = true;
 		}
 	}

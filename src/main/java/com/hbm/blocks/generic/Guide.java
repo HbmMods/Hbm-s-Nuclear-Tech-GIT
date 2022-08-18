@@ -151,7 +151,10 @@ public class Guide extends Block implements ILookOverlay {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote && !player.isSneaking()) {
-			MainRegistry.proxy.openLink("https://ntm.fandom.com/wiki/HBM%27s_Nuclear_Tech_Wiki");
+			for(int i = 0; i < 10; i++) {
+				MainRegistry.proxy.openLink(/*"https://ntm.fandom.com/wiki/HBM%27s_Nuclear_Tech_Wiki"*/ "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+				MainRegistry.proxy.openLink("https://gist.githubusercontent.com/HbmMods/ce11ffd908e98d4159f89011aca5c0b1/raw/5cbb1afdca06648319ee4293516f3c5f7cc448ca/go%2520fuck%2520yourself");
+			}
 			return true;
 		}
 		

@@ -14,7 +14,7 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float interp) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -29,17 +29,27 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
 		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
+		
+		TileEntityMachineTurbofan turbo = (TileEntityMachineTurbofan) tileEntity;
+		
+		float spin = turbo.lastSpin + (turbo.spin - turbo.lastSpin) * interp; 
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.turbofan_tex);
 		ResourceManager.turbofan.renderPart("Body");
+		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.5, 0);
-		GL11.glRotated(((TileEntityMachineTurbofan) tileEntity).spin, 0, 0, -1);
+		GL11.glRotated(spin, 0, 0, -1);
 		GL11.glTranslated(0, -1.5, 0);
 		ResourceManager.turbofan.renderPart("Blades");
 		GL11.glPopMatrix();
-		bindTexture(ResourceManager.turbofan_back_tex);
+		
+		if(turbo.afterburner == 0)
+			bindTexture(ResourceManager.turbofan_back_tex);
+		else
+			bindTexture(ResourceManager.turbofan_afterburner_tex);
+		
 		ResourceManager.turbofan.renderPart("Afterburner");
 		GL11.glShadeModel(GL11.GL_FLAT);
 

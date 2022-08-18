@@ -26,94 +26,90 @@ public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryIte
 	}
 
 	@Override
-    public void chargeBattery(ItemStack stack, long i) {
-    	if(stack.getItem() instanceof ItemToolAbilityPower) {
-    		if(stack.hasTagCompound()) {
-    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
-    		} else {
-    			stack.stackTagCompound = new NBTTagCompound();
-    			stack.stackTagCompound.setLong("charge", i);
-    		}
-    	}
-    }
+	public void chargeBattery(ItemStack stack, long i) {
+		if(stack.getItem() instanceof ItemToolAbilityPower) {
+			if(stack.hasTagCompound()) {
+				stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
+			} else {
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("charge", i);
+			}
+		}
+	}
 
 	@Override
-    public void setCharge(ItemStack stack, long i) {
-    	if(stack.getItem() instanceof ItemToolAbilityPower) {
-    		if(stack.hasTagCompound()) {
-    			stack.stackTagCompound.setLong("charge", i);
-    		} else {
-    			stack.stackTagCompound = new NBTTagCompound();
-    			stack.stackTagCompound.setLong("charge", i);
-    		}
-    	}
-    }
+	public void setCharge(ItemStack stack, long i) {
+		if(stack.getItem() instanceof ItemToolAbilityPower) {
+			if(stack.hasTagCompound()) {
+				stack.stackTagCompound.setLong("charge", i);
+			} else {
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("charge", i);
+			}
+		}
+	}
 
 	@Override
-    public void dischargeBattery(ItemStack stack, long i) {
-    	if(stack.getItem() instanceof ItemToolAbilityPower) {
-    		if(stack.hasTagCompound()) {
-    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
-    		} else {
-    			stack.stackTagCompound = new NBTTagCompound();
-    			stack.stackTagCompound.setLong("charge", this.maxPower - i);
-    		}
-    		
-    		if(stack.stackTagCompound.getLong("charge") < 0)
-    			stack.stackTagCompound.setLong("charge", 0);
-    	}
-    }
+	public void dischargeBattery(ItemStack stack, long i) {
+		if(stack.getItem() instanceof ItemToolAbilityPower) {
+			if(stack.hasTagCompound()) {
+				stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
+			} else {
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("charge", this.maxPower - i);
+			}
+
+			if(stack.stackTagCompound.getLong("charge") < 0)
+				stack.stackTagCompound.setLong("charge", 0);
+		}
+	}
 
 	@Override
-    public long getCharge(ItemStack stack) {
-    	if(stack.getItem() instanceof ItemToolAbilityPower) {
-    		if(stack.hasTagCompound()) {
-    			return stack.stackTagCompound.getLong("charge");
-    		} else {
-    			stack.stackTagCompound = new NBTTagCompound();
-    			stack.stackTagCompound.setLong("charge", ((ItemToolAbilityPower)stack.getItem()).maxPower);
-    			return stack.stackTagCompound.getLong("charge");
-    		}
-    	}
-    	
-    	return 0;
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-    	
-    	list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
-    	
-    	super.addInformation(stack, player, list, ext);
-    }
+	public long getCharge(ItemStack stack) {
+		if(stack.getItem() instanceof ItemToolAbilityPower) {
+			if(stack.hasTagCompound()) {
+				return stack.stackTagCompound.getLong("charge");
+			} else {
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setLong("charge", ((ItemToolAbilityPower) stack.getItem()).maxPower);
+				return stack.stackTagCompound.getLong("charge");
+			}
+		}
+
+		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+
+		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
+		super.addInformation(stack, player, list, ext);
+	}
 
 	@Override
-    public boolean showDurabilityBar(ItemStack stack) {
-    	
-        return getCharge(stack) < maxPower;
-    }
+	public boolean showDurabilityBar(ItemStack stack) {
+		return getCharge(stack) < maxPower;
+	}
 
 	@Override
-    public double getDurabilityForDisplay(ItemStack stack) {
-    	
-        return 1 - (double)getCharge(stack) / (double)maxPower;
-    }
+	public double getDurabilityForDisplay(ItemStack stack) {
+		return 1 - (double) getCharge(stack) / (double) maxPower;
+	}
 
 	@Override
-    protected boolean canOperate(ItemStack stack) {
-    	
-    	return getCharge(stack) >= this.consumption;
-    }
+	protected boolean canOperate(ItemStack stack) {
+		return getCharge(stack) >= this.consumption;
+	}
 
 	@Override
-    public long getMaxCharge() {
-    	return maxPower;
-    }
+	public long getMaxCharge() {
+		return maxPower;
+	}
 
 	@Override
-    public long getChargeRate() {
-    	return chargeRate;
-    }
+	public long getChargeRate() {
+		return chargeRate;
+	}
 
 	@Override
 	public long getDischargeRate() {
@@ -121,13 +117,12 @@ public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryIte
 	}
 
 	@Override
-    public void setDamage(ItemStack stack, int damage)
-    {
-        this.dischargeBattery(stack, damage * consumption);
-    }
+	public void setDamage(ItemStack stack, int damage) {
+		this.dischargeBattery(stack, damage * consumption);
+	}
 
 	@Override
-    public boolean isDamageable() {
-    	return true;
-    }
+	public boolean isDamageable() {
+		return true;
+	}
 }

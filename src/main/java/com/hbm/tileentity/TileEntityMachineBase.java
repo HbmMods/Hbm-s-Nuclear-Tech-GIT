@@ -24,6 +24,10 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	public TileEntityMachineBase(int scount) {
 		slots = new ItemStack[scount];
 	}
+	
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+	}
 
 	@Override
 	public int getSizeInventory() {

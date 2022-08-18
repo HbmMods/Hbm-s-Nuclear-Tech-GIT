@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -20,7 +19,6 @@ public class Spaceship2
 	Block Block4 = ModBlocks.fusion_heater;
 	Block Block5 = ModBlocks.block_meteor;
 	Block Block6 = ModBlocks.reactor_element;
-	Block Block7 = ModBlocks.fusion_core;
 	Block Block8 = ModBlocks.fusion_hatch;
 	Block Block9 = ModBlocks.reinforced_light;
 	Block Block10 = ModBlocks.reinforced_glass;

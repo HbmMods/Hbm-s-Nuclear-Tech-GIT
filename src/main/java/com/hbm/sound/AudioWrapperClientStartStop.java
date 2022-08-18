@@ -33,7 +33,7 @@ public class AudioWrapperClientStartStop extends AudioWrapperClient {
 	@Override
 	public void startSound(){
 		if(start != null){
-			world.playSound(x, y, z, start, ssVol, 1, false);
+			world.playSound(x, y, z, start, ssVol * 0.2F, 1, false);
 		}
 		super.startSound();
 	}
@@ -41,7 +41,7 @@ public class AudioWrapperClientStartStop extends AudioWrapperClient {
 	@Override
 	public void stopSound(){
 		if(stop != null){
-			world.playSound(x, y, z, stop, ssVol, 1, false);
+			world.playSound(x, y, z, stop, ssVol * 0.2F, 1, false);
 		}
 		super.stopSound();
 	}

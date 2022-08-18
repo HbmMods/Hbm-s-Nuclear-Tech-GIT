@@ -101,31 +101,13 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Fortune +3 / Delay +45");
 		}
 		
-		if(this == ModItems.upgrade_afterburn_1) {
+		if(this.type == UpgradeType.AFTERBURN) {
 			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x2 / Consumption x2.5");
+			list.add("Production x" + (this.tier + 1) + " / Consumption x" + (this.tier + 2));
 			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +3s");
+			list.add("Afterburn +" + (this.tier * 3) + "s");
 			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 10mB of gas for 50HE/t");
-		}
-		
-		if(this == ModItems.upgrade_afterburn_2) {
-			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x3 / Consumption x5");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +6s");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 20mB of gas for 100HE/t");
-		}
-		
-		if(this == ModItems.upgrade_afterburn_3) {
-			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x4 / Consumption x7.5");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +9s");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 30mB of gas for 150HE/t");
+			list.add("Burn " + (this.tier * 10) + "mB of gas for " + (this.tier * 50) + "HE/t");
 		}
 		
 		if(this == ModItems.upgrade_radius) {

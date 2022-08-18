@@ -1,6 +1,5 @@
 package com.hbm.packet;
 
-import com.hbm.handler.GunConfiguration;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations;
@@ -58,10 +57,8 @@ public class GunAnimationPacket implements IMessage {
 				if(m.type < 0 || m.type >= AnimType.values().length)
 					return null;
 				
-				GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
 				AnimType type = AnimType.values()[m.type];
-				
-				BusAnimation animation = config.animations.get(type);
+				BusAnimation animation = ((ItemGunBase) stack.getItem()).getAnimation(stack, type);
 				
 				if(animation != null) {
 					HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);

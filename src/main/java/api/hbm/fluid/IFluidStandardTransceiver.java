@@ -1,7 +1,7 @@
 package api.hbm.fluid;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 /**
  * transceiver [trăn-sē′vər], noun

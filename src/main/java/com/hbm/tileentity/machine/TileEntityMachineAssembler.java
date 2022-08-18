@@ -16,6 +16,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
@@ -195,13 +196,12 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			tryExchangeTemplates(te1, te2);
 			
 			//OUTPUT
-			if(te1 instanceof IInventory) {
+			if(te1 instanceof TileEntityCrateBase || te1 instanceof TileEntityChest) {
 				IInventory chest = (IInventory)te1;
-				
 				tryFillContainer(chest, 5);
 			}
 			
-			if(te2 instanceof IInventory) {
+			if(te2 instanceof TileEntityCrateBase || te2 instanceof TileEntityChest) {
 				IInventory chest = (IInventory)te2;
 				
 				for(int i = 0; i < chest.getSizeInventory(); i++)

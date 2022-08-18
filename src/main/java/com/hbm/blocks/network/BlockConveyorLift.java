@@ -10,10 +10,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockConveyorLift extends BlockConveyor {
+public class BlockConveyorLift extends BlockConveyorBase {
 	
 	@Override
-	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos, double speed) {
+	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 
 		boolean bottom = !(world.getBlock(x, y - 1, z) instanceof IConveyorBelt);
 		boolean top = !(world.getBlock(x, y + 1, z) instanceof IConveyorBelt) && !bottom;

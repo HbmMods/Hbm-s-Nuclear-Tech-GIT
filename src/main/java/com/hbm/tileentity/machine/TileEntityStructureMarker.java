@@ -9,20 +9,16 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityStructureMarker extends TileEntity {
 	
-	//0: Factory
-	//1: Nuclear Reactor
-	//2: Reactor with Coat
-	//3: Fusion Reactor
-	//4: Fusion Reactor with Coat
-	//5: Watz Power Plant
-	//6: Fusionary Watz Plant
+	//0: Nuclear Reactor
+	//1: Watz Power Plant
+	//2: Fusionary Watz Plant
 	public int type = 0;
 	
 	@Override
 	public void updateEntity() {
 		
-		if(this.type > 6)
-			type -= 7;
+		if(this.type > 2)
+			type -= 3;
 
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAllAround(new TEStructurePacket(xCoord, yCoord, zCoord, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));

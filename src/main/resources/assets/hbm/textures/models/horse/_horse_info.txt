@@ -1,0 +1,38 @@
+horse model is a reverse-engineered mesh based on the models from MineLittlePony 1.2 (at least based on MCSkin3D's packed template models), the UV mostly matches the default unwrap of a ModelRenderer model, which means that MiLP skins should be compatible with the new horse model. UV is a bit weird in some places (mostly the tail and the torso) but that weirdness has been kept to ensure compatibility.
+
+in addition, a few liberties have been taken:
+* angles are approximate, being "good enough"
+* an alternate horn model has been added that uses tris, making it pointy (still four faces)
+* due to major weirdness in both the extended wing models and UV (i could not find animation data or how the wings would be positioned, so they aren't included), will find solution later (maybe resue the murky wing model?)
+
+despite the UV being generally crappy, the added overlap does simplify the texturing process quite a bit (especially on the nose, which reuses individual pixels from the face). textures will be kept simple anyway, so any disadvantages of this simplified "crammed" UV won't be noticable anyway.
+
+no further improvements have been deemend necessary. a few edge-cases where body parts would be otherwise invisible could be handled by making the texture transparent. horn sizes can be solved by moving the horn inwards (this only works for shrinking, limiting the max size to the current 4 pixels, unless proper scaling is involved which is a possibility). any other cosmetics or posing will be subject to the horse printing utlity (HPU) using basic GL transformation.
+
+in general, the standard approach for posable models has been taken: all major movable groups (mostly individual boxes, as well as a few larger groups like the wings, tail and head/neck/ears) are different objects (groups with prefix "o", as per the wavefront OBJ standard) as well as some switchable parts (horns, noses). most pixot points use the default multiple of 0.0625 positions to make posing easier and consistent.
+
+a short explanation of the horse template texture sheet:
+* the yellow region "H" is the horn, of the top two pixels only the left one is used (by the box horn, on the top) while the right one is not visible in the original MiLP standard, nor unwrapped in the new model
+* the large red region "H" represents the head in standard format
+* the yellow 8x8 "BS" is the "body side", used in the center of both sides of the torso, appearing morrored o nthe right side
+* the checkerboard patterns are used by the tail, with the pink checkerboard being used for front/back/top/bottom/bridge while the purple checkerboard is used by left/right. both 4x8 segments repeat twice for the 4x16 structure
+* the large purple region "H" represents the hair in standard format
+* the pink 8x8 "BB" is the "body bottom", analogous to "body side" but only used once at the bottom of the torso
+* the yellow 4x4 "N" is the neck, where the same region is re-used for all sides. curiously, the back and right sides are mirrored
+* the blue region "L" is for both front legs in standard format
+* the pink region "E" is used for both ears. the top right face is not seen, as it touches on the top of the head
+* the orange region "BF" is "body front", representing the entire front part of the torso following a cuboid of standard format without the back face
+* the pink region "BT" is "body top", spanning from the 8x8 center to the 4x8 back
+* the green 4x8 "LL" is a texture repeated thrice for the back of the torso, twice for the back 8x8 and once for the 4x8 at the bottom back
+* the blue region "L" is for both back legs in standard format
+* the next strip describes the wings, which are a bit more complex due to their segmented and repeating nature. the description applies to the right wing, the left one is mirrored:
+  * the first bottom 2x6 strip describes the side feathers, with a 2x2 extension for the second feather row
+  * the second 2x6 strip describes the bottom, with the 2x2 extension again applying to the second row
+  * the third strip is skipped due to being covered
+  * the fourth 2x6 strip describes the top, with the 2x2 extension once again being used for the second row
+  * the first top 2x2 is the front of every feather row
+  * the second top 2x2 is the back
+
+shoutouts to the dumbfucks who insisted on either looking through my commit history or just spelunking in the mod's asset folder, who are now probably wondering where the hell this model is even used. please mind your own damn business just for once.
+
+no, i haven't proof-read any of this and i'm not going to.

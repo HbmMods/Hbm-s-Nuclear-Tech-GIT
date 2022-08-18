@@ -6,11 +6,12 @@ import java.util.List;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.fluid.IFluidUser;
@@ -20,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidUser {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidUser, IPersistentNBT {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -73,7 +74,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 				}
 				
-				if(tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2)) {
+				if(tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).isHighlyCorrosive()) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				}
 			}
@@ -206,5 +207,20 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			return 0;
 		
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		this.tank.writeToNBT(data, "tank");
+		data.setShort("mode", mode);
+		nbt.setTag("persistent", data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag("persistent");
+		this.tank.readFromNBT(data, "tank");
+		this.mode = data.getShort("mode");
 	}
 }

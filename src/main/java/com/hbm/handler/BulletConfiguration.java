@@ -39,6 +39,7 @@ public class BulletConfiguration {
 	//damage bounds
 	public float dmgMin;
 	public float dmgMax;
+	public float headshotMult = 1.0F;
 	
 	//acceleration torwards neg Y
 	public double gravity;
@@ -157,6 +158,11 @@ public class BulletConfiguration {
 	public BulletConfiguration setToFire(int duration) {
 		
 		this.incendiary = duration;
+		return this;
+	}
+	
+	public BulletConfiguration setHeadshot(float mult) {
+		this.headshotMult = mult;
 		return this;
 	}
 	
