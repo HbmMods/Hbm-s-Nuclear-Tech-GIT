@@ -11,7 +11,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.Set;
 
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.lib.RefStrings;

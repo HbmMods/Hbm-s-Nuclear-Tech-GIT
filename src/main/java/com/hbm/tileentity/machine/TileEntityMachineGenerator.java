@@ -4,8 +4,8 @@ import java.util.Random;
 
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;

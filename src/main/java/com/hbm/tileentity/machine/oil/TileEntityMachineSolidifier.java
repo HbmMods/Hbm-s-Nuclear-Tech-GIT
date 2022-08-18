@@ -1,10 +1,10 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.SolidificationRecipes;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;

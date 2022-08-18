@@ -2,10 +2,10 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerOilburner;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.tileentity.IGUIProvider;

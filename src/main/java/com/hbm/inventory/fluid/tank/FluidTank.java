@@ -1,4 +1,4 @@
-package com.hbm.inventory;
+package com.hbm.inventory.fluid.tank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.interfaces.IPartiallyFillable;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
@@ -16,6 +17,7 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
+import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -52,7 +54,6 @@ public class FluidTank {
 	}
 	
 	public FluidType getTankType() {
-		
 		return type;
 	}
 	
@@ -158,60 +159,18 @@ public class FluidTank {
 		ItemStack full = null;
 		if(slots[in] != null) {
 			
-			ItemStack partial = slots[in];
-			
-			if(partial.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(partial)) {
-				
-				partial = ArmorModHandler.pryMods(partial)[ArmorModHandler.plate_only];
-				
-				if(partial == null)
-					partial = slots[in];
-			}
-			
-			if(partial.getItem() instanceof IPartiallyFillable) {
-				IPartiallyFillable fillable = (IPartiallyFillable)partial.getItem();
-				int speed = fillable.getLoadSpeed(partial);
-				
-				if(fillable.getType(partial) == this.type && speed > 0) {
-					
-					int toLoad = Math.min(this.fluid, speed);
-					int fill = fillable.getFill(partial);
-					toLoad = Math.min(toLoad, fillable.getMaxFill(partial) - fill);
-					
-					if(toLoad > 0) {
-						this.fluid -= toLoad;
-						fillable.setFill(partial, fill + toLoad);
-					}
-				}
-				
-				if(slots[in].getItem() instanceof ItemArmor && partial.getItem() instanceof ItemArmorMod) {
-					ArmorModHandler.applyMod(slots[in], partial);
-				}
-				
+			if(this.handleFillableUnload(slots, in))
 				return;
-			}
 			
-			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
-				this.fluid = 0;
+			if(this.handleInfiniteUnload(slots, in))
 				return;
-			}
 			
-			if(slots[in].getItem() == ModItems.inf_water && type == Fluids.WATER) {
-				this.fluid -= 50;
-				if(this.fluid < 0)
-					this.fluid = 0;
+			if(this.handleNewFillableUnload(slots[in]))
 				return;
-			}
-			
-			if(slots[in].getItem() == ModItems.inf_water_mk2 && type == Fluids.WATER) {
-				this.fluid -= 500;
-				if(this.fluid < 0)
-					this.fluid = 0;
-				return;
-			}
 			
 			full = FluidContainerRegistry.getFullContainer(slots[in], type);
 		}
+		
 		if(full == null)
 			return;
 		
@@ -231,6 +190,90 @@ public class FluidTank {
 				slots[out].stackSize++;
 			}
 		}
+	}
+	
+	public boolean handleFillableUnload(ItemStack[] slots, int in) {
+		
+		ItemStack partial = slots[in];
+		
+		if(partial.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(partial)) {
+			
+			partial = ArmorModHandler.pryMods(partial)[ArmorModHandler.plate_only];
+			
+			if(partial == null)
+				partial = slots[in];
+		}
+		
+		if(partial.getItem() instanceof IPartiallyFillable) {
+			IPartiallyFillable fillable = (IPartiallyFillable)partial.getItem();
+			int speed = fillable.getLoadSpeed(partial);
+			
+			if(fillable.getType(partial) == this.type && speed > 0) {
+				
+				int toLoad = Math.min(this.fluid, speed);
+				int fill = fillable.getFill(partial);
+				toLoad = Math.min(toLoad, fillable.getMaxFill(partial) - fill);
+				
+				if(toLoad > 0) {
+					this.fluid -= toLoad;
+					fillable.setFill(partial, fill + toLoad);
+				}
+			}
+			
+			if(slots[in].getItem() instanceof ItemArmor && partial.getItem() instanceof ItemArmorMod) {
+				ArmorModHandler.applyMod(slots[in], partial);
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean handleInfiniteUnload(ItemStack[] slots, int in) {
+		
+		if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
+			this.fluid = 0;
+			return true;
+		}
+		
+		if(slots[in].getItem() == ModItems.inf_water && type == Fluids.WATER) {
+			this.fluid -= 50;
+			if(this.fluid < 0)
+				this.fluid = 0;
+			return true;
+		}
+		
+		if(slots[in].getItem() == ModItems.inf_water_mk2 && type == Fluids.WATER) {
+			this.fluid -= 500;
+			if(this.fluid < 0)
+				this.fluid = 0;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean handleNewFillableUnload(ItemStack stack) {
+		
+		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
+			for(ItemStack mod : ArmorModHandler.pryMods(stack)) {
+				
+				if(mod != null && mod.getItem() instanceof IFillableItem) {
+					handleNewFillableUnload(mod);
+				}
+			}
+		}
+		
+		if(!(stack.getItem() instanceof IFillableItem)) return false;
+		
+		IFillableItem fillable = (IFillableItem) stack.getItem();
+		
+		if(fillable.acceptsFluid(getTankType(), stack)) {
+			this.setFill(fillable.tryFill(type, this.getFill(), stack));
+		}
+		
+		return true;
 	}
 
 	public boolean setType(int in, ItemStack[] slots) {

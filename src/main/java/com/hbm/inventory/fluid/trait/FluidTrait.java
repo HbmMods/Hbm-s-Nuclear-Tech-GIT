@@ -2,7 +2,7 @@ package com.hbm.inventory.fluid.trait;
 
 import java.util.List;
 
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 import net.minecraft.world.World;
 
