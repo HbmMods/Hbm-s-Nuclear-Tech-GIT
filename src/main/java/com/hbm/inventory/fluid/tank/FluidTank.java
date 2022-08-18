@@ -5,29 +5,30 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.interfaces.IPartiallyFillable;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
-import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class FluidTank {
+	
+	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList();
+	
+	static {
+		loadingHandlers.add(new FluidLoaderStandard());
+		loadingHandlers.add(new FluidLoaderFillableItem());
+	}
 	
 	FluidType type;
 	int fluid;
@@ -94,143 +95,44 @@ public class FluidTank {
 	//Fills tank from canisters
 	public boolean loadTank(int in, int out, ItemStack[] slots) {
 		
-		FluidType inType = Fluids.NONE;
-		if(slots[in] != null) {
-			
-			//TODO: add IPartiallyFillable case for unloading, useful for infinite tanks so they don't need to be hardcoded
-			
-			inType = FluidContainerRegistry.getFluidType(slots[in]);
-			
-			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != Fluids.NONE) {
-				this.fluid = this.maxFluid;
-				return true;
-			}
-			
-			if(slots[in].getItem() == ModItems.inf_water && this.type == Fluids.WATER) {
-				this.fluid += 50;
-				if(this.fluid > this.maxFluid)
-					this.fluid = this.maxFluid;
-				return true;
-			}
-			
-			if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type == Fluids.WATER) {
-				this.fluid += 500;
-				if(this.fluid > this.maxFluid)
-					this.fluid = this.maxFluid;
-				return true;
-			}
-			
-			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
-				return false;
-		} else {
+		if(slots[in] == null)
 			return false;
-		}
 		
-		if(slots[in] != null && inType.getName().equals(type.getName()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {
-			
-			ItemStack emptyContainer = FluidContainerRegistry.getEmptyContainer(slots[in]);
-			
-			if(slots[out] == null) {
-				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
-				slots[out] = emptyContainer;
-				slots[in].stackSize--;
-				if(slots[in].stackSize <= 0)
-					slots[in] = null;
-			} else if(slots[out] != null && (emptyContainer == null || (slots[out].getItem() == emptyContainer.getItem() && slots[out].getItemDamage() == emptyContainer.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()))) {
-				fluid += FluidContainerRegistry.getFluidContent(slots[in], type);
-				
-				if(emptyContainer != null)
-					slots[out].stackSize++;
-				
-				slots[in].stackSize--;
-				if(slots[in].stackSize <= 0)
-					slots[in] = null;
-			}
-			
+		if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != Fluids.NONE) {
+			this.fluid = this.maxFluid;
+			return true;
+		}
+
+		if(slots[in].getItem() == ModItems.inf_water && this.type == Fluids.WATER) {
+			this.fluid += 50;
+			if(this.fluid > this.maxFluid)
+				this.fluid = this.maxFluid;
+			return true;
+		}
+
+		if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type == Fluids.WATER) {
+			this.fluid += 500;
+			if(this.fluid > this.maxFluid)
+				this.fluid = this.maxFluid;
 			return true;
 		}
 		
-		return false;
+		int prev = this.getFill();
+		
+		for(FluidLoadingHandler handler : loadingHandlers) {
+			if(handler.emptyItem(slots, in, out, this)) {
+				break;
+			}
+		}
+		
+		return this.getFill() > prev;
 	}
 	
 	//Fills canisters from tank
-	public void unloadTank(int in, int out, ItemStack[] slots) {
-
-		ItemStack full = null;
-		if(slots[in] != null) {
-			
-			if(this.handleFillableUnload(slots, in))
-				return;
-			
-			if(this.handleInfiniteUnload(slots, in))
-				return;
-			
-			if(this.handleNewFillableUnload(slots[in]))
-				return;
-			
-			full = FluidContainerRegistry.getFullContainer(slots[in], type);
-		}
+	public boolean unloadTank(int in, int out, ItemStack[] slots) {
 		
-		if(full == null)
-			return;
-		
-		if(slots[in] != null && fluid - FluidContainerRegistry.getFluidContent(full, type) >= 0) {
-			ItemStack fullContainer = FluidContainerRegistry.getFullContainer(slots[in], type);
-			if(slots[out] == null) {
-				fluid -= FluidContainerRegistry.getFluidContent(full, type);
-				slots[out] = full.copy();
-				slots[in].stackSize--;
-				if(slots[in].stackSize <= 0)
-					slots[in] = null;
-			} else if(slots[out] != null && slots[out].getItem() == fullContainer.getItem() && slots[out].getItemDamage() == fullContainer.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()) {
-				fluid -= FluidContainerRegistry.getFluidContent(full, type);
-				slots[in].stackSize--;
-				if(slots[in].stackSize <= 0)
-					slots[in] = null;
-				slots[out].stackSize++;
-			}
-		}
-	}
-	
-	public boolean handleFillableUnload(ItemStack[] slots, int in) {
-		
-		ItemStack partial = slots[in];
-		
-		if(partial.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(partial)) {
-			
-			partial = ArmorModHandler.pryMods(partial)[ArmorModHandler.plate_only];
-			
-			if(partial == null)
-				partial = slots[in];
-		}
-		
-		if(partial.getItem() instanceof IPartiallyFillable) {
-			IPartiallyFillable fillable = (IPartiallyFillable)partial.getItem();
-			int speed = fillable.getLoadSpeed(partial);
-			
-			if(fillable.getType(partial) == this.type && speed > 0) {
-				
-				int toLoad = Math.min(this.fluid, speed);
-				int fill = fillable.getFill(partial);
-				toLoad = Math.min(toLoad, fillable.getMaxFill(partial) - fill);
-				
-				if(toLoad > 0) {
-					this.fluid -= toLoad;
-					fillable.setFill(partial, fill + toLoad);
-				}
-			}
-			
-			if(slots[in].getItem() instanceof ItemArmor && partial.getItem() instanceof ItemArmorMod) {
-				ArmorModHandler.applyMod(slots[in], partial);
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public boolean handleInfiniteUnload(ItemStack[] slots, int in) {
+		if(slots[in] == null)
+			return false;
 		
 		if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
 			this.fluid = 0;
@@ -251,29 +153,15 @@ public class FluidTank {
 			return true;
 		}
 		
-		return false;
-	}
-	
-	public boolean handleNewFillableUnload(ItemStack stack) {
+		int prev = this.getFill();
 		
-		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
-			for(ItemStack mod : ArmorModHandler.pryMods(stack)) {
-				
-				if(mod != null && mod.getItem() instanceof IFillableItem) {
-					handleNewFillableUnload(mod);
-				}
+		for(FluidLoadingHandler handler : loadingHandlers) {
+			if(handler.fillItem(slots, in, out, this)) {
+				break;
 			}
 		}
 		
-		if(!(stack.getItem() instanceof IFillableItem)) return false;
-		
-		IFillableItem fillable = (IFillableItem) stack.getItem();
-		
-		if(fillable.acceptsFluid(getTankType(), stack)) {
-			this.setFill(fillable.tryFill(type, this.getFill(), stack));
-		}
-		
-		return true;
+		return this.getFill() < prev;
 	}
 
 	public boolean setType(int in, ItemStack[] slots) {

@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -20,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -219,5 +220,20 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		this.tank.writeToNBT(data, "tank");
+		data.getShort("mode");
+		nbt.setTag("persistent", data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag("persistent");
+		this.tank.readFromNBT(data, "tank");
+		this.mode = data.getShort("nbt");
 	}
 }

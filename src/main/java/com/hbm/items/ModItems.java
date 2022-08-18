@@ -870,17 +870,17 @@ public class ModItems {
 
 	public static Item canister_empty;
 	public static Item canister_full;
-	public static Item canister_smear;
-	public static Item canister_canola;
-	public static Item canister_oil;
-	public static Item canister_fuel;
-	public static Item canister_kerosene;
-	public static Item canister_reoil;
-	public static Item canister_petroil;
+	@Deprecated public static Item canister_smear;
+	@Deprecated public static Item canister_canola;
+	@Deprecated public static Item canister_oil;
+	@Deprecated public static Item canister_fuel;
+	@Deprecated public static Item canister_kerosene;
+	@Deprecated public static Item canister_reoil;
+	@Deprecated public static Item canister_petroil;
 	public static Item canister_napalm;
-	public static Item canister_gasoline;
-	public static Item canister_NITAN;
-	public static Item canister_fracksol;
+	@Deprecated public static Item canister_gasoline;
+	@Deprecated public static Item canister_NITAN;
+	@Deprecated public static Item canister_fracksol;
 
 	public static Item canister_heavyoil;
 	public static Item canister_bitumen;
@@ -5180,7 +5180,8 @@ public class ModItems {
 		jackt = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt").setTextureName(RefStrings.MODID + ":jackt");
 		jackt2 = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt2").setTextureName(RefStrings.MODID + ":jackt2");
 		
-		chainsaw = new ItemToolAbility(25, -0.05, MainRegistry.tMatChainsaw, EnumToolType.AXE)
+		chainsaw = new ItemToolAbilityFueled(25, -0.05, MainRegistry.tMatChainsaw, EnumToolType.AXE, 5000, 1, 250,
+				Fluids.DIESEL, Fluids.DIESEL_CRACK, Fluids.KEROSENE, Fluids.BIOFUEL, Fluids.GASOLINE, Fluids.GASOLINE_LEADED, Fluids.PETROIL, Fluids.PETROIL_LEADED, Fluids.COALGAS, Fluids.COALGAS_LEADED)
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addHitAbility(new WeaponAbility.ChainsawAbility(4))
