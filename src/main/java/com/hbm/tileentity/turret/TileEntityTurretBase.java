@@ -104,7 +104,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom)&& !(e instanceof EntityMIRV))
 			return false;
 		
-		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom)&& !(e instanceof EntityMIRV))
+		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom))
 			return false;
 		
 		if(e instanceof EntityPlayer && players.contains((((EntityPlayer)e).getDisplayName())))
