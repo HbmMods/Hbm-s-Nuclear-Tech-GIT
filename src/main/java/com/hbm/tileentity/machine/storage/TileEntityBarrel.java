@@ -226,13 +226,13 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public void writeNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = new NBTTagCompound();
 		this.tank.writeToNBT(data, "tank");
-		data.getShort("mode");
-		nbt.setTag("persistent", data);
+		data.setShort("mode", mode);
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound nbt) {
-		NBTTagCompound data = nbt.getCompoundTag("persistent");
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		this.tank.readFromNBT(data, "tank");
 		this.mode = data.getShort("nbt");
 	}

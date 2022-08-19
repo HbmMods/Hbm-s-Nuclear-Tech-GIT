@@ -1,12 +1,17 @@
 package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -22,10 +27,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFluidBarrel extends BlockContainer {
+public class BlockFluidBarrel extends BlockContainer implements IPersistentInfoProvider {
 	
 	int capacity;
 
@@ -155,5 +161,12 @@ public class BlockFluidBarrel extends BlockContainer {
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
 		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		player.addExhaustion(0.025F);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+		tank.readFromNBT(persistentTag, "tank");
+		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + I18nUtil.resolveKey(tank.getTankType().getUnlocalizedName()));
 	}
 }

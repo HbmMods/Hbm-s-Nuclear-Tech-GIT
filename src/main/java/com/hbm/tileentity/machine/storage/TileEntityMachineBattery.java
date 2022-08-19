@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
@@ -21,7 +22,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent {
 	
 	public long[] log = new long[20];
 	public long power = 0;
@@ -325,5 +326,24 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
 		return new Object[] {getMaxPower()};
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", power);
+		data.setShort("redLow", redLow);
+		data.setShort("redHigh", redHigh);
+		data.setInteger("priority", this.priority.ordinal());
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
+		this.power = data.getLong("power");
+		this.redLow = data.getShort("redLow");
+		this.redHigh = data.getShort("redHigh");
+		this.priority = ConnectionPriority.values()[data.getInteger("priority")];
 	}
 }

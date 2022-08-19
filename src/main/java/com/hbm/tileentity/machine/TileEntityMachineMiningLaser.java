@@ -402,11 +402,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			for(int z = -range; z <= range; z++) {
 				
 				if(worldObj.getBlock(x + xCoord, targetY, z + zCoord).getMaterial().isLiquid()) {
-					/*targetX = x + xCoord;
-					targetZ = z + zCoord;
-					worldObj.func_147480_a(x + xCoord, targetY, z + zCoord, false);
-					beam = true;*/
-					
 					continue;
 				}
 				

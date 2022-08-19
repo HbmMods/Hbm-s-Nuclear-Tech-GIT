@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityDiFurnace;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -26,13 +27,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineBattery extends BlockContainer implements ILookOverlay {
+public class MachineBattery extends BlockContainer implements ILookOverlay, IPersistentInfoProvider {
 
 	private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
@@ -143,8 +146,10 @@ public class MachineBattery extends BlockContainer implements ILookOverlay {
 		}
 
 		if(itemStack.hasDisplayName()) {
-			((TileEntityDiFurnace) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+			((TileEntityMachineBattery) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
 		}
+		
+		IPersistentNBT.restoreData(world, x, y, z, itemStack);
 	}
 
 	@Override
@@ -248,5 +253,31 @@ public class MachineBattery extends BlockContainer implements ILookOverlay {
 		
 		TileEntityMachineBattery battery = (TileEntityMachineBattery) te;
 		return battery.getComparatorPower();
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			this.dropBlockAsItem(world, x, y, z, meta, 0);
+			harvesters.set(null);
+		}
+	}
+	
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.YELLOW + "" + BobMathUtil.getShortNumber(persistentTag.getLong("power")) + "/" + BobMathUtil.getShortNumber(this.maxPower) + "HE");
 	}
 }
