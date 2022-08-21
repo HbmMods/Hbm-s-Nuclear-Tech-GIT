@@ -88,7 +88,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean hasPower() {
-		return power >= consumption;
+		return power > 0;
 	}
 
 	public boolean isProcessing() {
@@ -145,6 +145,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public void updateEntity() {
+		this.hasPower();
 		boolean flag1 = false;
 
 		if(!worldObj.isRemote) {

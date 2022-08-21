@@ -76,9 +76,6 @@ public class ParticleRBMKMush extends EntityFX {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 		GL11.glDepthMask(false);
 		RenderHelper.disableStandardItemLighting();
-		
-		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
-		if(fog) GL11.glDisable(GL11.GL_FOG);
 
 		tessellaator.startDrawingQuads();
 
@@ -96,7 +93,6 @@ public class ParticleRBMKMush extends EntityFX {
 		tessellaator.addVertexWithUV((double) (pX + x * scale - sx * scale), (double) (pY - y * scale), (double) (pZ + z * scale - sz * scale), 0, (prog + 1) * frame);
 		tessellaator.draw();
 
-		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

@@ -1,6 +1,5 @@
 package com.hbm.inventory.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -12,14 +11,12 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -56,48 +53,6 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 45, 16, 52, turret.power, turret.getMaxPower());
-
-		String on = EnumChatFormatting.GREEN + I18nUtil.resolveKey("turret.on");
-		String off = EnumChatFormatting.RED + I18nUtil.resolveKey("turret.off");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 8, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.players", turret.targetPlayers ? on : off));
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 22, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.animals", turret.targetAnimals ? on : off));
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.mobs", turret.targetMobs ? on : off));
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 30, 10, 10, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.machines", turret.targetMachines ? on : off));
-
-
-		if(this.mc.thePlayer.inventory.getItemStack() == null && this.guiLeft + 79 <= mouseX && guiLeft + 79 + 54 > mouseX && guiTop + 62 < mouseY && guiTop + 62 + 54 >= mouseY) {
-			
-			boolean draw = true;
-			for(int i = 1; i < 10; i++) {
-				if(this.isMouseOverSlot(this.inventorySlots.getSlot(i), mouseX, mouseY) && this.inventorySlots.getSlot(i).getHasStack()) {
-					draw = false;
-					break;
-				}
-			}
-			
-			if(draw) {
-				List<ItemStack> list = new ArrayList(turret.getAmmoTypesForDisplay());
-				List<Object[]> lines = new ArrayList();
-				ItemStack selected = list.get(0);
-				
-				if(list.size() > 1) {
-					int cycle = (int) ((System.currentTimeMillis() % (1000 * list.size())) / 1000);
-					selected = ((ItemStack) list.get(cycle)).copy();
-					selected.stackSize = 0;
-					list.set(cycle, selected);
-				}
-				
-				if(list.size() < 10) {
-					lines.add(list.toArray());
-				} else {
-					lines.add(list.subList(0, list.size() / 2).toArray());
-					lines.add(list.subList(list.size() / 2, list.size()).toArray());
-				}
-				
-				lines.add(new Object[] {I18nUtil.resolveKey(selected.getDisplayName())});
-				this.drawStackText(lines, mouseX, mouseY, this.fontRendererObj);
-			}
-		}
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -198,7 +153,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		
 		List<String> names = turret.getWhitelist();
 		
-		String n = EnumChatFormatting.ITALIC + I18nUtil.resolveKey("turret.none");
+		String n = EnumChatFormatting.ITALIC + "None";
 		
 		while(this.index >= this.getCount())
 			this.index--;

@@ -1,7 +1,10 @@
 package com.hbm.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

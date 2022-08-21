@@ -175,15 +175,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				return 0;
 			}
 		}
-		
-		if(te instanceof TileEntityRBMKOutgasser) {
-			TileEntityRBMKOutgasser rod = (TileEntityRBMKOutgasser)te;
-			
-			if(!rod.canProcess()) {
-				return flux;
-			}
-		}
-		
 		if(te instanceof IRBMKFluxReceiver) {
 			IRBMKFluxReceiver rod = (IRBMKFluxReceiver)te;
 			rod.receiveFlux(stream, flux);
@@ -363,6 +354,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {
+		if(isModerated() == true) {
+			return "rbmk_moderated_fuel_rod";
+		}
 		return "rbmk_fuel_rod";
 	}
 

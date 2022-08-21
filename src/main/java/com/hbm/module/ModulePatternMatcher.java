@@ -133,8 +133,6 @@ public class ModulePatternMatcher {
 		for(int i = 0; i < modes.length; i++) {
 			if(nbt.hasKey("mode" + i)) {
 				modes[i] = nbt.getString("mode" + i);
-			} else {
-				modes[i] = null;
 			}
 		}
 	}

@@ -1,10 +1,11 @@
 package com.hbm.blocks.generic;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
-public class BlockCrystal extends BlockDragonProof {
+public class BlockCrystal extends Block {
 
 	public BlockCrystal(Material mat) {
 		super(mat);

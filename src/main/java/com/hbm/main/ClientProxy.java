@@ -14,13 +14,11 @@ import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -34,10 +32,8 @@ import net.minecraftforge.common.MinecraftForge;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -194,7 +190,6 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretFritz.class, new RenderTurretFritz());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretBrandon.class, new RenderTurretBrandon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretArty.class, new RenderTurretArty());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretHIMARS.class, new RenderTurretHIMARS());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//cel prime
@@ -259,10 +254,6 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceSteel.class, new RenderFurnaceSteel());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeaterFirebox.class, new RenderFirebox());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeaterOilburner.class, new RenderOilburner());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStirling.class, new RenderStirling());
 		//AMS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSBase.class, new RenderAMSBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSEmitter.class, new RenderAMSEmitter());
@@ -333,18 +324,6 @@ public class ClientProxy extends ServerProxy {
 		
 		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
-		
-		//this bit registers an item renderer for every existing tile entity renderer that implements IItemRendererProvider
-		Iterator iterator = TileEntityRendererDispatcher.instance.mapSpecialRenderers.values().iterator();
-		while(iterator.hasNext()) {
-			Object renderer = iterator.next();
-			if(renderer instanceof IItemRendererProvider) {
-				IItemRendererProvider prov = (IItemRendererProvider) renderer;
-				for(Item item : prov.getItemsForRenderer()) {
-					MinecraftForgeClient.registerItemRenderer(item, prov.getRenderer());
-				}
-			}
-		}
 		
 		//universal JSON translated items
 		double[] rtp = new double[] {0, 180, -90};
@@ -473,7 +452,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_brimstone, new ItemRenderObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bio_revolver, new ItemRenderBioRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponShotty());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponObj());
@@ -554,7 +532,6 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRBMKDebris.class, new RenderRBMKDebris());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityZirnoxDebris.class, new RenderZirnoxDebris());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityArtilleryShell.class, new RenderArtilleryShell());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityCog.class, new RenderCog());
 		//grenades
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGeneric.class, new RenderSnowball(ModItems.grenade_generic));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeStrong.class, new RenderSnowball(ModItems.grenade_strong));
@@ -659,7 +636,6 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMovingPackage.class, new RenderMovingPackage());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTNTPrimedBase.class, new RenderTNTPrimedBase());
 		//mobs
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
@@ -733,7 +709,6 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockMultipass());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSideRotation());
 		RenderingRegistry.registerBlockHandler(new RenderDiode());
-		RenderingRegistry.registerBlockHandler(new RenderBoxDuct());
 
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));
@@ -1712,8 +1687,7 @@ public class ClientProxy extends ServerProxy {
 			double mX = data.getDouble("mX");
 			double mY = data.getDouble("mY");
 			double mZ = data.getDouble("mZ");
-			float scale = data.getFloat("scale");
-			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
+			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, 6.5F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
 		}
 	}
@@ -1746,7 +1720,7 @@ public class ClientProxy extends ServerProxy {
 	
 	@Override
 	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
-		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);
+		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume);
 		audio.updatePosition(x, y, z);
 		return audio;
 	}
@@ -1798,17 +1772,6 @@ public class ClientProxy extends ServerProxy {
 		try {
 			Desktop.getDesktop().browse(new URI(url));
 		} catch (Exception e) { }
-	}
-	
-	@Override
-	public List<ItemStack> getSubItems(ItemStack stack) {
-		
-		List<ItemStack> list = new ArrayList();
-		stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), list);
-		for(ItemStack sta : list) {
-			sta.stackSize = stack.stackSize;
-		}
-		return list;
 	}
 }
 

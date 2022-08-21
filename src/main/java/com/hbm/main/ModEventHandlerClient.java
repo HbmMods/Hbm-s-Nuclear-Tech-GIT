@@ -76,7 +76,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -110,7 +109,6 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
@@ -148,18 +146,6 @@ public class ModEventHandlerClient {
 			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
 				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
 			}
-			
-			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-				ScaledResolution resolution = event.resolution;
-				GL11.glPushMatrix();
-				int pX = resolution.getScaledWidth() / 2 + 8;
-				int pZ = resolution.getScaledHeight() / 2;
-				mc.fontRenderer.drawString("META: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ), pX, pZ - 3, 0xffff00);
-				GL11.glDisable(GL11.GL_BLEND);
-				GL11.glColor3f(1F, 1F, 1F);
-				GL11.glPopMatrix();
-				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
-			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -189,86 +175,60 @@ public class ModEventHandlerClient {
 		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
 			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
 		}
-		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
-			
-			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.getDashCount() > 0) {
-				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
-					
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		Tessellator tess = Tessellator.instance;
-		
-		if(!event.isCanceled() && event.type == event.type.HEALTH) {
-			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.maxShield > 0) {
-				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
-			}
-		}
-		
 		if(!event.isCanceled() && event.type == event.type.ARMOR) {
 			
-			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
-				GuiIngameForge.left_height -= 10;
-			}
-
-			int width = event.resolution.getScaledWidth();
-			int height = event.resolution.getScaledHeight();
-			int left = width / 2 - 91;
-
+	        int width = event.resolution.getScaledWidth();
+	        int height = event.resolution.getScaledHeight();
+	        int left = width / 2 - 91;
+	        int top = height - GuiIngameForge.left_height - 3;
+	        
+			Tessellator tess = Tessellator.instance;
+			
 			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
-				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
 				boolean noHelmet = chestplate.noHelmet;
-
+		        
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				tess.startDrawingQuads();
-
+	
 				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
 					
-					int top = height - GuiIngameForge.left_height + 6;
-
 					ItemStack stack = player.inventory.armorInventory[i];
-
+					
 					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
 						break;
-
-					float tot = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
-
+					
+					float tot = 1F - (float) ((ArmorFSBPowered)stack.getItem()).getDurabilityForDisplay(stack);
+					
 					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
 					tess.addVertex(left - 0.5, top - 0.5, 0);
 					tess.addVertex(left - 0.5, top + 1.5, 0);
 					tess.addVertex(left + 81.5, top + 1.5, 0);
 					tess.addVertex(left + 81.5, top - 0.5, 0);
-
+					
 					tess.setColorOpaque_F(1F - tot, tot, 0F);
 					tess.addVertex(left, top, 0);
 					tess.addVertex(left, top + 1, 0);
 					tess.addVertex(left + 81 * tot, top + 1, 0);
 					tess.addVertex(left + 81 * tot, top, 0);
-
-					GuiIngameForge.left_height += 3;
+					
+					top -= 2.5;
 				}
-
-				tess.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
-
-				ItemStack stack = player.inventory.armorInventory[2];
-
-				float tot = (float) ((JetpackBase) stack.getItem()).getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
 				
-				int top = height - GuiIngameForge.left_height + 3;
-
+				tess.draw();
+				
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
+				
+				ItemStack stack = player.inventory.armorInventory[2];
+				
+				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
+				top -= 3;
+				
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				tess.startDrawingQuads();
 				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
@@ -276,18 +236,26 @@ public class ModEventHandlerClient {
 				tess.addVertex(left - 0.5, top + 4.5, 0);
 				tess.addVertex(left + 81.5, top + 4.5, 0);
 				tess.addVertex(left + 81.5, top - 0.5, 0);
-
+				
 				tess.setColorOpaque_F(1F - tot, tot, 0F);
 				tess.addVertex(left, top, 0);
 				tess.addVertex(left, top + 4, 0);
 				tess.addVertex(left + 81 * tot, top + 4, 0);
 				tess.addVertex(left + 81 * tot, top, 0);
 				tess.draw();
-
+				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
+				
 			}
-
+			
+		}
+		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getDashCount() > 0) {
+				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
+					
+			}
 		}
 	}
 	

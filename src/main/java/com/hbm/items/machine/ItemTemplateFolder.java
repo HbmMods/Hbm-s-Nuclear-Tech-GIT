@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,11 +22,12 @@ public class ItemTemplateFolder extends Item {
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
-		String[] lang = I18nUtil.resolveKeyArray(ModItems.template_folder.getUnlocalizedName() + ".desc");
-		for(String line : lang) {
-			list.add(line);
-		}
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Machine Templates: Paper + Dye");
+		list.add("Fluid IDs: Iron Plate + Dye");
+		list.add("Press Stamps: Flat Stamp");
+		list.add("Siren Tracks: Insulator + Steel Plate");
 	}
+
 }

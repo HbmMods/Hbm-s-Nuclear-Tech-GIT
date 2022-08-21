@@ -2,9 +2,6 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.items.ModItems;
-import com.hbm.util.I18nUtil;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,7 +9,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
@@ -120,7 +116,7 @@ public class ItemCassette extends Item {
     	if(!(stack.getItem() instanceof ItemCassette))
     		return;
 
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
+		list.add("[CREATED USING TEMPLATE FOLDER]");
 		list.add("");
     	
     	list.add("Siren sound cassette:");

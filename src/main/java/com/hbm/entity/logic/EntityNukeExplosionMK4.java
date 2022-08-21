@@ -1,7 +1,5 @@
 package com.hbm.entity.logic;
 
-import java.util.List;
-
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.BombConfig;
@@ -10,23 +8,12 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.ContaminationType;
-import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-
 import net.minecraft.world.ChunkCoordIntPair;
-
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
-
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -72,13 +59,13 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 		for(Object player : this.worldObj.playerEntities)
 			((EntityPlayer)player).triggerAchievement(MainRegistry.achManhattan);
 		
-		if(!worldObj.isRemote && fallout && explosion != null && this.ticksExisted < 10) {
-			
-			radiate(500_000, this.length * 2);
+		if(!worldObj.isRemote && fallout && explosion != null) {
 
-			/*float radMax = Math.min((float) (length / 2F * Math.pow(length, 1.5) / 35F), 15000);
+			//float radMax = (float) (length / 2F * Math.pow(length, 2) / 35F);
+			float radMax = Math.min((float) (length / 2F * Math.pow(length, 1.5) / 35F), 15000);
+			//System.out.println(radMax);
 			float rad = radMax / 4F;
-			ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rad);*/
+			ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rad);
 		}
 		
 		if(!mute) {
@@ -91,19 +78,35 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 		
 		if(explosion == null) {
 			explosion = new ExplosionNukeRay(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
+			
+			//MainRegistry.logger.info("START: " + System.currentTimeMillis());
+			
+			/*if(!worldObj.isRemote)
+				for(int x = (int) (posX - 1); x <= (int) (posX + 1); x++)
+					for(int y = (int) (posY - 1); y <= (int) (posY + 1); y++)
+						for(int z = (int) (posZ - 1); z <= (int) (posZ + 1); z++)
+							worldObj.setBlock(x, y, z, Blocks.air);*/
 		}
 		
+		//if(explosion.getStoredSize() < count / length) {
 		if(!explosion.isAusf3Complete) {
+			//if(!worldObj.isRemote)
+			//MainRegistry.logger.info(explosion.getStoredSize() + " / " + count / length);
+			//explosion.collectTip(speed * 10);
 			explosion.collectTipMk4_5(speed * 10);
 		} else if(explosion.getStoredSize() > 0) {
+			//if(!worldObj.isRemote)
+			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(BombConfig.mk4);
 		} else if(fallout) {
 
+			//MainRegistry.logger.info("STOP: " + System.currentTimeMillis());
+			
 			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj);
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;
-			fallout.setScale((int)(this.length * 2.5 + falloutAdd) * BombConfig.falloutRange / 100);
+			fallout.setScale((int)(this.length * 1.8 + falloutAdd) * BombConfig.falloutRange / 100);
 
 			this.worldObj.spawnEntityInWorld(fallout);
 			
@@ -113,51 +116,13 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 		}
 	}
 
-
 	@Override
 	protected void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-
-	
-	private void radiate(float rads, double range) {
-		
-		List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX, posY, posZ).expand(range, range, range));
-		
-		for(EntityLivingBase e : entities) {
-			
-			Vec3 vec = Vec3.createVectorHelper(e.posX - posX, (e.posY + e.getEyeHeight()) - posY, e.posZ - posZ);
-			double len = vec.lengthVector();
-			vec = vec.normalize();
-			
-			float res = 0;
-			
-			for(int i = 1; i < len; i++) {
-
-				int ix = (int)Math.floor(posX + vec.xCoord * i);
-				int iy = (int)Math.floor(posY + vec.yCoord * i);
-				int iz = (int)Math.floor(posZ + vec.zCoord * i);
-				
-				res += worldObj.getBlock(ix, iy, iz).getExplosionResistance(null);
-			}
-			
-			if(res < 1)
-				res = 1;
-			
-			float eRads = rads;
-			eRads /= (float)res;
-			eRads /= (float)(len * len);
-			
-			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
-		}
-
 	}
 
 	@Override
-	protected void entityInit() { }
-
-	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
-		this.ticksExisted = nbt.getInteger("ticksExisted");
 
 		/*strength = nbt.getInteger("strength");
 		count = nbt.getInteger("count");
@@ -170,9 +135,7 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt) {
-		nbt.setInteger("ticksExisted", this.ticksExisted);
-	}
+	protected void writeEntityToNBT(NBTTagCompound nbt) { }
 	
 	public static EntityNukeExplosionMK4 statFac(World world, int r, double x, double y, double z) {
 		

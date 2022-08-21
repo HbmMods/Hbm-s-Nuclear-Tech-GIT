@@ -19,7 +19,6 @@ import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
-import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
@@ -43,7 +42,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Spaghetti("no")
 public class ExplosionChaos {
 
 	private final static Random random = new Random();
@@ -930,17 +928,29 @@ public class ExplosionChaos {
 		else if (world.getBlock(x, y, z) == ModBlocks.block_waste && random.nextInt(10) == 0) {
 			world.setBlock(x, y, z, ModBlocks.block_lead);
 		}
-		
-		else if(world.getBlock(x, y, z) == ModBlocks.sellafield) {
-			int meta = world.getBlockMetadata(x, y, z);
-			
-			if(meta > 0) {
-				if(meta == 5 && random.nextInt(10) == 0)
-					world.setBlockMetadataWithNotify(x, y, z, 4, 3);
-				else if(random.nextInt(5) == 0)
-					world.setBlockMetadataWithNotify(meta, x, y, z, meta - 1);
-			} else if(random.nextInt(5) == 0)
-				world.setBlock(y, z, meta, ModBlocks.sellafield_slaked);
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_core && random.nextInt(10) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_4);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_4 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_3);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_3 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_2);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_2 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_1);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_1 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_0 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
 		}
 	}
 

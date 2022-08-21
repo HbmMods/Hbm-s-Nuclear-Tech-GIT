@@ -1,6 +1,5 @@
 package com.hbm.blocks.generic;
 
-import java.io.IOException;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -29,11 +28,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -133,16 +129,6 @@ public class BlockStorageCrate extends BlockContainer {
 			
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
-				
-				try {
-					byte[] abyte = CompressedStreamTools.compress(nbt);
-					
-					if(abyte.length > 6000) {
-						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
-						return world.setBlockToAir(x, y, z);
-					}
-					
-				} catch(IOException e) { }
 			}
 			
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, drop));

@@ -177,7 +177,7 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 		List<HazardClass> haz = getBlacklist(stack, player);
 		
 		if(!haz.isEmpty()) {
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hazard.neverProtects"));
+			list.add(EnumChatFormatting.RED + "Will never protect against:");
 			
 			for(HazardClass clazz : haz) {
 				list.add(EnumChatFormatting.DARK_RED + " -" + I18nUtil.resolveKey(clazz.lang));

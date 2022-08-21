@@ -67,36 +67,20 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	
 	public ArtilleryShell getType() {
 		try {
-			return ItemAmmoArty.itemTypes[this.dataWatcher.getWatchableObjectInt(10)];
+			return ItemAmmoArty.types[this.dataWatcher.getWatchableObjectInt(10)];
 		} catch(Exception ex) {
-			return ItemAmmoArty.itemTypes[0];
+			return ItemAmmoArty.types[0];
 		}
 	}
 	
-	public double[] getTarget() {
-		return new double[] { this.targetX, this.targetY, this.targetZ };
-	}
-	
-	public void setTarget(double x, double y, double z) {
+	public void setTarget(int x, int y, int z) {
 		this.targetX = x;
 		this.targetY = y;
 		this.targetZ = z;
 	}
 	
-	public double getTargetHeight() {
-		return this.targetY;
-	}
-	
 	public void setWhistle(boolean whistle) {
 		this.shouldWhistle = whistle;
-	}
-	
-	public boolean getWhistle() {
-		return this.shouldWhistle;
-	}
-	
-	public boolean didWhistle() {
-		return this.didWhistle;
 	}
 	
 	@Override
@@ -112,13 +96,12 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 				double dist = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 				
 				if(speed * 18 > dist) {
-					worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "hbm:turret.mortarWhistle", 15.0F, 0.9F + rand.nextFloat() * 0.2F);
+					worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "hbm:turret.mortarWhistle", 15.0F, 1.0F);
 					this.didWhistle = true;
 				}
 			}
 
 			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
-			this.getType().onUpdate(this);
 			
 		} else {
 			if(this.turnProgress > 0) {
@@ -160,7 +143,15 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	protected void onImpact(MovingObjectPosition mop) {
 		
 		if(!worldObj.isRemote) {
+			/*Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
+			this.worldObj.newExplosion(this, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 15F, false, false);
+			this.setDead();*/
+			
 			this.getType().onImpact(this, mop);
+			
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 
@@ -181,27 +172,24 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			
-			clearChunkLoader();
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			/*loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));*/
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
-			}
-		}
-	}
-	
-	public void killAndClear() {
-		this.setDead();
-		this.clearChunkLoader();
-	}
-	
-	public void clearChunkLoader() {
-		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
 			}
 		}
 	}

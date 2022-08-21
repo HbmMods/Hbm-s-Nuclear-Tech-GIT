@@ -17,7 +17,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.Compat;
 import com.hbm.util.Tuple.Triplet;
 
 import net.minecraft.block.Block;
@@ -53,37 +52,29 @@ public class FalloutConfigJSON {
 	}
 
 	private static void initDefault() {
-		
-		double woodEffectRange = 65D;
-		/* destroy all leaves within the radios, kill all leaves outside of it */
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
-		entries.add(new FalloutEntry(	).mB(Blocks.leaves2)		.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
-		
-		entries.add(new FalloutEntry()	.mB(Blocks.log)							.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.log2)						.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block).mM(10)	.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block).mM(10)	.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
-
-		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
-		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
-		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
-		
-		entries.add(stoneCore.clone().mB(Blocks.stone));
-		entries.add(stoneInner.clone().mB(Blocks.stone));
-		entries.add(stoneOuter.clone().mB(Blocks.stone));
-		entries.add(stoneCore.clone().mB(Blocks.gravel));
-		entries.add(stoneInner.clone().mB(Blocks.gravel));
-		entries.add(stoneOuter.clone().mB(Blocks.gravel));
-		/* recontaminate slaked sellafield */
-		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
-		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
-		
+		entries.add(new FalloutEntry()
+				.mB(Blocks.leaves)
+				.prim(new Triplet(Blocks.air, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.leaves2)
+				.prim(new Triplet(Blocks.air, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.stone)
+				.prim(new Triplet(ModBlocks.sellafield_1, 0, 1))
+				.max(5)
+				.sol(true));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.stone)
+				.prim(new Triplet(ModBlocks.sellafield_0, 0, 1))
+				.min(5)
+				.max(15)
+				.sol(true));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.stone)
+				.prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1))
+				.min(15)
+				.max(75)
+				.sol(true));
 		entries.add(new FalloutEntry()
 				.mB(Blocks.grass)
 				.prim(new Triplet(ModBlocks.waste_earth, 0, 1)));
@@ -109,12 +100,23 @@ public class FalloutConfigJSON {
 				.prim(new Triplet(Blocks.diamond_ore, 0, 3), new Triplet(Blocks.emerald_ore, 0, 2))
 				.c(0.2));
 		entries.add(new FalloutEntry()
+				.mB(Blocks.log)
+				.prim(new Triplet(ModBlocks.waste_log, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.log2)
+				.prim(new Triplet(ModBlocks.waste_log, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.red_mushroom_block).mM(10)
+				.prim(new Triplet(ModBlocks.waste_log, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.brown_mushroom_block).mM(10)
+				.prim(new Triplet(ModBlocks.waste_log, 0, 1)));
+		entries.add(new FalloutEntry()
+				.mB(Blocks.planks)
+				.prim(new Triplet(ModBlocks.waste_planks, 0, 1)));
+		entries.add(new FalloutEntry()
 				.mB(Blocks.coal_ore)
 				.prim(new Triplet(Blocks.diamond_ore, 0, 3), new Triplet(Blocks.emerald_ore, 0, 2))
-				.c(0.5));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.ore_lignite)
-				.prim(new Triplet(Blocks.diamond_ore, 0, 1))
 				.c(0.2));
 		entries.add(new FalloutEntry()
 				.mB(ModBlocks.ore_uranium)
@@ -125,20 +127,6 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()
 				.mB(ModBlocks.ore_gneiss_uranium)
 				.prim(new Triplet(ModBlocks.ore_gneiss_schrabidium, 0, 1), new Triplet(ModBlocks.ore_gneiss_uranium_scorched, 0, 99)));
-		
-		/// COMPAT ///
-		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
-		if(deepslate != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(deepslate));
-			entries.add(stoneInner.clone().mB(deepslate));
-			entries.add(stoneOuter.clone().mB(deepslate));
-		}
-		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
-		if(stone != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(stone));
-			entries.add(stoneInner.clone().mB(stone));
-			entries.add(stoneOuter.clone().mB(stone));
-		}
 	}
 	
 	private static void writeDefault(File file) {
@@ -167,7 +155,7 @@ public class FalloutConfigJSON {
 		
 		try {
 			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
-			JsonArray recipes = json.get("entries").getAsJsonArray();
+			JsonArray recipes = json.get("recipes").getAsJsonArray();
 			List<FalloutEntry> conf = new ArrayList();
 			
 			for(JsonElement recipe : recipes) {
@@ -175,9 +163,7 @@ public class FalloutConfigJSON {
 			}
 			return conf;
 			
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
+		} catch(Exception ex) { }
 		
 		return null;
 	}
@@ -196,21 +182,6 @@ public class FalloutConfigJSON {
 		private double maxDist = 100.0D;
 		
 		private boolean isSolid = false;
-		
-		public FalloutEntry clone() {
-			FalloutEntry entry = new FalloutEntry();
-			entry.mB(matchesBlock);
-			entry.mM(matchesMeta);
-			entry.mMa(matchesMaterial);
-			entry.mO(matchesOpaque);
-			entry.prim(primaryBlocks);
-			entry.sec(secondaryBlocks);
-			entry.min(minDist);
-			entry.max(maxDist);
-			entry.sol(isSolid);
-			
-			return entry;
-		}
 
 		public FalloutEntry mB(Block block) { this.matchesBlock = block; return this; }
 		public FalloutEntry mM(int meta) { this.matchesMeta = meta; return this; }
@@ -237,7 +208,7 @@ public class FalloutConfigJSON {
 				if(primaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(primaryBlocks);
-				world.setBlock(x, y, z, block.block, block.meta, 3);
+				world.setBlock(x, y, z, block.block, block.meta, 2);
 				return true;
 				
 			} else {
@@ -245,7 +216,7 @@ public class FalloutConfigJSON {
 				if(secondaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(secondaryBlocks);
-				world.setBlock(x, y, z, block.block, block.meta, 3);
+				world.setBlock(x, y, z, block.block, block.meta, 2);
 				return true;
 			}
 		}
@@ -303,9 +274,6 @@ public class FalloutConfigJSON {
 			if(obj.has("matchesMeta")) entry.mM(obj.get("matchesMeta").getAsInt());
 			if(obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
 			if(obj.has("matchesMaterial")) entry.mMa(matNames.get(obj.get("mustBeOpaque").getAsString()));
-
-			if(obj.has("primarySubstitution")) entry.prim(readMetaArray(obj.get("primarySubstitution")));
-			if(obj.has("secondarySubstitutions")) entry.sec(readMetaArray(obj.get("secondarySubstitutions")));
 			
 			return entry;
 		}
@@ -326,26 +294,8 @@ public class FalloutConfigJSON {
 			writer.setIndent("  ");
 		}
 		
-		private static Triplet<Block, Integer, Integer>[] readMetaArray(JsonElement jsonElement) {
-			
-			if(!jsonElement.isJsonArray()) return null;
-			
-			JsonArray array = jsonElement.getAsJsonArray();
-			Triplet<Block, Integer, Integer>[] metaArray = new Triplet[array.size()];
-			
-			for(int i = 0; i < metaArray.length; i++) {
-				JsonElement metaBlock = array.get(i);
-				
-				if(!metaBlock.isJsonArray()) {
-					throw new IllegalStateException("Could not read meta block " + metaBlock.toString());
-				}
-				
-				JsonArray mBArray = metaBlock.getAsJsonArray();
-				
-				metaArray[i] = new Triplet(Block.blockRegistry.getObject(mBArray.get(0).getAsString()), mBArray.get(1).getAsInt(), mBArray.get(2).getAsInt());
-			}
-			
-			return metaArray;
+		private static Triplet<Block, Integer, Integer>[] readMetaArray(JsonObject obj) {
+			return null; //TODO
 		}
 	}
 	

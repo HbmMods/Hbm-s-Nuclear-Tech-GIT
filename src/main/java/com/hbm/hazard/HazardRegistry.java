@@ -180,10 +180,6 @@ public class HazardRegistry {
 		HazardSystem.register(egg_balefire_shard, makeData(RADIATION, bf * nugget));
 		HazardSystem.register(egg_balefire, makeData(RADIATION, bf * ingot));
 
-		HazardSystem.register(solid_fuel_bf, makeData(RADIATION, 1000)); //roughly the amount of the balefire shard diluted in 250mB of rocket fuel
-		HazardSystem.register(solid_fuel_presto_bf, makeData(RADIATION, 2000));
-		HazardSystem.register(solid_fuel_presto_triplet_bf, makeData(RADIATION, 6000));
-
 		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
 		HazardSystem.register(nuclear_waste_long_tiny, makeData(RADIATION, 0.5F));
 		HazardSystem.register(nuclear_waste_short, makeData().addEntry(RADIATION, 30F).addEntry(HOT, 5F));
@@ -209,12 +205,12 @@ public class HazardRegistry {
 		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
 		HazardSystem.register(sand_gold198, makeData(RADIATION, au198 * block * powder_mult));
 		
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 0), makeData(RADIATION, 0.5F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 1), makeData(RADIATION, 1F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 2), makeData(RADIATION, 2.5F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 3), makeData(RADIATION, 4F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 4), makeData(RADIATION, 5F));	
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 5), makeData(RADIATION, 10F));
+		HazardSystem.register(sellafield_0, makeData(RADIATION, 0.5F));
+		HazardSystem.register(sellafield_1, makeData(RADIATION, 1F));
+		HazardSystem.register(sellafield_2, makeData(RADIATION, 2.5F));
+		HazardSystem.register(sellafield_3, makeData(RADIATION, 4F));
+		HazardSystem.register(sellafield_4, makeData(RADIATION, 5F));	
+		HazardSystem.register(sellafield_core, makeData(RADIATION, 10F));
 		
 		registerOtherFuel(rod_zirnox_natural_uranium_fuel, u * rod_dual, wst * rod_dual * 11.5F, false);
 		registerOtherFuel(rod_zirnox_uranium_fuel, uf * rod_dual, wst * rod_dual * 10F, false);
@@ -471,8 +467,8 @@ public class HazardRegistry {
 		/*
 		 * Blacklist
 		 */
-		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
-		for(String ore : U.ores()) HazardSystem.blacklist(ore);
+		HazardSystem.blacklist(TH232.ore());
+		HazardSystem.blacklist(U.ore());
 
 		
 		/*
@@ -490,10 +486,7 @@ public class HazardRegistry {
 	
 	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
-		
-		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives)) {
-			HazardSystem.trafos.add(new HazardTransformerRadiationME());
-		}
+		HazardSystem.trafos.add(new HazardTransformerRadiationME());
 	}
 	
 	private static HazardData makeData() { return new HazardData(); }

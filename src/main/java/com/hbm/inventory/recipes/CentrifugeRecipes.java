@@ -1,23 +1,15 @@
 package com.hbm.inventory.recipes;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.inventory.RecipesCommon;
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -26,12 +18,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class CentrifugeRecipes extends SerializableRecipe {
+public class CentrifugeRecipes {
 
-	private static HashMap<AStack, ItemStack[]> recipes = new HashMap();
-
-	@Override
-	public void registerDefaults() {
+	private static HashMap<Object, ItemStack[]> recipes = new HashMap();
+	
+	public static void register() {
 		
 		boolean lbs = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCentrifuge;
 		
@@ -137,79 +128,79 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.dust, 1),
 				new ItemStack(ModItems.dust, 1) });
 
-		recipes.put(new OreDictStack("oreCoal"), new ItemStack[] {
+		recipes.put("oreCoal", new ItemStack[] {
 				new ItemStack(ModItems.powder_coal, 2),
 				new ItemStack(ModItems.powder_coal, 2),
 				new ItemStack(ModItems.powder_coal, 2),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreLignite"), new ItemStack[] {
+		recipes.put("oreLignite", new ItemStack[] {
 				new ItemStack(ModItems.powder_lignite, 2),
 				new ItemStack(ModItems.powder_lignite, 2),
 				new ItemStack(ModItems.powder_lignite, 2),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreIron"), new ItemStack[] {
+		recipes.put("oreIron", new ItemStack[] {
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreGold"), new ItemStack[] {
+		recipes.put("oreGold", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_gold, 2) : new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(ModItems.powder_gold, 1),
 				lbs ? new ItemStack(ModItems.nugget_bismuth, 1) : new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreDiamond"), new ItemStack[] {
+		recipes.put("oreDiamond", new ItemStack[] {
 				new ItemStack(ModItems.powder_diamond, 1),
 				new ItemStack(ModItems.powder_diamond, 1),
 				new ItemStack(ModItems.powder_diamond, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreEmerald"), new ItemStack[] {
+		recipes.put("oreEmerald", new ItemStack[] {
 				new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreTitanium"), new ItemStack[] {
+		recipes.put("oreTitanium", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_titanium, 2) : new ItemStack(ModItems.powder_titanium, 1),
 				lbs ? new ItemStack(ModItems.powder_titanium, 2) : new ItemStack(ModItems.powder_titanium, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreQuartz"), new ItemStack[] {
+		recipes.put("oreQuartz", new ItemStack[] {
 				new ItemStack(ModItems.powder_quartz, 1),
 				new ItemStack(ModItems.powder_quartz, 1),
 				new ItemStack(ModItems.powder_lithium_tiny, 1),
 				new ItemStack(Blocks.netherrack, 1) });
 		
-		recipes.put(new OreDictStack("oreTungsten"), new ItemStack[] {
+		recipes.put("oreTungsten", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_tungsten, 2) : new ItemStack(ModItems.powder_tungsten, 1),
 				new ItemStack(ModItems.powder_tungsten, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreCopper"), new ItemStack[] {
+		recipes.put("oreCopper", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_copper, 2) : new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreAluminum"), new ItemStack[] {
+		recipes.put("oreAluminum", new ItemStack[] {
 				new ItemStack(ModItems.powder_aluminium, 1),
 				new ItemStack(ModItems.powder_aluminium, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreLead"), new ItemStack[] {
+		recipes.put("oreLead", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_lead, 2) : new ItemStack(ModItems.powder_lead, 1),
 				lbs ? new ItemStack(ModItems.nugget_bismuth, 1) : new ItemStack(ModItems.powder_lead, 1),
 				new ItemStack(ModItems.powder_gold, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreSchrabidium"), new ItemStack[] {
+		recipes.put("oreSchrabidium", new ItemStack[] {
 				new ItemStack(ModItems.powder_schrabidium, 1),
 				new ItemStack(ModItems.powder_schrabidium, 1),
 				new ItemStack(ModItems.nugget_solinium, 1),
@@ -221,31 +212,31 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_zirconium, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("orePlutonium"), new ItemStack[] {
+		recipes.put("orePlutonium", new ItemStack[] {
 				new ItemStack(ModItems.powder_plutonium, 1),
 				new ItemStack(ModItems.powder_plutonium, 1),
 				new ItemStack(ModItems.nugget_polonium, 3),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreUranium"), new ItemStack[] {
+		recipes.put("oreUranium", new ItemStack[] {
 				lbs ? new ItemStack(ModItems.powder_uranium, 2) : new ItemStack(ModItems.powder_uranium, 1),
 				lbs ? new ItemStack(ModItems.nugget_technetium, 2) : new ItemStack(ModItems.powder_uranium, 1),
 				lbs ? new ItemStack(ModItems.nugget_ra226, 2) : new ItemStack(ModItems.nugget_ra226, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreThorium"), new ItemStack[] {
+		recipes.put("oreThorium", new ItemStack[] {
 				new ItemStack(ModItems.powder_thorium, 1),
 				new ItemStack(ModItems.powder_thorium, 1),
 				new ItemStack(ModItems.powder_uranium, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreBeryllium"), new ItemStack[] {
+		recipes.put("oreBeryllium", new ItemStack[] {
 				new ItemStack(ModItems.powder_beryllium, 1),
 				new ItemStack(ModItems.powder_beryllium, 1),
 				new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new OreDictStack("oreRedstone"), new ItemStack[] {
+		recipes.put("oreRedstone", new ItemStack[] {
 				new ItemStack(Items.redstone, 3),
 				new ItemStack(Items.redstone, 3),
 				lbs ? new ItemStack(ModItems.ingot_mercury, 3) : new ItemStack(ModItems.ingot_mercury, 1),
@@ -257,7 +248,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_nitan_mix, 1),
 				new ItemStack(Blocks.end_stone, 1) });
 		
-		recipes.put(new OreDictStack("oreLapis"), new ItemStack[] {
+		recipes.put("oreLapis", new ItemStack[] {
 				new ItemStack(ModItems.powder_lapis, 3),
 				new ItemStack(ModItems.powder_lapis, 3),
 				new ItemStack(ModItems.powder_cobalt_tiny, 1),
@@ -281,7 +272,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.ingot_phosphorus),
 				new ItemStack(Blocks.netherrack) });
 		
-		recipes.put(new OreDictStack("oreCobalt"), new ItemStack[] {
+		recipes.put("oreCobalt", new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt, 2),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(ModItems.powder_copper, 1),
@@ -299,7 +290,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 			ItemStack qItem = quartz.get(0).copy();
 			qItem.stackSize = 2;
 			
-			recipes.put(new OreDictStack("oreCertusQuartz"), new ItemStack[] {
+			recipes.put("oreCertusQuartz", new ItemStack[] {
 					qItem.copy(),
 					qItem.copy(),
 					qItem.copy(),
@@ -336,10 +327,8 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_lithium), new ItemStack[] { new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_quartz, 1), new ItemStack(ModItems.fluorite, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_starmetal), new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3), new ItemStack(ModItems.powder_cobalt, 3), new ItemStack(ModItems.powder_astatine, 2), new ItemStack(ModItems.ingot_mercury, 5) });
 		recipes.put(new ComparableStack(ModItems.crystal_cobalt), new ItemStack[] { new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_iron, 3), new ItemStack(ModItems.powder_copper, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
-	}
-	
-	@Override
-	public void registerPost() {
+		
+
 		
 		if(!IMCCentrifuge.buffer.isEmpty()) {
 			recipes.putAll(IMCCentrifuge.buffer);
@@ -353,7 +342,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return null;
 		
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
 		
 		if(recipes.containsKey(comp))
 			return RecipesCommon.copyStackArray(recipes.get(comp));
@@ -361,7 +350,8 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		String[] dictKeys = comp.getDictKeys();
 		
 		for(String key : dictKeys) {
-			if(recipes.containsKey(new OreDictStack(key)))
+
+			if(recipes.containsKey(key))
 				return RecipesCommon.copyStackArray(recipes.get(key));
 		}
 		
@@ -372,55 +362,16 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		
-		for(Entry<AStack, ItemStack[]> entry : CentrifugeRecipes.recipes.entrySet()) {
-			recipes.put(entry.getKey().extractForNEI(), entry.getValue());
+		for(Entry<Object, ItemStack[]> entry : CentrifugeRecipes.recipes.entrySet()) {
+			
+			if(entry.getKey() instanceof String) {
+				List<ItemStack> ingredients = OreDictionary.getOres((String)entry.getKey());
+				recipes.put(ingredients, entry.getValue());
+			} else {
+				recipes.put(((ComparableStack)entry.getKey()).toStack(), entry.getValue());
+			}
 		}
 		
 		return recipes;
-	}
-
-	@Override
-	public String getFileName() {
-		return "hbmCentrifuge.json";
-	}
-
-	@Override
-	public Object getRecipeObject() {
-		return recipes;
-	}
-
-	@Override
-	public void readRecipe(JsonElement recipe) {
-		JsonObject obj = (JsonObject) recipe;
-		AStack in = this.readAStack(obj.get("input").getAsJsonArray());
-		ItemStack[] out = this.readItemStackArray((JsonArray) obj.get("output"));
-		this.recipes.put(in, out);
-	}
-
-	@Override
-	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
-		try {
-			Entry<AStack, ItemStack[]> entry = (Entry<AStack, ItemStack[]>) recipe;
-			writer.name("input");
-			this.writeAStack(entry.getKey(), writer);
-			writer.name("output").beginArray();
-			for(ItemStack stack : entry.getValue()) {
-				this.writeItemStack(stack, writer);
-			}
-			writer.endArray();
-		} catch(Exception ex) {
-			MainRegistry.logger.error(ex);
-			ex.printStackTrace();
-		}
-	}
-
-	@Override
-	public void deleteRecipes() {
-		recipes.clear();
-	}
-
-	@Override
-	public String getComment() {
-		return "Outputs have to be an array of four item stacks. The centrifuge can't handle recipes with a smaller output as of now.";
 	}
 }

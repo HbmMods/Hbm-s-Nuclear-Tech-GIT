@@ -4,7 +4,6 @@ import com.hbm.inventory.fluid.FluidType;
 
 import net.minecraft.item.ItemStack;
 
-@Deprecated
 public interface IPartiallyFillable {
 	
 	public FluidType getType(ItemStack stack);

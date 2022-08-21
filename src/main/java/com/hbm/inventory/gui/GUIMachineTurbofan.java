@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineTurbofan;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
@@ -56,7 +57,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		}
 		
 		if(diFurnace.afterburner > 0) {
-			int i = Math.min(diFurnace.afterburner, 6);
+			int i = diFurnace.afterburner;
 			drawTexturedModalRect(guiLeft + 107, guiTop + 53, 176, (i - 1) * 16, 16, 16);
 		}
 

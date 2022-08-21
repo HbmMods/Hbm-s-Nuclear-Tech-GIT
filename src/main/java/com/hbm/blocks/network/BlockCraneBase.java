@@ -3,6 +3,8 @@ package com.hbm.blocks.network;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockSideRotation;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.test.TestConductor;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
