@@ -1203,6 +1203,8 @@ death.attack.twr2=%2$s разбил %1$s на миллион осколков с
 death.attack.twr3=%2$s показал %1$s, что здесь нету выхода.
 death.attack.overdose=%1$s умер от передоза метамфетамином.
 death.attack.microwave=%1$s взорвался от микроволнового излучения.
+death.attack.acidPlayer=%1$s был растворён %2$s.
+death.attack.boil=%1$s был заживо сварен %2$s.
 
 item.redstone_sword.name=Меч из красного камня
 item.big_sword.name=Большой меч
@@ -3438,6 +3440,7 @@ item.gun_xvl1456.name=Прототип Тау-пушки XVL1456
 item.gun_osipr.name=Импульсная винтовка Патруля
 item.gun_immolator.name=Иммолятор
 item.gun_flamer.name=Мистер Топаз
+item.gun_chemthrower.name=Химомёт
 item.gun_cryolator.name=Криолятор
 item.gun_mp.name=Пулемет Пацифистов
 item.gun_zomg.name=ZOMG-пушка
