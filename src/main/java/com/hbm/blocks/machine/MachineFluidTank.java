@@ -134,7 +134,6 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 			} else {
 				this.dropBlockAsItem(world, x, y, z, drop);
 				world.func_147480_a(x, y, z, false);
-				System.out.println("piss and shit");
 			}
 		}
 		if (i == 1) {
@@ -182,7 +181,6 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 			} else {
 				this.dropBlockAsItem(world, x, y, z, drop);
 				world.func_147480_a(x, y, z, false);
-				System.out.println("piss and shit");
 			}
 		}
 		if (i == 2) {
@@ -230,7 +228,6 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 			} else {
 				this.dropBlockAsItem(world, x, y, z, drop);
 				world.func_147480_a(x, y, z, false);
-				System.out.println("piss and shit");
 			}
 		}
 		if (i == 3) {
@@ -278,7 +275,6 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 			} else {
 				this.dropBlockAsItem(world, x, y, z, drop);
 				world.func_147480_a(x, y, z, false);
-				System.out.println("piss and shit");
 			}
 		}
 
