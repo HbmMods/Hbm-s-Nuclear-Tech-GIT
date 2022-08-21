@@ -309,7 +309,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
     				           
     				double mod;
     				double mod2;
-    				for(int i = 0; i < 7; i++) {
+    				for(int i = 0; i < 8; i++) {
     					EntityMIRV nuke3 = new EntityMIRV(this.worldObj);
     					nuke3.setPosition(posX,posY,posZ);      
     					mod = (i == 1 || i == 2) ? 1 : -1; 
@@ -317,7 +317,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
     					
     					if(i==5){ mod2 = 0; mod = 2;}
     					if(i==6){ mod2 = 0; mod = -2;}
-    		
+    					if(i==7){ mod2 = 0; mod = 0;}
+    					
         				nuke3.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);
     					nuke3.motionX = this.motionX+mod;
     					nuke3.motionY = this.motionY;
@@ -325,15 +326,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
     					this.worldObj.spawnEntityInWorld(nuke3);
     					
     				}
-    				//for some reason these fuckers refuse to work any other way dont blame for the mess
-
-					EntityMIRV nuke4 = new EntityMIRV(this.worldObj);
-    				nuke4.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
-					nuke4.setPosition(posX,posY,posZ);
-					nuke4.motionX = this.motionX;
-					nuke4.motionY = this.motionY;
-					nuke4.motionZ = this.motionZ;
-					this.worldObj.spawnEntityInWorld(nuke4);
 					
     			}
     		}
