@@ -97,7 +97,7 @@ public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryIte
 	}
 
 	@Override
-	protected boolean canOperate(ItemStack stack) {
+	public boolean canOperate(ItemStack stack) {
 		return getCharge(stack) >= this.consumption;
 	}
 

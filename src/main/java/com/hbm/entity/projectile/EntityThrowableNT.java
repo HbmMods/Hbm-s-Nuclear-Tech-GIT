@@ -30,7 +30,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	private Block stuckBlock;
 	protected boolean inGround;
 	public int throwableShake;
-	private EntityLivingBase thrower;
+	protected EntityLivingBase thrower;
 	private String throwerName;
 	private int ticksInGround;
 	private int ticksInAir;

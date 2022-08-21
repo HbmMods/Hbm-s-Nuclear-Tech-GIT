@@ -18,8 +18,10 @@ public interface IPersistentNBT {
 	public default ArrayList<ItemStack> getDrops(Block b) {
 		ArrayList<ItemStack> list = new ArrayList();
 		ItemStack stack = new ItemStack(b);
-		stack.stackTagCompound = new NBTTagCompound();
-		writeNBT(stack.stackTagCompound);
+		NBTTagCompound data = new NBTTagCompound();
+		writeNBT(data);
+		if(!data.hasNoTags())
+			stack.stackTagCompound = data;
 		list.add(stack);
 		return list;
 	}

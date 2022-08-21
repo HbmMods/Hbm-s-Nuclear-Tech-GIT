@@ -410,6 +410,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.diamond_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.mese_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.crucible, new ItemRenderCrucible());
+		MinecraftForgeClient.registerItemRenderer(ModItems.chainsaw, new ItemRenderChainsaw());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());
@@ -556,6 +557,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityZirnoxDebris.class, new RenderZirnoxDebris());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityArtilleryShell.class, new RenderArtilleryShell());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCog.class, new RenderCog());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityChemical.class, new RenderChemical());
 		//grenades
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGeneric.class, new RenderSnowball(ModItems.grenade_generic));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeStrong.class, new RenderSnowball(ModItems.grenade_strong));
@@ -1137,6 +1139,14 @@ public class ClientProxy extends ServerProxy {
 				fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
 				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
 			}
+
+			if("colordust".equals(data.getString("mode"))) {
+				
+				Block b = Blocks.wool;
+				fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
+				fx.setRBGColorF(data.getFloat("r"), data.getFloat("g"), data.getFloat("b"));
+				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
+			}
 			
 			if(fx != null) {
 				
@@ -1633,6 +1643,50 @@ public class ClientProxy extends ServerProxy {
 									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)));
 
 					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
+					
+					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+				}
+			}
+			
+			if("sSwing".equals(data.getString("mode"))) {
+
+				int forward = 150;
+				int sideways = 100;
+				int retire = 200;
+				
+				if(HbmAnimations.getRelevantAnim() == null) {
+					
+					BusAnimation animation = new BusAnimation()
+							.addBus("SWING_ROT", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
+									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+							.addBus("SWING_TRANS", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
+									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
+
+					
+					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+					
+				} else {
+
+					double[] rot = HbmAnimations.getRelevantTransformation("SWING_ROT");
+					double[] trans = HbmAnimations.getRelevantTransformation("SWING_TRANS");
+					
+					if(System.currentTimeMillis() - HbmAnimations.getRelevantAnim().startMillis < 50) return;
+					
+					BusAnimation animation = new BusAnimation()
+							.addBus("SWING_ROT", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(rot[0], rot[1], rot[2], 0))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
+									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+							.addBus("SWING_TRANS", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(trans[0], trans[1], trans[2], 0))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
+									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 				}

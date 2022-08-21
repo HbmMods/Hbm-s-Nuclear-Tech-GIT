@@ -37,7 +37,7 @@ public class GunEnergyFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.allowsInfinity = false;
 		config.ammoCap = 3_000;
-		config.durability = 30_000;
+		config.durability = 90_000;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.crosshair = Crosshair.CIRCLE;
 		

@@ -3,15 +3,13 @@ package com.hbm.items.weapon;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
+import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.guncfg.GunEnergyFactory;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.machine.ItemFluidIcon;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -28,7 +26,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -42,8 +39,6 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	
 	@Override
 	protected void fire(ItemStack stack, World world, EntityPlayer player) {
-
-		System.out.println("nuts");
 
 		if(!hasAmmo(stack, player, true))
 			return;
@@ -98,6 +93,10 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
 		//spawn fluid projectile
+		
+		EntityChemical chem = new EntityChemical(world, player);
+		chem.setFluid(this.getFluidType(stack));
+		world.spawnEntityInWorld(chem);
 		
 		if(player instanceof EntityPlayerMP)
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);

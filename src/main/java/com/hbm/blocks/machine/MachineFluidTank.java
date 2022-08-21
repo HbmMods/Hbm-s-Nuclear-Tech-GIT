@@ -85,6 +85,9 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		
+		ItemStack drop = itemStack.copy();
+		drop.stackSize = 1;
 
 		if (i == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
@@ -128,8 +131,11 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 				DummyBlockFluidTank.safeBreak = false;
 				//
 				
-			} else
-				world.func_147480_a(x, y, z, true);
+			} else {
+				this.dropBlockAsItem(world, x, y, z, drop);
+				world.func_147480_a(x, y, z, false);
+				System.out.println("piss and shit");
+			}
 		}
 		if (i == 1) {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
@@ -173,8 +179,11 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 				DummyBlockFluidTank.safeBreak = false;
 				//
 				
-			} else
-				world.func_147480_a(x, y, z, true);
+			} else {
+				this.dropBlockAsItem(world, x, y, z, drop);
+				world.func_147480_a(x, y, z, false);
+				System.out.println("piss and shit");
+			}
 		}
 		if (i == 2) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
@@ -218,8 +227,11 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 				DummyBlockFluidTank.safeBreak = false;
 				//
 				
-			} else
-				world.func_147480_a(x, y, z, true);
+			} else {
+				this.dropBlockAsItem(world, x, y, z, drop);
+				world.func_147480_a(x, y, z, false);
+				System.out.println("piss and shit");
+			}
 		}
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -263,8 +275,11 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock, IPe
 				DummyBlockFluidTank.safeBreak = false;
 				//
 				
-			} else
-				world.func_147480_a(x, y, z, true);
+			} else {
+				this.dropBlockAsItem(world, x, y, z, drop);
+				world.func_147480_a(x, y, z, false);
+				System.out.println("piss and shit");
+			}
 		}
 
 		IPersistentNBT.restoreData(world, x, y, z, itemStack);

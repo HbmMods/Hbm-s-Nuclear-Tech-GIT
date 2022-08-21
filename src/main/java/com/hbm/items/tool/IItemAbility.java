@@ -86,4 +86,52 @@ public interface IItemAbility {
 			Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
 		}
 	}
+	
+	public static void standardDigPost(World world, int x, int y, int z, EntityPlayerMP player) {
+
+		Block block = world.getBlock(x, y, z);
+		int l = world.getBlockMetadata(x, y, z);
+		world.playAuxSFXAtEntity(player, 2001, x, y, z, Block.getIdFromBlock(block) + (world.getBlockMetadata(x, y, z) << 12));
+		boolean flag = false;
+
+		if(player.capabilities.isCreativeMode) {
+			flag = removeBlock(world, x, y, z, false, player);
+			player.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
+		} else {
+			ItemStack itemstack = player.getCurrentEquippedItem();
+			boolean flag1 = block.canHarvestBlock(player, l);
+
+			if(itemstack != null) {
+				itemstack.func_150999_a(world, block, x, y, z, player);
+
+				if(itemstack.stackSize == 0) {
+					player.destroyCurrentEquippedItem();
+				}
+			}
+
+			flag = removeBlock(world, x, y, z, flag1, player);
+			if(flag && flag1) {
+				block.harvestBlock(world, player, x, y, z, l);
+			}
+		}
+
+		/*
+		 * // Drop experience if (!player.capabilities.isCreativeMode && flag &&
+		 * event != null) { block.dropXpOnBlockBreak(world, x, y, z,
+		 * event.getExpToDrop()); }
+		 */
+	}
+	
+	public static boolean removeBlock(World world, int x, int y, int z, boolean canHarvest, EntityPlayerMP player) {
+		Block block = world.getBlock(x, y, z);
+		int l = world.getBlockMetadata(x, y, z);
+		block.onBlockHarvested(world, x, y, z, l, player);
+		boolean flag = block.removedByPlayer(world, player, x, y, z, canHarvest);
+
+		if(flag) {
+			block.onBlockDestroyedByPlayer(world, x, y, z, l);
+		}
+
+		return flag;
+	}
 }

@@ -55,7 +55,7 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 	}
 
 	@Override
-	protected boolean canOperate(ItemStack stack) {
+	public boolean canOperate(ItemStack stack) {
 		return getFill(stack) >= this.consumption;
 	}
 

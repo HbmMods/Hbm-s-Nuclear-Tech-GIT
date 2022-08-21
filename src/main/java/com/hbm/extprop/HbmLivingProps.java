@@ -43,6 +43,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radBuf;
 	private int bombTimer;
 	private int contagion;
+	private int oil;
 	private List<ContaminationEffect> contamination = new ArrayList();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
@@ -269,6 +270,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setContagion(EntityLivingBase entity, int contageon) {
 		getData(entity).contagion = contageon;
 	}
+	
+	/// OIL ///
+	public static int getOil(EntityLivingBase entity) {
+		return getData(entity).oil;
+	}
+	
+	public static void setOil(EntityLivingBase entity, int oil) {
+		getData(entity).oil = oil;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
@@ -285,6 +295,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
 		props.setInteger("hfr_fibrosis", fibrosis);
+		props.setInteger("hfr_oil", oil);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -308,6 +319,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
 			fibrosis = props.getInteger("hfr_fibrosis");
+			oil = props.getInteger("hfr_oil");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			
