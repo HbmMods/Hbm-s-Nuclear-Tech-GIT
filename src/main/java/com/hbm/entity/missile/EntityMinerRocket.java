@@ -14,7 +14,7 @@ public class EntityMinerRocket extends Entity {
 	//0 landing, 1 unloading, 2 lifting
 	public int timer = 0;
 	//0 asteroid, 1 moon
-	public int cargoType = 0;
+	public String satelliteClassName = "com.hbm.saveddata.satellites.SatelliteMiner";
 
 	public EntityMinerRocket(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -79,7 +79,7 @@ public class EntityMinerRocket extends Entity {
 		dataWatcher.updateObject(16, nbt.getInteger("mode"));
 		dataWatcher.updateObject(17, nbt.getInteger("sat"));
 		timer = nbt.getInteger("timer");
-		cargoType = nbt.getInteger("type");
+		satelliteClassName = nbt.getString("type");
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class EntityMinerRocket extends Entity {
 		nbt.setInteger("mode", dataWatcher.getWatchableObjectInt(16));
 		nbt.setInteger("sat", dataWatcher.getWatchableObjectInt(17));
 		nbt.setInteger("timer", timer);
-		nbt.setInteger("type", cargoType);
+		nbt.setString("type", satelliteClassName);
 	}
 
 }

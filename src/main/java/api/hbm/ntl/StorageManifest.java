@@ -1,6 +1,9 @@
 package api.hbm.ntl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,11 +30,30 @@ public class StorageManifest {
 			meta.metaNBT.put(stack.getItemDamage(), nbt);
 		}
 		
-		long amount = nbt.nbtAmount.containsKey(stack.stackTagCompound) ? nbt.nbtAmount.get(stack.stackTagCompound) : 0;
+		NBTTagCompound compound = stack.hasTagCompound() ? (NBTTagCompound) stack.stackTagCompound.copy() : null;
+		long amount = nbt.nbtAmount.containsKey(compound) ? nbt.nbtAmount.get(compound) : 0;
 		
 		amount += stack.stackSize;
 		
-		nbt.nbtAmount.put(stack.stackTagCompound, amount);
+		nbt.nbtAmount.put(compound, amount);
+	}
+	
+	public List<StorageStack> getStacks() {
+		List<StorageStack> stacks = new ArrayList();
+		
+		for(Entry<Integer, MetaNode> itemNode : itemMeta.entrySet()) {
+			for(Entry<Integer, NBTNode> metaNode : itemNode.getValue().metaNBT.entrySet()) {
+				for(Entry<NBTTagCompound, Long> nbtNode : metaNode.getValue().nbtAmount.entrySet()) {
+					
+					ItemStack itemStack = new ItemStack(Item.getItemById(itemNode.getKey()), 1, metaNode.getKey());
+					itemStack.stackTagCompound = nbtNode.getKey();
+					StorageStack stack = new StorageStack(itemStack, nbtNode.getValue());
+					stacks.add(stack);
+				}
+			}
+		}
+		
+		return stacks;
 	}
 	
 	public class MetaNode {

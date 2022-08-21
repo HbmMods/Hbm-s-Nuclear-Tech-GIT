@@ -254,12 +254,13 @@ public class ShredderRecipes {
 		/*
 		 * Sellafite scrapping
 		 */
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_0, new ItemStack(ModItems.scrap_nuclear, 1));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_1, new ItemStack(ModItems.scrap_nuclear, 2));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_2, new ItemStack(ModItems.scrap_nuclear, 3));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_3, new ItemStack(ModItems.scrap_nuclear, 5));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_4, new ItemStack(ModItems.scrap_nuclear, 7));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_core, new ItemStack(ModItems.scrap_nuclear, 15));
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 0), new ItemStack(ModItems.scrap_nuclear, 1));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 1), new ItemStack(ModItems.scrap_nuclear, 2));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 2), new ItemStack(ModItems.scrap_nuclear, 3));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 3), new ItemStack(ModItems.scrap_nuclear, 5));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 4), new ItemStack(ModItems.scrap_nuclear, 7));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 5), new ItemStack(ModItems.scrap_nuclear, 15));
 		
 		/*
 		 * Fracking debris scrapping

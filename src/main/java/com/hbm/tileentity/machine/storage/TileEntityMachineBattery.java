@@ -36,7 +36,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public static final int mode_none = 3;
 	public short redLow = 0;
 	public short redHigh = 2;
-	public boolean childLock = true;
+	public ConnectionPriority priority = ConnectionPriority.LOW;
 	
 	//public boolean conducts = false;
 	public byte lastRedstone = 0;
@@ -92,8 +92,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.power = nbt.getLong("power");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
-		this.childLock = nbt.getBoolean("childLock");
 		this.lastRedstone = nbt.getByte("lastRedstone");
+		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
 	}
 	
 	@Override
@@ -103,8 +103,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		nbt.setLong("power", power);
 		nbt.setShort("redLow", redLow);
 		nbt.setShort("redHigh", redHigh);
-		nbt.setBoolean("childLock", childLock);
 		nbt.setByte("lastRedstone", lastRedstone);
+		nbt.setByte("priority", (byte)this.priority.ordinal());
 	}
 	
 	@Override
@@ -165,7 +165,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			nbt.setLong("power", (power + prevPower) / 2);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
-			nbt.setBoolean("childLock", childLock);
+			nbt.setByte("priority", (byte) this.priority.ordinal());
 			this.networkPack(nbt, 20);
 		}
 		
@@ -228,7 +228,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.power = nbt.getLong("power");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
-		this.childLock = nbt.getBoolean("childLock");
+		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
 	}
 
 	@Override
@@ -306,7 +306,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 
 	@Override
 	public ConnectionPriority getPriority() {
-		return ConnectionPriority.LOW;
+		return this.priority;
 	}
 	
 	// do some opencomputer stuff

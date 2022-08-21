@@ -96,7 +96,7 @@ public class LoopedSoundPacket implements IMessage {
 						flag = false;
 				}
 				
-				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineTurbofan)te).isRunning)
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineTurbofan)te).wasOn)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopTurbofan(new ResourceLocation("hbm:block.turbofanOperate"), te));
 			}
 			

@@ -1,7 +1,7 @@
 package api.hbm.fluid;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 /**
  * Uses default implementation to make the underlying interfaces easier to use for the most common fluid users.

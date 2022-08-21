@@ -1,11 +1,13 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 
@@ -20,6 +22,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -257,6 +260,8 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock {
 			} else
 				world.func_147480_a(x, y, z, true);
 		}
+
+		IPersistentNBT.restoreData(world, x, y, z, itemStack);
 	}
 	
     private final Random field_149933_a = new Random();
@@ -313,4 +318,28 @@ public class MachineFluidTank extends BlockContainer implements IMultiblock {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			this.dropBlockAsItem(world, x, y, z, meta, 0);
+			harvesters.set(null);
+		}
+	}
+	
+	/*
+	 * Called after the block and TE are already gone, so this method is of no use to us.
+	 */
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
+	}
 }

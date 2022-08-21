@@ -55,6 +55,9 @@ public class ParticlePlasmaBlast extends EntityFX {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		RenderHelper.disableStandardItemLighting();
 		
+		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
+		if(fog) GL11.glDisable(GL11.GL_FOG);
+		
 		float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double)interp - interpPosX);
 		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double)interp - interpPosY);
 		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double)interp - interpPosZ);
@@ -78,7 +81,8 @@ public class ParticlePlasmaBlast extends EntityFX {
 		tess.addVertexWithUV((double)(+ 1 * scale), (double)(- 0.25), (double)(+ 1 * scale), 0, 0);
 		tess.addVertexWithUV((double)(+ 1 * scale), (double)(- 0.25), (double)(- 1 * scale), 0, 1);
 		tess.draw();
-		
+
+		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);

@@ -461,10 +461,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Turns the turret towards the specified position
 	 */
 	public void turnTowards(Vec3 ent) {
-		
-		/*double turnYaw = Math.toRadians(this.getTurretYawSpeed());
-		double turnPitch = Math.toRadians(this.getTurretPitchSpeed());
-		double pi2 = Math.PI * 2;*/
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
@@ -473,51 +469,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		double targetYaw = -Math.atan2(delta.xCoord, delta.zCoord);
 		
 		this.turnTowardsAngle(targetPitch, targetYaw);
-		
-		/*//if we are about to overshoot the target by turning, just snap to the correct rotation
-		if(Math.abs(this.rotationPitch - targetPitch) < turnPitch || Math.abs(this.rotationPitch - targetPitch) > pi2 - turnPitch) {
-			this.rotationPitch = targetPitch;
-		} else {
-			
-			if(targetPitch > this.rotationPitch)
-				this.rotationPitch += turnPitch;
-			else
-				this.rotationPitch -= turnPitch;
-		}
-		
-		double deltaYaw = (targetYaw - this.rotationYaw) % pi2;
-		
-		//determines what direction the turret should turn
-		//used to prevent situations where the turret would do almost a full turn when
-		//the target is only a couple degrees off while being on the other side of the 360° line
-		int dir = 0;
-
-		if(deltaYaw < -Math.PI)
-			dir = 1;
-		else if(deltaYaw < 0)
-			dir = -1;
-		else if(deltaYaw > Math.PI)
-			dir = -1;
-		else if(deltaYaw > 0)
-			dir = 1;
-		
-		if(Math.abs(this.rotationYaw - targetYaw) < turnYaw || Math.abs(this.rotationYaw - targetYaw) > pi2 - turnYaw) {
-			this.rotationYaw = targetYaw;
-		} else {
-			this.rotationYaw += turnYaw * dir;
-		}
-		
-		double deltaPitch = targetPitch - this.rotationPitch;
-		deltaYaw = targetYaw - this.rotationYaw;
-		
-		double deltaAngle = Math.sqrt(deltaYaw * deltaYaw + deltaPitch * deltaPitch);
-
-		this.rotationYaw = this.rotationYaw % pi2;
-		this.rotationPitch = this.rotationPitch % pi2;
-		
-		if(deltaAngle <= Math.toRadians(this.getAcceptableInaccuracy())) {
-			this.aligned = true;
-		}*/
 	}
 	
 	public void turnTowardsAngle(double targetPitch, double targetYaw) {
@@ -789,6 +740,28 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return
 	 */
 	protected abstract List<Integer> getAmmoList();
+	
+	@SideOnly(Side.CLIENT)
+	protected List<ItemStack> ammoStacks;
+
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+		
+		for(Integer i : getAmmoList()) {
+			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
+			
+			if(config != null && config.ammo != null) {
+				ammoStacks.add(new ItemStack(config.ammo));
+			}
+		}
+		
+		return ammoStacks;
+	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
@@ -828,11 +801,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.openC", 1.0F, 1.0F);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
 	}
 }

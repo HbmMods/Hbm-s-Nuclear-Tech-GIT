@@ -65,10 +65,10 @@ public class ContainerCraneExtractor extends Container {
 				}
 			} else {
 				
-				if(var3.getItem() == ModItems.upgrade_5g) {
+				if(var3.getItem() == ModItems.upgrade_stack) {
 					 if(!this.mergeItemStack(var5, 18, 19, false))
 						 return null;
-				} else if(var3.getItem() == ModItems.upgrade_crystallizer) {
+				} else if(var3.getItem() == ModItems.upgrade_ejector) {
 					 if(!this.mergeItemStack(var5, 19, 20, false))
 						 return null;
 				} else if(!this.mergeItemStack(var5, 9, extractor.getSizeInventory(), false)) {

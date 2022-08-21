@@ -59,8 +59,19 @@ public class EntityEffectHandler {
 			
 			if(entity instanceof EntityPlayerMP) {
 				HbmLivingProps props = HbmLivingProps.getData(entity);
+				HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
 				NBTTagCompound data = new NBTTagCompound();
+				
+				if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+					int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
+					pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+				}
+				
+				if(pprps.shield > pprps.maxShield)
+					pprps.shield = pprps.maxShield;
+				
 				props.saveNBTData(data);
+				pprps.saveNBTData(data);
 				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
 			}
 			

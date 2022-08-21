@@ -20,6 +20,7 @@ import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -165,20 +166,20 @@ public class AuxButtonPacket implements IMessage {
 
 					if(m.id == 0) {
 						bat.redLow = (short) ((bat.redLow + 1) % 4);
-						if(bat.redLow == 1 && bat.childLock)
-							bat.redLow++;
 						bat.markDirty();
 					}
 
 					if(m.id == 1) {
 						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
-						if(bat.redHigh == 1 && bat.childLock)
-							bat.redHigh++;
 						bat.markDirty();
 					}
 
 					if(m.id == 2) {
-						bat.childLock = !bat.childLock;
+						switch(bat.priority) {
+						case LOW: bat.priority = ConnectionPriority.NORMAL; break;
+						case NORMAL: bat.priority = ConnectionPriority.HIGH; break;
+						case HIGH: bat.priority = ConnectionPriority.LOW; break;
+						}
 						bat.markDirty();
 					}
 				}

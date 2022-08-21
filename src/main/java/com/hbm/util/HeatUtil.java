@@ -1,7 +1,7 @@
 package com.hbm.util;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 public class HeatUtil {
 

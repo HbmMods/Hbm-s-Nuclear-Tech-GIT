@@ -1,9 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;

@@ -15,6 +15,9 @@ public interface IEnterableBlock {
 	 * @param entity
 	 * @return
 	 */
-	public boolean canEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity);
-	public void onEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity);
+	public boolean canItemEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity);
+	public void onItemEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity);
+	
+	public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity);
+	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity);
 }

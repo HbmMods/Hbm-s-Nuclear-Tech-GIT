@@ -78,6 +78,7 @@ public class Library {
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -448,23 +449,6 @@ public class Library {
 		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x - 2, y, z) == ModBlocks.reactor_computer)
 		{
 			tileentity = worldObj.getTileEntity(x - 2, y, z);
-		}
-		//Large Fusion Reactor
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z + 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z - 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x + 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x + 8, y, z);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x - 8, y, z);
 		}
 		//FWatz Reactor
 		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)

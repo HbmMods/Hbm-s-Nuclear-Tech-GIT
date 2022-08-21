@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockHazard extends Block implements ITooltipProvider {
 		
-	private float rad = 0.0F;
+	protected float rad = 0.0F;
 	private ExtDisplayEffect extEffect = null;
 	
 	private boolean beaconable = false;

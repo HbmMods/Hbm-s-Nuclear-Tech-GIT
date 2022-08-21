@@ -1,5 +1,6 @@
 package com.hbm.inventory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -154,7 +155,6 @@ public class RecipesCommon {
 		}
 		
 		public ItemStack toStack() {
-			
 			return new ItemStack(item, stacksize, meta);
 		}
 		
@@ -393,10 +393,20 @@ public class RecipesCommon {
 		@Override
 		public List<ItemStack> extractForNEI() {
 			
-			List<ItemStack> ores = OreDictionary.getOres(name);
+			List<ItemStack> fromDict = OreDictionary.getOres(name);
+			List<ItemStack> ores = new ArrayList();
 			
-			for(ItemStack stack : ores)
-				stack.stackSize = this.stacksize;
+			for(ItemStack stack : fromDict) {
+
+				ItemStack copy = stack.copy();
+				copy.stackSize = this.stacksize;
+				
+				if(stack.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+					ores.add(copy);
+				} else {
+					ores.addAll(MainRegistry.proxy.getSubItems(copy));
+				}
+			}
 			
 			return ores;
 		}

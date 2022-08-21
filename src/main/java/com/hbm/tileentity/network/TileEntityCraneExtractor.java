@@ -56,16 +56,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 				}
 			}
 			
-			boolean powered = false;
-			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				if(this.worldObj.isBlockIndirectlyGettingPowered(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ)) {
-					powered = true;
-					break;
-				}
-			}
-			
-			if(worldObj.getTotalWorldTime() % delay == 0 && !powered) {
+			if(worldObj.getTotalWorldTime() % delay == 0 && !this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 				int amount = 1;
 				
 				if(slots[18] != null && slots[18].getItem() == ModItems.upgrade_stack) {

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.rbmk.TileEntityHeatex;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKHeater;

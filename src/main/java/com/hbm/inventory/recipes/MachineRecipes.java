@@ -2,22 +2,14 @@ package com.hbm.inventory.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemGunBase;
-import com.hbm.main.MainRegistry;
-import com.hbm.util.EnchantmentUtil;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -26,132 +18,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 //TODO: clean this shit up
-@Spaghetti("everything")
+@Spaghetti("i cannot sleep well at night knowing that this class still exists")
 public class MachineRecipes {
-
-	public MachineRecipes() {
-
-	}
 
 	public static MachineRecipes instance() {
 		return new MachineRecipes();
-	}
-
-	public static ItemStack getFurnaceProcessingResult(ItemStack item, ItemStack item2) {
-		return getFurnaceOutput(item, item2);
-	}
-
-	@Spaghetti("i am an affront to god and i desire to be cremated")
-	public static ItemStack getFurnaceOutput(ItemStack item, ItemStack item2) {
-		
-		if(item == null || item2 == null)
-			return null;
-		
-		if (GeneralConfig.enableDebugMode) {
-			if (item.getItem() == Items.iron_ingot && item2.getItem() == Items.quartz
-					|| item.getItem() == Items.quartz && item2.getItem() == Items.iron_ingot) {
-				return new ItemStack(ModBlocks.test_render, 1);
-			}
-		}
-
-		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, "gemCoal")
-				|| mODE(item, "gemCoal") && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})) {
-			return new ItemStack(ModItems.neutron_reflector, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotIron", "dustIron"}) && mODE(item2, new String[] {"gemCoal", "dustCoal"})
-				|| mODE(item, new String[] {"gemCoal", "dustCoal"}) && mODE(item2, new String[] {"ingotIron", "dustIron"})) {
-			return new ItemStack(ModItems.ingot_steel, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotCopper", "dustCopper"}) && item2.getItem() == Items.redstone
-				|| item.getItem() == Items.redstone && mODE(item2, new String[] {"ingotCopper", "dustCopper"})) {
-			return new ItemStack(ModItems.ingot_red_copper, 2);
-		}
-
-		if (item.getItem() == ModItems.canister_full && item.getItemDamage() == Fluids.DIESEL.getID() && item2.getItem() == Items.slime_ball
-				|| item.getItem() == Items.slime_ball && item2.getItem() == ModItems.canister_full && item2.getItemDamage() == Fluids.DIESEL.getID()) {
-			return new ItemStack(ModItems.canister_napalm, 1);
-		}
-
-		if (mODE(item, new String[] {"ingotMingrade", "dustMingrade"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})
-				|| mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotMingrade", "dustMingrade"})) {
-			return new ItemStack(ModItems.ingot_advanced_alloy, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, "nuggetSchrabidium")
-				|| mODE(item, "nuggetSchrabidium") && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})) {
-			return new ItemStack(ModItems.ingot_magnetized_tungsten, 1);
-		}
-
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"nuggetTechnetium99", "tinyTc99"})
-				|| mODE(item, new String[] {"nuggetTechnetium99", "tinyTc99"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
-			return new ItemStack(ModItems.ingot_tcalloy, 1);
-		}
-
-		if (item.getItem() == ModItems.plate_mixed && mODE(item2, "plateGold")
-				|| mODE(item, "plateGold") && item2.getItem() == ModItems.plate_mixed) {
-			return new ItemStack(ModItems.plate_paa, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})
-				|| mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
-			return new ItemStack(ModItems.ingot_dura_steel, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
-				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
-			return new ItemStack(ModItems.ingot_dura_steel, 2);
-		}
-
-		if (mODE(item, new String[] {"ingotSaturnite", "dustSaturnite"}) && item2.getItem() == ModItems.powder_meteorite
-				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSaturnite", "dustSaturnite"})) {
-			return new ItemStack(ModItems.ingot_starmetal, 2);
-		}
-
-		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleAlloy) {
-			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
-					|| item.getItem() == ModItems.canister_empty && mODE(item2, new String[] { "gemCoal", "dustCoal" })) {
-				return new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID());
-			}
-
-			if(item.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor_cobble) && mODE(item2, new String[] { "ingotSteel", "dustSteel" })
-					|| mODE(item, new String[] { "ingotSteel", "dustSteel" }) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor_cobble)) {
-				return new ItemStack(ModItems.ingot_meteorite);
-			}
-		}
-
-		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
-				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor)) {
-			return new ItemStack(ModItems.ingot_meteorite);
-		}
-
-		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
-				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
-			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
-		}
-		
-		if(item.getItem() instanceof ItemGunBase && item2.getItem() == Items.enchanted_book) {
-			
-			ItemStack result = item.copy();
-
-            Map mapright = EnchantmentHelper.getEnchantments(item2);
-            Iterator itr = mapright.keySet().iterator();
-
-            while (itr.hasNext()) {
-            	
-            	int i = ((Integer)itr.next()).intValue();
-            	int j = ((Integer)mapright.get(Integer.valueOf(i))).intValue();
-            	Enchantment e = Enchantment.enchantmentsList[i];
-            	
-            	EnchantmentUtil.removeEnchantment(result, e);
-            	EnchantmentUtil.addEnchantment(result, e, j);
-            }
-            
-            return result;
-		}
-
-		return null;
 	}
 	
 	//return: FluidType, amount produced, amount required, heat required (°C * 100)
@@ -397,52 +268,6 @@ public class MachineRecipes {
 		return null;
 	}
 
-	public Map<Object[], Object> getAlloyRecipes() {
-		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
-		
-		if (GeneralConfig.enableDebugMode) {
-			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.quartz) },
-					new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
-		}
-		try {
-			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
-				getFurnaceOutput(new ItemStack(Items.iron_ingot), new ItemStack(Items.coal)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball) },
-					getFurnaceOutput(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new ItemStack(Items.slime_ball)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
-					getFurnaceOutput(new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.nugget_technetium)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_cobalt), new ItemStack(ModBlocks.block_meteor)).copy());
-			
-			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleAlloy) {
-				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
-						getFurnaceOutput(new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal)).copy());
-				recipes.put(new ItemStack[] { new ItemStack(ModBlocks.block_meteor_cobble), new ItemStack(ModItems.ingot_steel) },
-						getFurnaceOutput(new ItemStack(ModBlocks.block_meteor_cobble), new ItemStack(ModItems.ingot_steel)).copy());
-			}
-			
-		} catch (Exception x) {
-			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
-		}
-		return recipes;
-	}
-
 	public ArrayList<ItemStack> getAlloyFuels() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(Items.coal));
@@ -458,20 +283,8 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.powder_coal));
 		return fuels;
 	}
-
-	public ArrayList<ItemStack> getCentrifugeFuels() {
-		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
-		fuels.add(new ItemStack(Items.coal));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.coal_block)));
-		fuels.add(new ItemStack(Items.lava_bucket));
-		fuels.add(new ItemStack(Items.redstone));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.redstone_block)));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.netherrack)));
-		fuels.add(new ItemStack(Items.blaze_rod));
-		fuels.add(new ItemStack(Items.blaze_powder));
-		return fuels;
-	}
 	
+	@Spaghetti("why did i do this?")
 	public Map<Object[], Object> getCyclotronRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
 		Item part = ModItems.part_lithium;
@@ -789,240 +602,9 @@ public class MachineRecipes {
 		return recipes;
 	}
 
-	//keep this
-	//like in a museum or something
-	//this is a testament of my incompetence
-	//look at it
-	//look at how horrifying it is
-	//children, never do this
-	/*public class ShredderRecipe {
-
-		public ItemStack input;
-		public ItemStack output;
-
-		public void registerEverythingImSrs() {
-			
-			String[] names = OreDictionary.getOreNames();
-			List<ItemStack> stacks = new ArrayList<ItemStack>();
-			
-			for(int i = 0; i < names.length; i++) {
-				stacks.addAll(OreDictionary.getOres(names[i]));
-			}
-			
-			for(int i = 0; i < stacks.size(); i++) {
-				
-				int[] ids = OreDictionary.getOreIDs(stacks.get(i));
-
-				List<String> oreNames = new ArrayList<String>();
-				
-				for(int j = 0; j < ids.length; j++) {
-					oreNames.add(OreDictionary.getOreName(ids[j]));
-				}
-				
-				theWholeThing.add(new DictCouple(stacks.get(i), oreNames));
-			}
-			
-			MainRegistry.logger.info("Added " + theWholeThing.size() + " elements from the Ore Dict!");
-		}
-		
-		public boolean doesExist(ItemStack stack) {
-			
-			for(DictCouple dic : theWholeThing) {
-				if(dic.item.getItem() == stack.getItem() && dic.item.getItemDamage() == stack.getItemDamage())
-					return true;
-			}
-			
-			return false;
-		}
-
-		public void addRecipes() {
-
-			// Not very efficient, I know, but at least it works AND it's
-			// somewhat smart!
-			
-			for(int i = 0; i < theWholeThing.size(); i++)
-			{
-				for(int j = 0; j < theWholeThing.get(i).list.size(); j++)
-				{
-					String s = theWholeThing.get(i).list.get(j);
-					
-					if (s.length() > 5 && s.substring(0, 5).equals("ingot")) {
-						ItemStack stack = canFindDustByName(s.substring(5));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, stack);
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}
-					} else if (s.length() > 3 && s.substring(0, 3).equals("ore")) {
-						ItemStack stack = canFindDustByName(s.substring(3));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}
-					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
-						ItemStack stack = canFindDustByName(s.substring(5));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 9, stack.getItemDamage()));
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}
-					} else if (s.length() > 3 && s.substring(0, 3).equals("gem")) {
-						ItemStack stack = canFindDustByName(s.substring(3));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}
-					} else if (s.length() > 4 && s.substring(0, 4).equals("dust")) {
-						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
-					} else if (s.length() > 6 && s.substring(0, 6).equals("powder")) {
-						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
-					} else {
-						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-					}
-				}
-
-				if(theWholeThing.get(i).list.isEmpty())
-					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-				if(!theWholeThing.get(i).list.isEmpty() && theWholeThing.get(i).list.get(0).equals("Unknown"))
-					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-			}
-
-			MainRegistry.logger.info("Added " + recipesShredder.size() + " in total.");
-			MainRegistry.logger.info("Added " + dustCount + " ore dust recipes.");
-		}
-		
-		public ItemStack canFindDustByName(String s) {
-			
-			for(DictCouple d : theWholeThing)
-			{
-				for(String s1 : d.list)
-				{
-					if(s1.length() > 4 && s1.substring(0, 4).equals("dust") && s1.substring(4).equals(s))
-					{
-						dustCount++;
-						return d.item;
-					}
-				}
-			}
-			
-			return null;
-		}
-		
-		public void setRecipe(ItemStack inp, ItemStack outp) {
-			ShredderRecipe recipe = new ShredderRecipe();
-			
-			recipe.input = inp;
-			recipe.output = outp;
-			
-			recipesShredder.add(recipe);
-		}
-		
-		public void overridePreSetRecipe(ItemStack inp, ItemStack outp) {
-			
-			boolean flag = false;
-			
-			for(int i = 0; i < recipesShredder.size(); i++)
-			{
-				if(recipesShredder.get(i) != null && 
-						recipesShredder.get(i).input != null && 
-						recipesShredder.get(i).output != null && 
-						inp != null && 
-						outp != null && 
-						recipesShredder.get(i).input.getItem() == inp.getItem() && 
-						recipesShredder.get(i).input.getItemDamage() == inp.getItemDamage()) {
-					recipesShredder.get(i).output = outp;
-					flag = true;
-				}
-			}
-			
-			if(!flag) {
-				ShredderRecipe rec = new ShredderRecipe();
-				rec.input = inp;
-				rec.output = outp;
-				recipesShredder.add(rec);
-			}
-		}
-		
-		public void removeDuplicates() {
-			List<ShredderRecipe> newList = new ArrayList<ShredderRecipe>();
-			
-			for(ShredderRecipe piv : recipesShredder)
-			{
-				boolean flag = false;
-				
-				if(newList.size() == 0)
-				{
-					newList.add(piv);
-				} else {
-					for(ShredderRecipe rec : newList) {
-						if(piv != null && rec != null && piv.input != null && rec.input != null && rec.input.getItem() != null && piv.input.getItem() != null && rec.input.getItemDamage() == piv.input.getItemDamage() && rec.input.getItem() == piv.input.getItem())
-							flag = true;
-						if(piv == null || rec == null || piv.input == null || rec.input == null)
-							flag = true;
-					}
-				}
-				
-				if(!flag)
-				{
-					newList.add(piv);
-				}
-			}
-		}
-		
-		public void PrintRecipes() {
-
-			MainRegistry.logger.debug("TWT: " + theWholeThing.size() + ", REC: " + recipesShredder.size());
-		}
-	}
-
-	public static class DictCouple {
-		
-		public ItemStack item;
-		public List<String> list;
-
-		public DictCouple(ItemStack item, List<String> list) {
-			this.item = item;
-			this.list = list;
-		}
-		
-		public static List<String> findWithStack(ItemStack stack) {
-			for(DictCouple couple : theWholeThing) {
-				if(couple.item == stack);
-					return couple.list;
-			}
-			
-			return null;
-		}
-	}
-
-	public static List<ShredderRecipe> recipesShredder = new ArrayList<ShredderRecipe>();
-	public static List<DictCouple> theWholeThing = new ArrayList<DictCouple>();
-	public static int dustCount = 0;
-	
-	public static ItemStack getShredderResult(ItemStack stack) {
-		for(ShredderRecipe rec : recipesShredder)
-		{
-			if(stack != null && 
-					rec.input.getItem() == stack.getItem() && 
-					rec.input.getItemDamage() == stack.getItemDamage())
-				return rec.output.copy();
-		}
-		
-		return new ItemStack(ModItems.scrap);
-	}
-	
-	public Map<Object, Object> getShredderRecipes() {
-		Map<Object, Object> recipes = new HashMap<Object, Object>();
-		
-		for(int i = 0; i < MachineRecipes.recipesShredder.size(); i++) {
-			if(MachineRecipes.recipesShredder.get(i) != null && MachineRecipes.recipesShredder.get(i).output.getItem() != ModItems.scrap)
-				recipes.put(MachineRecipes.recipesShredder.get(i).input, getShredderResult(MachineRecipes.recipesShredder.get(i).input));
-		}
-		
-		return recipes;
-	}*/
+	/*
+	 * this is the smoldering crater where once the 2016 shredder recipe code was
+	 */
 
 	public Map<Object[], Object> getCMBRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();

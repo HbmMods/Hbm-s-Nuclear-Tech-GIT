@@ -50,11 +50,17 @@ public abstract class Satellite {
 		registerSatellite(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
 		registerSatellite(SatelliteHorizons.class, ModItems.sat_gerald);
 	}
-	
-	private static void registerSatellite(Class<? extends Satellite> sat, Item item) {
 
-		satellites.add(sat);
-		itemToClass.put(item, sat);
+	/**
+	 * Register satellite.
+	 * @param sat - Satellite class
+	 * @param item - Satellite item (which will be placed in a rocket)
+	 */
+	public static void registerSatellite(Class<? extends Satellite> sat, Item item) {
+		if(!itemToClass.containsKey(item) && !itemToClass.containsValue(sat)) {
+			satellites.add(sat);
+			itemToClass.put(item, sat);
+		}
 	}
 	
 	public static void orbit(World world, int id, int freq, double x, double y, double z) {

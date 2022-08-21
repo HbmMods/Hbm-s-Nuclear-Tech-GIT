@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
@@ -22,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -40,14 +41,20 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	
 	private List<Vec3> targetQueue = new ArrayList();
 
-	static List<Integer> configs = new ArrayList();
-	
-	static {
-		configs.add(BulletConfigSyncingUtil.SHELL_NORMAL);
-		configs.add(BulletConfigSyncingUtil.SHELL_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.SHELL_AP);
-		configs.add(BulletConfigSyncingUtil.SHELL_DU);
-		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+	@Override
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+
+		List list = new ArrayList();
+		ModItems.ammo_arty.getSubItems(ModItems.ammo_arty, MainRegistry.weaponTab, list);
+		this.ammoStacks.addAll(list);
+		
+		return ammoStacks;
 	}
 	
 	public void enqueueTarget(double x, double y, double z) {
@@ -61,7 +68,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	
 	@Override
 	protected List<Integer> getAmmoList() {
-		return configs;
+		return new ArrayList();
 	}
 
 	@Override
@@ -91,7 +98,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 
 	@Override
 	public double getDecetorRange() {
-		return this.mode == this.MODE_CANNON ? 128D : 3000D;
+		return this.mode == this.MODE_CANNON ? 250D : 3000D;
 	}
 	
 	@Override
@@ -374,7 +381,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		timer++;
 		
-		int delay = mode == MODE_ARTILLERY ? 200 : 40;
+		int delay = mode == MODE_ARTILLERY ? 300 : 40;
 		
 		if(timer % delay == 0) {
 			

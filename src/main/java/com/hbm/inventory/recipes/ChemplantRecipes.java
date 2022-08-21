@@ -149,8 +149,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.catalyst_clay, 8))
 				.outputItems(
 						new ItemStack(ModItems.ingot_schrabidium),
-						new ItemStack(ModItems.powder_desh),
-						new ItemStack(ModItems.powder_desh_mix))
+						new ItemStack(ModItems.powder_desh, 12),
+						new ItemStack(ModItems.powder_desh_mix, 12))
 				.outputFluids(new FluidStack(Fluids.WATZ, 50)));
 		recipes.add(new ChemRecipe(51, "DYN_EUPH", 3600)
 				.inputItems(

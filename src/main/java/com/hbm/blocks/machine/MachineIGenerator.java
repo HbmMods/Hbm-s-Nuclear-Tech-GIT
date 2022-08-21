@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
@@ -10,7 +9,6 @@ import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -30,7 +28,7 @@ public class MachineIGenerator extends BlockDummyable {
 		if(meta >= extra)
 			return new TileEntityProxyCombo(false, true, true);
 		
-		return null;
+		return new TileEntityProxyCombo(true, false, false);
 	}
 
 	@Override

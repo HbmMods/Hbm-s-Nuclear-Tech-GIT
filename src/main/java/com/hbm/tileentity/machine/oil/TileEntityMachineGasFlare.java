@@ -5,12 +5,13 @@ import java.util.List;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
-import com.hbm.inventory.fluid.types.FluidTypeFlammable;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -111,9 +112,9 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 				maxVent += maxVent * burn;
 				maxBurn += maxBurn * burn;
 				
-				if(!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) {
+				if(!doesBurn || !(tank.getTankType().hasTrait(FT_Flammable.class))) {
 					
-					if(tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
+					if(tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)) {
 						int eject = Math.min(maxVent, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						tank.getTankType().onFluidRelease(this, tank, eject);
@@ -123,15 +124,15 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					}
 				} else {
 					
-					if(tank.getTankType() instanceof FluidTypeFlammable) {
+					if(tank.getTankType().hasTrait(FT_Flammable.class)) {
 						int eject = Math.min(maxBurn, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						
 						int penalty = 2;
-						if(!tank.getTankType().traits.contains(FluidTrait.GASEOUS))
+						if(!tank.getTankType().hasTrait(FT_Gaseous.class) && !tank.getTankType().hasTrait(FT_Gaseous_ART.class))
 							penalty = 10;
 						
-						long powerProd = ((FluidTypeFlammable) tank.getTankType()).getHeatEnergy() * eject / 1_000; // divided by 1000 per mB
+						long powerProd = tank.getTankType().getTrait(FT_Flammable.class).getHeatEnergy() * eject / 1_000; // divided by 1000 per mB
 						powerProd /= penalty;
 						powerProd += powerProd * yield / 3;
 						
@@ -166,7 +167,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			
 			if(isOn && tank.getFill() > 0) {
 							
-				if((!doesBurn || !(tank.getTankType() instanceof FluidTypeFlammable)) && tank.getTankType().traits.contains(FluidTrait.GASEOUS)) {
+				if((!doesBurn || !(tank.getTankType().hasTrait(FT_Flammable.class))) && (tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class))) {
 						
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "tower");
@@ -184,7 +185,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					
 				}
 				
-				if(doesBurn && tank.getTankType() instanceof FluidTypeFlammable && MainRegistry.proxy.me().getDistanceSq(xCoord, yCoord + 10, zCoord) <= 1024) {
+				if(doesBurn && tank.getTankType().hasTrait(FT_Flammable.class) && MainRegistry.proxy.me().getDistanceSq(xCoord, yCoord + 10, zCoord) <= 1024) {
 					
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "vanillaExt");

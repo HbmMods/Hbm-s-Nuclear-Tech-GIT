@@ -1,5 +1,6 @@
 package com.hbm.handler.guncfg;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -509,7 +511,16 @@ public class Gun4GaugeFactory {
 							
 							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
 								ExplosionNukeSmall.explode(bullet.worldObj, creature.posX, creature.posY, creature.posZ, ExplosionNukeSmall.medium);
-								creature.isDead = true;
+
+								bullet.worldObj.removeEntity(creature);
+								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
+								//creature.isDead = true;
+								
+								/*try {
+									Method m = Class.forName("net.minecraft.entity.deity.EntityDeity").getDeclaredMethod("setTitanHealth", double.class);
+									m.setAccessible(true);
+									m.invoke(creature, 0.0D);
+								} catch (Exception ex) { }*/
 							}
 						}
 						

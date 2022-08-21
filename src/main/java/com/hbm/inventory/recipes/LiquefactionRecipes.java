@@ -24,25 +24,29 @@ public class LiquefactionRecipes {
 	public static void register() {
 		
 		//oil processing
-		recipes.put(COAL.gem(),									new FluidStack(100, Fluids.COALOIL));
-		recipes.put(COAL.dust(),								new FluidStack(100, Fluids.COALOIL));
-		recipes.put(KEY_OIL_TAR,								new FluidStack(75, Fluids.BITUMEN));
-		recipes.put(KEY_CRACK_TAR,								new FluidStack(100, Fluids.BITUMEN));
-		recipes.put(KEY_COAL_TAR,								new FluidStack(50, Fluids.BITUMEN));
-		recipes.put(KEY_LOG,									new FluidStack(100, Fluids.MUG));
+		recipes.put(COAL.gem(),										new FluidStack(100, Fluids.COALOIL));
+		recipes.put(COAL.dust(),									new FluidStack(100, Fluids.COALOIL));
+		recipes.put(LIGNITE.gem(),									new FluidStack(50, Fluids.COALOIL));
+		recipes.put(LIGNITE.dust(),									new FluidStack(50, Fluids.COALOIL));
+		recipes.put(KEY_OIL_TAR,									new FluidStack(75, Fluids.BITUMEN));
+		recipes.put(KEY_CRACK_TAR,									new FluidStack(100, Fluids.BITUMEN));
+		recipes.put(KEY_COAL_TAR,									new FluidStack(50, Fluids.BITUMEN));
+		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
 		//general utility recipes because why not
-		recipes.put(new ComparableStack(Blocks.netherrack),		new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.cobblestone),	new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.stone),			new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.obsidian),		new FluidStack(500, Fluids.LAVA));
-		recipes.put(new ComparableStack(Items.snowball),		new FluidStack(125, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.snow),			new FluidStack(500, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.ice),			new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.packed_ice),		new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Items.ender_pearl),		new FluidStack(100, Fluids.ENDERJUICE));
+		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.stone),				new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.obsidian),			new FluidStack(500, Fluids.LAVA));
+		recipes.put(new ComparableStack(Items.snowball),			new FluidStack(125, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.snow),				new FluidStack(500, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.ice),				new FluidStack(1000, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.packed_ice),			new FluidStack(1000, Fluids.WATER));
+		recipes.put(new ComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
 
-		recipes.put(new ComparableStack(Items.sugar),			new FluidStack(150, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModItems.biomass),		new FluidStack(250, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(250, Fluids.BIOGAS));
+		
+		recipes.put(new ComparableStack(ModItems.solid_fuel_bf),	new FluidStack(250, Fluids.BALEFIRE));
 		
 		//TODO: more recipes as the crack oil derivatives are added
 	}
