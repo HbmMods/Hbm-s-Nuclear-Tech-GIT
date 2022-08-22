@@ -25,6 +25,7 @@ import li.cil.oc.api.network.SimpleComponent;
 public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent {
 	
 	public long[] log = new long[20];
+	public long delta = 0;
 	public long power = 0;
 	
 	//0: input only
@@ -161,22 +162,22 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
-			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", (power + prevPower) / 2);
-			nbt.setShort("redLow", redLow);
-			nbt.setShort("redHigh", redHigh);
-			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 20);
-		}
-		
-		if(worldObj.isRemote) {
+
+			this.delta = this.power - this.log[0];
 			
 			for(int i = 1; i < this.log.length; i++) {
 				this.log[i - 1] = this.log[i];
 			}
 			
 			this.log[19] = this.power;
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setLong("power", (power + prevPower) / 2);
+			nbt.setLong("delta", delta);
+			nbt.setShort("redLow", redLow);
+			nbt.setShort("redHigh", redHigh);
+			nbt.setByte("priority", (byte) this.priority.ordinal());
+			this.networkPack(nbt, 20);
 		}
 	}
 	
@@ -227,6 +228,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void networkUnpack(NBTTagCompound nbt) { 
 
 		this.power = nbt.getLong("power");
+		this.delta = nbt.getLong("delta");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
 		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];

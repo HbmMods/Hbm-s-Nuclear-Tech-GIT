@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import java.awt.Color;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -10,11 +11,13 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Poison;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.EntityDamageUtil;
@@ -22,12 +25,14 @@ import com.hbm.util.EntityDamageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -146,6 +151,7 @@ public class EntityChemical extends EntityThrowableNT {
 			intensity = 1D;
 		
 		if(style == ChemicalStyle.AMAT) {
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, ModDamageSource.radiation, 1F);
 			if(living != null) {
 				ContaminationUtil.contaminate(living, HazardType.RADIATION, ContaminationType.CREATIVE, 50F * (float) intensity);
 				return;
@@ -182,12 +188,11 @@ public class EntityChemical extends EntityThrowableNT {
 				if(living != null) {
 					HbmLivingProps.setOil(living, 300); //doused in oil for 15 seconds
 				}
-			} else {
-				
-				if(type.temperature < 50) {
-					e.extinguish(); //if it's a cold non-flammable liquid (that isn't burning), extinguish
-				}
 			}
+		}
+		
+		if(this.isExtinguishing()) {
+			e.extinguish();
 		}
 		
 		if(style == ChemicalStyle.BURNING) {
@@ -224,6 +229,30 @@ public class EntityChemical extends EntityThrowableNT {
 			}
 			ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(e.posX), (int) Math.floor(e.posY), (int) Math.floor(e.posZ), trait.getRadPerMB() * 5);
 		}
+		
+		if(type.hasTrait(FT_Poison.class)) {
+			FT_Poison trait = type.getTrait(FT_Poison.class);
+			
+			if(living != null) {
+				living.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, (int) (5 * 20 * intensity)));
+			}
+		}
+		
+		if(type == Fluids.XPJUICE) {
+			
+			if(e instanceof EntityPlayer) {
+				EnchantmentUtil.addExperience((EntityPlayer) e, 1, false);
+				this.setDead();
+			}
+		}
+		
+		if(type == Fluids.ENDERJUICE) {
+			this.teleportRandomly(e);
+		}
+	}
+	
+	protected boolean isExtinguishing() {
+		return this.getStyle() == ChemicalStyle.LIQUID && this.getType().temperature < 50 && !this.getType().hasTrait(FT_Flammable.class);
 	}
 	
 	protected DamageSource getDamage(String name) {
@@ -232,6 +261,73 @@ public class EntityChemical extends EntityThrowableNT {
 			return new EntityDamageSourceIndirect(name, this, thrower);
 		} else {
 			return new DamageSource(name);
+		}
+	}
+	
+	//terribly copy-pasted from EntityEnderman.class
+	protected boolean teleportRandomly(Entity e) {
+		double x = this.posX + (this.rand.nextDouble() - 0.5D) * 64.0D;
+		double y = this.posY + (double) (this.rand.nextInt(64) - 32);
+		double z = this.posZ + (this.rand.nextDouble() - 0.5D) * 64.0D;
+		return this.teleportTo(e, x, y, z);
+	}
+	
+	protected boolean teleportTo(Entity e, double x, double y, double z) {
+		
+		double targetX = e.posX;
+		double targetY = e.posY;
+		double targetZ = e.posZ;
+		e.posX = x;
+		e.posY = y;
+		e.posZ = z;
+		boolean flag = false;
+		int i = MathHelper.floor_double(e.posX);
+		int j = MathHelper.floor_double(e.posY);
+		int k = MathHelper.floor_double(e.posZ);
+
+		if(e.worldObj.blockExists(i, j, k)) {
+			boolean flag1 = false;
+
+			while(!flag1 && j > 0) {
+				Block block = e.worldObj.getBlock(i, j - 1, k);
+
+				if(block.getMaterial().blocksMovement()) {
+					flag1 = true;
+				} else {
+					--e.posY;
+					--j;
+				}
+			}
+
+			if(flag1) {
+				e.setPosition(e.posX, e.posY, e.posZ);
+
+				if(e.worldObj.getCollidingBoundingBoxes(e, e.boundingBox).isEmpty() && !e.worldObj.isAnyLiquid(e.boundingBox)) {
+					flag = true;
+				}
+			}
+		}
+
+		if(!flag) {
+			e.setPosition(targetX, targetY, targetZ);
+			return false;
+		} else {
+			short short1 = 128;
+
+			for(int l = 0; l < short1; ++l) {
+				double d6 = (double) l / ((double) short1 - 1.0D);
+				float f = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				float f1 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				float f2 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				double d7 = targetX + (e.posX - targetX) * d6 + (this.rand.nextDouble() - 0.5D) * (double) e.width * 2.0D;
+				double d8 = targetY + (e.posY - targetY) * d6 + this.rand.nextDouble() * (double) e.height;
+				double d9 = targetZ + (e.posZ - targetZ) * d6 + (this.rand.nextDouble() - 0.5D) * (double) e.width * 2.0D;
+				e.worldObj.spawnParticle("portal", d7, d8, d9, (double) f, (double) f1, (double) f2);
+			}
+
+			e.worldObj.playSoundEffect(targetX, targetY, targetZ, "mob.endermen.portal", 1.0F, 1.0F);
+			e.playSound("mob.endermen.portal", 1.0F, 1.0F);
+			return true;
 		}
 	}
 
@@ -261,8 +357,24 @@ public class EntityChemical extends EntityThrowableNT {
 					int z = mop.blockZ;
 					
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+						
+						Block fire = type == Fluids.BALEFIRE ? ModBlocks.balefire : Blocks.fire;
+						
 						if(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isAir(worldObj, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.fire);
+							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, fire);
+						}
+					}
+				}
+				
+				if(this.isExtinguishing()) {
+					int x = mop.blockX;
+					int y = mop.blockY;
+					int z = mop.blockZ;
+					
+					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+						
+						if(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.fire) {
+							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.air);
 						}
 					}
 				}
@@ -302,9 +414,8 @@ public class EntityChemical extends EntityThrowableNT {
 		case GAS: return 60;
 		case GASFLAME: return 20;
 		case LIQUID: return 600;
+		default: return 100;
 		}
-		
-		return 100;
 	}
 
 	@Override

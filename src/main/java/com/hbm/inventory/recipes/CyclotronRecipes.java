@@ -16,7 +16,6 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.ItemStack;
@@ -116,7 +115,17 @@ public class CyclotronRecipes extends SerializableRecipe {
 		ComparableStack boxStack = new ComparableStack(box).makeSingular();
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		
-		Pair<ItemStack, Integer> output = recipes.get(new Pair(boxStack, comp));
+		//boo hoo we iterate over a hash map, cry me a river
+		for(Entry<Pair<ComparableStack, AStack>, Pair<ItemStack, Integer>> entry : recipes.entrySet()) {
+			
+			if(entry.getKey().getKey().isApplicable(boxStack) && entry.getKey().getValue().isApplicable(comp)) {
+				return new Object[] { entry.getValue().getKey(), entry.getValue().getValue() };
+			}
+		}
+		
+		//there's literally 0 reason why this doesn't work yet it refuses, fuck this
+		
+		/*Pair<ItemStack, Integer> output = recipes.get(new Pair(boxStack, comp));
 		
 		if(output != null) {
 			return new Object[] { output.getKey().copy(), output.getValue() };
@@ -124,12 +133,12 @@ public class CyclotronRecipes extends SerializableRecipe {
 		
 		for(String name : ItemStackUtil.getOreDictNames(stack)) {
 			OreDictStack ods = new OreDictStack(name);
-			output = recipes.get(new Pair(boxStack, comp));
+			output = recipes.get(new Pair(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt")));
 			
 			if(output != null) {
 				return new Object[] { output.getKey().copy(), output.getValue() };
 			}
-		}
+		}*/
 		
 		return null;
 	}
