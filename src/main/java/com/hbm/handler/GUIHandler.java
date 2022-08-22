@@ -17,6 +17,7 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -842,6 +843,8 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(ID == -1) return new GuiWorldInAJar();
 		
 		if(entity instanceof IGUIProvider) {
 			return ((IGUIProvider) entity).provideGUI(ID, player, world, x, y, z);

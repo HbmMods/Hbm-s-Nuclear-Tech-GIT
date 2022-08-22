@@ -1,5 +1,7 @@
 package com.hbm.wiaj;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -14,9 +16,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class WorldInAJar implements IBlockAccess {
 	
-	private int sizeX;
-	private int sizeY;
-	private int sizeZ;
+	public int sizeX;
+	public int sizeY;
+	public int sizeZ;
 
 	private Block[][][] blocks;
 	private short[][][] meta;
@@ -88,11 +90,13 @@ public class WorldInAJar implements IBlockAccess {
 
 	//biomes don't matter to us, if the situation requires it we could implement a primitive biome mask
 	@Override
+	@SideOnly(Side.CLIENT)
 	public BiomeGenBase getBiomeGenForCoords(int x, int z) {
 		return BiomeGenBase.plains;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getHeight() {
 		return this.sizeY;
 	}
