@@ -1,10 +1,15 @@
 package com.hbm.wiaj.actions;
 
+import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.block.Block;
 
-public class ActionSetBlock implements IWorldAction {
+/**
+ * Simple action that places one block instantly with no delay
+ * @author hmb
+ */
+public class ActionSetBlock implements IJarAction {
 	
 	int x;
 	int y;
@@ -25,7 +30,12 @@ public class ActionSetBlock implements IWorldAction {
 	}
 
 	@Override
-	public void act(WorldInAJar world) {
+	public void act(WorldInAJar world, JarScene scene) {
 		world.setBlock(x, y, z, b, meta);
+	}
+
+	@Override
+	public int getDuration() {
+		return 0;
 	}
 }
