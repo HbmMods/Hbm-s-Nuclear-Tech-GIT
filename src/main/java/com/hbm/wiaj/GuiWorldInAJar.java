@@ -30,21 +30,19 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		testScript = new JarScript(world);
 		JarScene startingScene = new JarScene(testScript);
-		
-		for(int x = 0; x < 15; x++) {
-			for(int y = 0; y < 15; y++) {
+
+		for(int y = 0; y < 15; y++) {
+			for(int x = 0; x < 15; x++) {
 				for(int z = 0; z < 15; z++) {
 					
 					if(y == 14) {
 						startingScene.add(new ActionSetBlock(x, y, z, ModBlocks.glass_boron));
-						startingScene.add(new ActionWait(1));
 						continue;
 					}
 					
 					if(y > 0) {
 						if(x == 0 || x == 14 || z == 0 || z == 14) {
 							startingScene.add(new ActionSetBlock(x, y, z, ModBlocks.glass_boron));
-							startingScene.add(new ActionWait(1));
 							continue;
 						}
 					}
@@ -58,11 +56,15 @@ public class GuiWorldInAJar extends GuiScreen {
 					}
 				}
 			}
+			startingScene.add(new ActionWait(1));
 		}
 		
-		startingScene.add(new ActionWait(20));
+		startingScene.add(new ActionWait(10));
 
 		startingScene.add(new ActionSetBlock(2, 1, 2, ModBlocks.fallout, 0));
+		
+		startingScene.add(new ActionWait(10));
+		
 		startingScene.add(new ActionSetBlock(4, 1, 4, ModBlocks.conveyor, 2));
 		startingScene.add(new ActionSetBlock(4, 1, 5, ModBlocks.conveyor, 2));
 		startingScene.add(new ActionSetBlock(4, 1, 6, ModBlocks.conveyor, 2));
@@ -71,6 +73,8 @@ public class GuiWorldInAJar extends GuiScreen {
 		startingScene.add(new ActionSetBlock(4, 1, 9, ModBlocks.conveyor, 2));
 		startingScene.add(new ActionSetBlock(4, 1, 10, ModBlocks.conveyor, 6));
 		startingScene.add(new ActionSetBlock(5, 1, 10, ModBlocks.conveyor, 4));
+		
+		startingScene.add(new ActionWait(10));
 		
 		startingScene.add(new ActionRotate(90, 0, 50));
 
@@ -82,10 +86,17 @@ public class GuiWorldInAJar extends GuiScreen {
 					brickScene.add(new ActionSetBlock(x, y, z, Blocks.brick_block));
 				}
 			}
-			brickScene.add(new ActionWait(10));
+			brickScene.add(new ActionWait(2));
 		}
 		
-		brickScene.add(new ActionRotate(-90, 0, 20));
+		brickScene.add(new ActionRotate(-90, 0, 10));
+		
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionRotate(45, 30, 10));
+		brickScene.add(new ActionWait(40));
+		brickScene.add(new ActionRotate(360, 0, 100));
+		brickScene.add(new ActionWait(40));
+		brickScene.add(new ActionRotate(-45, -30, 10));
 		
 		this.testScript.addScene(startingScene).addScene(brickScene);
 	}

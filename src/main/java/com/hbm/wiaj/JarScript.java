@@ -1,7 +1,10 @@
 package com.hbm.wiaj;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import com.hbm.wiaj.actors.ISpecialActor;
 
 import net.minecraft.util.MathHelper;
 
@@ -9,6 +12,7 @@ public class JarScript {
 
 	public  WorldInAJar world;
 	private List<JarScene> scenes = new ArrayList();
+	private HashMap<Integer, ISpecialActor> actors = new HashMap();
 	private JarScene currentScene;
 	private int sceneNumber = 0;
 

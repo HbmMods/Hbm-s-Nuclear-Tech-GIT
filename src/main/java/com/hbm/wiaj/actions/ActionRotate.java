@@ -10,8 +10,8 @@ public class ActionRotate implements IJarAction {
 	double velPitch;
 
 	public ActionRotate(double yaw, double pitch, int time) {
-		this.velYaw = yaw / time;
-		this.velPitch = pitch / time;
+		this.velYaw = yaw / (time + 1);
+		this.velPitch = pitch / (time + 1);
 		this.time = time;
 	}
 

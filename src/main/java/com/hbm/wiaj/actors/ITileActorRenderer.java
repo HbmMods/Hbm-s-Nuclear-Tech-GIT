@@ -1,4 +1,4 @@
-package com.hbm.wiaj;
+package com.hbm.wiaj.actors;
 
 public interface ITileActorRenderer {
 
