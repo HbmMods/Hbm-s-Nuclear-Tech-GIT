@@ -1,11 +1,14 @@
 package com.hbm.wiaj;
 
+import java.util.Map.Entry;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.wiaj.actions.ActionRotate;
 import com.hbm.wiaj.actions.ActionSetBlock;
 import com.hbm.wiaj.actions.ActionWait;
+import com.hbm.wiaj.actors.ISpecialActor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -131,7 +134,6 @@ public class GuiWorldInAJar extends GuiScreen {
 		GL11.glTranslated(-7, 0 , -7);
 
 		GL11.glTranslated(world.sizeX / 2D, 0 , world.sizeZ / 2D);
-		//GL11.glRotated(System.currentTimeMillis() % (360 * 20) / 20D, 0, -1, 0);
 		GL11.glTranslated(world.sizeX / -2D, 0 , world.sizeZ / -2D);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
@@ -148,6 +150,11 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		Tessellator.instance.draw();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		for(Entry<Integer, ISpecialActor> actor : this.testScript.actors.entrySet()) {
+			actor.getValue().draw(this.testScript.ticksElapsed, this.testScript.interp);
+		}
+		
 		GL11.glPopMatrix();
 	}
 	

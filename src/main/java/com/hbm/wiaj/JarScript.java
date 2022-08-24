@@ -3,6 +3,7 @@ package com.hbm.wiaj;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.hbm.wiaj.actors.ISpecialActor;
 
@@ -12,7 +13,7 @@ public class JarScript {
 
 	public  WorldInAJar world;
 	private List<JarScene> scenes = new ArrayList();
-	private HashMap<Integer, ISpecialActor> actors = new HashMap();
+	public HashMap<Integer, ISpecialActor> actors = new HashMap();
 	private JarScene currentScene;
 	private int sceneNumber = 0;
 
@@ -61,10 +62,16 @@ public class JarScript {
 		this.interp = MathHelper.clamp_float((float) (now - this.lastTick) / 50F, 0F, 1F);
 		
 		if(nextTick) {
+			
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
 			
 			if(this.currentScene != null) {
+				
+				for(Entry<Integer, ISpecialActor> actor : this.actors.entrySet()) {
+					actor.getValue().updateActor(this.currentScene);
+				}
+				
 				tickScene();
 			}
 		}

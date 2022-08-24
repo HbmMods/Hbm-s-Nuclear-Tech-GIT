@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.hbm.wiaj.actions.IJarAction;
 
-import net.minecraft.util.MathHelper;
-
 /**
  * A scene is a simple sequence of tasks, every script can have multiple scenes
  * Scenes depend on each other, in order to rewind we'll have to re-init the playing field and FFW through all previous scenes
