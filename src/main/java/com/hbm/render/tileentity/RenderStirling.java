@@ -9,11 +9,13 @@ import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityStirling;
 import com.hbm.wiaj.actors.ITileActorRenderer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class RenderStirling extends TileEntitySpecialRenderer implements IItemRendererProvider, ITileActorRenderer {
@@ -67,6 +69,11 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 		
 		GL11.glTranslated(Math.sin(rot * Math.PI / 90D) * 0.25 + 0.125, 0, 0);
 		ResourceManager.stirling.renderPart("Piston");
+	}
+	
+	@Override
+	protected void bindTexture(ResourceLocation tex) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
 	}
 
 	@Override

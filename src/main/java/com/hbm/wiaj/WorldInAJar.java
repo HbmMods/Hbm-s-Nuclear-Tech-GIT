@@ -65,7 +65,7 @@ public class WorldInAJar implements IBlockAccess {
 		if(x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
 			return null;
 		
-		TileEntity tile = this.tiles[x][y][z];
+		//TileEntity tile = this.tiles[x][y][z];
 		
 		return null;
 	}

@@ -3,19 +3,28 @@ package com.hbm.wiaj;
 import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.render.tileentity.RenderStirling;
+import com.hbm.wiaj.actions.ActionCreateActor;
 import com.hbm.wiaj.actions.ActionRotate;
+import com.hbm.wiaj.actions.ActionSetActorData;
 import com.hbm.wiaj.actions.ActionSetBlock;
+import com.hbm.wiaj.actions.ActionUpdateActor;
 import com.hbm.wiaj.actions.ActionWait;
+import com.hbm.wiaj.actors.ActorTileEntity;
 import com.hbm.wiaj.actors.ISpecialActor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 
 //krass
 public class GuiWorldInAJar extends GuiScreen {
@@ -63,11 +72,8 @@ public class GuiWorldInAJar extends GuiScreen {
 		}
 		
 		startingScene.add(new ActionWait(10));
-
 		startingScene.add(new ActionSetBlock(2, 1, 2, ModBlocks.fallout, 0));
-		
 		startingScene.add(new ActionWait(10));
-		
 		startingScene.add(new ActionSetBlock(4, 1, 4, ModBlocks.conveyor, 2));
 		startingScene.add(new ActionSetBlock(4, 1, 5, ModBlocks.conveyor, 2));
 		startingScene.add(new ActionSetBlock(4, 1, 6, ModBlocks.conveyor, 2));
@@ -77,9 +83,8 @@ public class GuiWorldInAJar extends GuiScreen {
 		startingScene.add(new ActionSetBlock(4, 1, 10, ModBlocks.conveyor, 6));
 		startingScene.add(new ActionSetBlock(5, 1, 10, ModBlocks.conveyor, 4));
 		
-		startingScene.add(new ActionWait(10));
-		
-		startingScene.add(new ActionRotate(90, 0, 50));
+		startingScene.add(new ActionWait(5));
+		startingScene.add(new ActionRotate(90, 0, 10));
 
 		JarScene brickScene = new JarScene(testScript);
 
@@ -93,13 +98,32 @@ public class GuiWorldInAJar extends GuiScreen {
 		}
 		
 		brickScene.add(new ActionRotate(-90, 0, 10));
-		
 		brickScene.add(new ActionWait(20));
 		brickScene.add(new ActionRotate(45, 30, 10));
-		brickScene.add(new ActionWait(40));
-		brickScene.add(new ActionRotate(360, 0, 100));
-		brickScene.add(new ActionWait(40));
+		brickScene.add(new ActionWait(20));
 		brickScene.add(new ActionRotate(-45, -30, 10));
+		brickScene.add(new ActionWait(20));
+		
+		brickScene.add(new ActionCreateActor(0, new ActorTileEntity(new RenderStirling())));
+		NBTTagCompound stirling = new NBTTagCompound();
+		stirling.setDouble("x", 7);
+		stirling.setDouble("y", 1);
+		stirling.setDouble("z", 7);
+		stirling.setInteger("rotation", 2);
+		stirling.setBoolean("hasCog", true);
+		brickScene.add(new ActionSetActorData(0, stirling));
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionUpdateActor(0, "speed", 5F));
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionUpdateActor(0, "speed", 10F));
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionUpdateActor(0, "speed", 15F));
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionUpdateActor(0, "speed", 2F));
+		brickScene.add(new ActionUpdateActor(0, "hasCog", false));
+		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionRotate(360, 0, 20));
+		brickScene.add(new ActionWait(100));
 		
 		this.testScript.addScene(startingScene).addScene(brickScene);
 	}
@@ -124,7 +148,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		double scale = -10;
 		GL11.glTranslated(width / 2, height / 2 + 70, 100);
 		GL11.glScaled(scale, scale, scale);
-		GL11.glScaled(1, 1, 0.01); // increadible flattening power
+		GL11.glScaled(1, 1, 0.01); //incredible flattening power
 
 		double pitch = testScript.lastRotationPitch + (testScript.rotationPitch - testScript.lastRotationPitch) * testScript.interp;
 		double yaw = testScript.lastRotationYaw + (testScript.rotationYaw - testScript.lastRotationYaw) * testScript.interp;
@@ -150,9 +174,27 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		Tessellator.instance.draw();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+		
+		RenderHelper.enableStandardItemLighting();
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+		GL11.glPushMatrix();
+		
+		GL11.glTranslated(width / 2, height / 2 + 70, 100);
+		GL11.glScaled(scale, scale, scale);
+		GL11.glScaled(1, 1, 0.01);
+		GL11.glRotated(pitch, 1, 0, 0);
+		GL11.glRotated(yaw, 0, 1, 0);
+		GL11.glTranslated(-7, 0 , -7);
+		GL11.glTranslated(world.sizeX / 2D, 0 , world.sizeZ / 2D);
+		GL11.glTranslated(world.sizeX / -2D, 0 , world.sizeZ / -2D);
 		
 		for(Entry<Integer, ISpecialActor> actor : this.testScript.actors.entrySet()) {
+			GL11.glPushMatrix();
 			actor.getValue().draw(this.testScript.ticksElapsed, this.testScript.interp);
+			GL11.glPopMatrix();
 		}
 		
 		GL11.glPopMatrix();

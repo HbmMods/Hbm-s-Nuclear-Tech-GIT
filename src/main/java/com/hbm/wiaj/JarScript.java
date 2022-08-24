@@ -59,7 +59,11 @@ public class JarScript {
 			nextTick = true;
 		}
 		
-		this.interp = MathHelper.clamp_float((float) (now - this.lastTick) / 50F, 0F, 1F);
+		if(this.currentScene != null) {
+			this.interp = MathHelper.clamp_float((float) (now - this.lastTick) / 50F, 0F, 1F);
+		} else {
+			this.interp = 0;
+		}
 		
 		if(nextTick) {
 			

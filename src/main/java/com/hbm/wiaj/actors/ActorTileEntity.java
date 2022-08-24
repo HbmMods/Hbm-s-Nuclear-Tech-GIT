@@ -34,5 +34,6 @@ public class ActorTileEntity implements ISpecialActor {
 		if(o instanceof Integer) this.data.setInteger(tag, (Integer) o);
 		if(o instanceof Float) this.data.setFloat(tag, (Float) o);
 		if(o instanceof Double) this.data.setDouble(tag, (Double) o);
+		if(o instanceof Boolean) this.data.setBoolean(tag, (Boolean) o);
 	}
 }
