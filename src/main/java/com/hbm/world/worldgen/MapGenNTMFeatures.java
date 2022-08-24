@@ -2,19 +2,25 @@ package com.hbm.world.worldgen;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenMesa;
 import net.minecraft.world.gen.structure.MapGenStructure;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
+import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 
 public class MapGenNTMFeatures extends MapGenStructure {
 	
+	//BiomeDictionary could be /very/ useful, since it automatically sorts *all* biomes into predefined categories
 	private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
 	/** Maximum distance between structures */
 	private int maxDistanceBetweenScatteredFeatures;
@@ -130,6 +136,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					ComponentNTMFeatures.NTMWorkshop1 workshop1 = new ComponentNTMFeatures.NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
 				}
+			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextBoolean()) {
+				MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
 			} else { //Everything else
 				if(rand.nextBoolean()) {
 					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
@@ -140,8 +148,14 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				}
 			}
 			
-			if(GeneralConfig.enableDebugMode)
-				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n");
+			if(GeneralConfig.enableDebugMode) {
+				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
+				this.components.forEach((component) -> {
+					System.out.print(MapGenStructureIO.func_143036_a((StructureComponent) component) + " ");
+				});
+				
+				System.out.print("\n");
+			}
 			
 			this.updateBoundingBox();
 		}

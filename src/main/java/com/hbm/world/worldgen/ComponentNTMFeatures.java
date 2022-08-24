@@ -8,7 +8,10 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
+import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +21,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
+import scala.reflect.internal.Trees.This;
 
+//TODO:
+//KILL!
 //Probably one of the more difficult parts.
 /** Base component file. For structure generation under 32x32 blocks, as Minecraft generates 2x2 chunks for structures.
  * Larger non-procedural structures should be split up into several bounding boxes, which check if they intersect the chunk bounding box currently being loaded. Doing so will prevent
@@ -38,6 +44,9 @@ public class ComponentNTMFeatures {
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin2.class, "NTMRuin2");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin3.class, "NTMRuin3");
 		MapGenStructureIO.func_143031_a(ComponentNTMFeatures.NTMRuin4.class, "NTMRuin4");
+		//aggggggggggg
+		MapGenStructureIO.func_143031_a(MilitaryBaseFeatures.BasicHelipad.class, "NTMBasicHelipad");
+		MapGenStructureIO.func_143031_a(MilitaryBaseFeatures.RadioShack.class, "NTMRadioShack");
 	}
 	
 	/** Sandstone Ruin 1 */
@@ -93,7 +102,7 @@ public class ComponentNTMFeatures {
 			 */
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -177,7 +186,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.print(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -257,7 +266,7 @@ public class ComponentNTMFeatures {
 			
 			//Loot & Decorations
 			//House 1
-			int eastMeta = this.getMetadataForRotatableDeco(4);
+			int eastMeta = this.getDecoMeta(4);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_boiler_off, 4, 1, 1, 1, box);
 			this.fillWithBlocks(world, box, 1, 2, 1, 1, 3, 1, ModBlocks.deco_pipe_quad_rusted, Blocks.air, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim_rusted, 0, 1, featureSizeY, 1, box);
@@ -332,7 +341,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -360,7 +369,7 @@ public class ComponentNTMFeatures {
 			this.fillWithAir(world, box, 4, 0, 4, featureSizeX - 1, featureSizeY, featureSizeZ - 1);
 			this.fillWithAir(world, box, 3, 1, featureSizeZ - 1, 3, 2, featureSizeZ - 1);
 			
-			int pillarMeta = this.getMetadataForRotatablePillar(8);
+			int pillarMeta = this.getPillarMeta(8);
 			
 			//Pillars
 			this.fillWithBlocks(world, box, 0, 0, 0, 0, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false);
@@ -398,7 +407,7 @@ public class ComponentNTMFeatures {
 			
 			//Decorations & Loot
 			this.fillWithMetadataBlocks(world, box, 1, 1, 1, 1, 1, 4, Blocks.dirt, 2, Blocks.air, 0, false);
-			int westDecoMeta = this.getMetadataForRotatableDeco(5);
+			int westDecoMeta = this.getDecoMeta(5);
 			this.fillWithMetadataBlocks(world, box, 2, 1, 1, 2, 1, 4, ModBlocks.steel_wall, westDecoMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 2, featureSizeY - 1, 1, 2, featureSizeY - 1, 4, ModBlocks.steel_wall, westDecoMeta, Blocks.air, 0, false);
 			for(byte i = 0; i < 4; i++) {
@@ -409,7 +418,7 @@ public class ComponentNTMFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.door_office, doorMeta, 3, 1, featureSizeZ - 1, box);
 			ItemDoor.placeDoorBlock(world, this.getXWithOffset(3, featureSizeZ - 1), this.getYWithOffset(1), this.getZWithOffset(3, featureSizeZ - 1), doorMeta, ModBlocks.door_office);
 			
-			int northDecoMeta = this.getMetadataForRotatableDeco(3);
+			int northDecoMeta = this.getDecoMeta(3);
 			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 1, featureSizeX - 1, featureSizeY - 1, 1, ModBlocks.steel_scaffold, westDecoMeta, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 5, featureSizeY - 1, 2, featureSizeX - 1, featureSizeY - 1, 2, ModBlocks.steel_wall, northDecoMeta, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, northDecoMeta, 5, 1, 1, box);
@@ -469,7 +478,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			this.boundingBox.offset(0, -7, 0);
@@ -566,10 +575,10 @@ public class ComponentNTMFeatures {
 			this.fillWithRandomizedBlocks(world, box, 1, 4, 1, featureSizeX - 1, 4, featureSizeZ - 1, false, rand, RandomConcreteBricks); //Ceiling
 			
 			//Decorations & Loot
-			int eastMeta = this.getMetadataForRotatableDeco(4);
-			int westMeta = this.getMetadataForRotatableDeco(5);
-			int northMeta = this.getMetadataForRotatableDeco(3);
-			int southMeta = this.getMetadataForRotatableDeco(2);
+			int eastMeta = this.getDecoMeta(4);
+			int westMeta = this.getDecoMeta(5);
+			int northMeta = this.getDecoMeta(3);
+			int southMeta = this.getDecoMeta(2);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crashed_balefire, southMeta, 6, featureSizeY - 2, 3, box);
 			
 			int doorMeta = this.getMetadataWithOffset(Blocks.wooden_door, 1);
@@ -648,7 +657,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			////System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -681,8 +690,8 @@ public class ComponentNTMFeatures {
 			}
 			
 			//Walls
-			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
-			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			int pillarMetaWE = this.getPillarMeta(4);
+			int pillarMetaNS = this.getPillarMeta(8);
 			this.fillWithBlocks(world, box, 1, 0, 0, 1, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
 			this.placeBlockAtCurrentPosition(world, ModBlocks.concrete, 0, 1, 4, 0, box);
 			this.fillWithMetadataBlocks(world, box, 2, 4, 0, featureSizeX - 4, 4, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
@@ -713,8 +722,8 @@ public class ComponentNTMFeatures {
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 3, 4, 1, featureSizeX - 3, 4, featureSizeZ - 1, ModBlocks.concrete_pillar, pillarMetaNS, Blocks.air, 0, false); //Right Wall
 			this.fillWithRandomizedBlocks(world, box, featureSizeX - 3, 0, 1, featureSizeX - 3, 3, featureSizeZ - 1, false, rand, RandomSuperConcrete);
 			
-			pillarMetaWE = this.getMetadataForRotatablePillar(5);
-			pillarMetaNS = this.getMetadataForRotatablePillar(9);
+			pillarMetaWE = this.getPillarMeta(5);
+			pillarMetaNS = this.getPillarMeta(9);
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 2, 1, featureSizeX - 1, 2, 1, Blocks.log, pillarMetaWE, Blocks.air, 0, false); //Back Wall
 			this.fillWithMetadataBlocks(world, box, featureSizeX, 0, 1, featureSizeX, 2, 1, Blocks.log, 1, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, featureSizeX - 2, 0, 1, featureSizeX - 1, 1, 1, Blocks.planks, 1, Blocks.air, 0, false);
@@ -735,8 +744,8 @@ public class ComponentNTMFeatures {
 			this.fillWithBlocks(world, box, featureSizeX - 2, 2, 2, featureSizeX - 1, 2, 5, ModBlocks.deco_steel, Blocks.air, false);
 			
 			//Loot & Decorations
-			int southMeta = this.getMetadataForRotatableDeco(2);
-			int eastMeta = this.getMetadataForRotatableDeco(5);
+			int southMeta = this.getDecoMeta(2);
+			int eastMeta = this.getDecoMeta(5);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.pole_satellite_receiver, eastMeta, 2, featureSizeY - 1, 1, box);
 			this.fillWithBlocks(world, box, 3, featureSizeY - 1, 1, 4, featureSizeY - 1, 1, ModBlocks.deco_steel, Blocks.air, false);
 			this.fillWithBlocks(world, box, 2, featureSizeY - 1, 2, 4, featureSizeY - 1, 2, ModBlocks.deco_steel, Blocks.air, false);
@@ -793,7 +802,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -804,8 +813,8 @@ public class ComponentNTMFeatures {
 				}
 			}
 			
-			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
-			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			int pillarMetaWE = this.getPillarMeta(4);
+			int pillarMetaNS = this.getPillarMeta(8);
 			
 			this.fillWithBlocks(world, box, 0, 0, 0, 0, featureSizeY, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
 			this.fillWithMetadataBlocks(world, box, 1, 3, 0, 3, 3, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
@@ -869,7 +878,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -880,8 +889,8 @@ public class ComponentNTMFeatures {
 				}
 			}
 			
-			int pillarMetaWE = this.getMetadataForRotatablePillar(4);
-			int pillarMetaNS = this.getMetadataForRotatablePillar(8);
+			int pillarMetaWE = this.getPillarMeta(4);
+			int pillarMetaNS = this.getPillarMeta(8);
 			
 			this.fillWithBlocks(world, box, 0, 0, 0, 0, 3, 0, ModBlocks.concrete_pillar, Blocks.air, false); //Back Wall
 			this.fillWithMetadataBlocks(world, box, 1, 3, 0, featureSizeX - 1, 3, 0, ModBlocks.concrete_pillar, pillarMetaWE, Blocks.air, 0, false);
@@ -936,7 +945,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -997,7 +1006,7 @@ public class ComponentNTMFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			//System.out.println(this.coordBaseMode);
-			if(!this.func_74935_a(world, box, this.boundingBox.minY)) {
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			//System.out.println("" + this.boundingBox.minX + ", " + this.boundingBox.minY + ", " + this.boundingBox.minZ);
@@ -1043,6 +1052,8 @@ public class ComponentNTMFeatures {
 		}
 }
 	
+	/*Worrying: StructureStart checks for not addComponentParts to remove structure components from iterator, but here successful builds return true.
+	may be issue with multiple components.*/
 	abstract static class Feature extends StructureComponent {
 		/** The size of the bounding box for this feature in the X axis */
 		protected int featureSizeX;
@@ -1101,7 +1112,7 @@ public class ComponentNTMFeatures {
 			this.hpos = nbt.getInteger("HPos");
 		}
 		
-		protected boolean func_74935_a(World world, StructureBoundingBox box, int y) {
+		protected boolean setAverageHeight(World world, StructureBoundingBox box, int y) {
 			
 			int j = 0;
 			int k = 0;
@@ -1128,7 +1139,7 @@ public class ComponentNTMFeatures {
 		 * @param metadata (First two digits are equal to block metadata, other two are equal to orientation
 		 * @return metadata adjusted for random orientation
 		 */
-		protected int getMetadataForRotatablePillar(int metadata) {
+		protected int getPillarMeta(int metadata) {
 			int blockMeta = metadata & 3;
 			int rotationMeta =  metadata >> 2;
 			
@@ -1163,7 +1174,7 @@ public class ComponentNTMFeatures {
 		 * @param metadata (2 for facing South, 3 for facing North, 4 for facing East, 5 for facing West
 		 * @return metadata adjusted for random orientation
 		 */
-		protected int getMetadataForRotatableDeco(int metadata) {
+		protected int getDecoMeta(int metadata) {
 			switch(this.coordBaseMode) {
 			case 0: //South
 				switch(metadata) {
@@ -1213,6 +1224,40 @@ public class ComponentNTMFeatures {
 			return 0;
 		}
 		
+		//TODO: Make a lot of these orientation/rotation methods much more transparent about what
+		//direction they will actually face
+		
+		/**
+		 * Places door at specified location with orientation-adjusted meta
+		 * don't ask me which directions are what
+		 */
+		protected void placeDoor(World world, StructureBoundingBox box, Block door, int direction, int featureX, int featureY, int featureZ) {
+			int meta = getMetadataWithOffset(Blocks.wooden_door, direction);
+			int posX = this.getXWithOffset(featureX, featureZ);
+			int posY = this.getYWithOffset(featureY);
+			int posZ = this.getZWithOffset(featureX, featureZ);
+			
+			this.placeBlockAtCurrentPosition(world, door, meta, featureX, featureY, featureZ, box);
+			ItemDoor.placeDoorBlock(world, posX, posY, posZ, meta, door);
+		}
+		
+		/**
+		 * Places random bobblehead with a randomized orientation at specified location
+		 */
+		protected void placeRandomBobble(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ) {
+			int posX = this.getXWithOffset(featureX, featureZ);
+			int posY = this.getYWithOffset(featureY);
+			int posZ = this.getZWithOffset(featureX, featureZ);
+			
+			placeBlockAtCurrentPosition(world, ModBlocks.bobblehead, rand.nextInt(16), featureX, featureY, featureZ, box);
+			TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(posX, posY, posZ);
+			
+			if(bobble != null) {
+				bobble.type = BobbleType.values()[rand.nextInt(BobbleType.values().length - 1) + 1];
+				bobble.markDirty();
+			}
+		}
+		
 		/**
 		 * it feels disgusting to make a method with this many parameters but fuck it, it's easier
 		 * @return iron crate with generated content
@@ -1232,6 +1277,47 @@ public class ComponentNTMFeatures {
 			
 			return false;
 		}
+		
+		@Override
+		protected void func_151554_b(World world, Block placeBlock, int meta, int featureX, int featureY, int featureZ, StructureBoundingBox box) {
+			int posX = this.getXWithOffset(featureX, featureZ);
+			int posY = this.getYWithOffset(featureY);
+			int posZ = this.getZWithOffset(featureX, featureZ);
+			
+			if(box.isVecInside(posX, posY, posZ)) {
+				Block block = world.getBlock(posX, posY, posZ);
+				
+				while ((world.isAirBlock(posX, posY, posZ) || !block.getMaterial().isSolid() || (block.isFoliage(world, posX, posY, posZ) || block.getMaterial() == Material.leaves)) && posY > 1) {
+					world.setBlock(posX, posY, posZ, placeBlock, meta, 2);
+					block = world.getBlock(posX, --posY, posZ);
+				}
+			}
+		}
+		
+		/**
+		 * Places specified blocks on top of pre-existing blocks in a given area, up to a certain height. Does NOT place blocks on top of liquids.
+		 * Useful for stuff like fences and walls most likely.
+		 */
+		protected void placeBlocksOnTop(World world, StructureBoundingBox box, Block block, int minX, int minZ, int maxX, int maxZ, int height) {
+			
+			for(int x = minX; x <= maxX; x++) {
+				for(int z = minZ; z <= maxZ; z++) {
+					int posX = this.getXWithOffset(x, z);
+					int posZ = this.getZWithOffset(x, z);
+					int topHeight = world.getTopSolidOrLiquidBlock(posX, posZ);
+					
+					if(!world.getBlock(posX, topHeight, posZ).getMaterial().isLiquid()) {
+						
+						for(int i = 0; i < height; i++) {
+							int posY = topHeight + i;
+							
+							world.setBlock(posX, posY, posZ, block, 0, 2);
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
 	//Block Selectors
@@ -1276,6 +1362,7 @@ public class ComponentNTMFeatures {
 		}
 	}
 	
+	//ag
 	static class LabTiles extends StructureComponent.BlockSelector {
 		
 		LabTiles() { }
@@ -1305,8 +1392,6 @@ public class ComponentNTMFeatures {
 		@Override
 		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
 			this.selectedBlockMetaData = rand.nextInt(6) + 10;
-			
-			
 		}
 	}
 }
