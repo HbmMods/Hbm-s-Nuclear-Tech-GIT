@@ -119,7 +119,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 		for(Entry<Pair<ComparableStack, AStack>, Pair<ItemStack, Integer>> entry : recipes.entrySet()) {
 			
 			if(entry.getKey().getKey().isApplicable(boxStack) && entry.getKey().getValue().isApplicable(comp)) {
-				return new Object[] { entry.getValue().getKey(), entry.getValue().getValue() };
+				return new Object[] { entry.getValue().getKey().copy(), entry.getValue().getValue() };
 			}
 		}
 		

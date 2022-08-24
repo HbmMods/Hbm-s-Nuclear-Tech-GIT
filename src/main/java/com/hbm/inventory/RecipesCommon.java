@@ -202,21 +202,21 @@ public class RecipesCommon {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if(this == obj)
 				return true;
-			if (obj == null)
+			if(obj == null)
 				return false;
-			if (getClass() != obj.getClass())
+			if(getClass() != obj.getClass())
 				return false;
 			ComparableStack other = (ComparableStack) obj;
-			if (item == null) {
-				if (other.item != null)
+			if(item == null) {
+				if(other.item != null)
 					return false;
-			} else if (!item.equals(other.item))
+			} else if(!item.equals(other.item))
 				return false;
-			if (meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
+			if(meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
 				return false;
-			if (stacksize != other.stacksize)
+			if(stacksize != other.stacksize)
 				return false;
 			return true;
 		}
@@ -330,7 +330,7 @@ public class RecipesCommon {
 	}
 	
 	public static class OreDictStack extends AStack {
-		
+
 		public String name;
 		
 		public OreDictStack(String name) {
@@ -409,6 +409,35 @@ public class RecipesCommon {
 			}
 			
 			return ores;
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + this.stacksize;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if(this == obj)
+				return true;
+			if(obj == null)
+				return false;
+			if(getClass() != obj.getClass())
+				return false;
+			OreDictStack other = (OreDictStack) obj;
+			if(name == null) {
+				if(other.name != null)
+					return false;
+			} else if(!name.equals(other.name)) {
+				return false;
+			}
+			if(this.stacksize != other.stacksize)
+				return false;
+			return true;
 		}
 	}
 	
