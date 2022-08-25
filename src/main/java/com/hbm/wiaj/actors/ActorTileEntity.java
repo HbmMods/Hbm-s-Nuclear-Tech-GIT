@@ -11,7 +11,7 @@ public class ActorTileEntity extends ActorBase {
 	}
 
 	@Override
-	public void drawForegroundComponent(int ticks, float interp) { }
+	public void drawForegroundComponent(int w, int h, int ticks, float interp) { }
 
 	@Override
 	public void drawBackgroundComponent(int ticks, float interp) {

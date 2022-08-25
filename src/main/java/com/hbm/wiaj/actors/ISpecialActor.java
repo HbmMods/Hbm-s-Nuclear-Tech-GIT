@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public interface ISpecialActor {
 
 	/** Draws things in the foreground like text boxes */
-	public void drawForegroundComponent(int ticks, float interp);
+	public void drawForegroundComponent(int w, int h, int ticks, float interp);
 	/** Draws things in the background, fotted to the world renderer like TESRs */
 	public void drawBackgroundComponent(int ticks, float interp);
 	/** Update ticks to emulate serverside ticking */
