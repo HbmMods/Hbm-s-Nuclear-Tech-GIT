@@ -29,14 +29,13 @@ import net.minecraft.nbt.NBTTagCompound;
 //krass
 public class GuiWorldInAJar extends GuiScreen {
 	
-	WorldInAJar world;
 	RenderBlocks renderer;
 	
 	JarScript testScript;
 
 	public GuiWorldInAJar() {
 		super();
-		world = new WorldInAJar(15, 15, 15);
+		WorldInAJar world = new WorldInAJar(15, 15, 15);
 		renderer = new RenderBlocks(world);
 		renderer.enableAO = true;
 		
@@ -122,7 +121,13 @@ public class GuiWorldInAJar extends GuiScreen {
 		brickScene.add(new ActionUpdateActor(0, "speed", 2F));
 		brickScene.add(new ActionUpdateActor(0, "hasCog", false));
 		brickScene.add(new ActionWait(20));
-		brickScene.add(new ActionRotate(360, 0, 20));
+		brickScene.add(new ActionUpdateActor(0, "rotation", 4));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "rotation", 3));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "rotation", 5));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "rotation", 2));
 		brickScene.add(new ActionWait(100));
 		
 		this.testScript.addScene(startingScene).addScene(brickScene);
@@ -145,29 +150,16 @@ public class GuiWorldInAJar extends GuiScreen {
 	private void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
 
 		GL11.glPushMatrix();
-		double scale = -10;
-		GL11.glTranslated(width / 2, height / 2 + 70, 100);
-		GL11.glScaled(scale, scale, scale);
-		GL11.glScaled(1, 1, 0.01); //incredible flattening power
-
-		double pitch = testScript.lastRotationPitch + (testScript.rotationPitch - testScript.lastRotationPitch) * testScript.interp;
-		double yaw = testScript.lastRotationYaw + (testScript.rotationYaw - testScript.lastRotationYaw) * testScript.interp;
-		GL11.glRotated(pitch, 1, 0, 0);
-		GL11.glRotated(yaw, 0, 1, 0);
-		
-		GL11.glTranslated(-7, 0 , -7);
-
-		GL11.glTranslated(world.sizeX / 2D, 0 , world.sizeZ / 2D);
-		GL11.glTranslated(world.sizeX / -2D, 0 , world.sizeZ / -2D);
+		setupRotation();
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Tessellator.instance.startDrawingQuads();
 		
-		for(int x = 0; x < world.sizeX; x++) {
-			for(int y = 0; y < world.sizeY; y++) {
-				for(int z = 0; z < world.sizeZ; z++) {
-					renderer.renderBlockByRenderType(world.getBlock(x, y, z), x, y, z);
+		for(int x = 0; x < testScript.world.sizeX; x++) {
+			for(int y = 0; y < testScript.world.sizeY; y++) {
+				for(int z = 0; z < testScript.world.sizeZ; z++) {
+					renderer.renderBlockByRenderType(testScript.world.getBlock(x, y, z), x, y, z);
 				}
 			}
 		}
@@ -175,29 +167,40 @@ public class GuiWorldInAJar extends GuiScreen {
 		Tessellator.instance.draw();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
-		
-		RenderHelper.enableStandardItemLighting();
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		GL11.glPushMatrix();
-		
-		GL11.glTranslated(width / 2, height / 2 + 70, 100);
-		GL11.glScaled(scale, scale, scale);
-		GL11.glScaled(1, 1, 0.01);
-		GL11.glRotated(pitch, 1, 0, 0);
-		GL11.glRotated(yaw, 0, 1, 0);
-		GL11.glTranslated(-7, 0 , -7);
-		GL11.glTranslated(world.sizeX / 2D, 0 , world.sizeZ / 2D);
-		GL11.glTranslated(world.sizeX / -2D, 0 , world.sizeZ / -2D);
+		setupRotation();
+		RenderHelper.enableStandardItemLighting();
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 		
 		for(Entry<Integer, ISpecialActor> actor : this.testScript.actors.entrySet()) {
 			GL11.glPushMatrix();
-			actor.getValue().draw(this.testScript.ticksElapsed, this.testScript.interp);
+			actor.getValue().drawBackgroundComponent(this.testScript.ticksElapsed, this.testScript.interp);
 			GL11.glPopMatrix();
 		}
 		
 		GL11.glPopMatrix();
+	}
+	
+	private void setupRotation() {
+		
+		double scale = -50;
+		
+		GL11.glTranslated(width / 2, height / 2 + 70, 400);
+		GL11.glScaled(scale, scale, scale);
+		GL11.glScaled(1, 1, 0.5); //incredible flattening power
+
+		double pitch = testScript.lastRotationPitch + (testScript.rotationPitch - testScript.lastRotationPitch) * testScript.interp;
+		double yaw = testScript.lastRotationYaw + (testScript.rotationYaw - testScript.lastRotationYaw) * testScript.interp;
+		
+		GL11.glRotated(pitch, 1, 0, 0);
+		GL11.glRotated(yaw, 0, 1, 0);
+		GL11.glTranslated(-7, 0 , -7);
+		GL11.glTranslated(testScript.world.sizeX / 2D, 0 , testScript.world.sizeZ / 2D);
+		GL11.glTranslated(testScript.world.sizeX / -2D, 0 , testScript.world.sizeZ / -2D);
 	}
 	
 	@Override
