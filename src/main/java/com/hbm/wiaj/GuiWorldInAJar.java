@@ -1,7 +1,6 @@
 package com.hbm.wiaj;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -14,7 +13,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.render.tileentity.RenderStirling;
 import com.hbm.wiaj.actions.ActionCreateActor;
-import com.hbm.wiaj.actions.ActionRotate;
+import com.hbm.wiaj.actions.ActionRotateBy;
 import com.hbm.wiaj.actions.ActionSetActorData;
 import com.hbm.wiaj.actions.ActionSetBlock;
 import com.hbm.wiaj.actions.ActionUpdateActor;
@@ -92,7 +91,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		startingScene.add(new ActionSetBlock(5, 1, 10, ModBlocks.conveyor, 4));
 		
 		startingScene.add(new ActionWait(5));
-		startingScene.add(new ActionRotate(90, 0, 10));
+		startingScene.add(new ActionRotateBy(90, 0, 10));
 
 		JarScene brickScene = new JarScene(testScript);
 
@@ -105,11 +104,11 @@ public class GuiWorldInAJar extends GuiScreen {
 			brickScene.add(new ActionWait(2));
 		}
 		
-		brickScene.add(new ActionRotate(-90, 0, 10));
+		brickScene.add(new ActionRotateBy(-90, 0, 10));
 		brickScene.add(new ActionWait(20));
-		brickScene.add(new ActionRotate(45, 30, 10));
+		brickScene.add(new ActionRotateBy(45, 30, 10));
 		brickScene.add(new ActionWait(20));
-		brickScene.add(new ActionRotate(-45, -30, 10));
+		brickScene.add(new ActionRotateBy(-45, -30, 10));
 		brickScene.add(new ActionWait(20));
 		
 		brickScene.add(new ActionCreateActor(0, new ActorTileEntity(new RenderStirling())));
@@ -122,10 +121,17 @@ public class GuiWorldInAJar extends GuiScreen {
 		brickScene.add(new ActionSetActorData(0, stirling));
 		brickScene.add(new ActionWait(20));
 		brickScene.add(new ActionUpdateActor(0, "speed", 5F));
-		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionWait(10));
 		brickScene.add(new ActionUpdateActor(0, "speed", 10F));
-		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionWait(10));
 		brickScene.add(new ActionUpdateActor(0, "speed", 15F));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "speed", 20F));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "speed", 25F));
+		brickScene.add(new ActionWait(10));
+		brickScene.add(new ActionUpdateActor(0, "hasCog", false));
+		brickScene.add(new ActionUpdateActor(0, "speed", 5F));
 		brickScene.add(new ActionWait(20));
 		
 		brickScene.add(new ActionCreateActor(1, new ActorBasicPanel(0, 0, new Object[]{ new ItemStack(ModItems.ammo_arty, 1, 5)," shit *and* piss" })));
@@ -209,12 +215,10 @@ public class GuiWorldInAJar extends GuiScreen {
 		GL11.glScaled(scale, scale, scale);
 		GL11.glScaled(1, 1, 0.5); //incredible flattening power
 
-		double pitch = testScript.lastRotationPitch + (testScript.rotationPitch - testScript.lastRotationPitch) * testScript.interp;
-		double yaw = testScript.lastRotationYaw + (testScript.rotationYaw - testScript.lastRotationYaw) * testScript.interp;
-		
-		GL11.glRotated(pitch, 1, 0, 0);
-		GL11.glRotated(yaw, 0, 1, 0);
+		GL11.glRotated(testScript.pitch(), 1, 0, 0);
+		GL11.glRotated(testScript.yaw(), 0, 1, 0);
 		GL11.glTranslated(testScript.world.sizeX / -2D, -testScript.world.sizeY / 2D , testScript.world.sizeZ / -2D);
+		GL11.glTranslated(testScript.offsetX(), testScript.offsetY(), testScript.offsetZ());
 	}
 	
 	@Override

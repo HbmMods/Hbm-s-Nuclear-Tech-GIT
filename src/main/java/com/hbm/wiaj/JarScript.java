@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.util.BobMathUtil;
 import com.hbm.wiaj.actors.ISpecialActor;
 
 import net.minecraft.util.MathHelper;
@@ -17,10 +18,11 @@ public class JarScript {
 	private JarScene currentScene;
 	private int sceneNumber = 0;
 
-	public double lastRotationYaw = -45D;
-	public double lastRotationPitch = -30D;
-	public double rotationYaw = -45D;
-	public double rotationPitch = -30D;
+	public double lastRotationYaw = -45D, rotationYaw = -45D;
+	public double lastRotationPitch = -30D, rotationPitch = -30D;
+	public double lastOffsetX = 0, offsetX = 0;
+	public double lastOffsetY = 0, offsetY = 0;
+	public double lastOffsetZ = 0, offsetZ = 0;
 	
 	public float interp = 0F;
 	
@@ -69,6 +71,9 @@ public class JarScript {
 			
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.lastOffsetX = this.offsetX;
+			this.lastOffsetY = this.offsetY;
+			this.lastOffsetZ = this.offsetZ;
 			
 			if(this.currentScene != null) {
 				
@@ -112,4 +117,10 @@ public class JarScript {
 	public boolean isPaused() {
 		return this.isPaused;
 	}
+	
+	public double yaw() { return BobMathUtil.interp(this.lastRotationYaw, this.rotationYaw, interp); }
+	public double pitch() { return BobMathUtil.interp(this.lastRotationPitch, this.rotationPitch, interp); }
+	public double offsetX() { return BobMathUtil.interp(this.lastOffsetX, this.offsetX, interp); }
+	public double offsetY() { return BobMathUtil.interp(this.lastOffsetY, this.offsetY, interp); }
+	public double offsetZ() { return BobMathUtil.interp(this.lastOffsetZ, this.offsetZ, interp); }
 }
