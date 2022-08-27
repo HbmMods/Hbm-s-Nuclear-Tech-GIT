@@ -10,19 +10,22 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
 import com.hbm.render.tileentity.RenderStirling;
 import com.hbm.wiaj.actions.ActionCreateActor;
+import com.hbm.wiaj.actions.ActionOffsetBy;
 import com.hbm.wiaj.actions.ActionRotateBy;
 import com.hbm.wiaj.actions.ActionSetActorData;
 import com.hbm.wiaj.actions.ActionSetBlock;
 import com.hbm.wiaj.actions.ActionUpdateActor;
 import com.hbm.wiaj.actions.ActionWait;
-import com.hbm.wiaj.actors.ActorBasicPanel;
+import com.hbm.wiaj.actors.ActorFancyPanel;
 import com.hbm.wiaj.actors.ActorTileEntity;
 import com.hbm.wiaj.actors.ISpecialActor;
+import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -33,16 +36,19 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 //krass
 public class GuiWorldInAJar extends GuiScreen {
 	
-	RenderBlocks renderer;
+	private static final ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
 	
+	RenderBlocks renderer;
 	JarScript testScript;
 
 	public GuiWorldInAJar() {
 		super();
+		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 		WorldInAJar world = new WorldInAJar(15, 15, 15);
 		renderer = new RenderBlocks(world);
 		renderer.enableAO = true;
@@ -105,11 +111,6 @@ public class GuiWorldInAJar extends GuiScreen {
 		}
 		
 		brickScene.add(new ActionRotateBy(-90, 0, 10));
-		brickScene.add(new ActionWait(20));
-		brickScene.add(new ActionRotateBy(45, 30, 10));
-		brickScene.add(new ActionWait(20));
-		brickScene.add(new ActionRotateBy(-45, -30, 10));
-		brickScene.add(new ActionWait(20));
 		
 		brickScene.add(new ActionCreateActor(0, new ActorTileEntity(new RenderStirling())));
 		NBTTagCompound stirling = new NBTTagCompound();
@@ -123,20 +124,18 @@ public class GuiWorldInAJar extends GuiScreen {
 		brickScene.add(new ActionUpdateActor(0, "speed", 5F));
 		brickScene.add(new ActionWait(10));
 		brickScene.add(new ActionUpdateActor(0, "speed", 10F));
+		brickScene.add(new ActionOffsetBy(1, 0, 0, 10));
 		brickScene.add(new ActionWait(10));
-		brickScene.add(new ActionUpdateActor(0, "speed", 15F));
-		brickScene.add(new ActionWait(10));
-		brickScene.add(new ActionUpdateActor(0, "speed", 20F));
-		brickScene.add(new ActionWait(10));
-		brickScene.add(new ActionUpdateActor(0, "speed", 25F));
-		brickScene.add(new ActionWait(10));
-		brickScene.add(new ActionUpdateActor(0, "hasCog", false));
-		brickScene.add(new ActionUpdateActor(0, "speed", 5F));
-		brickScene.add(new ActionWait(20));
+		brickScene.add(new ActionOffsetBy(0, 0, 1, 10));
 		
-		brickScene.add(new ActionCreateActor(1, new ActorBasicPanel(0, 0, new Object[]{ new ItemStack(ModItems.ammo_arty, 1, 5)," shit *and* piss" })));
+		//brickScene.add(new ActionCreateActor(1, new ActorBasicPanel(0, 0, new Object[]{ new ItemStack(ModItems.ammo_arty, 1, 5)," shit *and* piss" })));
+
+		brickScene.add(new ActionCreateActor(1, new ActorFancyPanel(this.fontRendererObj, 0, 30, new Object[][] {{"I've come to make an announcement: Shadow the Hedgehog's a bitch-ass motherfucker. He pissed on my fucking wife. That's right. He took his hedgehog fuckin' quilly dick out and he pissed on my FUCKING wife, and he said his dick was THIS BIG, and I said that's disgusting. So I'm making a callout post on my Twitter.com. Shadow the Hedgehog, you got a small dick. It's the size of this walnut except WAY smaller. And guess what? Here's what my dong looks like. That's right, baby. Tall points, no quills, no pillows, look at that, it looks like two balls and a bong. He fucked my wife, so guess what, I'm gonna fuck the earth. That's right, this is what you get! My SUPER LASER PISS! Except I'm not gonna piss on the earth. I'm gonna go higher. I'm pissing on the MOOOON! How do you like that, OBAMA? I PISSED ON THE MOON, YOU IDIOT! You have twenty-three hours before the piss DROPLETS hit the fucking earth, now get out of my fucking sight before I piss on you too! "}}, 450)
+				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+		brickScene.add(new ActionWait(200));
 		
 		this.testScript.addScene(startingScene).addScene(brickScene);
+		//SKY BLUE: 0xffA5D9FF, 0xff39ACFF, 0xff1A6CA7, 0xff1A1F22
 	}
 	
 	@Override
@@ -153,8 +152,44 @@ public class GuiWorldInAJar extends GuiScreen {
 		this.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int button) {
+
+		if(width / 2 - 12 <= mouseX && width / 2 - 12 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			
+			if(this.testScript.isPaused()) {
+				this.testScript.unpause();
+			} else {
+				this.testScript.pause();
+			}
+		}
+
+		if(width / 2 - 12 - 36 <= mouseX && width / 2 - 12 - 36 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY) {
+			
+			if(this.testScript.sceneNumber > 0) {
+				this.testScript.rewindOne();
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			}
+		}
+
+		if(width / 2 - 12 + 36 <= mouseX && width / 2 - 12 + 36 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY) {
+			
+			if(this.testScript.sceneNumber < this.testScript.scenes.size()) {
+				this.testScript.forwardOne();
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			}
+		}
+	}
 
 	private void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		
+		for(Entry<Integer, ISpecialActor> actor : this.testScript.actors.entrySet()) {
+			GL11.glPushMatrix();
+			actor.getValue().drawForegroundComponent(this.width, this.height, this.testScript.ticksElapsed, this.testScript.interp);
+			GL11.glPopMatrix();
+		}
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)) {
 			List<Object[]> list = new ArrayList();
@@ -162,11 +197,32 @@ public class GuiWorldInAJar extends GuiScreen {
 			this.drawStackText(list, mouseX - width / 2, mouseY - height / 2, this.fontRendererObj);
 		}
 		
-		for(Entry<Integer, ISpecialActor> actor : this.testScript.actors.entrySet()) {
-			GL11.glPushMatrix();
-			actor.getValue().drawForegroundComponent(this.width, this.height, this.testScript.ticksElapsed, this.testScript.interp);
-			GL11.glPopMatrix();
-		}
+		Minecraft.getMinecraft().getTextureManager().bindTexture(guiUtil);
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		int playButton = this.testScript.isPaused() ? 64 : 40;
+		
+		if(width / 2 - 12 <= mouseX && width / 2 - 12 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY)
+			this.drawTexturedModalRect(width / 2 - 12, height - 36, playButton, 24, 24, 24);
+		else
+			this.drawTexturedModalRect(width / 2 - 12, height - 36, playButton, 48, 24, 24);
+		
+		if(this.testScript.sceneNumber == 0)
+			this.drawTexturedModalRect(width / 2 - 12 - 36, height - 36, 88, 72, 24, 24);
+		else if(width / 2 - 12 - 36 <= mouseX && width / 2 - 12 - 36 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY)
+			this.drawTexturedModalRect(width / 2 - 12 - 36, height - 36, 88, 24, 24, 24);
+		else
+			this.drawTexturedModalRect(width / 2 - 12 - 36, height - 36, 88, 48, 24, 24);
+
+		if(this.testScript.sceneNumber >= this.testScript.scenes.size())
+			this.drawTexturedModalRect(width / 2 - 12 + 36, height - 36, 112, 72, 24, 24);
+		else if(width / 2 - 12 + 36 <= mouseX && width / 2 - 12 + 36 + 24 > mouseX && height - 36 < mouseY && height - 36 + 24 >= mouseY)
+			this.drawTexturedModalRect(width / 2 - 12 + 36, height - 36, 112, 24, 24, 24);
+		else 
+			this.drawTexturedModalRect(width / 2 - 12 + 36, height - 36, 112, 48, 24, 24);
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
 	private void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {

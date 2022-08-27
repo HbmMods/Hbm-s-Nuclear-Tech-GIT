@@ -138,19 +138,14 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 		Map<Object, Object[]> recipes = CentrifugeRecipes.getRecipes();
 
 		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
+			if(recipe.getKey() instanceof List) {
 
-			if(recipe.getKey() instanceof ItemStack) {
-
-				if(NEIServerUtils.areStacksSameType(ingredient, (ItemStack) recipe.getKey()))
-					this.arecipes.add(new RecipeSet(recipe.getKey(), RecipesCommon.objectToStackArray(recipe.getValue())));
-
-			} else if(recipe.getKey() instanceof ArrayList) {
-
-				for(Object o : (ArrayList) recipe.getKey()) {
+				for(Object o : (List) recipe.getKey()) {
 					ItemStack stack = (ItemStack) o;
 
-					if(NEIServerUtils.areStacksSameType(ingredient, stack))
+					if(NEIServerUtils.areStacksSameType(ingredient, stack)) {
 						this.arecipes.add(new RecipeSet(stack, RecipesCommon.objectToStackArray(recipe.getValue())));
+					}
 				}
 			}
 		}

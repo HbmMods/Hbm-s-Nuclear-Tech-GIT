@@ -16,7 +16,7 @@ public class JarScene {
 	public List<IJarAction> actions = new ArrayList();
 	public JarScript script;
 	
-	private int actionNumber = 0;
+	public int actionNumber = 0;
 	public IJarAction currentAction; //the action that is currently happening
 	public int currentActionStart = 0; //time in ticks since init
 	

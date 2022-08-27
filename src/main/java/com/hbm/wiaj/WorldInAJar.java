@@ -33,6 +33,13 @@ public class WorldInAJar implements IBlockAccess {
 		this.meta = new short[x][y][z];
 		this.tiles = new TileEntity[x][y][z];
 	}
+	
+	public void nuke() {
+		
+		this.blocks = new Block[sizeX][sizeY][sizeZ];
+		this.meta = new short[sizeX][sizeY][sizeZ];
+		this.tiles = new TileEntity[sizeX][sizeY][sizeZ];
+	}
 
 	@Override
 	public Block getBlock(int x, int y, int z) {

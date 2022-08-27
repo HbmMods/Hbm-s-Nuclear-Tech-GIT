@@ -22,6 +22,6 @@ public class ActionSetActorData implements IJarAction {
 
 	@Override
 	public void act(WorldInAJar world, JarScene scene) {
-		scene.script.actors.get(id).setActorData(data);
+		scene.script.actors.get(id).setActorData((NBTTagCompound) data.copy());
 	}
 }

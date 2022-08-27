@@ -6,17 +6,19 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.util.BobMathUtil;
+import com.hbm.wiaj.actions.IJarAction;
 import com.hbm.wiaj.actors.ISpecialActor;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 
 public class JarScript {
 
 	public  WorldInAJar world;
-	private List<JarScene> scenes = new ArrayList();
+	public List<JarScene> scenes = new ArrayList();
 	public HashMap<Integer, ISpecialActor> actors = new HashMap();
-	private JarScene currentScene;
-	private int sceneNumber = 0;
+	public JarScene currentScene;
+	public int sceneNumber = 0;
 
 	public double lastRotationYaw = -45D, rotationYaw = -45D;
 	public double lastRotationPitch = -30D, rotationPitch = -30D;
@@ -46,6 +48,9 @@ public class JarScript {
 	
 	/**supposed to be called every frame, it calculates tick times and interp values */
 	public void run() {
+		
+		if(this.isPaused && !freeRun) return;
+		
 		long now = System.currentTimeMillis();
 		
 		boolean nextTick = false;
@@ -55,7 +60,7 @@ public class JarScript {
 			nextTick = true;
 		}
 		
-		if(this.lastTick + 50 < now) {
+		if(this.lastTick + 50 < now || freeRun) {
 			this.lastTick = now;
 			this.ticksElapsed++;
 			nextTick = true;
@@ -95,7 +100,7 @@ public class JarScript {
 			
 			if(this.sceneNumber < this.scenes.size()) {
 				this.currentScene = this.scenes.get(sceneNumber);
-				this.currentScene.currentActionStart = this.ticksElapsed;
+				this.currentScene.reset();
 			} else {
 				this.currentScene = null;
 			}
@@ -116,6 +121,72 @@ public class JarScript {
 	
 	public boolean isPaused() {
 		return this.isPaused;
+	}
+	
+	private void ffw() {
+		
+		this.reset();
+		
+		freeRun = true;
+		int i = 0;
+		
+		while(this.sceneNumber < ffwTarget && this.currentScene != null && i < 10_000) {
+			this.run();
+			i++;
+		}
+		
+		if(i > 0) { //i don't know why it needs one more cycle but it does
+			this.run();
+		}
+		
+		freeRun = false;
+	}
+	
+	/** how far we want to fast forward */
+	public static int ffwTarget = 0;
+	/** flag set during FFW, skips tick delay checks which means ticks during run() are always executed */
+	public static boolean freeRun = false; 
+	
+	public void reset() {
+		
+		this.actors.clear();
+		this.world.nuke();
+		
+		this.currentScene = this.scenes.get(0);
+		this.sceneNumber = 0;
+		this.ticksElapsed = 0;
+		this.lastTick = 0;
+
+		this.lastOffsetX = this.offsetX = 0D;
+		this.lastOffsetY = this.offsetY = 0D;
+		this.lastOffsetZ = this.offsetZ = 0D;
+		this.lastRotationYaw = this.rotationYaw = -45D;
+		this.lastRotationPitch = this.rotationPitch = -30D;
+		
+		for(JarScene scene : this.scenes) {
+			scene.reset();
+		}
+	}
+	
+	public void rewindOne() {
+		
+		if(this.sceneNumber > 0) {
+			this.ffwTarget = this.sceneNumber - 1;
+		} else {
+			this.ffwTarget = 0;
+		}
+		
+		ffw();
+	}
+	
+	public void forwardOne() {
+		if(this.sceneNumber < this.scenes.size()) {
+			this.ffwTarget = this.sceneNumber + 1;
+		} else {
+			this.ffwTarget = this.scenes.size();
+		}
+		
+		ffw();
 	}
 	
 	public double yaw() { return BobMathUtil.interp(this.lastRotationYaw, this.rotationYaw, interp); }
