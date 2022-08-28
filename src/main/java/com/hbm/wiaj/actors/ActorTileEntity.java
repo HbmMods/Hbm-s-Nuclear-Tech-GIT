@@ -2,12 +2,19 @@ package com.hbm.wiaj.actors;
 
 import com.hbm.wiaj.JarScene;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class ActorTileEntity extends ActorBase {
 	
 	ITileActorRenderer renderer;
 	
 	public ActorTileEntity(ITileActorRenderer renderer) {
 		this.renderer = renderer;
+	}
+	
+	public ActorTileEntity(ITileActorRenderer renderer, NBTTagCompound data) {
+		this(renderer);
+		this.data = data;
 	}
 
 	@Override

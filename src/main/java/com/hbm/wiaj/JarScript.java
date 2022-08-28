@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.util.BobMathUtil;
-import com.hbm.wiaj.actions.IJarAction;
 import com.hbm.wiaj.actors.ISpecialActor;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 
 public class JarScript {
@@ -25,6 +23,7 @@ public class JarScript {
 	public double lastOffsetX = 0, offsetX = 0;
 	public double lastOffsetY = 0, offsetY = 0;
 	public double lastOffsetZ = 0, offsetZ = 0;
+	public double lastZoom = 1, zoom = 1;
 	
 	public float interp = 0F;
 	
@@ -79,6 +78,7 @@ public class JarScript {
 			this.lastOffsetX = this.offsetX;
 			this.lastOffsetY = this.offsetY;
 			this.lastOffsetZ = this.offsetZ;
+			this.lastZoom = this.zoom;
 			
 			if(this.currentScene != null) {
 				
@@ -160,6 +160,7 @@ public class JarScript {
 		this.lastOffsetX = this.offsetX = 0D;
 		this.lastOffsetY = this.offsetY = 0D;
 		this.lastOffsetZ = this.offsetZ = 0D;
+		this.lastZoom = this.zoom = 1D;
 		this.lastRotationYaw = this.rotationYaw = -45D;
 		this.lastRotationPitch = this.rotationPitch = -30D;
 		
@@ -194,4 +195,5 @@ public class JarScript {
 	public double offsetX() { return BobMathUtil.interp(this.lastOffsetX, this.offsetX, interp); }
 	public double offsetY() { return BobMathUtil.interp(this.lastOffsetY, this.offsetY, interp); }
 	public double offsetZ() { return BobMathUtil.interp(this.lastOffsetZ, this.offsetZ, interp); }
+	public double zoom() { return BobMathUtil.interp(this.lastZoom, this.zoom, interp); }
 }

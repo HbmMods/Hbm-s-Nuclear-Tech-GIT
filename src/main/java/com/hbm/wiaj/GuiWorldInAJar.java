@@ -22,6 +22,7 @@ import com.hbm.wiaj.actions.ActionWait;
 import com.hbm.wiaj.actors.ActorFancyPanel;
 import com.hbm.wiaj.actors.ActorTileEntity;
 import com.hbm.wiaj.actors.ISpecialActor;
+import com.hbm.wiaj.cannery.*;
 import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 
 import net.minecraft.client.Minecraft;
@@ -36,6 +37,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 //krass
@@ -50,8 +53,6 @@ public class GuiWorldInAJar extends GuiScreen {
 		super();
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 		WorldInAJar world = new WorldInAJar(15, 15, 15);
-		renderer = new RenderBlocks(world);
-		renderer.enableAO = true;
 		
 		testScript = new JarScript(world);
 		JarScene startingScene = new JarScene(testScript);
@@ -130,11 +131,20 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		//brickScene.add(new ActionCreateActor(1, new ActorBasicPanel(0, 0, new Object[]{ new ItemStack(ModItems.ammo_arty, 1, 5)," shit *and* piss" })));
 
-		brickScene.add(new ActionCreateActor(1, new ActorFancyPanel(this.fontRendererObj, 0, 30, new Object[][] {{"I've come to make an announcement: Shadow the Hedgehog's a bitch-ass motherfucker. He pissed on my fucking wife. That's right. He took his hedgehog fuckin' quilly dick out and he pissed on my FUCKING wife, and he said his dick was THIS BIG, and I said that's disgusting. So I'm making a callout post on my Twitter.com. Shadow the Hedgehog, you got a small dick. It's the size of this walnut except WAY smaller. And guess what? Here's what my dong looks like. That's right, baby. Tall points, no quills, no pillows, look at that, it looks like two balls and a bong. He fucked my wife, so guess what, I'm gonna fuck the earth. That's right, this is what you get! My SUPER LASER PISS! Except I'm not gonna piss on the earth. I'm gonna go higher. I'm pissing on the MOOOON! How do you like that, OBAMA? I PISSED ON THE MOON, YOU IDIOT! You have twenty-three hours before the piss DROPLETS hit the fucking earth, now get out of my fucking sight before I piss on you too! "}}, 450)
+		brickScene.add(new ActionCreateActor(1, new ActorFancyPanel(this.fontRendererObj, 0, 30, new Object[][] {{"I've come to make an announcement: Shadow the Hedgehog's a"
+				+ " bitch-ass motherfucker. He pissed on my fucking wife. That's right. He took his hedgehog fuckin' quilly dick out and he pissed on my FUCKING wife, and he"
+				+ " said his dick was THIS BIG, and I said that's disgusting. So I'm making a callout post on my Twitter.com. Shadow the Hedgehog, you got a small dick. It's"
+				+ " the size of this walnut except WAY smaller. And guess what? Here's what my dong looks like. That's right, baby. Tall points, no quills, no pillows, look "
+				+ "at that, it looks like two balls and a bong. He fucked my wife, so guess what, I'm gonna fuck the earth. That's right, this is what you get! My SUPER LASE"
+				+ "R PISS! Except I'm not gonna piss on the earth. I'm gonna go higher. I'm pissing on the MOOOON! How do you like that, OBAMA? I PISSED ON THE MOON, YOU IDI"
+				+ "OT! You have twenty-three hours before the piss DROPLETS hit the fucking earth, now get out of my fucking sight before I piss on you too! "}}, 450)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		brickScene.add(new ActionWait(200));
 		
-		this.testScript.addScene(startingScene).addScene(brickScene);
+		//this.testScript.addScene(startingScene).addScene(brickScene);
+		this.testScript = CanneryCentrifuge.createScript();
+		renderer = new RenderBlocks(testScript.world);
+		renderer.enableAO = true;
 		//SKY BLUE: 0xffA5D9FF, 0xff39ACFF, 0xff1A6CA7, 0xff1A1F22
 	}
 	
@@ -147,10 +157,20 @@ public class GuiWorldInAJar extends GuiScreen {
 			testScript.run();
 		}
 		
-		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		this.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		try {
+			this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			this.drawGuiContainerForegroundLayer(mouseX, mouseY);
+			GL11.glEnable(GL11.GL_LIGHTING);
+		} catch(Exception ex) {
+			
+			for(StackTraceElement line : ex.getStackTrace()) {
+				this.mc.thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + line.toString()));
+			}
+			
+			this.mc.displayGuiScreen((GuiScreen) null);
+			this.mc.setIngameFocus();
+		}
 	}
 	
 	@Override
@@ -270,6 +290,9 @@ public class GuiWorldInAJar extends GuiScreen {
 		GL11.glTranslated(width / 2, height / 2, 400);
 		GL11.glScaled(scale, scale, scale);
 		GL11.glScaled(1, 1, 0.5); //incredible flattening power
+		
+		double zoom = testScript.zoom();
+		GL11.glScaled(zoom, zoom, zoom);
 
 		GL11.glRotated(testScript.pitch(), 1, 0, 0);
 		GL11.glRotated(testScript.yaw(), 0, 1, 0);

@@ -54,7 +54,7 @@ public class WorldInAJar implements IBlockAccess {
 			return;
 
 		this.blocks[x][y][z] = b;
-		this.meta[x][y][z] = (short) Math.abs(meta % 16);
+		this.meta[x][y][z] = (short)meta;
 	}
 
 	@Override
@@ -72,9 +72,14 @@ public class WorldInAJar implements IBlockAccess {
 		if(x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
 			return null;
 		
-		//TileEntity tile = this.tiles[x][y][z];
+		return this.tiles[x][y][z];
+	}
+	
+	public void setTileEntity(int x, int y, int z, TileEntity tile) {
+		if(x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
+			return;
 		
-		return null;
+		this.tiles[x][y][z] = tile;
 	}
 
 	//always render fullbright, if the situation requires it we could add a very rudimentary system that

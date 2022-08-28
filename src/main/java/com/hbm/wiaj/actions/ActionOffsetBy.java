@@ -32,5 +32,11 @@ public class ActionOffsetBy implements IJarAction {
 		scene.script.offsetX += this.motionX;
 		scene.script.offsetY += this.motionY;
 		scene.script.offsetZ += this.motionZ;
+		
+		if(this.time == 0) {
+			scene.script.lastOffsetX = scene.script.offsetX;
+			scene.script.lastOffsetY = scene.script.offsetY;
+			scene.script.lastOffsetZ = scene.script.offsetZ;
+		}
 	}
 }

@@ -1,8 +1,5 @@
 package com.hbm.render.block.ct;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class CT {

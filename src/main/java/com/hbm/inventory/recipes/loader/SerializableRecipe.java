@@ -58,6 +58,8 @@ public abstract class SerializableRecipe {
 		
 		for(SerializableRecipe recipe : recipeHandlers) {
 			
+			recipe.deleteRecipes();
+			
 			File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
 			if(recFile.exists() && recFile.isFile()) {
 				MainRegistry.logger.info("Reading recipe file " + recFile.getName());
@@ -166,7 +168,7 @@ public abstract class SerializableRecipe {
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
-				int meta = array.size() > 3 ? array.get(3).getAsInt() : 2;
+				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
 				return new ComparableStack(item, stacksize, meta);
 			}
 			if("dict".equals(type)) {

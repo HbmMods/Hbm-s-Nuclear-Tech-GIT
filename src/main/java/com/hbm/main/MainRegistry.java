@@ -42,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
@@ -847,6 +848,7 @@ public class MainRegistry {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
+		event.registerServerCommand(new CommandReloadRecipes());
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {
