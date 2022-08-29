@@ -272,4 +272,9 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

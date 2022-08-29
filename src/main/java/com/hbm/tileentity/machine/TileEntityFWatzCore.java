@@ -435,8 +435,14 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 		else
 			return 0;
 	}
+	
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[1], tanks[2] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

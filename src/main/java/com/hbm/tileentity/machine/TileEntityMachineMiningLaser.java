@@ -686,4 +686,9 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	public FluidTank[] getSendingTanks() {
 		return new FluidTank[] { tank };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
 }

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.oil;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
 

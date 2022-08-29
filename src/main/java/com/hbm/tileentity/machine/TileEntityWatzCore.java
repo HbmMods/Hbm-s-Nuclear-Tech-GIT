@@ -754,4 +754,9 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 	public FluidTank[] getSendingTanks() {
 		return new FluidTank[] { tank };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
 }

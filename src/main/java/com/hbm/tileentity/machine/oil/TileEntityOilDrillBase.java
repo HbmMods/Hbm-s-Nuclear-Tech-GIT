@@ -339,6 +339,11 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[0];
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 	
 	public abstract DirPos[] getConPos();
 

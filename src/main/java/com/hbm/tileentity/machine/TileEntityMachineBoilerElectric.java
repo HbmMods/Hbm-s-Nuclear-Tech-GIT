@@ -423,4 +423,9 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

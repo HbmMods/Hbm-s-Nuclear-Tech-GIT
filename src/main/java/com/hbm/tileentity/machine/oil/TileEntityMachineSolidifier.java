@@ -247,4 +247,9 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tank };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
 }

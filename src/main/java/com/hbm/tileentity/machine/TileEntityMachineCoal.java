@@ -343,4 +343,9 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
 }

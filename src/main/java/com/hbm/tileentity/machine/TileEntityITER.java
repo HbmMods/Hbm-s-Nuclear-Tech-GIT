@@ -534,4 +534,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

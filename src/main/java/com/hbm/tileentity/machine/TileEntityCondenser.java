@@ -163,4 +163,9 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks [0]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

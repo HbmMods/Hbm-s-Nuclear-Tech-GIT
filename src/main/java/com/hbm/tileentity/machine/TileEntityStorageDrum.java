@@ -317,4 +317,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public FluidTank[] getSendingTanks() {
 		return new FluidTank[] { tanks[0], tanks[1] };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

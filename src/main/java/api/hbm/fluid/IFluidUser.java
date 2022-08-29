@@ -1,6 +1,7 @@
 package api.hbm.fluid;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -90,4 +91,11 @@ public interface IFluidUser extends IFluidConnector {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.tryUnsubscribe(type, world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 	}
+	
+	/**
+	 * Returns all internal tanks of this tile. Not used by the fluid network, it should only be used for display purposes or edge cases that can't be solved otherwise.
+	 * The array is either composed of the original tank or outright the original tank array, so changes done to this array will extend to the IFluidUser.
+	 * @return
+	 */
+	public FluidTank[] getAllTanks();
 }

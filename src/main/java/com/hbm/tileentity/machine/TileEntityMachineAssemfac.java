@@ -447,4 +447,9 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	public int getMaxFluidFill(FluidType type) {
 		return type == water.getTankType() ? water.getMaxFill() : 0;
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam };
+	}
 }

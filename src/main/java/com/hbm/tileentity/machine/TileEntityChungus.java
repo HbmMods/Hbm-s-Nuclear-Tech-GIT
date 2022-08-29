@@ -282,4 +282,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

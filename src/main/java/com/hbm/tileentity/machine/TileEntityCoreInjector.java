@@ -182,6 +182,11 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0], tanks[1]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 	
 	// do some opencomputer stuff
 	@Override

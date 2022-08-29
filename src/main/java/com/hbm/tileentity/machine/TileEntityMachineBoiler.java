@@ -401,4 +401,9 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

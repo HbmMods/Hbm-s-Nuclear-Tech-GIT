@@ -189,4 +189,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { water };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam };
+	}
 }

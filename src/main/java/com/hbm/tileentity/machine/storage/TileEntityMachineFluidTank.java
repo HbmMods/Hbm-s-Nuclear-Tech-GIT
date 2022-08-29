@@ -210,6 +210,11 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
 	public void writeNBT(NBTTagCompound nbt) {
 		if(tank.getFill() == 0) return;
 		NBTTagCompound data = new NBTTagCompound();
