@@ -175,6 +175,10 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementDigamma(EntityLivingBase entity, float digamma) {
+		
+		if(entity instanceof EntityDuck)
+			digamma = 0.0F;
+		
 		HbmLivingProps data = getData(entity);
 		float dRad = getDigamma(entity) + digamma;
 		
