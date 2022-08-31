@@ -355,15 +355,6 @@ public class Library {
 			power -= toCharge;
 			
 			battery.chargeBattery(slots[index], toCharge);
-
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 		
 		return power;

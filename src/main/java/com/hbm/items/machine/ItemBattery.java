@@ -33,7 +33,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		if(itemstack.hasTagCompound())
 			charge = getCharge(itemstack);
 
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core && itemstack.getItem() != ModItems.dynosphere_desh && itemstack.getItem() != ModItems.dynosphere_schrabidium && itemstack.getItem() != ModItems.dynosphere_euphemium && itemstack.getItem() != ModItems.dynosphere_dineutronium) {
+		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
 			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		} else {
 			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
@@ -51,7 +51,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 			return EnumRarity.rare;
 		}
 
-		if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced || this == ModItems.energy_core || this == ModItems.dynosphere_desh || this == ModItems.dynosphere_schrabidium || this == ModItems.dynosphere_euphemium || this == ModItems.dynosphere_dineutronium) {
+		if(this == ModItems.fusion_core || this == ModItems.energy_core) {
 			return EnumRarity.uncommon;
 		}
 

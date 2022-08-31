@@ -915,6 +915,19 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sellafield_core");
 		ignoreMappings.add("hbm:tile.fusion_core");
 		ignoreMappings.add("hbm:tile.machine_telelinker");
+		ignoreMappings.add("hbm:item.dynosphere_base");
+		ignoreMappings.add("hbm:item.dynosphere_desh");
+		ignoreMappings.add("hbm:item.dynosphere_desh_charged");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium_charged");
+		ignoreMappings.add("hbm:item.factory_core_titanium");
+		ignoreMappings.add("hbm:item.factory_core_advanced");
+		ignoreMappings.add("hbm:tile.factory_titanium_core");
+		ignoreMappings.add("hbm:tile.factory_advanced_core");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -882,13 +882,13 @@ public class ModItems {
 	@Deprecated public static Item canister_NITAN;
 	@Deprecated public static Item canister_fracksol;
 
-	public static Item canister_heavyoil;
-	public static Item canister_bitumen;
-	public static Item canister_heatingoil;
-	public static Item canister_naphtha;
-	public static Item canister_lightoil;
-	public static Item canister_biofuel;
-	public static Item canister_ethanol;
+	@Deprecated public static Item canister_heavyoil;
+	@Deprecated public static Item canister_bitumen;
+	@Deprecated public static Item canister_heatingoil;
+	@Deprecated public static Item canister_naphtha;
+	@Deprecated public static Item canister_lightoil;
+	@Deprecated public static Item canister_biofuel;
+	@Deprecated public static Item canister_ethanol;
 
 	public static Item gas_empty;
 	public static Item gas_full;
@@ -1925,7 +1925,7 @@ public class ModItems {
 	public static Item arc_electrode;
 	public static Item arc_electrode_burnt;
 	public static Item arc_electrode_desh;
-	public static Item dynosphere_base;
+	/*public static Item dynosphere_base;
 	public static Item dynosphere_desh;
 	public static Item dynosphere_desh_charged;
 	public static Item dynosphere_schrabidium;
@@ -1933,12 +1933,12 @@ public class ModItems {
 	public static Item dynosphere_euphemium;
 	public static Item dynosphere_euphemium_charged;
 	public static Item dynosphere_dineutronium;
-	public static Item dynosphere_dineutronium_charged;
+	public static Item dynosphere_dineutronium_charged;*/
 	
 	public static Item tank_waste;
 
-	public static Item factory_core_titanium;
-	public static Item factory_core_advanced;
+	/*public static Item factory_core_titanium;
+	public static Item factory_core_advanced;*/
 
 	public static Item upgrade_template;
 	public static Item upgrade_speed_1;
@@ -4676,19 +4676,6 @@ public class ModItems {
 		arc_electrode_burnt = new Item().setUnlocalizedName("arc_electrode_burnt").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode_burnt");
 		arc_electrode_desh = new ItemCustomLore().setUnlocalizedName("arc_electrode_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode_desh");
 
-		dynosphere_base = new Item().setUnlocalizedName("dynosphere_base").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_base");
-		dynosphere_desh = new ItemBattery(1000000L, 10000L, 0).setUnlocalizedName("dynosphere_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_desh");
-		dynosphere_desh_charged = new Item().setUnlocalizedName("dynosphere_desh_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_desh_charged");
-		dynosphere_schrabidium = new ItemBattery(100000000L, 500000L, 0).setUnlocalizedName("dynosphere_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium");
-		dynosphere_schrabidium_charged = new Item().setUnlocalizedName("dynosphere_schrabidium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium_charged");
-		dynosphere_euphemium = new ItemBattery(10000000000L, 25000000L, 0).setUnlocalizedName("dynosphere_euphemium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_euphemium");
-		dynosphere_euphemium_charged = new Item().setUnlocalizedName("dynosphere_euphemium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_euphemium_charged");
-		dynosphere_dineutronium = new ItemBattery(1000000000000L, 1250000000L, 0).setUnlocalizedName("dynosphere_dineutronium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium");
-		dynosphere_dineutronium_charged = new Item().setUnlocalizedName("dynosphere_dineutronium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium_charged");
-
-		factory_core_titanium = new ItemBattery(7040000, 1000, 0).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":factory_core_titanium");
-		factory_core_advanced = new ItemBattery(4160000, 1000, 0).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":factory_core_advanced");
-
 		ams_focus_blank = new Item().setUnlocalizedName("ams_focus_blank").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_blank");
 		ams_focus_limiter = new ItemCustomLore().setUnlocalizedName("ams_focus_limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_limiter");
 		ams_focus_booster = new ItemCustomLore().setUnlocalizedName("ams_focus_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_booster");
@@ -6586,19 +6573,6 @@ public class ModItems {
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core_infinite, fusion_core_infinite.getUnlocalizedName());
-		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
-		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
-		
-		//Dynospheres
-		GameRegistry.registerItem(dynosphere_base, dynosphere_base.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_desh, dynosphere_desh.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_desh_charged, dynosphere_desh_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_schrabidium, dynosphere_schrabidium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_schrabidium_charged, dynosphere_schrabidium_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_euphemium, dynosphere_euphemium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_euphemium_charged, dynosphere_euphemium_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_dineutronium, dynosphere_dineutronium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_dineutronium_charged, dynosphere_dineutronium_charged.getUnlocalizedName());
 		
 		//Folders
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
