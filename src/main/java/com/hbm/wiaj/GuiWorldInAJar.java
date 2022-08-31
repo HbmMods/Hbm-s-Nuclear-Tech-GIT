@@ -142,7 +142,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		brickScene.add(new ActionWait(200));
 		
 		//this.testScript.addScene(startingScene).addScene(brickScene);
-		this.testScript = CannerySILEX.createScript();
+		this.testScript = CanneryFirebox.createScript();
 		renderer = new RenderBlocks(testScript.world);
 		renderer.enableAO = true;
 		//SKY BLUE: 0xffA5D9FF, 0xff39ACFF, 0xff1A6CA7, 0xff1A1F22
@@ -153,11 +153,10 @@ public class GuiWorldInAJar extends GuiScreen {
 		this.drawDefaultBackground();
 		shittyHack = this;
 		
-		if(testScript != null) {
-			testScript.run();
-		}
-		
 		try {
+			if(testScript != null) {
+				testScript.run();
+			}
 			this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			this.drawGuiContainerForegroundLayer(mouseX, mouseY);
