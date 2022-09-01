@@ -45,7 +45,7 @@ public class ItemLemon extends ItemFood {
 		
 		if(this == ModItems.med_ipecac) {
 			list.add("Bitter juice that will cause your stomach");
-			list.add("to forcefully eject it's contents.");
+			list.add("to forcefully eject its contents.");
 		}
 		
 		if(this == ModItems.med_ptsd) {

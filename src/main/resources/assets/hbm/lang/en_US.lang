@@ -2553,6 +2553,7 @@ item.pile_rod_source.desc=§d[Neutron Source]
 item.pile_rod_uranium.name=Chicago Pile Uranium Rod
 item.pile_rod_uranium.desc=§a[Reactive Fuel]$§eUse hand drill to take core sample
 item.pill_iodine.name=Iodine Pill
+item.pill_herbal.name=Herbal Paste
 item.pin.name=Bobby Pin
 item.pin.desc="*Unmodified* success rate of picking a standard lock is ~10%.
 item.pipes_steel.name=Steel Pipes
