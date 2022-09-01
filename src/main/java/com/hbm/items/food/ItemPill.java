@@ -56,6 +56,15 @@ public class ItemPill extends ItemFood {
 				HbmLivingProps.setAsbestos(player, 0);
 				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
 			}
+			
+			if(this == ModItems.pill_herbal) {
+				HbmLivingProps.setAsbestos(player, 0);
+				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 0));
+				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 10 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 2));
+			}
 
 			if(this == ModItems.xanax) {
 				float digamma = HbmLivingProps.getDigamma(player);
