@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.StructureConfig;
+import com.hbm.world.worldgen.components.CivilianFeatures.*;
 import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
+import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
+import com.hbm.world.worldgen.components.RuinFeatures.*;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -28,8 +32,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 	private int minDistanceBetweenScatteredFeatures;
 	
 	public MapGenNTMFeatures() {
-		this.maxDistanceBetweenScatteredFeatures = 24;
-		this.minDistanceBetweenScatteredFeatures = 8;
+		this.maxDistanceBetweenScatteredFeatures = StructureConfig.structureMaxChunks;
+		this.minDistanceBetweenScatteredFeatures = StructureConfig.structureMinChunks;
 	}
 	
 	/** String ID for this MapGen */
@@ -107,43 +111,43 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			if(rand.nextBoolean()) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
-					ComponentNTMFeatures.NTMRuin1 ruin1 = new ComponentNTMFeatures.NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin1 ruin1 = new NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin1);
 					break;
 				case 1:
-					ComponentNTMFeatures.NTMRuin2 ruin2 = new ComponentNTMFeatures.NTMRuin2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin2 ruin2 = new NTMRuin2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin2);
 					break;
 				case 2:
-					ComponentNTMFeatures.NTMRuin3 ruin3 = new ComponentNTMFeatures.NTMRuin3(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin3 ruin3 = new NTMRuin3(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin3);
 					break;
 				case 3:
-					ComponentNTMFeatures.NTMRuin4 ruin4 = new ComponentNTMFeatures.NTMRuin4(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin4 ruin4 = new NTMRuin4(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(ruin4);
 				}
 				
 			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
-					ComponentNTMFeatures.NTMHouse1 house1 = new ComponentNTMFeatures.NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMHouse1 house1 = new NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house1);
 				} else {
-					ComponentNTMFeatures.NTMHouse2 house2 = new ComponentNTMFeatures.NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMHouse2 house2 = new NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house2);
 				}
 			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9) { //Taiga & Mega Taiga
 				if(rand.nextBoolean()) {
-					ComponentNTMFeatures.NTMWorkshop1 workshop1 = new ComponentNTMFeatures.NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
 				}
 			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextBoolean()) {
 				MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
 			} else { //Everything else
 				if(rand.nextBoolean()) {
-					ComponentNTMFeatures.NTMLab2 lab2 = new ComponentNTMFeatures.NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2);
 				} else {
-					ComponentNTMFeatures.NTMLab1 lab1 = new ComponentNTMFeatures.NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMLab1 lab1 = new NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab1);
 				}
 			}

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.config.StructureConfig;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 
 import net.minecraft.block.Block;
@@ -180,6 +181,7 @@ abstract public class Feature extends StructureComponent {
 		IInventory inventory = (IInventory)world.getTileEntity(posX, posY, posZ);
 		
 		if(inventory != null) {
+			amount = (int)Math.floor(amount * StructureConfig.lootAmountFactor);
 			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount);
 			return true;
 		}

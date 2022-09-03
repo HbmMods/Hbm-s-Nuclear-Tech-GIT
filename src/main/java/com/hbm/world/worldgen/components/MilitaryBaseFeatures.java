@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.world.worldgen.ComponentNTMFeatures;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
+//These structures are... kind of? low quality, but they test out new methods so whatev.
 public class MilitaryBaseFeatures {
 	
 	//stop-gap methods until this entire mess can be organized into proper classes/structure groups
@@ -21,7 +21,8 @@ public class MilitaryBaseFeatures {
 		components.add(helipad);
 		components.add(radio);
 	}
-		
+	
+	//ugh
 	public static int[] getAdjacentChunk(int chunkX, int chunkZ, Random rand) {
 		int[] chunkPos = new int[2];
 		

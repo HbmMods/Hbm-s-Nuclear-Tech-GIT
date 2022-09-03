@@ -863,6 +863,7 @@ public class MainRegistry {
 		ToolConfig.loadFromConfig(config);
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
+		StructureConfig.loadFromConfig(config);
 		
 		try {
 			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
