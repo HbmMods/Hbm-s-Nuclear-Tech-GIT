@@ -1,9 +1,14 @@
 package com.hbm.util;
 
+import java.util.ArrayList;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidUser;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -86,5 +91,38 @@ public class CompatExternal {
 		}
 		
 		return -1;
+	}
+	
+	/**
+	 * Returns a list of tank definitions from the supplied tile entity. Uses IFluidUser, if the tile is incompatible it returns an empty list.
+	 * @param tile
+	 * @return an ArrayList of Object arrays with each array representing a fluid tank.<br>
+	 * [0]: STRING - unlocalized name of the fluid, simply use I18n to get the translated name<br>
+	 * [1]: INT - the unique ID of this fluid<br>
+	 * [2]: INT - the hexadecimal color of this fluid<br>
+	 * [3]: INT - the amount of fluid in this tank in millibuckets<br>
+	 * [4]: INT - the capacity of this tank in millibuckets
+	 */
+	public static ArrayList<Object[]> getFluidInfoFromTile(TileEntity tile) {
+		ArrayList<Object[]> list = new ArrayList();
+		
+		if(!(tile instanceof IFluidUser)) {
+			return list;
+		}
+		
+		IFluidUser container = (IFluidUser) tile;
+		
+		for(FluidTank tank : container.getAllTanks()) {
+			FluidType type = tank.getTankType();
+			list.add(new Object[] {
+					type.getName(),
+					type.getID(),
+					type.getColor(),
+					tank.getFill(),
+					tank.getMaxFill()
+			});
+		}
+		
+		return list;
 	}
 }

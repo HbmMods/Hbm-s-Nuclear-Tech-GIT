@@ -2,6 +2,7 @@ package com.hbm.wiaj.cannery;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.render.tileentity.RenderFENSU;
+import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;
@@ -18,11 +19,17 @@ import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class CanneryFEnSU {
+public class CanneryFEnSU extends CanneryBase {
 
-	public static JarScript createScript() {
+	@Override
+	public ItemStack getIcon() {
+		return new ItemStack(ModBlocks.machine_fensu);
+	}
+
+	public JarScript createScript() {
 		WorldInAJar world = new WorldInAJar(11, 5, 5);
 		JarScript script = new JarScript(world);
 		
@@ -37,22 +44,19 @@ public class CanneryFEnSU {
 		fensu.setFloat("speed", 10F);
 		scene0.add(new ActionCreateActor(0, new ActorTileEntity(new RenderFENSU(), fensu)));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -50, new Object[][] {{"The FEnSU is capable of storing absurd "
-				+ "amounts of energy, over 9EHE (that's a nine followed by 18 zeros)."}}, 200)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -50, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.0")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		scene0.add(new ActionWait(80));
 		scene0.add(new ActionRemoveActor(1));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionRotateBy(45, 90, 20));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{"There is only one energy connector "
-				+ "which can be found on the bottom."}}, 200)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.1")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.TOP)));
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{"This is also the only place where the"
-				+ " FEnSU can receive a redstone signal."}}, 200)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.2")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.TOP)));
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));

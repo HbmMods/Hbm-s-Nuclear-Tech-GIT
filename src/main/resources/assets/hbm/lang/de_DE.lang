@@ -128,6 +128,40 @@ bomb.triggered=Erfolgreich ausgelöst!
 
 book.test.page1=Testseite 1
 
+cannery.f1=[ Drücke F1 für Hilfe ]
+
+cannery.centrifuge.0=Gaszentrifugen können mit Flüssigkeitsrohren versorgt werden.
+cannery.centrifuge.1=Die meisten Rezepte benötigen mehrere Zentrifugen, Zwischenprodukte können nicht mit Rohren transportiert werden.
+cannery.centrifuge.2=Diese Seite dient als Verbindung, die Zwischenprodukte in anliegende Zentrifugen überträgt.
+cannery.centrifuge.3=Uranhexafluorid kann mit nur zwei Zentrifugen verarbeitet werden, jedoch erzeugt das Urankernbrennstoff und Uran-238.
+cannery.centrifuge.4=Mit vier Zentrifugen kann es vollständig in Uran-235 und Uran238 verarbeitet werden.
+cannery.centrifuge.5=Manche Rezepte benötigen das Zentrifugen-Geschwingidkeitsupgrade.
+
+cannery.fensu.0=Die FEnSU kann absurde Mengen Energie speichern, über 9EHE (eine Neun gefolgt von 18 Nullen).
+cannery.fensu.1=Es gibt nur einen Kontakt auf der Unterseite.
+cannery.fensu.2=Das ist auch der einzige Ort, an dem die FEnSU ein Redstone-Signal empfangen kann.
+
+cannery.firebox.0=Die Feuerbüchse verbrennt Gegenstände, um Hitze zu erzeugen.
+cannery.firebox.1=Sie kann alle brennbaren Gegenstände verwenden, aber hochwertigere Brennstoffe wie Kohle, Koks oder Festbrennstoff brennen länger und heißer.
+cannery.firebox.2=Hitze wird von dem Kupferkontakt an der Oberseite abgegeben. Maschinen mit einem identischen Kontakt an der Unterseite können Hitze annehmen, wenn sie darauf platziert werden.
+cannery.firebox.3=Wenn die Hitze nicht verbraucht wird hält die Feuerbüchse an, um keinen Brennstoff zu verschwenden.
+cannery.firebox.4=Eine solche Maschine ist der Stirlingmotor, welcher aus Hitze direkt Energie erzeugt.
+
+cannery.silex.0=Der Freieilektonenlaser (FEL) verwendet Energie und einen Laserkristall um einen starken Laserstrahl zu erzeugen.
+cannery.silex.1=Vorsicht, der Laser kann sich durch schwächere Blöcke hindurchbrennen...
+cannery.silex.2=...aber nicht durch sprengsichere.
+cannery.silex.3=Der FEL betreibt den Laser-Isotopentrenner (SILEX). FEL und SILEX müssen dabei mindestens zwei Blöcke Abstand haben.
+cannery.silex.4=Der Laser muss durch die kleinen Fenster des SILEX durch. Eine falsche Ausrichtung könnte das SILEX zerstören.
+cannery.silex.5=Die Öffnungen an den Seiten können verwendet werden, um das SILEX mit Flüssigkeit zu versorgen.
+cannery.silex.6=Zusätzlich zu den zwei Öffnungen gibt es an der Unterseite eine versteckte Verbindung, über der Gegenstände herausgenommen werden kann.
+cannery.silex.7=Jedes Rezept benötigt einen speziellen Laser-Typ. Stärkere Typen beschleunigen den Vorgang.
+cannery.silex.8=Ein FEL kann bis zu fünf SILEX betreiben. Jedes SILEX muss einen Block Abstand halten.
+
+cannery.stirling.0=Der Stirlingmotor verwendet Hitze aus einer externen Quelle um Energie zu erzeugen.
+cannery.stirling.1=Er muss auf einem Hitzeerzeuger platziert werden, zum Beispiel der Feuerbüchse.
+cannery.stirling.2=Die Hitze die maximal verwendet werden kann ist limitiert, Übergeschwindigkeit kann zu katastrophalen Fehlfunktionen führen.
+cannery.stirling.3=Die verbesserte Version kann wesentlich mehr Hitze aufnehmen, ohne kaputt zu werden.
+
 chem.ARSENIC=Arsenextraktion
 chem.ASPHALT=Asphaltherstellung
 chem.BAKELITE=Bakelitherstellung
@@ -2824,6 +2858,7 @@ item.upgrade_ejector_3.name=Auswurfupgrade Mk.III
 item.upgrade_fortune_1.name=Glückupgrade Mk.I
 item.upgrade_fortune_2.name=Glückupgrade Mk.II
 item.upgrade_fortune_3.name=Glückupgrade Mk.III
+item.upgrade_gc_speed.name=Gaszentrifugen-Geschwindigkeitsupgrade
 item.upgrade_health.name=Kraftfeld-Resistenzupgrade
 item.upgrade_nullifier.name=Müllvernichter-Upgrade
 item.upgrade_overdrive_1.name=Overdrive-Upgrade Mk.I
@@ -3599,6 +3634,7 @@ tile.pink_log.name=Pinkes Holz
 tile.pink_planks.name=Pinke Holzbretter
 tile.pink_slab.name=Pinke Holzstufe
 tile.pink_stairs.name=Pinke Holztreppen
+tile.plant_dead.name=Tote Pflanze
 tile.plant_flower.foxglove.name=Roter Fingerhut
 tile.plant_flower.nightshade.name=Schwarze Tollkirsche
 tile.plant_flower.tobacco.name=Tabakpflanze

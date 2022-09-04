@@ -38,6 +38,7 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
 		recipeHandlers.add(new CyclotronRecipes());

@@ -13,6 +13,7 @@ import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
+import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;
@@ -34,9 +35,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
-public class CannerySILEX {
+public class CannerySILEX extends CanneryBase{
 
-	public static JarScript createScript() {
+	@Override
+	public ItemStack getIcon() {
+		return new ItemStack(ModBlocks.machine_silex);
+	}
+
+	public JarScript createScript() {
 		WorldInAJar world = new WorldInAJar(17, 5, 5);
 		JarScript script = new JarScript(world);
 		
@@ -62,8 +68,7 @@ public class CannerySILEX {
 		fel.setInteger("length", 11);
 		scene0.add(new ActionCreateActor(0, new ActorTileEntity(new ActorFEL(), fel)));
 
-		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 15, -5, new Object[][] {{"The Free Electron Laser (FEL) uses energy and a "
-				+ "laser crystal to create a powerful laser beam."}}, 100)
+		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 15, -5, new Object[][] {{I18nUtil.resolveKey("cannery.silex.0")}}, 100)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.LEFT)));
 
 		scene0.add(new ActionWait(80));
@@ -102,7 +107,7 @@ public class CannerySILEX {
 			scene0.add(new ActionWait(5));
 		}
 		
-		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{"Be careful, as the laser will burn/melt through weaker blocks..."}}, 150)
+		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{I18nUtil.resolveKey("cannery.silex.1")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		scene0.add(new ActionUpdateActor(0, "mode", 3));
 		scene0.add(new ActionUpdateActor(0, "length", 4));
@@ -126,7 +131,7 @@ public class CannerySILEX {
 			scene0.add(new ActionWait(5));
 		}
 		
-		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{"...but not blast-proof ones."}}, 150)
+		scene0.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{I18nUtil.resolveKey("cannery.silex.2")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		scene0.add(new ActionWait(40));
 		scene0.add(new ActionRemoveActor(3));
@@ -156,20 +161,17 @@ public class CannerySILEX {
 		
 		scene1.add(new ActionWait(20));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{"The FEL is used to power the Laser Isotope "
-				+ "Separation Chamber (SILEX). The FEL and SILEX have to be at least two blocks apart."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{I18nUtil.resolveKey("cannery.silex.3")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene1.add(new ActionWait(80));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 60, 32, new Object[][] {{"The laser has to enter through the glass openings "
-				+ "of the SILEX. Aiming it wrong could destroy it."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 60, 32, new Object[][] {{I18nUtil.resolveKey("cannery.silex.4")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
 		
 		scene1.add(new ActionWait(60));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 12, 32, new Object[][] {{"The openings on the sides can be used to connect "
-				+ "fluid ducts to the SILEX."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 12, 32, new Object[][] {{I18nUtil.resolveKey("cannery.silex.5")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
 		
 		scene1.add(new ActionWait(60));
@@ -192,20 +194,17 @@ public class CannerySILEX {
 		scene1.add(new ActionUpdateActor(0, "mode", 3));
 		scene1.add(new ActionWait(10));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{"In addition to the two connectors on the sides, "
-				+ "there is a third hidden connector at the bottom from which items can be extracted."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{I18nUtil.resolveKey("cannery.silex.6")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene1.add(new ActionWait(80));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{"Each recipe requires a specific laser type. "
-				+ "Using a stronger type than required will process items faster."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 42, -18, new Object[][] {{I18nUtil.resolveKey("cannery.silex.7")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene1.add(new ActionWait(60));
 		
-		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{"One FEL can supply up to 5 SILEX. Each SILEX has "
-				+ "to be one block apart from one another."}}, 150)
+		scene1.add(new ActionCreateActor(3, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -7, -15, new Object[][] {{I18nUtil.resolveKey("cannery.silex.8")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene1.add(new ActionWait(60));

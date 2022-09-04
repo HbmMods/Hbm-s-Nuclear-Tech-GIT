@@ -147,7 +147,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void updateEntity() {
 		
-		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
+		if(!worldObj.isRemote && worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
 			
 			long prevPower = this.power;
 			
@@ -163,16 +163,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 
-			this.delta = this.power - this.log[0];
+			long avg = (power + prevPower) / 2;
+			this.delta = avg - this.log[0];
 			
 			for(int i = 1; i < this.log.length; i++) {
 				this.log[i - 1] = this.log[i];
 			}
 			
-			this.log[19] = this.power;
+			this.log[19] = avg;
 			
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", (power + prevPower) / 2);
+			nbt.setLong("power", avg);
 			nbt.setLong("delta", delta);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);

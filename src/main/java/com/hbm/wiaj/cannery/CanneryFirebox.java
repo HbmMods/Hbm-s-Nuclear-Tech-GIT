@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderStirling;
+import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;
@@ -18,7 +19,6 @@ import com.hbm.wiaj.actions.ActionUpdateActor;
 import com.hbm.wiaj.actions.ActionWait;
 import com.hbm.wiaj.actors.ActorFancyPanel;
 import com.hbm.wiaj.actors.ActorTileEntity;
-import com.hbm.wiaj.actors.ActorVillager;
 import com.hbm.wiaj.actors.ITileActorRenderer;
 import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 
@@ -30,9 +30,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 
-public class CanneryFirebox {
+public class CanneryFirebox extends CanneryBase {
 
-	public static JarScript createScript() {
+	@Override
+	public ItemStack getIcon() {
+		return new ItemStack(ModBlocks.heater_firebox);
+	}
+
+	public JarScript createScript() {
 
 		WorldInAJar world = new WorldInAJar(5, 5, 5);
 		JarScript script = new JarScript(world);
@@ -51,17 +56,16 @@ public class CanneryFirebox {
 		scene0.add(new ActionWait(8));
 		
 		NBTTagCompound firebox = new NBTTagCompound(); firebox.setDouble("x", 2); firebox.setDouble("y", 1); firebox.setDouble("z", 2); firebox.setInteger("rotation", 5);
-		scene0.add(new ActionCreateActor(0, new ActorTileEntity(new ActorSILEX(), firebox)));
+		scene0.add(new ActionCreateActor(0, new ActorTileEntity(new ActorFirebox(), firebox)));
 		
 		scene0.add(new ActionWait(10));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{"The firebox burns flammable items to generate heat."}}, 150)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.0")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{"It can burn any flammable item, although higher quality "
-				+ "fuels such as coal, coke and solid fuel burn longer and hotter."}}, 250)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.1")}}, 250)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
@@ -92,14 +96,12 @@ public class CanneryFirebox {
 		scene0.add(new ActionUpdateActor(0, "open", false));
 		scene0.add(new ActionWait(30));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{"Heat is given off by the copper contact at the "
-				+ "top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox."}}, 250)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.2")}}, 250)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(80));
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{"If heat isn't being used up and the heat buffer "
-				+ "becomes full, the firebox will shut off to prevent wasting of fuel."}}, 250)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.3")}}, 250)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
@@ -109,12 +111,6 @@ public class CanneryFirebox {
 		JarScene scene1 = new JarScene(script);
 		
 		NBTTagCompound stirling = new NBTTagCompound();
-		/*stirling.setDouble("x", 2.5);
-		stirling.setDouble("y", 2);
-		stirling.setDouble("z", 2.5);
-		stirling.setDouble("yaw", 180);
-		stirling.setBoolean("hasCog", true);
-		scene1.add(new ActionCreateActor(1, new ActorVillager(stirling)));*/
 		stirling.setDouble("x", 2);
 		stirling.setDouble("y", 2);
 		stirling.setDouble("z", 2);
@@ -124,8 +120,7 @@ public class CanneryFirebox {
 		scene1.add(new ActionUpdateActor(1, "speed", 0F));
 
 		scene1.add(new ActionWait(10));
-		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{"One such machine is the stirling engine, which will "
-				+ "turn heat directly into energy."}}, 250)
+		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.4")}}, 250)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(2));
@@ -151,7 +146,7 @@ public class CanneryFirebox {
 		return script;
 	}
 	
-	public static class ActorSILEX implements ITileActorRenderer {
+	public static class ActorFirebox implements ITileActorRenderer {
 
 		@Override
 		public void renderActor(int ticks, float interp, NBTTagCompound data) {

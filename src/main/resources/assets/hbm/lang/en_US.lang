@@ -314,6 +314,40 @@ book.starter.page18=vær is just a guy who has been trapped in the grey void fea
 #book.rbmk.title16=Meltdown
 #book.rbmk.page16=§4§lAvoid.
 
+cannery.f1=[ Press F1 for help ]
+
+cannery.centrifuge.0=Gas centrifuges can be supplied with fluid using regular fluid ducts.
+cannery.centrifuge.1=Most recipes require multiple centrifuges. The intermediate products cannot be transported via pipes.
+cannery.centrifuge.2=This side acts as a connector which outputs the intermediate product into an adjacent centrifuge.
+cannery.centrifuge.3=Uranium hexafluoride can be processed with just two centrifuges, this however will produce Uranium fuel and Uranium-238.
+cannery.centrifuge.4=Fully processing it into Uranium-235 and Uranium-238 requires a total of four centrifuges.
+cannery.centrifuge.5=Some recipes also require the centrifuge overclocking upgrade.
+
+cannery.fensu.0=The FEnSU is capable of storing absurd amounts of energy, over 9EHE (that's a nine followed by 18 zeros).
+cannery.fensu.1=There is only one energy connector which can be found on the bottom.
+cannery.fensu.2=This is also the only place where the FEnSU can receive a redstone signal.
+
+cannery.firebox.0=The firebox burns flammable items to generate heat.
+cannery.firebox.1=It can burn any flammable item, although higher quality fuels such as coal, coke and solid fuel burn longer and hotter.
+cannery.firebox.2=Heat is given off by the copper contact at the top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox.
+cannery.firebox.3=If heat isn't being used up and the heat buffer becomes full, the firebox will shut off to prevent wasting of fuel.
+cannery.firebox.4=One such machine is the stirling engine, which will turn heat directly into energy.
+
+cannery.silex.0=The Free Electron Laser (FEL) uses energy and a laser crystal to create a powerful laser beam.
+cannery.silex.1=Be careful, as the laser will burn/melt through weaker blocks...
+cannery.silex.2=...but not blast-proof ones.
+cannery.silex.3=The FEL is used to power the Laser Isotope Separation Chamber (SILEX). The FEL and SILEX have to be at least two blocks apart.
+cannery.silex.4=The laser has to enter through the glass openings of the SILEX. Aiming it wrong could destroy it.
+cannery.silex.5=The openings on the sides can be used to connect fluid ducts to the SILEX.
+cannery.silex.6=In addition to the two connectors on the sides, there is a third hidden connector at the bottom from which items can be extracted.
+cannery.silex.7=Each recipe requires a specific laser type. Using a stronger type than required will process items faster.
+cannery.silex.8=One FEL can supply up to 5 SILEX. Each SILEX has to be one block apart from one another.
+
+cannery.stirling.0=The Stirling engine uses heat energy from external sources to create power.
+cannery.stirling.1=It needs to be placed on top of a heat-producing machine, such as the firebox.
+cannery.stirling.2=The amount of heat it can utilize however is limited, overspinning can lead to catastrophic malfunction.
+cannery.stirling.3=The upgraded version can take significantly more heat without breaking.
+
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production
 chem.BAKELITE=Bakelite Production
@@ -4041,6 +4075,7 @@ tile.pink_log.name=Pink Log
 tile.pink_planks.name=Pink Wood Planks
 tile.pink_slab.name=Pink Wood Slab
 tile.pink_stairs.name=Pink Wood Stairs
+tile.plant_dead.name=Dead Plant
 tile.plant_flower.foxglove.name=Foxglove
 tile.plant_flower.nightshade.name=Deadly Nightshade
 tile.plant_flower.tobacco.name=Tobacco Plant

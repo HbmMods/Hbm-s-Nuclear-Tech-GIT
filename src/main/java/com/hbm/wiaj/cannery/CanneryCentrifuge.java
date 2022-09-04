@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
+import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;
@@ -26,9 +27,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class CanneryCentrifuge {
+public class CanneryCentrifuge extends CanneryBase {
 
-	public static JarScript createScript() {
+	@Override
+	public ItemStack getIcon() {
+		return new ItemStack(ModBlocks.machine_gascent);
+	}
+
+	public JarScript createScript() {
 		WorldInAJar world = new WorldInAJar(9, 5, 5);
 		JarScript script = new JarScript(world);
 		
@@ -66,8 +72,7 @@ public class CanneryCentrifuge {
 			scene0.add(new ActionWait(2));
 		}
 
-		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, -50, new Object[][] {{"Gas centrifuges can be supplied with fluid "
-				+ "using regular fluid ducts."}}, 200)
+		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, -50, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.0")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
@@ -75,8 +80,7 @@ public class CanneryCentrifuge {
 		
 		JarScene scene1 = new JarScene(script);
 
-		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, 10, new Object[][] {{"Most recipes require multiple centrifuges. "
-				+ "The intermediate products cannot be transported via pipes."}}, 200)
+		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, 10, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.1")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));
@@ -84,8 +88,7 @@ public class CanneryCentrifuge {
 
 		scene1.add(new ActionSetZoom(4, 20));
 		
-		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 40, new Object[][] {{"This side acts as a connector which "
-				+ "outputs the intermediate product into an adjecent centrifuge."}}, 150)
+		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 40, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.2")}}, 150)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.LEFT)));
 		
 		scene1.add(new ActionWait(60));
@@ -97,16 +100,14 @@ public class CanneryCentrifuge {
 		scene1.add(new ActionCreateActor(1, new ActorTileEntity(new ActorGasCent(), c2)));
 		scene1.add(new ActionWait(10));
 		
-		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{"Uranium hexafluoride can be processed with just "
-				+ "two centrifuges, this however will produce Uranium fuel and Uranium-238."}}, 200)
+		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.3")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(100));
 		scene1.add(new ActionRemoveActor(2));
 		scene1.add(new ActionSetZoom(-2, 20));
 		
-		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{"Fully processing it into Uranium-235 and Uranium-238 "
-				+ "requires a total of four centrifuges."}}, 200)
+		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.4")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));
@@ -119,7 +120,7 @@ public class CanneryCentrifuge {
 		scene1.add(new ActionCreateActor(3, new ActorTileEntity(new ActorGasCent(), c4)));
 		scene1.add(new ActionWait(10));
 		
-		scene1.add(new ActionCreateActor(4, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{"Some recipes also require the centrifuge speed upgrade."}}, 200)
+		scene1.add(new ActionCreateActor(4, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.5")}}, 200)
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));

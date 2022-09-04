@@ -2,6 +2,8 @@ package com.hbm.tileentity;
 
 import java.util.ArrayList;
 
+import com.hbm.util.CompatExternal;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +29,8 @@ public interface IPersistentNBT {
 	}
 	
 	public static ArrayList<ItemStack> getDrops(World world, int x, int y, int z, Block b) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+		
+		TileEntity tile = CompatExternal.getCoreFromPos(world, x, y, z);
 		
 		if(tile instanceof IPersistentNBT) {
 			return ((IPersistentNBT) tile).getDrops(b);

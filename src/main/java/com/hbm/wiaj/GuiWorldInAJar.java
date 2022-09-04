@@ -9,21 +9,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.tileentity.RenderStirling;
-import com.hbm.wiaj.actions.ActionCreateActor;
-import com.hbm.wiaj.actions.ActionOffsetBy;
-import com.hbm.wiaj.actions.ActionRotateBy;
-import com.hbm.wiaj.actions.ActionSetActorData;
-import com.hbm.wiaj.actions.ActionSetBlock;
-import com.hbm.wiaj.actions.ActionUpdateActor;
-import com.hbm.wiaj.actions.ActionWait;
-import com.hbm.wiaj.actors.ActorFancyPanel;
-import com.hbm.wiaj.actors.ActorTileEntity;
 import com.hbm.wiaj.actors.ISpecialActor;
 import com.hbm.wiaj.cannery.*;
-import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -34,9 +22,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -48,11 +34,20 @@ public class GuiWorldInAJar extends GuiScreen {
 	
 	RenderBlocks renderer;
 	JarScript testScript;
+	ItemStack icon;
+	CanneryBase[] seeAlso;
 
-	public GuiWorldInAJar() {
+	public GuiWorldInAJar(JarScript script, ItemStack icon, CanneryBase... seeAlso) {
 		super();
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
-		WorldInAJar world = new WorldInAJar(15, 15, 15);
+		
+		this.testScript = script;
+		this.icon = icon;
+		this.seeAlso = seeAlso;
+		renderer = new RenderBlocks(testScript.world);
+		renderer.enableAO = true;
+		
+		/*WorldInAJar world = new WorldInAJar(15, 15, 15);
 		
 		testScript = new JarScript(world);
 		JarScene startingScene = new JarScene(testScript);
@@ -141,10 +136,7 @@ public class GuiWorldInAJar extends GuiScreen {
 				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
 		brickScene.add(new ActionWait(200));
 		
-		//this.testScript.addScene(startingScene).addScene(brickScene);
-		this.testScript = CanneryFirebox.createScript();
-		renderer = new RenderBlocks(testScript.world);
-		renderer.enableAO = true;
+		this.testScript.addScene(startingScene).addScene(brickScene);*/
 		//SKY BLUE: 0xffA5D9FF, 0xff39ACFF, 0xff1A6CA7, 0xff1A1F22
 	}
 	
@@ -242,6 +234,10 @@ public class GuiWorldInAJar extends GuiScreen {
 			this.drawTexturedModalRect(width / 2 - 12 + 36, height - 36, 112, 48, 24, 24);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		this.drawTexturedModalRect(15, 15, 136, 48, 24, 24);
+		itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.renderEngine, this.icon, 19, 19);
+		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.renderEngine, this.icon, 19, 19, null);
+		RenderHelper.disableStandardItemLighting();
 	}
 
 	private void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {

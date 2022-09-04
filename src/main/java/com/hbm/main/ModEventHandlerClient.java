@@ -1,9 +1,11 @@
 package com.hbm.main;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ILookOverlay;
@@ -55,6 +57,9 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.wiaj.GuiWorldInAJar;
+import com.hbm.wiaj.cannery.CanneryBase;
+import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -66,17 +71,20 @@ import api.hbm.item.IClickReceiver;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -84,6 +92,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -611,6 +620,11 @@ public class ModEventHandlerClient {
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
+		
+		CanneryBase cannery = Jars.canneries.get(comp);
+		if(cannery != null) {
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		}
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
@@ -718,6 +732,40 @@ public class ModEventHandlerClient {
 			
 			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
 				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", MainRegistry.proxy.ID_FILTER);
+			}
+		}
+		
+		if(mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+
+			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+			int width = scaledresolution.getScaledWidth();
+			int height = scaledresolution.getScaledHeight();
+			int mouseX = Mouse.getX() * width / mc.displayWidth;
+			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+			
+			GuiContainer container = (GuiContainer) mc.currentScreen;
+			
+			for(Object o : container.inventorySlots.inventorySlots) {
+				Slot slot = (Slot) o;
+				
+				if(slot.getHasStack()) {
+					try {
+						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
+						
+						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
+							
+							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
+							CanneryBase cannery = Jars.canneries.get(comp);
+							
+							if(cannery != null) {
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getIcon()));
+							}
+							
+							break;
+						}
+						
+					} catch(Exception ex) { }
+				}
 			}
 		}
 	}

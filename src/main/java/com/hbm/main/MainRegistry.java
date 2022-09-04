@@ -768,8 +768,6 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		ShredderRecipes.registerShredder();
-		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
