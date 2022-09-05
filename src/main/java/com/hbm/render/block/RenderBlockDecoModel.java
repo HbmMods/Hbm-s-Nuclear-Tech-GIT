@@ -35,6 +35,7 @@ public class RenderBlockDecoModel implements ISimpleBlockRenderingHandler {
 			iicon = renderer.overrideBlockTexture;
 		}
 		
+		GL11.glRotated(-15, 0, 1, 0);
 		tessellator.startDrawingQuads();
 		ObjUtil.renderWithIcon((WavefrontObject) model, iicon, tessellator, modelId, false);
 		

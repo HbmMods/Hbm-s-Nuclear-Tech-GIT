@@ -3681,6 +3681,7 @@ tile.crystal_virus.name=Dark Crystal
 tile.deco_aluminium.name=Aluminium Deco Block
 tile.deco_asbestos.name=Asbestos Roof
 tile.deco_beryllium.name=Beryllium Deco Block
+tile.deco_computer.name=IBM Personal Computer 300PL
 tile.deco_emitter.name=Deco Light Emitter
 tile.deco_lead.name=Lead Deco Block
 tile.deco_rbmk.name=RBMK Deco Block
