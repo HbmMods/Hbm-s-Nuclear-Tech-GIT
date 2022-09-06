@@ -3496,6 +3496,7 @@ tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 tile.machine_rtg_red.name=Fulminationsgenerator
 tile.machine_rtg_yellow.name=Australium Supergenerator
 tile.machine_satlinker.name=Satelliten-ID-Manager
+tile.machine_sawmill.name=Stirling-Sägemühle
 tile.machine_schrabidium_battery.name=Schrabidium-Energiespeicherblock
 tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 tile.machine_selenium.name=Hochleistungs-Sternmotor

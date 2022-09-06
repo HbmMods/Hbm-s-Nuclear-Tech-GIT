@@ -3936,6 +3936,7 @@ tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 tile.machine_rtg_red.name=Fulmination Generator
 tile.machine_rtg_yellow.name=Australium Superfuel Reactor
 tile.machine_satlinker.name=Satellite ID Manager
+tile.machine_sawmill.name=Stirling Sawmill
 tile.machine_schrabidium_battery.name=Schrabidium Energy Storage Block
 tile.machine_schrabidium_transmutator.name=Schrabidium Transmutation Device
 tile.machine_selenium.name=Radial Performance Engine
