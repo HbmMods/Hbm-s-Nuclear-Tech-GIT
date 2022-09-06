@@ -335,4 +335,19 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1) };	
+	
+	public static WeightedRandomChestContent[] officeTrash = new WeightedRandomChestContent[] {
+			//Meta, Min amount, Max amount, Weight
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 2, 6),
+			new WeightedRandomChestContent(ModItems.coffee, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.ring_pull, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.can_empty, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.can_smart, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.book_guide, 3, 1, 1, 1),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.deco_computer), 0, 1, 1, 1)};
 }

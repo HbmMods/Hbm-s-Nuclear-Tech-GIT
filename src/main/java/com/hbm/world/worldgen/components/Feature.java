@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.StructureConfig;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -153,6 +155,19 @@ abstract public class Feature extends StructureComponent {
 	}
 	
 	/**
+	 * 
+	 * @param metadata (0 for facing North, 1 for facing South, 2 for facing West, 3 for facing East)
+	 */
+	protected int getDecoModelMeta(int metadata) {
+		//N: 0b00, S: 0b01, W: 0b10, E: 0b11
+		int rot = metadata & 3;
+		
+		
+		
+		return 0;
+	}
+	
+	/**
 	 * Places door at specified location with orientation-adjusted meta
 	 * don't ask me which directions are what (take direction such as South/0 and add 1)
 	 */
@@ -182,7 +197,36 @@ abstract public class Feature extends StructureComponent {
 		
 		if(inventory != null) {
 			amount = (int)Math.floor(amount * StructureConfig.lootAmountFactor);
-			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount);
+			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount < 1 ? 1 : amount);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	/**
+	 * Block TE MUST extend TileEntityLockableBase, otherwise this will not work and crash!
+	 * @return TE implementing IInventory and extending TileEntityLockableBase with randomized contents + lock
+	 */
+	protected boolean generateLockableContents(World world, StructureBoundingBox box, Random rand, Block block, int featureX, int featureY, int featureZ,
+			WeightedRandomChestContent[] content, int amount, double mod) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		this.placeBlockAtCurrentPosition(world, block, 0, featureX, featureY, featureZ, box);
+		TileEntity tile = world.getTileEntity(posX, posY, posZ);
+		TileEntityLockableBase lock = (TileEntityLockableBase) tile;
+		IInventory inventory = (IInventory) tile;
+		
+		if(inventory != null && lock != null) {
+			lock.setPins(rand.nextInt(999) + 1);
+			lock.setMod(mod);
+			lock.lock();
+			
+			amount = (int)Math.floor(amount * StructureConfig.lootAmountFactor);
+			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount < 1 ? 1 : amount);
 			return true;
 		}
 		
@@ -248,6 +292,24 @@ abstract public class Feature extends StructureComponent {
 				}
 			}
 		}
+	}
+	
+	/** Methods that remove the replaceBlock and alwaysReplace, and other parameters: as they are useless and only serve as a time sink normally. */
+	
+	protected void fillWithBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block) {
+		this.fillWithBlocks(world, box, minX, minY, minZ, maxX, maxY, maxZ, block, block, false);
+	}
+	
+	protected void fillWithMetadataBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block, int meta) {
+		this.fillWithMetadataBlocks(world, box, minX, minY, minZ, maxX, maxY, maxZ, block, meta, block, meta, false);
+	}
+	
+	protected void randomlyFillWithBlocks(World world, StructureBoundingBox box, Random rand, float randLimit, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block) {
+		this.randomlyFillWithBlocks(world, box, rand, randLimit, minX, minY, minZ, maxX, maxY, maxZ, block);
+	}
+	
+	protected void fillWithRandomizedBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Random rand, BlockSelector selector) {
+		this.fillWithRandomizedBlocks(world, box, minX, minY, minZ, maxX, maxY, maxZ, false, rand, selector);
 	}
 	
 	/** Block Selectors **/
