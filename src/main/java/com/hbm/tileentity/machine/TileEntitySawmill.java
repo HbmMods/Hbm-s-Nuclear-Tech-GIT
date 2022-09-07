@@ -63,9 +63,11 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 							slots[0] = null;
 							slots[1] = result;
 							
-							float chance = result.getItem() == Items.stick ? 0.05F : 0.5F;
-							if(worldObj.rand.nextFloat() < chance) {
-								slots[2] = new ItemStack(ModItems.powder_sawdust);
+							if(result.getItem() != ModItems.powder_sawdust) {
+								float chance = result.getItem() == Items.stick ? 0.05F : 0.5F;
+								if(worldObj.rand.nextFloat() < chance) {
+									slots[2] = new ItemStack(ModItems.powder_sawdust);
+								}
 							}
 							
 							this.markDirty();
@@ -195,6 +197,10 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 		craftingInventory.setInventorySlotContents(0, input);
 		
 		List<String> names = ItemStackUtil.getOreDictNames(input);
+		
+		if(names.contains("stickWood")) {
+			return new ItemStack(ModItems.powder_sawdust);
+		}
 		
 		if(names.contains("logWood")) {
 			for(Object o : CraftingManager.getInstance().getRecipeList()) {

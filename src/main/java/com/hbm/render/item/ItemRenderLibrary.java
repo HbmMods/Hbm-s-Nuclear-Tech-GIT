@@ -1373,7 +1373,7 @@ public class ItemRenderLibrary {
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glTranslated(0, 0, -0.875);
 				bindTexture(ResourceManager.sawmill_tex);
-				ResourceManager.stirling.renderPart("Blade");
+				ResourceManager.sawmill.renderPart("Blade");
 			}});
 		
 		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.
