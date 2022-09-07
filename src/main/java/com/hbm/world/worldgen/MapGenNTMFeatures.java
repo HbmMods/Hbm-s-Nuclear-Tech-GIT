@@ -11,6 +11,7 @@ import com.hbm.config.StructureConfig;
 import com.hbm.world.worldgen.components.CivilianFeatures.*;
 import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
 import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
+import com.hbm.world.worldgen.components.OfficeFeatures.*;
 import com.hbm.world.worldgen.components.RuinFeatures.*;
 
 import net.minecraft.world.World;
@@ -107,7 +108,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * chance/location fails for all other structures. Might not even be necessary, but whatever.
 			 * Rainfall & Temperature Check
 			 */
-			
+			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
 			if(rand.nextBoolean()) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
@@ -135,13 +136,21 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					NTMHouse2 house2 = new NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(house2);
 				}
+				
 			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9) { //Taiga & Mega Taiga
 				if(rand.nextBoolean()) {
 					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
 				}
-			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextBoolean()) {
-				MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
+				
+			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextBoolean()) { //Everything except jungles, extra-hilly areas, and beaches
+				//if(rand.nextBoolean())
+				//	MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
+				//else {
+					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(office);
+				//}
+				
 			} else { //Everything else
 				if(rand.nextBoolean()) {
 					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
@@ -150,6 +159,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					NTMLab1 lab1 = new NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab1);
 				}
+				
 			}
 			
 			if(GeneralConfig.enableDebugMode) {

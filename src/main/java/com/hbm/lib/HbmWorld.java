@@ -4,6 +4,7 @@ import com.hbm.world.worldgen.MapGenNTMFeatures;
 import com.hbm.world.worldgen.NTMWorldGenerator;
 import com.hbm.world.worldgen.components.CivilianFeatures.*;
 import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
+import com.hbm.world.worldgen.components.OfficeFeatures.*;
 import com.hbm.world.worldgen.components.RuinFeatures.*;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -46,5 +47,6 @@ public class HbmWorld {
 		//aggggggggggg
 		MapGenStructureIO.func_143031_a(BasicHelipad.class, "NTMBasicHelipad");
 		MapGenStructureIO.func_143031_a(RadioShack.class, "NTMRadioShack");
+		MapGenStructureIO.func_143031_a(LargeOffice.class, "NTMLargeOffice");
 	}
 }
