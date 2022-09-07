@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntitySawmill;
 import com.hbm.util.BobMathUtil;
@@ -74,6 +75,14 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
 				return false;
 			
 			TileEntitySawmill sawmill = (TileEntitySawmill)world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(!sawmill.hasBlade && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.sawblade) {
+				player.getHeldItem().stackSize--;
+				sawmill.hasBlade = true;
+				sawmill.markDirty();
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.5F, 0.75F);
+				return true;
+			}
 			
 			if(sawmill.slots[1] != null || sawmill.slots[2] != null) {
 				for(int i = 1; i < 3; i++) {

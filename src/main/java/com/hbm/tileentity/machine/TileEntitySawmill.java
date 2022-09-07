@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
@@ -61,6 +62,12 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 							progress = 0;
 							slots[0] = null;
 							slots[1] = result;
+							
+							float chance = result.getItem() == Items.stick ? 0.05F : 0.5F;
+							if(worldObj.rand.nextFloat() < chance) {
+								slots[2] = new ItemStack(ModItems.powder_sawdust);
+							}
+							
 							this.markDirty();
 						}
 						

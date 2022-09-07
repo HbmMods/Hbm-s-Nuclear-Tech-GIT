@@ -1360,6 +1360,22 @@ public class ItemRenderLibrary {
 				ResourceManager.stirling.renderPart("Cog");
 			}});
 		
+		renderers.put(ModItems.sawblade, new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -7, 0);
+				GL11.glScaled(6, 6, 6);
+				GL11.glRotated(-45, 0, 1, 0);
+				GL11.glRotated(30, 1, 0, 0);
+				GL11.glTranslated(0, 1.375, 0);
+				GL11.glRotated(System.currentTimeMillis() % 3600 * 0.2F, 0, 0, 1);
+				GL11.glTranslated(0, -1.375, 0);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glTranslated(0, 0, -0.875);
+				bindTexture(ResourceManager.sawmill_tex);
+				ResourceManager.stirling.renderPart("Blade");
+			}});
+		
 		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.
 		//please refer to the comment at the start of the file on how to do this without adding to this gigantic pile of feces.
 	}
