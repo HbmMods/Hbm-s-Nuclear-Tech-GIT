@@ -162,9 +162,18 @@ abstract public class Feature extends StructureComponent {
 		//N: 0b00, S: 0b01, W: 0b10, E: 0b11
 		int rot = metadata & 3;
 		
+		switch(this.coordBaseMode) {
+		default: //South
+			break;
+		case 1: //West
+			break; //N & S can just have NOT used
+		case 2: //North
+			break;
+		case 3: //East
+			break;
+		}
 		
-		
-		return 0;
+		return metadata | rot;
 	}
 	
 	/**

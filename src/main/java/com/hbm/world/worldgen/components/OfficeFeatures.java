@@ -137,13 +137,14 @@ public class OfficeFeatures {
 			randomlyFillWithBlocks(world, box, rand, 0.75F, sizeX, 2, 8, sizeX, 2, 9, Blocks.glass_pane);
 			randomlyFillWithBlocks(world, box, rand, 0.75F, sizeX - 3, 2, sizeZ, sizeX - 2, 2, sizeZ, Blocks.glass_pane);
 			//Fuwnituwe >w<
+			//North and south are reversed?????? But east and west aren't????
 			int stairMetaE = this.getMetadataWithOffset(Blocks.oak_stairs, 1); //East
-			int stairMetaS = this.getMetadataWithOffset(Blocks.oak_stairs, 2); //South
-			int stairMetaN = this.getMetadataWithOffset(Blocks.oak_stairs, 3); //Nowth :3
-			int stairMetaWU = this.getMetadataWithOffset(Blocks.oak_stairs, 4); //West, Upside-down
-			int stairMetaEU = this.getMetadataWithOffset(Blocks.oak_stairs, 5); //East, Upside-down
-			int stairMetaNU = this.getMetadataWithOffset(Blocks.oak_stairs, 6); //Nowth, Upside-down uwu
-			int stairMetaSU = this.getMetadataWithOffset(Blocks.oak_stairs, 7); //South, Upside-down 
+			int stairMetaS = this.getMetadataWithOffset(Blocks.oak_stairs, 2); //*SHOULD* be north, but south
+			int stairMetaN = this.getMetadataWithOffset(Blocks.oak_stairs, 3); //Ditto, but north :3
+			int stairMetaWU = this.getMetadataWithOffset(Blocks.oak_stairs, 0) | 4; //West, Upside-down
+			int stairMetaEU = this.getMetadataWithOffset(Blocks.oak_stairs, 1) | 4; //East, Upside-down
+			int stairMetaSU = this.getMetadataWithOffset(Blocks.oak_stairs, 2) | 4; //Ditto, but south, Upside-down uwu
+			int stairMetaNU = this.getMetadataWithOffset(Blocks.oak_stairs, 3) | 4; //Ditto, but north, Upside-down 
 			//Desk 1 :3
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaEU, 1, 1, 4, box);
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaNU, 2, 1, 4, box);
@@ -169,7 +170,7 @@ public class OfficeFeatures {
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), sizeX - 3, 2, 1, box); //South-facing Computer :3
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(2), sizeX - 1, 2, 5, box); //West-facing Computer ^w^
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, sizeX - 1, 2, 3, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(3), sizeX - 1, 2, 2, box); //Wadio
+			placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(5), sizeX - 1, 2, 2, box); //Wadio
 			//Desk 4 DX
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaEU, 10, 1, 8, box);
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaWU, 11, 1, 8, box);

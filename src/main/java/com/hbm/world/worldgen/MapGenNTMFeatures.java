@@ -109,7 +109,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
-			if(rand.nextBoolean()) { //Empty Ruin Structures
+			/*if(rand.nextBoolean()) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
 					NTMRuin1 ruin1 = new NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
@@ -144,12 +144,12 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				}
 				
 			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextBoolean()) { //Everything except jungles, extra-hilly areas, and beaches
-				//if(rand.nextBoolean())
-				//	MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
-				//else {
+				if(rand.nextBoolean())
+					MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
+				else {*/
 					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(office);
-				//}
+				/*}
 				
 			} else { //Everything else
 				if(rand.nextBoolean()) {
@@ -160,7 +160,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					this.components.add(lab1);
 				}
 				
-			}
+			}*/
 			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
