@@ -137,14 +137,13 @@ public class OfficeFeatures {
 			randomlyFillWithBlocks(world, box, rand, 0.75F, sizeX, 2, 8, sizeX, 2, 9, Blocks.glass_pane);
 			randomlyFillWithBlocks(world, box, rand, 0.75F, sizeX - 3, 2, sizeZ, sizeX - 2, 2, sizeZ, Blocks.glass_pane);
 			//Fuwnituwe >w<
-			//North and south are reversed?????? But east and west aren't????
-			int stairMetaE = this.getMetadataWithOffset(Blocks.oak_stairs, 1); //East
-			int stairMetaS = this.getMetadataWithOffset(Blocks.oak_stairs, 2); //*SHOULD* be north, but south
-			int stairMetaN = this.getMetadataWithOffset(Blocks.oak_stairs, 3); //Ditto, but north :3
-			int stairMetaWU = this.getMetadataWithOffset(Blocks.oak_stairs, 0) | 4; //West, Upside-down
-			int stairMetaEU = this.getMetadataWithOffset(Blocks.oak_stairs, 1) | 4; //East, Upside-down
-			int stairMetaSU = this.getMetadataWithOffset(Blocks.oak_stairs, 2) | 4; //Ditto, but south, Upside-down uwu
-			int stairMetaNU = this.getMetadataWithOffset(Blocks.oak_stairs, 3) | 4; //Ditto, but north, Upside-down 
+			int stairMetaE = getStairMeta(1); //East
+			int stairMetaN = getStairMeta(2); //*SHOULD* be north
+			int stairMetaS = getStairMeta(3); //South :3
+			int stairMetaWU = getStairMeta(0) | 4; //West, Upside-down
+			int stairMetaEU = stairMetaE | 4; //East, Upside-down
+			int stairMetaNU = stairMetaN | 4; //North, Upside-down uwu
+			int stairMetaSU = stairMetaS | 4; //South, Upside-down 
 			//Desk 1 :3
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaEU, 1, 1, 4, box);
 			placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaNU, 2, 1, 4, box);

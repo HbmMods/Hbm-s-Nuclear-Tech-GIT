@@ -154,7 +154,7 @@ abstract public class Feature extends StructureComponent {
 	}
 	
 	/**
-	 * 
+	 * Get orientation-offset metadata for BlockDecoModel
 	 * @param metadata (0 for facing North, 1 for facing South, 2 for facing West, 3 for facing East)
 	 */
 	protected int getDecoModelMeta(int metadata) {
@@ -190,7 +190,31 @@ abstract public class Feature extends StructureComponent {
 	 * 1/W: S->W; W->N; N->E; E->S
 	 * 2/N: S->N; W->E; N->S; E->W
 	 * 3/E: S->E; W->S; N->W; E->N
+	 * 0/b00/W, 1/b01/E, 2/b10/N, 3/b11/S
 	 */
+	protected int getStairMeta(int metadata) {
+		switch(this.coordBaseMode) {
+		default: //South
+			break;
+		case 1: //West
+			if((metadata & 3) < 2) //Flip second bit for E/W
+				metadata = metadata ^ 2;
+			else
+				metadata = metadata ^ 3; //Flip both bits for N/S
+			break;
+		case 2: //North
+			metadata = metadata ^ 1; //Flip first bit
+			break;
+		case 3: //East
+			if((metadata & 3) < 2) //Flip both bits for E/W
+				metadata = metadata ^ 3;
+			else //Flip second bit for N/S
+				metadata = metadata ^ 2;
+			break;
+		}
+		
+		return metadata;
+	}
 	
 	/**
 	 * Places door at specified location with orientation-adjusted meta
