@@ -36,6 +36,16 @@ public class CanneryStirling extends CanneryBase {
 	}
 
 	@Override
+	public String getName() {
+		return "cannery.stirling";
+	}
+	public CanneryBase[] seeAlso() {
+		return new CanneryBase[] {
+				new CanneryFirebox()
+		};
+	}
+
+	@Override
 	public JarScript createScript() {
 
 		WorldInAJar world = new WorldInAJar(5, 5, 5);
@@ -61,24 +71,28 @@ public class CanneryStirling extends CanneryBase {
 		
 		NBTTagCompound stirling = new NBTTagCompound();
 		stirling.setDouble("x", 2);
-		stirling.setDouble("y", 2);
 		stirling.setDouble("z", 2);
 		stirling.setInteger("rotation", 2);
-		stirling.setInteger("type", 0);
-		stirling.setBoolean("hasCog", true);
 		scene0.add(new ActionCreateActor(1, new ActorTileEntity(new RenderStirling(), stirling)));
+		/*
+		 * When rewinding, the NBT tag persists. We have to manually set all variable values with UpdateActor.
+		 */
 		scene0.add(new ActionUpdateActor(1, "speed", 0F));
 		scene0.add(new ActionUpdateActor(1, "y", 2D));
+		scene0.add(new ActionUpdateActor(1, "type", 0));
+		scene0.add(new ActionUpdateActor(1, "hasCog", true));
+		scene0.add(new ActionUpdateActor(1, "spin", 0F));
+		scene0.add(new ActionUpdateActor(1, "lastSpin", 0F));
 		
 		scene0.add(new ActionWait(10));
 		
 		scene0.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{I18nUtil.resolveKey("cannery.stirling.0")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 		
 		scene0.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 40, new Object[][] {{I18nUtil.resolveKey("cannery.stirling.1")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(2));
@@ -87,7 +101,7 @@ public class CanneryStirling extends CanneryBase {
 		scene0.add(new ActionWait(30));
 		scene0.add(new ActionUpdateActor(0, "isOn", true));
 		scene0.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(Items.coal)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(20));
 		scene0.add(new ActionRemoveActor(2));
 		scene0.add(new ActionWait(10));
@@ -115,7 +129,7 @@ public class CanneryStirling extends CanneryBase {
 		JarScene scene1 = new JarScene(script);
 		
 		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{I18nUtil.resolveKey("cannery.stirling.2")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(2));
 		
@@ -145,7 +159,7 @@ public class CanneryStirling extends CanneryBase {
 		scene1.add(new ActionWait(20));
 		
 		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{I18nUtil.resolveKey("cannery.stirling.3")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(2));
 		scene1.add(new ActionWait(20));

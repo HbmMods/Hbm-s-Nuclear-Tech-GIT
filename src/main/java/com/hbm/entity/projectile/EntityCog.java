@@ -13,27 +13,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class EntityCog extends EntityThrowableNT {
-	
-	private int turnProgress;
-	private double syncPosX;
-	private double syncPosY;
-	private double syncPosZ;
-	private double syncYaw;
-	private double syncPitch;
-	@SideOnly(Side.CLIENT)
-	private double velocityX;
-	@SideOnly(Side.CLIENT)
-	private double velocityY;
-	@SideOnly(Side.CLIENT)
-	private double velocityZ;
+public class EntityCog extends EntityThrowableInterp {
 
 	public EntityCog(World world) {
 		super(world);
@@ -145,41 +131,9 @@ public class EntityCog extends EntityThrowableNT {
 			if(orientation >= 6 && !this.inGround) {
 				this.dataWatcher.updateObject(10, orientation - 6);
 			}
-			super.onUpdate();
-		} else {
-			if(this.turnProgress > 0) {
-				double interpX = this.posX + (this.syncPosX - this.posX) / (double) this.turnProgress;
-				double interpY = this.posY + (this.syncPosY - this.posY) / (double) this.turnProgress;
-				double interpZ = this.posZ + (this.syncPosZ - this.posZ) / (double) this.turnProgress;
-				double d = MathHelper.wrapAngleTo180_double(this.syncYaw - (double) this.rotationYaw);
-				this.rotationYaw = (float) ((double) this.rotationYaw + d / (double) this.turnProgress);
-				this.rotationPitch = (float)((double)this.rotationPitch + (this.syncPitch - (double)this.rotationPitch) / (double)this.turnProgress);
-				--this.turnProgress;
-				this.setPosition(interpX, interpY, interpZ);
-			} else {
-				this.setPosition(this.posX, this.posY, this.posZ);
-			}
 		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setVelocity(double p_70016_1_, double p_70016_3_, double p_70016_5_) {
-		this.velocityX = this.motionX = p_70016_1_;
-		this.velocityY = this.motionY = p_70016_3_;
-		this.velocityZ = this.motionZ = p_70016_5_;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
-		this.syncPosX = x;
-		this.syncPosY = y;
-		this.syncPosZ = z;
-		this.syncYaw = yaw;
-		this.syncPitch = pitch;
-		this.turnProgress = theNumberThree;
-		this.motionX = this.velocityX;
-		this.motionY = this.velocityY;
-		this.motionZ = this.velocityZ;
+		
+		super.onUpdate();
 	}
 	
 	@Override

@@ -130,6 +130,7 @@ book.test.page1=Testseite 1
 
 cannery.f1=[ Drücke F1 für Hilfe ]
 
+cannery.centrifuge=Gaszentrifuge
 cannery.centrifuge.0=Gaszentrifugen können mit Flüssigkeitsrohren versorgt werden.
 cannery.centrifuge.1=Die meisten Rezepte benötigen mehrere Zentrifugen, Zwischenprodukte können nicht mit Rohren transportiert werden.
 cannery.centrifuge.2=Diese Seite dient als Verbindung, die Zwischenprodukte in anliegende Zentrifugen überträgt.
@@ -137,16 +138,19 @@ cannery.centrifuge.3=Uranhexafluorid kann mit nur zwei Zentrifugen verarbeitet w
 cannery.centrifuge.4=Mit vier Zentrifugen kann es vollständig in Uran-235 und Uran238 verarbeitet werden.
 cannery.centrifuge.5=Manche Rezepte benötigen das Zentrifugen-Geschwingidkeitsupgrade.
 
+cannery.fensu=FEnSU
 cannery.fensu.0=Die FEnSU kann absurde Mengen Energie speichern, über 9EHE (eine Neun gefolgt von 18 Nullen).
 cannery.fensu.1=Es gibt nur einen Kontakt auf der Unterseite.
 cannery.fensu.2=Das ist auch der einzige Ort, an dem die FEnSU ein Redstone-Signal empfangen kann.
 
+cannery.firebox=Feuerbüchse
 cannery.firebox.0=Die Feuerbüchse verbrennt Gegenstände, um Hitze zu erzeugen.
 cannery.firebox.1=Sie kann alle brennbaren Gegenstände verwenden, aber hochwertigere Brennstoffe wie Kohle, Koks oder Festbrennstoff brennen länger und heißer.
 cannery.firebox.2=Hitze wird von dem Kupferkontakt an der Oberseite abgegeben. Maschinen mit einem identischen Kontakt an der Unterseite können Hitze annehmen, wenn sie darauf platziert werden.
 cannery.firebox.3=Wenn die Hitze nicht verbraucht wird hält die Feuerbüchse an, um keinen Brennstoff zu verschwenden.
 cannery.firebox.4=Eine solche Maschine ist der Stirlingmotor, welcher aus Hitze direkt Energie erzeugt.
 
+cannery.silex=FEL & SILEX
 cannery.silex.0=Der Freieilektonenlaser (FEL) verwendet Energie und einen Laserkristall um einen starken Laserstrahl zu erzeugen.
 cannery.silex.1=Vorsicht, der Laser kann sich durch schwächere Blöcke hindurchbrennen...
 cannery.silex.2=...aber nicht durch sprengsichere.
@@ -157,6 +161,7 @@ cannery.silex.6=Zusätzlich zu den zwei Öffnungen gibt es an der Unterseite ein
 cannery.silex.7=Jedes Rezept benötigt einen speziellen Laser-Typ. Stärkere Typen beschleunigen den Vorgang.
 cannery.silex.8=Ein FEL kann bis zu fünf SILEX betreiben. Jedes SILEX muss einen Block Abstand halten.
 
+cannery.stirling=Stirlingmotor
 cannery.stirling.0=Der Stirlingmotor verwendet Hitze aus einer externen Quelle um Energie zu erzeugen.
 cannery.stirling.1=Er muss auf einem Hitzeerzeuger platziert werden, zum Beispiel der Feuerbüchse.
 cannery.stirling.2=Die Hitze die maximal verwendet werden kann ist limitiert, Übergeschwindigkeit kann zu katastrophalen Fehlfunktionen führen.

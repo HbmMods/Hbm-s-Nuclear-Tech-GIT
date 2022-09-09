@@ -29,6 +29,11 @@ public class CanneryFEnSU extends CanneryBase {
 		return new ItemStack(ModBlocks.machine_fensu);
 	}
 
+	@Override
+	public String getName() {
+		return "cannery.fensu";
+	}
+
 	public JarScript createScript() {
 		WorldInAJar world = new WorldInAJar(11, 5, 5);
 		JarScript script = new JarScript(world);
@@ -45,19 +50,19 @@ public class CanneryFEnSU extends CanneryBase {
 		scene0.add(new ActionCreateActor(0, new ActorTileEntity(new RenderFENSU(), fensu)));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -50, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.0")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		scene0.add(new ActionWait(80));
 		scene0.add(new ActionRemoveActor(1));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionRotateBy(45, 90, 20));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.1")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.TOP)));
+				.setColors(colorCopper).setOrientation(Orientation.TOP)));
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 20, new Object[][] {{I18nUtil.resolveKey("cannery.fensu.2")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.TOP)));
+				.setColors(colorCopper).setOrientation(Orientation.TOP)));
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
 		

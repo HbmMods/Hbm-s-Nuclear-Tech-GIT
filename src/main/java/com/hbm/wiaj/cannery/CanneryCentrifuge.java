@@ -34,6 +34,11 @@ public class CanneryCentrifuge extends CanneryBase {
 		return new ItemStack(ModBlocks.machine_gascent);
 	}
 
+	@Override
+	public String getName() {
+		return "cannery.centrifuge";
+	}
+
 	public JarScript createScript() {
 		WorldInAJar world = new WorldInAJar(9, 5, 5);
 		JarScript script = new JarScript(world);
@@ -73,7 +78,7 @@ public class CanneryCentrifuge extends CanneryBase {
 		}
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, -50, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.0")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
@@ -81,7 +86,7 @@ public class CanneryCentrifuge extends CanneryBase {
 		JarScene scene1 = new JarScene(script);
 
 		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -15, 10, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.1")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
+				.setColors(colorCopper).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(1));
@@ -89,7 +94,7 @@ public class CanneryCentrifuge extends CanneryBase {
 		scene1.add(new ActionSetZoom(4, 20));
 		
 		scene1.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 40, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.2")}}, 150)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.LEFT)));
+				.setColors(colorCopper).setOrientation(Orientation.LEFT)));
 		
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(1));
@@ -101,14 +106,14 @@ public class CanneryCentrifuge extends CanneryBase {
 		scene1.add(new ActionWait(10));
 		
 		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.3")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
+				.setColors(colorCopper).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(100));
 		scene1.add(new ActionRemoveActor(2));
 		scene1.add(new ActionSetZoom(-2, 20));
 		
 		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.4")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
+				.setColors(colorCopper).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(2));
@@ -121,16 +126,16 @@ public class CanneryCentrifuge extends CanneryBase {
 		scene1.add(new ActionWait(10));
 		
 		scene1.add(new ActionCreateActor(4, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, 0, new Object[][] {{I18nUtil.resolveKey("cannery.centrifuge.5")}}, 200)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.CENTER)));
+				.setColors(colorCopper).setOrientation(Orientation.CENTER)));
 		
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(4));
 		
 		scene1.add(new ActionCreateActor(4, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 28, -30, new Object[][] {{new ItemStack(ModItems.upgrade_gc_speed)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene1.add(new ActionCreateActor(5, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 45, 35, new Object[][] {{" = ", new ItemStack(ModItems.nugget_u238, 11), new ItemStack(ModItems.nugget_u235)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.LEFT)));
+				.setColors(colorCopper).setOrientation(Orientation.LEFT)));
 		
 		script.addScene(scene0).addScene(scene1);
 		return script;

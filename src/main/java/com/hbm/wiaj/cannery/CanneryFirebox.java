@@ -37,6 +37,11 @@ public class CanneryFirebox extends CanneryBase {
 		return new ItemStack(ModBlocks.heater_firebox);
 	}
 
+	@Override
+	public String getName() {
+		return "cannery.firebox";
+	}
+
 	public JarScript createScript() {
 
 		WorldInAJar world = new WorldInAJar(5, 5, 5);
@@ -61,12 +66,12 @@ public class CanneryFirebox extends CanneryBase {
 		scene0.add(new ActionWait(10));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.0")}}, 150)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.1")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
@@ -77,19 +82,19 @@ public class CanneryFirebox extends CanneryBase {
 		scene0.add(new ActionUpdateActor(0, "isOn", true));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(Items.coal)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(ModItems.coke)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(ModItems.solid_fuel)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(ModItems.rocket_fuel)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, -50, 40, new Object[][] {{new ItemStack(ModItems.solid_fuel_bf)}}, 0)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.RIGHT)));
+				.setColors(colorCopper).setOrientation(Orientation.RIGHT)));
 		scene0.add(new ActionWait(10));
 		scene0.add(new ActionRemoveActor(1));
 		scene0.add(new ActionWait(10));
@@ -97,12 +102,12 @@ public class CanneryFirebox extends CanneryBase {
 		scene0.add(new ActionWait(30));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.2")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(80));
 
 		scene0.add(new ActionCreateActor(1, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -10, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.3")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		
 		scene0.add(new ActionWait(60));
 		scene0.add(new ActionRemoveActor(1));
@@ -121,7 +126,7 @@ public class CanneryFirebox extends CanneryBase {
 
 		scene1.add(new ActionWait(10));
 		scene1.add(new ActionCreateActor(2, new ActorFancyPanel(Minecraft.getMinecraft().fontRenderer, 0, -45, new Object[][] {{I18nUtil.resolveKey("cannery.firebox.4")}}, 250)
-				.setColors(0xFFFDCA88, 0xFFD57C4F, 0xFFAB4223, 0xff1A1F22).setOrientation(Orientation.BOTTOM)));
+				.setColors(colorCopper).setOrientation(Orientation.BOTTOM)));
 		scene1.add(new ActionWait(60));
 		scene1.add(new ActionRemoveActor(2));
 		scene1.add(new ActionWait(10));

@@ -93,6 +93,10 @@ public class ActorFancyPanel implements ISpecialActor {
 		return this;
 	}
 	
+	public ActorFancyPanel setColors(int[] colors) {
+		return setColors(colors[0], colors[1], colors[2], colors[3]);
+	}
+	
 	public int getTallestElement() {
 		if(this.tallestElement > 0) {
 			return this.tallestElement;
@@ -260,20 +264,18 @@ public class ActorFancyPanel implements ISpecialActor {
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiUtil);
 		
-		int off = 28;
-		
 		switch(o) {
 		case TOP:
-			this.drawTexturedModalRect(posX + width / 2 - 7, posY - 15, 40 + off, 14, 14, 10);
+			this.drawArrow(posX + width / 2 - 7, posY - 15, 40, 14, 14, 10);
 			break;
 		case BOTTOM:
-			this.drawTexturedModalRect(posX + width / 2 - 7, posY + height + 5, 54 + off, 14, 14, 10);
+			this.drawArrow(posX + width / 2 - 7, posY + height + 5, 54, 14, 14, 10);
 			break;
 		case LEFT:
-			this.drawTexturedModalRect(posX - 15, posY + height / 2 - 7, 40 + off, 0, 10, 14);
+			this.drawArrow(posX - 15, posY + height / 2 - 7, 40, 0, 10, 14);
 			break;
 		case RIGHT:
-			this.drawTexturedModalRect(posX + width + 5, posY + height / 2 - 7, 50 + off, 0, 10, 14);
+			this.drawArrow(posX + width + 5, posY + height / 2 - 7, 50, 0, 10, 14);
 			break;
 		case CENTER: break;
 		}
@@ -305,6 +307,13 @@ public class ActorFancyPanel implements ISpecialActor {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		RenderHelper.enableStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+	}
+	
+	private void drawArrow(int posX, int posY, int sourceX, int sourceY, int sizeX, int sizeY) {
+		this.drawTexturedModalRect(posX, posY, sourceX + 28 * 0, sourceY, sizeX, sizeY, this.colorBrighter);
+		this.drawTexturedModalRect(posX, posY, sourceX + 28 * 1, sourceY, sizeX, sizeY, this.colorFrame);
+		this.drawTexturedModalRect(posX, posY, sourceX + 28 * 2, sourceY, sizeX, sizeY, this.colorDarker);
+		this.drawTexturedModalRect(posX, posY, sourceX + 28 * 3, sourceY, sizeX, sizeY, this.colorBg);
 	}
 	
 	private void drawElement(int x, int y, Object element) {
@@ -373,11 +382,20 @@ public class ActorFancyPanel implements ISpecialActor {
 	}
 
 	public void drawTexturedModalRect(int posX, int posY, int u, int v, int sizeX, int sizeY) {
+		drawTexturedModalRect(posX, posY, u, v, sizeX, sizeY, 0xffffff);
+	}
+
+	public void drawTexturedModalRect(int posX, int posY, int u, int v, int sizeX, int sizeY, int color) {
 		double zLevel = 300D;
+		float a = (float) (color >> 24 & 255) / 255.0F;
+		float r = (float) (color >> 16 & 255) / 255.0F;
+		float g = (float) (color >> 8 & 255) / 255.0F;
+		float b = (float) (color & 255) / 255.0F;
 		float f = 0.00390625F;
 		float f1 = 0.00390625F;
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_F(r, g, b, a);
 		tessellator.addVertexWithUV(posX + 0, posY + sizeY, zLevel, (u + 0) * f, (v + sizeY) * f1);
 		tessellator.addVertexWithUV(posX + sizeX, posY + sizeY, zLevel, (u + sizeX) * f, (v + sizeY) * f1);
 		tessellator.addVertexWithUV(posX + sizeX, posY + 0, zLevel, (u + sizeX) * f, (v + 0) * f1);
