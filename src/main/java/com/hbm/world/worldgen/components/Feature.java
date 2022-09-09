@@ -50,11 +50,10 @@ abstract public class Feature extends StructureComponent {
 			this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
 			break;
 		case 2:
-			//North (2) and East (3) will result in mirrored structures. Not an issue, but keep in mind.
 			this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
 			break;
 		case 3:
-			this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
+			this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
 			break;
 		default:
 			this.boundingBox = new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
@@ -140,15 +139,15 @@ abstract public class Feature extends StructureComponent {
 			switch(metadata) {
 			case 2: return 3;
 			case 3: return 2;
-			case 4: return 4;
-			case 5: return 5;
+			case 4: return 5;
+			case 5: return 4;
 			}
 		case 3: //East
 			switch(metadata) {
 			case 2: return 4;
 			case 3: return 5;
-			case 4: return 2;
-			case 5: return 3;
+			case 4: return 3;
+			case 5: return 2;
 			}
 		}
 		return 0;
@@ -160,25 +159,42 @@ abstract public class Feature extends StructureComponent {
 	 */
 	protected int getDecoModelMeta(int metadata) {
 		//N: 0b00, S: 0b01, W: 0b10, E: 0b11
-		int rot = metadata & 3;
 		
 		switch(this.coordBaseMode) {
 		default: //South
 			break;
 		case 1: //West
-			break; //N & S can just have NOT used
+			if((metadata & 3) < 2) //N & S can just have bits toggled
+				metadata = metadata ^ 3;
+			else //W & E can just have first bit set to 0
+				metadata = metadata ^ 2;
+			break;
 		case 2: //North
+			metadata = metadata ^ 1; //N, W, E & S can just have first bit toggled
 			break;
 		case 3: //East
+			if((metadata & 3) < 2)//N & S can just have second bit set to 1
+				metadata = metadata ^ 2;
+			else //W & E can just have bits toggled
+				metadata = metadata ^ 3;
 			break;
 		}
 		
-		return metadata | rot;
+		return metadata;
 	}
+	
+	//TODO: fix metadata finder for doors
+	//TODO: add method for stairs
+	/* For Later:
+	 * 0/S: S->S; W->W; N->N; E->E
+	 * 1/W: S->W; W->N; N->E; E->S
+	 * 2/N: S->N; W->E; N->S; E->W
+	 * 3/E: S->E; W->S; N->W; E->N
+	 */
 	
 	/**
 	 * Places door at specified location with orientation-adjusted meta
-	 * don't ask me which directions are what (take direction such as South/0 and add 1)
+	 * 0 = West, 1 = North, 2 = East, 3 = South
 	 */
 	protected void placeDoor(World world, StructureBoundingBox box, Block door, int direction, int featureX, int featureY, int featureZ) {
 		int meta = getMetadataWithOffset(Blocks.wooden_door, direction);
@@ -300,6 +316,41 @@ abstract public class Feature extends StructureComponent {
 					}
 				}
 			}
+		}
+	}
+	
+	/** getXWithOffset & getZWithOffset Methods that are actually fixed **/
+	//Turns out, this entire time every single minecraft structure is mirrored instead of rotated when facing East and North
+	//Also turns out, it's a scarily easy fix that they somehow didn't see *entirely*
+	@Override
+	protected int getXWithOffset(int x, int z) {
+		switch(this.coordBaseMode) {
+		case 0:
+			return this.boundingBox.minX + x;
+		case 1:
+			return this.boundingBox.maxX - z;
+		case 2:
+			return this.boundingBox.maxX - x;
+		case 3:
+			return this.boundingBox.minX + z;
+		default:
+			return x;
+		}
+	}
+	
+	@Override
+	protected int getZWithOffset(int x, int z) {
+		switch(this.coordBaseMode) {
+		case 0:
+			return this.boundingBox.minZ + z;
+		case 1:
+			return this.boundingBox.minZ + x;
+		case 2:
+			return this.boundingBox.maxZ - z;
+		case 3:
+			return this.boundingBox.maxZ - x;
+		default:
+			return x;
 		}
 	}
 	
