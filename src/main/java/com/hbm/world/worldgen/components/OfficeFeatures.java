@@ -57,6 +57,11 @@ public class OfficeFeatures {
 			
 			this.boundingBox.offset(0, -1, 0);
 			
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 5, 0, sizeX, 1, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 2, sizeX, 7, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 8, 8, sizeZ, 0, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 9, 8, sizeX, sizeZ, -1, box);
+			
 			//Pillars
 			//Back
 			fillWithBlocks(world, box, 0, 0, 2, 0, 4, 2, ModBlocks.concrete_pillar);
@@ -79,7 +84,7 @@ public class OfficeFeatures {
 			fillWithRandomizedBlocks(world, box, 6, 0, 0, sizeX - 1, 1, 0, rand, ConcreteBricks);
 			fillWithRandomizedBlocks(world, box, 6, 2, 0, 6, 2, 0, rand, ConcreteBricks);
 			fillWithRandomizedBlocks(world, box, 9, 2, 0, 10, 2, 0, rand, ConcreteBricks);
-			fillWithRandomizedBlocks(world, box, sizeX - 2, 2, 0, sizeX - 1, 2, 0, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, sizeX - 1, 2, 0, sizeX - 1, 2, 0, rand, ConcreteBricks);
 			fillWithRandomizedBlocks(world, box, 6, 3, 0, sizeX - 1, 4, 0, rand, ConcreteBricks);
 			//Right
 			fillWithRandomizedBlocks(world, box, sizeX, 0, 1, sizeX, 1, sizeZ - 1, rand, ConcreteBricks);
@@ -188,6 +193,10 @@ public class OfficeFeatures {
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 3, 3, 4, 3, 6, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 6, 3, 1, sizeX - 1, 3, 6, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 10, 3, 7, sizeX - 1, 3, sizeZ - 1, Blocks.web);
+			//Doors
+			placeDoor(world, box, ModBlocks.door_office, 3, 2, 1, 7);
+			placeDoor(world, box, ModBlocks.door_office, 3, 3, 1, 7);
+			placeDoor(world, box, ModBlocks.door_office, 0, 5, 1, 6);
 			
 			//Woot
 			if(!this.hasPlacedLoot[0])

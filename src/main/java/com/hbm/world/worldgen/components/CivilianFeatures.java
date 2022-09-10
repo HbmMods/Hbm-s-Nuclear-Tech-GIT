@@ -330,11 +330,10 @@ public class CivilianFeatures {
 				}
 			}
 			
-			int stairsMeta = this.getMetadataWithOffset(Blocks.stone_brick_stairs, 0);
 			if(this.getBlockAtCurrentPosition(world, 2, 0, sizeZ - 1, box).getMaterial().isReplaceable() 
 					|| this.getBlockAtCurrentPosition(world, 2, 0, sizeZ - 1, box) == Blocks.air) {
 				this.func_151554_b(world, Blocks.stonebrick, 0, 2, -1, sizeZ - 1, box);
-				this.placeBlockAtCurrentPosition(world, Blocks.stone_brick_stairs, stairsMeta, 2, 0, sizeZ - 1, box);
+				this.placeBlockAtCurrentPosition(world, Blocks.stone_brick_stairs, getStairMeta(0), 2, 0, sizeZ - 1, box);
 			}
 			
 			this.fillWithAir(world, box, 1, 0, 1, sizeX - 1, sizeY, 4);

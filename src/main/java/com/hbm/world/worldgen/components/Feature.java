@@ -183,14 +183,9 @@ abstract public class Feature extends StructureComponent {
 		return metadata;
 	}
 	
-	//TODO: fix metadata finder for doors
-	//TODO: add method for stairs
-	/* For Later:
-	 * 0/S: S->S; W->W; N->N; E->E
-	 * 1/W: S->W; W->N; N->E; E->S
-	 * 2/N: S->N; W->E; N->S; E->W
-	 * 3/E: S->E; W->S; N->W; E->N
-	 * 0/b00/W, 1/b01/E, 2/b10/N, 3/b11/S
+	/**
+	 * Gets orientation-adjusted meta for stairs.
+	 * 0 = West, 1 = East, 2 = North, 3 = South
 	 */
 	protected int getStairMeta(int metadata) {
 		switch(this.coordBaseMode) {
@@ -216,12 +211,29 @@ abstract public class Feature extends StructureComponent {
 		return metadata;
 	}
 	
+	/* For Later:
+	* 0/S: S->S; W->W; N->N; E->E
+	* 1/W: S->W; W->N; N->E; E->S
+	* 2/N: S->N; W->E; N->S; E->W
+	* 3/E: S->E; W->S; N->W; E->N
+	* 0/b00/W, 1/b01/N, 2/b10/E, 3/b11/S
+	*/
 	/**
 	 * Places door at specified location with orientation-adjusted meta
 	 * 0 = West, 1 = North, 2 = East, 3 = South
 	 */
-	protected void placeDoor(World world, StructureBoundingBox box, Block door, int direction, int featureX, int featureY, int featureZ) {
-		int meta = getMetadataWithOffset(Blocks.wooden_door, direction);
+	protected void placeDoor(World world, StructureBoundingBox box, Block door, int meta, int featureX, int featureY, int featureZ) {
+		switch(this.coordBaseMode) {
+		default:
+			break;
+		case 1:
+			meta = (meta + 1) % 4; break;
+		case 2:
+			meta = meta ^ 2; break; //Flip second bit
+		case 3:
+			meta = (meta - 1) % 4; break;
+		}
+		
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
@@ -304,17 +316,22 @@ abstract public class Feature extends StructureComponent {
 	/**
 	 * Places blocks underneath location until reaching a solid block; good for foundations
 	 */
-	protected void placeFoundationUnderneath(World world, Block placeBlock, int meta, int featureX, int featureY, int featureZ, StructureBoundingBox box) {
-		int posX = this.getXWithOffset(featureX, featureZ);
-		int posY = this.getYWithOffset(featureY);
-		int posZ = this.getZWithOffset(featureX, featureZ);
+	protected void placeFoundationUnderneath(World world, Block placeBlock, int meta, int minX, int minZ, int maxX, int maxZ, int featureY, StructureBoundingBox box) {
 		
-		if(box.isVecInside(posX, posY, posZ)) {
-			Block block = world.getBlock(posX, posY, posZ);
-			
-			while ((world.isAirBlock(posX, posY, posZ) || !block.getMaterial().isSolid() || (block.isFoliage(world, posX, posY, posZ) || block.getMaterial() == Material.leaves)) && posY > 1) {
-				world.setBlock(posX, posY, posZ, placeBlock, meta, 2);
-				block = world.getBlock(posX, --posY, posZ);
+		for(int featureX = minX; featureX <= maxX; featureX++) {
+			for(int featureZ = minZ; featureZ <= maxZ; featureZ++) {
+				int posX = this.getXWithOffset(featureX, featureZ);
+				int posY = this.getYWithOffset(featureY);
+				int posZ = this.getZWithOffset(featureX, featureZ);
+				
+				if(box.isVecInside(posX, posY, posZ)) {
+					Block block = world.getBlock(posX, posY, posZ);
+					
+					while ((world.isAirBlock(posX, posY, posZ) || !block.getMaterial().isSolid() || (block.isFoliage(world, posX, posY, posZ) || block.getMaterial() == Material.leaves)) && posY > 1) {
+						world.setBlock(posX, posY, posZ, placeBlock, meta, 2);
+						block = world.getBlock(posX, --posY, posZ);
+					}
+				}
 			}
 		}
 	}
