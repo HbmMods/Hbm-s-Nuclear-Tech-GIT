@@ -3747,6 +3747,7 @@ tile.dirt_oily.name=Oily Dirt
 tile.drill_pipe.name=Drill Pipe
 tile.ducrete.name=Ducrete Tile
 tile.ducrete_smooth.name=Ducrete
+tile.ducrete_debris.name=Ducrete Debris
 tile.dummy_block.name=Dummy Block
 tile.dummy_port.name=Dummy Block (Electricity Port)
 tile.dungeon_chain.name=Metal Chain
