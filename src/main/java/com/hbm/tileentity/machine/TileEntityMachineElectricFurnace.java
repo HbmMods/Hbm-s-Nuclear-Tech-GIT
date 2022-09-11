@@ -23,6 +23,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	public static final long maxPower = 100000;
 	public int maxProgress = 100;
 	public int consumption = 50;
+	private int cooldown = 0;
 
 	private static final int[] slots_io = new int[] { 0, 1, 2 };
 
@@ -96,7 +97,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean canProcess() {
-		if(slots[1] == null) {
+		
+		if(slots[1] == null || cooldown > 0) {
 			return false;
 		}
 		ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
@@ -145,9 +147,13 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public void updateEntity() {
-		boolean flag1 = false;
+		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {
+			
+			if(cooldown > 0) {
+				cooldown--;
+			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
@@ -165,6 +171,10 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			consumption += speedLevel * 50;
 			maxProgress += powerLevel * 10;
 			consumption -= powerLevel * 15;
+			
+			if(!hasPower()) {
+				cooldown = 20;
+			}
 
 			if(hasPower() && canProcess()) {
 				progress++;
@@ -174,7 +184,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				if(this.progress >= maxProgress) {
 					this.progress = 0;
 					this.processItem();
-					flag1 = true;
+					markDirty = true;
 				}
 			} else {
 				progress = 0;
@@ -187,7 +197,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			}
 
 			if(trigger) {
-				flag1 = true;
+				markDirty = true;
 				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
@@ -198,7 +208,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			this.networkPack(data, 50);
 
 
-			if(flag1) {
+			if(markDirty) {
 				this.markDirty();
 			}
 		}

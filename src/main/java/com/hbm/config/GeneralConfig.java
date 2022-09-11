@@ -4,6 +4,8 @@ import net.minecraftforge.common.config.Configuration;
 
 public class GeneralConfig {
 
+	public static boolean enableThermosPreventer = true;
+	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
 	public static boolean enablePlutoniumOre = false;
@@ -52,6 +54,7 @@ public class GeneralConfig {
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
+		enableThermosPreventer = config.get(CATEGORY_GENERAL, "0.00_crashOnThermos", true, "When set to true, will prevent the mod to launch on Thermos servers. Only disable this if you understand what \"tileentities.yml\" is, and how it severely cripples the mod.").getBoolean(true);
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false, "Enable debugging mode").getBoolean(false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false, "Allows glowing mycelium to spread").getBoolean(false);
 		enablePlutoniumOre = config.get(CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false, "Enables plutonium ore generation in the nether").getBoolean(false);

@@ -857,6 +857,8 @@ hbmpseudofluid.pf6=Plutonium Hexafluoride
 hbmpseudofluid.mud_heavy=Heavy Sludge Fraction
 hbmpseudofluid.mud=Poisonous Sludge Gas
 
+info.asbestos=My lungs are burning.
+info.coaldust=It's hard to breathe here.
 info.coil=Coil Strength
 info.templatefolder=Created with %s
 info.template_in=Input:

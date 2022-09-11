@@ -863,6 +863,18 @@ public class MainRegistry {
 		ToolConfig.loadFromConfig(config);
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
+		
+		try {
+			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
+				throw new IllegalStateException("The mod tried to start on a Thermos server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
+						+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
+						+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
+						+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
+						+ "Thermos install folder. If you believe that crashing the server until a config option is changed is annoying, then I would agree, but it's still preferable "
+						+ "over wasting hours trying to fix an issue that is really just an \"intended feature\" added by Thermos itself, and not a bug in the mod. You'll have to "
+						+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
+			}
+		} catch(ClassNotFoundException e) { }
 
 		config.save();
 	}

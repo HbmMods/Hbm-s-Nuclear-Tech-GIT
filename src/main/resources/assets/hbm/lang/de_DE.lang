@@ -629,6 +629,8 @@ hbmfluid.watz=Giftiger Schlamm
 hbmfluid.xenon=Xenongas
 hbmfluid.xpjuice=Erfahrungssaft
 
+info.asbestos=Meine Lunge brennt.
+info.coaldust=Das Atmen fällt mir schwer.
 info.coil=Spulenstärke
 info.templatefolder=Hergestellt mit %s
 info.template_in=Input:
