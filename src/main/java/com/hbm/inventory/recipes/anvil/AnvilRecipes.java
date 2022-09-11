@@ -493,6 +493,18 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.ingot_tcalloy, 1), 0.25F)
 				}
 		).setTier(3));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.deco_computer),
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.crt_display, 1)),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 3)),
+					new AnvilOutput(new ItemStack(ModItems.wire_copper, 4)),
+					new AnvilOutput(new ItemStack(ModItems.circuit_red_copper, 1), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.circuit_copper, 2))
+					
+				}
+		).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.circuit_raw),
