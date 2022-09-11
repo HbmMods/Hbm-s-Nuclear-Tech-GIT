@@ -69,7 +69,9 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
-
+        // concrete damage comedy
+		FalloutEntry concrete = new FalloutEntry().prim(new Triplet(ModBlocks.concrete_debris, 0, 1)).max(60).sol(true);
+		
 		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
 		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
 		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
@@ -83,6 +85,11 @@ public class FalloutConfigJSON {
 		/* recontaminate slaked sellafield */
 		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
 		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
+		
+		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete));
+		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_smooth));
+		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_colored));
+		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_asbestos));
 		
 		entries.add(new FalloutEntry()
 				.mB(Blocks.grass)
