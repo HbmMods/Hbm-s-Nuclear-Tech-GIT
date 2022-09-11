@@ -6,10 +6,16 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.world.World;
 
 public class HbmChestContents {
 
@@ -350,4 +356,31 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.book_guide, 3, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.deco_computer), 0, 1, 1, 1)};
+	
+	/** Nowhere else to put this and this seems like the most fitting place **/
+	public static ItemStack genetateBook(String key) {
+		
+		String author = I18nUtil.resolveKey("book.lore." + key + ".author");
+		String title = I18nUtil.resolveKey("book.lore." + key + ".title");
+		
+		ItemStack book = new ItemStack(Items.written_book);
+		book.stackTagCompound = new NBTTagCompound();
+		book.stackTagCompound.setString("author", author);
+		book.stackTagCompound.setString("title", title);
+		NBTTagList nbt = new NBTTagList();
+		
+		for(byte i = 1; i <= 50; i++) {
+			String unloc = "book.lore." + key + ".page" + i;
+			String page = I18nUtil.resolveKey(unloc);
+			
+			if(page.equals(unloc))
+				break;
+			else
+				nbt.appendTag(new NBTTagString(page));
+		}
+		
+		book.stackTagCompound.setTag("pages", nbt);
+		
+		return book;
+	}
 }

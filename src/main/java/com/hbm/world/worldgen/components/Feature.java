@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.StructureConfig;
+import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 
@@ -14,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemDoor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -292,6 +294,20 @@ abstract public class Feature extends StructureComponent {
 		}
 		
 		return false;
+	}
+	
+	protected void generateLoreBook(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ, int slot, String key) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		IInventory inventory = (IInventory) world.getTileEntity(posX, posY, posZ);
+		
+		if(inventory != null) {
+			ItemStack book = HbmChestContents.genetateBook(key);
+			
+			inventory.setInventorySlotContents(slot, book);
+		}
 	}
 	
 	/**

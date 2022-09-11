@@ -62,6 +62,10 @@ public class OfficeFeatures {
 			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 8, 8, sizeZ, 0, box);
 			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 9, 8, sizeX, sizeZ, -1, box);
 			
+			fillWithAir(world, box, 1, 1, 3, 4, 3, 6);
+			fillWithAir(world, box, 6, 1, 1, sizeX - 1, 3, 6);
+			fillWithAir(world, box, 10, 1, 7, sizeX - 1, 3, sizeZ - 1);
+			
 			//Pillars
 			//Back
 			fillWithBlocks(world, box, 0, 0, 2, 0, 4, 2, ModBlocks.concrete_pillar);
@@ -201,8 +205,10 @@ public class OfficeFeatures {
 			//Woot
 			if(!this.hasPlacedLoot[0])
 				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, Blocks.chest, sizeX - 4, 1, sizeZ - 1, HbmChestContents.officeTrash, 10);
-			if(!this.hasPlacedLoot[1])
+			if(!this.hasPlacedLoot[1]) {
 				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, 6, 1, 1, HbmChestContents.machineParts, 10, 0.5D);
+				generateLoreBook(world, box, 6, 1, 1, 7, "office" + rand.nextInt(1));
+			}
 			
 			//TODO: add book with funny lore to safe, add cobwebs too
 			//0b00/0 West, 0b01/1 East, 0b10/2 North, 0b11/3 South, 0b100/4 West UD, 0b101 East UD, 0b110 North UD, 0b111 South UD
