@@ -2,7 +2,7 @@ package com.hbm.world.worldgen;
 
 import java.util.Random;
 
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.StructureConfig;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
@@ -39,12 +39,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		
 		//WorldConfig.enableStructures
 		/** Spawns structure starts. Utilizes canSpawnStructureAtCoords() + if else checks in Start constructor */
-		if(GeneralConfig.enableDungeons) {
+		if(StructureConfig.enableStructures) {
 			this.NTMFeatureGenerator.func_151539_a(chunkGenerator, world, chunkX, chunkZ, ablock);
 		}
 		
 		/** Actually generates structures in a given chunk. */
-		if(GeneralConfig.enableDungeons) {
+		if(StructureConfig.enableStructures) {
 			this.NTMFeatureGenerator.generateStructuresInChunk(world, rand, chunkX, chunkZ);
 		}
 	}

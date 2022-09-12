@@ -6,10 +6,16 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.world.World;
 
 public class HbmChestContents {
 
@@ -335,4 +341,46 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1) };	
+	
+	public static WeightedRandomChestContent[] officeTrash = new WeightedRandomChestContent[] {
+			//Meta, Min amount, Max amount, Weight
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 2, 6),
+			new WeightedRandomChestContent(ModItems.coffee, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.ring_pull, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.can_empty, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.can_smart, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.book_guide, 3, 1, 1, 1),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.deco_computer), 0, 1, 1, 1)};
+	
+	/** Nowhere else to put this and this seems like the most fitting place **/
+	public static ItemStack genetateBook(String key) {
+		
+		String author = I18nUtil.resolveKey("book.lore." + key + ".author");
+		String title = I18nUtil.resolveKey("book.lore." + key + ".title");
+		
+		ItemStack book = new ItemStack(Items.written_book);
+		book.stackTagCompound = new NBTTagCompound();
+		book.stackTagCompound.setString("author", author);
+		book.stackTagCompound.setString("title", title);
+		NBTTagList nbt = new NBTTagList();
+		
+		for(byte i = 1; i <= 50; i++) {
+			String unloc = "book.lore." + key + ".page" + i;
+			String page = I18nUtil.resolveKey(unloc);
+			
+			if(page.equals(unloc))
+				break;
+			else
+				nbt.appendTag(new NBTTagString(page));
+		}
+		
+		book.stackTagCompound.setTag("pages", nbt);
+		
+		return book;
+	}
 }

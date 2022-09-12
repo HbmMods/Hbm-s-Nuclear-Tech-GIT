@@ -314,6 +314,17 @@ book.starter.page18=vær is just a guy who has been trapped in the grey void fea
 #book.rbmk.title16=Meltdown
 #book.rbmk.page16=§4§lAvoid.
 
+book.lore.office0.title=Letter of Resignation
+book.lore.office0.author=Kosma
+book.lore.office0.page1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after the Panay fiasco. Who the hell leaks that sort of information? We're losing millions and 
+book.lore.office0.page2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book.lore.office0.page3=I'm not coming back on Friday. Just send the paycheck.
+
+book.lore.office1.title=Note
+book.lore.office1.author=Jonas
+book.lore.office1.page1=
+book.lore.office2.page2=
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge
@@ -3681,6 +3692,7 @@ tile.crystal_virus.name=Dark Crystal
 tile.deco_aluminium.name=Aluminium Deco Block
 tile.deco_asbestos.name=Asbestos Roof
 tile.deco_beryllium.name=Beryllium Deco Block
+tile.deco_computer.name=IBM Personal Computer 300PL
 tile.deco_emitter.name=Deco Light Emitter
 tile.deco_lead.name=Lead Deco Block
 tile.deco_rbmk.name=RBMK Deco Block
