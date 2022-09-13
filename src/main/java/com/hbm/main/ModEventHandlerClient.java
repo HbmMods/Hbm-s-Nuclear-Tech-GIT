@@ -25,6 +25,8 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -624,6 +626,14 @@ public class ModEventHandlerClient {
 		CanneryBase cannery = Jars.canneries.get(comp);
 		if(cannery != null) {
 			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		}
+		
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(new ComparableStack(stack).makeSingular().toStack());
+		
+		if(!materials.isEmpty()) {
+			for(MaterialStack mat : materials) {
+				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
+			}
 		}
 	}
 	

@@ -5,15 +5,21 @@ import com.hbm.inventory.gui.GUICrucible;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider {
+	
+	public int heat;
+	public static final int maxHeat = 100_000;
+	public static final double diffusion = 0.25D;
 
 	public TileEntityCrucible() {
 		super(10);
@@ -27,6 +33,33 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			tryPullHeat();
+		}
+	}
+	
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+		
+		if(con instanceof IHeatSource) {
+			IHeatSource source = (IHeatSource) con;
+			int diff = source.getHeatStored() - this.heat;
+			
+			if(diff == 0) {
+				return;
+			}
+			
+			if(diff > 0) {
+				diff = (int) Math.ceil(diff * diffusion);
+				source.useUpHeat(diff);
+				this.heat += diff;
+				if(this.heat > this.maxHeat)
+					this.heat = this.maxHeat;
+				return;
+			}
+		}
+		
+		this.heat = Math.max(this.heat - Math.max(this.heat / 1000, 1), 0);
 	}
 
 	@Override

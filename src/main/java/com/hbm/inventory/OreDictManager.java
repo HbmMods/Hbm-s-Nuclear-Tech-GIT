@@ -9,6 +9,7 @@ import java.util.List;
 import static com.hbm.items.ModItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.inventory.OreDictManager.DictFrame.*;
+import static com.hbm.inventory.OreNames.*;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
@@ -17,6 +18,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.material.MatDistribution;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.main.MainRegistry;
@@ -82,23 +84,6 @@ public class OreDictManager {
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
-	
-	/*
-	 * PREFIXES
-	 */
-	public static final String ANY = "any";
-	public static final String NUGGET = "nugget";
-	public static final String TINY = "tiny";
-	public static final String INGOT = "ingot";
-	public static final String DUSTTINY = "dustTiny";
-	public static final String DUST = "dust";
-	public static final String GEM = "gem";
-	public static final String CRYSTAL = "crystal";
-	public static final String PLATE = "plate";
-	public static final String BILLET = "billet";
-	public static final String BLOCK = "block";
-	public static final String ORE = "ore";
-	public static final String ORENETHER = "oreNether";
 
 	/*
 	 * MATERIALS
@@ -492,6 +477,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassLime", glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
+		
+		MatDistribution.register(); //TEMP
 	}
 	
 	public static String getReflector() {

@@ -10,6 +10,7 @@ public enum MaterialShapes {
 	INGOT(NUGGET.quantity * 9, "ingot"),
 	DUST(INGOT.quantity, "dust"),
 	PLATE(INGOT.quantity, "plate"),
+	QUART(162),
 	BLOCK(INGOT.quantity * 9, "block");
 	
 	int quantity;
@@ -22,5 +23,13 @@ public enum MaterialShapes {
 		for(String prefix : prefixes) {
 			Mats.prefixByName.put(prefix, this);
 		}
+	}
+	
+	public int q(int amount) {
+		return this.quantity * amount;
+	}
+	
+	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 ton ingots producing 16 individual rail blocks
+		return this.quantity * unitsUsed / itemsProduced;
 	}
 }
