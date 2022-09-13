@@ -526,7 +526,7 @@ public class OreDictManager {
 	}
 	
 	public static class DictFrame {
-		String[] mats;
+		public String[] mats;
 		float hazMult = 1.0F;
 		List<HazardEntry> hazards = new ArrayList();
 		

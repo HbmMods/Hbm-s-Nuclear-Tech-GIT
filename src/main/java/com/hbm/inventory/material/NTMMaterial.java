@@ -1,5 +1,7 @@
 package com.hbm.inventory.material;
 
+import com.hbm.inventory.OreDictManager.DictFrame;
+
 /**
  * Encapsulates most materials that are currently listed as DictFrames, even vanilla ones.
  * @author hbm
@@ -7,14 +9,16 @@ package com.hbm.inventory.material;
  */
 public class NTMMaterial {
 
-	public String[] names;
 	public MaterialShapes[] shapes = new MaterialShapes[0];
 	public boolean omitItemGen = false;
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
 	public int moltenColor = 0xFF4A00;
 	
-	public NTMMaterial(String... names) {
-		this.names = names;
+	public NTMMaterial(DictFrame dict) {
+		
+		for(String name : dict.mats) {
+			Mats.matByName.put(name, this);
+		}
 	}
 	
 	/** Shapes for autogen */
