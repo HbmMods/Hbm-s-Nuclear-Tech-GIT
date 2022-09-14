@@ -95,17 +95,17 @@ public class MineralRecipes {
 		
 		addBillet(ModItems.billet_cobalt,				ModItems.ingot_cobalt,				ModItems.nugget_cobalt);
 		addBillet(ModItems.billet_co60,					ModItems.ingot_co60,				ModItems.nugget_co60);
-		addBillet(ModItems.billet_sr90,					ModItems.ingot_sr90,				ModItems.nugget_sr90, "nuggetStrontium90", "tinySr90");
-		addBillet(ModItems.billet_uranium,				ModItems.ingot_uranium,				ModItems.nugget_uranium, "nuggetUranium");
-		addBillet(ModItems.billet_u233,					ModItems.ingot_u233,				ModItems.nugget_u233, "nuggetUranium233", "tinyU233");
-		addBillet(ModItems.billet_u235,					ModItems.ingot_u235,				ModItems.nugget_u235, "nuggetUranium235", "tinyU235");
-		addBillet(ModItems.billet_u238,					ModItems.ingot_u238,				ModItems.nugget_u238, "nuggetUranium238", "tinyU238");
-		addBillet(ModItems.billet_th232,				ModItems.ingot_th232,				ModItems.nugget_th232, "nuggetThorium232", "tinyTh232");
-		addBillet(ModItems.billet_plutonium,			ModItems.ingot_plutonium,			ModItems.nugget_plutonium, "nuggetPlutonium");
-		addBillet(ModItems.billet_pu238,				ModItems.ingot_pu238,				ModItems.nugget_pu238, "nuggetPlutonium238", "tinyPu238");
-		addBillet(ModItems.billet_pu239,				ModItems.ingot_pu239,				ModItems.nugget_pu239, "nuggetPlutonium239", "tinyPu239");
-		addBillet(ModItems.billet_pu240,				ModItems.ingot_pu240,				ModItems.nugget_pu240, "nuggetPlutonium240", "tinyPu240");
-		addBillet(ModItems.billet_pu241,				ModItems.ingot_pu241,				ModItems.nugget_pu241, "nuggetPlutonium241", "tinyPu241");
+		addBillet(ModItems.billet_sr90,					ModItems.ingot_sr90,				ModItems.nugget_sr90, SR90.allNuggets());
+		addBillet(ModItems.billet_uranium,				ModItems.ingot_uranium,				ModItems.nugget_uranium, U.allNuggets());
+		addBillet(ModItems.billet_u233,					ModItems.ingot_u233,				ModItems.nugget_u233, U233.allNuggets());
+		addBillet(ModItems.billet_u235,					ModItems.ingot_u235,				ModItems.nugget_u235, U235.allNuggets());
+		addBillet(ModItems.billet_u238,					ModItems.ingot_u238,				ModItems.nugget_u238, U238.allNuggets());
+		addBillet(ModItems.billet_th232,				ModItems.ingot_th232,				ModItems.nugget_th232, TH232.allNuggets());
+		addBillet(ModItems.billet_plutonium,			ModItems.ingot_plutonium,			ModItems.nugget_plutonium, PU.allNuggets());
+		addBillet(ModItems.billet_pu238,				ModItems.ingot_pu238,				ModItems.nugget_pu238, PU238.allNuggets());
+		addBillet(ModItems.billet_pu239,				ModItems.ingot_pu239,				ModItems.nugget_pu239, PU239.allNuggets());
+		addBillet(ModItems.billet_pu240,				ModItems.ingot_pu240,				ModItems.nugget_pu240, PU240.allNuggets());
+		addBillet(ModItems.billet_pu241,				ModItems.ingot_pu241,				ModItems.nugget_pu241, PU241.allNuggets());
 		addBillet(ModItems.billet_pu_mix,				ModItems.ingot_pu_mix,				ModItems.nugget_pu_mix);
 		addBillet(ModItems.billet_am241,				ModItems.ingot_am241,				ModItems.nugget_am241, AM241.allNuggets());
 		addBillet(ModItems.billet_am242,				ModItems.ingot_am242,				ModItems.nugget_am242, AM242.allNuggets());
@@ -115,8 +115,8 @@ public class MineralRecipes {
 		addBillet(ModItems.billet_technetium,			ModItems.ingot_technetium,			ModItems.nugget_technetium, TC99.allNuggets());
 		addBillet(ModItems.billet_au198,				ModItems.ingot_au198,				ModItems.nugget_au198, AU198.allNuggets());
 		addBillet(ModItems.billet_pb209,				ModItems.ingot_pb209,				ModItems.nugget_pb209, PB209.allNuggets()); //and so forth
-		addBillet(ModItems.billet_ra226,				ModItems.ingot_ra226,				ModItems.nugget_ra226, "nuggetRa226");
-		addBillet(ModItems.billet_actinium,				ModItems.ingot_actinium,			ModItems.nugget_actinium, "nuggetActinium227", "tinyAc227");
+		addBillet(ModItems.billet_ra226,				ModItems.ingot_ra226,				ModItems.nugget_ra226, RA226.allNuggets());
+		addBillet(ModItems.billet_actinium,				ModItems.ingot_actinium,			ModItems.nugget_actinium, AC227.allNuggets());
 		addBillet(ModItems.billet_schrabidium,			ModItems.ingot_schrabidium,			ModItems.nugget_schrabidium, "nuggetSchrabidium");
 		addBillet(ModItems.billet_solinium,				ModItems.ingot_solinium,			ModItems.nugget_solinium, "nuggetSolinium");
 		addBillet(ModItems.billet_gh336,				ModItems.ingot_gh336,				ModItems.nugget_gh336, GH336.allNuggets());

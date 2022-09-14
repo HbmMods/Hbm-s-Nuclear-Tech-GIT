@@ -13,7 +13,7 @@ public enum MaterialShapes {
 	QUART(162),
 	BLOCK(INGOT.quantity * 9, "block");
 	
-	int quantity;
+	private int quantity;
 	String[] prefixes;
 	
 	private MaterialShapes(int quantity, String... prefixes) {

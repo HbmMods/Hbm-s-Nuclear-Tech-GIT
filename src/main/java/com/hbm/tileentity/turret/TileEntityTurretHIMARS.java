@@ -17,8 +17,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class TileEntityTurretHIMARS extends TileEntityTurretBaseNT implements IGUIProvider {
-
+public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implements IGUIProvider {
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public List<ItemStack> getAmmoTypesForDisplay() {
@@ -48,6 +48,11 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseNT implements IG
 	@Override
 	public long getMaxPower() {
 		return 1_000_000;
+	}
+
+	@Override
+	public boolean doLOSCheck() {
+		return false;
 	}
 
 	@Override

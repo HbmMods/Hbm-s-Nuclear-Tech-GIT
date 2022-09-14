@@ -19,8 +19,8 @@ public class MatDistribution {
 
 	public static void register() {
 		registerEntry(Blocks.rail, MAT_IRON, INGOT.q(6, 16));
-		registerEntry(Blocks.golden_rail, MAT_GOLD, INGOT.q(6));
-		registerEntry(Blocks.detector_rail, MAT_IRON, INGOT.q(6));
+		registerEntry(Blocks.golden_rail, MAT_GOLD, INGOT.q(6), MAT_REDSTONE, DUST.q(1));
+		registerEntry(Blocks.detector_rail, MAT_IRON, INGOT.q(6), MAT_REDSTONE, DUST.q(1));
 		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
 
 		registerOre(OreDictManager.COAL.ore(), MAT_IRON, INGOT.q(4), MAT_STONE, QUART.q(1));

@@ -16,6 +16,7 @@ import com.hbm.util.ItemStackUtil;
 import net.minecraft.item.ItemStack;
 
 /* with every new rewrite, optimization and improvement, the code becomes more gregian */
+
 /**
  * Defines materials that wrap around DictFrames to more accurately describe that material.
  * Direct uses are the crucible and possibly item auto-gen, depending on what traits are set.
@@ -28,19 +29,40 @@ public class Mats {
 	public static HashMap<ComparableStack, List<MaterialStack>> materialEntries = new HashMap();
 	public static HashMap<String, List<MaterialStack>> materialOreEntries = new HashMap();
 	
-	public static final NTMMaterial
-			MAT_STONE		= makeSmeltable(new DictFrame("Stone"), 0),
-			MAT_COAL		= make(COAL).smeltable(SmeltingBehavior.ADDITIVE),
-			MAT_IRON		= makeSmeltable(IRON,		0).omitAutoGen(),
-			MAT_GOLD		= makeSmeltable(GOLD,		0).omitAutoGen(),
-			MAT_STEEL		= makeSmeltable(STEEL, 		0).setShapes(DUSTTINY, INGOT, DUST, PLATE, BLOCK),
-			MAT_TUNGSTEN	= makeSmeltable(W,			0).setShapes(WIRE, INGOT, DUST, BLOCK),
-			MAT_COPPER		= makeSmeltable(CU,			0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK),
-			MAT_ALUMINIUM	= makeSmeltable(AL,			0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK),
-			MAT_MINGRADE	= makeSmeltable(MINGRADE,	0).setShapes(WIRE, INGOT, DUST, BLOCK),
-			MAT_ALLOY		= makeSmeltable(ALLOY,		0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK),
-			MAT_TITANIUM	= makeSmeltable(TI,			0).setShapes(INGOT, DUST, PLATE, BLOCK),
-			MAT_LEAD		= makeSmeltable(PB,			0).setShapes(NUGGET, INGOT, DUST, PLATE, BLOCK);
+	//Vanilla
+	public static final NTMMaterial MAT_STONE		= makeSmeltable(df("Stone"), 0);
+	public static final NTMMaterial MAT_COAL		= make(COAL).smeltable(SmeltingBehavior.ADDITIVE);
+	public static final NTMMaterial MAT_IRON		= makeSmeltable(IRON,		0).omitAutoGen();
+	public static final NTMMaterial MAT_GOLD		= makeSmeltable(GOLD,		0).omitAutoGen();
+	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(REDSTONE,	0).omitAutoGen();
+
+	//Radioactive
+	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(U,			0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(TH232,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_PLUTONIUM	= makeSmeltable(PU,			0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_RADIUM		= makeSmeltable(RA226,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+
+	//Base metals
+	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(TI,			0).setShapes(INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_COPPER		= makeSmeltable(CU,			0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_TUNGSTEN	= makeSmeltable(W,			0).setShapes(WIRE, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_ALUMINIUM	= makeSmeltable(AL,			0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_LEAD		= makeSmeltable(PB,			0).setShapes(NUGGET, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_BISMUTH		= makeSmeltable(df("Bismuth"), 0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_ARSENIC		= makeSmeltable(AS,			0).setShapes(NUGGET, INGOT);
+	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(TA,			0).setShapes(NUGGET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_NIOBIUM		= makeSmeltable(NB,			0).setShapes(NUGGET, DUSTTINY, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_BERYLLIUM	= makeSmeltable(BE,			0).setShapes(NUGGET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_COBALT		= makeSmeltable(CO,			0).setShapes(NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_BORON		= makeSmeltable(B,			0).setShapes(DUSTTINY, INGOT, DUST, BLOCK);
+	
+	//Alloys
+	public static final NTMMaterial MAT_STEEL		= makeSmeltable(STEEL,		0).setShapes(DUSTTINY, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_MINGRADE	= makeSmeltable(MINGRADE,	0).setShapes(WIRE, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_ALLOY		= makeSmeltable(ALLOY,		0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_TCALLOY		= makeSmeltable(TCALLOY,	0).setShapes(INGOT, DUST);
+	public static final NTMMaterial MAT_DURA		= makeSmeltable(DURA,		0).setShapes(INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_MAGTUNG		= makeSmeltable(MAGTUNG,	0).setShapes(INGOT, DUST, BLOCK);
 
 	public static NTMMaterial make(DictFrame dict) {
 		return new NTMMaterial(dict);
@@ -48,6 +70,10 @@ public class Mats {
 	
 	public static NTMMaterial makeSmeltable(DictFrame dict, int color) {
 		return new NTMMaterial(dict).smeltable(SmeltingBehavior.SMELTABLE).setMoltenColor(color);
+	}
+	
+	public static DictFrame df(String string) {
+		return new DictFrame(string);
 	}
 	
 	public static List<MaterialStack> getMaterialsFromItem(ItemStack stack) {
@@ -73,7 +99,7 @@ public class Mats {
 						NTMMaterial material = matByName.get(materialName);
 						
 						if(material != null) {
-							list.add(new MaterialStack(material, prefixEntry.getValue().quantity));
+							list.add(new MaterialStack(material, prefixEntry.getValue().q(1)));
 							break outer;
 						}
 					}
@@ -104,11 +130,11 @@ public class Mats {
 	public static String formatAmount(int amount) {
 		String format = "";
 		
-		int blocks = amount / BLOCK.quantity;
+		int blocks = amount / BLOCK.q(1);
 		amount -= BLOCK.q(blocks);
-		int ingots = amount / INGOT.quantity;
+		int ingots = amount / INGOT.q(1);
 		amount -= INGOT.q(ingots);
-		int nuggets = amount / NUGGET.quantity;
+		int nuggets = amount / NUGGET.q(1);
 		amount -= NUGGET.q(nuggets);
 		int quanta = amount;
 		
