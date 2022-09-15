@@ -16,10 +16,10 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class WasteLeaves extends Block {
+public class WasteLeaves extends BlockFlammable {
 
-	public WasteLeaves(Material mat) {
-		super(mat);
+	public WasteLeaves(Material mat, int en, int flam) {
+		super(mat, en, flam);	
 		this.setTickRandomly(true);
 	}
 

@@ -108,10 +108,18 @@ public class ExplosionBalefire
 					}
 					return;
 				}
+			
+				double res = worldObj.getBlock(pX, y, pZ).getExplosionResistance(null);
+			    int test = (int)res/1000;
+			    
+				if(res >= 24000) {					
+					y = 0;
+				}
 				
 				worldObj.setBlockToAir(pX, y, pZ);
-				
+			
 				y--;
+				
 			}
 			
 			if(worldObj.rand.nextInt(10) == 0) {

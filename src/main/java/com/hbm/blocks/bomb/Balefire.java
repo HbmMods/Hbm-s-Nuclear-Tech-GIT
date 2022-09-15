@@ -9,6 +9,7 @@ import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
 import java.util.Random;
 
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
@@ -50,15 +51,15 @@ public class Balefire extends BlockFire {
     {
         return field_149850_M;
     }
-    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+    public void updateTick(World world, int x, int y, int z, Random p_149674_5_)
     {
-        if (p_149674_1_.getGameRules().getGameRuleBooleanValue("doFireTick"))
+        if (world.getGameRules().getGameRuleBooleanValue("doFireTick"))
         {
-            boolean flag = p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_).isFireSource(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, UP);
+            boolean flag = world.getBlock(x, y - 1, z).isFireSource(world, x, y - 1, z, UP);
 
-            if (!this.canPlaceBlockAt(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
+            if (!this.canPlaceBlockAt(world, x, y, z))
             {
-                p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                world.setBlockToAir(x, y, z);
             }
 
             /*if (!flag && p_149674_1_.isRaining() && (p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_ - 1, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_ + 1, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_ - 1) || p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_ + 1)))
@@ -75,13 +76,13 @@ public class Balefire extends BlockFire {
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, l + p_149674_5_.nextInt(3) / 2, 4);
                 }*/
 
-                p_149674_1_.scheduleBlockUpdate(p_149674_2_, p_149674_3_, p_149674_4_, this, this.tickRate(p_149674_1_) + p_149674_5_.nextInt(10));
+                world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + p_149674_5_.nextInt(10));
 
-                if (!flag && !this.canNeighborBurn(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
+                if (!flag && !this.canNeighborBurn(world, x, y, z))
                 {
-                    if (!World.doesBlockHaveSolidTopSurface(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_)/* || l > 3*/)
+                    if (!World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)/* || l > 3*/)
                     {
-                        p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                        world.setBlockToAir(x, y, z);
                     }
                 }
                 /*else if (!flag && !this.canCatchFire(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, UP) && l == 15 && p_149674_5_.nextInt(4) == 0)
@@ -98,33 +99,33 @@ public class Balefire extends BlockFire {
                         b0 = -50;
                     }*/
 
-                    this.tryCatchFire(p_149674_1_, p_149674_2_ + 1, p_149674_3_, p_149674_4_, 300 + b0, p_149674_5_, l, WEST );
-                    this.tryCatchFire(p_149674_1_, p_149674_2_ - 1, p_149674_3_, p_149674_4_, 300 + b0, p_149674_5_, l, EAST );
-                    this.tryCatchFire(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, 250 + b0, p_149674_5_, l, UP   );
-                    this.tryCatchFire(p_149674_1_, p_149674_2_, p_149674_3_ + 1, p_149674_4_, 250 + b0, p_149674_5_, l, DOWN );
-                    this.tryCatchFire(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_ - 1, 300 + b0, p_149674_5_, l, SOUTH);
-                    this.tryCatchFire(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_ + 1, 300 + b0, p_149674_5_, l, NORTH);
+                    this.tryCatchFire(world, x + 1, y, z, 300 + b0, p_149674_5_, l, WEST );
+                    this.tryCatchFire(world, x - 1, y, z, 300 + b0, p_149674_5_, l, EAST );
+                    this.tryCatchFire(world, x, y - 1, z, 250 + b0, p_149674_5_, l, UP   );
+                    this.tryCatchFire(world, x, y + 1, z, 250 + b0, p_149674_5_, l, DOWN );
+                    this.tryCatchFire(world, x, y, z - 1, 300 + b0, p_149674_5_, l, SOUTH);
+                    this.tryCatchFire(world, x, y, z + 1, 300 + b0, p_149674_5_, l, NORTH);
 
-                    for (int i1 = p_149674_2_ - 1; i1 <= p_149674_2_ + 1; ++i1)
+                    for (int i1 = x - 1; i1 <= x + 1; ++i1)
                     {
-                        for (int j1 = p_149674_4_ - 1; j1 <= p_149674_4_ + 1; ++j1)
+                        for (int j1 = z - 1; j1 <= z + 1; ++j1)
                         {
-                            for (int k1 = p_149674_3_ - 1; k1 <= p_149674_3_ + 4; ++k1)
+                            for (int k1 = y - 1; k1 <= y + 4; ++k1)
                             {
-                                if (i1 != p_149674_2_ || k1 != p_149674_3_ || j1 != p_149674_4_)
+                                if (i1 != x || k1 != y || j1 != z)
                                 {
                                     int l1 = 100;
 
-                                    if (k1 > p_149674_3_ + 1)
+                                    if (k1 > y + 1)
                                     {
-                                        l1 += (k1 - (p_149674_3_ + 1)) * 100;
+                                        l1 += (k1 - (y + 1)) * 100;
                                     }
 
-                                    int i2 = this.getChanceOfNeighborsEncouragingFire(p_149674_1_, i1, k1, j1);
+                                    int i2 = this.getChanceOfNeighborsEncouragingFire(world, i1, k1, j1);
 
                                     if (i2 > 0)
                                     {
-                                        int j2 = (i2 + 40 + p_149674_1_.difficultySetting.getDifficultyId() * 7) / (l + 30);
+                                        int j2 = (i2 + 40 + world.difficultySetting.getDifficultyId() * 7) / (l + 30);
 
                                         /*if (flag1)
                                         {
@@ -140,7 +141,7 @@ public class Balefire extends BlockFire {
                                                 k2 = 15;
                                             }
 
-                                            p_149674_1_.setBlock(i1, k1, j1, this, k2, 3);
+                                            world.setBlock(i1, k1, j1, this, k2, 3);
                                         }
                                     }
                                 }
@@ -150,6 +151,8 @@ public class Balefire extends BlockFire {
                 }
             }
         }
+        ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 0.5F);
+        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }
 
     private void tryCatchFire(World p_149841_1_, int p_149841_2_, int p_149841_3_, int p_149841_4_, int p_149841_5_, Random p_149841_6_, int p_149841_7_, ForgeDirection face)
