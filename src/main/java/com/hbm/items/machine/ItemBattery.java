@@ -17,9 +17,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBattery extends Item implements IBatteryItem {
 
-	private long maxCharge;
-	private long chargeRate;
-	private long dischargeRate;
+	protected long maxCharge;
+	protected long chargeRate;
+	protected long dischargeRate;
 
 	public ItemBattery(long dura, long chargeRate, long dischargeRate) {
 		this.maxCharge = dura;

@@ -896,6 +896,9 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.charger, 16), new Object[] { "G", "S", "C", 'G', Blocks.glowstone, 'S', STEEL.block(), 'C', ModItems.coil_copper_torus });
 		addRecipeAuto(new ItemStack(ModBlocks.press_preheater), new Object[] { "CCC", "SLS", "TST", 'C', ModItems.board_copper, 'S', Blocks.stone, 'L', Fluids.LAVA.getDict(1000), 'T', W.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.fluid_identifier_multi), new Object[] { "D", "C", "P", 'D', "dye", 'C', ModItems.circuit_aluminium, 'P', ANY_PLASTIC.ingot() });
+
+		addShapelessAuto(ItemBattery.getEmptyBattery(ModItems.anchor_remote), new Object[] { DIAMOND.gem(), ModItems.ducttape, ModItems.circuit_red_copper });
+		addRecipeAuto(new ItemStack(ModBlocks.teleanchor), new Object[] { "ODO", "EAE", "ODO", 'O', Blocks.obsidian, 'D', DIAMOND.gem(), 'E', ModItems.powder_magic, 'A', ModItems.gem_alexandrite });
 		
 		addShapelessAuto(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), new Object[] { new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_DIGAMMA.ordinal()), KEY_TOOL_SCREWDRIVER, ModItems.ducttape, ModItems.armor_polish });
 		addShapelessAuto(new ItemStack(ModItems.holotape_damaged), new Object[] { DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), ModBlocks.muffler, ModItems.crt_display, ModItems.gem_alexandrite /* placeholder for amplifier */ });

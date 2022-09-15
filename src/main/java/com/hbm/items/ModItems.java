@@ -2400,6 +2400,7 @@ public class ModItems {
 	public static Item crate_caller;
 	public static Item bomb_caller;
 	public static Item meteor_remote;
+	public static Item anchor_remote;
 	public static Item remote;
 	//public static Item turret_control;
 	public static Item turret_chip;
@@ -4820,6 +4821,7 @@ public class ModItems {
 		crate_caller = new ItemCrateCaller().setUnlocalizedName("crate_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":crate_caller");
 		bomb_caller = new ItemBombCaller().setUnlocalizedName("bomb_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_caller");
 		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":meteor_remote");
+		anchor_remote = new ItemAnchorRemote().setUnlocalizedName("anchor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":anchor_remote");
 		spawn_chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chopper");
 		spawn_worm = new ItemChopper().setUnlocalizedName("spawn_worm").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":spawn_worm");
 		spawn_ufo = new ItemChopper().setUnlocalizedName("spawn_ufo").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":spawn_ufo");
@@ -8013,6 +8015,7 @@ public class ModItems {
 		GameRegistry.registerItem(crate_caller, crate_caller.getUnlocalizedName());
 		GameRegistry.registerItem(bomb_caller, bomb_caller.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
+		GameRegistry.registerItem(anchor_remote, anchor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(defuser, defuser.getUnlocalizedName());
 		GameRegistry.registerItem(reacher, reacher.getUnlocalizedName());
 		GameRegistry.registerItem(bismuth_tool, bismuth_tool.getUnlocalizedName());
