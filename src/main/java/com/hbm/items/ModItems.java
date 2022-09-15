@@ -2309,6 +2309,10 @@ public class ModItems {
 	public static Item wand_s;
 	public static Item wand_d;
 
+	public static Item structure_single;
+	public static Item structure_solid;
+	public static Item structure_pattern;
+
 	public static Item rod_of_discord;
 
 	public static Item cape_test;
@@ -4732,6 +4736,10 @@ public class ModItems {
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
 		wand_d = new ItemWandD().setUnlocalizedName("wand_d").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_d");
+
+		structure_single = new ItemStructureSingle().setUnlocalizedName("structure_single").setMaxStackSize(1).setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":structure_single");
+		structure_solid = new ItemStructureSolid().setUnlocalizedName("structure_solid").setMaxStackSize(1).setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":structure_solid");
+		structure_pattern = new ItemStructurePattern().setUnlocalizedName("structure_pattern").setMaxStackSize(1).setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":structure_pattern");
 		
 		rod_of_discord = new ItemDiscord().setUnlocalizedName("rod_of_discord").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":rod_of_discord");
 		
@@ -8097,6 +8105,9 @@ public class ModItems {
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
 		GameRegistry.registerItem(wand_s, wand_s.getUnlocalizedName());
 		GameRegistry.registerItem(wand_d, wand_d.getUnlocalizedName());
+		GameRegistry.registerItem(structure_single, structure_single.getUnlocalizedName());
+		GameRegistry.registerItem(structure_solid, structure_solid.getUnlocalizedName());
+		GameRegistry.registerItem(structure_pattern, structure_pattern.getUnlocalizedName());
 		GameRegistry.registerItem(rod_of_discord, rod_of_discord.getUnlocalizedName());
 		//GameRegistry.registerItem(analyzer, analyzer.getUnlocalizedName());
 		//GameRegistry.registerItem(remote, remote.getUnlocalizedName());

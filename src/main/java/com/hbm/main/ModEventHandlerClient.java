@@ -155,8 +155,14 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+				
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					
+				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				}
 			}
 			
 			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
