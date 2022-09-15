@@ -2,7 +2,9 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
@@ -11,6 +13,7 @@ import com.hbm.util.ItemStackUtil;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -19,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySawmill extends TileEntityMachineBase {
 	
@@ -76,6 +80,14 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 					} else {
 						this.progress = 0;
 					}
+					
+					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-1D, 0.375D, -1D, -0.875, 2.375D, 1D);
+					aabb = BlockDummyable.getAABBRotationOffset(aabb, xCoord, yCoord, zCoord, ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP));
+					for(Object o : worldObj.getEntitiesWithinAABB(EntityLivingBase.class, aabb)) {
+						EntityLivingBase living = (EntityLivingBase) o;
+						living.attackEntityFrom(ModDamageSource.turbofan, 100);
+					}
+					
 				} else {
 					this.progress = 0;
 				}

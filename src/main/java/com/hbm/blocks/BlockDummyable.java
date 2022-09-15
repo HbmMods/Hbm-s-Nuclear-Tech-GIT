@@ -13,6 +13,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -411,5 +413,53 @@ public abstract class BlockDummyable extends BlockContainer {
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
 		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		player.addExhaustion(0.025F);
+	}
+	
+	public boolean useDetailedHitbox() {
+		return !bounding.isEmpty();
+	}
+	
+	public List<AxisAlignedBB> bounding = new ArrayList();
+	
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		
+		if(!this.useDetailedHitbox()) {
+			super.addCollisionBoxesToList(world, x, y, z, entityBounding, list, entity);
+			return;
+		}
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		x = pos[0];
+		y = pos[1];
+		z = pos[2];
+		
+		for(AxisAlignedBB aabb :this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x, y, z, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - this.offset).getRotation(ForgeDirection.UP));
+			
+			if(entityBounding.intersectsWith(boxlet)) {
+				list.add(boxlet);
+			}
+		}
+	}
+	
+	public static AxisAlignedBB getAABBRotationOffset(AxisAlignedBB aabb, int x, int y, int z, ForgeDirection dir) {
+		
+		AxisAlignedBB newBox = null;
+
+		if(dir == ForgeDirection.NORTH) newBox = AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
+		if(dir == ForgeDirection.EAST) newBox = AxisAlignedBB.getBoundingBox(-aabb.maxZ, aabb.minY, aabb.minX, -aabb.minZ, aabb.maxY, aabb.maxX);
+		if(dir == ForgeDirection.SOUTH) newBox = AxisAlignedBB.getBoundingBox(-aabb.maxX, aabb.minY, -aabb.maxZ, -aabb.minX, aabb.maxY, -aabb.minZ);
+		if(dir == ForgeDirection.WEST) newBox = AxisAlignedBB.getBoundingBox(aabb.minZ, aabb.minY, -aabb.maxX, aabb.maxZ, aabb.maxY, -aabb.minX);
+		
+		if(newBox != null) {
+			newBox.offset(x + 0.5, y, z + 0.5);
+			return newBox;
+		}
+		
+		return AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ).offset(x + 0.5, y + 0.5, z + 0.5);
 	}
 }

@@ -20,8 +20,8 @@ public class MachineTeleanchor extends BlockBase {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":teleanchor_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":teleanchor_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":tele_anchor_top");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":tele_anchor_side");
 	}
 
 	@Override

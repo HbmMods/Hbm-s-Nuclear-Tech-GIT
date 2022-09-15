@@ -13,10 +13,14 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,6 +29,10 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
 
 	public MachineSawmill() {
 		super(Material.iron);
+
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0D, -1.5D, 1.5D, 1D, 1.5D));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.25D, 1D, -0.5D, -0.625D, 1.875D, 0.5D));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.625D, 1D, -1D, 1.375D, 2D, 1D));
 	}
 
 	@Override
@@ -110,6 +118,56 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
 		}
 
 		return false;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+		
+		if(itemStack.getItemDamage() == 1) {
+
+			int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			int o = -getOffset();
+			
+			ForgeDirection dir = ForgeDirection.NORTH;
+			if(i == 0) dir = ForgeDirection.getOrientation(2);
+			if(i == 1) dir = ForgeDirection.getOrientation(5);
+			if(i == 2) dir = ForgeDirection.getOrientation(3);
+			if(i == 3) dir = ForgeDirection.getOrientation(4);
+			
+			dir = getDirModified(dir);
+
+			TileEntity te = world.getTileEntity(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
+			
+			if(te instanceof TileEntitySawmill) {
+				((TileEntitySawmill) te).hasBlade = false;
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+		int count = quantityDropped(metadata, fortune, world.rand);
+		int dmg = 0;
+
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos != null) {
+			TileEntitySawmill stirling = (TileEntitySawmill)world.getTileEntity(pos[0], pos[1], pos[2]);
+			if(!stirling.hasBlade) {
+				dmg = 1;
+			}
+		}
+		
+		for(int i = 0; i < count; i++) {
+			Item item = getItemDropped(metadata, world.rand, fortune);
+			if(item != null) {
+				ret.add(new ItemStack(item, 1, dmg));
+			}
+		}
+		return ret;
 	}
 
 	@Override
