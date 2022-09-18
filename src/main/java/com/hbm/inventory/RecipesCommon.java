@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -179,17 +180,21 @@ public class RecipesCommon {
 		public int hashCode() {
 			
 			if(item == null) {
-				MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
-				Thread.currentThread().dumpStack();
-				item = Items.stick;
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
+					Thread.currentThread().dumpStack();
+				}
+				item = ModItems.nothing;
 			}
 			
 			String name = Item.itemRegistry.getNameForObject(item);
 			
 			if(name == null) {
-				MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen?");
-				Thread.currentThread().dumpStack();
-				item = Items.stick; //we know sticks have a name, so sure, why not
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen? This error can be turned off with the config <enableSilentCompStackErrors>. Item name: " + item.getUnlocalizedName());
+					Thread.currentThread().dumpStack();
+				}
+				item = ModItems.nothing;
 			}
 			
 			final int prime = 31;

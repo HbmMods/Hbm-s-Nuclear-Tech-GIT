@@ -76,6 +76,7 @@ public class Mats {
 		return new DictFrame(string);
 	}
 	
+	/** will not respect stacksizes - all stacks will be treated as a singular */
 	public static List<MaterialStack> getMaterialsFromItem(ItemStack stack) {
 		List<MaterialStack> list = new ArrayList();
 		List<String> names = ItemStackUtil.getOreDictNames(stack);
@@ -107,7 +108,7 @@ public class Mats {
 			}
 		}
 		
-		List<MaterialStack> entries = materialEntries.get(new ComparableStack(stack));
+		List<MaterialStack> entries = materialEntries.get(new ComparableStack(stack).makeSingular());
 		
 		if(entries != null) {
 			list.addAll(entries);
@@ -119,11 +120,15 @@ public class Mats {
 	public static class MaterialStack {
 		//final fields to prevent accidental changing
 		public final NTMMaterial material;
-		public final int amount;
+		public int amount;
 		
 		public MaterialStack(NTMMaterial material, int amount) {
 			this.material = material;
 			this.amount = amount;
+		}
+		
+		public MaterialStack copy() {
+			return new MaterialStack(material, amount);
 		}
 	}
 	

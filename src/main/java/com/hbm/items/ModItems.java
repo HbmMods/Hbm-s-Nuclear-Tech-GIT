@@ -1247,6 +1247,7 @@ public class ModItems {
 	public static Item assembly_template;
 	public static Item chemistry_template;
 	public static Item chemistry_icon;
+	public static Item crucible_template;
 	public static Item fluid_identifier;
 	public static Item fluid_identifier_multi;
 	public static Item fluid_icon;
@@ -4869,6 +4870,7 @@ public class ModItems {
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":assembly_template");
 		chemistry_template = new ItemChemistryTemplate().setUnlocalizedName("chemistry_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":chemistry_template");
 		chemistry_icon = new ItemChemistryIcon().setUnlocalizedName("chemistry_icon").setMaxStackSize(1).setCreativeTab(null);
+		crucible_template = new ItemCrucibleTemplate().setUnlocalizedName("crucible_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":crucible_template");
 		fluid_identifier = new ItemFluidIdentifier().setUnlocalizedName("fluid_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":fluid_identifier");
 		fluid_identifier_multi = new ItemFluidIDMulti().setUnlocalizedName("fluid_identifier_multi").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":fluid_identifier_multi");
 		fluid_icon = new ItemFluidIcon().setUnlocalizedName("fluid_icon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":fluid_icon");
@@ -6679,6 +6681,7 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
 		GameRegistry.registerItem(chemistry_template, chemistry_template.getUnlocalizedName());
 		GameRegistry.registerItem(chemistry_icon, chemistry_icon.getUnlocalizedName());
+		GameRegistry.registerItem(crucible_template, crucible_template.getUnlocalizedName());
 		
 		//Machine Items
 		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());

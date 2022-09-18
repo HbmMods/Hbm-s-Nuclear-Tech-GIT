@@ -3368,7 +3368,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(corium_block, corium_block.getUnlocalizedName());
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_liquid, concrete_liquid.getUnlocalizedName());
+		//GameRegistry.registerBlock(concrete_liquid, concrete_liquid.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_flare, dummy_block_flare.getUnlocalizedName());
