@@ -22,6 +22,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -62,7 +63,38 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			if(!trySmelt()) {
 				this.progress = 0;
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			int[] rec = new int[recipeStack.size() * 2];
+			int[] was = new int[wasteStack.size() * 2];
+			for(int i = 0; i < recipeStack.size(); i++) { MaterialStack sta = recipeStack.get(i); rec[i * 2] = sta.material.id; rec[i * 2 + 1] = sta.amount; }
+			for(int i = 0; i < wasteStack.size(); i++) { MaterialStack sta = wasteStack.get(i); was[i * 2] = sta.material.id; was[i * 2 + 1] = sta.amount; }
+			data.setIntArray("rec", rec);
+			data.setIntArray("was", was);
+			data.setInteger("progress", progress);
+			data.setInteger("heat", heat);
+			this.networkPack(data, 25);
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+
+		this.recipeStack.clear();
+		this.wasteStack.clear();
+		
+		int[] rec = nbt.getIntArray("rec");
+		for(int i = 0; i < rec.length / 2; i++) {
+			recipeStack.add(new MaterialStack(Mats.matById.get(rec[i * 2]), rec[i * 2 + 1]));
+		}
+		
+		int[] was = nbt.getIntArray("was");
+		for(int i = 0; i < was.length / 2; i++) {
+			recipeStack.add(new MaterialStack(Mats.matById.get(was[i * 2]), was[i * 2 + 1]));
+		}
+		
+		this.progress = nbt.getInteger("progress");
+		this.heat = nbt.getInteger("heat");
 	}
 	
 	protected void tryPullHeat() {

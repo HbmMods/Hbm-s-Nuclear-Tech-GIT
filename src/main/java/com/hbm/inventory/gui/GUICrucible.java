@@ -1,8 +1,11 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCrucible;
+import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
@@ -42,5 +45,17 @@ public class GUICrucible extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int pGauge = crucible.progress * 33 / crucible.processTime;
+		if(pGauge > 0) drawTexturedModalRect(guiLeft + 126, guiTop + 82, 176, 0, pGauge, 5);
+		int hGauge = crucible.heat * 33 / crucible.maxHeat;
+		if(hGauge > 0) drawTexturedModalRect(guiLeft + 126, guiTop + 91, 176, 5, hGauge, 5);
+
+		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, 62, 97);
+		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, 17, 97);
+	}
+	
+	protected void drawStack(List<MaterialStack> stack, int x, int y) {
+		
 	}
 }

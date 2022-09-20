@@ -9,19 +9,23 @@ import com.hbm.inventory.OreDictManager.DictFrame;
  */
 public class NTMMaterial {
 
+	public final int id;
 	public String[] names;
 	public MaterialShapes[] shapes = new MaterialShapes[0];
 	public boolean omitItemGen = false;
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
 	public int moltenColor = 0xFF4A00;
 	
-	public NTMMaterial(DictFrame dict) {
+	public NTMMaterial(int id, DictFrame dict) {
 		
 		this.names = dict.mats;
+		this.id = id;
 		
 		for(String name : dict.mats) {
 			Mats.matByName.put(name, this);
 		}
+		
+		Mats.matById.put(id, this);
 	}
 	
 	/** Shapes for autogen */
