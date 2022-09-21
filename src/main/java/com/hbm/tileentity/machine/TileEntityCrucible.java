@@ -271,12 +271,16 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 	
 	public int getQuantaFromType(List<MaterialStack> stacks, NTMMaterial mat) {
+		int sum = 0;
 		for(MaterialStack stack : stacks) {
-			if(mat == null || stack.material == mat) {
+			if(stack.material == mat) {
 				return stack.amount;
 			}
+			if(mat == null) {
+				return sum += stack.amount;
+			}
 		}
-		return 0;
+		return sum;
 	}
 
 	@Override

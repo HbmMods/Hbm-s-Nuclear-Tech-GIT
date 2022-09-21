@@ -14,6 +14,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -87,6 +88,8 @@ public class GUICrucible extends GuiInfoContainer {
 		int lastHeight = 0;
 		int lastQuant = 0;
 		
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		
 		for(MaterialStack sta : stack) {
 			
 			int targetHeight = (lastQuant + sta.amount) * 79 / capacity;
@@ -95,14 +98,21 @@ public class GUICrucible extends GuiInfoContainer {
 			
 			int offset = sta.material.smeltable == SmeltingBehavior.ADDITIVE ? 34 : 0; //additives use a differnt texture
 			
-			Color color = new Color(sta.material.moltenColor);
+			int hex = sta.material.moltenColor;
+			//hex = 0xC18336;
+			Color color = new Color(hex);
 			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
 			drawTexturedModalRect(guiLeft + x, guiTop + y - targetHeight, 176 + offset, 89 - targetHeight, 34, targetHeight - lastHeight);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glColor4f(1F, 1F, 1F, 0.3F);
+			drawTexturedModalRect(guiLeft + x, guiTop + y - targetHeight, 176 + offset, 89 - targetHeight, 34, targetHeight - lastHeight);
+			GL11.glDisable(GL11.GL_BLEND);
 			
 			lastQuant += sta.amount;
 			lastHeight = targetHeight;
 		}
-		
+
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glColor3f(255, 255, 255);
 	}
 }
