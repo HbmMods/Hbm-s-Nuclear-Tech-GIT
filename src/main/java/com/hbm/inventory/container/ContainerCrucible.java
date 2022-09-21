@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.tileentity.machine.TileEntityCrucible;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,15 +16,15 @@ public class ContainerCrucible extends Container {
 	public ContainerCrucible(InventoryPlayer invPlayer, TileEntityCrucible crucible) {
 		this.crucible = crucible;
 		
+		//template
+		this.addSlotToContainer(new Slot(crucible, 0, 107, 81));
+		
 		//input
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(crucible, j + i * 3, 107 + j * 18, 18 + i * 18));
+				this.addSlotToContainer(new Slot(crucible, j + i * 3 + 1, 107 + j * 18, 18 + i * 18));
 			}
 		}
-		
-		//template
-		this.addSlotToContainer(new Slot(crucible, 9, 107, 81));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -52,7 +53,7 @@ public class ContainerCrucible extends Container {
 				
 				slot.onSlotChange(originalStack, stack);
 				
-			} else if(!this.mergeItemStack(originalStack, 0, 10, false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 10, false)) {
 				return null;
 			}
 

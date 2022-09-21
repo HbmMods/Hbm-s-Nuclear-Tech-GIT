@@ -1,17 +1,22 @@
 package com.hbm.inventory.gui;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCrucible;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUICrucible extends GuiInfoContainer {
@@ -30,6 +35,12 @@ public class GUICrucible extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+
+		drawStackInfo(crucible.wasteStack, x, y, 16, 17);
+		drawStackInfo(crucible.recipeStack, x, y, 61, 17);
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 125, guiTop + 81, 34, 7, x, y, new String[] { String.format("%,d", crucible.progress) + " / " + String.format("%,d", crucible.processTime) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 125, guiTop + 90, 34, 7, x, y, new String[] { String.format("%,d", crucible.heat) + " / " + String.format("%,d", crucible.maxHeat) + "TU" });
 	}
 	
 	@Override
@@ -51,11 +62,47 @@ public class GUICrucible extends GuiInfoContainer {
 		int hGauge = crucible.heat * 33 / crucible.maxHeat;
 		if(hGauge > 0) drawTexturedModalRect(guiLeft + 126, guiTop + 91, 176, 5, hGauge, 5);
 
-		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, 62, 97);
-		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, 17, 97);
+		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, crucible.recipeCapacity, 62, 97);
+		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, crucible.wasteCapacity, 17, 97);
 	}
 	
-	protected void drawStack(List<MaterialStack> stack, int x, int y) {
+	protected void drawStackInfo(List<MaterialStack> stack, int mouseX, int mouseY, int x, int y) {
 		
+		List<String> list = new ArrayList();
+		
+		if(stack.isEmpty())
+			list.add(EnumChatFormatting.RED + "Empty");
+		
+		for(MaterialStack sta : stack) {
+			list.add(EnumChatFormatting.YELLOW + sta.material.names[0] + ": " + Mats.formatAmount(sta.amount));
+		}
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + x, guiTop + y, 36, 81, mouseX, mouseY, list);
+	}
+	
+	protected void drawStack(List<MaterialStack> stack, int capacity, int x, int y) {
+		
+		if(stack.isEmpty()) return;
+		
+		int lastHeight = 0;
+		int lastQuant = 0;
+		
+		for(MaterialStack sta : stack) {
+			
+			int targetHeight = (lastQuant + sta.amount) * 79 / capacity;
+			
+			if(lastHeight == targetHeight) continue; //skip draw calls that would be 0 pixels high
+			
+			int offset = sta.material.smeltable == SmeltingBehavior.ADDITIVE ? 34 : 0; //additives use a differnt texture
+			
+			Color color = new Color(sta.material.moltenColor);
+			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			drawTexturedModalRect(guiLeft + x, guiTop + y - targetHeight, 176 + offset, 89 - targetHeight, 34, targetHeight - lastHeight);
+			
+			lastQuant += sta.amount;
+			lastHeight = targetHeight;
+		}
+		
+		GL11.glColor3f(255, 255, 255);
 	}
 }

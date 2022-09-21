@@ -19,6 +19,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -60,6 +61,31 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		if(!worldObj.isRemote) {
 			tryPullHeat();
 			
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				List<EntityItem> list = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord + 0.5, zCoord - 0.5, xCoord + 1.5, yCoord + 1, zCoord + 1.5));
+				
+				for(EntityItem item : list) {
+					ItemStack stack = item.getEntityItem();
+					if(this.isItemSmeltable(stack)) {
+						
+						for(int i = 1; i < 10; i++) {
+							if(slots[i] == null) {
+								
+								if(stack.stackSize == 1) {
+									slots[i] = stack.copy();
+								} else {
+									slots[i] = stack.copy();
+									slots[i].stackSize = 1;
+									stack.stackSize--;
+								}
+								
+								this.markChanged();
+							}
+						}
+					}
+				}
+			}
+			
 			if(!trySmelt()) {
 				this.progress = 0;
 			}
@@ -90,7 +116,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		
 		int[] was = nbt.getIntArray("was");
 		for(int i = 0; i < was.length / 2; i++) {
-			recipeStack.add(new MaterialStack(Mats.matById.get(was[i * 2]), was[i * 2 + 1]));
+			wasteStack.add(new MaterialStack(Mats.matById.get(was[i * 2]), was[i * 2 + 1]));
 		}
 		
 		this.progress = nbt.getInteger("progress");
