@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 
+import api.hbm.block.ICrucibleAcceptor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -15,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
  * @author hbm
  *
  */
-public abstract class TileEntityFoundryBase extends TileEntity {
+public abstract class TileEntityFoundryBase extends TileEntity implements ICrucibleAcceptor {
 	
 	public NTMMaterial type;
 	protected NTMMaterial lastType;
@@ -27,12 +28,17 @@ public abstract class TileEntityFoundryBase extends TileEntity {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.lastType != this.type || this.lastAmount != this.amount) {
+			if(shouldClientReRender() && this.lastType != this.type || this.lastAmount != this.amount) {
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				this.lastType = this.type;
 				this.lastAmount = this.amount;
 			}
 		}
+	}
+	
+	/** Recommended FALSE for things that update a whole lot. TRUE if updates only happen once every few ticks. */
+	protected boolean shouldClientReRender() {
+		return true;
 	}
 
 	@Override
