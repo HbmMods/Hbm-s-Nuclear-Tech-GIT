@@ -71,7 +71,7 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
         // concrete damage comedy
 		FalloutEntry concrete = new FalloutEntry().prim(new Triplet(ModBlocks.concrete_debris, 0, 1)).max(60).sol(true);
-		FalloutEntry ducrete  = new FalloutEntry().prim(new Triplet(ModBlocks.ducrete_debris, 0, 1)).max(30).sol(true);
+		FalloutEntry ducrete  = new FalloutEntry().prim(new Triplet(ModBlocks.ducrete_debris, 0, 1)).max(20).sol(true);
 		FalloutEntry concreteBricks  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_broken, 0, 1)).max(45).sol(true);
 		FalloutEntry concreteBricksL  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_cracked, 0, 1)).max(65).sol(true);
 		
@@ -95,8 +95,8 @@ public class FalloutConfigJSON {
 		
 		entries.add(concreteBricks.clone().c(0.50).mB(ModBlocks.brick_concrete_cracked));
 		
-		entries.add(ducrete.clone().c(0.04).mB(ModBlocks.ducrete));
-		entries.add(ducrete.clone().c(0.04).mB(ModBlocks.ducrete_smooth));
+		entries.add(ducrete.clone().c(0.01).mB(ModBlocks.ducrete));
+		entries.add(ducrete.clone().c(0.01).mB(ModBlocks.ducrete_smooth));
 		
 		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete));
 		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_smooth));
