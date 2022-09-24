@@ -327,6 +327,7 @@ public class ModBlocks {
 	public static Block concrete_colored;
 	public static Block concrete;
 	public static Block concrete_asbestos;
+	public static Block concrete_debris;
 	public static Block concrete_super;
 	public static Block concrete_super_broken;
 	public static Block ducrete_smooth;
@@ -1606,6 +1607,7 @@ public class ModBlocks {
 
 		ducrete_smooth = new BlockGeneric(Material.rock).setBlockName("ducrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete");
 		ducrete = new BlockGeneric(Material.rock).setBlockName("ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":ducrete_tile");
+		concrete_debris = new BlockFalling(Material.rock).setBlockName("ducrete_debris").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":concrete_debris");
 		ducrete_debris = new BlockFalling(Material.rock).setBlockName("ducrete_debris").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":ducrete_debris");
 		brick_ducrete = new BlockGeneric(Material.rock).setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(12000.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
 		reinforced_ducrete = new BlockGeneric(Material.rock).setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(24000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
