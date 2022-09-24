@@ -147,6 +147,7 @@ public class ModItems {
 	public static Item ingot_c4;
 	public static Item ingot_boron;
 	public static Item ingot_graphite;
+	public static Item ingot_firebrick;
 	public static Item ingot_smore;
 	
 	public static Item ingot_gh336;
@@ -1207,6 +1208,7 @@ public class ModItems {
 	public static Item ballistite;
 	public static Item ball_dynamite;
 	public static Item ball_tnt;
+	public static Item ball_fireclay;
 
 	public static Item pellet_cluster;
 	public static Item powder_fire;
@@ -2641,6 +2643,7 @@ public class ModItems {
 		ingot_cobalt = new Item().setUnlocalizedName("ingot_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cobalt");
 		ingot_boron = new Item().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_boron");
 		ingot_graphite = new Item().setUnlocalizedName("ingot_graphite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_graphite");
+		ingot_firebrick = new Item().setUnlocalizedName("ingot_firebrick").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_firebrick");
 		ingot_smore = new ItemFood(10, 20F, false).setUnlocalizedName("ingot_smore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_smore");
 		sulfur = new Item().setUnlocalizedName("sulfur").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sulfur");
 
@@ -3992,6 +3995,7 @@ public class ModItems {
 		ballistite = new Item().setUnlocalizedName("ballistite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ballistite");
 		ball_dynamite = new Item().setUnlocalizedName("ball_dynamite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_dynamite");
 		ball_tnt = new Item().setUnlocalizedName("ball_tnt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_tnt");
+		ball_fireclay = new Item().setUnlocalizedName("ball_fireclay").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_fireclay");
 		pellet_gas = new ItemCustomLore().setUnlocalizedName("pellet_gas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_gas");
 		magnetron = new ItemCustomLore().setUnlocalizedName("magnetron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnetron_alt");
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
@@ -5807,6 +5811,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_cobalt, ingot_cobalt.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_firebrick, ingot_firebrick.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dura_steel, ingot_dura_steel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_polymer, ingot_polymer.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bakelite, ingot_bakelite.getUnlocalizedName());
@@ -6048,6 +6053,7 @@ public class ModItems {
 		GameRegistry.registerItem(ballistite, ballistite.getUnlocalizedName());
 		GameRegistry.registerItem(ball_dynamite, ball_dynamite.getUnlocalizedName());
 		GameRegistry.registerItem(ball_tnt, ball_tnt.getUnlocalizedName());
+		GameRegistry.registerItem(ball_fireclay, ball_fireclay.getUnlocalizedName());
 		
 		//Crystals
 		GameRegistry.registerItem(crystal_coal, crystal_coal.getUnlocalizedName());

@@ -5,6 +5,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.main.CraftingManager;
+
 import static com.hbm.inventory.OreDictManager.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -432,6 +434,8 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_pu_mix, 1), new Object[] { "tinyPu239", "tinyPu239", "tinyPu239", "tinyPu239", "tinyPu239", "tinyPu239", "tinyPu240", "tinyPu240", "tinyPu240" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_am_mix, 1), new Object[] { "nuggetAmericium241", "nuggetAmericium241", "nuggetAmericium241", "nuggetAmericium242", "nuggetAmericium242", "nuggetAmericium242", "nuggetAmericium242", "nuggetAmericium242", "nuggetAmericium242" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_am_mix, 1), new Object[] { "tinyAm241", "tinyAm241", "tinyAm241", "tinyAm242", "tinyAm242", "tinyAm242", "tinyAm242", "tinyAm242", "tinyAm242" }));
+		
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.dust() });
 	}
 	
 	//Bundled 1/9 recipes

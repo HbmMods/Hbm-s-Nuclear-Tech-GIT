@@ -8,11 +8,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityFoundryBasin extends TileEntityFoundryBase implements IRenderFoundry {
+public class TileEntityFoundryMold extends TileEntityFoundryBase implements IRenderFoundry {
 
 	@Override
 	public int getCapacity() {
-		return MaterialShapes.BLOCK.q(1);
+		return MaterialShapes.INGOT.q(1);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class TileEntityFoundryBasin extends TileEntityFoundryBase implements IRe
 		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
 		
 		for(String name : stack.material.names) {
-			String od = "block" + name;
+			String od = "ingot" + name;
 			
 			if(!OreDictionary.getOres(od).isEmpty()) {
 				return true; //at least one block for this material? return TRUE
@@ -69,8 +69,42 @@ public class TileEntityFoundryBasin extends TileEntityFoundryBase implements IRe
 		return stack;
 	}
 
-	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
-	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return stack; }
+	@Override
+	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		
+		if(this.type != null && this.type != stack.material) return false; //reject if there's already a different material
+		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
+		
+		for(String name : stack.material.names) {
+			String od = "ingot" + name;
+			
+			if(!OreDictionary.getOres(od).isEmpty()) {
+				return true; //at least one block for this material? return TRUE
+			}
+		}
+		
+		return false; //no OD match -> no pouring
+	}
+	
+	@Override
+	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		
+		if(this.type == null) {
+			this.type = stack.material;
+		}
+		
+		if(stack.amount + this.amount <= this.getCapacity()) {
+			this.amount += stack.amount;
+			return null;
+		}
+		
+		int required = this.getCapacity() - this.amount;
+		this.amount = this.getCapacity();
+		
+		stack.amount -= required;
+		
+		return stack;
+	}
 
 	@Override
 	public boolean shouldRender() {
@@ -79,7 +113,7 @@ public class TileEntityFoundryBasin extends TileEntityFoundryBase implements IRe
 
 	@Override
 	public double getLevel() {
-		return 0.125 + this.amount * 0.75D / this.getCapacity();
+		return 0.125 + this.amount * 0.25D / this.getCapacity();
 	}
 
 	@Override

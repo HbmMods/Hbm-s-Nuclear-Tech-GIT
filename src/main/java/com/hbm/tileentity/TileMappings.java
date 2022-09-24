@@ -251,6 +251,10 @@ public class TileMappings {
 		put(TileEntityStirling.class, "tileentity_stirling");
 		put(TileEntitySawmill.class, "tileentity_sawmill");
 		put(TileEntityCrucible.class, "tileentity_crucible");
+
+		put(TileEntityFoundryMold.class, "tileentity_foundry_mold");
+		put(TileEntityFoundryBasin.class, "tileentity_foundry_basin");
+		put(TileEntityFoundryChannel.class, "tileentity_foundry_channel");
 		
 		put(TileEntityMachineAutocrafter.class, "tileentity_autocrafter");
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");
