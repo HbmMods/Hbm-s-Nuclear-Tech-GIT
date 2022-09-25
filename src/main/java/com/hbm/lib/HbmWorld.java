@@ -48,5 +48,6 @@ public class HbmWorld {
 		MapGenStructureIO.func_143031_a(BasicHelipad.class, "NTMBasicHelipad");
 		MapGenStructureIO.func_143031_a(RadioShack.class, "NTMRadioShack");
 		MapGenStructureIO.func_143031_a(LargeOffice.class, "NTMLargeOffice");
+		MapGenStructureIO.func_143031_a(LargeOfficeCorner.class, "NTMLargeOfficeCorner");
 	}
 }

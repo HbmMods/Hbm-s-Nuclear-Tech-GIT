@@ -217,4 +217,228 @@ public class OfficeFeatures {
 		
 	}
 	
+	//bob i could kiss you
+	public static class LargeOfficeCorner extends Feature {
+		
+		private static ConcreteBricks ConcreteBricks = new ConcreteBricks();
+		
+		public LargeOfficeCorner() {
+			super();
+		}
+		
+		public LargeOfficeCorner(Random rand, int minX, int minY, int minZ) {
+			super(rand, minX, minY, minZ, 11, 15, 14);
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
+				return true;
+			}
+			
+			this.boundingBox.offset(0, -1, 0);
+			
+			int pillarMetaWE = getPillarMeta(4);
+			int pillarMetaNS = getPillarMeta(8);
+			
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 4, 0, 11, 2, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 1, 3, 11, 13, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 14, 4, 14, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 10, 0, 13, -1, box);
+			
+			fillWithAir(world, box, 1, 1, 11, 3, 12, 13);
+			fillWithAir(world, box, 4, 1, 4, 10, 12, 12);
+			fillWithAir(world, box, 2, 1, 4, 3, 12, 10);
+			fillWithAir(world, box, 5, 1, 1, 10, 12, 2);
+			fillWithAir(world, box, 5, 13, 1, 8, 14, 2);
+			
+			//Back Wall
+			fillWithBlocks(world, box, 1, 0, 3, 5, 0, 3, ModBlocks.concrete_pillar);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMetaWE, 6, 0, 3, box);
+			fillWithBlocks(world, box, 7, 0, 3, 10, 0, 3, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 4, 0, 0, 4, 0, 2, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 5, 0, 0, 11, 0, 0, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 11, 1, 0, 11, 12, 0, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 1, 1, 3, 1, 12, 3, ModBlocks.concrete_pillar);
+			fillWithRandomizedBlocks(world, box, 4, 1, 0, 10, 12, 0, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 13, 0, 9, 13, 0, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 14, 0, 8, 14, 0, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 15, 0, 7, 15, 0, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 1, 3, 5, 2, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 7, 1, 3, 10, 2, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 3, 3, 10, 7, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 8, 3, 9, 10, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 11, 3, 10, 12, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 13, 3, 4, 14, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 6, 13, 3, 9, 13, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 6, 14, 3, 8, 14, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 15, 3, 7, 15, 3, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 1, 1, 4, 15, 2, rand, ConcreteBricks);
+			//Right Wall
+			fillWithBlocks(world, box, 11, 0, 1, 11, 0, 12, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 11, 0, 13, 11, 12, 13, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 11, 1, 3, 11, 7, 3, ModBlocks.concrete_pillar);
+			fillWithMetadataBlocks(world, box, 11, 4, 1, 11, 4, 2, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithMetadataBlocks(world, box, 11, 8, 1, 11, 8, 12, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithBlocks(world, box, 11, 9, 3, 11, 11, 3, ModBlocks.concrete_pillar);
+			fillWithMetadataBlocks(world, box, 11, 12, 1, 11, 12, 12, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithRandomizedBlocks(world, box, 11, 9, 1, 11, 11, 2, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 5, 1, 11, 7, 2, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 1, 1, 11, 3, 2, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 1, 4, 11, 7, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 9, 4, 11, 9, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 10, 4, 11, 10, 4, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 10, 8, 11, 10, 8, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 10, 12, 11, 10, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 11, 11, 4, 11, 11, 12, rand, ConcreteBricks);
+			//Front Wall
+			fillWithBlocks(world, box, 4, 0, 13, 10, 0, 13, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 4, 0, 14, 4, 12, 14, ModBlocks.concrete_pillar);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, 0, 3, 0, 14, box);
+			fillWithMetadataBlocks(world, box, 1, 0, 14, 2, 0, 14, ModBlocks.concrete_pillar, pillarMetaWE);
+			fillWithBlocks(world, box, 0, 0, 14, 0, 12, 14, ModBlocks.concrete_pillar);
+			fillWithRandomizedBlocks(world, box, 4, 1, 13, 10, 1, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 10, 2, 13, 10, 3, 13, rand, ConcreteBricks);
+			fillWithBlocks(world, box, 9, 2, 13, 9, 3, 13, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 6, 2, 13, 6, 3, 13, ModBlocks.concrete_pillar);
+			fillWithRandomizedBlocks(world, box, 4, 2, 13, 5, 3, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 4, 13, 10, 5, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 10, 6, 13, 10, 7, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 6, 13, 5, 7, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 8, 13, 10, 9, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 10, 10, 13, 10, 11, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 10, 13, 5, 11, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 12, 13, 10, 12, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 3, 1, 14, 3, 2, 14, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 3, 14, 3, 5, 14, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 8, 14, 3, 9, 14, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 12, 14, 3, 12, 14, rand, ConcreteBricks);
+			//Left Wall
+			fillWithMetadataBlocks(world, box, 0, 0, 12, 0, 0, 13, ModBlocks.concrete_pillar, pillarMetaNS);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, 0, 0, 0, 11, box);
+			fillWithBlocks(world, box, 0, 0, 10, 0, 12, 10, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 1, 0, 4, 1, 0, 10, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 1, 0, 3, 1, 12, 3, ModBlocks.concrete_pillar);
+			fillWithRandomizedBlocks(world, box, 0, 1, 11, 0, 2, 11, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 0, 3, 11, 0, 5, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 0, 8, 11, 0, 9, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 0, 12, 11, 0, 12, 13, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 1, 4, 1, 1, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 2, 9, 1, 3, 10, rand, ConcreteBricks);
+			fillWithBlocks(world, box, 1, 2, 8, 1, 3, 8, ModBlocks.concrete_pillar);
+			fillWithBlocks(world, box, 1, 2, 5, 1, 3, 5, ModBlocks.concrete_pillar);
+			fillWithRandomizedBlocks(world, box, 1, 2, 4, 1, 3, 4, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 4, 4, 1, 5, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 6, 9, 1, 7, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 6, 4, 1, 7, 4, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 8, 4, 1, 9, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 10, 9, 1, 11, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 10, 4, 1, 11, 4, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, 12, 4, 1, 12, 10, rand, ConcreteBricks);
+			
+			//Floor 1
+			fillWithMetadataBlocks(world, box, 5, 0, 1, 10, 0, 2, ModBlocks.concrete_pillar, pillarMetaWE);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMetaWE, 6, 0, 3, box);
+			fillWithMetadataBlocks(world, box, 2, 0, 4, 10, 0, 10, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 3, 0, 11, 10, 0, 11, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 4, 0, 12, 10, 0, 12, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 1, 0, 11, 2, 0, 13, Blocks.wool, 7); //Grey
+			fillWithMetadataBlocks(world, box, 3, 0, 12, 3, 0, 13, Blocks.wool, 7);
+			//Floor 2
+			fillWithMetadataBlocks(world, box, 5, 4, 1, 5, 4, 3, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithMetadataBlocks(world, box, 2, 4, 4, 10, 4, 12, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 1, 4, 11, 1, 4, 13, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 2, 4, 13, 3, 4, 13, Blocks.planks, 1);
+			//Floor 3
+			fillWithMetadataBlocks(world, box, 10, 8, 1, 10, 8, 3, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithMetadataBlocks(world, box, 2, 8, 4, 10, 8, 12, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 1, 8, 11, 1, 8, 13, Blocks.planks, 1);
+			fillWithMetadataBlocks(world, box, 2, 8, 13, 3, 8, 13, Blocks.planks, 1);
+			//Ceiling
+			fillWithMetadataBlocks(world, box, 5, 12, 1, 5, 12, 2, ModBlocks.concrete_pillar, pillarMetaNS);
+			fillWithBlocks(world, box, 10, 12, 1, 10, 12, 2, ModBlocks.asphalt);
+			fillWithBlocks(world, box, 9, 13, 1, 9, 13, 2, ModBlocks.asphalt);
+			fillWithBlocks(world, box, 8, 14, 1, 8, 14, 2, ModBlocks.asphalt);
+			fillWithBlocks(world, box, 5, 15, 1, 7, 15, 2, ModBlocks.asphalt);
+			fillWithBlocks(world, box, 2, 12, 4, 10, 12, 12, ModBlocks.brick_light);
+			fillWithBlocks(world, box, 1, 12, 11, 1, 12, 13, ModBlocks.brick_light);
+			fillWithBlocks(world, box, 2, 12, 13, 3, 12, 13, ModBlocks.brick_light);
+			//Staircase
+			int EastStairMeta = getStairMeta(1);
+			int WestStairMeta = getStairMeta(0);
+			int EastStairMetaUD = EastStairMeta | 4;
+			int WestStairMetaUD = WestStairMeta | 4;
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 9, 1, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 8, 1, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 8, 2, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 7, 2, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 7, 3, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 6, 3, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 6, 4, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMetaUD, 6, 4, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 6, 5, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMetaUD, 7, 5, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 7, 6, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMetaUD, 8, 6, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 8, 7, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMetaUD, 9, 7, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 9, 8, 2, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 9, 8, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 9, 9, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 8, 9, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 8, 10, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 7, 10, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 7, 11, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMetaUD, 6, 11, 1, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 6, 12, 1, box);
+			
+			//Decoration already? holy fuck it's been like 20 minutes
+			//Windows
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 11, 10, 5, 11, 10, 7, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 11, 10, 9, 11, 10, 11, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 7, 2, 13, 8, 3, 13, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 6, 6, 13, 9, 7, 13, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 6, 10, 13, 9, 11, 13, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 1, 6, 14, 3, 7, 14, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 1, 10, 14, 3, 11, 14, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 0, 6, 11, 0, 7, 13, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 0, 10, 11, 0, 11, 13, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 1, 2, 6, 1, 3, 7, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 1, 6, 5, 1, 7, 8, Blocks.glass_pane);
+			randomlyFillWithBlocks(world, box, rand, 0.75F, 1, 10, 5, 1, 11, 8, Blocks.glass_pane);
+			//Trim
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 10, 13, 0, 10, 13, 0, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 11, 13, 0, 11, 13, 13, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 4, 13, 13, 10, 13, 13, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 0, 13, 14, 4, 13, 14, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 0, 13, 10, 0, 13, 13, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 1, 13, 3, 1, 13, 10, Blocks.stone_slab);
+			randomlyFillWithBlocks(world, box, rand, 0.85F, 2, 13, 3, 3, 13, 3, Blocks.stone_slab);
+			//Interior Walls
+			fillWithRandomizedBlocks(world, box, 4, 5, 12, 4, 6, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 5, 10, 4, 6, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 7, 10, 4, 7, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 5, 10, 3, 7, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, 9, 10, 4, 11, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 11, 10, 3, 11, 10, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, 9, 10, 2, 10, 10, rand, ConcreteBricks);
+			//Doors
+			placeDoor(world, box, Blocks.wooden_door, 3, 1, 1, 14);
+			placeDoor(world, box, Blocks.wooden_door, 3, 2, 1, 14);
+			placeDoor(world, box, Blocks.wooden_door, 0, 0, 1, 12);
+			placeDoor(world, box, Blocks.wooden_door, 0, 0, 1, 13);
+			placeDoor(world, box, ModBlocks.door_office, 0, 6, 1, 3);
+			placeDoor(world, box, ModBlocks.door_office, 0, 5, 5, 3);
+			placeDoor(world, box, ModBlocks.door_office, 2, 4, 5, 11);
+			placeDoor(world, box, ModBlocks.door_office, 0, 10, 9, 3);
+			placeDoor(world, box, ModBlocks.door_office, 1, 3, 9, 10);
+			placeDoor(world, box, ModBlocks.door_metal, 0, 5, 13, 3);
+			//Furniture
+			
+			return false;
+		}
+	}
+	
+	
 }
