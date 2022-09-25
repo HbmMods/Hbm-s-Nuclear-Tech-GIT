@@ -951,6 +951,11 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.gear_large, 1, 0), new Object[] { "III", "ICI", "III", 'I', IRON.plate(), 'C', CU.ingot()});
 		addRecipeAuto(new ItemStack(ModItems.gear_large, 1, 1), new Object[] { "III", "ICI", "III", 'I', STEEL.plate(), 'C', TI.ingot()});
 		addRecipeAuto(new ItemStack(ModItems.sawblade), new Object[] { "III", "ICI", "III", 'I', STEEL.plate(), 'C', IRON.ingot()});
+
+		addRecipeAuto(new ItemStack(ModBlocks.foundry_basin), new Object[] { "B B", "B B", "BSB", 'B', ModItems.ingot_firebrick, 'S', Blocks.stone_slab });
+		addRecipeAuto(new ItemStack(ModBlocks.foundry_mold), new Object[] { "B B", "BSB", 'B', ModItems.ingot_firebrick, 'S', Blocks.stone_slab });
+		addRecipeAuto(new ItemStack(ModBlocks.foundry_channel, 4), new Object[] { "B B", " S ", 'B', ModItems.ingot_firebrick, 'S', Blocks.stone_slab });
+		addRecipeAuto(new ItemStack(ModItems.mold_base), new Object[] { " B ", "BIB", " B ", 'B', ModItems.ingot_firebrick, 'I', IRON.ingot() });
 		
 		addShapelessAuto(new ItemStack(ModItems.upgrade_5g), new Object[] { ModItems.upgrade_template, ModItems.gem_alexandrite });
 		

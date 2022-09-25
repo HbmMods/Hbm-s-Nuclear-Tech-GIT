@@ -26,8 +26,8 @@ public class RenderMold implements ISimpleBlockRenderingHandler {
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F, 1F, 0F);
-		renderer.renderFaceYPos(block, x, y - 0.5D, z, basin.iconTop);
-		renderer.renderFaceYPos(block, x, y - 0.875D, z, basin.iconBottom);
+		renderer.renderFaceYPos(block, x, y, z, basin.iconTop);
+		renderer.renderFaceYPos(block, x, y - 0.375D, z, basin.iconBottom);
 		tessellator.setNormal(0F, -1F, 0F);
 		renderer.renderFaceYNeg(block, x, y, z, basin.iconBottom);
 		tessellator.setNormal(1F, 0F, 0F);
@@ -71,8 +71,8 @@ public class RenderMold implements ISimpleBlockRenderingHandler {
 		FoundryMold mold = (FoundryMold) block;
 
 		tessellator.setColorOpaque_F(r * mulTop, g * mulTop, b * mulTop);
-		renderer.renderFaceYPos(block, x, y - 0.5D, z, mold.iconTop);
-		renderer.renderFaceYPos(block, x, y - 0.875D, z, mold.iconBottom);
+		renderer.renderFaceYPos(block, x, y, z, mold.iconTop);
+		renderer.renderFaceYPos(block, x, y - 0.375D, z, mold.iconBottom);
 		tessellator.setColorOpaque_F(r * mulBottom, g * mulBottom, b * mulBottom);
 		renderer.renderFaceYNeg(block, x, y, z, mold.iconBottom);
 		tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);

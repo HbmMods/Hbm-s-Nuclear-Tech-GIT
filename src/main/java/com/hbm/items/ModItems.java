@@ -742,6 +742,9 @@ public class ModItems {
 	public static Item blades_schrabidium;
 	public static Item blades_desh;
 
+	public static Item mold_base;
+	public static Item mold;
+
 	public static Item part_lithium;
 	public static Item part_beryllium;
 	public static Item part_carbon;
@@ -3349,6 +3352,9 @@ public class ModItems {
 		blades_combine_steel = new ItemBlades(1500).setUnlocalizedName("blades_combine_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_combine_steel");
 		blades_schrabidium = new ItemBlades(2000).setUnlocalizedName("blades_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_schrabidium");
 		blades_desh = new ItemBlades(0).setUnlocalizedName("blades_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_desh");
+
+		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
+		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
 		part_beryllium = new Item().setUnlocalizedName("part_beryllium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_beryllium");
@@ -6644,6 +6650,10 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_44, stamp_44.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_9, stamp_9.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_50, stamp_50.getUnlocalizedName());
+		
+		//Molds
+		GameRegistry.registerItem(mold_base, mold_base.getUnlocalizedName());
+		GameRegistry.registerItem(mold, mold.getUnlocalizedName());
 		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());

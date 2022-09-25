@@ -18,18 +18,11 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 	
 	@Override
 	public void updateEntity() {
-		super.updateEntity();
 		
 		if(!worldObj.isRemote) {
 			
 			if(this.type == null && this.amount != 0) {
 				this.amount = 0;
-			}
-			
-			if(this.lastType != this.type || this.lastAmount != this.amount) {
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-				this.lastType = this.type;
-				this.lastAmount = this.amount;
 			}
 			
 			if(worldObj.rand.nextInt(10) == 0 && this.amount > 0 && this.type != null) {
@@ -89,6 +82,8 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 				}
 			}
 		}
+		
+		super.updateEntity();
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.hbm.tileentity.machine.IRenderFoundry;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -66,6 +67,10 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		
 		GL11.glDepthMask(true);
+		
+		if(foundry instanceof IInventory) {
+			IInventory inv = (IInventory) foundry;
+		}
 		
 		GL11.glPopMatrix();
 	}

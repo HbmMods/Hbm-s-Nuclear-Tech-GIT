@@ -33,6 +33,13 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 				this.lastType = this.type;
 				this.lastAmount = this.amount;
 			}
+		} else {
+			
+			if(this.lastType != this.type || this.lastAmount != this.amount) {
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				this.lastType = this.type;
+				this.lastAmount = this.amount;
+			}
 		}
 	}
 	

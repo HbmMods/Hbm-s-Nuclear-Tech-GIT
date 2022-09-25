@@ -177,6 +177,10 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 		float mulZ = 0.8F;
 		float mulX = 0.6F;
 
+		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
+		int fullBright = 240;
+		tessellator.setBrightness(brightness);
+
 		if(EntityRenderer.anaglyphEnable) {
 			float aR = (r * 30.0F + g * 59.0F + b * 11.0F) / 100.0F;
 			float aG = (r * 30.0F + g * 70.0F) / 100.0F;
@@ -216,7 +220,9 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 		if(doRender) {
 			renderer.setRenderBounds(0.375D, 0.125D, 0.375D, 0.625D, 0.125D + level, 0.625D);
 			tessellator.setColorOpaque_F(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			tessellator.setBrightness(fullBright);
 			renderer.renderFaceYPos(block, x, y, z, channel.iconLava);
+			tessellator.setBrightness(brightness);
 		}
 		
 		if(posX) {
@@ -243,8 +249,10 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 			if(doRender) {
 				renderer.setRenderBounds(0.625D, 0.125D, 0.3125D, 1D, 0.125D + level, 0.6875D);
 				tessellator.setColorOpaque_F(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				tessellator.setBrightness(fullBright);
 				renderer.renderFaceYPos(block, x, y, z, channel.iconLava);
 				renderer.renderFaceXPos(block, x, y, z, channel.iconLava);
+				tessellator.setBrightness(brightness);
 			}
 			
 		} else {
@@ -280,8 +288,10 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 			if(doRender) {
 				renderer.setRenderBounds(0D, 0.125D, 0.3125D, 0.375D, 0.125D + level, 0.6875D);
 				tessellator.setColorOpaque_F(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				tessellator.setBrightness(fullBright);
 				renderer.renderFaceYPos(block, x, y, z, channel.iconLava);
 				renderer.renderFaceXNeg(block, x, y, z, channel.iconLava);
+				tessellator.setBrightness(brightness);
 			}
 			
 		} else {
@@ -317,8 +327,10 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 			if(doRender) {
 				renderer.setRenderBounds(0.3125D, 0.125D, 0.625D, 0.6875D, 0.125D + level, 1D);
 				tessellator.setColorOpaque_F(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				tessellator.setBrightness(fullBright);
 				renderer.renderFaceYPos(block, x, y, z, channel.iconLava);
 				renderer.renderFaceZPos(block, x, y, z, channel.iconLava);
+				tessellator.setBrightness(brightness);
 			}
 			
 		} else {
@@ -354,8 +366,10 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 			if(doRender) {
 				renderer.setRenderBounds(0.3125D, 0.125D, 0D, 0.6875D, 0.125D + level, 0.375D);
 				tessellator.setColorOpaque_F(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+				tessellator.setBrightness(fullBright);
 				renderer.renderFaceYPos(block, x, y, z, channel.iconLava);
 				renderer.renderFaceZNeg(block, x, y, z, channel.iconLava);
+				tessellator.setBrightness(brightness);
 			}
 			
 		} else {

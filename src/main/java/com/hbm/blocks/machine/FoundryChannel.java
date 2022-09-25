@@ -1,7 +1,11 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFoundryChannel;
 
@@ -13,7 +17,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -50,6 +56,43 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityFoundryChannel();
+	}
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		
+		List<AxisAlignedBB> bbs = new ArrayList();
+		
+		bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.3125D, x + 0.6875D, y + 0.5D, z + 0.6875D));
+
+		if(canConnectTo(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y, z + 0.3125D, x + 1D, y + 0.5D, z + 0.6875D));
+		if(canConnectTo(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y, z + 0.3125D, x + 0.3125D, y + 0.5D, z + 0.6875D));
+		if(canConnectTo(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.6875D, x + 0.6875D, y + 0.5D, z + 1D));
+		if(canConnectTo(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z, x + 0.6875D, y + 0.5D, z + 0.3125D));
+		
+		for(AxisAlignedBB bb : bbs) {
+			if(entityBounding.intersectsWith(bb)) {
+				list.add(bb);
+			}
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		this.setBlockBounds(
+				canConnectTo(world, x, y, z, Library.NEG_X) ? 0F : 0.3125F,
+				0F,
+				canConnectTo(world, x, y, z, Library.NEG_Z) ? 0F : 0.3125F,
+				canConnectTo(world, x, y, z, Library.POS_X) ? 1F : 0.6875F,
+				0.5F,
+				canConnectTo(world, x, y, z, Library.POS_Z) ? 1F : 0.6875F);
 	}
 
 	@Override
