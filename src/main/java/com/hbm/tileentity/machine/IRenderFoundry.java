@@ -16,4 +16,6 @@ public interface IRenderFoundry {
 	public double maxX();
 	public double minZ();
 	public double maxZ();
+	public double moldHeight();
+	public double outHeight();
 }

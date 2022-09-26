@@ -31,6 +31,15 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		super.updateEntity();
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.amount > this.getCapacity()) {
+				this.amount = this.getCapacity();
+			}
+			
+			if(this.amount == 0) {
+				this.type = null;
+			}
+			
 			Mold mold = this.getInstalledMold();
 			
 			if(mold != null && this.amount == this.getCapacity() && slots[1] == null) {
@@ -123,10 +132,12 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		if(slots[slot] != null) {
 			if(slots[slot].stackSize <= amount) {
 				ItemStack itemStack = slots[slot];

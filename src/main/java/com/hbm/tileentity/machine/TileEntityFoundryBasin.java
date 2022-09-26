@@ -41,4 +41,6 @@ public class TileEntityFoundryBasin extends TileEntityFoundryCastingBase impleme
 	@Override public double maxX() { return 0.875D; }
 	@Override public double minZ() { return 0.125D; }
 	@Override public double maxZ() { return 0.875D; }
+	@Override public double moldHeight() { return 0.13D; }
+	@Override public double outHeight() { return 0.875D; }
 }

@@ -59,11 +59,12 @@ public interface ICrucibleAcceptor {
 		
 		for(MaterialStack stack : stacks) {
 			
-			if(stack.material.smeltable != SmeltingBehavior.SMELTABLE)
+			if(stack.material.smeltable != SmeltingBehavior.SMELTABLE) {
 				continue;
+			}
 			
-			if(acc.canAcceptPartialPour(world, mop.blockX, mop.blockY, mop.blockZ, hit.xCoord, hit.yCoord, hit.zCoord, ForgeDirection.getOrientation(mop.sideHit).getOpposite(), stack)) {
-				MaterialStack left = acc.pour(world, mop.blockX, mop.blockY, mop.blockZ, hit.xCoord, hit.yCoord, hit.zCoord, ForgeDirection.getOrientation(mop.sideHit).getOpposite(), stack);
+			if(acc.canAcceptPartialPour(world, mop.blockX, mop.blockY, mop.blockZ, hit.xCoord, hit.yCoord, hit.zCoord, ForgeDirection.getOrientation(mop.sideHit), stack)) {
+				MaterialStack left = acc.pour(world, mop.blockX, mop.blockY, mop.blockZ, hit.xCoord, hit.yCoord, hit.zCoord, ForgeDirection.getOrientation(mop.sideHit), stack);
 				if(left == null) {
 					left = new MaterialStack(stack.material, 0);
 				}

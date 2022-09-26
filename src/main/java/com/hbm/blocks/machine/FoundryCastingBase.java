@@ -85,6 +85,7 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 			
 			cast.slots[1] = null;
 			cast.markDirty();
+			world.markBlockForUpdate(x, y, z);
 			return true;
 		}
 		
@@ -96,8 +97,9 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 				cast.slots[0] = player.getHeldItem().copy();
 				cast.slots[0].stackSize = 1;
 				player.getHeldItem().stackSize--;
-				cast.markDirty();
 				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+				cast.markDirty();
+				world.markBlockForUpdate(x, y, z);
 				return true;
 			}
 		}
@@ -123,6 +125,9 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 			player.inventoryContainer.detectAndSendChanges();
 		}
 		
+		cast.markDirty();
+		world.markBlockForUpdate(x, y, z);
+		
 		cast.slots[0] = null;
 		cast.markDirty();
 		
@@ -135,7 +140,7 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 		List<String> text = new ArrayList();
 		
 		if(cast.slots[0] == null) {
-			text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noMold"));
+			text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noCast"));
 		} else if(cast.slots[0].getItem() == ModItems.mold){
 			Mold mold = ((ItemMold) cast.slots[0].getItem()).getMold(cast.slots[0]);
 			text.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("shape." + mold.shape.name().toLowerCase()) + " x" + mold.amount);
