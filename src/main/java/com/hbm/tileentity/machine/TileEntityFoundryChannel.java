@@ -11,7 +11,6 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import api.hbm.block.ICrucibleAcceptor;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFoundryChannel extends TileEntityFoundryBase {
@@ -84,66 +83,6 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 		}
 		
 		super.updateEntity();
-	}
-
-	@Override
-	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		
-		if(side != ForgeDirection.UP) return false; //reject from any direction other than the top
-		if(this.type != null && this.type != stack.material) return false; //reject if there's already a different material
-		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
-		
-		return true; //pour
-	}
-
-	@Override
-	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		
-		if(this.type == null) {
-			this.type = stack.material;
-		}
-		
-		if(stack.amount + this.amount <= this.getCapacity()) {
-			this.amount += stack.amount;
-			return null;
-		}
-		
-		int required = this.getCapacity() - this.amount;
-		this.amount = this.getCapacity();
-		
-		stack.amount -= required;
-		
-		return stack;
-	}
-
-	@Override
-	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
-		if(side == ForgeDirection.UP || side == ForgeDirection.DOWN) return false;
-		if(this.type != null && this.type != stack.material) return false;
-		if(this.amount >= this.getCapacity()) return false;
-		
-		return true; //pour
-	}
-	
-	@Override
-	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
-		if(this.type == null) {
-			this.type = stack.material;
-		}
-		
-		if(stack.amount + this.amount <= this.getCapacity()) {
-			this.amount += stack.amount;
-			return null;
-		}
-		
-		int required = this.getCapacity() - this.amount;
-		this.amount = this.getCapacity();
-		
-		stack.amount -= required;
-		
-		return stack;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.material.Mats.MaterialStack;
 
 import api.hbm.block.ICrucibleAcceptor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +10,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Base class for all foundry channel type blocks - channels, casts, basins, tanks, etc.
@@ -80,4 +83,65 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	}
 	
 	public abstract int getCapacity();
+	
+	/**
+	 * Standard check for testing if this material stack can be added to the casting block. Checks:<br>
+	 * - type matching<br>
+	 * - amount being at max<br>
+	 */
+	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		if(this.type != null && this.type != stack.material) return false; //reject if there's already a different material
+		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
+		return true;
+	}
+	
+	/**
+	 * Standardized adding of material via pouring or flowing. Does:<br>
+	 * - sets material to match the input
+	 * - adds the amount, not exceeding the maximum
+	 * - returns the amount that cannot be added
+	 */
+	public MaterialStack standardAdd(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		
+		if(this.type == null) {
+			this.type = stack.material;
+		}
+		
+		if(stack.amount + this.amount <= this.getCapacity()) {
+			this.amount += stack.amount;
+			return null;
+		}
+		
+		int required = this.getCapacity() - this.amount;
+		this.amount = this.getCapacity();
+		
+		stack.amount -= required;
+		
+		return stack;
+	}
+
+	/** Standard check with no additional limitations added */
+	@Override
+	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		return this.standardCheck(world, x, y, z, side, stack);
+	}
+	
+	/** Standard flow, no special handling required */
+	@Override
+	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		return standardAdd(world, x, y, z, side, stack);
+	}
+
+	/** Standard check, but with the additional limitation that the only valid source direction is UP */
+	@Override
+	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		if(side != ForgeDirection.UP) return false;
+		return this.standardCheck(world, x, y, z, side, stack);
+	}
+
+	/** Standard flow, no special handling required */
+	@Override
+	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		return standardAdd(world, x, y, z, side, stack);
+	}
 }

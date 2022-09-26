@@ -76,31 +76,6 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		Mold mold = this.getInstalledMold();
 		return mold == null ? 0 : mold.getCost();
 	}
-
-	/** Standard check with no additional limitations added */
-	@Override
-	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return this.standardCheck(world, x, y, z, side, stack);
-	}
-	
-	/** Standard flow, no special handling required */
-	@Override
-	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return standardAdd(world, x, y, z, side, stack);
-	}
-
-	/** Standard check, but with the additional limitation that the only valid source direction is UP */
-	@Override
-	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		if(side != ForgeDirection.UP) return false;
-		return this.standardCheck(world, x, y, z, side, stack);
-	}
-
-	/** Standard flow, no special handling required */
-	@Override
-	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		return standardAdd(world, x, y, z, side, stack);
-	}
 	
 	/**
 	 * Standard check for testing if this material stack can be added to the casting block. Checks:<br>
@@ -110,8 +85,7 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 	 * - whether the mold can accept this type
 	 */
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		if(this.type != null && this.type != stack.material) return false; //reject if there's already a different material
-		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
+		if(!super.standardCheck(world, x, y, z, side, stack)) return false; //reject if base conditions are not met
 		if(this.slots[1] != null) return false; //reject if a freshly casted item is still present
 		Mold mold = this.getInstalledMold();
 		if(mold == null) return false;
@@ -127,43 +101,8 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		return false; //no OD match -> no pouring
 	}
 	
-	/**
-	 * Standardized adding of material via pouring or flowing. Does:<br>
-	 * - sets material to match the input
-	 * - adds the amount, not exceeding the maximum
-	 * - returns the amount that cannot be added
-	 */
-	public MaterialStack standardAdd(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
-		if(this.type == null) {
-			this.type = stack.material;
-		}
-		
-		if(stack.amount + this.amount <= this.getCapacity()) {
-			this.amount += stack.amount;
-			return null;
-		}
-		
-		int required = this.getCapacity() - this.amount;
-		this.amount = this.getCapacity();
-		
-		stack.amount -= required;
-		
-		return stack;
-	}
-	
 	/** Returns an integer determining the mold size, 0 for small molds and 1 for the basin */
 	public abstract int getMoldSize();
-
-	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
@@ -203,13 +142,18 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "ntmFoundry";
+	public int getSizeInventory() {
+		return slots.length;
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
+	public ItemStack getStackInSlot(int i) {
+		return slots[i];
+	}
+
+	@Override
+	public String getInventoryName() {
+		return "ntmFoundry";
 	}
 
 	@Override
@@ -217,15 +161,9 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		return 64;
 	}
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
-	}
+	@Override public boolean hasCustomInventoryName() { return false; }
+	@Override public boolean isUseableByPlayer(EntityPlayer player) { return false; }
+	@Override public boolean isItemValidForSlot(int i, ItemStack stack) { return false; }
 
 	@Override public void openInventory() { }
 	@Override public void closeInventory() { }

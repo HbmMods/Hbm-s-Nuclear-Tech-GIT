@@ -24,12 +24,12 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -95,43 +95,39 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				this.progress = 0;
 			}
 			
-			/* TEMP */
 			if(!this.wasteStack.isEmpty()) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				ICrucibleAcceptor.tryPour(worldObj, xCoord + 0.5D + dir.offsetX * 1.75D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.75D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(1), impact);
+			}
+			
+			if(!this.recipeStack.isEmpty()) {
 				
-				outer:
-				for(MaterialStack stack : this.wasteStack) {
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				List<MaterialStack> toCast = new ArrayList();
+				
+				CrucibleRecipe recipe = this.getLoadedRecipe();
+				//if no recipe is loaded, everything from the recipe stack will be drainable
+				if(recipe == null) {
+					toCast.addAll(this.recipeStack);
+				} else {
 					
-					for(int i = 0; i < 4; i++) {
-						int x = xCoord + dir.offsetX * 2;
-						int z = zCoord + dir.offsetZ * 2;
-						int y = yCoord - i - 1;
-						Block b = worldObj.getBlock(x, y, z);
-						if(b.isAir(worldObj, x, y, z)) continue;
-						
-						if(b instanceof ICrucibleAcceptor) {
-							
-							ICrucibleAcceptor acc = (ICrucibleAcceptor) b;
-							int pourAmount = Math.min(MaterialShapes.NUGGET.q(1), stack.amount);
-							MaterialStack toPour = new MaterialStack(stack.material, pourAmount);
-							
-							if(acc.canAcceptPartialPour(worldObj, x, y, z, 0.5, 1, 0.5, ForgeDirection.UP, toPour)) {
-								int prev = pourAmount;
-								MaterialStack left = acc.pour(worldObj, x, y, z, 0.5, 1, 0.5, ForgeDirection.UP, toPour);
-								
-								int diff = prev - (left != null ? left.amount : 0);
-								stack.amount -= diff;
-								
-								break outer;
+					for(MaterialStack stack : this.recipeStack) {
+						for(MaterialStack output : recipe.output) {
+							if(stack.material == output.material) {
+								toCast.add(stack);
+								break;
 							}
-						} else {
-							break;
 						}
 					}
 				}
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				ICrucibleAcceptor.tryPour(worldObj, xCoord + 0.5D + dir.offsetX * 1.75D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.75D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
 			}
-			
+
+			this.recipeStack.removeIf(o -> o.amount <= 0);
 			this.wasteStack.removeIf(x -> x.amount <= 0);
 			
 			NBTTagCompound data = new NBTTagCompound();
