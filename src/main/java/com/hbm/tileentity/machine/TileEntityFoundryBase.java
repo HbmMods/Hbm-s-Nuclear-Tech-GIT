@@ -74,10 +74,11 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		if(this.type == null)
+		if(this.type == null) {
 			nbt.setInteger("type", -1);
-		else
+		} else {
 			nbt.setInteger("type", this.type.id);
+		}
 		
 		nbt.setInteger("amount", this.amount);
 	}

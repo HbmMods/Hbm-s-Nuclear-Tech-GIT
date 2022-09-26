@@ -719,6 +719,8 @@ fluid.schrabidic_fluid=Schrabidic Acid
 fluid.toxic_fluid=Stereotypical Green Ooze
 fluid.volcanic_lava_fluid=Volcanic Lava
 
+foundry.noCast=No mold installed!
+
 geiger.chunkRad=Current chunk radiation:
 geiger.envRad=Total environmental radiation:
 geiger.playerRad=Player contamination:
@@ -3622,6 +3624,7 @@ tile.brick_dungeon.name=Berzelianite Bricks
 tile.brick_dungeon_circle.name=Berzelianite Cirlce
 tile.brick_dungeon_flat.name=Berzelianite Block
 tile.brick_dungeon_tile.name=Berzelianite Tile
+tile.brick_fire.name=Firebricks
 tile.brick_jungle.name=Enargite Bricks
 tile.brick_jungle_circle.name=Mechanist's Circle
 tile.brick_jungle_cracked.name=Cracked Enargite Bricks

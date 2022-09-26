@@ -489,6 +489,8 @@ fluid.schrabidic_fluid=Schrabidische Säure
 fluid.toxic_fluid=Stereotypischer grüner Schleim
 fluid.volcanic_lava_fluid=Vulkanische Lava
 
+foundry.noCast=Keine Form eingelegt!
+
 geiger.chunkRad=Chunk-Strahlung:
 geiger.envRad=Gesamte Umgebungsstrahlung:
 geiger.playerRad=Spieler-Kontaminierung:
@@ -3173,6 +3175,7 @@ tile.brick_dungeon.name=Berzelianitziegel
 tile.brick_dungeon_circle.name=Berzelianitkreis
 tile.brick_dungeon_flat.name=Berzelianitblock
 tile.brick_dungeon_tile.name=Berzelianitfliese
+tile.brick_fire.name=Schamottsteinziegel
 tile.brick_jungle.name=Enargitziegel
 tile.brick_jungle_circle.name=Mechanistenzirkel
 tile.brick_jungle_cracked.name=Rissige Enargitziegel

@@ -10,6 +10,8 @@ import com.hbm.items.machine.ItemMold.Mold;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -167,4 +169,37 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 
 	@Override public void openInventory() { }
 	@Override public void closeInventory() { }
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		NBTTagList list = nbt.getTagList("items", 10);
+		slots = new ItemStack[getSizeInventory()];
+
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if(b0 >= 0 && b0 < slots.length) {
+				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
+		}
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		NBTTagList list = new NBTTagList();
+		
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null) {
+				NBTTagCompound nbt1 = new NBTTagCompound();
+				nbt1.setByte("slot", (byte) i);
+				slots[i].writeToNBT(nbt1);
+				list.appendTag(nbt1);
+			}
+		}
+		nbt.setTag("items", list);
+	}
 }
