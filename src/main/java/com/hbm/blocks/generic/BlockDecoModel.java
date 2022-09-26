@@ -14,8 +14,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockDecoModel extends Block {
@@ -57,7 +59,10 @@ public class BlockDecoModel extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		return this.icons[(meta >> 2) % this.icons.length];
+		if(subTypes > 1)
+			return this.icons[(meta >> 2) % this.icons.length];
+		
+		return this.blockIcon;
 	}
 	
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
@@ -99,4 +104,48 @@ public class BlockDecoModel extends Block {
 		
 		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
 	}
+	
+	//These are separate because they have to be constant
+	private float mnX = 0.0F; //min
+	private float mnY = 0.0F;
+	private float mnZ = 0.0F;
+	private float mxX = 1.0F; //max
+	private float mxY = 1.0F;
+	private float mxZ = 1.0F;
+	
+	public BlockDecoModel setBlockBoundsTo(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+		mnX = minX;
+		mnY = minY;
+		mnZ = minZ;
+		mxX = maxX;
+		mxY = maxY;
+		mxZ = maxZ;
+		
+		return this;
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		switch(world.getBlockMetadata(x, y, z) & 3) {
+		case 0://North
+			this.setBlockBounds(1 - mxX, mnY, 1 - mxZ, 1 - mnX, mxY, 1 - mnZ);
+			break;
+		case 1://South
+			this.setBlockBounds(mnX, mnY, mnZ, mxX, mxY, mxZ);
+			break;
+		case 2://West
+			this.setBlockBounds(1 - mxZ, mnY, mnX, 1 - mnZ, mxY, mxX);
+			break;
+		case 3://East
+			this.setBlockBounds(mnZ, mnY, 1 - mxX, mxZ, mxY, 1 - mnX);
+			break;
+		}
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		this.setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+	
 }
