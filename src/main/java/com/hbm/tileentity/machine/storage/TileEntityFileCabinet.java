@@ -41,8 +41,6 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 	@Override
 	public void openInventory() {
 		if(!worldObj.isRemote) this.playersUsing++;
-		//somehow guarentee that playersUsing is synced up when this method is called, to allow for sounds upon *actually* opening/closing?
-		//this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateOpen", 1.0F, 1.0F);
 	}
 
 	@Override
@@ -69,21 +67,40 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 		} else {
 			this.prevLowerExtent = lowerExtent;
 			this.prevUpperExtent = upperExtent;
-			float openSpeed = 1F / 25F;
-			
-			if(this.playersUsing > 0) {
-				this.lowerExtent += openSpeed;
+		}
+		
+		float openSpeed = playersUsing > 0 ? 1F / 16F : 1F / 25F;
+		float maxExtent = 0.8F;
+		
+		if(this.playersUsing > 0) {
+			if(lowerExtent == 0F && upperExtent == 0F)
+				this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateOpen", 0.8F, 1.0F);
+			else {
+				if(upperExtent + openSpeed >= maxExtent && lowerExtent < maxExtent)
+					this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateOpen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.7F);
 				
-				if(timer >= 10)
-					this.upperExtent += openSpeed;
-			} else {
-				this.lowerExtent -= openSpeed;
-				this.upperExtent -= openSpeed;
+				if(lowerExtent + openSpeed >= maxExtent && lowerExtent < maxExtent)
+					this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateOpen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.7F);
 			}
 			
-			this.lowerExtent = MathHelper.clamp_float(lowerExtent, 0F, 0.8F);
-			this.upperExtent = MathHelper.clamp_float(upperExtent, 0F, 0.8F);
+			this.lowerExtent += openSpeed;
+			
+			if(timer >= 10)
+				this.upperExtent += openSpeed;
+			
+		} else if(lowerExtent > 0) {
+			if(upperExtent - openSpeed < maxExtent / 2 && upperExtent >= maxExtent / 2 && upperExtent != lowerExtent)
+				this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateClose", 0.8F, 1.0F);
+			
+			if(lowerExtent - openSpeed < maxExtent / 2 && lowerExtent >= maxExtent / 2)
+				this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.crateClose", 0.8F, 1.0F);
+			
+			this.upperExtent -= openSpeed;
+			this.lowerExtent -= openSpeed;
 		}
+		
+		this.lowerExtent = MathHelper.clamp_float(lowerExtent, 0F, maxExtent);
+		this.upperExtent = MathHelper.clamp_float(upperExtent, 0F, maxExtent);
 	}
 	
 	@Override

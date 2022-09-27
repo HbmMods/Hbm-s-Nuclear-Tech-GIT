@@ -42,7 +42,7 @@ public class BlockDecoModel extends Block {
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tabs, List list) {
 		for(byte i = 0; i < subTypes; i++) {
-			list.add(new ItemStack(item, 1, i));
+			list.add(new ItemStack(item, 1, i << 2));
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class BlockDecoModel extends Block {
 	
 	//Assumes meta is using the third and fourth bits.
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		int meta;
@@ -102,7 +102,7 @@ public class BlockDecoModel extends Block {
 				meta = 3; //For East(b01>b11), just set to 3
 		}
 		
-		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		world.setBlockMetadataWithNotify(x, y, z, meta | stack.getItemDamage(), 2);
 	}
 	
 	//These are separate because they have to be constant
