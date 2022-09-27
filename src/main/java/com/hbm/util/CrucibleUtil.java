@@ -66,9 +66,12 @@ public class CrucibleUtil {
 		
 		for(MaterialStack stack : stacks) {
 			
-			MaterialStack left = tryPourStack(world, acc, mop, stack, impactPosHolder);
+			int amountToPour = Math.min(stack.amount, quanta);
+			MaterialStack toPour = new MaterialStack(stack.material, amountToPour);
+			MaterialStack left = tryPourStack(world, acc, mop, toPour, impactPosHolder);
 			
 			if(left != null) {
+				stack.amount -= (amountToPour - left.amount);
 				return new MaterialStack(stack.material, stack.amount - left.amount);
 			}
 		}

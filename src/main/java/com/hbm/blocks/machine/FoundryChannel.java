@@ -97,22 +97,22 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 
 	@Override
 	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryChannel) world.getTileEntity(x, y, z)).canAcceptPartialPour(world, x, y, z, dX, dY, dZ, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).canAcceptPartialPour(world, x, y, z, dX, dY, dZ, side, stack);
 	}
 
 	@Override
 	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryChannel) world.getTileEntity(x, y, z)).pour(world, x, y, z, dX, dY, dZ, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).pour(world, x, y, z, dX, dY, dZ, side, stack);
 	}
 
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryChannel) world.getTileEntity(x, y, z)).canAcceptPartialFlow(world, x, y, z, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).canAcceptPartialFlow(world, x, y, z, side, stack);
 	}
 	
 	@Override
 	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryChannel) world.getTileEntity(x, y, z)).flow(world, x, y, z, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).flow(world, x, y, z, side, stack);
 	}
 	
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
@@ -122,7 +122,7 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 		
 		Block b = world.getBlock(x + dir.offsetX, y, z + dir.offsetZ);
 		
-		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold;
+		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold || b == ModBlocks.foundry_outlet;
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

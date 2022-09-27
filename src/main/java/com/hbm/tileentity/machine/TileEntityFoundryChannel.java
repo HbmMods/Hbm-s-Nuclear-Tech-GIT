@@ -15,6 +15,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 	
+	public int nextUpdate;
+	
 	@Override
 	public void updateEntity() {
 		
@@ -24,7 +26,11 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 				this.amount = 0;
 			}
 			
-			if(worldObj.rand.nextInt(10) == 0 && this.amount > 0 && this.type != null) {
+			nextUpdate--;
+			
+			if(nextUpdate <= 0 && this.amount > 0 && this.type != null) {
+				
+				nextUpdate = worldObj.rand.nextInt(6) + 10;
 				
 				List<Integer> ints = new ArrayList() {{ add(2); add(3); add(4); add(5); }};
 				Collections.shuffle(ints);
