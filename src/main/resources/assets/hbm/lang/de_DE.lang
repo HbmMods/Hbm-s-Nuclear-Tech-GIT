@@ -2997,16 +2997,21 @@ rbmk.rod.xenon=Xenonvergiftung: %s
 rbmk.rod.coreTemp=Kerntemperatur: %s
 rbmk.rod.skinTemp=Außentemperatur: %s / %s
 
-shape.quantum=Quantum
-shape.nugget=Nugget
-shape.dusttiny=Winziger Haufen
-shape.wire=Draht
 shape.billet=Billet
-shape.ingot=Barren
-shape.dust=Haufen
-shape.plate=Platte
-shape.quart=Viertel Block
+shape.blade=Turbinenblatt
+shape.blades=Sägeblatt
 shape.block=Block
+shape.dust=Haufen
+shape.dusttiny=Winziger Haufen
+shape.hull_big=Große Hülle
+shape.hull_small=Kleine Hülle
+shape.ingot=Barren
+shape.nugget=Nugget
+shape.quantum=Quantum
+shape.quart=Viertel Block
+shape.plate=Platte
+shape.stamp=Stempel
+shape.wire=Draht
 
 soundCategory.ntmMachines=NTM Maschinen
 

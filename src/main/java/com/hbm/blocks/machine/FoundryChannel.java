@@ -121,8 +121,12 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 			return false;
 		
 		Block b = world.getBlock(x + dir.offsetX, y, z + dir.offsetZ);
+		int meta = world.getBlockMetadata(x + dir.offsetX, y, z + dir.offsetZ);
 		
-		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold || b == ModBlocks.foundry_outlet;
+		if(b == ModBlocks.foundry_outlet && meta == dir.ordinal())
+			return true;
+		
+		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold;
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

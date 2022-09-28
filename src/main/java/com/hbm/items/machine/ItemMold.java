@@ -29,8 +29,12 @@ public class ItemMold extends Item {
 	public HashMap<Integer, Mold> moldById = new HashMap(); //molds by their static ID -> stack item damage
 	
 	public ItemMold() {
+
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
+		
 		int S = 0;
-		int L = 0;
+		int L = 1;
 		registerMold(new MoldShape(		0, S, "nugget", MaterialShapes.NUGGET));
 		registerMold(new MoldShape(		1, S, "billet", MaterialShapes.BILLET));
 		registerMold(new MoldShape(		2, S, "ingot", MaterialShapes.INGOT));
@@ -51,7 +55,7 @@ public class ItemMold extends Item {
 				Mats.MAT_CMB,			new ItemStack(ModItems.blades_combine_steel),
 				Mats.MAT_SCHRABIDIUM,	new ItemStack(ModItems.blades_schrabidium)));
 		
-		registerMold(new MoldMulti(		7, S, "blades", MaterialShapes.INGOT.q(4),
+		registerMold(new MoldMulti(		7, S, "stamp", MaterialShapes.INGOT.q(4),
 				Mats.MAT_STONE,			new ItemStack(ModItems.stamp_stone_flat),
 				Mats.MAT_IRON,			new ItemStack(ModItems.stamp_iron_flat),
 				Mats.MAT_STEEL,			new ItemStack(ModItems.stamp_steel_flat),
@@ -110,12 +114,6 @@ public class ItemMold extends Item {
 		return this.icons[0];
 	}
 	
-	/*@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		int meta = Math.abs(stack.getItemDamage() % molds.size());
-		return super.getUnlocalizedName(stack) + "_" + molds.get(meta).name;
-	}*/
-	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		Mold mold = getMold(stack);
@@ -152,8 +150,8 @@ public class ItemMold extends Item {
 
 	public class MoldShape extends Mold {
 		
-		MaterialShapes shape;
-		int amount;
+		public MaterialShapes shape;
+		public int amount;
 
 		public MoldShape(int id, int size, String name, MaterialShapes shape) {
 			this(id, size, name, shape, 1);
@@ -224,9 +222,9 @@ public class ItemMold extends Item {
 	/* because why not */
 	public class MoldSingle extends Mold {
 		
-		ItemStack out;
-		NTMMaterial mat;
-		int amount;
+		public ItemStack out;
+		public NTMMaterial mat;
+		public int amount;
 
 		public MoldSingle(int id, int size, String name, ItemStack out, NTMMaterial mat, int amount) {
 			super(id, size, name);
@@ -247,15 +245,16 @@ public class ItemMold extends Item {
 
 		@Override
 		public String getTitle() {
-			return out.getDisplayName() + " x" + this.amount;
+			return out.getDisplayName() + " x" + this.out.stackSize;
 		}
 	}
 
 	/* not so graceful but it does the job and it does it well */
 	public class MoldMulti extends Mold {
 		
-		HashMap<NTMMaterial, ItemStack> map = new HashMap();
-		int amount;
+		public HashMap<NTMMaterial, ItemStack> map = new HashMap();
+		public int amount;
+		public int stacksize;
 
 		public MoldMulti(int id, int size, String name, int amount, Object... inputs) {
 			super(id, size, name);
@@ -263,6 +262,8 @@ public class ItemMold extends Item {
 			
 			for(int i = 0; i < inputs.length; i += 2) {
 				map.put((NTMMaterial) inputs[i], (ItemStack) inputs[i + 1]);
+				
+				if(i == 0) stacksize = (((ItemStack) inputs[i + 1])).stackSize;
 			}
 		}
 
@@ -283,7 +284,7 @@ public class ItemMold extends Item {
 
 		@Override
 		public String getTitle() {
-			return I18nUtil.resolveKey("shape." + name) + " x" + this.amount;
+			return I18nUtil.resolveKey("shape." + name) + " x" + this.stacksize;
 		}
 	}
 }

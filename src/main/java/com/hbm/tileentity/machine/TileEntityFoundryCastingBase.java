@@ -7,6 +7,7 @@ import com.hbm.items.machine.ItemMold.Mold;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase implements IInventory {
+public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase implements ISidedInventory {
 
 	public ItemStack slots[] = new ItemStack[2];
 	public int cooloff = 100;
@@ -197,5 +198,20 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 			}
 		}
 		nbt.setTag("items", list);
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 1 };
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return slot == 1;
 	}
 }

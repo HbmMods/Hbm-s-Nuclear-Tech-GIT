@@ -75,10 +75,10 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 		AxisAlignedBB aabb = null;
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(meta == 2) aabb = AxisAlignedBB.getBoundingBox(x + 0.625D, y, z + 0.3125D, x + 1D, y + 0.5D, z + 0.6875D);
-		if(meta == 3) aabb = AxisAlignedBB.getBoundingBox(x + 0D, y, z + 0.3125D, x + 0.375D, y + 0.5D, z + 0.6875D);
-		if(meta == 4) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.625D, x + 0.6875D, y + 0.5D, z + 1D);
-		if(meta == 5) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0D, x + 0.6875D, y + 0.5D, z + 0.375D);
+		if(meta == 4) aabb = AxisAlignedBB.getBoundingBox(x + 0.625D, y, z + 0.3125D, x + 1D, y + 0.5D, z + 0.6875D);
+		if(meta == 5) aabb = AxisAlignedBB.getBoundingBox(x + 0D, y, z + 0.3125D, x + 0.375D, y + 0.5D, z + 0.6875D);
+		if(meta == 2) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.625D, x + 0.6875D, y + 0.5D, z + 1D);
+		if(meta == 3) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0D, x + 0.6875D, y + 0.5D, z + 0.375D);
 		
 		if(aabb != null && entityBounding.intersectsWith(aabb)) {
 			list.add(aabb);
@@ -96,10 +96,10 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
 		int meta = world.getBlockMetadata(x, y, z);
-		if(meta == 2) this.setBlockBounds(0.625F, 0F, 0.3125F, 1F, 0.5F, 0.6875F);
-		if(meta == 3) this.setBlockBounds(0F, 0F, 0.3125F, 0.375F, 0.5F, 0.6875F);
-		if(meta == 4) this.setBlockBounds(0.3125F, 0F, 0.625F, 0.6875F, 0.5F, 1F);
-		if(meta == 5) this.setBlockBounds(0.3125F, 0F, 0F, 0.6875F, 0.5F, 0.375F);
+		if(meta == 4) this.setBlockBounds(0.625F, 0F, 0.3125F, 1F, 0.5F, 0.6875F);
+		if(meta == 5) this.setBlockBounds(0F, 0F, 0.3125F, 0.375F, 0.5F, 0.6875F);
+		if(meta == 2) this.setBlockBounds(0.3125F, 0F, 0.625F, 0.6875F, 0.5F, 1F);
+		if(meta == 3) this.setBlockBounds(0.3125F, 0F, 0F, 0.6875F, 0.5F, 0.375F);
 	}
 
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }

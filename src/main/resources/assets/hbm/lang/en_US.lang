@@ -3442,16 +3442,21 @@ rbmk.screen.rod=Control: %s
 rbmk.screen.temp=Temp: %s
 rbmk.screen.xenon=Xenon: %s
 
-shape.quantum=Quantum
-shape.nugget=Nugget
-shape.dusttiny=Tiny Dust
-shape.wire=Wire
 shape.billet=Billet
-shape.ingot=Ingot
-shape.dust=Dust
-shape.plate=Plate
-shape.quart=Quarter Block
+shape.blade=Blade
+shape.blades=Shredder Blades
 shape.block=Block
+shape.dust=Dust
+shape.dusttiny=Tiny Dust
+shape.hull_big=Big Shell
+shape.hull_small=Small Shell
+shape.ingot=Ingot
+shape.nugget=Nugget
+shape.quantum=Quantum
+shape.quart=Quarter Block
+shape.plate=Plate
+shape.stamp=Press Stamp
+shape.wire=Wire
 
 soundCategory.ntmMachines=NTM Machines
 
