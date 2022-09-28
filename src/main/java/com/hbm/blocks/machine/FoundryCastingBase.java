@@ -143,7 +143,7 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 			text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noCast"));
 		} else if(cast.slots[0].getItem() == ModItems.mold){
 			Mold mold = ((ItemMold) cast.slots[0].getItem()).getMold(cast.slots[0]);
-			text.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("shape." + mold.shape.name().toLowerCase()) + " x" + mold.amount);
+			text.add(EnumChatFormatting.BLUE + mold.getTitle());
 		}
 		
 		if(cast.type != null && cast.amount > 0) {

@@ -2,7 +2,6 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.machine.FoundryChannel;
 import com.hbm.blocks.machine.FoundryOutlet;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;

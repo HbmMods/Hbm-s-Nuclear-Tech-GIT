@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.List;
-
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
@@ -14,10 +12,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
- * Thank god we have a base class now. Now with documentation and as little redundtand crap in the child classes as possible.
+ * Thank god we have a base class now. Now with documentation and as little redundant crap in the child classes as possible.
  * @author hbm
  *
  */
@@ -48,14 +45,10 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 				if(cooloff <= 0) {
 					this.amount = 0;
 					
-					for(String name : this.type.names) {
-						String od = mold.shape.name().toLowerCase() + name;
-						List<ItemStack> ores = OreDictionary.getOres(od);
-						
-						if(!ores.isEmpty()) {
-							slots[1] = ores.get(0).copy();
-							slots[1].stackSize = mold.amount;
-						}
+					ItemStack out = mold.getOutput(type);
+					
+					if(out != null) {
+						slots[1] = out.copy();
 					}
 					
 					cooloff = 100;
@@ -101,15 +94,7 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 		Mold mold = this.getInstalledMold();
 		if(mold == null) return false;
 		
-		for(String name : stack.material.names) {
-			String od = mold.shape.name().toLowerCase() + name;
-			
-			if(!OreDictionary.getOres(od).isEmpty()) {
-				return true; //at least one block for this material? return TRUE
-			}
-		}
-		
-		return false; //no OD match -> no pouring
+		return mold.getOutput(stack.material) != null; //no OD match -> no pouring
 	}
 	
 	/** Returns an integer determining the mold size, 0 for small molds and 1 for the basin */

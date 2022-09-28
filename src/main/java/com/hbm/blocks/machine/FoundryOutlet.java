@@ -1,6 +1,10 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 
@@ -11,9 +15,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -61,6 +67,39 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityFoundryOutlet();
+	}
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		
+		AxisAlignedBB aabb = null;
+		int meta = world.getBlockMetadata(x, y, z);
+
+		if(meta == 2) aabb = AxisAlignedBB.getBoundingBox(x + 0.625D, y, z + 0.3125D, x + 1D, y + 0.5D, z + 0.6875D);
+		if(meta == 3) aabb = AxisAlignedBB.getBoundingBox(x + 0D, y, z + 0.3125D, x + 0.375D, y + 0.5D, z + 0.6875D);
+		if(meta == 4) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.625D, x + 0.6875D, y + 0.5D, z + 1D);
+		if(meta == 5) aabb = AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0D, x + 0.6875D, y + 0.5D, z + 0.375D);
+		
+		if(aabb != null && entityBounding.intersectsWith(aabb)) {
+			list.add(aabb);
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+
+		int meta = world.getBlockMetadata(x, y, z);
+		if(meta == 2) this.setBlockBounds(0.625F, 0F, 0.3125F, 1F, 0.5F, 0.6875F);
+		if(meta == 3) this.setBlockBounds(0F, 0F, 0.3125F, 0.375F, 0.5F, 0.6875F);
+		if(meta == 4) this.setBlockBounds(0.3125F, 0F, 0.625F, 0.6875F, 0.5F, 1F);
+		if(meta == 5) this.setBlockBounds(0.3125F, 0F, 0F, 0.6875F, 0.5F, 0.375F);
 	}
 
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }

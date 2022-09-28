@@ -43,8 +43,8 @@ public class Mats {
 	public static final int _AS = 30;
 	
 	//Vanilla and vanilla-like
-	public static final NTMMaterial MAT_STONE		= makeSmeltable(_VS + 00,	df("Stone"), 0x4D2F23);
-	public static final NTMMaterial MAT_COAL		= makeAdditive(	1400, 		COAL,		0x583434);
+	public static final NTMMaterial MAT_STONE		= makeSmeltable(_VS + 00,	df("Stone"), 0x4D2F23).omitAutoGen();
+	public static final NTMMaterial MAT_COAL		= makeAdditive(	1400, 		COAL,		0x583434).omitAutoGen();
 	public static final NTMMaterial MAT_LIGNITE		= makeAdditive(	1401, 		LIGNITE,	0x715444);
 	public static final NTMMaterial MAT_COALCOKE	= makeAdditive(	1410, 		COALCOKE,	0);
 	public static final NTMMaterial MAT_PETCOKE		= makeAdditive(	1411, 		PETCOKE,	0);
@@ -53,12 +53,14 @@ public class Mats {
 	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		IRON,		0xFFA259).omitAutoGen();
 	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
 	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0x7A0300).omitAutoGen();
+	public static final NTMMaterial MAT_OBSIDIAN	= makeSmeltable(_VS + 02,	df("Obsidian"), 0x4D2F23).omitAutoGen();
 
 	//Radioactive
 	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(9232,		TH232,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_PLUTONIUM	= makeSmeltable(9400,		PU,			0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_RADIUM		= makeSmeltable(8826,		RA226,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_SCHRABIDIUM	= makeSmeltable(12626,		SA326,		0).setShapes(NUGGET, WIRE, BILLET, INGOT, DUST, PLATE, BLOCK);
 
 	//Base metals
 	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xA99E79).setShapes(INGOT, DUST, PLATE, BLOCK);
@@ -83,6 +85,7 @@ public class Mats {
 	public static final NTMMaterial MAT_STAR		= makeSmeltable(_AS + 5,	STAR,		0).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_TCALLOY		= makeSmeltable(_AS + 6,	TCALLOY,	0).setShapes(INGOT, DUST);
 	public static final NTMMaterial MAT_MAGTUNG		= makeSmeltable(_AS + 7,	MAGTUNG,	0).setShapes(INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_CMB			= makeSmeltable(_AS + 8,	CMB,		0).setShapes(INGOT, DUST, PLATE, BLOCK);
 
 	public static NTMMaterial make(int id, DictFrame dict) {
 		return new NTMMaterial(id, dict);
