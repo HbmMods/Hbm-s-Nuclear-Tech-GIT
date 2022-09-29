@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -28,10 +29,15 @@ public class ItemMold extends Item {
 	public List<Mold> molds = new ArrayList(); //molds in "pretty" order, variable between versions
 	public HashMap<Integer, Mold> moldById = new HashMap(); //molds by their static ID -> stack item damage
 	
+	public HashMap<NTMMaterial, ItemStack> blockOverrides = new HashMap();
+	
 	public ItemMold() {
 
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+
+		blockOverrides.put(Mats.MAT_STONE,		new ItemStack(Blocks.stone));
+		blockOverrides.put(Mats.MAT_OBSIDIAN,	new ItemStack(Blocks.obsidian));
 		
 		int S = 0;
 		int L = 1;
@@ -41,7 +47,7 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
 		registerMold(new MoldWire(		4, S, "wire"));
 		
-		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(3),
+		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(2),
 				Mats.MAT_TITANIUM, new ItemStack(ModItems.blade_titanium),
 				Mats.MAT_TUNGSTEN, new ItemStack(ModItems.blade_tungsten)));
 		
@@ -74,7 +80,7 @@ public class ItemMold extends Item {
 		
 		registerMold(new MoldShape(		10, L, "ingots", MaterialShapes.INGOT, 9));
 		registerMold(new MoldShape(		11, L, "plates", MaterialShapes.PLATE, 9));
-		registerMold(new MoldShape(		12, L, "block", MaterialShapes.BLOCK));
+		registerMold(new MoldBlock(		12, L, "block", MaterialShapes.BLOCK));
 		registerMold(new MoldSingle(	13, L, "pipes", new ItemStack(ModItems.pipes_steel), Mats.MAT_STEEL, MaterialShapes.BLOCK.q(3)));
 	}
 	
@@ -185,6 +191,24 @@ public class ItemMold extends Item {
 		@Override
 		public String getTitle() {
 			return I18nUtil.resolveKey("shape." + shape.name().toLowerCase()) + " x" + amount;
+		}
+	}
+
+	public class MoldBlock extends MoldShape {
+
+		public MoldBlock(int id, int size, String name, MaterialShapes shape) {
+			super(id, size, name, shape);
+		}
+
+		@Override
+		public ItemStack getOutput(NTMMaterial mat) {
+			
+			ItemStack override = blockOverrides.get(mat);
+			
+			if(override != null)
+				return override.copy();
+			
+			return super.getOutput(mat);
 		}
 	}
 

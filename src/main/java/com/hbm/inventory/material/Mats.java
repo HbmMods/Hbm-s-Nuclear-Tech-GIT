@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
  */
 public class Mats {
 
+	public static List<NTMMaterial> orderedList = new ArrayList();
 	public static HashMap<String, MaterialShapes> prefixByName = new HashMap();
 	public static HashMap<Integer, NTMMaterial> matById = new HashMap();
 	public static HashMap<String, NTMMaterial> matByName = new HashMap();

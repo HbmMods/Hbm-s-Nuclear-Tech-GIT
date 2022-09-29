@@ -14,6 +14,7 @@ public class NTMMaterial {
 	public MaterialShapes[] shapes = new MaterialShapes[0];
 	public boolean omitItemGen = false;
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
+	public int solidColor = 0xFF4A00; //TODO
 	public int moltenColor = 0xFF4A00;
 	
 	public NTMMaterial(int id, DictFrame dict) {
@@ -25,6 +26,7 @@ public class NTMMaterial {
 			Mats.matByName.put(name, this);
 		}
 		
+		Mats.orderedList.add(this);
 		Mats.matById.put(id, this);
 	}
 	

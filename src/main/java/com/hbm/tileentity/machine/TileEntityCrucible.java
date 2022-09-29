@@ -65,6 +65,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		if(!worldObj.isRemote) {
 			tryPullHeat();
 			
+			/* collect items */
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				List<EntityItem> list = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord + 0.5, zCoord - 0.5, xCoord + 1.5, yCoord + 1, zCoord + 1.5));
 				
@@ -90,10 +91,14 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				}
 			}
 			
+			/* smelt items from buffer */
 			if(!trySmelt()) {
 				this.progress = 0;
 			}
 			
+			tryRecipe();
+			
+			/* pour wasste stack */
 			if(!this.wasteStack.isEmpty()) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
@@ -101,6 +106,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(1), impact);
 			}
 			
+			/* pour recipe stack */
 			if(!this.recipeStack.isEmpty()) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -126,9 +132,11 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
 			}
 
+			/* clean up stacks */
 			this.recipeStack.removeIf(o -> o.amount <= 0);
 			this.wasteStack.removeIf(x -> x.amount <= 0);
 			
+			/* sync */
 			NBTTagCompound data = new NBTTagCompound();
 			int[] rec = new int[recipeStack.size() * 2];
 			int[] was = new int[wasteStack.size() * 2];
@@ -219,6 +227,33 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		}
 		
 		return true;
+	}
+	
+	protected void tryRecipe() {
+		CrucibleRecipe recipe = this.getLoadedRecipe();
+		
+		if(recipe == null) return;
+		if(worldObj.getTotalWorldTime() % recipe.frequency > 0) return;
+		
+		for(MaterialStack stack : recipe.input) {
+			if(getQuantaFromType(this.recipeStack, stack.material) < stack.amount) return;
+		}
+		
+		for(MaterialStack stack : this.recipeStack) {
+			stack.amount -= getQuantaFromType(recipe.input, stack.material);
+		}
+		
+		for(MaterialStack out : recipe.output) {
+			
+			for(MaterialStack stack : this.recipeStack) {
+				if(stack.material == out.material) {
+					stack.amount += out.amount;
+					break;
+				}
+			}
+			
+			this.recipeStack.add(out.copy());
+		}
 	}
 	
 	protected int getFirstSmeltableSlot() {

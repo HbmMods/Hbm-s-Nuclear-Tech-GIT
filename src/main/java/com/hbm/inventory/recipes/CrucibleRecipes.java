@@ -15,8 +15,12 @@ public class CrucibleRecipes extends SerializableRecipe {
 
 	public static HashMap<Integer, CrucibleRecipe> indexMapping = new HashMap();
 	public static List<CrucibleRecipe> recipes = new ArrayList();
-
-
+	
+	/*
+	 * IMPORTANT: crucibles do not have stack size checks for the recipe's result, meaning that they can overflow if the resulting stacks are
+	 * bigger than the input stacks, so make sure that material doesn't "expand". very few things do that IRL when alloying anyway.
+	 */
+	
 	@Override
 	public void registerDefaults() {
 		
@@ -38,7 +42,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 		public MaterialStack[] output;
 		private int id;
 		private String name;
-		public int frequency;
+		public int frequency = 1;
 		
 		public CrucibleRecipe(int id, String name, int frequency) {
 			this.id = id;

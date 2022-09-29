@@ -744,6 +744,7 @@ public class ModItems {
 
 	public static Item mold_base;
 	public static Item mold;
+	public static Item scraps;
 
 	public static Item part_lithium;
 	public static Item part_beryllium;
@@ -3355,6 +3356,7 @@ public class ModItems {
 
 		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
 		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
+		scraps = new ItemScraps().setUnlocalizedName("scraps").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":scraps");
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
 		part_beryllium = new Item().setUnlocalizedName("part_beryllium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_beryllium");
@@ -6654,6 +6656,7 @@ public class ModItems {
 		//Molds
 		GameRegistry.registerItem(mold_base, mold_base.getUnlocalizedName());
 		GameRegistry.registerItem(mold, mold.getUnlocalizedName());
+		GameRegistry.registerItem(scraps, scraps.getUnlocalizedName());
 		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
