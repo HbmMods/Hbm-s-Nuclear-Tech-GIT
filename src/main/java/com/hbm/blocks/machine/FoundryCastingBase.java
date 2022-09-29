@@ -8,6 +8,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.tileentity.machine.TileEntityFoundryCastingBase;
 import com.hbm.util.I18nUtil;
 
@@ -19,6 +20,8 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -102,6 +105,23 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 				world.markBlockForUpdate(x, y, z);
 				return true;
 			}
+		}
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && ((ItemTool) player.getHeldItem().getItem()).getToolClasses(player.getHeldItem()).contains("shovel")) {
+			if(cast.amount > 0) {
+				ItemStack scrap = ItemScraps.create(new MaterialStack(cast.type, cast.amount));
+				if(!player.inventory.addItemStackToInventory(scrap)) {
+					EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+					world.spawnEntityInWorld(item);
+				} else {
+					player.inventoryContainer.detectAndSendChanges();
+				}
+				cast.amount = 0;
+				cast.type = null;
+				cast.markDirty();
+				world.markBlockForUpdate(x, y, z);
+			}
+			return true;
 		}
 		
 		return false;

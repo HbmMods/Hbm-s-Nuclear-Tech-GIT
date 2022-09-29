@@ -1,10 +1,8 @@
 package com.hbm.blocks.machine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.material.Mats.MaterialStack;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 

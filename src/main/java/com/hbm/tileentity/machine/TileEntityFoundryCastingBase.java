@@ -6,7 +6,6 @@ import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,13 +51,18 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 						slots[1] = out.copy();
 					}
 					
-					cooloff = 100;
+					cooloff = 200;
 				}
 				
 			} else {
-				cooloff = 100;
+				cooloff = 200;
 			}
 		}
+	}
+
+	@Override
+	protected boolean shouldClientReRender() {
+		return false;
 	}
 	
 	/** Checks slot 0 to see what mold type is installed. Returns null if no mold is found or an incorrect size was used. */

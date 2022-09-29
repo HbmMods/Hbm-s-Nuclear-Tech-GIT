@@ -634,7 +634,8 @@ public class ModEventHandlerClient {
 			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
 		}
 		
-		List<MaterialStack> materials = Mats.getMaterialsFromItem(new ComparableStack(stack).makeSingular().toStack());
+		ItemStack copy = stack.copy();
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
 		
 		if(!materials.isEmpty()) {
 			for(MaterialStack mat : materials) {

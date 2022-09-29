@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
@@ -53,8 +55,8 @@ public class Mats {
 	public static final NTMMaterial MAT_GRAPHITE	= makeAdditive(	1420, 		GRAPHITE,	0);
 	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		IRON,		0xFFA259).omitAutoGen();
 	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
-	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0x7A0300).omitAutoGen();
-	public static final NTMMaterial MAT_OBSIDIAN	= makeSmeltable(_VS + 02,	df("Obsidian"), 0x4D2F23).omitAutoGen();
+	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0xFF1000).omitAutoGen();
+	public static final NTMMaterial MAT_OBSIDIAN	= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D).omitAutoGen();
 
 	//Radioactive
 	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
@@ -78,9 +80,9 @@ public class Mats {
 	public static final NTMMaterial MAT_BORON		= makeSmeltable(500,		B,			0).setShapes(DUSTTINY, INGOT, DUST, BLOCK);
 	
 	//Alloys
-	public static final NTMMaterial MAT_STEEL		= makeSmeltable(_AS + 0,	STEEL,		0).setShapes(DUSTTINY, INGOT, DUST, PLATE, BLOCK);
-	public static final NTMMaterial MAT_MINGRADE	= makeSmeltable(_AS + 1,	MINGRADE,	0).setShapes(WIRE, INGOT, DUST, BLOCK);
-	public static final NTMMaterial MAT_ALLOY		= makeSmeltable(_AS + 2,	ALLOY,		0).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_STEEL		= makeSmeltable(_AS + 0,	STEEL,		0x4A4A4A).setShapes(DUSTTINY, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_MINGRADE	= makeSmeltable(_AS + 1,	MINGRADE,	0xE44C0F).setShapes(WIRE, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_ALLOY		= makeSmeltable(_AS + 2,	ALLOY,		0xFF7318).setShapes(WIRE, INGOT, DUST, PLATE, BLOCK);
 	public static final NTMMaterial MAT_DURA		= makeSmeltable(_AS + 3,	DURA,		0).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_SATURN		= makeSmeltable(_AS + 4,	BIGMT,		0).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_STAR		= makeSmeltable(_AS + 5,	STAR,		0).setShapes(INGOT, DUST, BLOCK);
@@ -140,6 +142,10 @@ public class Mats {
 		
 		if(entries != null) {
 			list.addAll(entries);
+		}
+		
+		if(stack.getItem() == ModItems.scraps) {
+			list.add(ItemScraps.getMats(stack));
 		}
 		
 		return list;

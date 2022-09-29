@@ -91,7 +91,7 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	 * - amount being at max<br>
 	 */
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		if(this.type != null && this.type != stack.material) return false; //reject if there's already a different material
+		if(this.type != null && this.type != stack.material && this.amount > 0) return false; //reject if there's already a different material
 		if(this.amount >= this.getCapacity()) return false; //reject if the buffer is already full
 		return true;
 	}
@@ -103,10 +103,7 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	 * - returns the amount that cannot be added
 	 */
 	public MaterialStack standardAdd(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
-		if(this.type == null) {
-			this.type = stack.material;
-		}
+		this.type = stack.material;
 		
 		if(stack.amount + this.amount <= this.getCapacity()) {
 			this.amount += stack.amount;

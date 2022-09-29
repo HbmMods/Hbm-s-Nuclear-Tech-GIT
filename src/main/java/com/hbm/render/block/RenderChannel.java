@@ -202,6 +202,15 @@ public class RenderChannel implements ISimpleBlockRenderingHandler {
 		boolean doRender = tile != null ? (tile.amount > 0 && tile.type != null) : false;
 		double level = doRender ? tile.amount * 0.25D / tile.getCapacity() : 0;
 		Color color = doRender ? new Color(tile.type.moltenColor).brighter() : null;
+		
+		if(color != null) {
+			double brightener = 0.7D;
+			int nr = (int) (255D - (255D - color.getRed()) * brightener);
+			int ng = (int) (255D - (255D - color.getGreen()) * brightener);
+			int nb = (int) (255D - (255D - color.getBlue()) * brightener);
+			
+			color = new Color(nr, ng, nb);
+		}
 
 		boolean posX = channel.canConnectTo(world, x, y, z, Library.POS_X);
 		boolean negX = channel.canConnectTo(world, x, y, z, Library.NEG_X);

@@ -21,6 +21,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -28,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -78,6 +80,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 								
 								if(stack.stackSize == 1) {
 									slots[i] = stack.copy();
+									item.setDead();
+									break;
 								} else {
 									slots[i] = stack.copy();
 									slots[i].stackSize = 1;
@@ -89,6 +93,20 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 						}
 					}
 				}
+			}
+
+			int totalCap = recipeCapacity + wasteCapacity;
+			int totalMass = 0;
+
+			for(MaterialStack stack : recipeStack) totalMass += stack.amount;
+			for(MaterialStack stack : wasteStack) totalMass += stack.amount;
+			
+			double level = ((double) totalMass / (double) totalCap) * 0.875D;
+			
+			List<EntityLivingBase> living = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5 + level, zCoord + 0.5).expand(1, 0, 1));
+			for(EntityLivingBase entity : living) {
+				entity.attackEntityFrom(DamageSource.lava, 5F);
+				entity.setFire(5);
 			}
 			
 			/* smelt items from buffer */
@@ -243,12 +261,13 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			stack.amount -= getQuantaFromType(recipe.input, stack.material);
 		}
 		
+		outer:
 		for(MaterialStack out : recipe.output) {
 			
 			for(MaterialStack stack : this.recipeStack) {
 				if(stack.material == out.material) {
 					stack.amount += out.amount;
-					break;
+					continue outer;
 				}
 			}
 			
@@ -351,7 +370,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				return stack.amount;
 			}
 			if(mat == null) {
-				return sum += stack.amount;
+				sum += stack.amount;
 			}
 		}
 		return sum;

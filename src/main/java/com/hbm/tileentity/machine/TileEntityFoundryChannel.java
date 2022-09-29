@@ -30,7 +30,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 			
 			if(nextUpdate <= 0 && this.amount > 0 && this.type != null) {
 				
-				nextUpdate = worldObj.rand.nextInt(6) + 10;
+				nextUpdate = worldObj.rand.nextInt(6) + 5;
 				
 				List<Integer> ints = new ArrayList() {{ add(2); add(3); add(4); add(5); }};
 				Collections.shuffle(ints);
@@ -62,7 +62,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 					if(b instanceof TileEntityFoundryChannel) {
 						TileEntityFoundryChannel acc = (TileEntityFoundryChannel) b;
 						
-						if(acc.type == null || acc.type == this.type) {
+						if(acc.type == null || acc.type == this.type || acc.amount == 0) {
 							acc.type = this.type;
 							
 							if(worldObj.rand.nextInt(5) == 0) {

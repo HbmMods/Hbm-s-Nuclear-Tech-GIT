@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
@@ -10,12 +11,24 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
+	
+	public NTMMaterial filter = null;
+	/** inverts redstone behavior, i.e. when TRUE, the outlet will be blocked by default and only open with redstone */
+	public boolean invertRedstone = false;
+	
+	/** if TRUE, prevents all fluids from flowing through the outlet and renders a small barrier */
+	public boolean isClosed() {
+		return invertRedstone ^ this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+	}
 
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return stack; }
 	
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		
+		if(filter != null && filter != stack.material) return false;
+		if(isClosed()) return false;
 		
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 4, z + 0.5);

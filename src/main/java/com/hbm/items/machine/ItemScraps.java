@@ -68,7 +68,7 @@ public class ItemScraps extends Item {
 	}
 	
 	public static ItemStack create(MaterialStack stack) {
-		ItemStack scrap = new ItemStack(ModItems.scrap, 1, stack.material.id);
+		ItemStack scrap = new ItemStack(ModItems.scraps, 1, stack.material.id);
 		scrap.stackTagCompound = new NBTTagCompound();
 		scrap.stackTagCompound.setInteger("amount", stack.amount);
 		return scrap;
