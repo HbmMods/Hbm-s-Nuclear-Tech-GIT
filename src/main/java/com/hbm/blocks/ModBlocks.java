@@ -2792,7 +2792,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_dungeon_tile, brick_dungeon_tile.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_dungeon_circle, brick_dungeon_circle.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_forgotten, brick_forgotten.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_computer, ItemBlockNamedMeta.class, deco_computer.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_computer, deco_computer.getUnlocalizedName());
 		GameRegistry.registerBlock(filing_cabinet, filing_cabinet.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_poles, steel_poles.getUnlocalizedName());

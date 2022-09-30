@@ -251,11 +251,18 @@ abstract public class Feature extends StructureComponent {
 	 * @return TE implementing IInventory with randomized contents
 	 */
 	protected boolean generateInvContents(World world, StructureBoundingBox box, Random rand, Block block, int featureX, int featureY, int featureZ, WeightedRandomChestContent[] content, int amount) {
+		return generateInvContents(world, box, rand, block, 0, featureX, featureY, featureZ, content, amount);
+	}
+	
+	protected boolean generateInvContents(World world, StructureBoundingBox box, Random rand, Block block, int meta, int featureX, int featureY, int featureZ, WeightedRandomChestContent[] content, int amount) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
-		this.placeBlockAtCurrentPosition(world, block, 0, featureX, featureY, featureZ, box);
+		if(world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
+			return false;
+		
+		this.placeBlockAtCurrentPosition(world, block, meta, featureX, featureY, featureZ, box);
 		IInventory inventory = (IInventory)world.getTileEntity(posX, posY, posZ);
 		
 		if(inventory != null) {
@@ -274,22 +281,30 @@ abstract public class Feature extends StructureComponent {
 	 */
 	protected boolean generateLockableContents(World world, StructureBoundingBox box, Random rand, Block block, int featureX, int featureY, int featureZ,
 			WeightedRandomChestContent[] content, int amount, double mod) {
+		return generateLockableContents(world, box, rand, block, 0, featureX, featureY, featureZ, content, amount, mod);
+	}
+	
+	protected boolean generateLockableContents(World world, StructureBoundingBox box, Random rand, Block block, int meta, int featureX, int featureY, int featureZ,
+			WeightedRandomChestContent[] content, int amount, double mod) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
-		this.placeBlockAtCurrentPosition(world, block, 0, featureX, featureY, featureZ, box);
+		if(world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
+			return false;
+		
+		this.placeBlockAtCurrentPosition(world, block, meta, featureX, featureY, featureZ, box);
 		TileEntity tile = world.getTileEntity(posX, posY, posZ);
 		TileEntityLockableBase lock = (TileEntityLockableBase) tile;
 		IInventory inventory = (IInventory) tile;
 		
 		if(inventory != null && lock != null) {
+			amount = (int)Math.floor(amount * StructureConfig.lootAmountFactor);
+			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount < 1 ? 1 : amount);
+			
 			lock.setPins(rand.nextInt(999) + 1);
 			lock.setMod(mod);
 			lock.lock();
-			
-			amount = (int)Math.floor(amount * StructureConfig.lootAmountFactor);
-			WeightedRandomChestContent.generateChestContents(rand, content, inventory, amount < 1 ? 1 : amount);
 			return true;
 		}
 		

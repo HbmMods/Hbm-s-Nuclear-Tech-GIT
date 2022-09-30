@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.util.LootGenerator;
 import com.hbm.world.worldgen.components.Feature.ConcreteBricks;
 
 import net.minecraft.init.Blocks;
@@ -45,9 +46,6 @@ public class OfficeFeatures {
 		}
 		
 		//Holy shit I despise this method so goddamn much
-		//TODO BOB: please i beg you make some sort of utility tool to simplify this
-		//ideally we'd invent something like the structure blocks or even a more advanced
-		//schematic to java tool
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
@@ -221,6 +219,8 @@ public class OfficeFeatures {
 	public static class LargeOfficeCorner extends Feature {
 		
 		private static ConcreteBricks ConcreteBricks = new ConcreteBricks();
+		
+		//no placed loot? it's because i would've had to do fucking 12 of them and i don't have an easy standardized system for that
 		
 		public LargeOfficeCorner() {
 			super();
@@ -435,6 +435,109 @@ public class OfficeFeatures {
 			placeDoor(world, box, ModBlocks.door_office, 1, 3, 9, 10);
 			placeDoor(world, box, ModBlocks.door_metal, 0, 5, 13, 3);
 			//Furniture
+			//Floor 1
+			int NorthStairMeta = getStairMeta(2);
+			int SouthStairMeta = getStairMeta(3);
+			int NorthStairMetaUD = NorthStairMeta | 4;
+			int SouthStairMetaUD = SouthStairMeta | 4;
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 2, 1, 5, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, SouthStairMeta, 2, 1, 7, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 2, 1, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 2, 1, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 8, 1, 4, box);
+			fillWithMetadataBlocks(world, box, 8, 1, 5, 8, 1, 7, Blocks.wooden_slab, 13);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 8, 1, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 9, 1, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 9, 1, 5, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 9, 1, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 10, 8, 2, 7, box);
+			
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 6, 1, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 7, 1, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 8, 1, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 10, 1, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 10, 1, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 10, 2, 11, box);
+			//Floor 2
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 4, 5, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 3, 5, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 2, 5, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 3, 5, 5, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 3, 6, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 3, 5, 7, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 4, 5, 7, box);
+			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 4, 5, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 4, 5, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 2, 5, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 10, 5, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 10, 5, 5, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 10, 5, 6, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 8, 5, 6, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(2), 10, 6, 6, box);
+			
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 8, 5, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 8, 5, 10, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 8, 5, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 9, 5, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 10, 5, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, WestStairMeta, 10, 5, 10, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 9, 6, 9, box);
+			
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 1, 5, 13, box);
+			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 1, 5, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 1, 5, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 3, 5, 13, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 1, 6, 12, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.machine_microwave, getDecoMeta(5), 1, 6, 11, box);
+			//Floor 3
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 8, 9, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 7, 9, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 9, 9, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 5, 9, 5, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 5, 9, 6, box);
+			fillWithMetadataBlocks(world, box, 3, 9, 6, 4, 9, 6, Blocks.wooden_slab, 13);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 2, 9, 6, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, SouthStairMeta, 3, 9, 5, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(0), 3, 10, 6, box);
+			
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 9, 9, 10, box);
+			fillWithMetadataBlocks(world, box, 7, 9, 10, 8, 9, 10, Blocks.wooden_slab, 13);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, SouthStairMetaUD, 6, 9, 10, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 5, 9, 10, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 5, 9, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, NorthStairMetaUD, 5, 9, 12, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, NorthStairMeta, 8, 9, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, EastStairMeta, 7, 9, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, SouthStairMeta, 9, 9, 8, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 6, 10, 10, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 7, 10, 10, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, getDecoMeta(5), 6, 9, 11, box);
+			placeRandomBobble(world, box, rand, 5, 10, 11);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, WestStairMetaUD, 2, 9, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, EastStairMetaUD, 1, 9, 11, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 2, 10, 11, box);
+			
+			//Roof
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 5, 13, 9, box);
+			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 7, 13, 11, box);
+			
+			//almost certainly a fucking astronomically better way to do this
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 9, 1, 7, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 5, 4, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 6, 4, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(2), 10, 5, 7, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 5, 12, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 6, 12, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
+			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 13, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 9, 13, HbmChestContents.filingCabinet, 4);
+			generateLockableContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 10, 13, HbmChestContents.expensive, 8, 0.1D);
+			
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 6, 13, 11, box);
+			LootGenerator.lootCapStash(world, this.getXWithOffset(6, 11), this.getYWithOffset(13), this.getZWithOffset(6, 11));
+
+			//this hurt my soul
 			
 			return false;
 		}
