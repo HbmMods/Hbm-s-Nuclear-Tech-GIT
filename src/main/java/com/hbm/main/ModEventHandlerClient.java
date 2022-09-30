@@ -27,6 +27,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -38,6 +39,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -434,6 +436,14 @@ public class ModEventHandlerClient {
 					item.m2 = true;
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
 					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
+				}
+			}
+			
+			if(held instanceof ISyncButtons) {
+				ISyncButtons rec = (ISyncButtons) held;
+				
+				if(rec.canReceiveMouse(player, player.getHeldItem(), event, event.button, event.buttonstate)) {
+					PacketDispatcher.wrapper.sendToServer(new SyncButtonsPacket(event.buttonstate, event.button));
 				}
 			}
 		}

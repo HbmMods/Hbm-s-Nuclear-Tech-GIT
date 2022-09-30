@@ -1626,6 +1626,7 @@ public class ClientProxy extends ServerProxy {
 		
 		if("anim".equals(type)) {
 			
+			/* crucible deploy */
 			if("crucible".equals(data.getString("mode")) && player.getHeldItem() != null) {
 				
 				BusAnimation animation = new BusAnimation()
@@ -1637,6 +1638,7 @@ public class ClientProxy extends ServerProxy {
 				HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 			}
 			
+			/* crucible swing */
 			if("cSwing".equals(data.getString("mode"))) {
 				
 				if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
@@ -1659,7 +1661,8 @@ public class ClientProxy extends ServerProxy {
 				}
 			}
 			
-			if("sSwing".equals(data.getString("mode"))) {
+			/* chainsaw swing */
+			if("sSwing".equals(data.getString("mode")) || "lSwing".equals(data.getString("mode"))) { //temp for lance
 
 				int forward = 150;
 				int sideways = 100;

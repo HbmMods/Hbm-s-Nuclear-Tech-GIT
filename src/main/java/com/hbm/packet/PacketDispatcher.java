@@ -101,6 +101,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.Handler.class, ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.class, i++, Side.CLIENT);
 		//Packet to send NBT data from clients to the serverside held item
 		wrapper.registerMessage(NBTItemControlPacket.Handler.class, NBTItemControlPacket.class, i++, Side.SERVER);
+		//sends a button press to the held item, assuming it is an ISyncButtons
+		wrapper.registerMessage(SyncButtonsPacket.Handler.class, SyncButtonsPacket.class, i++, Side.SERVER);
 	}
 	
 }
