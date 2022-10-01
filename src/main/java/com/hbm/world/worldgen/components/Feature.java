@@ -37,6 +37,10 @@ abstract public class Feature extends StructureComponent {
 		super(0);
 	}
 	
+	protected Feature(int componentType) {
+		super(componentType);
+	}
+	
 	protected Feature(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
 		this.sizeX = maxX;

@@ -145,7 +145,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
 				
 			} else { //Everything else
-				switch(rand.nextInt(4)) {
+				switch(rand.nextInt(3)) {
 				case 0:
 					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2); break;
@@ -155,9 +155,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				case 2:
 					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(office); break;
-				case 3:
+				/*case 3:
 					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
-					this.components.add(officeCorner); break;
+					this.components.add(officeCorner); break;*/
 				}
 			}
 			

@@ -539,7 +539,7 @@ public class OfficeFeatures {
 
 			//this hurt my soul
 			
-			return false;
+			return false; //TODO: whoopsy! this should probably be true, with the failed ones being false! not necessary here since the structures always generate in one chunk
 		}
 	}
 	
