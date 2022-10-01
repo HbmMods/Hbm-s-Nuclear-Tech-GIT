@@ -342,10 +342,16 @@ abstract public class Feature extends StructureComponent {
 				
 				if(box.isVecInside(posX, posY, posZ)) {
 					Block block = world.getBlock(posX, posY, posZ);
+					int brake = 0;
 					
-					while ((world.isAirBlock(posX, posY, posZ) || !block.getMaterial().isSolid() || (block.isFoliage(world, posX, posY, posZ) || block.getMaterial() == Material.leaves)) && posY > 1) {
+					while ((world.isAirBlock(posX, posY, posZ) || 
+							!block.getMaterial().isSolid() || 
+							(block.isFoliage(world, posX, posY, posZ) || block.getMaterial() == Material.leaves)) && 
+							posY > 1 && brake <= 15) {
 						world.setBlock(posX, posY, posZ, placeBlock, meta, 2);
 						block = world.getBlock(posX, --posY, posZ);
+						
+						brake++;
 					}
 				}
 			}
