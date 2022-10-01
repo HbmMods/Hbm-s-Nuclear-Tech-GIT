@@ -3,6 +3,7 @@ package com.hbm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.machine.FoundryOutlet;
+import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -11,7 +12,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-public class RenderOutlet implements ISimpleBlockRenderingHandler {
+public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -81,6 +82,7 @@ public class RenderOutlet implements ISimpleBlockRenderingHandler {
 		
 		FoundryOutlet outlet = (FoundryOutlet) block;
 		int meta = world.getBlockMetadata(x, y, z);
+		TileEntityFoundryOutlet tile = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
 
 		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
 		tessellator.setBrightness(brightness);
@@ -100,7 +102,20 @@ public class RenderOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceZNeg(block, x, y, z + 0.3125D, outlet.iconInner);
 			renderer.field_152631_f = false;
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
+			renderer.renderFaceXPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceXNeg(block, x, y, z, outlet.iconFront);
+			
+			if(tile.filter != null) {
+				renderer.setRenderBounds(0.96875D, 0.0625, 0.375D, 0.96875D, top, 0.625D);
+				renderer.renderFaceXPos(block, x, y, z, outlet.iconFilter);
+				renderer.renderFaceXNeg(block, x, y, z, outlet.iconFilter);
+			}
+			
+			if(tile.isClosed()) {
+				renderer.setRenderBounds(0.9375D, 0.0625, 0.375D, 0.9375D, top, 0.625D);
+				renderer.renderFaceXPos(block, x, y, z, outlet.iconLock);
+				renderer.renderFaceXNeg(block, x, y, z, outlet.iconLock);
+			}
 		}
 		
 		if(meta == 5) {
@@ -119,6 +134,19 @@ public class RenderOutlet implements ISimpleBlockRenderingHandler {
 			renderer.field_152631_f = false;
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
 			renderer.renderFaceXPos(block, x, y, z, outlet.iconFront);
+			renderer.renderFaceXNeg(block, x, y, z, outlet.iconFront);
+			
+			if(tile.filter != null) {
+				renderer.setRenderBounds(0.03125D, 0.0625, 0.375D, 0.03125D, top, 0.625D);
+				renderer.renderFaceXPos(block, x, y, z, outlet.iconFilter);
+				renderer.renderFaceXNeg(block, x, y, z, outlet.iconFilter);
+			}
+			
+			if(tile.isClosed()) {
+				renderer.setRenderBounds(0.0625D, 0.0625, 0.375D, 0.0625D, top, 0.625D);
+				renderer.renderFaceXPos(block, x, y, z, outlet.iconLock);
+				renderer.renderFaceXNeg(block, x, y, z, outlet.iconLock);
+			}
 		}
 		
 		if(meta == 2) {
@@ -136,7 +164,20 @@ public class RenderOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceXNeg(block, x, y, z, outlet.iconSide);
 			renderer.renderFaceXNeg(block, x + 0.3125D, y, z, outlet.iconInner);
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
+			renderer.renderFaceZPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceZNeg(block, x, y, z, outlet.iconFront);
+			
+			if(tile.filter != null) {
+				renderer.setRenderBounds(0.375D, 0.0625, 0.96875D, 0.625D, top, 0.96875D);
+				renderer.renderFaceZPos(block, x, y, z, outlet.iconFilter);
+				renderer.renderFaceZNeg(block, x, y, z, outlet.iconFilter);
+			}
+			
+			if(tile.isClosed()) {
+				renderer.setRenderBounds(0.375D, 0.0625, 0.9375D, 0.625D, top, 0.9375D);
+				renderer.renderFaceZPos(block, x, y, z, outlet.iconLock);
+				renderer.renderFaceZNeg(block, x, y, z, outlet.iconLock);
+			}
 		}
 		
 		if(meta == 3) {
@@ -155,6 +196,19 @@ public class RenderOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceXNeg(block, x + 0.3125D, y, z, outlet.iconInner);
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
 			renderer.renderFaceZPos(block, x, y, z, outlet.iconFront);
+			renderer.renderFaceZNeg(block, x, y, z, outlet.iconFront);
+			
+			if(tile.filter != null) {
+				renderer.setRenderBounds(0.375D, 0.0625D, 0.03125, 0.625D, top, 0.03125D);
+				renderer.renderFaceZPos(block, x, y, z, outlet.iconFilter);
+				renderer.renderFaceZNeg(block, x, y, z, outlet.iconFilter);
+			}
+			
+			if(tile.isClosed()) {
+				renderer.setRenderBounds(0.375D, 0.0625, 0.0625D, 0.625D, top, 0.0625D);
+				renderer.renderFaceZPos(block, x, y, z, outlet.iconLock);
+				renderer.renderFaceZNeg(block, x, y, z, outlet.iconLock);
+			}
 		}
 		
 		return true;

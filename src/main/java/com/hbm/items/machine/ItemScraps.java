@@ -35,7 +35,7 @@ public class ItemScraps extends Item {
 		MaterialStack contents = getMats(stack);
 		
 		if(contents != null) {
-			list.add(contents.material.names[0] + " " + Mats.formatAmount(contents.amount));
+			list.add(contents.material.names[0] + ", " + Mats.formatAmount(contents.amount));
 		}
 	}
 

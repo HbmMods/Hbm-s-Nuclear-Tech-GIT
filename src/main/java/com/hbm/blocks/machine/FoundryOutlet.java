@@ -1,10 +1,16 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.machine.TileEntityFoundryCastingBase;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -15,22 +21,27 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
+public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, ILookOverlay {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTop;
 	@SideOnly(Side.CLIENT) public IIcon iconSide;
 	@SideOnly(Side.CLIENT) public IIcon iconBottom;
 	@SideOnly(Side.CLIENT) public IIcon iconInner;
 	@SideOnly(Side.CLIENT) public IIcon iconFront;
+	@SideOnly(Side.CLIENT) public IIcon iconLock;
+	@SideOnly(Side.CLIENT) public IIcon iconFilter;
 
 	public FoundryOutlet() {
 		super(Material.rock);
@@ -45,6 +56,8 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":foundry_outlet_bottom");
 		this.iconInner = iconRegister.registerIcon(RefStrings.MODID + ":foundry_outlet_inner");
 		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":foundry_outlet_front");
+		this.iconLock = iconRegister.registerIcon(RefStrings.MODID + ":foundry_outlet_lock");
+		this.iconFilter = iconRegister.registerIcon(RefStrings.MODID + ":foundry_outlet_filter");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -99,6 +112,30 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 		if(meta == 2) this.setBlockBounds(0.3125F, 0F, 0.625F, 0.6875F, 0.5F, 1F);
 		if(meta == 3) this.setBlockBounds(0.3125F, 0F, 0F, 0.6875F, 0.5F, 0.375F);
 	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		}
+		
+		if(!player.isSneaking()) {
+			TileEntityFoundryOutlet tile = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.scraps) {
+				MaterialStack mat = ItemScraps.getMats(player.getHeldItem());
+				if(mat != null) {
+					tile.filter = mat.material;
+				}
+			} else {
+				tile.invertRedstone = !tile.invertRedstone;
+			}
+			tile.markDirty();
+			world.markBlockForUpdate(x, y, z);
+		}
+		
+		return true;
+	}
 
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return stack; }
@@ -128,5 +165,20 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		TileEntityFoundryOutlet outlet = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
+		List<String> text = new ArrayList();
+		
+		if(outlet.filter != null) {
+			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.filter", outlet.filter.names[0]));
+		}
+		if(outlet.invertRedstone) {
+			text.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("foundry.inverted"));
+		}
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(this.getUnlocalizedName() + ".name"), 0xFF4000, 0x401000, text);
 	}
 }

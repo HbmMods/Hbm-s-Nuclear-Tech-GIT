@@ -10,6 +10,9 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
+
+import net.minecraft.item.ItemStack;
 
 public class CrucibleRecipes extends SerializableRecipe {
 
@@ -24,17 +27,17 @@ public class CrucibleRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
-		recipes.add(new CrucibleRecipe(0, "crucible.steel", 1)
-				.inputs(new MaterialStack(Mats.MAT_IRON, 10), new MaterialStack(Mats.MAT_COAL, 15))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, 10)));
+		recipes.add(new CrucibleRecipe(0, "crucible.steel", 1, new ItemStack(ModItems.ingot_steel))
+				.inputs(new MaterialStack(Mats.MAT_IRON, 8), new MaterialStack(Mats.MAT_COAL, 8))
+				.outputs(new MaterialStack(Mats.MAT_STEEL, 8)));
 		
-		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 1)
-				.inputs(new MaterialStack(Mats.MAT_STEEL, 10), new MaterialStack(Mats.MAT_REDSTONE, 10))
-				.outputs(new MaterialStack(Mats.MAT_MINGRADE, 20)));
+		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 1, new ItemStack(ModItems.ingot_red_copper))
+				.inputs(new MaterialStack(Mats.MAT_COPPER, 8), new MaterialStack(Mats.MAT_REDSTONE, 8))
+				.outputs(new MaterialStack(Mats.MAT_MINGRADE, 16)));
 		
-		recipes.add(new CrucibleRecipe(2, "crucible.aa", 1)
-				.inputs(new MaterialStack(Mats.MAT_STEEL, 10), new MaterialStack(Mats.MAT_MINGRADE, 10))
-				.outputs(new MaterialStack(Mats.MAT_ALLOY, 20)));
+		recipes.add(new CrucibleRecipe(2, "crucible.aa", 1, new ItemStack(ModItems.ingot_advanced_alloy))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, 8), new MaterialStack(Mats.MAT_MINGRADE, 8))
+				.outputs(new MaterialStack(Mats.MAT_ALLOY, 16)));
 	}
 
 	public static class CrucibleRecipe {
@@ -43,11 +46,13 @@ public class CrucibleRecipes extends SerializableRecipe {
 		private int id;
 		private String name;
 		public int frequency = 1;
+		public ItemStack icon;
 		
-		public CrucibleRecipe(int id, String name, int frequency) {
+		public CrucibleRecipe(int id, String name, int frequency, ItemStack icon) {
 			this.id = id;
 			this.name = name;
 			this.frequency = frequency;
+			this.icon = icon;
 			
 			if(!indexMapping.containsKey(id)) {
 				indexMapping.put(id, this);

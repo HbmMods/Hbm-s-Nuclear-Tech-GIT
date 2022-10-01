@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.material.Mats.MaterialStack;
@@ -125,6 +126,18 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 		}
 		
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
+		
+		TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
+
+		if(cast.amount > 0 && cast.amount >= cast.getCapacity()) {
+			world.spawnParticle("smoke", x + 0.25 + rand.nextDouble() * 0.5, y + this.maxY, z + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
+		}
 	}
 
 	@Override

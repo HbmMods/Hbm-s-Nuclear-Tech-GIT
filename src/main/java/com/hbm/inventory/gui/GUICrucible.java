@@ -63,8 +63,8 @@ public class GUICrucible extends GuiInfoContainer {
 		int hGauge = crucible.heat * 33 / crucible.maxHeat;
 		if(hGauge > 0) drawTexturedModalRect(guiLeft + 126, guiTop + 91, 176, 5, hGauge, 5);
 
-		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, crucible.recipeCapacity, 62, 97);
-		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, crucible.wasteCapacity, 17, 97);
+		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, crucible.recipeZCapacity, 62, 97);
+		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, crucible.wasteZCapacity, 17, 97);
 	}
 	
 	protected void drawStackInfo(List<MaterialStack> stack, int mouseX, int mouseY, int x, int y) {

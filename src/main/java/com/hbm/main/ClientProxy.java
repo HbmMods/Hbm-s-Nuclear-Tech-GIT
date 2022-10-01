@@ -744,10 +744,11 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBoxDuct());
 		RenderingRegistry.registerBlockHandler(new RenderBlockDecoModel(ModBlocks.deco_computer.getRenderType(), ResourceManager.deco_computer));
 
-		RenderingRegistry.registerBlockHandler(new RenderBasin());
-		RenderingRegistry.registerBlockHandler(new RenderMold());
-		RenderingRegistry.registerBlockHandler(new RenderChannel());
-		RenderingRegistry.registerBlockHandler(new RenderOutlet());
+		RenderingRegistry.registerBlockHandler(new RenderFoundryBasin());
+		RenderingRegistry.registerBlockHandler(new RenderFoundryMold());
+		RenderingRegistry.registerBlockHandler(new RenderFoundryChannel());
+		RenderingRegistry.registerBlockHandler(new RenderFoundryTank());
+		RenderingRegistry.registerBlockHandler(new RenderFoundryOutlet());
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));

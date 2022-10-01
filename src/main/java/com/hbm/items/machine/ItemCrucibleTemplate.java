@@ -6,6 +6,7 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,6 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCrucibleTemplate extends Item {
 
@@ -37,17 +39,16 @@ public class ItemCrucibleTemplate extends Item {
 		if(recipe == null) {
 			return;
 		}
-		
-		list.add("Input:");
+
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
+		for(MaterialStack out : recipe.output) {
+			list.add(out.material.names[0] + ": " + Mats.formatAmount(out.amount));
+		}
+
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 		
 		for(MaterialStack in : recipe.input) {
-			list.add("- " + in.material.names[0] + ": " + Mats.formatAmount(in.amount));
-		}
-		
-		list.add("Output:");
-		
-		for(MaterialStack out : recipe.output) {
-			list.add("- " + out.material.names[0] + ": " + Mats.formatAmount(out.amount));
+			list.add(in.material.names[0] + ": " + Mats.formatAmount(in.amount));
 		}
 	}
 }

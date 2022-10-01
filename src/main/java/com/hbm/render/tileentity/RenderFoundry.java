@@ -90,7 +90,6 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		
 		if(foundry.shouldRender()) {
 			
-			GL11.glDepthMask(false);
 			this.bindTexture(lava);
 			
 			int hex = foundry.getMat().moltenColor;
@@ -112,6 +111,7 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 			tess.addVertexWithUV(foundry.maxX(), foundry.getLevel(), foundry.minZ(), foundry.minZ(), foundry.minX());
 			tess.draw();
 			
+			GL11.glDepthMask(false);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			tess.startDrawingQuads();

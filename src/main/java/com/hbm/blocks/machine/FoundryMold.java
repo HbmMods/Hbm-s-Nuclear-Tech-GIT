@@ -15,6 +15,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class FoundryMold extends FoundryCastingBase {
 
@@ -76,5 +77,10 @@ public class FoundryMold extends FoundryCastingBase {
 	@Override
 	public int getRenderType() {
 		return renderID;
+	}
+	
+	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		return side == ForgeDirection.DOWN;
 	}
 }

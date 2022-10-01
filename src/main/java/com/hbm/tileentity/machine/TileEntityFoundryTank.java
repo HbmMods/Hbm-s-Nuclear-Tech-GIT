@@ -13,7 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFoundryChannel extends TileEntityFoundryBase {
+public class TileEntityFoundryTank extends TileEntityFoundryBase {
 	
 	public int nextUpdate;
 	
@@ -33,26 +33,43 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 				boolean hasOp = false;
 				nextUpdate = worldObj.rand.nextInt(6) + 5;
 				
+				TileEntity te = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+				
+				if(te instanceof TileEntityFoundryTank) {
+					TileEntityFoundryTank tank = (TileEntityFoundryTank) te;
+					
+					if((tank.type == null || tank.type == this.type) && tank.amount < tank.getCapacity()) {
+						tank.type = this.type;
+						int toFill = Math.min(this.amount, tank.getCapacity() - tank.amount);
+						this.amount -= toFill;
+						tank.amount += toFill;
+						hasOp = true;
+					}
+				}
+				
 				List<Integer> ints = new ArrayList() {{ add(2); add(3); add(4); add(5); }};
 				Collections.shuffle(ints);
 				
-				for(Integer i : ints) {
-					ForgeDirection dir = ForgeDirection.getOrientation(i);
-					Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				if(!hasOp) {
 					
-					if(b instanceof ICrucibleAcceptor && b != ModBlocks.foundry_channel) {
-						ICrucibleAcceptor acc = (ICrucibleAcceptor) b;
+					for(Integer i : ints) {
+						ForgeDirection dir = ForgeDirection.getOrientation(i);
+						Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 						
-						if(acc.canAcceptPartialFlow(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite(), new MaterialStack(this.type, this.amount))) {
-							MaterialStack left = acc.flow(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite(), new MaterialStack(this.type, this.amount));
-							if(left == null) {
-								this.type = null;
-								this.amount = 0;
-							} else {
-								this.amount = left.amount;
+						if(b instanceof ICrucibleAcceptor && b != ModBlocks.foundry_channel) {
+							ICrucibleAcceptor acc = (ICrucibleAcceptor) b;
+							
+							if(acc.canAcceptPartialFlow(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite(), new MaterialStack(this.type, this.amount))) {
+								MaterialStack left = acc.flow(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite(), new MaterialStack(this.type, this.amount));
+								if(left == null) {
+									this.type = null;
+									this.amount = 0;
+								} else {
+									this.amount = left.amount;
+								}
+								hasOp = true;
+								break;
 							}
-							hasOp = true;
-							break;
 						}
 					}
 				}
@@ -62,12 +79,11 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 						ForgeDirection dir = ForgeDirection.getOrientation(i);
 						TileEntity b = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 						
-						if(b instanceof TileEntityFoundryChannel) {
-							TileEntityFoundryChannel acc = (TileEntityFoundryChannel) b;
+						if(b instanceof TileEntityFoundryTank) {
+							TileEntityFoundryTank acc = (TileEntityFoundryTank) b;
 							
 							if(acc.type == null || acc.type == this.type || acc.amount == 0) {
 								acc.type = this.type;
-								
 								if(worldObj.rand.nextInt(5) == 0) {
 									//1:4 chance that the fill states are simply swapped
 									//this promotes faster spreading and prevents spread limits
@@ -76,7 +92,6 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 									acc.amount = buf;
 									
 								} else {
-									//otherwise, equalize the neighbors
 									int diff = this.amount - acc.amount;
 									
 									if(diff > 0) {
@@ -97,6 +112,6 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 
 	@Override
 	public int getCapacity() {
-		return MaterialShapes.INGOT.q(1);
+		return MaterialShapes.BLOCK.q(1);
 	}
 }

@@ -42,8 +42,10 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	public static final int processTime = 20_000;
 	public static final double diffusion = 0.25D;
 
-	public final int recipeCapacity = MaterialShapes.BLOCK.q(16);
-	public final int wasteCapacity = MaterialShapes.BLOCK.q(16);
+	//because eclipse's auto complete is dumb as a fucking rock, it's now called "ZCapacity" so it's listed AFTER the actual stacks in the auto complete list.
+	//also martin i know you read these: no i will not switch to intellij after using eclipse for 8 years.
+	public final int recipeZCapacity = MaterialShapes.BLOCK.q(16);
+	public final int wasteZCapacity = MaterialShapes.BLOCK.q(16);
 	public List<MaterialStack> recipeStack = new ArrayList();
 	public List<MaterialStack> wasteStack = new ArrayList();
 
@@ -95,7 +97,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				}
 			}
 
-			int totalCap = recipeCapacity + wasteCapacity;
+			int totalCap = recipeZCapacity + wasteZCapacity;
 			int totalMass = 0;
 
 			for(MaterialStack stack : recipeStack) totalMass += stack.amount;
@@ -288,6 +290,16 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		
 		return -1;
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		
+		if(i == 0) {
+			return stack.getItem() == ModItems.crucible_template;
+		}
+		
+		return isItemSmeltable(stack);
+	}
 	
 	public boolean isItemSmeltable(ItemStack stack) {
 		
@@ -317,7 +329,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			} else {
 				
 				//the maximum is the recipe's ratio scaled up to the recipe stack's capacity
-				int matMaximum = recipeInputRequired * this.recipeCapacity / recipeContent;
+				int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
 				int amountStored = getQuantaFromType(recipeStack, mat.material);
 				
 				matchesRecipe = true;
@@ -329,7 +341,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		}
 		
 		//if the waste amount doesn't exceed the capacity and the recipe matches (or isn't null), return true
-		return wasteAmount <= this.wasteCapacity && matchesRecipe;
+		return wasteAmount <= this.wasteZCapacity && matchesRecipe;
 	}
 	
 	public void addToStack(List<MaterialStack> stack, MaterialStack matStack) {

@@ -25,8 +25,6 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
-import com.hbm.inventory.material.Mats;
-import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -644,14 +642,14 @@ public class ModEventHandlerClient {
 			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
 		}
 		
-		ItemStack copy = stack.copy();
+		/*ItemStack copy = stack.copy();
 		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
 		
 		if(!materials.isEmpty()) {
 			for(MaterialStack mat : materials) {
 				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
 			}
-		}
+		}*/
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
