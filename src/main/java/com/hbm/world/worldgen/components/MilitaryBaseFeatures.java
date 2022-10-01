@@ -67,17 +67,16 @@ public class MilitaryBaseFeatures {
 			
 			for(int i = 1; i < sizeX; i++) {
 				for(int j = 1; j < sizeZ; j++) {
-					func_151554_b(world, Blocks.stonebrick, 0, i, -1, j, box);
 					clearCurrentPositionBlocksUpwards(world, i, 1, j, box);
 				}
 			}
 			
-			for(int i = 0; i <= sizeX; i++) {
-				for(int j = 0; j <= sizeZ; j++) {
-					if(i == 0 || i == sizeX || j == 0 || j == sizeX)
-						func_151554_b(world, Blocks.stonebrick, 0, i, 0, j, box);
-				}
-			}
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 1, 1, sizeX - 1, sizeZ - 1, -1, box);
+			
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 0, sizeX, 0, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 1, 0, sizeZ, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, sizeX, 1, sizeX, sizeZ, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 1, sizeZ, sizeX - 1, sizeZ, -1, box);
 			
 			//Helipad
 			fillWithBlocks(world, box, 1, 0, 1, 11, 0, 1, ModBlocks.concrete, Blocks.air, false); //this entire time, the second block was actually for anything not at min/max x's, y's, and z's. useful!
@@ -121,13 +120,8 @@ public class MilitaryBaseFeatures {
 			
 			this.boundingBox.offset(0, -1, 0);
 			
-			for(int i = 1; i <= sizeX; i++) {
-				for(int j = 1; j <= sizeZ; j++) {
-					func_151554_b(world, Blocks.stonebrick, 0, i, -1, j, box);
-				}
-			}
-			
-			func_151554_b(world, Blocks.stonebrick, 0, 0, 0, 2, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 1, 1, sizeX, sizeZ, -1, box);
+			placeFoundationUnderneath(world, Blocks.stonebrick, 0, 0, 2, 0, 2, 0, box);
 			
 			//Floor & Foundation
 			fillWithRandomizedBlocks(world, box, 2, 0, 1, 5, 0, 4, false, rand, RandomLabTiles);
