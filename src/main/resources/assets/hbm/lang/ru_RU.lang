@@ -151,6 +151,7 @@ achievement.witchtaunter=Насмехайтесь над ведьмами
 
 cannery.f1=[ Press F1 for help ]
 
+cannery.centrifuge=Gas Centrifuge
 cannery.centrifuge.0=Gas centrifuges can be supplied with fluid using regular fluid ducts.
 cannery.centrifuge.1=Most recipes require multiple centrifuges. The intermediate products cannot be transported via pipes.
 cannery.centrifuge.2=This side acts as a connector which outputs the intermediate product into an adjacent centrifuge.
@@ -158,16 +159,19 @@ cannery.centrifuge.3=Uranium hexafluoride can be processed with just two centrif
 cannery.centrifuge.4=Fully processing it into Uranium-235 and Uranium-238 requires a total of four centrifuges.
 cannery.centrifuge.5=Some recipes also require the centrifuge overclocking upgrade.
 
+cannery.fensu=FEnSU
 cannery.fensu.0=The FEnSU is capable of storing absurd amounts of energy, over 9EHE (that's a nine followed by 18 zeros).
 cannery.fensu.1=There is only one energy connector which can be found on the bottom.
 cannery.fensu.2=This is also the only place where the FEnSU can receive a redstone signal.
 
+cannery.firebox=Firebox
 cannery.firebox.0=The firebox burns flammable items to generate heat.
 cannery.firebox.1=It can burn any flammable item, although higher quality fuels such as coal, coke and solid fuel burn longer and hotter.
 cannery.firebox.2=Heat is given off by the copper contact at the top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox.
 cannery.firebox.3=If heat isn't being used up and the heat buffer becomes full, the firebox will shut off to prevent wasting of fuel.
 cannery.firebox.4=One such machine is the stirling engine, which will turn heat directly into energy.
 
+cannery.silex=FEL & SILEX
 cannery.silex.0=The Free Electron Laser (FEL) uses energy and a laser crystal to create a powerful laser beam.
 cannery.silex.1=Be careful, as the laser will burn/melt through weaker blocks...
 cannery.silex.2=...but not blast-proof ones.
@@ -178,6 +182,7 @@ cannery.silex.6=In addition to the two connectors on the sides, there is a third
 cannery.silex.7=Each recipe requires a specific laser type. Using a stronger type than required will process items faster.
 cannery.silex.8=One FEL can supply up to 5 SILEX. Each SILEX has to be one block apart from one another.
 
+cannery.stirling=Stirling Engine
 cannery.stirling.0=The Stirling engine uses heat energy from external sources to create power.
 cannery.stirling.1=It needs to be placed on top of a heat-producing machine, such as the firebox.
 cannery.stirling.2=The amount of heat it can utilize however is limited, overspinning can lead to catastrophic malfunction.
@@ -224,6 +229,8 @@ weapon.elecGun.glass_cannon.uv=Ультрафиолет
 weapon.elecGun.glass_cannon.xray=Рентген
 weapon.elecGun.glass_cannon.gamma=Гамма-лучи
 
+info.asbestos=Мои лёгкие горят.
+info.coaldust=Здесь тяжело дышать.
 info.coil=Сила катушки
 info.templatefolder=Создано с помощью %s
 info.template_in=Ввод:
@@ -394,6 +401,20 @@ rbmk.screen.depletion=Depl: %s
 rbmk.screen.rod=Control: %s
 rbmk.screen.temp=Temp: %s
 rbmk.screen.xenon=Xenon: %s
+
+shape.quantum=Кванта
+shape.nugget=Самородок
+shape.dusttiny=Кучка пыли
+shape.wire=Провод
+shape.billet=Заготовка
+shape.ingot=Слиток
+shape.dust=Порошок
+shape.plate=Пластина
+shape.quart=Четверть блока
+shape.block=Блок
+foundry.noCast=Литейная форма не установлена!
+foundry.filter=Фильтр: %s
+foundry.inverted=Инвертирован редстоуном
 
 hbm.key=NTM Hotkeys
 hbm.key.calculator=Калькулятор
@@ -876,6 +897,18 @@ book.starter.title16=Заключение
 book.starter.page16=Если вы зашли так далеко, значит, вы на пути к тому, чтобы помочь восстановить цивилизацию. Вы успешно воссоздали передовую технику доапокалипсиса - с помощью ядерной энергетики, нефтехимии и многого другого. Я не могу знать, §oкак§r вы будете использовать эти новообретенные преимущества, но я лично надеюсь, что вы используете их на благо себе и другим - или, по крайней мере, в целях самообороны. До свидания!
 book.starter.title18=Об авторе
 book.starter.page18=vær - просто парень, который слишком долго был пойман в ловушку серой пустоты, показанной в фильме "Говорящая голова" §o"Раз в жизни"§r. Однажды он нашел дверь студии, но, к своему ужасу, обнаружил, что она была вырезана из картона.
+
+book.lore.office0.title=Заявление об увольнении
+book.lore.office0.author=Kosma
+book.lore.office0.page1=Вчера руководство снова сократило наш отдел. Эти идиоты должны винить только самих себя, я не знаю, чего они ожидали после фиаско с Панаем. Кто, черт возьми, сливает такую информацию? Мы теряем миллионы, и  
+book.lore.office0.page2=это Я сейчас без работы. Это меня просят уйти в отставку. Я надеюсь, что вы, придурки, наконец-то извлекли урок из своего переизбытка ошибок и вытащили эту палку из своей задницы.
+book.lore.office0.page3=Я не вернусь в пятницу. Просто пришлите чек на зарплату.
+
+book.lore.office1.title=Заметка
+book.lore.office1.author=Jonas Quinn
+book.lore.office1.page1=
+book.lore.office2.page2=
+
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -1399,6 +1432,13 @@ tile.struct_iter_core.name=Ядро термоядерного реактора
 tile.machine_difurnace_off.name=Доменная печь
 tile.machine_difurnace_on.name=Доменная печь
 container.diFurnace=Доменная печь
+tile.foundry_basin.name=Литейный резервуар
+tile.foundry_channel.name=Литейный канал
+tile.foundry_outlet.name=Литейный спуск
+tile.foundry_mold.name=Малый литейный резервуар
+tile.foundry_tank.name=Литейный бассейн
+tile.machine_crucible.name=Плавильня
+container.machineCrucible=Плавильня
 tile.machine_centrifuge.name=Центрифуга
 container.centrifuge=Центрифуга
 tile.machine_gascent.name=Газовая центрифуга
@@ -1480,6 +1520,7 @@ container.machineShredder=Измельчитель
 tile.machine_combine_factory.name=Печь для стали Альянса
 container.machineCMB=Печь для стали Альянса
 tile.machine_teleporter.name=Телепорт
+tile.teleanchor.name=Телепортационный якорь
 container.teleporter=Телепорт
 tile.machine_reix_mainframe.name=Мэйнфрейм Rei-X (WIP)
 container.reix=Мэйнфрейм Rei-X 
@@ -1668,6 +1709,7 @@ tile.machine_stirling.name=Генератор Стирлинга
 tile.machine_stirling.desc=Превращает тепло в энергию. Требует внешний источник тепла.$Скорость теплопередачи: T*0.1 TU/t$Максимальное потребление: 300 TU/t$Эффективность: 50%%
 tile.machine_stirling_steel.name=Укреплённый генератор Стирлинга
 tile.machine_stirling_steel.desc=Превращает тепло в энергию. Требует внешний источник тепла.$Использует более тяжёлую шестерню, чтобы выдерживать высокие температуры.$Скорость теплопередачи: T*0.1 TU/t$Максимальное потребление: 1500 TU/t$Эффективность: 50%%
+tile.machine_sawmill.name=Лесопилка на генераторе Стирлинга
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -1869,7 +1911,10 @@ item.fluid_identifier_multi.info=Жидкостный идентификатор
 item.fluid_identifier_multi.info2=Второй тип:
 item.assembly_template.name=Шаблон сборочной машины:
 item.chemistry_template.name=Шаблон химической машины:
+item.crucible_template.name=Шаблон плавильни:
 item.siren_track.name=Трек сирены
+item.mold_base.name=Пустая литейная форма
+item.mold.name=Литейная форма
 
 item.bobmazon_materials.name=Бобмазон: Материалы
 item.bobmazon_machines.name=Бобмазон: Блоки и машины
@@ -1965,6 +2010,7 @@ item.ingot_bismuth.name=Слиток висмута
 item.cube_power.name=Куб электрония
 item.ingot_smore.name=Слиток с'мора
 item.ingot_niobium.name=Ниобиевый слиток
+item.ingot_firebrick.name=Шамотный кирпич
 
 item.plate_armor_lunar.name=Лунная обшивка
 item.plate_armor_titanium.name=Титановая обшивка брони
@@ -2307,6 +2353,7 @@ tile.block_insulator.name=Рулон изолятора
 tile.block_fiberglass.name=Рулон стекловолокна
 tile.block_asbestos.name=Асбест
 tile.brick_asbestos.name=Асбестовые кирпичи
+tile.brick_fire.name=Шамотные кирпичи
 tile.block_cobalt.name=Кобальтовый блок
 tile.block_lithium.name=Литиевый блок
 tile.block_white_phosphorus.name=Блок белого фосфора
@@ -2549,6 +2596,7 @@ tile.gneiss_tile.name=Сланцевая плитка
 tile.brick_ducrete.name=Дюкретовые кирпичи
 tile.ducrete.name=Дюкретовая плитка
 tile.ducrete_smooth.name=Дюкрет
+tile.ducrete_debris.name=Дюкретовые обломки
 tile.reinforced_ducrete.name=Усиленный дюкрет
 tile.asphalt.name=Асфальт
 tile.asphalt_light.name=Асфальтированный светящийся камень
@@ -2731,6 +2779,7 @@ item.powder_tektite.name=Порошок тектита
 item.powder_ra226.name=Порошок радия-226
 item.powder_sr90.name=Порошок стронция-90
 item.powder_sr90_tiny.name=Кучка порошка стронция-90
+item.powder_sawdust.name=Древесные опилки
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -3203,6 +3252,7 @@ item.nuclear_waste.name=Ядерные отходы
 item.scrap_nuclear.name=Радиоактивный мусор
 item.scrap_oil.name=Нефтяные отходы
 item.scrap_plastic.name=Куски пластмассы
+item.scraps.name=Литейный шлак
 item.nuclear_waste_tiny.name=Маленькая кучка ядерных отходов
 item.nuclear_waste_vitrified.name=Остеклованные ядерные отходы
 item.nuclear_waste_vitrified_tiny.name=Кучка остеклованных ядерных отходов
@@ -3422,6 +3472,7 @@ tile.frozen_planks.name=Замороженные доски
 tile.tape_recorder.name=Магнитофон
 tile.steel_poles.name=Стальные опоры
 tile.pole_top.name=Антенна
+tile.deco_computer.name=Персональный компьютер IBM 300PL
 tile.pole_satellite_receiver.name=Спутниковая тарелка
 tile.steel_wall.name=Стальная стенка
 tile.steel_corner.name=Стальной угол стены
@@ -3700,6 +3751,7 @@ item.cordite.name=Кордит
 item.ballistite.name=Баллистит
 item.ball_dynamite.name=Динамит
 item.ball_tnt.name=ТНТ
+item.ball_fireclay.name=Шамотная глина
 item.plate_kevlar.name=Кевларо-керамический состав
 
 item.weaponized_starblaster_cell.name=§cСмонтированная энергетическая ячейка Звездного бластера§r
@@ -4626,6 +4678,7 @@ item.blades_advanced_alloy.name=Усовершенствованные лезв�
 item.blades_combine_steel.name=Стальные лезвия измельчителя Альянса
 item.blades_schrabidium.name=Шрабидиевые лезвия измельчителя
 item.blades_desh.name=Деш-лезвия измельчителя
+item.sawblade.name=Лезвие пилорамы
 
 item.stamp_stone_flat.name=Плоский штамп (Камень)
 item.stamp_stone_plate.name=Штамп пластины (Камень)
@@ -4750,6 +4803,7 @@ item.rbmk_tool.set=РБМК соединён!
 item.bismuth_tool.name=Магнитный экстрактор
 item.reacher.name=Вольфрамовые хваталки
 item.power_net_tool.name=Анализатор энергосети
+item.anchor_remote.name=Устройство вызова
 
 item.multitool_dig.name=Силовая перчатка (Добывающий коготь)
 item.multitool_silk.name=Силовая перчатка (Коготь шёлкового касания)
