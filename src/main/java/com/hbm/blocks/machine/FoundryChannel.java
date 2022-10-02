@@ -178,4 +178,18 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 		
 		return false;
 	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
+		
+		TileEntityFoundryChannel channel = (TileEntityFoundryChannel) world.getTileEntity(x, y, z);
+		if(channel.amount > 0) {
+			ItemStack scrap = ItemScraps.create(new MaterialStack(channel.type, channel.amount));
+			EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+			world.spawnEntityInWorld(item);
+			channel.amount = 0;
+		}
+		
+		super.breakBlock(world, x, y, z, b, i);
+	}
 }

@@ -26,8 +26,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemMold extends Item {
 	
-	public List<Mold> molds = new ArrayList(); //molds in "pretty" order, variable between versions
-	public HashMap<Integer, Mold> moldById = new HashMap(); //molds by their static ID -> stack item damage
+	public static List<Mold> molds = new ArrayList(); //molds in "pretty" order, variable between versions
+	public static HashMap<Integer, Mold> moldById = new HashMap(); //molds by their static ID -> stack item damage
 	
 	public HashMap<NTMMaterial, ItemStack> blockOverrides = new HashMap();
 	
@@ -47,7 +47,7 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
 		registerMold(new MoldWire(		4, S, "wire"));
 		
-		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(2),
+		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(3),
 				Mats.MAT_TITANIUM, new ItemStack(ModItems.blade_titanium),
 				Mats.MAT_TUNGSTEN, new ItemStack(ModItems.blade_tungsten)));
 		
@@ -82,6 +82,12 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		11, L, "plates", MaterialShapes.PLATE, 9));
 		registerMold(new MoldBlock(		12, L, "block", MaterialShapes.BLOCK));
 		registerMold(new MoldSingle(	13, L, "pipes", new ItemStack(ModItems.pipes_steel), Mats.MAT_STEEL, MaterialShapes.BLOCK.q(3)));
+
+		registerMold(new MoldSingle(	14, S, "c357", new ItemStack(ModItems.casing_357), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldSingle(	15, S, "c44", new ItemStack(ModItems.casing_44), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldSingle(	16, S, "c9", new ItemStack(ModItems.casing_9), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldSingle(	17, S, "c50", new ItemStack(ModItems.casing_50), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldSingle(	18, S, "cbuckshot", new ItemStack(ModItems.casing_buckshot), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
 	}
 	
 	public void registerMold(Mold mold) {

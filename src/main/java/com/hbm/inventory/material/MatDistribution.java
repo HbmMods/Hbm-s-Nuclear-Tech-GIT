@@ -24,8 +24,8 @@ public class MatDistribution {
 		registerOre("cobblestone", MAT_STONE, BLOCK.q(1));
 		registerEntry(Blocks.obsidian, MAT_OBSIDIAN, BLOCK.q(1));
 		registerEntry(Blocks.rail, MAT_IRON, INGOT.q(6, 16));
-		registerEntry(Blocks.golden_rail, MAT_GOLD, INGOT.q(6), MAT_REDSTONE, DUST.q(1));
-		registerEntry(Blocks.detector_rail, MAT_IRON, INGOT.q(6), MAT_REDSTONE, DUST.q(1));
+		registerEntry(Blocks.golden_rail, MAT_GOLD, INGOT.q(6, 6), MAT_REDSTONE, DUST.q(1, 6));
+		registerEntry(Blocks.detector_rail, MAT_IRON, INGOT.q(6, 6), MAT_REDSTONE, DUST.q(1, 6));
 		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
 		
 		//castables
@@ -53,9 +53,18 @@ public class MatDistribution {
 		registerEntry(ModItems.pipes_steel,				MAT_STEEL,			BLOCK.q(3));
 
 		//actual ores
-		registerOre(OreDictManager.COAL.ore(), MAT_IRON, INGOT.q(4), MAT_STONE, QUART.q(1));
-		registerOre(OreDictManager.IRON.ore(), MAT_IRON, INGOT.q(3), MAT_TITANIUM, INGOT.q(1), MAT_STONE, QUART.q(1));
-		registerOre(OreDictManager.GOLD.ore(), MAT_GOLD, INGOT.q(3), MAT_LEAD, INGOT.q(1), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.COAL.ore(), MAT_COAL, GEM.q(4), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.IRON.ore(), MAT_IRON, INGOT.q(2), MAT_TITANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.GOLD.ore(), MAT_GOLD, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.U.ore(), MAT_URANIUM, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.TH232.ore(), MAT_THORIUM, INGOT.q(2), MAT_URANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.TI.ore(), MAT_TITANIUM, INGOT.q(2), MAT_IRON, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.CU.ore(), MAT_COPPER, INGOT.q(2), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.W.ore(), MAT_TUNGSTEN, INGOT.q(2), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.AL.ore(), MAT_ALUMINIUM, INGOT.q(2), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.PB.ore(), MAT_LEAD, INGOT.q(2), MAT_GOLD, NUGGET.q(1), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.BE.ore(), MAT_BERYLLIUM, INGOT.q(2), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.CO.ore(), MAT_COBALT, INGOT.q(1), MAT_STONE, QUART.q(1));
 	}
 	
 	public static void registerEntry(Object key, Object... matDef) {

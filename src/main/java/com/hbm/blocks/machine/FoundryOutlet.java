@@ -8,7 +8,6 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityFoundryCastingBase;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 import com.hbm.util.I18nUtil;
 

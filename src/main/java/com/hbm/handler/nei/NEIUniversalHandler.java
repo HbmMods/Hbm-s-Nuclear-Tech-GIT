@@ -177,13 +177,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadTransferRects() {
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
-		//guiGui = new LinkedList<Class<? extends GuiContainer>>();
-
 		transferRects.add(new RecipeTransferRect(new Rectangle(147, 1, 18, 18), getKey()));
-		//transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), key));
-		//guiGui.add(GUIMachineAssembler.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
-		//RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
 	}
 	
 	public abstract String getKey();

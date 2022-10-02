@@ -68,6 +68,12 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new FuelPoolHandler());
 		API.registerRecipeHandler(new RadiolysisRecipeHandler());
 		API.registerUsageHandler(new RadiolysisRecipeHandler());
+		API.registerRecipeHandler(new CrucibleSmeltingHandler());
+		API.registerUsageHandler(new CrucibleSmeltingHandler());
+		API.registerRecipeHandler(new CrucibleAlloyingHandler());
+		API.registerUsageHandler(new CrucibleAlloyingHandler());
+		API.registerRecipeHandler(new CrucibleCastingHandler());
+		API.registerUsageHandler(new CrucibleCastingHandler());
 		
 		//universal boyes
 		API.registerRecipeHandler(new ZirnoxRecipeHandler());

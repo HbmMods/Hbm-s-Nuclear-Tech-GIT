@@ -43,6 +43,7 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		}
 		GL11.glPopMatrix();
 		RenderHelper.enableStandardItemLighting();
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 	}
 	
 	private void drawBlock(ItemStack stack, IRenderFoundry foundry) {

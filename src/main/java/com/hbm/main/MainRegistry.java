@@ -939,6 +939,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.factory_core_advanced");
 		ignoreMappings.add("hbm:tile.factory_titanium_core");
 		ignoreMappings.add("hbm:tile.factory_advanced_core");
+		ignoreMappings.add("hbm:tile.factory_titanium_conductor");
+		ignoreMappings.add("hbm:tile.factory_advanced_conductor");
+		ignoreMappings.add("hbm:tile.factory_titanium_furnace");
+		ignoreMappings.add("hbm:tile.factory_advanced_furnace");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

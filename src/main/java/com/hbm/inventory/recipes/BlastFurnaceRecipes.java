@@ -17,6 +17,7 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Triplet;
@@ -46,10 +47,10 @@ public class BlastFurnaceRecipes {
 		addRecipe(STEEL, MINGRADE, new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W, COAL, new ItemStack(ModItems.neutron_reflector, 2));
 		addRecipe(W, ANY_COKE, new ItemStack(ModItems.neutron_reflector, 2));
-		addRecipe(ModItems.canister_fuel, "slimeball", new ItemStack(ModItems.canister_napalm));
-		addRecipe(STEEL, CO, new ItemStack(ModItems.ingot_dura_steel, 2));
-		addRecipe(STEEL, W, new ItemStack(ModItems.ingot_dura_steel, 2));
-		addRecipe(STEEL, U238, new ItemStack(ModItems.ingot_ferrouranium));
+		addRecipe(new ComparableStack(ModItems.canister_full, 1, Fluids.GASOLINE.getID()), "slimeball", new ItemStack(ModItems.canister_napalm));
+		//addRecipe(STEEL, CO, new ItemStack(ModItems.ingot_dura_steel, 2));
+		//addRecipe(STEEL, W, new ItemStack(ModItems.ingot_dura_steel, 2));
+		//addRecipe(STEEL, U238, new ItemStack(ModItems.ingot_ferrouranium));
 		addRecipe(W, SA326.nugget(), new ItemStack(ModItems.ingot_magnetized_tungsten));
 		addRecipe(STEEL, TC99.nugget(), new ItemStack(ModItems.ingot_tcalloy));
 		addRecipe(GOLD.plate(), ModItems.plate_mixed, new ItemStack(ModItems.plate_paa, 2));
@@ -59,7 +60,7 @@ public class BlastFurnaceRecipes {
 		addRecipe(ModBlocks.block_meteor, CO, new ItemStack(ModItems.ingot_meteorite));
 		
 		if(GeneralConfig.enableLBSMSimpleChemsitry)
-			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_oil));
+			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()));
 
 		if(!IMCBlastFurnace.buffer.isEmpty()) {
 			blastFurnaceRecipes.addAll(IMCBlastFurnace.buffer);

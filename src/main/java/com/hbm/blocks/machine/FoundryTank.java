@@ -9,6 +9,7 @@ import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -113,6 +114,20 @@ public class FoundryTank extends BlockContainer implements ICrucibleAcceptor {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
+		
+		TileEntityFoundryTank tank = (TileEntityFoundryTank) world.getTileEntity(x, y, z);
+		if(tank.amount > 0) {
+			ItemStack scrap = ItemScraps.create(new MaterialStack(tank.type, tank.amount));
+			EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+			world.spawnEntityInWorld(item);
+			tank.amount = 0;
+		}
+		
+		super.breakBlock(world, x, y, z, b, i);
 	}
 	
 	@Override

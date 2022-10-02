@@ -3,26 +3,18 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderDecoItem;
-import com.hbm.render.util.RenderItemStack;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
-import com.hbm.tileentity.machine.TileEntityMachinePress;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderAssembler extends TileEntitySpecialRenderer {
 	
@@ -93,6 +85,7 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         }
 		
     	GL11.glPopMatrix();
+		RenderHelper.enableStandardItemLighting();
         
         renderSlider(tileEntity, x, y, z, f);
     }

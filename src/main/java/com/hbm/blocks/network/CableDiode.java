@@ -170,6 +170,7 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		private long subBuffer;
 		private long contingent = 0;
 		private long lastTransfer = 0;
+		private int pulses = 0;
 
 		@Override
 		public long transferPower(long power) {
@@ -177,12 +178,15 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			if(recursionBrake)
 				return power;
 			
+			pulses++;
+			
 			if(lastTransfer != worldObj.getTotalWorldTime()) {
 				lastTransfer = worldObj.getTotalWorldTime();
 				contingent = getMaxPower();
+				pulses = 0;
 			}
 			
-			if(contingent <= 0)
+			if(contingent <= 0 || pulses > 10)
 				return power;
 			
 			//this part turns "maxPower" from a glorified transfer weight into an actual transfer cap

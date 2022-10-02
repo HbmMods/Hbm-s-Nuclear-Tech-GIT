@@ -10,6 +10,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,5 +87,30 @@ public class MachineCrucible extends BlockDummyable {
 	@Override
 	public int getOffset() {
 		return 1;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof TileEntityCrucible) {
+			TileEntityCrucible crucible = (TileEntityCrucible) te;
+			
+			List<MaterialStack> stacks = new ArrayList();
+			stacks.addAll(crucible.recipeStack);
+			stacks.addAll(crucible.wasteStack);
+			
+			for(MaterialStack stack : stacks) {
+				ItemStack scrap = ItemScraps.create(new MaterialStack(stack.material, stack.amount));
+				EntityItem item = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, scrap);
+				world.spawnEntityInWorld(item);
+			}
+			
+			crucible.recipeStack.clear();
+			crucible.wasteStack.clear();
+		}
+		
+		super.breakBlock(world, x, y, z, b, i);
 	}
 }

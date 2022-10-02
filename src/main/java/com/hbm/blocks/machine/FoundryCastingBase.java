@@ -17,6 +17,7 @@ import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -126,6 +127,25 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
+		
+		TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
+		ItemStack scrap = ItemScraps.create(new MaterialStack(cast.type, cast.amount));
+		EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+		world.spawnEntityInWorld(item);
+		cast.amount = 0; //just for safety
+		
+		for(ItemStack stack : cast.slots) {
+			if(stack != null) {
+				EntityItem drop = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, stack.copy());
+				world.spawnEntityInWorld(drop);
+			}
+		}
+		
+		super.breakBlock(world, x, y, z, b, i);
 	}
 
 	@Override

@@ -8,6 +8,8 @@ public enum MaterialShapes {
 	WIRE(9),
 	BILLET(NUGGET.quantity * 6, "billet"),
 	INGOT(NUGGET.quantity * 9, "ingot"),
+	GEM(INGOT.quantity, "gem"),
+	CRYSTAL(INGOT.quantity, "crystal"),
 	DUST(INGOT.quantity, "dust"),
 	PLATE(INGOT.quantity, "plate"),
 	QUART(162),
