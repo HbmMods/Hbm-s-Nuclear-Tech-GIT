@@ -68,6 +68,8 @@ public class ItemScraps extends Item {
 	}
 	
 	public static ItemStack create(MaterialStack stack) {
+		if(stack.material == null)
+			return new ItemStack(ModItems.nothing); //why do i bother adding checks for fucking everything when they don't work
 		ItemStack scrap = new ItemStack(ModItems.scraps, 1, stack.material.id);
 		scrap.stackTagCompound = new NBTTagCompound();
 		scrap.stackTagCompound.setInteger("amount", stack.amount);

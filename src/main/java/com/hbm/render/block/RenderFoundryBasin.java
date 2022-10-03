@@ -59,6 +59,9 @@ public class RenderFoundryBasin implements ISimpleBlockRenderingHandler {
 		float mulZ = 0.8F;
 		float mulX = 0.6F;
 
+		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
+		tessellator.setBrightness(brightness);
+
 		if(EntityRenderer.anaglyphEnable) {
 			float aR = (r * 30.0F + g * 59.0F + b * 11.0F) / 100.0F;
 			float aG = (r * 30.0F + g * 70.0F) / 100.0F;

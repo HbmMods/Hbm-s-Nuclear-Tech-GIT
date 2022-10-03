@@ -27,6 +27,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 	public int heat;
 	public int color;
 	public FluidTank[] tanks;
+	private boolean lastTickValid = false;
 
 	public TileEntityCore() {
 		super(3);
@@ -45,7 +46,15 @@ public class TileEntityCore extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(heat > 0 && heat >= field) {
+			int chunkX = xCoord << 4;
+			int chunkZ = zCoord << 4;
+			
+			lastTickValid = worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ + 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ - 1);
+			
+			if(lastTickValid && heat > 0 && heat >= field) {
 				
 				int fill = tanks[0].getFill() + tanks[1].getFill();
 				int max = tanks[0].getMaxFill() + tanks[1].getMaxFill();
@@ -87,7 +96,11 @@ public class TileEntityCore extends TileEntityMachineBase {
 			networkPack(data, 250);
 			
 			heat = 0;
-			field = 0;
+			
+			if(lastTickValid && field > 0) {
+				field -= 1;
+			}
+			
 			this.markDirty();
 		} else {
 			
@@ -138,6 +151,9 @@ public class TileEntityCore extends TileEntityMachineBase {
 	}
 	
 	public boolean isReady() {
+		
+		if(!lastTickValid)
+			return false;
 		
 		if(getCore() == 0)
 			return false;
@@ -241,6 +257,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 		
 		tanks[0].readFromNBT(nbt, "fuel1");
 		tanks[1].readFromNBT(nbt, "fuel2");
+		this.field = nbt.getInteger("field");
 	}
 	
 	@Override
@@ -249,6 +266,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 
 		tanks[0].writeToNBT(nbt, "fuel1");
 		tanks[1].writeToNBT(nbt, "fuel2");
+		nbt.setInteger("field", this.field);
 	}
 	
 	AxisAlignedBB bb = null;
