@@ -14,6 +14,8 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo.Layout;
+import codechicken.nei.recipe.ICraftingHandler;
+import codechicken.nei.recipe.IUsageHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -24,72 +26,42 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
-		API.registerRecipeHandler(new AlloyFurnaceRecipeHandler());
-		API.registerUsageHandler(new AlloyFurnaceRecipeHandler());
-		API.registerRecipeHandler(new CentrifugeRecipeHandler());
-		API.registerUsageHandler(new CentrifugeRecipeHandler());
-		API.registerRecipeHandler(new GasCentrifugeRecipeHandler());
-		API.registerUsageHandler(new GasCentrifugeRecipeHandler());
-		API.registerRecipeHandler(new BreederRecipeHandler());
-		API.registerUsageHandler(new BreederRecipeHandler());
-		API.registerRecipeHandler(new ShredderRecipeHandler());
-		API.registerUsageHandler(new ShredderRecipeHandler());
-		API.registerRecipeHandler(new CMBFurnaceRecipeHandler());
-		API.registerUsageHandler(new CMBFurnaceRecipeHandler());
-		API.registerRecipeHandler(new CyclotronRecipeHandler());
-		API.registerUsageHandler(new CyclotronRecipeHandler());
-		API.registerRecipeHandler(new AssemblerRecipeHandler());
-		API.registerUsageHandler(new AssemblerRecipeHandler());
-		API.registerRecipeHandler(new RefineryRecipeHandler());
-		API.registerUsageHandler(new RefineryRecipeHandler());
-		API.registerRecipeHandler(new BoilerRecipeHandler());
-		API.registerUsageHandler(new BoilerRecipeHandler());
-		API.registerRecipeHandler(new ChemplantRecipeHandler());
-		API.registerUsageHandler(new ChemplantRecipeHandler());
-		API.registerRecipeHandler(new FluidRecipeHandler());
-		API.registerUsageHandler(new FluidRecipeHandler());
-		API.registerRecipeHandler(new PressRecipeHandler());
-		API.registerUsageHandler(new PressRecipeHandler());
-		API.registerRecipeHandler(new CrystallizerRecipeHandler());
-		API.registerUsageHandler(new CrystallizerRecipeHandler());
-		API.registerRecipeHandler(new BookRecipeHandler());
-		API.registerUsageHandler(new BookRecipeHandler());
-		API.registerRecipeHandler(new FusionRecipeHandler());
-		API.registerUsageHandler(new FusionRecipeHandler());
-		API.registerRecipeHandler(new HadronRecipeHandler());
-		API.registerUsageHandler(new HadronRecipeHandler());
-		API.registerRecipeHandler(new SILEXRecipeHandler());
-		API.registerUsageHandler(new SILEXRecipeHandler());
-		API.registerRecipeHandler(new SmithingRecipeHandler());
-		API.registerUsageHandler(new SmithingRecipeHandler());
-		API.registerRecipeHandler(new AnvilRecipeHandler());
-		API.registerUsageHandler(new AnvilRecipeHandler());
-		API.registerRecipeHandler(new FuelPoolHandler());
-		API.registerUsageHandler(new FuelPoolHandler());
-		API.registerRecipeHandler(new RadiolysisRecipeHandler());
-		API.registerUsageHandler(new RadiolysisRecipeHandler());
-		API.registerRecipeHandler(new CrucibleSmeltingHandler());
-		API.registerUsageHandler(new CrucibleSmeltingHandler());
-		API.registerRecipeHandler(new CrucibleAlloyingHandler());
-		API.registerUsageHandler(new CrucibleAlloyingHandler());
-		API.registerRecipeHandler(new CrucibleCastingHandler());
-		API.registerUsageHandler(new CrucibleCastingHandler());
+		registerHandler(new AlloyFurnaceRecipeHandler());
+		registerHandler(new CentrifugeRecipeHandler());
+		registerHandler(new GasCentrifugeRecipeHandler());
+		registerHandler(new BreederRecipeHandler());
+		registerHandler(new ShredderRecipeHandler());
+		registerHandler(new CMBFurnaceRecipeHandler());
+		registerHandler(new CyclotronRecipeHandler());
+		registerHandler(new AssemblerRecipeHandler());
+		registerHandler(new RefineryRecipeHandler());
+		registerHandler(new BoilerRecipeHandler());
+		registerHandler(new ChemplantRecipeHandler());
+		registerHandler(new FluidRecipeHandler());
+		registerHandler(new PressRecipeHandler());
+		registerHandler(new CrystallizerRecipeHandler());
+		registerHandler(new BookRecipeHandler());
+		registerHandler(new FusionRecipeHandler());
+		registerHandler(new HadronRecipeHandler());
+		registerHandler(new SILEXRecipeHandler());
+		registerHandler(new SmithingRecipeHandler());
+		registerHandler(new AnvilRecipeHandler());
+		registerHandler(new FuelPoolHandler());
+		registerHandler(new RadiolysisRecipeHandler());
+		registerHandler(new CrucibleSmeltingHandler());
+		registerHandler(new CrucibleAlloyingHandler());
+		registerHandler(new CrucibleCastingHandler());
+		registerHandler(new ChunkyHandler());
 		
 		//universal boyes
-		API.registerRecipeHandler(new ZirnoxRecipeHandler());
-		API.registerUsageHandler(new ZirnoxRecipeHandler());
+		registerHandler(new ZirnoxRecipeHandler());
 		if(VersatileConfig.rtgDecay()) {
-			API.registerRecipeHandler(new RTGRecipeHandler());
-			API.registerUsageHandler(new RTGRecipeHandler());
+			registerHandler(new RTGRecipeHandler());
 		}
-		API.registerRecipeHandler(new LiquefactionHandler());
-		API.registerUsageHandler(new LiquefactionHandler());
-		API.registerRecipeHandler(new SolidificationHandler());
-		API.registerUsageHandler(new SolidificationHandler());
-		API.registerRecipeHandler(new CrackingHandler());
-		API.registerUsageHandler(new CrackingHandler());
-		API.registerRecipeHandler(new FractioningHandler());
-		API.registerUsageHandler(new FractioningHandler());
+		registerHandler(new LiquefactionHandler());
+		registerHandler(new SolidificationHandler());
+		registerHandler(new CrackingHandler());
+		registerHandler(new FractioningHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
@@ -182,6 +154,11 @@ public class NEIConfig implements IConfigureNEI {
 			}
 			
 		});
+	}
+	
+	public static void registerHandler(Object o) {
+		API.registerRecipeHandler((ICraftingHandler) o);
+		API.registerUsageHandler((IUsageHandler) o);
 	}
 
 	@Override
