@@ -57,13 +57,4 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	public ColumnType getConsoleType() {
 		return ColumnType.FUEL_SIM;
 	}
-
-	// do some opencomputer stuff
-	@Override
-    	public String getComponentName() {
-		if (isModerated() == true) {
-        		return "rbmk_moderated_fuel_rod_reasim";
-		}
-        	return "rbmk_fuel_rod_reasim";
-	}
 }
