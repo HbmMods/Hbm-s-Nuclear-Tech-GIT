@@ -10,6 +10,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.FluidTypeFlammable;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.gui.GUIMachineTurbineGas;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;

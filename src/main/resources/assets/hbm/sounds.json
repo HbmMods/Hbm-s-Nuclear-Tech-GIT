@@ -38,6 +38,9 @@
     "block.rbmk_az5_cover": {"category": "block", "sounds": [{"name": "block/rbmk_az5_cover", "stream": false}]},
     "block.chungusLever": {"category": "block", "sounds": [{"name": "block/chungusLever", "stream": false}]},
     "block.bobble": {"category": "block", "sounds": [{"name": "block/bobble", "stream": false}]},
+	"block.turbinegasStartup": {"category": "block", "sounds": [{"name": "block/turbinegasStartup", "stream": true}]},
+    	"block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
+    	"block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

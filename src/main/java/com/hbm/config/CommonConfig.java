@@ -20,6 +20,7 @@ public class CommonConfig {
 	public static final String CATEGORY_TOOLS = "11_tools";
 	public static final String CATEGORY_MOBS = "12_mobs";
 	public static final String CATEGORY_RADIATION = "13_radiation";
+	public static final String CATEGORY_HAZARD = "14_hazard";
 
 	public static final String CATEGORY_528 = "528";
 

@@ -18,4 +18,5 @@ public class AudioWrapper {
 	
 	public void stopSound() { }
 
+	public boolean isPlaying() { return false; }
 }

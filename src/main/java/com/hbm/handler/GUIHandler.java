@@ -852,6 +852,12 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		case ModBlocks.guiID_machine_turbinegas: {
+			if(entity instanceof TileEntityMachineTurbineGas) {
+				return new ContainerMachineTurbineGas(player.inventory, (TileEntityMachineTurbineGas) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1691,6 +1697,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_reactor_zirnox: {
 			if(entity instanceof TileEntityReactorZirnox) {
 				return new GUIReactorZirnox(player.inventory, (TileEntityReactorZirnox) entity);
+			}
+			return null;
+		}
+		
+		case ModBlocks.guiID_machine_turbinegas: {
+			if(entity instanceof TileEntityMachineTurbineGas) {
+				return new GUIMachineTurbineGas(player.inventory, (TileEntityMachineTurbineGas) entity);
 			}
 			return null;
 		}

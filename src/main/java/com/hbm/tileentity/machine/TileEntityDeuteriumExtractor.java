@@ -87,7 +87,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	}
 
 	public boolean hasPower() {
-		return power > 0;
+		return power >= maxPower / 10;
 	}
 
 	public boolean hasEnoughWater() {
@@ -195,5 +195,4 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	public long getMaxPower() {
 		return maxPower;
 	}
-
 }

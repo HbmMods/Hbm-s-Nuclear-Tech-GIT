@@ -85,6 +85,9 @@ public class ResourceManager {
 	public static final IModelCustom turbofan_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/turbofan_body.obj"));
 	public static final IModelCustom turbofan_blades = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/turbofan_blades.obj"));
 	
+	//Gas Turbine
+	public static final IModelCustom turbinegas = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/turbinegas.obj"));
+	
 	//Large Turbine
 	public static final IModelCustom turbine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/turbine.obj"));
 	public static final IModelCustom chungus = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chungus.obj"));
@@ -376,6 +379,9 @@ public class ResourceManager {
 	//Turbofan
 	public static final ResourceLocation turbofan_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbofan_body.png");
 	public static final ResourceLocation turbofan_blades_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbofan_blades.png");
+	
+	//Gas Turbine
+	public static final ResourceLocation turbinegas_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbinegas.png");
 
 	//Large Turbine
 	public static final ResourceLocation turbine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/turbine.png");
@@ -638,6 +644,7 @@ public class ResourceManager {
 	public static final IModelCustom cursed_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/cursed.obj"));
 	public static final IModelCustom detonator_laser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/detonator_laser.obj"));
 	public static final IModelCustom spas_12 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/spas-12.obj"));
+	public static final IModelCustom nightmare_dark = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/nightmare_dark.obj"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -725,6 +732,7 @@ public class ResourceManager {
 	public static final ResourceLocation ff_wood = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/wood.png");
 	public static final ResourceLocation ff_wood_red = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/wood_red.png");
 	public static final ResourceLocation ff_cursed = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/cursed.png");
+	public static final ResourceLocation ff_nightmare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/nightmare.png");
 
 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");

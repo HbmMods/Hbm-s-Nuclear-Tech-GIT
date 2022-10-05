@@ -40,5 +40,8 @@ public class AudioWrapperClient extends AudioWrapper {
 	public void stopSound() {
 		sound.stop();
 	}
-
+	
+	public boolean isPlaying() {
+		return sound.isPlaying();
+	}
 }

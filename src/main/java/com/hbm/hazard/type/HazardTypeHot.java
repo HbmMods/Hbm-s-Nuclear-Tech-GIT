@@ -3,6 +3,7 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
@@ -20,6 +21,9 @@ public class HazardTypeHot extends HazardTypeBase {
 
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
+		
+		if(RadiationConfig.disableHot)
+			return;
 		
 		boolean reacher = false;
 		boolean gloves = false;
