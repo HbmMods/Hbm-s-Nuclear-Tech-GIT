@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.render.util.EnumSymbol;
 
 public class Fluids {
@@ -299,6 +300,11 @@ public class Fluids {
 		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
+		
+		WATER.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 0.25D)
+				.addStep(20, 1, Fluids.STEAM, 100)
+				.addStep(220, 1, Fluids.HOTSTEAM, 10)
+				.addStep(220, 1, Fluids.SUPERHOTSTEAM, 1));
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
